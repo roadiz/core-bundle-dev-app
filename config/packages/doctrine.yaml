@@ -10,6 +10,12 @@ doctrine:
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
+            RoadizCoreBundle:
+                is_bundle: true
+                type: annotation
+                dir: 'Entity'
+                prefix: 'RZ\Roadiz\CoreBundle\Entity'
+                alias: RoadizCoreBundle
             App:
                 is_bundle: false
                 type: annotation

@@ -1,0 +1,113 @@
+version: '3'
+services:
+    db_test:
+        build:
+            # Custom image for file permissions
+#            context: ./docker/mysql
+            context: ./docker/postgres
+            #context: ./docker/mariadb
+            args:
+                USER_UID: ${USER_UID}
+        networks:
+            default:
+        volumes:
+            - "./.data/db_test:/var/lib/mysql:delegated"
+            - "./docker/mysql/performances.cnf:/etc/mysql/conf.d/performances.cnf"
+            - "./.data/pgsql_test:/var/lib/postgresql/data:delegated"
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: 1
+            MYSQL_DATABASE: db_name_test
+            MYSQL_USER: db_user
+            MYSQL_PASSWORD: db_password
+            # Enable easy switching with Postgres
+            PGDATA: /var/lib/postgresql/data
+            POSTGRES_USER: db_user
+            POSTGRES_PASSWORD: db_password
+            POSTGRES_DB: db_name_test
+
+    db:
+        build:
+            # Custom image for file permissions
+            context: ./docker/mysql
+            #context: ./docker/postgres
+            #context: ./docker/mariadb
+            args:
+                USER_UID: ${USER_UID}
+        ports:
+            - ${PUBLIC_DB_PORT}:3306/tcp
+        networks:
+            default:
+        volumes:
+            - "./.data/db:/var/lib/mysql:delegated"
+            - "./docker/mysql/performances.cnf:/etc/mysql/conf.d/performances.cnf"
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: 1
+            MYSQL_DATABASE: db_name
+            MYSQL_USER: db_user
+            MYSQL_PASSWORD: db_password
+
+    pma:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - ${PUBLIC_PMA_PORT}:80/tcp
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: 1
+            MYSQL_DATABASE: db_name
+            MYSQL_USER: db_user
+            MYSQL_PASSWORD: db_password
+        networks:
+            frontproxynet:
+                aliases:
+                    - ${APP_NAMESPACE}_pma
+            default:
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${APP_NAMESPACE}_pma.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${APP_NAMESPACE}_pma.loadbalancer.server.port=80"
+            - "traefik.http.services.${APP_NAMESPACE}_pma.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${APP_NAMESPACE}_pma.entrypoints=http"
+            - "traefik.http.routers.${APP_NAMESPACE}_pma.rule=Host(${HOSTNAME_PMA})"
+            - "traefik.http.routers.${APP_NAMESPACE}_pma.service=${APP_NAMESPACE}_pma"
+
+    solr:
+        build:
+            # Custom image for file permissions
+            context: ./docker/solr
+            args:
+                USER_UID: ${USER_UID}
+        ports:
+            - "${PUBLIC_SOLR_PORT}:8983/tcp"
+        volumes:
+            - "./.data/solr:/var/solr:delegated"
+        environment:
+            SOLR_UID: ${USER_UID}
+            SOLR_GID: ${USER_UID}
+        command:
+            - solr-precreate
+            - ${SOLR_CORE_NAME}
+        networks:
+            frontproxynet:
+                aliases:
+                    - ${APP_NAMESPACE}_solr
+            default:
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${APP_NAMESPACE}_solr.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${APP_NAMESPACE}_solr.loadbalancer.server.port=8983"
+            - "traefik.http.services.${APP_NAMESPACE}_solr.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${APP_NAMESPACE}_solr.entrypoints=http"
+            - "traefik.http.routers.${APP_NAMESPACE}_solr.rule=Host(${HOSTNAME_SOLR})"
+            - "traefik.http.routers.${APP_NAMESPACE}_solr.service=${APP_NAMESPACE}_solr"
+
+networks:
+    frontproxynet:
+        external: true
+    # If you need to use port forwarding, fixing default gateway can be useful
+    # to keep same host IP address between service restarts
+    default:
+        ipam:
+            driver: default
+            config:
+                -   subnet: ${DEFAULT_GATEWAY}/16
