@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "712037d7fb7dbca35cb54dae3df85ea4",
+    "content-hash": "074fd6e0aaf21c0b7031e2d5aed2e013",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -4220,12 +4220,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/models.git",
-                "reference": "5a885f3e5f078c76ee746685581f2ddfafab6305"
+                "reference": "9d71970b17330d871395e08f684625c7f4ddb4cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/models/zipball/5a885f3e5f078c76ee746685581f2ddfafab6305",
-                "reference": "5a885f3e5f078c76ee746685581f2ddfafab6305",
+                "url": "https://api.github.com/repos/roadiz/models/zipball/9d71970b17330d871395e08f684625c7f4ddb4cc",
+                "reference": "9d71970b17330d871395e08f684625c7f4ddb4cc",
                 "shasum": ""
             },
             "require": {
@@ -4271,7 +4271,7 @@
             "support": {
                 "source": "https://github.com/roadiz/models/tree/develop"
             },
-            "time": "2021-09-03T17:14:53+00:00"
+            "time": "2021-09-08T14:11:05+00:00"
         },
         {
             "name": "roadiz/nodetype-contracts",
@@ -4371,6 +4371,72 @@
                 "source": "https://github.com/roadiz/random/tree/1.6.0"
             },
             "time": "2021-02-25T08:09:21+00:00"
+        },
+        {
+            "name": "scienta/doctrine-json-functions",
+            "version": "4.3.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ScientaNL/DoctrineJsonFunctions.git",
+                "reference": "355e9ef9c2319c087805b3b31ee98e58cbc76204"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ScientaNL/DoctrineJsonFunctions/zipball/355e9ef9c2319c087805b3b31ee98e58cbc76204",
+                "reference": "355e9ef9c2319c087805b3b31ee98e58cbc76204",
+                "shasum": ""
+            },
+            "require": {
+                "ext-pdo": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^8.0 || ^9.0",
+                "doctrine/orm": "^2.7",
+                "phpunit/phpunit": "^8.0 || ^9.0"
+            },
+            "suggest": {
+                "dunglas/doctrine-json-odm": "To serialize / deserialize objects as JSON documents."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Scienta\\DoctrineJsonFunctions\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Doctrine Json Functions Contributors",
+                    "homepage": "https://github.com/ScientaNL/DoctrineJsonFunctions/contributors"
+                }
+            ],
+            "description": "A set of extensions to Doctrine 2 that add support for json query functions.",
+            "keywords": [
+                "database",
+                "doctrine",
+                "dql",
+                "json",
+                "mariadb",
+                "mysql",
+                "orm",
+                "postgres",
+                "postgresql",
+                "sqlite"
+            ],
+            "support": {
+                "issues": "https://github.com/ScientaNL/DoctrineJsonFunctions/issues",
+                "source": "https://github.com/ScientaNL/DoctrineJsonFunctions/tree/4.3.0"
+            },
+            "time": "2020-12-21T15:46:36+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",

@@ -17,6 +17,7 @@
         "symfony/asset": "5.3.*",
         "symfony-cmf/routing": "^2.3.3",
         "symfony/console": "5.3.*",
+        "symfony/cache": "5.3.*",
         "symfony/dotenv": "5.3.*",
         "symfony/expression-language": "5.3.*",
         "symfony/flex": "^1.3.1",
@@ -53,10 +54,13 @@
         "roadiz/random":                           "~1.7.0 || dev-main",
         "roadiz/nodetype-contracts":               "dev-main",
         "jms/serializer":                          "^3.1.1",
+        "jms/serializer-bundle":                   "^3.10.0",
         "gedmo/doctrine-extensions":               "^2.4 || ^3.0.0",
         "solarium/solarium":                       "^6.0.4",
         "rezozero/crypto":                         "^0.2.0",
-        "inlinestyle/inlinestyle":                 "~1.2.7"
+        "inlinestyle/inlinestyle":                 "~1.2.7",
+        "scienta/doctrine-json-functions":         "^4.2",
+        "ext-zip": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
@@ -82,7 +86,9 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
-            "RZ\\Roadiz\\CoreBundle\\": "lib/RoadizCoreBundle/src/"
+            "RZ\\Roadiz\\CoreBundle\\": "lib/RoadizCoreBundle/src/",
+            "Themes\\": "themes/",
+            "GeneratedNodeSources\\": "generated/"
         }
     },
     "autoload-dev": {
