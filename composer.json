@@ -50,10 +50,13 @@
         "roadiz/entity-generator":                 "~1.7.0 || dev-main",
         "roadiz/markdown":                         "~1.7.0 || dev-develop",
         "roadiz/models":                           "~1.7.0 || dev-develop",
+        "roadiz/random":                           "~1.7.0 || dev-main",
         "roadiz/nodetype-contracts":               "dev-main",
         "jms/serializer":                          "^3.1.1",
         "gedmo/doctrine-extensions":               "^2.4 || ^3.0.0",
-        "solarium/solarium":                       "^6.0.4"
+        "solarium/solarium":                       "^6.0.4",
+        "rezozero/crypto":                         "^0.2.0",
+        "inlinestyle/inlinestyle":                 "~1.2.7"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

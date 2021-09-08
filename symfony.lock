@@ -1,4 +1,7 @@
 {
+    "beberlei/assert": {
+        "version": "v3.3.1"
+    },
     "behat/transliterator": {
         "version": "v1.3.0"
     },
@@ -109,6 +112,9 @@
     "guzzlehttp/psr7": {
         "version": "2.0.0"
     },
+    "inlinestyle/inlinestyle": {
+        "version": "1.2.7"
+    },
     "intervention/image": {
         "version": "2.6.1"
     },
@@ -141,6 +147,21 @@
     },
     "nikic/php-parser": {
         "version": "v4.12.0"
+    },
+    "paragonie/constant_time_encoding": {
+        "version": "v2.4.0"
+    },
+    "paragonie/halite": {
+        "version": "v4.8.0"
+    },
+    "paragonie/hidden-string": {
+        "version": "v2.0.0"
+    },
+    "paragonie/random_compat": {
+        "version": "v9.99.100"
+    },
+    "paragonie/sodium_compat": {
+        "version": "v1.17.0"
     },
     "phar-io/manifest": {
         "version": "2.0.3"
@@ -231,6 +252,9 @@
     "ralouphie/getallheaders": {
         "version": "3.0.3"
     },
+    "rezozero/crypto": {
+        "version": "0.2.1"
+    },
     "roadiz/documents": {
         "version": "dev-develop"
     },
@@ -244,6 +268,9 @@
         "version": "dev-develop"
     },
     "roadiz/nodetype-contracts": {
+        "version": "dev-main"
+    },
+    "roadiz/random": {
         "version": "dev-main"
     },
     "sebastian/cli-parser": {
