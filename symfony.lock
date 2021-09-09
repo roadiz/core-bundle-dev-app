@@ -368,6 +368,9 @@
     "symfony-cmf/routing": {
         "version": "2.3.3"
     },
+    "symfony-cmf/routing-bundle": {
+        "version": "2.5.0"
+    },
     "symfony/amqp-messenger": {
         "version": "v5.3.7"
     },

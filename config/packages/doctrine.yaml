@@ -28,7 +28,6 @@ doctrine:
                 dir: '%kernel.project_dir%/generated'
                 prefix: 'GeneratedNodeSources'
                 alias: GeneratedNodeSources
-
             App:
                 is_bundle: false
                 type: annotation
