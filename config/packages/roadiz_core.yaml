@@ -1,0 +1,29 @@
+roadiz_core:
+    appNamespace: '%env(string:APP_NAMESPACE)%'
+    staticDomainName: ~
+    timezone: Europe/Paris
+    useNativeJsonColumnType: true
+    security:
+        private_key_name: default
+    assetsProcessing:
+        driver: gd
+        defaultQuality: 95
+        maxPixelSize: 2500
+        jpegoptimPath: null
+        pngquantPath: null
+        subscribers: { }
+    themes: { }
+    inheritance:
+        type: single_table
+    reverseProxyCache:
+        frontend: { }
+    solr:
+        timeout: 3
+        endpoints:
+            docker:
+                host: 127.0.0.1
+                core: roadiz
+                port: 8983
+                path: /
+
+

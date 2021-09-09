@@ -130,12 +130,14 @@ fabric.properties
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
+/generated/*
 /.data/db/*
 /.data/db_test/*
 /.data/pgsql_test/*
 /.data/solr/*
 /lib/RoadizCoreBundle
 
+!/generated/.gitkeep
 !/lib/.gitkeep
 !/.data/db/.gitkeep
 !/.data/db_test/.gitkeep
