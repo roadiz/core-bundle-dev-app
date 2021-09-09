@@ -12,11 +12,14 @@ roadiz_core:
         jpegoptimPath: null
         pngquantPath: null
         subscribers: { }
-    themes: { }
+    themes: []
     inheritance:
         type: single_table
     reverseProxyCache:
-        frontend: { }
+        frontend:
+            default:
+                host: '127.0.0.1:8081'
+                domainName: roadiz-core-bundle.test
     solr:
         timeout: 3
         endpoints:
