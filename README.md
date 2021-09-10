@@ -4,6 +4,7 @@
 
 - Clone this repository
 - Clone roadiz/core-bundle in `lib/RoadizCoreBundle` directory or create a symlink from an existing local repository
+- Clone roadiz/compat-bundle in `lib/RoadizCompatBundle` directory or create a symlink from an existing local repository
 
 ### Run development server
 

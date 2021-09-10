@@ -18,13 +18,8 @@
         "jms/serializer": "^3.1.1",
         "jms/serializer-bundle": "^3.10.0",
         "phpdocumentor/reflection-docblock": "^5.2",
-        "rezozero/crypto": "^0.2.0",
-        "roadiz/documents": "~1.7.0 || dev-develop",
-        "roadiz/entity-generator": "~1.7.0 || dev-main",
-        "roadiz/markdown": "~1.7.0 || dev-develop",
-        "roadiz/models": "~1.7.0 || dev-develop",
-        "roadiz/nodetype-contracts": "dev-main",
-        "roadiz/random": "~1.7.0 || dev-main",
+        "roadiz/core-bundle": "~2.0.0 || dev-develop",
+        "roadiz/compat-bundle": "~2.0.0 || dev-develop",
         "scienta/doctrine-json-functions": "^4.2",
         "sensio/framework-extra-bundle": "^6.1",
         "solarium/solarium": "^6.0.4",
@@ -74,7 +69,20 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "^5.3",
         "symfony/stopwatch": "5.3.*",
-        "symfony/web-profiler-bundle": "5.3.*"
+        "symfony/web-profiler-bundle": "5.3.*",
+
+        "roadiz/doc-generator":                    "~1.7.0 || dev-develop",
+        "roadiz/rozier":                           "~1.7.0 || dev-develop",
+        "roadiz/dts-generator":                    "~1.7.0 || dev-main",
+        "roadiz/openid":                           "~1.7.0 || dev-develop",
+        "roadiz/documents":                        "~1.7.0 || dev-develop",
+        "roadiz/entity-generator":                 "~1.7.0 || dev-main",
+        "roadiz/markdown":                         "~1.7.0 || dev-develop",
+        "roadiz/models":                           "~1.7.0 || dev-develop",
+        "roadiz/random":                           "~1.7.0 || dev-main",
+        "roadiz/jwt":                              "~1.7.0 || dev-main",
+        "roadiz/nodetype-contracts":               "dev-main",
+        "rezozero/crypto":                         "^0.2.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -87,9 +95,11 @@
         "psr-4": {
             "App\\": "src/",
             "RZ\\Roadiz\\CoreBundle\\": "lib/RoadizCoreBundle/src/",
+            "RZ\\Roadiz\\CompatBundle\\": "lib/RoadizCompatBundle/src/",
             "Themes\\": "themes/",
             "GeneratedNodeSources\\": "generated/"
-        }
+        },
+        "files": ["lib/RoadizCompatBundle/src/deprecated.php"]
     },
     "autoload-dev": {
         "psr-4": {
@@ -99,7 +109,11 @@
     "replace": {
         "symfony/polyfill-ctype": "*",
         "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*"
+        "symfony/polyfill-php72": "*",
+        "roadiz/roadiz": "*",
+        "roadiz/core-bundle": "*",
+        "roadiz/compat-bundle": "*",
+        "pimple/pimple": "*"
     },
     "scripts": {
         "auto-scripts": {

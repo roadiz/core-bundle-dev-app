@@ -136,6 +136,7 @@ fabric.properties
 /.data/pgsql_test/*
 /.data/solr/*
 /lib/RoadizCoreBundle
+/lib/RoadizCompatBundle
 
 !/generated/.gitkeep
 !/lib/.gitkeep
@@ -149,3 +150,5 @@ fabric.properties
 /phpcs.xml
 ###< squizlabs/php_codesniffer ###
 /report.txt
+/composer.lock
+/symfony.lock
