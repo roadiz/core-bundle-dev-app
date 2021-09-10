@@ -13,6 +13,7 @@ return [
     Symfony\Bundle\SecurityBundle\SecurityBundle::class => ['all' => true],
     Twig\Extra\TwigExtraBundle\TwigExtraBundle::class => ['all' => true],
     RZ\Roadiz\CoreBundle\RoadizCoreBundle::class => ['all' => true],
+    RZ\Roadiz\CompatBundle\RoadizCompatBundle::class => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle::class => ['all' => true],
 ];
