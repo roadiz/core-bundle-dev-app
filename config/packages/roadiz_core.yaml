@@ -1,7 +1,6 @@
 roadiz_core:
     appNamespace: '%env(string:APP_NAMESPACE)%'
     staticDomainName: ~
-    timezone: Europe/Paris
     useNativeJsonColumnType: true
     security:
         private_key_name: default
