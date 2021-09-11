@@ -137,6 +137,7 @@ fabric.properties
 /.data/solr/*
 /lib/RoadizCoreBundle
 /lib/RoadizCompatBundle
+/lib/RoadizRozierBundle
 
 !/generated/.gitkeep
 !/lib/.gitkeep

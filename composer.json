@@ -18,8 +18,8 @@
         "jms/serializer": "^3.1.1",
         "jms/serializer-bundle": "^3.10.0",
         "phpdocumentor/reflection-docblock": "^5.2",
-        "roadiz/core-bundle": "~2.0.0 || dev-develop",
         "roadiz/compat-bundle": "~2.0.0 || dev-develop",
+        "roadiz/core-bundle": "~2.0.0 || dev-develop",
         "scienta/doctrine-json-functions": "^4.2",
         "sensio/framework-extra-bundle": "^6.1",
         "solarium/solarium": "^6.0.4",
@@ -55,6 +55,9 @@
         "symfony/workflow": "5.3.*",
         "symfony/yaml": "5.3.*",
         "twig/extra-bundle": "^2.12|^3.0",
+        "twig/html-extra": "^3.3",
+        "twig/intl-extra": "^3.3",
+        "twig/string-extra": "^3.3",
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
@@ -96,6 +99,7 @@
             "App\\": "src/",
             "RZ\\Roadiz\\CoreBundle\\": "lib/RoadizCoreBundle/src/",
             "RZ\\Roadiz\\CompatBundle\\": "lib/RoadizCompatBundle/src/",
+            "RZ\\Roadiz\\RozierBundle\\": "lib/RoadizRozierBundle/src/",
             "Themes\\": "themes/",
             "GeneratedNodeSources\\": "generated/"
         },
@@ -113,6 +117,7 @@
         "roadiz/roadiz": "*",
         "roadiz/core-bundle": "*",
         "roadiz/compat-bundle": "*",
+        "roadiz/rozier-bundle": "*",
         "pimple/pimple": "*"
     },
     "scripts": {
