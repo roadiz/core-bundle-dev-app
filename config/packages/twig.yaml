@@ -1,9 +1,10 @@
 twig:
     default_path: '%kernel.project_dir%/vendor/roadiz/rozier/src/Resources/views'
+    strict_variables: false
     paths:
         '%kernel.project_dir%/vendor/roadiz/rozier/src/Resources/views': Rozier
-        '%kernel.project_dir%/templates': App
+        '%kernel.project_dir%/templates': ~
 
 when@test:
     twig:
-        strict_variables: true
+        strict_variables: false

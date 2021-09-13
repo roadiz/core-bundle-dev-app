@@ -17,6 +17,11 @@ framework:
     php_errors:
         log: true
 
+    assets:
+        packages:
+            Rozier:
+                base_path: '/themes/Rozier/static'
+
 when@test:
     framework:
         test: true

@@ -20,6 +20,8 @@
         "phpdocumentor/reflection-docblock": "^5.2",
         "roadiz/compat-bundle": "~2.0.0 || dev-develop",
         "roadiz/core-bundle": "~2.0.0 || dev-develop",
+        "rollerworks/password-strength-bundle": "^2.2",
+        "rollerworks/password-strength-validator": "^1.6",
         "scienta/doctrine-json-functions": "^4.2",
         "sensio/framework-extra-bundle": "^6.1",
         "solarium/solarium": "^6.0.4",
@@ -123,7 +125,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "themes:assets:install --relative --symlink Rozier": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"

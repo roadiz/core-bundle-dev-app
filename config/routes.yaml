@@ -3,4 +3,4 @@
 #    controller: App\Controller\DefaultController::index
 
 roadiz_rozier:
-    resource: '../vendor/roadiz/rozier/src/Resources/routes.yml'
+    resource: "@RoadizRozierBundle/Resources/config/routing.yaml"
