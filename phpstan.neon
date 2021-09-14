@@ -3,6 +3,8 @@ parameters:
     paths:
         - src
         - lib/RoadizCoreBundle/src
+        - lib/RoadizCompatBundle/src
+        - lib/RoadizRozierBundle/src
     excludes_analyse:
         - */node_modules/*
         - */bower_components/*

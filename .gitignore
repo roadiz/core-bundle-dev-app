@@ -116,6 +116,11 @@ fabric.properties
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
+/public/files/*
+/public/assets/*
+!/public/files/.gitkeep
+!/public/assets/.gitkeep
+
 /var/
 /vendor/
 ###< symfony/framework-bundle ###

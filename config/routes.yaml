@@ -4,3 +4,7 @@
 
 roadiz_rozier:
     resource: "@RoadizRozierBundle/Resources/config/routing.yaml"
+
+rz_intervention_request:
+    resource: "@RZInterventionRequestBundle/Resources/config/routing.yml"
+    prefix:   /

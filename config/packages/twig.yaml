@@ -4,6 +4,7 @@ twig:
     paths:
         '%kernel.project_dir%/vendor/roadiz/rozier/src/Resources/views': Rozier
         '%kernel.project_dir%/templates': ~
+        '%kernel.project_dir%/vendor/roadiz/documents/src/Roadiz/Resources/views': ~
 
 when@test:
     twig:

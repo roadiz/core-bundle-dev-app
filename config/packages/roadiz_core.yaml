@@ -4,13 +4,6 @@ roadiz_core:
     useNativeJsonColumnType: true
     security:
         private_key_name: default
-    assetsProcessing:
-        driver: gd
-        defaultQuality: 95
-        maxPixelSize: 2500
-        jpegoptimPath: null
-        pngquantPath: null
-        subscribers: { }
     themes: []
     inheritance:
         type: single_table

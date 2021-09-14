@@ -22,6 +22,11 @@ framework:
             Rozier:
                 base_path: '/themes/Rozier/static'
 
+    rate_limiter:
+        throttled_webhooks:
+            policy: 'token_bucket'
+            limit: 1
+            rate: { interval: '10 seconds'}
 when@test:
     framework:
         test: true

@@ -77,7 +77,7 @@
         "symfony/web-profiler-bundle": "5.3.*",
 
         "roadiz/doc-generator":                    "~1.7.0 || dev-develop",
-        "roadiz/rozier":                           "~1.7.0 || dev-develop",
+        "roadiz/rozier":                           "dev-feature/no-container",
         "roadiz/dts-generator":                    "~1.7.0 || dev-main",
         "roadiz/openid":                           "~1.7.0 || dev-develop",
         "roadiz/documents":                        "~1.7.0 || dev-develop",
@@ -87,7 +87,10 @@
         "roadiz/random":                           "~1.7.0 || dev-main",
         "roadiz/jwt":                              "~1.7.0 || dev-main",
         "roadiz/nodetype-contracts":               "dev-main",
-        "rezozero/crypto":                         "^0.2.0"
+        "rezozero/crypto":                         "^0.2.0",
+        "phpoffice/phpspreadsheet":                "^1.15",
+        "rezozero/intervention-request-bundle":    "dev-master",
+        "symfony/rate-limiter":                    "^5.3"
     },
     "config": {
         "optimize-autoloader": true,
