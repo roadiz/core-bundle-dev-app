@@ -77,7 +77,7 @@
         "symfony/web-profiler-bundle": "5.3.*",
 
         "roadiz/doc-generator":                    "~1.7.0 || dev-develop",
-        "roadiz/rozier":                           "dev-feature/no-container",
+        "roadiz/rozier":                           "dev-develop",
         "roadiz/dts-generator":                    "~1.7.0 || dev-main",
         "roadiz/openid":                           "~1.7.0 || dev-develop",
         "roadiz/documents":                        "~1.7.0 || dev-develop",

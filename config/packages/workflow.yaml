@@ -1,2 +1,61 @@
 framework:
-    workflows: null
+    workflows:
+        node:
+            audit_trail:
+                enabled: true
+            marking_store:
+                type: method
+                property: 'status'
+            supports:
+                - RZ\Roadiz\CoreBundle\Entity\Node
+            initial_marking: !php/const RZ\Roadiz\CoreBundle\Entity\Node::DRAFT
+            places:
+                - name: !php/const RZ\Roadiz\CoreBundle\Entity\Node::DRAFT
+                - name: !php/const RZ\Roadiz\CoreBundle\Entity\Node::PENDING
+                - name: !php/const RZ\Roadiz\CoreBundle\Entity\Node::PUBLISHED
+                - name: !php/const RZ\Roadiz\CoreBundle\Entity\Node::ARCHIVED
+                - name: !php/const RZ\Roadiz\CoreBundle\Entity\Node::DELETED
+            transitions:
+                review:
+                    from:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::DRAFT
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::PUBLISHED
+                    to:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::PENDING
+                reject:
+                    from:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::PENDING
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::PUBLISHED
+                    to:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::DRAFT
+                publish:
+                    from:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::DRAFT
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::PENDING
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::PUBLISHED
+                    to:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::PUBLISHED
+                archive:
+                    from:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::PUBLISHED
+                    to:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::ARCHIVED
+                unarchive:
+                    from:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::ARCHIVED
+                    to:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::DRAFT
+                delete:
+                    from:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::DRAFT
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::PENDING
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::PUBLISHED
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::ARCHIVED
+                    to:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::DELETED
+                undelete:
+                    from:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::DELETED
+                    to:
+                        - !php/const RZ\Roadiz\CoreBundle\Entity\Node::DRAFT
+

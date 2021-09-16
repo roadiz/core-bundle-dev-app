@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7bd8811e3f20c61ab23af2b76fe0140a",
+    "content-hash": "52ee1c794189919170d9baaaa16542b8",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2093,24 +2093,24 @@
         },
         {
             "name": "monolog/monolog",
-            "version": "2.3.2",
+            "version": "2.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "71312564759a7db5b789296369c1a264efc43aad"
+                "reference": "437e7a1c50044b92773b361af77620efb76fff59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/71312564759a7db5b789296369c1a264efc43aad",
-                "reference": "71312564759a7db5b789296369c1a264efc43aad",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/437e7a1c50044b92773b361af77620efb76fff59",
+                "reference": "437e7a1c50044b92773b361af77620efb76fff59",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.2",
-                "psr/log": "^1.0.1"
+                "psr/log": "^1.0.1 || ^2.0 || ^3.0"
             },
             "provide": {
-                "psr/log-implementation": "1.0.0"
+                "psr/log-implementation": "1.0.0 || 2.0.0 || 3.0.0"
             },
             "require-dev": {
                 "aws/aws-sdk-php": "^2.4.9 || ^3.0",
@@ -2125,7 +2125,7 @@
                 "phpunit/phpunit": "^8.5",
                 "predis/predis": "^1.1",
                 "rollbar/rollbar": "^1.3",
-                "ruflin/elastica": ">=0.90 <7.0.1",
+                "ruflin/elastica": ">=0.90@dev",
                 "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
@@ -2133,8 +2133,11 @@
                 "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
                 "elasticsearch/elasticsearch": "Allow sending log messages to an Elasticsearch server via official client",
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
+                "ext-curl": "Required to send log messages using the IFTTTHandler, the LogglyHandler, the SendGridHandler, the SlackWebhookHandler or the TelegramBotHandler",
                 "ext-mbstring": "Allow to work properly with unicode symbols",
                 "ext-mongodb": "Allow sending log messages to a MongoDB server (via driver)",
+                "ext-openssl": "Required to send log messages using SSL",
+                "ext-sockets": "Allow sending log messages to a Syslog server (via UDP driver)",
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
                 "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
@@ -2173,7 +2176,7 @@
             ],
             "support": {
                 "issues": "https://github.com/Seldaek/monolog/issues",
-                "source": "https://github.com/Seldaek/monolog/tree/2.3.2"
+                "source": "https://github.com/Seldaek/monolog/tree/2.3.4"
             },
             "funding": [
                 {
@@ -2185,7 +2188,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-23T07:42:52+00:00"
+            "time": "2021-09-15T11:27:21+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -12651,12 +12654,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/entity-generator.git",
-                "reference": "7fb9b1fcf29eca7520032f7655317eb2e790665c"
+                "reference": "a6bcd84895ee86d839d83238a7f5e4ea7b30ee7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/entity-generator/zipball/7fb9b1fcf29eca7520032f7655317eb2e790665c",
-                "reference": "7fb9b1fcf29eca7520032f7655317eb2e790665c",
+                "url": "https://api.github.com/repos/roadiz/entity-generator/zipball/a6bcd84895ee86d839d83238a7f5e4ea7b30ee7c",
+                "reference": "a6bcd84895ee86d839d83238a7f5e4ea7b30ee7c",
                 "shasum": ""
             },
             "require": {
@@ -12694,7 +12697,7 @@
                 "issues": "https://github.com/roadiz/entity-generator/issues",
                 "source": "https://github.com/roadiz/entity-generator/tree/main"
             },
-            "time": "2021-05-20T16:43:11+00:00"
+            "time": "2021-09-16T13:09:49+00:00"
         },
         {
             "name": "roadiz/jwt",
@@ -13013,16 +13016,16 @@
         },
         {
             "name": "roadiz/rozier",
-            "version": "dev-feature/no-container",
+            "version": "dev-develop",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/rozier.git",
-                "reference": "67a007b056a6b8e460791233a0c2dc49c38dfbf7"
+                "reference": "da9ba8a299fa533d19e0509d5be3caf62ecd343e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/rozier/zipball/67a007b056a6b8e460791233a0c2dc49c38dfbf7",
-                "reference": "67a007b056a6b8e460791233a0c2dc49c38dfbf7",
+                "url": "https://api.github.com/repos/roadiz/rozier/zipball/da9ba8a299fa533d19e0509d5be3caf62ecd343e",
+                "reference": "da9ba8a299fa533d19e0509d5be3caf62ecd343e",
                 "shasum": ""
             },
             "require": {
@@ -13101,9 +13104,9 @@
             ],
             "support": {
                 "issues": "https://github.com/roadiz/rozier/issues",
-                "source": "https://github.com/roadiz/rozier/tree/feature/no-container"
+                "source": "https://github.com/roadiz/rozier/tree/develop"
             },
-            "time": "2021-09-14T13:48:56+00:00"
+            "time": "2021-09-16T15:16:16+00:00"
         },
         {
             "name": "sebastian/cli-parser",
@@ -13958,7 +13961,6 @@
                     "type": "github"
                 }
             ],
-            "abandoned": true,
             "time": "2020-09-28T06:45:17+00:00"
         },
         {
