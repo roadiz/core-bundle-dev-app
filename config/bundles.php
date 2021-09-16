@@ -18,5 +18,5 @@ return [
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle::class => ['all' => true],
     Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle::class => ['all' => true],
-    RZ\InterventionRequestBundle\RZInterventionRequestBundle::class => ['dev' => true, 'test' => true],
+    RZ\InterventionRequestBundle\RZInterventionRequestBundle::class => ['all' => true],
 ];
