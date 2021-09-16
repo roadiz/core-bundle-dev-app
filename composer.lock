@@ -13020,12 +13020,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/rozier.git",
-                "reference": "da9ba8a299fa533d19e0509d5be3caf62ecd343e"
+                "reference": "2ab9a1fc8e21fdc36b0a9051f3aa4a15c32779e0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/rozier/zipball/da9ba8a299fa533d19e0509d5be3caf62ecd343e",
-                "reference": "da9ba8a299fa533d19e0509d5be3caf62ecd343e",
+                "url": "https://api.github.com/repos/roadiz/rozier/zipball/2ab9a1fc8e21fdc36b0a9051f3aa4a15c32779e0",
+                "reference": "2ab9a1fc8e21fdc36b0a9051f3aa4a15c32779e0",
                 "shasum": ""
             },
             "require": {
@@ -13106,7 +13106,7 @@
                 "issues": "https://github.com/roadiz/rozier/issues",
                 "source": "https://github.com/roadiz/rozier/tree/develop"
             },
-            "time": "2021-09-16T15:16:16+00:00"
+            "time": "2021-09-16T16:01:57+00:00"
         },
         {
             "name": "sebastian/cli-parser",

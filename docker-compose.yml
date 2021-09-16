@@ -101,6 +101,58 @@ services:
             - "traefik.http.routers.${APP_NAMESPACE}_solr.rule=Host(${HOSTNAME_SOLR})"
             - "traefik.http.routers.${APP_NAMESPACE}_solr.service=${APP_NAMESPACE}_solr"
 
+    app:
+        # Need to pass all vars to docker env for Crontab and supervisor scripts
+        env_file: "./.env.local"
+        build:
+            #context: ./docker/php74-nginx-alpine
+            context: ./docker/php80-nginx-alpine
+            args:
+                USER_UID: ${USER_UID}
+        ports:
+            - ${PUBLIC_APP_PORT}:80/tcp
+        depends_on:
+            - db
+            - db_test
+            - solr
+        links:
+            - solr:solr
+        volumes:
+            - ./:/var/www/html:cached
+            - ../RoadizRozierBundle:/var/www/RoadizRozierBundle:cached
+            - ../RoadizCoreBundle:/var/www/RoadizCoreBundle:cached
+            - ../RoadizCompatBundle:/var/www/RoadizCompatBundle:cached
+        networks:
+            frontproxynet:
+                aliases:
+                    - ${APP_NAMESPACE}_app
+            default:
+        environment:
+            APP_CACHE: ${APP_CACHE}
+            TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+            USER_UID: ${USER_UID}
+            DEFAULT_GATEWAY: ${DEFAULT_GATEWAY}
+
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.port=80"
+            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${APP_NAMESPACE}.entrypoints=http"
+            - "traefik.http.routers.${APP_NAMESPACE}.rule=Host(${HOSTNAME})"
+            - "traefik.http.routers.${APP_NAMESPACE}.service=${APP_NAMESPACE}"
+
+    blackfire:
+        image: blackfire/blackfire
+        environment:
+            # Exposes BLACKFIRE_* environment variables from the host
+            BLACKFIRE_LOG_LEVEL: ${BLACKFIRE_LOG_LEVEL}
+            BLACKFIRE_SERVER_ID: ${BLACKFIRE_SERVER_ID}
+            BLACKFIRE_SERVER_TOKEN: ${BLACKFIRE_SERVER_TOKEN}
+            BLACKFIRE_CLIENT_ID: ${BLACKFIRE_CLIENT_ID}
+            BLACKFIRE_CLIENT_TOKEN: ${BLACKFIRE_CLIENT_TOKEN}
+
     mailer:
         image: mailhog/mailhog
         ports:

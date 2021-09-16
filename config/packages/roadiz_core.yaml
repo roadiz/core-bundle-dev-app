@@ -5,6 +5,8 @@ roadiz_core:
     security:
         private_key_name: default
     themes: []
+    medias:
+        unsplash_client_id: 7U6f5JW1sCz155elPdDb9UoaOyav4Ib0ThopVWxDulg
     inheritance:
         type: single_table
     reverseProxyCache:
@@ -16,9 +18,9 @@ roadiz_core:
         timeout: 3
         endpoints:
             docker:
-                host: 127.0.0.1
-                core: roadiz
-                port: 8983
+                host: '%env(string:SOLR_HOST)%'
+                core: '%env(string:SOLR_CORE_NAME)%'
+                port: '%env(string:SOLR_PORT)%'
                 path: /
 
 
