@@ -108,7 +108,9 @@
             "Themes\\": "themes/",
             "GeneratedNodeSources\\": "generated/"
         },
-        "files": ["lib/RoadizCompatBundle/src/deprecated.php"]
+        "files": [
+          "lib/RoadizCompatBundle/deprecated.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
