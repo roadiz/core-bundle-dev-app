@@ -8,10 +8,15 @@ security:
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
+        openid_user_provider:
+            id: RZ\Roadiz\OpenId\Authentication\Provider\OpenIdAccountProvider
         roadiz_user_provider:
             entity:
                 class: RZ\Roadiz\CoreBundle\Entity\User
                 property: username
+        all_users:
+            chain:
+                providers: [ 'openid_user_provider', 'roadiz_user_provider' ]
 
     firewalls:
         dev:
@@ -19,17 +24,18 @@ security:
             security: false
         main:
             lazy: true
-            provider: roadiz_user_provider
+            provider: all_users
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
             # https://symfony.com/doc/current/security/impersonating_user.html
-            switch_user: true
+            switch_user: { role: ROLE_SUPERADMIN, parameter: _su }
             # ...
             logout:
                 path: logoutPage
-            custom_authenticator: RZ\Roadiz\RozierBundle\Security\RozierAuthenticator
+            custom_authenticator:
+                - RZ\Roadiz\RozierBundle\Security\RozierAuthenticator
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
