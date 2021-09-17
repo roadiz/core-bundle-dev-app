@@ -4,7 +4,8 @@ roadiz_core:
     useNativeJsonColumnType: true
     security:
         private_key_name: default
-    themes: []
+    themes:
+        - classname: \Themes\BaseTheme\BaseThemeApp
     medias:
         unsplash_client_id: '%env(string:APP_UNSPLASH_CLIENT_ID)%'
     inheritance:

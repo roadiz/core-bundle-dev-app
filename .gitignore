@@ -143,6 +143,8 @@ fabric.properties
 /lib/RoadizCoreBundle
 /lib/RoadizCompatBundle
 /lib/RoadizRozierBundle
+/themes/BaseTheme
+/public/themes/BaseTheme
 
 !/generated/.gitkeep
 !/lib/.gitkeep

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "52ee1c794189919170d9baaaa16542b8",
+    "content-hash": "a77d8adced09a45c1c8efe678476a667",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2301,16 +2301,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0"
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0",
-                "reference": "6a467b8989322d92aa1c8bf2bebcc6e5c2ba55c0",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/30f38bffc6f24293dadd1823936372dfa9e86e2f",
+                "reference": "30f38bffc6f24293dadd1823936372dfa9e86e2f",
                 "shasum": ""
             },
             "require": {
@@ -2318,7 +2318,8 @@
                 "phpdocumentor/reflection-common": "^2.0"
             },
             "require-dev": {
-                "ext-tokenizer": "*"
+                "ext-tokenizer": "*",
+                "psalm/phar": "^4.8"
             },
             "type": "library",
             "extra": {
@@ -2344,9 +2345,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.4.0"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.5.0"
             },
-            "time": "2020-09-17T18:55:26+00:00"
+            "time": "2021-09-17T15:28:14+00:00"
         },
         {
             "name": "phpstan/phpdoc-parser",
@@ -12290,6 +12291,59 @@
             "time": "2021-08-31T06:47:40+00:00"
         },
         {
+            "name": "pimple/pimple",
+            "version": "v3.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/silexphp/Pimple.git",
+                "reference": "86406047271859ffc13424a048541f4531f53601"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/86406047271859ffc13424a048541f4531f53601",
+                "reference": "86406047271859ffc13424a048541f4531f53601",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2.5",
+                "psr/container": "^1.1"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Pimple": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Pimple, a simple Dependency Injection Container",
+            "homepage": "https://pimple.symfony.com",
+            "keywords": [
+                "container",
+                "dependency injection"
+            ],
+            "support": {
+                "source": "https://github.com/silexphp/Pimple/tree/v3.4.0"
+            },
+            "time": "2021-03-06T08:28:00+00:00"
+        },
+        {
             "name": "psr/simple-cache",
             "version": "1.0.1",
             "source": {
@@ -12479,6 +12533,53 @@
                 "source": "https://github.com/rezozero/intervention-request-bundle/tree/master"
             },
             "time": "2021-09-14T15:13:27+00:00"
+        },
+        {
+            "name": "rezozero/tree-walker",
+            "version": "0.8.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rezozero/tree-walker.git",
+                "reference": "3af08cf8bebdca7d96c05d230489a241c40d946c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rezozero/tree-walker/zipball/3af08cf8bebdca7d96c05d230489a241c40d946c",
+                "reference": "3af08cf8bebdca7d96c05d230489a241c40d946c",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/cache": "^1.10",
+                "doctrine/collections": "^1.6",
+                "jms/serializer": "^3.7",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.39",
+                "squizlabs/php_codesniffer": "^3.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RZ\\TreeWalker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ambroise Maupate",
+                    "email": "ambroise@rezo-zero.com"
+                }
+            ],
+            "description": "Creates a configurable tree walker using different methods for each node based on its PHP class or interface",
+            "support": {
+                "issues": "https://github.com/rezozero/tree-walker/issues",
+                "source": "https://github.com/rezozero/tree-walker/tree/0.8.4"
+            },
+            "time": "2021-01-22T10:34:05+00:00"
         },
         {
             "name": "roadiz/doc-generator",
