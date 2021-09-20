@@ -145,6 +145,8 @@ fabric.properties
 /lib/RoadizRozierBundle
 /themes/BaseTheme
 /public/themes/BaseTheme
+/themes/DefaultTheme
+/public/themes/DefaultTheme
 
 !/generated/.gitkeep
 !/lib/.gitkeep
