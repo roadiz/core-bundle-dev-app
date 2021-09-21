@@ -22,10 +22,8 @@ ln -s ../../rozier-bundle RoadizRozierBundle
 These require a manual configuration in `config/packages/*.yaml` files and cannot be injected in Container, 
 you'll find configuration example in `RoadizCoreBundle/config/packages` and `RoadizCompatBundle/config/packages` folders:
 
-- Translator theme path
 - Doctrine ORM mapping
 - Doctrine migrations path
 - JMS Serializer naming strategy
 - Monolog custom doctrine handler
 - Roadiz security scheme
-- Node workflow

@@ -17,11 +17,6 @@ framework:
     php_errors:
         log: true
 
-    assets:
-        packages:
-            Rozier:
-                base_path: '/themes/Rozier/static'
-
     rate_limiter:
         throttled_webhooks:
             policy: 'token_bucket'
