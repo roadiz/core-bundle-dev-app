@@ -44,7 +44,6 @@ doctrine:
             RZ\Roadiz\CoreBundle\Model\AttributeValueInterface: RZ\Roadiz\CoreBundle\Entity\AttributeValue
             RZ\Roadiz\CoreBundle\Model\AttributeValueTranslationInterface: RZ\Roadiz\CoreBundle\Entity\AttributeValueTranslation
             RZ\Roadiz\Core\AbstractEntities\TranslationInterface: RZ\Roadiz\CoreBundle\Entity\Translation
-
             RZ\Roadiz\Core\Entities\CustomForm: RZ\Roadiz\CoreBundle\Entity\CustomForm
             RZ\Roadiz\Core\Entities\CustomFormAnswer: RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer
             RZ\Roadiz\Core\Entities\CustomFormField: RZ\Roadiz\CoreBundle\Entity\CustomFormField

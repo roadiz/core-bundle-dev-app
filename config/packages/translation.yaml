@@ -4,6 +4,7 @@ framework:
         default_path: '%kernel.project_dir%/translations'
         paths:
             - '%kernel.project_dir%/vendor/roadiz/rozier/src/Resources/translations'
+            - '%kernel.project_dir%/themes/DefaultTheme/Resources/translations'
         fallbacks:
             - en
 #        providers:
