@@ -107,8 +107,7 @@
             "RZ\\Roadiz\\CoreBundle\\": "lib/RoadizCoreBundle/src/",
             "RZ\\Roadiz\\CompatBundle\\": "lib/RoadizCompatBundle/src/",
             "RZ\\Roadiz\\RozierBundle\\": "lib/RoadizRozierBundle/src/",
-            "Themes\\": "themes/",
-            "GeneratedNodeSources\\": "generated/"
+            "Themes\\": "themes/"
         },
         "files": [
           "lib/RoadizCompatBundle/deprecated.php"

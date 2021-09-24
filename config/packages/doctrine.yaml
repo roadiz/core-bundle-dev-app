@@ -22,12 +22,12 @@ doctrine:
                 dir: '%kernel.project_dir%/vendor/roadiz/models/src/Roadiz/Core/AbstractEntities'
                 prefix: 'RZ\Roadiz\Core\AbstractEntities'
                 alias: AbstractEntities
-            GeneratedNodeSources:
+            App\GeneratedNodeSources:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/generated'
-                prefix: 'GeneratedNodeSources'
-                alias: GeneratedNodeSources
+                dir: '%kernel.project_dir%/src/GeneratedNodeSources'
+                prefix: 'App\GeneratedNodeSources'
+                alias: App\GeneratedNodeSources
             App:
                 is_bundle: false
                 type: annotation
