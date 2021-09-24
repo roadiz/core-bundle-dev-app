@@ -162,4 +162,4 @@ fabric.properties
 /report.txt
 /composer.lock
 /symfony.lock
-/src/GeneratedNodeSources/*.php
+/src/GeneratedEntity/*.php
