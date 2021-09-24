@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a77d8adced09a45c1c8efe678476a667",
+    "content-hash": "3726aad9351c91f54505cf9d6456c67a",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -2026,16 +2026,16 @@
         },
         {
             "name": "laminas/laminas-code",
-            "version": "4.4.2",
+            "version": "4.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laminas/laminas-code.git",
-                "reference": "54251ab2b16c41c6980387839496b235f5f6e10b"
+                "reference": "bb324850d09dd437b6acb142c13e64fdc725b0e1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/54251ab2b16c41c6980387839496b235f5f6e10b",
-                "reference": "54251ab2b16c41c6980387839496b235f5f6e10b",
+                "url": "https://api.github.com/repos/laminas/laminas-code/zipball/bb324850d09dd437b6acb142c13e64fdc725b0e1",
+                "reference": "bb324850d09dd437b6acb142c13e64fdc725b0e1",
                 "shasum": ""
             },
             "require": {
@@ -2089,7 +2089,7 @@
                     "type": "community_bridge"
                 }
             ],
-            "time": "2021-07-09T11:58:40+00:00"
+            "time": "2021-09-21T13:40:23+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -4695,16 +4695,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.15.4",
+            "version": "v1.16.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "9a22ef2a75609a4d3717db784d923a7a6b347bc5"
+                "reference": "f1e77e62bcb068bf094f4781eca1436ef818ff72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/9a22ef2a75609a4d3717db784d923a7a6b347bc5",
-                "reference": "9a22ef2a75609a4d3717db784d923a7a6b347bc5",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/f1e77e62bcb068bf094f4781eca1436ef818ff72",
+                "reference": "f1e77e62bcb068bf094f4781eca1436ef818ff72",
                 "shasum": ""
             },
             "require": {
@@ -4715,13 +4715,13 @@
                 "composer/composer": "^1.0.2|^2.0",
                 "symfony/dotenv": "^4.4|^5.0",
                 "symfony/filesystem": "^4.4|^5.0",
-                "symfony/phpunit-bridge": "^4.4|^5.0",
+                "symfony/phpunit-bridge": "^4.4.12|^5.0",
                 "symfony/process": "^3.4|^4.4|^5.0"
             },
             "type": "composer-plugin",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "1.13-dev"
+                    "dev-main": "1.16-dev"
                 },
                 "class": "Symfony\\Flex\\Flex"
             },
@@ -4743,7 +4743,7 @@
             "description": "Composer plugin for Symfony",
             "support": {
                 "issues": "https://github.com/symfony/flex/issues",
-                "source": "https://github.com/symfony/flex/tree/v1.15.4"
+                "source": "https://github.com/symfony/flex/tree/v1.16.2"
             },
             "funding": [
                 {
@@ -4759,7 +4759,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-09-13T14:49:33+00:00"
+            "time": "2021-09-24T08:45:18+00:00"
         },
         {
             "name": "symfony/form",
@@ -12583,22 +12583,22 @@
         },
         {
             "name": "roadiz/doc-generator",
-            "version": "dev-develop",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/doc-generator.git",
-                "reference": "deea7c6d02761cb47142e2036395e195b6251949"
+                "reference": "c9911f01d25dca2044b053022f067b643926fca9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/doc-generator/zipball/deea7c6d02761cb47142e2036395e195b6251949",
-                "reference": "deea7c6d02761cb47142e2036395e195b6251949",
+                "url": "https://api.github.com/repos/roadiz/doc-generator/zipball/c9911f01d25dca2044b053022f067b643926fca9",
+                "reference": "c9911f01d25dca2044b053022f067b643926fca9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4",
                 "pimple/pimple": "^3.3",
-                "roadiz/nodetype-contracts": "dev-main",
+                "roadiz/nodetype-contracts": "~1.1.0",
                 "symfony/http-foundation": "~5.0.7 || ^5.2",
                 "symfony/translation": "~4.4.1 || ^5.2"
             },
@@ -12625,22 +12625,22 @@
             "description": "Roadiz sub-package which generates Markdown documentation skeleton based on your schema",
             "support": {
                 "issues": "https://github.com/roadiz/doc-generator/issues",
-                "source": "https://github.com/roadiz/doc-generator/tree/develop"
+                "source": "https://github.com/roadiz/doc-generator/tree/1.7.0"
             },
-            "time": "2021-05-18T07:22:53+00:00"
+            "time": "2021-09-22T14:20:33+00:00"
         },
         {
             "name": "roadiz/documents",
-            "version": "dev-develop",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/documents.git",
-                "reference": "8e3693151cf227afa7bedfe4f8628715c2ee50c6"
+                "reference": "e07bb399ff70df60651df8e4ab2c40c8083aad54"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/documents/zipball/8e3693151cf227afa7bedfe4f8628715c2ee50c6",
-                "reference": "8e3693151cf227afa7bedfe4f8628715c2ee50c6",
+                "url": "https://api.github.com/repos/roadiz/documents/zipball/e07bb399ff70df60651df8e4ab2c40c8083aad54",
+                "reference": "e07bb399ff70df60651df8e4ab2c40c8083aad54",
                 "shasum": ""
             },
             "require": {
@@ -12658,7 +12658,7 @@
                 "monolog/monolog": "^1.24.0 || ^2.1.1",
                 "php": ">=7.4",
                 "pimple/pimple": "^3.3.1",
-                "roadiz/models": "dev-develop || ^1.7.0",
+                "roadiz/models": "~1.7.0",
                 "symfony/asset": "~4.4.1 || ^5.0.7",
                 "symfony/event-dispatcher": "~4.4.1 || ^5.0.7",
                 "symfony/filesystem": "~4.4.1 || ^5.0.7",
@@ -12699,33 +12699,32 @@
                 "roadiz"
             ],
             "support": {
-                "source": "https://github.com/roadiz/documents/tree/develop"
+                "source": "https://github.com/roadiz/documents/tree/1.7.0"
             },
-            "time": "2021-09-07T13:21:38+00:00"
+            "time": "2021-09-22T13:32:02+00:00"
         },
         {
             "name": "roadiz/dts-generator",
-            "version": "dev-main",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/dts-generator.git",
-                "reference": "9dd0e5035b2102d9db3f66556dcc2cc0336fb443"
+                "reference": "f70a492d8bd713e365249f7d4a0a7a21982fcb7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/dts-generator/zipball/9dd0e5035b2102d9db3f66556dcc2cc0336fb443",
-                "reference": "9dd0e5035b2102d9db3f66556dcc2cc0336fb443",
+                "url": "https://api.github.com/repos/roadiz/dts-generator/zipball/f70a492d8bd713e365249f7d4a0a7a21982fcb7a",
+                "reference": "f70a492d8bd713e365249f7d4a0a7a21982fcb7a",
                 "shasum": ""
             },
             "require": {
-                "roadiz/nodetype-contracts": "dev-main",
+                "roadiz/nodetype-contracts": "~1.1.0",
                 "symfony/http-foundation": "~5.0.7 || ^5.2"
             },
             "require-dev": {
                 "phpstan/phpstan": "^0.12.85",
                 "squizlabs/php_codesniffer": "^3.6"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -12745,27 +12744,27 @@
             "description": "Roadiz sub-package which generates Typescript interfaces skeleton based on your schema",
             "support": {
                 "issues": "https://github.com/roadiz/dts-generator/issues",
-                "source": "https://github.com/roadiz/dts-generator/tree/main"
+                "source": "https://github.com/roadiz/dts-generator/tree/1.7.0"
             },
-            "time": "2021-09-02T08:31:59+00:00"
+            "time": "2021-09-22T14:21:56+00:00"
         },
         {
             "name": "roadiz/entity-generator",
-            "version": "dev-main",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/entity-generator.git",
-                "reference": "a6bcd84895ee86d839d83238a7f5e4ea7b30ee7c"
+                "reference": "8da15898e7d91ee53b3721730374e3ef0fc5fde0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/entity-generator/zipball/a6bcd84895ee86d839d83238a7f5e4ea7b30ee7c",
-                "reference": "a6bcd84895ee86d839d83238a7f5e4ea7b30ee7c",
+                "url": "https://api.github.com/repos/roadiz/entity-generator/zipball/8da15898e7d91ee53b3721730374e3ef0fc5fde0",
+                "reference": "8da15898e7d91ee53b3721730374e3ef0fc5fde0",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.4",
-                "roadiz/nodetype-contracts": "dev-main",
+                "roadiz/nodetype-contracts": "~1.1.0",
                 "symfony/options-resolver": "~4.4.1 || ^5.0.7",
                 "symfony/string": "^5.0.7",
                 "symfony/yaml": "~4.4.1 || ^5.0.7"
@@ -12775,7 +12774,6 @@
                 "phpstan/phpstan": "^0.12.64",
                 "squizlabs/php_codesniffer": "^3.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -12796,22 +12794,22 @@
             "description": "Roadiz sub-package which generate Doctrine entity classes for node-sources",
             "support": {
                 "issues": "https://github.com/roadiz/entity-generator/issues",
-                "source": "https://github.com/roadiz/entity-generator/tree/main"
+                "source": "https://github.com/roadiz/entity-generator/tree/1.7.0"
             },
-            "time": "2021-09-16T13:09:49+00:00"
+            "time": "2021-09-22T13:46:11+00:00"
         },
         {
             "name": "roadiz/jwt",
-            "version": "dev-main",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/jwt.git",
-                "reference": "5d75281efaeede25f4a062f629564bd84467a1fa"
+                "reference": "473dacc524bf1f0294d93a32a8c0b5e99010382f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/jwt/zipball/5d75281efaeede25f4a062f629564bd84467a1fa",
-                "reference": "5d75281efaeede25f4a062f629564bd84467a1fa",
+                "url": "https://api.github.com/repos/roadiz/jwt/zipball/473dacc524bf1f0294d93a32a8c0b5e99010382f",
+                "reference": "473dacc524bf1f0294d93a32a8c0b5e99010382f",
                 "shasum": ""
             },
             "require": {
@@ -12823,7 +12821,6 @@
                 "phpstan/phpstan": "^0.12.57",
                 "squizlabs/php_codesniffer": "^3.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -12843,22 +12840,22 @@
             "description": "Roadiz sub-package for handling JWT",
             "support": {
                 "issues": "https://github.com/roadiz/jwt/issues",
-                "source": "https://github.com/roadiz/jwt/tree/1.6.0"
+                "source": "https://github.com/roadiz/jwt/tree/1.7.0"
             },
-            "time": "2021-02-25T08:06:19+00:00"
+            "time": "2021-09-22T14:11:25+00:00"
         },
         {
             "name": "roadiz/markdown",
-            "version": "dev-develop",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/markdown.git",
-                "reference": "fe0da1e98791e47f1bbaaf565fb8ea0dffc188ef"
+                "reference": "5a00415f5ea09f6a897b9a9b8fe510b951622bbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/markdown/zipball/fe0da1e98791e47f1bbaaf565fb8ea0dffc188ef",
-                "reference": "fe0da1e98791e47f1bbaaf565fb8ea0dffc188ef",
+                "url": "https://api.github.com/repos/roadiz/markdown/zipball/5a00415f5ea09f6a897b9a9b8fe510b951622bbd",
+                "reference": "5a00415f5ea09f6a897b9a9b8fe510b951622bbd",
                 "shasum": ""
             },
             "require": {
@@ -12895,22 +12892,22 @@
             ],
             "description": "Markdown services and Twig extension for Roadiz",
             "support": {
-                "source": "https://github.com/roadiz/markdown/tree/develop"
+                "source": "https://github.com/roadiz/markdown/tree/1.7.0"
             },
-            "time": "2021-09-03T15:03:28+00:00"
+            "time": "2021-09-22T13:47:40+00:00"
         },
         {
             "name": "roadiz/models",
-            "version": "dev-develop",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/models.git",
-                "reference": "9d71970b17330d871395e08f684625c7f4ddb4cc"
+                "reference": "d8eb33d519c89145cf1118e6f577d1d46fd8cd2c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/models/zipball/9d71970b17330d871395e08f684625c7f4ddb4cc",
-                "reference": "9d71970b17330d871395e08f684625c7f4ddb4cc",
+                "url": "https://api.github.com/repos/roadiz/models/zipball/d8eb33d519c89145cf1118e6f577d1d46fd8cd2c",
+                "reference": "d8eb33d519c89145cf1118e6f577d1d46fd8cd2c",
                 "shasum": ""
             },
             "require": {
@@ -12954,13 +12951,13 @@
                 "roadiz"
             ],
             "support": {
-                "source": "https://github.com/roadiz/models/tree/develop"
+                "source": "https://github.com/roadiz/models/tree/1.7.0"
             },
-            "time": "2021-09-08T14:11:05+00:00"
+            "time": "2021-09-22T13:20:26+00:00"
         },
         {
             "name": "roadiz/nodetype-contracts",
-            "version": "dev-main",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/nodetype-contracts.git",
@@ -12980,7 +12977,6 @@
                 "phpstan/phpstan": "^0.12.64",
                 "squizlabs/php_codesniffer": "^3.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -13005,22 +13001,22 @@
             ],
             "support": {
                 "issues": "https://github.com/roadiz/nodetype-contracts/issues",
-                "source": "https://github.com/roadiz/nodetype-contracts/tree/main"
+                "source": "https://github.com/roadiz/nodetype-contracts/tree/1.1.0"
             },
             "time": "2021-07-27T15:57:07+00:00"
         },
         {
             "name": "roadiz/openid",
-            "version": "dev-develop",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/openid.git",
-                "reference": "7295860104b7ae572b51f6460422e743a341f9c5"
+                "reference": "a66995227855c89cb73a8fc3246d448670d150d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/openid/zipball/7295860104b7ae572b51f6460422e743a341f9c5",
-                "reference": "7295860104b7ae572b51f6460422e743a341f9c5",
+                "url": "https://api.github.com/repos/roadiz/openid/zipball/a66995227855c89cb73a8fc3246d448670d150d9",
+                "reference": "a66995227855c89cb73a8fc3246d448670d150d9",
                 "shasum": ""
             },
             "require": {
@@ -13031,9 +13027,9 @@
                 "lcobucci/jwt": "^4.1",
                 "php": ">=7.4",
                 "pimple/pimple": ">=3.3.1",
-                "roadiz/jwt": "^1.7 || dev-main",
-                "roadiz/models": "^1.7 || dev-develop",
-                "roadiz/random": "^1.7 || dev-main",
+                "roadiz/jwt": "~1.7.0",
+                "roadiz/models": "~1.7.0",
+                "roadiz/random": "~1.7.0",
                 "symfony/event-dispatcher-contracts": "^1.1.9 || ^2.4.0",
                 "symfony/http-foundation": ">=5.0.7",
                 "symfony/security-core": ">=4.4 || >=5.3",
@@ -13063,22 +13059,22 @@
             "description": "Roadiz sub-package for handling OpenID authentication",
             "support": {
                 "issues": "https://github.com/roadiz/openid/issues",
-                "source": "https://github.com/roadiz/openid/tree/develop"
+                "source": "https://github.com/roadiz/openid/tree/1.7.0"
             },
-            "time": "2021-09-20T14:39:23+00:00"
+            "time": "2021-09-22T14:15:36+00:00"
         },
         {
             "name": "roadiz/random",
-            "version": "dev-main",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/random.git",
-                "reference": "d22bbb3d33126f7bddf41c18b7a96c7bc2d92aa5"
+                "reference": "76a468ff31f7a021ece91cadd806cea4e8a0e4f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/random/zipball/d22bbb3d33126f7bddf41c18b7a96c7bc2d92aa5",
-                "reference": "d22bbb3d33126f7bddf41c18b7a96c7bc2d92aa5",
+                "url": "https://api.github.com/repos/roadiz/random/zipball/76a468ff31f7a021ece91cadd806cea4e8a0e4f9",
+                "reference": "76a468ff31f7a021ece91cadd806cea4e8a0e4f9",
                 "shasum": ""
             },
             "require": {
@@ -13089,7 +13085,6 @@
                 "phpstan/phpstan": "^0.12.57",
                 "squizlabs/php_codesniffer": "^3.5"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -13111,22 +13106,22 @@
             "description": "Roadiz sub-package for secret and random generators",
             "support": {
                 "issues": "https://github.com/roadiz/random/issues",
-                "source": "https://github.com/roadiz/random/tree/1.6.0"
+                "source": "https://github.com/roadiz/random/tree/1.7.0"
             },
-            "time": "2021-02-25T08:09:21+00:00"
+            "time": "2021-09-22T13:50:06+00:00"
         },
         {
             "name": "roadiz/rozier",
-            "version": "dev-develop",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/roadiz/rozier.git",
-                "reference": "06e70db346b729594056fc1622bdf565015e1e7d"
+                "reference": "0a9ea3c5bb064f286c250d37f762a3e781e5da1a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/roadiz/rozier/zipball/06e70db346b729594056fc1622bdf565015e1e7d",
-                "reference": "06e70db346b729594056fc1622bdf565015e1e7d",
+                "url": "https://api.github.com/repos/roadiz/rozier/zipball/0a9ea3c5bb064f286c250d37f762a3e781e5da1a",
+                "reference": "0a9ea3c5bb064f286c250d37f762a3e781e5da1a",
                 "shasum": ""
             },
             "require": {
@@ -13135,12 +13130,12 @@
                 "jms/serializer": "^2.3.0 || ^3.1.1",
                 "php": "^7.4 || ^8.0",
                 "pimple/pimple": "^3.3.1",
-                "roadiz/doc-generator": "~1.7.0 || dev-develop",
-                "roadiz/documents": "~1.7.0 || dev-develop",
-                "roadiz/dts-generator": "~1.7.0 || dev-main",
-                "roadiz/models": "~1.7.0 || dev-develop",
-                "roadiz/nodetype-contracts": "dev-main",
-                "roadiz/openid": "~1.7.0 || dev-develop",
+                "roadiz/doc-generator": "~1.7.0",
+                "roadiz/documents": "~1.7.0",
+                "roadiz/dts-generator": "~1.7.0 ",
+                "roadiz/models": "~1.7.0",
+                "roadiz/nodetype-contracts": "~1.1.0",
+                "roadiz/openid": "~1.7.0",
                 "roadiz/roadiz": "~1.7.0 || dev-develop",
                 "symfony/asset": "~4.4.1 || ^5.0",
                 "symfony/filesystem": "~4.4.1 || ^5.0",
@@ -13161,10 +13156,6 @@
                 "php-coveralls/php-coveralls": "^2.4",
                 "phpstan/phpstan": "^0.12.57",
                 "phpstan/phpstan-doctrine": "^0.12.25",
-                "roadiz/entity-generator": "~1.7.0 || dev-main",
-                "roadiz/jwt": "~1.7.0 || dev-main",
-                "roadiz/markdown": "~1.7.0 || dev-develop",
-                "roadiz/random": "~1.7.0 || dev-main",
                 "squizlabs/php_codesniffer": "^3.5"
             },
             "type": "library",
@@ -13205,9 +13196,9 @@
             ],
             "support": {
                 "issues": "https://github.com/roadiz/rozier/issues",
-                "source": "https://github.com/roadiz/rozier/tree/develop"
+                "source": "https://github.com/roadiz/rozier/tree/1.7.1"
             },
-            "time": "2021-09-21T08:18:15+00:00"
+            "time": "2021-09-22T14:39:40+00:00"
         },
         {
             "name": "sebastian/cli-parser",
