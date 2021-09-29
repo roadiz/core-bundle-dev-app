@@ -1,7 +1,7 @@
 rz_intervention_request:
     driver: 'gd'
-    default_quality: 90
-    max_pixel_size: 1920
+    default_quality: '%env(int:IR_DEFAULT_QUALITY)%'
+    max_pixel_size: '%env(int:IR_MAX_PIXEL_SIZE)%'
     cache_path: "%kernel.project_dir%/public/assets"
     files_path: "%kernel.project_dir%/public/files"
     jpegoptim_path: /usr/bin/jpegoptim
