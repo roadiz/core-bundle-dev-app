@@ -1,7 +1,7 @@
 {
     "type": "project",
     "license": "proprietary",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
         "php": ">=7.4",
@@ -24,6 +24,7 @@
         "rollerworks/password-strength-validator": "^1.6",
         "scienta/doctrine-json-functions": "^4.2",
         "sensio/framework-extra-bundle": "^6.1",
+        "sentry/sentry-symfony": "^4.2",
         "solarium/solarium": "^6.0.4",
         "symfony-cmf/routing": "^2.3.3",
         "symfony-cmf/routing-bundle": "^2.5",
@@ -148,6 +149,5 @@
             "allow-contrib": false,
             "require": "5.3.*"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }

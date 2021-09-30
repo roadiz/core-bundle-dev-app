@@ -1,5 +1,5 @@
 roadiz_compat:
-    themes:
-        - classname: \Themes\DefaultTheme\DefaultThemeApp
+    themes: []
+#        - classname: \Themes\DefaultTheme\DefaultThemeApp
 
 
