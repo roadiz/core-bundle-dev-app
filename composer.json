@@ -13,6 +13,7 @@
         "doctrine/doctrine-bundle": "^2.3",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.8",
+        "api-platform/core": "^2.6",
         "gedmo/doctrine-extensions": "^2.4 || ^3.0.0",
         "inlinestyle/inlinestyle": "~1.2.7",
         "jms/serializer": "^3.1.1",
