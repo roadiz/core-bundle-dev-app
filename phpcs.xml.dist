@@ -2,19 +2,13 @@
 
 <ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
-
     <arg name="basepath" value="."/>
     <arg name="cache" value=".phpcs-cache"/>
     <arg name="colors"/>
     <arg name="extensions" value="php"/>
-
-     <rule ref="Generic.Files.LineLength">
-            <properties>
-                <property name="lineLimit" value="0"/>
-                <property name="absoluteLineLimit" value="0"/>
-            </properties>
+     <rule ref="PSR2">
+         <exclude name="Generic.Files.LineLength"/>
      </rule>
-    <rule ref="PSR12"/>
     <file>bin/</file>
     <file>config/</file>
     <file>public/</file>
