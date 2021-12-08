@@ -5,6 +5,8 @@ parameters:
         - lib/RoadizCoreBundle/src
         - lib/RoadizCompatBundle/src
         - lib/RoadizRozierBundle/src
+    bootstrapFiles:
+        - lib/RoadizCompatBundle/deprecated.php
     excludes_analyse:
         - */node_modules/*
         - */bower_components/*
