@@ -1,4 +1,4 @@
-
+---
 RZ\Roadiz\CoreBundle\Entity\NodesSources:
     iri: NodesSources
     shortName: NodesSources
@@ -7,24 +7,6 @@ RZ\Roadiz\CoreBundle\Entity\NodesSources:
             method: "GET"
             normalization_context:
                 groups: ["nodes_sources_base", "urls", "tag_base", "translation_base", "document_display"]
-        search:
-            method: 'GET'
-            path: '/nodes_sources/search'
-            controller: App\Controller\SearchNodesSourcesController
-            normalization_context:
-                groups: ["nodes_sources_base", "urls", "tag_base", "translation_base", "document_display"]
-            openapi_context:
-                summary: Search NodesSources resources
-                description: |
-                    Search NodesSources resources using **Solr** full-text search engine
-                parameters:
-                    -   type: string
-                        name: search
-                        in: query
-                        required: true
-                        description: Search pattern
-                        schema:
-                            type: string
 
     itemOperations:
         get:

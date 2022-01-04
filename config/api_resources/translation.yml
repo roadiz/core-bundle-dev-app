@@ -1,4 +1,4 @@
-
+---
 RZ\Roadiz\CoreBundle\Entity\Translation:
     attributes:
         output: RZ\Roadiz\CoreBundle\Api\Dto\TranslationOutput
