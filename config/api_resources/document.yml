@@ -8,10 +8,12 @@ RZ\Roadiz\CoreBundle\Entity\Document:
         get:
             method: "GET"
             normalization_context:
+                groups: ["urls", "document", "document_display"]
                 enable_max_depth: true
     itemOperations:
         get:
             method: 'GET'
             normalization_context:
+                groups: ["urls", "document", "document_display"]
                 enable_max_depth: true
 
