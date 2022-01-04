@@ -22,4 +22,4 @@ monolog:
             type: service
             id: RZ\Roadiz\CoreBundle\Logger\DoctrineHandler
             level: info
-            channels: [ "app" ]
+            channels: [ "app", "security" ]
