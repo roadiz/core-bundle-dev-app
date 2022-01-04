@@ -112,7 +112,8 @@
             "Themes\\": "themes/"
         },
         "files": [
-            "lib/RoadizCompatBundle/deprecated.php"
+            "lib/RoadizCompatBundle/deprecated.php",
+            "lib/RoadizRozierBundle/deprecated.php"
         ]
     },
     "autoload-dev": {
