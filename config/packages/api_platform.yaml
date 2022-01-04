@@ -1,7 +1,21 @@
 api_platform:
+    title:       "Roadiz development app"
+    description: "Roadiz development app"
+    version:     '0.1.0'
     mapping:
-        paths: ['%kernel.project_dir%/src/Entity']
+        paths:
+            - '%kernel.project_dir%/src/Entity'
+            - '%kernel.project_dir%/src/GeneratedEntity'
+            - '%kernel.project_dir%/lib/RoadizCoreBundle/src/Entity'
+            - '%kernel.project_dir%/config/api_resources'
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+    collection:
+        pagination:
+            items_per_page: 15 # Default value
+            maximum_items_per_page: 50
+            client_items_per_page: true
+            items_per_page_parameter_name: itemsPerPage
+

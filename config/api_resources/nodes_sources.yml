@@ -1,0 +1,45 @@
+
+RZ\Roadiz\CoreBundle\Entity\NodesSources:
+    iri: NodesSources
+    shortName: NodesSources
+    collectionOperations:
+        get:
+            method: "GET"
+        search:
+            method: 'GET'
+            path: '/nodes_sources/search'
+            controller: App\Controller\SearchNodesSourcesController
+            openapi_context:
+                summary: Search NodesSources resources
+                description: |
+                    Search NodesSources resources using **Solr** full-text search engine
+                parameters:
+                    -   type: string
+                        name: search
+                        in: query
+                        required: true
+                        description: Search pattern
+                        schema:
+                            type: string
+
+    itemOperations:
+        get:
+            method: 'GET'
+        getByPath:
+            method: 'GET'
+            path: '/nodes_sources_by_path'
+            read: false
+            controller: App\Controller\GetNodesSourcesByPathController
+            openapi_context:
+                summary: Get a NodesSources resource by its path instead of its Id
+                description: |
+                    Get a NodesSources resource by its path instead of its Id
+                parameters:
+                    -   type: string
+                        name: path
+                        in: query
+                        required: true
+                        description: NodesSources path, or `/` for home page
+                        schema:
+                            type: string
+
