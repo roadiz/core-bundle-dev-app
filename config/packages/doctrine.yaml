@@ -13,7 +13,7 @@ doctrine:
             RoadizCoreBundle:
                 is_bundle: true
                 type: annotation
-                dir: 'Entity'
+                dir: 'src/Entity'
                 prefix: 'RZ\Roadiz\CoreBundle\Entity'
                 alias: RoadizCoreBundle
             RZ\Roadiz\Core:
