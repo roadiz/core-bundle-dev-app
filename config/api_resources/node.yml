@@ -4,4 +4,9 @@ RZ\Roadiz\CoreBundle\Entity\Node:
     attributes:
         output: RZ\Roadiz\CoreBundle\Api\Dto\NodeOutput
     collectionOperations: []
-    itemOperations: []
+    itemOperations:
+        get:
+            method: 'GET'
+            normalization_context:
+                groups: ["node", "document_display"]
+                enable_max_depth: true
