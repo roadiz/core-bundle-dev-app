@@ -6,7 +6,7 @@ RZ\Roadiz\CoreBundle\Entity\NodesSources:
         get:
             method: "GET"
             normalization_context:
-                groups: ["nodes_sources_default", "urls", "tag_base", "translation_base", "document_display"]
+                groups: ["nodes_sources_base", "nodes_sources_default", "urls", "tag_base", "translation_base", "document_display"]
 
     itemOperations:
         get:
