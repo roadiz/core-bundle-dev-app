@@ -3,9 +3,5 @@ RZ\Roadiz\CoreBundle\Entity\Node:
     shortName: Node
     attributes:
         output: RZ\Roadiz\CoreBundle\Api\Dto\NodeOutput
-    collectionOperations:
-        get:
-            method: "GET"
-    itemOperations:
-        get:
-            method: 'GET'
+    collectionOperations: []
+    itemOperations: []
