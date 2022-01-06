@@ -165,3 +165,4 @@ fabric.properties
 /composer.lock
 /symfony.lock
 /src/GeneratedEntity/*.php
+/src/GeneratedEntity/Repository/*.php
