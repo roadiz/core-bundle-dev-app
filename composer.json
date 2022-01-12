@@ -93,7 +93,7 @@
         "phpoffice/phpspreadsheet":                "^1.15",
         "rezozero/intervention-request-bundle":    "dev-master",
         "symfony/rate-limiter":                    "5.4.*",
-        "rezozero/tree-walker": "~1.0.2",
+        "rezozero/tree-walker": "dev-master",
         "pimple/pimple": "*"
     },
     "config": {
