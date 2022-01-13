@@ -9,8 +9,8 @@ migrate:
 
 test:
 	#php -d "memory_limit=-1" vendor/bin/phpcs --report=full --report-file=./report.txt -p ./src
-	php -d "memory_limit=-1" vendor/bin/phpcs --report=full --report-file=./report.txt -p ./lib/RoadizCoreBundle/src
-	php -d "memory_limit=-1" vendor/bin/phpcs --report=full --report-file=./report.txt -p ./lib/RoadizCompatBundle/src
-	php -d "memory_limit=-1" vendor/bin/phpcs --report=full --report-file=./report.txt -p ./lib/RoadizRozierBundle/src
+	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizCoreBundle/src
+	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizCompatBundle/src
+	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizRozierBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 	php -d "memory_limit=-1" bin/console lint:twig
