@@ -8,16 +8,18 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-zip": "*",
+        "ext-json": "*",
+        "api-platform/core": "^2.6",
         "composer/package-versions-deprecated": "1.11.99.3",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.3",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.8",
-        "api-platform/core": "^2.6",
         "gedmo/doctrine-extensions": "^2.4 || ^3.0.0",
         "inlinestyle/inlinestyle": "~1.2.7",
         "jms/serializer": "^3.1.1",
         "jms/serializer-bundle": "^3.10.0",
+        "limenius/liform-bundle": "^0.17.0",
         "phpdocumentor/reflection-docblock": "^5.2",
         "roadiz/compat-bundle": "~2.0.0 || dev-develop",
         "roadiz/core-bundle": "~2.0.0 || dev-develop",
@@ -93,7 +95,7 @@
         "phpoffice/phpspreadsheet":                "^1.15",
         "rezozero/intervention-request-bundle":    "dev-master",
         "symfony/rate-limiter":                    "5.4.*",
-        "rezozero/tree-walker": "dev-master",
+        "rezozero/tree-walker": "~1.0.6",
         "pimple/pimple": "*"
     },
     "config": {
@@ -101,7 +103,12 @@
         "preferred-install": {
             "*": "dist"
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "symfony/flex": true,
+            "symfony/runtime": true
+        }
     },
     "autoload": {
         "psr-4": {
