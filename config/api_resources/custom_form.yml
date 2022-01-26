@@ -1,0 +1,64 @@
+---
+RZ\Roadiz\CoreBundle\Entity\CustomForm:
+    attributes:
+        output: RZ\Roadiz\CoreBundle\Api\Dto\CustomFormOutput
+    collectionOperations:
+        get:
+            method: "GET"
+            normalization_context:
+                enable_max_depth: true
+    itemOperations:
+        get:
+            method: 'GET'
+            normalization_context:
+                enable_max_depth: true
+
+        api_custom_forms_item_definition:
+            route: true
+            normalization_context:
+                enable_max_depth: true
+            openapi_context:
+                summary: Get a custom form definition for frontend
+                description: |
+                    Get a custom form definition for frontend
+                responses:
+                    200:
+                        description: Custom form definition object
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    properties:
+                                        title:
+                                            type: string
+                                            description: Form inputs prefix
+                                            example: reiciendis_natus_ducimus_nostrum
+                                        type:
+                                            type: string
+                                            description: Form definition type
+                                            example: object
+                                        properties:
+                                            type: object
+                                            description: Form definition fields
+                                            example:
+                                                email:
+                                                    type: string
+                                                    title: Email
+                                                    attr:
+                                                        data-group: null
+                                                        placeholder: null
+                                                    widget: email
+                                                    propertyOrder: 1
+                                                first_name:
+                                                    type: string
+                                                    title: Firstname
+                                                    attr:
+                                                        data-group: null
+                                                        placeholder: null
+                                                    widget: string
+                                                    propertyOrder: 2
+                                        required:
+                                            type: array
+                                            description: Required fields names
+                                            example:
+                                                - 'email'
