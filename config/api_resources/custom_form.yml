@@ -7,14 +7,61 @@ RZ\Roadiz\CoreBundle\Entity\CustomForm:
             method: "GET"
             normalization_context:
                 enable_max_depth: true
+
     itemOperations:
         get:
             method: 'GET'
             normalization_context:
                 enable_max_depth: true
 
+        api_custom_forms_item_post:
+            method: 'POST'
+            route_name: api_custom_forms_item_post
+            normalization_context:
+                enable_max_depth: true
+            openapi_context:
+                summary: Post a user custom form
+                description: |
+                    Post a user custom form
+                requestBody:
+                    content:
+                        multipart/form-data:
+                            schema:
+                                type: object
+                                properties:
+                                    custom_form_slug[email]:
+                                        type: string
+                                        example: test@test.test
+                                    custom_form_slug[first_name]:
+                                        type: string
+                                        example: John
+                                    custom_form_slug[last_name]:
+                                        type: string
+                                        example: Doe
+                responses:
+                    201: ~
+                    400:
+                        description: Posted custom form has errors
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    properties:
+                                        email:
+                                            type: object
+                                            example:
+                                                email: This value is not a valid email address.
+                    202:
+                        description: Posted custom form was accepted
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    properties: { }
+
         api_custom_forms_item_definition:
-            route: true
+            method: 'GET'
+            route_name: api_custom_forms_item_definition
             normalization_context:
                 enable_max_depth: true
             openapi_context:
