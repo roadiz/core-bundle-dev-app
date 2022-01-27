@@ -162,11 +162,11 @@
     "repositories": [
         {
             "type": "github",
-            "url":  "https://github.com/rezozero/LiformBundle.git"
+            "url":  "git@github.com:rezozero/LiformBundle.git"
         },
         {
             "type": "github",
-            "url":  "https://github.com/phpwutz/Liform.git"
+            "url":  "git@github.com:phpwutz/Liform.git"
         }
     ]
 }
