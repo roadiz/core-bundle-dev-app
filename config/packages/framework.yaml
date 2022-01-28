@@ -19,6 +19,9 @@ framework:
         log: true
 
     rate_limiter: ~
+    
+    csrf_protection:
+        enabled: true
 
 when@test:
     framework:
