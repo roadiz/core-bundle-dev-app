@@ -1,0 +1,13 @@
+{
+    "name": "Neutral",
+    "display_name": "Neutral",
+    "visible": true,
+    "publishable": false,
+    "reachable": false,
+    "hiding_nodes": false,
+    "hiding_non_reachable_nodes": false,
+    "color": "#a8a8a8",
+    "fields": [],
+    "default_ttl": 0,
+    "searchable": true
+}
