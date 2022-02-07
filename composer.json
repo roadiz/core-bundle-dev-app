@@ -86,7 +86,7 @@
         "roadiz/openid":                           "~1.7.0 || dev-develop",
         "roadiz/documents":                        "dev-develop",
         "roadiz/entity-generator":                 "dev-main",
-        "roadiz/markdown":                         "~1.7.0 || dev-develop",
+        "roadiz/markdown":                         "dev-develop",
         "roadiz/models":                           "dev-develop",
         "roadiz/random":                           "~1.7.0 || dev-main",
         "roadiz/jwt":                              "~1.7.0 || dev-main",
