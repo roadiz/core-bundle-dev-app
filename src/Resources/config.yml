@@ -5,7 +5,9 @@ importFiles:
     groups: []
     settings: []
     nodetypes:
+        - src/Resources/node-types/Article.json
         - src/Resources/node-types/BasicBlock.json
         - src/Resources/node-types/GroupBlock.json
         - src/Resources/node-types/Neutral.json
+        - src/Resources/node-types/Offer.json
         - src/Resources/node-types/Page.json
