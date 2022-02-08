@@ -12,6 +12,16 @@ cd lib
 ln -s ../../rozier-bundle RoadizRozierBundle
 ```
 
+### Generate JWT private and public keys
+
+```shell script
+# Generate a strong secret
+openssl rand --base64 16; 
+# Fill JWT_PASSPHRASE env var in .env.local.
+openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096;
+openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout;
+```
+
 ### Run development server
 
 - Run docker-compose env to get a local database and Solr server
