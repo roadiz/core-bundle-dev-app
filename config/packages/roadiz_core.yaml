@@ -16,11 +16,11 @@ roadiz_core:
     solr:
         timeout: 3
         endpoints:
-            docker:
-                host: '%env(string:SOLR_HOST)%'
-                core: '%env(string:SOLR_CORE_NAME)%'
-                port: '%env(string:SOLR_PORT)%'
-                path: /
+#            docker:
+#                host: '%env(string:SOLR_HOST)%'
+#                core: '%env(string:SOLR_CORE_NAME)%'
+#                port: '%env(string:SOLR_PORT)%'
+#                path: /
     open_id:
         # Verify User info in JWT at each login
         verify_user_info: true
