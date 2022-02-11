@@ -8,11 +8,11 @@ roadiz_core:
         unsplash_client_id: '%env(string:APP_UNSPLASH_CLIENT_ID)%'
     inheritance:
         type: single_table
-    reverseProxyCache:
-        frontend:
-            default:
-                host: '127.0.0.1:8081'
-                domainName: roadiz-core-bundle.test
+#    reverseProxyCache:
+#        frontend:
+#            default:
+#                host: '127.0.0.1:8081'
+#                domainName: roadiz-core-bundle.test
     solr:
         timeout: 3
         endpoints:
