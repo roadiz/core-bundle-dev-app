@@ -35,5 +35,6 @@ roadiz_core:
         granted_roles:
             - ROLE_USER
             - ROLE_BACKEND_USER
+            - ROLE_SUPERADMIN
 
 
