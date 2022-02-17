@@ -15,5 +15,7 @@ framework:
         #app: cache.adapter.apcu
 
         # Namespaced pools use the above "app" backend by default
-        #pools:
+        pools:
+            cache.contact_form_limiter: ~
+            cache.custom_form_limiter: ~
             #my.dedicated.cache: null
