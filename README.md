@@ -3,14 +3,9 @@
 ### Install
 
 - Clone this repository
-- Clone roadiz/core-bundle in `lib/RoadizCoreBundle` directory or create a symlink from an existing local repository
-- Clone roadiz/compat-bundle in `lib/RoadizCompatBundle` directory or create a symlink from an existing local repository
-- Clone roadiz/rozier-bundle in `lib/RoadizRozierBundle` directory or create a symlink from an existing local repository
-
-```shell
-cd lib
-ln -s ../../rozier-bundle RoadizRozierBundle
-```
+- Clone roadiz/core-bundle in `lib/RoadizCoreBundle` directory
+- Clone roadiz/compat-bundle in `lib/RoadizCompatBundle` directory
+- Clone roadiz/rozier-bundle in `lib/RoadizRozierBundle` directory
 
 ### Generate JWT private and public keys
 
@@ -37,3 +32,11 @@ you'll find configuration example in `RoadizCoreBundle/config/packages` and `Roa
 - JMS Serializer naming strategy
 - Monolog custom doctrine handler
 - Roadiz security scheme
+
+### Run tests
+
+```shell
+make test
+```
+
+Note that _phpstan_ can issue wrong errors if your `lib/*` bundles are symlinked.
