@@ -5,7 +5,7 @@ test:
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizCompatBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizRozierBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
-	php -d "memory_limit=-1" bin/console lint:twig
+	php -d "memory_limit=-1" bin/console lint:twig ./lib
 
 cache :
 	docker-compose exec -u www-data app php bin/console cache:clear

@@ -81,7 +81,6 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*",
-
         "roadiz/doc-generator":                    "~1.7.0 || dev-develop",
         "roadiz/rozier":                           "dev-develop",
         "roadiz/dts-generator":                    "~1.7.0 || dev-main",

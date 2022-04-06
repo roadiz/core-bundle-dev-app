@@ -24,6 +24,7 @@ App\GeneratedEntity\NSPage:
                     - document_display
 
         getByPath:
+            method: GET
             normalization_context:
                 groups:
                     - web_response

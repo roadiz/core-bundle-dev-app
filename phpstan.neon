@@ -1,5 +1,5 @@
 parameters:
-    level: 3
+    level: 4
     paths:
         - src
         - lib/RoadizCoreBundle/src
@@ -7,7 +7,7 @@ parameters:
         - lib/RoadizRozierBundle/src
     bootstrapFiles:
         - lib/RoadizCompatBundle/deprecated.php
-    excludes_analyse:
+    excludePaths:
         - */node_modules/*
         - */bower_components/*
         - */static/*
