@@ -2,6 +2,12 @@ api_platform:
     title:       "Roadiz development app"
     description: "Roadiz development app"
     version:     '0.1.0'
+    enable_swagger_ui: false
+    enable_re_doc: true
+    graphql:
+        graphiql:
+            enabled: false
+    show_webby: false
     mapping:
         paths:
             - '%kernel.project_dir%/src/Entity'
