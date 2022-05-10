@@ -31,6 +31,32 @@ sub vcl_recv {
         set req.http.X-Forwarded-Port = "80";
     }
 
+    # https://info.varnish-software.com/blog/varnish-cache-brotli-compression
+    if (req.http.Accept-Encoding ~ "br" && req.url !~
+        "\.(jpg|png|gif|zip|gz|mp3|mov|avi|mpg|mp4|swf|woff|woff2|wmf)$") {
+        set req.http.X-brotli = "true";
+    }
+
+    #
+    # Update this list to your backend available languages.
+    #
+    # The following VCL code will normalize the ‘Accept-Language’ header
+    # to either “fr”, “de”, … or “en”, in this order of precedence:
+    # @see https://varnish-cache.org/docs/4.0/users-guide/increasing-your-hitrate.html#http-vary
+    if (req.http.Accept-Language) {
+        if (req.http.Accept-Language ~ "fr") {
+            set req.http.Accept-Language = "fr";
+        } elsif (req.http.Accept-Language ~ "de") {
+            set req.http.Accept-Language = "de";
+        } elsif (req.http.Accept-Language ~ "en") {
+            set req.http.Accept-Language = "en";
+        } else {
+            # unknown language. Remove the accept-language header and
+            # use the backend default.
+            unset req.http.Accept-Language;
+        }
+    }
+
     # Remove has_js and Cloudflare/Google Analytics __* cookies.
     set req.http.Cookie = regsuball(req.http.Cookie, "(^|;\s*)(_[_a-z]+|has_js)=[^;]*", "");
     # Remove a ";" prefix, if present.
