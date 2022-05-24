@@ -106,7 +106,8 @@ services:
         env_file: "./.env.local"
         build:
             #context: ./docker/php74-nginx-alpine
-            context: ./docker/php80-nginx-alpine
+            #context: ./docker/php80-nginx-alpine
+            context: ./docker/php81-nginx-alpine
             args:
                 USER_UID: ${USER_UID}
         ports:
