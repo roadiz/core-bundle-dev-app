@@ -67,6 +67,7 @@ roadiz_rozier:
                 - 'ROLE_ACCESS_FONTS'
                 - 'ROLE_ACCESS_REDIRECTIONS'
                 - 'ROLE_ACCESS_WEBHOOKS'
+                - 'ROLE_ACCESS_REALMS'
             subentries:
                 manage_nodeTypes:
                     name: 'manage.nodeTypes'
@@ -98,6 +99,11 @@ roadiz_rozier:
                     route: webhooksHomePage
                     icon: 'uk-icon-space-shuttle'
                     roles: ['ROLE_ACCESS_WEBHOOKS']
+                manage_realms:
+                    name: 'manage.realms'
+                    route: realmsHomePage
+                    icon: 'uk-icon-user-secret'
+                    roles: ['ROLE_ACCESS_REALMS']
 
         user_system:
             name: 'user.system'
