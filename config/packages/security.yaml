@@ -22,6 +22,7 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        # JWT for API
         api:
             pattern: ^/api
             stateless: true
@@ -33,6 +34,7 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             jwt: ~
+
         main:
             lazy: true
             provider: all_users
@@ -42,6 +44,7 @@ security:
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             switch_user: { role: ROLE_SUPERADMIN, parameter: _su }
+            entry_point: RZ\Roadiz\RozierBundle\Security\RozierAuthenticator
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
@@ -49,9 +52,11 @@ security:
             # ...
             logout:
                 path: logoutPage
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
             custom_authenticator:
                 - RZ\Roadiz\RozierBundle\Security\RozierAuthenticator
-                # Enables OpenId on backoffice entrypoint
                 - roadiz_rozier.authenticator.open_id
 
     # Easy way to control access for large sections of your site
@@ -60,7 +65,6 @@ security:
         - { path: ^/rz-admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/rz-admin, roles: ROLE_BACKEND_USER }
         - { path: ^/api/token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # Allow posting custom_forms
         - { path: "^/api/custom_forms/(?:[0-9]+)/post", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: ROLE_BACKEND_USER, methods: [ POST, PUT, PATCH, DELETE ] }
         # - { path: ^/profile, roles: ROLE_USER }
