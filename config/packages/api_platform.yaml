@@ -1,7 +1,7 @@
 api_platform:
     title:       "Roadiz development app"
     description: "Roadiz development app"
-    version:     '0.1.0'
+    version:     '%env(string:APP_VERSION)%'
     enable_swagger_ui: false
     enable_re_doc: true
     graphql:
