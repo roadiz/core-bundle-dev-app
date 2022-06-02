@@ -140,7 +140,7 @@ services:
             - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.port=80"
             - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.passhostheader=true"
             - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.healthcheck.path=/health-check"
-            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.healthcheck.interval=5s"
+            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.healthcheck.interval=10s"
             - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.healthcheck.timeout=3s"
             - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.healthcheck.headers.x-health-check=${APP_HEALTH_CHECK_TOKEN}"
             # Listen HTTP
