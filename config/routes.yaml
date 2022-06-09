@@ -11,3 +11,19 @@ roadiz_rozier:
 rz_intervention_request:
     resource: "@RZInterventionRequestBundle/Resources/config/routing.yml"
     prefix:   /
+
+api_contact_form_definition:
+    methods: [GET]
+    path: /api/contact_form/definition
+    defaults:
+        _controller: App\Controller\ContactFormController::definitionAction
+        _locale: fr
+        _format: json
+
+api_contact_form_post:
+    methods: [POST]
+    path: /api/contact_form/post
+    defaults:
+        _controller: App\Controller\ContactFormController::formAction
+        _locale: fr
+        _format: json
