@@ -143,6 +143,7 @@ fabric.properties
 /lib/RoadizCoreBundle
 /lib/RoadizCompatBundle
 /lib/RoadizRozierBundle
+/lib/RoadizUserBundle
 /themes/BaseTheme
 /public/themes/BaseTheme
 /public/assets/*
