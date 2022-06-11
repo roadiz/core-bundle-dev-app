@@ -1,0 +1,43 @@
+RZ\Roadiz\CoreBundle\Entity\User:
+    collectionOperations: [ ]
+    itemOperations:
+        signup:
+            method: 'POST'
+            path: '/signup'
+            controller: RZ\Roadiz\UserBundle\Controller\SignupController
+            openapi_context:
+                summary: Create a new public user
+                description: |
+                    Create a new public user. User won't be validated and will not be granted with any role
+        validate:
+            method: 'POST'
+            path: '/validate'
+            controller: RZ\Roadiz\UserBundle\Controller\ValidateController
+            openapi_context:
+                summary: Validate a public user email
+                description: |
+                    Validate a public user email with a unique and temporary token
+        password_request:
+            method: 'POST'
+            path: '/password_request'
+            controller: RZ\Roadiz\UserBundle\Controller\PasswordRequestController
+            openapi_context:
+                summary: Request a public user new password
+                description: |
+                    Initiate a public user new password request (forgot my password)
+        password_reset:
+            method: 'POST'
+            path: '/password_reset'
+            controller: RZ\Roadiz\UserBundle\Controller\PasswordResetController
+            openapi_context:
+                summary: Reset a public user password
+                description: |
+                    Change a public user password against a unique temporary token (forgot my password)
+        information:
+            method: 'GET'
+            path: '/me'
+            controller: RZ\Roadiz\UserBundle\Controller\InformationController
+            openapi_context:
+                summary: Get current user (JWT) information
+                description: |
+                    Get current user (JWT) information
