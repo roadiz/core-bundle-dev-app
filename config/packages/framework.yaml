@@ -38,6 +38,16 @@ framework:
             limit: 5
             rate: { interval: '1 minutes', amount: 3 }
             cache_pool: 'cache.user_signup_limiter'
+        password_request:
+            policy: 'token_bucket'
+            limit: 3
+            rate: { interval: '1 minutes', amount: 3 }
+            cache_pool: 'cache.password_request_limiter'
+        password_reset:
+            policy: 'token_bucket'
+            limit: 3
+            rate: { interval: '1 minutes', amount: 3 }
+            cache_pool: 'cache.password_reset_limiter'
 
     csrf_protection:
         enabled: true

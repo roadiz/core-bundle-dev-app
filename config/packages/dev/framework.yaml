@@ -1,0 +1,28 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    rate_limiter:
+        contact_form:
+            policy: 'token_bucket'
+            limit: 20
+            rate: { interval: '1 minutes', amount: 20 }
+            cache_pool: 'cache.contact_form_limiter'
+        custom_form:
+            policy: 'token_bucket'
+            limit: 20
+            rate: { interval: '1 minutes', amount: 20 }
+            cache_pool: 'cache.custom_form_limiter'
+        user_signup:
+            policy: 'token_bucket'
+            limit: 20
+            rate: { interval: '1 minutes', amount: 20 }
+            cache_pool: 'cache.user_signup_limiter'
+        password_request:
+            policy: 'token_bucket'
+            limit: 20
+            rate: { interval: '1 minutes', amount: 20 }
+            cache_pool: 'cache.password_request_limiter'
+        password_reset:
+            policy: 'token_bucket'
+            limit: 20
+            rate: { interval: '1 minutes', amount: 20 }
+            cache_pool: 'cache.password_reset_limiter'

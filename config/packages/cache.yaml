@@ -19,4 +19,6 @@ framework:
             cache.contact_form_limiter: ~
             cache.custom_form_limiter: ~
             cache.user_signup_limiter: ~
+            cache.password_request_limiter: ~
+            cache.password_reset_limiter: ~
             #my.dedicated.cache: null
