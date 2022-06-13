@@ -8,10 +8,20 @@ RZ\Roadiz\CoreBundle\Entity\User:
             path: '/users/signup'
             controller: RZ\Roadiz\UserBundle\Controller\SignupController
             input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
+            output: RZ\Roadiz\UserBundle\Api\Dto\UserOutput
             openapi_context:
                 summary: Create a new public user
                 description: |
                     Create a new public user. User won't be validated and will not be granted with any role
+        password_request:
+            method: 'POST'
+            path: '/users/password_request'
+            controller: RZ\Roadiz\UserBundle\Controller\PasswordRequestController
+            input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput
+            openapi_context:
+                summary: Request a public user new password
+                description: |
+                    Initiate a public user new password request (forgot my password)
 
     itemOperations:
         information:
@@ -24,29 +34,23 @@ RZ\Roadiz\CoreBundle\Entity\User:
                 summary: Get current user (JWT) information
                 description: |
                     Get current user (JWT) information
+
         validate:
             method: 'PATCH'
             path: '/users/{id}/validate'
             controller: RZ\Roadiz\UserBundle\Controller\ValidateController
             input: RZ\Roadiz\UserBundle\Api\Dto\UserTokenInput
+            output: RZ\Roadiz\UserBundle\Api\Dto\UserOutput
             openapi_context:
                 summary: Validate a public user email
                 description: |
                     Validate a public user email with a unique and temporary token
-        password_request:
-            method: 'PATCH'
-            path: '/users/{id}/password_request'
-            controller: RZ\Roadiz\UserBundle\Controller\PasswordRequestController
-            input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput
-            openapi_context:
-                summary: Request a public user new password
-                description: |
-                    Initiate a public user new password request (forgot my password)
         password_reset:
             method: 'PATCH'
             path: '/users/{id}/password_reset'
             controller: RZ\Roadiz\UserBundle\Controller\PasswordResetController
             input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordTokenInput
+            output: RZ\Roadiz\UserBundle\Api\Dto\UserOutput
             openapi_context:
                 summary: Reset a public user password
                 description: |

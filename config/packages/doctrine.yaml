@@ -19,6 +19,12 @@ doctrine:
                 dir: 'src/Entity'
                 prefix: 'RZ\Roadiz\CoreBundle\Entity'
                 alias: RoadizCoreBundle
+            RoadizUserBundle:
+                is_bundle: true
+                type: annotation
+                dir: 'src/Entity'
+                prefix: 'RZ\Roadiz\UserBundle\Entity'
+                alias: RoadizUserBundle
             RZ\Roadiz\Core:
                 is_bundle: false
                 type: annotation

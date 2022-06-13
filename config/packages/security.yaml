@@ -75,5 +75,8 @@ security:
         - { path: ^/api/token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "^/api/custom_forms/(?:[0-9]+)/post", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: "^/api/contact_form/post", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/api/users/signup", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/api/users/password_request", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/api/users", methods: [ GET, PUT, PATCH, POST ], roles: ROLE_USER }
         - { path: ^/api, roles: ROLE_BACKEND_USER, methods: [ POST, PUT, PATCH, DELETE ] }
         # - { path: ^/profile, roles: ROLE_USER }

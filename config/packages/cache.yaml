@@ -18,4 +18,5 @@ framework:
         pools:
             cache.contact_form_limiter: ~
             cache.custom_form_limiter: ~
+            cache.user_signup_limiter: ~
             #my.dedicated.cache: null
