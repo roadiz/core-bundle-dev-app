@@ -23,6 +23,8 @@
         "limenius/liform-bundle": "dev-master",
         "nelmio/cors-bundle": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.2",
+        "roadiz/user-bundle": "~2.0.0 || dev-develop",
+        "roadiz/rozier-bundle": "~2.0.0 || dev-develop",
         "roadiz/compat-bundle": "~2.0.0 || dev-develop",
         "roadiz/core-bundle": "~2.0.0 || dev-develop",
         "rollerworks/password-strength-bundle": "^2.2",
@@ -118,6 +120,7 @@
             "RZ\\Roadiz\\CoreBundle\\": "lib/RoadizCoreBundle/src/",
             "RZ\\Roadiz\\CompatBundle\\": "lib/RoadizCompatBundle/src/",
             "RZ\\Roadiz\\RozierBundle\\": "lib/RoadizRozierBundle/src/",
+            "RZ\\Roadiz\\UserBundle\\": "lib/RoadizUserBundle/src/",
             "Themes\\": "themes/"
         },
         "files": [
@@ -137,7 +140,8 @@
         "roadiz/roadiz": "*",
         "roadiz/core-bundle": "*",
         "roadiz/compat-bundle": "*",
-        "roadiz/rozier-bundle": "*"
+        "roadiz/rozier-bundle": "*",
+        "roadiz/user-bundle": "*"
     },
     "scripts": {
         "auto-scripts": {

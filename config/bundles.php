@@ -15,6 +15,7 @@ return [
     RZ\Roadiz\CoreBundle\RoadizCoreBundle::class => ['all' => true],
     RZ\Roadiz\CompatBundle\RoadizCompatBundle::class => ['all' => true],
     RZ\Roadiz\RozierBundle\RoadizRozierBundle::class => ['all' => true],
+    RZ\Roadiz\UserBundle\RoadizUserBundle::class => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle::class => ['all' => true],
     Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle::class => ['all' => true],
