@@ -27,6 +27,8 @@ security:
             pattern: ^/api
             stateless: true
             provider: all_users
+            login_throttling:
+                max_attempts: 3
             json_login:
                 check_path: /api/token
                 username_path: username
@@ -57,7 +59,8 @@ security:
                 secret: '%kernel.secret%'
                 lifetime: 604800 # 1 week in seconds
                 path: /
-            # ...
+            login_throttling:
+                max_attempts: 3
             logout:
                 path: logoutPage
             guard:
