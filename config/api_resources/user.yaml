@@ -8,7 +8,7 @@ RZ\Roadiz\CoreBundle\Entity\User:
             path: '/users/signup'
             controller: RZ\Roadiz\UserBundle\Controller\SignupController
             input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
-            output: RZ\Roadiz\UserBundle\Api\Dto\UserOutput
+            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
             openapi_context:
                 summary: Create a new public user
                 parameters: ~
@@ -22,11 +22,26 @@ RZ\Roadiz\CoreBundle\Entity\User:
             input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput
             output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
             # Password request must not call WriteListener to let PasswordRequestController persist changes.
+            write: false
             validate: false
             openapi_context:
                 summary: Request a public user new password
                 description: |
                     Initiate a public user new password request (forgot my password)
+
+        validation_request:
+            method: 'POST'
+            path: '/users/validation_request'
+            controller: RZ\Roadiz\UserBundle\Controller\ValidationRequestController
+            input: RZ\Roadiz\UserBundle\Api\Dto\UserValidationRequestInput
+            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+            # Validation request must not call WriteListener to let ValidationRequestController persist changes.
+            write: false
+            validate: false
+            openapi_context:
+                summary: Request a public user email validation token
+                description: |
+                    Initiate a public user validation request (to verify user email address)
 
     itemOperations:
         information:
