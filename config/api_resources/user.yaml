@@ -13,9 +13,15 @@ RZ\Roadiz\CoreBundle\Entity\User:
                 - no_empty_password
             openapi_context:
                 summary: Create a new public user
-                parameters: ~
+                parameters:
+                    - in: header
+                      name: x-g-recaptcha-response
+                      schema:
+                          type: string
+                      required: true
                 description: |
-                    Create a new public user. User won't be validated and will not be granted with any role
+                    Create a new public user. User won't be validated and will not be granted with any role.
+                    This operation may require a *Google Recaptcha* response to protect against flooding.
 
         password_request:
             method: 'POST'
@@ -28,8 +34,15 @@ RZ\Roadiz\CoreBundle\Entity\User:
             validate: false
             openapi_context:
                 summary: Request a public user new password
+                parameters:
+                    - in: header
+                      name: x-g-recaptcha-response
+                      schema:
+                          type: string
+                      required: true
                 description: |
-                    Initiate a public user new password request (forgot my password)
+                    Initiate a public user new password request (forgot my password). This operation may
+                    require a *Google Recaptcha* response to protect against flooding.
 
         validation_request:
             method: 'POST'
