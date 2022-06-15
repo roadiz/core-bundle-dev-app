@@ -9,6 +9,8 @@ RZ\Roadiz\CoreBundle\Entity\User:
             controller: RZ\Roadiz\UserBundle\Controller\SignupController
             input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
             output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+            validation_groups:
+                - no_empty_password
             openapi_context:
                 summary: Create a new public user
                 parameters: ~
@@ -64,6 +66,8 @@ RZ\Roadiz\CoreBundle\Entity\User:
             # Password reset must not call ReadListener to let DataTransformer provide User.
             read: false
             validate: false
+            validation_groups:
+                - no_empty_password
             openapi_context:
                 summary: Reset a public user password
                 parameters: ~
