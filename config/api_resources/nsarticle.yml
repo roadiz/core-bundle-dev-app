@@ -19,6 +19,7 @@ App\GeneratedEntity\NSArticle:
             read: false
             controller: RZ\Roadiz\CoreBundle\Api\Controller\NodesSourcesArchivesController
             pagination_enabled: false
+            output: RZ\Roadiz\CoreBundle\Api\Dto\Archive
             defaults:
                 resource_date_field: publishedAt
             normalization_context:
