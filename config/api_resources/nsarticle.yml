@@ -12,6 +12,27 @@ App\GeneratedEntity\NSArticle:
                     - tag_base
                     - translation_base
                     - document_display
+
+        archives:
+            method: 'GET'
+            path: '/articles/archives'
+            read: false
+            controller: RZ\Roadiz\CoreBundle\Api\Controller\NodesSourcesArchivesController
+            pagination_enabled: false
+            output: RZ\Roadiz\CoreBundle\Api\Dto\Archive
+            defaults:
+                resource_date_field: publishedAt
+            normalization_context:
+                pagination_enabled: false
+                groups:
+                    - get
+                    - archives
+            openapi_context:
+                summary: Get available Article archives
+                parameters: ~
+                description: |
+                    Get available Article archives
+
     itemOperations:
         get:
             method: GET
