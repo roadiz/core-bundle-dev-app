@@ -20,7 +20,7 @@
         "jms/serializer": "^3.1.1",
         "jms/serializer-bundle": "^3.10.0",
         "lexik/jwt-authentication-bundle": "^2.13",
-        "limenius/liform-bundle": "dev-master",
+        "rezozero/liform-bundle": "^0.18.0",
         "nelmio/cors-bundle": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.2",
         "roadiz/compat-bundle": "~2.0.0 || dev-develop",
@@ -164,15 +164,5 @@
             "allow-contrib": false,
             "require": "5.4.*"
         }
-    },
-    "repositories": [
-        {
-            "type": "github",
-            "url":  "git@github.com:rezozero/LiformBundle.git"
-        },
-        {
-            "type": "github",
-            "url":  "git@github.com:rezozero/Liform.git"
-        }
-    ]
+    }
 }

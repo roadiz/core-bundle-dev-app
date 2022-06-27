@@ -42,7 +42,7 @@ final class ContactFormController
         $builder->add('form', ContactFormType::class);
 
         $this->contactFormManager->withUserConsent();
-        //$this->contactFormManager->withGoogleRecaptcha(Recaptcha::FORM_NAME);
+        $this->contactFormManager->withGoogleRecaptcha(Recaptcha::FORM_NAME);
 
         $schema = json_encode($this->liform->transform($builder->getForm()));
 
@@ -82,7 +82,7 @@ final class ContactFormController
         $builder->add('form', ContactFormType::class);
 
         $this->contactFormManager->withUserConsent();
-        //$this->contactFormManager->withGoogleRecaptcha(Recaptcha::FORM_NAME);
+        $this->contactFormManager->withGoogleRecaptcha(Recaptcha::FORM_NAME);
 
         if (null !== $response = $this->contactFormManager->handle()) {
             $response->headers->add($headers);
