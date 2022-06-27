@@ -97,7 +97,7 @@
         "roadiz/nodetype-contracts":               "~1.1.0 || dev-main",
         "rezozero/crypto":                         "^0.2.0",
         "phpoffice/phpspreadsheet":                "^1.15",
-        "rezozero/intervention-request-bundle":    "dev-master",
+        "rezozero/intervention-request-bundle":    "~2.0.0",
         "symfony/rate-limiter":                    "5.4.*",
         "rezozero/tree-walker":                    "dev-master",
         "pimple/pimple": "*"
