@@ -85,9 +85,9 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*",
-        "roadiz/doc-generator":                    "dev-develop",
+        "roadiz/doc-generator": "~2.0.0",
         "roadiz/rozier":                           "dev-develop",
-        "roadiz/dts-generator":                    "dev-main",
+        "roadiz/dts-generator": "~2.0.0",
         "roadiz/openid":                           "dev-develop",
         "roadiz/documents":                        "dev-develop",
         "roadiz/entity-generator":                 "dev-main",
@@ -100,7 +100,7 @@
         "phpoffice/phpspreadsheet":                "^1.15",
         "rezozero/intervention-request-bundle":    "~2.0.0",
         "symfony/rate-limiter":                    "5.4.*",
-        "rezozero/tree-walker":                    "dev-master",
+        "rezozero/tree-walker":                    "^1.1.0",
         "pimple/pimple": "*"
     },
     "config": {
