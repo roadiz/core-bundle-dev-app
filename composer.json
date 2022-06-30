@@ -86,7 +86,7 @@
         "symfony/phpunit-bridge": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*",
         "roadiz/doc-generator": "~2.0.0",
-        "roadiz/rozier": "dev-develop",
+        "roadiz/rozier": "~2.0.0",
         "roadiz/dts-generator": "~2.0.0",
         "roadiz/openid": "~2.0.0",
         "roadiz/documents": "~2.0.0",
