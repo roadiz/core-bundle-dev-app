@@ -16,12 +16,10 @@ App\GeneratedEntity\NSArticle:
         archives:
             method: 'GET'
             path: '/articles/archives'
-            read: false
-            controller: RZ\Roadiz\CoreBundle\Api\Controller\NodesSourcesArchivesController
             pagination_enabled: false
-            output: RZ\Roadiz\CoreBundle\Api\Dto\Archive
-            defaults:
-                resource_date_field: publishedAt
+            pagination_client_enabled: false
+            archive_enabled: true
+            archive_publication_field_name: publishedAt
             normalization_context:
                 pagination_enabled: false
                 groups:
