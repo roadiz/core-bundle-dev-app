@@ -90,7 +90,7 @@
         "roadiz/dts-generator": "~2.0.0",
         "roadiz/openid": "~2.0.0",
         "roadiz/documents": "~2.0.0",
-        "roadiz/entity-generator": "~2.0.1",
+        "roadiz/entity-generator": "~2.0.3",
         "roadiz/markdown": "~2.0.0",
         "roadiz/models": "~2.0.0",
         "roadiz/random": "~2.0.0",
