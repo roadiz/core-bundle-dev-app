@@ -20,7 +20,7 @@ class PositionedPageUser extends AbstractPositioned
 {
     /**
      * @var NodesSources|null
-     * @ORM\ManyToOne(targetEntity="\App\GeneratedEntity\NSPage", inversedBy="eventReferencesProxy")
+     * @ORM\ManyToOne(targetEntity="\App\GeneratedEntity\NSPage", inversedBy="usersProxy")
      * @ORM\JoinColumn(name="node_source_id", onDelete="CASCADE")
      */
     private ?NodesSources $nodeSource;
