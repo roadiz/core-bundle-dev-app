@@ -36,11 +36,15 @@ api_platform:
         shared_max_age: '%env(int:HTTP_CACHE_SHARED_MAX_AGE)%'
         # Default values of the "Vary" HTTP header.
         vary: [ 'Accept', 'Authorization', 'Origin', 'Accept-Encoding', 'Content-Type' ]
-#        invalidation:
-#            enabled: false
-#            varnish_urls: [ '%env(VARNISH_URL)%' ]
+        invalidation:
+            enabled: true
+            varnish_urls: [ '%env(VARNISH_URL)%' ]
     defaults:
+        pagination_client_items_per_page: true
+        pagination_items_per_page: 15
+        pagination_maximum_items_per_page: 50
         cache_headers:
+            etag: true
             public: true
             max_age: '%env(int:HTTP_CACHE_MAX_AGE)%'
             shared_max_age: '%env(int:HTTP_CACHE_SHARED_MAX_AGE)%'
