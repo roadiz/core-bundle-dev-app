@@ -86,7 +86,7 @@
         "symfony/phpunit-bridge": "5.4.*",
         "symfony/web-profiler-bundle": "5.4.*",
         "roadiz/doc-generator": "~2.0.0",
-        "roadiz/rozier": "~2.0.0",
+        "roadiz/rozier": "~2.0.6",
         "roadiz/dts-generator": "~2.0.0",
         "roadiz/openid": "~2.0.0",
         "roadiz/documents": "~2.0.0",
@@ -100,7 +100,7 @@
         "phpoffice/phpspreadsheet": "^1.15",
         "rezozero/intervention-request-bundle": "~2.0.0",
         "symfony/rate-limiter": "5.4.*",
-        "rezozero/tree-walker": "^1.1.0",
+        "rezozero/tree-walker": "^1.2.1",
         "pimple/pimple": "*"
     },
     "config": {
