@@ -18,6 +18,11 @@ when@dev:
             #chromephp:
             #    type: chromephp
             #    level: info
+            messenger:
+                type: stream
+                path: "%kernel.logs_dir%/messenger.%kernel.environment%.log"
+                level: debug
+                channels: ["messenger"]
             console:
                 type: console
                 process_psr_3_messages: false

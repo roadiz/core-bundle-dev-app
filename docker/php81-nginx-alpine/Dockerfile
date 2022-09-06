@@ -5,8 +5,9 @@ ARG USER_UID=1000
 ENV COMPOSER_ALLOW_SUPERUSER=1
 ENV APP_ENV=dev
 ENV APP_CACHE=0
+ENV APP_FFMPEG_PATH=/usr/bin/ffmpeg
 
-RUN apk add --no-cache shadow make git \
+RUN apk add --no-cache shadow make git ffmpeg \
     && usermod -u ${USER_UID} www-data \
     && groupmod -g ${USER_UID} www-data \
     && composer --version \
