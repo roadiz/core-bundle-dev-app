@@ -1,5 +1,5 @@
 rz_intervention_request:
-    driver: 'gd'
+    driver: 'imagick'
 #    default_quality: '%env(int:IR_DEFAULT_QUALITY)%'
 #    max_pixel_size: '%env(int:IR_MAX_PIXEL_SIZE)%'
     cache_path: "%kernel.project_dir%/public/assets"
