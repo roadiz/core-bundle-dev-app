@@ -1,9 +1,7 @@
----
 importFiles:
-    # Paths must be relative to project root
-    roles: []
-    groups: []
-    settings: []
+    roles: {  }
+    groups: {  }
+    settings: {  }
     nodetypes:
         - src/Resources/node-types/Article.json
         - src/Resources/node-types/BasicBlock.json
