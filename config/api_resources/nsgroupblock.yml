@@ -1,6 +1,6 @@
-App\GeneratedEntity\NSNeutral:
-    iri: Neutral
-    shortName: Neutral
+App\GeneratedEntity\NSGroupBlock:
+    iri: GroupBlock
+    shortName: GroupBlock
     collectionOperations: {  }
     itemOperations:
         get:

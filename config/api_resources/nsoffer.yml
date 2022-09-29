@@ -5,6 +5,7 @@ App\GeneratedEntity\NSOffer:
         get:
             method: GET
             normalization_context:
+                enable_max_depth: true
                 groups:
                     - nodes_sources_base
                     - nodes_sources_default
@@ -12,6 +13,7 @@ App\GeneratedEntity\NSOffer:
                     - tag_base
                     - translation_base
                     - document_display
+                    - document_display_sources
     itemOperations:
         get:
             method: GET
@@ -22,3 +24,22 @@ App\GeneratedEntity\NSOffer:
                     - tag_base
                     - translation_base
                     - document_display
+                    - document_display_sources
+        getByPath:
+            method: GET
+            normalization_context:
+                enable_max_depth: true
+                groups:
+                    - nodes_sources
+                    - urls
+                    - tag_base
+                    - translation_base
+                    - document_display
+                    - document_display_sources
+                    - web_response
+                    - walker
+                    - walker_level
+                    - walker_metadata
+                    - meta
+                    - children
+                    - children_count

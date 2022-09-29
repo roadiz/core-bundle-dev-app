@@ -5,6 +5,7 @@ App\GeneratedEntity\NSArticle:
         get:
             method: GET
             normalization_context:
+                enable_max_depth: true
                 groups:
                     - nodes_sources_base
                     - nodes_sources_default
@@ -12,25 +13,7 @@ App\GeneratedEntity\NSArticle:
                     - tag_base
                     - translation_base
                     - document_display
-
-        archives:
-            method: 'GET'
-            path: '/articles/archives'
-            pagination_enabled: false
-            pagination_client_enabled: false
-            archive_enabled: true
-            archive_publication_field_name: publishedAt
-            normalization_context:
-                pagination_enabled: false
-                groups:
-                    - get
-                    - archives
-            openapi_context:
-                summary: Get available Article archives
-                parameters: ~
-                description: |
-                    Get available Article archives
-
+                    - document_display_sources
     itemOperations:
         get:
             method: GET
@@ -41,21 +24,22 @@ App\GeneratedEntity\NSArticle:
                     - tag_base
                     - translation_base
                     - document_display
-
+                    - document_display_sources
         getByPath:
             method: GET
             normalization_context:
+                enable_max_depth: true
                 groups:
+                    - nodes_sources
+                    - urls
+                    - tag_base
+                    - translation_base
+                    - document_display
+                    - document_display_sources
                     - web_response
-                    - position
                     - walker
                     - walker_level
                     - walker_metadata
                     - meta
                     - children
                     - children_count
-                    - nodes_sources
-                    - urls
-                    - tag_base
-                    - translation_base
-                    - document_display

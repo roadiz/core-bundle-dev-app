@@ -13,7 +13,6 @@ RZ\Roadiz\CoreBundle\Entity\NodesSources:
                     - tag_base
                     - translation_base
                     - document_display
-                    - position
         archives:
             method: 'GET'
             path: '/nodes_sources/archives'
