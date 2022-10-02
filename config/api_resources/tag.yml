@@ -1,4 +1,4 @@
----
+
 RZ\Roadiz\CoreBundle\Entity\Tag:
     iri: Tag
     shortName: Tag
@@ -7,6 +7,16 @@ RZ\Roadiz\CoreBundle\Entity\Tag:
     collectionOperations:
         get:
             method: "GET"
+            normalization_context:
+                enable_max_depth: true
+                groups:
+                    - tag_base
     itemOperations:
         get:
             method: 'GET'
+            normalization_context:
+                enable_max_depth: true
+                groups:
+                    - tag
+                    - tag_base
+                    - tag_parent
