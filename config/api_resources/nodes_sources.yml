@@ -9,6 +9,7 @@ RZ\Roadiz\CoreBundle\Entity\NodesSources:
                 groups:
                     - nodes_sources_base
                     - nodes_sources_default
+                    - user
                     - urls
                     - tag_base
                     - translation_base
