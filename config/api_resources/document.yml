@@ -1,7 +1,5 @@
 ---
 RZ\Roadiz\CoreBundle\Entity\Document:
-    attributes:
-        output: RZ\Roadiz\CoreBundle\Api\Dto\DocumentOutput
     collectionOperations:
         get:
             method: "GET"

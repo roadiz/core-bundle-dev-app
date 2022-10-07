@@ -40,9 +40,6 @@ App\GeneratedEntity\NSPage:
                     - translation_base
                     - document_display
                     - document_display_sources
-                    - document_folders
-                    - folder_parent
-                    - document_thumbnails
                     - nodes_sources_images
                     - nodes_sources_boolean
                     - web_response
