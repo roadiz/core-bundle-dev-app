@@ -13,7 +13,6 @@
             "position": 1.0,
             "name": "content",
             "label": "Your content",
-            "default_values": "sadfsad: test",
             "type": 4,
             "expanded": false,
             "node_type_name": "Article",
