@@ -36,6 +36,7 @@ App\GeneratedEntity\NSArticle:
                     - translation_base
                     - document_display
                     - document_display_sources
+                    - node_attributes
                     - web_response
                     - walker
                     - walker_level

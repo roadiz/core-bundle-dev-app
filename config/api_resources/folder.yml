@@ -2,8 +2,6 @@
 RZ\Roadiz\CoreBundle\Entity\Folder:
     iri: Folder
     shortName: Folder
-    attributes:
-        output: RZ\Roadiz\CoreBundle\Api\Dto\FolderOutput
     collectionOperations:
         get:
             method: "GET"

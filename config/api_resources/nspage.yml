@@ -43,6 +43,8 @@ App\GeneratedEntity\NSPage:
                     - document_folders
                     - folder_parent
                     - document_thumbnails
+                    - node_attributes
+                    - attribute_documents
                     - nodes_sources_images
                     - nodes_sources_boolean
                     - web_response
