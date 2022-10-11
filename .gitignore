@@ -165,8 +165,6 @@ fabric.properties
 /report.txt
 /composer.lock
 /symfony.lock
-/src/GeneratedEntity/*.php
-/src/GeneratedEntity/Repository/*.php
 
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem

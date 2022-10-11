@@ -6,6 +6,7 @@ use Rector\CodeQuality\Rector\Class_\InlineConstructorDefaultToPropertyRector;
 use Rector\Config\RectorConfig;
 use Rector\Doctrine\Set\DoctrineSetList;
 use Rector\Set\ValueObject\LevelSetList;
+use Rector\Symfony\Set\JMSSetList;
 use Rector\Symfony\Set\SymfonySetList;
 
 return static function (RectorConfig $rectorConfig): void {
@@ -20,6 +21,7 @@ return static function (RectorConfig $rectorConfig): void {
     $rectorConfig->sets([
 //        LevelSetList::UP_TO_PHP_80,
         DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
+        JMSSetList::ANNOTATIONS_TO_ATTRIBUTES,
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
     ]);
 };
