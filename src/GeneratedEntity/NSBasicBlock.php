@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace App\GeneratedEntity;
 
+use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -36,7 +37,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
-        ORM\Column(type: "text", nullable: true, name: "content"),
+        ORM\Column(name: "content", type: "text", nullable: true),
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
         Serializer\MaxDepth(2),
         Serializer\Type("string")
@@ -56,7 +57,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setContent($content)
+    public function setContent(?string $content)
     {
         $this->content = null !== $content ?
             (string) $content :
@@ -75,9 +76,9 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
+            name: "boolean_field",
             type: "boolean",
             nullable: false,
-            name: "boolean_field",
             options: ["default" => false]
         ),
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
@@ -99,7 +100,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setBooleanField($booleanField)
+    public function setBooleanField(bool $booleanField)
     {
         $this->booleanField = $booleanField;
 

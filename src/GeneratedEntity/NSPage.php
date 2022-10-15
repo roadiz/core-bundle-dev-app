@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace App\GeneratedEntity;
 
+use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -39,7 +40,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
-        ORM\Column(type: "text", nullable: true, name: "content"),
+        ORM\Column(name: "content", type: "text", nullable: true),
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
         Serializer\MaxDepth(2),
         Serializer\Type("string")
@@ -59,7 +60,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setContent($content)
+    public function setContent(?string $content)
     {
         $this->content = null !== $content ?
             (string) $content :
@@ -78,9 +79,9 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
+            name: "sub_title",
             type: "string",
             nullable: true,
-            name: "sub_title",
             length: 250
         ),
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
@@ -102,7 +103,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setSubTitle($subTitle)
+    public function setSubTitle(?string $subTitle)
     {
         $this->subTitle = null !== $subTitle ?
             (string) $subTitle :
@@ -121,9 +122,9 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
+            name: "over_title",
             type: "string",
             nullable: true,
-            name: "over_title",
             length: 250
         ),
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
@@ -145,7 +146,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setOverTitle($overTitle)
+    public function setOverTitle(?string $overTitle)
     {
         $this->overTitle = null !== $overTitle ?
             (string) $overTitle :
@@ -452,9 +453,9 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         ApiFilter(OrmFilter\BooleanFilter::class),
         Gedmo\Versioned,
         ORM\Column(
+            name: "stickytest",
             type: "boolean",
             nullable: false,
-            name: "stickytest",
             options: ["default" => false]
         ),
         Serializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
@@ -476,7 +477,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setStickytest($stickytest)
+    public function setStickytest(bool $stickytest)
     {
         $this->stickytest = $stickytest;
 
@@ -496,9 +497,9 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         ApiFilter(OrmFilter\BooleanFilter::class),
         Gedmo\Versioned,
         ORM\Column(
+            name: "sticky",
             type: "boolean",
             nullable: false,
-            name: "sticky",
             options: ["default" => false]
         ),
         Serializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
@@ -520,7 +521,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setSticky($sticky)
+    public function setSticky(bool $sticky)
     {
         $this->sticky = $sticky;
 
@@ -602,11 +603,11 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     /**
      * Reference to users
      *
-     * @var \Doctrine\Common\Collections\ArrayCollection<\App\Entity\PositionedPageUser>
+     * @var Collection<\App\Entity\PositionedPageUser>
      */
     #[
         Serializer\Exclude,
-        SymfonySerializer\Exclude,
+        SymfonySerializer\Ignore,
         ORM\OneToMany(
             targetEntity: \App\Entity\PositionedPageUser::class,
             mappedBy: "nodeSource",
@@ -615,18 +616,18 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         ),
         ORM\OrderBy(["position" => "ASC"])
     ]
-    private $usersProxy;
+    private Collection $usersProxy;
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return Collection<\App\Entity\PositionedPageUser>
      */
-    public function getUsersProxy()
+    public function getUsersProxy(): Collection
     {
         return $this->usersProxy;
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @return Collection
      */
     #[
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
@@ -637,7 +638,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
         SymfonySerializer\MaxDepth(2)
     ]
-    public function getUsers()
+    public function getUsers(): Collection
     {
         return $this->usersProxy->map(function (\App\Entity\PositionedPageUser $proxyEntity) {
             return $proxyEntity->getUser();
@@ -645,21 +646,21 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection $usersProxy
+     * @var Collection $usersProxy
      * @Serializer\VirtualProperty()
      * @return $this
      */
-    public function setUsersProxy($usersProxy = null)
+    public function setUsersProxy(Collection $usersProxy)
     {
         $this->usersProxy = $usersProxy;
 
         return $this;
     }
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection|null $users
+     * @var Collection|array|null $users
      * @return $this
      */
-    public function setUsers($users = null)
+    public function setUsers(Collection|array|null $users = null)
     {
         foreach ($this->getUsersProxy() as $item) {
             $item->setNodeSource(null);
@@ -706,7 +707,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *     #     orderBy:
      *     #         - field: position
      *     #           direction: ASC
-     * @var \Doctrine\Common\Collections\Collection<RZ\Roadiz\CoreBundle\Entity\Folder>
+     * @var Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>
      */
     #[
         SymfonySerializer\SerializedName(serializedName: "folderReferences"),
@@ -721,27 +722,69 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
         Serializer\MaxDepth(2)
     ]
-    private \Doctrine\Common\Collections\Collection $folderReferences;
+    private Collection $folderReferences;
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<RZ\Roadiz\CoreBundle\Entity\Folder>
+     * @return Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>
      */
-    public function getFolderReferences(): \Doctrine\Common\Collections\Collection
+    public function getFolderReferences(): Collection
     {
         return $this->folderReferences;
     }
 
     /**
-     * @var \Doctrine\Common\Collections\Collection<RZ\Roadiz\CoreBundle\Entity\Folder> $folderReferences
+     * @var Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>|\RZ\Roadiz\CoreBundle\Entity\Folder[] $folderReferences
      * @return $this
      */
-    public function setFolderReferences($folderReferences)
+    public function setFolderReferences(Collection|array $folderReferences)
     {
         if ($folderReferences instanceof \Doctrine\Common\Collections\Collection) {
             $this->folderReferences = $folderReferences;
         } else {
             $this->folderReferences = new \Doctrine\Common\Collections\ArrayCollection($folderReferences);
         }
+
+        return $this;
+    }
+
+
+    /**
+     * Amount.
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "amount"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "amount",
+            type: "decimal",
+            nullable: true,
+            precision: 18,
+            scale: 3
+        ),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("double")
+    ]
+    private int|float|null $amount = null;
+
+    /**
+     * @return int|float|null
+     */
+    public function getAmount(): int|float|null
+    {
+        return $this->amount;
+    }
+
+    /**
+     * @param int|float|null $amount
+     *
+     * @return $this
+     */
+    public function setAmount(int|float|null $amount)
+    {
+        $this->amount = $amount;
 
         return $this;
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\GeneratedEntity\NSPage;
 use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -18,11 +19,11 @@ use RZ\Roadiz\CoreBundle\Entity\User;
 class PositionedPageUser extends AbstractPositioned
 {
     /**
-     * @var NodesSources|null
+     * @var NSPage|null
      */
     #[ORM\ManyToOne(targetEntity: '\App\GeneratedEntity\NSPage', inversedBy: 'usersProxy')]
     #[ORM\JoinColumn(name: 'node_source_id', onDelete: 'CASCADE')]
-    private ?NodesSources $nodeSource;
+    private ?NSPage $nodeSource;
 
     /**
      * @var User|null
@@ -32,18 +33,18 @@ class PositionedPageUser extends AbstractPositioned
     private ?User $user;
 
     /**
-     * @return NodesSources|null
+     * @return NSPage|null
      */
-    public function getNodeSource(): ?NodesSources
+    public function getNodeSource(): ?NSPage
     {
         return $this->nodeSource;
     }
 
     /**
-     * @param NodesSources|null $nodeSource
+     * @param NSPage|null $nodeSource
      * @return PositionedPageUser
      */
-    public function setNodeSource(?NodesSources $nodeSource): PositionedPageUser
+    public function setNodeSource(?NSPage $nodeSource): PositionedPageUser
     {
         $this->nodeSource = $nodeSource;
         return $this;

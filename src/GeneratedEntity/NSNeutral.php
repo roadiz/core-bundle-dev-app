@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace App\GeneratedEntity;
 
+use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -36,28 +37,31 @@ class NSNeutral extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\SerializedName(serializedName: "number"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
         SymfonySerializer\MaxDepth(2),
+        ApiFilter(OrmFilter\OrderFilter::class),
+        ApiFilter(OrmFilter\NumericFilter::class),
+        ApiFilter(OrmFilter\RangeFilter::class),
         Gedmo\Versioned,
-        ORM\Column(type: "integer", nullable: true, name: "number"),
+        ORM\Column(name: "number", type: "integer", nullable: true),
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
         Serializer\MaxDepth(2),
         Serializer\Type("int")
     ]
-    private ?int $number = null;
+    private int|float|null $number = null;
 
     /**
-     * @return int|null
+     * @return int|float|null
      */
-    public function getNumber(): ?int
+    public function getNumber(): int|float|null
     {
         return $this->number;
     }
 
     /**
-     * @param int|null $number
+     * @param int|float|null $number
      *
      * @return $this
      */
-    public function setNumber($number)
+    public function setNumber(int|float|null $number)
     {
         $this->number = null !== $number ?
             (int) $number :

@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace App\GeneratedEntity;
 
+use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -36,28 +37,31 @@ class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\SerializedName(serializedName: "price"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
         SymfonySerializer\MaxDepth(2),
+        ApiFilter(OrmFilter\OrderFilter::class),
+        ApiFilter(OrmFilter\NumericFilter::class),
+        ApiFilter(OrmFilter\RangeFilter::class),
         Gedmo\Versioned,
-        ORM\Column(type: "integer", nullable: true, name: "price"),
+        ORM\Column(name: "price", type: "integer", nullable: true),
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
         Serializer\MaxDepth(2),
         Serializer\Type("int")
     ]
-    private ?int $price = null;
+    private int|float|null $price = null;
 
     /**
-     * @return int|null
+     * @return int|float|null
      */
-    public function getPrice(): ?int
+    public function getPrice(): int|float|null
     {
         return $this->price;
     }
 
     /**
-     * @param int|null $price
+     * @param int|float|null $price
      *
      * @return $this
      */
-    public function setPrice($price)
+    public function setPrice(int|float|null $price)
     {
         $this->price = null !== $price ?
             (int) $price :
@@ -76,9 +80,9 @@ class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
+            name: "vat",
             type: "decimal",
             nullable: true,
-            name: "vat",
             precision: 18,
             scale: 3
         ),
@@ -86,22 +90,22 @@ class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         Serializer\MaxDepth(2),
         Serializer\Type("double")
     ]
-    private $vat = null;
+    private int|float|null $vat = null;
 
     /**
-     * @return mixed
+     * @return int|float|null
      */
-    public function getVat()
+    public function getVat(): int|float|null
     {
         return $this->vat;
     }
 
     /**
-     * @param mixed $vat
+     * @param int|float|null $vat
      *
      * @return $this
      */
-    public function setVat($vat)
+    public function setVat(int|float|null $vat)
     {
         $this->vat = $vat;
 

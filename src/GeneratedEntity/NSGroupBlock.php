@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace App\GeneratedEntity;
 
+use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Gedmo\Mapping\Annotation as Gedmo;

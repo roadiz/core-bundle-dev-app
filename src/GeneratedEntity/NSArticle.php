@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 namespace App\GeneratedEntity;
 
+use Doctrine\Common\Collections\Collection;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -36,7 +37,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
-        ORM\Column(type: "text", nullable: true, name: "content"),
+        ORM\Column(name: "content", type: "text", nullable: true),
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
         Serializer\MaxDepth(2),
         Serializer\Type("string")
@@ -56,7 +57,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setContent($content)
+    public function setContent(?string $content)
     {
         $this->content = null !== $content ?
             (string) $content :
@@ -75,9 +76,9 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
+            name: "realm_b_secret",
             type: "string",
             nullable: true,
-            name: "realm_b_secret",
             length: 250
         ),
         Serializer\Groups(["realm_b"]),
@@ -99,7 +100,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setRealmBSecret($realmBSecret)
+    public function setRealmBSecret(?string $realmBSecret)
     {
         $this->realmBSecret = null !== $realmBSecret ?
             (string) $realmBSecret :
@@ -118,9 +119,9 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
+            name: "realm_a_secret",
             type: "string",
             nullable: true,
-            name: "realm_a_secret",
             length: 250
         ),
         Serializer\Groups(["realm_a"]),
@@ -142,7 +143,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setRealmASecret($realmASecret)
+    public function setRealmASecret(?string $realmASecret)
     {
         $this->realmASecret = null !== $realmASecret ?
             (string) $realmASecret :
