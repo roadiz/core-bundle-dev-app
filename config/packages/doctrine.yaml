@@ -19,6 +19,12 @@ doctrine:
                 dir: 'src/Entity'
                 prefix: 'RZ\Roadiz\CoreBundle\Entity'
                 alias: RoadizCoreBundle
+            RoadizFontBundle:
+                is_bundle: true
+                type: attribute
+                dir: 'src/Entity'
+                prefix: 'RZ\Roadiz\FontBundle\Entity'
+                alias: RoadizFontBundle
             RoadizUserBundle:
                 is_bundle: true
                 type: attribute

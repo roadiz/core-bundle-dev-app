@@ -5,6 +5,7 @@ parameters:
         - lib/RoadizCoreBundle/src
         - lib/RoadizCompatBundle/src
         - lib/RoadizRozierBundle/src
+        - lib/RoadizFontBundle/src
         - lib/RoadizUserBundle/src
     bootstrapFiles:
         - lib/RoadizCompatBundle/deprecated.php

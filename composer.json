@@ -124,6 +124,7 @@
             "RZ\\Roadiz\\CompatBundle\\": "lib/RoadizCompatBundle/src/",
             "RZ\\Roadiz\\RozierBundle\\": "lib/RoadizRozierBundle/src/",
             "RZ\\Roadiz\\UserBundle\\": "lib/RoadizUserBundle/src/",
+            "RZ\\Roadiz\\FontBundle\\": "lib/RoadizFontBundle/src/",
             "Themes\\": "themes/"
         },
         "files": [
@@ -144,6 +145,7 @@
         "roadiz/core-bundle": "*",
         "roadiz/compat-bundle": "*",
         "roadiz/rozier-bundle": "*",
+        "roadiz/font-bundle": "*",
         "roadiz/user-bundle": "*"
     },
     "scripts": {
