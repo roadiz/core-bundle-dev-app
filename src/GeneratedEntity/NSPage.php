@@ -25,8 +25,8 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
     ORM\Entity(repositoryClass: \App\GeneratedEntity\Repository\NSPageRepository::class),
     ORM\Table(name: "ns_page"),
-    ORM\Index(columns: ["sticky"]),
     ORM\Index(columns: ["stickytest"]),
+    ORM\Index(columns: ["sticky"]),
     ApiFilter(PropertyFilter::class)
 ]
 class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
@@ -60,7 +60,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setContent(?string $content)
+    public function setContent(?string $content): static
     {
         $this->content = null !== $content ?
             (string) $content :
@@ -103,7 +103,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setSubTitle(?string $subTitle)
+    public function setSubTitle(?string $subTitle): static
     {
         $this->subTitle = null !== $subTitle ?
             (string) $subTitle :
@@ -114,75 +114,44 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
 
     /**
-     * Images.
-     *
-     * (Virtual field, this var is a buffer)
+     * Overtitle.
      */
     #[
-        Serializer\Exclude,
-        SymfonySerializer\SerializedName(serializedName: "images"),
-        SymfonySerializer\Groups(["realm_a"]),
-        SymfonySerializer\MaxDepth(2)
+        SymfonySerializer\SerializedName(serializedName: "overTitle"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "over_title",
+            type: "string",
+            nullable: true,
+            length: 250
+        ),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("string")
     ]
-    private ?array $images = null;
+    private ?string $overTitle = null;
 
     /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[] Documents array
+     * @return string|null
      */
-    #[
-        Serializer\Groups(["realm_a"]),
-        Serializer\MaxDepth(2),
-        Serializer\VirtualProperty,
-        Serializer\SerializedName("images"),
-        Serializer\Type("array<RZ\Roadiz\CoreBundle\Entity\Document>")
-    ]
-    public function getImages(): array
+    public function getOverTitle(): ?string
     {
-        if (null === $this->images) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
-                $this->images = $this->objectManager
-                    ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndField(
-                        $this,
-                        $this->getNode()->getNodeType()->getFieldByName("images")
-                    );
-            } else {
-                $this->images = [];
-            }
-        }
-        return $this->images;
+        return $this->overTitle;
     }
 
     /**
-     * @param \RZ\Roadiz\CoreBundle\Entity\Document $document
+     * @param string|null $overTitle
      *
      * @return $this
      */
-    public function addImages(\RZ\Roadiz\CoreBundle\Entity\Document $document)
+    public function setOverTitle(?string $overTitle): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("images");
-            if (null !== $field) {
-                $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
-                    $this,
-                    $document,
-                    $field
-                );
-                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
-                    $this->objectManager->persist($nodeSourceDocument);
-                    $this->addDocumentsByFields($nodeSourceDocument);
-                    $this->images = null;
-                }
-            }
-        }
+        $this->overTitle = null !== $overTitle ?
+            (string) $overTitle :
+            null;
+
         return $this;
     }
 
@@ -237,7 +206,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function addHeaderImage(\RZ\Roadiz\CoreBundle\Entity\Document $document)
+    public function addHeaderImage(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
         if (
             null !== $this->objectManager &&
@@ -263,44 +232,75 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
 
     /**
-     * Overtitle.
+     * Images.
+     *
+     * (Virtual field, this var is a buffer)
      */
     #[
-        SymfonySerializer\SerializedName(serializedName: "overTitle"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        SymfonySerializer\MaxDepth(2),
-        Gedmo\Versioned,
-        ORM\Column(
-            name: "over_title",
-            type: "string",
-            nullable: true,
-            length: 250
-        ),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2),
-        Serializer\Type("string")
+        Serializer\Exclude,
+        SymfonySerializer\SerializedName(serializedName: "images"),
+        SymfonySerializer\Groups(["realm_a"]),
+        SymfonySerializer\MaxDepth(2)
     ]
-    private ?string $overTitle = null;
+    private ?array $images = null;
 
     /**
-     * @return string|null
+     * @return \RZ\Roadiz\CoreBundle\Entity\Document[] Documents array
      */
-    public function getOverTitle(): ?string
+    #[
+        Serializer\Groups(["realm_a"]),
+        Serializer\MaxDepth(2),
+        Serializer\VirtualProperty,
+        Serializer\SerializedName("images"),
+        Serializer\Type("array<RZ\Roadiz\CoreBundle\Entity\Document>")
+    ]
+    public function getImages(): array
     {
-        return $this->overTitle;
+        if (null === $this->images) {
+            if (
+                null !== $this->objectManager &&
+                null !== $this->getNode() &&
+                null !== $this->getNode()->getNodeType()
+            ) {
+                $this->images = $this->objectManager
+                    ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
+                    ->findByNodeSourceAndField(
+                        $this,
+                        $this->getNode()->getNodeType()->getFieldByName("images")
+                    );
+            } else {
+                $this->images = [];
+            }
+        }
+        return $this->images;
     }
 
     /**
-     * @param string|null $overTitle
+     * @param \RZ\Roadiz\CoreBundle\Entity\Document $document
      *
      * @return $this
      */
-    public function setOverTitle(?string $overTitle)
+    public function addImages(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
-        $this->overTitle = null !== $overTitle ?
-            (string) $overTitle :
-            null;
-
+        if (
+            null !== $this->objectManager &&
+            null !== $this->getNode() &&
+            null !== $this->getNode()->getNodeType()
+        ) {
+            $field = $this->getNode()->getNodeType()->getFieldByName("images");
+            if (null !== $field) {
+                $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
+                    $this,
+                    $document,
+                    $field
+                );
+                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+                    $this->objectManager->persist($nodeSourceDocument);
+                    $this->addDocumentsByFields($nodeSourceDocument);
+                    $this->images = null;
+                }
+            }
+        }
         return $this;
     }
 
@@ -356,7 +356,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function addPictures(\RZ\Roadiz\CoreBundle\Entity\Document $document)
+    public function addPictures(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
         if (
             null !== $this->objectManager &&
@@ -433,53 +433,9 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setNodeReferencesSources(?array $nodeReferencesSources)
+    public function setNodeReferencesSources(?array $nodeReferencesSources): static
     {
         $this->nodeReferencesSources = $nodeReferencesSources;
-
-        return $this;
-    }
-
-
-    /**
-     * Sticky.
-     * Group: Boolean.
-     */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "sticky"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
-        SymfonySerializer\MaxDepth(2),
-        ApiFilter(OrmFilter\OrderFilter::class),
-        ApiFilter(OrmFilter\BooleanFilter::class),
-        Gedmo\Versioned,
-        ORM\Column(
-            name: "sticky",
-            type: "boolean",
-            nullable: false,
-            options: ["default" => false]
-        ),
-        Serializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
-        Serializer\MaxDepth(2),
-        Serializer\Type("bool")
-    ]
-    private bool $sticky = false;
-
-    /**
-     * @return bool
-     */
-    public function getSticky(): bool
-    {
-        return $this->sticky;
-    }
-
-    /**
-     * @param bool $sticky
-     *
-     * @return $this
-     */
-    public function setSticky(bool $sticky)
-    {
-        $this->sticky = $sticky;
 
         return $this;
     }
@@ -521,9 +477,53 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setStickytest(bool $stickytest)
+    public function setStickytest(bool $stickytest): static
     {
         $this->stickytest = $stickytest;
+
+        return $this;
+    }
+
+
+    /**
+     * Sticky.
+     * Group: Boolean.
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "sticky"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
+        SymfonySerializer\MaxDepth(2),
+        ApiFilter(OrmFilter\OrderFilter::class),
+        ApiFilter(OrmFilter\BooleanFilter::class),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "sticky",
+            type: "boolean",
+            nullable: false,
+            options: ["default" => false]
+        ),
+        Serializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("bool")
+    ]
+    private bool $sticky = false;
+
+    /**
+     * @return bool
+     */
+    public function getSticky(): bool
+    {
+        return $this->sticky;
+    }
+
+    /**
+     * @param bool $sticky
+     *
+     * @return $this
+     */
+    public function setSticky(bool $sticky): static
+    {
+        $this->sticky = $sticky;
 
         return $this;
     }
@@ -577,7 +577,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function addCustomForm(\RZ\Roadiz\CoreBundle\Entity\CustomForm $customForm)
+    public function addCustomForm(\RZ\Roadiz\CoreBundle\Entity\CustomForm $customForm): static
     {
         if (
             null !== $this->objectManager &&
@@ -650,7 +650,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      * @Serializer\VirtualProperty()
      * @return $this
      */
-    public function setUsersProxy(Collection $usersProxy)
+    public function setUsersProxy(Collection $usersProxy): static
     {
         $this->usersProxy = $usersProxy;
 
@@ -660,7 +660,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      * @var Collection|array|null $users
      * @return $this
      */
-    public function setUsers(Collection|array|null $users = null)
+    public function setUsers(Collection|array|null $users = null): static
     {
         foreach ($this->getUsersProxy() as $item) {
             $item->setNodeSource(null);
@@ -736,7 +736,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      * @var Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>|\RZ\Roadiz\CoreBundle\Entity\Folder[] $folderReferences
      * @return $this
      */
-    public function setFolderReferences(Collection|array $folderReferences)
+    public function setFolderReferences(Collection|array $folderReferences): static
     {
         if ($folderReferences instanceof \Doctrine\Common\Collections\Collection) {
             $this->folderReferences = $folderReferences;
@@ -782,7 +782,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setAmount(int|float|null $amount)
+    public function setAmount(int|float|null $amount): static
     {
         $this->amount = $amount;
 
@@ -823,7 +823,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setEmailTest(?string $emailTest)
+    public function setEmailTest(?string $emailTest): static
     {
         $this->emailTest = null !== $emailTest ?
             (string) $emailTest :

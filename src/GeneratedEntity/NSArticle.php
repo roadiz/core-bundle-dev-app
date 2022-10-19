@@ -57,7 +57,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setContent(?string $content)
+    public function setContent(?string $content): static
     {
         $this->content = null !== $content ?
             (string) $content :
@@ -100,7 +100,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setRealmBSecret(?string $realmBSecret)
+    public function setRealmBSecret(?string $realmBSecret): static
     {
         $this->realmBSecret = null !== $realmBSecret ?
             (string) $realmBSecret :
@@ -143,7 +143,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setRealmASecret(?string $realmASecret)
+    public function setRealmASecret(?string $realmASecret): static
     {
         $this->realmASecret = null !== $realmASecret ?
             (string) $realmASecret :

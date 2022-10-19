@@ -57,7 +57,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setContent(?string $content)
+    public function setContent(?string $content): static
     {
         $this->content = null !== $content ?
             (string) $content :
@@ -100,7 +100,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setBooleanField(bool $booleanField)
+    public function setBooleanField(bool $booleanField): static
     {
         $this->booleanField = $booleanField;
 
@@ -157,7 +157,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function addImage(\RZ\Roadiz\CoreBundle\Entity\Document $document)
+    public function addImage(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
         if (
             null !== $this->objectManager &&

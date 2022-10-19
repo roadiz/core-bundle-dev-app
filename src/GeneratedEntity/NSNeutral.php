@@ -61,7 +61,7 @@ class NSNeutral extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setNumber(int|float|null $number)
+    public function setNumber(int|float|null $number): static
     {
         $this->number = null !== $number ?
             (int) $number :

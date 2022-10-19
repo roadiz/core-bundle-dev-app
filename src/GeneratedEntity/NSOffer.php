@@ -61,7 +61,7 @@ class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setPrice(int|float|null $price)
+    public function setPrice(int|float|null $price): static
     {
         $this->price = null !== $price ?
             (int) $price :
@@ -105,7 +105,7 @@ class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *
      * @return $this
      */
-    public function setVat(int|float|null $vat)
+    public function setVat(int|float|null $vat): static
     {
         $this->vat = $vat;
 
