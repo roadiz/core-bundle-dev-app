@@ -1,6 +1,6 @@
 ---
 roadiz_rozier:
-    theme_dir: '%kernel.project_dir%/lib/Rozier/src'
+    theme_dir: 'lib/Rozier/src'
     open_id:
         # Verify User info in JWT at each login
         verify_user_info: false
