@@ -1,11 +1,16 @@
 # Roadiz CoreBundle development app
 
+This is development app for Roadiz v2.x. It aggregate all Roadiz bundle and main repositories in one place.
+
 ### Install
 
 - Clone this repository
 - Clone roadiz/core-bundle in `lib/RoadizCoreBundle` directory
 - Clone roadiz/compat-bundle in `lib/RoadizCompatBundle` directory
 - Clone roadiz/rozier-bundle in `lib/RoadizRozierBundle` directory
+- Clone roadiz/user-bundle in `lib/RoadizUserBundle` directory
+- Clone roadiz/font-bundle in `lib/RoadizFontBundle` directory
+- Clone roadiz/rozier in `lib/Rozier` directory
 
 ### Generate JWT private and public keys
 
