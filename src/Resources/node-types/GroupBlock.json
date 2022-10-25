@@ -1,4 +1,5 @@
 {
+    "color": "#000000",
     "name": "GroupBlock",
     "display_name": "Group block",
     "visible": true,
@@ -6,7 +7,6 @@
     "reachable": false,
     "hiding_nodes": false,
     "hiding_non_reachable_nodes": false,
-    "color": "#000000",
     "fields": [
         {
             "position": 1.0,

@@ -15,7 +15,11 @@ monolog:
             type: console
             process_psr_3_messages: false
             channels: ["!event", "!doctrine"]
-
+        messenger:
+            type: stream
+            path: "%kernel.logs_dir%/messenger.%kernel.environment%.log"
+            level: debug
+            channels: ["messenger"]
         custom:
             type: service
             id: RZ\Roadiz\CoreBundle\Logger\DoctrineHandler

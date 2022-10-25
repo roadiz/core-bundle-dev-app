@@ -1,4 +1,5 @@
 {
+    "color": "#a8a8a8",
     "name": "Neutral",
     "display_name": "Neutral",
     "description": "Neutral",
@@ -7,7 +8,6 @@
     "reachable": false,
     "hiding_nodes": false,
     "hiding_non_reachable_nodes": false,
-    "color": "#a8a8a8",
     "fields": [
         {
             "position": 1.0,

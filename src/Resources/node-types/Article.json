@@ -1,4 +1,5 @@
 {
+    "color": "#00308a",
     "name": "Article",
     "display_name": "Article",
     "description": "Article",
@@ -7,10 +8,9 @@
     "reachable": true,
     "hiding_nodes": false,
     "hiding_non_reachable_nodes": false,
-    "color": "#000000",
     "fields": [
         {
-            "position": 1.0,
+            "position": 2.0,
             "name": "content",
             "label": "Your content",
             "type": 4,
@@ -23,7 +23,7 @@
             "visible": true
         },
         {
-            "position": 2.0,
+            "position": 3.0,
             "name": "realm_b_secret",
             "label": "Secret realm_b",
             "type": 0,
@@ -39,7 +39,7 @@
             "visible": true
         },
         {
-            "position": 3.0,
+            "position": 4.0,
             "name": "realm_a_secret",
             "label": "Secret realm_a",
             "type": 0,
@@ -55,7 +55,7 @@
             "visible": true
         },
         {
-            "position": 4.0,
+            "position": 5.0,
             "name": "blocks",
             "label": "Blocks",
             "default_values": "BasicBlock, GroupBlock",

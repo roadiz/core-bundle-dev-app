@@ -1,4 +1,5 @@
 {
+    "color": "#69a5ff",
     "name": "BasicBlock",
     "display_name": "Basic Block",
     "visible": false,
@@ -6,7 +7,6 @@
     "reachable": false,
     "hiding_nodes": false,
     "hiding_non_reachable_nodes": false,
-    "color": "#69a5ff",
     "fields": [
         {
             "position": 1.0,
