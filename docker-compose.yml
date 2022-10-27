@@ -101,6 +101,11 @@ services:
             - "traefik.http.routers.${APP_NAMESPACE}_solr.rule=Host(${HOSTNAME_SOLR})"
             - "traefik.http.routers.${APP_NAMESPACE}_solr.service=${APP_NAMESPACE}_solr"
 
+    redis:
+        image: redis:7-alpine
+        networks:
+            - default
+
     app:
         # Need to pass all vars to docker env for Crontab and supervisor scripts
         env_file: "./.env.local"
@@ -116,8 +121,10 @@ services:
             - db
             - db_test
             - solr
+            - redis
         links:
             - solr:solr
+            - redis:redis
         volumes:
             - ./:/var/www/html:cached
             - ../RoadizRozierBundle:/var/www/RoadizRozierBundle:cached
