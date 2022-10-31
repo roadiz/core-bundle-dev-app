@@ -114,6 +114,49 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
 
     /**
+     * Page color.
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "color"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "color",
+            type: "string",
+            nullable: true,
+            length: 10
+        ),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("string")
+    ]
+    private ?string $color = null;
+
+    /**
+     * @return string|null
+     */
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param string|null $color
+     *
+     * @return $this
+     */
+    public function setColor(?string $color): static
+    {
+        $this->color = null !== $color ?
+            (string) $color :
+            null;
+
+        return $this;
+    }
+
+
+    /**
      * Images.
      *
      * (Virtual field, this var is a buffer)
@@ -905,6 +948,49 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function setFolder($folder): static
     {
         $this->folder = $folder;
+
+        return $this;
+    }
+
+
+    /**
+     * Country.
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "country"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "country",
+            type: "string",
+            nullable: true,
+            length: 5
+        ),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("string")
+    ]
+    private ?string $country = null;
+
+    /**
+     * @return string|null
+     */
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    /**
+     * @param string|null $country
+     *
+     * @return $this
+     */
+    public function setCountry(?string $country): static
+    {
+        $this->country = null !== $country ?
+            (string) $country :
+            null;
 
         return $this;
     }
