@@ -25,8 +25,8 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
     ORM\Entity(repositoryClass: \App\GeneratedEntity\Repository\NSPageRepository::class),
     ORM\Table(name: "ns_page"),
-    ORM\Index(columns: ["stickytest"]),
     ORM\Index(columns: ["sticky"]),
+    ORM\Index(columns: ["stickytest"]),
     ApiFilter(PropertyFilter::class)
 ]
 class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
@@ -114,44 +114,75 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
 
     /**
-     * Overtitle.
+     * Images.
+     *
+     * (Virtual field, this var is a buffer)
      */
     #[
-        SymfonySerializer\SerializedName(serializedName: "overTitle"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        SymfonySerializer\MaxDepth(2),
-        Gedmo\Versioned,
-        ORM\Column(
-            name: "over_title",
-            type: "string",
-            nullable: true,
-            length: 250
-        ),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2),
-        Serializer\Type("string")
+        Serializer\Exclude,
+        SymfonySerializer\SerializedName(serializedName: "images"),
+        SymfonySerializer\Groups(["realm_a"]),
+        SymfonySerializer\MaxDepth(2)
     ]
-    private ?string $overTitle = null;
+    private ?array $images = null;
 
     /**
-     * @return string|null
+     * @return \RZ\Roadiz\CoreBundle\Entity\Document[] Documents array
      */
-    public function getOverTitle(): ?string
+    #[
+        Serializer\Groups(["realm_a"]),
+        Serializer\MaxDepth(2),
+        Serializer\VirtualProperty,
+        Serializer\SerializedName("images"),
+        Serializer\Type("array<RZ\Roadiz\CoreBundle\Entity\Document>")
+    ]
+    public function getImages(): array
     {
-        return $this->overTitle;
+        if (null === $this->images) {
+            if (
+                null !== $this->objectManager &&
+                null !== $this->getNode() &&
+                null !== $this->getNode()->getNodeType()
+            ) {
+                $this->images = $this->objectManager
+                    ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
+                    ->findByNodeSourceAndField(
+                        $this,
+                        $this->getNode()->getNodeType()->getFieldByName("images")
+                    );
+            } else {
+                $this->images = [];
+            }
+        }
+        return $this->images;
     }
 
     /**
-     * @param string|null $overTitle
+     * @param \RZ\Roadiz\CoreBundle\Entity\Document $document
      *
      * @return $this
      */
-    public function setOverTitle(?string $overTitle): static
+    public function addImages(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
-        $this->overTitle = null !== $overTitle ?
-            (string) $overTitle :
-            null;
-
+        if (
+            null !== $this->objectManager &&
+            null !== $this->getNode() &&
+            null !== $this->getNode()->getNodeType()
+        ) {
+            $field = $this->getNode()->getNodeType()->getFieldByName("images");
+            if (null !== $field) {
+                $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
+                    $this,
+                    $document,
+                    $field
+                );
+                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+                    $this->objectManager->persist($nodeSourceDocument);
+                    $this->addDocumentsByFields($nodeSourceDocument);
+                    $this->images = null;
+                }
+            }
+        }
         return $this;
     }
 
@@ -232,75 +263,44 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
 
     /**
-     * Images.
-     *
-     * (Virtual field, this var is a buffer)
+     * Overtitle.
      */
     #[
-        Serializer\Exclude,
-        SymfonySerializer\SerializedName(serializedName: "images"),
-        SymfonySerializer\Groups(["realm_a"]),
-        SymfonySerializer\MaxDepth(2)
+        SymfonySerializer\SerializedName(serializedName: "overTitle"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "over_title",
+            type: "string",
+            nullable: true,
+            length: 250
+        ),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("string")
     ]
-    private ?array $images = null;
+    private ?string $overTitle = null;
 
     /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[] Documents array
+     * @return string|null
      */
-    #[
-        Serializer\Groups(["realm_a"]),
-        Serializer\MaxDepth(2),
-        Serializer\VirtualProperty,
-        Serializer\SerializedName("images"),
-        Serializer\Type("array<RZ\Roadiz\CoreBundle\Entity\Document>")
-    ]
-    public function getImages(): array
+    public function getOverTitle(): ?string
     {
-        if (null === $this->images) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
-                $this->images = $this->objectManager
-                    ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndField(
-                        $this,
-                        $this->getNode()->getNodeType()->getFieldByName("images")
-                    );
-            } else {
-                $this->images = [];
-            }
-        }
-        return $this->images;
+        return $this->overTitle;
     }
 
     /**
-     * @param \RZ\Roadiz\CoreBundle\Entity\Document $document
+     * @param string|null $overTitle
      *
      * @return $this
      */
-    public function addImages(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
+    public function setOverTitle(?string $overTitle): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("images");
-            if (null !== $field) {
-                $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
-                    $this,
-                    $document,
-                    $field
-                );
-                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
-                    $this->objectManager->persist($nodeSourceDocument);
-                    $this->addDocumentsByFields($nodeSourceDocument);
-                    $this->images = null;
-                }
-            }
-        }
+        $this->overTitle = null !== $overTitle ?
+            (string) $overTitle :
+            null;
+
         return $this;
     }
 
@@ -442,50 +442,6 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
 
     /**
-     * Sticky test.
-     * Group: Boolean.
-     */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "stickytest"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
-        SymfonySerializer\MaxDepth(2),
-        ApiFilter(OrmFilter\OrderFilter::class),
-        ApiFilter(OrmFilter\BooleanFilter::class),
-        Gedmo\Versioned,
-        ORM\Column(
-            name: "stickytest",
-            type: "boolean",
-            nullable: false,
-            options: ["default" => false]
-        ),
-        Serializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
-        Serializer\MaxDepth(2),
-        Serializer\Type("bool")
-    ]
-    private bool $stickytest = false;
-
-    /**
-     * @return bool
-     */
-    public function getStickytest(): bool
-    {
-        return $this->stickytest;
-    }
-
-    /**
-     * @param bool $stickytest
-     *
-     * @return $this
-     */
-    public function setStickytest(bool $stickytest): static
-    {
-        $this->stickytest = $stickytest;
-
-        return $this;
-    }
-
-
-    /**
      * Sticky.
      * Group: Boolean.
      */
@@ -524,6 +480,50 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function setSticky(bool $sticky): static
     {
         $this->sticky = $sticky;
+
+        return $this;
+    }
+
+
+    /**
+     * Sticky test.
+     * Group: Boolean.
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "stickytest"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
+        SymfonySerializer\MaxDepth(2),
+        ApiFilter(OrmFilter\OrderFilter::class),
+        ApiFilter(OrmFilter\BooleanFilter::class),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "stickytest",
+            type: "boolean",
+            nullable: false,
+            options: ["default" => false]
+        ),
+        Serializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("bool")
+    ]
+    private bool $stickytest = false;
+
+    /**
+     * @return bool
+     */
+    public function getStickytest(): bool
+    {
+        return $this->stickytest;
+    }
+
+    /**
+     * @param bool $stickytest
+     *
+     * @return $this
+     */
+    public function setStickytest(bool $stickytest): static
+    {
+        $this->stickytest = $stickytest;
 
         return $this;
     }
@@ -828,6 +828,83 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         $this->emailTest = null !== $emailTest ?
             (string) $emailTest :
             null;
+
+        return $this;
+    }
+
+
+    /**
+     * Settings.
+     * Default values: classname: Themes\Rozier\Explorer\SettingsProvider
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "settings"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        Gedmo\Versioned,
+        ORM\Column(name: "settings", type: "json", nullable: true),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2)
+    ]
+    private $settings = null;
+
+    /**
+     * @return mixed
+     */
+    public function getSettings()
+    {
+        return $this->settings;
+    }
+
+    /**
+     * @param mixed $settings
+     *
+     * @return $this
+     */
+    public function setSettings($settings): static
+    {
+        $this->settings = $settings;
+
+        return $this;
+    }
+
+
+    /**
+     * Folder simple.
+     * Default values: classname: Themes\Rozier\Explorer\FoldersProvider
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "folder"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "folder",
+            type: "string",
+            nullable: true,
+            length: 250
+        ),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2)
+    ]
+    private $folder = null;
+
+    /**
+     * @return mixed
+     */
+    public function getFolder()
+    {
+        return $this->folder;
+    }
+
+    /**
+     * @param mixed $folder
+     *
+     * @return $this
+     */
+    public function setFolder($folder): static
+    {
+        $this->folder = $folder;
 
         return $this;
     }
