@@ -9,6 +9,9 @@
      <rule ref="PSR12">
          <exclude name="Generic.Files.LineLength"/>
      </rule>
+    <exclude-pattern>*.js</exclude-pattern>
+    <exclude-pattern>*.ts</exclude-pattern>
+    <exclude-pattern>*.vue</exclude-pattern>
     <file>bin/</file>
     <file>config/</file>
     <file>public/</file>
