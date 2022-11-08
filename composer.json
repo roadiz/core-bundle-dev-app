@@ -120,6 +120,9 @@
     "autoload": {
         "psr-4": {
             "App\\": "src/",
+            "RZ\\Roadiz\\Bag\\": "lib/Models/src/Roadiz/Bag/",
+            "RZ\\Roadiz\\Core\\": "lib/Models/src/Roadiz/Core/",
+            "RZ\\Roadiz\\Utils\\": "lib/Models/src/Roadiz/Utils/",
             "RZ\\Roadiz\\CoreBundle\\": "lib/RoadizCoreBundle/src/",
             "RZ\\Roadiz\\CompatBundle\\": "lib/RoadizCompatBundle/src/",
             "RZ\\Roadiz\\RozierBundle\\": "lib/RoadizRozierBundle/src/",
@@ -148,7 +151,8 @@
         "roadiz/rozier-bundle": "*",
         "roadiz/font-bundle": "*",
         "roadiz/user-bundle": "*",
-        "roadiz/rozier": "*"
+        "roadiz/rozier": "*",
+        "roadiz/models": "*"
     },
     "scripts": {
         "auto-scripts": {

@@ -6,6 +6,8 @@ test:
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizRozierBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizFontBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizUserBundle/src
+	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Rozier/src
+	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Models/src
 	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 	php -d "memory_limit=-1" bin/console lint:twig ./lib
 
@@ -15,3 +17,26 @@ cache :
 migrate:
 	docker-compose exec -u www-data app php bin/console doctrine:migrations:migrate
 	docker-compose exec -u www-data app php bin/console themes:migrate ./src/Resources/config.yml
+
+pull:
+	cd lib/RoadizCompatBundle
+	git pull
+	cd ../../
+	cd lib/RoadizCoreBundle
+	git pull
+	cd ../../
+	cd lib/RoadizFontBundle
+	git pull
+	cd ../../
+	cd lib/RoadizRozierBundle
+	git pull
+	cd ../../
+	cd lib/RoadizUserBundle
+	git pull
+	cd ../../
+	cd lib/Rozier
+	git pull
+	cd ../../
+	cd lib/Models
+	git pull
+	cd ../../

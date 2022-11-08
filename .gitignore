@@ -146,6 +146,7 @@ fabric.properties
 /lib/RoadizUserBundle
 /lib/RoadizFontBundle
 /lib/Rozier
+/lib/Models
 /themes/BaseTheme
 /public/themes/BaseTheme
 /public/assets/*

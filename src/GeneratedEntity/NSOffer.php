@@ -113,6 +113,76 @@ class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
 
+    /**
+     * Geolocation.
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "geolocation"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        Gedmo\Versioned,
+        ORM\Column(name: "geolocation", type: "json", nullable: true),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2)
+    ]
+    private $geolocation = null;
+
+    /**
+     * @return mixed
+     */
+    public function getGeolocation()
+    {
+        return $this->geolocation;
+    }
+
+    /**
+     * @param mixed $geolocation
+     *
+     * @return $this
+     */
+    public function setGeolocation($geolocation): static
+    {
+        $this->geolocation = $geolocation;
+
+        return $this;
+    }
+
+
+    /**
+     * Multi geolocations.
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "multiGeolocation"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        Gedmo\Versioned,
+        ORM\Column(name: "multi_geolocation", type: "json", nullable: true),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2)
+    ]
+    private $multiGeolocation = null;
+
+    /**
+     * @return mixed
+     */
+    public function getMultiGeolocation()
+    {
+        return $this->multiGeolocation;
+    }
+
+    /**
+     * @param mixed $multiGeolocation
+     *
+     * @return $this
+     */
+    public function setMultiGeolocation($multiGeolocation): static
+    {
+        $this->multiGeolocation = $multiGeolocation;
+
+        return $this;
+    }
+
+
     #[
         Serializer\VirtualProperty,
         Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
