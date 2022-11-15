@@ -1,7 +1,7 @@
 rz_intervention_request:
-    driver: 'imagick'
-#    default_quality: '%env(int:IR_DEFAULT_QUALITY)%'
-#    max_pixel_size: '%env(int:IR_MAX_PIXEL_SIZE)%'
+    driver: '%env(string:IR_DRIVER)%'
+    default_quality: '%env(int:IR_DEFAULT_QUALITY)%'
+    max_pixel_size: '%env(int:IR_MAX_PIXEL_SIZE)%'
     cache_path: "%kernel.project_dir%/public/assets"
     files_path: "%kernel.project_dir%/public/files"
     jpegoptim_path: /usr/bin/jpegoptim
