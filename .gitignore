@@ -114,7 +114,7 @@ fabric.properties
 /.env.local
 /.env.local.php
 /.env.*.local
-/config/secrets/prod/prod.decrypt.private.php
+/config/secrets/**/*.php
 /public/bundles/
 /public/files/*
 /public/assets/*
