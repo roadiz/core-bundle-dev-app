@@ -3,6 +3,7 @@ roadiz_core:
     appVersion: '%env(string:APP_VERSION)%'
     healthCheckToken: '%env(string:APP_HEALTH_CHECK_TOKEN)%'
     staticDomainName: ~
+    documentsLibDir: 'lib/Documents/src'
     useNativeJsonColumnType: true
     security:
         private_key_name: default

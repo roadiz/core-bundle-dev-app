@@ -12,6 +12,7 @@ This is development app for Roadiz v2.x. It aggregate all Roadiz bundle and main
 - Clone roadiz/font-bundle in `lib/RoadizFontBundle` directory
 - Clone roadiz/rozier in `lib/Rozier` directory
 - Clone roadiz/models in `lib/Models` directory
+- Clone roadiz/documents in `lib/Documents` directory
 
 ### Generate JWT private and public keys
 

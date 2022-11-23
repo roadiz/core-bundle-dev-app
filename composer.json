@@ -75,6 +75,7 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "enshrined/svg-sanitize": "^0.15",
         "php-coveralls/php-coveralls": "^2.4",
         "phpoffice/phpspreadsheet": "^1.15",
         "phpstan/phpstan": "^1.5.3",
@@ -122,8 +123,20 @@
         "psr-4": {
             "App\\": "src/",
             "RZ\\Roadiz\\Bag\\": "lib/Models/src/Roadiz/Bag/",
-            "RZ\\Roadiz\\Core\\": "lib/Models/src/Roadiz/Core/",
-            "RZ\\Roadiz\\Utils\\": "lib/Models/src/Roadiz/Utils/",
+            "RZ\\Roadiz\\Core\\": [
+                "lib/Models/src/Roadiz/Core/",
+                "lib/Documents/src/Roadiz/Core/"
+            ],
+            "RZ\\Roadiz\\Utils\\": [
+                "lib/Models/src/Roadiz/Utils/",
+                "lib/Documents/src/Roadiz/Utils/"
+            ],
+            "RZ\\Roadiz\\TwigExtension\\": [
+                "lib/Documents/src/Roadiz/TwigExtension/"
+            ],
+            "RZ\\Roadiz\\Document\\": [
+                "lib/Documents/src/Roadiz/Document/"
+            ],
             "RZ\\Roadiz\\CoreBundle\\": "lib/RoadizCoreBundle/src/",
             "RZ\\Roadiz\\CompatBundle\\": "lib/RoadizCompatBundle/src/",
             "RZ\\Roadiz\\RozierBundle\\": "lib/RoadizRozierBundle/src/",
@@ -153,7 +166,8 @@
         "roadiz/font-bundle": "*",
         "roadiz/user-bundle": "*",
         "roadiz/rozier": "*",
-        "roadiz/models": "*"
+        "roadiz/models": "*",
+        "roadiz/documents": "*"
     },
     "scripts": {
         "auto-scripts": {
