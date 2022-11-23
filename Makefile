@@ -8,11 +8,14 @@ test:
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizUserBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Rozier/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Models/src
+	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Documents/src
 	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 	php -d "memory_limit=-1" bin/console lint:twig ./lib
 
 cache :
 	docker-compose exec -u www-data app php bin/console cache:clear
+	# Force workers to restart
+	docker-compose exec -u www-data app php bin/console messenger:stop-workers
 
 migrate:
 	docker-compose exec -u www-data app php bin/console doctrine:migrations:migrate
@@ -38,5 +41,8 @@ pull:
 	git pull
 	cd ../../
 	cd lib/Models
+	git pull
+	cd ../../
+	cd lib/Documents
 	git pull
 	cd ../../

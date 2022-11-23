@@ -7,6 +7,8 @@ parameters:
         - lib/RoadizRozierBundle/src
         - lib/RoadizFontBundle/src
         - lib/RoadizUserBundle/src
+        - lib/Models/src
+        - lib/Documents/src
     bootstrapFiles:
         - lib/RoadizCompatBundle/deprecated.php
     excludePaths:
