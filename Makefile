@@ -1,5 +1,6 @@
 
 test:
+	vendor/bin/atoum -d ./lib/Documents/tests
 	#php -d "memory_limit=-1" vendor/bin/phpcs --report=full --report-file=./report.txt -p ./src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizCoreBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizCompatBundle/src
