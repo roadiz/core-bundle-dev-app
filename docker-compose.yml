@@ -127,9 +127,6 @@ services:
             - redis:redis
         volumes:
             - ./:/var/www/html:cached
-            - ../RoadizRozierBundle:/var/www/RoadizRozierBundle:cached
-            - ../RoadizCoreBundle:/var/www/RoadizCoreBundle:cached
-            - ../RoadizCompatBundle:/var/www/RoadizCompatBundle:cached
         networks:
             frontproxynet:
                 aliases:
