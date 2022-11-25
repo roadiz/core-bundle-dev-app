@@ -80,8 +80,11 @@
         "twig/twig": "^2.12|^3.0"
     },
     "require-dev": {
+        "async-aws/simple-s3": "^1.1",
         "atoum/atoum": "^4.0.0",
         "enshrined/svg-sanitize": "^0.15",
+        "league/flysystem-async-aws-s3": "^3.10",
+        "league/flysystem-aws-s3-v3": "^3.10",
         "php-coveralls/php-coveralls": "^2.4",
         "phpoffice/phpspreadsheet": "^1.15",
         "phpstan/phpstan": "^1.5.3",
