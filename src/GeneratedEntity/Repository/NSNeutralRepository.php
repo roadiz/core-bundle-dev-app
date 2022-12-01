@@ -14,6 +14,14 @@ use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * @extends \RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository<\App\GeneratedEntity\NSNeutral>
+ *
+ * @method \App\GeneratedEntity\NSNeutral|null find($id, $lockMode = null, $lockVersion = null)
+ * @method \App\GeneratedEntity\NSNeutral|null findOneBy(array $criteria, array $orderBy = null)
+ * @method \App\GeneratedEntity\NSNeutral[]    findAll()
+ * @method \App\GeneratedEntity\NSNeutral[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class NSNeutralRepository extends \RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository
 {
     public function __construct(

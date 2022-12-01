@@ -14,6 +14,14 @@ use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * @extends \RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository<\App\GeneratedEntity\NSOffer>
+ *
+ * @method \App\GeneratedEntity\NSOffer|null find($id, $lockMode = null, $lockVersion = null)
+ * @method \App\GeneratedEntity\NSOffer|null findOneBy(array $criteria, array $orderBy = null)
+ * @method \App\GeneratedEntity\NSOffer[]    findAll()
+ * @method \App\GeneratedEntity\NSOffer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ */
 class NSOfferRepository extends \RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository
 {
     public function __construct(
