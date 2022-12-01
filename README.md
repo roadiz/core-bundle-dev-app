@@ -1,6 +1,6 @@
 # Roadiz CoreBundle development app
 
-This is development app for Roadiz v2.x. It aggregate all Roadiz bundle and main repositories in one place.
+This is development app for Roadiz v2.x. It aggregates all Roadiz bundle and main repositories in one place.
 
 ### Install
 
