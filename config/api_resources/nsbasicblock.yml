@@ -12,4 +12,5 @@ App\GeneratedEntity\NSBasicBlock:
                     - tag_base
                     - translation_base
                     - document_display
+                    - document_thumbnails
                     - document_display_sources

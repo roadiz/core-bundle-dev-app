@@ -13,6 +13,7 @@ App\GeneratedEntity\NSArticle:
                     - tag_base
                     - translation_base
                     - document_display
+                    - document_thumbnails
                     - document_display_sources
     itemOperations:
         get:
@@ -24,6 +25,7 @@ App\GeneratedEntity\NSArticle:
                     - tag_base
                     - translation_base
                     - document_display
+                    - document_thumbnails
                     - document_display_sources
         getByPath:
             method: GET
@@ -35,6 +37,7 @@ App\GeneratedEntity\NSArticle:
                     - tag_base
                     - translation_base
                     - document_display
+                    - document_thumbnails
                     - document_display_sources
                     - web_response
                     - walker
