@@ -1,7 +1,7 @@
 {
-    "color": "#000000",
-    "name": "GroupBlock",
-    "display_name": "Group block",
+    "color": "#947ccf",
+    "name": "Menu",
+    "display_name": "Menu",
     "visible": true,
     "publishable": false,
     "reachable": false,
@@ -10,12 +10,12 @@
     "fields": [
         {
             "position": 1.0,
-            "name": "blocks",
-            "label": "Blocks",
-            "default_values": "BasicBlock",
+            "name": "menu_items",
+            "label": "\u00c9l\u00e9ments du menu",
+            "default_values": "Page, MenuLink",
             "type": 16,
             "expanded": false,
-            "node_type_name": "GroupBlock",
+            "node_type_name": "Menu",
             "universal": false,
             "exclude_from_search": false,
             "excluded_from_serialization": false,
@@ -24,5 +24,5 @@
         }
     ],
     "default_ttl": 0,
-    "searchable": false
+    "searchable": true
 }
