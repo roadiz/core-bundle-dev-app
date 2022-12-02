@@ -49,23 +49,16 @@ final class GetCommonContentController extends AbstractController
         try {
             $request = $this->requestStack->getMainRequest();
             $translation = $this->getTranslationFromRequest($request);
-            $home = $this->nodeSourceApi->getOneBy([
-                'node.home' => true,
-                'translation' => $translation
-            ]);
 
             $resource = new CommonContent();
-            if (null !== $home) {
-                $resource->home = $home;
-            }
 
-            if (null !== $request) {
-                $request->attributes->set('data', $resource);
-            }
+            $request?->attributes->set('data', $resource);
             $resource->head = $this->nodesSourcesHeadFactory->createForTranslation($translation);
+            $resource->home = $resource->head->getHomePage();
             $resource->menus = $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
                 'Menu',
                 MenuNodeSourceWalker::class,
+                $translation,
                 3
             );
             return $resource;
@@ -108,6 +101,13 @@ final class GetCommonContentController extends AbstractController
 
     protected function getTranslationRepository(): TranslationRepository
     {
-        return $this->managerRegistry->getRepository(TranslationInterface::class);
+        $repository = $this->managerRegistry->getRepository(TranslationInterface::class);
+        if (!$repository instanceof TranslationRepository) {
+            throw new \RuntimeException(
+                'Translation repository must be instance of ' .
+                TranslationRepository::class
+            );
+        }
+        return $repository;
     }
 }
