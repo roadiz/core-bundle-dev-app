@@ -1,6 +1,6 @@
 api_platform:
-    title:       "Roadiz development app"
-    description: "Roadiz development app"
+    title:       "%env(string:APP_TITLE)%"
+    description: "%env(string:APP_DESCRIPTION)%"
     version:     '%env(string:APP_VERSION)%'
     enable_swagger_ui: false
     enable_re_doc: true
