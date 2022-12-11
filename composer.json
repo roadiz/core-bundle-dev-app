@@ -105,6 +105,8 @@
         "roadiz/models": "~2.1.0 || dev-develop",
         "roadiz/nodetype-contracts": "~1.1.2 || dev-develop",
         "roadiz/rozier": "~2.1.0 || dev-develop",
+        "roadiz/openid": "~2.0.0",
+
         "squizlabs/php_codesniffer": "^3.5",
         "symfony/browser-kit": "5.4.*",
         "symfony/css-selector": "5.4.*",

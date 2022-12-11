@@ -151,6 +151,11 @@ services:
             - "traefik.http.routers.${APP_NAMESPACE}.entrypoints=http"
             - "traefik.http.routers.${APP_NAMESPACE}.rule=Host(${HOSTNAME})"
             - "traefik.http.routers.${APP_NAMESPACE}.service=${APP_NAMESPACE}"
+            # Listen HTTPS
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.entrypoints=https"
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.rule=Host(${HOSTNAME})"
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.tls=true"
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.service=${APP_NAMESPACE}"
 
     blackfire:
         image: blackfire/blackfire
