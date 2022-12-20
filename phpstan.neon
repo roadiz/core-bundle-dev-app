@@ -1,5 +1,5 @@
 parameters:
-    level: 4
+    level: 5
     paths:
         - src
         - lib/RoadizCoreBundle/src
@@ -44,6 +44,8 @@ parameters:
         - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>?\|null but database expects ([a-zA-Z\\\&\>\<]+)\|null#'
         - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>? but database expects ([a-zA-Z\\\&\>\<]+)#'
         - '#type mapping mismatch: database can contain array\|bool\|float\|int\|JsonSerializable\|stdClass\|string\|null but property expects array\|null#'
+        - '#(\$froms|\$tos) of class Symfony\\Component\\Workflow\\Transition constructor expects array\<string\>\|string, int given#'
+        - '#Doctrine\\ORM\\Mapping\\GeneratedValue constructor expects#'
 
     reportUnmatchedIgnoredErrors: false
     checkGenericClassInNonGenericObjectType: false
