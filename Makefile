@@ -23,6 +23,7 @@ migrate:
 	docker-compose exec -u www-data app php bin/console themes:migrate ./src/Resources/config.yml
 
 pull:
+	git pull
 	cd lib/RoadizCompatBundle && git pull
 	cd lib/RoadizCoreBundle && git pull
 	cd lib/RoadizFontBundle && git pull
