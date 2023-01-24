@@ -689,7 +689,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @var Collection $usersProxy
+     * @param Collection $usersProxy
      * @Serializer\VirtualProperty()
      * @return $this
      */
@@ -700,7 +700,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         return $this;
     }
     /**
-     * @var Collection|array|null $users
+     * @param Collection|array|null $users
      * @return $this
      */
     public function setUsers(Collection|array|null $users = null): static
@@ -776,7 +776,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @var Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>|\RZ\Roadiz\CoreBundle\Entity\Folder[] $folderReferences
+     * @param Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>|\RZ\Roadiz\CoreBundle\Entity\Folder[] $folderReferences
      * @return $this
      */
     public function setFolderReferences(Collection|array $folderReferences): static
