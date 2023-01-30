@@ -9,6 +9,7 @@ parameters:
         - lib/RoadizUserBundle/src
         - lib/Models/src
         - lib/Documents/src
+        - lib/Rozier/src
     bootstrapFiles:
         - lib/RoadizCompatBundle/deprecated.php
     excludePaths:
@@ -20,15 +21,6 @@ parameters:
         repositoryClass: RZ\Roadiz\CoreBundle\Repository\EntityRepository
         objectManagerLoader: ./tests/object-manager.php
     ignoreErrors:
-        - '#Class GeneratedNodeSources\\NS([a-zA-Z]+) not found#'
-        - '#Call to method ([a-zA-Z]+)\(\) on an unknown class GeneratedNodeSources\\NS([a-zA-Z]+)#'
-        - '#Call to an undefined method ([^:]+)\:\:get(?:External|Internal)Link(?:Sources)?\(\)#'
-        - '#NodesSources\|null but returns GeneratedNodeSources\\NS(?:[a-zA-Z]+)#'
-        - '#GeneratedNodeSources\\NS(?:[a-zA-Z]+)#'
-        - '#Call to an undefined method RZ\\Roadiz\\Core\\AbstractEntities\\LeafInterface#'
-        - '#Instantiated class (Memcached|Redis|Raven_Client|Raven_ErrorHandler) not found#'
-        - '#on an unknown class (Memcached|Redis)#'
-        - '#Doctrine\\Persistence\\ObjectRepository#'
         - '#Call to an undefined method RZ\\Roadiz\\CoreBundle\\Repository#'
         - '#Call to an undefined method RZ\\Roadiz\\UserBundle\\Repository#'
         - '#Call to an undefined method Doctrine\\Persistence\\ObjectRepository#'
@@ -36,16 +28,15 @@ parameters:
         - '#Call to an undefined method Doctrine\\ORM\\EntityRepository#'
         - '#Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition::#'
         - '#Access to an undefined property Symfony\\Component\\Validator\\Constraint::#'
-        - '#Call to method publish\(\) on an unknown class Gelf\\IMessagePublisher#'
         - '#RZ\\Roadiz\\Core\\Entities\\Tag does not have a field named \$translation#'
         - '#does not have a field named \$node\.home#'
-        - '#Raven_Client#'
-        - '#Raven_ErrorHandler#'
+        - '#does not have a field named \$node\.id#'
+        - '#does not have a field named \$node\.parent#'
+        - '#does not have a field named \$translation#'
         # PHPStan Doctrine does not support ResolveTargetEntityListener
         - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>?\|null but database expects ([a-zA-Z\\\&\>\<]+)\|null#'
         - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>? but database expects ([a-zA-Z\\\&\>\<]+)#'
         - '#type mapping mismatch: database can contain array\|bool\|float\|int\|JsonSerializable\|stdClass\|string\|null but property expects array\|null#'
-        - '#(\$froms|\$tos) of class Symfony\\Component\\Workflow\\Transition constructor expects array\<string\>\|string, int given#'
         - '#Doctrine\\ORM\\Mapping\\GeneratedValue constructor expects#'
 
     reportUnmatchedIgnoredErrors: false
