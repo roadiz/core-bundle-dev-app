@@ -16,8 +16,8 @@
 #               accessKeySecret: '%env(SCALEWAY_STORAGE_SECRET)%'
 #               region: '%env(SCALEWAY_STORAGE_REGION)%'
 #
-#flysystem:
-#    storages:
+flysystem:
+    storages:
 #        documents_public.storage:
 #            adapter: 'asyncaws'
 #            visibility: 'public'
@@ -39,7 +39,9 @@
 #                client: 'scaleway_public_client'
 #                bucket: '%env(SCALEWAY_STORAGE_BUCKET)%'
 #                prefix: 'testing-public-files'
-#        font.storage:
-#            adapter: 'local'
-#            options:
-#                directory: '%kernel.project_dir%/var/files/fonts'
+
+        # Font storage MUST be set manually
+        font.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/var/files/fonts'

@@ -11,7 +11,13 @@ test:
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Models/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Documents/src
 	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
-	php -d "memory_limit=-1" bin/console lint:twig ./lib
+	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
+	php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
+	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
+	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
+	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
+	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
+
 
 cache :
 	docker-compose exec -u www-data app php bin/console cache:clear
