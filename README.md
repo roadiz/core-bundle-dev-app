@@ -1,18 +1,25 @@
 # Roadiz CoreBundle development app
 
-This is development app for Roadiz v2.x. It aggregates all Roadiz bundle and main repositories in one place.
+This is development app for Roadiz v2. It aggregates all Roadiz bundle and main repositories in one place.
 
 ### Install
 
 - Clone this repository
-- Clone roadiz/core-bundle in `lib/RoadizCoreBundle` directory
 - Clone roadiz/compat-bundle in `lib/RoadizCompatBundle` directory
+- Clone roadiz/core-bundle in `lib/RoadizCoreBundle` directory
+- Clone roadiz/doc-generator in `lib/DocGenerator` directory
+- Clone roadiz/documents in `lib/Documents` directory
+- Clone roadiz/dts-generator in `lib/DtsGenerator` directory
+- Clone roadiz/entity-generator in `lib/EntityGenerator` directory
+- Clone roadiz/font-bundle in `lib/RoadizFontBundle` directory
+- Clone roadiz/jwt in `lib/Jwt` directory
+- Clone roadiz/markdown in `lib/Markdown` directory
+- Clone roadiz/models in `lib/Models` directory
+- Clone roadiz/openid in `lib/OpenId` directory
+- Clone roadiz/random in `lib/Random` directory
+- Clone roadiz/rozier in `lib/Rozier` directory
 - Clone roadiz/rozier-bundle in `lib/RoadizRozierBundle` directory
 - Clone roadiz/user-bundle in `lib/RoadizUserBundle` directory
-- Clone roadiz/font-bundle in `lib/RoadizFontBundle` directory
-- Clone roadiz/rozier in `lib/Rozier` directory
-- Clone roadiz/models in `lib/Models` directory
-- Clone roadiz/documents in `lib/Documents` directory
 
 ### Generate JWT private and public keys
 
@@ -47,3 +54,8 @@ make test
 ```
 
 Note that _phpstan_ can issue wrong errors if your `lib/*` bundles are symlinked.
+
+### Monorepo tools
+
+- `vendor/bin/monorepo-builder merge`: Makes sure all your packages deps are in development repository and 
+- `vendor/bin/monorepo-builder validate`: Make sure all your packages use the same version

@@ -1,15 +1,22 @@
 parameters:
     level: 6
     paths:
-        - src
-        - lib/RoadizCoreBundle/src
-        - lib/RoadizCompatBundle/src
-        - lib/RoadizRozierBundle/src
-        - lib/RoadizFontBundle/src
-        - lib/RoadizUserBundle/src
-        - lib/Models/src
+        - lib/DocGenerator/src
         - lib/Documents/src
+        - lib/DtsGenerator/src
+        - lib/EntityGenerator/src
+        - lib/Jwt/src
+        - lib/Markdown/src
+        - lib/Models/src
+        - lib/OpenId/src
+        - lib/Random/src
+        - lib/RoadizCompatBundle/src
+        - lib/RoadizCoreBundle/src
+        - lib/RoadizFontBundle/src
+        - lib/RoadizRozierBundle/src
+        - lib/RoadizUserBundle/src
         - lib/Rozier/src
+        - src
     bootstrapFiles:
         - lib/RoadizCompatBundle/deprecated.php
     excludePaths:
