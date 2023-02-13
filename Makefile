@@ -54,3 +54,21 @@ pull:
 	cd lib/RoadizRozierBundle && git pull
 	cd lib/RoadizUserBundle && git pull
 	cd lib/Rozier && git pull
+
+push:
+	git push
+	cd lib/DocGenerator && git push
+	cd lib/Documents && git push
+	cd lib/DtsGenerator && git push
+	cd lib/EntityGenerator && git push
+	cd lib/Jwt && git push
+	cd lib/Markdown && git push
+	cd lib/Models && git push
+	cd lib/OpenId && git push
+	cd lib/Random && git push
+	cd lib/RoadizCompatBundle && git push
+	cd lib/RoadizCoreBundle && git push
+	cd lib/RoadizFontBundle && git push
+	cd lib/RoadizRozierBundle && git push
+	cd lib/RoadizUserBundle && git push
+	cd lib/Rozier && git push
