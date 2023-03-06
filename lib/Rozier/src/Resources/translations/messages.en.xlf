@@ -706,6 +706,10 @@
         <source>edit.group.%name%</source>
         <target state="final">%name%</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="186">
+        <source>Welcome</source>
+        <target state="translated">Welcome</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="187" approved="yes">
         <source>edit.user.%name%</source>
         <target state="final">%name%</target>
@@ -934,6 +938,10 @@
         <source>add.node</source>
         <target state="final">Add node</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="244">
+        <source>In</source>
+        <target state="translated">In</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="245" approved="yes">
         <source>back_to.nodes</source>
         <target state="final">Back to nodes</target>
@@ -1033,6 +1041,10 @@
       <trans-unit xml:space="preserve" id="269" approved="yes">
         <source>add.setting</source>
         <target state="final">Add setting</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="270">
+        <source>Delete</source>
+        <target state="translated">Delete</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="271" approved="yes">
         <source>create.node</source>
@@ -1366,6 +1378,10 @@
       <trans-unit xml:space="preserve" id="351" approved="yes">
         <source>site.settings</source>
         <target state="final">Site settings</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="352">
+        <source>Translate</source>
+        <target state="translated">Translate</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="353" approved="yes">
         <source>are_you_sure.delete.node.and.data</source>
@@ -2988,6 +3004,26 @@
         <source>Bad credentials.</source>
         <target state="final">Bad credentials</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="Too many login attemps">
+        <source>Too many login attemps, wait before trying again.</source>
+        <target state="translated">Too many login attemps, wait before trying again.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User account has expired.">
+        <source>User account has expired.</source>
+        <target state="translated">User account has expired.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User account is locked.">
+        <source>User account is locked.</source>
+        <target state="translated">User account is locked.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User credentials have expired.">
+        <source>User credentials have expired.</source>
+        <target state="translated">User credentials have expired.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User account is disabled.">
+        <source>User account is disabled.</source>
+        <target state="translated">User account is disabled.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="change.nodes.status" approved="yes">
         <source>change.nodes.status</source>
         <target state="final">Change selected nodes status</target>
@@ -3498,6 +3534,10 @@
         <source>This value should not be blank.</source>
         <target state="final">This value should not be blank</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="This value is not valid.">
+        <source>This value is not valid.</source>
+        <target state="translated">This value is not valid.</target>
+      </trans-unit>
       <!-- Font variantes -->
       <trans-unit xml:space="preserve" id="font_variant.regular" approved="yes">
         <source>font_variant.regular</source>
@@ -3830,6 +3870,10 @@
       <trans-unit xml:space="preserve" id="embedId.does_not_exist" approved="yes">
         <source>embedId.does_not_exist</source>
         <target state="final">Embed media ID does not exist.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="youtube_needs_a_key">
+        <source>YoutubeEmbedFinder needs a Google server key.</source>
+        <target state="translated">YoutubeEmbedFinder needs a Google server key.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="edit.user_details.%name%" approved="yes">
         <source>edit.user_details.%name%</source>
