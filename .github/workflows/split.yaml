@@ -10,7 +10,7 @@ on:
 
 env:
     # 1. for Github split -- Update secret on 2024-03-06
-    GITHUB_TOKEN: ${{ secrets.ROADIZ_SPLIT_ACCESS_TOKEN }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 
 jobs:
@@ -83,7 +83,7 @@ jobs:
                     branch: develop
                     repository_name: '${{ matrix.package.split_repository }}'
                     # ↓ the user signed under the split commit
-                    user_name: "ambroisemaupate"
+                    user_name: "roadiz-ci"
                     user_email: "ambroise+ci@roadiz.io"
 
             -   if: github.ref == 'refs/heads/main'
@@ -96,7 +96,7 @@ jobs:
                     branch: main
                     repository_name: '${{ matrix.package.split_repository }}'
                     # ↓ the user signed under the split commit
-                    user_name: "ambroisemaupate"
+                    user_name: "roadiz-ci"
                     user_email: "ambroise+ci@roadiz.io"
 
             # with tag
@@ -113,5 +113,5 @@ jobs:
                     repository_name: '${{ matrix.package.split_repository }}'
 
                     # ↓ the user signed under the split commit
-                    user_name: "ambroisemaupate"
+                    user_name: "roadiz-ci"
                     user_email: "ambroise+ci@roadiz.io"
