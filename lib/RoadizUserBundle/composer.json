@@ -24,7 +24,7 @@
         "doctrine/orm": "^2.14.1"
     },
     "require-dev": {
-        "roadiz/core-bundle": "^2.2",
+        "roadiz/core-bundle": "^2.1",
         "php-coveralls/php-coveralls": "^2.4",
         "phpstan/phpstan": "^1.5.3",
         "squizlabs/php_codesniffer": "^3.5",
@@ -50,7 +50,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.0.x-dev",
+            "dev-main": "2.1.x-dev",
             "dev-develop": "2.2.x-dev"
         }
     }
