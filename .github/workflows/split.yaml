@@ -8,10 +8,10 @@ on:
         tags:
             - '*'
 
-#env:
+env:
     # 1. for Github split -- Update secret on 2024-03-06
     # Use automatic GITHUB_TOKEN var
-    #GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
     packages_split:
