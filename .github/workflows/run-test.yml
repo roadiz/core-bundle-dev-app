@@ -36,14 +36,14 @@ jobs:
             - name: Install Dependencies
               run: composer install --no-scripts --no-ansi --no-interaction --no-progress
             - name: Validate monorepo
-              run: >
+              run: |
                   vendor/bin/monorepo-builder validate
             - name: Run unit tests
-              run: >
+              run: |
                   vendor/bin/atoum -d ./lib/Documents/tests
                   vendor/bin/atoum -f ./lib/EntityGenerator/tests/units/*
             - name: Run PHP Code Sniffer
-              run: >
+              run: |
                   php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/DocGenerator/src
                   php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Documents/src
                   php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/DtsGenerator/src
@@ -60,10 +60,10 @@ jobs:
                   php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizUserBundle/src
                   php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Rozier/src
             - name: Run PHP Stan
-              run: >
+              run: |
                   php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
             - name: Run Twig lint
-              run: >
+              run: |
                   php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
                   php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
                   php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
