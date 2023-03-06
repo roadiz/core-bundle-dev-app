@@ -35,6 +35,8 @@
         "roadiz/random": "2.1.x-dev",
         "roadiz/documents": "2.1.x-dev",
         "roadiz/markdown": "2.1.x-dev",
+        "roadiz/doc-generator": "2.1.x-dev",
+        "roadiz/dts-generator": "2.1.x-dev",
         "roadiz/entity-generator": "2.1.x-dev"
     },
     "config": {
