@@ -1,0 +1,109 @@
+{% extends '@RoadizRozier/layout.html.twig' %}
+
+{% block title %}{{ "edit.document.%name%"|trans({'%name%': document|u.truncate(25, '[…]', true)}) }} | {{ parent() }}{% endblock %}
+
+{% block content %}
+    <section class="content-global manage-document">
+
+        <header class="content-header header-document header-document-edit">
+            <h1 class="content-title document-edit-title">{{ "edit.document.%name%"|trans({'%name%': document})|u.truncate(25, '[…]', true) }}</h1>
+            {% include '@RoadizRozier/documents/navBar.html.twig' with {'document':document, current:'preview'} %}
+            {% include '@RoadizRozier/documents/backLink.html.twig' %}
+        </header>
+
+        <article class="content content-document-preview">
+            <div class="content-inner">
+                {% if not document|exists %}
+                    <p class="uk-alert uk-alert-danger"><i class="uk-icon-error"></i> {% trans %}current.document.file.does.not.exist{% endtrans %}</p>
+                {% elseif not document.filename %}
+                    <p class="uk-alert uk-alert-warning"><i class="uk-icon-error"></i> {% trans %}document.is_only_external{% endtrans %}</p>
+                {% endif %}
+                {% if not document.private %}
+                    {% if document.image or document.svg or document.video or document.audio or document.pdf %}
+                        {% if document.pdf %}
+                            {% set thumbnailFormat = thumbnailFormat|merge({'height': 700, 'embed': true}) %}
+                        {% endif %}
+                        <figure class="uk-thumbnail">{{ document|display(thumbnailFormat) }}</figure>
+                        {% if document.mimeType == 'image/gif' %}
+                            <hr />
+                            <figure class="uk-thumbnail">{{ document|display({noProcess:true}) }}</figure>
+                        {% endif %}
+                    {% endif %}
+
+                    {% if document.isEmbed %}
+                        <hr />
+                        <h3>{% trans %}embed.preview{% endtrans %}</h3>
+                        <figure class="uk-thumbnail">{{ document|display(thumbnailFormat|merge({
+                                embed: true,
+                                autoplay: false,
+                                controls: true,
+                                fullscreen: true
+                            })) }}</figure>
+                    {% endif %}
+                {% else %}
+                    <p class="uk-alert uk-alert-warning"><i class="uk-icon-warning"></i> {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}</p>
+                {% endif %}
+            </div>
+        </article>
+        <article class="content content-document-infos">
+            <div class="content-inner">
+                <table class="uk-table content-table">
+                    <tr><td>{% trans %}document.relative_url{% endtrans %}</td><td>{{ document|url(thumbnailFormat) }}</td></tr>
+                    <tr><td>{% trans %}document.absolute_url{% endtrans %}</td><td>{{ document|url(thumbnailFormat|merge({absolute:true})) }}</td></tr>
+                    <tr><td>{% trans %}document.unprocessed_url{% endtrans %}</td><td>{{ document|url({noProcess:true}) }}</td></tr>
+                    {% if document.isEmbed and document|embedFinder %}
+                        <tr><td>{% trans %}document.source_url{% endtrans %}</td><td>{{ (document|embedFinder).source }}</td></tr>
+                    {% endif %}
+                    <tr><td>{% trans %}document.filesize{% endtrans %}</td><td>{{ document.filesize|formatBytes }}</td></tr>
+                    {% for key, info in infos %}
+                        <tr><td>{{ ('document.' ~ key)|trans }}</td><td>{{ info }}</td></tr>
+                    {% endfor %}
+                </table>
+                {% if otherVideos|length %}
+                    <hr>
+                    <h4>{% trans %}document.video_sources{% endtrans %}</h4>
+                    <table class="uk-table content-table">
+                        {% for otherVideo in otherVideos %}
+                            <tr>
+                                <td>{{ otherVideo.mimeType }}</td>
+                                <td>{{ otherVideo.relativePath }}</td>
+                                <td><a class="uk-button uk-button-content uk-button-small document-link"
+               href="{{ path('documentsEditPage', { documentId: otherVideo.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+                {% if otherAudios|length %}
+                    <hr>
+                    <h4>{% trans %}document.audio_sources{% endtrans %}</h4>
+                    <table class="uk-table content-table">
+                        {% for otherAudio in otherAudios %}
+                            <tr>
+                                <td>{{ otherAudio.mimeType }}</td>
+                                <td>{{ otherAudio.relativePath }}</td>
+                                <td><a class="uk-button uk-button-content uk-button-small document-link"
+               href="{{ path('documentsEditPage', { documentId: otherAudio.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+                {% if otherPictures|length %}
+                    <hr>
+                    <h4>{% trans %}document.picture_sources{% endtrans %}</h4>
+                    <table class="uk-table content-table">
+                        {% for otherPicture in otherPictures %}
+                            <tr>
+                                <td>{{ otherPicture.mimeType }}</td>
+                                <td>{{ otherPicture.relativePath }}</td>
+                                <td><a class="uk-button uk-button-content uk-button-small document-link"
+               href="{{ path('documentsEditPage', { documentId: otherPicture.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </div>
+        </article>
+
+        {% include '@RoadizRozier/documents/actionsMenu.html.twig' %}
+    </section>
+{% endblock %}

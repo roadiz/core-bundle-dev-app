@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="" source-language="en" datatype="plaintext" target-language="en">
+    <body>
+      <trans-unit xml:space="preserve" id="document.externalUrl" approved="yes">
+                <source>document.externalUrl</source>
+                <target state="final">External URL</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.limitations" approved="yes">
+                <source>document.limitations</source>
+                <target state="final">Limitations</target>
+                <note>Documents limitations backoffice section label</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.copyrightHolder" approved="yes">
+                <source>document.copyrightHolder</source>
+                <target state="final">Copyright holder</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.copyrightValidSince" approved="yes">
+                <source>document.copyrightValidSince</source>
+                <target state="final">Copyright valid since</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.copyrightValidUntil" approved="yes">
+                <source>document.copyrightValidUntil</source>
+                <target state="final">Copyright valid until</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="no_document" approved="yes">
+                <source>no_document</source>
+                <target state="final">No document</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="unused_documents.help" approved="yes">
+                <source>unused_documents.help</source>
+                <target state="final">
+Document are listed as “unused” when they are not linked to any node, tag, setting or attribute anymore.
+
+**Notice**: if you are using a Document URL directly in a Markdown text or from an external website,
+*this document will be flagged as unused.*</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="all.documents" approved="yes">
+                <source>all.documents</source>
+                <target state="final">All documents</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicated_documents" approved="yes">
+                <source>duplicated_documents</source>
+                <target state="final">Duplicated documents</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.video_sources" approved="yes">
+                <source>document.video_sources</source>
+                <target state="final">All video sources</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.audio_sources" approved="yes">
+                <source>document.audio_sources</source>
+                <target state="final">All audio sources</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.picture_sources" approved="yes">
+                <source>document.picture_sources</source>
+                <target state="final">All picture sources</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="private_documents">
+                <source>private_documents</source>
+                <target state="translated">Private documents</target>
+            </trans-unit>
+    </body>
+  </file>
+</xliff>

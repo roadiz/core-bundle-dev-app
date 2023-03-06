@@ -1,0 +1,110 @@
+/*
+ * This file define main grid layout
+ * and width for each section
+ */
+#main-container-inner {
+    display: grid;
+    grid-template-columns: @user-panel-sm-width @entries-panel-width fit-content(100%) auto;
+    justify-content: stretch;
+    height: 100vh;
+    overflow: hidden;
+
+    @media (min-width: @screen-lg-min) {
+        grid-template-columns: @user-panel-lg-width @entries-panel-lg-width fit-content(100%) auto;
+    }
+    @media (min-width: @screen-xl-min) {
+        grid-template-columns: @user-panel-xl-width @entries-panel-xl-width fit-content(100%) auto;
+    }
+
+    #user-panel {
+        position: relative;
+        width: 100%;
+    }
+    #admin-menu {
+        position: relative;
+        width: 100%;
+    }
+    #main-trees {
+        position: relative;
+        width: @trees-panel-width;
+
+        @media (min-width: @screen-lg-min) {
+            width: @trees-panel-lg-width;
+        }
+        @media (min-width: @screen-xl-min) {
+            width: @trees-panel-xl-width;
+        }
+        @media (min-width: @screen-xxl-min) {
+            width: @trees-panel-xxl-width;
+        }
+
+        #main-trees-container {
+            width: 100%;
+
+            & > div {
+                width: 100%;
+                height:100%;
+            }
+        }
+    }
+
+    #main-content {
+        position: relative;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+
+        #main-content-overlay{
+            display: none;
+            position: absolute;
+            top:0;
+            right:0;
+            bottom:0;
+            left:0;
+            background: #000;
+            .opacity(0);
+            z-index:4;
+        }
+
+        #canvasloader-container {
+            position: fixed;
+            top:50%; left:50%;
+            margin:-20px 0 0 -20px;
+            z-index:12;
+        }
+
+        #back-top-button {
+            display: none;
+            position: fixed;
+            right:15px; bottom:15px;
+            width:36px; height:36px;
+            line-height:36px;
+            text-align: center;
+            background: #fff;
+            border:1px solid #cbcbcb;
+            color:@grey-medium;
+            cursor: pointer;
+            z-index:3;
+
+            &:hover{
+                background: darken(#fff, 10%);
+                border-color: darken(#cbcbcb, 10%);
+            }
+
+            @media (min-width: @screen-md-min) {
+                display: block;
+            }
+        }
+    }
+
+    &.trees-panel--minified {
+        #main-trees {
+            width: 0;
+
+            #main-trees-overlay {
+                .opacity(0.7);
+            }
+        }
+    }
+}
+

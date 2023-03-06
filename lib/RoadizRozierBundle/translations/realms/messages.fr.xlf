@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="" source-language="en" datatype="plaintext" target-language="fr">
+    <body>
+      <trans-unit xml:space="preserve" id="realms" approved="yes">
+                <source>realms</source>
+                <target state="final">Domaines sécurisés</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.realm" approved="yes">
+                <source>add.a.realm</source>
+                <target state="final">Créer un domaine sécurisé</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.realm.%name%" approved="yes">
+                <source>delete.realm.%name%</source>
+                <target state="final">Supprimer le domaine “%name%”</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.realm" approved="yes">
+                <source>are_you_sure.delete.realm</source>
+                <target state="final">Êtes-vous sûr.e de vouloir supprimer ce domaine sécurisé ? Cela retirera la sécurité sur tous les nœuds qui font partie de ce domaine.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.realm.%name%" approved="yes">
+                <source>edit.realm.%name%</source>
+                <target state="final">%name%</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.realm" approved="yes">
+                <source>edit.realm</source>
+                <target state="final">Éditer</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.realms" approved="yes">
+                <source>back_to.realms</source>
+                <target state="final">Retour aux domaines</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.type" approved="yes">
+                <source>realm.type</source>
+                <target state="final">Type d'authentification</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.type.help" approved="yes">
+                <source>realm.type.help</source>
+                <target state="final">Permet de choisir entre plusieurs types d'authentification : du simple mot de passe envoyé en clair à une authentification complète sécurisée par Rôle ou par compte Utilisateur.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.plain_password" approved="yes">
+                <source>realm.plain_password</source>
+                <target state="final">Mot de passe en clair</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.bearer_role" approved="yes">
+                <source>realm.bearer_role</source>
+                <target state="final">Utilisateur authentifié avec rôle</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.bearer_user" approved="yes">
+                <source>realm.bearer_user</source>
+                <target state="final">Utilisateur spécifique authentifié</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.plainPassword" approved="yes">
+                <source>realm.plainPassword</source>
+                <target state="final">Mot de passe</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.plainPassword.help" approved="yes">
+                <source>realm.plainPassword.help</source>
+                <target state="final">Le mot de passe en clair ne sera utilisé qu'avec le type d'authentification « Mot de passe en clair ». Il est unique à tout le domaine.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.serializationGroup" approved="yes">
+                <source>realm.serializationGroup</source>
+                <target state="final">Groupe de sérialisation</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.serializationGroup.help" approved="yes">
+                <source>realm.serializationGroup.help</source>
+                <target state="final">Chaque domaine possède un groupe de sérialisation permettant de conditionner l'affichage des champs dans l'API. Utilisez ce groupe lors de la création des types de nœuds.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.role" approved="yes">
+                <source>realm.role</source>
+                <target state="final">Rôle</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.role.help" approved="yes">
+                <source>realm.role.help</source>
+                <target state="final">Le rôle sera vérifié seulement avec le type d'authentification « Utilisateur authentifié avec rôle ». Vous pouvez créer un rôle sur mesure pour votre domaine.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.role.placeholder" approved="yes">
+                <source>realm.role.placeholder</source>
+                <target state="final">-- Aucun rôle --</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.users" approved="yes">
+                <source>realm.users</source>
+                <target state="final">Utilisateurs spécifiques</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.users.help" approved="yes">
+                <source>realm.users.help</source>
+                <target state="final">Permet de donner accès au domaine pour certains utilisateurs seulement. À utiliser avec le type d'authentification « Utilisateur spécifique authentifié ».</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="manage.realms" approved="yes">
+                <source>manage.realms</source>
+                <target state="final">Domaines sécurisés</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.node.%name%.realms" approved="yes">
+                <source>edit.node.%name%.realms</source>
+                <target state="final">Domaines sécurisés</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm_nodes" approved="yes">
+                <source>realm_nodes</source>
+                <target state="final">Domaines sécurisés rattachés</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="join.a.realm" approved="yes">
+                <source>join.a.realm</source>
+                <target state="final">Rejoindre un domaine</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm_node.realm" approved="yes">
+                <source>realm_node.realm</source>
+                <target state="final">Domaine sécurisé</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm_node.realm.help">
+                <source>realm_node.realm.help</source>
+                <target state="translated">Choisissez un domaine sécurisé au préalablement créé pour l'appliquer à ce nœud et à son arborescence.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm_node.realm.placeholder" approved="yes">
+                <source>realm_node.realm.placeholder</source>
+                <target state="final">-- Aucun domaine sécurisé --</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm_node.inheritanceType" approved="yes">
+                <source>realm_node.inheritanceType</source>
+                <target state="final">Type de propagation</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm_node.inheritanceType.help" approved="yes">
+                <source>realm_node.inheritanceType.help</source>
+                <target state="final">Définit la manière dont le domaine sécurise sera propagé aux nœuds enfants. Utilisez le mode « Racine » pour débuter une zone, ou « Aucune propagation » pour annuler le domaine d'un nœud parent.</target>
+                <note/>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm_node.root" approved="yes">
+                <source>realm_node.root</source>
+                <target state="final">Racine du domaine</target>
+                <note>Define realm inheritance root node</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm_node.auto" approved="yes">
+                <source>realm_node.auto</source>
+                <target state="final">Automatique</target>
+                <note>Auto inheritance from ancestors realms</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm_node.none" approved="yes">
+                <source>realm_node.none</source>
+                <target state="final">Aucune propagation</target>
+                <note>Prevent any inheritance from ancestors realms</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="join.realm" approved="yes">
+                <source>join.realm</source>
+                <target state="final">Rejoindre le domaine sécurisé</target>
+                <note>Button label to submit new relation between a node and a realm</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="node.no_realm" approved="yes">
+                <source>node.no_realm</source>
+                <target state="final">Aucun domaine</target>
+                <note>Message when node is linked to an empty realm</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="leave.realm" approved="yes">
+                <source>leave.realm</source>
+                <target state="final">Quitter le domaine</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.leave.realm" approved="yes">
+                <source>are_you_sure.leave.realm</source>
+                <target state="final">Êtes-vous sûr.e de vouloir quitter ce domaine sécurisé ? La suppression sera propagée à tous les nœuds enfants ayant le mode de propagation automatique.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%node%.joined.%realm%" approved="yes">
+                <source>node.%node%.joined.%realm%</source>
+                <target state="final">Le nœud “%node%” a rejoint le domaine “%realm%”</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%node%.left.%realm%" approved="yes">
+                <source>node.%node%.left.%realm%</source>
+                <target state="final">Le nœud “%node%” a quitté le domaine “%realm%”</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.behaviour" approved="yes">
+                <source>realm.behaviour</source>
+                <target state="final">Comportement sur la WebResponse</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.behaviour.help" approved="yes">
+                <source>realm.behaviour.help</source>
+                <target state="final">Définit le comportement du domaine sécurisé sur la WebResponse : la sérialisation conditionnelle des champs s'applique quel que soit le comportement choisi.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.behaviour_none" approved="yes">
+                <source>realm.behaviour_none</source>
+                <target state="final">Aucune incidence</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.behaviour_deny" approved="yes">
+                <source>realm.behaviour_deny</source>
+                <target state="final">Rejeter la requête (erreur 401)</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="realm.behaviour_hide_blocks" approved="yes">
+                <source>realm.behaviour_hide_blocks</source>
+                <target state="final">Cacher les blocs</target>
+            </trans-unit>
+    </body>
+  </file>
+</xliff>

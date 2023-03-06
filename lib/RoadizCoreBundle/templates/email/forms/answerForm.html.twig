@@ -1,0 +1,42 @@
+{% extends '@RoadizCore/email/base_email.html.twig' %}
+
+{% block title %}<title>{{ title }}</title>{% endblock %}
+
+{% block content_table %}
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="aligncenter content-block">
+            <h1 style="text-align: center;">{% trans %}answer.form{% endtrans %}</h1>
+        </td>
+    </tr>
+    <tr>
+        <td class="aligncenter content-block">
+            <h2 style="text-align: center;">{{ title }}</h2>
+        </td>
+    </tr>
+    <tr>
+        <td class="content-block">
+            <table class="invoice">
+                <tr>
+                    <td>
+                        <table class="invoice-items" cellpadding="0" cellspacing="0">
+                            {% for field in fields %}
+                            <tr>
+                                <td width="25%" class="paddingright"><strong>{{ field.label|default(field.name|trans) }}</strong></td>
+                                <td width="75%" class="alignleft">
+                                    {% if field.name == "submittedAt" %}
+                                        {{ field.value|format_datetime("medium", "short", locale=app.request.locale) }}
+                                    {% else %}
+                                        {{ field.value }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+{% endblock %}

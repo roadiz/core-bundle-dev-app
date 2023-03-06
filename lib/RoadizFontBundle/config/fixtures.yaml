@@ -1,0 +1,6 @@
+importFiles:
+    roles:
+        - fixtures/roles.json
+    groups: []
+    settings: []
+    nodetypes: []

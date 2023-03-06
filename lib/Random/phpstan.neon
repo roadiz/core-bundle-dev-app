@@ -1,0 +1,11 @@
+parameters:
+    level: max
+    paths:
+        - src
+    excludePaths:
+        - */node_modules/*
+        - */bower_components/*
+        - */static/*
+    reportUnmatchedIgnoredErrors: false
+    checkGenericClassInNonGenericObjectType: false
+    checkMissingIterableValueType: false

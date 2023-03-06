@@ -1,0 +1,53 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+        # IMPORTANT: You MUST configure your server version,
+        # either here or in the DATABASE_URL env var (see .env file)
+        #server_version: '13'
+    orm:
+        dql:
+            string_functions:
+                JSON_CONTAINS: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonContains
+        auto_generate_proxy_classes: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        auto_mapping: true
+        mappings:
+            App:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App
+            RoadizCoreBundle:
+                is_bundle: true
+                type: annotation
+                dir: 'src/Entity'
+                prefix: 'RZ\Roadiz\CoreBundle\Entity'
+                alias: RoadizCoreBundle
+            RZ\Roadiz\Core:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/vendor/roadiz/models/src/Roadiz/Core/AbstractEntities'
+                prefix: 'RZ\Roadiz\Core\AbstractEntities'
+                alias: AbstractEntities
+            App\GeneratedEntity:
+                is_bundle: false
+                type: annotation
+                dir: '%kernel.project_dir%/src/GeneratedEntity'
+                prefix: 'App\GeneratedEntity'
+                alias: App\GeneratedEntity
+
+        resolve_target_entities:
+            Symfony\Component\Security\Core\User\UserInterface: RZ\Roadiz\CoreBundle\Entity\User
+
+            # Roadiz Core
+            RZ\Roadiz\Documents\Models\DocumentInterface: RZ\Roadiz\CoreBundle\Entity\Document
+            RZ\Roadiz\Documents\Models\FolderInterface: RZ\Roadiz\CoreBundle\Entity\Folder
+            RZ\Roadiz\Contracts\NodeType\NodeTypeInterface: RZ\Roadiz\CoreBundle\Entity\NodeType
+            RZ\Roadiz\CoreBundle\Model\AttributeInterface: RZ\Roadiz\CoreBundle\Entity\Attribute
+            RZ\Roadiz\CoreBundle\Model\AttributeTranslationInterface: RZ\Roadiz\CoreBundle\Entity\AttributeTranslation
+            RZ\Roadiz\CoreBundle\Model\AttributeGroupInterface: RZ\Roadiz\CoreBundle\Entity\AttributeGroup
+            RZ\Roadiz\CoreBundle\Model\AttributeGroupTranslationInterface: RZ\Roadiz\CoreBundle\Entity\AttributeGroupTranslation
+            RZ\Roadiz\CoreBundle\Model\AttributeValueInterface: RZ\Roadiz\CoreBundle\Entity\AttributeValue
+            RZ\Roadiz\CoreBundle\Model\AttributeValueTranslationInterface: RZ\Roadiz\CoreBundle\Entity\AttributeValueTranslation
+            RZ\Roadiz\Core\AbstractEntities\TranslationInterface: RZ\Roadiz\CoreBundle\Entity\Translation

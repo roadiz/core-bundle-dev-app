@@ -1,0 +1,36 @@
+{
+    "name": "roadiz/markdown",
+    "description": "Markdown services and Twig extension for Roadiz",
+    "type": "library",
+    "require": {
+        "php": ">=8.0",
+        "league/commonmark": "^2.2.0",
+        "twig/twig": "^3.1",
+        "doctrine/collections": ">=1.6",
+        "symfony/stopwatch": "5.4.*"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5",
+        "phpstan/phpstan": "^1.5.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ambroise Maupate",
+            "email": "ambroise@roadiz.io",
+            "homepage": "https://www.roadiz.io",
+            "role": "Lead developer"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "RZ\\Roadiz\\Markdown\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0.x-dev",
+            "dev-develop": "2.1.x-dev"
+        }
+    }
+}

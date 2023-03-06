@@ -1,0 +1,11 @@
+---
+RZ\Roadiz\CoreBundle\Entity\Folder:
+    iri: Folder
+    shortName: Folder
+    collectionOperations: {}
+    itemOperations:
+        get:
+            method: "GET"
+            normalization_context:
+                groups: [ "folder", "position" ]
+                enable_max_depth: true

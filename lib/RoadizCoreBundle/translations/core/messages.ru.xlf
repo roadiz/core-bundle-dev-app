@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext" target-language="ru">
+    <body>
+      <!-- welcome.user.email -->
+      <trans-unit id="welcome.user.email.%site%">
+        <source>welcome.user.email.%site%</source>
+        <target state="translated">для вас была создана учётная запись на сайте %site%</target>
+      </trans-unit>
+      <trans-unit id="your.user.account">
+        <source>your.user.account</source>
+        <target state="translated">ваша учетная запись</target>
+      </trans-unit>
+      <trans-unit id="username">
+        <source>username</source>
+        <target state="translated">Имя пользователя</target>
+      </trans-unit>
+      <trans-unit id="email">
+        <source>email</source>
+        <target state="translated">Электронная почта</target>
+      </trans-unit>
+      <trans-unit id="password">
+        <source>password</source>
+        <target state="translated">пароль</target>
+      </trans-unit>
+      <trans-unit id="for.questions.email">
+        <source>for.questions.email</source>
+        <target state="translated">Остались вопросы? Отправьте нам письмо:</target>
+      </trans-unit>
+      <!-- Contact forms -->
+      <trans-unit id="contact.form">
+        <source>contact.form</source>
+        <target state="translated">Контактная информация</target>
+      </trans-unit>
+      <trans-unit id="new.contact.form.%site%">
+        <source>new.contact.form.%site%</source>
+        <target state="translated">Новая контактная форма %site%</target>
+      </trans-unit>
+      <trans-unit id="form.successfully.sent">
+        <source>form.successfully.sent</source>
+        <target state="translated">Ваш запрос был успешно отправлен</target>
+      </trans-unit>
+      <trans-unit id="form.has.errors">
+        <source>form.has.errors</source>
+        <target state="translated">В форме допущены ошибки</target>
+      </trans-unit>
+      <trans-unit id="%field%.is.mandatory">
+        <source>%field%.is.mandatory</source>
+        <target state="translated">Поле %field% не заполнено</target>
+      </trans-unit>
+      <trans-unit id="email.not.valid">
+        <source>email.not.valid</source>
+        <target state="translated">Адрес электронной почты указан не верно</target>
+      </trans-unit>
+      <trans-unit id="date">
+        <source>date</source>
+        <target state="translated">Дата</target>
+      </trans-unit>
+      <trans-unit id="ip.address">
+        <source>ip.address</source>
+        <target state="translated">IP адрес</target>
+      </trans-unit>
+      <trans-unit id="submittedAt">
+        <source>submittedAt</source>
+        <target state="translated">оправленоВ</target>
+      </trans-unit>
+      <trans-unit id="form.submit">
+        <source>form.submit</source>
+        <target state="translated">Отправить</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="answer.form">
+                <source>answer.form</source>
+                <target state="translated">Форма для ответа</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.%name%.send">
+                <source>customForm.%name%.send</source>
+                <target state="translated">Запрос %name% отправлен</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
+                <source>new.answer.form.%site%</source>
+                <target state="translated">Новый запрос от %site%</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="file.not.accepted">
+                <source>file.not.accepted</source>
+                <target state="translated">Прикрепленный файл не может быть принят</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.answer.sent">
+                <source>customForm.answer.sent</source>
+                <target state="translated">Ваш овет успешно отправлен</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="none">
+                <source>none</source>
+                <target state="translated">(нет)</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="reset.password.request">
+              <source>reset.password.request</source>
+              <target state="translated">Запрос на сброс пароля</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="you.asked.for.a.password.reset.on.%site%">
+                <source>you.asked.for.a.password.reset.on.%site%</source>
+                <target state="translated">Вы запрашивали сброс пароля на %site%</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="you.need.to.choose.a.new.password.using.following.link">
+                <source>you.need.to.choose.a.new.password.using.following.link</source>
+                <target state="translated">Вам нужно создать новый пароль к вашей учетной записи используя ссылку указаную ниже.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="as.a.reminder.here.are.your.credentials">
+                <source>as.a.reminder.here.are.your.credentials</source>
+                <target state="translated">В качестве напоминания, вот ваши учетные данные.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="if.you.didnt.request.this.password.reset.ignore.this.email">
+                <source>if.you.didnt.request.this.password.reset.ignore.this.email</source>
+                <target state="translated">Если вы не запрашивали смену пароля, просто проигнорируйте это письмо</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="reset_your_password">
+                <source>reset_your_password</source>
+                <target state="translated">Сбросить пароль</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field">
+                <source>you.need.to.fill.this.required.field</source>
+                <target state="translated">Это поле необходимо заполнить</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="*.required.fields">
+                <source>*.required.fields</source>
+                <target state="translated">* Обязательное поле</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="website.is.under.maintenance">
+                <source>website.is.under.maintenance</source>
+                <target state="translated">Сайт закрыт для обслуживания</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="website.is.under.maintenance.we.will.be.back.soon">
+                <source>website.is.under.maintenance.we.will.be.back.soon</source>
+                <target state="translated">Сайт закрыт на обслуживание, но скоро вернётся!</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="yaml.is.not.valid">
+                <source>yaml.is.not.valid.{{ error }}</source>
+                <target state="translated">YAML-код содержит ошибки ({{ error }}).</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="value.is.already.used">
+                <source>value.is.already.used</source>
+                <target state="translated">Это значение уже используется.</target>
+                <note>Error message meaning that user can’t use that value for this object (eg. Object name is already used).</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="password_should_contains_at_least_one_capital_one_digit">
+                <source>password_should_contains_at_least_one_capital_one_digit</source>
+                <target state="translated">пароль должен содержать хотя бы одну заглавную цифру</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="password_blacklisted">
+                <source>password_blacklisted</source>
+                <target state="translated">пароль в черном списке</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="password_should_be_at_least_characters_long">
+                <source>password_should_be_at_least_{{length}}_characters_long</source>
+                <target state="translated">пароль должен содержать как минимум %length% символов</target>
+            </trans-unit>
+    </body>
+  </file>
+</xliff>

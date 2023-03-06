@@ -1,0 +1,63 @@
+{% extends '@RoadizRozier/login/base.html.twig' %}
+
+{% block title %}{% trans %}login{% endtrans %} | {{ parent() }}{% endblock %}
+
+{% block login_content %}
+    {% if error %}
+        <div data-uk-alert class="uk-alert uk-alert-danger">
+            {{- error.messageKey|default(error.message)|trans(error.messageData, 'security') -}}
+        </div>
+    {% endif %}
+
+    {% if openid %}
+        <p>
+            <a href="{{ openid }}"
+               class="uk-button uk-button-secondary">
+                <i class="uk-icon uk-icon-chain"></i>
+                {{ (openid_button_label|default('login_with_openid'))|trans -}}
+            </a>
+        </p>
+        <hr>
+    {% endif %}
+
+    <form id="login-form"
+          class="uk-form uk-form-stacked {% if error %}uk-animation-shake{% endif %}"
+          method="post">
+        <div class=" data-uk-margin">
+            <div class="uk-form-row form-col-text form-col--username">
+                <label for="_username" class="uk-form-label required"><span class="uk-form-label-title">{% trans %}username{% endtrans %}</span></label>
+                <input type="text"
+                       value="{{ last_username }}"
+                       name="username"
+                       id="_username"
+                       placeholder="{% trans %}username{% endtrans %}"
+                       class="form-control"
+                       required
+                       autofocus>
+            </div>
+            <div class="uk-form-row form-col-text form-col--password">
+                <label for="_password" class="uk-form-label required"><span class="uk-form-label-title">{% trans %}password{% endtrans %}</span></label>
+                <input type="password"
+                       name="password"
+                       id="_password"
+                       class="form-control"
+                       placeholder="{% trans %}password{% endtrans %}"
+                       required
+                       autocomplete="current-password">
+            </div>
+            <div class="uk-form-row form-col-checkbox form-col--remember-me">
+                <label for="_remember_me" class="uk-form-label"><span
+                            class="uk-form-label-title">{% trans %}keep_me_logged_in{% endtrans %}</span></label><input
+                        class="rz-boolean-checkbox"
+                        type="checkbox"
+                        data-on-text="I"
+                        data-off-text="O"
+                        id="_remember_me" name="_remember_me" checked value="1"/></div>
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+        <fieldset>
+            <button class="uk-button uk-button-primary"
+                    type="submit"><i class="uk-icon-sign-in"></i> {% trans %}login{% endtrans %}</button>
+        </fieldset>
+    </form>
+{% endblock %}

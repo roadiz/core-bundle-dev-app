@@ -1,0 +1,59 @@
+{% extends '@RoadizCore/email/base_email.html.twig' %}
+
+{% block title %}<title>{% trans %}validate_email.subject{% endtrans %}</title>{% endblock %}
+
+{% block content_table %}
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="content-block">
+            {% block content_title %}
+                <h1 itemprop="name">{% trans %}validate_email.subject{% endtrans %}</h1>
+            {% endblock %}
+        </td>
+    </tr>
+    <tr>
+        <td class="content-block">
+            <table class="invoice" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction">
+                <tr>
+                    <td class="content-block">
+                        {% block content_subtitle %}
+                            <h2>{{ 'validate_email.subtitle'|trans({'%site%':site})|escape }}</h2>
+                        {% endblock %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>{% trans %}validate_email.content{% endtrans %}</p>
+                        <p class="aligncenter" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+                            <a class="btn-primary" href="{{ validationLink|escape('html_attr') }}" itemprop="url">{% trans %}validate_email.btn_label{% endtrans %}</a>
+                        </p>
+                        {% block content_disclaimer %}{% endblock %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>{% trans %}as.a.reminder.here.are.your.credentials{% endtrans %}</p>
+                        <table class="invoice-items" cellpadding="0" cellspacing="0">
+                            {% if user.email == user.userIdentifier %}
+                                <tr>
+                                    <td>{% trans %}email{% endtrans %}</td>
+                                    <td class="alignright">{{ user.email|escape }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td>{% trans %}username{% endtrans %}</td>
+                                    <td class="alignright">{{ user.userIdentifier|escape }}</td>
+                                </tr>
+                                <tr>
+                                    <td>{% trans %}email{% endtrans %}</td>
+                                    <td class="alignright">{{ user.email|escape }}</td>
+                                </tr>
+                            {% endif %}
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+{% endblock %}

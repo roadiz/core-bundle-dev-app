@@ -1,0 +1,144 @@
+{% use "bootstrap_4_layout.html.twig" %}
+
+{#
+ #
+ # This file extends default symfony2 fields types
+ # It adds Roadiz CMS special types templates such as
+ # Markdown, document and childrenNodeTree fields
+ #
+ #}
+{% block markdown_widget %}
+    {% apply spaceless %}
+        {# just let the textarea widget render the select tag #}
+        <textarea {{ block('widget_attributes') }} data-uk-rz-htmleditor{# data-uk-htmleditor #}>{{ value }}</textarea>
+    {% endapply %}
+{% endblock markdown_widget %}
+
+{% block separator_widget %}
+    {% apply spaceless %}
+        {# just let the textarea widget render the select tag #}
+        <p {{ block('widget_attributes') }}>{{label}}</p>
+    {% endapply %}
+{% endblock separator_widget %}
+
+{% block time_widget -%}
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+    {% else -%}
+        {% set vars = widget == 'text' ? { 'attr': { 'size': 1 }} : {} %}
+        <div {{ block('widget_container_attributes') }}>
+            {{ form_widget(form.hour, vars) }}{% if with_minutes %}<span class="datetime-separator">:</span>{{ form_widget(form.minute, vars) }}{% endif %}{% if with_seconds %}<span class="datetime-separator">:</span>{{ form_widget(form.second, vars) }}{% endif %}
+        </div>
+    {%- endif %}
+{%- endblock time_widget %}
+
+{# Override default error block #}
+{% block form_errors -%}
+    {% if errors|length > 0 -%}
+        <ul class="errors">
+            {%- for error in errors -%}
+                <li class="uk-alert uk-alert-danger"><i class="uk-icon-warning"></i> {{ error.message|trans }}</li>
+            {%- endfor -%}
+        </ul>
+    {%- endif %}
+{%- endblock form_errors %}
+
+{#
+ # Override default form rendering
+ #}
+{% block form_start -%}
+    {% set method = method|upper %}
+    {%- if method in ["GET", "POST"] -%}
+        {% set form_method = method %}
+    {%- else -%}
+        {% set form_method = "POST" %}
+    {%- endif -%}
+    <form class="uk-form uk-form-stacked" name="{{ form.vars.name }}" method="{{ form_method|lower }}" action="{{ action }}"{% for attrname, attrvalue in attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}{% if multipart %} enctype="multipart/form-data"{% endif %}>
+    {%- if form_method != method -%}
+        <input type="hidden" name="_method" value="{{ method }}" />
+    {%- endif -%}
+{%- endblock form_start %}
+
+{% block choice_widget_collapsed -%}
+    {% if required and placeholder is none and not placeholder_in_choices and not multiple -%}
+        {% set required = false %}
+    {%- endif -%}
+
+    {% if multiple %}
+        <select {{ block('widget_attributes') }} multiple="multiple">
+            {% if placeholder is not none -%}
+                <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder|trans({}, translation_domain) }}</option>
+            {%- endif %}
+            {%- if preferred_choices|length > 0 -%}
+                {% set options = preferred_choices %}
+                {{- block('choice_widget_options') -}}
+                {% if choices|length > 0 and separator is not none -%}
+                    <option disabled="disabled">{{ separator }}</option>
+                {%- endif %}
+            {%- endif -%}
+            {% set options = choices -%}
+            {{- block('choice_widget_options') -}}
+        </select>
+    {% else %}
+        <div class="rz-select">
+            <select {{ block('widget_attributes') }}>
+                {% if placeholder is not none -%}
+                    <option value=""{% if required and value is empty %} selected="selected"{% endif %}>{{ placeholder|trans({}, translation_domain) }}</option>
+                {%- endif %}
+                {%- if preferred_choices|length > 0 -%}
+                    {% set options = preferred_choices %}
+                    {{- block('choice_widget_options') -}}
+                    {% if choices|length > 0 and separator is not none -%}
+                        <option disabled="disabled">{{ separator }}</option>
+                    {%- endif %}
+                {%- endif -%}
+                {% set options = choices -%}
+                {{- block('choice_widget_options') -}}
+            </select>
+        </div>
+    {% endif %}
+{%- endblock choice_widget_collapsed %}
+
+{% block form_row -%}
+    <div class="uk-form-row form-col form-col-{{ form.vars.block_prefixes[1] }} form-col-{{ form.vars.name|replace({'_': '-'}) }}">
+        {% if form.vars.block_prefixes[1] != 'separator' %}
+            {{- form_label(form) -}}
+        {% endif %}
+        {{- form_errors(form) -}}
+        {% if form.vars.help ?? false %}
+            <div class="uk-form-description">
+                {{ form.vars.help|trans|markdown }}
+            </div>
+        {% endif %}
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock form_row %}
+
+{% block recaptcha_widget -%}
+    <input id="add-custom-form-form-recaptcha" type="hidden" name="{{ form.vars.name }}" />
+    <script src="https://www.google.com/recaptcha/api.js?render={{ configs.publicKey }}"></script>
+    <script>
+        /*
+         * Google Recaptcha v3
+         * @see https://developers.google.com/recaptcha/docs/v3
+         */
+        (function() {
+            if (!window.grecaptcha) {
+                console.warn('Recaptcha is not loaded');
+            }
+            var form = document.getElementById('add-custom-form-form');
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                window.grecaptcha.ready(function() {
+                    window.grecaptcha.execute('{{ configs.publicKey }}', {action: 'submit'}).then(function(token) {
+                        var input = document.getElementById('add-custom-form-form-recaptcha');
+                        if (input) {
+                            input.value = token;
+                        }
+                        form.submit()
+                    });
+                });
+            });
+        })();
+    </script>
+{%- endblock recaptcha_widget %}

@@ -1,0 +1,20 @@
+parameters:
+    env(USER_PASSWORD_RESET_URL): 'loginResetPage'
+    env(USER_VALIDATION_URL): 'http://example.test/my-account/validate'
+    env(USER_PASSWORD_RESET_EXPIRES_IN): '600'
+    env(USER_VALIDATION_EXPIRES_IN): '3600'
+
+# Default configuration for "RoadizUserBundle"
+roadiz_user:
+    # Define frontend URL to redirect user to after receiving its password recovery email.
+    # **This parameter supports Symfony routes name as well as hard-coded URLs.**
+    password_reset_url: '%env(string:USER_PASSWORD_RESET_URL)%'
+    # Define frontend URL to redirect user to after receiving its email validation request.
+    # **This parameter supports Symfony routes name as well as hard-coded URLs.**
+    user_validation_url: '%env(string:USER_VALIDATION_URL)%'
+    # Define password recovery expiring time in seconds.
+    password_reset_expires_in: '%env(int:USER_PASSWORD_RESET_EXPIRES_IN)%'
+    # Define user validation token expiring time in seconds.
+    user_validation_expires_in: '%env(int:USER_VALIDATION_EXPIRES_IN)%'
+    public_user_role_name: ROLE_PUBLIC_USER
+    email_validated_role_name: ROLE_EMAIL_VALIDATED

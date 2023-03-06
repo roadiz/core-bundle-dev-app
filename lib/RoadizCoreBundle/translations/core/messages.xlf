@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <!-- welcome.user.email -->
+            <trans-unit id="welcome.user.email.%site%">
+                <source>welcome.user.email.%site%</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="your.user.account">
+                <source>your.user.account</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="username">
+                <source>username</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="email">
+                <source>email</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="password">
+                <source>password</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="for.questions.email">
+                <source>for.questions.email</source>
+                <target/>
+            </trans-unit>
+            <!-- Contact forms -->
+            <trans-unit id="contact.form">
+                <source>contact.form</source>
+                <target/>
+            </trans-unit>
+
+            <trans-unit id="new.contact.form.%site%">
+                <source>new.contact.form.%site%</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="form.successfully.sent">
+                <source>form.successfully.sent</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="form.has.errors">
+                <source>form.has.errors</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="%field%.is.mandatory">
+                <source>%field%.is.mandatory</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="email.not.valid">
+                <source>email.not.valid</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="date">
+                <source>date</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="ip.address">
+                <source>ip.address</source>
+                <target/>
+            </trans-unit>
+            <trans-unit id="submittedAt">
+                <source>submittedAt</source>
+                <target/>
+            </trans-unit>
+
+            <trans-unit id="form.submit">
+                <source>form.submit</source>
+                <target/>
+            </trans-unit>
+
+            <trans-unit xml:space="preserve" id="answer.form">
+                <source>answer.form</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.%name%.send">
+                <source>customForm.%name%.send</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="new.answer.form.%site%">
+                <source>new.answer.form.%site%</source>
+                <target></target>
+            </trans-unit>
+
+            <trans-unit xml:space="preserve" id="file.not.accepted">
+                <source>file.not.accepted</source>
+                <target></target>
+            </trans-unit>
+
+            <trans-unit xml:space="preserve" id="customForm.answer.sent">
+                <source>customForm.answer.sent</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="none">
+                <source>none</source>
+                <target></target>
+            </trans-unit>
+
+            <trans-unit xml:space="preserve" id="reset.password.request">
+              <source>reset.password.request</source>
+              <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="you.asked.for.a.password.reset.on.%site%">
+                <source>you.asked.for.a.password.reset.on.%site%</source>
+                <target></target>
+            </trans-unit>
+              <trans-unit xml:space="preserve" id="you.need.to.choose.a.new.password.using.following.link">
+                <source>you.need.to.choose.a.new.password.using.following.link</source>
+                <target></target>
+            </trans-unit>
+              <trans-unit xml:space="preserve" id="as.a.reminder.here.are.your.credentials">
+                <source>as.a.reminder.here.are.your.credentials</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="if.you.didnt.request.this.password.reset.ignore.this.email">
+                <source>if.you.didnt.request.this.password.reset.ignore.this.email</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="reset_your_password">
+                <source>reset_your_password</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field">
+                <source>you.need.to.fill.this.required.field</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="*.required.fields">
+                <source>*.required.fields</source>
+                <target></target>
+            </trans-unit>
+
+            <trans-unit xml:space="preserve" id="website.is.under.maintenance">
+                <source>website.is.under.maintenance</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="website.is.under.maintenance.we.will.be.back.soon">
+                <source>website.is.under.maintenance.we.will.be.back.soon</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="yaml.is.not.valid">
+                <source>yaml.is.not.valid.{{ error }}</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="json.is.not.valid">
+                <source>json.is.not.valid.{{ error }}</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="value.is.already.used">
+                <source>value.is.already.used</source>
+                <target></target>
+                <note>Error message meaning that user can’t use that value for this object (eg. Object name is already used).</note>
+            </trans-unit>
+
+            <trans-unit xml:space="preserve" id="password_should_contains_at_least_one_capital_one_digit">
+                <source>password_should_contains_at_least_one_capital_one_digit</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="password_blacklisted">
+                <source>password_blacklisted</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="password_should_be_at_least_characters_long">
+                <source>password_should_be_at_least_{{length}}_characters_long</source>
+                <target></target>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>

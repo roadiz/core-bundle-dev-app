@@ -1,0 +1,17 @@
+{# Picture element should not declare any attributes #}
+<picture{% block picture_attributes %}{% endblock %}>
+    {%- if not mediaList -%}
+        {%- include 'documents/picture-source.html.twig' -%}
+    {%- else -%}
+        {%- for media in mediaList -%}
+            {%- include 'documents/picture-source.html.twig' with {
+                'srcset': media.srcset,
+                'webp_srcset': media.webp_srcset,
+                'media': media.rule
+            } -%}
+        {%- endfor -%}
+    {%- endif -%}
+    {%- include 'documents/image.html.twig' with {
+        'avoidNoScript': true
+    } -%}
+</picture>

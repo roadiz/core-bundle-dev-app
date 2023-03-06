@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file original="" source-language="en" datatype="plaintext" target-language="en">
+        <body>
+            <trans-unit xml:space="preserve" id="custom-form.usage">
+                <source>custom-form.usage</source>
+                <target></target>
+                <note>Custom form nav-bar item "Usage" label</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.retentionTime">
+                <source>customForm.retentionTime</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.retentionTime.help">
+                <source>customForm.retentionTime.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.retentionTime.always">
+                <source>customForm.retentionTime.always</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.retentionTime.one_week">
+                <source>customForm.retentionTime.one_week</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.retentionTime.two_weeks">
+                <source>customForm.retentionTime.two_weeks</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.retentionTime.one_month">
+                <source>customForm.retentionTime.one_month</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.retentionTime.three_months">
+                <source>customForm.retentionTime.three_months</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.retentionTime.six_months">
+                <source>customForm.retentionTime.six_months</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.retentionTime.one_year">
+                <source>customForm.retentionTime.one_year</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.retentionTime.two_years">
+                <source>customForm.retentionTime.two_years</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
