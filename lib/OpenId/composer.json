@@ -15,9 +15,9 @@
         "php": ">=8.0",
         "ext-json": "*",
         "lcobucci/jwt": "^4.1",
-        "roadiz/jwt": "2.1.x-dev",
-        "roadiz/random": "2.1.x-dev",
-        "roadiz/models": "2.1.x-dev",
+        "roadiz/jwt": "^2.2",
+        "roadiz/random": "^2.2",
+        "roadiz/models": "^2.2",
         "guzzlehttp/guzzle": "^7.2.0",
         "symfony/http-foundation": "5.4.*",
         "symfony/security-core": "5.4.*",
@@ -45,7 +45,7 @@
     "extra": {
         "branch-alias": {
             "dev-main": "2.0.x-dev",
-            "dev-develop": "2.1.x-dev"
+            "dev-develop": "2.2.x-dev"
         }
     }
 }
