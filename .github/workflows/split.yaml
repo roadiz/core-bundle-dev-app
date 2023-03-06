@@ -10,8 +10,8 @@ on:
 
 env:
     # 1. for Github split -- Update secret on 2024-03-06
-    GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-
+    # Use automatic GITHUB_TOKEN var
+    #GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
 jobs:
     packages_split:
