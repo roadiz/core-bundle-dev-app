@@ -18,3 +18,7 @@ You may need to override `<noscript>` block to add `inline-template` attribute :
 ```
 
 Do not forget to add a leading space before your attributes.
+
+## Contributing
+
+Report [issues](https://github.com/roadiz/core-bundle-dev-app/issues) and send [Pull Requests](https://github.com/roadiz/core-bundle-dev-app/pulls) in the [main Roadiz repository](https://github.com/roadiz/core-bundle-dev-app)

@@ -11,7 +11,6 @@ use Symplify\MonorepoBuilder\ValueObject\Option;
 
 return static function (MBConfig $mbConfig): void {
     $mbConfig->packageAliasFormat('<major>.<minor>.x-dev');
-
     $mbConfig->packageDirectories([__DIR__ . '/lib']);
 
     // Using packageDirectoriesExcludes does not work with bower_components

@@ -19,3 +19,7 @@ $declaration = new DeclarationGenerator($declarationFactory);
 
 echo $declaration->getContents();
 ```
+
+## Contributing
+
+Report [issues](https://github.com/roadiz/core-bundle-dev-app/issues) and send [Pull Requests](https://github.com/roadiz/core-bundle-dev-app/pulls) in the [main Roadiz repository](https://github.com/roadiz/core-bundle-dev-app)

@@ -90,3 +90,7 @@ roadiz_rozier:
                     roles: ['ROLE_ACCESS_FONTS']
 ```
 - Perform *Doctrine Migrations* to create `fonts` table
+
+## Contributing
+
+Report [issues](https://github.com/roadiz/core-bundle-dev-app/issues) and send [Pull Requests](https://github.com/roadiz/core-bundle-dev-app/pulls) in the [main Roadiz repository](https://github.com/roadiz/core-bundle-dev-app)
