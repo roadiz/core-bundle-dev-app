@@ -1,0 +1,105 @@
+name: 'Packages Split'
+
+on:
+    push:
+        branches:
+            - main
+            - develop
+        tags:
+            - '*'
+
+env:
+    # 1. for Github split -- Update secret on 2024-03-06
+    GITHUB_TOKEN: ${{ secrets.ROADIZ_SPLIT_ACCESS_TOKEN }}
+
+
+jobs:
+    packages_split:
+        runs-on: ubuntu-latest
+
+        strategy:
+            fail-fast: false
+            matrix:
+                # define package to repository map
+                package:
+                    -
+                        local_path: 'DocGenerator'
+                        split_repository: 'doc-generator'
+                    -
+                        local_path: 'Documents'
+                        split_repository: 'documents'
+                    -
+                        local_path: 'DtsGenerator'
+                        split_repository: 'dts-generator'
+                    -
+                        local_path: 'EntityGenerator'
+                        split_repository: 'entity-generator'
+                    -
+                        local_path: 'Jwt'
+                        split_repository: 'jwt'
+                    -
+                        local_path: 'Markdown'
+                        split_repository: 'markdown'
+                    -
+                        local_path: 'Models'
+                        split_repository: 'models'
+                    -
+                        local_path: 'OpenId'
+                        split_repository: 'openid'
+                    -
+                        local_path: 'Random'
+                        split_repository: 'random'
+                    -
+                        local_path: 'RoadizCompatBundle'
+                        split_repository: 'compat-bundle'
+                    -
+                        local_path: 'RoadizCoreBundle'
+                        split_repository: 'core-bundle'
+                    -
+                        local_path: 'RoadizFontBundle'
+                        split_repository: 'font-bundle'
+                    -
+                        local_path: 'RoadizRozierBundle'
+                        split_repository: 'rozier-bundle'
+                    -
+                        local_path: 'RoadizUserBundle'
+                        split_repository: 'user-bundle'
+                    -
+                        local_path: 'Rozier'
+                        split_repository: 'rozier'
+
+
+        steps:
+            -   uses: actions/checkout@v2
+
+            # no tag
+            -   if: "!startsWith(github.ref, 'refs/tags/')"
+                uses: "symplify/monorepo-split-github-action@2.1"
+                with:
+                    # ↓ split "lib/local_path" directory
+                    package_directory: 'lib/${{ matrix.package.local_path }}'
+
+                    # ↓ into https://github.com/roadiz/split_repository repository
+                    repository_organization: 'roadiz'
+                    repository_name: '${{ matrix.package.split_repository }}'
+
+                    # ↓ the user signed under the split commit
+                    user_name: "roadiz-ci"
+                    user_email: "contact@roadiz.io"
+
+            # with tag
+            -   if: "startsWith(github.ref, 'refs/tags/')"
+                uses: "symplify/monorepo-split-github-action@2.1"
+                with:
+                    tag: ${GITHUB_REF#refs/tags/}
+
+                    # ↓ split "lib/local_path" directory
+                    package_directory: 'lib/${{ matrix.package.local_path }}'
+
+                    # ↓ into https://github.com/roadiz/split_repository repository
+                    repository_organization: 'roadiz'
+                    repository_name: '${{ matrix.package.split_repository }}'
+
+                    # ↓ the user signed under the split commit
+                    user_name: "roadiz-ci"
+                    user_email: "contact@roadiz.io"
