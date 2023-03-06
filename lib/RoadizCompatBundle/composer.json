@@ -15,8 +15,6 @@
         }
     ],
     "type": "symfony-bundle",
-    "minimum-stability": "stable",
-    "prefer-stable": true,
     "require": {
         "php": ">=8.0",
         "pimple/pimple": "^3.3.1",

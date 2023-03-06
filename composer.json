@@ -1,7 +1,7 @@
 {
     "name": "roadiz/dev",
-    "description": "Roadiz Development monorepo and application",
-    "license": "proprietary",
+    "description": "Roadiz development monorepo and application",
+    "license": "MIT",
     "authors": [
         {
             "name": "Ambroise Maupate",
