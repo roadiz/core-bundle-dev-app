@@ -1,0 +1,19 @@
+{% extends "@RoadizRozier/realms/add.html.twig" %}
+
+{% block title %}{{- "edit.realm.%name%"|trans({'%name%': item.name}) -}} | {{ parent() }}{% endblock %}
+{%- block content_title -%}{{- "edit.realm.%name%"|trans({'%name%': item.name}) -}}{%- endblock -%}
+
+{%- block content_body_after -%}
+    <div class="content-table-cont metadata-list">
+        <table class="uk-table content-table">
+            <tr>
+                <td>{% trans %}created.at{% endtrans %}</td>
+                <td>{{ item.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
+            </tr>
+            <tr>
+                <td>{% trans %}updated.at{% endtrans %}</td>
+                <td>{{ item.updatedAt|format_datetime('long', locale=app.request.locale) }}</td>
+            </tr>
+        </table>
+    </div>
+{%- endblock -%}

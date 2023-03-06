@@ -1,0 +1,23 @@
+---
+loginRequestPage:
+    path:     /login/request
+    controller: RZ\Roadiz\RozierBundle\Controller\Login\LoginRequestController::indexAction
+loginRequestConfirmPage:
+    path:     /login/request/confirm
+    controller: RZ\Roadiz\RozierBundle\Controller\Login\LoginRequestController::confirmAction
+loginResetConfirmPage:
+    path:     /login/reset/confirm
+    controller: Themes\Rozier\Controllers\LoginResetController::confirmAction
+loginResetPage:
+    path:     /login/reset/{token}
+    controller: Themes\Rozier\Controllers\LoginResetController::resetAction
+    requirements: { token : "[^\\/]+" }
+
+# Override legacy Rozier routes for security
+loginPage:
+    path: /login
+    controller: RZ\Roadiz\RozierBundle\Controller\SecurityController::login
+
+logoutPage:
+    path: /logout
+    controller: RZ\Roadiz\RozierBundle\Controller\SecurityController::logout

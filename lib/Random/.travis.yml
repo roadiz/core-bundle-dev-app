@@ -1,0 +1,16 @@
+language: php
+sudo: required
+php:
+    - 7.4
+    - 8.0
+    - 8.1
+    - nightly
+install:
+    - curl -s http://getcomposer.org/installer | php
+    - php composer.phar install --dev --no-interaction
+script:
+    - vendor/bin/phpcs --report=full --report-file=./report.txt --extensions=php --warning-severity=0 --standard=PSR2 -p ./src
+    - vendor/bin/phpstan analyse -c phpstan.neon
+jobs:
+    allow_failures:
+        -   php: nightly

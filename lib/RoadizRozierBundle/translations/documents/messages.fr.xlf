@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="" source-language="en" datatype="plaintext" target-language="fr">
+    <body>
+      <trans-unit xml:space="preserve" id="document.externalUrl" approved="yes">
+                <source>document.externalUrl</source>
+                <target state="final">URL externe</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.limitations" approved="yes">
+                <source>document.limitations</source>
+                <target state="final">Limitations</target>
+                <note>Documents limitations backoffice section label</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.copyrightHolder" approved="yes">
+                <source>document.copyrightHolder</source>
+                <target state="final">Titulaire du droit d'auteur</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.copyrightValidSince" approved="yes">
+                <source>document.copyrightValidSince</source>
+                <target state="final">Le droit d’auteur est valide depuis</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.copyrightValidUntil" approved="yes">
+                <source>document.copyrightValidUntil</source>
+                <target state="final">Le droit d’auteur est valide jusqu’au</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="no_document" approved="yes">
+                <source>no_document</source>
+                <target state="final">Aucun document</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="unused_documents.help" approved="yes">
+                <source>unused_documents.help</source>
+                <target state="final">
+Les documents sont considérés comme inutilisés s'ils ne sont pas liés à un nœud, une étiquette, un paramètre général ou un attribut.
+
+**Attention** si vous utilisez directement l'URL de votre document :
+dans un texte Markdown, un site externe, *le document sera considéré comme inutilisé.*</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="all.documents" approved="yes">
+                <source>all.documents</source>
+                <target state="final">Tous les documents</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicated_documents" approved="yes">
+                <source>duplicated_documents</source>
+                <target state="final">Doublons</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.video_sources" approved="yes">
+                <source>document.video_sources</source>
+                <target state="final">Toutes les sources vidéos</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.audio_sources" approved="yes">
+                <source>document.audio_sources</source>
+                <target state="final">Toutes les sources audios</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.picture_sources" approved="yes">
+                <source>document.picture_sources</source>
+                <target state="final">Toutes les sources images</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="private_documents">
+                <source>private_documents</source>
+                <target state="translated">Documents privés</target>
+            </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,6 @@
+{# When AJAX app.request only offer a content block #}
+{% block permanentComponents %}
+<overlay data-vuejs></overlay>
+{% endblock %}
+<meta name="title" content="{% block title %}{% trans %}back_office{% endtrans %}: {{ meta.siteName }}{% endblock %}">
+{% block content %}{% endblock %}

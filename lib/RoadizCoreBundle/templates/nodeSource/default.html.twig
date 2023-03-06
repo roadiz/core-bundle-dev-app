@@ -1,0 +1,8 @@
+{% extends "@RoadizCore/base.html.twig" %}
+
+{% block content %}
+    <h1><a href="{{ path(nodeSource) }}">{{ nodeSource.title }}</a></h1>
+    {% if nodeSource.content is defined %}
+        {{ nodeSource.content|markdown }}
+    {% endif %}
+{% endblock %}

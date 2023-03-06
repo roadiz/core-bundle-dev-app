@@ -1,0 +1,5 @@
+---
+RZ\Roadiz\CoreBundle\Entity\Attribute:
+    collectionOperations: []
+    itemOperations: []
+

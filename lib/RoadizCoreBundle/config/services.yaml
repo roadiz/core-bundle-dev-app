@@ -1,0 +1,610 @@
+---
+parameters:
+    env(APP_NAMESPACE): "roadiz"
+    env(APP_VERSION): "0.1.0"
+    env(APP_USE_ACCEPT_LANGUAGE_HEADER): 'false'
+    env(APP_UNSPLASH_CLIENT_ID): ~
+    env(APP_SOUNDCLOUD_CLIENT_ID): ~
+    env(APP_RECAPTCHA_PRIVATE_KEY): ~
+    env(APP_RECAPTCHA_PUBLIC_KEY): ~
+    env(APP_GOOGLE_SERVER_ID): ~
+    env(APP_HEALTH_CHECK_TOKEN): ~
+    env(OPEN_ID_CLIENT_ID): ~
+    env(OPEN_ID_CLIENT_SECRET): ~
+    env(OPEN_ID_HOSTED_DOMAIN): ~
+    env(OPEN_ID_DISCOVERY_URL): ~
+    env(SOLR_CORE_NAME): "roadiz"
+    env(SOLR_PORT): "8983"
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $cmsVersion: '2.1.0'
+            $appVersion: '%roadiz_core.app_version%'
+            $cmsVersionPrefix: 'develop'
+            $staticDomain: '%roadiz_core.static_domain_name%'
+            $hideRoadizVersion: '%roadiz_core.hide_roadiz_version%'
+            $inheritanceType: '%roadiz_core.inheritance_type%'
+            $maxPixelSize: '%rz_intervention_request.max_pixel_size%'
+            $appNamespace: '%roadiz_core.app_namespace%'
+            $projectDir: '%kernel.project_dir%'
+            $exportDir: '%kernel.project_dir%/var/export'
+            $privateKeyName: '%roadiz_core.private_key_name%'
+            $generatedEntitiesDir: '%roadiz_core.generated_entities_dir%'
+            $serializedNodeTypesDir: '%roadiz_core.serialized_node_types_dir%'
+            $importFilesConfigPath: '%roadiz_core.import_files_config_path%'
+            $kernelProjectDir: '%kernel.project_dir%'
+            $apiResourcesDir: '%kernel.project_dir%/config/api_resources'
+            $debug: '%kernel.debug%'
+            $defaultControllerClass: '%roadiz_core.default_node_source_controller%'
+            $webhookMessageTypes: '%roadiz_core.webhook.message_types%'
+            $useAcceptLanguageHeader: '%roadiz_core.use_accept_language_header%'
+            $healthCheckToken: '%roadiz_core.health_check_token%'
+            $ffmpegPath: '%roadiz_core.medias.ffmpeg_path%'
+            $useTypedNodeNames: '%roadiz_core.use_typed_node_names%'
+            $maxVersionsShowed: '%roadiz_core.max_versions_showed%'
+            $recaptchaPublicKey: '%roadiz_core.medias.recaptcha_public_key%'
+            $recaptchaPrivateKey: '%roadiz_core.medias.recaptcha_private_key%'
+
+    RZ\Roadiz\CoreBundle\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Traits/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+            - '../src/Event/'
+
+    RZ\Roadiz\CoreBundle\EntityHandler\:
+        resource: '../src/EntityHandler/'
+        # Recreate handlers for each usage
+        shared: false
+        public: true
+
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\YoutubeEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'youtube' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\VimeoEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'vimeo' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\DeezerEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'deezer' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\DailymotionEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'dailymotion' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\SoundcloudEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'soundcloud' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\MixcloudEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'mixcloud' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\SpotifyEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'spotify' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\TedEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'ted' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\PodcastFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'podcast' } ]
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\TwitchEmbedFinder:
+        tags: [ { name: 'roadiz_core.media_finder', platform: 'twitch' } ]
+
+    # Removed DataTransformers
+    RZ\Roadiz\CoreBundle\Api\DataTransformer\:
+        resource: '../src/Api/DataTransformer/'
+        autowire: false
+        autoconfigure: false
+
+    RZ\Roadiz\CoreBundle\Api\Dto\:
+        resource: '../src/Api/Dto/'
+        autowire: false
+        autoconfigure: false
+
+    # Except for WebResponse
+    RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseOutputDataTransformer:
+        autowire: true
+        autoconfigure: true
+
+    RZ\Roadiz\CoreBundle\Api\Filter\:
+        resource: '../src/Api/Filter/'
+        autowire: true
+        tags: [ { name: 'api_platform.filter' } ]
+
+    RZ\Roadiz\CoreBundle\Api\Extension\ArchiveExtension:
+        # Extension must be called after all filtering BUT before default pagination extension
+        tags: [ { name: 'api_platform.doctrine.orm.query_extension.collection', priority: -40 } ]
+
+    RZ\Roadiz\CoreBundle\Bag\:
+        resource: '../src/Bag/'
+        autowire: true
+        public: true
+
+
+    RZ\Roadiz\CoreBundle\Api\OpenApi\JwtDecorator:
+        decorates: 'api_platform.openapi.factory'
+        arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\JwtDecorator.inner' ]
+        autoconfigure: false
+
+    #
+    # API Platform normalizers
+    #
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\RealmSerializationGroupNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 64 }
+
+    # Folder (must be decorate BEFORE DocumentNormalizer)
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\FolderNormalizer:
+        # By default, .inner is passed as argument
+        decorates: 'api_platform.jsonld.normalizer.item'
+        decoration_priority: 21
+    # Need a different name to avoid duplicate YAML key
+    roadiz_core.serializer.normalizer.folder.json:
+        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\FolderNormalizer'
+        decorates: 'api_platform.serializer.normalizer.item'
+        decoration_priority: 21
+
+    # Document
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentNormalizer:
+        # By default, .inner is passed as argument
+        decorates: 'api_platform.jsonld.normalizer.item'
+        decoration_priority: 20
+    # Need a different name to avoid duplicate YAML key
+    roadiz_core.serializer.normalizer.document.json:
+        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentNormalizer'
+        decorates: 'api_platform.serializer.normalizer.item'
+        decoration_priority: 20
+
+    # Serialize document sources (must be decorate AFTER DocumentNormalizer)
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentSourcesNormalizer:
+        decorates: 'api_platform.jsonld.normalizer.item'
+        decoration_priority: 19
+    # Need a different name to avoid duplicate YAML key
+    roadiz_core.serializer.normalizer.document_sources.json:
+        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentSourcesNormalizer'
+        decorates: 'api_platform.serializer.normalizer.item'
+        decoration_priority: 19
+
+    # Tag
+    # requires DocumentNormalizer
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagNormalizer:
+        # By default, .inner is passed as argument
+        decorates: 'api_platform.jsonld.normalizer.item'
+        decoration_priority: 18
+    # Need a different name to avoid duplicate YAML key
+    roadiz_core.serializer.normalizer.tag.json:
+        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagNormalizer'
+        decorates: 'api_platform.serializer.normalizer.item'
+        decoration_priority: 18
+
+    # CustomForm
+    # requires DocumentNormalizer
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\CustomFormNormalizer:
+        # By default, .inner is passed as argument
+        decorates: 'api_platform.jsonld.normalizer.item'
+        decoration_priority: 15
+    # Need a different name to avoid duplicate YAML key
+    roadiz_core.serializer.normalizer.custom_form.json:
+        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\CustomFormNormalizer'
+        decorates: 'api_platform.serializer.normalizer.item'
+        decoration_priority: 15
+
+    # AttributeValue
+    # requires DocumentNormalizer
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeValueNormalizer:
+        # By default, .inner is passed as argument
+        decorates: 'api_platform.jsonld.normalizer.item'
+        decoration_priority: 15
+    # Need a different name to avoid duplicate YAML key
+    roadiz_core.serializer.normalizer.attribute_value.json:
+        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeValueNormalizer'
+        decorates: 'api_platform.serializer.normalizer.item'
+        decoration_priority: 15
+
+    # NodesSources
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer:
+        # By default, .inner is passed as argument
+        decorates: 'api_platform.jsonld.normalizer.item'
+        decoration_priority: 5
+    # Need a different name to avoid duplicate YAML key
+    roadiz_core.serializer.normalizer.nodes_sources_path.json:
+        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer'
+        decorates: 'api_platform.serializer.normalizer.item'
+        decoration_priority: 5
+
+    Limenius\Liform\LiformInterface:
+        alias: liform
+
+    roadiz_core.liform.datetime_type.transformer:
+        class: Limenius\Liform\Transformer\StringTransformer
+        parent: Limenius\Liform\Transformer\AbstractTransformer
+        tags:
+            - { name: liform.transformer, form_type: datetime, widget: datetime }
+
+    roadiz_core.liform.date_type.transformer:
+        class: Limenius\Liform\Transformer\StringTransformer
+        parent: Limenius\Liform\Transformer\AbstractTransformer
+        tags:
+            - { name: liform.transformer, form_type: date, widget: date }
+
+    RZ\Roadiz\CoreBundle\Serializer\TranslationAwareContextBuilder:
+        decorates: 'api_platform.serializer.context_builder'
+        arguments: [ '@RZ\Roadiz\CoreBundle\Serializer\TranslationAwareContextBuilder.inner' ]
+        autowire: true
+        autoconfigure: false
+
+    # Do not register roadiz/document packages event-subscribers
+    # They've been replaced with MessageHandlers
+
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\AbstractDocumentMessageHandler:
+        autoconfigure: false
+        abstract: true
+
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\AbstractLockingDocumentMessageHandler:
+        autoconfigure: false
+        abstract: true
+
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\DocumentAverageColorMessageHandler:
+        autoconfigure: false
+        tags:
+            -   name: messenger.message_handler
+                handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentAverageColorMessage
+            - { name: monolog.logger, channel: messenger }
+
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\DocumentExifMessageHandler:
+        autoconfigure: false
+        tags:
+            -   name: messenger.message_handler
+                handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentExifMessage
+            - { name: monolog.logger, channel: messenger }
+
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\DocumentFilesizeMessageHandler:
+        autoconfigure: false
+        tags:
+            -   name: messenger.message_handler
+                handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentFilesizeMessage
+            - { name: monolog.logger, channel: messenger }
+
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\DocumentRawMessageHandler:
+        autoconfigure: false
+        tags:
+            -   name: messenger.message_handler
+                handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentRawMessage
+                priority: -100
+            - { name: monolog.logger, channel: messenger }
+
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\DocumentSizeMessageHandler:
+        autoconfigure: false
+        tags:
+            -   name: messenger.message_handler
+                handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentSizeMessage
+            - { name: monolog.logger, channel: messenger }
+
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\DocumentSvgMessageHandler:
+        autoconfigure: false
+        tags:
+            -   name: messenger.message_handler
+                handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentSvgMessage
+                priority: -100
+            - { name: monolog.logger, channel: messenger }
+
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\DocumentAudioVideoMessageHandler:
+        autoconfigure: false
+        tags:
+            -   name: messenger.message_handler
+                handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentAudioVideoMessage
+            - { name: monolog.logger, channel: messenger }
+
+    RZ\Roadiz\CoreBundle\SearchEngine\Indexer\:
+        resource: '../src/SearchEngine/Indexer/'
+        # Recreate handlers for each usage
+        shared: false
+        public: true
+
+    RZ\Roadiz\CoreBundle\Mailer\EmailManager:
+        # Recreate manager for each usage
+        shared: false
+
+    RZ\Roadiz\CoreBundle\Doctrine\EventSubscriber\:
+        resource: '../src/Doctrine/EventSubscriber'
+        tags:
+            - { name: monolog.logger, channel: doctrine }
+            - { name: doctrine.event_subscriber }
+
+    RZ\Roadiz\Documents\Events\DocumentLifeCycleSubscriber:
+        tags:
+            - { name: monolog.logger, channel: doctrine }
+            - { name: doctrine.event_subscriber }
+
+    RZ\Roadiz\Core\Events\LeafEntityLifeCycleSubscriber:
+        tags:
+            - { name: monolog.logger, channel: doctrine }
+            - { name: doctrine.event_subscriber }
+
+    RZ\Roadiz\CoreBundle\Doctrine\SchemaUpdater:
+        tags:
+            - { name: monolog.logger, channel: doctrine }
+
+    RZ\Roadiz\CoreBundle\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    RZ\Roadiz\CoreBundle\Api\Controller\:
+        resource: '../src/Api/Controller'
+        tags: ['controller.service_arguments']
+
+    RZ\Roadiz\CoreBundle\Security\Authorization\Voter\:
+        resource: '../src/Security/Authorization/Voter'
+        tags: [ 'security.voter' ]
+
+    RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface:
+        alias: RZ\Roadiz\CoreBundle\Preview\RequestPreviewRevolver
+
+    RZ\Roadiz\CoreBundle\Preview\RequestPreviewRevolver:
+        arguments:
+            - '@Symfony\Component\HttpFoundation\RequestStack'
+            - 'ROLE_BACKEND_USER'
+
+    RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry:
+        arguments: ['@service_container']
+
+    RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactory:
+        arguments: ['@service_container']
+
+    RZ\Roadiz\CoreBundle\EntityHandler\HandlerFactory:
+        arguments: ['@service_container']
+
+    RZ\Roadiz\Core\Handlers\HandlerFactoryInterface:
+        alias: RZ\Roadiz\CoreBundle\EntityHandler\HandlerFactory
+
+    RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface:
+        alias: RZ\Roadiz\CoreBundle\Bag\NodeTypes
+        public: true
+
+    RZ\Roadiz\EntityGenerator\EntityGeneratorFactory:
+        arguments:
+            - '@RZ\Roadiz\CoreBundle\Bag\NodeTypes'
+            - '%roadiz_core.entity_generator_factory.options%'
+
+    Gedmo\Loggable\LoggableListener:
+        alias: RZ\Roadiz\CoreBundle\Doctrine\Loggable\UserLoggableListener
+
+    RZ\Roadiz\CoreBundle\Doctrine\Loggable\UserLoggableListener:
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
+        calls:
+            - [ setAnnotationReader, [ "@annotation_reader" ] ]
+
+    Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface:
+        alias: 'assets.empty_version_strategy'
+
+    Doctrine\Persistence\ObjectManager:
+        alias: 'doctrine.orm.default_entity_manager'
+
+    RZ\Roadiz\CoreBundle\Filesystem\RoadizFileDirectories:
+        arguments: ['%kernel.project_dir%']
+        public: true
+
+    RZ\Roadiz\Random\PasswordGenerator: ~
+
+    RZ\Crypto\KeyChain\KeyChainInterface:
+        alias: RZ\Crypto\KeyChain\AsymmetricFilesystemKeyChain
+
+    RZ\Crypto\KeyChain\AsymmetricFilesystemKeyChain:
+        arguments: ['%kernel.project_dir%/var/secret', true]
+
+    JMS\Serializer\Construction\ObjectConstructorInterface:
+        alias: RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor
+
+    RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ChainDoctrineObjectConstructor:
+        decorates: jms_serializer.doctrine_object_constructor
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+            - '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor'
+            - [
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TranslationObjectConstructor',
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TagObjectConstructor',
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeObjectConstructor',
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeFieldObjectConstructor',
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingObjectConstructor',
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingGroupObjectConstructor'
+            ]
+
+    Solarium\Core\Client\Client:
+        factory: ['RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry', 'getClient']
+
+    # Provides LoginAttemptManager aware authentication
+    RZ\Roadiz\CoreBundle\Security\Authentication\JwtAuthenticationSuccessHandler:
+        decorates: 'lexik_jwt_authentication.handler.authentication_success'
+
+    RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver:
+        alias: RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootChainResolver
+
+    RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootChainResolver:
+        arguments:
+            - ['@RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\RoadizUserNodeChrootResolver']
+
+    RZ\Roadiz\CoreBundle\Cache\Clearer\AssetsFileClearer:
+        arguments:
+            - '%kernel.project_dir%/public/assets'
+
+    RZ\Roadiz\CoreBundle\Importer\AttributeImporter:
+        tags: ['roadiz_core.importer']
+    RZ\Roadiz\CoreBundle\Importer\GroupsImporter:
+        tags: ['roadiz_core.importer']
+    RZ\Roadiz\CoreBundle\Importer\NodeTypesImporter:
+        tags: ['roadiz_core.importer']
+    RZ\Roadiz\CoreBundle\Importer\RolesImporter:
+        tags: ['roadiz_core.importer']
+    RZ\Roadiz\CoreBundle\Importer\SettingsImporter:
+        tags: ['roadiz_core.importer']
+    RZ\Roadiz\CoreBundle\Importer\TagsImporter:
+        tags: ['roadiz_core.importer']
+
+    #
+    # Markdown
+    #
+    League\CommonMark\Extension\Autolink\AutolinkExtension:
+        tags: ['roadiz_core.markdown.text_extra_converter.extension']
+    League\CommonMark\Extension\ExternalLink\ExternalLinkExtension:
+        tags: ['roadiz_core.markdown.line_converter.extension', 'roadiz_core.markdown.text_converter.extension', 'roadiz_core.markdown.text_extra_converter.extension']
+    League\CommonMark\Extension\Footnote\FootnoteExtension:
+        tags: ['roadiz_core.markdown.text_extra_converter.extension']
+    League\CommonMark\Extension\InlinesOnly\InlinesOnlyExtension:
+        tags: ['roadiz_core.markdown.line_converter.extension']
+    League\CommonMark\Extension\SmartPunct\SmartPunctExtension:
+        tags: ['roadiz_core.markdown.text_extra_converter.extension']
+    League\CommonMark\Extension\Strikethrough\StrikethroughExtension:
+        tags: ['roadiz_core.markdown.text_converter.extension', 'roadiz_core.markdown.text_extra_converter.extension']
+    League\CommonMark\Extension\TaskList\TaskListExtension:
+        tags: ['roadiz_core.markdown.text_extra_converter.extension']
+    League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension:
+        tags: ['roadiz_core.markdown.text_converter.extension', 'roadiz_core.markdown.text_extra_converter.extension']
+    League\CommonMark\Extension\Table\TableExtension:
+        tags: ['roadiz_core.markdown.text_converter.extension', 'roadiz_core.markdown.text_extra_converter.extension']
+
+    #
+    # Media finders
+    #
+    RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder:
+        arguments:
+            - '%roadiz_core.medias.unsplash_client_id%'
+    RZ\Roadiz\Documents\MediaFinders\RandomImageFinder:
+        alias: RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder
+    RZ\Roadiz\Documents\Renderer\ImageRenderer:
+        tags: [ 'roadiz_core.document_renderer' ]
+    RZ\Roadiz\Documents\Renderer\PictureRenderer:
+        tags: [ 'roadiz_core.document_renderer' ]
+    RZ\Roadiz\Documents\Renderer\VideoRenderer:
+        tags: [ 'roadiz_core.document_renderer' ]
+    RZ\Roadiz\Documents\Renderer\AudioRenderer:
+        tags: [ 'roadiz_core.document_renderer' ]
+    RZ\Roadiz\Documents\Renderer\PdfRenderer:
+        tags: [ 'roadiz_core.document_renderer' ]
+    RZ\Roadiz\Documents\Renderer\SvgRenderer:
+        tags: [ 'roadiz_core.document_renderer' ]
+    RZ\Roadiz\Documents\Renderer\InlineSvgRenderer:
+        tags: [ 'roadiz_core.document_renderer' ]
+    RZ\Roadiz\Documents\Renderer\EmbedRenderer:
+        tags: [ { name: 'roadiz_core.document_renderer', priority: -128 } ]
+    RZ\Roadiz\Documents\Renderer\ThumbnailRenderer:
+        tags: [ 'roadiz_core.document_renderer' ]
+    RZ\Roadiz\Documents\Renderer\RendererInterface:
+        alias: RZ\Roadiz\Documents\Renderer\ChainRenderer
+
+    # Default AbstractDocumentFactory is the public one.
+    RZ\Roadiz\Documents\AbstractDocumentFactory:
+        alias: RZ\Roadiz\CoreBundle\Document\DocumentFactory
+
+    RZ\Roadiz\Documents\Models\FileAwareInterface:
+        alias: RZ\Roadiz\CoreBundle\Filesystem\RoadizFileDirectories
+        public: true
+
+    RZ\Roadiz\Documents\Packages: ~
+    RZ\Roadiz\Documents\DownscaleImageManager: ~
+    RZ\Roadiz\Documents\DocumentArchiver: ~
+    #
+    # Console commands
+    #
+    RZ\Roadiz\Documents\Console\DocumentAverageColorCommand:
+        autowire: true
+        autoconfigure: true
+    RZ\Roadiz\Documents\Console\DocumentClearFolderCommand:
+        autowire: true
+        autoconfigure: true
+    RZ\Roadiz\Documents\Console\DocumentDownscaleCommand:
+        autowire: true
+        autoconfigure: true
+    RZ\Roadiz\Documents\Console\DocumentDuplicatesCommand:
+        autowire: true
+        autoconfigure: true
+    RZ\Roadiz\Documents\Console\DocumentFileHashCommand:
+        autowire: true
+        autoconfigure: true
+    RZ\Roadiz\Documents\Console\DocumentFilesizeCommand:
+        autowire: true
+        autoconfigure: true
+    RZ\Roadiz\Documents\Console\DocumentPruneCommand:
+        autowire: true
+        autoconfigure: true
+    RZ\Roadiz\Documents\Console\DocumentPruneOrphansCommand:
+        autowire: true
+        autoconfigure: true
+    RZ\Roadiz\Documents\Console\DocumentSizeCommand:
+        autowire: true
+        autoconfigure: true
+
+    #
+    # Routing
+    #
+    RZ\Roadiz\CoreBundle\Routing\RedirectionRouter:
+        lazy: true
+        tags: [ { name: 'router', priority: 100 } ]
+    RZ\Roadiz\CoreBundle\Routing\NodeRouter:
+        lazy: true
+        tags: [ { name: 'router', priority: 0 } ]
+
+    RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface:
+        alias: RZ\Roadiz\CoreBundle\Routing\DocumentUrlGenerator
+
+    RZ\Roadiz\CoreBundle\Routing\PathResolverInterface:
+        class: RZ\Roadiz\CoreBundle\Routing\ChainResourcePathResolver
+
+    RZ\Roadiz\CoreBundle\Routing\ChainResourcePathResolver:
+        alias: RZ\Roadiz\CoreBundle\Routing\PathResolverInterface
+
+    #
+    # Add your own PathResolvers to serve resources
+    #
+    roadiz_core.path_resolvers.nodes_sources:
+        class: RZ\Roadiz\CoreBundle\Routing\NodesSourcesPathResolver
+        tags: [ { name: 'roadiz_core.path_resolver', priority: 0 }  ]
+    roadiz_core.path_resolvers.redirections:
+        class: RZ\Roadiz\CoreBundle\Routing\RedirectionPathResolver
+        tags: [ { name: 'roadiz_core.path_resolver', priority: 10 }  ]
+    #
+    # Twig
+    #
+    roadiz_core.twig_loader:
+        class: Twig\Loader\FilesystemLoader
+        calls:
+            - prependPath: ['%roadiz_core.documents_lib_dir%/Resources/views']
+        tags: ['twig.loader']
+    #
+    # Twig extensions
+    #
+    RZ\Roadiz\Documents\TwigExtension\DocumentExtension:
+        tags: ['twig.extension']
+    RZ\Roadiz\Markdown\Twig\MarkdownExtension:
+        tags: ['twig.extension']
+    RZ\Roadiz\CoreBundle\TwigExtension\BlockRenderExtension:
+        arguments: [ '@fragment.handler' ]
+    RZ\Roadiz\CoreBundle\TwigExtension\RoutingExtension:
+        decorates: 'twig.extension.routing'
+        autoconfigure: false
+        arguments:
+            - '@.inner'
+
+    RZ\Roadiz\Documents\DocumentFinderInterface:
+        alias: RZ\Roadiz\CoreBundle\Document\DocumentFinder
+
+    RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory:
+        arguments:
+            - '%roadiz_core.medias.supported_platforms%'
+
+    RZ\Roadiz\Documents\Renderer\ChainRenderer:
+        arguments: [[]]
+        lazy: true
+
+    RZ\Roadiz\CoreBundle\Node\NodeNamePolicyFactory: ~
+    RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface:
+        factory: ['@RZ\Roadiz\CoreBundle\Node\NodeNamePolicyFactory', 'create']
+
+    #
+    # Workflows
+    #
+    state_machine.node:
+        public: true
+        alias: RZ\Roadiz\CoreBundle\Workflow\NodeWorkflow
+
+    RZ\TreeWalker\WalkerContextInterface:
+        factory: [ '@RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContextFactory', 'createWalkerContext' ]

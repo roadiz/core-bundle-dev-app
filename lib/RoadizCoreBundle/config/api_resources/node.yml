@@ -1,0 +1,10 @@
+
+RZ\Roadiz\CoreBundle\Entity\Node:
+    shortName: Node
+    collectionOperations: {}
+    itemOperations:
+        get:
+            method: 'GET'
+            normalization_context:
+                enable_max_depth: true
+                groups: ["node", "tag_base", "translation_base", "document_display"]

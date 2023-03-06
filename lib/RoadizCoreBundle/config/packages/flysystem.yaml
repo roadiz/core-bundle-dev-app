@@ -1,0 +1,51 @@
+# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
+flysystem:
+    storages:
+        intervention_request.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/public/files'
+
+
+# Example for using AWS S3 compatible storage
+
+#services:
+#    scaleway_public_client:
+#        class: 'AsyncAws\SimpleS3\SimpleS3Client'
+#        arguments:
+#            -  endpoint: '%env(SCALEWAY_STORAGE_ENDPOINT)%'
+#               accessKeyId: '%env(SCALEWAY_STORAGE_ID)%'
+#               accessKeySecret: '%env(SCALEWAY_STORAGE_SECRET)%'
+#               region: '%env(SCALEWAY_STORAGE_REGION)%'
+#    # Private client must be different for allowing copy across file systems.
+#    scaleway_private_client:
+#        class: 'AsyncAws\SimpleS3\SimpleS3Client'
+#        arguments:
+#            -  endpoint: '%env(SCALEWAY_STORAGE_ENDPOINT)%'
+#               accessKeyId: '%env(SCALEWAY_STORAGE_ID)%'
+#               accessKeySecret: '%env(SCALEWAY_STORAGE_SECRET)%'
+#               region: '%env(SCALEWAY_STORAGE_REGION)%'
+#
+#flysystem:
+#    storages:
+#        documents_public.storage:
+#            adapter: 'asyncaws'
+#            visibility: 'public'
+#            options:
+#                client: 'scaleway_public_client'
+#                bucket: '%env(SCALEWAY_STORAGE_BUCKET)%'
+#                prefix: 'testing-public-files'
+#        documents_private.storage:
+#            adapter: 'asyncaws'
+#            visibility: 'private'
+#            options:
+#                client: 'scaleway_private_client'
+#                bucket: '%env(SCALEWAY_STORAGE_BUCKET)%'
+#                prefix: 'testing-private-files'
+#        intervention_request.storage:
+#            adapter: 'asyncaws'
+#            visibility: 'public'
+#            options:
+#                client: 'scaleway_public_client'
+#                bucket: '%env(SCALEWAY_STORAGE_BUCKET)%'
+#                prefix: 'testing-public-files'

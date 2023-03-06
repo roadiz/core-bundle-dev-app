@@ -1,0 +1,67 @@
+/*------------------------------------*\
+    STACK TREE
+\*------------------------------------*/
+
+
+/* -------- STYLES -------- */
+.available-nodetree-tags,
+.stack-tree-widget .nodetree-tags {
+    .uk-badge {
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 10px;
+        background: none;
+        margin: 2px;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        line-height: 1;
+        color: #717171;
+        transition: border-color ease 0.33s, color ease 0.33s;
+
+        &.active,
+        &:hover {
+            text-decoration: none;
+            border: 1px solid #7c7c7c;
+            color: #434343;
+        }
+    }
+}
+.root-tree.stack-tree-widget {
+    .nodetree-bulk-selection {
+        right: 48px;
+    }
+    .tree-element-inner {
+        padding-right: 70px;
+    }
+
+    /*
+     * All levels
+     */
+    .uk-nestable-panel {
+        &.stack-node {
+            & > .non-nestable-handle,
+            & > .uk-nestable-handle {
+                .nodetree-published-at {
+                    display: none;
+                }
+            }
+        }
+
+        &.home-stack {
+            & > .non-nestable-handle,
+            & > .uk-nestable-handle {
+                top: 0;
+            }
+        }
+    }
+}
+// Different display in main content
+#main-content-scrollable {
+    .stack-tree-widget  {
+        & > .non-nestable-list-item,
+        & > .uk-nestable-item {
+            padding: 8px 0;
+            border-color: #D2D2D2;
+        }
+    }
+}
+

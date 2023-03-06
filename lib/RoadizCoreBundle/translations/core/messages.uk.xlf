@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="file.ext" target-language="uk">
+    <body>
+      <!-- welcome.user.email -->
+      <trans-unit id="welcome.user.email.%site%" approved="yes">
+        <source>welcome.user.email.%site%</source>
+        <target state="final">Обліковий запис був створений для вас на сайті %site%</target>
+      </trans-unit>
+      <trans-unit id="your.user.account" approved="yes">
+        <source>your.user.account</source>
+        <target state="final">Ваш обліковий запис</target>
+      </trans-unit>
+      <trans-unit id="username" approved="yes">
+        <source>username</source>
+        <target state="final">Ім'я користувача</target>
+      </trans-unit>
+      <trans-unit id="email" approved="yes">
+        <source>email</source>
+        <target state="final">Електронна пошта</target>
+      </trans-unit>
+      <trans-unit id="password" approved="yes">
+        <source>password</source>
+        <target state="final">Пароль</target>
+      </trans-unit>
+      <trans-unit id="for.questions.email" approved="yes">
+        <source>for.questions.email</source>
+        <target state="final">Якісь питання? Напишіть нам лист:</target>
+      </trans-unit>
+      <!-- Contact forms -->
+      <trans-unit id="contact.form" approved="yes">
+        <source>contact.form</source>
+        <target state="final">Контактна інформація</target>
+      </trans-unit>
+      <trans-unit id="new.contact.form.%site%" approved="yes">
+        <source>new.contact.form.%site%</source>
+        <target state="final">Запитується новий контакт на сайті %site%</target>
+      </trans-unit>
+      <trans-unit id="form.successfully.sent" approved="yes">
+        <source>form.successfully.sent</source>
+        <target state="final">Ваш запит був успішно надісланий</target>
+      </trans-unit>
+      <trans-unit id="form.has.errors">
+        <source>form.has.errors</source>
+        <target state="translated">В формі допущено помилки</target>
+      </trans-unit>
+      <trans-unit id="%field%.is.mandatory" approved="yes">
+        <source>%field%.is.mandatory</source>
+        <target state="final">Поле %field% не заповнено</target>
+      </trans-unit>
+      <trans-unit id="email.not.valid" approved="yes">
+        <source>email.not.valid</source>
+        <target state="final">Адреса електронної пошти невірно вказана</target>
+      </trans-unit>
+      <trans-unit id="date" approved="yes">
+        <source>date</source>
+        <target state="final">Дата</target>
+      </trans-unit>
+      <trans-unit id="ip.address" approved="yes">
+        <source>ip.address</source>
+        <target state="final">IP адреса</target>
+      </trans-unit>
+      <trans-unit id="submittedAt" approved="yes">
+        <source>submittedAt</source>
+        <target state="final">Відправлено до</target>
+      </trans-unit>
+      <trans-unit id="form.submit" approved="yes">
+        <source>form.submit</source>
+        <target state="final">Відправити</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="answer.form" approved="yes">
+                <source>answer.form</source>
+                <target state="final">Форма для запитань</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.%name%.send" approved="yes">
+                <source>customForm.%name%.send</source>
+                <target state="final">Запитання %name% відправлено</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="new.answer.form.%site%" approved="yes">
+                <source>new.answer.form.%site%</source>
+                <target state="final">Нове запитання від %site%</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="file.not.accepted" approved="yes">
+                <source>file.not.accepted</source>
+                <target state="final">Прикріплений файл не може бути прийнятим</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.answer.sent" approved="yes">
+                <source>customForm.answer.sent</source>
+                <target state="final">Ваше запитання успішно відправлено</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="none" approved="yes">
+                <source>none</source>
+                <target state="final">немає</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="reset.password.request" approved="yes">
+              <source>reset.password.request</source>
+              <target state="final">Запит на скидання пароля</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="you.asked.for.a.password.reset.on.%site%" approved="yes">
+                <source>you.asked.for.a.password.reset.on.%site%</source>
+                <target state="final">Ви запитували скидання паролю на %site%</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="you.need.to.choose.a.new.password.using.following.link" approved="yes">
+                <source>you.need.to.choose.a.new.password.using.following.link</source>
+                <target state="final">Вам потрібно створити новий пароль до вашого облікового запису, використовуючи посилання, що нижче</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="as.a.reminder.here.are.your.credentials" approved="yes">
+                <source>as.a.reminder.here.are.your.credentials</source>
+                <target state="final">Як нагадування, ось воші облікові дані</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="if.you.didnt.request.this.password.reset.ignore.this.email" approved="yes">
+                <source>if.you.didnt.request.this.password.reset.ignore.this.email</source>
+                <target state="final">Якщо ви не запитували зміну пароля, просто ігноруйте цей лист</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="reset_your_password">
+                <source>reset_your_password</source>
+                <target state="translated">Скинути пароль</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
+                <source>you.need.to.fill.this.required.field</source>
+                <target state="final">Це поле необхідно заповнити</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="*.required.fields" approved="yes">
+                <source>*.required.fields</source>
+                <target state="final">* Обов'язкове поле</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="website.is.under.maintenance" approved="yes">
+                <source>website.is.under.maintenance</source>
+                <target state="final">Сайт знаходиться на обслуговуванні</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="website.is.under.maintenance.we.will.be.back.soon" approved="yes">
+                <source>website.is.under.maintenance.we.will.be.back.soon</source>
+                <target state="final">Сайт знаходиться на обслуговуванні та скоро повернеться!</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="yaml.is.not.valid">
+                <source>yaml.is.not.valid.{{ error }}</source>
+                <target state="translated">YAML-код містить помилки ({{ error }}).</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="value.is.already.used">
+                <source>value.is.already.used</source>
+                <target state="translated">Це значення вже використовується.</target>
+                <note>Error message meaning that user can’t use that value for this object (eg. Object name is already used).</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="password_should_contains_at_least_one_capital_one_digit">
+                <source>password_should_contains_at_least_one_capital_one_digit</source>
+                <target state="translated">пароль повинен містити принаймні одну велику цифру</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="password_blacklisted">
+                <source>password_blacklisted</source>
+                <target state="translated">пароль внесено в чорний список</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="password_should_be_at_least_characters_long">
+                <source>password_should_be_at_least_{{length}}_characters_long</source>
+                <target state="translated">пароль повинен мати щонайменше {{length}} символів</target>
+            </trans-unit>
+    </body>
+  </file>
+</xliff>

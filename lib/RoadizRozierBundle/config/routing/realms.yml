@@ -1,0 +1,14 @@
+realmsEditPage:
+    path:     /edit/{id}
+    defaults:
+        _controller: RZ\Roadiz\RozierBundle\Controller\Realm\RealmController::editAction
+    requirements: { id : "[0-9]+" }
+realmsAddPage:
+    path:     /add
+    defaults:
+        _controller: RZ\Roadiz\RozierBundle\Controller\Realm\RealmController::addAction
+realmsDeletePage:
+    path:     /delete/{id}
+    defaults:
+        _controller: RZ\Roadiz\RozierBundle\Controller\Realm\RealmController::deleteAction
+    requirements: { id : "[0-9]+" }

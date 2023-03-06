@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" original="" target-language="fr" datatype="plaintext">
+    <body>
+      <trans-unit id="{{ value }} is not a valid email address." xml:space="preserve" approved="yes">
+                <source>{{ value }} is not a valid email address.</source>
+                <target state="final">{{ value }} n'est pas une adresse email valide.</target>
+            </trans-unit>
+      <trans-unit id="tagName.%name%.alreadyExists" xml:space="preserve">
+                <source>tagName.%name%.alreadyExists</source>
+                <target state="translated">L'étiquette «%name%» existe déjà.</target>
+            </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file original="" source-language="en" datatype="plaintext" target-language="en">
+        <body>
+            <trans-unit xml:space="preserve" id="realms">
+                <source>realms</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="add.a.realm">
+                <source>add.a.realm</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="delete.realm.%name%">
+                <source>delete.realm.%name%</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="are_you_sure.delete.realm">
+                <source>are_you_sure.delete.realm</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="edit.realm.%name%">
+                <source>edit.realm.%name%</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="edit.realm">
+                <source>edit.realm</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="back_to.realms">
+                <source>back_to.realms</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.type">
+                <source>realm.type</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.type.help">
+                <source>realm.type.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.plain_password">
+                <source>realm.plain_password</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.bearer_role">
+                <source>realm.bearer_role</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.bearer_user">
+                <source>realm.bearer_user</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.plainPassword">
+                <source>realm.plainPassword</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.plainPassword.help">
+                <source>realm.plainPassword.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.serializationGroup">
+                <source>realm.serializationGroup</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.serializationGroup.help">
+                <source>realm.serializationGroup.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.role">
+                <source>realm.role</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.role.help">
+                <source>realm.role.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.role.placeholder">
+                <source>realm.role.placeholder</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.users">
+                <source>realm.users</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.users.help">
+                <source>realm.users.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="manage.realms">
+                <source>manage.realms</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="edit.node.%name%.realms">
+                <source>edit.node.%name%.realms</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm_nodes">
+                <source>realm_nodes</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="join.a.realm">
+                <source>join.a.realm</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm_node.realm">
+                <source>realm_node.realm</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm_node.realm.help">
+                <source>realm_node.realm.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm_node.realm.placeholder">
+                <source>realm_node.realm.placeholder</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm_node.inheritanceType">
+                <source>realm_node.inheritanceType</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm_node.inheritanceType.help">
+                <source>realm_node.inheritanceType.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm_node.root">
+                <source>realm_node.root</source>
+                <target></target>
+                <note>Define realm inheritance root node</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm_node.auto">
+                <source>realm_node.auto</source>
+                <target></target>
+                <note>Auto inheritance from ancestors realms</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm_node.none">
+                <source>realm_node.none</source>
+                <target></target>
+                <note>Prevent any inheritance from ancestors realms</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="join.realm">
+                <source>join.realm</source>
+                <target></target>
+                <note>Button label to submit new relation between a node and a realm</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="node.no_realm">
+                <source>node.no_realm</source>
+                <target></target>
+                <note>Message when node is linked to an empty realm</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="leave.realm">
+                <source>leave.realm</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="are_you_sure.leave.realm">
+                <source>are_you_sure.leave.realm</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="node.%node%.joined.%realm%">
+                <source>node.%node%.joined.%realm%</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="node.%node%.left.%realm%">
+                <source>node.%node%.left.%realm%</source>
+                <target></target>
+            </trans-unit>
+
+            <trans-unit xml:space="preserve" id="realm.behaviour">
+                <source>realm.behaviour</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.behaviour.help">
+                <source>realm.behaviour.help</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.behaviour_none">
+                <source>realm.behaviour_none</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.behaviour_deny">
+                <source>realm.behaviour_deny</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="realm.behaviour_hide_blocks">
+                <source>realm.behaviour_hide_blocks</source>
+                <target></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

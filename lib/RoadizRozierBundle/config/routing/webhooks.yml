@@ -1,0 +1,22 @@
+webhooksAddPage:
+    path:     /add
+    defaults:
+        _controller: Themes\Rozier\Controllers\WebhookController::addAction
+
+webhooksEditPage:
+    path:     /edit/{id}
+    defaults:
+        _controller: Themes\Rozier\Controllers\WebhookController::editAction
+    requirements: { id : "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" }
+
+webhooksTriggerPage:
+    path:     /trigger/{id}
+    defaults:
+        _controller: Themes\Rozier\Controllers\WebhookController::triggerAction
+    requirements: { id : "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" }
+
+webhooksDeletePage:
+    path:     /delete/{id}
+    defaults:
+        _controller: Themes\Rozier\Controllers\WebhookController::deleteAction
+    requirements: { id : "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" }

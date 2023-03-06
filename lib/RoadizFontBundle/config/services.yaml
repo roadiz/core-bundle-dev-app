@@ -1,0 +1,27 @@
+---
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind: {}
+
+    RZ\Roadiz\FontBundle\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Traits/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+            - '../src/Event/'
+
+    RZ\Roadiz\FontBundle\Controller\:
+        resource: '../src/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    RZ\Roadiz\FontBundle\Doctrine\EventSubscriber\:
+        resource: '../src/Doctrine/EventSubscriber'
+        tags:
+            - { name: monolog.logger, channel: doctrine }
+            - { name: doctrine.event_subscriber }

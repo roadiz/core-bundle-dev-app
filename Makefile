@@ -27,7 +27,6 @@ test:
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
 
-
 cache :
 	docker-compose exec -u www-data app php bin/console cache:clear
 	# Force workers to restart
@@ -37,20 +36,5 @@ migrate:
 	docker-compose exec -u www-data app php bin/console doctrine:migrations:migrate
 	docker-compose exec -u www-data app php bin/console themes:migrate ./src/Resources/config.yml
 
-pull:
-	git pull
-	cd lib/DocGenerator && git pull
-	cd lib/Documents && git pull
-	cd lib/DtsGenerator && git pull
-	cd lib/EntityGenerator && git pull
-	cd lib/Jwt && git pull
-	cd lib/Markdown && git pull
-	cd lib/Models && git pull
-	cd lib/OpenId && git pull
-	cd lib/Random && git pull
-	cd lib/RoadizCompatBundle && git pull
-	cd lib/RoadizCoreBundle && git pull
-	cd lib/RoadizFontBundle && git pull
-	cd lib/RoadizRozierBundle && git pull
-	cd lib/RoadizUserBundle && git pull
-	cd lib/Rozier && git pull
+
+

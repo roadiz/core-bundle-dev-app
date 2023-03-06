@@ -1,0 +1,41 @@
+#
+# Fonts serving
+#
+FontFile:
+    path:     /fonts/files/{filename}_{variant}.{extension}
+    controller: RZ\Roadiz\FontBundle\Controller\FontFaceController::fontFileAction
+    requirements:
+        filename: "[a-zA-Z0-9\\-_]+"
+        variant: "[0-9]+"
+        extension: "[a-z0-9]+"
+
+FontFaceCSS:
+    path:     /fonts/font-faces.css
+    controller: RZ\Roadiz\FontBundle\Controller\FontFaceController::fontFacesAction
+
+# FONTS
+fontsHomePage:
+    path:     /rz-admin/fonts
+    defaults:
+        _controller: RZ\Roadiz\FontBundle\Controller\Admin\FontsController::defaultAction
+
+fontsEditPage:
+    path:     /rz-admin/fonts/edit/{id}
+    defaults:
+        _controller: RZ\Roadiz\FontBundle\Controller\Admin\FontsController::editAction
+    requirements: { id : "[0-9]+" }
+fontsDownloadPage:
+    path:     /rz-admin/fonts/download/{id}
+    defaults:
+        _controller: RZ\Roadiz\FontBundle\Controller\Admin\FontsController::downloadAction
+    requirements: { id : "[0-9]+" }
+fontsAddPage:
+    path:     /rz-admin/fonts/add
+    defaults:
+        _controller: RZ\Roadiz\FontBundle\Controller\Admin\FontsController::addAction
+    requirements: { id : "[0-9]+" }
+fontsDeletePage:
+    path:     /rz-admin/fonts/delete/{id}
+    defaults:
+        _controller: RZ\Roadiz\FontBundle\Controller\Admin\FontsController::deleteAction
+    requirements: { id : "[0-9]+" }

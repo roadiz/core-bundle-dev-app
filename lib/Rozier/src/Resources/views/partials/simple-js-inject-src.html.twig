@@ -1,0 +1,3 @@
+<% for (var index in htmlWebpackPlugin.files.chunks) { %>
+<script src="{{ asset('<%= htmlWebpackPlugin.files.chunks[index].entry %>', 'Rozier') }}" defer type="text/javascript"></script>
+<% } %>

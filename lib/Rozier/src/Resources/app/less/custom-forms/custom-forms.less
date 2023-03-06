@@ -1,0 +1,34 @@
+/*------------------------------------*\
+   CUSTOM FORMS
+\*------------------------------------*/
+
+
+/*
+ * Styles for custom-forms pages
+ */
+
+
+/* -------- STYLES -------- */
+
+#add-custom-form-form,
+#edit-custom-form-form {
+
+    .form-col-checkbox {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .form-col-date,
+    .form-col-datetime {
+        display: block;
+    }
+
+    .required {
+        & > label {
+            &:after {
+                content:" *";
+                font-weight: bold;
+            }
+        }
+    }
+}

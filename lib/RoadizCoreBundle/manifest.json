@@ -1,0 +1,38 @@
+{
+    "bundles": {
+        "RZ\\Roadiz\\CoreBundle\\RoadizCoreBundle": ["all"]
+    },
+    "copy-from-package": {
+        "config/api_resources/": "%CONFIG_DIR%/api_resources/",
+        "config/packages/": "%CONFIG_DIR%/packages/",
+        "var/": "%VAR_DIR%/",
+        "public/": "%PUBLIC_DIR%/",
+        "themes/": "themes/"
+    },
+    "env": {
+        "APP_NAMESPACE": "my_website",
+        "APP_VERSION": "0.1.0",
+        "#2": "Make sure ffmpeg is installed on your environment",
+        "APP_FFMPEG_PATH": "/usr/bin/ffmpeg",
+        "APP_UNSPLASH_CLIENT_ID": null,
+        "APP_USE_ACCEPT_LANGUAGE_HEADER": false,
+        "APP_HEALTH_CHECK_TOKEN": null,
+        "#3": "Solr server credentials should be used by docker-compose env too",
+        "SOLR_HOST": "solr",
+        "SOLR_PORT": 8983,
+        "SOLR_CORE_NAME": "roadiz",
+        "#4": "Customize API platform cache invalidation and settings",
+        "VARNISH_URL": null,
+        "VARNISH_DOMAIN": null,
+        "HTTP_CACHE_MAX_AGE": 60,
+        "HTTP_CACHE_SHARED_MAX_AGE": 600
+    },
+    "aliases": ["roadiz-core"],
+    "gitignore": [
+        "/public/assets/*",
+        "/public/files/*",
+        "/var/files/fonts/*",
+        "/var/files/private/*",
+        "/var/secret/*"
+    ]
+}

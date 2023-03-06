@@ -1,0 +1,17 @@
+{% extends "@RoadizRozier/documents/list-table.html.twig" %}
+
+{% block title %}{% trans %}unused_documents{% endtrans %} | {{ parent() }}{% endblock %}
+
+{% block content_title %}
+    <h1 class="content-title">{% trans %}unused_documents{% endtrans %}</h1>
+{% endblock %}
+
+{% block header_action_menu %}{% endblock %}
+
+{% block pre_content_body %}
+    <div>
+        <div class="uk-alert uk-alert-warning uk-text-left">
+            {{- 'unused_documents.help'|trans|markdown -}}
+        </div>
+    </div>
+{% endblock %}

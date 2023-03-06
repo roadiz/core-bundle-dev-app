@@ -1,0 +1,15 @@
+---
+RZ\Roadiz\CoreBundle\Entity\Document:
+    collectionOperations:
+        get:
+            method: "GET"
+            normalization_context:
+                groups: ["urls", "document_display", "document_display_sources", "position"]
+                enable_max_depth: true
+    itemOperations:
+        get:
+            method: 'GET'
+            normalization_context:
+                groups: ["urls", "document", "document_display", "document_folders", "document_display_sources", "position"]
+                enable_max_depth: true
+

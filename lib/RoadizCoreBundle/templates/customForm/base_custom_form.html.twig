@@ -1,0 +1,26 @@
+{% set formattedLocale = request.locale|replace({'_': '-'})|lower %}
+<!DOCTYPE html>
+<html class="no-js" lang="{{ formattedLocale }}"{% if request.locale is rtl %} dir="rtl"{% endif %}>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>{% block title %}{{ head.siteTitle }}{% endblock %}</title>
+        <meta name="description" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        {% include '@RoadizRozier/partials/css-inject.html.twig' %}
+
+        <script src="{{ asset('vendor/modernizr.custom.50380.js', 'Rozier') }}"></script>
+    </head>
+    <body id="custom-form-front">
+
+        <!-- Add your site or application content here -->
+        <section id="main-content">
+            {% block content %}
+                <h1>{% trans %}Welcome{% endtrans %}</h1>
+            {% endblock %}
+        </section>
+
+        <!-- ##debug_panel## -->
+    </body>
+</html>

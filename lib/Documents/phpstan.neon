@@ -1,0 +1,24 @@
+parameters:
+    level: max
+    paths:
+        - src
+    excludePaths:
+        - */node_modules/*
+        - */bower_components/*
+        - */static/*
+    ignoreErrors:
+        - '#Call to an undefined method Doctrine\\Persistence\\ObjectRepository#'
+        - '#Call to an undefined method Doctrine\\Persistence\\ObjectManager#'
+        - '#Call to an undefined method Doctrine\\ORM\\EntityRepository#'
+        # PHPStan Doctrine does not support ResolveTargetEntityListener
+        - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>?\|null but database expects ([a-zA-Z\\\&\>\<]+)\|null#'
+        - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>? but database expects ([a-zA-Z\\\&\>\<]+)#'
+        - '#type mapping mismatch: database can contain array\|bool\|float\|int\|JsonSerializable\|stdClass\|string\|null but property expects array\|null#'
+        - '#Doctrine\\ORM\\Mapping\\GeneratedValue constructor expects#'
+    reportUnmatchedIgnoredErrors: false
+    checkMissingIterableValueType: false
+    checkGenericClassInNonGenericObjectType: false
+
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-doctrine/rules.neon

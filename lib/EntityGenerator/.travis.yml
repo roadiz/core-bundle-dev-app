@@ -1,0 +1,18 @@
+language: php
+sudo: required
+php:
+    - 8.0
+    - 8.1
+    - nightly
+env:
+    - XDEBUG_MODE=coverage
+install:
+    - curl -s http://getcomposer.org/installer | php
+    - php composer.phar install --dev --no-interaction
+script:
+    - vendor/bin/phpcs --report=full --report-file=./report.txt --extensions=php --warning-severity=0 --standard=PSR12 -p ./src
+    - vendor/bin/phpstan analyse -c phpstan.neon
+    - vendor/bin/atoum -f tests/units/*
+jobs:
+    allow_failures:
+        -   php: nightly

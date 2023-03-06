@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='utf-8'?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file original="" source-language="en-US" datatype="plaintext">
+        <body>
+            <trans-unit xml:space="preserve" id="document.externalUrl">
+                <source>document.externalUrl</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="document.limitations">
+                <source>document.limitations</source>
+                <target></target>
+                <note>Documents limitations backoffice section label</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="document.copyrightHolder">
+                <source>document.copyrightHolder</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="document.copyrightValidSince">
+                <source>document.copyrightValidSince</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="document.copyrightValidUntil">
+                <source>document.copyrightValidUntil</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="no_document">
+                <source>no_document</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="unused_documents.help">
+                <source>unused_documents.help</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="all.documents">
+                <source>all.documents</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="duplicated_documents">
+                <source>duplicated_documents</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="document.video_sources">
+                <source>document.video_sources</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="document.audio_sources">
+                <source>document.audio_sources</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="document.picture_sources">
+                <source>document.picture_sources</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="private_documents">
+                <source>private_documents</source>
+                <target></target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

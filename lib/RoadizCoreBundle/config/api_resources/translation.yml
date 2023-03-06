@@ -1,0 +1,9 @@
+
+RZ\Roadiz\CoreBundle\Entity\Translation:
+    collectionOperations:
+        get:
+            method: "GET"
+    itemOperations:
+        get:
+            method: 'GET'
+

@@ -1,0 +1,105 @@
+---
+RZ\Roadiz\CoreBundle\Entity\User:
+    iri: User
+    shortName: User
+    attributes:
+        cache_headers:
+            public: false
+            max_age: 0
+    collectionOperations:
+        signup:
+            method: 'POST'
+            path: '/users/signup'
+            controller: RZ\Roadiz\UserBundle\Controller\SignupController
+            input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
+            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+            validation_groups:
+                - no_empty_password
+            openapi_context:
+                summary: Create a new public user
+                parameters:
+                    - in: header
+                      name: x-g-recaptcha-response
+                      schema:
+                          type: string
+                      required: true
+                description: |
+                    Create a new public user. User won't be validated and will not be granted with any role.
+                    This operation may require a *Google Recaptcha* response to protect against flooding.
+
+        password_request:
+            method: 'POST'
+            path: '/users/password_request'
+            controller: RZ\Roadiz\UserBundle\Controller\PasswordRequestController
+            input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput
+            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+            # Password request must not call WriteListener to let PasswordRequestController persist changes.
+            write: false
+            validate: false
+            openapi_context:
+                summary: Request a public user new password
+                parameters:
+                    - in: header
+                      name: x-g-recaptcha-response
+                      schema:
+                          type: string
+                      required: true
+                description: |
+                    Initiate a public user new password request (forgot my password). This operation may
+                    require a *Google Recaptcha* response to protect against flooding.
+
+        validation_request:
+            method: 'POST'
+            path: '/users/validation_request'
+            controller: RZ\Roadiz\UserBundle\Controller\ValidationRequestController
+            input: RZ\Roadiz\UserBundle\Api\Dto\UserValidationRequestInput
+            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+            # Validation request must not call WriteListener to let ValidationRequestController persist changes.
+            write: false
+            validate: false
+            openapi_context:
+                summary: Request a public user email validation token
+                description: |
+                    Initiate a public user validation request (to verify user email address)
+
+    itemOperations:
+        information:
+            method: 'GET'
+            read: false
+            path: '/users/me'
+            controller: RZ\Roadiz\UserBundle\Controller\InformationController
+            output: RZ\Roadiz\UserBundle\Api\Dto\UserOutput
+            openapi_context:
+                summary: Get current user (JWT) information
+                description: |
+                    Get current user (JWT) information
+
+        password_reset:
+            method: 'PUT'
+            path: '/users/password_reset'
+            controller: RZ\Roadiz\UserBundle\Controller\PasswordResetController
+            input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordTokenInput
+            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+            # Password reset must not call ReadListener to let DataTransformer provide User.
+            read: false
+            validate: false
+            validation_groups:
+                - no_empty_password
+            openapi_context:
+                summary: Reset a public user password
+                parameters: ~
+                description: |
+                    Change a public user password against a unique temporary token (forgot my password)
+
+        validate:
+            method: 'PUT'
+            path: '/users/validate'
+            controller: RZ\Roadiz\UserBundle\Controller\ValidateController
+            input: RZ\Roadiz\UserBundle\Api\Dto\UserTokenInput
+            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+            read: false
+            validate: false
+            openapi_context:
+                summary: Validate a public user email
+                description: |
+                    Validate a public user email with a unique and temporary token
