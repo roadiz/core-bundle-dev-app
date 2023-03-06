@@ -9,9 +9,8 @@ on:
             - '*'
 
 env:
-    # 1. for Github split -- Update secret on 2024-03-06
-    # Use automatic GITHUB_TOKEN var
-    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # 1. for Github split -- Based on PAT https://github.com/settings/tokens/1122824921
+    GITHUB_TOKEN: ${{ secrets.ROADIZ_SPLIT_ACCESS_TOKEN }}
 
 jobs:
     packages_split:
