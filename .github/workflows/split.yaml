@@ -73,16 +73,28 @@ jobs:
             -   uses: actions/checkout@v2
 
             # no tag
-            -   if: "!startsWith(github.ref, 'refs/tags/')"
+            -   if: github.ref == 'refs/heads/develop'
                 uses: "symplify/monorepo-split-github-action@2.1"
                 with:
                     # ↓ split "lib/local_path" directory
                     package_directory: 'lib/${{ matrix.package.local_path }}'
-
                     # ↓ into https://github.com/roadiz/split_repository repository
                     repository_organization: 'roadiz'
+                    branch: develop
                     repository_name: '${{ matrix.package.split_repository }}'
+                    # ↓ the user signed under the split commit
+                    user_name: "roadiz-ci"
+                    user_email: "contact@roadiz.io"
 
+            -   if: github.ref == 'refs/heads/main'
+                uses: "symplify/monorepo-split-github-action@2.1"
+                with:
+                    # ↓ split "lib/local_path" directory
+                    package_directory: 'lib/${{ matrix.package.local_path }}'
+                    # ↓ into https://github.com/roadiz/split_repository repository
+                    repository_organization: 'roadiz'
+                    branch: main
+                    repository_name: '${{ matrix.package.split_repository }}'
                     # ↓ the user signed under the split commit
                     user_name: "roadiz-ci"
                     user_email: "contact@roadiz.io"
