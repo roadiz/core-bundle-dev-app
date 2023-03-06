@@ -1,3 +1,7 @@
+## 2.1 and newer
+
+Since v2.1 all changelog entries are merged into [Roadiz monorepo](https://github.com/roadiz/core-bundle-dev-app/blob/main/CHANGELOG.md)
+
 ## 2.0.44 (2023-02-09)
 
 
