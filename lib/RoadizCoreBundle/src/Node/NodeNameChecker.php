@@ -12,9 +12,6 @@ use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\UrlAliasRepository;
 use RZ\Roadiz\Utils\StringHandler;
 
-/**
- * @package RZ\Roadiz\CoreBundle\Node
- */
 class NodeNameChecker implements NodeNamePolicyInterface
 {
     protected bool $useTypedSuffix;

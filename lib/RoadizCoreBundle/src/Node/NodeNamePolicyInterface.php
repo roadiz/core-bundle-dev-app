@@ -10,7 +10,7 @@ interface NodeNamePolicyInterface
 {
     /**
      * @param NodesSources $nodeSource
-     * @return string Return a canonical node' name built against a NS title and node-type.
+     * @return string Return a canonical node name built against a NS title and node-type.
      */
     public function getCanonicalNodeName(NodesSources $nodeSource): string;
 

@@ -13,9 +13,6 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-/**
- * @package RZ\Roadiz\CoreBundle\Node
- */
 class UniqueNodeGenerator
 {
     protected NodeNamePolicyInterface $nodeNamePolicy;

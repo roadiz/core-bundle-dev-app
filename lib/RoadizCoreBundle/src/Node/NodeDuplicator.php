@@ -13,7 +13,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodesToNodes;
 
 /**
- * Handle node duplication.
+ * Handles node duplication.
  */
 final class NodeDuplicator
 {
