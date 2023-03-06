@@ -1,7 +1,7 @@
 {
     "name": "roadiz/documents",
-    "description":"Roadiz sub-package for Document system.",
-    "license":"MIT",
+    "description": "Roadiz sub-package for Document system.",
+    "license": "MIT",
     "type": "library",
     "keywords": [
         "roadiz",
@@ -62,8 +62,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "2.0.x-dev",
-            "dev-develop": "2.1.x-dev"
+            "dev-master": "2.1.x-dev",
+            "dev-develop": "2.2.x-dev"
         }
     }
 }

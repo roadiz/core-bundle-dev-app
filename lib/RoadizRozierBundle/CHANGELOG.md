@@ -1,3 +1,7 @@
+## 2.1 and newer
+
+Since v2.1 all changelog entries are merged into [Roadiz monorepo](https://github.com/roadiz/core-bundle-dev-app/blob/main/CHANGELOG.md)
+
 ## 2.0.8 (2022-11-09)
 
 ### Bug Fixes

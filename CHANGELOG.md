@@ -1,6 +1,190 @@
-## 2.1 and newer
+## v2.1.0 (2023-03-06)
 
-Since v2.1 all changelog entries are merged into [Roadiz monorepo](https://github.com/roadiz/core-bundle-dev-app/blob/main/CHANGELOG.md)
+### ⚠ BREAKING CHANGES
+
+* Migrate to *API Platform* 2.7
+* Merging all Roadiz packages into a single monorepo
+    - `roadiz/compat-bundle`
+    - `roadiz/core-bundle`
+    - `roadiz/doc-generator`
+    - `roadiz/documents`
+    - `roadiz/dts-generator`
+    - `roadiz/entity-generator`
+    - `roadiz/font-bundle`
+    - `roadiz/jwt`
+    - `roadiz/markdown`
+    - `roadiz/models`
+    - `roadiz/openid`
+    - `roadiz/random`
+    - `roadiz/rozier`
+    - `roadiz/rozier-bundle`
+    - `roadiz/user-bundle`
+* **Links header**: translation names are encoded in base64 because headers are ASCII only, you must decode it in frontend
+* **Documents**: All documents read and write operation MUST go through `Flysystem` to support external storages.
+* **Documents**: All classes are now in `RZ\Roadiz\Documents` namespace root
+* **Core**: Node's tags relationship is now positionable, this will rename _API Platform_ filter
+
+### Features (Core)
+
+* Added callable $onValid on ContactFormManager handle method to allow additional script on form validation ([83ee2b1](https://github.com/roadiz/core-bundle/commit/83ee2b19a1433c16bcb581fd798ff4ec9acec484))
+* Added copyrightValid boolean filter on Document resource ([e82eef6](https://github.com/roadiz/core-bundle/commit/e82eef687556c6d4d82508b52aa98b29f269f33d))
+* Added Document publicUrl for non-processable documents ([229c36a](https://github.com/roadiz/core-bundle/commit/229c36a8cac2a8d0d14b507a1ed542979a9b0bb9))
+* Added document_thumbnails serialization group to generated api resource files ([5f6b59f](https://github.com/roadiz/core-bundle/commit/5f6b59f911b42ecd4c910bf40935ffc7ce1d9293))
+* Added new `document_private` serialization group ([0a0b088](https://github.com/roadiz/core-bundle/commit/0a0b08858763ed94b22aeabdace7b8eade9f5661))
+* Added new setting for support email address ([ea07bb4](https://github.com/roadiz/core-bundle/commit/ea07bb47b7b638fe2845f4ea5783f56caf6bb628))
+* Added Node nodesTags getter and setter ([293e428](https://github.com/roadiz/core-bundle/commit/293e42858ab6c1c3527073189f5d59306ca95941))
+* Added node-type resolver to find node-type children types for menus ([13a32cb](https://github.com/roadiz/core-bundle/commit/13a32cb2f82713c549fbc16b074ab0339f82ebef))
+* Added NodesSources noIndex boolean field ([bb7c087](https://github.com/roadiz/core-bundle/commit/bb7c087e4e4f6ad000d6ed461e5e993ef34691a1))
+* Added noIndex to NodesSourcesHead ([c54e091](https://github.com/roadiz/core-bundle/commit/c54e091d8825896af41a0eb2ff38aa95edd76910))
+* Added not filter on Tag's parent ([9a5118e](https://github.com/roadiz/core-bundle/commit/9a5118e099e212ccfce49153370e19feb0ea6ff2))
+* Added OpenApi decorator for default JSON login operation ([228f248](https://github.com/roadiz/core-bundle/commit/228f248503b7ddbd4aa818b7e9b2f3f3d29c298f))
+* Added Setting events for CRUD operations ([41fa26c](https://github.com/roadiz/core-bundle/commit/41fa26c512788212ddb2d62319dfbd56ff898884))
+* Added TreeWalkerGenerator service ([ad7e4b4](https://github.com/roadiz/core-bundle/commit/ad7e4b416ff3f0d5a6e23b1319604d7c294ca016))
+* **Attributes:** Migrating to PHP 8 attributes ([f1a5d00](https://github.com/roadiz/core-bundle/commit/f1a5d006a159c6ed2020210c6f0ea41929e37369))
+* **Attributes:** Migration to attributes ([610d816](https://github.com/roadiz/core-bundle/commit/610d81624b978011356698f4a55378ddee83e594))
+* **Attributes:** Migration to attributes ([5f2a999](https://github.com/roadiz/core-bundle/commit/5f2a999d03647c0579cd708cd5404a31101a7f59))
+* **Attributes:** Migration to attributes ([412f7f7](https://github.com/roadiz/core-bundle/commit/412f7f7e73d1ccfdca1b0c29e68325b3f52192b8))
+* Big roadiz/documents namespace refactoring ([fbaae81](https://github.com/roadiz/core-bundle/commit/fbaae81f6c612904e810fa63633c47bef613c951))
+* Changed AbstractDocumentFactory constructor signature ([b4515d0](https://github.com/roadiz/core-bundle/commit/b4515d08c848838b4b60eda4b56e1e0378988cde))
+* Customize SwaggerUI with Roadiz header ([c2e4eca](https://github.com/roadiz/core-bundle/commit/c2e4eca1236f0f2c12c3e6f93133f1847e97e044))
+* Do not upload Document twice if the same checksum exists ([5d1f61e](https://github.com/roadiz/core-bundle/commit/5d1f61ebc04d58b23dbc7d1995f78fa78eac8091))
+* DocumentRepository implements DocumentRepositoryInterface ([6905272](https://github.com/roadiz/core-bundle/commit/6905272481f59ae1c41bbb7e9536e77799cc48bf))
+* Extracted font domain logic to a new Symfony Bundle ([d337151](https://github.com/roadiz/core-bundle/commit/d33715122a79751fb3668c712772b0d6b36e62e0))
+* Gather Video/Audio message handler to avoid streaming media file multiple times ([86a4fa6](https://github.com/roadiz/core-bundle/commit/86a4fa6a6fb6ff8d30044f26ee18431a8e62f545))
+* Generate and remove api resource on NodeType creation/deletion ([bbc7496](https://github.com/roadiz/core-bundle/commit/bbc7496ed9a14a3fcb647c7b5562c4f2be7dcd66))
+* Made node's tags relation positionable ([2038f20](https://github.com/roadiz/core-bundle/commit/2038f20121b692a2ff9f1561c4b56b3bb96af17e))
+* Migrate from Packages to **Flysystem** for all documents read/write operations ([f6beaa3](https://github.com/roadiz/core-bundle/commit/f6beaa33010af11956fa7eb05dabb81251a5ea0c))
+* Migrate NodeType schema updates to Async Messenging and CLI processes ([89ac1b8](https://github.com/roadiz/core-bundle/commit/89ac1b8a481e890a3c2d100decb54266e5877fdf))
+* Migrating to PHP 8 native annotations ([cab7fee](https://github.com/roadiz/core-bundle/commit/cab7fee3348036c7c74da41448e1c76f50adc5a3))
+* Moved api resource creation from command to a dedicated service ([53f1d06](https://github.com/roadiz/core-bundle/commit/53f1d06ba4439e00f94c56e8b59f23ae1a0978f0))
+* Moved Document related console command to roadiz/documents lib ([c529ee4](https://github.com/roadiz/core-bundle/commit/c529ee48a7619ff4db149a3120ef852cff80ad39))
+* New Admin role: `ROLE_ACCESS_DOCUMENTS_CREATION_DATE` ([9f45aaa](https://github.com/roadiz/core-bundle/commit/9f45aaaa92c70266d4ddae5d8770fb362377ee50))
+* **Normalization:** Disabled DataTransformers and use normalizers ([9996c81](https://github.com/roadiz/core-bundle/commit/9996c81fb0d6db7cbffbc9dcdf8531ba258a58eb))
+* **Normalization:** Migrate AttributeValue Dto to Normalizer ([45b38e6](https://github.com/roadiz/core-bundle/commit/45b38e612c4e73cbc92aaa663ba805ed48242069))
+* **Normalization:** Migrate Document DataTransformer to DocumentNormalizer ([87123b8](https://github.com/roadiz/core-bundle/commit/87123b85f11d2a69c843608d64a45da44ea976e0))
+* **Normalization:** Migrate Folder data-transformer to FolderNormalizer ([5cae626](https://github.com/roadiz/core-bundle/commit/5cae626f6aedcd4bd92acd72e8a02474f4f5d3c0))
+* **Normalization:** Migrate Tag data-transformer to normalization ([98fa13f](https://github.com/roadiz/core-bundle/commit/98fa13fcc8c1b85dee01a66bbd778b0963ac6a2d))
+* **Normalization:** Migrate Translation data-transformation to normalizer ([59b00a4](https://github.com/roadiz/core-bundle/commit/59b00a4710ed2aed60c9f5b750bbc546e2266904))
+* **Normalization:** Refactored User serialization groups ([e90de99](https://github.com/roadiz/core-bundle/commit/e90de99b1822aea8f27a8eaad5c2c92afa8d30a6))
+* **Normalization:** Set normalizer decorator priorities ([99dcb88](https://github.com/roadiz/core-bundle/commit/99dcb8877beeedd31ba7645558e599cf22372c62))
+* **Normalization:** Swtich Tag DataTransformer to TagNormalizer ([d603572](https://github.com/roadiz/core-bundle/commit/d60357206a82dc594eeb1b7ec1a1a005d4997a39))
+* **Normalization:** WebResponseDataTransformerInterface does not extend DataTransformerInterface anymore ([dbf895f](https://github.com/roadiz/core-bundle/commit/dbf895f4cd19af1652f636485938f65ecb55043b))
+* Normalize Document embedUrl ([0a7d876](https://github.com/roadiz/core-bundle/commit/0a7d8760f783317f426e045fa07d19ad741211f3))
+* Only serialize visible Document folders with `document_folders` group. ([687c534](https://github.com/roadiz/core-bundle/commit/687c5342e6a6bda70b6af055ec0621b2901d4c8f))
+* Removed settings : use_typed_node_names (replaced in bundle configuration), use_cdn (useless) ([ee07194](https://github.com/roadiz/core-bundle/commit/ee07194b9b38957d03342c57a6408695ededcddf))
+* Requires InterventionRequestBundle ~3 or develop ([a490979](https://github.com/roadiz/core-bundle/commit/a490979de3d0255b33de0000d9ebf20beca6a8ec))
+* **Serialization:** Tidy up User serialization groups (user, user_role, user_personal, user_identifier) ([d164a89](https://github.com/roadiz/core-bundle/commit/d164a89e32212309d53dd957aba2bea6cdb71ae0))
+* **Settings:** Removed useless settings and moved required settings into Configuration and DotEnv variables ([9dabe7f](https://github.com/roadiz/core-bundle/commit/9dabe7fcc9b342f4ba709e5897937ca89d9fed8c))
+* Tell messenger workers to stop when entity files have been changed ([e4564c5](https://github.com/roadiz/core-bundle/commit/e4564c5c8fc720dd1092a89303561f842ec9fc41))
+* Throws UnrecoverableMessageHandlingException when handler entities are not available anymore ([fa2b2fd](https://github.com/roadiz/core-bundle/commit/fa2b2fdaadf1d13c847693529d8e81b431286b69))
+* Upgrade rezozero/tree-walker to >1.3.0 ([6958e16](https://github.com/roadiz/core-bundle/commit/6958e162fe73fed8b6f967068d6b26ed7fbbbdeb))
+* Upgraded to API platform 2.7 and PHP 8.0 minimum ([5f7cfe8](https://github.com/roadiz/core-bundle/commit/5f7cfe855339a7f9924425b9f7338fb0f6f902b0))
+* Use a MediaFinderCompiler pass to register roadiz_core.medias.supported_platforms parameter ([3d10260](https://github.com/roadiz/core-bundle/commit/3d10260e18a3bffc569e8709471e99480e6f869a))
+* Use DocumentInterface and DocumentArchiver whenever possible ([80cd280](https://github.com/roadiz/core-bundle/commit/80cd2800780c33efac9e30f2bb5d977ae738643a))
+* Use interfaces instead of entity class in commands ([fed8c24](https://github.com/roadiz/core-bundle/commit/fed8c243fd6b0fc62d8066d39de10fb7a9a80dc5))
+* **User:** Added new user public name to allow displaying non personal names or identifier ([3de281a](https://github.com/roadiz/core-bundle/commit/3de281a24c1aed1ca31014de247035ecad1d8bf1))
+* Validate JSON form types ([c78ef21](https://github.com/roadiz/core-bundle/commit/c78ef21ea87ab6e1c0248a48cfbca4649259fecc))
+* Variabilize Documents lib source dir ([c1439d7](https://github.com/roadiz/core-bundle/commit/c1439d763a4f565dd13d45712f1bd6354874f290))
+
+
+### Bug Fixes (Core)
+
+* **AbstractDoctrineExplorerProvider:** Sort entities the same way IDs were given ([caef1d6](https://github.com/roadiz/core-bundle/commit/caef1d6136da68ba7d90bc8fc54495b22fc7f5ee))
+* Add documentTranslation into document during persisting loop to allow fetching before flushing ([33274de](https://github.com/roadiz/core-bundle/commit/33274deab3458b505eb04de1284b567eb81e9fad))
+* Added isTransactional: false on doctrine migrations ([c132e78](https://github.com/roadiz/core-bundle/commit/c132e783ed37a56b61829eea017c3789a036615a))
+* Cast all Node workflow places to string for forward compatibility ([0bc314a](https://github.com/roadiz/core-bundle/commit/0bc314a16f1866cdf7637df9e503c92e69c45530))
+* CustomFormController must fetch translation from request, not config ([be33ef6](https://github.com/roadiz/core-bundle/commit/be33ef64200cabde3b557684d8c7bd8230ad3b12))
+* Deprecation fixes ([3280044](https://github.com/roadiz/core-bundle/commit/3280044061e4c9cf8fe06506231f979c47b89adc))
+* Entities __toString method should only return their ID, phpstan cleansing ([26bfa9a](https://github.com/roadiz/core-bundle/commit/26bfa9aa0bfdccc298b91abc0f240186148a24dd))
+* ExplorerProviderItemTransformer::reverseTransform should return mixed ([d1b0f65](https://github.com/roadiz/core-bundle/commit/d1b0f6568a3e61c1cf8454ce907e323a011bcd76))
+* Fixed src/Console/MailerTestCommand ([2c6d89c](https://github.com/roadiz/core-bundle/commit/2c6d89cfe5309532406a0e6f89f595138f67fbfe))
+* Force folder documents join columns names ([e0fb620](https://github.com/roadiz/core-bundle/commit/e0fb62068cff15bcfaa507cbadb0fa8688b9f16f))
+* JSON types cannot be indexed ([610cf0e](https://github.com/roadiz/core-bundle/commit/610cf0e258b4dec387fd69c162fb757a5d094061))
+* Limit NodesSources discriminator column length to 30 chars for index performance ([84e055a](https://github.com/roadiz/core-bundle/commit/84e055aa101703913e60aeac24992973a53b0ea4))
+* Link Headers must be ASCII only, so we encode in base64 ([d923008](https://github.com/roadiz/core-bundle/commit/d923008ed7977e85d949b13920f73d538b886e3d))
+* NodesSourcesHead nodeSource can be null ([4bfdbf5](https://github.com/roadiz/core-bundle/commit/4bfdbf5ed94b923544eada123718fb2730295576))
+* Override AttributeValue::getPosition method to add serialization groups ([0881085](https://github.com/roadiz/core-bundle/commit/0881085926b4ead0910c0611e333a2ce3598cf86))
+* Single NodeTypeField data provider transformer ([deafe10](https://github.com/roadiz/core-bundle/commit/deafe10d9a78c22761e374b1bc7966785f5d0b3d))
+* Try to update existing Document translation before creating a new one ([6034e06](https://github.com/roadiz/core-bundle/commit/6034e069cc6b706cf2491520fff76ac89be18355))
+
+### Features (Models)
+
+* Added static return type ([ab134f7](https://github.com/roadiz/models/commit/ab134f7bb920df77a0f1d7aae55df6c8f3ddaf88))
+* Added validation assertion on AbstractEntities ([ccaac31](https://github.com/roadiz/models/commit/ccaac312e68daa000f19062a02b6802f202aeda2))
+* Added validation assertion on AbstractEntities (2) ([4039c08](https://github.com/roadiz/models/commit/4039c0889d7ec24c67d79daf2508105c7257719c))
+* GeoTag and MultiGeoTag fields use json type ([161136b](https://github.com/roadiz/models/commit/161136b8c2e23ba9f286a98aeb0695ae7e65b074))
+* Moved PHP annotations to PHP attributes ([0f8b888](https://github.com/roadiz/models/commit/0f8b8880474583019a64a9e3fc6070ac94817031))
+* **Serialization:** Added new AbstractHuman::publicName and user_personal group ([1a14e0b](https://github.com/roadiz/models/commit/1a14e0be7968180ad5cb5e4650aefb95dbd1c2f9))
+
+
+### Bug Fixes (Models)
+
+* Do not add static getParent return type, it breaks Doctrine proxy behaviour ([4f36943](https://github.com/roadiz/models/commit/4f36943e5554cae460f25db3d4f493954b24195b))
+* Fixed AbstractField fields visibility ([1ae0f57](https://github.com/roadiz/models/commit/1ae0f5740582c766ff7056aa8df084c1d403a963))
+* LeafInterface and LeafTrait type hintings ([9ed7c3e](https://github.com/roadiz/models/commit/9ed7c3ee02718539120f0782d494a729c1db792d))
+* ORM\\Table attribute ([ae60f1f](https://github.com/roadiz/models/commit/ae60f1fe8c32c33d73715a640412f38f68680531))
+
+### Features (Documents)
+
+* Added contract interface for DocumentRepository ([4202b85](https://github.com/roadiz/documents/commit/4202b8553f8caf99bad85d50cedead2b66882155))
+* Added createForUrl method in EmbedFinderFactory ([ebe6907](https://github.com/roadiz/documents/commit/ebe69078fdec15de9dfb7587b4dcfb9a6468d0ff))
+* Added DocumentInterface getMountPath to get one path with storage type information ([5662b05](https://github.com/roadiz/documents/commit/5662b059b24603ab01dc2c9cd0b8f1661224edb6))
+* Added EmbedFinderInterface getShortType to get a simple string for icons or identification purpose ([544b886](https://github.com/roadiz/documents/commit/544b8864bf5284eddc00fff0913c3fd052fc5524))
+* Added static return type ([6e0113b](https://github.com/roadiz/documents/commit/6e0113bd11b868e15b6d3048d020b498bedbdedc))
+* Added Symfony console commands ([677522e](https://github.com/roadiz/documents/commit/677522ecae218d8a98ea374bd741684e2ede0de5))
+* Allow doctrine/orm 2.* and phpstan refactoring ([d6ac420](https://github.com/roadiz/documents/commit/d6ac420d954e51044b57f6b52914bdf220656ed0))
+* Allow DocumentFactory to recreate existing document with duplicated file ([fc33d5b](https://github.com/roadiz/documents/commit/fc33d5ba73e15e4a15303b41c83b09dd12529f5b))
+* **Attributes:** Migrate from PHP annotations to PHP attributes ([dc1657e](https://github.com/roadiz/documents/commit/dc1657ef07b48e3ef282172f8d1e0fa62320a5c6))
+* Better phpstan hinting ([121ef39](https://github.com/roadiz/documents/commit/121ef39b693c571f5e699c104b7d0ea2f2bee4da))
+* Better phpstan hinting ([3c5b67d](https://github.com/roadiz/documents/commit/3c5b67d69937f472f47685ea8b61ac743d203e7a))
+* Do not upload Document twice if the same checksum exists ([6db1a50](https://github.com/roadiz/documents/commit/6db1a50b04e91768238b73c13718d44eb789c5e5))
+* Fixed atoum tests ([e8b46e6](https://github.com/roadiz/documents/commit/e8b46e65c4d63beefd19ccfc9918952cdf8da078))
+* New EmbedDocumentAlreadyExistsException exception ([8ec97b6](https://github.com/roadiz/documents/commit/8ec97b6ff3db33d49826dea1f088989d85d94322))
+* Refactored all sources namespaces ([cc4246a](https://github.com/roadiz/documents/commit/cc4246aa78babcc7dd9818c862fcecef48911d23))
+* Refactored Document lifecycle with Flysystem operator ([b803146](https://github.com/roadiz/documents/commit/b803146d58384479da3bdd1eedfcd10ce115eb5e))
+* Refactoring SvgSizeResolver ([6783405](https://github.com/roadiz/documents/commit/6783405bcc5844abcb820d9e72251697053be3e9))
+* Removed dependency to jms/serializer ([417f6ed](https://github.com/roadiz/documents/commit/417f6edbd3851cd17f42b1ac8b493d6430d19863))
+* Removed deprecated code ([fad32c6](https://github.com/roadiz/documents/commit/fad32c6aca7baefe5f29b497fe67d71099a11cfd))
+* Removed Packages usage in favor of FlysystemOperator ([f98de49](https://github.com/roadiz/documents/commit/f98de49cede087412ba1fcfb7e4f0146a828bba4))
+* Rewrote EmbedFinderFactory using chain of responsability pattern ([d5b5668](https://github.com/roadiz/documents/commit/d5b566886b2dd47086f9b5d93f3ba829e7aaeb20))
+* Use BinaryFileResponse to avoid serving ZIP file from memory ([8273e2b](https://github.com/roadiz/documents/commit/8273e2ba67db9787d7d607b45217086c930b6712))
+
+### Bug Fixes (Documents)
+
+* Allow overriding AbstractEmbedFinder getIframe method to render other html tag ([5212f2d](https://github.com/roadiz/documents/commit/5212f2dfc883c9e6e36f85337bf2466e73c139ca))
+* Do not generate URL for a private document ([63f2771](https://github.com/roadiz/documents/commit/63f277174a1599036adfcdc7ef1d04d2e52527d1))
+* Wrong callable URL for supportEmbedUrl ([6dc87f1](https://github.com/roadiz/documents/commit/6dc87f14f6b3614c8e103015fadad02f3724fec1))
+
+### Features (Rozier)
+
+* Added NodesSources noIndex boolean form field and translations ([aa466b4](https://github.com/roadiz/rozier/commit/aa466b462b1156fdff0b55a9e594018f43a26eb9))
+* Added templates titles ([a4aa851](https://github.com/roadiz/rozier/commit/a4aa851dc4e192a9c56669e0d122610066572815))
+* Big roadiz/documents namespace refactoring ([455f1b3](https://github.com/roadiz/rozier/commit/455f1b34cf4e6ff739c9efbd01d93ac5fb505f96))
+* Dispatch events on Settings edition ([5abf8a2](https://github.com/roadiz/rozier/commit/5abf8a29f55c64aece32dc44d52e9e469e4ed4e4))
+* Increase max length fro seo title to 80 chars ([f89bb0a](https://github.com/roadiz/rozier/commit/f89bb0a95f17da1a83cee67fb217fa5488a58418))
+* Migrate schema update from routing to async message bus ([2d96ddf](https://github.com/roadiz/rozier/commit/2d96ddfc7ed3bd106aad0bc6e9c58728e330f559))
+* Removed Font domain logic ([0c274d8](https://github.com/roadiz/rozier/commit/0c274d84945d854ac15d36f5008acb1265f38c3b))
+* Removed Packages usage in favor of FlysystemOperator ([77ba080](https://github.com/roadiz/rozier/commit/77ba08091072900979e3530fcc16b4eaa579f471))
+* Retry loading mainNodeTree during DB schema updates ([f8b53b3](https://github.com/roadiz/rozier/commit/f8b53b394b5e87383d918295f50bf34d8dd43789))
+* **Settings:** Removed useless settings and moved required settings into Configuration and DotEnv variables ([cb5433e](https://github.com/roadiz/rozier/commit/cb5433e214c6e3ff40d50c7001ce8c9b46adbf6c))
+* Use EmbedFinder shortType to display embed icons, overflow hidden on SVG thumbnails ([feefa99](https://github.com/roadiz/rozier/commit/feefa990b8f53e8a2c6d64e6d10ac2613724c6ed))
+* Use GeoJson data structure for Geo and MultiGeo types ([133d1ab](https://github.com/roadiz/rozier/commit/133d1ab6132b9f0cf52b306ee40fb41b05fdf36e))
+* Use valid GeoJSON FeatureCollection for multi-geo coordinates field ([c81e6df](https://github.com/roadiz/rozier/commit/c81e6df4e88cf41a3e93639f7e69bf660cd34228))
+* **User:** Added User publicName form ([a4df5c0](https://github.com/roadiz/rozier/commit/a4df5c004e070d5852d5c3d4b465dad8e6111dfd))
+* **Validation:** Removed redundant form field validators ([635683a](https://github.com/roadiz/rozier/commit/635683a32d4b91e64cb3b2c5ed58d7be3789a779))
+* **WarningModal:** Separate warning modal for disconnected and health-check. Remove modal if service is up again ([9b5250b](https://github.com/roadiz/rozier/commit/9b5250be132c01bf6f2ab10bb4c03e0f102afca1))
+* **WarningModal:** Translation messages ([6f8e9f5](https://github.com/roadiz/rozier/commit/6f8e9f5c09ae9f45ba8d741b06a8016f195eeb22))
+
+
+### Bug Fixes (Rozier)
+
+* Allow creating Leaflet marker with coordinates to zero ([76d1927](https://github.com/roadiz/rozier/commit/76d19275ae98358145a91cb76b0a3ba7b32b1923))
+* Delete exported binaryfiles after sent ([66fa3ef](https://github.com/roadiz/rozier/commit/66fa3ef3fba9cc2efdd27d1c4e21dd16ff36aacd))
+* Do not generate preview thumbnail for private documents ([9aa7f85](https://github.com/roadiz/rozier/commit/9aa7f8513b93d39d439a55811a6778b54c1d4b31))
+* Do not publish any message on setting grouped edition forms, it may lead to flushing invalid form ([92faccf](https://github.com/roadiz/rozier/commit/92faccfa13bebc7bddba1bab8e317aa244081c3d))
+* NodeSourceProviderType must be always multiple for multi or single data provider. ([37f411b](https://github.com/roadiz/rozier/commit/37f411b6cf245f8f946eaaf05c8852546a7a0fce))
+* Use form value instead of data in Form Widget Drawer ([1d7ccce](https://github.com/roadiz/rozier/commit/1d7ccce4d5523ab4bb7b5dd29c4c205405079f24))
+* Wrong form type ([2acc139](https://github.com/roadiz/rozier/commit/2acc1399413b56387807cdae6f86bda17894140b))
 
 ## 2.0.44 (2023-02-09)
 

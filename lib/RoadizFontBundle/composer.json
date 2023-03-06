@@ -15,8 +15,6 @@
         }
     ],
     "type": "symfony-bundle",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "php": ">=8.0",
         "doctrine/annotations": "^1.0",
@@ -25,8 +23,8 @@
         "doctrine/orm": "^2.14.1",
         "jms/serializer": "^3.9.0",
         "league/flysystem": "^3.0",
-        "roadiz/models": "2.1.x-dev",
-        "roadiz/rozier": "2.1.x-dev",
+        "roadiz/models": "^2.1",
+        "roadiz/rozier": "^2.1",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "5.4.*",
         "symfony/cache": "5.4.*",
@@ -56,11 +54,11 @@
         "symfony/browser-kit": "5.4.*",
         "symfony/phpunit-bridge": "5.4.*",
         "symfony/stopwatch": "5.4.*",
-        "roadiz/core-bundle": "2.1.x-dev",
-        "roadiz/compat-bundle": "2.1.x-dev",
-        "roadiz/rozier-bundle": "2.1.x-dev",
-        "roadiz/documents": "2.1.x-dev",
-        "roadiz/entity-generator": "2.1.x-dev"
+        "roadiz/core-bundle": "^2.1",
+        "roadiz/compat-bundle": "^2.1",
+        "roadiz/rozier-bundle": "^2.1",
+        "roadiz/documents": "^2.1",
+        "roadiz/entity-generator": "^2.1"
     },
     "config": {
         "optimize-autoloader": true,
@@ -87,8 +85,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.0.x-dev",
-            "dev-develop": "2.1.x-dev"
+            "dev-main": "2.1.x-dev",
+            "dev-develop": "2.2.x-dev"
         }
     }
 }

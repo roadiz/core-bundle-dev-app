@@ -15,14 +15,13 @@
         }
     ],
     "type": "symfony-bundle",
-    "minimum-stability": "dev",
     "require": {
         "php": ">=8.0",
         "symfony/framework-bundle": "5.4.*",
-        "roadiz/core-bundle": "2.1.x-dev",
-        "roadiz/rozier": "2.1.x-dev",
-        "roadiz/compat-bundle": "2.1.x-dev",
-        "roadiz/openid": "2.1.x-dev"
+        "roadiz/core-bundle": "^2.1",
+        "roadiz/rozier": "^2.1",
+        "roadiz/compat-bundle": "^2.1",
+        "roadiz/openid": "^2.1"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",
@@ -53,8 +52,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.0.x-dev",
-            "dev-develop": "2.1.x-dev"
+            "dev-main": "2.1.x-dev",
+            "dev-develop": "2.2.x-dev"
         }
     }
 }
