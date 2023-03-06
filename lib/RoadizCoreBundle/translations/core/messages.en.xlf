@@ -136,6 +136,10 @@
                 <source>yaml.is.not.valid.{{ error }}</source>
                 <target state="final">YAML code is not valid ({{ error }}).</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="json.is.not.valid">
+                <source>json.is.not.valid.{{ error }}</source>
+                <target state="translated">JSON code is not valid ({{ error }}).</target>
+            </trans-unit>
       <trans-unit xml:space="preserve" id="value.is.already.used">
                 <source>value.is.already.used</source>
                 <target state="translated">This value is already used.</target>
