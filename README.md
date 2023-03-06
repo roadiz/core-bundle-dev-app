@@ -1,5 +1,7 @@
 # Roadiz development monorepo
 
+![Unit tests, static analysis and code style](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/run-test.yml/badge.svg?branch=develop)](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/run-test.yml) [![Packages Split](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/split.yaml/badge.svg?branch=develop)](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/split.yaml)
+
 This is development app for Roadiz v2. It aggregates all Roadiz bundle and main repositories in one place.
 
 ### Install
@@ -46,3 +48,4 @@ Roadiz development env uses: https://github.com/symplify/monorepo-builder
 
 - `vendor/bin/monorepo-builder merge`: Makes sure all your packages deps are in development repository and 
 - `vendor/bin/monorepo-builder validate`: Make sure all your packages use the same version
+- `vendor/bin/monorepo-builder release patch --dry-run`: List all steps to do when release a new tag (do not actually perform this when using GitFlow)
