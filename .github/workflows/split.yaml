@@ -83,8 +83,8 @@ jobs:
                     branch: develop
                     repository_name: '${{ matrix.package.split_repository }}'
                     # ↓ the user signed under the split commit
-                    user_name: "roadiz-ci"
-                    user_email: "contact@roadiz.io"
+                    user_name: "ambroisemaupate"
+                    user_email: "ambroise+ci@roadiz.io"
 
             -   if: github.ref == 'refs/heads/main'
                 uses: "danharrin/monorepo-split-github-action@v2.3.0"
@@ -96,8 +96,8 @@ jobs:
                     branch: main
                     repository_name: '${{ matrix.package.split_repository }}'
                     # ↓ the user signed under the split commit
-                    user_name: "roadiz-ci"
-                    user_email: "contact@roadiz.io"
+                    user_name: "ambroisemaupate"
+                    user_email: "ambroise+ci@roadiz.io"
 
             # with tag
             -   if: "startsWith(github.ref, 'refs/tags/')"
@@ -113,5 +113,5 @@ jobs:
                     repository_name: '${{ matrix.package.split_repository }}'
 
                     # ↓ the user signed under the split commit
-                    user_name: "roadiz-ci"
-                    user_email: "contact@roadiz.io"
+                    user_name: "ambroisemaupate"
+                    user_email: "ambroise+ci@roadiz.io"
