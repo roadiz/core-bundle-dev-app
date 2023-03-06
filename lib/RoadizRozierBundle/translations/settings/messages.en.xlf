@@ -2,38 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="en">
     <body>
-      <trans-unit xml:space="preserve" id="force_locale.description" approved="yes">
-                <source>Force displaying translation locale in every node’ paths. This should be ON if you redirect users based on their language on homepage.</source>
-                <target state="final">Force displaying translation locale in every node’ paths. This should be ON if you redirect users based on their language on homepage.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender.description" approved="yes">
-                <source>Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**</source>
-                <target state="final">Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description" approved="yes">
-                <source>Default maps tiles layout when using *Leaflet*.</source>
-                <target state="final">Default maps tiles layout when using *Leaflet*.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="login_image.description" approved="yes">
-                <source>Replace random *Splashbase* login images with your own.</source>
-                <target state="final">Replace random *Splashbase* login images with your own.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.description" approved="yes">
-                <source>Switch maintenance mode. Only login page will be available for public requests.</source>
-                <target state="final">Switch maintenance mode. Only login page will be available for public requests.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location.description" approved="yes">
-                <source>Default maps marker location.</source>
-                <target state="final">Default maps marker location.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style.description" approved="yes">
-                <source>Default maps tiles layout when using *Google Maps*.</source>
-                <target state="final">Default maps tiles layout when using *Google Maps*.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="max_versions_showed.description" approved="yes">
-                <source>Maximum versions count showed in actions menu.</source>
-                <target state="final">Maximum versions count showed in actions menu.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="hide_roadiz_version.help" approved="yes">
                 <source>hide_roadiz_version.help</source>
                 <target state="final">Hide Roadiz version and name from any response headers and theme variables.</target>
@@ -170,21 +138,6 @@
                 <note>Setting description</note>
             </trans-unit>
       <!-- Setting groups names -->
-      <trans-unit xml:space="preserve" id="APIs" approved="yes">
-                <source>APIs</source>
-                <target state="final">APIs</target>
-                <note>Setting group name</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="Development" approved="yes">
-                <source>Development</source>
-                <target state="final">Development</target>
-                <note>Setting group name</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="Emailings" approved="yes">
-                <source>Emailings</source>
-                <target state="final">Emailings</target>
-                <note>Setting group name</note>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="OpenId" approved="yes">
                 <source>OpenId</source>
                 <target state="final">OpenID</target>
@@ -193,16 +146,6 @@
       <trans-unit xml:space="preserve" id="Site informations" approved="yes">
                 <source>Site informations</source>
                 <target state="final">Site information</target>
-                <note>Setting group name</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="Site information" approved="yes">
-                <source>Site information</source>
-                <target state="final">Site information</target>
-                <note>Setting group name</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="Social networks" approved="yes">
-                <source>Social networks</source>
-                <target state="final">Social networks</target>
                 <note>Setting group name</note>
             </trans-unit>
       <trans-unit xml:space="preserve" id="dashboard_iframe" approved="yes">
