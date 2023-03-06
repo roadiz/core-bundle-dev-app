@@ -220,6 +220,7 @@
         "roadiz/models": "*",
         "roadiz/openid": "*",
         "roadiz/random": "*",
+        "roadiz/roadiz": "*",
         "roadiz/rozier": "*",
         "roadiz/rozier-bundle": "*",
         "roadiz/user-bundle": "*"

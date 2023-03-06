@@ -7,6 +7,8 @@ This is development app for Roadiz v2. It aggregates all Roadiz bundle and main 
 ### Install
 
 - Clone this repository containing all monorepo packages in `lib` directory
+- Deploy bundles assets to public folder: `bin/console assets:install --relative --symlink`
+- Deploy legacy themes assets to public folder: `bin/console themes:assets:install Rozier --relative --symlink`
 
 ### Generate JWT private and public keys
 
