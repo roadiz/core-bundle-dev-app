@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents;
 
+use DOMNamedNodeMap;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
@@ -115,11 +116,13 @@ final class SvgSizeResolver
 
     private function getSvgNodeAttributes(): \DOMNamedNodeMap
     {
-        if (null === $this->getSvgNode()->attributes) {
+        /** @var DOMNamedNodeMap|null $attributes */
+        $attributes = $this->getSvgNode()->attributes;
+        if (null === $attributes) {
             throw new \RuntimeException('SVG tag <svg> does not contain any attribute');
         }
 
-        return $this->getSvgNode()->attributes;
+        return $attributes;
     }
 
     /**
