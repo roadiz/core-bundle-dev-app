@@ -15,6 +15,7 @@ interface NodesSourcesHeadInterface
     public function getMetaDescription(): ?string;
     public function getPolicyUrl(): ?string;
     public function getHomePageUrl(): ?string;
+    public function isNoIndex(): bool;
     public function getHomePage(): ?NodesSources;
     public function getShareImage(): ?DocumentInterface;
     public function getTranslation(): TranslationInterface;
