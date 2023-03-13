@@ -303,6 +303,11 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         return preg_match('#[\s\-\'\"\–\—\’\”\‘\“\/\+\.\,]#', $q) !== 1;
     }
 
+    protected function formatDateTimeToUTC(\DateTimeInterface $dateTime): string
+    {
+        return gmdate('Y-m-d\TH:i:s\Z', $dateTime->getTimestamp());
+    }
+
     /**
      * @param array $args
      *

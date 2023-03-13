@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\SearchEngine;
 
 use Psr\Log\LoggerInterface;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Update\Query\Query;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Wrap a Solarium and a Document’ translations together to ease indexing.
@@ -202,5 +204,10 @@ class SolariumDocument extends AbstractSolarium
         }
 
         return true;
+    }
+
+    protected function getIdempotentIdentifier(): string
+    {
+        throw new \InvalidArgumentException('SolariumDocument should not provide any ID');
     }
 }

@@ -11,7 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeSourceApi;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class NodesSourcesHeadFactory
+final class NodesSourcesHeadFactory implements NodesSourcesHeadFactoryInterface
 {
     private Settings $settingsBag;
     private UrlGeneratorInterface $urlGenerator;

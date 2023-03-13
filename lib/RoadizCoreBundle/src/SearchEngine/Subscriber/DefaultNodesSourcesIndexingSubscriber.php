@@ -11,9 +11,8 @@ use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesIndexingEvent;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolariumNodeSource;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class DefaultNodesSourcesIndexingSubscriber implements EventSubscriberInterface
+final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscriber
 {
     /**
      * @inheritDoc
@@ -58,17 +57,11 @@ final class DefaultNodesSourcesIndexingSubscriber implements EventSubscriberInte
         $assoc['title'] = $title;
         $assoc['title_txt_' . $lang] = $title;
 
-        $assoc['created_at_dt'] = $node->getCreatedAt()
-            ->setTimezone(new \DateTimeZone('UTC'))
-            ->format('Y-m-d\TH:i:s\Z');
-        $assoc['updated_at_dt'] = $node->getUpdatedAt()
-            ->setTimezone(new \DateTimeZone('UTC'))
-            ->format('Y-m-d\TH:i:s\Z');
+        $assoc['created_at_dt'] = $this->formatDateTimeToUTC($node->getCreatedAt());
+        $assoc['updated_at_dt'] = $this->formatDateTimeToUTC($node->getUpdatedAt());
 
         if (null !== $nodeSource->getPublishedAt()) {
-            $assoc['published_at_dt'] = $nodeSource->getPublishedAt()
-                ->setTimezone(new \DateTimeZone('UTC'))
-                ->format('Y-m-d\TH:i:s\Z');
+            $assoc['published_at_dt'] =  $this->formatDateTimeToUTC($nodeSource->getPublishedAt());
         }
 
         /*
@@ -109,7 +102,7 @@ final class DefaultNodesSourcesIndexingSubscriber implements EventSubscriberInte
             $assoc['tags_txt_' . $lang] = implode(' ', $out);
 
             /*
-             * `all_tags_txt` can store all tags, even technical one, this fields should not user searchable.
+             * `all_tags_slugs_ss` can store all tags, even technical one, this fields should not user searchable.
              */
             $allOut = array_map(
                 function (Tag $tag) {
@@ -118,8 +111,8 @@ final class DefaultNodesSourcesIndexingSubscriber implements EventSubscriberInte
                 $nodeSource->getNode()->getTags()->toArray()
             );
             $allOut = array_filter(array_unique($allOut));
-            // Use all_tags_txt to be compatible with other data types
-            $assoc['all_tags_txt'] = $allOut;
+            // Use all_tags_slugs_ss to be compatible with other data types
+            $assoc['all_tags_slugs_ss'] = $allOut;
         }
 
         $criteria = new Criteria();

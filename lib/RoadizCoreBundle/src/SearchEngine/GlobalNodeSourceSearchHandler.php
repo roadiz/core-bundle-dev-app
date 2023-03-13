@@ -9,7 +9,6 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
-use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
 /**
  * @package RZ\Roadiz\CoreBundle\SearchEngine

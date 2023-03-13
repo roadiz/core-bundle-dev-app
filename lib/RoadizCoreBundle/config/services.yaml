@@ -22,9 +22,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
-            $cmsVersion: '2.1.0'
+            $cmsVersion: '2.1.1'
             $appVersion: '%roadiz_core.app_version%'
-            $cmsVersionPrefix: 'develop'
+            $cmsVersionPrefix: 'main'
             $staticDomain: '%roadiz_core.static_domain_name%'
             $hideRoadizVersion: '%roadiz_core.hide_roadiz_version%'
             $inheritanceType: '%roadiz_core.inheritance_type%'

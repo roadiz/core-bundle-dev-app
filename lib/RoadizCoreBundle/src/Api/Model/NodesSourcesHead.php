@@ -84,6 +84,15 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
      * @return string|null
      */
     #[Serializer\Groups(["web_response", "nodes_sources_single", "walker"])]
+    public function getMatomoTagManager(): ?string
+    {
+        return $this->settingsBag->get('matomo_tag_manager_id', null) ?? null;
+    }
+
+    /**
+     * @return string|null
+     */
+    #[Serializer\Groups(["web_response", "nodes_sources_single", "walker"])]
     public function getMatomoUrl(): ?string
     {
         return $this->settingsBag->get('matomo_url', null) ?? null;

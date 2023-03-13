@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesIndexingEvent;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\QueryType\Update\Query\Query;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Wrap a Solarium and a NodeSource together to ease indexing.
@@ -69,5 +70,13 @@ class SolariumNodeSource extends AbstractSolarium
         );
 
         return true;
+    }
+
+    protected function getIdempotentIdentifier(): string
+    {
+        $namespace = explode('\\', get_class($this->nodeSource));
+        // get last 3 parts of namespace
+        $namespace = array_slice($namespace, -3);
+        return (new AsciiSlugger())->slug(implode(' ', $namespace))->lower()->snake() . '.' . $this->nodeSource->getId();
     }
 }

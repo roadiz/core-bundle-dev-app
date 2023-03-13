@@ -9,7 +9,6 @@ use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\DocumentInterface;
-use Solarium\Core\Query\Result\Result;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
@@ -134,7 +133,7 @@ abstract class AbstractSolarium
      */
     public function update(Query $update): void
     {
-        $this->clean($update);
+        // Since Solr ID are now deterministic and composite, we don't need to remove document, just update it.
         $this->createEmptyDocument($update);
         $this->index();
         // add the document to the update query
@@ -197,7 +196,7 @@ abstract class AbstractSolarium
     public function index(): bool
     {
         if ($this->document instanceof Document) {
-            $this->document->setKey('id', uniqid('', true));
+            $this->document->setKey('id', $this->getIdempotentIdentifier());
 
             try {
                 foreach ($this->getFieldsAssoc() as $key => $value) {
@@ -309,5 +308,17 @@ abstract class AbstractSolarium
         $content = preg_replace("[:cntrl:]", "", $content);
         $content = preg_replace('/[\x00-\x1F]/', '', $content);
         return $content;
+    }
+
+    /**
+     * You MUST override this method to provide an idempotent identifier.
+     * This identifier MUST be the same for the same entity.
+     *
+     * @return string
+     */
+    protected function getIdempotentIdentifier(): string
+    {
+        // This is a fallback for backward compatibility.
+        return uniqid('', true);
     }
 }

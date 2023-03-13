@@ -8,7 +8,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Breadcrumbs\BreadcrumbsFactoryInterface;
-use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactory;
+use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponse;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;
@@ -23,7 +23,7 @@ final class WebResponseOutputDataTransformer implements WebResponseDataTransform
     use BlocksAwareWebResponseOutputDataTransformerTrait;
     use RealmsAwareWebResponseOutputDataTransformerTrait;
 
-    private NodesSourcesHeadFactory $nodesSourcesHeadFactory;
+    private NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory;
     private BreadcrumbsFactoryInterface $breadcrumbsFactory;
     private WalkerContextInterface $walkerContext;
     private CacheItemPoolInterface $cacheItemPool;
@@ -31,7 +31,7 @@ final class WebResponseOutputDataTransformer implements WebResponseDataTransform
     private RealmResolverInterface $realmResolver;
 
     public function __construct(
-        NodesSourcesHeadFactory $nodesSourcesHeadFactory,
+        NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
         BreadcrumbsFactoryInterface $breadcrumbsFactory,
         WalkerContextInterface $walkerContext,
         CacheItemPoolInterface $cacheItemPool,
