@@ -9,9 +9,8 @@ use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Event\Document\DocumentTranslationIndexingEvent;
 use RZ\Roadiz\CoreBundle\SearchEngine\AbstractSolarium;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolariumDocumentTranslation;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class DefaultDocumentTranslationIndexingSubscriber implements EventSubscriberInterface
+final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexingSubscriber
 {
     /**
      * @inheritDoc
@@ -34,25 +33,13 @@ final class DefaultDocumentTranslationIndexingSubscriber implements EventSubscri
         $assoc[SolariumDocumentTranslation::IDENTIFIER_KEY] = $documentTranslation->getId();
         if ($document instanceof Document) {
             $assoc['document_id_i'] = $document->getId();
-            $assoc['created_at_dt'] = $document->getCreatedAt()
-                ->setTimezone(new \DateTimeZone('UTC'))
-                ->format('Y-m-d\TH:i:s\Z');
-            ;
-            $assoc['updated_at_dt'] = $document->getUpdatedAt()
-                ->setTimezone(new \DateTimeZone('UTC'))
-                ->format('Y-m-d\TH:i:s\Z');
-            ;
+            $assoc['created_at_dt'] = $this->formatDateTimeToUTC($document->getCreatedAt());
+            $assoc['updated_at_dt'] = $this->formatDateTimeToUTC($document->getUpdatedAt());
 
             $copyrightValidSince = $document->getCopyrightValidSince() ?? new \DateTime('1970-01-01 00:00:00');
             $copyrightValidUntil = $document->getCopyrightValidUntil() ?? new \DateTime('9999-12-31 23:59:59');
-            $assoc['copyright_valid_since_dt'] = $copyrightValidSince
-                ->setTimezone(new \DateTimeZone('UTC'))
-                ->format('Y-m-d\TH:i:s\Z');
-            ;
-            $assoc['copyright_valid_until_dt'] = $copyrightValidUntil
-                ->setTimezone(new \DateTimeZone('UTC'))
-                ->format('Y-m-d\TH:i:s\Z');
-            ;
+            $assoc['copyright_valid_since_dt'] = $this->formatDateTimeToUTC($copyrightValidSince);
+            $assoc['copyright_valid_until_dt'] = $this->formatDateTimeToUTC($copyrightValidUntil);
         }
         $assoc['filename_s'] = $document->getFilename();
         $assoc['mime_type_s'] = $document->getMimeType();
@@ -107,7 +94,7 @@ final class DefaultDocumentTranslationIndexingSubscriber implements EventSubscri
         $assoc['tags_txt_' . $lang] = implode(' ', $visibleFolderNames);
 
         /*
-         * `all_tags_txt` can store all folders, even technical one, this fields should not user searchable.
+         * `all_tags_slugs_ss` can store all folders, even technical one, this fields should not user searchable.
          */
         $allFolders = $document->getFolders();
         $allFolderNames = [];
@@ -115,8 +102,8 @@ final class DefaultDocumentTranslationIndexingSubscriber implements EventSubscri
         foreach ($allFolders as $folder) {
             $allFolderNames[] = $folder->getFolderName();
         }
-        // Use all_tags_txt to be compatible with other data types
-        $assoc['all_tags_txt'] = array_filter(array_unique($allFolderNames));
+        // Use all_tags_slugs_ss to be compatible with other data types
+        $assoc['all_tags_slugs_ss'] = array_filter(array_unique($allFolderNames));
 
         /*
          * Collect data in a single field

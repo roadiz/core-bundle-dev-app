@@ -102,15 +102,15 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
 
         /*
          * filter by tag or tags
-         * `all_tags_txt` can store all tags, even technical ones, this fields should not user-searchable.
+         * `all_tags_slugs_ss` can store all tags, even technical ones, this fields should not user-searchable.
          */
         if (!empty($args['tags'])) {
             if ($args['tags'] instanceof Tag) {
-                $args["fq"][] = sprintf('all_tags_txt:"%s"', $args['tags']->getTagName());
+                $args["fq"][] = sprintf('all_tags_slugs_ss:"%s"', $args['tags']->getTagName());
             } elseif (is_array($args['tags'])) {
                 foreach ($args['tags'] as $tag) {
                     if ($tag instanceof Tag) {
-                        $args["fq"][] = sprintf('all_tags_txt:"%s"', $tag->getTagName());
+                        $args["fq"][] = sprintf('all_tags_slugs_ss:"%s"', $tag->getTagName());
                     }
                 }
             }
@@ -163,7 +163,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         if (isset($args['publishedAt'])) {
             $tmp = "published_at_dt:";
             if (!is_array($args['publishedAt']) && $args['publishedAt'] instanceof \DateTime) {
-                $tmp .= $args['publishedAt']->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z');
+                $tmp .= $this->formatDateTimeToUTC($args['publishedAt']);
             } elseif (
                 isset($args['publishedAt'][0]) &&
                 $args['publishedAt'][0] === "BETWEEN" &&
@@ -173,23 +173,23 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
                 $args['publishedAt'][2] instanceof \DateTime
             ) {
                 $tmp .= "[" .
-                    $args['publishedAt'][1]->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z') .
+                    $this->formatDateTimeToUTC($args['publishedAt'][1]) .
                     " TO " .
-                    $args['publishedAt'][2]->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z') . "]";
+                    $this->formatDateTimeToUTC($args['publishedAt'][2]) . "]";
             } elseif (
                 isset($args['publishedAt'][0]) &&
                 $args['publishedAt'][0] === "<=" &&
                 isset($args['publishedAt'][1]) &&
                 $args['publishedAt'][1] instanceof \DateTime
             ) {
-                $tmp .= "[* TO " . $args['publishedAt'][1]->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z') . "]";
+                $tmp .= "[* TO " . $this->formatDateTimeToUTC($args['publishedAt'][1]) . "]";
             } elseif (
                 isset($args['publishedAt'][0]) &&
                 $args['publishedAt'][0] === ">=" &&
                 isset($args['publishedAt'][1]) &&
                 $args['publishedAt'][1] instanceof \DateTime
             ) {
-                $tmp .= "[" . $args['publishedAt'][1]->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s\Z') . " TO *]";
+                $tmp .= "[" . $this->formatDateTimeToUTC($args['publishedAt'][1]) . " TO *]";
             }
             unset($args['publishedAt']);
             $args["fq"][] = $tmp;

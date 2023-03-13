@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Event\Document\DocumentTranslationIndexingEvent;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\QueryType\Update\Query\Query;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Wrap a Solarium and a DocumentTranslation together to ease indexing.
@@ -64,5 +65,13 @@ class SolariumDocumentTranslation extends AbstractSolarium
         );
 
         return true;
+    }
+
+    protected function getCompositeIdentifier(): string
+    {
+        $namespace = explode('\\', get_class($this->documentTranslation));
+        // get last 3 parts of namespace
+        $namespace = array_slice($namespace, -3);
+        return (new AsciiSlugger())->slug(implode(' ', $namespace))->lower()->snake() . '.' . $this->documentTranslation->getId();
     }
 }
