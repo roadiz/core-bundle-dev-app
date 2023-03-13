@@ -1,3 +1,16 @@
+## [v2.1.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.0...v2.1.1) (2023-03-13)
+
+
+### ⚠ BREAKING CHANGES
+
+* All Solr documents MUST have a idempotent ID field to ease up Solr indexing (no more need to delete previous index entry before indexing an entity).
+
+### Features
+
+* Added `NodesSourcesHeadFactoryInterface` for better WebResponse and CommonContent responses maintainability. ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
+* Rename `getCompositeIdentifier` to `getIdempotentIdentifier` and provided a fallback. ([e8c895a](https://github.com/roadiz/core-bundle-dev-app/commit/e8c895a056dee0f2668ed8d081a2021a45490174))
+* Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
+
 ## v2.1.0 (2023-03-06)
 
 ### ⚠ BREAKING CHANGES
