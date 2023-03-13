@@ -206,7 +206,7 @@ class SolariumDocument extends AbstractSolarium
         return true;
     }
 
-    protected function getCompositeIdentifier(): string
+    protected function getIdempotentIdentifier(): string
     {
         throw new \InvalidArgumentException('SolariumDocument should not provide any ID');
     }

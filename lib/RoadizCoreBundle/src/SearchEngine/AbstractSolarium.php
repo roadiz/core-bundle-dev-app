@@ -196,7 +196,7 @@ abstract class AbstractSolarium
     public function index(): bool
     {
         if ($this->document instanceof Document) {
-            $this->document->setKey('id', $this->getCompositeIdentifier());
+            $this->document->setKey('id', $this->getIdempotentIdentifier());
 
             try {
                 foreach ($this->getFieldsAssoc() as $key => $value) {
@@ -310,5 +310,15 @@ abstract class AbstractSolarium
         return $content;
     }
 
-    abstract protected function getCompositeIdentifier(): string;
+    /**
+     * You MUST override this method to provide an idempotent identifier.
+     * This identifier MUST be the same for the same entity.
+     *
+     * @return string
+     */
+    protected function getIdempotentIdentifier(): string
+    {
+        // This is a fallback for backward compatibility.
+        return uniqid('', true);
+    }
 }

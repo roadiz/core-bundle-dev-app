@@ -67,7 +67,7 @@ class SolariumDocumentTranslation extends AbstractSolarium
         return true;
     }
 
-    protected function getCompositeIdentifier(): string
+    protected function getIdempotentIdentifier(): string
     {
         $namespace = explode('\\', get_class($this->documentTranslation));
         // get last 3 parts of namespace
