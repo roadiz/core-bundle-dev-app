@@ -37,7 +37,7 @@ final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
     public function getLastPage(): float
     {
         $this->handleOnce();
-        $lastPage = $this->listManager->getPageCount() - 1;
+        $lastPage = $this->listManager->getPageCount();
         return max($lastPage, 1);
     }
 
