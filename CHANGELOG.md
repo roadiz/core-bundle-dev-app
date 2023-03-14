@@ -1,3 +1,15 @@
+## [v2.1.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.1...v2.1.2) (2023-03-14)
+
+
+### Features
+
+* Create overrideable `createSearchResultsFromResponse` method for any AbstractSearchHandler extending class ([b23b92f](https://github.com/roadiz/core-bundle-dev-app/commit/b23b92f9504a2130fac3455cd79d7f116fa7deba))
+
+
+### Bug Fixes
+
+* Fix SolrPaginator last-page when there are no results ([a044446](https://github.com/roadiz/core-bundle-dev-app/commit/a04444698d7b4a96a538419f840928f190054573))
+
 ## [v2.1.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.0...v2.1.1) (2023-03-13)
 
 
