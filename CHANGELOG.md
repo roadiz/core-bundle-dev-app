@@ -1,3 +1,10 @@
+## [v2.1.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.2...v2.1.3) (2023-03-14)
+
+
+### Bug Fixes
+
+* Fixed SolrPaginator `getLastPage` using an index starting at 1 instead of 0 ([052f9be](https://github.com/roadiz/core-bundle-dev-app/commit/052f9be0b467bb5ea6031ef31763ec5005f63c5e))
+
 ## [v2.1.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.1...v2.1.2) (2023-03-14)
 
 
