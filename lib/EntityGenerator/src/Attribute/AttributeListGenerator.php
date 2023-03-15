@@ -27,7 +27,11 @@ class AttributeListGenerator
             return '';
         }
         if (count($this->attributes) === 1) {
-            return sprintf('#[%s]', reset($this->attributes)->generate($currentIndentation));
+            return sprintf(
+                '%s#[%s]',
+                str_repeat(' ', $currentIndentation),
+                reset($this->attributes)->generate()
+            );
         }
 
         return sprintf(
