@@ -1,3 +1,10 @@
+## [v2.1.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.3...v2.1.4) (2023-03-15)
+
+
+### Bug Fixes
+
+* **EntityGenerator:** Fixed attributes list generator when there is only one attribute to print ([b6139ba](https://github.com/roadiz/core-bundle-dev-app/commit/b6139ba0f339962b15d0247ab94d1aa856ec8123))
+
 ## [v2.1.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.2...v2.1.3) (2023-03-14)
 
 
