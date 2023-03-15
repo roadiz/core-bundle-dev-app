@@ -135,6 +135,14 @@ trait NodeTypeAwareTrait
                     ->setDescription('Maecenas sed diam eget risus varius blandit sit amet non magna')
                     ->setIndexed(false),
                 (new NodeTypeField())
+                    ->setName('foo_bar_hidden')
+                    ->setTypeName('nodes')
+                    ->setVirtual(true)
+                    ->setExcludedFromSerialization(true)
+                    ->setLabel('ForBar hidden nodes field')
+                    ->setDescription('Maecenas sed diam eget risus varius blandit sit amet non magna')
+                    ->setIndexed(false),
+                (new NodeTypeField())
                     ->setName('foo_bar_typed')
                     ->setTypeName('nodes')
                     ->setVirtual(true)

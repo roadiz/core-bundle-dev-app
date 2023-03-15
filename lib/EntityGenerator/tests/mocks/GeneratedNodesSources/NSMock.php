@@ -819,6 +819,61 @@ class NSMock extends \mock\Entity\NodesSources
 
 
     /**
+     * fooBarHiddenSources NodesSources direct field buffer.
+     * (Virtual field, this var is a buffer)
+     *
+     * ForBar hidden nodes field.
+     * Maecenas sed diam eget risus varius blandit sit amet non magna.
+     * @var \mock\Entity\NodesSources[]|null
+     */
+    #[Serializer\Exclude]
+    private ?array $fooBarHiddenSources = null;
+
+    /**
+     * @return \mock\Entity\NodesSources[] fooBarHidden nodes-sources array
+     */
+    #[
+        Serializer\Exclude,
+        SymfonySerializer\Ignore,
+        Serializer\VirtualProperty,
+        Serializer\SerializedName("fooBarHidden"),
+        Serializer\Type("array<mock\Entity\NodesSources>")
+    ]
+    public function getFooBarHiddenSources(): array
+    {
+        if (null === $this->fooBarHiddenSources) {
+            if (
+                null !== $this->objectManager &&
+                null !== $this->getNode() &&
+                null !== $this->getNode()->getNodeType()
+            ) {
+                $this->fooBarHiddenSources = $this->objectManager
+                    ->getRepository(\mock\Entity\NodesSources::class)
+                    ->findByNodesSourcesAndFieldAndTranslation(
+                        $this,
+                        $this->getNode()->getNodeType()->getFieldByName("foo_bar_hidden")
+                    );
+            } else {
+                $this->fooBarHiddenSources = [];
+            }
+        }
+        return $this->fooBarHiddenSources;
+    }
+
+    /**
+     * @param \mock\Entity\NodesSources[]|null $fooBarHiddenSources
+     *
+     * @return $this
+     */
+    public function setFooBarHiddenSources(?array $fooBarHiddenSources): static
+    {
+        $this->fooBarHiddenSources = $fooBarHiddenSources;
+
+        return $this;
+    }
+
+
+    /**
      * fooBarTypedSources NodesSources direct field buffer.
      * (Virtual field, this var is a buffer)
      *
