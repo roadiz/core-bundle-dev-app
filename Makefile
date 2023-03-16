@@ -1,5 +1,6 @@
 
 test:
+	vendor/bin/requirements-checker
 	vendor/bin/monorepo-builder validate
 	vendor/bin/atoum -d ./lib/Documents/tests
 	vendor/bin/atoum -f ./lib/EntityGenerator/tests/units/*
@@ -26,6 +27,9 @@ test:
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
+
+requirements:
+	vendor/bin/requirements-checker
 
 cache :
 	docker-compose exec -u www-data app php bin/console cache:clear

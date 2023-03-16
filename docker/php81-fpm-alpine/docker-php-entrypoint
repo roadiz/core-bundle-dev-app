@@ -1,0 +1,26 @@
+#!/bin/sh
+set -e
+
+# Symfony directories
+/bin/chown -R www-data:www-data /var/www/html/public;
+/bin/chown -R www-data:www-data /var/www/html/config;
+/bin/chown -R www-data:www-data /var/www/html/var;
+
+# Print local env vars to .env.xxx.php file for performances and crontab jobs
+#/usr/bin/sudo -u www-data -- bash -c  "/usr/local/bin/composer dump-env prod"
+/usr/bin/sudo -u www-data -- bash -c "/var/www/html/bin/console cache:clear -n"
+/usr/bin/sudo -u www-data -- bash -c "/var/www/html/bin/console assets:install -n"
+/usr/bin/sudo -u www-data -- bash -c "/var/www/html/bin/console themes:assets:install -n --relative --symlink Rozier"
+
+# To improve performance (i.e. avoid decrypting secrets at runtime),
+# you can decrypt your secrets during deployment to the "local" vault:
+#/usr/bin/sudo -u www-data -- bash -c "APP_RUNTIME_ENV=prod /var/www/html/bin/console secrets:decrypt-to-local --force"
+
+/wait-for-it.sh -t 0 -s ${MYSQL_HOST}:${MYSQL_PORT}
+
+# first arg is `-f` or `--some-option`
+if [ "${1#-}" != "$1" ]; then
+	set -- php-fpm "$@"
+fi
+
+exec "$@"
