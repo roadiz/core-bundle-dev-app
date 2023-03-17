@@ -15,6 +15,13 @@ final class ReachableNodeSourceDefinition
 {
     use ContextualDefinitionTrait;
 
+    private bool $onlyVisible;
+
+    public function __construct(bool $onlyVisible = true)
+    {
+        $this->onlyVisible = $onlyVisible;
+    }
+
     /**
      * @throws Exception
      */
@@ -22,12 +29,15 @@ final class ReachableNodeSourceDefinition
     {
         if ($this->context instanceof NodeSourceWalkerContext) {
             $this->context->getStopwatch()->start(self::class);
-            $children = $this->context->getNodeSourceApi()->getBy([
+            $criteria = [
                 'node.parent' => $source->getNode(),
-                'node.visible' => true,
                 'translation' => $source->getTranslation(),
-                'node.nodeType.reachable' => true
-            ], [
+                'node.nodeType.reachable' => true,
+            ];
+            if ($this->onlyVisible) {
+                $criteria['node.visible'] = true;
+            }
+            $children = $this->context->getNodeSourceApi()->getBy($criteria, [
                 'node.position' => 'ASC',
             ]);
             $this->context->getStopwatch()->stop(self::class);
