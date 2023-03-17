@@ -14,19 +14,19 @@ final class MultiTypeChildrenDefinition
 {
     use ContextualDefinitionTrait;
 
-    /**
-     * @var array
-     */
-    private $types;
+    private array $types;
+    private bool $onlyVisible;
 
     /**
      * @param WalkerContextInterface $context
      * @param array<string> $types
+     * @param bool $onlyVisible
      */
-    public function __construct(WalkerContextInterface $context, array $types)
+    public function __construct(WalkerContextInterface $context, array $types, bool $onlyVisible = true)
     {
         $this->context = $context;
         $this->types = $types;
+        $this->onlyVisible = $onlyVisible;
     }
 
     /**
@@ -38,14 +38,17 @@ final class MultiTypeChildrenDefinition
         if ($this->context instanceof NodeSourceWalkerContext) {
             $this->context->getStopwatch()->start(self::class);
             $bag = $this->context->getNodeTypesBag();
-            $children = $this->context->getNodeSourceApi()->getBy([
+            $criteria = [
                 'node.parent' => $source->getNode(),
-                'node.visible' => true,
                 'translation' => $source->getTranslation(),
                 'node.nodeType' => array_map(function (string $singleType) use ($bag) {
                     return $bag->get($singleType);
                 }, $this->types)
-            ], [
+            ];
+            if ($this->onlyVisible) {
+                $criteria['node.visible'] = true;
+            }
+            $children = $this->context->getNodeSourceApi()->getBy($criteria, [
                 'node.position' => 'ASC',
             ]);
             $this->context->getStopwatch()->stop(self::class);

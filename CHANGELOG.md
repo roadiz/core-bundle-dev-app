@@ -1,3 +1,10 @@
+## [v2.1.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.4...v2.1.5) (2023-03-17)
+
+
+### Features
+
+* Added `onlyVisible` optional param for TreeWalker definitions ([abf93a8](https://github.com/roadiz/core-bundle-dev-app/commit/abf93a8866629e095fd4302d05a46443158d8b81))
+
 ## [v2.1.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.3...v2.1.4) (2023-03-15)
 
 
