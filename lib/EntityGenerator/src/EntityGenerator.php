@@ -12,6 +12,7 @@ use RZ\Roadiz\EntityGenerator\Attribute\AttributeListGenerator;
 use RZ\Roadiz\EntityGenerator\Field\AbstractFieldGenerator;
 use RZ\Roadiz\EntityGenerator\Field\CollectionFieldGenerator;
 use RZ\Roadiz\EntityGenerator\Field\CustomFormsFieldGenerator;
+use RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface;
 use RZ\Roadiz\EntityGenerator\Field\DocumentsFieldGenerator;
 use RZ\Roadiz\EntityGenerator\Field\ManyToManyFieldGenerator;
 use RZ\Roadiz\EntityGenerator\Field\ManyToOneFieldGenerator;
@@ -25,23 +26,24 @@ use Symfony\Component\Yaml\Yaml;
 
 class EntityGenerator implements EntityGeneratorInterface
 {
-    private NodeTypeInterface $nodeType;
-    private array $fieldGenerators;
-    private NodeTypeResolverInterface $nodeTypeResolver;
+    protected NodeTypeInterface $nodeType;
+    protected NodeTypeResolverInterface $nodeTypeResolver;
+    protected DefaultValuesResolverInterface $defaultValuesResolver;
+    protected array $fieldGenerators;
     protected array $options;
 
-    /**
-     * @param NodeTypeInterface $nodeType
-     * @param NodeTypeResolverInterface $nodeTypeResolver
-     * @param array $options
-     */
-    public function __construct(NodeTypeInterface $nodeType, NodeTypeResolverInterface $nodeTypeResolver, array $options = [])
-    {
+    public function __construct(
+        NodeTypeInterface $nodeType,
+        NodeTypeResolverInterface $nodeTypeResolver,
+        DefaultValuesResolverInterface $defaultValuesResolver,
+        array $options = []
+    ) {
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
 
         $this->nodeType = $nodeType;
         $this->nodeTypeResolver = $nodeTypeResolver;
+        $this->defaultValuesResolver = $defaultValuesResolver;
         $this->fieldGenerators = [];
         $this->options = $resolver->resolve($options);
 
@@ -109,19 +111,19 @@ class EntityGenerator implements EntityGeneratorInterface
     protected function getFieldGenerator(NodeTypeFieldInterface $field): ?AbstractFieldGenerator
     {
         if ($field->isYaml()) {
-            return new YamlFieldGenerator($field, $this->options);
+            return new YamlFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isCollection()) {
-            return new CollectionFieldGenerator($field, $this->options);
+            return new CollectionFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isCustomForms()) {
-            return new CustomFormsFieldGenerator($field, $this->options);
+            return new CustomFormsFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isDocuments()) {
-            return new DocumentsFieldGenerator($field, $this->options);
+            return new DocumentsFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isManyToOne()) {
-            return new ManyToOneFieldGenerator($field, $this->options);
+            return new ManyToOneFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isManyToMany()) {
             $configuration = Yaml::parse($field->getDefaultValues() ?? '');
@@ -134,15 +136,15 @@ class EntityGenerator implements EntityGeneratorInterface
                  * Manually create a Many-to-Many relation using a proxy class
                  * for handling position for example.
                  */
-                return new ProxiedManyToManyFieldGenerator($field, $this->options);
+                return new ProxiedManyToManyFieldGenerator($field, $this->defaultValuesResolver, $this->options);
             }
-            return new ManyToManyFieldGenerator($field, $this->options);
+            return new ManyToManyFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isNodes()) {
-            return new NodesFieldGenerator($field, $this->nodeTypeResolver, $this->options);
+            return new NodesFieldGenerator($field, $this->nodeTypeResolver, $this->defaultValuesResolver, $this->options);
         }
         if (!$field->isVirtual()) {
-            return new NonVirtualFieldGenerator($field, $this->options);
+            return new NonVirtualFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
 
         return null;

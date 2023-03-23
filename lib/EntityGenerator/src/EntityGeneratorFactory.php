@@ -6,25 +6,27 @@ namespace RZ\Roadiz\EntityGenerator;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
+use RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface;
 
 final class EntityGeneratorFactory
 {
     private NodeTypeResolverInterface $nodeTypeResolverBag;
+    private DefaultValuesResolverInterface $defaultValuesResolver;
     private array $options;
 
-    /**
-     * @param NodeTypeResolverInterface $nodeTypeResolverBag
-     * @param array $options
-     */
-    public function __construct(NodeTypeResolverInterface $nodeTypeResolverBag, array $options)
-    {
+    public function __construct(
+        NodeTypeResolverInterface $nodeTypeResolverBag,
+        DefaultValuesResolverInterface $defaultValuesResolver,
+        array $options
+    ) {
         $this->nodeTypeResolverBag = $nodeTypeResolverBag;
+        $this->defaultValuesResolver = $defaultValuesResolver;
         $this->options = $options;
     }
 
     public function create(NodeTypeInterface $nodeType): EntityGeneratorInterface
     {
-        return new EntityGenerator($nodeType, $this->nodeTypeResolverBag, $this->options);
+        return new EntityGenerator($nodeType, $this->nodeTypeResolverBag, $this->defaultValuesResolver, $this->options);
     }
 
     public function createWithCustomRepository(NodeTypeInterface $nodeType): EntityGeneratorInterface
@@ -35,7 +37,7 @@ final class EntityGeneratorFactory
             '\\Repository\\' .
             $nodeType->getSourceEntityClassName() . 'Repository';
 
-        return new EntityGenerator($nodeType, $this->nodeTypeResolverBag, $options);
+        return new EntityGenerator($nodeType, $this->nodeTypeResolverBag, $this->defaultValuesResolver, $options);
     }
 
     public function createCustomRepository(NodeTypeInterface $nodeType): RepositoryGeneratorInterface

@@ -114,6 +114,7 @@
         "symfony/property-info": "5.4.*",
         "symfony/proxy-manager-bridge": "5.4.*",
         "symfony/rate-limiter": "5.4.*",
+        "symfony/requirements-checker": "^2.0",
         "symfony/routing": "5.4.*",
         "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "5.4.*",
@@ -229,7 +230,8 @@
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "themes:assets:install --relative --symlink Rozier": "symfony-cmd"
+            "themes:assets:install --relative --symlink Rozier": "symfony-cmd",
+            "requirements-checker": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"

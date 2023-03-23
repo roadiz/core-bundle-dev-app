@@ -150,6 +150,12 @@ trait NodeTypeAwareTrait
                     ->setIndexed(false)
                     ->setDefaultValues('MockTwo'),
                 (new NodeTypeField())
+                    ->setName('layout')
+                    ->setTypeName('enum')
+                    ->setLabel('ForBar layout enum')
+                    ->setIndexed(true)
+                    ->setDefaultValues('light, dark, transparent'),
+                (new NodeTypeField())
                     ->setName('foo_many_to_one')
                     ->setTypeName('many_to_one')
                     ->setVirtual(false)
@@ -227,5 +233,10 @@ EOT)
             return $mockNodeType;
         };
         return $mockNodeTypeResolver;
+    }
+
+    protected function getMockDefaultValuesResolver()
+    {
+        return $this->newMockInstance(JoinedTableDefaultValuesResolver::class);
     }
 }

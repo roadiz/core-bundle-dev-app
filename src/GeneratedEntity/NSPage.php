@@ -27,6 +27,7 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
     ORM\Table(name: "ns_page"),
     ORM\Index(columns: ["sticky"]),
     ORM\Index(columns: ["stickytest"]),
+    ORM\Index(columns: ["layout"]),
     ApiFilter(PropertyFilter::class)
 ]
 class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
@@ -1066,6 +1067,52 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
 
+    /**
+     * Layout.
+     * Default values: dark, transparent
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "layout"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        ApiFilter(OrmFilter\SearchFilter::class, strategy: "exact"),
+        ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "layout",
+            type: "string",
+            nullable: true,
+            length: 11
+        ),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("string")
+    ]
+    private ?string $layout = null;
+
+    /**
+     * @return string|null
+     */
+    public function getLayout(): ?string
+    {
+        return $this->layout;
+    }
+
+    /**
+     * @param string|null $layout
+     *
+     * @return $this
+     */
+    public function setLayout(?string $layout): static
+    {
+        $this->layout = null !== $layout ?
+            (string) $layout :
+            null;
+
+        return $this;
+    }
+
+
     public function __construct(\RZ\Roadiz\CoreBundle\Entity\Node $node, \RZ\Roadiz\CoreBundle\Entity\Translation $translation)
     {
         parent::__construct($node, $translation);
@@ -1120,7 +1167,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         $this->usersProxy = $usersProxyClone;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return '[NSPage] ' . parent::__toString();
     }

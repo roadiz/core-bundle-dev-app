@@ -14,14 +14,13 @@ class NodesFieldGenerator extends AbstractFieldGenerator
 {
     private NodeTypeResolverInterface $nodeTypeResolver;
 
-    /**
-     * @param NodeTypeFieldInterface $field
-     * @param NodeTypeResolverInterface $nodeTypeResolver
-     * @param array $options
-     */
-    public function __construct(NodeTypeFieldInterface $field, NodeTypeResolverInterface $nodeTypeResolver, array $options = [])
-    {
-        parent::__construct($field, $options);
+    public function __construct(
+        NodeTypeFieldInterface $field,
+        NodeTypeResolverInterface $nodeTypeResolver,
+        DefaultValuesResolverInterface $defaultValuesResolver,
+        array $options = []
+    ) {
+        parent::__construct($field, $defaultValuesResolver, $options);
         $this->nodeTypeResolver = $nodeTypeResolver;
     }
 

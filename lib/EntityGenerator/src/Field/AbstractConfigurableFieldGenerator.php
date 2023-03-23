@@ -11,9 +11,12 @@ abstract class AbstractConfigurableFieldGenerator extends AbstractFieldGenerator
 {
     protected array $configuration;
 
-    public function __construct(NodeTypeFieldInterface $field, array $options = [])
-    {
-        parent::__construct($field, $options);
+    public function __construct(
+        NodeTypeFieldInterface $field,
+        DefaultValuesResolverInterface $defaultValuesResolver,
+        array $options = []
+    ) {
+        parent::__construct($field, $defaultValuesResolver, $options);
 
         if (empty($this->field->getDefaultValues())) {
             throw new \LogicException('Default values must be a valid YAML for ' . static::class);

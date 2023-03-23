@@ -43,17 +43,25 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         if ($this->getDoctrineType() !== 'string') {
             return null;
         }
-        switch (true) {
-            case $this->field->isColor():
-                return 10;
-            case $this->field->isCountry():
-                return 5;
-            case $this->field->isPassword():
-            case $this->field->isGeoTag():
-                return 128;
-            default:
-                return 250;
+        return match (true) {
+            $this->field->isColor() => 10,
+            $this->field->isCountry() => 5,
+            $this->field->isPassword(), $this->field->isGeoTag() => 128,
+            $this->field->isEnum() => $this->defaultValuesResolver->getMaxDefaultValuesLengthAmongAllFields($this->field),
+            default => 250,
+        };
+    }
+
+    protected function getMaxDefaultValuesLength(): int
+    {
+        // get max length of exploded default values
+        $max = 0;
+        foreach (explode(',', $this->field->getDefaultValues()) as $value) {
+            $value = trim($value);
+            $max = max($max, strlen($value));
         }
+
+        return $max > 0 ? $max : 250;
     }
 
     protected function isExcludingFieldFromJmsSerialization(): bool

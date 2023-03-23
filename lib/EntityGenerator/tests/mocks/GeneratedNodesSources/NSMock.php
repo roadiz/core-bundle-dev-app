@@ -29,6 +29,7 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
     ORM\Index(columns: ["fooIndexed"]),
     ORM\Index(columns: ["boolIndexed"]),
     ORM\Index(columns: ["foo_decimal_excluded"]),
+    ORM\Index(columns: ["layout"]),
     ApiFilter(PropertyFilter::class)
 ]
 class NSMock extends \mock\Entity\NodesSources
@@ -928,6 +929,52 @@ class NSMock extends \mock\Entity\NodesSources
     public function setFooBarTypedSources(?array $fooBarTypedSources): static
     {
         $this->fooBarTypedSources = $fooBarTypedSources;
+
+        return $this;
+    }
+
+
+    /**
+     * ForBar layout enum.
+     * Default values: light, dark, transparent
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "layout"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        ApiFilter(OrmFilter\SearchFilter::class, strategy: "exact"),
+        ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "layout",
+            type: "string",
+            nullable: true,
+            length: 11
+        ),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("string")
+    ]
+    private ?string $layout = null;
+
+    /**
+     * @return string|null
+     */
+    public function getLayout(): ?string
+    {
+        return $this->layout;
+    }
+
+    /**
+     * @param string|null $layout
+     *
+     * @return $this
+     */
+    public function setLayout(?string $layout): static
+    {
+        $this->layout = null !== $layout ?
+            (string) $layout :
+            null;
 
         return $this;
     }

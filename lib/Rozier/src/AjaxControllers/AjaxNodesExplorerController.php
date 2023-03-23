@@ -173,14 +173,25 @@ class AjaxNodesExplorerController extends AbstractAjaxController
     ): array {
         $this->nodeSourceSearchHandler->boostByUpdateDate();
         $currentPage = $request->get('page', 1);
+        $searchQuery = $request->get('search');
+
+        if (!\is_string($searchQuery)) {
+            throw new InvalidParameterException('Search query must be a string');
+        }
+        if (empty($searchQuery)) {
+            throw new InvalidParameterException('Search query cannot be empty');
+        }
+        if ($currentPage < 1) {
+            throw new InvalidParameterException('Current page must be greater than 0');
+        }
 
         $results = $this->nodeSourceSearchHandler->search(
-            $request->get('search'),
+            $searchQuery,
             $arrayFilter,
             $this->getItemPerPage(),
             true,
             10000000,
-            $currentPage
+            (int) $currentPage
         );
         $pageCount = ceil($results->getResultCount() / $this->getItemPerPage());
         $nodesArray = $this->normalizeNodes($results);
