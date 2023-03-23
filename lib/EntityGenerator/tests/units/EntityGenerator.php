@@ -14,6 +14,7 @@ class EntityGenerator extends atoum
     {
         $mockNodeType = $this->getMockNodeType();
         $mockNodeTypeResolver = $this->getMockNodeTypeResolver();
+        $mockDefaultValuesResolver = $this->getMockDefaultValuesResolver();
 
         /*
          * Uncomment for generating a mock file from tests
@@ -38,7 +39,7 @@ class EntityGenerator extends atoum
 
         $this
             // creation of a new instance of the tested class
-            ->given($this->newTestedInstance($mockNodeType, $mockNodeTypeResolver, [
+            ->given($this->newTestedInstance($mockNodeType, $mockNodeTypeResolver, $mockDefaultValuesResolver, [
                 'parent_class' => '\mock\Entity\NodesSources',
                 'node_class' => '\mock\Entity\Node',
                 'translation_class' => '\mock\Entity\Translation',
@@ -61,7 +62,7 @@ class EntityGenerator extends atoum
          */
         $this
             // creation of a new instance of the tested class
-            ->given($this->newTestedInstance($mockNodeType, $mockNodeTypeResolver, [
+            ->given($this->newTestedInstance($mockNodeType, $mockNodeTypeResolver, $mockDefaultValuesResolver, [
                 'parent_class' => 'mock\Entity\NodesSources',
                 'node_class' => 'mock\Entity\Node',
                 'translation_class' => 'mock\Entity\Translation',

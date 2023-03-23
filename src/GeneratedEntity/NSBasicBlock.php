@@ -214,7 +214,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         return false;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return '[NSBasicBlock] ' . parent::__toString();
     }

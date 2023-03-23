@@ -185,7 +185,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         return true;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return '[NSArticle] ' . parent::__toString();
     }

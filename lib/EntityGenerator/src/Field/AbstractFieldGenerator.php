@@ -12,36 +12,21 @@ use Symfony\Component\String\UnicodeString;
 
 abstract class AbstractFieldGenerator
 {
-    const USE_NATIVE_JSON = 'use_native_json';
-    const TAB = '    ';
-    const ANNOTATION_PREFIX = AbstractFieldGenerator::TAB . ' *';
+    public const TAB = '    ';
+    public const ANNOTATION_PREFIX = AbstractFieldGenerator::TAB . ' *';
 
     protected NodeTypeFieldInterface $field;
+    protected DefaultValuesResolverInterface $defaultValuesResolver;
     protected array $options;
 
-    /**
-     * @param NodeTypeFieldInterface $field
-     * @param array $options
-     */
-    public function __construct(NodeTypeFieldInterface $field, array $options = [])
-    {
+    public function __construct(
+        NodeTypeFieldInterface $field,
+        DefaultValuesResolverInterface $defaultValuesResolver,
+        array $options = []
+    ) {
         $this->field = $field;
+        $this->defaultValuesResolver = $defaultValuesResolver;
         $this->options = $options;
-    }
-
-    /**
-     * @param array $ormParams
-     *
-     * @return string
-     */
-    public static function flattenORMParameters(array $ormParams): string
-    {
-        $flatParams = [];
-        foreach ($ormParams as $key => $value) {
-            $flatParams[] = $key . '=' . $value;
-        }
-
-        return implode(', ', $flatParams);
     }
 
     /**

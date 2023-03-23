@@ -14,10 +14,11 @@ class EntityGeneratorFactory extends atoum
     {
         $mockNodeType = $this->getMockNodeType();
         $mockNodeTypeResolver = $this->getMockNodeTypeResolver();
+        $mockDefaultValuesResolver = $this->getMockDefaultValuesResolver();
 
         $this
             // creation of a new instance of the tested class
-            ->given($this->newTestedInstance($mockNodeTypeResolver, [
+            ->given($this->newTestedInstance($mockNodeTypeResolver, $mockDefaultValuesResolver, [
                 'parent_class' => '\mock\Entity\NodesSources',
                 'node_class' => '\mock\Entity\Node',
                 'translation_class' => '\mock\Entity\Translation',
@@ -40,6 +41,7 @@ class EntityGeneratorFactory extends atoum
     {
         $mockNodeType = $this->getMockNodeType();
         $mockNodeTypeResolver = $this->getMockNodeTypeResolver();
+        $mockDefaultValuesResolver = $this->getMockDefaultValuesResolver();
 
         /*
          * Uncomment for generating a mock file from tests
@@ -64,7 +66,7 @@ class EntityGeneratorFactory extends atoum
 
         $this
             // creation of a new instance of the tested class
-            ->given($this->newTestedInstance($mockNodeTypeResolver, [
+            ->given($this->newTestedInstance($mockNodeTypeResolver, $mockDefaultValuesResolver, [
                 'parent_class' => '\mock\Entity\NodesSources',
                 'node_class' => '\mock\Entity\Node',
                 'translation_class' => '\mock\Entity\Translation',
@@ -87,6 +89,7 @@ class EntityGeneratorFactory extends atoum
     {
         $mockNodeType = $this->getMockNodeType();
         $mockNodeTypeResolver = $this->getMockNodeTypeResolver();
+        $mockDefaultValuesResolver = $this->getMockDefaultValuesResolver();
 
         /*
          * Uncomment for generating a mock file from tests
@@ -111,7 +114,7 @@ class EntityGeneratorFactory extends atoum
 
         $this
             // creation of a new instance of the tested class
-            ->given($this->newTestedInstance($mockNodeTypeResolver, [
+            ->given($this->newTestedInstance($mockNodeTypeResolver, $mockDefaultValuesResolver, [
                 'parent_class' => '\mock\Entity\NodesSources',
                 'node_class' => '\mock\Entity\Node',
                 'translation_class' => '\mock\Entity\Translation',

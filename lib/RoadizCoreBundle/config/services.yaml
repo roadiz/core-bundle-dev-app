@@ -357,9 +357,13 @@ services:
         alias: RZ\Roadiz\CoreBundle\Bag\NodeTypes
         public: true
 
+    RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface:
+        class: RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver
+
     RZ\Roadiz\EntityGenerator\EntityGeneratorFactory:
         arguments:
             - '@RZ\Roadiz\CoreBundle\Bag\NodeTypes'
+            - '@RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver'
             - '%roadiz_core.entity_generator_factory.options%'
 
     Gedmo\Loggable\LoggableListener:
