@@ -1,3 +1,16 @@
+## [v2.1.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.5...v2.1.6) (2023-03-23)
+
+
+### Features
+
+* **EntityGenerator:** Entity generator uses `DefaultValuesResolverInterface` to compute required _ENUM_ fields length according to their default values. ([20263b6](https://github.com/roadiz/core-bundle-dev-app/commit/20263b613d57f5e918f1b0f75de9835714259250))
+* Migrate from monolithic docker image to nginx + app + worker + cron containers ([fa8b76a](https://github.com/roadiz/core-bundle-dev-app/commit/fa8b76a6216b93bdce93716d071131c138310921))
+
+
+### Bug Fixes
+
+* Fixed `AjaxNodesExplorerController` search params strict typing. ([fd38552](https://github.com/roadiz/core-bundle-dev-app/commit/fd385525f8f0ee4303cc77714c3d4207301f44a2))
+
 ## [v2.1.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.4...v2.1.5) (2023-03-17)
 
 
