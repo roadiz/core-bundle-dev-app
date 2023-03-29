@@ -2,7 +2,7 @@
 parameters:
     env(USER_PASSWORD_RESET_URL): 'loginResetPage'
     env(USER_VALIDATION_URL): 'http://example.test/my-account/validate'
-    env(USER_PASSWORD_RESET_EXPIRES_IN): '600'
+    env(USER_PASSWORD_RESET_EXPIRES_IN): '900'
     env(USER_VALIDATION_EXPIRES_IN): '3600'
 
 services:

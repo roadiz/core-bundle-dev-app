@@ -52,8 +52,7 @@ trait LoginRequestTrait
                     $user->setConfirmationToken($tokenGenerator->generateToken());
                     $entityManager->flush();
                     $userViewer = $this->getUserViewer();
-                    $userViewer->setUser($user);
-                    $userViewer->sendPasswordResetLink($resetRoute);
+                    $userViewer->sendPasswordResetLink($user, $resetRoute);
                     return true;
                 } catch (\Exception $e) {
                     $user->setPasswordRequestedAt(null);
