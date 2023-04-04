@@ -7,6 +7,7 @@ namespace Themes\Rozier\Controllers\Documents;
 use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
+use League\Flysystem\UnableToMoveFile;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Document\DocumentFactory;
@@ -366,6 +367,8 @@ class DocumentsController extends RozierApp
                     'documentsEditPage',
                     $routeParams
                 );
+            } catch (FilesystemException $exception) {
+                $form->get('filename')->addError(new FormError($exception->getMessage()));
             } catch (FileException $exception) {
                 $form->get('filename')->addError(new FormError($exception->getMessage()));
             }

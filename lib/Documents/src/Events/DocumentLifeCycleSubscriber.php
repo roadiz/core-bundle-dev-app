@@ -10,6 +10,7 @@ use Doctrine\ORM\Events;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
+use League\Flysystem\UnableToMoveFile;
 use League\Flysystem\Visibility;
 use RZ\Roadiz\Documents\Exceptions\DocumentWithoutFileException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
@@ -60,6 +61,8 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
                      * Only perform IO rename if old file exists and new path is free.
                      */
                     $this->documentsStorage->move($oldPath, $newPath);
+                } else {
+                    throw new UnableToMoveFile('Cannot rename file from ' . $oldPath . ' to ' . $newPath);
                 }
             }
         }
