@@ -51,16 +51,24 @@ abstract class AbstractDocumentFinder implements DocumentFinderInterface
      */
     public function findPicturesWithFilename(string $fileName): iterable
     {
-        $basename = pathinfo($fileName);
-        $basename = $basename['filename'];
-
-        $sourcesDocsName = [
-            $basename . '.jpg',
-            $basename . '.gif',
-            $basename . '.png',
-            $basename . '.jpeg',
-            $basename . '.webp',
+        $pathInfo = pathinfo($fileName);
+        $basename = $pathInfo['filename'];
+        $currentExtension = $pathInfo['extension'];
+        $extensionsList = [
+            'jpg',
+            'gif',
+            'png',
+            'jpeg',
+            'webp',
+            'avif',
         ];
+
+        // remove current extension from list
+        $extensionsList = array_diff($extensionsList, [$currentExtension]);
+        // list sources paths for extensions
+        $sourcesDocsName = array_values(array_map(function ($extension) use ($basename) {
+            return $basename . '.' . $extension;
+        }, $extensionsList));
 
         return $this->findAllByFilenames($sourcesDocsName);
     }

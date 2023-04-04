@@ -1,3 +1,10 @@
+## [v2.1.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.6...v2.1.7) (2023-04-04)
+
+
+### Bug Fixes
+
+* **Documents:** Prevent renaming document filename if new pathname is not available ([13982cc](https://github.com/roadiz/core-bundle-dev-app/commit/13982cce13b1876d6f55167a40abcb456cd1e64f))
+
 ## [v2.1.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.5...v2.1.6) (2023-03-23)
 
 
