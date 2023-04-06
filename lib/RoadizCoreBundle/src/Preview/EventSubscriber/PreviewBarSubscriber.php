@@ -59,14 +59,16 @@ class PreviewBarSubscriber implements EventSubscriberInterface
     {
         if ($this->supports($event)) {
             $response = $event->getResponse();
+            $content = $response->getContent();
             if (
-                str_contains($response->getContent(), '</body>') &&
-                str_contains($response->getContent(), '</head>')
+                is_string($content) &&
+                str_contains($content, '</body>') &&
+                str_contains($content, '</head>')
             ) {
                 $content = str_replace(
                     '</head>',
                     "<style>#roadiz-preview-bar { font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen-Sans, Ubuntu, Cantarell, \"Helvetica Neue\", Helvetica, Arial, sans-serif; position: fixed; display: inline-flex; align-items: center; font-size: 9px; padding: 6px 10px 5px; bottom: 0; left: 1em; background-color: #ffe200; color: #923f00; border-radius: 3px 3px 0 0; text-transform: uppercase; letter-spacing: 0.005em; z-index: 9999;} #roadiz-preview-bar svg { width: 14px; margin-right: 5px;}</style></head>",
-                    $response->getContent()
+                    $content
                 );
                 $content = str_replace(
                     '</body>',
