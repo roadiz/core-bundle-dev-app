@@ -1,3 +1,10 @@
+## [v2.1.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.7...v2.1.8) (2023-04-06)
+
+
+### Bug Fixes
+
+* **PreviewBarSubscriber:** Test if Response content is string before searching `</body>` tag ([93d1897](https://github.com/roadiz/core-bundle-dev-app/commit/93d18970ba17c903c2a2feea9e787d166b5f6034))
+
 ## [v2.1.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.6...v2.1.7) (2023-04-04)
 
 
