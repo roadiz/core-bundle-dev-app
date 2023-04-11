@@ -11,22 +11,26 @@ use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Helper;
 use Solarium\QueryType\Select\Query\Query;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractSearchHandler implements SearchHandlerInterface
 {
-    private ClientRegistry $clientRegistry;
+    protected ClientRegistry $clientRegistry;
     protected ObjectManager $em;
     protected LoggerInterface $logger;
+    protected EventDispatcherInterface $eventDispatcher;
     protected int $highlightingFragmentSize = 150;
 
     public function __construct(
         ClientRegistry $clientRegistry,
         ObjectManager $em,
-        LoggerInterface $searchEngineLogger
+        LoggerInterface $searchEngineLogger,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->clientRegistry = $clientRegistry;
         $this->em = $em;
         $this->logger = $searchEngineLogger;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function getSolr(): Client

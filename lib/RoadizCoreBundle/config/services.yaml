@@ -344,6 +344,11 @@ services:
     RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry:
         arguments: ['@service_container']
 
+    RZ\Roadiz\CoreBundle\SearchEngine\SolariumLogger:
+        tags:
+            - { name: data_collector, template: '@RoadizCore/DataCollector/solarium.html.twig', id: 'solarium' }
+            - { name: monolog.logger, channel: solr }
+
     RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactory:
         arguments: ['@service_container']
 

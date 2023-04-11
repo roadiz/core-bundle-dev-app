@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\SearchEngine;
 
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\SearchEngine\Event\DocumentSearchQueryEvent;
 
 /**
  * @package RZ\Roadiz\CoreBundle\SearchEngine
@@ -30,35 +31,38 @@ class DocumentSearchHandler extends AbstractSearchHandler
         int $proximity = 1,
         int $page = 1
     ): ?array {
-        if (!empty($q)) {
-            $query = $this->createSolrQuery($args, $rows, $page);
-            $queryTxt = $this->buildQuery($q, $args, $searchTags, $proximity);
-            $query->setQuery($queryTxt);
-
-            /*
-             * Only need these fields as Doctrine
-             * will do the rest.
-             */
-            $query->setFields([
-                'id',
-                'sort',
-                'document_type_s',
-                SolariumDocumentTranslation::IDENTIFIER_KEY,
-                'filename_s',
-                'locale_s',
-            ]);
-
-            $this->logger->debug('[Solr] Request document search…', [
-                'query' => $queryTxt,
-                'fq' => $args["fq"] ?? [],
-                'params' => $query->getParams(),
-            ]);
-
-            $solrRequest = $this->getSolr()->execute($query);
-            return $solrRequest->getData();
-        } else {
+        if (empty($q)) {
             return null;
         }
+        $query = $this->createSolrQuery($args, $rows, $page);
+        $queryTxt = $this->buildQuery($q, $args, $searchTags, $proximity);
+        $query->setQuery($queryTxt);
+
+        /*
+         * Only need these fields as Doctrine
+         * will do the rest.
+         */
+        $query->setFields([
+            'id',
+            'sort',
+            'document_type_s',
+            SolariumDocumentTranslation::IDENTIFIER_KEY,
+            'filename_s',
+            'locale_s',
+        ]);
+
+        $this->logger->debug('[Solr] Request document search…', [
+            'query' => $queryTxt,
+            'fq' => $args["fq"] ?? [],
+            'params' => $query->getParams(),
+        ]);
+
+        $query = $this->eventDispatcher->dispatch(
+            new DocumentSearchQueryEvent($query, $args)
+        )->getQuery();
+
+        $solrRequest = $this->getSolr()->execute($query);
+        return $solrRequest->getData();
     }
 
     /**

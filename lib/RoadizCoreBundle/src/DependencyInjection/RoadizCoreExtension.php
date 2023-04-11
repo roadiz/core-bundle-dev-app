@@ -21,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\SearchEngine\SolariumLogger;
 use RZ\Roadiz\CoreBundle\Webhook\Message\GenericJsonPostMessage;
 use RZ\Roadiz\CoreBundle\Webhook\Message\GitlabPipelineTriggerMessage;
 use RZ\Roadiz\CoreBundle\Webhook\Message\NetlifyBuildHookMessage;
@@ -258,6 +259,7 @@ class RoadizCoreExtension extends Extension
             }
         }
         if (count($solrEndpoints) > 0) {
+            $logger = new Reference(SolariumLogger::class);
             $container->setDefinition(
                 'roadiz_core.solr.client',
                 (new Definition())
@@ -269,6 +271,7 @@ class RoadizCoreExtension extends Extension
                         new Reference('roadiz_core.solr.adapter'),
                         new Reference(EventDispatcherInterface::class)
                     ])
+                    ->addMethodCall('registerPlugin', ['roadiz_core.solr.client.logger', $logger])
                     ->addMethodCall('setEndpoints', [array_map(function (string $endpointId) {
                         return new Reference($endpointId);
                     }, $solrEndpoints)])
