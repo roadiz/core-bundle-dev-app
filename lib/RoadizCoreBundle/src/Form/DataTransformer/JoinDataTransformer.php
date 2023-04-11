@@ -38,9 +38,9 @@ class JoinDataTransformer implements DataTransformerInterface
 
     /**
      * @param mixed $value
-     * @return mixed
+     * @return array JoinDataTransformer must always return an array for view data.
      */
-    public function transform(mixed $value): mixed
+    public function transform(mixed $value): array
     {
         /*
          * If model is already an PersistableInterface
@@ -49,8 +49,8 @@ class JoinDataTransformer implements DataTransformerInterface
             !empty($value) &&
             $value instanceof PersistableInterface
         ) {
-            return $value->getId();
-        } elseif (!empty($value) && is_array($value)) {
+            return [$value->getId()];
+        } elseif (!empty($value) && is_iterable($value)) {
             /*
              * If model is a collection of AbstractEntity
              */
@@ -62,14 +62,14 @@ class JoinDataTransformer implements DataTransformerInterface
             }
             return $idArray;
         } elseif (!empty($value)) {
-            return $value;
+            return [$value];
         }
-        return '';
+        return [];
     }
 
     /**
      * @param mixed $value
-     * @return mixed
+     * @return array|object|null
      */
     public function reverseTransform(mixed $value): mixed
     {

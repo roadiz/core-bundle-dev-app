@@ -1,3 +1,10 @@
+## [v2.1.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.8...v2.1.9) (2023-04-11)
+
+
+### Bug Fixes
+
+* `JoinDataTransformer` must always transform to an array, even single objects ([e17b804](https://github.com/roadiz/core-bundle-dev-app/commit/e17b804baf73ca9d827b07322a0163a952b3e5c0))
+
 ## [v2.1.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.7...v2.1.8) (2023-04-06)
 
 
