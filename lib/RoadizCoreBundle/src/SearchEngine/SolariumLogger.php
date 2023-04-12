@@ -79,7 +79,7 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
 
     public function getName(): string
     {
-        return 'solr';
+        return 'solarium';
     }
 
     public function getQueries(): array
