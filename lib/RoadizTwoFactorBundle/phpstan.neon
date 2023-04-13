@@ -1,33 +1,11 @@
 parameters:
-    level: 6
+    level: 5
     paths:
-        - lib/DocGenerator/src
-        - lib/Documents/src
-        - lib/DtsGenerator/src
-        - lib/EntityGenerator/src
-        - lib/Jwt/src
-        - lib/Markdown/src
-        - lib/Models/src
-        - lib/OpenId/src
-        - lib/Random/src
-        - lib/RoadizCompatBundle/src
-        - lib/RoadizCoreBundle/src
-        - lib/RoadizFontBundle/src
-        - lib/RoadizRozierBundle/src
-        - lib/RoadizUserBundle/src
-        - lib/RoadizTwoFactorBundle/src
-        - lib/Rozier/src
         - src
-    bootstrapFiles:
-        - lib/RoadizCompatBundle/deprecated.php
     excludePaths:
         - */node_modules/*
         - */bower_components/*
         - */static/*
-        - src/GeneratedEntity/*
-    doctrine:
-        repositoryClass: RZ\Roadiz\CoreBundle\Repository\EntityRepository
-        objectManagerLoader: ./tests/object-manager.php
     ignoreErrors:
         - '#Call to an undefined method RZ\\Roadiz\\CoreBundle\\Repository#'
         - '#Call to an undefined method RZ\\Roadiz\\UserBundle\\Repository#'
@@ -52,4 +30,3 @@ parameters:
     checkMissingIterableValueType: false
 includes:
     - vendor/phpstan/phpstan-doctrine/extension.neon
-    - vendor/phpstan/phpstan-doctrine/rules.neon

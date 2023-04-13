@@ -82,9 +82,9 @@ framework:
 security:
     access_control:
         # Append user routes configuration
-        - { path: "^/api/users/signup", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "^/api/users/password_request", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "^/api/users/password_reset", methods: [ PUT ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "^/api/users/signup", methods: [ POST ], roles: PUBLIC_ACCESS }
+        - { path: "^/api/users/password_request", methods: [ POST ], roles: PUBLIC_ACCESS }
+        - { path: "^/api/users/password_reset", methods: [ PUT ], roles: PUBLIC_ACCESS }
         - { path: "^/api/users", methods: [ GET, PUT, PATCH, POST ], roles: ROLE_USER }
 ```
 - Edit your `./.env` file with:
