@@ -168,8 +168,7 @@ final class UserLifeCycleSubscriber implements EventSubscriber
 
     /**
      * @param LifecycleEventArgs $event
-     *
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function prePersist(LifecycleEventArgs $event): void
     {
@@ -189,8 +188,8 @@ final class UserLifeCycleSubscriber implements EventSubscriber
                 $user->setPasswordRequestedAt(new \DateTime());
                 $user->setConfirmationToken($tokenGenerator->generateToken());
 
-                $this->userViewer->setUser($user);
                 $this->userViewer->sendPasswordResetLink(
+                    $user,
                     'loginResetPage',
                     '@RoadizCore/email/users/welcome_user_email.html.twig',
                     '@RoadizCore/email/users/welcome_user_email.txt.twig'
