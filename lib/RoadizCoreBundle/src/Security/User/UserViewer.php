@@ -9,13 +9,9 @@ use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Mailer\EmailManager;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
-use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 class UserViewer
 {
@@ -49,9 +45,6 @@ class UserViewer
      *
      * @return bool
      * @throws TransportExceptionInterface
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     public function sendPasswordResetLink(
         User $user,
@@ -91,14 +84,15 @@ class UserViewer
         $this->emailManager->setSubject($this->translator->trans(
             'reset.password.request'
         ));
-        $this->emailManager->setReceiver($user->getEmail());
-        $this->emailManager->setSender([$emailContact => $siteName]);
 
         try {
+            $this->emailManager->setReceiver($user->getEmail());
+            $this->emailManager->setSender([$emailContact => $siteName]);
+
             // Send the message
             $this->emailManager->send();
             return true;
-        } catch (TransportException $e) {
+        } catch (\Exception $e) {
             // Silent error not to prevent user creation if mailer is not configured
             $this->logger->error('Unable to send password reset link', [
                 'exception' => get_class($e),

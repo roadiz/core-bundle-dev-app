@@ -168,8 +168,7 @@ final class UserLifeCycleSubscriber implements EventSubscriber
 
     /**
      * @param LifecycleEventArgs $event
-     *
-     * @throws \Exception
+     * @throws \Throwable
      */
     public function prePersist(LifecycleEventArgs $event): void
     {
