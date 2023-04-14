@@ -1,0 +1,76 @@
+{% extends '@RoadizRozier/login/base.html.twig' %}
+
+{% block login_content %}
+    {# Authentication errors #}
+    {% if authenticationError %}
+    <div data-uk-alert class="uk-alert uk-alert-danger">
+        <p>{{ authenticationError|trans(authenticationErrorData, 'SchebTwoFactorBundle') }}</p>
+    </div>
+    {% endif %}
+
+    {# Let the user select the authentication method #}
+    {% if availableTwoFactorProviders|length > 1 %}
+        <p>{{ "choose_provider"|trans({}, 'SchebTwoFactorBundle') }}:
+            {% for provider in availableTwoFactorProviders %}
+                <a href="{{ path("2fa_login", {"preferProvider": provider}) }}">{{ provider }}</a>
+            {% endfor %}
+        </p>
+    {% endif %}
+
+    {# Display current two-factor provider #}
+    <p class="label"><label for="_auth_code">{% trans %}fill_totp_authentication_code{% endtrans %}</label></p>
+
+    <form class="uk-text-left uk-form uk-form-stacked {% if authenticationError %}uk-animation-shake{% endif %}"
+          action="{{ checkPathUrl ? checkPathUrl: path(checkPathRoute) }}"
+          method="post">
+        <div class="data-uk-margin">
+            <div class="uk-form-row form-col-text form-col--auth_code">
+                <label for="_auth_code" class="uk-form-label required">
+                    <span class="uk-form-label-title">{% trans %}twoFactorCode{% endtrans %}</span>
+                    <small id="_auth_code_help" class="form-row-desc uk-form-label-description">{% trans %}twoFactorCode.help{% endtrans %}</small>
+                </label>
+                <input
+                    class="form-control"
+                    id="_auth_code"
+                    type="text"
+                    name="{{ authCodeParameterName }}"
+                    autocomplete="one-time-code"
+                    autofocus
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    {#
+                    https://www.twilio.com/blog/html-attributes-two-factor-authentication-autocomplete
+                    If your 2fa methods are using numeric codes only, add these attributes for better user experience:
+                    inputmode="numeric"
+                    pattern="[0-9]*"
+                    #}
+                />
+            </div>
+
+            {% if displayTrustedOption %}
+                <div class="uk-form-row form-col-checkbox form-col--remember-me">
+                    <label for="_trusted"
+                           class="uk-form-label"><span
+                            class="uk-form-label-title">{{ "trusted"|trans({}, 'SchebTwoFactorBundle') }}</span></label><input
+                        id="_trusted"
+                        type="checkbox"
+                        class="rz-boolean-checkbox"
+                        data-on-text="I"
+                        data-off-text="O"
+                        name="{{ trustedParameterName }}" />
+                </div>
+            {% endif %}
+            {% if isCsrfProtectionEnabled %}
+                <input type="hidden" name="{{ csrfParameterName }}" value="{{ csrf_token(csrfTokenId) }}">
+            {% endif %}
+        </div>
+        <fieldset>
+            <button class="uk-button uk-button-primary" type="submit">{{ "login"|trans({}, 'SchebTwoFactorBundle') }}</button>
+        </fieldset>
+    </form>
+{% endblock %}
+
+{% block login_links %}
+    {# The logout link gives the user a way out if they can't complete two-factor authentication #}
+    <a class="login-link" href="{{ logoutPath }}">{{ "cancel"|trans({}, 'SchebTwoFactorBundle') }}</a>
+{% endblock %}

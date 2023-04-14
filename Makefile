@@ -19,6 +19,7 @@ test:
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizFontBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizRozierBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizUserBundle/src
+	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizTwoFactorBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Rozier/src
 	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
@@ -27,6 +28,7 @@ test:
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
+	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
 
 requirements:
 	vendor/bin/requirements-checker

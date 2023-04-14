@@ -48,6 +48,9 @@ security:
         main:
             lazy: true
             provider: all_users
+            two_factor:
+                auth_form_path: 2fa_login    # The route name you have used in the routes.yaml
+                check_path: 2fa_login_check  # The route name you have used in the routes.yaml
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -73,14 +76,17 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/rz-admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/rz-admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/rz-admin/logout, roles: PUBLIC_ACCESS }
         - { path: ^/rz-admin, roles: ROLE_BACKEND_USER }
-        - { path: ^/api/token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "^/api/custom_forms/(?:[0-9]+)/post", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "^/api/contact_form/post", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "^/api/users/signup", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "^/api/users/password_request", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "^/api/users/password_reset", methods: [ PUT ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        # This ensures that the form can only be accessed when two-factor authentication is in progress.
+        - { path: ^/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
+        - { path: ^/api/token, roles: PUBLIC_ACCESS }
+        - { path: "^/api/custom_forms/(?:[0-9]+)/post", methods: [ POST ], roles: PUBLIC_ACCESS }
+        - { path: "^/api/contact_form/post", methods: [ POST ], roles: PUBLIC_ACCESS }
+        - { path: "^/api/users/signup", methods: [ POST ], roles: PUBLIC_ACCESS }
+        - { path: "^/api/users/password_request", methods: [ POST ], roles: PUBLIC_ACCESS }
+        - { path: "^/api/users/password_reset", methods: [ PUT ], roles: PUBLIC_ACCESS }
         - { path: "^/api/users", methods: [ GET, PUT, PATCH, POST ], roles: ROLE_USER }
         - { path: ^/api, roles: ROLE_BACKEND_USER, methods: [ POST, PUT, PATCH, DELETE ] }
         # - { path: ^/profile, roles: ROLE_USER }

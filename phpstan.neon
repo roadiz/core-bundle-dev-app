@@ -15,6 +15,7 @@ parameters:
         - lib/RoadizFontBundle/src
         - lib/RoadizRozierBundle/src
         - lib/RoadizUserBundle/src
+        - lib/RoadizTwoFactorBundle/src
         - lib/Rozier/src
         - src
     bootstrapFiles:

@@ -70,9 +70,10 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/rz-admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/rz-admin/login, roles: PUBLIC_ACCESS }
+        - { path: ^/rz-admin/logout, roles: PUBLIC_ACCESS }
         - { path: ^/rz-admin, roles: ROLE_BACKEND_USER }
-        - { path: ^/api/token, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: "^/api/custom_forms/(?:[0-9]+)/post", methods: [ POST ], roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/token, roles: PUBLIC_ACCESS }
+        - { path: "^/api/custom_forms/(?:[0-9]+)/post", methods: [ POST ], roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: ROLE_BACKEND_USER, methods: [ POST, PUT, PATCH, DELETE ] }
         # - { path: ^/profile, roles: ROLE_USER }

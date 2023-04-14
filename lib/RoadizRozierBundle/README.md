@@ -81,7 +81,7 @@ security:
             custom_authenticator:
                 - RZ\Roadiz\RozierBundle\Security\RozierAuthenticator
     access_control:
-        - { path: ^/rz-admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/rz-admin/login, roles: PUBLIC_ACCESS }
         - { path: ^/rz-admin, roles: ROLE_BACKEND_USER }
 ```
 - Add custom routes:

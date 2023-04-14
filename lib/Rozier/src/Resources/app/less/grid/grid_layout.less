@@ -16,6 +16,17 @@
         grid-template-columns: @user-panel-xl-width @entries-panel-xl-width fit-content(100%) auto;
     }
 
+    &.trees-panel--hidden {
+        grid-template-columns: @user-panel-sm-width @entries-panel-width auto;
+
+        @media (min-width: @screen-lg-min) {
+            grid-template-columns: @user-panel-lg-width @entries-panel-lg-width auto;
+        }
+        @media (min-width: @screen-xl-min) {
+            grid-template-columns: @user-panel-xl-width @entries-panel-xl-width auto;
+        }
+    }
+
     #user-panel {
         position: relative;
         width: 100%;

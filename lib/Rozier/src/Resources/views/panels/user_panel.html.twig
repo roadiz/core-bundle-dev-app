@@ -32,7 +32,9 @@
             <h3>{{ "hello.%name%"|trans({'%name%': displayName }) }}</h3>
         {% endif %}
         <nav class="user-actions">
-            <a class="uk-icon-button uk-icon-rz-earth" href="{% if app.request.basePath %}{{ app.request.basePath }}{% else %}/{% endif %}" target="_blank"><span class="user-action-label">{% trans %}see.website{% endtrans %}</span></a>
+            <a class="uk-icon-button uk-icon-rz-earth"
+               href="{% if app.request.basePath %}{{ app.request.basePath }}{% else %}/{% endif %}"
+               target="_blank"><span class="user-action-label">{% trans %}see.website{% endtrans %}</span></a>
             {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
                 <a title="{% trans %}delete.caches{% endtrans %}"
                    data-uk-tooltip="{animation:true}"
@@ -49,6 +51,12 @@
             <a class="uk-icon-button uk-icon-rz-user"
                href="{{ path('usersEditPage', {'userId':app.user.id }) }}"><span class="user-action-label">{% trans %}edit.account{% endtrans %}</span></a>
             {% endif %}
+            {% for action in rozier_user_actions %}
+                <a class="uk-icon-button {{ action.icon }}"
+                   title="{{ action.label|trans }}"
+                   data-uk-tooltip="{animation:true}"
+                   href="{{ action.path }}"><span class="user-action-label">{{ action.label|trans }}</span></a>
+            {% endfor %}
             {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
                 <a title="{% trans %}stop.test.user.right{% endtrans %}"
                    data-uk-tooltip="{animation:true}"

@@ -17,6 +17,7 @@ return [
     RZ\Roadiz\CompatBundle\RoadizCompatBundle::class => ['all' => true],
     RZ\Roadiz\RozierBundle\RoadizRozierBundle::class => ['all' => true],
     RZ\Roadiz\UserBundle\RoadizUserBundle::class => ['all' => true],
+    RZ\Roadiz\TwoFactorBundle\RoadizTwoFactorBundle::class => ['all' => true],
     JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle::class => ['all' => true],
     Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle::class => ['all' => true],
@@ -28,4 +29,5 @@ return [
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],
     Rollerworks\Bundle\PasswordCommonListBundle\RollerworksPasswordCommonListBundle::class => ['all' => true],
+    Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
 ];
