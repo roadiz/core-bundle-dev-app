@@ -21,6 +21,7 @@
         "endroid/qr-code": "^4.0",
         "roadiz/core-bundle": "^2.1",
         "roadiz/rozier-bundle": "^2.1",
+        "roadiz/rozier": "^2.1",
         "scheb/2fa-backup-code": "^6.8",
         "scheb/2fa-bundle": "^6.8",
         "scheb/2fa-totp": "^6.8",
