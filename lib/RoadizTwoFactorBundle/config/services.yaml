@@ -22,5 +22,18 @@ services:
 
     roadiz_two_factor.security.totp.provider:
         class: RZ\Roadiz\TwoFactorBundle\Security\Provider\AuthenticatorTwoFactorProvider
+        arguments:
+            - '@RZ\Roadiz\TwoFactorBundle\Security\Provider\TwoFactorUserProviderInterface'
+            - '@scheb_two_factor.security.totp_authenticator'
+            - '@scheb_two_factor.security.roadiz_totp.form_renderer'
         tags:
             - { name: scheb_two_factor.provider, alias: 'roadiz_totp' }
+
+    scheb_two_factor.security.roadiz_totp.form_renderer:
+        class: Scheb\TwoFactorBundle\Security\TwoFactor\Provider\DefaultTwoFactorFormRenderer
+        arguments:
+            - '@twig'
+            - '%scheb_two_factor.roadiz_totp.template%'
+
+    scheb_two_factor.backup_code_manager:
+        alias: RZ\Roadiz\TwoFactorBundle\Backup\BackupCodeManager

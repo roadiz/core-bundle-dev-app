@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
-class QrCodeController extends AbstractController
+final class QrCodeController extends AbstractController
 {
     public function __construct(
         private TwoFactorUserProviderInterface $twoFactorUserProvider,
@@ -54,7 +54,7 @@ class QrCodeController extends AbstractController
             ->data($qrCodeContent)
             ->encoding(new Encoding('UTF-8'))
             ->errorCorrectionLevel(new ErrorCorrectionLevelHigh())
-            ->size(200)
+            ->size(512)
             ->margin(0)
             ->roundBlockSizeMode(new RoundBlockSizeModeMargin())
             ->build();

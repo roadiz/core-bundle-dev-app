@@ -8,10 +8,12 @@ scheb_two_factor:
         enabled: true
         server_name: "%env(string:APP_NAMESPACE)%"
         issuer: "%env(string:APP_TITLE)%"
+        template: "@RoadizTwoFactor/Authentication/form.html.twig"
     totp:
         enabled: true # If TOTP authentication should be enabled, default false
         server_name: "%env(string:APP_NAMESPACE)%"
         issuer: "%env(string:APP_TITLE)%"
+        template: "@RoadizTwoFactor/Authentication/form.html.twig"
 
     # Trusted device feature
     trusted_device:
@@ -22,5 +24,7 @@ scheb_two_factor:
         cookie_name: trusted_device    # Name of the trusted device cookie
         cookie_secure: false           # Set the 'Secure' (HTTPS Only) flag on the trusted device cookie
         cookie_same_site: "lax"        # The same-site option of the cookie, can be "lax" or "strict"
+
     backup_codes:
         enabled: true  # If the backup code feature should be enabled
+        manager: RZ\Roadiz\TwoFactorBundle\Backup\BackupCodeManager

@@ -1,6 +1,13 @@
-# Roadiz Font bundle
+# Roadiz Two-factor authentication bundle
 
 ![Run test status](https://github.com/roadiz/two-factor-bundle/actions/workflows/run-test.yml/badge.svg?branch=develop)
+
+This bundle provides a two-factor authentication system for Roadiz CMS. Based on [scheb/two-factor-bundle](https://github.com/scheb/2fa) bundle.
+
+- OTP (One Time Password) authentication with Google Authenticator
+- Backup codes (hashed and stored in database)
+- Trusted devices (remembered for a configurable amount of time)
+- Use `APP_NAMESPACE`, `APP_TITLE` and `APP_SECRET` environment variables 
 
 Installation
 ============
@@ -40,17 +47,18 @@ in the `config/bundles.php` file of your project:
 
 return [
     // ...
-    \RZ\Roadiz\TwoFactor\RoadizTwoFactor::class => ['all' => true],
+    \RZ\Roadiz\TwoFactorBundle\RoadizTwoFactorBundle::class => ['all' => true],
 ];
 ```
 
 ## Configuration
 
-- Copy and merge `@RoadizTwoFactor/config/packages/*` files into your project `config/packages` folder
+- Copy and merge `@RoadizTwoFactor/config/packages/scheb_2fa.yaml` files into your project `config/packages` folder
+- Add this bundle routes to your project `config/routes.yaml` file:
 ```yaml
 # config/routes.yaml
-roadiz_two_bundle:
-    resource: "@RoadizTwoFactor/config/routing.yaml"
+roadiz_two_factor:
+    resource: "@RoadizTwoFactorBundle/config/routing.yaml"
 ```
 
 ## Contributing

@@ -24,10 +24,17 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
     #[ORM\OneToOne(targetEntity: User::class)]
     #[ORM\Id]
     #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")]
+    // @phpstan-ignore-next-line
     private ?User $user = null;
 
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $secret = null;
+
+    /*
+     * Prevents TOTP code request if user never activated first time: if never setup-ed its TOTP app.
+     */
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeInterface $activatedAt = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
     private ?array $backupCodes = [];
@@ -69,6 +76,24 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
     public function setSecret(?string $secret): TwoFactorUser
     {
         $this->secret = $secret;
+        return $this;
+    }
+
+    /**
+     * @return \DateTimeInterface|null
+     */
+    public function getActivatedAt(): ?\DateTimeInterface
+    {
+        return $this->activatedAt;
+    }
+
+    /**
+     * @param \DateTimeInterface|null $activatedAt
+     * @return TwoFactorUser
+     */
+    public function setActivatedAt(?\DateTimeInterface $activatedAt): TwoFactorUser
+    {
+        $this->activatedAt = $activatedAt;
         return $this;
     }
 
@@ -128,7 +153,7 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
 
     public function isTotpAuthenticationEnabled(): bool
     {
-        return (bool) $this->secret;
+        return (bool) $this->secret && $this->activatedAt !== null;
     }
 
     public function getTotpAuthenticationUsername(): string
@@ -147,7 +172,12 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
 
     public function isGoogleAuthenticatorEnabled(): bool
     {
-        return (bool) $this->secret;
+        return (bool) $this->secret &&
+            $this->activatedAt !== null &&
+            $this->digits === 6 &&
+            $this->period === 30 &&
+            $this->algorithm === TotpConfiguration::ALGORITHM_SHA1
+        ;
     }
 
     public function getGoogleAuthenticatorUsername(): string
@@ -168,7 +198,14 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
      */
     public function isBackupCode(string $code): bool
     {
-        return in_array($code, $this->backupCodes);
+        // Loop over all backup codes and check if the code is valid
+        foreach ($this->backupCodes as $backupCode) {
+            if (password_verify($code, $backupCode)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -176,9 +213,12 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
      */
     public function invalidateBackupCode(string $code): void
     {
-        $key = array_search($code, $this->backupCodes);
-        if ($key !== false) {
-            unset($this->backupCodes[$key]);
+        // Loop over all backup codes and check if the code is valid to invalidate it
+        foreach ($this->backupCodes as $key => $backupCode) {
+            if (password_verify($code, $backupCode)) {
+                unset($this->backupCodes[$key]);
+                $this->backupCodes = array_values($this->backupCodes);
+            }
         }
     }
 
@@ -187,8 +227,8 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
      */
     public function addBackUpCode(string $backUpCode): void
     {
-        if (!in_array($backUpCode, $this->backupCodes)) {
-            $this->backupCodes[] = $backUpCode;
+        if (!$this->isBackupCode($backUpCode)) {
+            $this->backupCodes[] = password_hash($backUpCode, PASSWORD_BCRYPT);
         }
     }
 

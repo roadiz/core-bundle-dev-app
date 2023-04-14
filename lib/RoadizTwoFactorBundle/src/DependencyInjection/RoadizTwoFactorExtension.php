@@ -24,5 +24,10 @@ class RoadizTwoFactorExtension extends Extension
     {
         $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__) . '/../config'));
         $loader->load('services.yaml');
+
+        $container->setParameter(
+            'scheb_two_factor.roadiz_totp.template',
+            '@RoadizTwoFactor/Authentication/form.html.twig'
+        );
     }
 }

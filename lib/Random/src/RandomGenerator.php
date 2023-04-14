@@ -34,11 +34,11 @@ class RandomGenerator
      * @param int $nbBytes
      * @return string
      */
-    protected function getRandomNumber(int $nbBytes = 32): string
+    public function getRandomNumber(int $nbBytes = 32): string
     {
         // try OpenSSL
         if ($this->useOpenSsl) {
-            $bytes = openssl_random_pseudo_bytes($nbBytes, $strong);
+            $bytes = \openssl_random_pseudo_bytes($nbBytes, $strong);
 
             if (false !== $bytes && true === $strong) {
                 return $bytes;
