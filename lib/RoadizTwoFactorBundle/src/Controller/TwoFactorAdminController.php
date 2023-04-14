@@ -33,6 +33,10 @@ final class TwoFactorAdminController extends RozierApp
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
+        if ($this->isGranted('ROLE_PREVIOUS_ADMIN')) {
+            throw $this->createAccessDeniedException('You cannot impersonate to access this page.');
+        }
+
         $user = $tokenStorage->getToken()->getUser();
         if (!($user instanceof User)) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
