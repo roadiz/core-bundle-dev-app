@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\RozierBundle\Controller\BackendController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Themes\Rozier\Event\UserActionsMenuEvent;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
@@ -81,6 +82,7 @@ class RozierApp extends BackendController
         $this->assignation['head']['googleClientId'] = $this->getSettingsBag()->get('google_client_id', "");
         $this->assignation['head']['themeName'] = static::$themeName;
         $this->assignation['head']['ajaxToken'] = $this->get('csrfTokenManager')->getToken(static::AJAX_TOKEN_INTENTION);
+        $this->assignation['rozier_user_actions'] = $this->get('dispatcher')->dispatch(new UserActionsMenuEvent())->getActions();
 
         $this->assignation['nodeStatuses'] = [
             Node::getStatusLabel(Node::DRAFT) => Node::DRAFT,

@@ -35,7 +35,6 @@
     }
 
     .uk-icon-button {
-        margin-right: 5px;
         text-shadow: 0 1px 0 rgba(0,0,0,.8);
         font-size: 16px;
         line-height: 34px;
@@ -51,8 +50,8 @@
             .opacity(0.9);
         }
 
-        &.uk-icon-rz-turn-off, &.uk-icon-rz-user{
-            margin-right: 0px;
+        &.uk-icon-rz-turn-off,
+        &.uk-icon-rz-user {
             border-color: @contrast-color;
             .opacity(0.5);
 
@@ -63,10 +62,6 @@
 
         &.uk-icon-rz-earth, &.uk-icon-rz-user{
             display: none;
-        }
-
-        &.uk-icon-rz-help{
-            margin-right:0;
         }
     }
 
@@ -106,14 +101,6 @@
             width: @user-picture-size-mini;
             height: @user-picture-size-mini;
         }
-        .uk-icon-button {
-            &.uk-icon-rz-flashimage{
-                margin: 0px;
-            }
-            &.uk-icon-rz-turn-off {
-                margin: 2px 0 0;
-            }
-        }
 
         #cms-version {
             a {
@@ -124,10 +111,6 @@
 
     @media screen and (max-width: @screen-lg-max) {
         width:90px;
-
-        .uk-icon-button{
-            margin: 0 5px 12px 5px;
-        }
 
         #cms-version {
             a {
@@ -230,6 +213,14 @@
         padding: 10px;
         margin-top: 9px;
         border-top: 1px solid @user-panel-border-color;
+
+        @media (min-width: @screen-sm-min) {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
     }
 
     .user-action-label{
