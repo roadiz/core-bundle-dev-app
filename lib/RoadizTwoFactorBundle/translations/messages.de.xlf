@@ -2,22 +2,28 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="de">
     <body>
-      <trans-unit xml:space="preserve" id="two_factor_authentication">
-                <source>two_factor_authentication</source>
-                <target state="translated">zwei_Faktor_Authentifizierung</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="start_two_factor_activation">
-                <source>start_two_factor_activation</source>
-                <target state="translated">starte_zwei_Faktor_Aktivierung</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.activate.two_factor">
-                <source>are_you_sure.activate.two_factor</source>
-                <target state="translated">bist_du_sicher.Aktivierung:zwei_Faktor</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="begin_activation">
-                <source>begin_activation</source>
-                <target state="translated">starte_Aktivierung</target>
-            </trans-unit>
-    </body>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        </body>
   </file>
 </xliff>
