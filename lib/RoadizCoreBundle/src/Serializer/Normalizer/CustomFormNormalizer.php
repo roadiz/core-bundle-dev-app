@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
-use Symfony\Component\Serializer\Normalizer\CacheableSupportsMethodInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
