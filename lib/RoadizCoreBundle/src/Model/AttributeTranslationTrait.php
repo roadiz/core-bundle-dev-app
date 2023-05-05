@@ -26,6 +26,9 @@ trait AttributeTranslationTrait
     ]
     protected string $label = '';
 
+    /**
+     * @var array<string>|null
+     */
     #[
         ORM\Column(type: "simple_array", unique: false, nullable: true),
         Serializer\Groups(["attribute"]),
@@ -51,7 +54,7 @@ trait AttributeTranslationTrait
     /**
      * @param string|null $label
      *
-     * @return mixed
+     * @return $this
      */
     public function setLabel(?string $label)
     {
@@ -62,7 +65,7 @@ trait AttributeTranslationTrait
     /**
      * @param TranslationInterface $translation
      *
-     * @return mixed
+     * @return $this
      */
     public function setTranslation(TranslationInterface $translation)
     {
@@ -89,7 +92,7 @@ trait AttributeTranslationTrait
     /**
      * @param AttributeInterface $attribute
      *
-     * @return mixed
+     * @return $this
      */
     public function setAttribute(AttributeInterface $attribute)
     {
@@ -99,7 +102,7 @@ trait AttributeTranslationTrait
 
 
     /**
-     * @return array|null
+     * @return array<string>|null
      */
     public function getOptions(): ?array
     {
@@ -107,7 +110,7 @@ trait AttributeTranslationTrait
     }
 
     /**
-     * @param array|null $options
+     * @param array<string>|null $options
      *
      * @return $this
      */
