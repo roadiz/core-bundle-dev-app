@@ -229,24 +229,14 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     }
 
     /**
-     * Default Solr query builder.
-     *
-     * Extends this method to customize your Solr queries. Eg. to boost custom fields.
-     *
      * @param string $q
-     * @param array $args
-     * @param bool $searchTags
      * @param int $proximity
-     * @return string
+     * @return array [$exactQuery, $fuzzyQuery, $wildcardQuery]
      */
-    protected function buildQuery(string $q, array &$args, bool $searchTags = false, int $proximity = 1): string
+    protected function getFormattedQuery(string $q, int $proximity = 1): array
     {
         $q = trim($q);
         $singleWord = $this->isQuerySingleWord($q);
-        $titleField = $this->getTitleField($args);
-        $collectionField = $this->getCollectionField($args);
-        $tagsField = $this->getTagsField($args);
-
         /**
          * Generate a fuzzy query by appending proximity to each word
          * @see https://lucene.apache.org/solr/guide/6_6/the-standard-query-parser.html#TheStandardQueryParser-FuzzySearches
@@ -272,6 +262,31 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
              */
             $exactQuery = '"' . $exactQuery . '"';
         }
+        /*
+         * Wildcard search for allowing autocomplete
+         */
+        $wildcardQuery = $this->escapeQuery($q) . '*~' . $proximity;
+
+        return [$exactQuery, $fuzzyiedQuery, $wildcardQuery];
+    }
+
+    /**
+     * Default Solr query builder.
+     *
+     * Extends this method to customize your Solr queries. Eg. to boost custom fields.
+     *
+     * @param string $q
+     * @param array $args
+     * @param bool $searchTags
+     * @param int $proximity
+     * @return string
+     */
+    protected function buildQuery(string $q, array &$args, bool $searchTags = false, int $proximity = 1): string
+    {
+        $titleField = $this->getTitleField($args);
+        $collectionField = $this->getCollectionField($args);
+        $tagsField = $this->getTagsField($args);
+        [$exactQuery, $fuzzyiedQuery, $wildcardQuery] = $this->getFormattedQuery($q, $proximity);
 
         /*
          * Search in node-sources tags name…
@@ -279,9 +294,10 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         if ($searchTags) {
             // Need to use Fuzzy search AND Exact search
             return sprintf(
-                '(' . $titleField . ':%s)^10 (' . $titleField . ':%s) (' . $collectionField . ':%s)^2 (' . $collectionField . ':%s) (' . $tagsField . ':%s) (' . $tagsField . ':%s)',
+                '(' . $titleField . ':%s)^10 (' . $titleField . ':%s) (' . $titleField . ':%s) (' . $collectionField . ':%s)^2 (' . $collectionField . ':%s) (' . $tagsField . ':%s) (' . $tagsField . ':%s)',
                 $exactQuery,
                 $fuzzyiedQuery,
+                $wildcardQuery,
                 $exactQuery,
                 $fuzzyiedQuery,
                 $exactQuery,
@@ -289,9 +305,10 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
             );
         } else {
             return sprintf(
-                '(' . $titleField . ':%s)^10 (' . $titleField . ':%s) (' . $collectionField . ':%s)^2 (' . $collectionField . ':%s)',
+                '(' . $titleField . ':%s)^10 (' . $titleField . ':%s) (' . $titleField . ':%s) (' . $collectionField . ':%s)^2 (' . $collectionField . ':%s)',
                 $exactQuery,
                 $fuzzyiedQuery,
+                $wildcardQuery,
                 $exactQuery,
                 $fuzzyiedQuery
             );
