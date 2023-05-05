@@ -291,6 +291,13 @@ services:
                 handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentAudioVideoMessage
             - { name: monolog.logger, channel: messenger }
 
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\DocumentPdfMessageHandler:
+        autoconfigure: false
+        tags:
+            -   name: messenger.message_handler
+                handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentPdfMessage
+            - { name: monolog.logger, channel: messenger }
+
     RZ\Roadiz\CoreBundle\SearchEngine\Indexer\:
         resource: '../src/SearchEngine/Indexer/'
         # Recreate handlers for each usage
