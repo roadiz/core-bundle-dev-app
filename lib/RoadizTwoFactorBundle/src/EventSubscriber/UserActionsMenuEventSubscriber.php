@@ -11,7 +11,6 @@ use Themes\Rozier\Event\UserActionsMenuEvent;
 
 final class UserActionsMenuEventSubscriber implements EventSubscriberInterface
 {
-
     public function __construct(private UrlGeneratorInterface $urlGenerator, private Security $security)
     {
     }
