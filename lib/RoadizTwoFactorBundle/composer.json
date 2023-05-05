@@ -1,9 +1,11 @@
 {
     "name": "roadiz/two-factor-bundle",
+    "description": "Provides two-factor authentication system for Roadiz CMS",
     "license": "MIT",
     "keywords": [
         "cms",
         "backoffice",
+        "roadiz",
         "rezo zero"
     ],
     "authors": [

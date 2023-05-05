@@ -1,9 +1,11 @@
 {
     "name": "roadiz/font-bundle",
+    "description": "Manage and expose web fonts with Roadiz CMS",
     "license": "MIT",
     "keywords": [
         "cms",
         "backoffice",
+        "roadiz",
         "rezo zero"
     ],
     "authors": [

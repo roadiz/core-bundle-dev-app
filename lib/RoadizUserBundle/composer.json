@@ -1,9 +1,11 @@
 {
     "name": "roadiz/user-bundle",
+    "description": "Public user management bundle for Roadiz CMS",
     "license": "MIT",
     "keywords": [
         "cms",
         "backoffice",
+        "roadiz",
         "rezo zero"
     ],
     "authors": [
