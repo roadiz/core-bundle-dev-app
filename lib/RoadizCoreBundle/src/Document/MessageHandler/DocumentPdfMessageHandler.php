@@ -1,0 +1,108 @@
+<?php
+
+declare(strict_types=1);
+
+namespace RZ\Roadiz\CoreBundle\Document\MessageHandler;
+
+use Doctrine\Persistence\ManagerRegistry;
+use League\Flysystem\FilesystemOperator;
+use Psr\Log\LoggerInterface;
+use RZ\Roadiz\CoreBundle\Document\DocumentFactory;
+use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
+use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
+use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+
+final class DocumentPdfMessageHandler extends AbstractLockingDocumentMessageHandler
+{
+    private DocumentFactory $documentFactory;
+    private EventDispatcherInterface $eventDispatcher;
+
+    public function __construct(
+        DocumentFactory $documentFactory,
+        EventDispatcherInterface $eventDispatcher,
+        ManagerRegistry $managerRegistry,
+        LoggerInterface $messengerLogger,
+        FilesystemOperator $documentsStorage
+    ) {
+        parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
+        $this->documentFactory = $documentFactory;
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * @param  DocumentInterface $document
+     * @return bool
+     */
+    protected function supports(DocumentInterface $document): bool
+    {
+        return $document->isLocal() &&
+            $document->isPdf() &&
+            \class_exists('\Imagick') &&
+            \class_exists('\ImagickException');
+    }
+
+    protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
+    {
+        /*
+         * This process requires document files to be locally stored!
+         */
+        $pdfPath = \tempnam(\sys_get_temp_dir(), 'pdf_');
+        \rename($pdfPath, $pdfPath .= $document->getFilename());
+
+        /*
+        * Copy AV locally
+        */
+        $pdfPathResource = \fopen($pdfPath, 'w');
+        \stream_copy_to_stream($this->documentsStorage->readStream($document->getMountPath()), $pdfPathResource);
+        \fclose($pdfPathResource);
+
+        $this->extractPdfThumbnail($document, $pdfPath);
+
+        /*
+         * Then delete local AV file
+         */
+        \unlink($pdfPath);
+    }
+
+    protected function extractPdfThumbnail(DocumentInterface $document, string $localPdfPath): void
+    {
+        if (!$document->isPdf() || !\class_exists('\Imagick') || !\class_exists('\ImagickException')) {
+            return;
+        }
+
+        $thumbnailPath = \tempnam(\sys_get_temp_dir(), 'thumbnail_');
+        \rename($thumbnailPath, $thumbnailPath .= $document->getFilename() . '.jpg');
+
+        try {
+            $im = new \Imagick();
+            $im->setResolution(144, 144);
+            // Use [0] to get first page of PDF.
+            if ($im->readImage($localPdfPath . '[0]')) {
+                $im->writeImages($thumbnailPath, false);
+
+                $thumbnailDocument = $this->documentFactory
+                    ->setFolder($document->getFolders()->first() ?: null)
+                    ->setFile(new File($thumbnailPath))
+                    ->getDocument();
+                if ($thumbnailDocument instanceof HasThumbnailInterface && $document instanceof HasThumbnailInterface) {
+                    $thumbnailDocument->setOriginal($document);
+                    $document->getThumbnails()->add($thumbnailDocument);
+                    $this->managerRegistry->getManager()->flush();
+                    $this->eventDispatcher->dispatch(new DocumentCreatedEvent($thumbnailDocument));
+                }
+            }
+        } catch (\ImagickException $exception) {
+            throw new UnrecoverableMessageHandlingException(
+                sprintf(
+                    'Cannot extract thumbnail from %s PDF file : %s',
+                    $localPdfPath,
+                    $exception->getMessage()
+                ),
+            );
+        }
+    }
+}
