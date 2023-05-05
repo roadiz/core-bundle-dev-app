@@ -1,3 +1,9 @@
+## [v2.1.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.9...v2.1.10) (2023-05-05)
+
+### Features
+
+* **Document:** Added `DocumentPdfMessageHandler` to generate thumbnail for PDF documents. ([35241bc](https://github.com/roadiz/core-bundle-dev-app/commit/35241bcc88e17131a448f5a7f65388233a8e3d87))
+
 ## [v2.1.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.8...v2.1.9) (2023-04-11)
 
 

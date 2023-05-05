@@ -8,6 +8,7 @@ use RZ\Roadiz\CoreBundle\Document\Message\DocumentAudioVideoMessage;
 use RZ\Roadiz\CoreBundle\Document\Message\DocumentAverageColorMessage;
 use RZ\Roadiz\CoreBundle\Document\Message\DocumentExifMessage;
 use RZ\Roadiz\CoreBundle\Document\Message\DocumentFilesizeMessage;
+use RZ\Roadiz\CoreBundle\Document\Message\DocumentPdfMessage;
 use RZ\Roadiz\CoreBundle\Document\Message\DocumentRawMessage;
 use RZ\Roadiz\CoreBundle\Document\Message\DocumentSizeMessage;
 use RZ\Roadiz\CoreBundle\Document\Message\DocumentSvgMessage;
@@ -59,6 +60,7 @@ final class DocumentMessageDispatchSubscriber implements EventSubscriberInterfac
             $this->bus->dispatch(new Envelope(new DocumentExifMessage($document->getId())));
             $this->bus->dispatch(new Envelope(new DocumentSvgMessage($document->getId())));
             $this->bus->dispatch(new Envelope(new DocumentAudioVideoMessage($document->getId())));
+            $this->bus->dispatch(new Envelope(new DocumentPdfMessage($document->getId())));
         }
     }
 }
