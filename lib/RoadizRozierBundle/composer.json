@@ -18,10 +18,10 @@
     "require": {
         "php": ">=8.0",
         "symfony/framework-bundle": "5.4.*",
-        "roadiz/core-bundle": "^2.1",
-        "roadiz/rozier": "^2.1",
-        "roadiz/compat-bundle": "^2.1",
-        "roadiz/openid": "^2.1"
+        "roadiz/core-bundle": "2.2.x-dev",
+        "roadiz/rozier": "2.2.x-dev",
+        "roadiz/compat-bundle": "2.2.x-dev",
+        "roadiz/openid": "2.2.x-dev"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",

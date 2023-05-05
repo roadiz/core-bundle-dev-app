@@ -23,8 +23,8 @@
         "doctrine/orm": "^2.14.1",
         "jms/serializer": "^3.9.0",
         "league/flysystem": "^3.0",
-        "roadiz/models": "^2.1",
-        "roadiz/rozier": "^2.1",
+        "roadiz/models": "2.2.x-dev",
+        "roadiz/rozier": "2.2.x-dev",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "5.4.*",
         "symfony/cache": "5.4.*",
@@ -54,11 +54,11 @@
         "symfony/browser-kit": "5.4.*",
         "symfony/phpunit-bridge": "5.4.*",
         "symfony/stopwatch": "5.4.*",
-        "roadiz/core-bundle": "^2.1",
-        "roadiz/compat-bundle": "^2.1",
-        "roadiz/rozier-bundle": "^2.1",
-        "roadiz/documents": "^2.1",
-        "roadiz/entity-generator": "^2.1"
+        "roadiz/core-bundle": "2.2.x-dev",
+        "roadiz/compat-bundle": "2.2.x-dev",
+        "roadiz/rozier-bundle": "2.2.x-dev",
+        "roadiz/documents": "2.2.x-dev",
+        "roadiz/entity-generator": "2.2.x-dev"
     },
     "config": {
         "optimize-autoloader": true,
