@@ -1,3 +1,11 @@
+## [v2.1.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.10...v2.1.11) (2023-05-05)
+
+
+### Bug Fixes
+
+* **Document:** Ignore thumbnail documents from Explorer ([d236f1a](https://github.com/roadiz/core-bundle-dev-app/commit/d236f1af68a9a99452024748ca3c5e250800414e))
+* **Solr:** Added a new `wildcardQuery` to search and autocomplete at the same time ([37746af](https://github.com/roadiz/core-bundle-dev-app/commit/37746af717f7b504d761ef7fff377f7bfc36aaad))
+
 ## [v2.1.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.9...v2.1.10) (2023-05-05)
 
 ### Features
