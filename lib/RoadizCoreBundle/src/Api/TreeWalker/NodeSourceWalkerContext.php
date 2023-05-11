@@ -10,6 +10,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeSourceApi;
 use RZ\Roadiz\CoreBundle\NodeType\NodeTypeResolver;
+use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\TreeWalker\WalkerContextInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -24,6 +25,7 @@ class NodeSourceWalkerContext implements WalkerContextInterface
     private ManagerRegistry $managerRegistry;
     private CacheItemPoolInterface $cacheAdapter;
     private NodeTypeResolver $nodeTypeResolver;
+    private PreviewResolverInterface $previewResolver;
 
     public function __construct(
         Stopwatch $stopwatch,
@@ -33,6 +35,7 @@ class NodeSourceWalkerContext implements WalkerContextInterface
         ManagerRegistry $managerRegistry,
         CacheItemPoolInterface $cacheAdapter,
         NodeTypeResolver $nodeTypeResolver,
+        PreviewResolverInterface $previewResolver
     ) {
         $this->stopwatch = $stopwatch;
         $this->nodeTypesBag = $nodeTypesBag;
@@ -41,6 +44,7 @@ class NodeSourceWalkerContext implements WalkerContextInterface
         $this->managerRegistry = $managerRegistry;
         $this->cacheAdapter = $cacheAdapter;
         $this->nodeTypeResolver = $nodeTypeResolver;
+        $this->previewResolver = $previewResolver;
     }
 
     /**
@@ -122,5 +126,13 @@ class NodeSourceWalkerContext implements WalkerContextInterface
     public function getNodeTypeResolver(): NodeTypeResolver
     {
         return $this->nodeTypeResolver;
+    }
+
+    /**
+     * @return PreviewResolverInterface
+     */
+    public function getPreviewResolver(): PreviewResolverInterface
+    {
+        return $this->previewResolver;
     }
 }
