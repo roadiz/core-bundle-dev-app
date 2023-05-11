@@ -1,3 +1,10 @@
+## [v2.1.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.11...v2.1.12) (2023-05-11)
+
+
+### Bug Fixes
+
+* Add `PreviewResolverInterface` into `NodeSourceWalkerContext` to alter TreeWalker definition against preview status ([463be2e](https://github.com/roadiz/core-bundle-dev-app/commit/463be2e43924d87f4a5b3a2ecda63ed0442b11c3))
+
 ## [v2.1.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.10...v2.1.11) (2023-05-05)
 
 
