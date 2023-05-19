@@ -83,7 +83,7 @@ class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
         return '
     /**
      *' . implode(PHP_EOL . static::ANNOTATION_PREFIX, $this->getFieldAutodoc()) . '
-     * @var Collection<' . $this->getFullyQualifiedClassName() . '>
+     * @var Collection<int, ' . $this->getFullyQualifiedClassName() . '>
      */' . PHP_EOL;
     }
 
@@ -99,7 +99,7 @@ class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
     {
         return '
     /**
-     * @return Collection<' . $this->getFullyQualifiedClassName() . '>
+     * @return Collection<int, ' . $this->getFullyQualifiedClassName() . '>
      */
     public function ' . $this->field->getGetterName() . '(): Collection
     {
@@ -114,7 +114,7 @@ class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
     {
         return '
     /**
-     * @param Collection<' . $this->getFullyQualifiedClassName() . '>|' . $this->getFullyQualifiedClassName() . '[] $' . $this->field->getVarName() . '
+     * @param Collection<int, ' . $this->getFullyQualifiedClassName() . '>|' . $this->getFullyQualifiedClassName() . '[] $' . $this->field->getVarName() . '
      * @return $this
      */
     public function ' . $this->field->getSetterName() . '(Collection|array $' . $this->field->getVarName() . '): static

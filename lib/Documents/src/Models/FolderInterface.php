@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 interface FolderInterface
 {
     /**
-     * @return Collection<DocumentInterface>
+     * @return Collection<int, DocumentInterface>
      */
     public function getDocuments(): Collection;
 
@@ -25,10 +25,8 @@ interface FolderInterface
      */
     public function removeDocument(DocumentInterface $document): static;
 
-    /**
-     * @return bool
-     */
     public function getVisible(): bool;
+    public function isVisible(): bool;
 
     /**
      * @param bool $visible

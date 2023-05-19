@@ -9,9 +9,6 @@ use Doctrine\Common\Comparable;
 
 interface LeafInterface extends PositionedInterface, Comparable
 {
-    /**
-     * @return Collection<int, static>
-     */
     public function getChildren(): Collection;
 
     /**

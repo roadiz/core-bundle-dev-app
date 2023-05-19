@@ -291,7 +291,7 @@ final class CustomFormController extends AbstractController
         $this->emailManager->setSender($defaultSender);
 
         try {
-            foreach ($answer->getAnswers() as $customFormAnswerAttr) {
+            foreach ($answer->getAnswerFields() as $customFormAnswerAttr) {
                 /** @var DocumentInterface $document */
                 foreach ($customFormAnswerAttr->getDocuments() as $document) {
                     $this->emailManager->addResource(

@@ -38,7 +38,7 @@ class SettingGroup extends AbstractEntity
     private string $name = '';
 
     /**
-     * @var Collection<Setting>
+     * @var Collection<int, Setting>
      */
     #[ORM\OneToMany(mappedBy: 'settingGroup', targetEntity: Setting::class)]
     #[SymfonySerializer\Groups(['setting_group'])]
@@ -101,15 +101,15 @@ class SettingGroup extends AbstractEntity
     }
 
     /**
-     * @return Collection<Setting>
+     * @return Collection<int, Setting>
      */
-    public function getSettings()
+    public function getSettings(): Collection
     {
         return $this->settings;
     }
 
     /**
-     * @param Collection<Setting> $settings
+     * @param Collection<int, Setting> $settings
      * @return SettingGroup
      */
     public function addSettings(Collection $settings)

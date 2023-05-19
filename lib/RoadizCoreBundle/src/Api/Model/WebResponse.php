@@ -26,7 +26,7 @@ final class WebResponse implements WebResponseInterface, BlocksAwareWebResponseI
     #[Serializer\Groups(["web_response"])]
     public ?NodesSourcesHeadInterface $head = null;
     /**
-     * @var Collection<WalkerInterface>|null
+     * @var Collection<int, WalkerInterface>|null
      */
     #[Serializer\Groups(["web_response"])]
     private ?Collection $blocks = null;
@@ -48,7 +48,7 @@ final class WebResponse implements WebResponseInterface, BlocksAwareWebResponseI
     }
 
     /**
-     * @return Collection<WalkerInterface>|null
+     * @return Collection<int, WalkerInterface>|null
      */
     public function getBlocks(): ?Collection
     {
@@ -56,7 +56,7 @@ final class WebResponse implements WebResponseInterface, BlocksAwareWebResponseI
     }
 
     /**
-     * @param Collection<WalkerInterface>|null $blocks
+     * @param Collection<int, WalkerInterface>|null $blocks
      * @return WebResponse
      */
     public function setBlocks(?Collection $blocks): WebResponse

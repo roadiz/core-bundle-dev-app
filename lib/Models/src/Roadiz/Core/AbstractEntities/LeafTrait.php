@@ -15,10 +15,6 @@ trait LeafTrait
         return $this->children;
     }
 
-    /**
-     * @param Collection<int, static> $children
-     * @return $this
-     */
     public function setChildren(Collection $children): static
     {
         $this->children = $children;
@@ -30,7 +26,7 @@ trait LeafTrait
     }
 
     /**
-     * @param static $child
+     * @param LeafInterface $child
      * @return $this
      */
     public function addChild(LeafInterface $child): static
@@ -76,6 +72,9 @@ trait LeafTrait
     {
         if ($parent === $this) {
             throw new \InvalidArgumentException('An entity cannot have itself as a parent.');
+        }
+        if (get_class($parent) !== get_class($this)) {
+            throw new \InvalidArgumentException('Parent must be the same class as the current entity.');
         }
 
         $this->parent = $parent;

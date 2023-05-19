@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Event\Document\DocumentTranslationIndexingEvent;
 use RZ\Roadiz\CoreBundle\SearchEngine\AbstractSolarium;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolariumDocumentTranslation;
+use RZ\Roadiz\Documents\Models\FolderInterface;
 
 final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexingSubscriber
 {
@@ -76,7 +77,7 @@ final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexin
         /*
          * `tags_txt` Must store only public, visible and user-searchable content.
          */
-        $visibleFolders = $document->getFolders()->filter(function (Folder $folder) {
+        $visibleFolders = $document->getFolders()->filter(function (FolderInterface $folder) {
             return $folder->isVisible();
         })->toArray();
         $visibleFolderNames = [];

@@ -35,7 +35,7 @@ class CustomFormFieldAttribute extends AbstractEntity
     protected ?CustomFormField $customFormField = null;
 
     /**
-     * @var Collection<Document>
+     * @var Collection<int, Document>
      */
     #[
         ORM\ManyToMany(targetEntity: "RZ\Roadiz\CoreBundle\Entity\Document", inversedBy: "customFormFieldAttributes"),
