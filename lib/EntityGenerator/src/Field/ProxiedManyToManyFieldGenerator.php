@@ -93,7 +93,7 @@ class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
     /**
      * ' . $this->field->getLabel() . '
      *
-     * @var Collection<' . $this->getProxyClassname() . '>
+     * @var Collection<int, ' . $this->getProxyClassname() . '>
      */' . PHP_EOL;
     }
 
@@ -104,7 +104,7 @@ class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
     {
         return '
     /**
-     * @return Collection<' . $this->getProxyClassname() . '>
+     * @return Collection<int, ' . $this->getProxyClassname() . '>
      */
     public function ' . $this->getProxiedGetterName() . '(): Collection
     {

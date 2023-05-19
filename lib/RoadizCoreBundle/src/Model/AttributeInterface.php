@@ -77,12 +77,12 @@ interface AttributeInterface extends PersistableInterface
     public function getLabelOrCode(?TranslationInterface $translation = null): string;
 
     /**
-     * @return Collection<AttributeTranslationInterface>
+     * @return Collection<int, AttributeTranslationInterface>
      */
     public function getAttributeTranslations(): Collection;
 
     /**
-     * @param Collection<AttributeTranslationInterface> $attributeTranslations
+     * @param Collection<int, AttributeTranslationInterface> $attributeTranslations
      *
      * @return $this
      */

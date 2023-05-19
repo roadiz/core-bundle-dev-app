@@ -33,7 +33,7 @@ class CustomFormAnswerSerializer
     {
         $answers = [];
         /** @var CustomFormFieldAttribute $answerAttr */
-        foreach ($answer->getAnswers() as $answerAttr) {
+        foreach ($answer->getAnswerFields() as $answerAttr) {
             $field = $answerAttr->getCustomFormField();
             if ($field->isDocuments()) {
                 $answers[$field->getName()] = implode(PHP_EOL, $answerAttr->getDocuments()->map(function (Document $document) {

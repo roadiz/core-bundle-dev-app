@@ -29,19 +29,19 @@ interface AttributeValueInterface extends PositionedInterface, PersistableInterf
     public function getType(): int;
 
     /**
-     * @return Collection<AttributeValueTranslationInterface>
+     * @return Collection<int, AttributeValueTranslationInterface>
      */
     public function getAttributeValueTranslations(): Collection;
 
     /**
      * @param TranslationInterface $translation
      *
-     * @return AttributeValueTranslationInterface
+     * @return AttributeValueTranslationInterface|null
      */
     public function getAttributeValueTranslation(TranslationInterface $translation): ?AttributeValueTranslationInterface;
 
     /**
-     * @param Collection<AttributeValueTranslationInterface> $attributeValueTranslations
+     * @param Collection<int, AttributeValueTranslationInterface> $attributeValueTranslations
      *
      * @return mixed
      */

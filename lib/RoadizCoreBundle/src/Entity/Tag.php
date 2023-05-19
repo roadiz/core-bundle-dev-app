@@ -81,7 +81,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     protected ?LeafInterface $parent = null;
 
     /**
-     * @var Collection<Tag>
+     * @var Collection<int, Tag>
      */
     #[ORM\OneToMany(
         mappedBy: 'parent',
@@ -96,7 +96,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     protected Collection $children;
 
     /**
-     * @var Collection<TagTranslation>
+     * @var Collection<int, TagTranslation>
      */
     #[ORM\OneToMany(
         mappedBy: 'tag',
@@ -146,7 +146,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     private bool $locked = false;
 
     /**
-     * @var Collection<NodesTags>
+     * @var Collection<int, NodesTags>
      */
     #[ORM\OneToMany(
         mappedBy: 'tag',
@@ -211,7 +211,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     }
 
     /**
-     * @return Collection<Node>
+     * @return Collection<int, Node>
      */
     public function getNodes(): Collection
     {
@@ -262,7 +262,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
 
     /**
      * @param TranslationInterface $translation
-     * @return Collection<TagTranslation>
+     * @return Collection<int, TagTranslation>
      */
     #[SymfonySerializer\Ignore]
     public function getTranslatedTagsByTranslation(TranslationInterface $translation): Collection
@@ -396,7 +396,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     }
 
     /**
-     * @return Collection<TagTranslation>
+     * @return Collection<int, TagTranslation>
      */
     public function getTranslatedTags(): Collection
     {
@@ -404,7 +404,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     }
 
     /**
-     * @param Collection<TagTranslation> $translatedTags
+     * @param Collection<int, TagTranslation> $translatedTags
      * @return $this
      */
     public function setTranslatedTags(Collection $translatedTags): static

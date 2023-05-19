@@ -26,7 +26,7 @@ trait AttributeGroupTrait
     protected string $canonicalName = '';
 
     /**
-     * @var Collection<AttributeInterface>
+     * @var Collection<int, AttributeInterface>
      */
     #[
         ORM\OneToMany(mappedBy: "group", targetEntity: AttributeInterface::class),
@@ -36,7 +36,7 @@ trait AttributeGroupTrait
     protected Collection $attributes;
 
     /**
-     * @var Collection<AttributeGroupTranslationInterface>
+     * @var Collection<int, AttributeGroupTranslationInterface>
      */
     #[
         ORM\OneToMany(mappedBy: "attributeGroup", targetEntity: AttributeGroupTranslationInterface::class, cascade: ["all"]),

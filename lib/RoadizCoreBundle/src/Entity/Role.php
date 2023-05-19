@@ -46,7 +46,7 @@ class Role implements PersistableInterface
     private string $name = '';
 
     /**
-     * @var Collection<Group>
+     * @var Collection<int, Group>
      */
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'roleEntities', cascade: ['persist', 'merge'])]
     #[SymfonySerializer\Groups(['role'])]

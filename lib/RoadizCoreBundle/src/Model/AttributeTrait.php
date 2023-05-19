@@ -63,7 +63,7 @@ trait AttributeTrait
     protected ?AttributeGroupInterface $group = null;
 
     /**
-     * @var Collection<AttributeTranslationInterface>
+     * @var Collection<int, AttributeTranslationInterface>
      */
     #[
         ORM\OneToMany(
@@ -81,7 +81,7 @@ trait AttributeTrait
     protected Collection $attributeTranslations;
 
     /**
-     * @var Collection<AttributeValueInterface>
+     * @var Collection<int, AttributeValueInterface>
      */
     #[
         ORM\OneToMany(
@@ -236,7 +236,7 @@ trait AttributeTrait
     }
 
     /**
-     * @return Collection<AttributeTranslationInterface>
+     * @return Collection<int, AttributeTranslationInterface>
      */
     public function getAttributeTranslations(): Collection
     {

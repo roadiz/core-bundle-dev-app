@@ -35,7 +35,7 @@ class EntityCollectionTransformer implements DataTransformerInterface
     }
 
     /**
-     * @param ArrayCollection<PersistableInterface>|PersistableInterface[]|null $value
+     * @param iterable<PersistableInterface>|mixed|null $value
      * @return string|array
      */
     public function transform(mixed $value): string|array
@@ -56,7 +56,7 @@ class EntityCollectionTransformer implements DataTransformerInterface
 
     /**
      * @param string|array|null $value
-     * @return array<PersistableInterface>|ArrayCollection<PersistableInterface>
+     * @return array<PersistableInterface>|ArrayCollection<int, PersistableInterface>
      */
     public function reverseTransform(mixed $value): array|ArrayCollection
     {
