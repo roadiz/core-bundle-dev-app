@@ -101,7 +101,7 @@ class CustomForm extends AbstractDateTimed
     private ?DateTime $closeDate = null;
 
     /**
-     * @var Collection<CustomFormField>
+     * @var Collection<int, CustomFormField>
      */
     #[
         ORM\OneToMany(mappedBy: "customForm", targetEntity: CustomFormField::class, cascade: ["ALL"]),
@@ -113,7 +113,7 @@ class CustomForm extends AbstractDateTimed
     private Collection $fields;
 
     /**
-     * @var Collection<CustomFormAnswer>
+     * @var Collection<int, CustomFormAnswer>
      */
     #[
         ORM\OneToMany(
@@ -127,7 +127,7 @@ class CustomForm extends AbstractDateTimed
     private Collection $customFormAnswers;
 
     /**
-     * @var Collection<NodesCustomForms>
+     * @var Collection<int, NodesCustomForms>
      */
     #[
         ORM\OneToMany(mappedBy: "customForm", targetEntity: NodesCustomForms::class, fetch: "EXTRA_LAZY"),
