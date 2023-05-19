@@ -1,3 +1,11 @@
+## [v2.1.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.12...v2.1.13) (2023-05-19)
+
+
+### Bug Fixes
+
+* Fixed `Collection<int, classname>` type hinting ([3a670bb](https://github.com/roadiz/core-bundle-dev-app/commit/3a670bb093afddb4591fdd36a432afaee3d015a4))
+* Fixed CustomFormAnswer class renaming `getAnswers()` to `getAnswerFields()` ([d88a179](https://github.com/roadiz/core-bundle-dev-app/commit/d88a1795a14cbf1f58dd983199a7eed343aba6fe))
+
 ## [v2.1.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.11...v2.1.12) (2023-05-11)
 
 
