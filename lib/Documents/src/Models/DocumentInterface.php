@@ -169,7 +169,7 @@ interface DocumentInterface
     public function getDownscaledDocument(): ?DocumentInterface;
 
     /**
-     * @return Collection<FolderInterface>
+     * @return Collection<int, FolderInterface>
      */
     public function getFolders(): Collection;
 

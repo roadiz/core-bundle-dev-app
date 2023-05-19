@@ -67,7 +67,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     protected ?Folder $parent = null;
 
     /**
-     * @var Collection<Folder>
+     * @var Collection<int, Folder>
      */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Folder::class, orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
@@ -132,7 +132,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     private bool $locked = false;
 
     /**
-     * @var Collection<FolderTranslation>
+     * @var Collection<int, FolderTranslation>
      */
     #[ORM\OneToMany(mappedBy: 'folder', targetEntity: FolderTranslation::class, orphanRemoval: true)]
     #[SymfonySerializer\Ignore]
@@ -212,7 +212,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
 
     /**
      * @param TranslationInterface $translation
-     * @return Collection<FolderTranslation>
+     * @return Collection<int, FolderTranslation>
      */
     #[SymfonySerializer\Ignore]
     public function getTranslatedFoldersByTranslation(TranslationInterface $translation): Collection
@@ -237,7 +237,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     }
 
     /**
-     * @return Collection<FolderTranslation>
+     * @return Collection<int, FolderTranslation>
      */
     public function getTranslatedFolders(): Collection
     {
@@ -245,7 +245,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     }
 
     /**
-     * @param Collection<FolderTranslation> $translatedFolders
+     * @param Collection<int, FolderTranslation> $translatedFolders
      * @return $this
      */
     public function setTranslatedFolders(Collection $translatedFolders): static

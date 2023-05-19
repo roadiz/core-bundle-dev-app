@@ -33,7 +33,7 @@ trait AttributeValueTrait
     protected ?AttributeInterface $attribute = null;
 
     /**
-     * @var Collection<AttributeValueTranslationInterface>
+     * @var Collection<int, AttributeValueTranslationInterface>
      */
     #[
         ORM\OneToMany(
@@ -77,7 +77,7 @@ trait AttributeValueTrait
     }
 
     /**
-     * @return Collection<AttributeValueTranslationInterface>
+     * @return Collection<int, AttributeValueTranslationInterface>
      */
     public function getAttributeValueTranslations(): Collection
     {

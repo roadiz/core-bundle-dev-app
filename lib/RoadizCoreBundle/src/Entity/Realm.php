@@ -80,7 +80,7 @@ class Realm extends AbstractEntity implements RealmInterface
     private ?string $serializationGroup = null;
 
     /**
-     * @var Collection<UserInterface>
+     * @var Collection<int, User>
      */
     #[ORM\JoinTable(name: 'realms_users')]
     #[ORM\ManyToMany(targetEntity: User::class)]
@@ -89,7 +89,7 @@ class Realm extends AbstractEntity implements RealmInterface
     private Collection $users;
 
     /**
-     * @var Collection<RealmNode>
+     * @var Collection<int, RealmNode>
      */
     #[ORM\OneToMany(mappedBy: 'realm', targetEntity: RealmNode::class)]
     #[SymfonySerializer\Ignore]
@@ -173,7 +173,7 @@ class Realm extends AbstractEntity implements RealmInterface
     }
 
     /**
-     * @return ArrayCollection<RealmNode>|Collection<RealmNode>
+     * @return Collection<int, RealmNode>
      */
     public function getRealmNodes(): Collection
     {
@@ -181,7 +181,7 @@ class Realm extends AbstractEntity implements RealmInterface
     }
 
     /**
-     * @param ArrayCollection<RealmNode>|Collection<RealmNode> $realmNodes
+     * @param Collection<int, RealmNode> $realmNodes
      * @return Realm
      */
     public function setRealmNodes(Collection $realmNodes)
@@ -191,7 +191,7 @@ class Realm extends AbstractEntity implements RealmInterface
     }
 
     /**
-     * @return Collection<UserInterface>|ArrayCollection<UserInterface>
+     * @return Collection<int, User>
      */
     public function getUsers(): Collection
     {
@@ -199,7 +199,7 @@ class Realm extends AbstractEntity implements RealmInterface
     }
 
     /**
-     * @param Collection<UserInterface>|ArrayCollection<UserInterface> $users
+     * @param Collection<int, User> $users
      * @return Realm
      */
     public function setUsers(Collection $users)
@@ -209,7 +209,7 @@ class Realm extends AbstractEntity implements RealmInterface
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getPlainPassword(): ?string
     {
@@ -217,7 +217,7 @@ class Realm extends AbstractEntity implements RealmInterface
     }
 
     /**
-     * @param string $plainPassword
+     * @param string|null $plainPassword
      * @return Realm
      */
     public function setPlainPassword(?string $plainPassword): Realm
