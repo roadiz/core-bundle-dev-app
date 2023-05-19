@@ -527,7 +527,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         'fa' => "Persian",
     ];
     /**
-     * @var Collection<DocumentTranslation>
+     * @var Collection<int, DocumentTranslation>
      */
     #[ORM\OneToMany(mappedBy: 'translation', targetEntity: DocumentTranslation::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[SymfonySerializer\Ignore]
@@ -535,7 +535,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     protected Collection $documentTranslations;
 
     /**
-     * @var Collection<FolderTranslation>
+     * @var Collection<int, FolderTranslation>
      */
     #[ORM\OneToMany(mappedBy: 'translation', targetEntity: FolderTranslation::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[SymfonySerializer\Ignore]
@@ -599,7 +599,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     private bool $available = true;
 
     /**
-     * @var Collection<NodesSources>
+     * @var Collection<int, NodesSources>
      */
     #[ORM\OneToMany(
         mappedBy: 'translation',
@@ -612,7 +612,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     private Collection $nodeSources;
 
     /**
-     * @var Collection<TagTranslation>
+     * @var Collection<int, TagTranslation>
      */
     #[ORM\OneToMany(
         mappedBy: 'translation',

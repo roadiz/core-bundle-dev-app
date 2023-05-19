@@ -149,7 +149,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     private ?\DateTime $lastLogin = null;
 
     /**
-     * @var Collection<Role>
+     * @var Collection<int, Role>
      */
     #[ORM\JoinTable(name: 'users_roles')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
@@ -170,7 +170,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     private ?array $roles = null;
 
     /**
-     * @var Collection<Group>
+     * @var Collection<int, Group>
      * @Serializer\Groups({"user_group"})
      */
     #[ORM\JoinTable(name: 'users_groups')]

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\Dto;
 
 use RZ\Roadiz\CoreBundle\Entity\Document;
-use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\FolderInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\MaxDepth;
 
@@ -91,7 +91,7 @@ final class DocumentOutput
     #[Groups(['document', 'document_display'])]
     public ?Document $thumbnail = null;
     /**
-     * @var array<Folder>
+     * @var array<FolderInterface>
      */
     #[Groups(['document_folders'])]
     public array $folders = [];

@@ -57,7 +57,7 @@ class TagTranslation extends AbstractEntity
     protected ?TranslationInterface $translation = null;
 
     /**
-     * @var Collection<TagTranslationDocuments>
+     * @var Collection<int, TagTranslationDocuments>
      * @Serializer\Exclude
      */
     #[ORM\OneToMany(

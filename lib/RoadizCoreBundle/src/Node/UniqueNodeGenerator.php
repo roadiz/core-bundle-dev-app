@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Node;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -34,7 +35,7 @@ class UniqueNodeGenerator
      * This method flush entity-manager.
      *
      * @param NodeType $nodeType
-     * @param Translation $translation
+     * @param TranslationInterface $translation
      * @param Node|null $parent
      * @param Tag|null $tag
      * @param bool $pushToTop
@@ -42,7 +43,7 @@ class UniqueNodeGenerator
      */
     public function generate(
         NodeType $nodeType,
-        Translation $translation,
+        TranslationInterface $translation,
         Node $parent = null,
         Tag $tag = null,
         bool $pushToTop = false
@@ -67,7 +68,6 @@ class UniqueNodeGenerator
 
         $sourceClass = NodeType::getGeneratedEntitiesNamespace() . "\\" . $nodeType->getSourceEntityClassName();
 
-        /** @var NodesSources $source */
         $source = new $sourceClass($node, $translation);
         $source->setTitle($name);
         $source->setPublishedAt(new \DateTime());
@@ -92,7 +92,7 @@ class UniqueNodeGenerator
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function generateFromRequest(Request $request)
+    public function generateFromRequest(Request $request): NodesSources
     {
         $pushToTop = false;
 
@@ -116,44 +116,45 @@ class UniqueNodeGenerator
             $parent = null;
         }
 
-        if ($request->get('nodeTypeId') > 0) {
-            /** @var NodeType|null $nodeType */
-            $nodeType = $this->managerRegistry
-                ->getRepository(NodeType::class)
-                ->find((int) $request->get('nodeTypeId'));
-
-            if (null !== $nodeType) {
-                if ($request->get('translationId') > 0) {
-                    /** @var Translation $translation */
-                    $translation = $this->managerRegistry
-                        ->getRepository(Translation::class)
-                        ->find((int) $request->get('translationId'));
-                } else {
-                    /*
-                     * If parent has only on translation, use parent translation instead of default one.
-                     */
-                    if (null !== $parent && $parent->getNodeSources()->count() === 1) {
-                        $translation = $parent->getNodeSources()->first()->getTranslation();
-                    } else {
-                        /** @var Translation $translation */
-                        $translation = $this->managerRegistry
-                            ->getRepository(Translation::class)
-                            ->findDefault();
-                    }
-                }
-
-                return $this->generate(
-                    $nodeType,
-                    $translation,
-                    $parent,
-                    $tag,
-                    $pushToTop
-                );
-            } else {
-                throw new BadRequestHttpException("Node-type does not exist.");
-            }
-        } else {
+        $nodeTypeId = $request->get('nodeTypeId');
+        if (!is_numeric($nodeTypeId) || $nodeTypeId < 1) {
             throw new BadRequestHttpException("No node-type ID has been given.");
         }
+
+        /** @var NodeType|null $nodeType */
+        $nodeType = $this->managerRegistry
+            ->getRepository(NodeType::class)
+            ->find((int) $nodeTypeId);
+
+        if (null === $nodeType) {
+            throw new BadRequestHttpException("Node-type does not exist.");
+        }
+
+        if ($request->get('translationId') > 0) {
+            /** @var Translation $translation */
+            $translation = $this->managerRegistry
+                ->getRepository(Translation::class)
+                ->find((int) $request->get('translationId'));
+        } else {
+            /*
+             * If parent has only on translation, use parent translation instead of default one.
+             */
+            if (null !== $parent && $parent->getNodeSources()->count() === 1) {
+                $translation = $parent->getNodeSources()->first()->getTranslation();
+            } else {
+                /** @var Translation $translation */
+                $translation = $this->managerRegistry
+                    ->getRepository(Translation::class)
+                    ->findDefault();
+            }
+        }
+
+        return $this->generate(
+            $nodeType,
+            $translation,
+            $parent,
+            $tag,
+            $pushToTop
+        );
     }
 }
