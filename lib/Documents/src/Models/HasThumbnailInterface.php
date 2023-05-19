@@ -20,12 +20,12 @@ interface HasThumbnailInterface
     public function setOriginal(?HasThumbnailInterface $original): static;
 
     /**
-     * @return Collection<int, static>
+     * @return Collection<int, DocumentInterface>
      */
     public function getThumbnails(): Collection;
 
     /**
-     * @param Collection<int, static> $thumbnails
+     * @param Collection<int, DocumentInterface> $thumbnails
      * @return $this
      */
     public function setThumbnails(Collection $thumbnails): static;

@@ -57,7 +57,7 @@ class CustomFormField extends AbstractField
     private ?CustomForm $customForm = null;
 
     /**
-     * @var Collection<CustomFormFieldAttribute>
+     * @var Collection<int, CustomFormFieldAttribute>
      */
     #[
         ORM\OneToMany(mappedBy: "customFormField", targetEntity: CustomFormFieldAttribute::class),

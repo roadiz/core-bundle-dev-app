@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
 use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -58,7 +58,7 @@ class NodesSources extends AbstractEntity implements Loggable
     protected ?ObjectManager $objectManager = null;
 
     /**
-     * @var Collection<Log>
+     * @var Collection<int, Log>
      */
     #[ORM\OneToMany(mappedBy: 'nodeSource', targetEntity: Log::class)]
     #[ORM\OrderBy(['datetime' => 'DESC'])]
@@ -67,7 +67,7 @@ class NodesSources extends AbstractEntity implements Loggable
     protected Collection $logs;
 
     /**
-     * @var Collection<Redirection>
+     * @var Collection<int, Redirection>
      */
     #[ORM\OneToMany(mappedBy: 'redirectNodeSource', targetEntity: Redirection::class)]
     #[SymfonySerializer\Ignore]
@@ -169,7 +169,7 @@ class NodesSources extends AbstractEntity implements Loggable
     private ?TranslationInterface $translation = null;
 
     /**
-     * @var Collection<UrlAlias>
+     * @var Collection<int, UrlAlias>
      */
     #[ORM\OneToMany(
         mappedBy: 'nodeSource',
@@ -180,7 +180,7 @@ class NodesSources extends AbstractEntity implements Loggable
     private Collection $urlAliases;
 
     /**
-     * @var Collection<NodesSourcesDocuments>
+     * @var Collection<int, NodesSourcesDocuments>
      */
     #[ORM\OneToMany(
         mappedBy: 'nodeSource',
@@ -278,7 +278,7 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * @return Collection<NodesSourcesDocuments>
+     * @return Collection<int, NodesSourcesDocuments>
      */
     public function getDocumentsByFields(): Collection
     {
@@ -286,11 +286,11 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * @param ArrayCollection<NodesSourcesDocuments> $documentsByFields
+     * @param Collection<int, NodesSourcesDocuments> $documentsByFields
      *
      * @return NodesSources
      */
-    public function setDocumentsByFields(ArrayCollection $documentsByFields): NodesSources
+    public function setDocumentsByFields(Collection $documentsByFields): NodesSources
     {
         foreach ($this->documentsByFields as $documentsByField) {
             $documentsByField->setNodeSource(null);
@@ -348,11 +348,8 @@ class NodesSources extends AbstractEntity implements Loggable
         $criteria->orderBy(['position' => 'ASC']);
         return $this->getDocumentsByFields()
             ->matching($criteria)
-            ->filter(function ($element) use ($field) {
-                if ($element instanceof NodesSourcesDocuments) {
-                    return $element->getField() === $field;
-                }
-                return false;
+            ->filter(function (NodesSourcesDocuments $element) use ($field) {
+                return $element->getField() === $field;
             })
             ->map(function (NodesSourcesDocuments $nodesSourcesDocuments) {
                 return $nodesSourcesDocuments->getDocument();
@@ -371,11 +368,8 @@ class NodesSources extends AbstractEntity implements Loggable
         $criteria->orderBy(['position' => 'ASC']);
         return $this->getDocumentsByFields()
             ->matching($criteria)
-            ->filter(function ($element) use ($fieldName) {
-                if ($element instanceof NodesSourcesDocuments) {
-                    return $element->getField()->getName() === $fieldName;
-                }
-                return false;
+            ->filter(function (NodesSourcesDocuments $element) use ($fieldName) {
+                return $element->getField()->getName() === $fieldName;
             })
             ->map(function (NodesSourcesDocuments $nodesSourcesDocuments) {
                 return $nodesSourcesDocuments->getDocument();
@@ -387,7 +381,7 @@ class NodesSources extends AbstractEntity implements Loggable
     /**
      * Logs related to this node-source.
      *
-     * @return Collection<Log>
+     * @return Collection<int, Log>
      */
     public function getLogs(): Collection
     {
@@ -406,7 +400,7 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * @return Collection<Redirection>
+     * @return Collection<int, Redirection>
      */
     public function getRedirections(): Collection
     {
@@ -414,7 +408,7 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * @param Collection<Redirection> $redirections
+     * @param Collection<int, Redirection> $redirections
      * @return NodesSources
      */
     public function setRedirections(Collection $redirections): NodesSources
@@ -538,7 +532,7 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * @return Collection<UrlAlias>
+     * @return Collection<int, UrlAlias>
      */
     public function getUrlAliases(): Collection
     {

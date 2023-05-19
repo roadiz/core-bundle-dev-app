@@ -1,3 +1,10 @@
+## [v2.1.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.13...v2.1.14) (2023-05-19)
+
+
+### Bug Fixes
+
+* Fixed `Collection<int, classname>` type hinting and co-variance (part 2) ([2a53d81](https://github.com/roadiz/core-bundle-dev-app/commit/2a53d81f8218e3ca584e420568e0d0c9031ac681))
+
 ## [v2.1.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.12...v2.1.13) (2023-05-19)
 
 
