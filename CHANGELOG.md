@@ -1,3 +1,10 @@
+## [v2.1.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.14...v2.1.15) (2023-05-24)
+
+
+### Bug Fixes
+
+* Allow all `gedmo/doctrine-extensions` v3 ([0ed814b](https://github.com/roadiz/core-bundle-dev-app/commit/0ed814b1b347c6d4989acbedbb05636964687908))
+
 ## [v2.1.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.13...v2.1.14) (2023-05-19)
 
 
