@@ -231,7 +231,9 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         $path = [];
 
         foreach ($parents as $parent) {
-            $path[] = $parent->getTagName();
+            if ($parent instanceof Tag) {
+                $path[] = $parent->getTagName();
+            }
         }
 
         $path[] = $this->getTagName();
@@ -445,5 +447,19 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         return $this->getTranslatedTags()->first() ?
             $this->getTranslatedTags()->first()->getDocuments() :
             [];
+    }
+
+    public function setParent(?LeafInterface $parent = null): static
+    {
+        if ($parent === $this) {
+            throw new \InvalidArgumentException('An entity cannot have itself as a parent.');
+        }
+        if (null !== $parent && !$parent instanceof Tag) {
+            throw new \InvalidArgumentException('A tag can only have a Tag entity as a parent');
+        }
+        $this->parent = $parent;
+        $this->parent?->addChild($this);
+
+        return $this;
     }
 }
