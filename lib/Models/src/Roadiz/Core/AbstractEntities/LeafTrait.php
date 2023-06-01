@@ -39,7 +39,7 @@ trait LeafTrait
         return $this;
     }
     /**
-     * @param static $child
+     * @param LeafInterface $child
      * @return $this
      */
     public function removeChild(LeafInterface $child): static
@@ -65,16 +65,13 @@ trait LeafTrait
     }
 
     /**
-     * @param static|null $parent
+     * @param LeafInterface|null $parent
      * @return $this
      */
     public function setParent(?LeafInterface $parent = null): static
     {
         if ($parent === $this) {
             throw new \InvalidArgumentException('An entity cannot have itself as a parent.');
-        }
-        if (get_class($parent) !== get_class($this)) {
-            throw new \InvalidArgumentException('Parent must be the same class as the current entity.');
         }
 
         $this->parent = $parent;
@@ -84,7 +81,7 @@ trait LeafTrait
     }
 
     /**
-     * @return static[]
+     * @return LeafInterface[]
      */
     public function getParents(): array
     {
