@@ -339,11 +339,27 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         $path = [];
 
         foreach ($parents as $parent) {
-            $path[] = $parent->getFolderName();
+            if ($parent instanceof FolderInterface) {
+                $path[] = $parent->getFolderName();
+            }
         }
 
         $path[] = $this->getFolderName();
 
         return implode('/', $path);
+    }
+
+    public function setParent(?LeafInterface $parent = null): static
+    {
+        if ($parent === $this) {
+            throw new \InvalidArgumentException('An entity cannot have itself as a parent.');
+        }
+        if (null !== $parent && !$parent instanceof Folder) {
+            throw new \InvalidArgumentException('A folder can only have a folder as a parent.');
+        }
+        $this->parent = $parent;
+        $this->parent?->addChild($this);
+
+        return $this;
     }
 }

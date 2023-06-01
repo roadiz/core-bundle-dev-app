@@ -65,22 +65,6 @@ trait LeafTrait
     }
 
     /**
-     * @param LeafInterface|null $parent
-     * @return $this
-     */
-    public function setParent(?LeafInterface $parent = null): static
-    {
-        if ($parent === $this) {
-            throw new \InvalidArgumentException('An entity cannot have itself as a parent.');
-        }
-
-        $this->parent = $parent;
-        $this->parent?->addChild($this);
-
-        return $this;
-    }
-
-    /**
      * @return LeafInterface[]
      */
     public function getParents(): array
