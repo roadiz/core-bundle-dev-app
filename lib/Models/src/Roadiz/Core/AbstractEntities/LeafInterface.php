@@ -36,7 +36,7 @@ interface LeafInterface extends PositionedInterface, Comparable
     public function getParents(): array;
 
     /**
-     * @param static|null $parent
+     * @param LeafInterface|null $parent
      * @return $this
      */
     public function setParent(?LeafInterface $parent = null): static;

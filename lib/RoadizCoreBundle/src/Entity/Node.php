@@ -993,6 +993,20 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         }
     }
 
+    public function setParent(?LeafInterface $parent = null): static
+    {
+        if ($parent === $this) {
+            throw new \InvalidArgumentException('An entity cannot have itself as a parent.');
+        }
+        if (null !== $parent && !($parent instanceof Node)) {
+            throw new \InvalidArgumentException('A node can only have a Node as a parent.');
+        }
+        $this->parent = $parent;
+        $this->parent?->addChild($this);
+
+        return $this;
+    }
+
     /**
      * @return string
      */

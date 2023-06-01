@@ -1,3 +1,11 @@
+## [v2.1.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.15...v2.1.16) (2023-06-01)
+
+
+### Bug Fixes
+
+* Do not prevent setting parent with not the same class ([3b5996d](https://github.com/roadiz/core-bundle-dev-app/commit/3b5996dc804510bed29b5f20ef542e933f101561))
+* **LeafInterface:** Do not test exact class when setting LeafInterface parent to allow doctrine proxies. ([56ed76d](https://github.com/roadiz/core-bundle-dev-app/commit/56ed76d401fee87813e0cbb86ac92ec130a46752))
+
 ## [v2.1.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.14...v2.1.15) (2023-05-24)
 
 
