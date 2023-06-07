@@ -80,7 +80,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         'publishedAt' => 'ns.publishedAt',
     ];
 
-    #[ORM\Column(name: 'node_name', type: 'string', unique: true)]
+    #[ORM\Column(name: 'node_name', type: 'string', length: 255, unique: true)]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node', 'log_sources'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node', 'log_sources'])]
     #[Serializer\Accessor(getter: "getNodeName", setter: "setNodeName")]
@@ -146,15 +146,17 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[Gedmo\Versioned]
     private bool $sterile = false;
 
-    #[ORM\Column(name: 'children_order', type: 'string')]
+    #[ORM\Column(name: 'children_order', type: 'string', length: 50)]
     #[SymfonySerializer\Groups(['node'])]
     #[Serializer\Groups(['node'])]
+    #[Assert\Length(max: 50)]
     #[Gedmo\Versioned]
     private string $childrenOrder = 'position';
 
     #[ORM\Column(name: 'children_order_direction', type: 'string', length: 4)]
     #[SymfonySerializer\Groups(['node'])]
     #[Serializer\Groups(['node'])]
+    #[Assert\Length(max: 4)]
     #[Gedmo\Versioned]
     private string $childrenOrderDirection = 'ASC';
 

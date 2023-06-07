@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\UserBundle\Repository\UserValidationTokenRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Table(name: 'user_validation_tokens'),
@@ -25,7 +26,8 @@ class UserValidationToken
     #[ORM\JoinColumn(name: 'user_id', nullable: true, onDelete: 'CASCADE')]
     private ?User $user = null;
 
-    #[ORM\Column(name: 'token', type: 'string', unique: true, nullable: false)]
+    #[ORM\Column(name: 'token', type: 'string', length: 255, unique: true, nullable: false)]
+    #[Assert\Length(max: 255)]
     private string $token;
 
     #[ORM\Column(name: 'token_valid_until', type: 'datetime', unique: false, nullable: true)]

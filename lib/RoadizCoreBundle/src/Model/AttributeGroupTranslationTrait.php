@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Model;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeGroupTranslationTrait
 {
@@ -20,9 +21,10 @@ trait AttributeGroupTranslationTrait
     protected ?TranslationInterface $translation = null;
 
     #[
-        ORM\Column(type: "string", unique: false, nullable: false),
+        ORM\Column(type: "string", length: 255, unique: false, nullable: false),
         Serializer\Groups(["attribute_group", "attribute", "node", "nodes_sources"]),
-        Serializer\Type("string")
+        Serializer\Type("string"),
+        Assert\Length(max: 255)
     ]
     protected string $name = '';
 

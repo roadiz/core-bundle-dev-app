@@ -22,6 +22,7 @@ use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * NodesSources store Node content according to a translation and a NodeType.
@@ -75,10 +76,11 @@ class NodesSources extends AbstractEntity implements Loggable
     protected Collection $redirections;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'title', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'title', type: 'string', length: 250, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Gedmo\Versioned]
+    #[Assert\Length(max: 250)]
     protected ?string $title = null;
 
     #[ApiFilter(BaseFilter\DateFilter::class)]
@@ -91,10 +93,11 @@ class NodesSources extends AbstractEntity implements Loggable
     protected ?\DateTime $publishedAt = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'meta_title', type: 'string', unique: false)]
+    #[ORM\Column(name: 'meta_title', type: 'string', length: 150, unique: false)]
     #[SymfonySerializer\Groups(['nodes_sources'])]
     #[Serializer\Groups(['nodes_sources'])]
     #[Gedmo\Versioned]
+    #[Assert\Length(max: 150)]
     protected string $metaTitle = '';
 
     #[ORM\Column(name: 'meta_keywords', type: 'text')]

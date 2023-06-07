@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Model;
 
-use JMS\Serializer\Annotation as Serializer;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeTranslationTrait
 {
@@ -20,9 +21,10 @@ trait AttributeTranslationTrait
     protected ?TranslationInterface $translation = null;
 
     #[
-        ORM\Column(type: "string", unique: false, nullable: false),
+        ORM\Column(type: "string", length: 250, unique: false, nullable: false),
         Serializer\Groups(["attribute", "node", "nodes_sources"]),
-        Serializer\Type("string")
+        Serializer\Type("string"),
+        Assert\Length(max: 250)
     ]
     protected string $label = '';
 

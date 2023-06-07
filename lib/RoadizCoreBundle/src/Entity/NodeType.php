@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\CoreBundle\Form\Constraint as RoadizAssert;
@@ -39,14 +38,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 class NodeType extends AbstractEntity implements NodeTypeInterface
 {
     #[
-        ORM\Column(name: "color", type: "string", unique: false, nullable: true),
+        ORM\Column(name: "color", type: "string", length: 7, unique: false, nullable: true),
         Serializer\Groups(["node_type", "color"]),
         SymfonySerializer\Groups(["node_type", "color"]),
-        Serializer\Type("string")
+        Serializer\Type("string"),
+        Assert\Length(max: 7),
     ]
     protected ?string $color = '#000000';
     #[
-        ORM\Column(type: "string", unique: true),
+        ORM\Column(type: "string", length: 30, unique: true),
         Serializer\Groups(["node_type", "node"]),
         SymfonySerializer\Groups(["node_type", "node"]),
         Serializer\Type("string"),
@@ -59,7 +59,7 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
     ]
     private string $name = '';
     #[
-        ORM\Column(name: "display_name", type: "string"),
+        ORM\Column(name: "display_name", type: "string", length: 250),
         Serializer\Groups(["node_type", "node"]),
         SymfonySerializer\Groups(["node_type", "node"]),
         Serializer\Type("string"),

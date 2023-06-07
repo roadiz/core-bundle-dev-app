@@ -50,6 +50,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
      */
     #[ORM\Column(name: 'message_type', type: 'string', length: 255, nullable: true)]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 255)]
     protected ?string $messageType = null;
 
     /**

@@ -27,6 +27,7 @@ use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 use RZ\Roadiz\Documents\Models\TimeableInterface;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Documents entity represent a file on server with datetime and naming.
@@ -108,30 +109,34 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     ]
     protected bool $raw = false;
 
-    #[ORM\Column(name: 'embedId', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'embedId', type: 'string', length: 250, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type("string")]
+    #[Assert\Length(max: 250)]
     protected ?string $embedId = null;
 
     #[ORM\Column(name: 'file_hash', type: 'string', length: 64, unique: false, nullable: true)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 64)]
     protected ?string $fileHash = null;
 
     #[ORM\Column(name: 'file_hash_algorithm', type: 'string', length: 15, unique: false, nullable: true)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 15)]
     protected ?string $fileHashAlgorithm = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "exact")]
     #[ApiFilter(RoadizFilter\NotFilter::class)]
-    #[ORM\Column(name: 'embedPlatform', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'embedPlatform', type: 'string', length: 100, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 100)]
     protected ?string $embedPlatform = null;
     /**
      * @var Collection<int, NodesSourcesDocuments>
@@ -185,20 +190,22 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
      * @var string|null
      */
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'filename', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'filename', type: 'string', length: 250, nullable: true)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 250)]
     private ?string $filename = null;
     /**
      * @var string|null
      */
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "exact")]
     #[ApiFilter(RoadizFilter\NotFilter::class)]
-    #[ORM\Column(name: 'mime_type', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'mime_type', type: 'string', length: 255, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 255)]
     private ?string $mimeType = null;
     /**
      * @var Collection<int, DocumentInterface>
@@ -210,8 +217,9 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     /**
      * @var string
      */
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', length: 100)]
     #[SymfonySerializer\Ignore]
+    #[Assert\Length(max: 100)]
     #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
     private string $folder = '';
@@ -254,6 +262,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 7)]
     private ?string $imageAverageColor = null;
     /**
      * @var int|null The filesize in bytes.

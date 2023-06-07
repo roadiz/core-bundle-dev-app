@@ -13,6 +13,7 @@ use Scheb\TwoFactorBundle\Model\Totp\TotpConfigurationInterface;
 use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface as TotpTwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\Google\TwoFactorInterface as GoogleAuthenticatorTwoFactorInterface;
 use Scheb\TwoFactorBundle\Model\TrustedDeviceInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: TwoFactorUserRepository::class),
@@ -27,7 +28,8 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
     // @phpstan-ignore-next-line
     private ?User $user = null;
 
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Assert\Length(max: 255)]
     private ?string $secret = null;
 
     /*
@@ -43,6 +45,7 @@ class TwoFactorUser implements TotpTwoFactorInterface, BackupCodeInterface, Trus
     private int $trustedVersion = 1;
 
     #[ORM\Column(type: 'string', length: 6, nullable: true)]
+    #[Assert\Length(max: 6)]
     private ?string $algorithm = TotpConfiguration::ALGORITHM_SHA1;
 
     #[ORM\Column(type: 'smallint', nullable: true)]

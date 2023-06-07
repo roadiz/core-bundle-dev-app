@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\CoreBundle\Repository\LoginAttemptRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: LoginAttemptRepository::class),
@@ -23,7 +24,8 @@ class LoginAttempt
     ]
     private int $id;
 
-    #[ORM\Column(name: 'ip_address', type: 'string', length: 50, nullable: true)]
+    #[ORM\Column(name: 'ip_address', type: 'string', length: 46, nullable: true)]
+    #[Assert\Length(max: 46)]
     private ?string $ipAddress = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
@@ -32,7 +34,8 @@ class LoginAttempt
     #[ORM\Column(name: 'blocks_login_until', type: 'datetime', nullable: true)]
     private ?\DateTime $blocksLoginUntil = null;
 
-    #[ORM\Column(name: 'username', type: 'string', unique: false, nullable: false)]
+    #[ORM\Column(name: 'username', type: 'string', length: 255, unique: false, nullable: false)]
+    #[Assert\Length(max: 255)]
     private string $username = '';
 
     #[ORM\Column(name: 'attempt_count', type: 'integer', nullable: true)]

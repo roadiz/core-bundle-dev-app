@@ -10,6 +10,7 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\CoreBundle\Repository\LogRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: LogRepository::class),
@@ -43,9 +44,10 @@ class Log extends AbstractEntity
     #[Serializer\Groups(['log_user'])]
     protected ?User $user = null;
 
-    #[ORM\Column(name: 'username', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'username', type: 'string', length: 255, nullable: true)]
     #[SymfonySerializer\Groups(['log_user'])]
     #[Serializer\Groups(['log_user'])]
+    #[Assert\Length(max: 255)]
     protected ?string $username = null;
 
     #[ORM\Column(name: 'message', type: 'text')]
@@ -69,14 +71,16 @@ class Log extends AbstractEntity
     #[Serializer\Groups(['log_sources'])]
     protected ?NodesSources $nodeSource = null;
 
-    #[ORM\Column(name: 'client_ip', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'client_ip', type: 'string', length: 46, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['log'])]
     #[Serializer\Groups(['log'])]
+    #[Assert\Length(max: 46)]
     protected ?string $clientIp = null;
 
-    #[ORM\Column(name: 'channel', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'channel', type: 'string', length: 64, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['log'])]
     #[Serializer\Groups(['log'])]
+    #[Assert\Length(max: 64)]
     protected ?string $channel = null;
 
     #[ORM\Column(name: 'additional_data', type: 'json', unique: false, nullable: true)]

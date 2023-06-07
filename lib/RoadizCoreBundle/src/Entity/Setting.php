@@ -54,7 +54,7 @@ class Setting extends AbstractEntity
         AbstractField::MULTIPLE_T => 'multiple-choice.type',
     ];
 
-    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Column(type: 'string', length: 250, unique: true)]
     #[SymfonySerializer\Groups(['setting', 'nodes_sources'])]
     #[Serializer\Groups(['setting', 'nodes_sources'])]
     #[Assert\NotBlank]

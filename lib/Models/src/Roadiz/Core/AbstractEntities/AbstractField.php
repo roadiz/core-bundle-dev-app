@@ -255,7 +255,7 @@ abstract class AbstractField extends AbstractPositioned
     ];
 
     #[
-        ORM\Column(name: "group_name", type: "string", nullable: true),
+        ORM\Column(name: "group_name", type: "string", length: 250, nullable: true),
         Assert\Length(max: 250),
         SymfonySerializer\Groups(["node_type", "setting"]),
         Serializer\Groups(["node_type", "setting"]),
@@ -265,7 +265,7 @@ abstract class AbstractField extends AbstractPositioned
     protected ?string $groupName = null;
 
     #[
-        ORM\Column(name: "group_name_canonical", type: "string", nullable: true),
+        ORM\Column(name: "group_name_canonical", type: "string", length: 250, nullable: true),
         Serializer\Groups(["node_type", "setting"]),
         SymfonySerializer\Groups(["node_type", "setting"]),
         Assert\Length(max: 250),
@@ -275,7 +275,7 @@ abstract class AbstractField extends AbstractPositioned
     protected ?string $groupNameCanonical = null;
 
     #[
-        ORM\Column(type: "string"),
+        ORM\Column(type: "string", length: 250),
         Serializer\Expose,
         Serializer\Groups(["node_type", "setting"]),
         SymfonySerializer\Groups(["node_type", "setting"]),
@@ -287,7 +287,7 @@ abstract class AbstractField extends AbstractPositioned
     protected string $name;
 
     #[
-        ORM\Column(type: "string"),
+        ORM\Column(type: "string", length: 250),
         Serializer\Expose,
         Serializer\Groups(["node_type", "setting"]),
         Serializer\Type("string"),
@@ -299,7 +299,7 @@ abstract class AbstractField extends AbstractPositioned
     protected ?string $label;
 
     #[
-        ORM\Column(type: "string", nullable: true),
+        ORM\Column(type: "string", length: 250, nullable: true),
         Serializer\Expose,
         Serializer\Groups(["node_type", "setting"]),
         SymfonySerializer\Groups(["node_type", "setting"]),

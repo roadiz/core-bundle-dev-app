@@ -101,11 +101,12 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         nullable: false,
         options: ['default' => '#000000']
     )]
+    #[Assert\Length(max: 7)]
     #[SymfonySerializer\Groups(['folder', 'folder_color'])]
     protected string $color = '#000000';
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'folder_name', type: 'string', unique: true, nullable: false)]
+    #[ORM\Column(name: 'folder_name', type: 'string', length: 250, unique: true, nullable: false)]
     #[Serializer\Groups(['folder', 'document_folders'])]
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
     #[SymfonySerializer\SerializedName('slug')]

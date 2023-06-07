@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class FolderTranslation extends AbstractEntity
 {
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', length: 250)]
     #[SymfonySerializer\Groups(['folder', 'document'])]
     #[Serializer\Groups(['folder', 'document'])]
     #[Assert\Length(max: 250)]

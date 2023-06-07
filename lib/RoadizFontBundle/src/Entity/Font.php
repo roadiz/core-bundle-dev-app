@@ -86,31 +86,38 @@ class Font extends AbstractDateTimed
     protected ?UploadedFile $otfFile = null;
     protected ?UploadedFile $svgFile = null;
 
-    #[ORM\Column(name: 'eot_filename', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'eot_filename', type: 'string', length: 100, nullable: true)]
+    #[Assert\Length(max: 100)]
     private ?string $eotFilename = null;
 
-    #[ORM\Column(name: 'woff_filename', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'woff_filename', type: 'string', length: 100, nullable: true)]
+    #[Assert\Length(max: 100)]
     private ?string $woffFilename = null;
 
-    #[ORM\Column(name: 'woff2_filename', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'woff2_filename', type: 'string', length: 100, nullable: true)]
+    #[Assert\Length(max: 100)]
     private ?string $woff2Filename = null;
 
-    #[ORM\Column(name: 'otf_filename', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'otf_filename', type: 'string', length: 100, nullable: true)]
+    #[Assert\Length(max: 100)]
     private ?string $otfFilename = null;
 
-    #[ORM\Column(name: 'svg_filename', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'svg_filename', type: 'string', length: 100, nullable: true)]
+    #[Assert\Length(max: 100)]
     private ?string $svgFilename = null;
 
-    #[ORM\Column(type: 'string', unique: false, nullable: false)]
+    #[ORM\Column(type: 'string', length: 100, unique: false, nullable: false)]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 100)]
     private string $name = '';
 
-    #[ORM\Column(type: 'string', unique: false, nullable: false)]
+    #[ORM\Column(type: 'string', length: 128, unique: false, nullable: false)]
+    #[Assert\Length(max: 128)]
     private string $hash = '';
 
-    #[ORM\Column(type: 'string', nullable: false)]
+    #[ORM\Column(type: 'string', length: 100, nullable: false)]
+    #[Assert\Length(max: 100)]
     private string $folder = '';
 
     #[ORM\Column(type: 'text', nullable: true)]
