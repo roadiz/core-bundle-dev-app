@@ -35,6 +35,7 @@ requirements:
 
 cache :
 	docker-compose exec -u www-data app php bin/console cache:clear
+	docker-compose exec -u www-data app bin/console cache:pool:clear cache.global_clearer
 	# Force workers to restart
 	docker-compose exec -u www-data app php bin/console messenger:stop-workers
 
