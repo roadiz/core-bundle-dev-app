@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Routing;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
@@ -156,6 +157,7 @@ final class NodesSourcesPathResolver implements PathResolverInterface
      * @param array<string> $tokens
      *
      * @return TranslationInterface|null
+     * @throws NonUniqueResultException
      */
     private function parseTranslation(array &$tokens = []): ?TranslationInterface
     {

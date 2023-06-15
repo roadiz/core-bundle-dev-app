@@ -10,19 +10,19 @@ use RZ\Roadiz\Bag\LazyParameterBag;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
 use RZ\Roadiz\CoreBundle\Repository\SettingRepository;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class Settings extends LazyParameterBag
 {
     private ManagerRegistry $managerRegistry;
     private ?SettingRepository $repository = null;
+    private Stopwatch $stopwatch;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(ManagerRegistry $managerRegistry, Stopwatch $stopwatch)
     {
         parent::__construct();
         $this->managerRegistry = $managerRegistry;
+        $this->stopwatch = $stopwatch;
     }
 
     /**
@@ -38,6 +38,7 @@ class Settings extends LazyParameterBag
 
     protected function populateParameters(): void
     {
+        $this->stopwatch->start('settings');
         try {
             $settings = $this->getRepository()->findAll();
             $this->parameters = [];
@@ -49,6 +50,7 @@ class Settings extends LazyParameterBag
             $this->parameters = [];
         }
         $this->ready = true;
+        $this->stopwatch->stop('settings');
     }
 
     /**
