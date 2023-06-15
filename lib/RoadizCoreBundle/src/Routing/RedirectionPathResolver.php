@@ -5,16 +5,27 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Routing;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\CoreBundle\Entity\Redirection;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 final class RedirectionPathResolver implements PathResolverInterface
 {
     private ManagerRegistry $managerRegistry;
+    private Stopwatch $stopwatch;
+    private CacheItemPoolInterface $cacheAdapter;
 
-    public function __construct(ManagerRegistry $managerRegistry)
-    {
+    public const CACHE_KEY = 'redirection_path_resolver_cache';
+
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        CacheItemPoolInterface $cacheAdapter,
+        Stopwatch $stopwatch,
+    ) {
         $this->managerRegistry = $managerRegistry;
+        $this->stopwatch = $stopwatch;
+        $this->cacheAdapter = $cacheAdapter;
     }
 
     public function resolvePath(
@@ -23,15 +34,41 @@ final class RedirectionPathResolver implements PathResolverInterface
         bool $allowRootPaths = false,
         bool $allowNonReachableNodes = true
     ): ResourceInfo {
-        $redirection = $this->managerRegistry
-            ->getRepository(Redirection::class)
-            ->findOneByQuery($path);
+        $this->stopwatch->start('findRedirection', 'routing');
+        $cacheItem = $this->cacheAdapter->getItem(self::CACHE_KEY);
+        if (!$cacheItem->isHit()) {
+            // Populate cache item
+            /** @var array[] $redirections */
+            $redirections = $this->managerRegistry
+                ->getRepository(Redirection::class)
+                ->createQueryBuilder('r')
+                ->select(['r.id', 'r.query'])
+                ->getQuery()
+                ->getArrayResult();
+            $redirections = array_combine(
+                array_column($redirections, 'query'),
+                array_column($redirections, 'id')
+            );
+            $cacheItem->set($redirections);
+            $this->cacheAdapter->save($cacheItem);
+        } else {
+            /** @var array[] $redirections */
+            $redirections = $cacheItem->get();
+        }
 
-        if (null === $redirection) {
+        /** @var int|null $redirectionId */
+        $redirectionId = $redirections[$path] ?? null;
+        $this->stopwatch->stop('findRedirection');
+
+        if (null === $redirectionId) {
             throw new ResourceNotFoundException();
         }
 
         return (new ResourceInfo())
-            ->setResource($redirection);
+            ->setResource(
+                $this->managerRegistry
+                    ->getRepository(Redirection::class)
+                    ->find($redirectionId)
+            );
     }
 }
