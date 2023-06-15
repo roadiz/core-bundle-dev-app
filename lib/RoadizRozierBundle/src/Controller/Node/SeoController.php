@@ -10,6 +10,8 @@ use RZ\Roadiz\CoreBundle\Entity\Redirection;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\UrlAlias;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
+use RZ\Roadiz\CoreBundle\Event\Redirection\PostCreatedRedirectionEvent;
+use RZ\Roadiz\CoreBundle\Event\Redirection\PostUpdatedRedirectionEvent;
 use RZ\Roadiz\CoreBundle\Event\UrlAlias\UrlAliasCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\UrlAlias\UrlAliasDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\UrlAlias\UrlAliasUpdatedEvent;
@@ -301,6 +303,7 @@ final class SeoController extends RozierApp
         if ($addForm->isSubmitted() && $addForm->isValid()) {
             $this->em()->persist($redirection);
             $this->em()->flush();
+            $this->dispatchEvent(new PostCreatedRedirectionEvent($redirection));
 
             /** @var Translation $translation */
             $translation = $redirection->getRedirectNodeSource()->getTranslation();
@@ -345,6 +348,7 @@ final class SeoController extends RozierApp
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->em()->flush();
+            $this->dispatchEvent(new PostUpdatedRedirectionEvent($redirection));
             return $this->redirect($this->generateUrl(
                 'nodesEditSEOPage',
                 [
@@ -359,6 +363,7 @@ final class SeoController extends RozierApp
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
             $this->em()->remove($redirection);
             $this->em()->flush();
+            $this->dispatchEvent(new PostCreatedRedirectionEvent($redirection));
             return $this->redirect($this->generateUrl(
                 'nodesEditSEOPage',
                 [

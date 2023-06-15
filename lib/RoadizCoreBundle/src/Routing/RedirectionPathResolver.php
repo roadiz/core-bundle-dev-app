@@ -34,7 +34,7 @@ final class RedirectionPathResolver implements PathResolverInterface
         bool $allowRootPaths = false,
         bool $allowNonReachableNodes = true
     ): ResourceInfo {
-        $this->stopwatch->start('findRedirection', 'routing');
+        $this->stopwatch->start('lookForRedirection', 'routing');
         $cacheItem = $this->cacheAdapter->getItem(self::CACHE_KEY);
         if (!$cacheItem->isHit()) {
             // Populate cache item
@@ -58,17 +58,25 @@ final class RedirectionPathResolver implements PathResolverInterface
 
         /** @var int|null $redirectionId */
         $redirectionId = $redirections[$path] ?? null;
-        $this->stopwatch->stop('findRedirection');
+        $this->stopwatch->stop('lookForRedirection');
 
         if (null === $redirectionId) {
             throw new ResourceNotFoundException();
         }
+        $this->stopwatch->start('findRedirection', 'routing');
+        $redirection = $this->managerRegistry
+            ->getRepository(Redirection::class)
+            ->find($redirectionId);
+        $this->stopwatch->stop('findRedirection');
+        if (null === $redirection) {
+            throw new ResourceNotFoundException();
+        }
 
-        return (new ResourceInfo())
-            ->setResource(
-                $this->managerRegistry
-                    ->getRepository(Redirection::class)
-                    ->find($redirectionId)
-            );
+        $this->stopwatch->start('incrementRedirection', 'routing');
+        $redirection->incrementUseCount();
+        $this->managerRegistry->getManagerForClass(Redirection::class)->flush();
+        $this->stopwatch->stop('incrementRedirection');
+
+        return (new ResourceInfo())->setResource($redirection);
     }
 }
