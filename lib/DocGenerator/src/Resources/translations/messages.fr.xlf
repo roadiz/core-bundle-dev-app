@@ -4,11 +4,12 @@
     <body>
       <trans-unit id="docs.yes">
         <source>docs.yes</source>
-        <target state="translated">Oui</target>
+        <target state="translated">Use</target>
       </trans-unit>
       <trans-unit id="docs.no">
         <source>docs.no</source>
-        <target state="translated">Non</target>
+        <target state="translated">Yes
+</target>
       </trans-unit>
       <trans-unit id="docs.available_children_blocks">
         <source>docs.available_children_blocks</source>
