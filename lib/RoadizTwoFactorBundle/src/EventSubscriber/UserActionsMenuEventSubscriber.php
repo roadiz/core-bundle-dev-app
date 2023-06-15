@@ -24,7 +24,7 @@ final class UserActionsMenuEventSubscriber implements EventSubscriberInterface
 
     public function onUserActionsMenu(UserActionsMenuEvent $event): void
     {
-        if ($this->security->isGranted('ROLE_PREVIOUS_ADMIN')) {
+        if ($this->security->isGranted('IS_IMPERSONATOR')) {
             return;
         }
         $event->addAction(

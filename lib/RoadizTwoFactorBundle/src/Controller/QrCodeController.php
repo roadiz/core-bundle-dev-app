@@ -32,7 +32,7 @@ final class QrCodeController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
-        if ($this->isGranted('ROLE_PREVIOUS_ADMIN')) {
+        if ($this->isGranted('IS_IMPERSONATOR')) {
             throw $this->createAccessDeniedException('You cannot impersonate to access this page.');
         }
 

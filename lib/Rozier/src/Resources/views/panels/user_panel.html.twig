@@ -57,7 +57,7 @@
                    data-uk-tooltip="{animation:true}"
                    href="{{ action.path }}"><span class="user-action-label">{{ action.label|trans }}</span></a>
             {% endfor %}
-            {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+            {% if is_granted('IS_IMPERSONATOR') %}
                 <a title="{% trans %}stop.test.user.right{% endtrans %}"
                    data-uk-tooltip="{animation:true}"
                    class="uk-icon-button uk-icon-rz-turn-off rz-no-ajax-link"
