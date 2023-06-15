@@ -437,7 +437,7 @@ abstract class AppController extends Controller
     public function getSession(): ?SessionInterface
     {
         $request = $this->getRequest();
-        return null !== $request && $request->hasPreviousSession() ? $request->getSession() : null;
+        return $request->hasPreviousSession() ? $request->getSession() : null;
     }
 
     /**

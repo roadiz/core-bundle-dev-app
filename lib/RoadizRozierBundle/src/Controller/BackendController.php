@@ -9,6 +9,7 @@ use RZ\Roadiz\CompatBundle\Controller\AppController;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Bag\Roles;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
 use RZ\Roadiz\CoreBundle\Mailer\EmailManager;
 use RZ\Roadiz\Documents\Packages;
 use RZ\Roadiz\OpenId\OAuth2LinkGenerator;
@@ -55,7 +56,7 @@ abstract class BackendController extends AppController
     /**
      * @inheritDoc
      */
-    public function createEntityListManager($entity, array $criteria = [], array $ordering = [])
+    public function createEntityListManager(string $entity, array $criteria = [], array $ordering = []): EntityListManagerInterface
     {
         return parent::createEntityListManager($entity, $criteria, $ordering)
             ->setDisplayingNotPublishedNodes(true);

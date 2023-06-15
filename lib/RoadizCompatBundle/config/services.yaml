@@ -59,7 +59,9 @@ services:
         public: true
     assetPackages:
         alias: RZ\Roadiz\Documents\Packages
-        deprecated: ~
+        deprecated:
+            package: 'roadiz/compat-bundle'
+            version: '2.0.0'
         public: true
     Symfony\Contracts\Translation\TranslatorInterface:
         alias: 'translator.default'
