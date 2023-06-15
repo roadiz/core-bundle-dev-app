@@ -1177,6 +1177,7 @@
             <trans-unit xml:space="preserve" id="redirection.type"><source>redirection.type</source><note>Redirection field which stands for HTTP code: 301 or 302</note></trans-unit>
             <trans-unit xml:space="preserve" id="redirection.moved_permanently"><source>redirection.moved_permanently</source><note>Redirection type description for 301 Moved Permanently</note></trans-unit>
             <trans-unit xml:space="preserve" id="redirection.moved_temporarily"><source>redirection.moved_temporarily</source><note>Redirection type description for 302 Moved Temporarily</note></trans-unit>
+            <trans-unit xml:space="preserve" id="redirection.use_count"><source>redirection.use_count</source><note>Redirection usage count</note></trans-unit>
             <trans-unit xml:space="preserve" id="login_image"><source>login_image</source><note>Global parameter to customize login screen background image</note></trans-unit>
             <trans-unit xml:space="preserve" id="publishedAt"><source>publishedAt</source><note>Field label for node-source publication date and time.</note></trans-unit>
             <trans-unit xml:space="preserve" id="publishable"><source>publishable</source><note>Field label for node-type publishable status.</note></trans-unit>

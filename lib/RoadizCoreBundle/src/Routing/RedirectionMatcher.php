@@ -46,7 +46,7 @@ final class RedirectionMatcher extends UrlMatcher
     /**
      * {@inheritdoc}
      */
-    public function match($pathinfo): array
+    public function match(string $pathinfo): array
     {
         $this->stopwatch->start('findRedirection');
         $decodedUrl = rawurldecode($pathinfo);
