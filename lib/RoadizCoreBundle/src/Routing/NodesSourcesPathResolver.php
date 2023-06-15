@@ -61,7 +61,7 @@ final class NodesSourcesPathResolver implements PathResolverInterface
         }
 
         if ($path === '/') {
-            $this->stopwatch->start('parseRootPath');
+            $this->stopwatch->start('parseRootPath', 'routing');
             $translation = $this->parseTranslation();
             $nodeSource = $this->getHome($translation);
             $this->stopwatch->stop('parseRootPath');
@@ -96,13 +96,13 @@ final class NodesSourcesPathResolver implements PathResolverInterface
                 }
             }
 
-            $this->stopwatch->start('parseTranslation');
+            $this->stopwatch->start('parseTranslation', 'routing');
             $translation = $this->parseTranslation($tokens);
             $this->stopwatch->stop('parseTranslation');
             /*
              * Try with URL Aliases OR nodeName
              */
-            $this->stopwatch->start('parseFromIdentifier');
+            $this->stopwatch->start('parseFromIdentifier', 'routing');
             $nodeSource = $this->parseFromIdentifier($tokens, $translation, $allowNonReachableNodes);
             $this->stopwatch->stop('parseFromIdentifier');
         }

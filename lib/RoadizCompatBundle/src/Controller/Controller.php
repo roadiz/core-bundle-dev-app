@@ -48,7 +48,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -70,6 +69,7 @@ abstract class Controller extends AbstractController
             'dispatcher' => 'event_dispatcher',
             'em' => EntityManagerInterface::class,
             'event_dispatcher' => 'event_dispatcher',
+            EventDispatcherInterface::class => EventDispatcherInterface::class,
             'kernel' => KernelInterface::class,
             'logger' => LoggerInterface::class,
             'nodeApi' => NodeApi::class,
@@ -196,7 +196,7 @@ abstract class Controller extends AbstractController
     protected function dispatchEvent($event)
     {
         /** @var EventDispatcherInterface $eventDispatcher */ # php-stan hint
-        $eventDispatcher = $this->get('event_dispatcher');
+        $eventDispatcher = $this->get(EventDispatcherInterface::class);
         return $eventDispatcher->dispatch($event);
     }
 

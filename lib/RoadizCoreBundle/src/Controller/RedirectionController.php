@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Controller;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Redirection;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -16,12 +15,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 final class RedirectionController
 {
     private UrlGeneratorInterface $urlGenerator;
-    private ManagerRegistry $managerRegistry;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, ManagerRegistry $managerRegistry)
+    public function __construct(UrlGeneratorInterface $urlGenerator)
     {
         $this->urlGenerator = $urlGenerator;
-        $this->managerRegistry = $managerRegistry;
     }
 
     /**
@@ -32,9 +29,6 @@ final class RedirectionController
     public function redirectAction(Request $request, Redirection $redirection): RedirectResponse
     {
         if (null !== $redirection->getRedirectNodeSource()) {
-            $redirection->incrementUseCount();
-            $this->managerRegistry->getManagerForClass(Redirection::class)->flush();
-
             return new RedirectResponse(
                 $this->urlGenerator->generate(
                     RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
@@ -48,8 +42,6 @@ final class RedirectionController
             null !== $redirection->getRedirectUri() &&
             strlen($redirection->getRedirectUri()) > 0
         ) {
-            $redirection->incrementUseCount();
-            $this->managerRegistry->getManagerForClass(Redirection::class)->flush();
             return new RedirectResponse($redirection->getRedirectUri(), $redirection->getType());
         }
 
