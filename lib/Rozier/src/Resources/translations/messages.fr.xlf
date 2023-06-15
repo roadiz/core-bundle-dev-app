@@ -4167,6 +4167,11 @@
         <target state="translated">Redirection temporaire</target>
         <note>Redirection type description for 302 Moved Temporarily</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="redirection.use_count">
+        <source>redirection.use_count</source>
+        <target state="translated">Utiliser le nombre de redirections</target>
+        <note>Redirection usage count</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="login_image">
         <source>login_image</source>
         <target state="translated">Fond d'écran de la page de connexion</target>
