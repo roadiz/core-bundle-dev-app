@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Doctrine;
 
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Cache\Clearer\OPCacheClearer;
+use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
 use Symfony\Component\Process\Process;
 
 final class SchemaUpdater
@@ -13,8 +14,10 @@ final class SchemaUpdater
     private LoggerInterface $logger;
     private OPCacheClearer $opCacheClearer;
     private string $projectDir;
+    private CacheClearerInterface $cacheClearer;
 
     public function __construct(
+        CacheClearerInterface $cacheClearer,
         OPCacheClearer $opCacheClearer,
         LoggerInterface $logger,
         string $projectDir
@@ -22,11 +25,13 @@ final class SchemaUpdater
         $this->logger = $logger;
         $this->opCacheClearer = $opCacheClearer;
         $this->projectDir = $projectDir;
+        $this->cacheClearer = $cacheClearer;
     }
 
     public function clearMetadata(): void
     {
         $this->opCacheClearer->clear();
+        $this->cacheClearer->clear('');
 
         $process = $this->runCommand(
             'doctrine:cache:clear-metadata',

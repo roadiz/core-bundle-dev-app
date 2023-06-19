@@ -325,6 +325,7 @@ services:
             - { name: doctrine.event_subscriber }
 
     RZ\Roadiz\CoreBundle\Doctrine\SchemaUpdater:
+        arguments: ['@cache.global_clearer']
         tags:
             - { name: monolog.logger, channel: doctrine }
 
