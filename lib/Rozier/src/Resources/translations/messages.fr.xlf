@@ -4169,7 +4169,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="redirection.use_count">
         <source>redirection.use_count</source>
-        <target state="translated">Utiliser le nombre de redirections</target>
+        <target state="translated">Nombre d'utilisations</target>
         <note>Redirection usage count</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="login_image">
