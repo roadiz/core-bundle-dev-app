@@ -17,7 +17,7 @@
                      src="{{ app.user.pictureUrl }}"
                      alt="{{ app.user.identifier }}" />
             </a>
-            <h3>{{ "hello.%name%"|trans({'%name%': app.user.identifier}) }}</h3>
+            <p>{{ "hello.%name%"|trans({'%name%': app.user.identifier}) }}</p>
         {% elseif app.user %}
             {% set displayName = app.user.nickname|default(app.user.givenName|default(app.user.name)) %}
             {% if app.user.picture %}

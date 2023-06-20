@@ -1,5 +1,7 @@
 ---
 parameters:
+    roadiz_core.cms_version: '2.1.17'
+    roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
     env(APP_USE_ACCEPT_LANGUAGE_HEADER): 'false'
@@ -22,9 +24,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
-            $cmsVersion: '2.1.16'
+            $cmsVersion: '%roadiz_core.cms_version%'
             $appVersion: '%roadiz_core.app_version%'
-            $cmsVersionPrefix: 'main'
+            $cmsVersionPrefix: '%roadiz_core.cms_version_prefix%'
             $staticDomain: '%roadiz_core.static_domain_name%'
             $hideRoadizVersion: '%roadiz_core.hide_roadiz_version%'
             $inheritanceType: '%roadiz_core.inheritance_type%'
@@ -139,6 +141,16 @@ services:
         class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\FolderNormalizer'
         decorates: 'api_platform.serializer.normalizer.item'
         decoration_priority: 21
+
+    RZ\Roadiz\CoreBundle\DataCollector\RequestDataCollector:
+        autoconfigure: false
+        arguments: [ '%roadiz_core.cms_version%', '%roadiz_core.cms_version_prefix%']
+        tags:
+            -   name: data_collector
+                template: '@RoadizCore/DataCollector/request.html.twig'
+                # must match the value returned by the getName() method
+                id: 'roadiz.data_collector.request'
+                priority: 400
 
     # Document
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentNormalizer:
@@ -325,6 +337,7 @@ services:
             - { name: doctrine.event_subscriber }
 
     RZ\Roadiz\CoreBundle\Doctrine\SchemaUpdater:
+        arguments: ['@cache.global_clearer']
         tags:
             - { name: monolog.logger, channel: doctrine }
 

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Message;
 
-final class UpdateNodeTypeSchemaMessage implements AsyncMessage
+/*
+ * UpdateNodeTypeSchemaMessage must be handled synchronous
+ */
+final class UpdateNodeTypeSchemaMessage
 {
     private int $nodeTypeId;
 

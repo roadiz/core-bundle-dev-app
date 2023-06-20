@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     version="1.1" x="0" y="0"
+     viewBox="57 860.89 16 16"
+     xml:space="preserve"
+     id="svg6">
+    <defs id="defs10">
+        <clipPath clipPathUnits="userSpaceOnUse" id="clipPath20">
+            <path d="M0 400h400V0H0Z" id="path18"/>
+        </clipPath>
+    </defs>
+    <g id="ICON">
+        <g transform="matrix(.06748 0 0 -.07225 51.13826 883.35196)" id="g14" fill="currentColor">
+            <g id="g16" clip-path="url(#clipPath20)" fill="currentColor">
+                <g id="g22" transform="translate(168.3601 267.4727)">
+                    <path d="M0 0h34.959c22.065 0 40.166-18.348 40.166-41.653 0-20.334-14.877-37.191-34.712-40.168L0-31.489Zm69.421-160.167h34.219l-45.127 55.536c27.026 9.669 44.877 34.96 44.877 62.978 0 37.19-30.742 67.191-68.431 67.191h-64.464V-38Z" id="path24" fill="currentColor" fill-opacity="1" fill-rule="nonzero" stroke="none"/>
+                </g>
+                <g transform="translate(138.8552 193.7311)">
+                    <path d="M0 0v-86.426h29.752l-.125 51.5z" id="path28" fill="currentColor" fill-opacity="1" fill-rule="nonzero" stroke="none"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

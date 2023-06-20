@@ -168,12 +168,15 @@
 }
 
 // Tree
+.document-checkbox,
 .tag-checkbox,
-.node-checkbox{
+.node-checkbox {
     position: absolute;
-    top: 10px; right: 0px;
+    top: 10px;
+    right: 0;
     display: none;
-    width: 14px; height: 14px;
+    width: 14px;
+    height: 14px;
     line-height:12px;
     border: 1px solid #aaa;
     overflow: hidden;
@@ -181,6 +184,7 @@
     -webkit-appearance: none;
     outline: 0;
     background: #fff;
+    cursor: pointer;
 
     &:focus{
         border-color: @grey-form-submit-border-hover;
