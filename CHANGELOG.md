@@ -1,3 +1,16 @@
+## [v2.1.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.16...v2.1.17) (2023-06-20)
+
+
+### Features
+
+* Added Roadiz custom data-collector for web-profiler ([d0e01fa](https://github.com/roadiz/core-bundle-dev-app/commit/d0e01fa885b462a8dc46fb7ef04892c840452a7e))
+
+
+### Bug Fixes
+
+* **UI:** Changed user and menu panels size for LG breakpoint. Clear `cache.global_clearer` in CacheController and SchemaUpdater. ([c20463e](https://github.com/roadiz/core-bundle-dev-app/commit/c20463eb2e14b8c1977a6eabe12a9380a816f37b))
+* `UpdateNodeTypeSchemaMessage` should be handled synced to avoid Doctrine exception on refresh ([84a611b](https://github.com/roadiz/core-bundle-dev-app/commit/84a611b17837c58d219c6f822c132b034b4420af))
+
 ## [v2.1.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.15...v2.1.16) (2023-06-01)
 
 
