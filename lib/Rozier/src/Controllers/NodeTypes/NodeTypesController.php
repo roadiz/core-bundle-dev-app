@@ -30,14 +30,7 @@ class NodeTypesController extends RozierApp
         $this->messageBus = $messageBus;
     }
 
-    /**
-     * List every node-types.
-     *
-     * @param Request $request
-     *
-     * @return Response
-     */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
         /*
@@ -72,7 +65,7 @@ class NodeTypesController extends RozierApp
      *
      * @return Response
      */
-    public function editAction(Request $request, int $nodeTypeId)
+    public function editAction(Request $request, int $nodeTypeId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
 
@@ -116,10 +109,9 @@ class NodeTypesController extends RozierApp
      *
      * @return Response
      */
-    public function addAction(Request $request)
+    public function addAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
-
         $nodeType = new NodeType();
 
         $form = $this->createForm(NodeTypeType::class, $nodeType);
@@ -155,7 +147,7 @@ class NodeTypesController extends RozierApp
      *
      * @return Response
      */
-    public function deleteAction(Request $request, int $nodeTypeId)
+    public function deleteAction(Request $request, int $nodeTypeId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES_DELETE');
 

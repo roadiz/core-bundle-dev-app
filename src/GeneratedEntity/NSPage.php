@@ -645,9 +645,61 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
 
     /**
+     * Main user.
+     * Default values: # Entity class name
+     *     classname: \RZ\Roadiz\CoreBundle\Entity\User
+     *     # Displayable is the method used to display entity name
+     *     displayable: getUsername
+     *     # Same as Displayable but for a secondary information
+     *     alt_displayable: getEmail
+     *     # Same as Displayable but for a secondary information
+     *     thumbnail: ~
+     *     # Searchable entity fields
+     *     searchable:
+     *         - username
+     *         - email
+     *     # This order will only be used for explorer
+     *     orderBy:
+     *         - field: email
+     *           direction: ASC
+     * @var \RZ\Roadiz\CoreBundle\Entity\User|null
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "mainUser"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        ORM\ManyToOne(targetEntity: \RZ\Roadiz\CoreBundle\Entity\User::class),
+        ORM\JoinColumn(name: "main_user_id", referencedColumnName: "id", onDelete: "SET NULL"),
+        ApiFilter(OrmFilter\SearchFilter::class, strategy: "exact"),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2)
+    ]
+    private ?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null;
+
+    /**
+     * @return \RZ\Roadiz\CoreBundle\Entity\User|null
+     */
+    public function getMainUser(): ?\RZ\Roadiz\CoreBundle\Entity\User
+    {
+        return $this->mainUser;
+    }
+
+    /**
+     * @param \RZ\Roadiz\CoreBundle\Entity\User|null $mainUser
+     * @return $this
+     */
+    public function setMainUser(?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null): static
+    {
+        $this->mainUser = $mainUser;
+
+        return $this;
+    }
+
+
+    /**
      * Reference to users
      *
-     * @var Collection<\App\Entity\PositionedPageUser>
+     * @var Collection<int, \App\Entity\PositionedPageUser>
      */
     #[
         Serializer\Exclude,
@@ -663,7 +715,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     private Collection $usersProxy;
 
     /**
-     * @return Collection<\App\Entity\PositionedPageUser>
+     * @return Collection<int, \App\Entity\PositionedPageUser>
      */
     public function getUsersProxy(): Collection
     {
@@ -751,7 +803,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *     #     orderBy:
      *     #         - field: position
      *     #           direction: ASC
-     * @var Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>
+     * @var Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>
      */
     #[
         SymfonySerializer\SerializedName(serializedName: "folderReferences"),
@@ -769,7 +821,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     private Collection $folderReferences;
 
     /**
-     * @return Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>
+     * @return Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>
      */
     public function getFolderReferences(): Collection
     {
@@ -777,7 +829,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @param Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>|\RZ\Roadiz\CoreBundle\Entity\Folder[] $folderReferences
+     * @param Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>|\RZ\Roadiz\CoreBundle\Entity\Folder[] $folderReferences
      * @return $this
      */
     public function setFolderReferences(Collection|array $folderReferences): static
@@ -1108,58 +1160,6 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         $this->layout = null !== $layout ?
             (string) $layout :
             null;
-
-        return $this;
-    }
-
-
-    /**
-     * Main user.
-     * Default values: # Entity class name
-     *     classname: \RZ\Roadiz\CoreBundle\Entity\User
-     *     # Displayable is the method used to display entity name
-     *     displayable: getUsername
-     *     # Same as Displayable but for a secondary information
-     *     alt_displayable: getEmail
-     *     # Same as Displayable but for a secondary information
-     *     thumbnail: ~
-     *     # Searchable entity fields
-     *     searchable:
-     *         - username
-     *         - email
-     *     # This order will only be used for explorer
-     *     orderBy:
-     *         - field: email
-     *           direction: ASC
-     * @var \RZ\Roadiz\CoreBundle\Entity\User|null
-     */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "mainUser"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        SymfonySerializer\MaxDepth(2),
-        ORM\ManyToOne(targetEntity: \RZ\Roadiz\CoreBundle\Entity\User::class),
-        ORM\JoinColumn(name: "main_user_id", referencedColumnName: "id", onDelete: "SET NULL"),
-        ApiFilter(OrmFilter\SearchFilter::class, strategy: "exact"),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2)
-    ]
-    private ?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null;
-
-    /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\User|null
-     */
-    public function getMainUser(): ?\RZ\Roadiz\CoreBundle\Entity\User
-    {
-        return $this->mainUser;
-    }
-
-    /**
-     * @param \RZ\Roadiz\CoreBundle\Entity\User|null $mainUser
-     * @return $this
-     */
-    public function setMainUser(?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null): static
-    {
-        $this->mainUser = $mainUser;
 
         return $this;
     }

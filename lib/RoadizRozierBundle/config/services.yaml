@@ -94,3 +94,6 @@ services:
 
     RZ\Roadiz\RozierBundle\Controller\PingController:
         arguments: ['@?profiler']
+
+    Themes\Rozier\Controllers\CacheController:
+        arguments: ['@cache.global_clearer']
