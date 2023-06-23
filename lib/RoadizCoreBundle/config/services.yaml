@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.1.19'
+    roadiz_core.cms_version: '2.1.20'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -118,6 +118,12 @@ services:
         autowire: true
         public: true
 
+
+    RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator:
+        decorates: 'api_platform.openapi.factory'
+        decoration_priority: 100
+        arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator.inner' ]
+        autoconfigure: false
 
     RZ\Roadiz\CoreBundle\Api\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
