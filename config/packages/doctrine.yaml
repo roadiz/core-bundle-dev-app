@@ -34,7 +34,7 @@ doctrine:
             RZ\Roadiz\Core:
                 is_bundle: false
                 type: attribute
-                dir: '%kernel.project_dir%/lib/Models/src/Roadiz/Core/AbstractEntities'
+                dir: '%kernel.project_dir%/lib/Models/src/Core/AbstractEntities'
                 prefix: 'RZ\Roadiz\Core\AbstractEntities'
                 alias: AbstractEntities
             App\GeneratedEntity:

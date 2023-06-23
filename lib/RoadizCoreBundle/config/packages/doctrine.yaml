@@ -27,7 +27,7 @@ doctrine:
             RZ\Roadiz\Core:
                 is_bundle: false
                 type: annotation
-                dir: '%kernel.project_dir%/vendor/roadiz/models/src/Roadiz/Core/AbstractEntities'
+                dir: '%kernel.project_dir%/vendor/roadiz/models/src/Core/AbstractEntities'
                 prefix: 'RZ\Roadiz\Core\AbstractEntities'
                 alias: AbstractEntities
             App\GeneratedEntity:
