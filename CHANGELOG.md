@@ -1,3 +1,10 @@
+## [v2.1.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.17...v2.1.18) (2023-06-23)
+
+
+### Bug Fixes
+
+* Fixed and refactored SQL search query building on Repository and Paginator levels ([b5d320b](https://github.com/roadiz/core-bundle-dev-app/commit/b5d320b49f28ff167e6a4482090fc743bd46c186))
+
 ## [v2.1.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.16...v2.1.17) (2023-06-20)
 
 
