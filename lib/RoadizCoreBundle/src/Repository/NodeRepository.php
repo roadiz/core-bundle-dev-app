@@ -1001,14 +1001,8 @@ final class NodeRepository extends StatusAwareRepository
          */
         $qb->innerJoin($alias . '.nodeSources', self::NODESSOURCES_ALIAS);
         $criteriaFields = [];
-        $metadatas = $this->_em->getClassMetadata(NodesSources::class);
-        $cols = $metadatas->getColumnNames();
-        foreach ($cols as $col) {
-            $field = $metadatas->getFieldName($col);
-            $type = $metadatas->getTypeOfField($field);
-            if (in_array($type, $this->searchableTypes)) {
-                $criteriaFields[$field] = '%' . strip_tags((string) $pattern) . '%';
-            }
+        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(NodesSources::class)) as $field) {
+            $criteriaFields[$field] = '%' . strip_tags(mb_strtolower($pattern)) . '%';
         }
         foreach ($criteriaFields as $key => $value) {
             $fullKey = sprintf('LOWER(%s)', self::NODESSOURCES_ALIAS . '.' . $key);

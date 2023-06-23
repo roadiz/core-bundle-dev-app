@@ -46,16 +46,6 @@ final class RequestDataCollector extends AbstractDataCollector
         return '@RoadizCore/DataCollector/request.html.twig';
     }
 
-    public function getMethod()
-    {
-        return $this->data['method'];
-    }
-
-    public function getAcceptableContentTypes()
-    {
-        return $this->data['acceptable_content_types'];
-    }
-
     /**
      * {@inheritdoc}
      */

@@ -209,24 +209,18 @@ final class FolderRepository extends EntityRepository
          * Search in translations
          */
         $qb->leftJoin('obj.translatedFolders', 'tf');
+
         $criteriaFields = [];
-        $metadata = $this->_em->getClassMetadata(FolderTranslation::class);
-        $cols = $metadata->getColumnNames();
-        foreach ($cols as $col) {
-            $field = $metadata->getFieldName($col);
-            $type = $metadata->getTypeOfField($field);
-            if (in_array($type, $this->searchableTypes)) {
-                $criteriaFields[$field] = '%' . strip_tags((string) $pattern) . '%';
-            }
+        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(FolderTranslation::class)) as $field) {
+            $criteriaFields[$field] = '%' . strip_tags(mb_strtolower($pattern)) . '%';
         }
+
         foreach ($criteriaFields as $key => $value) {
             $fullKey = sprintf('LOWER(%s)', 'tf.' . $key);
             $qb->orWhere($qb->expr()->like($fullKey, $qb->expr()->literal($value)));
         }
 
-        $qb = $this->prepareComparisons($criteria, $qb, $alias);
-
-        return $qb;
+        return $this->prepareComparisons($criteria, $qb, $alias);
     }
 
     /**
