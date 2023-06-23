@@ -28,7 +28,11 @@ App\GeneratedEntity\NSOffer:
                     - document_thumbnails
                     - document_display_sources
         getByPath:
-            method: GET
+            method: 'GET'
+            path: '/web_response_by_path'
+            read: false
+            controller: RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController
+            pagination_enabled: false
             normalization_context:
                 enable_max_depth: true
                 groups:

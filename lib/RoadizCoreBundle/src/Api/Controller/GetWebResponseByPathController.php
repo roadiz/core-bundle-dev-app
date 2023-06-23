@@ -54,7 +54,11 @@ final class GetWebResponseByPathController extends AbstractController
             $resource = $this->normalizeResourcePath(
                 (string) $this->requestStack->getMainRequest()->query->get('path')
             );
+            if (null === $resource) {
+                throw new ResourceNotFoundException('Resource not found');
+            }
             $this->requestStack->getMainRequest()->attributes->set('data', $resource);
+            $this->requestStack->getMainRequest()->attributes->set('id', $resource->getId());
             /*
              * Force API Platform to look for real resource configuration and serialization
              * context. You must define "itemOperations.getByPath" for your API resource configuration.

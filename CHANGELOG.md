@@ -1,3 +1,10 @@
+## [v2.1.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.18...v2.1.19) (2023-06-23)
+
+
+### Bug Fixes
+
+* **OpenApi:** Fixed `getByPath` operation overlap with `get` by setting `id` request attribute and api_resource operation configuration ([54a378d](https://github.com/roadiz/core-bundle-dev-app/commit/54a378d151409ef6ec8fb7cfea6b9c74e5115d44))
+
 ## [v2.1.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.17...v2.1.18) (2023-06-23)
 
 
