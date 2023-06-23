@@ -47,7 +47,7 @@ final class NodeSourceModel implements ModelInterface
                 'translationId' => $translation->getId(),
             ]),
             'nodeType' => [
-                'color' => $node->getNodeType()->getColor()
+                'color' => $node->getNodeType()?->getColor() ?? '#000000',
             ]
         ];
 

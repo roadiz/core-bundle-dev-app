@@ -44,13 +44,14 @@ trait VersionedControllerTrait
          */
         $repo = $this->em()->getRepository(UserLogEntry::class);
         $logs = $repo->getLogEntries($entity);
+        $versionNumber = $request->get('version', null);
 
         if (
-            $request->get('version', null) !== null &&
-            $request->get('version', null) > 0
+            \is_numeric($versionNumber) &&
+            intval($versionNumber) > 0
         ) {
             try {
-                $versionNumber = (int) $request->get('version', null);
+                $versionNumber = intval($versionNumber);
                 $repo->revert($entity, $versionNumber);
                 $this->isReadOnly = true;
                 $this->assignation['currentVersionNumber'] = $versionNumber;

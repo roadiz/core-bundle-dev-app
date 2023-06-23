@@ -35,7 +35,10 @@ class NodeType extends AbstractType
             ])
         ;
 
-        if (null !== $builder->getData() && $builder->getData()->getNodeType()->isReachable()) {
+        /** @var Node|null $node */
+        $node = $builder->getData();
+        $isReachable = null !== $node && $node->getNodeType()?->isReachable();
+        if ($isReachable) {
             $builder->add('home', CheckboxType::class, [
                 'label' => 'node.isHome',
                 'required' => false,
@@ -56,7 +59,7 @@ class NodeType extends AbstractType
             ])
         ;
 
-        if (null !== $builder->getData() && $builder->getData()->getNodeType()->isReachable()) {
+        if ($isReachable) {
             $builder->add('ttl', IntegerType::class, [
                 'label' => 'node.ttl',
                 'help' => 'node_time_to_live_cache_on_front_controller',

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CompatBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
@@ -16,6 +18,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeApi;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeSourceApi;
+use RZ\Roadiz\CoreBundle\Exception\ForceResponseException;
 use RZ\Roadiz\CoreBundle\Exception\NoTranslationAvailableException;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManager;
@@ -29,7 +32,6 @@ use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\NodeIndexer;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\Documents\MediaFinders\RandomImageFinder;
-use RZ\Roadiz\Documents\Packages;
 use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use RZ\Roadiz\OpenId\OAuth2LinkGenerator;
@@ -63,7 +65,6 @@ abstract class Controller extends AbstractController
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
-            'assetPackages' => Packages::class,
             'csrfTokenManager' => CsrfTokenManagerInterface::class,
             'defaultTranslation' => 'defaultTranslation',
             'dispatcher' => 'event_dispatcher',
@@ -298,6 +299,7 @@ abstract class Controller extends AbstractController
      * @param string|null $_locale
      *
      * @return TranslationInterface
+     * @throws NonUniqueResultException
      */
     protected function findTranslationForLocale(string $_locale = null): TranslationInterface
     {
@@ -342,7 +344,7 @@ abstract class Controller extends AbstractController
         try {
             return parent::render($view, $parameters, $response);
         } catch (RuntimeError $e) {
-            if ($e->getPrevious() instanceof \RZ\Roadiz\CoreBundle\Exception\ForceResponseException) {
+            if ($e->getPrevious() instanceof ForceResponseException) {
                 return $e->getPrevious()->getResponse();
             } else {
                 throw $e;
@@ -411,7 +413,7 @@ abstract class Controller extends AbstractController
     /**
      * Creates and returns an EntityListManager instance.
      *
-     * @param class-string $entity Entity class path
+     * @param class-string<PersistableInterface> $entity Entity class path
      * @param array $criteria
      * @param array $ordering
      *

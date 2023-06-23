@@ -192,7 +192,7 @@ abstract class AppController extends Controller
      * Return theme root folder.
      *
      * @return string
-     * @throws ReflectionException
+     * @throws ReflectionException|ThemeClassNotValidException
      */
     public static function getThemeFolder(): string
     {
@@ -261,7 +261,7 @@ abstract class AppController extends Controller
 
     /**
      * @return string
-     * @throws ReflectionException
+     * @throws ReflectionException|ThemeClassNotValidException
      */
     public static function getPublicFolder(): string
     {
@@ -326,8 +326,6 @@ abstract class AppController extends Controller
                 'ajax' => $this->getRequest()->isXmlHttpRequest(),
                 'devMode' => $kernel->isDebug(),
                 'maintenanceMode' => (bool) $this->getSettingsBag()->get('maintenance_mode'),
-                'universalAnalyticsId' => $this->getSettingsBag()->get('universal_analytics_id'),
-                'googleTagManagerId' => $this->getSettingsBag()->get('google_tag_manager_id'),
                 'baseUrl' => $this->getRequest()->getSchemeAndHttpHost() . $this->getRequest()->getBasePath(),
             ]
         ];
@@ -491,7 +489,7 @@ abstract class AppController extends Controller
         }
 
         if (null === $node) {
-            throw new AccessDeniedException("You don't have access to this page");
+            throw $this->createAccessDeniedException("You don't have access to this page");
         }
 
         $this->em()->refresh($node);
@@ -505,11 +503,11 @@ abstract class AppController extends Controller
         }
 
         if (!$this->isGranted($attributes)) {
-            throw new AccessDeniedException("You don't have access to this page");
+            throw $this->createAccessDeniedException("You don't have access to this page");
         }
 
         if (null !== $user && $chroot !== null && !in_array($chroot, $parents, true)) {
-            throw new AccessDeniedException("You don't have access to this page");
+            throw $this->createAccessDeniedException("You don't have access to this page");
         }
     }
 

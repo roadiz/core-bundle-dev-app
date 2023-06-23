@@ -1,9 +1,12 @@
+phpstan:
+	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 
 test:
 	vendor/bin/requirements-checker
 	vendor/bin/monorepo-builder validate
 	vendor/bin/atoum -d ./lib/Documents/tests
 	vendor/bin/atoum -f ./lib/EntityGenerator/tests/units/*
+	vendor/bin/phpunit -v  lib/Models/tests
 	#php -d "memory_limit=-1" vendor/bin/phpcs --report=full --report-file=./report.txt -p ./src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/DocGenerator/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Documents/src
@@ -21,7 +24,7 @@ test:
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizUserBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizTwoFactorBundle/src
 	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Rozier/src
-	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
+	make phpstan
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates

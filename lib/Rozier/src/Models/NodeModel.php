@@ -45,7 +45,7 @@ final class NodeModel implements ModelInterface
                     'nodeId' => $this->node->getId(),
                 ]),
                 'nodeType' => [
-                    'color' => $this->node->getNodeType()->getColor()
+                    'color' => $this->node->getNodeType()?->getColor() ?? '#000000',
                 ]
             ];
         }
@@ -66,7 +66,7 @@ final class NodeModel implements ModelInterface
                 'translationId' => $translation->getId(),
             ]),
             'nodeType' => [
-                'color' => $this->node->getNodeType()->getColor()
+                'color' => $this->node->getNodeType()?->getColor() ?? '#000000',
             ]
         ];
 
@@ -74,12 +74,16 @@ final class NodeModel implements ModelInterface
 
         if ($parent instanceof Node) {
             $result['parent'] = [
-                'title' => $parent->getNodeSources()->first()->getTitle()
+                'title' => $parent->getNodeSources()->first() ?
+                    $parent->getNodeSources()->first()->getTitle() :
+                    $parent->getNodeName()
             ];
             $subParent = $parent->getParent();
             if ($subParent instanceof Node) {
                 $result['subparent'] = [
-                    'title' => $subParent->getNodeSources()->first()->getTitle()
+                    'title' => $subParent->getNodeSources()->first() ?
+                        $subParent->getNodeSources()->first()->getTitle() :
+                        $subParent->getNodeName()
                 ];
             }
         }

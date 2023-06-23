@@ -36,7 +36,11 @@ abstract class AbstractWidget
      */
     protected function getRequest(): Request
     {
-        return $this->requestStack->getCurrentRequest() ?? $this->requestStack->getMasterRequest();
+        $request = $this->requestStack->getCurrentRequest() ?? $this->requestStack->getMainRequest();
+        if (null === $request) {
+            throw new \RuntimeException('Request cannot be found.');
+        }
+        return $request;
     }
 
     /**

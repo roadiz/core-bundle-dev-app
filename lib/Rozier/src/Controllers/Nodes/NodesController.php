@@ -254,7 +254,7 @@ class NodesController extends RozierApp
                 $msg = $this->getTranslator()->trans('node.%name%.updated', [
                     '%name%' => $node->getNodeName(),
                 ]);
-                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
                 return $this->redirectToRoute(
                     'nodesEditPage',
                     ['nodeId' => $node->getId()]
@@ -312,7 +312,7 @@ class NodesController extends RozierApp
                 '%type%' => $type->getDisplayName(),
             ]
         );
-        $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+        $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
 
         return $this->redirectToRoute('nodesEditPage', ['nodeId' => $node->getId()]);
     }
@@ -374,7 +374,7 @@ class NodesController extends RozierApp
                     'node.%name%.created',
                     ['%name%' => $node->getNodeName()]
                 );
-                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
 
                 return $this->redirectToRoute(
                     'nodesEditSourcePage',
@@ -463,7 +463,7 @@ class NodesController extends RozierApp
                     'child_node.%name%.created',
                     ['%name%' => $node->getNodeName()]
                 );
-                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
 
                 return $this->redirectToRoute(
                     'nodesEditSourcePage',
@@ -544,7 +544,7 @@ class NodesController extends RozierApp
                 'node.%name%.deleted',
                 ['%name%' => $node->getNodeName()]
             );
-            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
 
             if (
                 $request->query->has('referer') &&

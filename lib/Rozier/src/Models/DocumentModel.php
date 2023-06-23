@@ -112,10 +112,10 @@ final class DocumentModel implements ModelInterface
             $editUrl = null;
         }
 
-        $embedFinder = $this->embedFinderFactory->createForPlatform(
+        $embedFinder = $this->embedFinderFactory?->createForPlatform(
             $this->document->getEmbedPlatform(),
             $this->document->getEmbedId()
-        );
+        ) ?? null;
 
         return [
             'id' => $id,
