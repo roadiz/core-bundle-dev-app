@@ -24,6 +24,8 @@ parameters:
         - '#Property ([a-zA-Z\\\:\$]+) type mapping mismatch: property can contain ([a-zA-Z\\\&\>\<]+)Interface\>? but database expects ([a-zA-Z\\\&\>\<]+)#'
         - '#type mapping mismatch: database can contain array\|bool\|float\|int\|JsonSerializable\|stdClass\|string\|null but property expects array\|null#'
         - '#Doctrine\\ORM\\Mapping\\GeneratedValue constructor expects#'
+        - '#type mapping mismatch: property can contain Doctrine\\Common\\Collections\\Collection<int, [^\>]+> but database expects Doctrine\\Common\\Collections\\Collection&iterable<[^\>]+>#'
+        - '#should return Doctrine\\Common\\Collections\\Collection<int, [^\>]+Interface> but returns Doctrine\\Common\\Collections\\Collection<int, [^\>]+>#'
 
     reportUnmatchedIgnoredErrors: false
     checkGenericClassInNonGenericObjectType: false
