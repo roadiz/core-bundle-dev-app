@@ -21,17 +21,25 @@ final class WebResponseDecorator implements OpenApiFactoryInterface
     public function __invoke(array $context = []): OpenApi
     {
         $openApi = ($this->decorated)($context);
-        $schemas = $openApi->getComponents()->getSchemas();
         $pathItem = $openApi->getPaths()->getPath('/api/web_response_by_path');
         $operation = $pathItem->getGet();
 
         $openApi->getPaths()->addPath('/api/web_response_by_path', $pathItem->withGet(
-            $operation->withParameters([new Model\Parameter(
-                'path',
-                'query',
-                'Resource path, or `/` for home page',
-                true,
-            )])
+            $operation->withParameters([
+                // override completely parameters
+                new Model\Parameter(
+                    'path',
+                    'query',
+                    'Resource path, or `/` for home page',
+                    true,
+                ),
+                (new Model\Parameter(
+                    '_preview',
+                    'query',
+                    'Enables preview mode (requires a valid bearer JWT token)',
+                    false
+                ))->withSchema(['type' => 'boolean'])->withExample('1')
+            ])
         ));
 
         return $openApi;

@@ -119,6 +119,12 @@ services:
         public: true
 
 
+    RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator:
+        decorates: 'api_platform.openapi.factory'
+        decoration_priority: 100
+        arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator.inner' ]
+        autoconfigure: false
+
     RZ\Roadiz\CoreBundle\Api\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
         arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\JwtDecorator.inner' ]
