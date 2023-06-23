@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
@@ -76,14 +77,6 @@ abstract class EntityRepository extends ServiceEntityRepository
     public const NODETYPE_ALIAS = 'nt';
 
     /**
-     * Doctrine column types that can be search
-     * with LIKE feature.
-     *
-     * @var array
-     */
-    protected array $searchableTypes = ['string', 'text'];
-
-    /**
      * @param QueryBuilder $qb
      * @param class-string $entityClass
      */
@@ -97,7 +90,7 @@ abstract class EntityRepository extends ServiceEntityRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderBuildEvent
+     * @return QueryBuilderBuildEvent
      */
     protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
@@ -113,7 +106,7 @@ abstract class EntityRepository extends ServiceEntityRepository
     /**
      * @param Query $query
      *
-     * @return object|QueryEvent
+     * @return QueryEvent
      */
     protected function dispatchQueryEvent(Query $query): object
     {
@@ -128,7 +121,7 @@ abstract class EntityRepository extends ServiceEntityRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderApplyEvent
+     * @return QueryBuilderApplyEvent
      */
     protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
@@ -235,6 +228,40 @@ abstract class EntityRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param ClassMetadataInfo $metadata
+     * @return array
+     */
+    public static function getSearchableColumnsNames(ClassMetadataInfo $metadata): array
+    {
+        /*
+         * Get fields needed for a search query
+         */
+        $criteriaFields = [];
+        $cols = $metadata->getColumnNames();
+        foreach ($cols as $col) {
+            $field = $metadata->getFieldName($col);
+            $type = $metadata->getTypeOfField($field);
+            if (
+                in_array($type, ['string', 'text']) &&
+                !in_array($field, [
+                    'color',
+                    'folder',
+                    'childrenOrder',
+                    'childrenOrderDirection',
+                    'password',
+                    'salt',
+                    'token',
+                    'confirmationToken'
+                ])
+            ) {
+                $criteriaFields[] = $field;
+            }
+        }
+
+        return $criteriaFields;
+    }
+
+    /**
      * Create a LIKE comparison with entity texts colunms.
      *
      * @param string $pattern
@@ -247,23 +274,9 @@ abstract class EntityRepository extends ServiceEntityRepository
         QueryBuilder $qb,
         string $alias = EntityRepository::DEFAULT_ALIAS
     ): QueryBuilder {
-        /*
-         * Get fields needed for a search query
-         */
-        $metadata = $this->_em->getClassMetadata($this->getEntityName());
         $criteriaFields = [];
-        $cols = $metadata->getColumnNames();
-        foreach ($cols as $col) {
-            $field = $metadata->getFieldName($col);
-            $type = $metadata->getTypeOfField($field);
-            if (
-                in_array($type, $this->searchableTypes) &&
-                $field != 'folder' &&
-                $field != 'childrenOrder' &&
-                $field != 'childrenOrderDirection'
-            ) {
-                $criteriaFields[$field] = '%' . strip_tags((string) $pattern) . '%';
-            }
+        foreach (static::getSearchableColumnsNames($this->getClassMetadata()) as $field) {
+            $criteriaFields[$field] = '%' . strip_tags(mb_strtolower($pattern)) . '%';
         }
 
         foreach ($criteriaFields as $key => $value) {

@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
+use RZ\Roadiz\CoreBundle\Entity\FolderTranslation;
 
 /**
  * Class PrefixAwareRepository for defining join-queries prefixes.
@@ -314,20 +315,9 @@ abstract class PrefixAwareRepository extends EntityRepository
         /*
          * Get fields needed for a search query
          */
-        $metadatas = $this->_em->getClassMetadata($this->getEntityName());
         $criteriaFields = [];
-        $cols = $metadatas->getColumnNames();
-        foreach ($cols as $col) {
-            $field = $metadatas->getFieldName($col);
-            $type = $metadatas->getTypeOfField($field);
-            if (
-                in_array($type, $this->searchableTypes) &&
-                $field != 'folder' &&
-                $field != 'childrenOrder' &&
-                $field != 'childrenOrderDirection'
-            ) {
-                $criteriaFields[$field] = '%' . strip_tags((string) $pattern) . '%';
-            }
+        foreach (static::getSearchableColumnsNames($this->getClassMetadata()) as $field) {
+            $criteriaFields[$field] = '%' . strip_tags(mb_strtolower($pattern)) . '%';
         }
 
         foreach ($criteriaFields as $key => $value) {
