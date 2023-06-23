@@ -124,6 +124,11 @@ services:
         arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\JwtDecorator.inner' ]
         autoconfigure: false
 
+    RZ\Roadiz\CoreBundle\Api\OpenApi\WebResponseDecorator:
+        decorates: 'api_platform.openapi.factory'
+        arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\WebResponseDecorator.inner' ]
+        autoconfigure: false
+
     #
     # API Platform normalizers
     #
