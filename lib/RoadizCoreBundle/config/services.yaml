@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.1.18'
+    roadiz_core.cms_version: '2.1.19'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -122,6 +122,11 @@ services:
     RZ\Roadiz\CoreBundle\Api\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
         arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\JwtDecorator.inner' ]
+        autoconfigure: false
+
+    RZ\Roadiz\CoreBundle\Api\OpenApi\WebResponseDecorator:
+        decorates: 'api_platform.openapi.factory'
+        arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\WebResponseDecorator.inner' ]
         autoconfigure: false
 
     #
