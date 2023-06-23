@@ -1,3 +1,15 @@
+## [v2.1.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.19...v2.1.20) (2023-06-23)
+
+
+### Features
+
+* **Preview:** Added OpenAPI decorator to document `_preview` query param and JWT security ([449c9f9](https://github.com/roadiz/core-bundle-dev-app/commit/449c9f9fcdb2114e6c13804be696d558ac7efc49))
+
+
+### Bug Fixes
+
+* **Preview:** Check strict `_preview` param value (allowing `0`, `false` values to disable preview mode) ([70b60c9](https://github.com/roadiz/core-bundle-dev-app/commit/70b60c972ed13fa1819ef3611521e9a2f6fbf459))
+
 ## [v2.1.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.18...v2.1.19) (2023-06-23)
 
 
