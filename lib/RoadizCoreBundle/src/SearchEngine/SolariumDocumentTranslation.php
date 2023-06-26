@@ -46,8 +46,9 @@ class SolariumDocumentTranslation extends AbstractSolarium
     public function getFieldsAssoc(bool $subResource = false): array
     {
         $event = new DocumentTranslationIndexingEvent($this->documentTranslation, [], $this);
-
-        return $this->dispatcher->dispatch($event)->getAssociations();
+        /** @var DocumentTranslationIndexingEvent $event */
+        $event = $this->dispatcher->dispatch($event);
+        return $event->getAssociations();
     }
 
     /**

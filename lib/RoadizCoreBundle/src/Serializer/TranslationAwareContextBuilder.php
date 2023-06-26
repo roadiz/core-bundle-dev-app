@@ -37,15 +37,16 @@ final class TranslationAwareContextBuilder implements SerializerContextBuilderIn
             /** @var TranslationRepository $repository */
             $repository = $this->managerRegistry
                 ->getRepository(TranslationInterface::class);
+            $locale = $request->query->get('_locale', $request->getLocale());
+
+            if (!\is_string($locale)) {
+                return $context;
+            }
 
             if ($this->previewResolver->isPreview()) {
-                $translation = $repository->findOneByLocaleOrOverrideLocale(
-                    $request->query->get('_locale', $request->getLocale())
-                );
+                $translation = $repository->findOneByLocaleOrOverrideLocale($locale);
             } else {
-                $translation = $repository->findOneAvailableByLocaleOrOverrideLocale(
-                    $request->query->get('_locale', $request->getLocale())
-                );
+                $translation = $repository->findOneAvailableByLocaleOrOverrideLocale($locale);
             }
 
             if ($translation instanceof TranslationInterface) {

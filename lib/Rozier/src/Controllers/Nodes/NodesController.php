@@ -546,11 +546,12 @@ class NodesController extends RozierApp
             );
             $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
 
+            $referrer = $request->query->get('referer');
             if (
-                $request->query->has('referer') &&
-                (new UnicodeString($request->query->get('referer')))->startsWith('/')
+                \is_string($referrer) &&
+                (new UnicodeString($referrer))->trim()->startsWith('/')
             ) {
-                return $this->redirect($request->query->get('referer'));
+                return $this->redirect($referrer);
             }
             if (null !== $parent) {
                 return $this->redirectToRoute(
@@ -752,7 +753,9 @@ class NodesController extends RozierApp
 
             return $this->redirectToRoute('nodesEditSourcePage', [
                 'nodeId' => $nodeId,
-                'translationId' => $node->getNodeSources()->first()->getTranslation()->getId(),
+                'translationId' => $node->getNodeSources()->first() ?
+                    $node->getNodeSources()->first()->getTranslation()->getId() :
+                    null,
             ]);
         }
 

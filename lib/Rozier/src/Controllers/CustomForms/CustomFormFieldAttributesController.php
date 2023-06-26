@@ -42,18 +42,18 @@ class CustomFormFieldAttributesController extends RozierApp
     }
 
     /**
-     * @param Collection|array $answers
+     * @param iterable $answers
      * @return array
      */
-    protected function getAnswersByGroups($answers)
+    protected function getAnswersByGroups(iterable $answers): array
     {
         $fieldsArray = [];
 
         /** @var CustomFormFieldAttribute $answer */
         foreach ($answers as $answer) {
             $groupName = $answer->getCustomFormField()->getGroupName();
-            if ($groupName != '') {
-                if (!isset($fieldsArray[$groupName])) {
+            if (\is_string($groupName) && $groupName !== '') {
+                if (!isset($fieldsArray[$groupName]) || !\is_array($fieldsArray[$groupName])) {
                     $fieldsArray[$groupName] = [];
                 }
                 $fieldsArray[$groupName][] = $answer;

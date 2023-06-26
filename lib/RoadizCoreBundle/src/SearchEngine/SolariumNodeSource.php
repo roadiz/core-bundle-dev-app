@@ -51,8 +51,9 @@ class SolariumNodeSource extends AbstractSolarium
     public function getFieldsAssoc(bool $subResource = false): array
     {
         $event = new NodesSourcesIndexingEvent($this->nodeSource, [], $this);
-
-        return $this->dispatcher->dispatch($event)->getAssociations();
+        /** @var NodesSourcesIndexingEvent $event */
+        $event = $this->dispatcher->dispatch($event);
+        return $event->getAssociations();
     }
 
     /**

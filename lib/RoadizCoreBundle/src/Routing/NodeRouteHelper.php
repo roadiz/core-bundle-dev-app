@@ -19,11 +19,11 @@ final class NodeRouteHelper
     private LoggerInterface $logger;
     private string $defaultControllerNamespace;
     /**
-     * @var class-string
+     * @var class-string<AbstractController>
      */
     private string $defaultControllerClass;
     /**
-     * @var class-string|null
+     * @var class-string<AbstractController>|null
      */
     private ?string $controller = null;
 
@@ -54,24 +54,35 @@ final class NodeRouteHelper
     /**
      * Get controller class path for a given node.
      *
-     * @return string
+     * @return class-string<AbstractController>|null
      */
-    public function getController(): string
+    public function getController(): ?string
     {
         if (null === $this->controller) {
-            $namespace = $this->getControllerNamespace();
-            $this->controller = $namespace . '\\' .
+            if (!$this->node->getNodeType()->isReachable()) {
+                return null;
+            }
+            $controllerClassName = $this->getControllerNamespace() . '\\' .
                 StringHandler::classify($this->node->getNodeType()->getName()) .
                 'Controller';
 
-            /*
-             * Use a default controller if no controller was found in Theme.
-             */
-            if (!class_exists($this->controller) && $this->node->getNodeType()->isReachable()) {
+            if (\class_exists($controllerClassName)) {
+                $reflection = new \ReflectionClass($controllerClassName);
+                if (!$reflection->isSubclassOf(AbstractController::class)) {
+                    throw new \InvalidArgumentException(
+                        'Controller class ' . $controllerClassName . ' must extends ' . AbstractController::class
+                    );
+                }
+                // @phpstan-ignore-next-line
+                $this->controller = $controllerClassName;
+            } else {
+                /*
+                 * Use a default controller if no controller was found in Theme.
+                 */
                 $this->controller = $this->defaultControllerClass;
             }
         }
-
+        // @phpstan-ignore-next-line
         return $this->controller;
     }
 
@@ -79,8 +90,8 @@ final class NodeRouteHelper
     {
         $namespace = $this->defaultControllerNamespace;
         if (null !== $this->theme) {
-            $refl = new \ReflectionClass($this->theme->getClassName());
-            $namespace = $refl->getNamespaceName() . '\\Controllers';
+            $reflection = new \ReflectionClass($this->theme->getClassName());
+            $namespace = $reflection->getNamespaceName() . '\\Controllers';
         }
         return $namespace;
     }

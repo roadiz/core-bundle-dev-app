@@ -147,9 +147,10 @@ class NodesSourcesRepository extends StatusAwareRepository
             if ($key == "tags" || $key == "tagExclusive") {
                 continue;
             }
-            /*
+            /**
              * Main QueryBuilder dispatch loop for
              * custom properties criteria.
+             * @var QueryBuilderNodesSourcesBuildEvent $event
              */
             $event = $this->dispatchQueryBuilderBuildEvent($qb, $key, $value);
 

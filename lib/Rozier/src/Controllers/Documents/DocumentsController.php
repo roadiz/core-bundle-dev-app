@@ -692,6 +692,7 @@ class DocumentsController extends RozierApp
                 /** @var Form $child */
                 foreach ($form as $child) {
                     if ($child->isSubmitted() && !$child->isValid()) {
+                        /** @var FormError $error */
                         foreach ($child->getErrors() as $error) {
                             $errorPerForm[$child->getName()][] = $this->getTranslator()->trans($error->getMessage());
                         }

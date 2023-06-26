@@ -246,6 +246,9 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
          * @see https://lucene.apache.org/solr/guide/6_6/the-standard-query-parser.html#TheStandardQueryParser-FuzzySearches
          */
         $words = preg_split('#[\s,]+#', $q, -1, PREG_SPLIT_NO_EMPTY);
+        if (false === $words) {
+            throw new \RuntimeException('Cannot split query string.');
+        }
         $fuzzyiedQuery = implode(' ', array_map(function (string $word) use ($proximity) {
             /*
              * Do not fuzz short words: Solr crashes

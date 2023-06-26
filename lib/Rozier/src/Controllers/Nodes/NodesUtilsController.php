@@ -61,7 +61,7 @@ class NodesUtilsController extends RozierApp
                 '%name%' => $existingNode->getNodeName(),
             ]);
 
-            $this->publishConfirmMessage($request, $msg, $newNode->getNodeSources()->first());
+            $this->publishConfirmMessage($request, $msg, $newNode->getNodeSources()->first() ?: null);
 
             return $this->redirectToRoute(
                 'nodesEditPage',

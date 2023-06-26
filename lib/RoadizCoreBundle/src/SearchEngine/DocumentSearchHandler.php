@@ -57,9 +57,11 @@ class DocumentSearchHandler extends AbstractSearchHandler
             'params' => $query->getParams(),
         ]);
 
-        $query = $this->eventDispatcher->dispatch(
+        /** @var DocumentSearchQueryEvent $event */
+        $event = $this->eventDispatcher->dispatch(
             new DocumentSearchQueryEvent($query, $args)
-        )->getQuery();
+        );
+        $query = $event->getQuery();
 
         $solrRequest = $this->getSolr()->execute($query);
         return $solrRequest->getData();

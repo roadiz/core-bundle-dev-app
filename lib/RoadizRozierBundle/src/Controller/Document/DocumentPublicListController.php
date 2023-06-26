@@ -84,20 +84,17 @@ class DocumentPublicListController extends RozierApp
             $this->assignation['folder'] = $folder;
         }
 
-        if (
-            $request->query->has('type') &&
-            $request->query->get('type', '') !== ''
-        ) {
-            $prefilters['mimeType'] = trim($request->query->get('type', ''));
-            $this->assignation['mimeType'] = trim($request->query->get('type', ''));
+        $type = $request->query->get('type');
+        $embedPlatform = $request->query->get('embedPlatform');
+
+        if (\is_string($type) && $type !== '') {
+            $prefilters['mimeType'] = trim($type);
+            $this->assignation['mimeType'] = trim($type);
         }
 
-        if (
-            $request->query->has('embedPlatform') &&
-            $request->query->get('embedPlatform', '') !== ''
-        ) {
-            $prefilters['embedPlatform'] = trim($request->query->get('embedPlatform', ''));
-            $this->assignation['embedPlatform'] = trim($request->query->get('embedPlatform', ''));
+        if (\is_string($embedPlatform) && $embedPlatform !== '') {
+            $prefilters['embedPlatform'] = trim($embedPlatform);
+            $this->assignation['embedPlatform'] = trim($embedPlatform);
         }
 
         /*

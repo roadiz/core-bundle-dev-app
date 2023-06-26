@@ -28,7 +28,7 @@ abstract class AbstractSolrMessage implements AsyncMessage
     }
 
     /**
-     * @return string
+     * @return class-string
      */
     public function getClassname(): string
     {

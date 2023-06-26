@@ -6,10 +6,7 @@ namespace RZ\Roadiz\TwoFactorBundle\Security\Provider;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\User;
-use RZ\Roadiz\Random\RandomGenerator;
-use RZ\Roadiz\Random\TokenGenerator;
 use RZ\Roadiz\TwoFactorBundle\Entity\TwoFactorUser;
-use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 
 final class TwoFactorUserProvider implements TwoFactorUserProviderInterface
