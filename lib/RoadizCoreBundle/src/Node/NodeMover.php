@@ -203,6 +203,7 @@ class NodeMover
                 $this->getManager()->remove($loopingRedirection);
             }
 
+            /** @var Redirection|null $existingRedirection */
             $existingRedirection = $redirectionRepo->findOneBy([
                 'query' => $previousPath,
             ]);

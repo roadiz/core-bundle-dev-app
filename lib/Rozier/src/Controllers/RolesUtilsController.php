@@ -90,6 +90,9 @@ class RolesUtilsController extends RozierApp
 
             if ($file->isValid()) {
                 $serializedData = file_get_contents($file->getPathname());
+                if (false === $serializedData) {
+                    throw new RuntimeError('Cannot read uploaded file.');
+                }
 
                 if (null !== \json_decode($serializedData)) {
                     if ($this->rolesImporter->import($serializedData)) {

@@ -169,8 +169,6 @@ final class Aliases
             \RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaValidator::class => \RZ\Roadiz\CMS\Forms\Constraints\RecaptchaValidator::class,
             \RZ\Roadiz\CoreBundle\Form\Constraint\SimpleLatinString::class => \RZ\Roadiz\CMS\Forms\Constraints\SimpleLatinString::class,
             \RZ\Roadiz\CoreBundle\Form\Constraint\SimpleLatinStringValidator::class => \RZ\Roadiz\CMS\Forms\Constraints\SimpleLatinStringValidator::class,
-            \RZ\Roadiz\CoreBundle\Form\Constraint\UniqueEntity::class => \RZ\Roadiz\CMS\Forms\Constraints\UniqueEntity::class,
-            \RZ\Roadiz\CoreBundle\Form\Constraint\UniqueEntityValidator::class => \RZ\Roadiz\CMS\Forms\Constraints\UniqueEntityValidator::class,
             \RZ\Roadiz\CoreBundle\Form\Constraint\UniqueFilename::class => \RZ\Roadiz\CMS\Forms\Constraints\UniqueFilename::class,
             \RZ\Roadiz\CoreBundle\Form\Constraint\UniqueFilenameValidator::class => \RZ\Roadiz\CMS\Forms\Constraints\UniqueFilenameValidator::class,
             \RZ\Roadiz\CoreBundle\Form\Constraint\UniqueNodeName::class => \RZ\Roadiz\CMS\Forms\Constraints\UniqueNodeName::class,

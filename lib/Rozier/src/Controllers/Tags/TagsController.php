@@ -482,7 +482,11 @@ class TagsController extends RozierApp
                 $this->em()->remove($tag);
                 $this->em()->flush();
 
-                $msg = $this->getTranslator()->trans('tag.%name%.deleted', ['%name%' => $tag->getTranslatedTags()->first()->getName()]);
+                $msg = $this->getTranslator()->trans('tag.%name%.deleted', [
+                    '%name%' => $tag->getTranslatedTags()->first() ?
+                        $tag->getTranslatedTags()->first()->getName() :
+                        $tag->getTagName(),
+                ]);
                 $this->publishConfirmMessage($request, $msg);
 
                 /*

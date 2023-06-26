@@ -669,7 +669,7 @@ class NodesController extends RozierApp
                 'node.%name%.undeleted',
                 ['%name%' => $node->getNodeName()]
             );
-            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
             /*
              * Force redirect to avoid resending form when refreshing page
              */

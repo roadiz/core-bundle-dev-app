@@ -306,14 +306,14 @@ class AjaxNodesController extends AbstractAjaxController
                         '%name%' => $node->getNodeName(),
                         '%visible%' => $node->isVisible() ? $this->getTranslator()->trans('visible') : $this->getTranslator()->trans('invisible'),
                     ]);
-                    $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+                    $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
                     $this->dispatchEvent(new NodeVisibilityChangedEvent($node));
                 } else {
                     $msg = $this->getTranslator()->trans('node.%name%.%field%.updated', [
                         '%name%' => $node->getNodeName(),
                         '%field%' => $request->get('statusName'),
                     ]);
-                    $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+                    $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
                 }
                 $this->dispatchEvent(new NodeUpdatedEvent($node));
                 $this->em()->flush();

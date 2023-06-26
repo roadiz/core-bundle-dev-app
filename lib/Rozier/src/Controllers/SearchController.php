@@ -383,8 +383,10 @@ class SearchController extends RozierApp
                     || (is_array($value) && isset($value["compareDate"]))
                     || (is_array($value) && $value != [] && !isset($value["compareOp"]))
                 ) {
-                    if (strstr($key, "__node__") == 0) {
-                        $data[str_replace("__node__", "node.", $key)] = $value;
+                    if (\is_string($key) & str_contains($key, "__node__")) {
+                        /** @var string $newKey */
+                        $newKey = str_replace("__node__", "node.", $key);
+                        $data[$newKey] = $value;
                     } else {
                         $data[$key] = $value;
                     }

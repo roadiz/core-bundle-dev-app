@@ -51,12 +51,18 @@ final class DocumentPdfMessageHandler extends AbstractLockingDocumentMessageHand
          * This process requires document files to be locally stored!
          */
         $pdfPath = \tempnam(\sys_get_temp_dir(), 'pdf_');
+        if (false === $pdfPath) {
+            throw new UnrecoverableMessageHandlingException('Cannot create temporary file for PDF thumbnail.');
+        }
         \rename($pdfPath, $pdfPath .= $document->getFilename());
 
         /*
         * Copy AV locally
         */
         $pdfPathResource = \fopen($pdfPath, 'w');
+        if (false === $pdfPathResource) {
+            throw new UnrecoverableMessageHandlingException('Cannot open temporary file for PDF thumbnail.');
+        }
         \stream_copy_to_stream($this->documentsStorage->readStream($document->getMountPath()), $pdfPathResource);
         \fclose($pdfPathResource);
 
@@ -75,6 +81,9 @@ final class DocumentPdfMessageHandler extends AbstractLockingDocumentMessageHand
         }
 
         $thumbnailPath = \tempnam(\sys_get_temp_dir(), 'thumbnail_');
+        if (false === $thumbnailPath) {
+            throw new UnrecoverableMessageHandlingException('Cannot create temporary file for PDF thumbnail.');
+        }
         \rename($thumbnailPath, $thumbnailPath .= $document->getFilename() . '.jpg');
 
         try {

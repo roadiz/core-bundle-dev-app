@@ -114,17 +114,18 @@ class RozierApp extends AppController
          */
         $this->assignation['themeServices'] = $this->get(RozierServiceRegistry::class);
 
+        /** @var CsrfTokenManagerInterface $tokenManager */
+        $tokenManager = $this->get('csrfTokenManager');
         /*
          * Switch this to true to use uncompressed JS and CSS files
          */
         $this->assignation['head']['backDevMode'] = false;
-        //Settings
         $this->assignation['head']['siteTitle'] = $this->getSettingsBag()->get('site_name') . ' backstage';
         $this->assignation['head']['mapsLocation'] = $this->getSettingsBag()->get('maps_default_location') ? $this->getSettingsBag()->get('maps_default_location') : null;
         $this->assignation['head']['mainColor'] = $this->getSettingsBag()->get('main_color');
         $this->assignation['head']['googleClientId'] = $this->getSettingsBag()->get('google_client_id', "");
         $this->assignation['head']['themeName'] = static::$themeName;
-        $this->assignation['head']['ajaxToken'] = $this->get('csrfTokenManager')->getToken(static::AJAX_TOKEN_INTENTION);
+        $this->assignation['head']['ajaxToken'] = $tokenManager->getToken(static::AJAX_TOKEN_INTENTION);
         $this->assignation['rozier_user_actions'] = $this->dispatchEvent(new UserActionsMenuEvent())->getActions();
 
         $this->assignation['nodeStatuses'] = [
@@ -159,8 +160,10 @@ class RozierApp extends AppController
      */
     public function cssAction(Request $request): Response
     {
+        /** @var NodeTypes $nodeTypesBag */
+        $nodeTypesBag = $this->get('nodeTypesBag');
         $this->assignation['mainColor'] = $this->getSettingsBag()->get('main_color');
-        $this->assignation['nodeTypes'] = $this->get('nodeTypesBag')->all();
+        $this->assignation['nodeTypes'] = $nodeTypesBag->all();
 
         $folderQb = $this->em()->getRepository(Folder::class)->createQueryBuilder('f');
         $this->assignation['folders'] = $folderQb->andWhere($folderQb->expr()->neq('f.color', ':defaultColor'))

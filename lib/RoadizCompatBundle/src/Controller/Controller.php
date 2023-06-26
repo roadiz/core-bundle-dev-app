@@ -191,8 +191,9 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @param object $event
-     * @return object The passed $event MUST be returned
+     * @template T of object
+     * @param T $event
+     * @return T The passed $event MUST be returned
      */
     protected function dispatchEvent($event)
     {

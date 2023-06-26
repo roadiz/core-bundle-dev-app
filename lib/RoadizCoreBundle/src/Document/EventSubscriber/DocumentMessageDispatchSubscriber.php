@@ -49,18 +49,19 @@ final class DocumentMessageDispatchSubscriber implements EventSubscriberInterfac
         $document = $event->getDocument();
         if (
             $document instanceof Document &&
-            null !== $document->getId() &&
+            \is_numeric($document->getId()) &&
             $document->isLocal() &&
             null !== $document->getRelativePath()
         ) {
-            $this->bus->dispatch(new Envelope(new DocumentRawMessage($document->getId())));
-            $this->bus->dispatch(new Envelope(new DocumentFilesizeMessage($document->getId())));
-            $this->bus->dispatch(new Envelope(new DocumentSizeMessage($document->getId())));
-            $this->bus->dispatch(new Envelope(new DocumentAverageColorMessage($document->getId())));
-            $this->bus->dispatch(new Envelope(new DocumentExifMessage($document->getId())));
-            $this->bus->dispatch(new Envelope(new DocumentSvgMessage($document->getId())));
-            $this->bus->dispatch(new Envelope(new DocumentAudioVideoMessage($document->getId())));
-            $this->bus->dispatch(new Envelope(new DocumentPdfMessage($document->getId())));
+            $id = (int) $document->getId();
+            $this->bus->dispatch(new Envelope(new DocumentRawMessage($id)));
+            $this->bus->dispatch(new Envelope(new DocumentFilesizeMessage($id)));
+            $this->bus->dispatch(new Envelope(new DocumentSizeMessage($id)));
+            $this->bus->dispatch(new Envelope(new DocumentAverageColorMessage($id)));
+            $this->bus->dispatch(new Envelope(new DocumentExifMessage($id)));
+            $this->bus->dispatch(new Envelope(new DocumentSvgMessage($id)));
+            $this->bus->dispatch(new Envelope(new DocumentAudioVideoMessage($id)));
+            $this->bus->dispatch(new Envelope(new DocumentPdfMessage($id)));
         }
     }
 }

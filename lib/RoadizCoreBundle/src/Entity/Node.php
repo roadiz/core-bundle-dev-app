@@ -931,11 +931,19 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[SymfonySerializer\Ignore]
     public function getOneLineSourceSummary(): string
     {
-        $text = "Source " . $this->getNodeSources()->first()->getId() . PHP_EOL;
+        $text = "Source " .
+            (
+                $this->getNodeSources()->first() ?
+                $this->getNodeSources()->first()->getId() :
+                ''
+            ) .
+            PHP_EOL;
 
         foreach ($this->getNodeType()->getFields() as $field) {
             $getterName = $field->getGetterName();
-            $text .= '[' . $field->getLabel() . ']: ' . $this->getNodeSources()->first()->$getterName() . PHP_EOL;
+            $text .= '[' . $field->getLabel() . ']: ' .
+                ($this->getNodeSources()->first() ? $this->getNodeSources()->first()->$getterName() : '') .
+                PHP_EOL;
         }
 
         return $text;
