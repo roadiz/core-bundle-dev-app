@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use RZ\Roadiz\CompatBundle\Controller\AppController;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 
 /**
@@ -88,19 +87,16 @@ class Theme extends AbstractEntity
         $class = $this->getClassName();
 
         if (class_exists($class)) {
-            $reflector = new \ReflectionClass($class);
-            if ($reflector->isSubclassOf(AppController::class)) {
-                $nameCallable = [$class, 'getThemeName'];
-                $authorCallable = [$class, 'getThemeAuthor'];
-                $copyrightCallable = [$class, 'getThemeCopyright'];
-                $dirCallable = [$class, 'getThemeDir'];
-                return [
-                    'name' => \is_callable($nameCallable) ? call_user_func($nameCallable) : null,
-                    'author' => \is_callable($authorCallable) ? call_user_func($authorCallable) : null,
-                    'copyright' => \is_callable($copyrightCallable) ? call_user_func($copyrightCallable) : null,
-                    'dir' => \is_callable($dirCallable) ? call_user_func($dirCallable) : null,
-                ];
-            }
+            $nameCallable = [$class, 'getThemeName'];
+            $authorCallable = [$class, 'getThemeAuthor'];
+            $copyrightCallable = [$class, 'getThemeCopyright'];
+            $dirCallable = [$class, 'getThemeDir'];
+            return [
+                'name' => \is_callable($nameCallable) ? call_user_func($nameCallable) : null,
+                'author' => \is_callable($authorCallable) ? call_user_func($authorCallable) : null,
+                'copyright' => \is_callable($copyrightCallable) ? call_user_func($copyrightCallable) : null,
+                'dir' => \is_callable($dirCallable) ? call_user_func($dirCallable) : null,
+            ];
         }
 
         return [];
