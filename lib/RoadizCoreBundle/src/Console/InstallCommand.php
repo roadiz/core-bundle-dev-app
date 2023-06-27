@@ -72,7 +72,7 @@ class InstallCommand extends Command
             $fixturesRoot = dirname(__DIR__) . '/../config';
             $fixtureFile = file_get_contents($fixturesRoot . "/fixtures.yaml");
 
-            if (false === $fixtureFile)  {
+            if (false === $fixtureFile) {
                 $io->error('No fixtures.yaml file found in ' . $fixturesRoot);
                 return 1;
             }

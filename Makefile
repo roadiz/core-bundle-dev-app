@@ -7,23 +7,7 @@ test:
 	vendor/bin/atoum -d ./lib/Documents/tests
 	vendor/bin/atoum -f ./lib/EntityGenerator/tests/units/*
 	vendor/bin/phpunit -v  lib/Models/tests
-	#php -d "memory_limit=-1" vendor/bin/phpcs --report=full --report-file=./report.txt -p ./src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/DocGenerator/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Documents/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/DtsGenerator/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/EntityGenerator/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Jwt/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Markdown/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Models/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/OpenId/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Random/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizCompatBundle/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizCoreBundle/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizFontBundle/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizRozierBundle/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizUserBundle/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizTwoFactorBundle/src
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Rozier/src
+	php -d "memory_limit=-1" vendor/bin/phpcs -p
 	make phpstan
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
@@ -32,6 +16,9 @@ test:
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
+
+fix:
+	php -d "memory_limit=-1" vendor/bin/phpcbf -p
 
 requirements:
 	vendor/bin/requirements-checker

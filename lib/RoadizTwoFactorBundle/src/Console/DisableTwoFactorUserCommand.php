@@ -59,5 +59,4 @@ final class DisableTwoFactorUserCommand extends UsersCommand
 
         return 0;
     }
-
 }

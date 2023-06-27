@@ -146,7 +146,7 @@ class DocumentsController extends RozierApp
             $this->assignation['mimeType'] = trim($type);
         }
 
-        $embedPlatform = $request->query->get('embedPlatform',  null);
+        $embedPlatform = $request->query->get('embedPlatform', null);
         if (\is_string($embedPlatform) && trim($embedPlatform) !== '') {
             $prefilters['embedPlatform'] = trim($embedPlatform);
             $this->assignation['embedPlatform'] = trim($embedPlatform);
