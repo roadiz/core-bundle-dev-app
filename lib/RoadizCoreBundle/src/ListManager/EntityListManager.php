@@ -119,57 +119,33 @@ class EntityListManager extends AbstractEntityListManager
             unset($this->filteringArray["chroot"]); // remove placeholder
         }
 
-        if (false === $disabled && null !== $this->request) {
-            if (
-                $this->allowRequestSorting &&
-                $this->request->query->get('field') &&
-                $this->request->query->get('ordering')
-            ) {
-                $this->orderingArray = [
-                    $this->request->query->get('field') => $this->request->query->get('ordering')
-                ];
-                $this->queryArray['field'] = $this->request->query->get('field');
-                $this->queryArray['ordering'] = $this->request->query->get('ordering');
-            }
-
-            if ($this->allowRequestSearching && $this->request->query->get('search') != "") {
-                $this->searchPattern = $this->request->query->get('search');
-                $this->queryArray['search'] = $this->request->query->get('search');
-            }
-
-            if (
-                $this->request->query->has('item_per_page') &&
-                $this->request->query->get('item_per_page') > 0
-            ) {
-                $this->setItemPerPage((int) $this->request->query->get('item_per_page'));
-            }
-
-            if (
-                $this->request->query->has('page') &&
-                $this->request->query->get('page') > 1
-            ) {
-                $this->setPage((int) $this->request->query->get('page'));
-            } else {
-                $this->setPage(1);
-            }
-        } else {
-            /*
-             * Disable pagination and paginator
-             */
-            $this->disablePagination();
-        }
-
+        $this->handleRequestQuery($disabled);
         $this->createPaginator();
 
         if (
             $this->allowRequestSearching &&
             false === $disabled &&
-            null !== $this->request &&
-            $this->request->query->get('search') != ""
+            null !== $this->request
         ) {
-            $this->paginator->setSearchPattern($this->request->query->get('search'));
+            $search = $this->request->query->get('search');
+            if (\is_string($search) && $search !== "") {
+                $this->paginator->setSearchPattern($search);
+            }
         }
     }
+
+    protected function handleSearchParam(string $search): void
+    {
+        $this->searchPattern = $search;
+    }
+
+    protected function handleOrderingParam(string $field, string $ordering): void
+    {
+        $this->orderingArray = [
+            $field => $ordering
+        ];
+    }
+
 
     protected function createPaginator(): void
     {

@@ -213,4 +213,70 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     {
         return (int) ceil($this->getItemCount() / $this->getItemPerPage());
     }
+
+    protected function handleRequestQuery(bool $disabled): void
+    {
+        if ($disabled || null === $this->request) {
+            /*
+             * Disable pagination and paginator
+             */
+            $this->disablePagination();
+            return;
+        }
+
+        $field = $this->request->query->get('field');
+        $ordering = $this->request->query->get('ordering');
+        $search = $this->request->query->get('search');
+        $itemPerPage = $this->request->query->get('item_per_page') ??
+            $this->request->query->get('itemPerPage') ??
+            $this->request->query->get('itemsPerPage');
+        $page = $this->request->query->get('page');
+
+        if (
+            $this->allowRequestSorting &&
+            \is_string($field) &&
+            $field !== "" &&
+            \is_string($ordering) &&
+            \in_array(strtolower($ordering), ['asc', 'desc'])
+        ) {
+            $this->handleOrderingParam($field, $ordering);
+            $this->queryArray['field'] = $field;
+            $this->queryArray['ordering'] = $ordering;
+        }
+
+        if (
+            $this->allowRequestSearching &&
+            \is_string($search) &&
+            $search !== ""
+        ) {
+            $this->handleSearchParam($search);
+            $this->queryArray['search'] = $search;
+        }
+
+        if (
+            \is_numeric($itemPerPage) &&
+            ((int) $itemPerPage) > 0
+        ) {
+            $this->setItemPerPage((int) $itemPerPage);
+        }
+
+        if (
+            \is_numeric($page) &&
+            ((int) $page) > 1
+        ) {
+            $this->setPage((int) $page);
+        } else {
+            $this->setPage(1);
+        }
+    }
+
+    protected function handleSearchParam(string $search): void
+    {
+        // Do nothing on abstract
+    }
+
+    protected function handleOrderingParam(string $field, string $ordering): void
+    {
+        // Do nothing on abstract
+    }
 }
