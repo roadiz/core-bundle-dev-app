@@ -59,8 +59,10 @@ final class TreeWalkerGenerator
                 ->camel()
                 ->toString();
 
+            /** @var callable $callable */
+            $callable = [$walkerClass, 'build'];
             $walkers[$walkerName] = call_user_func(
-                [$walkerClass, 'build'],
+                $callable,
                 $root,
                 $this->walkerContext,
                 $maxLevel,

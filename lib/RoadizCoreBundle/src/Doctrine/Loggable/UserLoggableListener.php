@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Doctrine\Loggable;
 
+use Gedmo\Loggable\LogEntryInterface;
 use Gedmo\Loggable\LoggableListener;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
@@ -40,7 +41,7 @@ class UserLoggableListener extends LoggableListener
      * Handle any custom LogEntry functionality that needs to be performed
      * before persisting it
      *
-     * @param object $logEntry The LogEntry being persisted
+     * @param LogEntryInterface $logEntry The LogEntry being persisted
      * @param object $object   The object being Logged
      *
      * @return void

@@ -93,9 +93,13 @@ class EmailManager
     {
         if (null !== $this->getEmailStylesheet()) {
             $htmldoc = new InlineStyle($this->renderHtmlEmailBody());
-            $htmldoc->applyStylesheet(file_get_contents(
+            $css = file_get_contents(
                 $this->getEmailStylesheet()
-            ));
+            );
+            if (false === $css) {
+                throw new \RuntimeException('Unable to read email stylesheet file.');
+            }
+            $htmldoc->applyStylesheet($css);
 
             return $htmldoc->getHTML();
         }

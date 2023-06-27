@@ -40,7 +40,9 @@ class AttributeValueIndexingSubscriber implements EventSubscriberInterface
                     $event->getNodeSource()->getTranslation()
                 )->getValue();
                 if (null === $data) {
-                    $data = $attributeValue->getAttributeValueTranslations()->first()->getValue();
+                    $data = $attributeValue->getAttributeValueTranslations()->first() ?
+                        $attributeValue->getAttributeValueTranslations()->first()->getValue()
+                        : null;
                 }
                 if (null !== $data) {
                     switch ($attributeValue->getType()) {

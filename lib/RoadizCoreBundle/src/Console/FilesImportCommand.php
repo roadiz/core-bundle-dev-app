@@ -57,6 +57,9 @@ class FilesImportCommand extends Command
 
         $appNamespace = (new AsciiSlugger())->slug($this->appNamespace, '_');
         $tempDir = tempnam(sys_get_temp_dir(), $appNamespace . '_files');
+        if (false === $tempDir) {
+            throw new \RuntimeException('Cannot create temporary directory.');
+        }
         if (file_exists($tempDir)) {
             unlink($tempDir);
         }

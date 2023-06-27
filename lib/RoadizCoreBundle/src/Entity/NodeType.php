@@ -447,6 +447,7 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
     #[SymfonySerializer\Ignore]
     public function getSourceEntityFullQualifiedClassName(): string
     {
+        // @phpstan-ignore-next-line
         return static::getGeneratedEntitiesNamespace() . '\\' . $this->getSourceEntityClassName();
     }
 

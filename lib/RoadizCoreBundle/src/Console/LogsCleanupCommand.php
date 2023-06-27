@@ -9,6 +9,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Log;
 use RZ\Roadiz\CoreBundle\Repository\LogRepository;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -47,7 +48,11 @@ class LogsCleanupCommand extends Command
         if (\is_string($input->getOption('since'))) {
             $since = '-' . $input->getOption('since');
         }
-        $now->add(\DateInterval::createFromDateString($since));
+        $interval = \DateInterval::createFromDateString($since);
+        if (false === $interval) {
+            throw new InvalidArgumentException('Invalid since option format.');
+        }
+        $now->add($interval);
         $io = new SymfonyStyle($input, $output);
 
         /** @var LogRepository $logRepository */
