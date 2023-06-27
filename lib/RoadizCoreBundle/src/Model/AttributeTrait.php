@@ -229,9 +229,9 @@ trait AttributeTrait
             function (AttributeTranslationInterface $attributeTranslation) use ($translation) {
                 return $attributeTranslation->getTranslation() === $translation;
             }
-        );
-        if ($attributeTranslation->count() > 0) {
-            return $attributeTranslation->first()->getOptions();
+        )->first();
+        if (false !== $attributeTranslation) {
+            return $attributeTranslation->getOptions();
         }
 
         return null;

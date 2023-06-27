@@ -79,8 +79,12 @@ final class NodeDuplicator
      */
     private function doDuplicate(Node &$node): Node
     {
+        $nodeSource = $node->getNodeSources()->first();
+        if (false === $nodeSource) {
+            throw new \RuntimeException('Node source is missing.');
+        }
         $node->setNodeName(
-            $this->nodeNamePolicy->getSafeNodeName($node->getNodeSources()->first())
+            $this->nodeNamePolicy->getSafeNodeName($nodeSource)
         );
 
         /** @var Node $child */

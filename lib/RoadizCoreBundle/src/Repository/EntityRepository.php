@@ -22,6 +22,7 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderSelectEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -34,7 +35,7 @@ abstract class EntityRepository extends ServiceEntityRepository
 
     /**
      * @param ManagerRegistry $registry
-     * @param string $entityClass
+     * @param class-string<TEntityClass> $entityClass
      * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
@@ -82,6 +83,7 @@ abstract class EntityRepository extends ServiceEntityRepository
      */
     protected function dispatchQueryBuilderEvent(QueryBuilder $qb, string $entityClass): void
     {
+        // @phpstan-ignore-next-line
         $this->dispatcher->dispatch(new QueryBuilderSelectEvent($qb, $entityClass));
     }
 
@@ -90,10 +92,11 @@ abstract class EntityRepository extends ServiceEntityRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return QueryBuilderBuildEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(new QueryBuilderBuildEvent(
             $qb,
             $this->getEntityName(),
@@ -106,10 +109,11 @@ abstract class EntityRepository extends ServiceEntityRepository
     /**
      * @param Query $query
      *
-     * @return QueryEvent
+     * @return Event
      */
     protected function dispatchQueryEvent(Query $query): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(new QueryEvent(
             $query,
             $this->getEntityName()
@@ -121,10 +125,11 @@ abstract class EntityRepository extends ServiceEntityRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return QueryBuilderApplyEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(new QueryBuilderApplyEvent(
             $qb,
             $this->getEntityName(),

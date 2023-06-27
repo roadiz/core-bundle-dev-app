@@ -126,7 +126,9 @@ class RozierApp extends AppController
         $this->assignation['head']['googleClientId'] = $this->getSettingsBag()->get('google_client_id', "");
         $this->assignation['head']['themeName'] = static::$themeName;
         $this->assignation['head']['ajaxToken'] = $tokenManager->getToken(static::AJAX_TOKEN_INTENTION);
-        $this->assignation['rozier_user_actions'] = $this->dispatchEvent(new UserActionsMenuEvent())->getActions();
+        /** @var UserActionsMenuEvent $userActionsMenuEvent */
+        $userActionsMenuEvent = $this->dispatchEvent(new UserActionsMenuEvent());
+        $this->assignation['rozier_user_actions'] = $userActionsMenuEvent->getActions();
 
         $this->assignation['nodeStatuses'] = [
             Node::getStatusLabel(Node::DRAFT) => Node::DRAFT,

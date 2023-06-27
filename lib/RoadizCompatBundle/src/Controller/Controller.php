@@ -191,15 +191,15 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @template T of object
-     * @param T $event
-     * @return T The passed $event MUST be returned
+     * @param object $event
+     * @param string|null $eventName
+     * @return object The passed $event MUST be returned
      */
-    protected function dispatchEvent($event)
+    protected function dispatchEvent(object $event, string $eventName = null): object
     {
         /** @var EventDispatcherInterface $eventDispatcher */ # php-stan hint
         $eventDispatcher = $this->get(EventDispatcherInterface::class);
-        return $eventDispatcher->dispatch($event);
+        return $eventDispatcher->dispatch($event, $eventName);
     }
 
     protected function getSettingsBag(): Settings
@@ -254,6 +254,7 @@ abstract class Controller extends AbstractController
         if (!str_starts_with($className, "\\")) {
             $className = "\\" . $className;
         }
+        // @phpstan-ignore-next-line
         return $className;
     }
 

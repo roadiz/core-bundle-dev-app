@@ -17,21 +17,21 @@ use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Log;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResults;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * EntityRepository that implements search engine query with Solr.
  *
  * @template T of NodesSources
- * @extends StatusAwareRepository<T>
- * @template-extends StatusAwareRepository<T>
+ * @extends StatusAwareRepository<T|NodesSources>
+ * @template-extends StatusAwareRepository<T|NodesSources>
  */
 class NodesSourcesRepository extends StatusAwareRepository
 {
@@ -60,10 +60,11 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderNodesSourcesBuildEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryBuilderNodesSourcesBuildEvent($qb, $property, $value, $this->getEntityName())
         );
@@ -74,10 +75,11 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderNodesSourcesApplyEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryBuilderNodesSourcesApplyEvent($qb, $property, $value, $this->getEntityName())
         );
@@ -86,10 +88,11 @@ class NodesSourcesRepository extends StatusAwareRepository
     /**
      * @param Query  $query
      *
-     * @return object|QueryNodesSourcesEvent
+     * @return Event
      */
     protected function dispatchQueryEvent(Query $query): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryNodesSourcesEvent($query, $this->getEntityName())
         );
@@ -184,6 +187,7 @@ class NodesSourcesRepository extends StatusAwareRepository
                 continue;
             }
 
+            /** @var QueryBuilderNodesSourcesApplyEvent $event */
             $event = $this->dispatchQueryBuilderApplyEvent($qb, $key, $value);
             if (!$event->isPropagationStopped()) {
                 $simpleQB->bindValue($key, $value);

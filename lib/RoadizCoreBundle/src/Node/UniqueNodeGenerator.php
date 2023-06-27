@@ -66,6 +66,7 @@ class UniqueNodeGenerator
             $node->setPosition(0.5);
         }
 
+        /** @var class-string<NodesSources> $sourceClass */ # phpstan hint
         $sourceClass = NodeType::getGeneratedEntitiesNamespace() . "\\" . $nodeType->getSourceEntityClassName();
 
         $source = new $sourceClass($node, $translation);
@@ -139,8 +140,8 @@ class UniqueNodeGenerator
             /*
              * If parent has only on translation, use parent translation instead of default one.
              */
-            if (null !== $parent && $parent->getNodeSources()->count() === 1) {
-                $translation = $parent->getNodeSources()->first()->getTranslation();
+            if (null !== $parent && false !== $parentNodeSource = $parent->getNodeSources()->first()) {
+                $translation = $parentNodeSource->getTranslation();
             } else {
                 /** @var Translation $translation */
                 $translation = $this->managerRegistry

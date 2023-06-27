@@ -461,9 +461,9 @@ abstract class AbstractAdminController extends RozierApp
     }
 
     /**
-     * @template T of Event|iterable<Event>|array<Event>|null
-     * @param T $event
-     * @return T
+     * @template T of object|Event
+     * @param T|iterable<T>|array<int, T>|null $event
+     * @return T|iterable<T>|array<int, T>|null
      */
     protected function dispatchSingleOrMultipleEvent(mixed $event): mixed
     {
@@ -471,14 +471,15 @@ abstract class AbstractAdminController extends RozierApp
             return null;
         }
         if ($event instanceof Event) {
+            // @phpstan-ignore-next-line
             return $this->dispatchEvent($event);
         }
         if (\is_iterable($event)) {
             $events = [];
-            /** @var Event|null $singleEvent */
+            /** @var T|null $singleEvent */
             foreach ($event as $singleEvent) {
                 $returningEvent = $this->dispatchSingleOrMultipleEvent($singleEvent);
-                if (null !== $returningEvent) {
+                if ($returningEvent instanceof Event) {
                     $events[] = $returningEvent;
                 }
             }

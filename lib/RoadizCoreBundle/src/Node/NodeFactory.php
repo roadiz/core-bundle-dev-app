@@ -103,7 +103,7 @@ final class NodeFactory
         /** @var UrlAliasRepository $repository */
         $repository = $this->managerRegistry->getRepository(UrlAlias::class);
         if (false === $repository->exists($urlAlias)) {
-            $alias = new UrlAlias($node->getNodeSources()->first());
+            $alias = new UrlAlias($node->getNodeSources()->first() ?: null);
             $alias->setAlias($urlAlias);
             $this->managerRegistry->getManagerForClass(UrlAlias::class)->persist($alias);
         }
