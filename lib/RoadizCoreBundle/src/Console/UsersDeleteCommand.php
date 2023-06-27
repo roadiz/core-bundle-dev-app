@@ -31,33 +31,24 @@ final class UsersDeleteCommand extends UsersCommand
     {
         $io = new SymfonyStyle($input, $output);
         $name = $input->getArgument('username');
+        $user = $this->getUserForInput($input);
 
-        if ($name) {
-            /** @var User|null $user */
-            $user = $this->managerRegistry
-                ->getRepository(User::class)
-                ->findOneBy(['username' => $name]);
-
-            if (null !== $user) {
-                $confirmation = new ConfirmationQuestion(
-                    '<question>Do you really want to delete user “' . $user->getUsername() . '”?</question>',
-                    false
-                );
-                if (
-                    !$input->isInteractive() || $io->askQuestion(
-                        $confirmation
-                    )
-                ) {
-                    $this->managerRegistry->getManagerForClass(User::class)->remove($user);
-                    $this->managerRegistry->getManagerForClass(User::class)->flush();
-                    $io->success('User “' . $name . '” deleted.');
-                } else {
-                    $io->warning('User “' . $name . '” was not deleted.');
-                }
-            } else {
-                throw new \InvalidArgumentException('User “' . $name . '” does not exist.');
-            }
+        $confirmation = new ConfirmationQuestion(
+            '<question>Do you really want to delete user “' . $user->getUsername() . '”?</question>',
+            false
+        );
+        if (
+            !$input->isInteractive() || $io->askQuestion(
+                $confirmation
+            )
+        ) {
+            $this->managerRegistry->getManagerForClass(User::class)->remove($user);
+            $this->managerRegistry->getManagerForClass(User::class)->flush();
+            $io->success('User “' . $name . '” deleted.');
+            return 0;
+        } else {
+            $io->warning('User “' . $name . '” was not deleted.');
+            return 1;
         }
-        return 0;
     }
 }

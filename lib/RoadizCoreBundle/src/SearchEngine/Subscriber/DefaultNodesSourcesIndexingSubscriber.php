@@ -32,10 +32,6 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
         $collection = [];
         $node = $nodeSource->getNode();
 
-        if (null === $node) {
-            throw new \RuntimeException("No node relation found for source: " . $nodeSource->getTitle(), 1);
-        }
-
         // Need a documentType field
         $assoc[SolariumNodeSource::TYPE_DISCRIMINATOR] = SolariumNodeSource::DOCUMENT_TYPE;
         // Need a nodeSourceId field

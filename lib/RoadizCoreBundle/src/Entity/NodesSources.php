@@ -224,28 +224,29 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ORM\PreUpdate]
     public function preUpdate(): void
     {
-        $this->getNode()?->setUpdatedAt(new \DateTime("now"));
+        $this->getNode()->setUpdatedAt(new \DateTime("now"));
     }
 
     /**
-     * @return Node|null
+     * @return Node
      */
-    public function getNode(): ?Node
+    public function getNode(): Node
     {
+        if (null === $this->node) {
+            throw new \BadMethodCallException('NodeSource node should never be null.');
+        }
         return $this->node;
     }
 
     /**
-     * @param Node|null $node
+     * @param Node $node
      *
      * @return $this
      */
-    public function setNode(Node $node = null): NodesSources
+    public function setNode(Node $node): NodesSources
     {
         $this->node = $node;
-        if (null !== $node) {
-            $node->addNodeSources($this);
-        }
+        $node->addNodeSources($this);
 
         return $this;
     }

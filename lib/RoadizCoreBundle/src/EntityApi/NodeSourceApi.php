@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\EntityApi;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -15,16 +15,16 @@ class NodeSourceApi extends AbstractApi
     /**
      * @var class-string
      */
-    protected string $repository = NodesSources::class;
+    protected string $nodeSourceClassName = NodesSources::class;
 
     /**
      * @param array|null $criteria
-     * @return string
+     * @return class-string<NodesSources>
      */
-    protected function getRepositoryName(array $criteria = null)
+    protected function getNodeSourceClassName(array $criteria = null): string
     {
         if (isset($criteria['node.nodeType']) && $criteria['node.nodeType'] instanceof NodeType) {
-            $this->repository = $criteria['node.nodeType']->getSourceEntityFullQualifiedClassName();
+            $this->nodeSourceClassName = $criteria['node.nodeType']->getSourceEntityFullQualifiedClassName();
             unset($criteria['node.nodeType']);
         } elseif (
             isset($criteria['node.nodeType']) &&
@@ -32,21 +32,22 @@ class NodeSourceApi extends AbstractApi
             count($criteria['node.nodeType']) === 1 &&
             $criteria['node.nodeType'][0] instanceof NodeType
         ) {
-            $this->repository = $criteria['node.nodeType'][0]->getSourceEntityFullQualifiedClassName();
+            $this->nodeSourceClassName = $criteria['node.nodeType'][0]->getSourceEntityFullQualifiedClassName();
             unset($criteria['node.nodeType']);
         } else {
-            $this->repository = NodesSources::class;
+            $this->nodeSourceClassName = NodesSources::class;
         }
 
-        return $this->repository;
+        return $this->nodeSourceClassName;
     }
 
     /**
-     * @return NodesSourcesRepository|EntityRepository
+     * @return NodesSourcesRepository
      */
-    public function getRepository()
+    public function getRepository(): NodesSourcesRepository
     {
-        return $this->managerRegistry->getRepository($this->repository);
+        // @phpstan-ignore-next-line
+        return $this->managerRegistry->getRepository($this->nodeSourceClassName);
     }
 
     /**
@@ -62,7 +63,7 @@ class NodeSourceApi extends AbstractApi
         ?int $limit = null,
         ?int $offset = null
     ) {
-        $this->getRepositoryName($criteria);
+        $this->getNodeSourceClassName($criteria);
 
         return $this->getRepository()
                     ->findBy(
@@ -81,8 +82,7 @@ class NodeSourceApi extends AbstractApi
      */
     public function countBy(array $criteria)
     {
-        $this->getRepositoryName($criteria);
-
+        $this->getNodeSourceClassName($criteria);
         return $this->getRepository()
                     ->countBy(
                         $criteria
@@ -93,11 +93,11 @@ class NodeSourceApi extends AbstractApi
      * @param array $criteria
      * @param array|null $order
      * @return null|NodesSources
+     * @throws NonUniqueResultException
      */
     public function getOneBy(array $criteria, array $order = null)
     {
-        $this->getRepositoryName($criteria);
-
+        $this->getNodeSourceClassName($criteria);
         return $this->getRepository()
                     ->findOneBy(
                         $criteria,
@@ -123,19 +123,13 @@ class NodeSourceApi extends AbstractApi
         bool $onlyVisible = false,
         array $additionalCriteria = []
     ) {
-        $repository = $this->getRepository();
-
-        if ($repository instanceof NodesSourcesRepository) {
-            return $this->getRepository()
-                ->findByTextQuery(
-                    $textQuery,
-                    $limit,
-                    $nodeTypes,
-                    $onlyVisible,
-                    $additionalCriteria
-                );
-        }
-
-        return [];
+        return $this->getRepository()
+            ->findByTextQuery(
+                $textQuery,
+                $limit,
+                $nodeTypes,
+                $onlyVisible,
+                $additionalCriteria
+            );
     }
 }

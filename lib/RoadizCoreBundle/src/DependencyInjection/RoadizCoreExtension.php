@@ -86,9 +86,11 @@ class RoadizCoreExtension extends Extension
             $container->setParameter('roadiz_core.assets_processing.supports_webp', false);
         }
 
+        /** @var string $projectDir */
+        $projectDir = $container->getParameter('kernel.project_dir');
         $container->setParameter(
             'roadiz_core.documents_lib_dir',
-            $container->getParameter('kernel.project_dir') . DIRECTORY_SEPARATOR . trim($config['documentsLibDir'], "/ \t\n\r\0\x0B")
+            $projectDir . DIRECTORY_SEPARATOR . trim($config['documentsLibDir'], "/ \t\n\r\0\x0B")
         );
         /*
          * Media config
@@ -289,21 +291,23 @@ class RoadizCoreExtension extends Extension
                 'noreferrer' => 'external',
             ]
         ]);
+        /** @var array $defaultConfig */
+        $defaultConfig = $container->getParameter('roadiz_core.markdown_config_default');
         $container->setParameter(
             'roadiz_core.markdown_config_text_converter',
-            array_merge($container->getParameter('roadiz_core.markdown_config_default'), [
+            array_merge($defaultConfig, [
                 'html_input' => 'allow'
             ])
         );
         $container->setParameter(
             'roadiz_core.markdown_config_text_extra_converter',
-            array_merge($container->getParameter('roadiz_core.markdown_config_default'), [
+            array_merge($defaultConfig, [
                 'html_input' => 'allow'
             ])
         );
         $container->setParameter(
             'roadiz_core.markdown_config_line_converter',
-            array_merge($container->getParameter('roadiz_core.markdown_config_default'), [
+            array_merge($defaultConfig, [
                 'html_input' => 'escape'
             ])
         );

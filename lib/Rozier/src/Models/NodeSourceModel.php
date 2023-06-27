@@ -27,9 +27,6 @@ final class NodeSourceModel implements ModelInterface
     public function toArray(): array
     {
         $node = $this->nodeSource->getNode();
-        if (null === $node) {
-            throw new \RuntimeException('Node-source does not have a Node.');
-        }
 
         /** @var NodesSourcesDocuments|false $thumbnail */
         $thumbnail = $this->nodeSource->getDocumentsByFields()->first();

@@ -47,6 +47,7 @@ final class ReachableNodeSourceDefinition
                 if ($iterator instanceof ArrayIterator) {
                     return $iterator->getArrayCopy();
                 }
+                return iterator_to_array($iterator);
             }
             return $children;
         }

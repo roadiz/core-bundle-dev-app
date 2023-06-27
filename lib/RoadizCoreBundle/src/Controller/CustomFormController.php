@@ -222,6 +222,7 @@ final class CustomFormController extends AbstractController
      * @param int $customFormId
      * @return Response
      * @throws Exception
+     * @throws TransportExceptionInterface
      */
     public function addAction(Request $request, int $customFormId): Response
     {
@@ -240,7 +241,7 @@ final class CustomFormController extends AbstractController
             )
         );
 
-        if ($mixed instanceof RedirectResponse) {
+        if ($mixed instanceof Response) {
             $mixed->prepare($request);
             return $mixed->send();
         } else {

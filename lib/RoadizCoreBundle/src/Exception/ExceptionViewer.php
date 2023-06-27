@@ -190,6 +190,9 @@ class ExceptionViewer
             return new JsonResponse($data, $this->getHttpStatusCode($e));
         } else {
             $html = file_get_contents(dirname(__DIR__) . '/../templates/emerg.html');
+            if (false === $html) {
+                throw new \RuntimeException('Unable to load fallback template.');
+            }
             $html = str_replace('{{ http_code }}', (string) $this->getHttpStatusCode($e), $html);
             $html = str_replace('{{ human_message }}', $humanMessage, $html);
 

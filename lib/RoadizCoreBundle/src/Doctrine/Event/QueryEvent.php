@@ -18,7 +18,7 @@ class QueryEvent extends Event
 
     /**
      * @param Query  $query
-     * @param string $entityClass
+     * @param class-string $entityClass
      */
     public function __construct(Query $query, string $entityClass)
     {
@@ -35,7 +35,7 @@ class QueryEvent extends Event
     }
 
     /**
-     * @return string
+     * @return class-string
      */
     public function getEntityClass(): string
     {

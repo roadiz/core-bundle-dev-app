@@ -31,33 +31,24 @@ final class UsersDisableCommand extends UsersCommand
     {
         $io = new SymfonyStyle($input, $output);
         $name = $input->getArgument('username');
+        $user = $this->getUserForInput($input);
 
-        if ($name) {
-            /** @var User|null $user */
-            $user = $this->managerRegistry
-                ->getRepository(User::class)
-                ->findOneBy(['username' => $name]);
-
-            if (null !== $user) {
-                $confirmation = new ConfirmationQuestion(
-                    '<question>Do you really want to disable user “' . $user->getUsername() . '”?</question>',
-                    false
-                );
-                if (
-                    !$input->isInteractive() || $io->askQuestion(
-                        $confirmation
-                    )
-                ) {
-                    $user->setEnabled(false);
-                    $this->managerRegistry->getManagerForClass(User::class)->flush();
-                    $io->success('User “' . $name . '” disabled.');
-                } else {
-                    $io->warning('User “' . $name . '” was not disabled.');
-                }
-            } else {
-                throw new \InvalidArgumentException('User “' . $name . '” does not exist.');
-            }
+        $confirmation = new ConfirmationQuestion(
+            '<question>Do you really want to disable user “' . $user->getUsername() . '”?</question>',
+            false
+        );
+        if (
+            !$input->isInteractive() || $io->askQuestion(
+                $confirmation
+            )
+        ) {
+            $user->setEnabled(false);
+            $this->managerRegistry->getManagerForClass(User::class)->flush();
+            $io->success('User “' . $name . '” disabled.');
+            return 0;
+        } else {
+            $io->warning('User “' . $name . '” was not disabled.');
+            return 1;
         }
-        return 0;
     }
 }

@@ -17,7 +17,7 @@ use RZ\Roadiz\CoreBundle\Entity\RealmNode;
  */
 final class RealmNodeRepository extends EntityRepository
 {
-    public function findByNodeIdsAndRealmId(array $nodeIds, int $realmId): array
+    public function findByNodeIdsAndRealmId(array $nodeIds, int|string $realmId): array
     {
         $nodeIds = array_filter($nodeIds);
         if (empty($nodeIds)) {
