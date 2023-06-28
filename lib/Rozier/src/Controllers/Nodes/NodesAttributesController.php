@@ -231,9 +231,9 @@ class NodesAttributesController extends RozierApp
                         '%nodeName%' => $nodeSource->getTitle(),
                     ]
                 );
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $item);
             } catch (\RuntimeException $e) {
-                $this->publishErrorMessage($request, $e->getMessage());
+                $this->publishErrorMessage($request, $e->getMessage(), $item);
             }
 
             return $this->redirectToRoute('nodesEditAttributesPage', [
@@ -307,9 +307,9 @@ class NodesAttributesController extends RozierApp
                         '%nodeName%' => $nodeSource->getTitle(),
                     ]
                 );
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $item);
             } catch (\RuntimeException $e) {
-                $this->publishErrorMessage($request, $e->getMessage());
+                $this->publishErrorMessage($request, $e->getMessage(), $item);
             }
 
             return $this->redirectToRoute('nodesEditAttributesPage', [

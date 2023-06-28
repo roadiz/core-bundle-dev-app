@@ -91,7 +91,7 @@ class TranstypeController extends RozierApp
                 '%node%' => $node->getNodeName(),
                 '%type%' => $newNodeType->getName(),
             ]);
-            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
+            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
 
             return $this->redirectToRoute(
                 'nodesEditSourcePage',

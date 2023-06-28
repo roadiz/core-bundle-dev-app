@@ -97,6 +97,7 @@ class UserViewer
             $this->logger->error('Unable to send password reset link', [
                 'exception' => get_class($e),
                 'message' => $e->getMessage(),
+                'entity' => $user,
             ]);
             return false;
         }

@@ -20,6 +20,7 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -57,15 +58,6 @@ class NodesSources extends AbstractEntity implements Loggable
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     protected ?ObjectManager $objectManager = null;
-
-    /**
-     * @var Collection<int, Log>
-     */
-    #[ORM\OneToMany(mappedBy: 'nodeSource', targetEntity: Log::class)]
-    #[ORM\OrderBy(['datetime' => 'DESC'])]
-    #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
-    protected Collection $logs;
 
     /**
      * @var Collection<int, Redirection>
@@ -208,7 +200,6 @@ class NodesSources extends AbstractEntity implements Loggable
         $this->translation = $translation;
         $this->urlAliases = new ArrayCollection();
         $this->documentsByFields = new ArrayCollection();
-        $this->logs = new ArrayCollection();
         $this->redirections = new ArrayCollection();
     }
 
@@ -287,6 +278,23 @@ class NodesSources extends AbstractEntity implements Loggable
     public function getDocumentsByFields(): Collection
     {
         return $this->documentsByFields;
+    }
+
+    /**
+     * Get at least one document to represent this node-source as image.
+     *
+     * @return DocumentInterface|null
+     */
+    #[SymfonySerializer\Ignore]
+    public function getOneDisplayableDocument(): ?DocumentInterface
+    {
+        return $this->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsd) {
+            return null !== $nsd->getDocument() &&
+                $nsd->getDocument()->isImage() &&
+                $nsd->getDocument()->isProcessable();
+        })->map(function (NodesSourcesDocuments $nsd) {
+            return $nsd->getDocument();
+        })->first() ?: null;
     }
 
     /**
@@ -380,27 +388,6 @@ class NodesSources extends AbstractEntity implements Loggable
             })
             ->toArray()
         ;
-    }
-
-    /**
-     * Logs related to this node-source.
-     *
-     * @return Collection<int, Log>
-     */
-    public function getLogs(): Collection
-    {
-        return $this->logs;
-    }
-
-    /**
-     * @param Collection $logs
-     * @return $this
-     */
-    public function setLogs(Collection $logs): NodesSources
-    {
-        $this->logs = $logs;
-
-        return $this;
     }
 
     /**
@@ -663,8 +650,6 @@ class NodesSources extends AbstractEntity implements Loggable
             }
             // Clear url-aliases before cloning.
             $this->urlAliases->clear();
-            // Clear logs before cloning.
-            $this->logs->clear();
         }
     }
 }

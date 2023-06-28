@@ -86,7 +86,7 @@ class NodeTypeFieldsController extends RozierApp
             $this->messageBus->dispatch(new Envelope(new UpdateNodeTypeSchemaMessage($nodeType->getId())));
 
             $msg = $this->getTranslator()->trans('nodeTypeField.%name%.updated', ['%name%' => $field->getName()]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $field);
 
             return $this->redirectToRoute(
                 'nodeTypeFieldsEditPage',
@@ -145,7 +145,7 @@ class NodeTypeFieldsController extends RozierApp
                     'nodeTypeField.%name%.created',
                     ['%name%' => $field->getName()]
                 );
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $field);
 
                 return $this->redirectToRoute(
                     'nodeTypeFieldsListPage',
@@ -197,7 +197,7 @@ class NodeTypeFieldsController extends RozierApp
                 'nodeTypeField.%name%.deleted',
                 ['%name%' => $field->getName()]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $field);
 
             return $this->redirectToRoute(
                 'nodeTypeFieldsListPage',

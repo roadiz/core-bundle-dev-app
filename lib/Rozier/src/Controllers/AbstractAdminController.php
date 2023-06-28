@@ -132,7 +132,7 @@ abstract class AbstractAdminController extends RozierApp
                     '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
                 ]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $item);
 
             return $this->getPostSubmitResponse($item, true, $request);
         }
@@ -193,7 +193,7 @@ abstract class AbstractAdminController extends RozierApp
                     '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
                 ]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $item);
 
             return $this->getPostSubmitResponse($item, false, $request);
         }
@@ -278,7 +278,7 @@ abstract class AbstractAdminController extends RozierApp
                     '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
                 ]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $item);
 
             return $this->getPostDeleteResponse($item);
         }

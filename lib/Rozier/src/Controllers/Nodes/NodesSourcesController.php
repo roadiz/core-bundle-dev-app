@@ -259,7 +259,7 @@ class NodesSourcesController extends RozierApp
                 '%translation%' => $ns->getTranslation()->getName(),
             ]);
 
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $node);
 
             return $this->redirectToRoute(
                 'nodesEditSourcePage',

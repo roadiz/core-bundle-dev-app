@@ -48,6 +48,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -335,13 +336,13 @@ class DocumentsController extends RozierApp
                     $this->dispatchEvent(
                         new DocumentFileUpdatedEvent($document)
                     );
-                    $this->publishConfirmMessage($request, $msg);
+                    $this->publishConfirmMessage($request, $msg, $document);
                 }
 
                 $msg = $this->getTranslator()->trans('document.%name%.updated', [
                    '%name%' => (string) $document,
                 ]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $document);
                 $this->em()->flush();
                 // Event must be dispatched AFTER flush for async concurrency matters
                 $this->dispatchEvent(
@@ -414,13 +415,13 @@ class DocumentsController extends RozierApp
                 $msg = $this->getTranslator()->trans('document.%name%.deleted', [
                     '%name%' => (string) $document
                 ]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $document);
             } catch (\Exception $e) {
                 $msg = $this->getTranslator()->trans('document.%name%.cannot_delete', [
                     '%name%' => (string) $document
                 ]);
                 $this->logger->error($e->getMessage());
-                $this->publishErrorMessage($request, $msg);
+                $this->publishErrorMessage($request, $msg, $document);
             }
             /*
              * Force redirect to avoid resending form when refreshing page
@@ -472,7 +473,7 @@ class DocumentsController extends RozierApp
                     'document.%name%.deleted',
                     ['%name%' => (string) $document]
                 );
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $document);
             }
             $this->em()->flush();
 
@@ -518,18 +519,18 @@ class DocumentsController extends RozierApp
                 if (is_iterable($document)) {
                     foreach ($document as $singleDocument) {
                         $msg = $this->getTranslator()->trans('document.%name%.uploaded', [
-                            '%name%' => (string) $singleDocument,
+                            '%name%' => (new UnicodeString((string) $singleDocument))->truncate(50, '...')->toString(),
                         ]);
-                        $this->publishConfirmMessage($request, $msg);
+                        $this->publishConfirmMessage($request, $msg, $singleDocument);
                         $this->dispatchEvent(
                             new DocumentCreatedEvent($singleDocument)
                         );
                     }
                 } else {
                     $msg = $this->getTranslator()->trans('document.%name%.uploaded', [
-                        '%name%' => (string) $document,
+                        '%name%' => (new UnicodeString((string) $document))->truncate(50, '...')->toString(),
                     ]);
-                    $this->publishConfirmMessage($request, $msg);
+                    $this->publishConfirmMessage($request, $msg, $document);
                     $this->dispatchEvent(
                         new DocumentCreatedEvent($document)
                     );
@@ -577,9 +578,9 @@ class DocumentsController extends RozierApp
             $document = $this->randomDocument($folderId);
 
             $msg = $this->getTranslator()->trans('document.%name%.uploaded', [
-                '%name%' => (string) $document,
+                '%name%' => (new UnicodeString((string) $document))->truncate(50, '...')->toString(),
             ]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $document);
 
             $this->dispatchEvent(
                 new DocumentCreatedEvent($document)
@@ -650,9 +651,9 @@ class DocumentsController extends RozierApp
 
                 if (null !== $document) {
                     $msg = $this->getTranslator()->trans('document.%name%.uploaded', [
-                        '%name%' => (string) $document,
+                        '%name%' => (new UnicodeString((string) $document))->truncate(50, '...')->toString(),
                     ]);
-                    $this->publishConfirmMessage($request, $msg);
+                    $this->publishConfirmMessage($request, $msg, $document);
 
                     // Event must be dispatched AFTER flush for async concurrency matters
                     $this->dispatchEvent(
@@ -676,7 +677,7 @@ class DocumentsController extends RozierApp
                     }
                 } else {
                     $msg = $this->getTranslator()->trans('document.cannot_persist');
-                    $this->publishErrorMessage($request, $msg);
+                    $this->publishErrorMessage($request, $msg, $document);
 
                     if ($_format === 'json' || $request->isXmlHttpRequest()) {
                         throw $this->createNotFoundException($msg);

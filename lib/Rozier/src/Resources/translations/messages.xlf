@@ -607,6 +607,7 @@
             <trans-unit xml:space="preserve" id="add.folder"><source>add.folder</source></trans-unit>
             <trans-unit xml:space="preserve" id="add.child.folder"><source>add.child.folder</source></trans-unit>
             <trans-unit xml:space="preserve" id="add.folder.%name%.child"><source>add.folder.%name%.child</source></trans-unit>
+            <trans-unit xml:space="preserve" id="folder.%name%.created"><source>folder.%name%.created</source></trans-unit>
             <trans-unit xml:space="preserve" id="edit.folder"><source>edit.folder</source></trans-unit>
             <trans-unit xml:space="preserve" id="delete.folder"><source>delete.folder</source></trans-unit>
             <trans-unit xml:space="preserve" id="back_to.folders"><source>back_to.folders</source></trans-unit>

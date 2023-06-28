@@ -73,7 +73,7 @@ class CustomFormFieldsController extends RozierApp
                 $this->em()->flush();
 
                 $msg = $this->getTranslator()->trans('customFormField.%name%.updated', ['%name%' => $field->getName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $field);
 
                 /*
                  * Redirect to update schema page
@@ -128,7 +128,7 @@ class CustomFormFieldsController extends RozierApp
                         'customFormField.%name%.created',
                         ['%name%' => $field->getName()]
                     );
-                    $this->publishConfirmMessage($request, $msg);
+                    $this->publishConfirmMessage($request, $msg, $field);
 
                     /*
                      * Redirect to update schema page
@@ -141,7 +141,7 @@ class CustomFormFieldsController extends RozierApp
                     );
                 } catch (Exception $e) {
                     $msg = $e->getMessage();
-                    $this->publishErrorMessage($request, $msg);
+                    $this->publishErrorMessage($request, $msg, $field);
                     /*
                      * Redirect to add page
                      */
@@ -196,7 +196,7 @@ class CustomFormFieldsController extends RozierApp
                     'customFormField.%name%.deleted',
                     ['%name%' => $field->getName()]
                 );
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $field);
 
                 /*
                  * Redirect to update schema page

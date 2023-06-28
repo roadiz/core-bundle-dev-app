@@ -568,18 +568,20 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param int $maxResult
      * @return Paginator
      */
-    public function findByLatestUpdated($maxResult = 5)
+    public function findByLatestUpdated(int $maxResult = 5): Paginator
     {
         $subQuery = $this->_em->createQueryBuilder();
-        $subQuery->select('sns.id')
+        $subQuery->select('slog.entityId')
             ->from(Log::class, 'slog')
-            ->innerJoin(NodesSources::class, 'sns')
-            ->andWhere($subQuery->expr()->isNotNull('slog.nodeSource'))
+            ->andWhere($subQuery->expr()->eq('slog.entityClass', ':entityClass'))
             ->orderBy('slog.datetime', 'DESC');
 
         $query = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $query->andWhere($query->expr()->in(static::NODESSOURCES_ALIAS . '.id', $subQuery->getQuery()->getDQL()));
-        $query->setMaxResults($maxResult);
+        $query
+            ->andWhere($query->expr()->in(static::NODESSOURCES_ALIAS . '.id', $subQuery->getQuery()->getDQL()))
+            ->setParameter(':entityClass', NodesSources::class)
+            ->setMaxResults($maxResult)
+        ;
 
         return new Paginator($query->getQuery());
     }

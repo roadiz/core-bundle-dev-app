@@ -87,7 +87,7 @@ class UsersController extends RozierApp
                 'user.%name%.updated',
                 ['%name%' => $user->getUsername()]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $user);
             /*
              * Force redirect to avoid resending form when refreshing page
              */
@@ -148,7 +148,7 @@ class UsersController extends RozierApp
                 'user.%name%.updated',
                 ['%name%' => $user->getUsername()]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $user);
 
             /*
              * Force redirect to avoid resending form when refreshing page
@@ -187,7 +187,7 @@ class UsersController extends RozierApp
             $this->em()->flush();
 
             $msg = $this->getTranslator()->trans('user.%name%.created', ['%name%' => $user->getUsername()]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $user);
 
             return $this->redirectToRoute('usersHomePage');
         }
@@ -227,7 +227,7 @@ class UsersController extends RozierApp
                 'user.%name%.deleted',
                 ['%name%' => $user->getUsername()]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $user);
             /*
              * Force redirect to avoid resending form when refreshing page
              */

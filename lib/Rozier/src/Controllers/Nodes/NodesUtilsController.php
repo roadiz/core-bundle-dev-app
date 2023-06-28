@@ -61,7 +61,7 @@ class NodesUtilsController extends RozierApp
                 '%name%' => $existingNode->getNodeName(),
             ]);
 
-            $this->publishConfirmMessage($request, $msg, $newNode->getNodeSources()->first() ?: null);
+            $this->publishConfirmMessage($request, $msg, $newNode->getNodeSources()->first() ?: $newNode);
 
             return $this->redirectToRoute(
                 'nodesEditPage',
@@ -72,7 +72,8 @@ class NodesUtilsController extends RozierApp
                 $request,
                 $this->getTranslator()->trans("impossible.duplicate.node.%name%", [
                     '%name%' => $existingNode->getNodeName(),
-                ])
+                ]),
+                $existingNode
             );
 
             return $this->redirectToRoute(

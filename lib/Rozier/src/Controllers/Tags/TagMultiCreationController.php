@@ -78,7 +78,7 @@ class TagMultiCreationController extends RozierApp
                          */
                         $this->dispatchEvent(new TagCreatedEvent($tag));
                         $msg = $this->getTranslator()->trans('child.tag.%name%.created', ['%name%' => $tag->getTagName()]);
-                        $this->publishConfirmMessage($request, $msg);
+                        $this->publishConfirmMessage($request, $msg, $tag);
                     }
 
                     return $this->redirectToRoute('tagsTreePage', ['tagId' => $parentTagId]);

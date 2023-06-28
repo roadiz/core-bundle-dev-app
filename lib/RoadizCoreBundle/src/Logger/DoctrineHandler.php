@@ -7,9 +7,12 @@ namespace RZ\Roadiz\CoreBundle\Logger;
 use Doctrine\Persistence\ManagerRegistry;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Log;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\User;
+use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,11 +25,13 @@ final class DoctrineHandler extends AbstractProcessingHandler
     protected ManagerRegistry $managerRegistry;
     protected TokenStorageInterface $tokenStorage;
     protected RequestStack $requestStack;
+    private DocumentUrlGeneratorInterface $documentUrlGenerator;
 
     public function __construct(
         ManagerRegistry $managerRegistry,
         TokenStorageInterface $tokenStorage,
         RequestStack $requestStack,
+        DocumentUrlGeneratorInterface $documentUrlGenerator,
         $level = Logger::INFO,
         $bubble = true
     ) {
@@ -35,6 +40,7 @@ final class DoctrineHandler extends AbstractProcessingHandler
         $this->managerRegistry = $managerRegistry;
 
         parent::__construct($level, $bubble);
+        $this->documentUrlGenerator = $documentUrlGenerator;
     }
 
     /**
@@ -73,27 +79,78 @@ final class DoctrineHandler extends AbstractProcessingHandler
 
             $log->setChannel((string) $record['channel']);
             $data = $record['extra'];
-            if (isset($record['context']['exception']) && $record['context']['exception'] instanceof \Exception) {
-                $data = array_merge(
-                    $data,
-                    [
-                        get_class($record['context']['exception']) => $record['context']['exception']->getMessage()
-                    ]
-                );
+            $context = $record['context'];
+
+            if (\is_array($context)) {
+                foreach ($context as $key => $value) {
+                    if ($value instanceof NodesSources) {
+                        $log->setEntityClass(NodesSources::class);
+                        $log->setEntityId($value->getId());
+                        $data = array_merge(
+                            $data,
+                            [
+                                'node_source_id' => $value->getId(),
+                                'node_id' => $value->getNode()->getId(),
+                                'translation_id' => $value->getTranslation()->getId(),
+                                'entity_title' => $value->getTitle(),
+                            ]
+                        );
+
+                        $thumbnail = $value->getOneDisplayableDocument();
+                        if (null !== $thumbnail) {
+                            $thumbnailSrc = $this->documentUrlGenerator
+                                ->setDocument($thumbnail)
+                                ->setOptions([
+                                    "fit" => "150x150",
+                                    "quality" => 70,
+                                ])
+                                ->getUrl();
+
+                            $data = array_merge(
+                                $data,
+                                [
+                                    'entity_thumbnail_src' => $thumbnailSrc,
+                                ]
+                            );
+                        }
+                    } elseif ($key === 'entity' && $value instanceof PersistableInterface) {
+                        $log->setEntityClass(get_class($value));
+                        $log->setEntityId($value->getId());
+                    }
+                    if ($value instanceof \Exception) {
+                        $data = array_merge(
+                            $data,
+                            [
+                                get_class($value) => $value->getMessage()
+                            ]
+                        );
+                    }
+                    if ($value instanceof Request) {
+                        $data = array_merge(
+                            $data,
+                            [
+                                'uri' => $value->getUri(),
+                                'schemeHost' => $value->getSchemeAndHttpHost(),
+                            ]
+                        );
+                    }
+                    if ($key === 'request' && \is_array($value)) {
+                        $data = array_merge(
+                            $data,
+                            $value
+                        );
+                    }
+                    if (\is_string($value) && !empty($value) && !\is_numeric($key)) {
+                        $data = array_merge(
+                            $data,
+                            [$key => $value]
+                        );
+                    }
+                    if (\is_string($value) && !empty($value) && \in_array($key, ['user', 'username'])) {
+                        $log->setUsername($value);
+                    }
+                }
             }
-            if (isset($record['context']['request'])) {
-                $data = array_merge(
-                    $data,
-                    $record['context']['request']
-                );
-            }
-            if (isset($record['context']['username'])) {
-                $data = array_merge(
-                    $data,
-                    ['username' => $record['context']['username']]
-                );
-            }
-            $log->setAdditionalData($data);
 
             /*
              * Use available securityAuthorizationChecker to provide a valid user
@@ -106,6 +163,15 @@ final class DoctrineHandler extends AbstractProcessingHandler
                 if ($user instanceof UserInterface) {
                     if ($user instanceof User) {
                         $log->setUser($user);
+                        $data = array_merge(
+                            $data,
+                            [
+                                'user_email' => $user->getEmail(),
+                                'user_public_name' => $user->getPublicName(),
+                                'user_picture_url' => $user->getPictureUrl(),
+                                'user_id' => $user->getId()
+                            ]
+                        );
                     } else {
                         $log->setUsername($user->getUsername());
                     }
@@ -121,15 +187,7 @@ final class DoctrineHandler extends AbstractProcessingHandler
                 $log->setClientIp($this->requestStack->getMainRequest()->getClientIp());
             }
 
-            /*
-             * Add a related node-source entity
-             */
-            if (
-                isset($record['context']['source']) &&
-                $record['context']['source'] instanceof NodesSources
-            ) {
-                $log->setNodeSource($record['context']['source']);
-            }
+            $log->setAdditionalData($data);
 
             $manager->persist($log);
             $manager->flush();

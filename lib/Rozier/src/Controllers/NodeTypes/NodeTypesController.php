@@ -86,7 +86,7 @@ class NodeTypesController extends RozierApp
                 $this->messageBus->dispatch(new Envelope(new UpdateNodeTypeSchemaMessage($nodeType->getId())));
 
                 $msg = $this->getTranslator()->trans('nodeType.%name%.updated', ['%name%' => $nodeType->getName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $nodeType);
 
                 return $this->redirectToRoute('nodeTypesEditPage', [
                     'nodeTypeId' => $nodeTypeId
@@ -125,7 +125,7 @@ class NodeTypesController extends RozierApp
                 $this->messageBus->dispatch(new Envelope(new UpdateNodeTypeSchemaMessage($nodeType->getId())));
 
                 $msg = $this->getTranslator()->trans('nodeType.%name%.created', ['%name%' => $nodeType->getName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $nodeType);
 
                 return $this->redirectToRoute('nodeTypesEditPage', [
                     'nodeTypeId' => $nodeType->getId()
@@ -165,7 +165,7 @@ class NodeTypesController extends RozierApp
             $this->messageBus->dispatch(new Envelope(new DeleteNodeTypeMessage($nodeType->getId())));
 
             $msg = $this->getTranslator()->trans('nodeType.%name%.deleted', ['%name%' => $nodeType->getName()]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $nodeType);
 
             return $this->redirectToRoute('nodeTypesHomePage');
         }

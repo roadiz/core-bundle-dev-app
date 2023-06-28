@@ -213,7 +213,7 @@ class NodeMover
                 $existingRedirection->setQuery($previousPath);
                 $this->logger->info('New redirection created', [
                     'oldPath' => $previousPath,
-                    'nodeSource' => $nodeSource->getId(),
+                    'nodeSource' => $nodeSource,
                 ]);
             }
             $existingRedirection->setRedirectNodeSource($nodeSource);

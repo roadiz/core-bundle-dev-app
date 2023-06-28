@@ -303,7 +303,9 @@ final class CustomFormController extends AbstractController
                 }
             }
         } catch (FilesystemException $exception) {
-            $this->logger->error($exception->getMessage());
+            $this->logger->error($exception->getMessage(), [
+                'entity' => $answer
+            ]);
         }
 
         if (empty($receiver)) {

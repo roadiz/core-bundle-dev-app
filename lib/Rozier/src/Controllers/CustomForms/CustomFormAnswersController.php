@@ -83,7 +83,7 @@ class CustomFormAnswersController extends RozierApp
                 $this->em()->remove($customFormAnswer);
 
                 $msg = $this->getTranslator()->trans('customFormAnswer.%id%.deleted', ['%id%' => $customFormAnswer->getId()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $customFormAnswer);
                 /*
                  * Redirect to update schema page
                  */

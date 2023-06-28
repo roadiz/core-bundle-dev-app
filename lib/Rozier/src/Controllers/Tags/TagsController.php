@@ -194,7 +194,7 @@ class TagsController extends RozierApp
                 $msg = $this->getTranslator()->trans('tag.%name%.updated', [
                     '%name%' => $tagTranslation->getName(),
                 ]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $tag);
 
                 /*
                  * Force redirect to avoid resending form when refreshing page
@@ -333,7 +333,7 @@ class TagsController extends RozierApp
                 $this->dispatchEvent(new TagCreatedEvent($tag));
 
                 $msg = $this->getTranslator()->trans('tag.%name%.created', ['%name%' => $tag->getTagName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $tag);
                 /*
                  * Force redirect to avoid resending form when refreshing page
                  */
@@ -382,7 +382,7 @@ class TagsController extends RozierApp
                 $this->dispatchEvent(new TagUpdatedEvent($tag));
 
                 $msg = $this->getTranslator()->trans('tag.%name%.updated', ['%name%' => $tag->getTagName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $tag);
 
                 /*
                  * Force redirect to avoid resending form when refreshing page
@@ -487,7 +487,7 @@ class TagsController extends RozierApp
                         $tag->getTranslatedTags()->first()->getName() :
                         $tag->getTagName(),
                 ]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $tag);
 
                 /*
                  * Force redirect to avoid resending form when refreshing page
@@ -554,7 +554,7 @@ class TagsController extends RozierApp
                     $this->dispatchEvent(new TagCreatedEvent($tag));
 
                     $msg = $this->getTranslator()->trans('child.tag.%name%.created', ['%name%' => $tag->getTagName()]);
-                    $this->publishConfirmMessage($request, $msg);
+                    $this->publishConfirmMessage($request, $msg, $tag);
 
                     return $this->redirectToRoute(
                         'tagsEditPage',
@@ -715,7 +715,7 @@ class TagsController extends RozierApp
             $msg = $this->getTranslator()->trans('tag.%name%.updated', [
                 '%name%' => $entity->getName(),
             ]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $entity);
         }
     }
 

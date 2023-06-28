@@ -133,7 +133,7 @@ class SettingsController extends RozierApp
                             'setting.%name%.updated',
                             ['%name%' => $setting->getName()]
                         );
-                        $this->publishConfirmMessage($request, $msg);
+                        $this->publishConfirmMessage($request, $msg, $setting);
 
                         if ($request->isXmlHttpRequest() || $request->getRequestFormat('html') === 'json') {
                             return new JsonResponse([
@@ -218,7 +218,7 @@ class SettingsController extends RozierApp
                 $this->dispatchEvent(new SettingUpdatedEvent($setting));
                 $this->em()->flush();
                 $msg = $this->getTranslator()->trans('setting.%name%.updated', ['%name%' => $setting->getName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $setting);
                 /*
                  * Force redirect to avoid resending form when refreshing page
                  */
@@ -273,7 +273,7 @@ class SettingsController extends RozierApp
                 $this->em()->persist($setting);
                 $this->em()->flush();
                 $msg = $this->getTranslator()->trans('setting.%name%.created', ['%name%' => $setting->getName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $setting);
 
                 return $this->redirectToRoute('settingsHomePage');
             } catch (EntityAlreadyExistsException $e) {
@@ -319,7 +319,7 @@ class SettingsController extends RozierApp
                 $this->em()->flush();
 
                 $msg = $this->getTranslator()->trans('setting.%name%.deleted', ['%name%' => $setting->getName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $setting);
 
                 /*
                  * Force redirect to avoid resending form when refreshing page

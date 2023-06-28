@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
 use RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -390,9 +391,9 @@ abstract class AppController extends Controller
      *
      * @param Request $request
      * @param string $msg
-     * @param NodesSources|null $source
+     * @param object|null $source
      */
-    public function publishConfirmMessage(Request $request, string $msg, ?NodesSources $source = null): void
+    public function publishConfirmMessage(Request $request, string $msg, ?object $source = null): void
     {
         $this->publishMessage($request, $msg, 'confirm', $source);
     }
@@ -404,13 +405,13 @@ abstract class AppController extends Controller
      * @param Request $request
      * @param string $msg
      * @param string $level
-     * @param NodesSources|null $source
+     * @param object|null $source
      */
     protected function publishMessage(
         Request $request,
         string $msg,
         string $level = "confirm",
-        ?NodesSources $source = null
+        ?object $source = null
     ): void {
         $session = $this->getSession();
         if ($session instanceof Session) {
@@ -419,10 +420,12 @@ abstract class AppController extends Controller
 
         switch ($level) {
             case 'error':
-                $this->getLogger()->error($msg, ['source' => $source]);
+            case 'danger':
+            case 'fail':
+                $this->getLogger()->error($msg, ['entity' => $source]);
                 break;
             default:
-                $this->getLogger()->info($msg, ['source' => $source]);
+                $this->getLogger()->info($msg, ['entity' => $source]);
                 break;
         }
     }
@@ -444,10 +447,10 @@ abstract class AppController extends Controller
      *
      * @param Request $request
      * @param string $msg
-     * @param NodesSources|null $source
+     * @param object|null $source
      * @return void
      */
-    public function publishErrorMessage(Request $request, string $msg, NodesSources $source = null): void
+    public function publishErrorMessage(Request $request, string $msg, ?object $source = null): void
     {
         $this->publishMessage($request, $msg, 'error', $source);
     }

@@ -55,7 +55,7 @@ class UsersGroupsController extends RozierApp
                             '%user%' => $user->getUserName(),
                             '%group%' => $group->getName(),
                         ]);
-                        $this->publishConfirmMessage($request, $msg);
+                        $this->publishConfirmMessage($request, $msg, $user);
 
                         /*
                          * Force redirect to avoid resending form when refreshing page
@@ -106,7 +106,7 @@ class UsersGroupsController extends RozierApp
                     '%user%' => $user->getUserName(),
                     '%group%' => $group->getName(),
                 ]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $user);
 
                 /*
                  * Force redirect to avoid resending form when refreshing page

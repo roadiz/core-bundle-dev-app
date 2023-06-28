@@ -150,7 +150,7 @@ class GroupsController extends AbstractAdminController
                     '%group%' => $item->getName(),
                     '%role%' => $role->getRole(),
                 ]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $role);
 
                 return $this->redirectToRoute(
                     'groupsEditRolesPage',
@@ -206,7 +206,7 @@ class GroupsController extends AbstractAdminController
                 '%role%' => $role->getRole(),
                 '%group%' => $item->getName(),
             ]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $role);
 
             return $this->redirectToRoute(
                 'groupsEditRolesPage',
@@ -254,7 +254,7 @@ class GroupsController extends AbstractAdminController
                     '%group%' => $item->getName(),
                     '%user%' => $user->getUserName(),
                 ]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $user);
 
                 return $this->redirectToRoute(
                     'groupsEditUsersPage',
@@ -309,7 +309,7 @@ class GroupsController extends AbstractAdminController
                 '%user%' => $user->getUserName(),
                 '%group%' => $item->getName(),
             ]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $user);
 
             return $this->redirectToRoute(
                 'groupsEditUsersPage',
