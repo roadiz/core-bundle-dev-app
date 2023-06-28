@@ -44,18 +44,10 @@
         <div class="table">
             {% if log.additionalData.entity_title %}
                 <div class="history-log-source table-cell">
-                    {% if log.additionalData.node_id %}
-                        {% if is_granted('ROLE_ACCESS_NODES') and log.additionalData.node_id and log.additionalData.translation_id %}
-                            {% set entityPath = path("nodesEditSourcePage", { "nodeId":log.additionalData.node_id, "translationId":log.additionalData.translation_id }) %}
-                        {% elseif is_granted('ROLE_ACCESS_LOGS') and log.additionalData.node_id %}
-                            {% set entityPath = path("nodesHistoryPage", {"nodeId":log.additionalData.node_id }) %}
-                        {% else %}
-                            {% set entityPath = '#' %}
-                        {% endif %}
-                    {% else %}
-                        {% set entityPath = '#' %}
-                    {% endif %}
+                    {% set entityPath = log_entity_edit_path(log) %}
+                    {% if entityPath %}
                     <a href="{{ entityPath }}">
+                    {% endif %}
                         {% set thumbnail = log.additionalData.entity_thumbnail_src %}
                         {% if thumbnail %}
                             <figure title="{{ log.additionalData.entity_title }}" data-uk-tooltip="{animation:true}" >
@@ -66,7 +58,9 @@
                                   title="{{ log.additionalData.entity_title }}"
                                   data-uk-tooltip="{animation:true}"></span>
                         {% endif %}
+                    {% if entityPath %}
                     </a>
+                    {% endif %}
                 </div>
             {% endif %}
             <div class="table-cell">

@@ -254,7 +254,7 @@ class NodesController extends RozierApp
                 $msg = $this->getTranslator()->trans('node.%name%.updated', [
                     '%name%' => $node->getNodeName(),
                 ]);
-                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
+                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
                 return $this->redirectToRoute(
                     'nodesEditPage',
                     ['nodeId' => $node->getId()]

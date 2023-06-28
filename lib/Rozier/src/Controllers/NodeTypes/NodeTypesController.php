@@ -17,6 +17,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Themes\Rozier\Forms\NodeTypeType;
 use Themes\Rozier\RozierApp;
 use Themes\Rozier\Utils\SessionListFilters;
+use Twig\Error\RuntimeError;
 
 /**
  * @package Themes\Rozier\Controllers\NodeTypes
@@ -61,9 +62,10 @@ class NodeTypesController extends RozierApp
      * Return an edition form for requested node-type.
      *
      * @param Request $request
-     * @param int     $nodeTypeId
+     * @param int $nodeTypeId
      *
      * @return Response
+     * @throws RuntimeError
      */
     public function editAction(Request $request, int $nodeTypeId): Response
     {
@@ -108,6 +110,7 @@ class NodeTypesController extends RozierApp
      * @param Request $request
      *
      * @return Response
+     * @throws RuntimeError
      */
     public function addAction(Request $request): Response
     {
@@ -143,9 +146,10 @@ class NodeTypesController extends RozierApp
 
     /**
      * @param Request $request
-     * @param int     $nodeTypeId
+     * @param int $nodeTypeId
      *
      * @return Response
+     * @throws RuntimeError
      */
     public function deleteAction(Request $request, int $nodeTypeId): Response
     {

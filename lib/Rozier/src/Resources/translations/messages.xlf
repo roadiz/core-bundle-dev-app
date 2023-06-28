@@ -3,6 +3,7 @@
     <file original="./themes/Rozier/Resources/translations/messages.po" source-language="en-US" datatype="plaintext">
         <body>
             <trans-unit xml:space="preserve" id="2"><source>node.%name%.updated</source></trans-unit>
+            <trans-unit xml:space="preserve" id="node.%name%.was_moved"><source>node.%name%.was_moved</source></trans-unit>
             <trans-unit xml:space="preserve" id="3"><source>node.%nodeId%.not_exists</source></trans-unit>
             <trans-unit xml:space="preserve" id="4"><source>node.%name%.status.%field%.updated</source></trans-unit>
             <trans-unit xml:space="preserve" id="5"><source>node.has_no.field.%field%</source></trans-unit>

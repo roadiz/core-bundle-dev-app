@@ -58,7 +58,7 @@ class AjaxNodesController extends AbstractAjaxController
      * @param  int $nodeId
      * @return JsonResponse
      */
-    public function getTagsAction(Request $request, int $nodeId)
+    public function getTagsAction(Request $request, int $nodeId): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
         $tags = [];
@@ -80,11 +80,11 @@ class AjaxNodesController extends AbstractAjaxController
      * such as coming from node-tree widgets.
      *
      * @param Request $request
-     * @param int     $nodeId
+     * @param int|string $nodeId
      *
      * @return Response JSON response
      */
-    public function editAction(Request $request, $nodeId)
+    public function editAction(Request $request, int|string $nodeId): Response
     {
         /*
          * Validate
@@ -104,6 +104,13 @@ class AjaxNodesController extends AbstractAjaxController
             switch ($request->get('_action')) {
                 case 'updatePosition':
                     $this->updatePosition($request->request->all(), $node);
+                    $responseArray = [
+                        'statusCode' => '200',
+                        'status' => 'success',
+                        'responseText' => $this->getTranslator()->trans('node.%name%.was_moved', [
+                            '%name%' => $node->getNodeName(),
+                        ]),
+                    ];
                     break;
                 case 'duplicate':
                     $duplicator = new NodeDuplicator(
@@ -121,7 +128,7 @@ class AjaxNodesController extends AbstractAjaxController
                     $msg = $this->getTranslator()->trans('duplicated.node.%name%', [
                         '%name%' => $node->getNodeName(),
                     ]);
-                    $this->logger->info($msg, ['source' => $newNode->getNodeSources()->first()]);
+                    $this->logger->info($msg, ['entity' => $newNode->getNodeSources()->first()]);
 
                     $responseArray = [
                         'statusCode' => '200',
@@ -156,7 +163,7 @@ class AjaxNodesController extends AbstractAjaxController
      * @param array $parameters
      * @param Node  $node
      */
-    protected function updatePosition($parameters, Node $node): void
+    protected function updatePosition(array $parameters, Node $node): void
     {
         if ($node->isLocked()) {
             throw new BadRequestHttpException('Locked node cannot be moved.');
@@ -194,6 +201,11 @@ class AjaxNodesController extends AbstractAjaxController
         foreach ($node->getNodeSources() as $nodeSource) {
             $this->dispatchEvent(new NodesSourcesUpdatedEvent($nodeSource));
         }
+
+        $msg = $this->getTranslator()->trans('node.%name%.was_moved', [
+            '%name%' => $node->getNodeName(),
+        ]);
+        $this->logger->info($msg, ['entity' => $node->getNodeSources()->first() ?: $node]);
 
         $this->em()->flush();
     }
@@ -306,14 +318,14 @@ class AjaxNodesController extends AbstractAjaxController
                         '%name%' => $node->getNodeName(),
                         '%visible%' => $node->isVisible() ? $this->getTranslator()->trans('visible') : $this->getTranslator()->trans('invisible'),
                     ]);
-                    $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
+                    $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
                     $this->dispatchEvent(new NodeVisibilityChangedEvent($node));
                 } else {
                     $msg = $this->getTranslator()->trans('node.%name%.%field%.updated', [
                         '%name%' => $node->getNodeName(),
                         '%field%' => $request->get('statusName'),
                     ]);
-                    $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
+                    $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
                 }
                 $this->dispatchEvent(new NodeUpdatedEvent($node));
                 $this->em()->flush();
@@ -357,7 +369,7 @@ class AjaxNodesController extends AbstractAjaxController
             '%name%' => $node->getNodeName(),
             '%status%' => $this->getTranslator()->trans(Node::getStatusLabel($node->getStatus())),
         ]);
-        $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
+        $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
 
         return new JsonResponse(
             [

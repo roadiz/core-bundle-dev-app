@@ -27,13 +27,7 @@
             {% apply spaceless %}
                 {% for log in latestLogs %}
                     <div class="latest-source">
-                        {% if is_granted('ROLE_ACCESS_NODES') and log.additionalData.node_id and log.additionalData.translation_id %}
-                            {% set entityPath = path("nodesEditSourcePage", {
-                                "nodeId": log.additionalData.node_id,
-                                "translationId": log.additionalData.translation_id
-                            }) %}
-                        {% endif %}
-
+                        {% set entityPath = log_entity_edit_path(log) %}
                         {% if entityPath %}
                         <a href="{{ entityPath }}">
                         {% endif %}

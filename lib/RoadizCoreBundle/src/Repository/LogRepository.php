@@ -8,6 +8,7 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Log;
+use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -31,17 +32,16 @@ final class LogRepository extends EntityRepository
      */
     public function findLatestByNodesSources(int $maxResult = 5): Paginator
     {
-
         $subQb = $this->createQueryBuilder('slog');
         $subQb->select($subQb->expr()->max('slog.id'))
-            ->andWhere($subQb->expr()->eq('slog.entityClass', ':entityClass'))
+            ->andWhere($subQb->expr()->in('slog.entityClass', ':entityClass'))
             ->addGroupBy('slog.entityId');
 
         $qb = $this->createQueryBuilder('log');
         $qb->select('log.id as id')
             ->andWhere($qb->expr()->in('log.id', $subQb->getQuery()->getDQL()))
             ->orderBy('log.datetime', 'DESC')
-            ->setParameter(':entityClass', NodesSources::class)
+            ->setParameter(':entityClass', [NodesSources::class, Node::class])
             ->setMaxResults($maxResult)
         ;
         $ids = $qb->getQuery()

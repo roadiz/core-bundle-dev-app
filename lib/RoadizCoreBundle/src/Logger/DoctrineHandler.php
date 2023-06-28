@@ -9,8 +9,10 @@ use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Log;
+use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\User;
+use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -22,9 +24,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 final class DoctrineHandler extends AbstractProcessingHandler
 {
-    protected ManagerRegistry $managerRegistry;
-    protected TokenStorageInterface $tokenStorage;
-    protected RequestStack $requestStack;
+    private ManagerRegistry $managerRegistry;
+    private TokenStorageInterface $tokenStorage;
+    private RequestStack $requestStack;
     private DocumentUrlGeneratorInterface $documentUrlGenerator;
 
     public function __construct(
@@ -35,30 +37,85 @@ final class DoctrineHandler extends AbstractProcessingHandler
         $level = Logger::INFO,
         $bubble = true
     ) {
+        parent::__construct($level, $bubble);
         $this->tokenStorage = $tokenStorage;
         $this->requestStack = $requestStack;
         $this->managerRegistry = $managerRegistry;
-
-        parent::__construct($level, $bubble);
         $this->documentUrlGenerator = $documentUrlGenerator;
     }
 
-    /**
-     * @return TokenStorageInterface
-     */
-    public function getTokenStorage(): TokenStorageInterface
+    protected function getThumbnailSourcePath(?DocumentInterface $thumbnail): ?string
     {
-        return $this->tokenStorage;
+        if (null === $thumbnail) {
+            return null;
+        }
+        return $this->documentUrlGenerator
+            ->setDocument($thumbnail)
+            ->setOptions([
+                "fit" => "150x150",
+                "quality" => 70,
+            ])
+            ->getUrl();
     }
-    /**
-     * @param TokenStorageInterface $tokenStorage
-     *
-     * @return $this
-     */
-    public function setTokenStorage(TokenStorageInterface $tokenStorage): DoctrineHandler
+
+    protected function populateForNode(Node $value, Log $log, array &$data): void
     {
-        $this->tokenStorage = $tokenStorage;
-        return $this;
+        $log->setEntityClass(Node::class);
+        $log->setEntityId($value->getId());
+        $data = array_merge(
+            $data,
+            [
+                'node_id' => $value->getId(),
+                'entity_title' => $value->getNodeName(),
+            ]
+        );
+        $nodeSource = $value->getNodeSources()->first() ?: null;
+        if (null !== $nodeSource) {
+            $data = array_merge(
+                $data,
+                [
+                    'node_source_id' => $nodeSource->getId(),
+                    'translation_id' => $nodeSource->getTranslation()->getId(),
+                    'entity_title' => $nodeSource->getTitle() ?? $value->getNodeName(),
+                ]
+            );
+        }
+
+        $thumbnailSrc = $this->getThumbnailSourcePath($nodeSource?->getOneDisplayableDocument());
+        if (null !== $thumbnailSrc) {
+            $data = array_merge(
+                $data,
+                [
+                    'entity_thumbnail_src' => $thumbnailSrc,
+                ]
+            );
+        }
+    }
+
+    protected function populateForNodesSources(NodesSources $value, Log $log, array &$data): void
+    {
+        $log->setEntityClass(NodesSources::class);
+        $log->setEntityId($value->getId());
+        $data = array_merge(
+            $data,
+            [
+                'node_source_id' => $value->getId(),
+                'node_id' => $value->getNode()->getId(),
+                'translation_id' => $value->getTranslation()->getId(),
+                'entity_title' => $value->getTitle(),
+            ]
+        );
+
+        $thumbnail = $value->getOneDisplayableDocument();
+        $thumbnailSrc = $this->getThumbnailSourcePath($thumbnail);
+        if (null !== $thumbnailSrc) {
+            $data = array_merge(
+                $data,
+                [
+                    'entity_thumbnail_src' => $thumbnailSrc,
+                ]
+            );
+        }
     }
 
     /**
@@ -83,45 +140,33 @@ final class DoctrineHandler extends AbstractProcessingHandler
 
             if (\is_array($context)) {
                 foreach ($context as $key => $value) {
-                    if ($value instanceof NodesSources) {
-                        $log->setEntityClass(NodesSources::class);
-                        $log->setEntityId($value->getId());
-                        $data = array_merge(
-                            $data,
-                            [
-                                'node_source_id' => $value->getId(),
-                                'node_id' => $value->getNode()->getId(),
-                                'translation_id' => $value->getTranslation()->getId(),
-                                'entity_title' => $value->getTitle(),
-                            ]
-                        );
-
-                        $thumbnail = $value->getOneDisplayableDocument();
-                        if (null !== $thumbnail) {
-                            $thumbnailSrc = $this->documentUrlGenerator
-                                ->setDocument($thumbnail)
-                                ->setOptions([
-                                    "fit" => "150x150",
-                                    "quality" => 70,
-                                ])
-                                ->getUrl();
-
-                            $data = array_merge(
-                                $data,
-                                [
-                                    'entity_thumbnail_src' => $thumbnailSrc,
-                                ]
-                            );
-                        }
+                    if ($value instanceof Node) {
+                        $this->populateForNode($value, $log, $data);
+                    } elseif ($value instanceof NodesSources) {
+                        $this->populateForNodesSources($value, $log, $data);
                     } elseif ($key === 'entity' && $value instanceof PersistableInterface) {
                         $log->setEntityClass(get_class($value));
                         $log->setEntityId($value->getId());
+
+                        $texteable = ['getTitle', 'getName', '__toString'];
+                        foreach ($texteable as $method) {
+                            if (method_exists($value, $method)) {
+                                $data = array_merge(
+                                    $data,
+                                    [
+                                        'entity_title' => $value->{$method}()
+                                    ]
+                                );
+                                break;
+                            }
+                        }
                     }
                     if ($value instanceof \Exception) {
                         $data = array_merge(
                             $data,
                             [
-                                get_class($value) => $value->getMessage()
+                                'exception_class' => get_class($value),
+                                'message' => $value->getMessage()
                             ]
                         );
                     }
@@ -155,10 +200,7 @@ final class DoctrineHandler extends AbstractProcessingHandler
             /*
              * Use available securityAuthorizationChecker to provide a valid user
              */
-            if (
-                null !== $this->getTokenStorage() &&
-                null !== $token = $this->getTokenStorage()->getToken()
-            ) {
+            if (null !== $token = $this->tokenStorage->getToken()) {
                 $user = $token->getUser();
                 if ($user instanceof UserInterface) {
                     if ($user instanceof User) {
