@@ -1,3 +1,10 @@
+## [v2.1.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.20...v2.1.21) (2023-06-28)
+
+
+### Bug Fixes
+
+* **OpenID:** Do not register `roadiz_rozier.open_id.discovery` if `discovery_url` is not valid ([120b6a9](https://github.com/roadiz/core-bundle-dev-app/commit/120b6a999b6635d120ce5c7ee7225b61328692b1))
+
 ## [v2.1.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.19...v2.1.20) (2023-06-23)
 
 
