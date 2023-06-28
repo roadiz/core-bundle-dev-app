@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
+use Doctrine\ORM\QueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Log;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\ListManager\QueryBuilderListManager;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -35,13 +38,18 @@ class HistoryController extends RozierApp
             throw new ResourceNotFoundException();
         }
 
-        $listManager = $this->createEntityListManager(
-            Log::class,
-            [
-                'nodeSource' => $node->getNodeSources()->toArray(),
-            ],
-            ['datetime' => 'DESC']
-        );
+        $qb = $this->em()
+            ->getRepository(Log::class)
+            ->getAllRelatedToNodeQueryBuilder($node);
+
+        $listManager = new QueryBuilderListManager($request, $qb, 'obj');
+        $listManager->setSearchingCallable(function (QueryBuilder $queryBuilder, string $search) {
+            $queryBuilder->andWhere($queryBuilder->expr()->orX(
+                $queryBuilder->expr()->like('obj.message', ':search'),
+                $queryBuilder->expr()->like('obj.channel', ':search')
+            ));
+            $queryBuilder->setParameter('search', '%' . $search . '%');
+        });
         $listManager->setDisplayingNotPublishedNodes(true);
         $listManager->setDisplayingAllNodesStatuses(true);
         /*

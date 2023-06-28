@@ -14,6 +14,10 @@ class QueryBuilderListManager extends AbstractEntityListManager
     protected ?Paginator $paginator = null;
     protected string $identifier;
     protected bool $debug = false;
+    /**
+     * @var null|callable
+     */
+    protected $searchingCallable = null;
 
     /**
      * @param Request|null $request
@@ -34,11 +38,25 @@ class QueryBuilderListManager extends AbstractEntityListManager
     }
 
     /**
+     * @param callable|null $searchingCallable
+     * @return QueryBuilderListManager
+     */
+    public function setSearchingCallable(?callable $searchingCallable): QueryBuilderListManager
+    {
+        $this->searchingCallable = $searchingCallable;
+        return $this;
+    }
+
+    /**
      * @param string $search
      */
     protected function handleSearchParam(string $search): void
     {
-        // Implement your custom logic
+        parent::handleSearchParam($search);
+
+        if (\is_callable($this->searchingCallable)) {
+            \call_user_func($this->searchingCallable, $this->queryBuilder, $search);
+        }
     }
 
     public function handle(bool $disabled = false)

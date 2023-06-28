@@ -64,20 +64,20 @@ class HistoryController extends RozierApp
      * List user logs action.
      *
      * @param Request $request
-     * @param int $userId
+     * @param int|string $userId
      *
      * @return Response
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
      */
-    public function userAction(Request $request, int $userId): Response
+    public function userAction(Request $request, int|string $userId): Response
     {
         $this->denyAccessUnlessGranted(['ROLE_BACKEND_USER', 'ROLE_ACCESS_LOGS']);
 
         if (
             !($this->isGranted(['ROLE_ACCESS_USERS', 'ROLE_ACCESS_LOGS'])
-            || ($this->getUser() instanceof User && $this->getUser()->getId() == $userId))
+            || ($this->getUser() instanceof User && $this->getUser()->getId() === $userId))
         ) {
             throw $this->createAccessDeniedException("You don't have access to this page: ROLE_ACCESS_USERS");
         }
@@ -94,7 +94,7 @@ class HistoryController extends RozierApp
          */
         $listManager = $this->createEntityListManager(
             Log::class,
-            ['user' => $user],
+            ['userId' => $user->getId()],
             ['datetime' => 'DESC']
         );
         $listManager->setDisplayingNotPublishedNodes(true);

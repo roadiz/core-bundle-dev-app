@@ -67,6 +67,7 @@ final class SolrSearchListManager extends AbstractEntityListManager
 
     protected function handleSearchParam(string $search): void
     {
+        parent::handleSearchParam($search);
         $this->query = trim($search);
     }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Repository;
 
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Log;
@@ -56,5 +57,34 @@ final class LogRepository extends EntityRepository
             }, $ids));
 
         return new Paginator($qb2->getQuery(), true);
+    }
+
+    public function findByNode(Node $node): array
+    {
+        $qb = $this->getAllRelatedToNodeQueryBuilder($node);
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getAllRelatedToNodeQueryBuilder(Node $node): QueryBuilder
+    {
+        $qb = $this->createQueryBuilder('obj');
+        $qb->andWhere($qb->expr()->orX(
+            $qb->expr()->andX(
+                $qb->expr()->eq('obj.entityClass', ':nodeClass'),
+                $qb->expr()->in('obj.entityId', ':nodeId')
+            ),
+            $qb->expr()->andX(
+                $qb->expr()->eq('obj.entityClass', ':nodeSourceClass'),
+                $qb->expr()->in('obj.entityId', ':nodeSourceId')
+            ),
+        ));
+        $qb->addOrderBy('obj.datetime', 'DESC');
+        $qb->setParameter('nodeClass', Node::class);
+        $qb->setParameter('nodeSourceClass', NodesSources::class);
+        $qb->setParameter('nodeId', [$node->getId()]);
+        $qb->setParameter('nodeSourceId', $node->getNodeSources()->map(function (NodesSources $ns) {
+            return $ns->getId();
+        })->toArray());
+        return $qb;
     }
 }

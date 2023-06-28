@@ -111,7 +111,6 @@ final class LogExtension extends AbstractExtension
                     ]);
                 }
                 break;
-
         }
 
         return null;

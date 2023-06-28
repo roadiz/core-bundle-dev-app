@@ -41,11 +41,11 @@ class Log extends AbstractEntity
     public const DEBUG =     Logger::DEBUG;
     public const LOG =       Logger::INFO;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', unique: false, onDelete: 'SET NULL')]
+    #[ORM\Column(name: 'user_id', type: 'string', length: 36, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['log_user'])]
     #[Serializer\Groups(['log_user'])]
-    protected ?User $user = null;
+    // @phpstan-ignore-next-line
+    protected int|string|null $userId = null;
 
     #[ORM\Column(name: 'username', type: 'string', length: 255, nullable: true)]
     #[SymfonySerializer\Groups(['log_user'])]
@@ -119,12 +119,21 @@ class Log extends AbstractEntity
     }
 
     /**
-     * @return User|null
-     * @deprecated Use additionalData or username instead
+     * @return int|string|null
      */
-    public function getUser(): ?User
+    public function getUserId(): int|string|null
     {
-        return $this->user;
+        return $this->userId;
+    }
+
+    /**
+     * @param int|string|null $userId
+     * @return Log
+     */
+    public function setUserId(int|string|null $userId): Log
+    {
+        $this->userId = $userId;
+        return $this;
     }
 
     /**
@@ -134,7 +143,7 @@ class Log extends AbstractEntity
      */
     public function setUser(User $user): Log
     {
-        $this->user = $user;
+        $this->userId = $user->getId();
         $this->username = $user->getUsername();
         return $this;
     }

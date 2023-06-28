@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\ListManager;
 
+use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
@@ -13,7 +14,6 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\StatusAwareRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 
 /**
  * Perform basic filtering and search over entity listings.
@@ -28,7 +28,6 @@ class EntityListManager extends AbstractEntityListManager
     protected ?Paginator $paginator = null;
     protected ?array $orderingArray = null;
     protected ?array $filteringArray = null;
-    protected ?string $searchPattern = null;
     protected ?array $assignation = null;
     protected ?TranslationInterface $translation = null;
 
@@ -134,11 +133,6 @@ class EntityListManager extends AbstractEntityListManager
         }
     }
 
-    protected function handleSearchParam(string $search): void
-    {
-        $this->searchPattern = $search;
-    }
-
     protected function handleOrderingParam(string $field, string $ordering): void
     {
         $this->orderingArray = [
@@ -186,16 +180,6 @@ class EntityListManager extends AbstractEntityListManager
 
         $this->paginator->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
         $this->paginator->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
-    }
-
-    /**
-     * @return array
-     */
-    public function getAssignation(): array
-    {
-        return array_merge(parent::getAssignation(), [
-            'search' => $this->searchPattern,
-        ]);
     }
 
     /**

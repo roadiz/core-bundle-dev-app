@@ -13,6 +13,7 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     protected ?array $queryArray = null;
     protected ?int $currentPage = null;
     protected ?int $itemPerPage = null;
+    protected ?string $searchPattern = null;
     protected bool $displayNotPublishedNodes;
     protected bool $displayAllNodesStatuses;
     protected bool $allowRequestSorting = true;
@@ -136,6 +137,7 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
             'pageCount' => $this->getPageCount(),
             'itemPerPage' => $this->getItemPerPage(),
             'itemCount' => $this->getItemCount(),
+            'search' => $this->searchPattern,
             'nextPageQuery' => null,
             'previousPageQuery' => null,
         ];
@@ -272,7 +274,7 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
 
     protected function handleSearchParam(string $search): void
     {
-        // Do nothing on abstract
+        $this->searchPattern = $search;
     }
 
     protected function handleOrderingParam(string $field, string $ordering): void
