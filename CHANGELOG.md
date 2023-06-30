@@ -1,3 +1,10 @@
+## [v2.1.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.21...v2.1.22) (2023-06-30)
+
+
+### Bug Fixes
+
+* Do not handle node add attribute form when no attribute exists ([db77e62](https://github.com/roadiz/core-bundle-dev-app/commit/db77e62e778495b2f87eaed35022770064c5bd3c))
+
 ## [v2.1.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.20...v2.1.21) (2023-06-28)
 
 

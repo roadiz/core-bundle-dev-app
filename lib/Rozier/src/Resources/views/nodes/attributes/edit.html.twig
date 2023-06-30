@@ -90,26 +90,28 @@
                     </tbody>
                 </table>
 
-                <table>
-                    <tr>
-                        <td>
-                            {% form_theme addAttributeForm '@RoadizRozier/horizontalForms.html.twig' %}
-                            {{ form_start(addAttributeForm, {
-                                'attr': {
-                                    'id': 'add-node-attribute-form',
-                                    'class': 'uk-form uk-form-stacked'
-                                }
-                            }) }}{{ form_widget(addAttributeForm) }}
-                            {% apply spaceless %}
-                                <button class="uk-button uk-button-primary" type="submit">
-                                    <span class="icon-container"><i class="uk-icon-rz-plus"></i></span>
-                                    <span class="label"><span class="label-text">{% trans %}add.a.node.attribute{% endtrans %}</span></span>
-                                </button>
-                            {% endapply %}
-                            {{ form_end(addAttributeForm) }}
-                        </td>
-                    </tr>
-                </table>
+                {% if addAttributeForm %}
+                    <table>
+                        <tr>
+                            <td>
+                                {% form_theme addAttributeForm '@RoadizRozier/horizontalForms.html.twig' %}
+                                {{ form_start(addAttributeForm, {
+                                    'attr': {
+                                        'id': 'add-node-attribute-form',
+                                        'class': 'uk-form uk-form-stacked'
+                                    }
+                                }) }}{{ form_widget(addAttributeForm) }}
+                                {% apply spaceless %}
+                                    <button class="uk-button uk-button-primary" type="submit">
+                                        <span class="icon-container"><i class="uk-icon-rz-plus"></i></span>
+                                        <span class="label"><span class="label-text">{% trans %}add.a.node.attribute{% endtrans %}</span></span>
+                                    </button>
+                                {% endapply %}
+                                {{ form_end(addAttributeForm) }}
+                            </td>
+                        </tr>
+                    </table>
+                {% endif %}
             </div>
             <hr>
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
+use RZ\Roadiz\CoreBundle\Entity\Attribute;
 use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
 use RZ\Roadiz\CoreBundle\Entity\AttributeValueTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -148,6 +149,11 @@ class NodesAttributesController extends RozierApp
         return $this->render('@RoadizRozier/nodes/attributes/edit.html.twig', $this->assignation);
     }
 
+    protected function hasAttributes(): bool
+    {
+        return $this->em()->getRepository(Attribute::class)->countBy([]) > 0;
+    }
+
     /**
      * @param Request     $request
      * @param Node        $node
@@ -157,6 +163,9 @@ class NodesAttributesController extends RozierApp
      */
     protected function handleAddAttributeForm(Request $request, Node $node, Translation $translation): ?RedirectResponse
     {
+        if (!$this->hasAttributes()) {
+            return null;
+        }
         $attributeValue = new AttributeValue();
         $attributeValue->setAttributable($node);
         $addAttributeForm = $this->createForm(AttributeValueType::class, $attributeValue, [
@@ -185,7 +194,7 @@ class NodesAttributesController extends RozierApp
      * @param int     $translationId
      * @param int     $attributeValueId
      *
-     * @return RedirectResponse|Response
+     * @return Response
      */
     public function deleteAction(Request $request, $nodeId, $translationId, $attributeValueId): Response
     {
