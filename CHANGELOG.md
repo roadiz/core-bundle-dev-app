@@ -1,3 +1,10 @@
+## [v2.1.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.22...v2.1.23) (2023-07-02)
+
+
+### Bug Fixes
+
+* Use `FilterValidationException` instead of `InvalidArgumentException` to generate 400 and no 500 errors ([ca89b73](https://github.com/roadiz/core-bundle-dev-app/commit/ca89b733859a77460081f37a1d1265f7d128ae57))
+
 ## [v2.1.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.21...v2.1.22) (2023-06-30)
 
 
