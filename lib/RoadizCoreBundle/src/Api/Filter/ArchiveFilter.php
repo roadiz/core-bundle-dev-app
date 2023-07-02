@@ -7,8 +7,8 @@ namespace RZ\Roadiz\CoreBundle\Api\Filter;
 use ApiPlatform\Core\Bridge\Doctrine\Common\PropertyHelperTrait;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Exception\FilterValidationException;
 use Doctrine\ORM\QueryBuilder;
 
 final class ArchiveFilter extends AbstractContextAwareFilter
@@ -54,10 +54,10 @@ final class ArchiveFilter extends AbstractContextAwareFilter
         }
 
         if (!is_string($values[self::PARAMETER_ARCHIVE])) {
-            throw new InvalidArgumentException(sprintf(
+            throw new FilterValidationException([sprintf(
                 '“%s” filter must be only used with a string value.',
                 self::PARAMETER_ARCHIVE
-            ));
+            )]);
         }
 
         $range = $this->normalizeFilteringDates($values[self::PARAMETER_ARCHIVE]);
