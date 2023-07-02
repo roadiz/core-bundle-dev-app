@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\Filter;
 
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Exception\FilterValidationException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -65,13 +65,20 @@ final class LocaleFilter extends GeneratedEntityFilter
                 ->getRepository(Translation::class)
                 ->getAvailableLocales();
         }
+
+        if (count($supportedLocales) === 0) {
+            throw new FilterValidationException(
+                ['Locale filter is not available because no translation exist.']
+            );
+        }
+
         if (!in_array($value, $supportedLocales)) {
-            throw new InvalidArgumentException(
-                sprintf(
+            throw new FilterValidationException(
+                [sprintf(
                     'Locale filter value "%s" not supported. Supported values are %s',
                     $value,
                     implode(', ', $supportedLocales)
-                )
+                )]
             );
         }
 
@@ -93,7 +100,7 @@ final class LocaleFilter extends GeneratedEntityFilter
             }
 
             if (null === $translation) {
-                throw new InvalidArgumentException('No translation exist for locale: ' . $value);
+                throw new FilterValidationException(['No translation exist for locale: ' . $value]);
             }
 
             $queryBuilder
@@ -121,8 +128,8 @@ final class LocaleFilter extends GeneratedEntityFilter
     {
         $supportedLocales = $this->managerRegistry->getRepository(Translation::class)->getAvailableLocales();
         return  [
-            static::PROPERTY =>  [
-                'property' => static::PROPERTY,
+            self::PROPERTY =>  [
+                'property' => self::PROPERTY,
                 'type' => 'string',
                 'required' => false,
                 'openapi' => [
