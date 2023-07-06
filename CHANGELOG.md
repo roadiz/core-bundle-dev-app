@@ -1,3 +1,10 @@
+## [v2.1.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.23...v2.1.24) (2023-07-06)
+
+
+### Bug Fixes
+
+* **Search engine:** Do not add quotes if multi-word exact query, Solr Helper already does it ([b0aa80a](https://github.com/roadiz/core-bundle-dev-app/commit/b0aa80a139c576b5729cb8d049f9bc3e38d64f70))
+
 ## [v2.1.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.22...v2.1.23) (2023-07-02)
 
 
