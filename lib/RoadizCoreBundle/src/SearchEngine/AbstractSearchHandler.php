@@ -236,7 +236,6 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     protected function getFormattedQuery(string $q, int $proximity = 1): array
     {
         $q = trim($q);
-        $singleWord = $this->isQuerySingleWord($q);
         /**
          * Generate a fuzzy query by appending proximity to each word
          * @see https://lucene.apache.org/solr/guide/6_6/the-standard-query-parser.html#TheStandardQueryParser-FuzzySearches
@@ -256,12 +255,6 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
          * Only escape exact query
          */
         $exactQuery = $this->escapeQuery($q);
-        if (!$singleWord) {
-            /*
-             * adds quotes if multi word exact query
-             */
-            $exactQuery = '"' . $exactQuery . '"';
-        }
         /*
          * Wildcard search for allowing autocomplete
          */
