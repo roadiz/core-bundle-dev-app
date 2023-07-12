@@ -1,3 +1,10 @@
+## [v2.1.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.24...v2.1.25) (2023-07-12)
+
+
+### Bug Fixes
+
+* Do not display document thumbnail controls for audio, video ([57bbc85](https://github.com/roadiz/core-bundle-dev-app/commit/57bbc85cecda42fba08900e71faa2958b74f8d81))
+
 ## [v2.1.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.23...v2.1.24) (2023-07-06)
 
 

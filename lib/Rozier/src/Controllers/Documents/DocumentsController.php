@@ -79,6 +79,7 @@ class DocumentsController extends RozierApp
         'sharpen' => 5,
         'inline' => false,
         'picture' => true,
+        'controls' => false,
         'loading' => 'lazy',
     ];
     private EmbedFinderFactory $embedFinderFactory;

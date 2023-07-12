@@ -148,6 +148,7 @@ class DocumentPublicListController extends RozierApp
             'sharpen' => 5,
             'inline' => false,
             'picture' => true,
+            'controls' => false,
             'loading' => 'lazy',
         ];
 
