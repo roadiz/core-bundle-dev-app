@@ -398,9 +398,6 @@ services:
             - '%roadiz_core.entity_generator_factory.options%'
 
     Gedmo\Loggable\LoggableListener:
-        alias: RZ\Roadiz\CoreBundle\Doctrine\Loggable\UserLoggableListener
-
-    RZ\Roadiz\CoreBundle\Doctrine\Loggable\UserLoggableListener:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
