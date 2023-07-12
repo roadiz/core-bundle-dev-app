@@ -32,4 +32,9 @@ final class Version20230712163432 extends AbstractMigration
         $this->addSql('ALTER TABLE user_log_entries ADD CONSTRAINT FK_BC2E42C7A76ED395 FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE NO ACTION ON DELETE SET NULL');
         $this->addSql('CREATE INDEX IDX_BC2E42C7A76ED395 ON user_log_entries (user_id)');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
