@@ -449,7 +449,6 @@ services:
     Solarium\Core\Client\Client:
         factory: ['RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry', 'getClient']
 
-    # Provides LoginAttemptManager aware authentication
     RZ\Roadiz\CoreBundle\Security\Authentication\JwtAuthenticationSuccessHandler:
         decorates: 'lexik_jwt_authentication.handler.authentication_success'
 
