@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 
 /**
