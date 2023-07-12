@@ -62,6 +62,7 @@ final class DocumentUnusedController extends RozierApp
             'sharpen' => 5,
             'inline' => false,
             'picture' => true,
+            'controls' => false,
             'loading' => 'lazy',
         ];
 
