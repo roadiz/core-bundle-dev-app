@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.1.25'
+    roadiz_core.cms_version: '2.1.26'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -398,9 +398,6 @@ services:
             - '%roadiz_core.entity_generator_factory.options%'
 
     Gedmo\Loggable\LoggableListener:
-        alias: RZ\Roadiz\CoreBundle\Doctrine\Loggable\UserLoggableListener
-
-    RZ\Roadiz\CoreBundle\Doctrine\Loggable\UserLoggableListener:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
