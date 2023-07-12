@@ -41,7 +41,6 @@ EOF
         $this->addSql('ALTER TABLE log DROP FOREIGN KEY FK_8F3F68C58E831402');
         $this->addSql('ALTER TABLE log DROP node_source_id');
         $this->addSql('DROP INDEX log_ns_datetime ON log');
-        $this->addSql('DROP INDEX IDX_8F3F68C58E831402 ON log');
     }
 
     public function down(Schema $schema): void
