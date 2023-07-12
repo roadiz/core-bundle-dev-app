@@ -13,9 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Themes\Rozier\RozierApp;
 
-/**
- * @package Themes\Rozier\Controllers\Nodes
- */
 class NodesUtilsController extends RozierApp
 {
     private NodeNamePolicyInterface $nodeNamePolicy;

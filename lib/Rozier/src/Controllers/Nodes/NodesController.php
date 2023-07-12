@@ -35,9 +35,6 @@ use Themes\Rozier\Traits\NodesTrait;
 use Themes\Rozier\Utils\SessionListFilters;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers\Nodes
- */
 class NodesController extends RozierApp
 {
     use NodesTrait;

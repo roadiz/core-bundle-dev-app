@@ -12,7 +12,6 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
- * @package Themes\Rozier\Models
  * @Serializer\ExclusionPolicy("all")
  */
 final class NodeModel implements ModelInterface

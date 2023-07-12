@@ -52,9 +52,9 @@ class NodeTypesUtilsController extends RozierApp
      * @param Request $request
      * @param int     $nodeTypeId
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function exportJsonFileAction(Request $request, int $nodeTypeId): Response
+    public function exportJsonFileAction(Request $request, int $nodeTypeId): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
 
@@ -71,7 +71,7 @@ class NodeTypesUtilsController extends RozierApp
                 'json',
                 SerializationContext::create()->setGroups(['node_type', 'position'])
             ),
-            JsonResponse::HTTP_OK,
+            Response::HTTP_OK,
             [
                 'Content-Disposition' => sprintf('attachment; filename="%s"', $nodeType->getName() . '.json'),
             ],
@@ -249,7 +249,7 @@ class NodeTypesUtilsController extends RozierApp
     /**
      * @return FormInterface
      */
-    private function buildImportJsonFileForm()
+    private function buildImportJsonFileForm(): FormInterface
     {
         $builder = $this->createFormBuilder()
                         ->add('node_type_file', FileType::class, [

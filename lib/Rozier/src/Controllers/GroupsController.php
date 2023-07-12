@@ -20,9 +20,6 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Themes\Rozier\Forms\GroupType;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers
- */
 class GroupsController extends AbstractAdminController
 {
     /**

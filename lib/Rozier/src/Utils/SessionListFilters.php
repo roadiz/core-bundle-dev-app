@@ -9,8 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Store user item_per_page preferences in session.
- *
- * @package Themes\Rozier\Utils
  */
 class SessionListFilters
 {

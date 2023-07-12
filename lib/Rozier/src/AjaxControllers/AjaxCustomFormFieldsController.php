@@ -8,9 +8,6 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
 {
     /**

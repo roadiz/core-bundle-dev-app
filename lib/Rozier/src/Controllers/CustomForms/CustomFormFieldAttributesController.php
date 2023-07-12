@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\CustomForms;
 
-use Doctrine\Common\Collections\Collection;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormFieldAttribute;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Themes\Rozier\RozierApp;
+use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers
- */
 class CustomFormFieldAttributesController extends RozierApp
 {
     /**
      * List every node-types.
      *
      * @param Request $request
-     * @param int     $customFormAnswerId
+     * @param int $customFormAnswerId
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws RuntimeError
      */
-    public function listAction(Request $request, int $customFormAnswerId)
+    public function listAction(Request $request, int $customFormAnswerId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
         /*

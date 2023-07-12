@@ -25,9 +25,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Workflow\Registry;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxNodesController extends AbstractAjaxController
 {
     private NodeNamePolicyInterface $nodeNamePolicy;

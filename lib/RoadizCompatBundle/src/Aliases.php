@@ -65,7 +65,7 @@ final class Aliases
             \RZ\Roadiz\CoreBundle\Entity\Folder::class => \RZ\Roadiz\Core\Entities\Folder::class,
             \RZ\Roadiz\CoreBundle\Entity\FolderTranslation::class => \RZ\Roadiz\Core\Entities\FolderTranslation::class,
             \RZ\Roadiz\CoreBundle\Entity\Group::class => \RZ\Roadiz\Core\Entities\Group::class,
-            \RZ\Roadiz\CoreBundle\Entity\Log::class => \RZ\Roadiz\Core\Entities\Log::class,
+            \RZ\Roadiz\CoreBundle\Logger\Entity\Log::class => \RZ\Roadiz\Core\Entities\Log::class,
             \RZ\Roadiz\CoreBundle\Entity\Node::class => \RZ\Roadiz\Core\Entities\Node::class,
             \RZ\Roadiz\CoreBundle\Entity\NodeType::class => \RZ\Roadiz\Core\Entities\NodeType::class,
             \RZ\Roadiz\CoreBundle\Entity\NodeTypeField::class => \RZ\Roadiz\Core\Entities\NodeTypeField::class,

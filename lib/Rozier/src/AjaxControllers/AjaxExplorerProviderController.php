@@ -15,9 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxExplorerProviderController extends AbstractAjaxController
 {
     private ContainerInterface $psrContainer;

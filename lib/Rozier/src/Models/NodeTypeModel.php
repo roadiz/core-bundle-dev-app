@@ -6,9 +6,6 @@ namespace Themes\Rozier\Models;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 
-/**
- * @package Themes\Rozier\Models
- */
 final class NodeTypeModel implements ModelInterface
 {
     private NodeType $nodeType;

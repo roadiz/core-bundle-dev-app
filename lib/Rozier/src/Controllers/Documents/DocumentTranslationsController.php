@@ -22,9 +22,6 @@ use Themes\Rozier\RozierApp;
 use Themes\Rozier\Traits\VersionedControllerTrait;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers\Documents
- */
 class DocumentTranslationsController extends RozierApp
 {
     use VersionedControllerTrait;

@@ -19,9 +19,6 @@ use Themes\Rozier\RozierApp;
 use Themes\Rozier\Utils\SessionListFilters;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers\NodeTypes
- */
 class NodeTypesController extends RozierApp
 {
     private MessageBusInterface $messageBus;

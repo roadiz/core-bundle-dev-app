@@ -15,9 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Themes\Rozier\Widgets\NodeTreeWidget;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxNodeTreeController extends AbstractAjaxController
 {
     private NodeChrootResolver $nodeChrootResolver;

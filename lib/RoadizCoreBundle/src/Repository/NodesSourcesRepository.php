@@ -14,10 +14,10 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesApp
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesBuildEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryNodesSourcesEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
-use RZ\Roadiz\CoreBundle\Entity\Log;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
+use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;

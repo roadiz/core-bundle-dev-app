@@ -35,9 +35,6 @@ use Themes\Rozier\Traits\VersionedControllerTrait;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers\Tags
- */
 class TagsController extends RozierApp
 {
     use VersionedControllerTrait;
@@ -68,7 +65,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -105,7 +102,7 @@ class TagsController extends RozierApp
      * @return Response
      * @throws RuntimeError
      */
-    public function editTranslatedAction(Request $request, int $tagId, ?int $translationId = null)
+    public function editTranslatedAction(Request $request, int $tagId, ?int $translationId = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -246,7 +243,7 @@ class TagsController extends RozierApp
      * @return Response
      * @throws RuntimeError
      */
-    public function bulkDeleteAction(Request $request)
+    public function bulkDeleteAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS_DELETE');
 
@@ -299,7 +296,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function addAction(Request $request)
+    public function addAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -354,7 +351,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function editSettingsAction(Request $request, int $tagId)
+    public function editSettingsAction(Request $request, int $tagId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -419,7 +416,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function treeAction(Request $request, int $tagId, ?int $translationId = null)
+    public function treeAction(Request $request, int $tagId, ?int $translationId = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -453,7 +450,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function deleteAction(Request $request, int $tagId)
+    public function deleteAction(Request $request, int $tagId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS_DELETE');
 
@@ -512,7 +509,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function addChildAction(Request $request, int $tagId, ?int $translationId = null)
+    public function addChildAction(Request $request, int $tagId, ?int $translationId = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -584,7 +581,7 @@ class TagsController extends RozierApp
      * @return Response
      * @throws RuntimeError
      */
-    public function editNodesAction(Request $request, int $tagId)
+    public function editNodesAction(Request $request, int $tagId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -622,7 +619,7 @@ class TagsController extends RozierApp
      *
      * @return FormInterface
      */
-    private function buildDeleteForm(Tag $tag)
+    private function buildDeleteForm(Tag $tag): FormInterface
     {
         $builder = $this->createFormBuilder()
             ->add('tagId', HiddenType::class, [
@@ -645,7 +642,7 @@ class TagsController extends RozierApp
     private function buildBulkDeleteForm(
         $referer = false,
         array $tagsIds = []
-    ) {
+    ): FormInterface {
         $builder = $this->formFactory
             ->createNamedBuilder('deleteForm')
             ->add('tagsIds', HiddenType::class, [
@@ -671,7 +668,7 @@ class TagsController extends RozierApp
      *
      * @return string
      */
-    private function bulkDeleteTags(array $data)
+    private function bulkDeleteTags(array $data): string
     {
         if (!empty($data['tagsIds'])) {
             $tagsIds = trim($data['tagsIds']);

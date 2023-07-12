@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Console;
 
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Entity\Log;
+use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use RZ\Roadiz\CoreBundle\Repository\LogRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;

@@ -26,9 +26,6 @@ use Themes\Rozier\Explorer\FolderExplorerItem;
 use Themes\Rozier\Explorer\SettingExplorerItem;
 use Themes\Rozier\Explorer\UserExplorerItem;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxEntitiesExplorerController extends AbstractAjaxController
 {
     private RendererInterface $renderer;

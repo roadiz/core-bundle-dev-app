@@ -16,9 +16,6 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Themes\Rozier\Forms\MultiTagType;
 use Themes\Rozier\RozierApp;
 
-/**
- * @package Themes\Rozier\Controllers\Tags
- */
 class TagMultiCreationController extends RozierApp
 {
     private TagFactory $tagFactory;

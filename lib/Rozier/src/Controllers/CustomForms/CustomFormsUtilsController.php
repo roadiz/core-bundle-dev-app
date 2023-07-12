@@ -13,9 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Themes\Rozier\RozierApp;
 
-/**
- * @package Themes\Rozier\Controllers
- */
 class CustomFormsUtilsController extends RozierApp
 {
     private CustomFormAnswerSerializer $customFormAnswerSerializer;

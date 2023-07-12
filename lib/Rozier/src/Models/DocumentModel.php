@@ -13,9 +13,6 @@ use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/**
- * @package Themes\Rozier\Models
- */
 final class DocumentModel implements ModelInterface
 {
     public static array $thumbnailArray = [

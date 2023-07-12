@@ -15,9 +15,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Themes\Rozier\RozierApp;
 
-/**
- * @package Themes\Rozier\Controllers
- */
 class CustomFormAnswersController extends RozierApp
 {
     /**
@@ -28,7 +25,7 @@ class CustomFormAnswersController extends RozierApp
      *
      * @return Response
      */
-    public function listAction(Request $request, int $customFormId)
+    public function listAction(Request $request, int $customFormId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
         /*
@@ -55,14 +52,14 @@ class CustomFormAnswersController extends RozierApp
     }
 
     /**
-     * Return an deletion form for requested node-type.
+     * Return a deletion form for requested node-type.
      *
      * @param Request $request
      * @param int $customFormAnswerId
      *
      * @return Response
      */
-    public function deleteAction(Request $request, int $customFormAnswerId)
+    public function deleteAction(Request $request, int $customFormAnswerId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS_DELETE');
 
@@ -106,7 +103,7 @@ class CustomFormAnswersController extends RozierApp
      *
      * @return FormInterface
      */
-    private function buildDeleteForm(CustomFormAnswer $customFormAnswer)
+    private function buildDeleteForm(CustomFormAnswer $customFormAnswer): FormInterface
     {
         $builder = $this->createFormBuilder()
                         ->add('customFormAnswerId', HiddenType::class, [

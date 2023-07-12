@@ -7,7 +7,6 @@ namespace Themes\Rozier\Controllers\Documents;
 use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
-use League\Flysystem\UnableToMoveFile;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Document\DocumentFactory;

@@ -10,9 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Themes\Rozier\Widgets\FolderTreeWidget;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxFolderTreeController extends AbstractAjaxController
 {
     private TreeWidgetFactory $treeWidgetFactory;

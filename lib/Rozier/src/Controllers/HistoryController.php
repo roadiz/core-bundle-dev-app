@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers;
 
 use Monolog\Logger;
-use RZ\Roadiz\CoreBundle\Entity\Log;
 use RZ\Roadiz\CoreBundle\Entity\User;
+use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;

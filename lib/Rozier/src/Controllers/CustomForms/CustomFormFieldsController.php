@@ -16,10 +16,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Themes\Rozier\Forms\CustomFormFieldType;
 use Themes\Rozier\RozierApp;
+use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers
- */
 class CustomFormFieldsController extends RozierApp
 {
     /**
@@ -30,7 +28,7 @@ class CustomFormFieldsController extends RozierApp
      *
      * @return Response
      */
-    public function listAction(Request $request, int $customFormId)
+    public function listAction(Request $request, int $customFormId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
 
@@ -56,7 +54,7 @@ class CustomFormFieldsController extends RozierApp
      *
      * @return Response
      */
-    public function editAction(Request $request, int $customFormFieldId)
+    public function editAction(Request $request, int $customFormFieldId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
 
@@ -95,69 +93,66 @@ class CustomFormFieldsController extends RozierApp
     }
 
     /**
-     * Return an creation form for requested node-type.
+     * Return a creation form for requested node-type.
      *
      * @param Request $request
-     * @param int     $customFormId
+     * @param int $customFormId
      *
      * @return Response
+     * @throws RuntimeError
      */
-    public function addAction(Request $request, int $customFormId)
+    public function addAction(Request $request, int $customFormId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
 
-        $field = new CustomFormField();
         $customForm = $this->em()->find(CustomForm::class, $customFormId);
-        $field->setCustomForm($customForm);
-
-        if (
-            $customForm !== null &&
-            $field !== null
-        ) {
-            $this->assignation['customForm'] = $customForm;
-            $this->assignation['field'] = $field;
-            $form = $this->createForm(CustomFormFieldType::class, $field);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    $this->em()->persist($field);
-                    $this->em()->flush();
-
-                    $msg = $this->getTranslator()->trans(
-                        'customFormField.%name%.created',
-                        ['%name%' => $field->getName()]
-                    );
-                    $this->publishConfirmMessage($request, $msg, $field);
-
-                    /*
-                     * Redirect to update schema page
-                     */
-                    return $this->redirectToRoute(
-                        'customFormFieldsListPage',
-                        [
-                            'customFormId' => $customFormId,
-                        ]
-                    );
-                } catch (Exception $e) {
-                    $msg = $e->getMessage();
-                    $this->publishErrorMessage($request, $msg, $field);
-                    /*
-                     * Redirect to add page
-                     */
-                    return $this->redirectToRoute(
-                        'customFormFieldsAddPage',
-                        ['customFormId' => $customFormId]
-                    );
-                }
-            }
-
-            $this->assignation['form'] = $form->createView();
-
-            return $this->render('@RoadizRozier/custom-form-fields/add.html.twig', $this->assignation);
+        if ($customForm === null) {
+            throw new ResourceNotFoundException();
         }
 
-        throw new ResourceNotFoundException();
+        $field = new CustomFormField();
+        $field->setCustomForm($customForm);
+        $this->assignation['customForm'] = $customForm;
+        $this->assignation['field'] = $field;
+        $form = $this->createForm(CustomFormFieldType::class, $field);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->em()->persist($field);
+                $this->em()->flush();
+
+                $msg = $this->getTranslator()->trans(
+                    'customFormField.%name%.created',
+                    ['%name%' => $field->getName()]
+                );
+                $this->publishConfirmMessage($request, $msg, $field);
+
+                /*
+                 * Redirect to update schema page
+                 */
+                return $this->redirectToRoute(
+                    'customFormFieldsListPage',
+                    [
+                        'customFormId' => $customFormId,
+                    ]
+                );
+            } catch (Exception $e) {
+                $msg = $e->getMessage();
+                $this->publishErrorMessage($request, $msg, $field);
+                /*
+                 * Redirect to add page
+                 */
+                return $this->redirectToRoute(
+                    'customFormFieldsAddPage',
+                    ['customFormId' => $customFormId]
+                );
+            }
+        }
+
+        $this->assignation['form'] = $form->createView();
+
+        return $this->render('@RoadizRozier/custom-form-fields/add.html.twig', $this->assignation);
     }
 
     /**

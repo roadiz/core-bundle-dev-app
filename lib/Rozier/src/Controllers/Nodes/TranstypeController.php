@@ -17,9 +17,6 @@ use Themes\Rozier\Forms\TranstypeType;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers\Nodes
- */
 class TranstypeController extends RozierApp
 {
     private NodeTranstyper $nodeTranstyper;

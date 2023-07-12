@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers\Nodes;
 
 use Doctrine\ORM\QueryBuilder;
-use RZ\Roadiz\CoreBundle\Entity\Log;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\ListManager\QueryBuilderListManager;
+use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -16,9 +16,6 @@ use Themes\Rozier\RozierApp;
 use Themes\Rozier\Utils\SessionListFilters;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers\Nodes
- */
 class HistoryController extends RozierApp
 {
     /**

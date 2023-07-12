@@ -14,7 +14,6 @@ use RZ\Roadiz\RozierBundle\Form\NodesTagsType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Themes\Rozier\Forms\NodeTagsType;
 use Themes\Rozier\RozierApp;
 use Themes\Rozier\Traits\NodesTrait;
 

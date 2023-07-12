@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\CoreBundle\Entity;
+namespace RZ\Roadiz\CoreBundle\Logger\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use Monolog\Logger;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
-use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Repository\LogRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
