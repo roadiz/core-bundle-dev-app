@@ -39,7 +39,7 @@ final class LogExtension extends AbstractExtension
 
     public function getEditPath(?object $log): ?string
     {
-        if (!($log instanceof Log)) {
+        if (!($log instanceof Log) || null === $log->getEntityId()) {
             return null;
         }
 
