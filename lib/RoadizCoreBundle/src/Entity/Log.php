@@ -31,16 +31,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Log extends AbstractEntity
 {
-    public const EMERGENCY = Logger::EMERGENCY;
-    public const CRITICAL =  Logger::CRITICAL;
-    public const ALERT =     Logger::ALERT;
-    public const ERROR =     Logger::ERROR;
-    public const WARNING =   Logger::WARNING;
-    public const NOTICE =    Logger::NOTICE;
-    public const INFO =      Logger::INFO;
-    public const DEBUG =     Logger::DEBUG;
-    public const LOG =       Logger::INFO;
-
     #[ORM\Column(name: 'user_id', type: 'string', length: 36, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['log_user'])]
     #[Serializer\Groups(['log_user'])]
@@ -61,7 +51,7 @@ class Log extends AbstractEntity
     #[ORM\Column(name: 'level', type: 'integer', nullable: false)]
     #[SymfonySerializer\Groups(['log'])]
     #[Serializer\Groups(['log'])]
-    protected int $level = Log::DEBUG;
+    protected int $level = Logger::DEBUG;
 
     #[ORM\Column(name: 'datetime', type: 'datetime', nullable: false)]
     #[SymfonySerializer\Groups(['log'])]

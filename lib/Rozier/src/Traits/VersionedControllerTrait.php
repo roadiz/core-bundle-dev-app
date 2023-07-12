@@ -38,9 +38,7 @@ trait VersionedControllerTrait
 
     protected function handleVersions(Request $request, PersistableInterface $entity): ?Response
     {
-        /**
-         * @var UserLogEntryRepository $repo
-         */
+        /** @var UserLogEntryRepository $repo */
         $repo = $this->getDoctrine()->getRepository(UserLogEntry::class);
         $logs = $repo->getLogEntries($entity);
         $versionNumber = $request->get('version', null);

@@ -7,7 +7,6 @@ namespace Themes\Rozier\Controllers\Nodes;
 use Doctrine\ORM\QueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Log;
 use RZ\Roadiz\CoreBundle\Entity\Node;
-use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\ListManager\QueryBuilderListManager;
 use Symfony\Component\HttpFoundation\Request;
