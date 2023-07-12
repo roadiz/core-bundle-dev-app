@@ -1,3 +1,21 @@
+## [v2.1.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.25...v2.1.26) (2023-07-12)
+
+
+### Bug Fixes
+
+* Fixed Loggable behaviour, removed relationship between UserLogEntry and User for future entity-manager separation. ([96d180b](https://github.com/roadiz/core-bundle-dev-app/commit/96d180b415f8e6cc379293e0e07aca8bccf2cbd3))
+
+Add missing Doctrine mapping:
+
+```yaml
+gedmo_loggable:
+    type: attribute
+    prefix: Gedmo\Loggable\Entity\MappedSuperclass
+    dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity/MappedSuperclass"
+    alias: GedmoLoggableMappedSuperclass
+    is_bundle: false
+```
+
 ## [v2.1.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.24...v2.1.25) (2023-07-12)
 
 
