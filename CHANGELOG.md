@@ -1,3 +1,10 @@
+## [v2.1.28](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.27...v2.1.28) (2023-07-19)
+
+
+### Bug Fixes
+
+* **Search:** Fixed node advanced search using `__node__` prefix ([bcb7d5d](https://github.com/roadiz/core-bundle-dev-app/commit/bcb7d5d9ad6df9e4c580bf4382dd34824ff3e7ea))
+
 ## [v2.1.27](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.26...v2.1.27) (2023-07-12)
 
 
