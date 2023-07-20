@@ -17,7 +17,7 @@ class DocumentSearchHandler extends AbstractSearchHandler
      * @param string  $q
      * @param array   $args
      * @param integer $rows
-     * @param boolean $searchTags
+     * @param bool $searchTags
      * @param integer $proximity Proximity matching: Lucene supports finding words are a within a specific distance away.
      * @param integer $page
      *

@@ -178,7 +178,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
      * ### For node-sources:
      *
      * * status (int)
-     * * visible (boolean)
+     * * visible (bool)
      * * nodeType (RZ\Roadiz\CoreBundle\Entity\NodeType or string or array)
      * * tags (RZ\Roadiz\CoreBundle\Entity\Tag or array of Tag)
      * * translation (RZ\Roadiz\CoreBundle\Entity\Translation)
@@ -193,7 +193,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
      * @param string $q
      * @param array $args
      * @param int $rows Results per page
-     * @param boolean $searchTags Search in tags/folders too, even if a node don’t match
+     * @param bool $searchTags Search in tags/folders too, even if a node don’t match
      * @param int $proximity Proximity matching: Lucene supports finding words are a within a specific distance away. Default 10000000
      * @param int $page Retrieve a specific page
      *

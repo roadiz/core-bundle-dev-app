@@ -487,7 +487,7 @@ abstract class EntityRepository extends ServiceEntityRepository
      *
      * @param  QueryBuilder $qb
      * @param  string  $alias
-     * @return boolean
+     * @return bool
      */
     protected function hasJoinedNode(QueryBuilder $qb, string $alias)
     {
@@ -499,7 +499,7 @@ abstract class EntityRepository extends ServiceEntityRepository
      *
      * @param  QueryBuilder $qb
      * @param  string  $alias
-     * @return boolean
+     * @return bool
      */
     protected function hasJoinedNodesSources(QueryBuilder $qb, string $alias)
     {
@@ -511,7 +511,7 @@ abstract class EntityRepository extends ServiceEntityRepository
      *
      * @param  QueryBuilder $qb
      * @param  string  $alias
-     * @return boolean
+     * @return bool
      */
     protected function hasJoinedNodeType(QueryBuilder $qb, string $alias)
     {
