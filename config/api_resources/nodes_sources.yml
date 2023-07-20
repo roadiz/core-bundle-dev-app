@@ -1,11 +1,9 @@
 ---
 RZ\Roadiz\CoreBundle\Entity\NodesSources:
-    iri: NodesSources
-    shortName: NodesSources
-    collectionOperations:
-        get:
+    operations:
+        ApiPlatform\Metadata\GetCollection:
             method: "GET"
-            normalization_context:
+            normalizationContext:
                 groups:
                     - nodes_sources_base
                     - nodes_sources_default
@@ -14,28 +12,33 @@ RZ\Roadiz\CoreBundle\Entity\NodesSources:
                     - tag_base
                     - translation_base
                     - document_display
-        archives:
+
+        api_nodes_sources_archives:
+            class: ApiPlatform\Metadata\GetCollection
             method: 'GET'
-            path: '/nodes_sources/archives'
+            uriTemplate: '/nodes_sources/archives'
             pagination_enabled: false
             pagination_client_enabled: false
-            archive_enabled: true
-            archive_publication_field_name: publishedAt
-            normalization_context:
+            extraProperties:
+                archive_enabled: true
+                archive_publication_field_name: publishedAt
+            normalizationContext:
                 groups:
                     - get
                     - archives
-            openapi_context:
+            openapiContext:
                 summary: Get available NodesSources archives
                 parameters: ~
                 description: |
                     Get available NodesSources archives (years and months) based on their `publishedAt` field
-        search:
+
+        api_nodes_sources_search:
+            class: ApiPlatform\Metadata\GetCollection
             method: 'GET'
-            path: '/nodes_sources/search'
+            uriTemplate: '/nodes_sources/search'
             controller: RZ\Roadiz\CoreBundle\Api\Controller\NodesSourcesSearchController
             read: false
-            normalization_context:
+            normalizationContext:
                 groups:
                     - get
                     - nodes_sources_base
@@ -44,7 +47,7 @@ RZ\Roadiz\CoreBundle\Entity\NodesSources:
                     - tag_base
                     - translation_base
                     - document_display
-            openapi_context:
+            openapiContext:
                 summary: Search NodesSources resources
                 description: |
                     Search all website NodesSources resources using **Solr** full-text search engine
@@ -56,8 +59,8 @@ RZ\Roadiz\CoreBundle\Entity\NodesSources:
                         description: Search pattern
                         schema:
                             type: string
-    itemOperations:
-        get:
+
+        ApiPlatform\Metadata\Get:
             method: 'GET'
-            normalization_context:
+            normalizationContext:
                 groups: ["nodes_sources", "urls", "tag_base", "translation_base", "document_display"]

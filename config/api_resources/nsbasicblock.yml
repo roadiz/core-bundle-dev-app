@@ -1,11 +1,11 @@
 App\GeneratedEntity\NSBasicBlock:
-    iri: BasicBlock
-    shortName: BasicBlock
-    collectionOperations: {  }
-    itemOperations:
-        get:
+    types:
+        - BasicBlock
+    operations:
+        ApiPlatform\Metadata\Get:
             method: GET
-            normalization_context:
+            shortName: BasicBlock
+            normalizationContext:
                 groups:
                     - nodes_sources
                     - urls

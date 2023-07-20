@@ -6,9 +6,9 @@ namespace RZ\Roadiz\UserBundle\Api\Dto;
 
 use Symfony\Component\Validator\Constraints as Assert;
 
-final class UserValidationRequestInput
+final class UserValidationTokenInput
 {
     #[Assert\NotNull]
     #[Assert\NotBlank]
-    public string $identifier = '';
+    public string $token = '';
 }

@@ -127,6 +127,8 @@ services:
             - ./:/var/www/html:cached
         networks:
             default:
+                aliases:
+                    - app
         environment:
             APP_CACHE: ${APP_CACHE}
             TRUSTED_PROXIES: ${TRUSTED_PROXIES}
@@ -163,14 +165,12 @@ services:
 #            - ${PUBLIC_APP_PORT}:80/tcp
         depends_on:
             - app
-        links:
-            - app:app
         volumes:
             - ./:/var/www/html:cached
         networks:
             frontproxynet:
                 aliases:
-                    - ${APP_NAMESPACE}_app
+                    - ${APP_NAMESPACE}_nginx
             default:
         labels:
             - "traefik.enable=true"

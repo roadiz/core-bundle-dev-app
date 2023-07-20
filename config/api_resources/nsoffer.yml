@@ -1,10 +1,11 @@
 App\GeneratedEntity\NSOffer:
-    iri: Offer
-    shortName: Offer
-    collectionOperations:
-        get:
+    types:
+        - Offer
+    operations:
+        ApiPlatform\Metadata\GetCollection:
             method: GET
-            normalization_context:
+            shortName: Offer
+            normalizationContext:
                 enable_max_depth: true
                 groups:
                     - nodes_sources_base
@@ -15,10 +16,10 @@ App\GeneratedEntity\NSOffer:
                     - document_display
                     - document_thumbnails
                     - document_display_sources
-    itemOperations:
-        get:
+        ApiPlatform\Metadata\Get:
             method: GET
-            normalization_context:
+            shortName: Offer
+            normalizationContext:
                 groups:
                     - nodes_sources
                     - urls
@@ -28,12 +29,13 @@ App\GeneratedEntity\NSOffer:
                     - document_thumbnails
                     - document_display_sources
         getByPath:
-            method: 'GET'
-            path: '/web_response_by_path'
-            read: false
+            method: GET
+            class: ApiPlatform\Metadata\Get
+            uriTemplate: /web_response_by_path
+            read: 'false'
             controller: RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController
-            pagination_enabled: false
-            normalization_context:
+            pagination_enabled: 'false'
+            normalizationContext:
                 enable_max_depth: true
                 groups:
                     - nodes_sources
@@ -49,4 +51,3 @@ App\GeneratedEntity\NSOffer:
                     - walker_metadata
                     - meta
                     - children
-                    - children_count

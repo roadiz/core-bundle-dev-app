@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\Controller;
 
-use ApiPlatform\Core\Api\IriConverterInterface;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
+use ApiPlatform\Api\IriConverterInterface;
+use ApiPlatform\Exception\InvalidArgumentException;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
@@ -118,8 +118,8 @@ final class GetWebResponseByPathController extends AbstractController
     {
         $request = $this->requestStack->getMainRequest();
         if (null !== $request && null !== $resource) {
-            $iri = $this->iriConverter->getIriFromItem($resource);
-            $request->attributes->set('_resources', $request->attributes->get('_resources', []) + [$iri]);
+            $iri = $this->iriConverter->getIriFromResource($resource);
+            $request->attributes->set('_resources', $request->attributes->get('_resources', []) + [ $iri => $iri ]);
         }
     }
 }

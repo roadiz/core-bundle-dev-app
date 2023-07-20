@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\UserBundle\Controller;
+namespace RZ\Roadiz\UserBundle\State;
 
 use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-trait RecaptchaProtectedControllerTrait
+trait RecaptchaProtectedTrait
 {
     abstract protected function getRecaptchaHeaderName(): string;
     abstract protected function getRecaptchaService(): RecaptchaServiceInterface;

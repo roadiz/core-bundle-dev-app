@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\Filter;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 
-final class CopyrightValidFilter extends AbstractContextAwareFilter
+final class CopyrightValidFilter extends AbstractFilter
 {
     public const PARAMETER = 'copyrightValid';
     public const TRUE_VALUES = [1, '1', 'true', true, 'on', 'yes'];
@@ -21,7 +22,8 @@ final class CopyrightValidFilter extends AbstractContextAwareFilter
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        string $operationName = null
+        ?Operation $operation = null,
+        array $context = []
     ): void {
         if ($property !== self::PARAMETER) {
             return;

@@ -4,6 +4,7 @@ api_platform:
     version:     '%env(string:APP_VERSION)%'
     enable_swagger_ui: false
     enable_re_doc: true
+    metadata_backward_compatibility_layer: false
     graphql:
         graphiql:
             enabled: false
@@ -41,6 +42,8 @@ api_platform:
 #            varnish_urls: [ '%env(VARNISH_URL)%' ]
     defaults:
         enable_max_depth: true
+        normalization_context:
+            skip_null_values: true
         pagination_client_items_per_page: true
         pagination_items_per_page: 15
         pagination_maximum_items_per_page: 50

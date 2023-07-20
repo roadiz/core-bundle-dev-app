@@ -1,11 +1,11 @@
 App\GeneratedEntity\NSMenuLink:
-    iri: MenuLink
-    shortName: MenuLink
-    collectionOperations: {  }
-    itemOperations:
-        get:
+    types:
+        - MenuLink
+    operations:
+        ApiPlatform\Metadata\Get:
             method: GET
-            normalization_context:
+            shortName: MenuLink
+            normalizationContext:
                 groups:
                     - nodes_sources
                     - urls

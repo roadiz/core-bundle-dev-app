@@ -191,9 +191,9 @@ class EntityGenerator implements EntityGeneratorInterface
         ];
 
         if ($this->options['use_api_platform_filters'] === true) {
-            $useStatements[] = 'use ApiPlatform\Core\Annotation\ApiFilter;';
-            $useStatements[] = 'use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as OrmFilter;';
-            $useStatements[] = 'use ApiPlatform\Core\Serializer\Filter\PropertyFilter;';
+            $useStatements[] = 'use ApiPlatform\Metadata\ApiFilter;';
+            $useStatements[] = 'use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;';
+            $useStatements[] = 'use ApiPlatform\Serializer\Filter\PropertyFilter;';
         }
         /*
          * BE CAREFUL, USE statements are required for field generators which

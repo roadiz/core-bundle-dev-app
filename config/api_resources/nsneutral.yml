@@ -1,11 +1,11 @@
 App\GeneratedEntity\NSNeutral:
-    iri: Neutral
-    shortName: Neutral
-    collectionOperations: {  }
-    itemOperations:
-        get:
+    types:
+        - Neutral
+    operations:
+        ApiPlatform\Metadata\Get:
             method: GET
-            normalization_context:
+            shortName: Neutral
+            normalizationContext:
                 groups:
                     - nodes_sources
                     - urls

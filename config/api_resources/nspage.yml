@@ -1,10 +1,11 @@
 App\GeneratedEntity\NSPage:
-    iri: Page
-    shortName: Page
-    collectionOperations:
-        get:
+    types:
+        - Page
+    operations:
+        ApiPlatform\Metadata\GetCollection:
             method: GET
-            normalization_context:
+            shortName: Page
+            normalizationContext:
                 enable_max_depth: true
                 groups:
                     - nodes_sources_base
@@ -17,10 +18,19 @@ App\GeneratedEntity\NSPage:
                     - document_display_sources
                     - nodes_sources_images
                     - nodes_sources_boolean
-    itemOperations:
-        get:
+        _api_page_archives:
             method: GET
-            normalization_context:
+            class: ApiPlatform\Metadata\GetCollection
+            shortName: Page
+            uriTemplate: /pages/archives
+            extraProperties:
+                archive_enabled: true
+            openapiContext:
+                summary: 'Retrieve all Page ressources archives months and years'
+        ApiPlatform\Metadata\Get:
+            method: GET
+            shortName: Page
+            normalizationContext:
                 groups:
                     - nodes_sources
                     - urls
@@ -32,12 +42,13 @@ App\GeneratedEntity\NSPage:
                     - nodes_sources_images
                     - nodes_sources_boolean
         getByPath:
-            method: 'GET'
-            path: '/web_response_by_path'
-            read: false
+            method: GET
+            class: ApiPlatform\Metadata\Get
+            uriTemplate: /web_response_by_path
+            read: 'false'
             controller: RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController
-            pagination_enabled: false
-            normalization_context:
+            pagination_enabled: 'false'
+            normalizationContext:
                 enable_max_depth: true
                 groups:
                     - nodes_sources
@@ -55,4 +66,3 @@ App\GeneratedEntity\NSPage:
                     - walker_metadata
                     - meta
                     - children
-                    - children_count
