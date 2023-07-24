@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Bag;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Bag\LazyParameterBag;
 use RZ\Roadiz\CoreBundle\Entity\Document;
@@ -45,7 +44,7 @@ class Settings extends LazyParameterBag
             foreach ($settings as $setting) {
                 $this->parameters[$setting->getName()] = $setting->getValue();
             }
-        } catch (DBALException $e) {
+        } catch (\Exception $e) {
             $this->parameters = [];
         }
         $this->ready = true;

@@ -64,6 +64,7 @@
         "pimple/pimple": "^3.3.1",
         "psr/cache": ">=1.0.1",
         "psr/log": ">=1.1",
+        "ramsey/uuid": "^4.7",
         "rezozero/crypto": "^1.0.0",
         "rezozero/intervention-request-bundle": "~3.0.0",
         "rezozero/liform-bundle": "^0.18.1",
