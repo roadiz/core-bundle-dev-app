@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Bag;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Bag\LazyParameterBag;
 use RZ\Roadiz\CoreBundle\Entity\Role;
@@ -44,7 +43,7 @@ class Roles extends LazyParameterBag
             foreach ($roles as $role) {
                 $this->parameters[$role->getRole()] = $role;
             }
-        } catch (DBALException $e) {
+        } catch (\Exception $e) {
             $this->parameters = [];
         }
         $this->ready = true;
@@ -57,8 +56,6 @@ class Roles extends LazyParameterBag
      * @param null   $default
      *
      * @return Role
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function get($key, $default = null): Role
     {
