@@ -1,20 +1,6 @@
 ---
 RZ\Roadiz\CoreBundle\Entity\User:
     operations:
-        ApiPlatform\Metadata\Get:
-            method: 'GET'
-            security: "is_granted('ROLE_ACCESS_USERS') or object == user"
-            normalizationContext:
-                groups: ['user', 'user_security']
-                enable_max_depth: true
-
-        ApiPlatform\Metadata\GetCollection:
-            method: 'GET'
-            security: "is_granted('ROLE_ACCESS_USERS')"
-            normalizationContext:
-                groups: [ 'user' ]
-                enable_max_depth: true
-
         api_user_signup:
             class: ApiPlatform\Metadata\Post
             method: 'POST'
@@ -67,18 +53,6 @@ RZ\Roadiz\CoreBundle\Entity\User:
                 description: |
                     Initiate a public user validation request (to verify user email address)
 
-        api_user_information:
-            method: 'GET'
-            class: ApiPlatform\Metadata\Get
-            # Path must be different from item operation to avoid conflict
-            uriTemplate: '/me'
-            provider: RZ\Roadiz\UserBundle\State\UserTokenProvider
-            output: RZ\Roadiz\UserBundle\Api\Dto\UserOutput
-            openapiContext:
-                summary: Get current user (JWT) information
-                description: |
-                    Get current user (JWT) information
-
         api_user_password_reset:
             method: 'PUT'
             class: ApiPlatform\Metadata\Put
@@ -110,3 +84,32 @@ RZ\Roadiz\CoreBundle\Entity\User:
                 summary: Validate a public user email
                 description: |
                     Validate a public user email with a unique and temporary token
+
+        ApiPlatform\Metadata\Get:
+            method: 'GET'
+            security: "is_granted('ROLE_ACCESS_USERS') or object == user"
+            normalizationContext:
+                groups: ['user', 'user_security']
+                enable_max_depth: true
+
+        ApiPlatform\Metadata\GetCollection:
+            method: 'GET'
+            security: "is_granted('ROLE_ACCESS_USERS')"
+            normalizationContext:
+                groups: [ 'user' ]
+                enable_max_depth: true
+
+        # Current user information operation MUST be declared AFTER ApiPlatform\Metadata\Get
+        # to avoid conflict with IRI generation.
+        api_user_information:
+            method: 'GET'
+            class: ApiPlatform\Metadata\Get
+            # Path must be different from item operation to avoid conflict
+            uriTemplate: '/me'
+            itemUriTemplate: /users/{id}
+            provider: RZ\Roadiz\UserBundle\State\UserTokenProvider
+            output: RZ\Roadiz\UserBundle\Api\Dto\UserOutput
+            openapiContext:
+                summary: Get current user (JWT) information
+                description: |
+                    Get current user (JWT) information
