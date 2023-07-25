@@ -32,8 +32,8 @@ App\GeneratedEntity\NSPage:
                     - nodes_sources_images
                     - nodes_sources_boolean
         getByPath:
-            method: 'GET'
-            path: '/web_response_by_path'
+            method: GET
+            path: /web_response_by_path
             read: false
             controller: RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController
             pagination_enabled: false
@@ -55,4 +55,3 @@ App\GeneratedEntity\NSPage:
                     - walker_metadata
                     - meta
                     - children
-                    - children_count

@@ -139,9 +139,9 @@ final class ApiResourceGenerator
             $operations['getByPath'] = [
                 'method' => 'GET',
                 'path' => '/web_response_by_path',
-                'read' => 'false',
+                'read' => false,
                 'controller' => 'RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController',
-                'pagination_enabled' => 'false',
+                'pagination_enabled' => false,
                 'normalization_context' => [
                     'enable_max_depth' => true,
                     'groups' => array_merge(array_values(array_filter(array_unique($groups))), [
