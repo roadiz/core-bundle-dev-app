@@ -28,7 +28,6 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
     #[
         ORM\Id,
         ORM\Column(type:"string", length:36),
-        ORM\GeneratedValue(strategy: "UUID"),
         Serializer\Groups(["id"]),
         SymfonySerializer\Groups(["id"]),
         Serializer\Type("string")
@@ -98,6 +97,11 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
     #[ORM\JoinColumn(name: 'root_node', onDelete: 'SET NULL')]
     #[SymfonySerializer\Ignore]
     protected ?Node $rootNode = null;
+
+    public function __construct(?string $uuid = null)
+    {
+        $this->id = $uuid ?? \Ramsey\Uuid\Uuid::uuid4()->toString();
+    }
 
     /**
      * @return string|null

@@ -22,7 +22,14 @@ final class ArchiveFilter extends AbstractContextAwareFilter
      */
     protected function isDateField(string $property, string $resourceClass): bool
     {
-        return isset(DateFilter::DOCTRINE_DATE_TYPES[(string) $this->getDoctrineFieldType($property, $resourceClass)]);
+        $type = $this->getDoctrineFieldType($property, $resourceClass);
+        if (null === $type) {
+            return false;
+        }
+        if (\is_string($type)) {
+            return \in_array($type, \array_keys(DateFilter::DOCTRINE_DATE_TYPES), true);
+        }
+        return $type->getName() === 'datetime' || $type->getName() === 'date';
     }
 
     /**

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Bag;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Bag\LazyParameterBag;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
@@ -46,7 +45,7 @@ class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterface
                 $this->parameters[$nodeType->getName()] = $nodeType;
                 $this->parameters[$nodeType->getSourceEntityFullQualifiedClassName()] = $nodeType;
             }
-        } catch (DBALException $e) {
+        } catch (\Exception $e) {
             $this->parameters = [];
         }
         $this->ready = true;
