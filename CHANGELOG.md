@@ -1,3 +1,10 @@
+## [v2.1.32](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.31...v2.1.32) (2023-07-25)
+
+
+### Bug Fixes
+
+* **ApiResourceGenerator:** Do not wrap *boolean* value in quotes ([90630c1](https://github.com/roadiz/core-bundle-dev-app/commit/90630c1cb8ac26839ef8e6cccd8a0c35ff03c0e6))
+
 ## [v2.1.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.30...v2.1.31) (2023-07-25)
 
 
