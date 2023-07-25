@@ -28,8 +28,8 @@ App\GeneratedEntity\NSOffer:
                     - document_thumbnails
                     - document_display_sources
         getByPath:
-            method: 'GET'
-            path: '/web_response_by_path'
+            method: GET
+            path: /web_response_by_path
             read: false
             controller: RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController
             pagination_enabled: false
@@ -49,4 +49,3 @@ App\GeneratedEntity\NSOffer:
                     - walker_metadata
                     - meta
                     - children
-                    - children_count
