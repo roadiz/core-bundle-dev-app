@@ -1,3 +1,10 @@
+## [v2.1.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.29...v2.1.30) (2023-07-25)
+
+
+### Bug Fixes
+
+* **CoreBundle:** Fixed doctrine/dbal dependency to 2.x due to UUID removal. Missing constraint in core-bundle. ([9824f1f](https://github.com/roadiz/core-bundle-dev-app/commit/9824f1fd96483b573d960093bf9d012a89d9120a))
+
 ## [v2.1.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.28...v2.1.29) (2023-07-25)
 
 
