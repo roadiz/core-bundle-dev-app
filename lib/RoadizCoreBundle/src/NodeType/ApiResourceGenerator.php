@@ -185,10 +185,10 @@ final class ApiResourceGenerator
                 'method' => 'GET',
                 'class' => 'ApiPlatform\Metadata\Get',
                 'uriTemplate' => '/web_response_by_path',
-                'read' => 'false',
+                'read' => false,
                 'controller' => 'RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController',
-                'pagination_enabled' => 'false',
                 'normalizationContext' => [
+                    'pagination_enabled' => false,
                     'enable_max_depth' => true,
                     'groups' => array_merge(array_values(array_filter(array_unique($groups))), [
                         'web_response',
