@@ -176,14 +176,6 @@ class ThemeInstallCommand extends Command
                     $this->importFile($themeInfo, $filename, $this->attributeImporter);
                 }
             }
-            if ($this->io->isVeryVerbose()) {
-                $this->io->note(
-                    'You should do a `bin/console generate:nsentities`' .
-                    ' to regenerate your node-types source classes, ' .
-                    'and a `bin/console doctrine:schema:update --dump-sql --force` ' .
-                    'to apply your changes into database.'
-                );
-            }
         } else {
             $this->io->warning('Config file "' . $themeConfigPath . '" has no data to import.');
         }

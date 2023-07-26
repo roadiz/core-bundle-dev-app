@@ -29,7 +29,7 @@ class ThemeMigrateCommand extends Command
     protected function configure(): void
     {
         $this->setName('themes:migrate')
-            ->setDescription('Update your site against theme import files, regenerate NSEntities, update database schema and clear caches.')
+            ->setDescription('Update your app node-types, settings, roles against theme import files')
             ->addArgument(
                 'classname',
                 InputArgument::REQUIRED,
@@ -40,6 +40,18 @@ class ThemeMigrateCommand extends Command
                 'd',
                 InputOption::VALUE_NONE,
                 'Do nothing, only print information.'
+            )
+            ->addOption(
+                'doctrine-migrations',
+                null,
+                InputOption::VALUE_NONE,
+                'Run Doctrine migrations before importing theme resources.'
+            )
+            ->addOption(
+                'ns-entities',
+                null,
+                InputOption::VALUE_NONE,
+                'Regenerate NS entities classes (NS classes should be versioned).'
             );
     }
 
@@ -65,13 +77,15 @@ class ThemeMigrateCommand extends Command
                 $output->isQuiet(),
             );
         } else {
-            $this->runCommand(
-                'doctrine:migrations:migrate',
-                '--allow-no-migration',
-                null,
-                false,
-                $output->isQuiet()
-            ) === 0 ? $io->success('doctrine:migrations:migrate') : $io->error('doctrine:migrations:migrate');
+            if ($input->getOption('doctrine-migrations')) {
+                $this->runCommand(
+                    'doctrine:migrations:migrate',
+                    '--allow-no-migration',
+                    null,
+                    false,
+                    $output->isQuiet()
+                ) === 0 ? $io->success('doctrine:migrations:migrate') : $io->error('doctrine:migrations:migrate');
+            }
 
             $this->runCommand(
                 'themes:install',
@@ -81,37 +95,39 @@ class ThemeMigrateCommand extends Command
                 $output->isQuiet()
             ) === 0 ? $io->success('themes:install') : $io->error('themes:install');
 
-            $this->runCommand(
-                'generate:nsentities',
-                '',
-                null,
-                $input->isInteractive(),
-                $output->isQuiet()
-            ) === 0 ? $io->success('generate:nsentities') : $io->error('generate:nsentities');
+            if ($input->getOption('ns-entities')) {
+                $this->runCommand(
+                    'generate:nsentities',
+                    '',
+                    null,
+                    $input->isInteractive(),
+                    $output->isQuiet()
+                ) === 0 ? $io->success('generate:nsentities') : $io->error('generate:nsentities');
 
-            $this->runCommand(
-                'doctrine:cache:clear-metadata',
-                '',
-                null,
-                $input->isInteractive(),
-                $output->isQuiet()
-            ) === 0 ? $io->success('doctrine:cache:clear-metadata') : $io->error('doctrine:cache:clear-metadata');
+                $this->runCommand(
+                    'doctrine:cache:clear-metadata',
+                    '',
+                    null,
+                    $input->isInteractive(),
+                    $output->isQuiet()
+                ) === 0 ? $io->success('doctrine:cache:clear-metadata') : $io->error('doctrine:cache:clear-metadata');
 
-            $this->runCommand(
-                'doctrine:schema:update',
-                '--dump-sql --force',
-                null,
-                $input->isInteractive(),
-                $output->isQuiet()
-            ) === 0 ? $io->success('doctrine:schema:update') : $io->error('doctrine:schema:update');
+                $this->runCommand(
+                    'cache:clear',
+                    '',
+                    null,
+                    $input->isInteractive(),
+                    $output->isQuiet()
+                ) === 0 ? $io->success('cache:clear') : $io->error('cache:clear');
 
-            $this->runCommand(
-                'cache:clear',
-                '',
-                null,
-                $input->isInteractive(),
-                $output->isQuiet()
-            ) === 0 ? $io->success('cache:clear') : $io->error('cache:clear');
+                $this->runCommand(
+                    'cache:pool:clear',
+                    'cache.global_clearer',
+                    null,
+                    $input->isInteractive(),
+                    $output->isQuiet()
+                ) === 0 ? $io->success('cache:pool:clear') : $io->error('cache:pool:clear');
+            }
         }
         return 0;
     }

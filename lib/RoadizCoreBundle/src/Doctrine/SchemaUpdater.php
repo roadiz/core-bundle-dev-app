@@ -98,23 +98,15 @@ final class SchemaUpdater
      */
     public function updateNodeTypesSchema(): void
     {
-        /*
-         * Execute pending application migrations
-         */
-        $this->updateSchema();
-
-        /*
-         * Update schema with new node-types
-         * without creating any migration
-         */
+        $this->clearMetadata();
         $process = $this->runCommand(
-            'doctrine:schema:update',
-            '--dump-sql --force',
+            'doctrine:migrations:diff',
+            '--namespace=DoctrineMigrations --quiet --allow-empty-diff',
         );
         $process->run();
-
         if ($process->wait() === 0) {
-            $this->logger->info('DB schema has been updated.');
+            $this->logger->info('New migration has been generated.');
+            $this->updateSchema();
         } else {
             throw new \RuntimeException('DB schema update failed. ' . $process->getErrorOutput());
         }
