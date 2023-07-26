@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\NodeType;
 
 use Doctrine\Inflector\InflectorFactory;
 use LogicException;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\String\UnicodeString;
@@ -14,10 +15,12 @@ use Symfony\Component\Yaml\Yaml;
 final class ApiResourceGenerator
 {
     private string $apiResourcesDir;
+    private LoggerInterface $logger;
 
-    public function __construct(string $apiResourcesDir)
+    public function __construct(string $apiResourcesDir, LoggerInterface $logger)
     {
         $this->apiResourcesDir = $apiResourcesDir;
+        $this->logger = $logger;
     }
 
     /**
@@ -39,6 +42,10 @@ final class ApiResourceGenerator
                 $resourcePath,
                 Yaml::dump($this->getApiResourceDefinition($nodeType), 6)
             );
+            $this->logger->info('API resource config file has been generated.', [
+                'nodeType' => $nodeType->getName(),
+                'file' => $resourcePath,
+            ]);
             \clearstatcache(true, $resourcePath);
             return $resourcePath;
         } else {
@@ -58,6 +65,10 @@ final class ApiResourceGenerator
 
         if ($filesystem->exists($resourcePath)) {
             $filesystem->remove($resourcePath);
+            $this->logger->info('API resource config file has been removed.', [
+                'nodeType' => $nodeType->getName(),
+                'file' => $resourcePath,
+            ]);
             @\clearstatcache(true, $resourcePath);
         }
     }

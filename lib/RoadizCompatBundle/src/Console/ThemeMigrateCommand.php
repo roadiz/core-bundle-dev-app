@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CompatBundle\Console;
 
+use RZ\Roadiz\CoreBundle\Doctrine\SchemaUpdater;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,26 +14,28 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Process\Process;
 
+/**
+ * @deprecated Use RZ\Roadiz\CoreBundle\Console\AppMigrateCommand instead.
+ */
 class ThemeMigrateCommand extends Command
 {
     protected string $projectDir;
+    private SchemaUpdater $schemaUpdater;
 
-    /**
-     * @param string $projectDir
-     */
-    public function __construct(string $projectDir)
+    public function __construct(SchemaUpdater $schemaUpdater, string $projectDir)
     {
         parent::__construct();
         $this->projectDir = $projectDir;
+        $this->schemaUpdater = $schemaUpdater;
     }
 
     protected function configure(): void
     {
         $this->setName('themes:migrate')
-            ->setDescription('Update your site against theme import files, regenerate NSEntities, update database schema and clear caches.')
+            ->setDescription('Update your app node-types, settings, roles against theme import files')
             ->addArgument(
                 'classname',
-                InputArgument::REQUIRED,
+                InputArgument::OPTIONAL,
                 'Main theme classname (Use / instead of \\ and do not forget starting slash) or path to config.yml'
             )
             ->addOption(
@@ -40,12 +43,28 @@ class ThemeMigrateCommand extends Command
                 'd',
                 InputOption::VALUE_NONE,
                 'Do nothing, only print information.'
+            )
+            ->addOption(
+                'doctrine-migrations',
+                null,
+                InputOption::VALUE_NONE,
+                'Generate and execute pending Doctrine migrations.'
+            )
+            ->addOption(
+                'ns-entities',
+                null,
+                InputOption::VALUE_NONE,
+                'Regenerate NS entities classes (NS classes should be versioned).'
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
+        if (null === $className = $input->getArgument('classname')) {
+            $className = 'src/Resources/config.yml';
+        }
 
         $question = new ConfirmationQuestion(
             '<question>Are you sure to migrate against this theme?</question> This can lead in data loss.',
@@ -59,59 +78,60 @@ class ThemeMigrateCommand extends Command
         if ($input->getOption('dry-run')) {
             $this->runCommand(
                 'themes:install',
-                sprintf('--data "%s" --dry-run', $input->getArgument('classname')),
+                sprintf('--data "%s" --dry-run', $className),
                 null,
                 $input->isInteractive(),
                 $output->isQuiet(),
             );
         } else {
             $this->runCommand(
-                'doctrine:migrations:migrate',
-                '--allow-no-migration',
-                null,
-                false,
-                $output->isQuiet()
-            ) === 0 ? $io->success('doctrine:migrations:migrate') : $io->error('doctrine:migrations:migrate');
-
-            $this->runCommand(
                 'themes:install',
-                sprintf('--data "%s"', $input->getArgument('classname')),
+                sprintf('--data "%s"', $className),
                 null,
                 $input->isInteractive(),
                 $output->isQuiet()
             ) === 0 ? $io->success('themes:install') : $io->error('themes:install');
 
-            $this->runCommand(
-                'generate:nsentities',
-                '',
-                null,
-                $input->isInteractive(),
-                $output->isQuiet()
-            ) === 0 ? $io->success('generate:nsentities') : $io->error('generate:nsentities');
+            if ($input->getOption('ns-entities')) {
+                $this->runCommand(
+                    'generate:nsentities',
+                    '',
+                    null,
+                    $input->isInteractive(),
+                    $output->isQuiet()
+                ) === 0 ? $io->success('generate:nsentities') : $io->error('generate:nsentities');
 
-            $this->runCommand(
-                'doctrine:cache:clear-metadata',
-                '',
-                null,
-                $input->isInteractive(),
-                $output->isQuiet()
-            ) === 0 ? $io->success('doctrine:cache:clear-metadata') : $io->error('doctrine:cache:clear-metadata');
 
-            $this->runCommand(
-                'doctrine:schema:update',
-                '--dump-sql --force',
-                null,
-                $input->isInteractive(),
-                $output->isQuiet()
-            ) === 0 ? $io->success('doctrine:schema:update') : $io->error('doctrine:schema:update');
+                if ($input->getOption('doctrine-migrations')) {
+                    $this->schemaUpdater->updateNodeTypesSchema();
+                    $this->schemaUpdater->updateSchema();
+                    $io->success('doctrine-migrations');
+                }
 
-            $this->runCommand(
-                'cache:clear',
-                '',
-                null,
-                $input->isInteractive(),
-                $output->isQuiet()
-            ) === 0 ? $io->success('cache:clear') : $io->error('cache:clear');
+                $this->runCommand(
+                    'doctrine:cache:clear-metadata',
+                    '',
+                    null,
+                    false,
+                    true
+                ) === 0 ? $io->success('doctrine:cache:clear-metadata') : $io->error('doctrine:cache:clear-metadata');
+
+                $this->runCommand(
+                    'cache:clear',
+                    '',
+                    null,
+                    false,
+                    true
+                ) === 0 ? $io->success('cache:clear') : $io->error('cache:clear');
+
+                $this->runCommand(
+                    'cache:pool:clear',
+                    'cache.global_clearer',
+                    null,
+                    false,
+                    true
+                ) === 0 ? $io->success('cache:pool:clear') : $io->error('cache:pool:clear');
+            }
         }
         return 0;
     }

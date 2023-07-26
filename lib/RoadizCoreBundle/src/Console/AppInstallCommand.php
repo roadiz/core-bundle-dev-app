@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\CompatBundle\Console;
+namespace RZ\Roadiz\CoreBundle\Console;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CompatBundle\Theme\ThemeGenerator;
-use RZ\Roadiz\CompatBundle\Theme\ThemeInfo;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Importer\AttributeImporter;
 use RZ\Roadiz\CoreBundle\Importer\EntityImporterInterface;
@@ -16,22 +15,17 @@ use RZ\Roadiz\CoreBundle\Importer\RolesImporter;
 use RZ\Roadiz\CoreBundle\Importer\SettingsImporter;
 use RZ\Roadiz\CoreBundle\Importer\TagsImporter;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Exception\RuntimeException;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Command line utils for managing themes from terminal.
- *
- * @deprecated Use RZ\Roadiz\CoreBundle\Console\AppInstallCommand instead.
  */
-class ThemeInstallCommand extends Command
+final class AppInstallCommand extends Command
 {
     protected SymfonyStyle $io;
     private bool $dryRun = false;
@@ -54,9 +48,10 @@ class ThemeInstallCommand extends Command
         SettingsImporter $settingsImporter,
         RolesImporter $rolesImporter,
         GroupsImporter $groupsImporter,
-        AttributeImporter $attributeImporter
+        AttributeImporter $attributeImporter,
+        string $name = null
     ) {
-        parent::__construct();
+        parent::__construct($name);
         $this->projectDir = $projectDir;
         $this->themeGenerator = $themeGenerator;
         $this->nodeTypesImporter = $nodeTypesImporter;
@@ -70,19 +65,8 @@ class ThemeInstallCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('themes:install')
-            ->setDescription('Manage themes installation')
-            ->addArgument(
-                'classname',
-                InputArgument::REQUIRED,
-                'Main theme classname (Use / instead of \\ and do not forget starting slash) or path to config.yml'
-            )
-            ->addOption(
-                'data',
-                null,
-                InputOption::VALUE_NONE,
-                'Import default data (node-types, roles, settings and tags)'
-            )
+        $this->setName('app:install')
+            ->setDescription('Install application fixtures (node-types, settings, roles) from config.yml')
             ->addOption(
                 'dry-run',
                 'd',
@@ -97,85 +81,57 @@ class ThemeInstallCommand extends Command
             $this->dryRun = true;
         }
         $this->io = new SymfonyStyle($input, $output);
-        $themeInfo = null;
 
         /*
          * Test if Classname is not a valid yaml file before using Theme
          */
-        if ((new UnicodeString($input->getArgument('classname')))->endsWith('config.yml')) {
-            $classname = realpath($input->getArgument('classname'));
-            if (false !== $classname && file_exists($classname)) {
-                $this->io->note('Install assets directly from file: ' . $classname);
-                $themeConfigPath = $classname;
-            } else {
-                $this->io->error($classname . ' configuration file is not readable.');
-                return 1;
-            }
+        $configPath = $this->projectDir . '/src/Resources/config.yml';
+        $realConfigPath = realpath($configPath);
+        if (false !== $realConfigPath && file_exists($realConfigPath)) {
+            $this->io->note('Install assets directly from file: ' . $realConfigPath);
+            $themeConfigPath = $realConfigPath;
         } else {
-            /*
-             * Replace slash by anti-slashes
-             */
-            $classname = str_replace('/', '\\', $input->getArgument('classname'));
-            $themeInfo = new ThemeInfo($classname, $this->projectDir);
-            $themeConfigPath = $themeInfo->getThemePath() . '/config.yml';
-            if (!$themeInfo->isValid()) {
-                throw new RuntimeException($themeInfo->getClassname() . ' is not a valid Roadiz theme.');
-            }
-            if (!file_exists($themeConfigPath)) {
-                $this->io->warning($themeInfo->getName() . ' theme does not have any configuration.');
-                return 1;
-            }
+            $this->io->error($configPath . ' configuration file is not readable.');
+            return 1;
         }
 
-        if ($output->isVeryVerbose() && null !== $themeInfo) {
-            $this->io->writeln('Theme name is: <info>' . $themeInfo->getName() . '</info>.');
-            $this->io->writeln('Theme assets are located in <info>' . $themeInfo->getThemePath() . '/static</info>.');
-        }
-
-        if ($input->getOption('data')) {
-            $this->importThemeData($themeInfo, $themeConfigPath);
-        } else {
-            $this->io->note(
-                'Roadiz themes are no more registered into database. ' .
-                'You should use --data or --nodes option.'
-            );
-        }
+        $this->importAppData($themeConfigPath);
         return 0;
     }
 
-    protected function importThemeData(?ThemeInfo $themeInfo, string $themeConfigPath): void
+    protected function importAppData(string $themeConfigPath): void
     {
-        $data = $this->getThemeConfig($themeConfigPath);
+        $data = $this->getAppConfig($themeConfigPath);
 
         if (isset($data["importFiles"])) {
             if (isset($data["importFiles"]['groups'])) {
                 foreach ($data["importFiles"]['groups'] as $filename) {
-                    $this->importFile($themeInfo, $filename, $this->groupsImporter);
+                    $this->importFile($filename, $this->groupsImporter);
                 }
             }
             if (isset($data["importFiles"]['roles'])) {
                 foreach ($data["importFiles"]['roles'] as $filename) {
-                    $this->importFile($themeInfo, $filename, $this->rolesImporter);
+                    $this->importFile($filename, $this->rolesImporter);
                 }
             }
             if (isset($data["importFiles"]['settings'])) {
                 foreach ($data["importFiles"]['settings'] as $filename) {
-                    $this->importFile($themeInfo, $filename, $this->settingsImporter);
+                    $this->importFile($filename, $this->settingsImporter);
                 }
             }
             if (isset($data["importFiles"]['nodetypes'])) {
                 foreach ($data["importFiles"]['nodetypes'] as $filename) {
-                    $this->importFile($themeInfo, $filename, $this->nodeTypesImporter);
+                    $this->importFile($filename, $this->nodeTypesImporter);
                 }
             }
             if (isset($data["importFiles"]['tags'])) {
                 foreach ($data["importFiles"]['tags'] as $filename) {
-                    $this->importFile($themeInfo, $filename, $this->tagsImporter);
+                    $this->importFile($filename, $this->tagsImporter);
                 }
             }
             if (isset($data["importFiles"]['attributes'])) {
                 foreach ($data["importFiles"]['attributes'] as $filename) {
-                    $this->importFile($themeInfo, $filename, $this->attributeImporter);
+                    $this->importFile($filename, $this->attributeImporter);
                 }
             }
         } else {
@@ -184,15 +140,12 @@ class ThemeInstallCommand extends Command
     }
 
     /**
-     * @param ThemeInfo|null $themeInfo
      * @param string $filename
      * @param EntityImporterInterface $importer
      */
-    protected function importFile(?ThemeInfo $themeInfo, string $filename, EntityImporterInterface $importer): void
+    protected function importFile(string $filename, EntityImporterInterface $importer): void
     {
-        if (null !== $themeInfo) {
-            $file = new File($themeInfo->getThemePath() . "/" . $filename);
-        } elseif (false !== $realFilename = realpath($filename)) {
+        if (false !== $realFilename = realpath($filename)) {
             $file = new File($realFilename);
         } else {
             throw new \RuntimeException($filename . ' is not a valid file');
@@ -221,17 +174,17 @@ class ThemeInstallCommand extends Command
     }
 
     /**
-     * @param string $themeConfigPath
+     * @param string $appConfigPath
      * @return array
      */
-    protected function getThemeConfig(string $themeConfigPath): array
+    protected function getAppConfig(string $appConfigPath): array
     {
-        if (false === $fileContent = file_get_contents($themeConfigPath)) {
-            throw new \RuntimeException($themeConfigPath . ' file is not readable');
+        if (false === $fileContent = file_get_contents($appConfigPath)) {
+            throw new \RuntimeException($appConfigPath . ' file is not readable');
         }
         $data = Yaml::parse($fileContent);
         if (!\is_array($data)) {
-            throw new \RuntimeException($themeConfigPath . ' file is not a valid YAML file');
+            throw new \RuntimeException($appConfigPath . ' file is not a valid YAML file');
         }
         return $data;
     }
