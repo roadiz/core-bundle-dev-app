@@ -210,6 +210,23 @@ final class ApiResourceGenerator
                         'children',
                     ])
                 ],
+                'openapiContext' => [
+                    'tags' => ['WebResponse'],
+                    'summary' => 'Get a resource by its path wrapped in a WebResponse object',
+                    'description' => 'Get a resource by its path wrapped in a WebResponse',
+                    'parameters' => [
+                        [
+                            'type' => 'string',
+                            'name' => 'path',
+                            'in' => 'query',
+                            'required' => true,
+                            'description' => 'Resource path, or `/` for home page',
+                            'schema' => [
+                                'type' => 'string',
+                            ],
+                        ]
+                    ]
+                ]
             ];
         }
 
