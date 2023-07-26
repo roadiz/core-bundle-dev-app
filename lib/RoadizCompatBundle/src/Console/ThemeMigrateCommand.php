@@ -101,7 +101,6 @@ class ThemeMigrateCommand extends Command
                     $output->isQuiet()
                 ) === 0 ? $io->success('generate:nsentities') : $io->error('generate:nsentities');
 
-
                 if ($input->getOption('doctrine-migrations')) {
                     $this->schemaUpdater->updateNodeTypesSchema();
                     $this->schemaUpdater->updateSchema();
