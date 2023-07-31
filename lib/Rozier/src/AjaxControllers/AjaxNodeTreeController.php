@@ -36,17 +36,17 @@ class AjaxNodeTreeController extends AbstractAjaxController
 
     /**
      * @param Request $request
-     * @param int|null    $translationId
      *
      * @return JsonResponse
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    public function getTreeAction(Request $request, ?int $translationId = null)
+    public function getTreeAction(Request $request)
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
+        $translationId = $request->get('translationId', null);
         if (null === $translationId) {
             $translation = $this->em()->getRepository(Translation::class)->findDefault();
         } else {
