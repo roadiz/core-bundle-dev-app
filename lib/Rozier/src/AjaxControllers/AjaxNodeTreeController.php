@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Themes\Rozier\Widgets\NodeTreeWidget;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 class AjaxNodeTreeController extends AbstractAjaxController
 {
@@ -35,22 +38,22 @@ class AjaxNodeTreeController extends AbstractAjaxController
      * @param Request $request
      *
      * @return JsonResponse
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function getTreeAction(Request $request)
+    public function getTreeAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
         $translationId = $request->get('translationId', null);
-        if (null === $translationId) {
-            $translation = $this->em()->getRepository(Translation::class)->findDefault();
-        } else {
+        if (\is_numeric($translationId) && $translationId > 0) {
             $translation = $this->em()->find(
                 Translation::class,
                 $translationId
             );
+        } else {
+            $translation = $this->em()->getRepository(Translation::class)->findDefault();
         }
 
         /** @var NodeTreeWidget|null $nodeTree */

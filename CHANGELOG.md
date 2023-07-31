@@ -1,3 +1,10 @@
+## [v2.1.34](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.33...v2.1.34) (2023-07-31)
+
+
+### Bug Fixes
+
+* **AjaxNodeTreeController:** Fixed non-integer translationId ([e33762f](https://github.com/roadiz/core-bundle-dev-app/commit/e33762f4931c8537425e1cb3b7995a48f87834ba))
+
 ## [v2.1.33](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.32...v2.1.33) (2023-07-31)
 
 
