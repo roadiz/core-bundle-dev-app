@@ -36,6 +36,7 @@
         "jms/serializer": "^3.9.0",
         "league/flysystem": "^3.0",
         "pimple/pimple": "^3.3.1",
+        "ramsey/uuid": "^4.7",
         "roadiz/compat-bundle": "^2.1",
         "roadiz/core-bundle": "^2.1",
         "roadiz/doc-generator": "^2.1",
