@@ -1,3 +1,10 @@
+## [v2.1.33](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.32...v2.1.33) (2023-07-31)
+
+
+### Bug Fixes
+
+* **AjaxNodeTree:** Removed `translationId` path param from `nodesTreeAjax` route ([d5e6fe6](https://github.com/roadiz/core-bundle-dev-app/commit/d5e6fe6333b2dc5e9aff372965adc9defb58af13))
+
 ## [v2.1.32](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.31...v2.1.32) (2023-07-25)
 
 
