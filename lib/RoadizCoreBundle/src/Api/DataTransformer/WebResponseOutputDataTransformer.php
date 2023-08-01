@@ -18,7 +18,7 @@ use RZ\TreeWalker\WalkerContextInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class WebResponseOutputDataTransformer implements WebResponseDataTransformerInterface
+class WebResponseOutputDataTransformer implements WebResponseDataTransformerInterface
 {
     use BlocksAwareWebResponseOutputDataTransformerTrait;
     use RealmsAwareWebResponseOutputDataTransformerTrait;
@@ -71,32 +71,31 @@ final class WebResponseOutputDataTransformer implements WebResponseDataTransform
         return $this->realmResolver;
     }
 
-
     /**
      * @inheritDoc
      */
-    public function transform($data, string $to, array $context = []): ?WebResponseInterface
+    public function transform($object, string $to, array $context = []): ?WebResponseInterface
     {
-        if (!$data instanceof PersistableInterface) {
+        if (!$object instanceof PersistableInterface) {
             throw new \InvalidArgumentException(
                 'Data to transform must be instance of ' .
                 PersistableInterface::class
             );
         }
         $output = new WebResponse();
-        $output->item = $data;
-        if ($data instanceof NodesSources) {
-            $this->injectRealms($output, $data);
-            $this->injectBlocks($output, $data);
+        $output->item = $object;
+        if ($object instanceof NodesSources) {
+            $this->injectRealms($output, $object);
+            $this->injectBlocks($output, $object);
 
             $output->path = $this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                RouteObjectInterface::ROUTE_OBJECT => $data
+                RouteObjectInterface::ROUTE_OBJECT => $object
             ], UrlGeneratorInterface::ABSOLUTE_PATH);
-            $output->head = $this->nodesSourcesHeadFactory->createForNodeSource($data);
-            $output->breadcrumbs = $this->breadcrumbsFactory->create($data);
+            $output->head = $this->nodesSourcesHeadFactory->createForNodeSource($object);
+            $output->breadcrumbs = $this->breadcrumbsFactory->create($object);
         }
-        if ($data instanceof TranslationInterface) {
-            $output->head = $this->nodesSourcesHeadFactory->createForTranslation($data);
+        if ($object instanceof TranslationInterface) {
+            $output->head = $this->nodesSourcesHeadFactory->createForTranslation($object);
         }
         return $output;
     }
