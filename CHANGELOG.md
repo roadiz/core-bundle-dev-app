@@ -1,3 +1,10 @@
+## [v2.1.35](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.34...v2.1.35) (2023-08-01)
+
+
+### Bug Fixes
+
+* **WebResponseOutputDataTransformer:** Made `WebResponseOutputDataTransformer` overrideable in projects instead of reimplementing it. ([52fd409](https://github.com/roadiz/core-bundle-dev-app/commit/52fd4096343aa4b68d0907375a53eefc64dc3fbc))
+
 ## [v2.1.34](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.33...v2.1.34) (2023-07-31)
 
 
