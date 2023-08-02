@@ -25,11 +25,6 @@ api_platform:
             page_parameter_name: page
             items_per_page_parameter_name: itemsPerPage
 
-#    http_cache:
-#        invalidation:
-#            enabled: true
-#            varnish_urls: [ '%env(VARNISH_URL)%' ]
-
     defaults:
         enable_max_depth: true
         normalization_context:
@@ -43,3 +38,10 @@ api_platform:
             max_age: '%env(int:HTTP_CACHE_MAX_AGE)%'
             shared_max_age: '%env(int:HTTP_CACHE_SHARED_MAX_AGE)%'
             vary: [ 'Accept', 'Authorization', 'Origin', 'Accept-Encoding', 'Content-Type' ]
+
+when@prod:
+    api_platform:
+        http_cache:
+            invalidation:
+                enabled: true
+                varnish_urls: [ '%env(VARNISH_URL)%' ]
