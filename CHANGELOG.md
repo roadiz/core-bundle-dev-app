@@ -1,3 +1,23 @@
+## [v2.1.37](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.36...v2.1.37) (2023-08-03)
+
+
+### Features
+
+* New Doctrine migration
+* **Security:** Added UserChecker to check users enabled, expired, locked or credentialExpired. Removed useless User' boolean expired and credentialsExpired fields. ([42d4d11](https://github.com/roadiz/core-bundle-dev-app/commit/42d4d1133916ea1101872665cd3c13d2ea18175f))
+    - Make sure to register Roadiz `UserChecker` in your `security.yaml` file: https://symfony.com/doc/current/security/user_checkers.html#enabling-the-custom-user-checker
+
+```yaml
+# config/packages/security.yaml
+
+# ...
+security:
+    firewalls:
+        main:
+            pattern: ^/
+            user_checker: RZ\Roadiz\CoreBundle\Security\UserChecker
+```
+
 ## [v2.1.36](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.35...v2.1.36) (2023-08-03)
 
 

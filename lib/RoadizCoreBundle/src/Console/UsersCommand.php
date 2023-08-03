@@ -45,7 +45,7 @@ class UsersCommand extends Command
             'Username' => $user->getUsername(),
             'Email' => $user->getEmail(),
             'Disabled' => (!$user->isEnabled() ? 'X' : ''),
-            'Expired' => ($user->getExpired() ? 'X' : ''),
+            'Expired' => (!$user->isAccountNonExpired() ? 'X' : ''),
             'Locked' => (!$user->isAccountNonLocked() ? 'X' : ''),
             'Groups' => implode(' ', $user->getGroupNames()),
         ];

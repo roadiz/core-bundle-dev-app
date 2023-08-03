@@ -26,8 +26,7 @@ class NodeTypeObjectConstructor extends AbstractTypedObjectConstructor
         $data,
         array $type,
         DeserializationContext $context
-    ): ?object
-    {
+    ): ?object {
         $nodeType = parent::construct($visitor, $metadata, $data, $type, $context);
 
         if ($nodeType instanceof NodeType && \is_array($data) && \array_key_exists('fields', $data)) {
