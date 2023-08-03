@@ -44,15 +44,13 @@ class RoadizRozierExtension extends Extension
         $container->setParameter('roadiz_rozier.open_id.hosted_domain', $config['open_id']['hosted_domain']);
         $container->setParameter('roadiz_rozier.open_id.oauth_client_id', $config['open_id']['oauth_client_id']);
         $container->setParameter('roadiz_rozier.open_id.oauth_client_secret', $config['open_id']['oauth_client_secret']);
+        $container->setParameter('roadiz_rozier.open_id.requires_local_user', $config['open_id']['requires_local_user']);
         $container->setParameter('roadiz_rozier.open_id.openid_username_claim', $config['open_id']['openid_username_claim']);
         $container->setParameter('roadiz_rozier.open_id.scopes', $config['open_id']['scopes'] ?? []);
         $container->setParameter('roadiz_rozier.open_id.granted_roles', $config['open_id']['granted_roles'] ?? []);
 
-        if (
-            \is_string($config['open_id']['discovery_url']) &&
-            !empty($config['open_id']['discovery_url']) &&
-            filter_var($config['open_id']['discovery_url'], FILTER_VALIDATE_URL)
-        ) {
+        // Do not test URL here, as DotEnv could not be loaded yet.
+        if (!empty($config['open_id']['discovery_url'])) {
             /*
              * Register OpenID discovery service only when discovery URL is set.
              */
@@ -95,10 +93,12 @@ class RoadizRozierExtension extends Extension
                     new Reference(\RZ\Roadiz\OpenId\Authentication\Provider\ChainJwtRoleStrategy::class),
                     new Reference('roadiz_rozier.open_id.jwt_configuration_factory'),
                     new Reference(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class),
+                    new Reference(\RZ\Roadiz\OpenId\Authentication\Provider\OpenIdAccountProvider::class),
                     'loginPage',
                     'adminHomePage',
                     $config['open_id']['oauth_client_id'],
                     $config['open_id']['oauth_client_secret'],
+                    $config['open_id']['requires_local_user'],
                     $config['open_id']['openid_username_claim'],
                     '_target_path',
                     $config['open_id']['granted_roles'],

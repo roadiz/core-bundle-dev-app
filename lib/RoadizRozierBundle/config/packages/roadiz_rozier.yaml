@@ -12,9 +12,13 @@ roadiz_rozier:
         oauth_client_id: '%env(string:OPEN_ID_CLIENT_ID)%'
         # OpenID identity provider OAuth2 client secret
         oauth_client_secret: '%env(string:OPEN_ID_CLIENT_SECRET)%'
+        requires_local_user: false
+        # Only when local users are not required, creating virtual users
+        # with following roles.
         granted_roles:
             - ROLE_USER
             - ROLE_BACKEND_USER
+            - ROLE_SUPERADMIN
     entries:
         dashboard:
             name: dashboard
