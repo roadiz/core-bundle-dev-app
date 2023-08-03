@@ -36,6 +36,11 @@ class Discovery extends LazyParameterBag
         $this->cacheAdapter = $cacheAdapter;
     }
 
+    public function isValid(): bool
+    {
+        return !empty($this->discoveryUri) && filter_var($this->discoveryUri, FILTER_VALIDATE_URL);
+    }
+
     protected function populateParameters(): void
     {
         $cacheItem = $this->cacheAdapter->getItem(static::CACHE_KEY);
@@ -70,7 +75,7 @@ class Discovery extends LazyParameterBag
      */
     public function canVerifySignature(): bool
     {
-        return $this->has('jwks_uri');
+        return $this->isValid() && $this->has('jwks_uri');
     }
 
     /**
