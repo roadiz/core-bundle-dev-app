@@ -52,7 +52,7 @@ final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
             $validators[] = new HostedDomain(trim($this->openIdHostedDomain));
         }
 
-        if (null !== $this->discovery) {
+        if (null !== $this->discovery && $this->discovery->isValid()) {
             $issuer = $this->discovery->get('issuer');
             $userinfoEndpoint = $this->discovery->get('userinfo_endpoint');
             if (is_string($issuer) && !empty($issuer)) {

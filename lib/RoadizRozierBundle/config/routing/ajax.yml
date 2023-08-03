@@ -22,13 +22,11 @@ nodesStatusesAjax:
         _controller: Themes\Rozier\AjaxControllers\AjaxNodesController::statusesAction
         _format: json
 nodesTreeAjax:
-    path:     /nodes/tree/{translationId}
+    path:     /nodes/tree
     methods: [GET]
     defaults:
         _controller: Themes\Rozier\AjaxControllers\AjaxNodeTreeController::getTreeAction
-        translationId: null
         _format: json
-    requirements: { translationId : "[0-9]+" }
 tagsTreeAjax:
     path:     /tags/tree
     methods: [GET]

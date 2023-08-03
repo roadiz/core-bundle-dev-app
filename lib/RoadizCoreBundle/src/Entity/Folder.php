@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -67,7 +67,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     protected ?Folder $parent = null;
 
     /**
-     * @var Collection<Folder>
+     * @var Collection<int, Folder>
      */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Folder::class, orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
@@ -101,11 +101,12 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         nullable: false,
         options: ['default' => '#000000']
     )]
+    #[Assert\Length(max: 7)]
     #[SymfonySerializer\Groups(['folder', 'folder_color'])]
     protected string $color = '#000000';
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'folder_name', type: 'string', unique: true, nullable: false)]
+    #[ORM\Column(name: 'folder_name', type: 'string', length: 250, unique: true, nullable: false)]
     #[Serializer\Groups(['folder', 'document_folders'])]
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
     #[SymfonySerializer\SerializedName('slug')]
@@ -132,7 +133,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     private bool $locked = false;
 
     /**
-     * @var Collection<FolderTranslation>
+     * @var Collection<int, FolderTranslation>
      */
     #[ORM\OneToMany(mappedBy: 'folder', targetEntity: FolderTranslation::class, orphanRemoval: true)]
     #[SymfonySerializer\Ignore]
@@ -212,7 +213,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
 
     /**
      * @param TranslationInterface $translation
-     * @return Collection<FolderTranslation>
+     * @return Collection<int, FolderTranslation>
      */
     #[SymfonySerializer\Ignore]
     public function getTranslatedFoldersByTranslation(TranslationInterface $translation): Collection
@@ -237,7 +238,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     }
 
     /**
-     * @return Collection<FolderTranslation>
+     * @return Collection<int, FolderTranslation>
      */
     public function getTranslatedFolders(): Collection
     {
@@ -245,7 +246,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     }
 
     /**
-     * @param Collection<FolderTranslation> $translatedFolders
+     * @param Collection<int, FolderTranslation> $translatedFolders
      * @return $this
      */
     public function setTranslatedFolders(Collection $translatedFolders): static
@@ -339,11 +340,27 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         $path = [];
 
         foreach ($parents as $parent) {
-            $path[] = $parent->getFolderName();
+            if ($parent instanceof FolderInterface) {
+                $path[] = $parent->getFolderName();
+            }
         }
 
         $path[] = $this->getFolderName();
 
         return implode('/', $path);
+    }
+
+    public function setParent(?LeafInterface $parent = null): static
+    {
+        if ($parent === $this) {
+            throw new \InvalidArgumentException('An entity cannot have itself as a parent.');
+        }
+        if (null !== $parent && !$parent instanceof Folder) {
+            throw new \InvalidArgumentException('A folder can only have a folder as a parent.');
+        }
+        $this->parent = $parent;
+        $this->parent?->addChild($this);
+
+        return $this;
     }
 }

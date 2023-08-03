@@ -35,7 +35,9 @@ final class FolderExplorerItem extends AbstractExplorerItem
         /** @var Folder|null $parent */
         $parent = $this->folder->getParent();
         if (null !== $parent) {
-            return $parent->getTranslatedFolders()->first()->getName();
+            return $parent->getTranslatedFolders()->first() ?
+                $parent->getTranslatedFolders()->first()->getName() :
+                $parent->getName();
         }
         return '';
     }
@@ -45,7 +47,9 @@ final class FolderExplorerItem extends AbstractExplorerItem
      */
     public function getDisplayable(): string
     {
-        return $this->folder->getTranslatedFolders()->first()->getName();
+        return $this->folder->getTranslatedFolders()->first() ?
+            $this->folder->getTranslatedFolders()->first()->getName() :
+            $this->folder->getName();
     }
 
     /**

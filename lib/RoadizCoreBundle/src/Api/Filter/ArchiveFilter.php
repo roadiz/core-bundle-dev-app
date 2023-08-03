@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\Filter;
 
-use ApiPlatform\Core\Bridge\Doctrine\Common\PropertyHelperTrait;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\DateFilter;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
+use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Exception\FilterValidationException;
+use ApiPlatform\Metadata\Operation;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
-final class ArchiveFilter extends AbstractContextAwareFilter
+final class ArchiveFilter extends AbstractFilter
 {
     use PropertyHelperTrait;
 
@@ -22,7 +24,14 @@ final class ArchiveFilter extends AbstractContextAwareFilter
      */
     protected function isDateField(string $property, string $resourceClass): bool
     {
-        return isset(DateFilter::DOCTRINE_DATE_TYPES[(string) $this->getDoctrineFieldType($property, $resourceClass)]);
+        $type = $this->getDoctrineFieldType($property, $resourceClass);
+        if (null === $type) {
+            return false;
+        }
+        if (\is_string($type)) {
+            return \in_array($type, \array_keys(DateFilter::DOCTRINE_DATE_TYPES), true);
+        }
+        return $type->getName() === 'datetime' || $type->getName() === 'date';
     }
 
     /**
@@ -30,18 +39,19 @@ final class ArchiveFilter extends AbstractContextAwareFilter
      */
     protected function filterProperty(
         string $property,
-        $values,
+        $value,
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        string $operationName = null
+        ?Operation $operation = null,
+        array $context = []
     ): void {
         // Expect $values to be an array having the period as keys and the date value as values
         if (
             !$this->isPropertyEnabled($property, $resourceClass) ||
             !$this->isPropertyMapped($property, $resourceClass) ||
             !$this->isDateField($property, $resourceClass) ||
-            !isset($values[self::PARAMETER_ARCHIVE])
+            !isset($value[self::PARAMETER_ARCHIVE])
         ) {
             return;
         }
@@ -50,17 +60,24 @@ final class ArchiveFilter extends AbstractContextAwareFilter
         $field = $property;
 
         if ($this->isPropertyNested($property, $resourceClass)) {
-            [$alias, $field] = $this->addJoinsForNestedProperty($property, $alias, $queryBuilder, $queryNameGenerator, $resourceClass);
+            [$alias, $field] = $this->addJoinsForNestedProperty(
+                $property,
+                $alias,
+                $queryBuilder,
+                $queryNameGenerator,
+                $resourceClass,
+                Join::INNER_JOIN
+            );
         }
 
-        if (!is_string($values[self::PARAMETER_ARCHIVE])) {
-            throw new InvalidArgumentException(sprintf(
+        if (!is_string($value[self::PARAMETER_ARCHIVE])) {
+            throw new FilterValidationException([sprintf(
                 '“%s” filter must be only used with a string value.',
                 self::PARAMETER_ARCHIVE
-            ));
+            )]);
         }
 
-        $range = $this->normalizeFilteringDates($values[self::PARAMETER_ARCHIVE]);
+        $range = $this->normalizeFilteringDates($value[self::PARAMETER_ARCHIVE]);
 
         if (null === $range || count($range) !== 2) {
             return;

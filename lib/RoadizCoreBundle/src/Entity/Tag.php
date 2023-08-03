@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -60,6 +60,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     )]
     #[SymfonySerializer\Groups(['tag', 'tag_base', 'color'])]
     #[Serializer\Groups(['tag', 'tag_base', 'color'])]
+    #[Assert\Length(max: 7)]
     protected string $color = '#000000';
 
     /**
@@ -81,7 +82,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     protected ?LeafInterface $parent = null;
 
     /**
-     * @var Collection<Tag>
+     * @var Collection<int, Tag>
      */
     #[ORM\OneToMany(
         mappedBy: 'parent',
@@ -96,7 +97,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     protected Collection $children;
 
     /**
-     * @var Collection<TagTranslation>
+     * @var Collection<int, TagTranslation>
      */
     #[ORM\OneToMany(
         mappedBy: 'tag',
@@ -110,7 +111,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     protected Collection $translatedTags;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'tag_name', type: 'string', unique: true)]
+    #[ORM\Column(name: 'tag_name', type: 'string', length: 250, unique: true)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Groups(['tag'])]
     #[Serializer\Accessor(getter: "getTagName", setter: "setTagName")]
@@ -129,14 +130,16 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     #[Serializer\Groups(['tag', 'tag_base', 'node', 'nodes_sources'])]
     private bool $visible = true;
 
-    #[ORM\Column(name: 'children_order', type: 'string', options: ['default' => 'position'])]
+    #[ORM\Column(name: 'children_order', type: 'string', length: 60, options: ['default' => 'position'])]
     #[SymfonySerializer\Ignore]
     #[Serializer\Groups(["tag"])]
+    #[Assert\Length(max: 60)]
     private string $childrenOrder = 'position';
 
     #[ORM\Column(name: 'children_order_direction', type: 'string', length: 4, options: ['default' => 'ASC'])]
     #[SymfonySerializer\Ignore]
     #[Serializer\Groups(["tag"])]
+    #[Assert\Length(max: 4)]
     private string $childrenOrderDirection = 'ASC';
 
     #[ApiFilter(BaseFilter\BooleanFilter::class)]
@@ -146,7 +149,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     private bool $locked = false;
 
     /**
-     * @var Collection<NodesTags>
+     * @var Collection<int, NodesTags>
      */
     #[ORM\OneToMany(
         mappedBy: 'tag',
@@ -211,7 +214,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     }
 
     /**
-     * @return Collection<Node>
+     * @return Collection<int, Node>
      */
     public function getNodes(): Collection
     {
@@ -231,7 +234,9 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         $path = [];
 
         foreach ($parents as $parent) {
-            $path[] = $parent->getTagName();
+            if ($parent instanceof Tag) {
+                $path[] = $parent->getTagName();
+            }
         }
 
         $path[] = $this->getTagName();
@@ -262,7 +267,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
 
     /**
      * @param TranslationInterface $translation
-     * @return Collection<TagTranslation>
+     * @return Collection<int, TagTranslation>
      */
     #[SymfonySerializer\Ignore]
     public function getTranslatedTagsByTranslation(TranslationInterface $translation): Collection
@@ -396,7 +401,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     }
 
     /**
-     * @return Collection<TagTranslation>
+     * @return Collection<int, TagTranslation>
      */
     public function getTranslatedTags(): Collection
     {
@@ -404,7 +409,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     }
 
     /**
-     * @param Collection<TagTranslation> $translatedTags
+     * @param Collection<int, TagTranslation> $translatedTags
      * @return $this
      */
     public function setTranslatedTags(Collection $translatedTags): static
@@ -445,5 +450,19 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         return $this->getTranslatedTags()->first() ?
             $this->getTranslatedTags()->first()->getDocuments() :
             [];
+    }
+
+    public function setParent(?LeafInterface $parent = null): static
+    {
+        if ($parent === $this) {
+            throw new \InvalidArgumentException('An entity cannot have itself as a parent.');
+        }
+        if (null !== $parent && !$parent instanceof Tag) {
+            throw new \InvalidArgumentException('A tag can only have a Tag entity as a parent');
+        }
+        $this->parent = $parent;
+        $this->parent?->addChild($this);
+
+        return $this;
     }
 }

@@ -14,9 +14,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
-/**
- * @package Themes\Rozier\Forms
- */
 class TranstypeType extends AbstractType
 {
     protected ManagerRegistry $managerRegistry;

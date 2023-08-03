@@ -132,7 +132,7 @@ abstract class AbstractAdminController extends RozierApp
                     '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
                 ]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $item);
 
             return $this->getPostSubmitResponse($item, true, $request);
         }
@@ -193,7 +193,7 @@ abstract class AbstractAdminController extends RozierApp
                     '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
                 ]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $item);
 
             return $this->getPostSubmitResponse($item, false, $request);
         }
@@ -278,7 +278,7 @@ abstract class AbstractAdminController extends RozierApp
                     '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
                 ]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $item);
 
             return $this->getPostDeleteResponse($item);
         }
@@ -330,7 +330,7 @@ abstract class AbstractAdminController extends RozierApp
     }
 
     /**
-     * @return class-string
+     * @return class-string<PersistableInterface>
      */
     abstract protected function getEntityClass(): string;
 
@@ -398,14 +398,26 @@ abstract class AbstractAdminController extends RozierApp
         bool $forceDefaultEditRoute = false,
         ?Request $request = null
     ): Response {
+        if (null === $request) {
+            // Redirect to default route if no request provided
+            return $this->redirect($this->urlGenerator->generate(
+                $this->getEditRouteName(),
+                $this->getEditRouteParameters($item)
+            ));
+        }
+
+        $route = $request->attributes->get('_route');
+        $referrer = $request->query->get('referer');
+
         /*
          * Force redirect to avoid resending form when refreshing page
          */
         if (
-            null !== $request && $request->query->has('referer') &&
-            (new UnicodeString($request->query->get('referer')))->startsWith('/')
+            \is_string($referrer) &&
+            $referrer !== '' &&
+            (new UnicodeString($referrer))->trim()->startsWith('/')
         ) {
-            return $this->redirect($request->query->get('referer'));
+            return $this->redirect($referrer);
         }
 
         /*
@@ -413,8 +425,8 @@ abstract class AbstractAdminController extends RozierApp
          */
         if (
             false === $forceDefaultEditRoute &&
-            null !== $request &&
-            null !== $route = $request->attributes->get('_route')
+            \is_string($route) &&
+            $route !== ''
         ) {
             return $this->redirect($this->urlGenerator->generate(
                 $route,
@@ -449,21 +461,27 @@ abstract class AbstractAdminController extends RozierApp
     }
 
     /**
-     * @param Event|Event[]|mixed|null $event
-     * @return object|object[]|null
+     * @template T of object|Event
+     * @param T|iterable<T>|array<int, T>|null $event
+     * @return T|iterable<T>|array<int, T>|null
      */
-    protected function dispatchSingleOrMultipleEvent($event)
+    protected function dispatchSingleOrMultipleEvent(mixed $event): mixed
     {
         if (null === $event) {
             return null;
         }
         if ($event instanceof Event) {
+            // @phpstan-ignore-next-line
             return $this->dispatchEvent($event);
         }
-        if (is_iterable($event)) {
+        if (\is_iterable($event)) {
             $events = [];
+            /** @var T|null $singleEvent */
             foreach ($event as $singleEvent) {
-                $events[] = $this->dispatchSingleOrMultipleEvent($singleEvent);
+                $returningEvent = $this->dispatchSingleOrMultipleEvent($singleEvent);
+                if ($returningEvent instanceof Event) {
+                    $events[] = $returningEvent;
+                }
             }
             return $events;
         }

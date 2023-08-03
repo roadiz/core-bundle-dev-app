@@ -31,7 +31,8 @@ final class FontRepository extends EntityRepository
     {
         $query = $this->_em->createQuery('
             SELECT MAX(f.updatedAt) FROM RZ\Roadiz\FontBundle\Entity\Font f');
+        $updatedAt = $query->getSingleScalarResult();
 
-        return new \DateTimeImmutable($query->getSingleScalarResult());
+        return \is_string($updatedAt) ? new \DateTimeImmutable($updatedAt) : null;
     }
 }

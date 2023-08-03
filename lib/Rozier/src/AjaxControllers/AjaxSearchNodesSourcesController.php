@@ -14,9 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxSearchNodesSourcesController extends AbstractAjaxController
 {
     public const RESULT_COUNT = 8;

@@ -78,9 +78,11 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
             'params' => $query->getParams(),
         ]);
 
-        $query = $this->eventDispatcher->dispatch(
+        /** @var NodeSourceSearchQueryEvent $event */
+        $event = $this->eventDispatcher->dispatch(
             new NodeSourceSearchQueryEvent($query, $args)
-        )->getQuery();
+        );
+        $query = $event->getQuery();
 
         $solrRequest = $this->getSolr()->execute($query);
         return $solrRequest->getData();

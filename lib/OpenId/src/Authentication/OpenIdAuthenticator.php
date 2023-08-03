@@ -23,6 +23,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
@@ -40,7 +42,6 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
     private JwtRoleStrategy $roleStrategy;
     private OpenIdJwtConfigurationFactory $jwtConfigurationFactory;
     private UrlGeneratorInterface $urlGenerator;
-
     private string $returnPath;
     private string $defaultRoute;
     private ?string $oauthClientId;
@@ -49,6 +50,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
     private string $targetPathParameter;
     private array $defaultRoles;
     private bool $forceSsl;
+    private bool $requiresLocalUsers;
 
     public function __construct(
         HttpUtils $httpUtils,
@@ -60,6 +62,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         string $defaultRoute,
         ?string $oauthClientId,
         ?string $oauthClientSecret,
+        bool $requiresLocalUsers = true,
         string $usernameClaim = 'email',
         string $targetPathParameter = '_target_path',
         array $defaultRoles = [],
@@ -82,6 +85,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         $this->urlGenerator = $urlGenerator;
         $this->jwtConfigurationFactory = $jwtConfigurationFactory;
         $this->forceSsl = $forceSsl;
+        $this->requiresLocalUsers = $requiresLocalUsers;
     }
 
     /**
@@ -90,6 +94,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
     public function supports(Request $request): ?bool
     {
         return null !== $this->discovery &&
+            $this->discovery->isValid() &&
             $this->httpUtils->checkRequestPath($request, $this->returnPath) &&
             $request->query->has('state') &&
             $request->query->has('scope') &&
@@ -191,37 +196,64 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
                 'JWT “' . $this->usernameClaim . '” claim is not valid.'
             );
         }
-        $passport = new Passport(
-            new UserBadge($username, function () use ($jwt, $username) {
-                $roles = $this->defaultRoles;
-                if ($this->roleStrategy->supports()) {
-                    $roles = array_merge($roles, $this->roleStrategy->getRoles() ?? []);
+
+        /*
+         * Validate JWT token in CustomCredentials
+         */
+        $customCredentials = new CustomCredentials(
+            function (Plain $jwt) {
+                $configuration = $this->jwtConfigurationFactory->create();
+                $constraints = $configuration->validationConstraints();
+
+                try {
+                    $configuration->validator()->assert($jwt, ...$constraints);
+                } catch (RequiredConstraintsViolated $e) {
+                    throw new OpenIdAuthenticationException($e->getMessage(), 0, $e);
                 }
-                return new OpenIdAccount(
-                    $username,
-                    array_unique($roles),
-                    $jwt
-                );
-            }),
-            new CustomCredentials(
-                function (Plain $jwt) {
-                    $configuration = $this->jwtConfigurationFactory->create();
-                    $constraints = $configuration->validationConstraints();
-                    try {
-                        $configuration->validator()->assert($jwt, ...$constraints);
-                    } catch (RequiredConstraintsViolated $e) {
-                        throw new OpenIdAuthenticationException($e->getMessage(), 0, $e);
-                    }
-                    return true;
-                },
-                $jwt
-            )
+                return true;
+            },
+            $jwt
         );
 
+        /*
+         * If local users are required, we don't need to load user from
+         * Identity provider, we can just use local user.
+         * But still need to validate JWT token.
+         */
+        if ($this->requiresLocalUsers) {
+            return new Passport(
+                new UserBadge($username),
+                $customCredentials
+            );
+        }
+        $passport = new Passport(
+            new UserBadge($username, function () use ($jwt, $username) {
+                /*
+                 * Load user from Identity provider, create a virtual user
+                 * with roles configured in config/packages/roadiz_rozier.yaml
+                 * and need to validate JWT token.
+                 */
+                return $this->loadUser($jwt->claims()->all(), $username, $jwt);
+            }),
+            $customCredentials
+        );
         $passport->setAttribute('jwt', $jwt);
         $passport->setAttribute('token', !empty($jsonResponse['access_token']) ? $jsonResponse['access_token'] : $jwt->toString());
 
         return $passport;
+    }
+
+    protected function loadUser(array $payload, string $identity, Plain $jwt): UserInterface
+    {
+        $roles = $this->defaultRoles;
+        if ($this->roleStrategy->supports()) {
+            $roles = array_merge($roles, $this->roleStrategy->getRoles() ?? []);
+        }
+        return new OpenIdAccount(
+            $identity,
+            array_unique($roles),
+            $jwt
+        );
     }
 
     /**

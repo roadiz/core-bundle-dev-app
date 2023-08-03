@@ -13,9 +13,6 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Themes\Rozier\Models\CustomFormModel;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxCustomFormsExplorerController extends AbstractAjaxController
 {
     private UrlGeneratorInterface $urlGenerator;

@@ -9,7 +9,6 @@ use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\OptionsResolver\ViewOptionsResolver;
 use RZ\Roadiz\Documents\Viewers\SvgDocumentViewer;
-use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class InlineSvgRenderer implements RendererInterface
 {

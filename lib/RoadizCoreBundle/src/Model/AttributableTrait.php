@@ -10,7 +10,7 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 trait AttributableTrait
 {
     /**
-     * @return Collection<AttributeValueInterface>
+     * @return Collection<int, AttributeValueInterface>
      */
     public function getAttributeValues(): Collection
     {
@@ -20,7 +20,7 @@ trait AttributableTrait
     /**
      * @param TranslationInterface $translation
      *
-     * @return Collection<AttributeValueInterface>
+     * @return Collection<int, AttributeValueInterface>
      */
     public function getAttributesValuesForTranslation(TranslationInterface $translation): Collection
     {
@@ -38,11 +38,11 @@ trait AttributableTrait
     /**
      * @param TranslationInterface $translation
      *
-     * @return Collection<AttributeValueTranslationInterface>
+     * @return Collection<int, AttributeValueTranslationInterface>
      */
     public function getAttributesValuesTranslations(TranslationInterface $translation): Collection
     {
-        /** @var Collection<AttributeValueTranslationInterface> $values */
+        /** @var Collection<int, AttributeValueTranslationInterface> $values */
         $values = $this->getAttributesValuesForTranslation($translation)
             ->map(function (AttributeValueInterface $attributeValue) use ($translation) {
                 /** @var AttributeValueTranslationInterface $attributeValueTranslation */

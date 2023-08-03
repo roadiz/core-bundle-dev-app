@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\Query;
@@ -21,6 +22,7 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderSelectEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -33,7 +35,7 @@ abstract class EntityRepository extends ServiceEntityRepository
 
     /**
      * @param ManagerRegistry $registry
-     * @param string $entityClass
+     * @param class-string<TEntityClass> $entityClass
      * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
@@ -76,19 +78,12 @@ abstract class EntityRepository extends ServiceEntityRepository
     public const NODETYPE_ALIAS = 'nt';
 
     /**
-     * Doctrine column types that can be search
-     * with LIKE feature.
-     *
-     * @var array
-     */
-    protected array $searchableTypes = ['string', 'text'];
-
-    /**
      * @param QueryBuilder $qb
      * @param class-string $entityClass
      */
     protected function dispatchQueryBuilderEvent(QueryBuilder $qb, string $entityClass): void
     {
+        // @phpstan-ignore-next-line
         $this->dispatcher->dispatch(new QueryBuilderSelectEvent($qb, $entityClass));
     }
 
@@ -97,10 +92,11 @@ abstract class EntityRepository extends ServiceEntityRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderBuildEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(new QueryBuilderBuildEvent(
             $qb,
             $this->getEntityName(),
@@ -113,10 +109,11 @@ abstract class EntityRepository extends ServiceEntityRepository
     /**
      * @param Query $query
      *
-     * @return object|QueryEvent
+     * @return Event
      */
     protected function dispatchQueryEvent(Query $query): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(new QueryEvent(
             $query,
             $this->getEntityName()
@@ -128,10 +125,11 @@ abstract class EntityRepository extends ServiceEntityRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderApplyEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(new QueryBuilderApplyEvent(
             $qb,
             $this->getEntityName(),
@@ -235,6 +233,40 @@ abstract class EntityRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param ClassMetadataInfo $metadata
+     * @return array
+     */
+    public static function getSearchableColumnsNames(ClassMetadataInfo $metadata): array
+    {
+        /*
+         * Get fields needed for a search query
+         */
+        $criteriaFields = [];
+        $cols = $metadata->getColumnNames();
+        foreach ($cols as $col) {
+            $field = $metadata->getFieldName($col);
+            $type = $metadata->getTypeOfField($field);
+            if (
+                in_array($type, ['string', 'text']) &&
+                !in_array($field, [
+                    'color',
+                    'folder',
+                    'childrenOrder',
+                    'childrenOrderDirection',
+                    'password',
+                    'salt',
+                    'token',
+                    'confirmationToken'
+                ])
+            ) {
+                $criteriaFields[] = $field;
+            }
+        }
+
+        return $criteriaFields;
+    }
+
+    /**
      * Create a LIKE comparison with entity texts colunms.
      *
      * @param string $pattern
@@ -247,23 +279,9 @@ abstract class EntityRepository extends ServiceEntityRepository
         QueryBuilder $qb,
         string $alias = EntityRepository::DEFAULT_ALIAS
     ): QueryBuilder {
-        /*
-         * Get fields needed for a search query
-         */
-        $metadata = $this->_em->getClassMetadata($this->getEntityName());
         $criteriaFields = [];
-        $cols = $metadata->getColumnNames();
-        foreach ($cols as $col) {
-            $field = $metadata->getFieldName($col);
-            $type = $metadata->getTypeOfField($field);
-            if (
-                in_array($type, $this->searchableTypes) &&
-                $field != 'folder' &&
-                $field != 'childrenOrder' &&
-                $field != 'childrenOrderDirection'
-            ) {
-                $criteriaFields[$field] = '%' . strip_tags((string) $pattern) . '%';
-            }
+        foreach (static::getSearchableColumnsNames($this->getClassMetadata()) as $field) {
+            $criteriaFields[$field] = '%' . strip_tags(mb_strtolower($pattern)) . '%';
         }
 
         foreach ($criteriaFields as $key => $value) {
@@ -469,7 +487,7 @@ abstract class EntityRepository extends ServiceEntityRepository
      *
      * @param  QueryBuilder $qb
      * @param  string  $alias
-     * @return boolean
+     * @return bool
      */
     protected function hasJoinedNode(QueryBuilder $qb, string $alias)
     {
@@ -481,7 +499,7 @@ abstract class EntityRepository extends ServiceEntityRepository
      *
      * @param  QueryBuilder $qb
      * @param  string  $alias
-     * @return boolean
+     * @return bool
      */
     protected function hasJoinedNodesSources(QueryBuilder $qb, string $alias)
     {
@@ -493,7 +511,7 @@ abstract class EntityRepository extends ServiceEntityRepository
      *
      * @param  QueryBuilder $qb
      * @param  string  $alias
-     * @return boolean
+     * @return bool
      */
     protected function hasJoinedNodeType(QueryBuilder $qb, string $alias)
     {

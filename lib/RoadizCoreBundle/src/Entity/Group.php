@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Group extends AbstractEntity
 {
-    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Column(type: 'string', length: 250, unique: true)]
     #[SymfonySerializer\Groups(['user', 'role', 'group'])]
     #[Serializer\Groups(['user', 'role', 'group'])]
     #[Assert\NotBlank]
@@ -32,7 +32,7 @@ class Group extends AbstractEntity
     private string $name = '';
 
     /**
-     * @var Collection<User>
+     * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
     #[SymfonySerializer\Groups(['group_user'])]
@@ -41,7 +41,7 @@ class Group extends AbstractEntity
     private Collection $users;
 
     /**
-     * @var Collection<Role>
+     * @var Collection<int, Role>
      */
     #[ORM\JoinTable(name: 'groups_roles')]
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id')]

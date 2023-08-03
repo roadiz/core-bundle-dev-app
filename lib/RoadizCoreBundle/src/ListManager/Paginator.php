@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\ListManager;
 
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
@@ -96,19 +97,19 @@ class Paginator
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getSearchPattern()
+    public function getSearchPattern(): ?string
     {
         return $this->searchPattern;
     }
 
     /**
-     * @param string $searchPattern
+     * @param string|null $searchPattern
      *
      * @return $this
      */
-    public function setSearchPattern($searchPattern)
+    public function setSearchPattern(?string $searchPattern)
     {
         $this->searchPattern = $searchPattern;
 
@@ -135,8 +136,9 @@ class Paginator
                     /*
                      * Use QueryBuilder for non-roadiz entities
                      */
-                    $qb = $this->getSearchQueryBuilder();
-                    $qb->select($qb->expr()->countDistinct('o'));
+                    $alias = 'o';
+                    $qb = $this->getSearchQueryBuilder($alias);
+                    $qb->select($qb->expr()->countDistinct($alias));
                     try {
                         return (int)$qb->getQuery()->getSingleScalarResult();
                     } catch (NoResultException | NonUniqueResultException $e) {
@@ -163,7 +165,7 @@ class Paginator
     /**
      * Return entities filtered for current page.
      *
-     * @param array   $order
+     * @param array $order
      * @param int $page
      *
      * @return array|\Doctrine\ORM\Tools\Pagination\Paginator
@@ -186,10 +188,10 @@ class Paginator
     /**
      * Use a search query to paginate instead of a findBy.
      *
-     * @param array   $order
+     * @param array $order
      * @param int $page
      *
-     * @return array
+     * @return array|\Doctrine\ORM\Tools\Pagination\Paginator
      */
     public function searchByAtPage(array $order = [], int $page = 1)
     {
@@ -207,12 +209,13 @@ class Paginator
         /*
          * Use QueryBuilder for non-roadiz entities
          */
-        $qb = $this->getSearchQueryBuilder();
+        $alias = 'o';
+        $qb = $this->getSearchQueryBuilder($alias);
         $qb->setMaxResults($this->getItemsPerPage())
             ->setFirstResult($this->getItemsPerPage() * ($page - 1));
 
         foreach ($order as $key => $value) {
-            $qb->addOrderBy('o.' . $key, $value);
+            $qb->addOrderBy($alias . '.' . $key, $value);
         }
 
         return $qb->getQuery()->getResult();
@@ -223,7 +226,7 @@ class Paginator
      *
      * @return $this
      */
-    public function setItemsPerPage(int $itemsPerPage)
+    public function setItemsPerPage(int $itemsPerPage): self
     {
         $this->itemsPerPage = $itemsPerPage;
 
@@ -237,16 +240,19 @@ class Paginator
         return $this->itemsPerPage;
     }
 
-    protected function getSearchQueryBuilder(): QueryBuilder
+    protected function getSearchQueryBuilder(string $alias): QueryBuilder
     {
         $searchableFields = $this->getSearchableFields();
         if (count($searchableFields) === 0) {
             throw new \RuntimeException('Entity has no searchable field.');
         }
-        $qb = $this->getRepository()->createQueryBuilder('o');
+        $qb = $this->getRepository()->createQueryBuilder($alias);
         $orX = [];
         foreach ($this->getSearchableFields() as $field) {
-            $orX[] = $qb->expr()->like('o.' . $field, $qb->expr()->literal('%' . $this->searchPattern . '%'));
+            $orX[] = $qb->expr()->like(
+                'LOWER(' . $alias . '.' . $field . ')',
+                $qb->expr()->literal('%' . mb_strtolower($this->searchPattern) . '%')
+            );
         }
         $qb->andWhere($qb->expr()->orX(...$orX));
         return $qb;
@@ -254,12 +260,11 @@ class Paginator
 
     protected function getSearchableFields(): array
     {
-        return array_filter(
-            ['name', 'title', 'slug'],
-            function (string $fieldName) {
-                return $this->em->getClassMetadata($this->entityName)->hasField($fieldName);
-            }
-        );
+        $metadata = $this->em->getClassMetadata($this->entityName);
+        if (!($metadata instanceof ClassMetadataInfo)) {
+            throw new \RuntimeException('Entity has no metadata.');
+        }
+        return EntityRepository::getSearchableColumnsNames($metadata);
     }
 
     /**

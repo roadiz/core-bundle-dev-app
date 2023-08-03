@@ -114,6 +114,13 @@ OpenID identity provider identifier claim field
 EOD
                     )
                 ->end()
+                ->booleanNode('requires_local_user')
+                    ->defaultValue('true')
+                    ->info(<<<EOD
+A local account must exists for each OpenID user.
+EOD
+                    )
+                ->end()
                 ->arrayNode('scopes')
                     ->prototype('scalar')
                     ->defaultValue([])
@@ -127,7 +134,7 @@ EOD
                     ->prototype('scalar')
                     ->defaultValue(['ROLE_USER'])
                     ->info(<<<EOD
-Roles granted to user logged in with OpenId authentication process.
+Roles granted to user logged in with OpenId authentication process. Only when local users are not required, creating virtual users.
 EOD
                     )
                     ->end()

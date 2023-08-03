@@ -18,24 +18,23 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Entity(repositoryClass: RedirectionRepository::class),
     ORM\Table(name: "redirections"),
     ORM\HasLifecycleCallbacks,
-    UniqueEntity(fields: ["query"])
+    UniqueEntity(fields: ["query"]),
+    ORM\Index(columns: ["use_count"], name: 'redirection_use_count')
 ]
 class Redirection extends AbstractDateTimed
 {
-    /**
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
     private string $query = "";
 
-    /**
-     * @var string|null
-     */
     #[ORM\Column(name: 'redirectUri', type: 'text', length: 2048, nullable: true)]
     #[Assert\Length(max: 2048)]
     private ?string $redirectUri = null;
+
+    #[ORM\Column(name: 'use_count', type: 'integer', nullable: false, options: ['default' => 0])]
+    #[Assert\Length(max: 2048)]
+    private int $useCount = 0;
 
     /**
      * @var NodesSources|null
@@ -59,12 +58,12 @@ class Redirection extends AbstractDateTimed
     }
 
     /**
-     * @param string $query
+     * @param string|null $query
      * @return Redirection
      */
-    public function setQuery($query): Redirection
+    public function setQuery(?string $query): Redirection
     {
-        $this->query = $query;
+        $this->query = $query ?? '';
         return $this;
     }
 
@@ -80,7 +79,7 @@ class Redirection extends AbstractDateTimed
      * @param string|null $redirectUri
      * @return Redirection
      */
-    public function setRedirectUri($redirectUri): Redirection
+    public function setRedirectUri(?string $redirectUri): Redirection
     {
         $this->redirectUri = $redirectUri;
         return $this;
@@ -139,5 +138,19 @@ class Redirection extends AbstractDateTimed
     {
         $this->type = Response::HTTP_MOVED_PERMANENTLY;
         $this->initAbstractDateTimed();
+    }
+
+    /**
+     * @return int
+     */
+    public function getUseCount(): int
+    {
+        return $this->useCount;
+    }
+
+    public function incrementUseCount(): self
+    {
+        $this->useCount++;
+        return $this;
     }
 }

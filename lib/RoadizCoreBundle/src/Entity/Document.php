@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -27,6 +27,7 @@ use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 use RZ\Roadiz\Documents\Models\TimeableInterface;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Documents entity represent a file on server with datetime and naming.
@@ -108,68 +109,72 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     ]
     protected bool $raw = false;
 
-    #[ORM\Column(name: 'embedId', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'embedId', type: 'string', length: 250, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type("string")]
+    #[Assert\Length(max: 250)]
     protected ?string $embedId = null;
 
     #[ORM\Column(name: 'file_hash', type: 'string', length: 64, unique: false, nullable: true)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 64)]
     protected ?string $fileHash = null;
 
     #[ORM\Column(name: 'file_hash_algorithm', type: 'string', length: 15, unique: false, nullable: true)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 15)]
     protected ?string $fileHashAlgorithm = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "exact")]
     #[ApiFilter(RoadizFilter\NotFilter::class)]
-    #[ORM\Column(name: 'embedPlatform', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'embedPlatform', type: 'string', length: 100, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 100)]
     protected ?string $embedPlatform = null;
     /**
-     * @var Collection<NodesSourcesDocuments>
+     * @var Collection<int, NodesSourcesDocuments>
      */
     #[ORM\OneToMany(mappedBy: 'document', targetEntity: NodesSourcesDocuments::class)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     protected Collection $nodesSourcesByFields;
     /**
-     * @var Collection<TagTranslationDocuments>
+     * @var Collection<int, TagTranslationDocuments>
      */
     #[ORM\OneToMany(mappedBy: 'document', targetEntity: TagTranslationDocuments::class)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     protected Collection $tagTranslations;
     /**
-     * @var Collection<AttributeDocuments>
+     * @var Collection<int, AttributeDocuments>
      */
     #[ORM\OneToMany(mappedBy: 'document', targetEntity: AttributeDocuments::class)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     protected Collection $attributeDocuments;
     /**
-     * @var Collection<CustomFormFieldAttribute>
+     * @var Collection<int, CustomFormFieldAttribute>
      */
     #[ORM\ManyToMany(targetEntity: CustomFormFieldAttribute::class, mappedBy: 'documents')]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     protected Collection $customFormFieldAttributes;
     /**
-     * @var Collection<Folder>
+     * @var Collection<int, FolderInterface>
      */
     #[ORM\JoinTable(name: 'documents_folders')]
     #[ORM\ManyToMany(targetEntity: Folder::class, mappedBy: 'documents')]
     #[SymfonySerializer\Ignore]
     protected Collection $folders;
     /**
-     * @var Collection<DocumentTranslation>
+     * @var Collection<int, DocumentTranslation>
      */
     #[ORM\OneToMany(
         mappedBy: 'document',
@@ -185,23 +190,25 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
      * @var string|null
      */
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'filename', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'filename', type: 'string', length: 250, nullable: true)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 250)]
     private ?string $filename = null;
     /**
      * @var string|null
      */
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "exact")]
     #[ApiFilter(RoadizFilter\NotFilter::class)]
-    #[ORM\Column(name: 'mime_type', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'mime_type', type: 'string', length: 255, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 255)]
     private ?string $mimeType = null;
     /**
-     * @var Collection<DocumentInterface>
+     * @var Collection<int, DocumentInterface>
      */
     #[ORM\OneToMany(mappedBy: 'rawDocument', targetEntity: Document::class, fetch: 'EXTRA_LAZY')]
     #[SymfonySerializer\Ignore]
@@ -210,8 +217,9 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     /**
      * @var string
      */
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', length: 100)]
     #[SymfonySerializer\Ignore]
+    #[Assert\Length(max: 100)]
     #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
     private string $folder = '';
@@ -254,6 +262,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 7)]
     private ?string $imageAverageColor = null;
     /**
      * @var int|null The filesize in bytes.
@@ -265,7 +274,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     private ?int $filesize = null;
 
     /**
-     * @var Collection<Document>
+     * @var Collection<int, DocumentInterface>
      */
     #[ORM\OneToMany(mappedBy: 'original', targetEntity: Document::class, fetch: 'EXTRA_LAZY')]
     #[SymfonySerializer\Ignore]
@@ -274,7 +283,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     private Collection $thumbnails;
 
     /**
-     * @var Document|null
+     * @var HasThumbnailInterface|null
      */
     #[ORM\ManyToOne(targetEntity: Document::class, fetch: 'EXTRA_LAZY', inversedBy: 'thumbnails')]
     #[ORM\JoinColumn(name: 'original', nullable: true, onDelete: 'SET NULL')]
@@ -283,7 +292,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[Serializer\Groups(['document_original'])]
     #[Serializer\MaxDepth(1)]
     #[Serializer\Type('RZ\Roadiz\CoreBundle\Entity\Document')]
-    private ?DocumentInterface $original = null;
+    private ?HasThumbnailInterface $original = null;
 
     public function __construct()
     {
@@ -358,7 +367,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     }
 
     /**
-     * @return Collection<NodesSourcesDocuments>
+     * @return Collection<int, NodesSourcesDocuments>
      */
     #[SymfonySerializer\Ignore]
     public function getNodesSourcesByFields(): Collection
@@ -367,7 +376,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     }
 
     /**
-     * @return Collection<TagTranslationDocuments>
+     * @return Collection<int, TagTranslationDocuments>
      */
     #[SymfonySerializer\Ignore]
     public function getTagTranslations(): Collection
@@ -376,7 +385,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     }
 
     /**
-     * @return Collection<AttributeDocuments>
+     * @return Collection<int, AttributeDocuments>
      */
     #[SymfonySerializer\Ignore]
     public function getAttributeDocuments(): Collection
@@ -395,7 +404,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     }
 
     /**
-     * @return Collection<Folder>
+     * @return Collection<int, FolderInterface>
      */
     #[SymfonySerializer\Ignore]
     public function getFolders(): Collection
@@ -422,7 +431,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
 
     /**
      * @param TranslationInterface $translation
-     * @return Collection<DocumentTranslation>
+     * @return Collection<int, DocumentTranslation>
      */
     #[SymfonySerializer\Ignore]
     public function getDocumentTranslationsByTranslation(TranslationInterface $translation): Collection
@@ -447,7 +456,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     }
 
     /**
-     * @return Collection<DocumentTranslation>
+     * @return Collection<int, DocumentTranslation>
      */
     public function getDocumentTranslations(): Collection
     {
@@ -649,17 +658,19 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     public function setThumbnails(Collection $thumbnails): static
     {
         if ($this->thumbnails->count()) {
-            /** @var HasThumbnailInterface $thumbnail */
             foreach ($this->thumbnails as $thumbnail) {
-                $thumbnail->setOriginal(null);
+                if ($thumbnail instanceof HasThumbnailInterface) {
+                    $thumbnail->setOriginal(null);
+                }
             }
         }
-        $this->thumbnails = $thumbnails->filter(function (HasThumbnailInterface $thumbnail) {
+        $this->thumbnails = $thumbnails->filter(function (DocumentInterface $thumbnail) {
             return $thumbnail !== $this;
         });
-        /** @var HasThumbnailInterface $thumbnail */
         foreach ($this->thumbnails as $thumbnail) {
-            $thumbnail->setOriginal($this);
+            if ($thumbnail instanceof HasThumbnailInterface) {
+                $thumbnail->setOriginal($this);
+            }
         }
 
         return $this;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\Model;
 
-use ApiPlatform\Core\Annotation\ApiProperty;
+use ApiPlatform\Metadata\ApiProperty;
 use Doctrine\Common\Collections\Collection;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Api\Breadcrumbs\BreadcrumbsInterface;
@@ -26,7 +26,7 @@ final class WebResponse implements WebResponseInterface, BlocksAwareWebResponseI
     #[Serializer\Groups(["web_response"])]
     public ?NodesSourcesHeadInterface $head = null;
     /**
-     * @var Collection<WalkerInterface>|null
+     * @var Collection<int, WalkerInterface>|null
      */
     #[Serializer\Groups(["web_response"])]
     private ?Collection $blocks = null;
@@ -48,7 +48,7 @@ final class WebResponse implements WebResponseInterface, BlocksAwareWebResponseI
     }
 
     /**
-     * @return Collection<WalkerInterface>|null
+     * @return Collection<int, WalkerInterface>|null
      */
     public function getBlocks(): ?Collection
     {
@@ -56,7 +56,7 @@ final class WebResponse implements WebResponseInterface, BlocksAwareWebResponseI
     }
 
     /**
-     * @param Collection<WalkerInterface>|null $blocks
+     * @param Collection<int, WalkerInterface>|null $blocks
      * @return WebResponse
      */
     public function setBlocks(?Collection $blocks): WebResponse

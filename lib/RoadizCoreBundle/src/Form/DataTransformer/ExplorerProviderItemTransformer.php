@@ -70,7 +70,7 @@ class ExplorerProviderItemTransformer implements DataTransformerInterface
             $items = [];
         } elseif ($value instanceof ExplorerItemInterface) {
             $items = [$value];
-        } elseif (is_scalar($value)) {
+        } elseif (\is_string($value) || \is_int($value)) {
             $items = $this->explorerProvider->getItemsById([$value]);
         } elseif (\is_array($value) && is_scalar(reset($value))) {
             $items = $this->explorerProvider->getItemsById($value);

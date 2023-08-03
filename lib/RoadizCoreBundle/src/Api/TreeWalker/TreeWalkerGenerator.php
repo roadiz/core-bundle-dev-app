@@ -54,13 +54,15 @@ final class TreeWalkerGenerator
         ]);
 
         foreach ($roots as $root) {
-            $walkerName = (new UnicodeString($root->getNode()?->getNodeName() . ' walker'))
+            $walkerName = (new UnicodeString($root->getNode()->getNodeName() . ' walker'))
                 ->trim()
                 ->camel()
                 ->toString();
 
+            /** @var callable $callable */
+            $callable = [$walkerClass, 'build'];
             $walkers[$walkerName] = call_user_func(
-                [$walkerClass, 'build'],
+                $callable,
                 $root,
                 $this->walkerContext,
                 $maxLevel,

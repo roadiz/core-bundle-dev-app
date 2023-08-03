@@ -53,6 +53,6 @@ final class CustomFormAnswerRepository extends EntityRepository
             ->delete()
             ->setParameter(':customForm', $customForm)
             ->setParameter(':submittedAt', $submittedAt);
-        return $qb->getQuery()->getSingleScalarResult();
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 }

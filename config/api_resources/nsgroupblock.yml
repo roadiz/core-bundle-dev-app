@@ -1,11 +1,11 @@
 App\GeneratedEntity\NSGroupBlock:
-    iri: GroupBlock
-    shortName: GroupBlock
-    collectionOperations: {  }
-    itemOperations:
-        get:
+    types:
+        - GroupBlock
+    operations:
+        ApiPlatform\Metadata\Get:
             method: GET
-            normalization_context:
+            shortName: GroupBlock
+            normalizationContext:
                 groups:
                     - nodes_sources
                     - urls

@@ -8,9 +8,6 @@ use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @package Themes\Rozier\Models
- */
 final class CustomFormModel implements ModelInterface
 {
     private CustomForm $customForm;

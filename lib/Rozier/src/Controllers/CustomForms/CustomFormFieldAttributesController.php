@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\CustomForms;
 
-use Doctrine\Common\Collections\Collection;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormFieldAttribute;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Themes\Rozier\RozierApp;
+use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers
- */
 class CustomFormFieldAttributesController extends RozierApp
 {
     /**
      * List every node-types.
      *
      * @param Request $request
-     * @param int     $customFormAnswerId
+     * @param int $customFormAnswerId
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
+     * @throws RuntimeError
      */
-    public function listAction(Request $request, int $customFormAnswerId)
+    public function listAction(Request $request, int $customFormAnswerId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
         /*
@@ -32,7 +31,7 @@ class CustomFormFieldAttributesController extends RozierApp
 
         /** @var CustomFormAnswer $customFormAnswer */
         $customFormAnswer = $this->em()->find(CustomFormAnswer::class, $customFormAnswerId);
-        $answers = $this->getAnswersByGroups($customFormAnswer->getAnswers());
+        $answers = $this->getAnswersByGroups($customFormAnswer->getAnswerFields());
 
         $this->assignation['fields'] = $answers;
         $this->assignation['answer'] = $customFormAnswer;
@@ -42,18 +41,18 @@ class CustomFormFieldAttributesController extends RozierApp
     }
 
     /**
-     * @param Collection|array $answers
+     * @param iterable $answers
      * @return array
      */
-    protected function getAnswersByGroups($answers)
+    protected function getAnswersByGroups(iterable $answers): array
     {
         $fieldsArray = [];
 
         /** @var CustomFormFieldAttribute $answer */
         foreach ($answers as $answer) {
             $groupName = $answer->getCustomFormField()->getGroupName();
-            if ($groupName != '') {
-                if (!isset($fieldsArray[$groupName])) {
+            if (\is_string($groupName) && $groupName !== '') {
+                if (!isset($fieldsArray[$groupName]) || !\is_array($fieldsArray[$groupName])) {
                     $fieldsArray[$groupName] = [];
                 }
                 $fieldsArray[$groupName][] = $answer;

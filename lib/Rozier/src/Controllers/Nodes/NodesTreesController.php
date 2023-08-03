@@ -28,9 +28,6 @@ use Symfony\Component\Workflow\Registry;
 use Themes\Rozier\RozierApp;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
 
-/**
- * @package Themes\Rozier\Controllers\Nodes
- */
 class NodesTreesController extends RozierApp
 {
     private NodeChrootResolver $nodeChrootResolver;

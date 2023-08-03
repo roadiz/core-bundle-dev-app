@@ -15,12 +15,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait AttributeTrait
 {
     #[
-        ORM\Column(type: "string", unique: true, nullable: false),
+        ORM\Column(type: "string", length: 255, unique: true, nullable: false),
         Serializer\Groups(["attribute", "node", "nodes_sources"]),
         SymfonySerializer\Groups(["attribute", "node", "nodes_sources"]),
         Serializer\Type("string"),
         Assert\NotNull(),
-        Assert\NotBlank()
+        Assert\NotBlank(),
+        Assert\Length(max: 255)
     ]
     protected string $code = '';
 
@@ -44,7 +45,8 @@ trait AttributeTrait
         ORM\Column(type: "string", length: 7, unique: false, nullable: true),
         Serializer\Groups(["attribute", "node", "nodes_sources"]),
         SymfonySerializer\Groups(["attribute", "node", "nodes_sources"]),
-        Serializer\Type("string")
+        Serializer\Type("string"),
+        Assert\Length(max: 7)
     ]
     protected ?string $color = null;
 
@@ -63,7 +65,7 @@ trait AttributeTrait
     protected ?AttributeGroupInterface $group = null;
 
     /**
-     * @var Collection<AttributeTranslationInterface>
+     * @var Collection<int, AttributeTranslationInterface>
      */
     #[
         ORM\OneToMany(
@@ -81,7 +83,7 @@ trait AttributeTrait
     protected Collection $attributeTranslations;
 
     /**
-     * @var Collection<AttributeValueInterface>
+     * @var Collection<int, AttributeValueInterface>
      */
     #[
         ORM\OneToMany(
@@ -227,16 +229,16 @@ trait AttributeTrait
             function (AttributeTranslationInterface $attributeTranslation) use ($translation) {
                 return $attributeTranslation->getTranslation() === $translation;
             }
-        );
-        if ($attributeTranslation->count() > 0) {
-            return $attributeTranslation->first()->getOptions();
+        )->first();
+        if (false !== $attributeTranslation) {
+            return $attributeTranslation->getOptions();
         }
 
         return null;
     }
 
     /**
-     * @return Collection<AttributeTranslationInterface>
+     * @return Collection<int, AttributeTranslationInterface>
      */
     public function getAttributeTranslations(): Collection
     {

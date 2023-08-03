@@ -9,6 +9,9 @@ use RZ\Roadiz\CoreBundle\Repository\EntityRepository;
 use RZ\Roadiz\TwoFactorBundle\Entity\TwoFactorUser;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+/**
+ * @extends EntityRepository<TwoFactorUser>
+ */
 class TwoFactorUserRepository extends EntityRepository
 {
     public function __construct(

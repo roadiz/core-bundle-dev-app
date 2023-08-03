@@ -15,6 +15,7 @@ class MediaFinderCompilerPass implements CompilerPassInterface
     public function process(ContainerBuilder $container): void
     {
         if ($container->hasParameter('roadiz_core.medias.supported_platforms')) {
+            /** @var array $parameter */
             $parameter = $container->getParameter('roadiz_core.medias.supported_platforms');
             $taggedServices = $container->findTaggedServiceIds(
                 'roadiz_core.media_finder'

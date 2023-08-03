@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -80,7 +80,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         'publishedAt' => 'ns.publishedAt',
     ];
 
-    #[ORM\Column(name: 'node_name', type: 'string', unique: true)]
+    #[ORM\Column(name: 'node_name', type: 'string', length: 255, unique: true)]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node', 'log_sources'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node', 'log_sources'])]
     #[Serializer\Accessor(getter: "getNodeName", setter: "setNodeName")]
@@ -146,15 +146,17 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[Gedmo\Versioned]
     private bool $sterile = false;
 
-    #[ORM\Column(name: 'children_order', type: 'string')]
+    #[ORM\Column(name: 'children_order', type: 'string', length: 50)]
     #[SymfonySerializer\Groups(['node'])]
     #[Serializer\Groups(['node'])]
+    #[Assert\Length(max: 50)]
     #[Gedmo\Versioned]
     private string $childrenOrder = 'position';
 
     #[ORM\Column(name: 'children_order_direction', type: 'string', length: 4)]
     #[SymfonySerializer\Groups(['node'])]
     #[Serializer\Groups(['node'])]
+    #[Assert\Length(max: 4)]
     #[Gedmo\Versioned]
     private string $childrenOrderDirection = 'ASC';
 
@@ -178,7 +180,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private ?LeafInterface $parent = null;
 
     /**
-     * @var Collection<Node>
+     * @var Collection<int, Node>
      */
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Node::class, orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
@@ -187,7 +189,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private Collection $children;
 
     /**
-     * @var Collection<NodesTags>
+     * @var Collection<int, NodesTags>
      */
     #[ORM\OneToMany(
         mappedBy: 'node',
@@ -213,7 +215,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private Collection $nodesTags;
 
     /**
-     * @var Collection<NodesCustomForms>
+     * @var Collection<int, NodesCustomForms>
      */
     #[ORM\OneToMany(mappedBy: 'node', targetEntity: NodesCustomForms::class, fetch: 'EXTRA_LAZY')]
     #[SymfonySerializer\Ignore]
@@ -221,7 +223,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private Collection $customForms;
 
     /**
-     * @var Collection<NodeType>
+     * @var Collection<int, NodeType>
      */
     #[ORM\JoinTable(name: 'stack_types')]
     #[ORM\InverseJoinColumn(name: 'nodetype_id', onDelete: 'CASCADE')]
@@ -232,7 +234,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private Collection $stackTypes;
 
     /**
-     * @var Collection<NodesSources>
+     * @var Collection<int, NodesSources>
      */
     #[ORM\OneToMany(
         mappedBy: 'node',
@@ -246,7 +248,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private Collection $nodeSources;
 
     /**
-     * @var Collection<NodesToNodes>
+     * @var Collection<int, NodesToNodes>
      */
     #[ORM\OneToMany(
         mappedBy: 'nodeA',
@@ -261,7 +263,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private Collection $bNodes;
 
     /**
-     * @var Collection<NodesToNodes>
+     * @var Collection<int, NodesToNodes>
      */
     #[ORM\OneToMany(mappedBy: 'nodeB', targetEntity: NodesToNodes::class)]
     #[SymfonySerializer\Ignore]
@@ -269,7 +271,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private Collection $aNodes;
 
     /**
-     * @var Collection<AttributeValue>
+     * @var Collection<int, AttributeValue>
      */
     #[ORM\OneToMany(mappedBy: 'node', targetEntity: AttributeValue::class, orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
@@ -565,7 +567,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     }
 
     /**
-     * @return Collection<NodesTags>
+     * @return Collection<int, NodesTags>
      */
     public function getNodesTags(): Collection
     {
@@ -573,7 +575,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     }
 
     /**
-     * @param Collection<NodesTags> $nodesTags
+     * @param Collection<int, NodesTags> $nodesTags
      * @return $this
      */
     public function setNodesTags(Collection $nodesTags): static
@@ -587,7 +589,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     }
 
     /**
-     * @return Collection<Tag>
+     * @return Collection<int, Tag>
      */
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node'])]
@@ -655,7 +657,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     }
 
     /**
-     * @return Collection<NodesCustomForms>
+     * @return Collection<int, NodesCustomForms>
      */
     public function getCustomForms(): Collection
     {
@@ -663,7 +665,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     }
 
     /**
-     * @param Collection<NodesCustomForms> $customForms
+     * @param Collection<int, NodesCustomForms> $customForms
      * @return $this
      */
     public function setCustomForms(Collection $customForms): static
@@ -701,7 +703,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     }
 
     /**
-     * @return Collection<NodeType>
+     * @return Collection<int, NodeType>
      */
     public function getStackTypes(): Collection
     {
@@ -726,7 +728,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      * Get node-sources using a given translation.
      *
      * @param TranslationInterface $translation
-     * @return Collection<NodesSources>
+     * @return Collection<int, NodesSources>
      */
     #[SymfonySerializer\Ignore]
     public function getNodeSourcesByTranslation(TranslationInterface $translation): Collection
@@ -751,7 +753,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     }
 
     /**
-     * @return Collection<NodesSources>
+     * @return Collection<int, NodesSources>
      */
     public function getNodeSources(): Collection
     {
@@ -775,7 +777,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     /**
      * @param NodeTypeField $field
      *
-     * @return Collection<NodesToNodes>
+     * @return Collection<int, NodesToNodes>
      */
     #[SymfonySerializer\Ignore]
     public function getBNodesByField(NodeTypeField $field): Collection
@@ -789,7 +791,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     /**
      * Return nodes related to this (B nodes).
      *
-     * @return Collection<NodesToNodes>
+     * @return Collection<int, NodesToNodes>
      */
     public function getBNodes(): Collection
     {
@@ -797,10 +799,10 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     }
 
     /**
-     * @param ArrayCollection<NodesToNodes> $bNodes
+     * @param Collection<int, NodesToNodes> $bNodes
      * @return $this
      */
-    public function setBNodes(ArrayCollection $bNodes): static
+    public function setBNodes(Collection $bNodes): static
     {
         foreach ($this->bNodes as $bNode) {
             $bNode->setNodeA(null);
@@ -852,7 +854,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     /**
      * Return nodes which own a relation with this (A nodes).
      *
-     * @return Collection<NodesToNodes>
+     * @return Collection<int, NodesToNodes>
      */
     public function getANodes(): Collection
     {
@@ -929,11 +931,19 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[SymfonySerializer\Ignore]
     public function getOneLineSourceSummary(): string
     {
-        $text = "Source " . $this->getNodeSources()->first()->getId() . PHP_EOL;
+        $text = "Source " .
+            (
+                $this->getNodeSources()->first() ?
+                $this->getNodeSources()->first()->getId() :
+                ''
+            ) .
+            PHP_EOL;
 
         foreach ($this->getNodeType()->getFields() as $field) {
             $getterName = $field->getGetterName();
-            $text .= '[' . $field->getLabel() . ']: ' . $this->getNodeSources()->first()->$getterName() . PHP_EOL;
+            $text .= '[' . $field->getLabel() . ']: ' .
+                ($this->getNodeSources()->first() ? $this->getNodeSources()->first()->$getterName() : '') .
+                PHP_EOL;
         }
 
         return $text;
@@ -984,13 +994,32 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
             // Get a random string after node-name.
             // This is for safety reasons
             // NodeDuplicator service will override it
-            $namePrefix = $this->getNodeSources()->first()->getTitle() != "" ?
-                $this->getNodeSources()->first()->getTitle() :
-                $this->nodeName;
+            $nodeSource = $this->getNodeSources()->first();
+            if ($nodeSource !== false) {
+                $namePrefix = $nodeSource->getTitle() != "" ?
+                    $nodeSource->getTitle() :
+                    $this->nodeName;
+            } else {
+                $namePrefix = $this->nodeName;
+            }
             $this->setNodeName($namePrefix . "-" . uniqid());
             $this->setCreatedAt(new \DateTime());
             $this->setUpdatedAt(new \DateTime());
         }
+    }
+
+    public function setParent(?LeafInterface $parent = null): static
+    {
+        if ($parent === $this) {
+            throw new \InvalidArgumentException('An entity cannot have itself as a parent.');
+        }
+        if (null !== $parent && !($parent instanceof Node)) {
+            throw new \InvalidArgumentException('A node can only have a Node as a parent.');
+        }
+        $this->parent = $parent;
+        $this->parent?->addChild($this);
+
+        return $this;
     }
 
     /**

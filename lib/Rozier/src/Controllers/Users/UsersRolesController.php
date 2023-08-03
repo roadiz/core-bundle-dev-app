@@ -53,7 +53,7 @@ class UsersRolesController extends RozierApp
                     '%role%' => $role->getRole(),
                 ]);
 
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $user);
 
                 /*
                  * Force redirect to avoid resending form when refreshing page
@@ -114,7 +114,7 @@ class UsersRolesController extends RozierApp
                 'user.%name%.role_removed',
                 ['%name%' => $role->getRole()]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $user);
 
             /*
              * Force redirect to avoid resending form when refreshing page

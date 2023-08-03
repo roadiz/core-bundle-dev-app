@@ -8,9 +8,6 @@ use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxNodeTypeFieldsController extends AjaxAbstractFieldsController
 {
     /**

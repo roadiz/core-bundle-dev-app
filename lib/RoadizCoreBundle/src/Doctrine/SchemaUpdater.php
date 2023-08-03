@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Doctrine;
 
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Cache\Clearer\OPCacheClearer;
+use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
 use Symfony\Component\Process\Process;
 
 final class SchemaUpdater
@@ -13,8 +14,10 @@ final class SchemaUpdater
     private LoggerInterface $logger;
     private OPCacheClearer $opCacheClearer;
     private string $projectDir;
+    private CacheClearerInterface $cacheClearer;
 
     public function __construct(
+        CacheClearerInterface $cacheClearer,
         OPCacheClearer $opCacheClearer,
         LoggerInterface $logger,
         string $projectDir
@@ -22,11 +25,13 @@ final class SchemaUpdater
         $this->logger = $logger;
         $this->opCacheClearer = $opCacheClearer;
         $this->projectDir = $projectDir;
+        $this->cacheClearer = $cacheClearer;
     }
 
     public function clearMetadata(): void
     {
         $this->opCacheClearer->clear();
+        $this->cacheClearer->clear('');
 
         $process = $this->runCommand(
             'doctrine:cache:clear-metadata',
@@ -93,23 +98,15 @@ final class SchemaUpdater
      */
     public function updateNodeTypesSchema(): void
     {
-        /*
-         * Execute pending application migrations
-         */
-        $this->updateSchema();
-
-        /*
-         * Update schema with new node-types
-         * without creating any migration
-         */
+        $this->clearMetadata();
         $process = $this->runCommand(
-            'doctrine:schema:update',
-            '--dump-sql --force',
+            'doctrine:migrations:diff',
+            '--namespace=DoctrineMigrations --quiet --allow-empty-diff',
         );
         $process->run();
-
         if ($process->wait() === 0) {
-            $this->logger->info('DB schema has been updated.');
+            $this->logger->info('New migration has been generated.');
+            $this->updateSchema();
         } else {
             throw new \RuntimeException('DB schema update failed. ' . $process->getErrorOutput());
         }

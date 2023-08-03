@@ -562,24 +562,17 @@ final class TagRepository extends EntityRepository
          * Search in translations
          */
         $qb->leftJoin($alias . '.translatedTags', 'tt');
+
         $criteriaFields = [];
-        $metadatas = $this->_em->getClassMetadata(TagTranslation::class);
-        $cols = $metadatas->getColumnNames();
-        foreach ($cols as $col) {
-            $field = $metadatas->getFieldName($col);
-            $type = $metadatas->getTypeOfField($field);
-            if (in_array($type, $this->searchableTypes)) {
-                $criteriaFields[$field] = '%' . strip_tags((string) $pattern) . '%';
-            }
+        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(TagTranslation::class)) as $field) {
+            $criteriaFields[$field] = '%' . strip_tags(mb_strtolower($pattern)) . '%';
         }
         foreach ($criteriaFields as $key => $value) {
             $fullKey = sprintf('LOWER(%s)', 'tt.' . $key);
             $qb->orWhere($qb->expr()->like($fullKey, $qb->expr()->literal($value)));
         }
 
-        $qb = $this->prepareComparisons($criteria, $qb, $alias);
-
-        return $qb;
+        return $this->prepareComparisons($criteria, $qb, $alias);
     }
 
     /**

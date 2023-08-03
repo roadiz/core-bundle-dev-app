@@ -35,9 +35,6 @@ use Themes\Rozier\Traits\NodesTrait;
 use Themes\Rozier\Utils\SessionListFilters;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers\Nodes
- */
 class NodesController extends RozierApp
 {
     use NodesTrait;
@@ -213,7 +210,7 @@ class NodesController extends RozierApp
                             '%type%' => $type->getDisplayName(),
                         ]
                     );
-                    $this->publishConfirmMessage($request, $msg);
+                    $this->publishConfirmMessage($request, $msg, $node);
                     return $this->redirectToRoute(
                         'nodesEditPage',
                         ['nodeId' => $node->getId()]
@@ -254,7 +251,7 @@ class NodesController extends RozierApp
                 $msg = $this->getTranslator()->trans('node.%name%.updated', [
                     '%name%' => $node->getNodeName(),
                 ]);
-                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
                 return $this->redirectToRoute(
                     'nodesEditPage',
                     ['nodeId' => $node->getId()]
@@ -312,7 +309,7 @@ class NodesController extends RozierApp
                 '%type%' => $type->getDisplayName(),
             ]
         );
-        $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+        $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
 
         return $this->redirectToRoute('nodesEditPage', ['nodeId' => $node->getId()]);
     }
@@ -374,7 +371,7 @@ class NodesController extends RozierApp
                     'node.%name%.created',
                     ['%name%' => $node->getNodeName()]
                 );
-                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
 
                 return $this->redirectToRoute(
                     'nodesEditSourcePage',
@@ -463,7 +460,7 @@ class NodesController extends RozierApp
                     'child_node.%name%.created',
                     ['%name%' => $node->getNodeName()]
                 );
-                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+                $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: null);
 
                 return $this->redirectToRoute(
                     'nodesEditSourcePage',
@@ -509,7 +506,7 @@ class NodesController extends RozierApp
 
         $workflow = $this->workflowRegistry->get($node);
         if (!$workflow->can($node, 'delete')) {
-            $this->publishErrorMessage($request, sprintf('Node #%s cannot be deleted.', $nodeId));
+            $this->publishErrorMessage($request, sprintf('Node #%s cannot be deleted.', $nodeId), $node);
             return $this->redirectToRoute(
                 'nodesEditSourcePage',
                 [
@@ -544,13 +541,14 @@ class NodesController extends RozierApp
                 'node.%name%.deleted',
                 ['%name%' => $node->getNodeName()]
             );
-            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
 
+            $referrer = $request->query->get('referer');
             if (
-                $request->query->has('referer') &&
-                (new UnicodeString($request->query->get('referer')))->startsWith('/')
+                \is_string($referrer) &&
+                (new UnicodeString($referrer))->trim()->startsWith('/')
             ) {
-                return $this->redirect($request->query->get('referer'));
+                return $this->redirect($referrer);
             }
             if (null !== $parent) {
                 return $this->redirectToRoute(
@@ -643,7 +641,7 @@ class NodesController extends RozierApp
 
         $workflow = $this->workflowRegistry->get($node);
         if (!$workflow->can($node, 'undelete')) {
-            $this->publishErrorMessage($request, sprintf('Node #%s cannot be undeleted.', $nodeId));
+            $this->publishErrorMessage($request, sprintf('Node #%s cannot be undeleted.', $nodeId), $node);
             return $this->redirectToRoute(
                 'nodesEditSourcePage',
                 [
@@ -669,7 +667,7 @@ class NodesController extends RozierApp
                 'node.%name%.undeleted',
                 ['%name%' => $node->getNodeName()]
             );
-            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
             /*
              * Force redirect to avoid resending form when refreshing page
              */
@@ -729,7 +727,7 @@ class NodesController extends RozierApp
 
         $workflow = $this->workflowRegistry->get($node);
         if (!$workflow->can($node, 'publish')) {
-            $this->publishErrorMessage($request, sprintf('Node #%s cannot be published.', $nodeId));
+            $this->publishErrorMessage($request, sprintf('Node #%s cannot be published.', $nodeId), $node);
             return $this->redirectToRoute(
                 'nodesEditSourcePage',
                 [
@@ -748,11 +746,13 @@ class NodesController extends RozierApp
             $this->em()->flush();
 
             $msg = $this->getTranslator()->trans('node.offspring.published');
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $node);
 
             return $this->redirectToRoute('nodesEditSourcePage', [
                 'nodeId' => $nodeId,
-                'translationId' => $node->getNodeSources()->first()->getTranslation()->getId(),
+                'translationId' => $node->getNodeSources()->first() ?
+                    $node->getNodeSources()->first()->getTranslation()->getId() :
+                    null,
             ]);
         }
 

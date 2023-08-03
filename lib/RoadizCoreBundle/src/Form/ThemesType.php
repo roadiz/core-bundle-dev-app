@@ -28,7 +28,9 @@ class ThemesType extends AbstractType
             $value = [];
             foreach ($options['themes_config'] as $themeConfig) {
                 $class = $themeConfig['classname'];
-                $value[call_user_func([$class, 'getThemeName'])] = $class;
+                /** @var callable $callable */
+                $callable = [$class, 'getThemeName'];
+                $value[call_user_func($callable)] = $class;
             }
             return $value;
         });

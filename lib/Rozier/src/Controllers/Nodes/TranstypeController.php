@@ -17,9 +17,6 @@ use Themes\Rozier\Forms\TranstypeType;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers\Nodes
- */
 class TranstypeController extends RozierApp
 {
     private NodeTranstyper $nodeTranstyper;
@@ -91,13 +88,15 @@ class TranstypeController extends RozierApp
                 '%node%' => $node->getNodeName(),
                 '%type%' => $newNodeType->getName(),
             ]);
-            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first());
+            $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
 
             return $this->redirectToRoute(
                 'nodesEditSourcePage',
                 [
                     'nodeId' => $node->getId(),
-                    'translationId' => $node->getNodeSources()->first()->getTranslation()->getId(),
+                    'translationId' => $node->getNodeSources()->first() ?
+                        $node->getNodeSources()->first()->getTranslation()->getId() :
+                        null,
                 ]
             );
         }

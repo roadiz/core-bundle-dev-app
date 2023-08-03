@@ -38,29 +38,32 @@ final class UsersCreationCommand extends UsersCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $io = new SymfonyStyle($input, $output);
         $name = $input->getArgument('username');
 
-        if ($name) {
-            /** @var User|null $user */
-            $user = $this->managerRegistry
-                ->getRepository(User::class)
-                ->findOneBy(['username' => $name]);
-
-            if (null === $user) {
-                $user = $this->executeUserCreation($name, $input, $output);
-
-                // Change password right away
-                $command = $this->getApplication()->find('users:password');
-                $arguments = [
-                    'username' => $user->getUsername(),
-                ];
-                $passwordInput = new ArrayInput($arguments);
-                return $command->run($passwordInput, $output);
-            } else {
-                throw new \InvalidArgumentException('User “' . $name . '” already exists.');
-            }
+        if (!\is_string($name) || empty($name)) {
+            throw new \InvalidArgumentException('Username argument is required.');
         }
-        return 0;
+
+        /** @var User|null $user */
+        $user = $this->managerRegistry
+            ->getRepository(User::class)
+            ->findOneBy(['username' => $name]);
+
+        if ($user instanceof User) {
+            $io->warning('User “' . $name . '” already exists.');
+            return 1;
+        }
+
+        $user = $this->executeUserCreation($name, $input, $output);
+
+        // Change password right away
+        $command = $this->getApplication()->find('users:password');
+        $arguments = [
+            'username' => $user->getUsername(),
+        ];
+        $passwordInput = new ArrayInput($arguments);
+        return $command->run($passwordInput, $output);
     }
 
     /**

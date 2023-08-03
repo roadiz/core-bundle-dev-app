@@ -97,7 +97,7 @@ final class DownscaleImageManager
                     null !== $this->createDocumentFromImage($document, $processImage, true)
                     && null !== $this->logger
                 ) {
-                    $this->logger->info('Document has been downscaled.', ['path' => $documentPath]);
+                    $this->logger->info('Document has been downscaled.', ['path' => $documentPath, 'entity' => $document]);
                 }
             }
         }

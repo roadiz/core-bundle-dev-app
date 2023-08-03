@@ -13,9 +13,9 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as OrmFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
  * DO NOT EDIT
@@ -647,7 +647,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     /**
      * Reference to users
      *
-     * @var Collection<\App\Entity\PositionedPageUser>
+     * @var Collection<int, \App\Entity\PositionedPageUser>
      */
     #[
         Serializer\Exclude,
@@ -663,7 +663,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     private Collection $usersProxy;
 
     /**
-     * @return Collection<\App\Entity\PositionedPageUser>
+     * @return Collection<int, \App\Entity\PositionedPageUser>
      */
     public function getUsersProxy(): Collection
     {
@@ -751,7 +751,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      *     #     orderBy:
      *     #         - field: position
      *     #           direction: ASC
-     * @var Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>
+     * @var Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>
      */
     #[
         SymfonySerializer\SerializedName(serializedName: "folderReferences"),
@@ -769,7 +769,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     private Collection $folderReferences;
 
     /**
-     * @return Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>
+     * @return Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>
      */
     public function getFolderReferences(): Collection
     {
@@ -777,7 +777,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @param Collection<\RZ\Roadiz\CoreBundle\Entity\Folder>|\RZ\Roadiz\CoreBundle\Entity\Folder[] $folderReferences
+     * @param Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>|\RZ\Roadiz\CoreBundle\Entity\Folder[] $folderReferences
      * @return $this
      */
     public function setFolderReferences(Collection|array $folderReferences): static

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="Roadiz">
+    <description>The coding standard for Roadiz monorepo.</description>
+    <arg name="colors"/>
+    <arg name="extensions" value="php"/>
+    <rule ref="PSR12">
+        <exclude name="Generic.Files.LineLength"/>
+    </rule>
+
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/bower_components/*</exclude-pattern>
+
+    <file>lib/DocGenerator/src</file>
+    <file>lib/Documents/src</file>
+    <file>lib/DtsGenerator/src</file>
+    <file>lib/EntityGenerator/src</file>
+    <file>lib/Jwt/src</file>
+    <file>lib/Markdown/src</file>
+    <file>lib/Models/src</file>
+    <file>lib/OpenId/src</file>
+    <file>lib/Random/src</file>
+    <file>lib/RoadizCompatBundle/src</file>
+    <file>lib/RoadizCoreBundle/src</file>
+    <file>lib/RoadizFontBundle/src</file>
+    <file>lib/RoadizRozierBundle/src</file>
+    <file>lib/RoadizUserBundle/src</file>
+    <file>lib/RoadizTwoFactorBundle/src</file>
+    <file>lib/Rozier/src</file>
+</ruleset>

@@ -10,9 +10,6 @@ use RZ\Roadiz\RozierBundle\Form\CustomFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Themes\Rozier\Controllers\AbstractAdminController;
 
-/**
- * @package Themes\Rozier\Controllers
- */
 class CustomFormsController extends AbstractAdminController
 {
     /**

@@ -24,7 +24,7 @@ class JoinDataTransformer implements DataTransformerInterface
     /**
      * @param NodeTypeField $nodeTypeField
      * @param ManagerRegistry $managerRegistry
-     * @param string $entityClassname
+     * @param class-string $entityClassname
      */
     public function __construct(
         NodeTypeField $nodeTypeField,
@@ -74,6 +74,7 @@ class JoinDataTransformer implements DataTransformerInterface
     public function reverseTransform(mixed $value): mixed
     {
         if ($this->nodeTypeField->isManyToMany()) {
+            /** @var PersistableInterface[] $unorderedEntities */
             $unorderedEntities = $this->managerRegistry->getRepository($this->entityClassname)->findBy([
                 'id' => $value,
             ]);

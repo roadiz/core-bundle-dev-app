@@ -20,10 +20,9 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderBuildEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
-use RZ\Roadiz\CoreBundle\Entity\UrlAlias;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -45,10 +44,11 @@ final class NodeRepository extends StatusAwareRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderBuildEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryBuilderBuildEvent($qb, Node::class, $property, $value, $this->getEntityName())
         );
@@ -59,10 +59,11 @@ final class NodeRepository extends StatusAwareRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderApplyEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryBuilderApplyEvent($qb, Node::class, $property, $value, $this->getEntityName())
         );
@@ -1001,14 +1002,8 @@ final class NodeRepository extends StatusAwareRepository
          */
         $qb->innerJoin($alias . '.nodeSources', self::NODESSOURCES_ALIAS);
         $criteriaFields = [];
-        $metadatas = $this->_em->getClassMetadata(NodesSources::class);
-        $cols = $metadatas->getColumnNames();
-        foreach ($cols as $col) {
-            $field = $metadatas->getFieldName($col);
-            $type = $metadatas->getTypeOfField($field);
-            if (in_array($type, $this->searchableTypes)) {
-                $criteriaFields[$field] = '%' . strip_tags((string) $pattern) . '%';
-            }
+        foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(NodesSources::class)) as $field) {
+            $criteriaFields[$field] = '%' . strip_tags(mb_strtolower($pattern)) . '%';
         }
         foreach ($criteriaFields as $key => $value) {
             $fullKey = sprintf('LOWER(%s)', self::NODESSOURCES_ALIAS . '.' . $key);

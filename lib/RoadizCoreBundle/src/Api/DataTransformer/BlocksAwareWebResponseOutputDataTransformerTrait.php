@@ -23,11 +23,6 @@ trait BlocksAwareWebResponseOutputDataTransformerTrait
      */
     abstract protected function getChildrenNodeSourceWalkerClassname(): string;
 
-    /**
-     * @param BlocksAwareWebResponseInterface $output
-     * @param NodesSources $data
-     * @return WebResponseInterface
-     */
     protected function injectBlocks(BlocksAwareWebResponseInterface $output, NodesSources $data): WebResponseInterface
     {
         if (!$output instanceof RealmsAwareWebResponseInterface || !$output->isHidingBlocks()) {

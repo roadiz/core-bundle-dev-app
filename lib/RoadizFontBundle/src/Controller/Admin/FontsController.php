@@ -154,6 +154,9 @@ class FontsController extends AbstractAdminController
         if ($font !== null) {
             // Prepare File
             $file = tempnam(sys_get_temp_dir(), "font_" . $font->getId());
+            if (false === $file) {
+                throw new \RuntimeException('Cannot create temporary file.');
+            }
             $zip = new \ZipArchive();
             $zip->open($file, \ZipArchive::CREATE);
 

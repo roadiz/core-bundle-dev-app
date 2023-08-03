@@ -13,9 +13,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * @package Themes\Rozier\Forms
- */
 class RedirectionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Themes\Rozier\Controllers\AbstractAdminController;
+use Twig\Error\RuntimeError;
 
 class AttributeController extends AbstractAdminController
 {
@@ -136,8 +137,9 @@ class AttributeController extends AbstractAdminController
     /**
      * @param Request $request
      * @return Response
+     * @throws RuntimeError
      */
-    public function importAction(Request $request)
+    public function importAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_ATTRIBUTES');
 
@@ -150,6 +152,9 @@ class AttributeController extends AbstractAdminController
 
             if ($file->isValid()) {
                 $serializedData = file_get_contents($file->getPathname());
+                if (false === $serializedData) {
+                    throw new \RuntimeException('Cannot read uploaded file.');
+                }
 
                 $this->attributeImporter->import($serializedData);
                 $this->em()->flush();

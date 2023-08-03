@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\Filter;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\AbstractContextAwareFilter;
-use ApiPlatform\Core\Exception\InvalidArgumentException;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
+use ApiPlatform\Exception\FilterValidationException;
+use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 
 /**
  * Intersection filter must be used AFTER SearchFilter if you want to combine both.
  */
-final class IntersectionFilter extends AbstractContextAwareFilter
+final class IntersectionFilter extends AbstractFilter
 {
     public const PARAMETER = 'intersect';
 
     /**
      * @inheritDoc
-     * @param mixed $value
      */
     protected function filterProperty(
         string $property,
@@ -27,7 +27,8 @@ final class IntersectionFilter extends AbstractContextAwareFilter
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        string $operationName = null
+        ?Operation $operation = null,
+        array $context = []
     ): void {
         if ($property !== IntersectionFilter::PARAMETER || !is_array($value)) {
             return;
@@ -35,7 +36,7 @@ final class IntersectionFilter extends AbstractContextAwareFilter
 
         foreach ($value as $fieldName => $fieldValue) {
             if (empty($fieldName)) {
-                throw new InvalidArgumentException(sprintf('“%s” filter must be only used with an associative array with fields as keys.', $property));
+                throw new FilterValidationException([sprintf('“%s” filter must be only used with an associative array with fields as keys.', $property)]);
             }
             if ($this->isPropertyEnabled($fieldName, $resourceClass)) {
                 // Allow single value intersection
@@ -115,7 +116,7 @@ final class IntersectionFilter extends AbstractContextAwareFilter
         }
 
         if (null === $alias) {
-            throw new InvalidArgumentException(sprintf('Cannot add joins for property "%s" - property is not nested.', $property));
+            throw new FilterValidationException([sprintf('Cannot add joins for property "%s" - property is not nested.', $property)]);
         }
 
         return [$alias, $propertyParts['field'], $propertyParts['associations']];

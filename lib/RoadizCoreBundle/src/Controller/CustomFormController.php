@@ -222,6 +222,7 @@ final class CustomFormController extends AbstractController
      * @param int $customFormId
      * @return Response
      * @throws Exception
+     * @throws TransportExceptionInterface
      */
     public function addAction(Request $request, int $customFormId): Response
     {
@@ -240,7 +241,7 @@ final class CustomFormController extends AbstractController
             )
         );
 
-        if ($mixed instanceof RedirectResponse) {
+        if ($mixed instanceof Response) {
             $mixed->prepare($request);
             return $mixed->send();
         } else {
@@ -291,7 +292,7 @@ final class CustomFormController extends AbstractController
         $this->emailManager->setSender($defaultSender);
 
         try {
-            foreach ($answer->getAnswers() as $customFormAnswerAttr) {
+            foreach ($answer->getAnswerFields() as $customFormAnswerAttr) {
                 /** @var DocumentInterface $document */
                 foreach ($customFormAnswerAttr->getDocuments() as $document) {
                     $this->emailManager->addResource(
@@ -302,7 +303,9 @@ final class CustomFormController extends AbstractController
                 }
             }
         } catch (FilesystemException $exception) {
-            $this->logger->error($exception->getMessage());
+            $this->logger->error($exception->getMessage(), [
+                'entity' => $answer
+            ]);
         }
 
         if (empty($receiver)) {

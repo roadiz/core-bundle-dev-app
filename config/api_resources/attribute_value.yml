@@ -1,15 +1,14 @@
 ---
 RZ\Roadiz\CoreBundle\Entity\AttributeValue:
-    collectionOperations:
-        get:
+    operations:
+        ApiPlatform\Metadata\GetCollection:
             method: "GET"
-            normalization_context:
+            normalizationContext:
                 groups: ["urls", "attribute", "document_display", "attribute_node", "attribute_documents"]
                 enable_max_depth: true
-    itemOperations:
-        get:
+        ApiPlatform\Metadata\Get:
             method: 'GET'
-            normalization_context:
+            normalizationContext:
                 groups: ["urls", "attribute", "document_display", "attribute_node", "attribute_documents"]
                 enable_max_depth: true
 

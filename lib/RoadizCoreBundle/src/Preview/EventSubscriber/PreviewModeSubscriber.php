@@ -62,7 +62,11 @@ class PreviewModeSubscriber implements EventSubscriberInterface
         if (
             $event->isMainRequest() &&
             $request->query->has(static::QUERY_PARAM_NAME) &&
-            (bool) ($request->query->get(static::QUERY_PARAM_NAME, 0)) === true
+            \in_array(
+                $request->query->get(static::QUERY_PARAM_NAME, 0),
+                ['true', true, '1', 1, 'on', 'yes', 'y'],
+                true
+            )
         ) {
             $request->attributes->set('preview', true);
         }

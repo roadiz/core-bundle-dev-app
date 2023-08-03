@@ -14,6 +14,8 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Redirection;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
+use RZ\Roadiz\CoreBundle\Event\Redirection\PostCreatedRedirectionEvent;
+use RZ\Roadiz\CoreBundle\Event\Redirection\PostUpdatedRedirectionEvent;
 use RZ\Roadiz\CoreBundle\Repository\EntityRepository;
 use RZ\Roadiz\CoreBundle\Routing\NodeRouter;
 use RZ\Roadiz\CoreBundle\Node\Exception\SameNodeUrlException;
@@ -201,6 +203,7 @@ class NodeMover
                 $this->getManager()->remove($loopingRedirection);
             }
 
+            /** @var Redirection|null $existingRedirection */
             $existingRedirection = $redirectionRepo->findOneBy([
                 'query' => $previousPath,
             ]);
@@ -210,7 +213,7 @@ class NodeMover
                 $existingRedirection->setQuery($previousPath);
                 $this->logger->info('New redirection created', [
                     'oldPath' => $previousPath,
-                    'nodeSource' => $nodeSource->getId(),
+                    'nodeSource' => $nodeSource,
                 ]);
             }
             $existingRedirection->setRedirectNodeSource($nodeSource);
@@ -219,6 +222,7 @@ class NodeMover
             } else {
                 $existingRedirection->setType(Response::HTTP_FOUND);
             }
+            $this->dispatcher->dispatch(new PostUpdatedRedirectionEvent($existingRedirection));
         }
 
         return $nodeSource;

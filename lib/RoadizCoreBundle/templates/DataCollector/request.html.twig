@@ -1,0 +1,18 @@
+{% extends '@WebProfiler/Profiler/layout.html.twig' %}
+
+{% block toolbar %}
+    {% set icon %}
+        {{ include('@RoadizCore/DataCollector/roadiz-icon.svg') }}
+    {% endset %}
+
+    {% set text %}
+        <div class="sf-toolbar-info-piece">
+            <b>Roadiz CMS</b>
+            {% if collector.version %}
+            <span>{{ collector.version }}</span>
+            {% endif %}
+        </div>
+    {% endset %}
+
+    {{ include('@WebProfiler/Profiler/toolbar_item.html.twig', { 'link': false }) }}
+{% endblock %}

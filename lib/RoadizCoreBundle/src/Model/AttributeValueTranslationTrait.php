@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Model;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeValueTranslationTrait
 {
@@ -22,7 +23,8 @@ trait AttributeValueTranslationTrait
     #[
         ORM\Column(type: "string", length: 255, unique: false, nullable: true),
         Serializer\Groups(["attribute", "node", "nodes_sources"]),
-        Serializer\Type("string")
+        Serializer\Type("string"),
+        Assert\Length(max: 255)
     ]
     protected ?string $value = null;
 
@@ -34,7 +36,7 @@ trait AttributeValueTranslationTrait
     protected ?AttributeValueInterface $attributeValue = null;
 
     /**
-     * @return mixed|null
+     * @return bool|\DateTime|float|int|string|null
      * @throws \Exception
      */
     public function getValue()
@@ -42,19 +44,13 @@ trait AttributeValueTranslationTrait
         if (null === $this->value) {
             return null;
         }
-        switch ($this->getAttributeValue()->getType()) {
-            case AttributeInterface::DECIMAL_T:
-                return (float) $this->value;
-            case AttributeInterface::INTEGER_T:
-                return (int) $this->value;
-            case AttributeInterface::BOOLEAN_T:
-                return (bool) $this->value;
-            case AttributeInterface::DATETIME_T:
-            case AttributeInterface::DATE_T:
-                return $this->value ? new \DateTime($this->value) : null;
-            default:
-                return $this->value;
-        }
+        return match ($this->getAttributeValue()->getType()) {
+            AttributeInterface::DECIMAL_T => (float) $this->value,
+            AttributeInterface::INTEGER_T => (int) $this->value,
+            AttributeInterface::BOOLEAN_T => (bool) $this->value,
+            AttributeInterface::DATETIME_T, AttributeInterface::DATE_T => $this->value ? new \DateTime($this->value) : null,
+            default => $this->value,
+        };
     }
 
     /**

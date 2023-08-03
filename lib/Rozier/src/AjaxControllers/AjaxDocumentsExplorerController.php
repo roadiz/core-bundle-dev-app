@@ -16,9 +16,6 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Themes\Rozier\Models\DocumentModel;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxDocumentsExplorerController extends AbstractAjaxController
 {
     private RendererInterface $renderer;
@@ -52,11 +49,11 @@ class AjaxDocumentsExplorerController extends AbstractAjaxController
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
-        /*
-         * Prevent raw document to show in explorer.
-         */
         $arrayFilter = [
+            // Prevent raw documents to show in explorer.
             'raw' => false,
+            // Prevent thumbnail documents to show in explorer.
+            'original' => null,
         ];
 
         if ($request->query->has('folderId') && $request->get('folderId') > 0) {

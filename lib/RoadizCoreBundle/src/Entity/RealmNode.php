@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\Repository\RealmNodeRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: RealmNodeRepository::class),
@@ -50,6 +51,7 @@ class RealmNode extends AbstractEntity
 
     #[ORM\Column(name: 'inheritance_type', type: 'string', length: 10, nullable: false)]
     #[SymfonySerializer\Ignore]
+    #[Assert\Length(max: 10)]
     #[Serializer\Exclude]
     private string $inheritanceType = RealmInterface::INHERITANCE_AUTO;
 

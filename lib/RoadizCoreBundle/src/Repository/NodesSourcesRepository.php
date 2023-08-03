@@ -14,24 +14,24 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesApp
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesBuildEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryNodesSourcesEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
-use RZ\Roadiz\CoreBundle\Entity\Log;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
+use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResults;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * EntityRepository that implements search engine query with Solr.
  *
  * @template T of NodesSources
- * @extends StatusAwareRepository<T>
- * @template-extends StatusAwareRepository<T>
+ * @extends StatusAwareRepository<T|NodesSources>
+ * @template-extends StatusAwareRepository<T|NodesSources>
  */
 class NodesSourcesRepository extends StatusAwareRepository
 {
@@ -60,10 +60,11 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderNodesSourcesBuildEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryBuilderNodesSourcesBuildEvent($qb, $property, $value, $this->getEntityName())
         );
@@ -74,10 +75,11 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderNodesSourcesApplyEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryBuilderNodesSourcesApplyEvent($qb, $property, $value, $this->getEntityName())
         );
@@ -86,10 +88,11 @@ class NodesSourcesRepository extends StatusAwareRepository
     /**
      * @param Query  $query
      *
-     * @return object|QueryNodesSourcesEvent
+     * @return Event
      */
     protected function dispatchQueryEvent(Query $query): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryNodesSourcesEvent($query, $this->getEntityName())
         );
@@ -147,9 +150,10 @@ class NodesSourcesRepository extends StatusAwareRepository
             if ($key == "tags" || $key == "tagExclusive") {
                 continue;
             }
-            /*
+            /**
              * Main QueryBuilder dispatch loop for
              * custom properties criteria.
+             * @var QueryBuilderNodesSourcesBuildEvent $event
              */
             $event = $this->dispatchQueryBuilderBuildEvent($qb, $key, $value);
 
@@ -183,6 +187,7 @@ class NodesSourcesRepository extends StatusAwareRepository
                 continue;
             }
 
+            /** @var QueryBuilderNodesSourcesApplyEvent $event */
             $event = $this->dispatchQueryBuilderApplyEvent($qb, $key, $value);
             if (!$event->isPropagationStopped()) {
                 $simpleQB->bindValue($key, $value);
@@ -563,18 +568,20 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param int $maxResult
      * @return Paginator
      */
-    public function findByLatestUpdated($maxResult = 5)
+    public function findByLatestUpdated(int $maxResult = 5): Paginator
     {
         $subQuery = $this->_em->createQueryBuilder();
-        $subQuery->select('sns.id')
+        $subQuery->select('slog.entityId')
             ->from(Log::class, 'slog')
-            ->innerJoin(NodesSources::class, 'sns')
-            ->andWhere($subQuery->expr()->isNotNull('slog.nodeSource'))
+            ->andWhere($subQuery->expr()->eq('slog.entityClass', ':entityClass'))
             ->orderBy('slog.datetime', 'DESC');
 
         $query = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $query->andWhere($query->expr()->in(static::NODESSOURCES_ALIAS . '.id', $subQuery->getQuery()->getDQL()));
-        $query->setMaxResults($maxResult);
+        $query
+            ->andWhere($query->expr()->in(static::NODESSOURCES_ALIAS . '.id', $subQuery->getQuery()->getDQL()))
+            ->setParameter(':entityClass', NodesSources::class)
+            ->setMaxResults($maxResult)
+        ;
 
         return new Paginator($query->getQuery());
     }

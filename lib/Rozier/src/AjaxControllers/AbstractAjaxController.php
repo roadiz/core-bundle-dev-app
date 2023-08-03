@@ -24,7 +24,7 @@ abstract class AbstractAjaxController extends RozierApp
      * @param string  $method
      * @param bool    $requestCsrfToken
      *
-     * @return boolean  Return true if request is valid, else throw exception
+     * @return bool  Return true if request is valid, else throw exception
      */
     protected function validateRequest(Request $request, $method = 'POST', $requestCsrfToken = true)
     {

@@ -8,6 +8,7 @@ use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
 use RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -192,7 +193,7 @@ abstract class AppController extends Controller
      * Return theme root folder.
      *
      * @return string
-     * @throws ReflectionException
+     * @throws ReflectionException|ThemeClassNotValidException
      */
     public static function getThemeFolder(): string
     {
@@ -261,7 +262,7 @@ abstract class AppController extends Controller
 
     /**
      * @return string
-     * @throws ReflectionException
+     * @throws ReflectionException|ThemeClassNotValidException
      */
     public static function getPublicFolder(): string
     {
@@ -326,8 +327,6 @@ abstract class AppController extends Controller
                 'ajax' => $this->getRequest()->isXmlHttpRequest(),
                 'devMode' => $kernel->isDebug(),
                 'maintenanceMode' => (bool) $this->getSettingsBag()->get('maintenance_mode'),
-                'universalAnalyticsId' => $this->getSettingsBag()->get('universal_analytics_id'),
-                'googleTagManagerId' => $this->getSettingsBag()->get('google_tag_manager_id'),
                 'baseUrl' => $this->getRequest()->getSchemeAndHttpHost() . $this->getRequest()->getBasePath(),
             ]
         ];
@@ -392,9 +391,9 @@ abstract class AppController extends Controller
      *
      * @param Request $request
      * @param string $msg
-     * @param NodesSources|null $source
+     * @param object|null $source
      */
-    public function publishConfirmMessage(Request $request, string $msg, ?NodesSources $source = null): void
+    public function publishConfirmMessage(Request $request, string $msg, ?object $source = null): void
     {
         $this->publishMessage($request, $msg, 'confirm', $source);
     }
@@ -406,13 +405,13 @@ abstract class AppController extends Controller
      * @param Request $request
      * @param string $msg
      * @param string $level
-     * @param NodesSources|null $source
+     * @param object|null $source
      */
     protected function publishMessage(
         Request $request,
         string $msg,
         string $level = "confirm",
-        ?NodesSources $source = null
+        ?object $source = null
     ): void {
         $session = $this->getSession();
         if ($session instanceof Session) {
@@ -421,10 +420,12 @@ abstract class AppController extends Controller
 
         switch ($level) {
             case 'error':
-                $this->getLogger()->error($msg, ['source' => $source]);
+            case 'danger':
+            case 'fail':
+                $this->getLogger()->error($msg, ['entity' => $source]);
                 break;
             default:
-                $this->getLogger()->info($msg, ['source' => $source]);
+                $this->getLogger()->info($msg, ['entity' => $source]);
                 break;
         }
     }
@@ -437,7 +438,7 @@ abstract class AppController extends Controller
     public function getSession(): ?SessionInterface
     {
         $request = $this->getRequest();
-        return null !== $request && $request->hasPreviousSession() ? $request->getSession() : null;
+        return $request->hasPreviousSession() ? $request->getSession() : null;
     }
 
     /**
@@ -446,10 +447,10 @@ abstract class AppController extends Controller
      *
      * @param Request $request
      * @param string $msg
-     * @param NodesSources|null $source
+     * @param object|null $source
      * @return void
      */
-    public function publishErrorMessage(Request $request, string $msg, NodesSources $source = null): void
+    public function publishErrorMessage(Request $request, string $msg, ?object $source = null): void
     {
         $this->publishMessage($request, $msg, 'error', $source);
     }
@@ -491,7 +492,7 @@ abstract class AppController extends Controller
         }
 
         if (null === $node) {
-            throw new AccessDeniedException("You don't have access to this page");
+            throw $this->createAccessDeniedException("You don't have access to this page");
         }
 
         $this->em()->refresh($node);
@@ -505,11 +506,11 @@ abstract class AppController extends Controller
         }
 
         if (!$this->isGranted($attributes)) {
-            throw new AccessDeniedException("You don't have access to this page");
+            throw $this->createAccessDeniedException("You don't have access to this page");
         }
 
         if (null !== $user && $chroot !== null && !in_array($chroot, $parents, true)) {
-            throw new AccessDeniedException("You don't have access to this page");
+            throw $this->createAccessDeniedException("You don't have access to this page");
         }
     }
 

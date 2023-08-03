@@ -8,7 +8,6 @@ use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
-use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\Models\FolderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

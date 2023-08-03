@@ -24,10 +24,15 @@ use RZ\Roadiz\CoreBundle\Form\Constraint\ValidFacebookName;
 #[
     ORM\Entity(repositoryClass: UserRepository::class),
     ORM\Table(name: "users"),
-    ORM\Index(columns: ["enabled"]),
-    ORM\Index(columns: ["expired"]),
-    ORM\Index(columns: ["expires_at"]),
-    ORM\Index(columns: ["locale"]),
+    ORM\Index(columns: ["username"], name: "idx_users_username"),
+    ORM\Index(columns: ["email"], name: "idx_users_email"),
+    ORM\Index(columns: ["enabled"], name: "idx_users_enabled"),
+    ORM\Index(columns: ["credentials_expires_at"], name: "idx_users_credentials_expires_at"),
+    ORM\Index(columns: ["password_requested_at"], name: "idx_users_password_requested_at"),
+    ORM\Index(columns: ["expires_at"], name: "idx_users_expires_at"),
+    ORM\Index(columns: ["last_login"], name: "idx_users_last_login"),
+    ORM\Index(columns: ["locked"], name: "idx_users_locked"),
+    ORM\Index(columns: ["locale"], name: "idx_users_locale"),
     ORM\HasLifecycleCallbacks,
     UniqueEntity("email"),
     UniqueEntity("username")
@@ -46,7 +51,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * @Serializer\Groups({"user_personal", "human"})
      * @var string|null
      */
-    #[ORM\Column(type: 'string', unique: true, nullable: false)]
+    #[ORM\Column(type: 'string', length: 200, unique: true, nullable: false)]
     #[SymfonySerializer\Groups(['user_personal', 'human'])]
     #[Assert\NotNull]
     #[Assert\NotBlank]
@@ -62,9 +67,10 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[SymfonySerializer\Ignore]
     protected bool $sendCreationConfirmationEmail = false;
 
-    #[ORM\Column(name: 'facebook_name', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'facebook_name', type: 'string', length: 128, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['user_social'])]
     #[Serializer\Groups(['user_social'])]
+    #[Assert\Length(max: 128)]
     #[ValidFacebookName]
     protected ?string $facebookName = null;
 
@@ -89,8 +95,9 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * @Serializer\Groups({"user_security"})
      * @var string|null
      */
-    #[ORM\Column(name: 'confirmation_token', type: 'string', unique: true, nullable: true)]
+    #[ORM\Column(name: 'confirmation_token', type: 'string', length: 128, unique: true, nullable: true)]
     #[SymfonySerializer\Groups(['user_security'])]
+    #[Assert\Length(max: 128)]
     protected ?string $confirmationToken = null;
 
     /**
@@ -105,7 +112,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * @Serializer\Groups({"user_personal", "log_user"})
      * @var string
      */
-    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Column(type: 'string', length: 200, unique: true)]
     #[SymfonySerializer\Groups(['user_personal', 'log_user'])]
     #[Assert\NotNull]
     #[Assert\NotBlank]
@@ -115,17 +122,19 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * The salt to use for hashing.
      */
-    #[ORM\Column(name: 'salt', type: 'string')]
+    #[ORM\Column(name: 'salt', type: 'string', length: 64)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
+    #[Assert\Length(max: 64)]
     private string $salt = '';
 
     /**
      * Encrypted password.
      */
-    #[ORM\Column(type: 'string', nullable: false)]
+    #[ORM\Column(type: 'string', length: 128, nullable: false)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
+    #[Assert\Length(max: 128)]
     private string $password = '';
 
     /**
@@ -149,7 +158,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     private ?\DateTime $lastLogin = null;
 
     /**
-     * @var Collection<Role>
+     * @var Collection<int, Role>
      */
     #[ORM\JoinTable(name: 'users_roles')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
@@ -170,7 +179,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     private ?array $roles = null;
 
     /**
-     * @var Collection<Group>
+     * @var Collection<int, Group>
      * @Serializer\Groups({"user_group"})
      */
     #[ORM\JoinTable(name: 'users_groups')]
@@ -179,14 +188,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[ORM\ManyToMany(targetEntity: Group::class, inversedBy: 'users')]
     #[SymfonySerializer\Groups(['user_group'])]
     private Collection $groups;
-
-    /**
-     * @var boolean
-     * @Serializer\Groups({"user_security"})
-     */
-    #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    #[SymfonySerializer\Groups(['user_security'])]
-    private bool $expired = false;
 
     /**
      * @var boolean
@@ -203,14 +204,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[ORM\Column(name: 'credentials_expires_at', type: 'datetime', nullable: true)]
     #[SymfonySerializer\Groups(['user_security'])]
     private ?\DateTime $credentialsExpiresAt = null;
-
-    /**
-     * @var boolean
-     * @Serializer\Groups({"user_security"})
-     */
-    #[ORM\Column(name: 'credentials_expired', type: 'boolean', nullable: false, options: ['default' => false])]
-    #[SymfonySerializer\Groups(['user_security'])]
-    private bool $credentialsExpired = false;
 
     /**
      * @Serializer\Groups({"user_security"})
@@ -235,6 +228,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      */
     #[ORM\Column(name: 'locale', type: 'string', length: 7, nullable: true)]
     #[SymfonySerializer\Groups(['user'])]
+    #[Assert\Length(max: 7)]
     private ?string $locale = null;
 
     public function __construct()
@@ -421,7 +415,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     }
 
     /**
-     * @return \DateTime $lastLogin
+     * @return \DateTime|null $lastLogin
      */
     public function getLastLogin(): ?\DateTime
     {
@@ -441,7 +435,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Get random string sent to the user email address in order to verify it.
      *
-     * @return string
+     * @return string|null
      */
     public function getConfirmationToken(): ?string
     {
@@ -525,7 +519,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Get roles entities
      *
-     * @return Collection
+     * @return Collection|null
      */
     public function getRolesEntities(): ?Collection
     {
@@ -636,27 +630,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     }
 
     /**
-     * Return strictly forced expiration status.
-     *
-     * @return boolean
-     */
-    public function getExpired(): bool
-    {
-        return $this->expired;
-    }
-
-    /**
-     * @param boolean $expired
-     * @return $this
-     */
-    public function setExpired(bool $expired): User
-    {
-        $this->expired = $expired;
-
-        return $this;
-    }
-
-    /**
      * Checks whether the user's account has expired.
      *
      * Combines expiresAt date-time limit AND expired boolean value.
@@ -673,14 +646,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[SymfonySerializer\Groups(['user_security'])]
     public function isAccountNonExpired(): bool
     {
-        if (
-            $this->expiresAt !== null &&
-            $this->expiresAt->getTimestamp() < time()
-        ) {
-            return false;
-        }
-
-        return !$this->expired;
+        return $this->expiresAt === null || $this->expiresAt->getTimestamp() > time();
     }
 
     /**
@@ -729,7 +695,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
     public function getCredentialsExpiresAt(): ?\DateTime
     {
@@ -744,47 +710,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     public function setCredentialsExpiresAt(?\DateTime $date = null): User
     {
         $this->credentialsExpiresAt = $date;
-
-        return $this;
-    }
-
-    /**
-     * Return strictly forced credential expiration status.
-     *
-     * @return boolean
-     */
-    public function getCredentialsExpired(): bool
-    {
-        return $this->credentialsExpired;
-    }
-
-    /**
-     * @param boolean $credentialsExpired
-     * @return $this
-     */
-    public function setCredentialsExpired(bool $credentialsExpired): User
-    {
-        $this->credentialsExpired = $credentialsExpired;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getExpiresAt(): ?\DateTime
-    {
-        return $this->expiresAt;
-    }
-
-    /**
-     * @param \DateTime|null $date
-     *
-     * @return User
-     */
-    public function setExpiresAt(?\DateTime $date = null): User
-    {
-        $this->expiresAt = $date;
 
         return $this;
     }
@@ -876,14 +801,25 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[SymfonySerializer\Ignore]
     public function isCredentialsNonExpired(): bool
     {
-        if (
-            $this->credentialsExpiresAt !== null &&
-            $this->credentialsExpiresAt->getTimestamp() < time()
-        ) {
-            return false;
-        }
+        return $this->credentialsExpiresAt === null || $this->credentialsExpiresAt->getTimestamp() > time();
+    }
 
-        return !$this->credentialsExpired;
+    /**
+     * @return \DateTime|null
+     */
+    public function getExpiresAt(): ?\DateTime
+    {
+        return $this->expiresAt;
+    }
+
+    /**
+     * @param \DateTime|null $expiresAt
+     * @return User
+     */
+    public function setExpiresAt(?\DateTime $expiresAt): User
+    {
+        $this->expiresAt = $expiresAt;
+        return $this;
     }
 
     /**
@@ -952,10 +888,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
             $this->roleEntities,
             $this->groups,
             // needed for advancedUserinterface
-            $this->expired,
             $this->expiresAt,
             $this->locked,
-            $this->credentialsExpired,
             $this->credentialsExpiresAt,
         ];
     }
@@ -971,10 +905,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
             $this->email,
             $this->roleEntities,
             $this->groups,
-            $this->expired,
             $this->expiresAt,
             $this->locked,
-            $this->credentialsExpired,
             $this->credentialsExpiresAt,
         ] = $data;
     }

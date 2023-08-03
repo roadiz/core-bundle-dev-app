@@ -6,20 +6,20 @@ namespace RZ\Roadiz\CoreBundle\Message;
 
 final class PurgeReverseProxyCacheMessage implements AsyncMessage
 {
-    private int $nodeSourceId;
+    private int|string|null $nodeSourceId;
 
     /**
-     * @param int $nodeSourceId
+     * @param int|string|null $nodeSourceId
      */
-    public function __construct(int $nodeSourceId)
+    public function __construct(int|string|null $nodeSourceId)
     {
         $this->nodeSourceId = $nodeSourceId;
     }
 
     /**
-     * @return int
+     * @return int|string|null
      */
-    public function getNodeSourceId(): int
+    public function getNodeSourceId(): int|string|null
     {
         return $this->nodeSourceId;
     }

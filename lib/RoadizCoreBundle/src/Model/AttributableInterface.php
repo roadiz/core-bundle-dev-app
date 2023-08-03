@@ -18,14 +18,14 @@ interface AttributableInterface extends PersistableInterface
     /**
      * @param TranslationInterface $translation
      *
-     * @return Collection<AttributeValueInterface>
+     * @return Collection<int, AttributeValueInterface>
      */
     public function getAttributesValuesForTranslation(TranslationInterface $translation): Collection;
 
     /**
      * @param TranslationInterface $translation
      *
-     * @return Collection<AttributeValueTranslationInterface>
+     * @return Collection<int, AttributeValueTranslationInterface>
      */
     public function getAttributesValuesTranslations(TranslationInterface $translation): Collection;
 

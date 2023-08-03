@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Model;
 
-use JMS\Serializer\Annotation as Serializer;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeTranslationTrait
 {
@@ -20,12 +21,16 @@ trait AttributeTranslationTrait
     protected ?TranslationInterface $translation = null;
 
     #[
-        ORM\Column(type: "string", unique: false, nullable: false),
+        ORM\Column(type: "string", length: 250, unique: false, nullable: false),
         Serializer\Groups(["attribute", "node", "nodes_sources"]),
-        Serializer\Type("string")
+        Serializer\Type("string"),
+        Assert\Length(max: 250)
     ]
     protected string $label = '';
 
+    /**
+     * @var array<string>|null
+     */
     #[
         ORM\Column(type: "simple_array", unique: false, nullable: true),
         Serializer\Groups(["attribute"]),
@@ -51,7 +56,7 @@ trait AttributeTranslationTrait
     /**
      * @param string|null $label
      *
-     * @return mixed
+     * @return $this
      */
     public function setLabel(?string $label)
     {
@@ -62,7 +67,7 @@ trait AttributeTranslationTrait
     /**
      * @param TranslationInterface $translation
      *
-     * @return mixed
+     * @return $this
      */
     public function setTranslation(TranslationInterface $translation)
     {
@@ -89,7 +94,7 @@ trait AttributeTranslationTrait
     /**
      * @param AttributeInterface $attribute
      *
-     * @return mixed
+     * @return $this
      */
     public function setAttribute(AttributeInterface $attribute)
     {
@@ -99,7 +104,7 @@ trait AttributeTranslationTrait
 
 
     /**
-     * @return array|null
+     * @return array<string>|null
      */
     public function getOptions(): ?array
     {
@@ -107,7 +112,7 @@ trait AttributeTranslationTrait
     }
 
     /**
-     * @param array|null $options
+     * @param array<string>|null $options
      *
      * @return $this
      */

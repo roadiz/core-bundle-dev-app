@@ -14,10 +14,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Themes\Rozier\Widgets\NodeTreeWidget;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxNodeTreeController extends AbstractAjaxController
 {
     private NodeChrootResolver $nodeChrootResolver;
@@ -36,24 +36,24 @@ class AjaxNodeTreeController extends AbstractAjaxController
 
     /**
      * @param Request $request
-     * @param int|null    $translationId
      *
      * @return JsonResponse
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
-    public function getTreeAction(Request $request, ?int $translationId = null)
+    public function getTreeAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
-        if (null === $translationId) {
-            $translation = $this->em()->getRepository(Translation::class)->findDefault();
-        } else {
+        $translationId = $request->get('translationId', null);
+        if (\is_numeric($translationId) && $translationId > 0) {
             $translation = $this->em()->find(
                 Translation::class,
                 $translationId
             );
+        } else {
+            $translation = $this->em()->getRepository(Translation::class)->findDefault();
         }
 
         /** @var NodeTreeWidget|null $nodeTree */

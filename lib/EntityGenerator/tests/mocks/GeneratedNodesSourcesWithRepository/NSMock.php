@@ -13,9 +13,9 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as OrmFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
  * DO NOT EDIT
@@ -431,7 +431,7 @@ class NSMock extends \mock\Entity\NodesSources
      *     orderBy:
      *         - field: sortingLastDateTime
      *           direction: DESC
-     * @var Collection<\App\Entity\Base\Event>
+     * @var Collection<int, \App\Entity\Base\Event>
      */
     #[
         SymfonySerializer\SerializedName(serializedName: "eventReferences"),
@@ -449,7 +449,7 @@ class NSMock extends \mock\Entity\NodesSources
     private Collection $eventReferences;
 
     /**
-     * @return Collection<\App\Entity\Base\Event>
+     * @return Collection<int, \App\Entity\Base\Event>
      */
     public function getEventReferences(): Collection
     {
@@ -457,7 +457,7 @@ class NSMock extends \mock\Entity\NodesSources
     }
 
     /**
-     * @param Collection<\App\Entity\Base\Event>|\App\Entity\Base\Event[] $eventReferences
+     * @param Collection<int, \App\Entity\Base\Event>|\App\Entity\Base\Event[] $eventReferences
      * @return $this
      */
     public function setEventReferences(Collection|array $eventReferences): static
@@ -475,7 +475,7 @@ class NSMock extends \mock\Entity\NodesSources
     /**
      * Remontée d'événements manuelle
      *
-     * @var Collection<\App\Entity\PositionedCity>
+     * @var Collection<int, \App\Entity\PositionedCity>
      */
     #[
         Serializer\Exclude,
@@ -491,7 +491,7 @@ class NSMock extends \mock\Entity\NodesSources
     private Collection $eventReferencesProxiedProxy;
 
     /**
-     * @return Collection<\App\Entity\PositionedCity>
+     * @return Collection<int, \App\Entity\PositionedCity>
      */
     public function getEventReferencesProxiedProxy(): Collection
     {
@@ -575,7 +575,7 @@ class NSMock extends \mock\Entity\NodesSources
      *     orderBy:
      *         - field: sortingLastDateTime
      *           direction: DESC
-     * @var Collection<\App\Entity\Base\Event>
+     * @var Collection<int, \App\Entity\Base\Event>
      */
     #[
         ORM\ManyToMany(targetEntity: \App\Entity\Base\Event::class),
@@ -590,7 +590,7 @@ class NSMock extends \mock\Entity\NodesSources
     private Collection $eventReferencesExcluded;
 
     /**
-     * @return Collection<\App\Entity\Base\Event>
+     * @return Collection<int, \App\Entity\Base\Event>
      */
     public function getEventReferencesExcluded(): Collection
     {
@@ -598,7 +598,7 @@ class NSMock extends \mock\Entity\NodesSources
     }
 
     /**
-     * @param Collection<\App\Entity\Base\Event>|\App\Entity\Base\Event[] $eventReferencesExcluded
+     * @param Collection<int, \App\Entity\Base\Event>|\App\Entity\Base\Event[] $eventReferencesExcluded
      * @return $this
      */
     public function setEventReferencesExcluded(Collection|array $eventReferencesExcluded): static
@@ -1025,7 +1025,7 @@ class NSMock extends \mock\Entity\NodesSources
      *     orderBy:
      *         - field: name
      *           direction: asc
-     * @var Collection<\MyCustomEntity>
+     * @var Collection<int, \MyCustomEntity>
      */
     #[
         SymfonySerializer\SerializedName(serializedName: "fooManyToMany"),
@@ -1043,7 +1043,7 @@ class NSMock extends \mock\Entity\NodesSources
     private Collection $fooManyToMany;
 
     /**
-     * @return Collection<\MyCustomEntity>
+     * @return Collection<int, \MyCustomEntity>
      */
     public function getFooManyToMany(): Collection
     {
@@ -1051,7 +1051,7 @@ class NSMock extends \mock\Entity\NodesSources
     }
 
     /**
-     * @param Collection<\MyCustomEntity>|\MyCustomEntity[] $fooManyToMany
+     * @param Collection<int, \MyCustomEntity>|\MyCustomEntity[] $fooManyToMany
      * @return $this
      */
     public function setFooManyToMany(Collection|array $fooManyToMany): static
@@ -1069,7 +1069,7 @@ class NSMock extends \mock\Entity\NodesSources
     /**
      * For many_to_many proxied field
      *
-     * @var Collection<\Themes\MyTheme\Entities\PositionedCity>
+     * @var Collection<int, \Themes\MyTheme\Entities\PositionedCity>
      */
     #[
         Serializer\Exclude,
@@ -1085,7 +1085,7 @@ class NSMock extends \mock\Entity\NodesSources
     private Collection $fooManyToManyProxiedProxy;
 
     /**
-     * @return Collection<\Themes\MyTheme\Entities\PositionedCity>
+     * @return Collection<int, \Themes\MyTheme\Entities\PositionedCity>
      */
     public function getFooManyToManyProxiedProxy(): Collection
     {

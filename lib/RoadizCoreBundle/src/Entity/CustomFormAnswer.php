@@ -11,6 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\CoreBundle\Repository\CustomFormAnswerRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: CustomFormAnswerRepository::class),
@@ -22,9 +23,10 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 class CustomFormAnswer extends AbstractEntity
 {
     #[
-        ORM\Column(name: "ip", type: "string", nullable: false),
+        ORM\Column(name: "ip", type: "string", length: 46, nullable: false),
         Serializer\Groups(["custom_form_answer"]),
-        SymfonySerializer\Groups(["custom_form_answer"])
+        SymfonySerializer\Groups(["custom_form_answer"]),
+        Assert\Length(max: 46)
     ]
     private string $ip = '';
 
@@ -36,7 +38,7 @@ class CustomFormAnswer extends AbstractEntity
     private \DateTime $submittedAt;
 
     /**
-     * @var Collection<CustomFormFieldAttribute>
+     * @var Collection<int, CustomFormFieldAttribute>
      */
     #[
         ORM\OneToMany(
@@ -67,35 +69,35 @@ class CustomFormAnswer extends AbstractEntity
     }
 
     /**
-     * @param CustomFormAnswer $field
+     * @param CustomFormFieldAttribute $field
      * @return $this
      */
-    public function addAnswerField(CustomFormAnswer $field): CustomFormAnswer
+    public function addAnswerField(CustomFormFieldAttribute $field): CustomFormAnswer
     {
-        if (!$this->getAnswers()->contains($field)) {
-            $this->getAnswers()->add($field);
+        if (!$this->getAnswerFields()->contains($field)) {
+            $this->getAnswerFields()->add($field);
         }
 
         return $this;
     }
 
     /**
-     * @return Collection<CustomFormFieldAttribute>
+     * @return Collection<int, CustomFormFieldAttribute>
      */
-    public function getAnswers(): Collection
+    public function getAnswerFields(): Collection
     {
         return $this->answerFields;
     }
 
     /**
-     * @param CustomFormAnswer $field
+     * @param CustomFormFieldAttribute $field
      *
      * @return $this
      */
-    public function removeAnswerField(CustomFormAnswer $field): CustomFormAnswer
+    public function removeAnswerField(CustomFormFieldAttribute $field): CustomFormAnswer
     {
-        if ($this->getAnswers()->contains($field)) {
-            $this->getAnswers()->removeElement($field);
+        if ($this->getAnswerFields()->contains($field)) {
+            $this->getAnswerFields()->removeElement($field);
         }
 
         return $this;
@@ -167,10 +169,11 @@ class CustomFormAnswer extends AbstractEntity
 
     /**
      * @return string|null
+     * @throws \Exception
      */
     public function getEmail(): ?string
     {
-        $attribute = $this->getAnswers()->filter(function (CustomFormFieldAttribute $attribute) {
+        $attribute = $this->getAnswerFields()->filter(function (CustomFormFieldAttribute $attribute) {
             return $attribute->getCustomFormField()->isEmail();
         })->first();
         return $attribute ? (string) $attribute->getValue() : null;
@@ -179,6 +182,7 @@ class CustomFormAnswer extends AbstractEntity
     /**
      * @param bool $namesAsKeys Use fields name as key. Default: true
      * @return array
+     * @throws \Exception
      */
     public function toArray(bool $namesAsKeys = true): array
     {

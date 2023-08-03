@@ -6,18 +6,18 @@
     {% set icon = 'uk-icon-info-circle' %}
 {% endif %}
 
-<div class="history-log-item {% if log.nodeSource %}has-source {% endif %}{% if log.user or log.username %}has-user{% endif %}">
+<div class="history-log-item{% if log.additionalData.entity_title %} has-source{% endif %}{% if log.additionalData.user_id or log.username %} has-user{% endif %}">
     <div class="history-log-date">
         <div class="table">
             <div class="table-cell">{{ log.datetime|format_datetime('short', 'short', locale=app.request.locale) }}</div>
         </div>
     </div>
-    {% if log.user %}
+    {% if log.additionalData.user_id %}
         <div class="history-log-user">
-            {% if is_granted('ROLE_ACCESS_USERS') %}
-                {% set userPath = path("usersEditPage", { userId: log.user.id }) %}
-            {% elseif is_granted('ROLE_ACCESS_LOGS') %}
-                {% set userPath = path('historyUserPage', { userId: log.user.id }) %}
+            {% if is_granted('ROLE_ACCESS_USERS') and log.additionalData.user_id %}
+                {% set userPath = path("usersEditPage", { userId: log.additionalData.user_id }) %}
+            {% elseif is_granted('ROLE_ACCESS_LOGS') and log.additionalData.user_id %}
+                {% set userPath = path('historyUserPage', { userId: log.additionalData.user_id }) %}
             {% else %}
                 {% set userPath = '#' %}
             {% endif %}
@@ -25,9 +25,9 @@
                 <img width="60"
                      height="60"
                      class="user-image uk-thumbnail"
-                     src="{{ log.user.pictureUrl }}"
-                     alt="{{ log.user.identifier }}"
-                     title="{{ log.user.identifier }}"
+                     src="{{ log.additionalData.user_picture_url }}"
+                     alt="{{ log.additionalData.user_public_name|default(log.username) }}"
+                     title="{{ log.additionalData.user_public_name|default(log.username) }}"
                      data-uk-tooltip="{animation:true}"/>
             </a>
         </div>
@@ -42,32 +42,25 @@
     {% endif %}
     <div class="history-log-message">
         <div class="table">
-            {% if log.nodeSource %}
+            {% if log.additionalData.entity_title %}
                 <div class="history-log-source table-cell">
-                    {% if is_granted('ROLE_ACCESS_NODES') %}
-                        {% set nodePath = path("nodesEditSourcePage", {"nodeId":log.nodeSource.node.id, "translationId":log.nodeSource.translation.id }) %}
-                    {% elseif is_granted('ROLE_ACCESS_LOGS') %}
-                        {% set nodePath = path("nodesHistoryPage", {"nodeId":log.nodeSource.node.id }) %}
-                    {% else %}
-                        {% set nodePath = '#' %}
+                    {% set entityPath = log_entity_edit_path(log) %}
+                    {% if entityPath %}
+                    <a href="{{ entityPath }}">
                     {% endif %}
-                    <a href="{{ nodePath }}">
-                        {% set thumbnail = log.nodeSource.getDocumentsByFields.first.getDocument %}
-                        {% if thumbnail and thumbnail.image %}
-                            <figure title="{{ log.nodeSource.title }}" data-uk-tooltip="{animation:true}" >
-                                {{ thumbnail|display({
-                                    "fit":"60x60",
-                                    "quality":80,
-                                    "picture": true,
-                                    "alt": log.nodeSource.title,
-                                }) }}
+                        {% set thumbnail = log.additionalData.entity_thumbnail_src %}
+                        {% if thumbnail %}
+                            <figure title="{{ log.additionalData.entity_title }}" data-uk-tooltip="{animation:true}" >
+                                <img src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
                             </figure>
                         {% else %}
                             <span class="no-thumb"
-                                  title="{{ log.nodeSource.title }}"
+                                  title="{{ log.additionalData.entity_title }}"
                                   data-uk-tooltip="{animation:true}"></span>
                         {% endif %}
+                    {% if entityPath %}
                     </a>
+                    {% endif %}
                 </div>
             {% endif %}
             <div class="table-cell">
@@ -85,8 +78,10 @@
                             <dd>{{ log.username }}</dd>
                         {% endif %}
                         {% for key, data in log.additionalData %}
-                            <dt>{{ key|trans }}</dt>
-                            <dd>{{ data }}</dd>
+                            {% if data is not iterable %}
+                                <dt>{{ key|trans }}</dt>
+                                <dd>{{ data|u.truncate(140, '[…]') }}</dd>
+                            {% endif %}
                         {% endfor %}
                     </dl>
                 </div>

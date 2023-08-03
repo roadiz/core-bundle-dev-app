@@ -38,7 +38,7 @@ class NodesTagsTransformer implements DataTransformerInterface
 
     /**
      * @param iterable<int|string> $value
-     * @return Collection<NodesTags>
+     * @return Collection<int, NodesTags>
      */
     public function reverseTransform(mixed $value): Collection
     {

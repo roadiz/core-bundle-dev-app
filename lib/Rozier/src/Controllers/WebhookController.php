@@ -57,7 +57,7 @@ final class WebhookController extends AbstractAdminController
                         '%seconds%' => $item->getThrottleSeconds(),
                     ]
                 );
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $item);
 
                 return $this->redirect($this->urlGenerator->generate($this->getDefaultRouteName()));
             } catch (TooManyWebhookTriggeredException $e) {

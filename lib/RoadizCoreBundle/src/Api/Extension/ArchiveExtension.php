@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\Extension;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Extension\QueryResultCollectionExtensionInterface;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use ApiPlatform\Core\Metadata\Resource\Factory\ResourceMetadataFactoryInterface;
-use ApiPlatform\Core\Metadata\Resource\ResourceMetadata;
+use ApiPlatform\Doctrine\Orm\Extension\QueryResultCollectionExtensionInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Api\Dto\Archive;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -45,16 +43,13 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class ArchiveExtension implements QueryResultCollectionExtensionInterface
 {
-    private ResourceMetadataFactoryInterface $resourceMetadataFactory;
     private RequestStack $requestStack;
     private string $defaultPublicationFieldName;
 
     public function __construct(
-        ResourceMetadataFactoryInterface $resourceMetadataFactory,
         RequestStack $requestStack,
         string $defaultPublicationFieldName = 'publishedAt'
     ) {
-        $this->resourceMetadataFactory = $resourceMetadataFactory;
         $this->requestStack = $requestStack;
         $this->defaultPublicationFieldName = $defaultPublicationFieldName;
     }
@@ -63,9 +58,10 @@ final class ArchiveExtension implements QueryResultCollectionExtensionInterface
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        string $operationName = null
+        ?Operation $operation = null,
+        array $context = []
     ): void {
-        if (!$this->supportsResult($resourceClass, $operationName)) {
+        if (!$this->supportsResult($resourceClass, $operation)) {
             return;
         }
         if (null === $request = $this->requestStack->getCurrentRequest()) {
@@ -73,7 +69,7 @@ final class ArchiveExtension implements QueryResultCollectionExtensionInterface
         }
         $aliases = $queryBuilder->getRootAliases();
         $alias = reset($aliases);
-        $publicationFieldName = $this->getPublicationFieldName($request, $this->resourceMetadataFactory->create($resourceClass), $operationName);
+        $publicationFieldName = $this->getPublicationFieldName($operation);
         $publicationField = $alias . '.' . $publicationFieldName;
 
         $queryBuilder->select($publicationField)
@@ -81,17 +77,21 @@ final class ArchiveExtension implements QueryResultCollectionExtensionInterface
             ->orderBy($publicationField, 'DESC');
     }
 
-    public function supportsResult(string $resourceClass, string $operationName = null): bool
+    public function supportsResult(string $resourceClass, ?Operation $operation = null, array $context = []): bool
     {
         if (null === $request = $this->requestStack->getCurrentRequest()) {
             return false;
         }
 
-        return $this->isArchiveEnabled($request, $this->resourceMetadataFactory->create($resourceClass), $operationName);
+        return $this->isArchiveEnabled($operation);
     }
 
-    public function getResult(QueryBuilder $queryBuilder): iterable
-    {
+    public function getResult(
+        QueryBuilder $queryBuilder,
+        ?string $resourceClass = null,
+        ?Operation $operation = null,
+        array $context = []
+    ): iterable {
         $entities = [];
         $dates = [];
         $paginator = new Paginator($queryBuilder, false);
@@ -128,28 +128,14 @@ final class ArchiveExtension implements QueryResultCollectionExtensionInterface
     }
 
     private function isArchiveEnabled(
-        Request $request,
-        ResourceMetadata $resourceMetadata,
-        string $operationName = null
+        ?Operation $operation = null
     ): bool {
-        return $resourceMetadata->getCollectionOperationAttribute(
-            $operationName,
-            'archive_enabled',
-            false,
-            true
-        );
+        return $operation->getExtraProperties()['archive_enabled'] ?? false;
     }
 
     private function getPublicationFieldName(
-        Request $request,
-        ResourceMetadata $resourceMetadata,
-        string $operationName = null
+        ?Operation $operation = null
     ): string {
-        return $resourceMetadata->getCollectionOperationAttribute(
-            $operationName,
-            'archive_publication_field_name',
-            $this->defaultPublicationFieldName,
-            true
-        );
+        return $operation->getExtraProperties()['archive_publication_field_name'] ?? $this->defaultPublicationFieldName;
     }
 }

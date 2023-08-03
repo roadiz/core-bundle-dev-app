@@ -39,7 +39,7 @@ final class MaintenanceModeSubscriber implements EventSubscriberInterface
     /**
      * @return array
      */
-    private function getAuthorizedRoutes()
+    private function getAuthorizedRoutes(): array
     {
         return [
             'loginPage',

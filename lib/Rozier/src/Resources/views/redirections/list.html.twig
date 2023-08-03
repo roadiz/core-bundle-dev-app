@@ -42,6 +42,13 @@
                             } only %}
                         </th>
                         <th>{% trans %}redirection.type{% endtrans %}</th>
+                        <th>
+                            {% trans %}redirection.use_count{% endtrans %}
+                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+                                'field': 'useCount',
+                                'filters': filters,
+                            } only %}
+                        </th>
                         <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
                     </tr>
                 </thead>
@@ -66,6 +73,7 @@
                             {% endif %}
                         </td>
                         <td>{{ item.typeAsString|trans }}</td>
+                        <td>{{ item.useCount }}</td>
                         <td class="table-actions-row">
                         {% apply spaceless %}
                             <a class="uk-button uk-button-content uk-button-small"

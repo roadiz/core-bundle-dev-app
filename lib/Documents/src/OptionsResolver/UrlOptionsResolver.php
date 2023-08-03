@@ -11,8 +11,7 @@ class UrlOptionsResolver extends OptionsResolver
 {
     public function __construct()
     {
-        $this->setDefaults(
-            [
+        $this->setDefaults([
             'crop' => null,
             'fit' => null,
             'align' => null,
@@ -31,8 +30,7 @@ class UrlOptionsResolver extends OptionsResolver
             'contrast' => 0,
             'rotate' => 0,
             'ratio' => null,
-            ]
-        );
+        ]);
         $this->setAllowedTypes('width', ['int']);
         $this->setAllowedTypes('height', ['int']);
         $this->setAllowedTypes('crop', ['null', 'string']);

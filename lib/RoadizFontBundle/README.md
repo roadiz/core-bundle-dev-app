@@ -1,4 +1,5 @@
 # Roadiz Font bundle
+**Manage and expose web fonts with Roadiz CMS**
 
 ![Run test status](https://github.com/roadiz/font-bundle/actions/workflows/run-test.yml/badge.svg?branch=develop)
 

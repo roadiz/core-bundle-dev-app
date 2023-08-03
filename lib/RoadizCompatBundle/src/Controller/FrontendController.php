@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Controller\DefaultNodeSourceController;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodesSourcesHandler;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
 use RZ\Roadiz\CoreBundle\Routing\NodeRouteHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -424,7 +425,7 @@ abstract class FrontendController extends AppController
     /**
      * @inheritDoc
      */
-    public function createEntityListManager($entity, array $criteria = [], array $ordering = [])
+    public function createEntityListManager(string $entity, array $criteria = [], array $ordering = []): EntityListManagerInterface
     {
         return parent::createEntityListManager($entity, $criteria, $ordering)
             ->setAllowRequestSearching(false)

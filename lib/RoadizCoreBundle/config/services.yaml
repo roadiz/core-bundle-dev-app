@@ -1,5 +1,7 @@
 ---
 parameters:
+    roadiz_core.cms_version: '2.2.x-dev'
+    roadiz_core.cms_version_prefix: 'develop'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
     env(APP_USE_ACCEPT_LANGUAGE_HEADER): 'false'
@@ -22,9 +24,9 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
-            $cmsVersion: '2.1.9'
+            $cmsVersion: '%roadiz_core.cms_version%'
             $appVersion: '%roadiz_core.app_version%'
-            $cmsVersionPrefix: 'main'
+            $cmsVersionPrefix: '%roadiz_core.cms_version_prefix%'
             $staticDomain: '%roadiz_core.static_domain_name%'
             $hideRoadizVersion: '%roadiz_core.hide_roadiz_version%'
             $inheritanceType: '%roadiz_core.inheritance_type%'
@@ -117,9 +119,20 @@ services:
         public: true
 
 
+    RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator:
+        decorates: 'api_platform.openapi.factory'
+        decoration_priority: 100
+        arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator.inner' ]
+        autoconfigure: false
+
     RZ\Roadiz\CoreBundle\Api\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'
         arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\JwtDecorator.inner' ]
+        autoconfigure: false
+
+    RZ\Roadiz\CoreBundle\Api\OpenApi\WebResponseDecorator:
+        decorates: 'api_platform.openapi.factory'
+        arguments: [ '@RZ\Roadiz\CoreBundle\Api\OpenApi\WebResponseDecorator.inner' ]
         autoconfigure: false
 
     #
@@ -139,6 +152,16 @@ services:
         class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\FolderNormalizer'
         decorates: 'api_platform.serializer.normalizer.item'
         decoration_priority: 21
+
+    RZ\Roadiz\CoreBundle\DataCollector\RequestDataCollector:
+        autoconfigure: false
+        arguments: [ '%roadiz_core.cms_version%', '%roadiz_core.cms_version_prefix%']
+        tags:
+            -   name: data_collector
+                template: '@RoadizCore/DataCollector/request.html.twig'
+                # must match the value returned by the getName() method
+                id: 'roadiz.data_collector.request'
+                priority: 400
 
     # Document
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentNormalizer:
@@ -291,6 +314,13 @@ services:
                 handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentAudioVideoMessage
             - { name: monolog.logger, channel: messenger }
 
+    RZ\Roadiz\CoreBundle\Document\MessageHandler\DocumentPdfMessageHandler:
+        autoconfigure: false
+        tags:
+            -   name: messenger.message_handler
+                handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentPdfMessage
+            - { name: monolog.logger, channel: messenger }
+
     RZ\Roadiz\CoreBundle\SearchEngine\Indexer\:
         resource: '../src/SearchEngine/Indexer/'
         # Recreate handlers for each usage
@@ -318,6 +348,7 @@ services:
             - { name: doctrine.event_subscriber }
 
     RZ\Roadiz\CoreBundle\Doctrine\SchemaUpdater:
+        arguments: ['@cache.global_clearer']
         tags:
             - { name: monolog.logger, channel: doctrine }
 
@@ -372,9 +403,6 @@ services:
             - '%roadiz_core.entity_generator_factory.options%'
 
     Gedmo\Loggable\LoggableListener:
-        alias: RZ\Roadiz\CoreBundle\Doctrine\Loggable\UserLoggableListener
-
-    RZ\Roadiz\CoreBundle\Doctrine\Loggable\UserLoggableListener:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
@@ -421,7 +449,6 @@ services:
     Solarium\Core\Client\Client:
         factory: ['RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry', 'getClient']
 
-    # Provides LoginAttemptManager aware authentication
     RZ\Roadiz\CoreBundle\Security\Authentication\JwtAuthenticationSuccessHandler:
         decorates: 'lexik_jwt_authentication.handler.authentication_success'
 

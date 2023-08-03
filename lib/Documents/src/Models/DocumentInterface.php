@@ -156,7 +156,7 @@ interface DocumentInterface
     public function isRaw(): bool;
 
     /**
-     * @param boolean $raw the raw
+     * @param bool $raw the raw
      * @return $this
      */
     public function setRaw(bool $raw): static;
@@ -169,7 +169,7 @@ interface DocumentInterface
     public function getDownscaledDocument(): ?DocumentInterface;
 
     /**
-     * @return Collection<FolderInterface>
+     * @return Collection<int, FolderInterface>
      */
     public function getFolders(): Collection;
 

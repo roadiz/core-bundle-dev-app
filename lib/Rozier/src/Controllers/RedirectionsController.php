@@ -6,6 +6,10 @@ namespace Themes\Rozier\Controllers;
 
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Redirection;
+use RZ\Roadiz\CoreBundle\Event\Redirection\PostCreatedRedirectionEvent;
+use RZ\Roadiz\CoreBundle\Event\Redirection\PostDeletedRedirectionEvent;
+use RZ\Roadiz\CoreBundle\Event\Redirection\PostUpdatedRedirectionEvent;
+use RZ\Roadiz\CoreBundle\Event\Redirection\RedirectionEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Themes\Rozier\Forms\RedirectionType;
 
@@ -100,5 +104,29 @@ class RedirectionsController extends AbstractAdminController
     protected function getDefaultOrder(Request $request): array
     {
         return ['query' => 'ASC'];
+    }
+
+    protected function createPostCreateEvent(PersistableInterface $item): RedirectionEvent
+    {
+        if (!($item instanceof Redirection)) {
+            throw new \InvalidArgumentException('Item should be instance of ' . Redirection::class);
+        }
+        return new PostCreatedRedirectionEvent($item);
+    }
+
+    protected function createPostUpdateEvent(PersistableInterface $item): RedirectionEvent
+    {
+        if (!($item instanceof Redirection)) {
+            throw new \InvalidArgumentException('Item should be instance of ' . Redirection::class);
+        }
+        return new PostUpdatedRedirectionEvent($item);
+    }
+
+    protected function createDeleteEvent(PersistableInterface $item): RedirectionEvent
+    {
+        if (!($item instanceof Redirection)) {
+            throw new \InvalidArgumentException('Item should be instance of ' . Redirection::class);
+        }
+        return new PostDeletedRedirectionEvent($item);
     }
 }

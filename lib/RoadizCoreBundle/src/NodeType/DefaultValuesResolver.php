@@ -23,7 +23,6 @@ final class DefaultValuesResolver implements DefaultValuesResolverInterface
         $this->inheritanceType = $inheritanceType;
     }
 
-
     public function getDefaultValuesAmongAllFields(NodeTypeFieldInterface $field): array
     {
         /*

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -20,8 +20,10 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * NodesSources store Node content according to a translation and a NodeType.
@@ -58,16 +60,7 @@ class NodesSources extends AbstractEntity implements Loggable
     protected ?ObjectManager $objectManager = null;
 
     /**
-     * @var Collection<Log>
-     */
-    #[ORM\OneToMany(mappedBy: 'nodeSource', targetEntity: Log::class)]
-    #[ORM\OrderBy(['datetime' => 'DESC'])]
-    #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
-    protected Collection $logs;
-
-    /**
-     * @var Collection<Redirection>
+     * @var Collection<int, Redirection>
      */
     #[ORM\OneToMany(mappedBy: 'redirectNodeSource', targetEntity: Redirection::class)]
     #[SymfonySerializer\Ignore]
@@ -75,10 +68,11 @@ class NodesSources extends AbstractEntity implements Loggable
     protected Collection $redirections;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'title', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'title', type: 'string', length: 250, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Gedmo\Versioned]
+    #[Assert\Length(max: 250)]
     protected ?string $title = null;
 
     #[ApiFilter(BaseFilter\DateFilter::class)]
@@ -91,10 +85,11 @@ class NodesSources extends AbstractEntity implements Loggable
     protected ?\DateTime $publishedAt = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'meta_title', type: 'string', unique: false)]
+    #[ORM\Column(name: 'meta_title', type: 'string', length: 150, unique: false)]
     #[SymfonySerializer\Groups(['nodes_sources'])]
     #[Serializer\Groups(['nodes_sources'])]
     #[Gedmo\Versioned]
+    #[Assert\Length(max: 150)]
     protected string $metaTitle = '';
 
     #[ORM\Column(name: 'meta_keywords', type: 'text')]
@@ -169,7 +164,7 @@ class NodesSources extends AbstractEntity implements Loggable
     private ?TranslationInterface $translation = null;
 
     /**
-     * @var Collection<UrlAlias>
+     * @var Collection<int, UrlAlias>
      */
     #[ORM\OneToMany(
         mappedBy: 'nodeSource',
@@ -180,7 +175,7 @@ class NodesSources extends AbstractEntity implements Loggable
     private Collection $urlAliases;
 
     /**
-     * @var Collection<NodesSourcesDocuments>
+     * @var Collection<int, NodesSourcesDocuments>
      */
     #[ORM\OneToMany(
         mappedBy: 'nodeSource',
@@ -205,7 +200,6 @@ class NodesSources extends AbstractEntity implements Loggable
         $this->translation = $translation;
         $this->urlAliases = new ArrayCollection();
         $this->documentsByFields = new ArrayCollection();
-        $this->logs = new ArrayCollection();
         $this->redirections = new ArrayCollection();
     }
 
@@ -221,28 +215,29 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ORM\PreUpdate]
     public function preUpdate(): void
     {
-        $this->getNode()?->setUpdatedAt(new \DateTime("now"));
+        $this->getNode()->setUpdatedAt(new \DateTime("now"));
     }
 
     /**
-     * @return Node|null
+     * @return Node
      */
-    public function getNode(): ?Node
+    public function getNode(): Node
     {
+        if (null === $this->node) {
+            throw new \BadMethodCallException('NodeSource node should never be null.');
+        }
         return $this->node;
     }
 
     /**
-     * @param Node|null $node
+     * @param Node $node
      *
      * @return $this
      */
-    public function setNode(Node $node = null): NodesSources
+    public function setNode(Node $node): NodesSources
     {
         $this->node = $node;
-        if (null !== $node) {
-            $node->addNodeSources($this);
-        }
+        $node->addNodeSources($this);
 
         return $this;
     }
@@ -278,7 +273,7 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * @return Collection<NodesSourcesDocuments>
+     * @return Collection<int, NodesSourcesDocuments>
      */
     public function getDocumentsByFields(): Collection
     {
@@ -286,11 +281,28 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * @param ArrayCollection<NodesSourcesDocuments> $documentsByFields
+     * Get at least one document to represent this node-source as image.
+     *
+     * @return DocumentInterface|null
+     */
+    #[SymfonySerializer\Ignore]
+    public function getOneDisplayableDocument(): ?DocumentInterface
+    {
+        return $this->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsd) {
+            return null !== $nsd->getDocument() &&
+                $nsd->getDocument()->isImage() &&
+                $nsd->getDocument()->isProcessable();
+        })->map(function (NodesSourcesDocuments $nsd) {
+            return $nsd->getDocument();
+        })->first() ?: null;
+    }
+
+    /**
+     * @param Collection<int, NodesSourcesDocuments> $documentsByFields
      *
      * @return NodesSources
      */
-    public function setDocumentsByFields(ArrayCollection $documentsByFields): NodesSources
+    public function setDocumentsByFields(Collection $documentsByFields): NodesSources
     {
         foreach ($this->documentsByFields as $documentsByField) {
             $documentsByField->setNodeSource(null);
@@ -348,11 +360,8 @@ class NodesSources extends AbstractEntity implements Loggable
         $criteria->orderBy(['position' => 'ASC']);
         return $this->getDocumentsByFields()
             ->matching($criteria)
-            ->filter(function ($element) use ($field) {
-                if ($element instanceof NodesSourcesDocuments) {
-                    return $element->getField() === $field;
-                }
-                return false;
+            ->filter(function (NodesSourcesDocuments $element) use ($field) {
+                return $element->getField() === $field;
             })
             ->map(function (NodesSourcesDocuments $nodesSourcesDocuments) {
                 return $nodesSourcesDocuments->getDocument();
@@ -371,11 +380,8 @@ class NodesSources extends AbstractEntity implements Loggable
         $criteria->orderBy(['position' => 'ASC']);
         return $this->getDocumentsByFields()
             ->matching($criteria)
-            ->filter(function ($element) use ($fieldName) {
-                if ($element instanceof NodesSourcesDocuments) {
-                    return $element->getField()->getName() === $fieldName;
-                }
-                return false;
+            ->filter(function (NodesSourcesDocuments $element) use ($fieldName) {
+                return $element->getField()->getName() === $fieldName;
             })
             ->map(function (NodesSourcesDocuments $nodesSourcesDocuments) {
                 return $nodesSourcesDocuments->getDocument();
@@ -385,28 +391,7 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * Logs related to this node-source.
-     *
-     * @return Collection<Log>
-     */
-    public function getLogs(): Collection
-    {
-        return $this->logs;
-    }
-
-    /**
-     * @param Collection $logs
-     * @return $this
-     */
-    public function setLogs(Collection $logs): NodesSources
-    {
-        $this->logs = $logs;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<Redirection>
+     * @return Collection<int, Redirection>
      */
     public function getRedirections(): Collection
     {
@@ -414,7 +399,7 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * @param Collection<Redirection> $redirections
+     * @param Collection<int, Redirection> $redirections
      * @return NodesSources
      */
     public function setRedirections(Collection $redirections): NodesSources
@@ -538,7 +523,7 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * @return Collection<UrlAlias>
+     * @return Collection<int, UrlAlias>
      */
     public function getUrlAliases(): Collection
     {
@@ -665,8 +650,6 @@ class NodesSources extends AbstractEntity implements Loggable
             }
             // Clear url-aliases before cloning.
             $this->urlAliases->clear();
-            // Clear logs before cloning.
-            $this->logs->clear();
         }
     }
 }

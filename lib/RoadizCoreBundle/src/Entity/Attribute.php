@@ -33,7 +33,7 @@ class Attribute extends AbstractEntity implements AttributeInterface
     use AttributeTrait;
 
     /**
-     * @var Collection<AttributeDocuments>
+     * @var Collection<int, AttributeDocuments>
      */
     #[
         ORM\OneToMany(
@@ -57,7 +57,7 @@ class Attribute extends AbstractEntity implements AttributeInterface
     }
 
     /**
-     * @return Collection<AttributeDocuments>
+     * @return Collection<int, AttributeDocuments>
      */
     public function getAttributeDocuments(): Collection
     {
@@ -77,7 +77,7 @@ class Attribute extends AbstractEntity implements AttributeInterface
     }
 
     /**
-     * @return Collection<Document>
+     * @return Collection<int, Document>
      */
     #[
         Serializer\VirtualProperty(),
@@ -86,7 +86,7 @@ class Attribute extends AbstractEntity implements AttributeInterface
     ]
     public function getDocuments(): Collection
     {
-        /** @var Collection<Document> $values */
+        /** @var Collection<int, Document> $values */
         $values = $this->attributeDocuments->map(function (AttributeDocuments $attributeDocuments) {
             return $attributeDocuments->getDocument();
         })->filter(function (?Document $document) {

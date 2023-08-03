@@ -37,3 +37,6 @@ services:
 
     scheb_two_factor.backup_code_manager:
         alias: RZ\Roadiz\TwoFactorBundle\Backup\BackupCodeManager
+
+    RZ\Roadiz\CoreBundle\Console\UsersCommand:
+        alias: RZ\Roadiz\TwoFactorBundle\Console\UsersCommand

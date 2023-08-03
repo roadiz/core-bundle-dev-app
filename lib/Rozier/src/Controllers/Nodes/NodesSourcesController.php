@@ -248,14 +248,18 @@ class NodesSourcesController extends RozierApp
             $this->em()->remove($ns);
             $this->em()->flush();
 
-            $ns = $node->getNodeSources()->first();
+            $ns = $node->getNodeSources()->first() ?: null;
+
+            if (null === $ns) {
+                throw new ResourceNotFoundException('No more node-source available for this node.');
+            }
 
             $msg = $this->getTranslator()->trans('node_source.%node_source%.deleted.%translation%', [
                 '%node_source%' => $node->getNodeName(),
                 '%translation%' => $ns->getTranslation()->getName(),
             ]);
 
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $node);
 
             return $this->redirectToRoute(
                 'nodesEditSourcePage',

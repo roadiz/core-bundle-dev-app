@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\NotSupported;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -190,7 +191,7 @@ class AjaxNodesExplorerController extends AbstractAjaxController
             $arrayFilter,
             $this->getItemPerPage(),
             true,
-            10000000,
+            2,
             (int) $currentPage
         );
         $pageCount = ceil($results->getResultCount() / $this->getItemPerPage());
@@ -216,6 +217,7 @@ class AjaxNodesExplorerController extends AbstractAjaxController
      *
      * @param Request $request
      * @return JsonResponse
+     * @throws NotSupported
      */
     public function listAction(Request $request): JsonResponse
     {

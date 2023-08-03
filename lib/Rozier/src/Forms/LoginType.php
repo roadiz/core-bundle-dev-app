@@ -65,7 +65,7 @@ class LoginType extends AbstractType
             ],
         ]);
 
-        if ($this->requestStack->getMasterRequest()->query->has('_home')) {
+        if ($this->requestStack->getMainRequest()?->query->has('_home')) {
             $builder->add('_target_path', HiddenType::class, [
                 'data' => $this->urlGenerator->generate('adminHomePage')
             ]);

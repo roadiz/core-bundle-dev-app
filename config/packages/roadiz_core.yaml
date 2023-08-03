@@ -16,11 +16,7 @@ roadiz_core:
         ffmpeg_path: '%env(string:APP_FFMPEG_PATH)%'
     inheritance:
         type: single_table
-#    reverseProxyCache:
-#        frontend:
-#            default:
-#                host: '127.0.0.1:8081'
-#                domainName: roadiz-core-bundle.test
+
     solr:
         timeout: 3
         endpoints:
@@ -30,4 +26,10 @@ roadiz_core:
                 port: '%env(string:SOLR_PORT)%'
                 path: /
 
-
+when@prod:
+    roadiz_core:
+    reverseProxyCache:
+        frontend:
+            default:
+                host: '%env(VARNISH_URL)%'
+                domainName: '%env(VARNISH_DOMAIN)%'
