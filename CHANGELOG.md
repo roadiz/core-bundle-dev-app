@@ -1,3 +1,10 @@
+## [v2.1.39](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.38...v2.1.39) (2023-08-03)
+
+
+### Bug Fixes
+
+* **Doctrine:** Do not extend `Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository` anymore due to _LazyServiceEntityRepository_ since `doctrine/doctrine-bundle@2.8.1` ([ec1687c](https://github.com/roadiz/core-bundle-dev-app/commit/ec1687cc27436b08ff0ec5f73d1adb04fb23e424)) (https://github.com/doctrine/DoctrineBundle/issues/1693)
+
 ## [v2.1.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.37...v2.1.38) (2023-08-03)
 
 
