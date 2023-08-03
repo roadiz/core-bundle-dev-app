@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+    <file source-language="en" original="" target-language="fr" datatype="plaintext">
+        <body>
+            <trans-unit id="Your user account is not enabled. Contact an administrator" xml:space="preserve">
+                <source>Your user account is not enabled. Contact an administrator.</source>
+                <target state="translated">Votre compte utilisateur n'est pas activé. Contactez un administrateur.</target>
+            </trans-unit>
+            <trans-unit id="Your credentials have expired. Please request a new password" xml:space="preserve">
+                <source>Your credentials have expired. Please request a new password.</source>
+                <target state="translated">Vos informations d'identification ont expiré. Veuillez demander un nouveau mot de passe.</target>
+            </trans-unit>
+            <trans-unit id="Your account has expired. Contact an administrator" xml:space="preserve">
+                <source>Your account has expired. Contact an administrator.</source>
+                <target state="translated">Votre compte a expiré. Contactez un administrateur.</target>
+            </trans-unit>
+            <trans-unit id="Your user account is locked. Contact an administrator" xml:space="preserve">
+                <source>Your user account is locked. Contact an administrator.</source>
+                <target state="translated">Votre compte utilisateur est verrouillé. Contactez un administrateur.</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

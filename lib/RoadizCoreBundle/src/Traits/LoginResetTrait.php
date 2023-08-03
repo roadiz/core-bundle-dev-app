@@ -37,9 +37,6 @@ trait LoginResetTrait
          * we remove expiration.
          */
         if (!$user->isCredentialsNonExpired()) {
-            if ($user->getCredentialsExpired() === true) {
-                $user->setCredentialsExpired(false);
-            }
             if (null !== $user->getCredentialsExpiresAt()) {
                 $user->setCredentialsExpiresAt(null);
             }

@@ -185,7 +185,7 @@ final class UserLifeCycleSubscriber implements EventSubscriber
                  * just send them a password reset link.
                  */
                 $tokenGenerator = new TokenGenerator($this->logger);
-                $user->setCredentialsExpired(true);
+                $user->setCredentialsExpiresAt(new \DateTime('-1 day'));
                 $user->setPasswordRequestedAt(new \DateTime());
                 $user->setConfirmationToken($tokenGenerator->generateToken());
 

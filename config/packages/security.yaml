@@ -36,6 +36,7 @@ security:
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             jwt: ~
+            user_checker: RZ\Roadiz\CoreBundle\Security\UserChecker
         # disables session creation for assets and healthcheck controllers
         assets:
             pattern: ^/assets
@@ -48,6 +49,7 @@ security:
         main:
             lazy: true
             provider: all_users
+            user_checker: RZ\Roadiz\CoreBundle\Security\UserChecker
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
