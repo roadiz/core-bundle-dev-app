@@ -6,6 +6,10 @@
         <source>node.%name%.updated</source>
         <target state="final">Node "%name%" has been updated.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.was_moved">
+        <source>node.%name%.was_moved</source>
+        <target state="translated">Node "%name%" has been moved.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="3" approved="yes">
         <source>node.%nodeId%.not_exists</source>
         <target state="final">Node %nodeId% does not exists.</target>
@@ -2229,6 +2233,10 @@
       <trans-unit xml:space="preserve" id="add.folder.%name%.child">
         <source>add.folder.%name%.child</source>
         <target state="translated">Add a sub-folder in «%name%»</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="folder.%name%.created">
+        <source>folder.%name%.created</source>
+        <target state="translated">Le dossier « %name% » a été créé.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="edit.folder" approved="yes">
         <source>edit.folder</source>
