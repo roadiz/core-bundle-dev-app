@@ -50,7 +50,6 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
     private string $targetPathParameter;
     private array $defaultRoles;
     private bool $forceSsl;
-    private UserProviderInterface $accountProvider;
     private bool $requiresLocalUsers;
 
     public function __construct(
@@ -59,7 +58,6 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         JwtRoleStrategy $roleStrategy,
         OpenIdJwtConfigurationFactory $jwtConfigurationFactory,
         UrlGeneratorInterface $urlGenerator,
-        UserProviderInterface $accountProvider,
         string $returnPath,
         string $defaultRoute,
         ?string $oauthClientId,
@@ -87,7 +85,6 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         $this->urlGenerator = $urlGenerator;
         $this->jwtConfigurationFactory = $jwtConfigurationFactory;
         $this->forceSsl = $forceSsl;
-        $this->accountProvider = $accountProvider;
         $this->requiresLocalUsers = $requiresLocalUsers;
     }
 
