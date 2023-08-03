@@ -1,3 +1,13 @@
+## [v2.1.36](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.35...v2.1.36) (2023-08-03)
+
+
+### Features
+
+* **OpenID:** Added new OpenID mode with `roadiz_rozier.open_id.requires_local_user` (default: true) which requires an existing Roadiz account before authenticating SSO users. ([639e1a5](https://github.com/roadiz/core-bundle-dev-app/commit/639e1a5a90ec6d50078087db5d839ef8997da7de))
+    - Users authenticated against SSO with real user account will use their real roles and groups instead of open_id permissions
+* Fixed `discovery_url` configuration when using a DotEnv placeholder.
+
+
 ## [v2.1.35](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.34...v2.1.35) (2023-08-01)
 
 
