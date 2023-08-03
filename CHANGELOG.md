@@ -1,3 +1,10 @@
+## [v2.1.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.37...v2.1.38) (2023-08-03)
+
+
+### Bug Fixes
+
+* **doctrine/dbal** >=3.4.0 broke queries on inheriting class using fields from child classes. Still using NodesSources when querying on child entities and their custom fields. ([e7d5dbe](https://github.com/roadiz/core-bundle-dev-app/commit/e7d5dbe809bc447affe2a9a811763670c90b2216))
+
 ## [v2.1.37](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.36...v2.1.37) (2023-08-03)
 
 
