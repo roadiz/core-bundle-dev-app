@@ -18,6 +18,7 @@
     ],
     "type": "symfony-bundle",
     "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=8.0",
         "api-platform/core": "~2.7.0",

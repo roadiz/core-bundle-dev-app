@@ -17,6 +17,8 @@
         }
     ],
     "type": "symfony-bundle",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=8.0",
         "doctrine/orm": "^2.14.1",

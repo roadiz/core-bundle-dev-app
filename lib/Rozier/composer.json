@@ -28,6 +28,8 @@
             "role": "Frontend developer"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=8.0",
         "ext-zip": "*",

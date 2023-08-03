@@ -11,6 +11,8 @@
             "role": "Lead developer"
         }
     ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=8.0",
         "ext-json": "*",
