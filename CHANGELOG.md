@@ -1,3 +1,10 @@
+## [v2.1.40](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.39...v2.1.40) (2023-08-04)
+
+
+### Bug Fixes
+
+* **NodesTags:** Added a single UUID field to prevent primary key overlap. ([68fff41](https://github.com/roadiz/core-bundle-dev-app/commit/68fff41c9219e7e4c4b4254ecdfc1c3d119ca914))
+
 ## [v2.1.39](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.38...v2.1.39) (2023-08-03)
 
 
