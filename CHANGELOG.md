@@ -1,3 +1,10 @@
+## [v2.1.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.40...v2.1.41) (2023-08-04)
+
+
+### Bug Fixes
+
+* Do not require explicitly doctrine/dbal since issue came from doctrine/bundle ([93321bb](https://github.com/roadiz/core-bundle-dev-app/commit/93321bb2e8ab83cb317aca9cce294f54489ca390))
+
 ## [v2.1.40](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.39...v2.1.40) (2023-08-04)
 
 
