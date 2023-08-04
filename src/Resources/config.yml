@@ -4,6 +4,7 @@ importFiles:
     settings: {  }
     nodetypes:
         - src/Resources/node-types/Article.json
+        - src/Resources/node-types/ArticleFeedBlock.json
         - src/Resources/node-types/BasicBlock.json
         - src/Resources/node-types/GroupBlock.json
         - src/Resources/node-types/Menu.json

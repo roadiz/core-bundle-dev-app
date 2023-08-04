@@ -40,7 +40,7 @@
             "position": 3.0,
             "name": "children",
             "label": "N\u0153uds enfants",
-            "default_values": "BasicBlock, GroupBlock",
+            "default_values": "BasicBlock, GroupBlock, ArticleFeedBlock",
             "type": 16,
             "expanded": false,
             "node_type_name": "Page",
