@@ -26,6 +26,13 @@ class NodesTags implements PositionedInterface, Comparable
 
     #[
         ORM\Id,
+        ORM\Column(type:"string", length:36),
+        SymfonySerializer\Ignore
+    ]
+    /** @phpstan-ignore-next-line */
+    protected ?string $id = null;
+
+    #[
         ORM\ManyToOne(targetEntity: Node::class, inversedBy: "nodesTags"),
         ORM\JoinColumn(
             name: "node_id",
@@ -40,7 +47,6 @@ class NodesTags implements PositionedInterface, Comparable
     private Node $node;
 
     #[
-        ORM\Id,
         ORM\ManyToOne(targetEntity: Tag::class, inversedBy: "nodesTags"),
         ORM\JoinColumn(
             name: "tag_id",
@@ -55,12 +61,16 @@ class NodesTags implements PositionedInterface, Comparable
     private Tag $tag;
 
     #[
-        ORM\Id,
         ORM\Column(type: "float", nullable: false, options: ['default' => 1]),
         SymfonySerializer\Ignore,
         Serializer\Exclude,
     ]
     protected float $position = 0.0;
+
+    public function __construct(?string $uuid = null)
+    {
+        $this->id = $uuid ?? \Ramsey\Uuid\Uuid::uuid4()->toString();
+    }
 
     /**
      * @return Node
