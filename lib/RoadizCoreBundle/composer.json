@@ -29,7 +29,6 @@
         "doctrine/doctrine-bundle": "^2.8.1",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "^2.14.1",
-        "doctrine/dbal": "<3.4.0",
         "gedmo/doctrine-extensions": "^3.10.0",
         "inlinestyle/inlinestyle": "~1.2.7",
         "james-heinrich/getid3": "^1.9",
