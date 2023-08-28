@@ -170,6 +170,7 @@ final class ApiResourceGenerator
     {
         $groups = [
             "nodes_sources",
+            "node_listing",
             "urls",
             "tag_base",
             "translation_base",
