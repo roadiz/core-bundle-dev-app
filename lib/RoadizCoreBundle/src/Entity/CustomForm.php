@@ -26,7 +26,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Entity(repositoryClass: CustomFormRepository::class),
     ORM\Table(name: "custom_forms"),
     ORM\HasLifecycleCallbacks,
-    UniqueEntity(fields: ["name"])
+    UniqueEntity(fields: ["name"]),
+    ORM\Index(columns: ["created_at"], name: "custom_form_created_at"),
+    ORM\Index(columns: ["updated_at"], name: "custom_form_updated_at"),
 ]
 class CustomForm extends AbstractDateTimed
 {

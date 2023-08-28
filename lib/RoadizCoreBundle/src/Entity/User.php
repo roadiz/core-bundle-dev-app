@@ -33,6 +33,8 @@ use RZ\Roadiz\CoreBundle\Form\Constraint\ValidFacebookName;
     ORM\Index(columns: ["last_login"], name: "idx_users_last_login"),
     ORM\Index(columns: ["locked"], name: "idx_users_locked"),
     ORM\Index(columns: ["locale"], name: "idx_users_locale"),
+    ORM\Index(columns: ["created_at"], name: "idx_user_created_at"),
+    ORM\Index(columns: ["updated_at"], name: "idx_user_updated_at"),
     ORM\HasLifecycleCallbacks,
     UniqueEntity("email"),
     UniqueEntity("username")
