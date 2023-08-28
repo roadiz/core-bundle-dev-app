@@ -635,6 +635,31 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
+     * @return array
+     */
+    #[Serializer\Groups(['node_listing'])]
+    public function getListingSortOptions(): array
+    {
+        return match ($this->getNode()->getChildrenOrder()) {
+            'position' => [
+                'node.position' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            'nodeName' => [
+                'node.nodeName' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            'createdAt' => [
+                'node.createdAt' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            'updatedAt' => [
+                'node.updatedAt' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            default => [
+                'publishedAt' => $this->getNode()->getChildrenOrderDirection()
+            ],
+        };
+    }
+
+    /**
      * After clone method.
      *
      * Be careful not to persist nor flush current entity after
