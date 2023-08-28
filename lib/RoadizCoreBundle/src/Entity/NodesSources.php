@@ -130,6 +130,9 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ApiFilter(BaseFilter\NumericFilter::class, properties: [
         "node.position",
     ])]
+    #[ApiFilter(BaseFilter\RangeFilter::class, properties: [
+        "node.position",
+    ])]
     #[ApiFilter(BaseFilter\DateFilter::class, properties: [
         "node.createdAt",
         "node.updatedAt"
