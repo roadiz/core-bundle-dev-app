@@ -638,12 +638,17 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
+     * Returns current listing sort options OR parent node's if parent node is hiding children.
+     *
      * @return array
      */
     #[Serializer\Groups(['node_listing'])]
     #[SymfonySerializer\Groups(['node_listing'])]
     public function getListingSortOptions(): array
     {
+        if (null !== $this->getParent() && $this->getParent()->getNode()->isHidingChildren()) {
+            return $this->getParent()->getListingSortOptions();
+        }
         return match ($this->getNode()->getChildrenOrder()) {
             'position' => [
                 'node.position' => $this->getNode()->getChildrenOrderDirection()
