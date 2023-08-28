@@ -641,6 +641,7 @@ class NodesSources extends AbstractEntity implements Loggable
      * @return array
      */
     #[Serializer\Groups(['node_listing'])]
+    #[SymfonySerializer\Groups(['node_listing'])]
     public function getListingSortOptions(): array
     {
         return match ($this->getNode()->getChildrenOrder()) {

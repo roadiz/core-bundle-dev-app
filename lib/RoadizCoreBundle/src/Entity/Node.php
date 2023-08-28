@@ -147,14 +147,14 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private bool $sterile = false;
 
     #[ORM\Column(name: 'children_order', type: 'string', length: 50)]
-    #[SymfonySerializer\Groups(['node'])]
+    #[SymfonySerializer\Groups(['node', 'node_listing'])]
     #[Serializer\Groups(['node', 'node_listing'])]
     #[Assert\Length(max: 50)]
     #[Gedmo\Versioned]
     private string $childrenOrder = 'position';
 
     #[ORM\Column(name: 'children_order_direction', type: 'string', length: 4)]
-    #[SymfonySerializer\Groups(['node'])]
+    #[SymfonySerializer\Groups(['node', 'node_listing'])]
     #[Serializer\Groups(['node', 'node_listing'])]
     #[Assert\Length(max: 4)]
     #[Gedmo\Versioned]
