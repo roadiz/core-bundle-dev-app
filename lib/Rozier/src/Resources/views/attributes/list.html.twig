@@ -37,6 +37,7 @@
                                 'filters': filters,
                             } only %}
                         </th>
+                        <th>{% trans %}attributes.form.type{% endtrans %}</th>
                         <th>{% trans %}attributes.group{% endtrans %}</th>
                         <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
                     </tr>
@@ -50,6 +51,7 @@
                                 {{ item.attributeTranslations.first.label|default(item.code) -}}
                             </a>
                         </td>
+                        <td>{{- item.typeLabel|trans -}}</td>
                         <td>{%- if item.group -%}
                                 {{- item.group.name -}}
                             {%- endif -%}</td>

@@ -45,12 +45,21 @@ trait AttributeValueTrait
         ),
         Serializer\Groups(["attribute", "node", "nodes_sources"]),
         Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Model\AttributeValueTranslationInterface>"),
-        Serializer\Accessor(getter: "getAttributeValueTranslations", setter: "setAttributeValueTranslations")
+        Serializer\Accessor(getter: "getAttributeValueTranslations", setter: "setAttributeValueTranslations"),
+        ApiFilter(BaseFilter\SearchFilter::class, properties: [
+            "attributeValueTranslations.value" => "partial",
+        ]),
+        ApiFilter(BaseFilter\RangeFilter::class, properties: [
+            "attributeValueTranslations.value",
+        ]),
+        ApiFilter(BaseFilter\ExistsFilter::class, properties: [
+            "attributeValueTranslations.value",
+        ]),
     ]
     protected Collection $attributeValueTranslations;
 
     /**
-     * @return AttributeInterface
+     * @return AttributeInterface|null
      */
     public function getAttribute(): ?AttributeInterface
     {
@@ -60,7 +69,7 @@ trait AttributeValueTrait
     /**
      * @param AttributeInterface $attribute
      *
-     * @return mixed
+     * @return static
      */
     public function setAttribute(AttributeInterface $attribute)
     {
@@ -87,7 +96,7 @@ trait AttributeValueTrait
     /**
      * @param Collection $attributeValueTranslations
      *
-     * @return mixed
+     * @return static
      */
     public function setAttributeValueTranslations(Collection $attributeValueTranslations)
     {
@@ -96,13 +105,13 @@ trait AttributeValueTrait
         foreach ($this->attributeValueTranslations as $attributeValueTranslation) {
             $attributeValueTranslation->setAttributeValue($this);
         }
-        return true;
+        return $this;
     }
 
     /**
      * @param TranslationInterface $translation
      *
-     * @return AttributeValueTranslationInterface
+     * @return AttributeValueTranslationInterface|null
      */
     public function getAttributeValueTranslation(TranslationInterface $translation): ?AttributeValueTranslationInterface
     {
@@ -112,6 +121,18 @@ trait AttributeValueTrait
                     return true;
                 }
                 return false;
+            })
+            ->first() ?: null;
+    }
+
+    /**
+     * @return AttributeValueTranslationInterface|null
+     */
+    public function getAttributeValueDefaultTranslation(): ?AttributeValueTranslationInterface
+    {
+        return $this->getAttributeValueTranslations()
+            ->filter(function (AttributeValueTranslationInterface $attributeValueTranslation) {
+                return $attributeValueTranslation->getTranslation()?->isDefaultTranslation() ?? false;
             })
             ->first() ?: null;
     }
