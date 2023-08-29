@@ -3795,10 +3795,6 @@
         <source>folder.%name%.updated</source>
         <target state="final">Folder “%name%” has been updated.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.%name%.created" approved="yes">
-        <source>folder.%name%.created</source>
-        <target state="final">Folder “%name%” has been created.</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="folder.alreadyExists" approved="yes">
         <source>folder.alreadyExists</source>
         <target state="final">Folder already exists.</target>
