@@ -12,7 +12,7 @@
             "position": 1.0,
             "name": "menu_items",
             "label": "\u00c9l\u00e9ments du menu",
-            "default_values": "Page, MenuLink",
+            "default_values": "MenuLink, Page, ArticleContainer",
             "type": 16,
             "expanded": false,
             "node_type_name": "Menu",

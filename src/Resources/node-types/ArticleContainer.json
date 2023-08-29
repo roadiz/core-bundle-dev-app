@@ -1,0 +1,13 @@
+{
+    "color": "#db2525",
+    "name": "ArticleContainer",
+    "display_name": "Article container",
+    "visible": true,
+    "publishable": false,
+    "reachable": true,
+    "hiding_nodes": true,
+    "hiding_non_reachable_nodes": false,
+    "fields": [],
+    "default_ttl": 0,
+    "searchable": true
+}
