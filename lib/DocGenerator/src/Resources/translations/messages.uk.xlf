@@ -2,14 +2,20 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" datatype="plaintext" original="file.ext" target-language="uk">
     <body>
-      <trans-unit id="docs.yes">
-        <source>docs.yes</source>
-        <target state="translated">docs.так</target>
-      </trans-unit>
-      <trans-unit id="docs.no">
-        <source>docs.no</source>
-        <target state="translated">docs.no</target>
-      </trans-unit>
-    </body>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        </body>
   </file>
 </xliff>
