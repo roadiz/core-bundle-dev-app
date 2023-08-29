@@ -20,6 +20,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Entity(repositoryClass: FontRepository::class),
     ORM\Table(name: "fonts"),
     ORM\UniqueConstraint(columns: ["name", "variant"]),
+    ORM\Index(columns: ["created_at"], name: "font_created_at"),
+    ORM\Index(columns: ["updated_at"], name: "font_updated_at"),
     UniqueEntity(fields: ["name", "variant"])
 ]
 class Font extends AbstractDateTimed

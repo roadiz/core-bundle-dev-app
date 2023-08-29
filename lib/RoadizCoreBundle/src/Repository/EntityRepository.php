@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -15,6 +16,7 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use LogicException;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderApplyEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderBuildEvent;
@@ -27,9 +29,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @template TEntityClass of object
- * @extends ServiceEntityRepository<TEntityClass>
+ * @extends \Doctrine\ORM\EntityRepository<TEntityClass>
  */
-abstract class EntityRepository extends ServiceEntityRepository
+abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implements ServiceEntityRepositoryInterface
 {
     protected EventDispatcherInterface $dispatcher;
 
@@ -38,13 +40,19 @@ abstract class EntityRepository extends ServiceEntityRepository
      * @param class-string<TEntityClass> $entityClass
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(
-        ManagerRegistry $registry,
-        string $entityClass,
-        EventDispatcherInterface $dispatcher
-    ) {
-        parent::__construct($registry, $entityClass);
+    public function __construct(ManagerRegistry $registry, string $entityClass, EventDispatcherInterface $dispatcher)
+    {
         $this->dispatcher = $dispatcher;
+        $manager = $registry->getManagerForClass($entityClass);
+
+        if (!($manager instanceof EntityManagerInterface)) {
+            throw new LogicException(sprintf(
+                'Could not find the entity manager for class "%s". Check your Doctrine configuration to make sure it is configured to load this entity’s metadata.',
+                $entityClass
+            ));
+        }
+
+        parent::__construct($manager, $manager->getClassMetadata($entityClass));
     }
 
     /**

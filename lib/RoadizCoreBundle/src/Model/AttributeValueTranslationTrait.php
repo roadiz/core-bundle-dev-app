@@ -123,7 +123,7 @@ trait AttributeValueTranslationTrait
     }
 
     /**
-     * @return AttributeInterface
+     * @return AttributeInterface|null
      */
     public function getAttribute(): ?AttributeInterface
     {

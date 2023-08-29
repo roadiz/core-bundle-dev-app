@@ -50,7 +50,7 @@ class CustomFormFieldType extends AbstractType
                 'defaultValues',
                 TextareaType::class,
                 [
-                    'label' => 'defaultValues',
+                    'label' => 'customFormField.defaultValues',
                     'required' => false,
                     'attr' => [
                         'placeholder' => 'enter_values_comma_separated',

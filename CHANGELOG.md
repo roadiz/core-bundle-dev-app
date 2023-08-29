@@ -1,3 +1,24 @@
+## [v2.1.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.40...v2.1.41) (2023-08-04)
+
+
+### Bug Fixes
+
+* Do not require explicitly doctrine/dbal since issue came from doctrine/bundle ([93321bb](https://github.com/roadiz/core-bundle-dev-app/commit/93321bb2e8ab83cb317aca9cce294f54489ca390))
+
+## [v2.1.40](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.39...v2.1.40) (2023-08-04)
+
+
+### Bug Fixes
+
+* **NodesTags:** Added a single UUID field to prevent primary key overlap. ([68fff41](https://github.com/roadiz/core-bundle-dev-app/commit/68fff41c9219e7e4c4b4254ecdfc1c3d119ca914))
+
+## [v2.1.39](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.38...v2.1.39) (2023-08-03)
+
+
+### Bug Fixes
+
+* **Doctrine:** Do not extend `Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository` anymore due to _LazyServiceEntityRepository_ since `doctrine/doctrine-bundle@2.8.1` ([ec1687c](https://github.com/roadiz/core-bundle-dev-app/commit/ec1687cc27436b08ff0ec5f73d1adb04fb23e424)) (https://github.com/doctrine/DoctrineBundle/issues/1693)
+
 ## [v2.1.38](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.37...v2.1.38) (2023-08-03)
 
 

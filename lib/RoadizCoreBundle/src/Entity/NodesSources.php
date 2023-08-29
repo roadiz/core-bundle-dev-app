@@ -127,6 +127,12 @@ class NodesSources extends AbstractEntity implements Loggable
         "node.createdAt",
         "node.updatedAt"
     ])]
+    #[ApiFilter(BaseFilter\NumericFilter::class, properties: [
+        "node.position",
+    ])]
+    #[ApiFilter(BaseFilter\RangeFilter::class, properties: [
+        "node.position",
+    ])]
     #[ApiFilter(BaseFilter\DateFilter::class, properties: [
         "node.createdAt",
         "node.updatedAt"
@@ -629,6 +635,37 @@ class NodesSources extends AbstractEntity implements Loggable
     public function isReachable(): bool
     {
         return $this->getNode()->getNodeType()->isReachable();
+    }
+
+    /**
+     * Returns current listing sort options OR parent node's if parent node is hiding children.
+     *
+     * @return array
+     */
+    #[Serializer\Groups(['node_listing'])]
+    #[SymfonySerializer\Groups(['node_listing'])]
+    public function getListingSortOptions(): array
+    {
+        if (null !== $this->getParent() && $this->getParent()->getNode()->isHidingChildren()) {
+            return $this->getParent()->getListingSortOptions();
+        }
+        return match ($this->getNode()->getChildrenOrder()) {
+            'position' => [
+                'node.position' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            'nodeName' => [
+                'node.nodeName' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            'createdAt' => [
+                'node.createdAt' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            'updatedAt' => [
+                'node.updatedAt' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            default => [
+                'publishedAt' => $this->getNode()->getChildrenOrderDirection()
+            ],
+        };
     }
 
     /**

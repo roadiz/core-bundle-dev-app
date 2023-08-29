@@ -72,7 +72,7 @@ class NodeTypeFieldType extends AbstractType
             'required' => false,
         ])
         ->add('defaultValues', DynamicType::class, [
-            'label' => 'defaultValues',
+            'label' => 'nodeTypeField.defaultValues',
             'required' => false,
             'help' => 'for_children_node_and_node_references_enter_node_type_names_comma_separated',
             'attr' => [

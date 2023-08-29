@@ -346,4 +346,21 @@ trait AttributeTrait
     {
         return $this->getType() === AttributeInterface::COUNTRY_T;
     }
+
+    public function getTypeLabel(): string
+    {
+        return match ($this->getType()) {
+             AttributeInterface::DATETIME_T => 'attributes.form.type.datetime',
+             AttributeInterface::BOOLEAN_T => 'attributes.form.type.boolean',
+             AttributeInterface::INTEGER_T => 'attributes.form.type.integer',
+             AttributeInterface::DECIMAL_T => 'attributes.form.type.decimal',
+             AttributeInterface::PERCENT_T => 'attributes.form.type.percent',
+             AttributeInterface::EMAIL_T => 'attributes.form.type.email',
+             AttributeInterface::COLOUR_T => 'attributes.form.type.colour',
+             AttributeInterface::ENUM_T => 'attributes.form.type.enum',
+             AttributeInterface::DATE_T => 'attributes.form.type.date',
+             AttributeInterface::COUNTRY_T => 'attributes.form.type.country',
+             default => 'attributes.form.type.string',
+        };
+    }
 }

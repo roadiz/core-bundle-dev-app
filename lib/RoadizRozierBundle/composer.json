@@ -16,6 +16,8 @@
         }
     ],
     "type": "symfony-bundle",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "require": {
         "php": ">=8.0",
         "symfony/framework-bundle": "5.4.*",
