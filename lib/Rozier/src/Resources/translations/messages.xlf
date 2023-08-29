@@ -100,6 +100,8 @@
             <trans-unit xml:space="preserve" id="98"><source>type</source></trans-unit>
             <trans-unit xml:space="preserve" id="99"><source>indexed</source></trans-unit>
             <trans-unit xml:space="preserve" id="100"><source>defaultValues</source></trans-unit>
+            <trans-unit xml:space="preserve" id="customFormField.defaultValues"><source>customFormField.defaultValues</source></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeField.defaultValues"><source>nodeTypeField.defaultValues</source></trans-unit>
             <trans-unit xml:space="preserve" id="101"><source>enter_values_comma_separated</source></trans-unit>
             <trans-unit xml:space="preserve" id="102"><source>node.%name%.translated</source></trans-unit>
             <trans-unit xml:space="preserve" id="103"><source>node_source.%node_source%.updated.%translation%</source></trans-unit>
