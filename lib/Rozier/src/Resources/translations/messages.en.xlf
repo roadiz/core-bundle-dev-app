@@ -6,9 +6,9 @@
         <source>node.%name%.updated</source>
         <target state="final">Node "%name%" has been updated.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.was_moved" approved="yes">
+      <trans-unit xml:space="preserve" id="node.%name%.was_moved">
         <source>node.%name%.was_moved</source>
-        <target state="final">Node "%name%" has been moved.</target>
+        <target state="translated">Node "%name%" has been moved.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="3" approved="yes">
         <source>node.%nodeId%.not_exists</source>
@@ -395,12 +395,12 @@
         <target state="final">Default values</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="customFormField.defaultValues">
-          <source>customFormField.defaultValues</source>
-          <target state="final">Advanced field configuration</target>
+        <source>customFormField.defaultValues</source>
+        <target state="translated">Advanced field configuration</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeField.defaultValues">
-          <source>nodeTypeField.defaultValues</source>
-          <target state="final">Advanced field configuration</target>
+        <source>nodeTypeField.defaultValues</source>
+        <target state="translated">Advanced field configuration</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="101" approved="yes">
         <source>enter_values_comma_separated</source>
@@ -2242,6 +2242,10 @@
         <source>add.folder.%name%.child</source>
         <target state="translated">Add a sub-folder in «%name%»</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="folder.%name%.created">
+        <source>folder.%name%.created</source>
+        <target state="translated">Le dossier « %name% » a été créé.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="edit.folder" approved="yes">
         <source>edit.folder</source>
         <target state="final">Edit folder</target>
@@ -3799,10 +3803,6 @@
         <source>folder.%name%.updated</source>
         <target state="final">Folder “%name%” has been updated.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.%name%.created" approved="yes">
-        <source>folder.%name%.created</source>
-        <target state="final">Folder “%name%” has been created.</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="folder.alreadyExists" approved="yes">
         <source>folder.alreadyExists</source>
         <target state="final">Folder already exists.</target>
@@ -4182,6 +4182,11 @@
         <source>redirection.moved_temporarily</source>
         <target state="translated">Moved temporarily</target>
         <note>Redirection type description for 302 Moved Temporarily</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="redirection.use_count">
+        <source>redirection.use_count</source>
+        <target state="translated">Usage count</target>
+        <note>Redirection usage count</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="login_image">
         <source>login_image</source>

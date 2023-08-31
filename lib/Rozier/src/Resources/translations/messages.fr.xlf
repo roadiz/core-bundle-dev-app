@@ -6,9 +6,9 @@
         <source>node.%name%.updated</source>
         <target state="final">Le nœud %name% a été mis à jour.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.was_moved" approved="yes">
+      <trans-unit xml:space="preserve" id="node.%name%.was_moved">
         <source>node.%name%.was_moved</source>
-        <target state="final">Le nœud %name% a été déplacé.</target>
+        <target state="translated">Le nœud %name% a été déplacé.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="3" approved="yes">
         <source>node.%nodeId%.not_exists</source>
@@ -400,6 +400,14 @@
       <trans-unit xml:space="preserve" id="nodeTypeField.defaultValues">
           <source>nodeTypeField.defaultValues</source>
           <target state="final">Configuration avancée</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.defaultValues">
+        <source>customFormField.defaultValues</source>
+        <target state="translated">Configuration avancée</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.defaultValues">
+        <source>nodeTypeField.defaultValues</source>
+        <target state="translated">Configuration avancée</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="101" approved="yes">
         <source>enter_values_comma_separated</source>
@@ -2241,6 +2249,10 @@
         <source>add.folder.%name%.child</source>
         <target state="translated">Ajouter un sous-dossier à «%name%»</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="folder.%name%.created">
+        <source>folder.%name%.created</source>
+        <target state="translated">Le dossier « %name% » a été créé.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="edit.folder" approved="yes">
         <source>edit.folder</source>
         <target state="final">Éditer le dossier</target>
@@ -3798,10 +3810,6 @@
         <source>folder.%name%.updated</source>
         <target state="final">Le dossier « %name% » a été mis à jour.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.%name%.created" approved="yes">
-        <source>folder.%name%.created</source>
-        <target state="final">Le dossier « %name% » a été créé.</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="folder.alreadyExists" approved="yes">
         <source>folder.alreadyExists</source>
         <target state="final">Le dossier existe déjà.</target>
@@ -4181,6 +4189,11 @@
         <source>redirection.moved_temporarily</source>
         <target state="translated">Redirection temporaire</target>
         <note>Redirection type description for 302 Moved Temporarily</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="redirection.use_count">
+        <source>redirection.use_count</source>
+        <target state="translated">Nombre d'utilisations</target>
+        <note>Redirection usage count</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="login_image">
         <source>login_image</source>
