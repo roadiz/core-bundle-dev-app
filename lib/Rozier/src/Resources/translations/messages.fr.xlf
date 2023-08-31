@@ -401,14 +401,6 @@
           <source>nodeTypeField.defaultValues</source>
           <target state="final">Configuration avancée</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.defaultValues">
-        <source>customFormField.defaultValues</source>
-        <target state="translated">Configuration avancée</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.defaultValues">
-        <source>nodeTypeField.defaultValues</source>
-        <target state="translated">Configuration avancée</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="101" approved="yes">
         <source>enter_values_comma_separated</source>
         <target state="final">Entrez les valeurs séparées par des virgules…</target>
