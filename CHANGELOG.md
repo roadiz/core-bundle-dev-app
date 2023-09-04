@@ -1,3 +1,10 @@
+## [v2.1.43](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.42...v2.1.43) (2023-09-04)
+
+
+### Bug Fixes
+
+* **UserSecurityType:** Missing CallbackTransformer on user chroot form normalization ([0d9a1b2](https://github.com/roadiz/core-bundle-dev-app/commit/0d9a1b293a181b8952cfdd7e29c28ea157dccf06))
+
 ## [v2.1.42](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.41...v2.1.42) (2023-09-04)
 
 
