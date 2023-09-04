@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeTranstyper;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,14 +34,12 @@ class TranstypeController extends RozierApp
      * @param Request $request
      * @param int $nodeId
      *
-     * @return RedirectResponse|Response
+     * @return Response
      * @throws RuntimeError
      * @throws \Exception
      */
-    public function transtypeAction(Request $request, int $nodeId)
+    public function transtypeAction(Request $request, int $nodeId): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-
         /** @var Node|null $node */
         $node = $this->em()->find(Node::class, $nodeId);
         $this->em()->refresh($node);
@@ -48,6 +47,11 @@ class TranstypeController extends RozierApp
         if (null === $node) {
             throw new ResourceNotFoundException();
         }
+
+        /*
+         * Transtype is only available for higher rank users
+         */
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
 
         $form = $this->createForm(TranstypeType::class, null, [
             'currentType' => $node->getNodeType(),

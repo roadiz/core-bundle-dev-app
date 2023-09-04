@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -21,6 +23,7 @@ use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
 use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormError;
@@ -185,13 +188,13 @@ class NodesController extends RozierApp
      */
     public function editAction(Request $request, int $nodeId, ?int $translationId = null): Response
     {
-        $this->validateNodeAccessForRole('ROLE_ACCESS_NODES_SETTING', $nodeId);
-
         /** @var Node|null $node */
         $node = $this->em()->find(Node::class, $nodeId);
         if (null === $node) {
             throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
         }
+
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
 
         $this->em()->refresh($node);
         /*
@@ -286,13 +289,13 @@ class NodesController extends RozierApp
      */
     public function removeStackTypeAction(Request $request, int $nodeId, int $typeId): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-
         /** @var Node|null $node */
         $node = $this->em()->find(Node::class, $nodeId);
         if (null === $node) {
             throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
         }
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
+
         /** @var NodeType|null $type */
         $type = $this->em()->find(NodeType::class, $typeId);
         if (null === $type) {
@@ -318,12 +321,13 @@ class NodesController extends RozierApp
      * Handle node creation pages.
      *
      * @param Request $request
-     * @param int     $nodeTypeId
+     * @param int $nodeTypeId
      * @param int|null $translationId
      *
      * @return Response
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws RuntimeError
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function addAction(Request $request, int $nodeTypeId, ?int $translationId = null): Response
     {
@@ -346,7 +350,6 @@ class NodesController extends RozierApp
         }
 
         $node = new Node($type);
-
         $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
         if (null !== $chroot) {
             // If user is jailed in a node, prevent moving nodes out.
@@ -403,15 +406,12 @@ class NodesController extends RozierApp
      * @param int|null $translationId
      *
      * @return Response
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Twig\Error\RuntimeError
+     * @throws ORMException
+     * @throws OptimisticLockException
+     * @throws RuntimeError
      */
     public function addChildAction(Request $request, ?int $nodeId = null, ?int $translationId = null): Response
     {
-        // include CHRoot to enable creating node in it
-        $this->validateNodeAccessForRole('ROLE_ACCESS_NODES', $nodeId, true);
-
         /** @var Translation|null $translation */
         $translation = $this->em()->getRepository(Translation::class)->findDefault();
 
@@ -425,15 +425,19 @@ class NodesController extends RozierApp
         }
 
         if (null === $translation) {
-            throw new ResourceNotFoundException(sprintf('Translation does not exist'));
+            throw new ResourceNotFoundException('Translation does not exist');
         }
 
         if (null !== $nodeId && $nodeId > 0) {
-            /** @var Node $parentNode */
-            $parentNode = $this->em()
-                ->find(Node::class, $nodeId);
+            /** @var Node|null $parentNode */
+            $parentNode = $this->em()->find(Node::class, $nodeId);
+            if (null === $parentNode) {
+                throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
+            }
+            $this->denyAccessUnlessGranted(NodeVoter::CREATE, $parentNode);
         } else {
             $parentNode = null;
+            $this->denyAccessUnlessGranted(NodeVoter::CREATE_AT_ROOT);
         }
 
         $node = new Node();
@@ -491,18 +495,18 @@ class NodesController extends RozierApp
      * @param int $nodeId
      *
      * @return Response
-     * @throws \Twig\Error\RuntimeError
+     * @throws RuntimeError
      */
     public function deleteAction(Request $request, int $nodeId): Response
     {
-        $this->validateNodeAccessForRole('ROLE_ACCESS_NODES_DELETE', $nodeId);
-
         /** @var Node|null $node */
         $node = $this->em()->find(Node::class, $nodeId);
 
         if (null === $node) {
             throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
         }
+
+        $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
 
         $workflow = $this->workflowRegistry->get($node);
         if (!$workflow->can($node, 'delete')) {
@@ -571,11 +575,11 @@ class NodesController extends RozierApp
      * @param Request $request
      *
      * @return Response
-     * @throws \Twig\Error\RuntimeError
+     * @throws RuntimeError
      */
     public function emptyTrashAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES_DELETE');
+        $this->denyAccessUnlessGranted(NodeVoter::EMPTY_TRASH);
 
         $form = $this->buildEmptyTrashForm();
         $form->handleRequest($request);
@@ -626,18 +630,18 @@ class NodesController extends RozierApp
      * @param int $nodeId
      *
      * @return Response
-     * @throws \Twig\Error\RuntimeError
+     * @throws RuntimeError
      */
     public function undeleteAction(Request $request, int $nodeId): Response
     {
-        $this->validateNodeAccessForRole('ROLE_ACCESS_NODES_DELETE', $nodeId);
-
         /** @var Node|null $node */
         $node = $this->em()->find(Node::class, $nodeId);
 
         if (null === $node) {
             throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
         }
+
+        $this->denyAccessUnlessGranted(NodeVoter::DELETE, $node);
 
         $workflow = $this->workflowRegistry->get($node);
         if (!$workflow->can($node, 'undelete')) {
@@ -710,20 +714,22 @@ class NodesController extends RozierApp
             throw new ResourceNotFoundException($msg);
         }
     }
+
     /**
-     * @param  Request $request
-     * @param  int $nodeId
+     * @param Request $request
+     * @param int $nodeId
      * @return Response
+     * @throws RuntimeError
      */
     public function publishAllAction(Request $request, int $nodeId): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES_STATUS');
         /** @var Node|null $node */
         $node = $this->em()->find(Node::class, $nodeId);
 
         if (null === $node) {
             throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
         }
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_STATUS, $node);
 
         $workflow = $this->workflowRegistry->get($node);
         if (!$workflow->can($node, 'publish')) {

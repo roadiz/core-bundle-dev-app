@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
+use PhpOffice\PhpSpreadsheet\Writer\Exception;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Xlsx\NodeSourceXlsxSerializer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,12 +36,10 @@ class ExportController extends RozierApp
      *
      * @return Response
      * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
+     * @throws Exception
      */
     public function exportAllXlsxAction(Request $request, int $translationId, ?int $parentNodeId = null): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-
         /*
          * Get translation
          */
@@ -61,8 +61,11 @@ class ExportController extends RozierApp
             if (null === $parentNode) {
                 throw $this->createNotFoundException();
             }
+            $this->denyAccessUnlessGranted(NodeVoter::READ, $parentNode);
             $criteria['node.parent'] = $parentNode;
             $filename = $parentNode->getNodeName() . '-' . date("YmdHis") . '.' . $translation->getLocale() . '.xlsx';
+        } else {
+            $this->denyAccessUnlessGranted(NodeVoter::READ_AT_ROOT);
         }
 
         $sources = $this->em()

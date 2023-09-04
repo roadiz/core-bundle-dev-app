@@ -32,7 +32,7 @@ class AjaxSearchNodesSourcesController extends AbstractAjaxController
      *
      * @return Response JSON response
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
@@ -49,7 +49,7 @@ class AjaxSearchNodesSourcesController extends AbstractAjaxController
             static::RESULT_COUNT
         );
 
-        if (null !== $nodesSources && count($nodesSources) > 0) {
+        if (count($nodesSources) > 0) {
             $responseArray = [
                 'statusCode' => Response::HTTP_OK,
                 'status' => 'success',

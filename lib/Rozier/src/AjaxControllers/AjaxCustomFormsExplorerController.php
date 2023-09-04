@@ -27,9 +27,9 @@ class AjaxCustomFormsExplorerController extends AbstractAjaxController
      *
      * @return Response JSON response
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
+        $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
 
         $arrayFilter = [];
         /*
@@ -65,15 +65,15 @@ class AjaxCustomFormsExplorerController extends AbstractAjaxController
      * Get a CustomForm list from an array of id.
      *
      * @param Request $request
-     * @return JsonResponse
+     * @return Response
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): Response
     {
         if (!$request->query->has('ids')) {
             throw new InvalidParameterException('Ids should be provided within an array');
         }
 
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
+        $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
 
         $cleanCustomFormsIds = array_filter($request->query->filter('ids', [], \FILTER_DEFAULT, [
             'flags' => \FILTER_FORCE_ARRAY

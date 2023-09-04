@@ -906,15 +906,15 @@ final class NodeRepository extends StatusAwareRepository
 
     /**
      * @param Node $node
-     * @return array
+     * @return array<int>
      */
-    public function findAllOffspringIdByNode(Node $node)
+    public function findAllOffspringIdByNode(Node $node): array
     {
-        $theOffprings = [];
+        $theOffsprings = [];
         $in = [$node->getId()];
 
         do {
-            $theOffprings = array_merge($theOffprings, $in);
+            $theOffsprings = array_merge($theOffsprings, $in);
             $subQb = $this->createQueryBuilder('n');
             $subQb->select('n.id')
                 ->andWhere($subQb->expr()->in('n.parent', ':tab'))
@@ -928,7 +928,7 @@ final class NodeRepository extends StatusAwareRepository
                 $in[] = (int) $item['id'];
             }
         } while (!empty($in));
-        return $theOffprings;
+        return $theOffsprings;
     }
 
     /**

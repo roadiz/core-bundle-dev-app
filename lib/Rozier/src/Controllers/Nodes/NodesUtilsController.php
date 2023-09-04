@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeDuplicatedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Themes\Rozier\RozierApp;
@@ -33,12 +34,16 @@ class NodesUtilsController extends RozierApp
      *
      * @return Response
      */
-    public function duplicateAction(Request $request, int $nodeId)
+    public function duplicateAction(Request $request, int $nodeId): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-
-        /** @var Node $existingNode */
+        /** @var Node|null $existingNode */
         $existingNode = $this->em()->find(Node::class, $nodeId);
+
+        if (null === $existingNode) {
+            throw $this->createNotFoundException();
+        }
+
+        $this->denyAccessUnlessGranted(NodeVoter::DUPLICATE, $existingNode);
 
         try {
             $duplicator = new NodeDuplicator(

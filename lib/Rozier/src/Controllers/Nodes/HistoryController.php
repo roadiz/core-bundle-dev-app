@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\ListManager\QueryBuilderListManager;
 use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -26,13 +27,13 @@ class HistoryController extends RozierApp
      */
     public function historyAction(Request $request, int $nodeId): Response
     {
-        $this->denyAccessUnlessGranted(['ROLE_ACCESS_NODES', 'ROLE_ACCESS_LOGS']);
         /** @var Node|null $node */
         $node = $this->em()->find(Node::class, $nodeId);
 
         if (null === $node) {
             throw new ResourceNotFoundException();
         }
+        $this->denyAccessUnlessGranted(NodeVoter::READ_LOGS, $node);
 
         $qb = $this->em()
             ->getRepository(Log::class)

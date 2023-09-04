@@ -13,6 +13,7 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\AttributeValueTranslationType;
 use RZ\Roadiz\CoreBundle\Form\AttributeValueType;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -44,8 +45,6 @@ class NodesAttributesController extends RozierApp
      */
     public function editAction(Request $request, int $nodeId, int $translationId): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODE_ATTRIBUTES');
-
         /** @var Translation|null $translation */
         $translation = $this->em()->find(Translation::class, $translationId);
         /** @var Node|null $node */
@@ -54,6 +53,8 @@ class NodesAttributesController extends RozierApp
         if (null === $translation || null === $node) {
             throw $this->createNotFoundException('Node-source does not exist');
         }
+
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_ATTRIBUTE, $node);
 
         /** @var NodesSources|null $nodeSource */
         $nodeSource = $this->em()

@@ -18,6 +18,7 @@ use RZ\Roadiz\CoreBundle\Event\UrlAlias\UrlAliasUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Exception\NoTranslationAvailableException;
 use RZ\Roadiz\CoreBundle\Form\UrlAliasType;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -45,8 +46,6 @@ final class SeoController extends RozierApp
         Node $nodeId,
         ?Translation $translationId = null
     ): Response {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-
         if (null === $translationId) {
             $translation = $this->em()->getRepository(Translation::class)->findDefault();
         } else {
@@ -64,6 +63,7 @@ final class SeoController extends RozierApp
         if ($source === false) {
             throw new ResourceNotFoundException();
         }
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $source);
 
         $redirections = $this->em()
             ->getRepository(Redirection::class)

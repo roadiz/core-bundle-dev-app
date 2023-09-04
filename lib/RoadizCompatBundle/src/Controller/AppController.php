@@ -466,6 +466,7 @@ abstract class AppController extends Controller
      * @return void
      *
      * @throws AccessDeniedException
+     * @deprecated Use denyAccessUnlessGranted with NodeVoter attribute and a Node subject.
      */
     public function validateNodeAccessForRole(mixed $attributes, mixed $nodeId = null, bool $includeChroot = false): void
     {

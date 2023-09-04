@@ -6,6 +6,7 @@ namespace Themes\Rozier\AjaxControllers;
 
 use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,40 +26,41 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
      *
      * @return Response JSON response
      */
-    public function editAction(Request $request, int $attributeValueId)
+    public function editAction(Request $request, int $attributeValueId): Response
     {
         /*
          * Validate
          */
         $this->validateRequest($request, 'POST', false);
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODE_ATTRIBUTES');
 
         /** @var AttributeValue|null $attributeValue */
         $attributeValue = $this->em()->find(AttributeValue::class, (int) $attributeValueId);
 
-        if ($attributeValue !== null) {
-            $responseArray = [];
-            /*
-             * Get the right update method against "_action" parameter
-             */
-            switch ($request->get('_action')) {
-                case 'updatePosition':
-                    $responseArray = $this->updatePosition($request->request->all(), $attributeValue);
-                    break;
-            }
-
-            return new JsonResponse(
-                $responseArray,
-                Response::HTTP_PARTIAL_CONTENT
-            );
+        if ($attributeValue === null) {
+            throw $this->createNotFoundException($this->getTranslator()->trans(
+                'attribute_value.%attributeValueId%.not_exists',
+                [
+                    '%attributeValueId%' => $attributeValueId
+                ]
+            ));
         }
 
-        throw $this->createNotFoundException($this->getTranslator()->trans(
-            'attribute_value.%attributeValueId%.not_exists',
-            [
-                '%attributeValueId%' => $attributeValueId
-            ]
-        ));
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_ATTRIBUTE, $attributeValue->getAttributable());
+
+        $responseArray = [];
+        /*
+         * Get the right update method against "_action" parameter
+         */
+        switch ($request->get('_action')) {
+            case 'updatePosition':
+                $responseArray = $this->updatePosition($request->request->all(), $attributeValue);
+                break;
+        }
+
+        return new JsonResponse(
+            $responseArray,
+            Response::HTTP_PARTIAL_CONTENT
+        );
     }
 
     /**

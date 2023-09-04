@@ -19,10 +19,12 @@ use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
 use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Workflow\Registry;
 
 class AjaxNodesController extends AbstractAjaxController
@@ -57,10 +59,14 @@ class AjaxNodesController extends AbstractAjaxController
      */
     public function getTagsAction(Request $request, int $nodeId): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
         $tags = [];
-        /** @var Node $node */
+        /** @var Node|null $node */
         $node = $this->em()->find(Node::class, (int) $nodeId);
+        if (null === $node) {
+            throw new NotFoundHttpException('Node not found');
+        }
+
+        $this->denyAccessUnlessGranted(NodeVoter::READ, $node);
 
         /** @var Tag $tag */
         foreach ($node->getTags() as $tag) {
@@ -83,77 +89,64 @@ class AjaxNodesController extends AbstractAjaxController
      */
     public function editAction(Request $request, int|string $nodeId): Response
     {
-        /*
-         * Validate
-         */
         $this->validateRequest($request);
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
         /** @var Node|null $node */
         $node = $this->em()->find(Node::class, (int) $nodeId);
 
-        if ($node !== null) {
-            $responseArray = null;
-
-            /*
-             * Get the right update method against "_action" parameter
-             */
-            switch ($request->get('_action')) {
-                case 'updatePosition':
-                    $this->updatePosition($request->request->all(), $node);
-                    $responseArray = [
-                        'statusCode' => '200',
-                        'status' => 'success',
-                        'responseText' => $this->getTranslator()->trans('node.%name%.was_moved', [
-                            '%name%' => $node->getNodeName(),
-                        ]),
-                    ];
-                    break;
-                case 'duplicate':
-                    $duplicator = new NodeDuplicator(
-                        $node,
-                        $this->em(),
-                        $this->nodeNamePolicy
-                    );
-                    $newNode = $duplicator->duplicate();
-                    /*
-                     * Dispatch event
-                     */
-                    $this->dispatchEvent(new NodeCreatedEvent($newNode));
-                    $this->dispatchEvent(new NodeDuplicatedEvent($newNode));
-
-                    $msg = $this->getTranslator()->trans('duplicated.node.%name%', [
-                        '%name%' => $node->getNodeName(),
-                    ]);
-                    $this->logger->info($msg, ['entity' => $newNode->getNodeSources()->first()]);
-
-                    $responseArray = [
-                        'statusCode' => '200',
-                        'status' => 'success',
-                        'responseText' => $msg,
-                    ];
-                    break;
-            }
-
-            if ($responseArray === null) {
+        if (null === $node) {
+            throw $this->createNotFoundException($this->getTranslator()->trans('node.%nodeId%.not_exists', [
+                '%nodeId%' => $nodeId,
+            ]));
+        }
+        /*
+         * Get the right update method against "_action" parameter
+         */
+        switch ($request->get('_action')) {
+            case 'updatePosition':
+                $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
+                $this->updatePosition($request->request->all(), $node);
                 $responseArray = [
                     'statusCode' => '200',
                     'status' => 'success',
-                    'responseText' => $this->getTranslator()->trans('node.%name%.updated', [
+                    'responseText' => $this->getTranslator()->trans('node.%name%.was_moved', [
                         '%name%' => $node->getNodeName(),
                     ]),
                 ];
-            }
+                break;
+            case 'duplicate':
+                $this->denyAccessUnlessGranted(NodeVoter::DUPLICATE, $node);
+                $duplicator = new NodeDuplicator(
+                    $node,
+                    $this->em(),
+                    $this->nodeNamePolicy
+                );
+                $newNode = $duplicator->duplicate();
+                /*
+                 * Dispatch event
+                 */
+                $this->dispatchEvent(new NodeCreatedEvent($newNode));
+                $this->dispatchEvent(new NodeDuplicatedEvent($newNode));
 
-            return new JsonResponse(
-                $responseArray,
-                Response::HTTP_PARTIAL_CONTENT
-            );
+                $msg = $this->getTranslator()->trans('duplicated.node.%name%', [
+                    '%name%' => $node->getNodeName(),
+                ]);
+                $this->logger->info($msg, ['entity' => $newNode->getNodeSources()->first()]);
+
+                $responseArray = [
+                    'statusCode' => '200',
+                    'status' => 'success',
+                    'responseText' => $msg,
+                ];
+                break;
+            default:
+                throw new BadRequestHttpException('Action is not defined.');
         }
 
-        throw $this->createNotFoundException($this->getTranslator()->trans('node.%nodeId%.not_exists', [
-            '%nodeId%' => $nodeId,
-        ]));
+        return new JsonResponse(
+            $responseArray,
+            Response::HTTP_PARTIAL_CONTENT
+        );
     }
 
     /**
@@ -263,7 +256,6 @@ class AjaxNodesController extends AbstractAjaxController
     public function statusesAction(Request $request): JsonResponse
     {
         $this->validateRequest($request);
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
         if ($request->get('nodeId', 0) <= 0) {
             throw new BadRequestHttpException($this->getTranslator()->trans('node.id.not_specified'));
@@ -276,6 +268,8 @@ class AjaxNodesController extends AbstractAjaxController
                 '%nodeId%' => $request->get('nodeId'),
             ]));
         }
+
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_STATUS, $node);
 
         $availableStatuses = [
             'visible' => 'setVisible',
@@ -390,9 +384,9 @@ class AjaxNodesController extends AbstractAjaxController
          * Validate
          */
         $this->validateRequest($request);
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
         try {
+            // Access security is handled by UniqueNodeGenerator
             $source = $this->uniqueNodeGenerator->generateFromRequest($request);
 
             /*
