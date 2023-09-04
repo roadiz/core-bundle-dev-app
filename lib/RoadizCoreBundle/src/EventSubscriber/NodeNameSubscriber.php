@@ -67,7 +67,7 @@ final class NodeNameSubscriber implements EventSubscriberInterface
             $testingNodeName = $this->nodeNamePolicy->getCanonicalNodeName($nodeSource);
 
             /*
-             * Node name wont be updated if name already taken OR
+             * Node name won't be updated if name already taken OR
              * if it is ALREADY suffixed with a unique ID.
              */
             if (
