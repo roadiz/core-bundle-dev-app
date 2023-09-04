@@ -1,3 +1,10 @@
+## [v2.1.42](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.41...v2.1.42) (2023-09-04)
+
+
+### Bug Fixes
+
+* **NodeNameChecker:** Limit generated unique nodeName to 250 chars, no matter suffix added to it ([bb1e271](https://github.com/roadiz/core-bundle-dev-app/commit/bb1e27178cb524f74152f063e8d0105ed7df17ef))
+
 ## [v2.1.41](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.40...v2.1.41) (2023-08-04)
 
 
