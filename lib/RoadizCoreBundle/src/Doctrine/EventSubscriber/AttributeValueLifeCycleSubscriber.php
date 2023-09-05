@@ -31,7 +31,14 @@ final class AttributeValueLifeCycleSubscriber implements EventSubscriber
     public function prePersist(LifecycleEventArgs $event): void
     {
         $entity = $event->getObject();
-        if ($entity instanceof AttributeValueInterface) {
+        if ($entity instanceof AttributeValue) {
+            if (
+                null !== $entity->getAttribute() &&
+                null !== $entity->getAttribute()->getDefaultRealm()
+            ) {
+                $entity->setRealm($entity->getAttribute()->getDefaultRealm());
+            }
+
             /*
              * Automatically set position only if not manually set before.
              */

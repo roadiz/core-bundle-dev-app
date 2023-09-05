@@ -56,6 +56,18 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
     ]
     protected ?Node $node = null;
 
+    #[ORM\ManyToOne(targetEntity: Realm::class)]
+    #[ORM\JoinColumn(
+        name: 'realm_id',
+        referencedColumnName: 'id',
+        unique: false,
+        nullable: true,
+        onDelete: 'SET NULL'
+    )]
+    #[SymfonySerializer\Ignore]
+    #[Serializer\Exclude]
+    private ?Realm $realm = null;
+
     public function __construct()
     {
         $this->attributeValueTranslations = new ArrayCollection();
@@ -109,6 +121,17 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
     {
         $this->node = $node;
 
+        return $this;
+    }
+
+    public function getRealm(): ?Realm
+    {
+        return $this->realm;
+    }
+
+    public function setRealm(?Realm $realm): AttributeValue
+    {
+        $this->realm = $realm;
         return $this;
     }
 

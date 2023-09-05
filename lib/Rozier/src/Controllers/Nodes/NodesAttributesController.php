@@ -191,16 +191,15 @@ class NodesAttributesController extends RozierApp
 
     /**
      * @param Request $request
-     * @param int     $nodeId
-     * @param int     $translationId
-     * @param int     $attributeValueId
+     * @param int $nodeId
+     * @param int $translationId
+     * @param int $attributeValueId
      *
      * @return Response
+     * @throws RuntimeError
      */
-    public function deleteAction(Request $request, $nodeId, $translationId, $attributeValueId): Response
+    public function deleteAction(Request $request, int $nodeId, int $translationId, int $attributeValueId): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_ATTRIBUTES_DELETE');
-
         /** @var AttributeValue|null $item */
         $item = $this->em()->find(AttributeValue::class, $attributeValueId);
         if ($item === null) {
@@ -214,6 +213,8 @@ class NodesAttributesController extends RozierApp
         if (null === $translation || null === $node) {
             throw $this->createNotFoundException('Node-source does not exist');
         }
+
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_ATTRIBUTE, $node);
 
         /** @var NodesSources|null $nodeSource */
         $nodeSource = $this->em()
@@ -267,11 +268,10 @@ class NodesAttributesController extends RozierApp
      * @param int $translationId
      * @param int $attributeValueId
      * @return Response
+     * @throws RuntimeError
      */
     public function resetAction(Request $request, int $nodeId, int $translationId, int $attributeValueId): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_ATTRIBUTES_DELETE');
-
         /** @var AttributeValueTranslation|null $item */
         $item = $this->em()
             ->getRepository(AttributeValueTranslation::class)
@@ -290,6 +290,8 @@ class NodesAttributesController extends RozierApp
         if (null === $translation || null === $node) {
             throw $this->createNotFoundException('Node-source does not exist');
         }
+
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_ATTRIBUTE, $node);
 
         /** @var NodesSources|null $nodeSource */
         $nodeSource = $this->em()

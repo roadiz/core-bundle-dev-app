@@ -23,8 +23,8 @@
                     <thead>
                         <tr>
                             <th>{% trans %}attributes.code{% endtrans %}</th>
-                            <th class="uk-visible-large">{% trans %}attributes.group{% endtrans %}</th>
-                            <th>{% trans %}attributes.value{% endtrans %}</th>
+                            <th class="uk-visible-xlarge">{% trans %}attributes.group{% endtrans %}</th>
+                            <th></th>
                             <th>{% trans %}actions{% endtrans %}</th>
                         </tr>
                     </thead>
@@ -36,7 +36,7 @@
                                     <span class="color" style="background-color:{{ attributeValue.attribute.color|default('transparent') }};"></span>
                                     {{- attribute_value_translation_form.vars.data|attribute_label -}}
                                 </td>
-                                <td class="uk-visible-large">{%- if attributeValue.attribute.group %}
+                                <td class="uk-visible-xlarge">{%- if attributeValue.attribute.group %}
                                         {{- attributeValue.attribute.group|attribute_group_label -}}
                                     {% endif -%}</td>
                                 <td>

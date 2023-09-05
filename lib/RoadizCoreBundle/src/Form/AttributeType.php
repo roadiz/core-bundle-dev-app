@@ -59,6 +59,12 @@ class AttributeType extends AbstractType
                 'required' => false,
                 'help' => 'attributes.form_help.searchable'
             ])
+            ->add('defaultRealm', RealmChoiceType::class, [
+                'label' => 'attributes.defaultRealm',
+                'help' => 'attributes.defaultRealm.help',
+                'placeholder' => 'attributes.defaultRealm.placeholder',
+                'required' => false,
+            ])
             ->add('attributeTranslations', CollectionType::class, [
                 'label' => 'attributes.form.attributeTranslations',
                 'allow_add' => true,

@@ -49,6 +49,18 @@ class Attribute extends AbstractEntity implements AttributeInterface
     ]
     protected Collection $attributeDocuments;
 
+    #[ORM\ManyToOne(targetEntity: Realm::class)]
+    #[ORM\JoinColumn(
+        name: 'realm_id',
+        referencedColumnName: 'id',
+        unique: false,
+        nullable: true,
+        onDelete: 'SET NULL'
+    )]
+    #[SymfonySerializer\Ignore]
+    #[Serializer\Exclude]
+    private ?Realm $defaultRealm = null;
+
     public function __construct()
     {
         $this->attributeTranslations = new ArrayCollection();
@@ -73,6 +85,17 @@ class Attribute extends AbstractEntity implements AttributeInterface
     {
         $this->attributeDocuments = $attributeDocuments;
 
+        return $this;
+    }
+
+    public function getDefaultRealm(): ?Realm
+    {
+        return $this->defaultRealm;
+    }
+
+    public function setDefaultRealm(?Realm $defaultRealm): Attribute
+    {
+        $this->defaultRealm = $defaultRealm;
         return $this;
     }
 
