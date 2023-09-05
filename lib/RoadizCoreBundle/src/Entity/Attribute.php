@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Repository\AttributeRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
@@ -59,7 +60,7 @@ class Attribute extends AbstractEntity implements AttributeInterface
     )]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
-    private ?Realm $defaultRealm = null;
+    private ?RealmInterface $defaultRealm = null;
 
     public function __construct()
     {
@@ -88,12 +89,12 @@ class Attribute extends AbstractEntity implements AttributeInterface
         return $this;
     }
 
-    public function getDefaultRealm(): ?Realm
+    public function getDefaultRealm(): ?RealmInterface
     {
         return $this->defaultRealm;
     }
 
-    public function setDefaultRealm(?Realm $defaultRealm): Attribute
+    public function setDefaultRealm(?RealmInterface $defaultRealm): Attribute
     {
         $this->defaultRealm = $defaultRealm;
         return $this;

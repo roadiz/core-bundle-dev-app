@@ -31,7 +31,7 @@ final class AttributeValueLifeCycleSubscriber implements EventSubscriber
     public function prePersist(LifecycleEventArgs $event): void
     {
         $entity = $event->getObject();
-        if ($entity instanceof AttributeValue) {
+        if ($entity instanceof AttributeValueInterface) {
             if (
                 null !== $entity->getAttribute() &&
                 null !== $entity->getAttribute()->getDefaultRealm()

@@ -215,4 +215,7 @@ interface AttributeInterface extends PersistableInterface
      * @return bool
      */
     public function isCountry(): bool;
+
+    public function getDefaultRealm(): ?RealmInterface;
+    public function setDefaultRealm(?RealmInterface $defaultRealm): self;
 }

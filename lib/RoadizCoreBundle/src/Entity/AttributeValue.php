@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
@@ -15,6 +15,7 @@ use RZ\Roadiz\CoreBundle\Model\AttributableInterface;
 use RZ\Roadiz\CoreBundle\Model\AttributeValueInterface;
 use RZ\Roadiz\CoreBundle\Model\AttributeValueTrait;
 use RZ\Roadiz\CoreBundle\Model\AttributeValueTranslationInterface;
+use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Repository\AttributeValueRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 
@@ -66,7 +67,7 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
     )]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
-    private ?Realm $realm = null;
+    private ?RealmInterface $realm = null;
 
     public function __construct()
     {
@@ -124,12 +125,12 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
         return $this;
     }
 
-    public function getRealm(): ?Realm
+    public function getRealm(): ?RealmInterface
     {
         return $this->realm;
     }
 
-    public function setRealm(?Realm $realm): AttributeValue
+    public function setRealm(?RealmInterface $realm): AttributeValue
     {
         $this->realm = $realm;
         return $this;
