@@ -17,8 +17,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 abstract class AbstractWidget
 {
-    private RequestStack $requestStack;
-    private ManagerRegistry $managerRegistry;
+    protected RequestStack $requestStack;
+    protected ManagerRegistry $managerRegistry;
     protected ?TranslationInterface $defaultTranslation = null;
 
     /**

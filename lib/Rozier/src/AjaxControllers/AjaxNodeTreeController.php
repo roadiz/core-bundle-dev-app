@@ -121,7 +121,7 @@ class AjaxNodeTreeController extends AbstractAjaxController
                     $parent = $this->nodeChrootResolver->getChroot($this->getUser());
                 }
 
-                $nodeTree = $this->treeWidgetFactory->createNodeTree($parent, $translation);
+                $nodeTree = $this->treeWidgetFactory->createRootNodeTree($parent, $translation);
                 $this->assignation['mainNodeTree'] = true;
                 break;
         }

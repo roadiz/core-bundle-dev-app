@@ -36,6 +36,17 @@ final class TreeWidgetFactory
         );
     }
 
+    public function createRootNodeTree(?Node $root = null, ?TranslationInterface $translation = null): NodeTreeWidget
+    {
+        return new NodeTreeWidget(
+            $this->requestStack,
+            $this->managerRegistry,
+            $root,
+            $translation,
+            true
+        );
+    }
+
     public function createTagTree(?Tag $root = null): TagTreeWidget
     {
         return new TagTreeWidget(

@@ -7,8 +7,8 @@
 {% set type = node.nodeType.name %}
 
 {% set classes = [
-type|lower,
-'nodetree-element'
+    type|lower,
+    'nodetree-element'
 ] %}
 
 {% set classes = classes|merge(['uk-nestable-item']) %}
@@ -51,7 +51,6 @@ type|lower,
         {% set innerClasses = innerClasses|merge(['datetime-publishable-future']) %}
     {% endif %}
 {% endif %}
-
 
 <li data-node-id="{{ node.id }}" class="{{ classes|join(' ') }}">
     {% if not mainNodeTree and not nodeTree.isStackTree %}

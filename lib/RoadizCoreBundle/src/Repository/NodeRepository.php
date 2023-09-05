@@ -911,7 +911,7 @@ final class NodeRepository extends StatusAwareRepository
     public function findAllOffspringIdByNode(Node $node): array
     {
         $theOffsprings = [];
-        $in = [$node->getId()];
+        $in = \array_filter([(int) $node->getId()]);
 
         do {
             $theOffsprings = array_merge($theOffsprings, $in);

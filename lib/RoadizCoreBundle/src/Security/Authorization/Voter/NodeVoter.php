@@ -37,21 +37,23 @@ final class NodeVoter extends Voter
         private Security $security,
         private HandlerFactoryInterface $handlerFactory,
         private CacheItemPoolInterface $cache
-    )
-    {
+    ) {
     }
 
     protected function supports(string $attribute, $subject): bool
     {
-        if (\in_array($attribute, [
+        if (
+            \in_array($attribute, [
             self::CREATE_AT_ROOT,
             self::READ_AT_ROOT,
             self::EMPTY_TRASH,
-        ])) {
+            ])
+        ) {
             return true;
         }
 
-        if (!\in_array($attribute, [
+        if (
+            !\in_array($attribute, [
             self::CREATE,
             self::DUPLICATE,
             self::READ,
@@ -63,7 +65,8 @@ final class NodeVoter extends Voter
             self::EDIT_STATUS,
             self::EDIT_ATTRIBUTE,
             self::DELETE
-        ])) {
+            ])
+        ) {
             return false;
         }
 
@@ -87,7 +90,7 @@ final class NodeVoter extends Voter
             $subject = $subject->getNode();
         }
 
-        return match($attribute) {
+        return match ($attribute) {
             self::CREATE => $this->canCreate($subject, $user),
             self::DUPLICATE => $this->canDuplicate($subject, $user),
             self::CREATE_AT_ROOT => $this->canCreateAtRoot($user),
