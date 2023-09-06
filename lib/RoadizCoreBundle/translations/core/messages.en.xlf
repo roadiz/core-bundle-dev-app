@@ -157,6 +157,24 @@
                 <source>password_should_be_at_least_{{length}}_characters_long</source>
                 <target state="translated">Password should be at least {{length}} characters long</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.defaultRealm">
+                <source>attributes.defaultRealm</source>
+                <target state="translated">Default realm</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.defaultRealm.help">
+                <source>attributes.defaultRealm.help</source>
+                <target state="translated">Choose a default realm to secure any attribute value within API. This will affect only new attribute values.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.defaultRealm.placeholder">
+                <source>attributes.defaultRealm.placeholder</source>
+                
+                <target state="translated">-- No default realm --</target>
+            <note>Default text when no realm is attached to an attribute</note></trans-unit>
+      <trans-unit xml:space="preserve" id="attributeValue.realm.placeholder">
+                <source>attributeValue.realm.placeholder</source>
+                
+                <target state="translated">-- No realm --</target>
+            <note>Default text when no realm is attached to an attribute-value</note></trans-unit>
     </body>
   </file>
 </xliff>
