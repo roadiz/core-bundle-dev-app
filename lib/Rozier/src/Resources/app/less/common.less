@@ -82,7 +82,7 @@ background: #CCC;
     color: rgba(255, 255, 255, 0.6);
     font-size: 11px;
     line-height: 15px;
-    .rounded(3px);
+    border-radius: 3px;
     max-width: none;
     z-index: 20000;
 }
@@ -111,7 +111,7 @@ background: #CCC;
     padding: 1px;
     border: none;
     background: #C2C2C2;
-    .rounded(100%);
+    border-radius: 100%;
     .drop-shadow(0 0 0 rgba(0,0,0,0));
     height: auto;
     width: auto;
@@ -119,11 +119,12 @@ background: #CCC;
 
 .uk-text-small {
     max-width: 650px;
+    letter-spacing: 0.02em;
 }
 
 .uk-text-danger {
     padding: 0 20px;
-    font-size: 12px;
+    font-size: @default-font-size;
 }
 
 @media screen and (max-width: @screen-md-max) {

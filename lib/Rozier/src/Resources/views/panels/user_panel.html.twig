@@ -17,7 +17,7 @@
                      src="{{ app.user.pictureUrl }}"
                      alt="{{ app.user.identifier }}" />
             </a>
-            <p>{{ "hello.%name%"|trans({'%name%': app.user.identifier}) }}</p>
+            <h3 class="mobile-hidden">{{ "hello.%name%"|trans({'%name%': app.user.identifier}) }}</h3>
         {% elseif app.user %}
             {% set displayName = app.user.nickname|default(app.user.givenName|default(app.user.name)) %}
             {% if app.user.picture %}
@@ -29,7 +29,7 @@
                          alt="{{ displayName }}" />
                 </span>
             {% endif %}
-            <h3>{{ "hello.%name%"|trans({'%name%': displayName }) }}</h3>
+            <h3 class="mobile-hidden">{{ "hello.%name%"|trans({'%name%': displayName }) }}</h3>
         {% endif %}
         <nav class="user-actions">
             <a class="uk-icon-button uk-icon-rz-earth"

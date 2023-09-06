@@ -19,13 +19,12 @@
     padding: 0;
     background: #E5E5E5;
     color: #666;
-    font-size: 12px;
+    font-size: @default-font-size;
     line-height: @drawer-item-height;
-    font-weight: 600;
     overflow: hidden;
     cursor: default;
     .border-radius(3px, 3px, 0, 0);
-    .transition(0.4s background @easeOutExpo, 0.4s opacity @easeOutExpo);
+    transition: 0.4s background @easeOutExpo, 0.4s opacity @easeOutExpo;
 
     flex: 0 1 ~"calc(50% - 12px)";
 
@@ -89,7 +88,7 @@
         top:0;
         right: -@drawer-item-height * 2;
         overflow: hidden;
-        .transition(0.4s right @easeOutExpo);
+        transition: 0.4s right @easeOutExpo;
 
         &.no-edit {
             width: @drawer-item-height;
@@ -99,9 +98,9 @@
             display: inline-block;
             width: @drawer-item-height;
             height: @drawer-item-height;
-            .rounded(0);
+            border-radius: 0;
             color: #333;
-            .opacity(0.95);
+            opacity: 0.95;
             vertical-align: top;
 
             &:hover{
@@ -218,9 +217,9 @@
             right: -@drawer-item-height;
             background: #BBBBBB;
             text-align: center;
-            .transition(0.4s right @easeOutExpo);
+            transition: 0.4s right @easeOutExpo;
             .transition-timing-function(@easeOutExpo);
-            .opacity(0.95);
+            opacity: 0.95;
 
             i {
                 color: #333;

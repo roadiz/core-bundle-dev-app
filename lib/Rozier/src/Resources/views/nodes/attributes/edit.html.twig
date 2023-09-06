@@ -22,9 +22,7 @@
                 <table class="attribute-value-forms content-table settings uk-table attributes">
                     <thead>
                         <tr>
-                            <th>{% trans %}attributes.code{% endtrans %}</th>
-                            <th class="uk-visible-xlarge">{% trans %}attributes.group{% endtrans %}</th>
-                            <th></th>
+                            <th colspan="3">{% trans %}attributes{% endtrans %}</th>
                             <th>{% trans %}actions{% endtrans %}</th>
                         </tr>
                     </thead>
@@ -34,11 +32,13 @@
                             <tr class="setting-row" data-position="{{ attributeValue.position }}" data-id="{{ attributeValue.getId }}">
                                 <td class="name attribute-value-col">
                                     <span class="color" style="background-color:{{ attributeValue.attribute.color|default('transparent') }};"></span>
-                                    {{- attribute_value_translation_form.vars.data|attribute_label -}}
+                                    <strong>{{- attribute_value_translation_form.vars.data|attribute_label -}}</strong>
                                 </td>
-                                <td class="uk-visible-xlarge">{%- if attributeValue.attribute.group %}
+                                <td class="uk-visible-xlarge">
+                                    {%- if attributeValue.attribute.group %}
                                         {{- attributeValue.attribute.group|attribute_group_label -}}
-                                    {% endif -%}</td>
+                                    {% endif -%}
+                                </td>
                                 <td>
                                     {% form_theme attribute_value_translation_form '@RoadizRozier/horizontalForms.html.twig' %}
                                     {{ form_start(attribute_value_translation_form, {

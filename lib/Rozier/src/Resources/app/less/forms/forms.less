@@ -57,9 +57,9 @@
     input[type="date"],
     input[type="datetime-local"],
     textarea {
-        font-size: 12px;
+        font-size: @default-font-size;
         line-height: 16px;
-        font-weight: bold;
+        //font-weight: bold;
         //width: 100%; // You cannot place this for a wide selector! it will break ui-kit
         color: @grey-form-text;
         padding: 0px 15px;
@@ -67,7 +67,7 @@
         border: 1px solid @grey-form-border;
         .border-radius(0px);
         .box-sizing();
-        .transition(~'0.35s ease border-color, 0.5s ease background');
+        transition: ~'0.35s ease border-color, 0.5s ease background';
 
         &.colorpicker-input{
             width:105px;
@@ -102,7 +102,7 @@
 
     // File
     input[type=file]{
-        font-size:12px;
+        font-size: @default-font-size;
     }
 
     // Checkbox
@@ -133,7 +133,7 @@
         height:36px;
         margin: 0;
         padding: 0;
-        font-size:12px;
+        font-size: @default-font-size;
         color: @grey-form-text;
         //border: 1px solid @grey-form-border;
         .border-radius(0px);
@@ -185,9 +185,9 @@
     select[multiple]{
         min-width: 100px; min-height: 120px;
         padding:0 6px;
-        font-size:12px;
+        font-size: @default-font-size;
         -webkit-appearance:none;
-        .rounded(0px);
+        border-radius: 0px;
 
         &:focus{
             background-color: @grey-verylight;
@@ -229,7 +229,7 @@
 
     // Labels
     .uk-form-label {
-        font-size: 12px;
+        font-size: @default-font-size;
         color: @grey-form-label;
         font-weight: normal;
 
@@ -250,7 +250,7 @@
     }
 
     .form-check-label {
-        font-size: 12px;
+        font-size: @default-font-size;
         color: @grey-form-label;
         font-weight: normal;
     }
@@ -320,9 +320,10 @@
     }
 
     .form-row-desc {
-        max-width: 400px;
-        font-size: 11px;
-        line-height: 17px;
+        max-width: 450px;
+        font-size: 12px;
+        letter-spacing: 0.005em;
+        line-height: 16px;
         color: #b0b0b0;
         margin: 5px 0 10px;
         display: block;

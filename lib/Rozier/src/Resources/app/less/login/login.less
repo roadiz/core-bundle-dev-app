@@ -27,11 +27,11 @@
     right: 0px;
 
     .transform(~'scale3D(1.05,1.105,1.05)');
-    .opacity(0);
+    opacity: 0;
     .transform-transition(~'6s ease, opacity 1s linear');
 
     &.visible {
-        .opacity(1);
+        opacity: 1;
         .transform(~'scale3D(1,1,1)');
     }
 }
@@ -235,7 +235,7 @@
                     background: @grey-verylight;
                     vertical-align: middle;
                     color: @grey-form-submit-icon;
-                    .transition(~'color ease 0.35s, border-color ease 0.35s');
+                    transition: ~'color ease 0.35s, border-color ease 0.35s';
 
                     &:before {
                         padding-left: 2px;
@@ -245,10 +245,10 @@
                     display: inline-block;
                     height: 38px;
                     line-height: 41px;
-                    font-size: 12px;
+                    font-size: @default-font-size;
                     vertical-align: top;
                     color: @grey-form-submit-textsimple;
-                    .transition(color ease 0.35s);
+                    transition: color ease 0.35s;
                 }
                 &:hover {
                     .uk-icon-rz-earth {
@@ -265,14 +265,13 @@
                 margin: 8px 0 8px 8px;
                 height: 22px;
                 line-height: 25px;
-                font-size: 12px;
-                font-weight: bold;
+                font-size: @default-font-size;
                 vertical-align: top;
                 border-left: 1px solid @grey-form-border;
                 padding-left: 10px;
                 text-decoration: none;
                 color: @grey-form-submit-textsimple;
-                .transition(color ease 0.35s);
+                transition: color ease 0.35s;
 
                 &:hover {
                     color: @grey-form-text;

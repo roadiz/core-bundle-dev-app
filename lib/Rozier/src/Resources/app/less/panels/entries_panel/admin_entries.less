@@ -2,7 +2,6 @@
    ENTRIES PANEL
 \*------------------------------------*/
 
-
 /*
  * Override ui kit buttons styles & colors
  */
@@ -10,9 +9,7 @@
 /* -------- VARS -------- */
 @minify-tree-panel-area-width: 35px;
 
-
 /* -------- STYLES -------- */
-
 #admin-menu {
     position: relative;
     background: #fff;
@@ -26,7 +23,7 @@
             padding: 0px;
             margin: 0px;
             color: @admin-menu-color;
-            .transition(color ease 0.2s);
+            transition: color ease 0.2s;
         }
     }
     header {
@@ -90,9 +87,12 @@
                     background-position: @icon-size*-1 @icon-size*-1;
                 }
             }
+            & > p > .info {
+                font-weight: bold;
+            }
         }
 
-        i {
+        i {
             font-size: 28px;
         }
         .info {
@@ -103,7 +103,6 @@
             background-color: @admin-menu-info-color;
             height: 53px;
             font-size: 13px;
-            font-weight: bold;
             line-height: 55px;
             padding: 0 22px 0 20px;
             margin: 0;
@@ -121,7 +120,7 @@
             }
         }
         .work-in-progress {
-            font-size: 12px;
+            font-size: @default-font-size;
             color: #CCC;
             display: none;
         }
@@ -150,7 +149,7 @@
                 min-width: 210px;
                 .box-sizing();
                 text-align: left;
-                .transition(background ease 0.3s);
+                transition: background ease 0.3s;
 
                 &:before, &:after {
                     display: none;
@@ -168,7 +167,7 @@
                      height: 43px;
                      line-height: 43px;
                      left: 28px;
-                     font-size: 12px;
+                     font-size: @default-font-size;
                      color: @admin-entries-subnav-text-color;
                      .box-shadow(0px 0px 0px rgba(0,0,0,0));
 
@@ -207,7 +206,7 @@
             }
 
             & > a > .work-in-progress {
-                font-size: 12px;
+                font-size: @default-font-size;
                 color: #CCC;
                 display: block;
                 background-color: #F5F5F5;
@@ -245,11 +244,11 @@
 }
 
 .uk-rz-coming-soon{
-    .opacity(0.5);
+    opacity: 0.5;
     z-index:2;
 
     .uk-nav-sub{
-        .opacity(1);
+        opacity: 1;
 
         &> li > a{
             cursor: default;
@@ -257,7 +256,7 @@
     }
 }
 
-#frontend-home {
+#frontend-home {
     &-area {
         height: @global-header-height - @minify-tree-panel-area-width - 2px;
         .box-sizing();
@@ -271,7 +270,7 @@
         line-height: 38px;
         width: 38px;
         height: 38px;
-        .transition(~'color ease 0.35s, border-color ease 0.35s');
+        transition: ~'color ease 0.35s, border-color ease 0.35s';
         text-align: center;
 
         &:before {
@@ -300,7 +299,7 @@
             background-position: @icon-size*-1 0;
             position: absolute;
             right: -15px; top: 117px;
-            .opacity(1);
+            opacity: 1;
             .transform-transition(~'ease 0.8s, 0.8s opacity ease');
             .transition-timing-function(@easeOutExpo);
         }
@@ -308,7 +307,7 @@
         &.tree-panel-hidden {
             &:after {
                 .transform(translate(5px));
-                .opacity(0);
+                opacity: 0;
             }
         }
     }
@@ -318,7 +317,7 @@
         line-height: 18px;
         background: darken(@global-header-color, 10%);
         border: 0 none;
-        .transition(background ease 0.35s);
+        transition: background ease 0.35s;
 
         i {
             color: #666;

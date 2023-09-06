@@ -90,10 +90,10 @@
     padding-left:15px;
     background: @grey-verylight;
     color:#333;
-    font-size:12px; line-height:32px;
+    font-size: @default-font-size; line-height:32px;
     overflow: hidden;
     cursor: default;
-    .transition(0.4s background @easeOutExpo);
+    transition: 0.4s background @easeOutExpo;
 
     &:hover{
 
@@ -125,14 +125,14 @@
         width:64px; height:32px;
         top:0; right:-64px;
         overflow: hidden;
-        .transition(0.4s right @easeOutExpo);
+        transition: 0.4s right @easeOutExpo;
 
         .custom-form-link{ // a
             display: inline-block; vertical-align: top;
             width:32px; height:32px;
-            .rounded(0);
+            border-radius: 0;
             color:#333;
-            .opacity(0.95);
+            opacity: 0.95;
 
             &:hover{
                 color:darken(#333, 10%);

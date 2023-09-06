@@ -102,7 +102,7 @@
 
                 .uk-icon-rz-plus-simple {
                     position: absolute;
-                    top: 4px;
+                    top: 8px;
                     left: 10px;
                 }
 
@@ -178,7 +178,7 @@
         left: 1px;
         width: @children-node-height - 15;
         height: @children-node-height - 15;
-        .rounded(100px);
+        border-radius: 100px;
         overflow: hidden;
         z-index: 5;
 
@@ -189,7 +189,7 @@
         }
     }
     .unpublished-node .nodetree-element-img {
-        .rounded(2px);
+        border-radius: 2px;
         .transform(rotate(45deg));
         top: 9px;
         left: 4px;
@@ -310,7 +310,7 @@
                     left: 3px;
                     width: @children-node-height / 2;
                     height: @children-node-height / 2;
-                    .rounded(3px);
+                    border-radius: 3px;
                     z-index: 1;
                 }
             }
@@ -337,8 +337,8 @@
                     content: "";
                     font-family: FontAwesome;
                     color: @item-color;
-                    font-size: 12px;
-                    .rounded(100%);
+                    font-size: @default-font-size;
+                    border-radius: 100%;
                     background-color: white;
                     border: 1px solid #a0a0a0;
                     width: @children-node-height / 2;
@@ -354,7 +354,7 @@
                 &.unpublished-node {
                     .icon-stack-folder,
                     .uk-icon-folder {
-                        .rounded(15%);
+                        border-radius: 15%;
                         top: 10px;
                         width: (@children-node-height / 2) - 3;
                         height: (@children-node-height / 2) - 3;
@@ -371,8 +371,8 @@
                             content: "";
                             font-family: FontAwesome;
                             color: @item-color;
-                            font-size: 12px;
-                            .rounded(100%);
+                            font-size: @default-font-size;
+                            border-radius: 100%;
                             background-color: #a0a0a0;
                             width: 8px;
                             height: 8px;
@@ -386,7 +386,7 @@
                     .icon-stack-folder {
                         &-final {
                             &:after {
-                                .rounded(15%);
+                                border-radius: 15%;
                             }
                         }
                     }

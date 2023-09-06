@@ -14,13 +14,13 @@
 .fake-display-none(){
   display: block;
   pointer-events: none;
-  .opacity(0);
+  opacity: 0;
 }
 
 .fake-display-block(){
   display: block;
   pointer-events: auto;
-  .opacity(1);
+  opacity: 1;
 }
 
 .text-ellipsis(){
@@ -56,7 +56,6 @@
   opacity: @opacity;
 }
 
-
 .transform(...) {
   transform:         @arguments;
 }
@@ -76,7 +75,6 @@
 .backface-visibility(@value:hidden){
   backface-visibility:@value;
 }
-
 
 /*
  * Transitions

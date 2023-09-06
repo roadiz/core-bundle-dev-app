@@ -127,6 +127,6 @@
     "node": "^14"
   },
   "browserslist": [
-    "last 2 versions"
+    "last 1 versions"
   ]
 }

@@ -65,9 +65,12 @@
 
 /* -------- FONTS -------- */
 
-@main-font: 'Roadiz', system-ui;
-@roadiz-mono-font: 'Roadiz Mono', monospace;
+//@main-font: 'Roadiz', system-ui;
+//@roadiz-mono-font: 'Roadiz Mono', monospace;
+@main-font: system-ui;
+@roadiz-mono-font: monospace;
 @roadiz-light: 300;
+@default-font-size: 13px;
 
 
 /* -------- ADMIN HEADERS -------- */
@@ -139,7 +142,7 @@
     color:#666;
 
     &.label {
-        font-size: 12px;
+        font-size: @default-font-size;
         padding-left: 0px;
         margin-left: 0;
     }

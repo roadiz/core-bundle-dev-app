@@ -14,7 +14,7 @@
 @form-row-border-color :     #e2e2e2;
 
 .uk-table {
-    font-size: 12px;
+    font-size: @default-font-size;
 
     td, th {
         @media (min-width: @screen-sm-min) {
@@ -26,12 +26,9 @@
         .uk-form {
             display: flex;
             justify-content: space-between;
-        }
-
-        &:not(:first-child) {
-            .uk-form:first-child {
-                margin-left: -8px;
-            }
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1em 0.5em;
         }
 
         .CodeMirror {
@@ -66,7 +63,7 @@
     td {
         border-top: 1px solid white;
         border-bottom: 1px solid @form-row-border-color;
-        .transition(0.7s background-color @easeOutExpo);
+        transition: 0.7s background-color @easeOutExpo;
         vertical-align: middle;
         color:@grey-medium;
     }
@@ -87,7 +84,7 @@
 
     a {
         color:@grey-medium;
-        .transition(0.4s color ease);
+        transition: 0.4s color ease;
 
         &:hover{
             text-decoration:none;

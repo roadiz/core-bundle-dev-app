@@ -105,7 +105,9 @@ class AttributeValueTranslationType extends AbstractType
                     break;
             }
         }
-        $builder->add('attributeValue', AttributeValueRealmType::class);
+        $builder->add('attributeValue', AttributeValueRealmType::class, [
+            'label' => false,
+        ]);
     }
 
     /**

@@ -43,7 +43,7 @@
         padding:10px 20px;
         background: #eee;
         color:#232323;
-        font-size:12px;
+        font-size: @default-font-size;
         .box-sizing();
     }
 
@@ -78,7 +78,7 @@
         .user-image-default{
             background: #c9c9c9;
             text-align: center;
-            .rounded(100%);
+            border-radius: 100%;
 
             .uk-icon-rz-users{
                 font-size:24px;
@@ -101,7 +101,7 @@
             height: 40px;
             max-width: none;
             background-color: #CCC;
-            .rounded(30px);
+            border-radius: 30px;
         }
     }
 
@@ -114,7 +114,7 @@
         display: flex;
         align-items: center;
         padding: 10px 20px;
-        font-size: 12px;
+        font-size: @default-font-size;
         line-height: 18px;
         color:#4c4c4c;
         width: 80%;
