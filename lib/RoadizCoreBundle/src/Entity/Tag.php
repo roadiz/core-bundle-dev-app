@@ -160,8 +160,12 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
         "nodesTags.node" => "exact",
         "nodesTags.node.nodeName" => "exact",
+        "nodesTags.node.parent" => "exact",
+        "nodesTags.node.parent.nodeName" => "exact",
         "nodesTags.node.nodeType" => "exact",
         "nodesTags.node.nodeType.name" => "exact",
+        "nodesTags.node.nodesTags.tag" => "exact",
+        "nodesTags.node.nodesTags.tag.tagName" => "exact",
     ])]
     #[ApiFilter(BaseFilter\BooleanFilter::class, properties: [
         "nodesTags.node.visible",
