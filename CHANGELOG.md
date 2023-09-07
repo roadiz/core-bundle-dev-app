@@ -1,3 +1,10 @@
+## [v2.1.44](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.43...v2.1.44) (2023-09-07)
+
+
+### Bug Fixes
+
+* **Tag:** Added missing API search filter on tags relations ([146ce90](https://github.com/roadiz/core-bundle-dev-app/commit/146ce9007ecb2464ee923e5b0c3d0c941439fb4d))
+
 ## [v2.1.43](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.42...v2.1.43) (2023-09-04)
 
 
