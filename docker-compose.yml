@@ -54,6 +54,8 @@ services:
             MYSQL_DATABASE: db_name
             MYSQL_USER: db_user
             MYSQL_PASSWORD: db_password
+        links:
+            - db:db
         networks:
             frontproxynet:
                 aliases:
@@ -165,6 +167,8 @@ services:
             - ${PUBLIC_APP_PORT}:80/tcp
         depends_on:
             - app
+        links:
+            - app:app
         volumes:
             - ./:/var/www/html:cached
         networks:
