@@ -13,7 +13,7 @@
 
                         <div class="btns">
                             <a :href="linkUrl" class="btn large-btn" v-if="linkUrl && linkLabel">{{ linkLabel }}</a>
-                            <button v-if="closeable" class="large-btn" @click="close">Close</button>
+                            <button type="button" v-if="closeable" class="large-btn" @click="close">Close</button>
                         </div>
                     </div>
                 </div>
