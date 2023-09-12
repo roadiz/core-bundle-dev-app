@@ -8,7 +8,7 @@ services:
             args:
                 USER_UID: ${USER_UID}
         networks:
-            default:
+            - default
         volumes:
             - "./.data/db_test:/var/lib/mysql:delegated"
             - "./docker/mysql/performances.cnf:/etc/mysql/conf.d/performances.cnf"
@@ -35,7 +35,7 @@ services:
         ports:
             - ${PUBLIC_DB_PORT}:3306/tcp
         networks:
-            default:
+            - default
         volumes:
             - "./.data/db:/var/lib/mysql:delegated"
             - "./docker/mysql/performances.cnf:/etc/mysql/conf.d/performances.cnf"
@@ -61,6 +61,8 @@ services:
                 aliases:
                     - ${APP_NAMESPACE}_pma
             default:
+                aliases:
+                    - pma
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}_pma.loadbalancer.server.scheme=http"
@@ -128,9 +130,7 @@ services:
         volumes:
             - ./:/var/www/html:cached
         networks:
-            default:
-                aliases:
-                    - app
+            - default
         environment:
             APP_CACHE: ${APP_CACHE}
             TRUSTED_PROXIES: ${TRUSTED_PROXIES}
@@ -176,6 +176,8 @@ services:
                 aliases:
                     - ${APP_NAMESPACE}_nginx
             default:
+                aliases:
+                    - nginx
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.scheme=http"
@@ -215,6 +217,8 @@ services:
                 aliases:
                     - ${APP_NAMESPACE}_mailer
             default:
+                aliases:
+                    - mailer
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}_mailer.loadbalancer.server.scheme=http"
