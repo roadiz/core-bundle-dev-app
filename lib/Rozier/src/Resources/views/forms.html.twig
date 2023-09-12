@@ -371,23 +371,25 @@
                     <div class="drawer-widget-nav__title label">{{ label|trans }}</div>
                 </div>
                 <div class="drawer-widget-nav__content">
-                    <ul class="uk-navbar-nav">
-                        <li class="children-nodes-quick-creation"
-                            data-uk-dropdown="{mode:'click'}">
-                            <div class="uk-button"><i class="uk-icon-rz-plus-simple"></i></div>
-                            <div class="uk-dropdown uk-dropdown-navbar">
-                                {% for linkedType in linkedTypes %}
-                                    <a class="uk-button uk-button-small"
-                                        href="#"
-                                        data-children-node-type="{{ linkedType.getId }}"
-                                        data-children-parent-node="{{ nodeTree.rootNode.getId }}"
-                                        data-translation-id="{{ nodeTree.translation.getId }}">
-                                        <i class="uk-icon-rz-plus-simple"></i>{{ linkedType.getDisplayName }}
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        </li>
-                    </ul>
+                    {% if linkedTypes|length %}
+                        <ul class="uk-navbar-nav">
+                            <li class="children-nodes-quick-creation"
+                                data-uk-dropdown="{mode:'click'}">
+                                <div class="uk-button"><i class="uk-icon-rz-plus-simple"></i></div>
+                                <div class="uk-dropdown uk-dropdown-navbar">
+                                    {% for linkedType in linkedTypes %}
+                                        <a class="uk-button uk-button-small"
+                                           href="#"
+                                           data-children-node-type="{{ linkedType.getId }}"
+                                           data-children-parent-node="{{ nodeTree.rootNode.getId }}"
+                                           data-translation-id="{{ nodeTree.translation.getId }}">
+                                            <i class="uk-icon-rz-plus-simple"></i>{{ linkedType.getDisplayName }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        </ul>
+                    {% endif %}
                 </div>
             </nav>
             <div class="children-nodes-tree">
