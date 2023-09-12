@@ -34,7 +34,7 @@
             <table class="content-table uk-table">
                 {% for key, cache in cachesInfo %}
                 <tr>
-                    <td>{{ key|trans }}</td>
+                    <th>{{ key|trans }}</th>
                     <td>{% if cache %}<i class="uk-icon-check"></i> {{ cache }}{% else %}<i class="uk-icon-close"></i> {% trans %}no.cache.available{% endtrans %}{% endif %}</td>
                 </tr>
                 {% endfor %}

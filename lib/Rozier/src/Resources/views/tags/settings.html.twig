@@ -32,15 +32,15 @@
         <div class="content-table-cont metadata-list">
             <table class="uk-table content-table">
                 <tr>
-                    <td>{% trans %}created.at{% endtrans %}</td>
+                    <th>{% trans %}created.at{% endtrans %}</th>
                     <td>{{ tag.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
                 </tr>
                 <tr>
-                    <td>{% trans %}updated.at{% endtrans %}</td>
+                    <th>{% trans %}updated.at{% endtrans %}</th>
                     <td>{{ tag.updatedAt|format_datetime('long', locale=app.request.locale) }}</td>
                 </tr>
                 <tr>
-                    <td>{% trans %}position{% endtrans %}</td>
+                    <th>{% trans %}position{% endtrans %}</th>
                     <td>{{ tag.position }}</td>
                 </tr>
             </table>

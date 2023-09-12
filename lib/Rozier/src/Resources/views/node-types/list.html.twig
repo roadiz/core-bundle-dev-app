@@ -81,7 +81,7 @@
 
                         <tr class="{{ classes|join(' ') }}">
                             <td class="name"><a href="{{ path('nodeTypesEditPage', { nodeTypeId: type.getId }) }}">
-                                <span class="color" style="background-color:{{ type.getColor }};"></span>{{ type.getName }}
+                                <span class="color" style="--data-color:{{ type.getColor }};"></span>{{ type.getName }}
                             </a></td>
                             <td class="mobile-hidden uk-hidden-small">{{ type.getDisplayName }}</td>
                             <td class="mobile-hidden uk-hidden-small uk-visible-xlarge">{{ type.getSourceEntityClassName }}</td>

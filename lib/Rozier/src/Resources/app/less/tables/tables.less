@@ -47,9 +47,7 @@
     th {
         vertical-align: middle;
         position: relative;
-        color:@form-head-color;
-        background-color: rgba(255, 255, 255, 0.75);
-        //border-left:1px solid @form-head-border-color;
+        color: @form-head-color;
         .box-sizing();
 
         a {
@@ -58,6 +56,11 @@
             &.active {
                 color: @contrast-color-darker;
             }
+        }
+    }
+    thead {
+        th {
+            background-color: rgba(255, 255, 255, 0.75);
         }
     }
     td {
@@ -75,7 +78,7 @@
         }
 
         &:nth-of-type(2n){
-            td {
+            td, th {
                 background-color: rgba(255, 255, 255, 0.75);
             }
         }

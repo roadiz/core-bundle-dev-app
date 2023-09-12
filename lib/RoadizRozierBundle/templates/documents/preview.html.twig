@@ -48,15 +48,15 @@
         <article class="content content-document-infos">
             <div class="content-inner">
                 <table class="uk-table content-table">
-                    <tr><td>{% trans %}document.relative_url{% endtrans %}</td><td>{{ document|url(thumbnailFormat) }}</td></tr>
-                    <tr><td>{% trans %}document.absolute_url{% endtrans %}</td><td>{{ document|url(thumbnailFormat|merge({absolute:true})) }}</td></tr>
-                    <tr><td>{% trans %}document.unprocessed_url{% endtrans %}</td><td>{{ document|url({noProcess:true}) }}</td></tr>
+                    <tr><th>{% trans %}document.relative_url{% endtrans %}</th><td>{{ document|url(thumbnailFormat) }}</td></tr>
+                    <tr><th>{% trans %}document.absolute_url{% endtrans %}</th><td>{{ document|url(thumbnailFormat|merge({absolute:true})) }}</td></tr>
+                    <tr><th>{% trans %}document.unprocessed_url{% endtrans %}</th><td>{{ document|url({noProcess:true}) }}</td></tr>
                     {% if document.isEmbed and document|embedFinder %}
-                        <tr><td>{% trans %}document.source_url{% endtrans %}</td><td>{{ (document|embedFinder).source }}</td></tr>
+                        <tr><th>{% trans %}document.source_url{% endtrans %}</th><td>{{ (document|embedFinder).source }}</td></tr>
                     {% endif %}
-                    <tr><td>{% trans %}document.filesize{% endtrans %}</td><td>{{ document.filesize|formatBytes }}</td></tr>
+                    <tr><th>{% trans %}document.filesize{% endtrans %}</th><td>{{ document.filesize|formatBytes }}</td></tr>
                     {% for key, info in infos %}
-                        <tr><td>{{ ('document.' ~ key)|trans }}</td><td>{{ info }}</td></tr>
+                        <tr><th>{{ ('document.' ~ key)|trans }}</th><td>{{ info }}</td></tr>
                     {% endfor %}
                 </table>
                 {% if otherVideos|length %}
