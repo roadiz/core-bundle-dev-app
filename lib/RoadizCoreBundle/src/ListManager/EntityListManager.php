@@ -135,6 +135,7 @@ class EntityListManager extends AbstractEntityListManager
 
     protected function handleOrderingParam(string $field, string $ordering): void
     {
+        $this->validateOrderingFieldName($field);
         $this->orderingArray = [
             $field => $ordering
         ];

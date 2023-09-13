@@ -66,6 +66,7 @@ class QueryBuilderListManager extends AbstractEntityListManager
 
     protected function handleOrderingParam(string $field, string $ordering): void
     {
+        $this->validateOrderingFieldName($field);
         $this->queryBuilder->addOrderBy(
             sprintf('%s.%s', $this->identifier, $field),
             $ordering

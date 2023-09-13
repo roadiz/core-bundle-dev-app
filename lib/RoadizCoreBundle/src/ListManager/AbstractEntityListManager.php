@@ -281,4 +281,12 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     {
         // Do nothing on abstract
     }
+
+    protected function validateOrderingFieldName(string $field): void
+    {
+        // check if field is a valid name without any SQL injection
+        if (\preg_match('/^[a-zA-Z0-9_.]+$/', $field) !== 1) {
+            throw new \InvalidArgumentException('Field name is not valid.');
+        }
+    }
 }
