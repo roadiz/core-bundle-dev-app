@@ -125,6 +125,7 @@ class EntityListManager extends AbstractEntityListManager
                 $this->request->query->get('field') &&
                 $this->request->query->get('ordering')
             ) {
+                $this->validateOrderingFieldName($this->request->query->get('field'));
                 $this->orderingArray = [
                     $this->request->query->get('field') => $this->request->query->get('ordering')
                 ];
