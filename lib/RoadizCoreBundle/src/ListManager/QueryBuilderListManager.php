@@ -49,6 +49,7 @@ class QueryBuilderListManager extends AbstractEntityListManager
                 $this->request->query->get('field') &&
                 $this->request->query->get('ordering')
             ) {
+                $this->validateOrderingFieldName($this->request->query->get('field'));
                 $this->queryBuilder->addOrderBy(
                     sprintf('%s.%s', $this->identifier, $this->request->query->get('field')),
                     $this->request->query->get('ordering')

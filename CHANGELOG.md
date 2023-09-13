@@ -1,3 +1,10 @@
+## [v2.1.45](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.44...v2.1.45) (2023-09-13)
+
+
+### Bug Fixes
+
+* **EntityListManager:** Validate ordering field name before QueryBuilder rejects it ([76cc4b4](https://github.com/roadiz/core-bundle-dev-app/commit/76cc4b427ab409d850198ae5da4091dad00a4f26))
+
 ## [v2.1.44](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.43...v2.1.44) (2023-09-07)
 
 
