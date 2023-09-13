@@ -18,6 +18,28 @@
     line-height: 20px;
     letter-spacing: 0.02em;
     text-shadow: none;
+
+    &-mini {
+        border-radius: 4px;
+        padding: 4px 8px;
+        font-size: 10px;
+        background: none;
+        margin: 2px;
+        line-height: 1;
+    }
+
+    a& {
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        color: #717171;
+        transition: border-color ease 0.33s, color ease 0.33s;
+
+        &.active,
+        &:hover {
+            text-decoration: none;
+            border: 1px solid #7c7c7c;
+            color: #434343;
+        }
+    }
 }
 
 .uk-badge-success{
