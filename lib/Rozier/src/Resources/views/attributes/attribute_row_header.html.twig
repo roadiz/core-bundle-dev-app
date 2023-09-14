@@ -1,0 +1,12 @@
+<th>
+    {% trans %}attributes.code{% endtrans %}
+    {% if not no_sort %}
+        {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+            'field': 'code',
+            'filters': filters,
+        } only %}
+    {% endif %}
+</th>
+<th>{% trans %}attributes.form.type{% endtrans %}</th>
+<th>{% trans %}attributes.group{% endtrans %}</th>
+<th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>

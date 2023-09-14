@@ -1,21 +1,11 @@
 /*------------------------------------*\
    BULK
 \*------------------------------------*/
-
-
-/*
- * Styles for bulk actions sections
- */
-
-
-/* -------- STYLES -------- */
-
 .bulk-actions{
     text-align: center;
     padding: 20px 0 10px 0;
 
     .uk-form{
-
         input[type="text"],
         input[type="password"],
         input[type="search"],
@@ -156,5 +146,48 @@
         content:'';
         right:50px; bottom:0; left:50px;
         border-bottom:1px dashed #cbcbcb;
+    }
+}
+
+/*
+   BULK actions generic
+ */
+.bulk-selection {
+    display: inline-flex;
+    margin-right: 1em;
+    vertical-align: middle;
+
+    & > input {
+        cursor: pointer;
+    }
+}
+
+// You must prefix you item container with .bulk-layout
+.bulk-layout {
+    .bulk-actions {
+        --collapser: "";
+        --collapse: -120px;
+        --collapse-max-height: none;
+        max-height: var(--collapse-max-height);
+        transition: visibility .3s, padding .3s;
+        overflow: hidden;
+    }
+    .bulk-actions:before {
+        content: var(--collapser);
+        display: block;
+        margin-top: 0;
+        transition: margin-top .3s;
+    }
+    .bulk-actions.bulk-actions--collapsed {
+        visibility: hidden;
+        padding: 0;
+    }
+    .bulk-actions.bulk-actions--collapsed:before {
+        margin-top: var(--collapse);
+    }
+    .bulk-actions__actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }

@@ -3,7 +3,7 @@
 {% block title %}{% trans %}attributes{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
+<section class="content-global content-nav-and-filters bulk-layout">
     <header class="content-header header-item header-item-list">
         <h1 class="content-title item-list-title">{% trans %}attributes{% endtrans %}</h1>
         {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
@@ -24,46 +24,23 @@
     </header>
 
     {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
 
     <article class="content content-no-action-menu">
         <div class="content-table-cont">
             <table class="items content-table uk-table attributes">
                 <thead>
                     <tr>
-                        <th>
-                            {% trans %}attributes.code{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'code',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th>{% trans %}attributes.form.type{% endtrans %}</th>
-                        <th>{% trans %}attributes.group{% endtrans %}</th>
-                        <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
+                        {% include '@RoadizRozier/attributes/attribute_row_header.html.twig' %}
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in items %}
                     <tr>
-                        <td class="name">
-                            <a href="{{ path('attributesEditPage', { id: item.id }) }}">
-                                <span class="color" style="background-color:{{ item.color|default('transparent') }};"></span>
-                                {{ item.attributeTranslations.first.label|default(item.code) -}}
-                            </a>
-                        </td>
-                        <td>{{- item.typeLabel|trans -}}</td>
-                        <td>{%- if item.group -%}
-                                {{- item.group.name -}}
-                            {%- endif -%}</td>
-                        <td class="table-actions-row">
-                        {% apply spaceless %}
-                            <a class="uk-button uk-button-content uk-button-small" href="{{ path('attributesEditPage', { id: item.id }) }}" title="{% trans %}edit{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                            {% if is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') %}
-                                <a class="uk-button uk-button-content uk-button-small uk-button-table-delete" href="{{ path('attributesDeletePage', { id: item.id }) }}" title="{% trans %}delete{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></a>
-                            {% endif %}
-                        {% endapply %}
-                        </td>
+                        {% include '@RoadizRozier/attributes/attribute_row.html.twig' %}
                     </tr>
+                    {% else %}
+                        <tr><td colspan="4">{% trans %}no_attributes{% endtrans %}</td></tr>
                     {% endfor %}
                 </tbody>
             </table>

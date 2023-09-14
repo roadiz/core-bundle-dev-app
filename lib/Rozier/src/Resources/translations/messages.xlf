@@ -786,6 +786,17 @@
             <trans-unit xml:space="preserve" id="nodes.bulk.not_untagged"><source>nodes.bulk.not_untagged</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodes.bulk.untagged"><source>nodes.bulk.untagged</source></trans-unit>
             <trans-unit xml:space="preserve" id="bulk.actions"><source>bulk.actions</source></trans-unit>
+            <trans-unit id="bulk.delete" xml:space="preserve"><source>bulk.delete</source></trans-unit>
+            <trans-unit id="bulk.publish" xml:space="preserve"><source>bulk.publish</source></trans-unit>
+            <trans-unit id="bulk.unpublish" xml:space="preserve"><source>bulk.unpublish</source></trans-unit>
+
+            <trans-unit id="no_attributes" xml:space="preserve"><source>no_attributes</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve"><source>are_you_sure.bulk_delete.attributes</source></trans-unit>
+            <trans-unit id="attributes.bulk_delete.title" xml:space="preserve"><source>attributes.bulk_delete.title</source></trans-unit>
+
+            <trans-unit id="no_webhooks" xml:space="preserve"><source>no_webhooks</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve"><source>are_you_sure.bulk_delete.webhooks</source></trans-unit>
+            <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve"><source>webhooks.bulk_delete.title</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="reset.marker"><source>reset.marker</source></trans-unit>
             <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter"><source>geotag.type_an_address.then_type_enter</source></trans-unit>
