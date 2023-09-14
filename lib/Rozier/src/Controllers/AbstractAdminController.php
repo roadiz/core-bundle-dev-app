@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
+use Doctrine\Persistence\ObjectRepository;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
@@ -60,6 +61,11 @@ abstract class AbstractAdminController extends RozierApp
     protected function prepareWorkingItem(PersistableInterface $item): void
     {
         // Add or modify current working item.
+    }
+
+    protected function getRepository(): ObjectRepository
+    {
+        return $this->em()->getRepository($this->getEntityClass());
     }
 
     /**
@@ -214,7 +220,7 @@ abstract class AbstractAdminController extends RozierApp
         $this->denyAccessUnlessGranted($this->getRequiredRole());
         $this->additionalAssignation($request);
 
-        $items = $this->em()->getRepository($this->getEntityClass())->findAll();
+        $items = $this->getRepository()->findAll();
 
         return new JsonResponse(
             $this->serializer->serialize(

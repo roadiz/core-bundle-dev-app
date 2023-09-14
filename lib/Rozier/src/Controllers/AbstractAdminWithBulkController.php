@@ -105,7 +105,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             if (count($ids) < 1) {
                 $bulkDeleteForm->addError(new FormError('No item selected.'));
             } else {
-                $items = $this->em()->getRepository($this->getEntityClass())->findBy([
+                $items = $this->getRepository()->findBy([
                     'id' => $ids,
                 ]);
                 $deleteForm = $this->createDeleteBulkForm(false, [
@@ -123,7 +123,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                 $deleteForm->addError(new FormError('No item selected.'));
             } else {
                 /** @var PersistableInterface[] $items */
-                $items = $this->em()->getRepository($this->getEntityClass())->findBy([
+                $items = $this->getRepository()->findBy([
                     'id' => $ids,
                 ]);
                 foreach ($items as $item) {
@@ -166,7 +166,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             if (count($ids) < 1) {
                 $bulkPublishForm->addError(new FormError('No item selected.'));
             } else {
-                $items = $this->em()->getRepository($this->getEntityClass())->findBy([
+                $items = $this->getRepository()->findBy([
                     'id' => $ids,
                 ]);
                 $publishForm = $this->createPublishBulkForm(false, [
@@ -184,7 +184,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                 $publishForm->addError(new FormError('No item selected.'));
             } else {
                 /** @var PersistableInterface[] $items */
-                $items = $this->em()->getRepository($this->getEntityClass())->findBy([
+                $items = $this->getRepository()->findBy([
                     'id' => $ids,
                 ]);
                 foreach ($items as $item) {
@@ -229,7 +229,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             if (count($ids) < 1) {
                 $bulkUnpublishForm->addError(new FormError('No item selected.'));
             } else {
-                $items = $this->em()->getRepository($this->getEntityClass())->findBy([
+                $items = $this->getRepository()->findBy([
                     'id' => $ids,
                 ]);
                 $unpublishForm = $this->createUnpublishBulkForm(false, [
@@ -247,7 +247,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                 $unpublishForm->addError(new FormError('No item selected.'));
             } else {
                 /** @var PersistableInterface[] $items */
-                $items = $this->em()->getRepository($this->getEntityClass())->findBy([
+                $items = $this->getRepository()->findBy([
                     'id' => $ids,
                 ]);
                 foreach ($items as $item) {
