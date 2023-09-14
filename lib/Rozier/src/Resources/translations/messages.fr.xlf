@@ -2896,6 +2896,30 @@
         <source>webhooks.bulk_delete.title</source>
         <target state="translated">Supprimer des webhooks</target>
       </trans-unit>
+      <trans-unit id="no_redirections" xml:space="preserve">
+        <source>no_redirections</source>
+        <target state="translated">Aucune redirection</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.redirections</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer toutes les redirections sélectionnées ?</target>
+      </trans-unit>
+      <trans-unit id="redirections.bulk_delete.title" xml:space="preserve">
+        <source>redirections.bulk_delete.title</source>
+        <target state="translated">Supprimer des redirections</target>
+      </trans-unit>
+      <trans-unit id="no_custom_forms" xml:space="preserve">
+        <source>no_custom_forms</source>
+        <target state="translated">Aucun formulaire personnalisé</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.custom_forms</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les formulaires personnalisés sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve">
+        <source>custom_forms.bulk_delete.title</source>
+        <target state="translated">Supprimer des formulaires personnalisés</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="reset.marker" approved="yes">
         <source>reset.marker</source>
         <target state="final">Supprimer le marqueur</target>
@@ -4728,6 +4752,16 @@
         <source>%namespace%.%item%.was_deleted</source>
         <target state="translated">%namespace% "%item%" a été supprimé.</target>
         <note>Default controller deleteAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_published">
+        <source>%namespace%.%item%.was_published</source>
+        <target state="translated">%namespace% "%item%" a été publié.</target>
+        <note>Default controller bulkPublishAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_unpublished">
+        <source>%namespace%.%item%.was_unpublished</source>
+        <target state="translated">%namespace% "%item%" a été dépublié.</target>
+        <note>Default controller bulkUnpublishAction result message.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="document.document_display_gallery">
         <source>document.document_display_gallery</source>
