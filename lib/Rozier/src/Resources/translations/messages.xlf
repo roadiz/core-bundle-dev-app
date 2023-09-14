@@ -802,6 +802,10 @@
             <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve"><source>are_you_sure.bulk_delete.redirections</source></trans-unit>
             <trans-unit id="redirections.bulk_delete.title" xml:space="preserve"><source>redirections.bulk_delete.title</source></trans-unit>
 
+            <trans-unit id="no_custom_forms" xml:space="preserve"><source>no_custom_forms</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve"><source>are_you_sure.bulk_delete.custom_forms</source></trans-unit>
+            <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve"><source>custom_forms.bulk_delete.title</source></trans-unit>
+
             <trans-unit xml:space="preserve" id="reset.marker"><source>reset.marker</source></trans-unit>
             <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter"><source>geotag.type_an_address.then_type_enter</source></trans-unit>
             <trans-unit xml:space="preserve" id="geographic.coordinates.type"><source>geographic.coordinates.type</source></trans-unit>
