@@ -75,6 +75,22 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         return null;
     }
 
+    /**
+     * @param FormInterface|null $form
+     * @return array<int|string>
+     */
+    protected function parseFormBulkIds(?FormInterface $form): array
+    {
+        if (null === $form) {
+            return [];
+        }
+        $ids = \json_decode($form->getData() ?? '[]');
+        return \array_filter($ids, function ($id) {
+            // Allow int or UUID identifiers
+            return is_numeric($id) || is_string($id);
+        });
+    }
+
     public function bulkDeleteAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted($this->getRequiredDeletionRole());
@@ -85,11 +101,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         $deleteForm->handleRequest($request);
 
         if ($bulkDeleteForm->isSubmitted() && $bulkDeleteForm->isValid()) {
-            $ids = json_decode($bulkDeleteForm->get('id')->getData() ?? '[]');
-            $ids = array_filter($ids, function ($id) {
-                // Allow int or UUID identifiers
-                return is_numeric($id) || is_string($id);
-            });
+            $ids = $this->parseFormBulkIds($bulkDeleteForm->get('id'));
             if (count($ids) < 1) {
                 $bulkDeleteForm->addError(new FormError('No item selected.'));
             } else {
@@ -106,11 +118,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             }
         }
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-            $ids = json_decode($deleteForm->get('id')->getData());
-            $ids = array_filter($ids, function ($id) {
-                // Allow int or UUID identifiers
-                return is_numeric($id) || is_string($id);
-            });
+            $ids = $this->parseFormBulkIds($deleteForm->get('id'));
             if (count($ids) < 1) {
                 $deleteForm->addError(new FormError('No item selected.'));
             } else {
@@ -154,10 +162,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         $publishForm->handleRequest($request);
 
         if ($bulkPublishForm->isSubmitted() && $bulkPublishForm->isValid()) {
-            $ids = json_decode($bulkPublishForm->get('id')->getData() ?? '[]');
-            $ids = array_filter($ids, function ($id) {
-                return is_numeric($id);
-            });
+            $ids = $this->parseFormBulkIds($bulkPublishForm->get('id'));
             if (count($ids) < 1) {
                 $bulkPublishForm->addError(new FormError('No item selected.'));
             } else {
@@ -174,10 +179,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             }
         }
         if ($publishForm->isSubmitted() && $publishForm->isValid()) {
-            $ids = json_decode($publishForm->get('id')->getData());
-            $ids = array_filter($ids, function ($id) {
-                return is_numeric($id);
-            });
+            $ids = $this->parseFormBulkIds($publishForm->get('id'));
             if (count($ids) < 1) {
                 $publishForm->addError(new FormError('No item selected.'));
             } else {
@@ -223,10 +225,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         $unpublishForm->handleRequest($request);
 
         if ($bulkUnpublishForm->isSubmitted() && $bulkUnpublishForm->isValid()) {
-            $ids = json_decode($bulkUnpublishForm->get('id')->getData() ?? '[]');
-            $ids = array_filter($ids, function ($id) {
-                return is_numeric($id);
-            });
+            $ids = $this->parseFormBulkIds($bulkUnpublishForm->get('id'));
             if (count($ids) < 1) {
                 $bulkUnpublishForm->addError(new FormError('No item selected.'));
             } else {
@@ -243,10 +242,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             }
         }
         if ($unpublishForm->isSubmitted() && $unpublishForm->isValid()) {
-            $ids = json_decode($unpublishForm->get('id')->getData());
-            $ids = array_filter($ids, function ($id) {
-                return is_numeric($id);
-            });
+            $ids = $this->parseFormBulkIds($unpublishForm->get('id'));
             if (count($ids) < 1) {
                 $unpublishForm->addError(new FormError('No item selected.'));
             } else {
