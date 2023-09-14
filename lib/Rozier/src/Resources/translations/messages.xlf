@@ -1349,6 +1349,8 @@
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_deleted"><source>%namespace%.%item%.was_deleted</source><note>Default controller deleteAction result message.</note></trans-unit>
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_published"><source>%namespace%.%item%.was_published</source><note>Default controller bulkPublishAction result message.</note></trans-unit>
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_unpublished"><source>%namespace%.%item%.was_unpublished</source><note>Default controller bulkUnpublishAction result message.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="%namespace%.%item%.was_enabled"><source>%namespace%.%item%.was_enabled</source><note>Default controller bulkEnableAction result message.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="%namespace%.%item%.was_disabled"><source>%namespace%.%item%.was_disabled</source><note>Default controller bulkDisabledAction result message.</note></trans-unit>
 
             <trans-unit xml:space="preserve" id="document.document_display_gallery"><source>document.document_display_gallery</source></trans-unit>
             <trans-unit xml:space="preserve" id="documents.document_display_list"><source>documents.document_display_list</source></trans-unit>
