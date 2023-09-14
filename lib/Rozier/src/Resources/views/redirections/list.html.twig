@@ -36,6 +36,8 @@
                     <tr>
                         {% include '@RoadizRozier/redirections/redirection_row.html.twig' %}
                     </tr>
+                    {% else %}
+                        <tr><td colspan="5">{% trans %}no_redirections{% endtrans %}</td></tr>
                     {% endfor %}
                 </tbody>
             </table>
