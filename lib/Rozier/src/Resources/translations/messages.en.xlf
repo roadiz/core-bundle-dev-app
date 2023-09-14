@@ -2860,6 +2860,42 @@
         <source>bulk.actions</source>
         <target state="final">Bulk actions</target>
       </trans-unit>
+      <trans-unit id="bulk.delete" xml:space="preserve">
+        <source>bulk.delete</source>
+        <target state="translated">Delete all selected</target>
+      </trans-unit>
+      <trans-unit id="bulk.publish" xml:space="preserve">
+        <source>bulk.publish</source>
+        <target state="translated">Publish all selected</target>
+      </trans-unit>
+      <trans-unit id="bulk.unpublish" xml:space="preserve">
+        <source>bulk.unpublish</source>
+        <target state="translated">Unpublish all selected</target>
+      </trans-unit>
+      <trans-unit id="no_attributes" xml:space="preserve">
+        <source>no_attributes</source>
+        <target state="translated">No attributes</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.attributes</source>
+        <target state="translated">Are you sure you want to delete all selected attributes?</target>
+      </trans-unit>
+      <trans-unit id="attributes.bulk_delete.title" xml:space="preserve">
+        <source>attributes.bulk_delete.title</source>
+        <target state="translated">Delete attributes</target>
+      </trans-unit>
+      <trans-unit id="no_webhooks" xml:space="preserve">
+        <source>no_webhooks</source>
+        <target state="translated">No webhooks</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.webhooks</source>
+        <target state="translated">Are you sure you want to delete all selected webhooks?</target>
+      </trans-unit>
+      <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve">
+        <source>webhooks.bulk_delete.title</source>
+        <target state="translated">Delete webhooks</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="reset.marker" approved="yes">
         <source>reset.marker</source>
         <target state="final">Reset marker</target>
