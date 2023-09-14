@@ -13,7 +13,7 @@ use RZ\Roadiz\CoreBundle\Event\Redirection\RedirectionEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Themes\Rozier\Forms\RedirectionType;
 
-class RedirectionsController extends AbstractAdminController
+class RedirectionsController extends AbstractAdminWithBulkController
 {
     /**
      * @inheritDoc
@@ -128,5 +128,10 @@ class RedirectionsController extends AbstractAdminController
             throw new \InvalidArgumentException('Item should be instance of ' . Redirection::class);
         }
         return new PostDeletedRedirectionEvent($item);
+    }
+
+    protected function getBulkDeleteRouteName(): ?string
+    {
+        return 'redirectionsBulkDeletePage';
     }
 }

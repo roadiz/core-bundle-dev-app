@@ -1,19 +1,27 @@
-<th>{% trans %}webhooks.description{% endtrans %}</th>
 <th>
-    {% trans %}webhooks.messageType{% endtrans %}
+    {% trans %}redirection.query{% endtrans %}
     {% if not no_sort %}
     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-        'field': 'messageType',
+        'field': 'query',
         'filters': filters,
     } only %}
     {% endif %}
 </th>
-<th>{% trans %}webhooks.automatic{% endtrans %}</th>
 <th>
-    {% trans %}webhooks.lastTriggeredAt{% endtrans %}
+    {% trans %}redirection.redirect_uri{% endtrans %}
     {% if not no_sort %}
     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-        'field': 'lastTriggeredAt',
+        'field': 'redirectUri',
+        'filters': filters,
+    } only %}
+    {% endif %}
+</th>
+<th>{% trans %}redirection.type{% endtrans %}</th>
+<th>
+    {% trans %}redirection.use_count{% endtrans %}
+    {% if not no_sort %}
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'useCount',
         'filters': filters,
     } only %}
     {% endif %}

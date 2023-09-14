@@ -5,7 +5,10 @@
         </div>
         {% apply spaceless %}
             <div class="bulk-actions__actions">
-                <a class="uk-button uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-tags" href="#" title="{% trans %}deselect.all{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-square-o"></i></a>
+                <button type="button"
+                        class="uk-button uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-tags"
+                        title="{% trans %}deselect.all{% endtrans %}"
+                        data-uk-tooltip="{animation:true}"><i class="uk-icon-square-o"></i></button>
                 {# Links #}
                 {% if bulkDeleteForm %}
                     {% form_theme bulkDeleteForm '@RoadizRozier/horizontalForms.html.twig' %}

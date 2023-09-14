@@ -7,7 +7,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global  content-nav-and-filters">
+<section class="bulk-layout content-global content-nav-and-filters">
     <header class="content-header header-redirection header-redirection-list">
         <h1 class="content-title redirection-title">{% trans %}manage.redirections{% endtrans %}</h1>
         {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
@@ -22,70 +22,19 @@
     </header>
 
     {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include '@RoadizRozier/admin/bulk_actions.html.twig' %}
     <article class="content content-no-action-menu content-node-types-list">
         <div class="content-table-cont">
             <table class="content-table redirections uk-table">
                 <thead>
                     <tr>
-                        <th>
-                            {% trans %}redirection.query{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'query',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th>
-                            {% trans %}redirection.redirect_uri{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'redirectUri',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th>{% trans %}redirection.type{% endtrans %}</th>
-                        <th>
-                            {% trans %}redirection.use_count{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'useCount',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
+                        {% include '@RoadizRozier/redirections/redirection_row_header.html.twig' %}
                     </tr>
                 </thead>
                 <tbody>
                     {% for item in items %}
-                        {% set url = path('redirectionsEditPage', { id: item.id }) %}
-                        {% if item.redirectNodeSource %}
-                            {% set url = path('nodesEditSEOPage', {
-                                'nodeId': item.redirectNodeSource.node.id,
-                                'translationId': item.redirectNodeSource.translation.id
-                            }) ~ '#manage-redirections' %}
-                        {% endif %}
                     <tr>
-                        <td>
-                            <a href="{{ url }}">{{ item.query }}</a>
-                        </td>
-                        <td>
-                            {% if item.redirectNodeSource %}
-                                <i class="uk-icon uk-icon-magic"></i> {{ path(item.redirectNodeSource) -}}
-                            {% else %}
-                                {{- item.redirectUri|u.truncate(80, '…') -}}
-                            {% endif %}
-                        </td>
-                        <td>{{ item.typeAsString|trans }}</td>
-                        <td>{{ item.useCount }}</td>
-                        <td class="table-actions-row">
-                        {% apply spaceless %}
-                            <a class="uk-button uk-button-content uk-button-small"
-                               href="{{ url }}"
-                               title="{% trans %}edit{% endtrans %}"
-                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                            <a class="uk-button uk-button-content uk-button-small uk-button-table-delete"
-                               href="{{ path('redirectionsDeletePage', { id: item.id }) }}"
-                               title="{% trans %}delete{% endtrans %}"
-                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                        {% endapply %}
-                        </td>
+                        {% include '@RoadizRozier/redirections/redirection_row.html.twig' %}
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -798,6 +798,10 @@
             <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve"><source>are_you_sure.bulk_delete.webhooks</source></trans-unit>
             <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve"><source>webhooks.bulk_delete.title</source></trans-unit>
 
+            <trans-unit id="no_redirections" xml:space="preserve"><source>no_redirections</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve"><source>are_you_sure.bulk_delete.redirections</source></trans-unit>
+            <trans-unit id="redirections.bulk_delete.title" xml:space="preserve"><source>redirections.bulk_delete.title</source></trans-unit>
+
             <trans-unit xml:space="preserve" id="reset.marker"><source>reset.marker</source></trans-unit>
             <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter"><source>geotag.type_an_address.then_type_enter</source></trans-unit>
             <trans-unit xml:space="preserve" id="geographic.coordinates.type"><source>geographic.coordinates.type</source></trans-unit>
@@ -1329,6 +1333,8 @@
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_created"><source>%namespace%.%item%.was_created</source><note>Default controller addAction result message.</note></trans-unit>
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_updated"><source>%namespace%.%item%.was_updated</source><note>Default controller editAction result message.</note></trans-unit>
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_deleted"><source>%namespace%.%item%.was_deleted</source><note>Default controller deleteAction result message.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="%namespace%.%item%.was_published"><source>%namespace%.%item%.was_published</source><note>Default controller bulkPublishAction result message.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="%namespace%.%item%.was_unpublished"><source>%namespace%.%item%.was_unpublished</source><note>Default controller bulkUnpublishAction result message.</note></trans-unit>
 
             <trans-unit xml:space="preserve" id="document.document_display_gallery"><source>document.document_display_gallery</source></trans-unit>
             <trans-unit xml:space="preserve" id="documents.document_display_list"><source>documents.document_display_list</source></trans-unit>

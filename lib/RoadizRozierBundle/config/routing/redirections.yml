@@ -12,3 +12,8 @@ redirectionsDeletePage:
     defaults:
         _controller: Themes\Rozier\Controllers\RedirectionsController::deleteAction
     requirements: { id : "[0-9]+" }
+redirectionsBulkDeletePage:
+    methods: [GET, POST]
+    path:     /bulk-delete
+    defaults:
+        _controller: Themes\Rozier\Controllers\RedirectionsController::bulkDeleteAction
