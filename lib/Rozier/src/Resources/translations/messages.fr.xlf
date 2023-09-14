@@ -2860,6 +2860,42 @@
         <source>bulk.actions</source>
         <target state="final">Actions groupées</target>
       </trans-unit>
+      <trans-unit id="bulk.delete" xml:space="preserve">
+        <source>bulk.delete</source>
+        <target state="translated">Supprimer les éléments sélectionnés</target>
+      </trans-unit>
+      <trans-unit id="bulk.publish" xml:space="preserve">
+        <source>bulk.publish</source>
+        <target state="translated">Publier les éléments sélectionnés</target>
+      </trans-unit>
+      <trans-unit id="bulk.unpublish" xml:space="preserve">
+        <source>bulk.unpublish</source>
+        <target state="translated">Dépublier les éléments sélectionnés</target>
+      </trans-unit>
+      <trans-unit id="no_attributes" xml:space="preserve">
+        <source>no_attributes</source>
+        <target state="translated">Aucun attribut</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.attributes</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les attributs sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="attributes.bulk_delete.title" xml:space="preserve">
+        <source>attributes.bulk_delete.title</source>
+        <target state="translated">Supprimer des attributs</target>
+      </trans-unit>
+      <trans-unit id="no_webhooks" xml:space="preserve">
+        <source>no_webhooks</source>
+        <target state="translated">Aucun webhook</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.webhooks</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les webhooks sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve">
+        <source>webhooks.bulk_delete.title</source>
+        <target state="translated">Supprimer des webhooks</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="reset.marker" approved="yes">
         <source>reset.marker</source>
         <target state="final">Supprimer le marqueur</target>
