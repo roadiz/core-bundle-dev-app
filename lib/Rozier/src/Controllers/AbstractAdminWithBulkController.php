@@ -91,196 +91,145 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         });
     }
 
-    public function bulkDeleteAction(Request $request): Response
-    {
-        $this->denyAccessUnlessGranted($this->getRequiredDeletionRole());
+    protected function bulkAction(
+        Request $request,
+        string $requiredRole,
+        FormInterface $bulkForm,
+        FormInterface $form,
+        callable $createBulkFormWithIds,
+        string $templatePath,
+        string $confirmMessageTemplate,
+        callable $alterItemCallable,
+        string $bulkFormName
+    ): Response {
+        $this->denyAccessUnlessGranted($requiredRole);
+        $bulkForm->handleRequest($request);
+        $form->handleRequest($request);
 
-        $bulkDeleteForm = $this->createDeleteBulkForm(true);
-        $deleteForm = $this->createDeleteBulkForm();
-        $bulkDeleteForm->handleRequest($request);
-        $deleteForm->handleRequest($request);
-
-        if ($bulkDeleteForm->isSubmitted() && $bulkDeleteForm->isValid()) {
-            $ids = $this->parseFormBulkIds($bulkDeleteForm->get('id'));
+        if ($bulkForm->isSubmitted() && $bulkForm->isValid()) {
+            $ids = $this->parseFormBulkIds($bulkForm->get('id'));
             if (count($ids) < 1) {
-                $bulkDeleteForm->addError(new FormError('No item selected.'));
+                $bulkForm->addError(new FormError('No item selected.'));
             } else {
                 $items = $this->getRepository()->findBy([
                     'id' => $ids,
                 ]);
-                $deleteForm = $this->createDeleteBulkForm(false, [
-                    'id' => json_encode($ids),
-                ]);
-
+                $formWithIds = $createBulkFormWithIds(json_encode($ids));
+                if (!$formWithIds instanceof FormInterface) {
+                    throw new \RuntimeException('Invalid form returned.');
+                }
                 $this->assignation['items'] = $items;
                 $this->assignation['filters'] = ['itemCount' => count($items)];
-                $this->assignation['form'] = $deleteForm->createView();
+                $this->assignation['form'] = $formWithIds->createView();
             }
         }
-        if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-            $ids = $this->parseFormBulkIds($deleteForm->get('id'));
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $ids = $this->parseFormBulkIds($form->get('id'));
             if (count($ids) < 1) {
-                $deleteForm->addError(new FormError('No item selected.'));
+                $form->addError(new FormError('No item selected.'));
             } else {
                 /** @var PersistableInterface[] $items */
                 $items = $this->getRepository()->findBy([
                     'id' => $ids,
                 ]);
                 foreach ($items as $item) {
-                    $msg = $this->getTranslator()->trans(
-                        '%namespace%.%item%.was_deleted',
-                        [
-                            '%item%' => $this->getEntityName($item),
-                            '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
-                        ]
-                    );
-                    $this->publishConfirmMessage($request, $msg, $item);
-                    $this->removeItem($item);
+                    if ($this->supports($item)) {
+                        $alterItemCallable($item);
+                        $msg = $this->getTranslator()->trans(
+                            $confirmMessageTemplate,
+                            [
+                                '%item%' => $this->getEntityName($item),
+                                '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
+                            ]
+                        );
+                        $this->publishConfirmMessage($request, $msg, $item);
+                    }
                 }
                 $this->em()->flush();
                 return $this->redirect($this->urlGenerator->generate($this->getDefaultRouteName()));
             }
         }
 
-        $this->assignation['bulkDeleteForm'] = $bulkDeleteForm->createView();
+        $this->assignation[$bulkFormName] = $bulkForm->createView();
 
         return $this->render(
-            $this->getTemplateFolder() . '/bulk_delete.html.twig',
+            $templatePath,
             $this->assignation,
             null,
             $this->getTemplateNamespace()
+        );
+    }
+
+    public function bulkDeleteAction(Request $request): Response
+    {
+        return $this->bulkAction(
+            $request,
+            $this->getRequiredDeletionRole(),
+            $this->createDeleteBulkForm(true),
+            $this->createDeleteBulkForm(),
+            function (string $ids) {
+                return $this->createDeleteBulkForm(false, [
+                    'id' => $ids,
+                ]);
+            },
+            $this->getTemplateFolder() . '/bulk_delete.html.twig',
+            '%namespace%.%item%.was_deleted',
+            function (PersistableInterface $item) {
+                $this->removeItem($item);
+            },
+            'bulkDeleteForm'
         );
     }
 
     public function bulkPublishAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted($this->getRequiredRole());
-
-        $bulkPublishForm = $this->createPublishBulkForm(true);
-        $publishForm = $this->createPublishBulkForm();
-        $bulkPublishForm->handleRequest($request);
-        $publishForm->handleRequest($request);
-
-        if ($bulkPublishForm->isSubmitted() && $bulkPublishForm->isValid()) {
-            $ids = $this->parseFormBulkIds($bulkPublishForm->get('id'));
-            if (count($ids) < 1) {
-                $bulkPublishForm->addError(new FormError('No item selected.'));
-            } else {
-                $items = $this->getRepository()->findBy([
+        return $this->bulkAction(
+            $request,
+            $this->getRequiredRole(),
+            $this->createPublishBulkForm(true),
+            $this->createPublishBulkForm(),
+            function (string $ids) {
+                return $this->createPublishBulkForm(false, [
                     'id' => $ids,
                 ]);
-                $publishForm = $this->createPublishBulkForm(false, [
-                    'id' => json_encode($ids),
-                ]);
-
-                $this->assignation['items'] = $items;
-                $this->assignation['filters'] = ['itemCount' => count($items)];
-                $this->assignation['form'] = $publishForm->createView();
-            }
-        }
-        if ($publishForm->isSubmitted() && $publishForm->isValid()) {
-            $ids = $this->parseFormBulkIds($publishForm->get('id'));
-            if (count($ids) < 1) {
-                $publishForm->addError(new FormError('No item selected.'));
-            } else {
-                /** @var PersistableInterface[] $items */
-                $items = $this->getRepository()->findBy([
-                    'id' => $ids,
-                ]);
-                foreach ($items as $item) {
-                    if ($this->supports($item)) {
-                        $this->setPublishedAt($item, new \DateTime('now'));
-                        $msg = $this->getTranslator()->trans(
-                            '%namespace%.%item%.was_published',
-                            [
-                                '%item%' => $this->getEntityName($item),
-                                '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
-                            ]
-                        );
-                        $this->publishConfirmMessage($request, $msg, $item);
-                    }
-                }
-                $this->em()->flush();
-                return $this->redirect($this->urlGenerator->generate($this->getDefaultRouteName()));
-            }
-        }
-
-        $this->assignation['bulkPublishForm'] = $bulkPublishForm->createView();
-
-        return $this->render(
+            },
             $this->getTemplateFolder() . '/bulk_publish.html.twig',
-            $this->assignation,
-            null,
-            $this->getTemplateNamespace()
+            '%namespace%.%item%.was_published',
+            function (PersistableInterface $item) {
+                $this->setPublishedAt($item, new \DateTime('now'));
+            },
+            'bulkPublishForm'
         );
     }
 
     public function bulkUnpublishAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted($this->getRequiredRole());
-
-        $bulkUnpublishForm = $this->createUnpublishBulkForm(true);
-        $unpublishForm = $this->createUnpublishBulkForm();
-        $bulkUnpublishForm->handleRequest($request);
-        $unpublishForm->handleRequest($request);
-
-        if ($bulkUnpublishForm->isSubmitted() && $bulkUnpublishForm->isValid()) {
-            $ids = $this->parseFormBulkIds($bulkUnpublishForm->get('id'));
-            if (count($ids) < 1) {
-                $bulkUnpublishForm->addError(new FormError('No item selected.'));
-            } else {
-                $items = $this->getRepository()->findBy([
+        return $this->bulkAction(
+            $request,
+            $this->getRequiredRole(),
+            $this->createUnpublishBulkForm(true),
+            $this->createUnpublishBulkForm(),
+            function (string $ids) {
+                return $this->createUnpublishBulkForm(false, [
                     'id' => $ids,
                 ]);
-                $unpublishForm = $this->createUnpublishBulkForm(false, [
-                    'id' => json_encode($ids),
-                ]);
-
-                $this->assignation['items'] = $items;
-                $this->assignation['filters'] = ['itemCount' => count($items)];
-                $this->assignation['form'] = $unpublishForm->createView();
-            }
-        }
-        if ($unpublishForm->isSubmitted() && $unpublishForm->isValid()) {
-            $ids = $this->parseFormBulkIds($unpublishForm->get('id'));
-            if (count($ids) < 1) {
-                $unpublishForm->addError(new FormError('No item selected.'));
-            } else {
-                /** @var PersistableInterface[] $items */
-                $items = $this->getRepository()->findBy([
-                    'id' => $ids,
-                ]);
-                foreach ($items as $item) {
-                    if ($this->supports($item)) {
-                        $this->setPublishedAt($item, null);
-                        $msg = $this->getTranslator()->trans(
-                            '%namespace%.%item%.was_unpublished',
-                            [
-                                '%item%' => $this->getEntityName($item),
-                                '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
-                            ]
-                        );
-                        $this->publishConfirmMessage($request, $msg, $item);
-                    }
-                }
-                $this->em()->flush();
-                return $this->redirect($this->urlGenerator->generate($this->getDefaultRouteName()));
-            }
-        }
-
-        $this->assignation['bulkUnpublishForm'] = $bulkUnpublishForm->createView();
-
-        return $this->render(
+            },
             $this->getTemplateFolder() . '/bulk_unpublish.html.twig',
-            $this->assignation,
-            null,
-            $this->getTemplateNamespace()
+            '%namespace%.%item%.was_unpublished',
+            function (PersistableInterface $item) {
+                $this->setPublishedAt($item, null);
+            },
+            'bulkUnpublishForm'
         );
     }
 
-    protected function createDeleteBulkForm(bool $get = false, ?array $data = null): FormInterface
-    {
-        $routeName = $this->getBulkDeleteRouteName();
+    protected function createBulkForm(
+        ?string $routeName,
+        string $formName,
+        bool $get = false,
+        ?array $data = null
+    ): FormInterface {
         if (null === $routeName) {
             throw new \RuntimeException('Bulk delete route name is not defined.');
         }
@@ -296,63 +245,41 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                 'method' => 'POST',
             ];
         }
-        return $this->formFactory->createNamedBuilder('bulk-delete', FormType::class, $data, $options)
+        return $this->formFactory->createNamedBuilder($formName, FormType::class, $data, $options)
             ->add('id', HiddenType::class, [
                 'attr' => [
                     'class' => 'bulk-form-value'
                 ]
             ])->getForm();
+    }
+
+    protected function createDeleteBulkForm(bool $get = false, ?array $data = null): FormInterface
+    {
+        return $this->createBulkForm(
+            $this->getBulkDeleteRouteName(),
+            'bulk-delete',
+            $get,
+            $data
+        );
     }
 
     protected function createPublishBulkForm(bool $get = false, ?array $data = null): FormInterface
     {
-        $routeName = $this->getBulkPublishRouteName();
-        if (null === $routeName) {
-            throw new \RuntimeException('Bulk publish route name is not defined.');
-        }
-
-        if ($get) {
-            $options = [
-                'action' => $this->generateUrl($routeName),
-                'method' => 'GET',
-            ];
-        } else {
-            $options = [
-                'action' => $this->generateUrl($routeName),
-                'method' => 'POST',
-            ];
-        }
-        return $this->formFactory->createNamedBuilder('bulk-publish', FormType::class, $data, $options)
-            ->add('id', HiddenType::class, [
-                'attr' => [
-                    'class' => 'bulk-form-value'
-                ]
-            ])->getForm();
+        return $this->createBulkForm(
+            $this->getBulkPublishRouteName(),
+            'bulk-publish',
+            $get,
+            $data
+        );
     }
 
     protected function createUnpublishBulkForm(bool $get = false, ?array $data = null): FormInterface
     {
-        $routeName = $this->getBulkUnpublishRouteName();
-        if (null === $routeName) {
-            throw new \RuntimeException('Bulk unpublish route name is not defined.');
-        }
-
-        if ($get) {
-            $options = [
-                'action' => $this->generateUrl($routeName),
-                'method' => 'GET',
-            ];
-        } else {
-            $options = [
-                'action' => $this->generateUrl($routeName),
-                'method' => 'POST',
-            ];
-        }
-        return $this->formFactory->createNamedBuilder('bulk-unpublish', FormType::class, $data, $options)
-            ->add('id', HiddenType::class, [
-                'attr' => [
-                    'class' => 'bulk-form-value'
-                ]
-            ])->getForm();
+        return $this->createBulkForm(
+            $this->getBulkUnpublishRouteName(),
+            'bulk-unpublish',
+            $get,
+            $data
+        );
     }
 }

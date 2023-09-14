@@ -40,6 +40,7 @@
                                 data-uk-tooltip="{animation:true}"><i class="uk-icon-times-circle-o"></i> </button>
                     {{ form_end(bulkUnpublishForm) }}
                 {% endif %}
+                {% block other_actions %}{% endblock %}
             </div>
         {% endapply %}
     </nav>

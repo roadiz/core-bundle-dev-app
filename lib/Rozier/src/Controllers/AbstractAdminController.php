@@ -69,13 +69,41 @@ abstract class AbstractAdminController extends RozierApp
     }
 
     /**
+     * @return string
+     */
+    protected function getRequiredDeletionRole(): string
+    {
+        return $this->getRequiredRole();
+    }
+
+    protected function getRequiredListingRole(): string
+    {
+        return $this->getRequiredRole();
+    }
+
+    protected function getRequiredCreationRole(): string
+    {
+        return $this->getRequiredRole();
+    }
+
+    protected function getRequiredEditionRole(): string
+    {
+        return $this->getRequiredRole();
+    }
+
+    protected function getRequiredExportRole(): string
+    {
+        return $this->getRequiredRole();
+    }
+
+    /**
      * @param Request $request
      * @return Response|null
      * @throws \Twig\Error\RuntimeError
      */
     public function defaultAction(Request $request)
     {
-        $this->denyAccessUnlessGranted($this->getRequiredRole());
+        $this->denyAccessUnlessGranted($this->getRequiredListingRole());
         $this->additionalAssignation($request);
 
         $elm = $this->createEntityListManager(
@@ -109,7 +137,7 @@ abstract class AbstractAdminController extends RozierApp
      */
     public function addAction(Request $request)
     {
-        $this->denyAccessUnlessGranted($this->getRequiredRole());
+        $this->denyAccessUnlessGranted($this->getRequiredCreationRole());
         $this->additionalAssignation($request);
 
         $item = $this->createEmptyItem($request);
@@ -162,7 +190,7 @@ abstract class AbstractAdminController extends RozierApp
      */
     public function editAction(Request $request, $id)
     {
-        $this->denyAccessUnlessGranted($this->getRequiredRole());
+        $this->denyAccessUnlessGranted($this->getRequiredEditionRole());
         $this->additionalAssignation($request);
 
         /** @var mixed|object|null $item */
@@ -217,7 +245,7 @@ abstract class AbstractAdminController extends RozierApp
 
     public function exportAction(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted($this->getRequiredRole());
+        $this->denyAccessUnlessGranted($this->getRequiredExportRole());
         $this->additionalAssignation($request);
 
         $items = $this->getRepository()->findAll();
@@ -326,14 +354,6 @@ abstract class AbstractAdminController extends RozierApp
      * @return string
      */
     abstract protected function getRequiredRole(): string;
-
-    /**
-     * @return string
-     */
-    protected function getRequiredDeletionRole(): string
-    {
-        return $this->getRequiredRole();
-    }
 
     /**
      * @return class-string<PersistableInterface>

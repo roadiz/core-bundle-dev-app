@@ -15,7 +15,7 @@
     {% if log.additionalData.user_id %}
         <div class="history-log-user">
             {% if is_granted('ROLE_ACCESS_USERS') and log.additionalData.user_id %}
-                {% set userPath = path("usersEditPage", { userId: log.additionalData.user_id }) %}
+                {% set userPath = path("usersEditPage", { id: log.additionalData.user_id }) %}
             {% elseif is_granted('ROLE_ACCESS_LOGS') and log.additionalData.user_id %}
                 {% set userPath = path('historyUserPage', { userId: log.additionalData.user_id }) %}
             {% else %}

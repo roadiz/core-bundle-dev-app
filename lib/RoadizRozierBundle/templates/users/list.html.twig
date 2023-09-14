@@ -3,7 +3,7 @@
 {% block title %}{% trans %}users{% endtrans %} | {{ parent() }}{% endblock %}
 
 {% block content %}
-    <section class="content-global content-nav-and-filters">
+    <section class="bulk-layout content-global content-nav-and-filters">
         <header class="content-header header-user header-user-list">
             <h1 class="content-title user-add-title">{% trans %}users{% endtrans %}</h1>
             {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
@@ -13,99 +13,45 @@
         </header>
 
         {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+        {% embed '@RoadizRozier/admin/bulk_actions.html.twig' %}
+            {% block other_actions %}
+                {% if bulkEnableForm %}
+                    {% form_theme bulkEnableForm '@RoadizRozier/horizontalForms.html.twig' %}
+                    {{ form_start(bulkEnableForm) }}
+                    {{ form_widget(bulkEnableForm) }}
+                    <button type="submit"
+                            class="uk-button uk-button-bulk uk-button-success rz-no-ajax-link"
+                            title="{% trans %}bulk.enable{% endtrans %}"
+                            data-uk-tooltip="{animation:true}"><i class="uk-icon-check-circle-o"></i> </button>
+                    {{ form_end(bulkEnableForm) }}
+                {% endif %}
+                {% if bulkDisableForm %}
+                    {% form_theme bulkDisableForm '@RoadizRozier/horizontalForms.html.twig' %}
+                    {{ form_start(bulkDisableForm) }}
+                    {{ form_widget(bulkDisableForm) }}
+                    <button type="submit"
+                            class="uk-button uk-button-bulk uk-button-success rz-no-ajax-link"
+                            title="{% trans %}bulk.disable{% endtrans %}"
+                            data-uk-tooltip="{animation:true}"><i class="uk-icon-times-circle-o"></i> </button>
+                    {{ form_end(bulkDisableForm) }}
+                {% endif %}
+            {% endblock %}
+        {% endembed %}
         <article class="content content-no-action-menu">
             <div class="content-table-cont">
                 <table class="content-table users uk-table">
                     <thead>
                     <tr>
-                        <th class="table-actions-userpicture-row mobile-hidden uk-visible-xlarge"></th>
-                        <th class="mobile-hidden">{% trans %}user.username{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'username',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th>{% trans %}user.email{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'email',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th class="mobile-hidden">{% trans %}user.lastLogin{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'lastLogin',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th class="mobile-hidden uk-visible-xlarge">{% trans %}user.roles{% endtrans %}</th>
-                        <th class="mobile-hidden uk-visible-large">{% trans %}user.status{% endtrans %}</th>
-                        <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
+                        {% include '@RoadizRozier/users/user_row_header.html.twig' %}
                     </tr>
                     </thead>
                     <tbody>
-                    {% for user in users %}
+                    {% for item in items %}
                         <tr>
-                            <td class="mobile-hidden uk-visible-xlarge">
-                                <img width="45" height="45"
-                                     data-uk-tooltip="{animation:true}"
-                                     title="{{- user.identifier|default(user.username) -}}"
-                                     class="uk-thumbnail gravatar user-image"
-                                     src="{{ user.pictureUrl }}"
-                                     alt="{{ user.identifier }}" />
-                            </td>
-                            <td>
-                                {% if is_granted('ROLE_SUPERADMIN') or not user.SuperAdmin %}
-                                    <a href="{{ path('usersEditPage', { userId: user.getId }) }}">
-                                        {{- user.username|u.truncate(30) -}}
-                                    </a>
-                                {% else %}
-                                    {{- user.username|u.truncate(30) -}}
-                                {% endif %}
-                            </td>
-                            <td class="mobile-hidden">{{ user.email|u.truncate(30) }}</td>
-                            <td class="mobile-hidden">
-                                {% if user.lastLogin %}
-                                    {{ user.lastLogin|format_datetime }}
-                                {% else %}
-                                    {% trans %}user.neverLoggedIn{% endtrans %}
-                                {% endif %}
-                            </td>
-                            <td class="mobile-hidden uk-visible-xlarge">{% transchoice user.roles|length %}{0} no.role|{1} 1.role|]1,Inf] %count%.roles{% endtranschoice %}</td>
-                            <td class="mobile-hidden uk-visible-large user-status">
-                                {% if user.enabled %}
-                                    <div class="uk-button-status" title="{% trans %}user.enabled{% endtrans %}" data-uk-tooltip="{animation:true}">
-                                        <i class="uk-icon-check"></i>
-                                    </div>
-                                {% else %}
-                                    <div class="uk-button-status uk-button-danger" title="{% trans %}user.disabled{% endtrans %}" data-uk-tooltip="{animation:true}">
-                                        <i class="uk-icon-close"></i>
-                                    </div>
-                                {% endif %}
-                                {% if not user.accountNonLocked %}
-                                    <div class="uk-button-status uk-button-warning" title="{% trans %}user.locked{% endtrans %}" data-uk-tooltip="{animation:true}">
-                                        <i class="uk-icon-lock"></i>
-                                    </div>
-                                {% endif %}
-                                {% if not user.credentialsNonExpired or not user.accountNonExpired %}
-                                    <div class="uk-button-status uk-button-danger" title="{% trans %}user.expired{% endtrans %}" data-uk-tooltip="{animation:true}">
-                                        <i class="uk-icon-hourglass-end"></i>
-                                    </div>
-                                {% endif %}
-                            </td>
-                            <td class="table-actions-row table-actions-row-3">
-                                {% apply spaceless %}
-                                    {% if is_granted('ROLE_SUPERADMIN') or not user.SuperAdmin %}
-                                        <a class="uk-button uk-button-content uk-button-small" href="{{ path('usersEditPage', { userId: user.getId }) }}" title="{% trans %}edit{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                        {% if not (user.username == app.user.username or is_granted('IS_IMPERSONATOR')) %}
-                                            <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link" href="{{ path('adminHomePage') }}?_su={{ user.username }}" title="{% trans %}start.test.user.right{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-sudo"></i></a>
-                                        {% endif %}
-                                        {% if is_granted('ROLE_ACCESS_USERS_DELETE') %}
-                                            <a class="uk-button uk-button-content uk-button-small uk-button-table-delete" href="{{ path('usersDeletePage', { userId: user.getId }) }}" title="{% trans %}delete{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                                        {% endif %}
-                                    {% endif %}
-                                {% endapply %}
-                            </td>
+                            {% include '@RoadizRozier/users/user_row.html.twig' %}
                         </tr>
+                    {% else %}
+                        <tr><td colspan="7">{% trans %}no_users{% endtrans %}</td></tr>
                     {% endfor %}
                     </tbody>
                 </table>

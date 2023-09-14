@@ -81,7 +81,7 @@ tagsRoutes:
 # USERS
 usersHomePage:
     path:     /rz-admin/users
-    controller: Themes\Rozier\Controllers\Users\UsersController::indexAction
+    controller: Themes\Rozier\Controllers\Users\UsersController::defaultAction
 usersRoutes:
     resource: "routing/users.yml"
     prefix: /rz-admin/users

@@ -3,10 +3,10 @@
     <ul class="uk-navbar-nav">
         {% if is_granted('ROLE_ACCESS_USERS') or app.user.id == user.id %}
             <li class="{% if current == 'edit' %}uk-active{% endif %}" >
-                <a href="{{ path('usersEditPage', { userId: user.getId }) }}">{% trans %}user.edit{% endtrans %}</a>
+                <a href="{{ path('usersEditPage', { id: user.getId }) }}">{% trans %}user.edit{% endtrans %}</a>
             </li>
             <li class="{% if current == 'edit_details' %}uk-active{% endif %}" >
-                <a href="{{ path('usersEditDetailsPage', { userId: user.getId }) }}">{% trans %}user.edit_details{% endtrans %}</a>
+                <a href="{{ path('usersEditDetailsPage', { id: user.getId }) }}">{% trans %}user.edit_details{% endtrans %}</a>
             </li>
         {% endif %}
 

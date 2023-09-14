@@ -79,7 +79,7 @@ final class LogExtension extends AbstractExtension
                     $this->security->isGranted('ROLE_ACCESS_USERS')
                 ) {
                     return $this->urlGenerator->generate('usersEditPage', [
-                        'userId' => $log->getEntityId(),
+                        'id' => $log->getEntityId(),
                     ]);
                 }
                 break;

@@ -806,6 +806,16 @@
             <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve"><source>are_you_sure.bulk_delete.custom_forms</source></trans-unit>
             <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve"><source>custom_forms.bulk_delete.title</source></trans-unit>
 
+            <trans-unit id="no_users" xml:space="preserve"><source>no_users</source></trans-unit>
+            <trans-unit id="bulk.enable" xml:space="preserve"><source>bulk.enable</source></trans-unit>
+            <trans-unit id="bulk.disable" xml:space="preserve"><source>bulk.disable</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve"><source>are_you_sure.bulk_delete.users</source></trans-unit>
+            <trans-unit id="users.bulk_delete.title" xml:space="preserve"><source>users.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve"><source>are_you_sure.bulk_enable.users</source></trans-unit>
+            <trans-unit id="users.bulk_enable.title" xml:space="preserve"><source>users.bulk_enable.title</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_disable.users" xml:space="preserve"><source>are_you_sure.bulk_disable.users</source></trans-unit>
+            <trans-unit id="users.bulk_disable.title" xml:space="preserve"><source>users.bulk_disable.title</source></trans-unit>
+
             <trans-unit xml:space="preserve" id="reset.marker"><source>reset.marker</source></trans-unit>
             <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter"><source>geotag.type_an_address.then_type_enter</source></trans-unit>
             <trans-unit xml:space="preserve" id="geographic.coordinates.type"><source>geographic.coordinates.type</source></trans-unit>

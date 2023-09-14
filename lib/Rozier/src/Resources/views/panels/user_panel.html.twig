@@ -10,7 +10,7 @@
     {% include '@RoadizRozier/admin/blocks/adminImage.html.twig' %}
     <div class="user-actions-menu">
         {% if app.user and app.user.id %}
-            <a id="user-picture" href="{{ path('usersEditPage', {'userId':app.user.id }) }}">
+            <a id="user-picture" href="{{ path('usersEditPage', {'id':app.user.id }) }}">
                 <img width="200"
                      height="200"
                      class="uk-thumbnail"
@@ -49,7 +49,7 @@
             {% endif %}
             {% if app.user and app.user.id %}
             <a class="uk-icon-button uk-icon-rz-user"
-               href="{{ path('usersEditPage', {'userId':app.user.id }) }}"><span class="user-action-label">{% trans %}edit.account{% endtrans %}</span></a>
+               href="{{ path('usersEditPage', {'id':app.user.id }) }}"><span class="user-action-label">{% trans %}edit.account{% endtrans %}</span></a>
             {% endif %}
             {% for action in rozier_user_actions %}
                 <a class="uk-icon-button {{ action.icon }}"
