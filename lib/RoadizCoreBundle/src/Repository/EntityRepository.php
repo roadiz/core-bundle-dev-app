@@ -346,9 +346,11 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
         // Add ordering
         foreach ($orders as $key => $value) {
             if (
+                \str_starts_with($key, 'node.') ||
                 str_contains($key, static::NODE_ALIAS . '.') &&
                 $this->hasJoinedNode($qb, $alias)
             ) {
+                $key = preg_replace('#^node\.#', static::NODE_ALIAS . '.', $key);
                 $qb->addOrderBy($key, $value);
             } elseif (
                 str_contains($key, static::NODESSOURCES_ALIAS . '.') &&
