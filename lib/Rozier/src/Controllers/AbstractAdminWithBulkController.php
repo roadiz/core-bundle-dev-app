@@ -57,6 +57,11 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
     {
     }
 
+    protected function removeItem(PersistableInterface $item): void
+    {
+        $this->em()->remove($item);
+    }
+
     protected function getBulkPublishRouteName(): ?string
     {
         return null;
@@ -88,15 +93,15 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             if (count($ids) < 1) {
                 $bulkDeleteForm->addError(new FormError('No item selected.'));
             } else {
-                $events = $this->em()->getRepository($this->getEntityClass())->findBy([
+                $items = $this->em()->getRepository($this->getEntityClass())->findBy([
                     'id' => $ids,
                 ]);
                 $deleteForm = $this->createDeleteBulkForm(false, [
                     'id' => json_encode($ids),
                 ]);
 
-                $this->assignation['items'] = $events;
-                $this->assignation['filters'] = ['itemCount' => count($events)];
+                $this->assignation['items'] = $items;
+                $this->assignation['filters'] = ['itemCount' => count($items)];
                 $this->assignation['form'] = $deleteForm->createView();
             }
         }
@@ -122,7 +127,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                         ]
                     );
                     $this->publishConfirmMessage($request, $msg);
-                    $this->em()->remove($item);
+                    $this->removeItem($item);
                 }
                 $this->em()->flush();
                 return $this->redirect($this->urlGenerator->generate($this->getDefaultRouteName()));
@@ -156,15 +161,15 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             if (count($ids) < 1) {
                 $bulkPublishForm->addError(new FormError('No item selected.'));
             } else {
-                $events = $this->em()->getRepository($this->getEntityClass())->findBy([
+                $items = $this->em()->getRepository($this->getEntityClass())->findBy([
                     'id' => $ids,
                 ]);
                 $publishForm = $this->createPublishBulkForm(false, [
                     'id' => json_encode($ids),
                 ]);
 
-                $this->assignation['items'] = $events;
-                $this->assignation['filters'] = ['itemCount' => count($events)];
+                $this->assignation['items'] = $items;
+                $this->assignation['filters'] = ['itemCount' => count($items)];
                 $this->assignation['form'] = $publishForm->createView();
             }
         }
@@ -225,15 +230,15 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             if (count($ids) < 1) {
                 $bulkUnpublishForm->addError(new FormError('No item selected.'));
             } else {
-                $events = $this->em()->getRepository($this->getEntityClass())->findBy([
+                $items = $this->em()->getRepository($this->getEntityClass())->findBy([
                     'id' => $ids,
                 ]);
                 $unpublishForm = $this->createUnpublishBulkForm(false, [
                     'id' => json_encode($ids),
                 ]);
 
-                $this->assignation['items'] = $events;
-                $this->assignation['filters'] = ['itemCount' => count($events)];
+                $this->assignation['items'] = $items;
+                $this->assignation['filters'] = ['itemCount' => count($items)];
                 $this->assignation['form'] = $unpublishForm->createView();
             }
         }
