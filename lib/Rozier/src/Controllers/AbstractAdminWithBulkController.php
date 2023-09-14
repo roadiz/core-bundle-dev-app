@@ -134,7 +134,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                             '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
                         ]
                     );
-                    $this->publishConfirmMessage($request, $msg);
+                    $this->publishConfirmMessage($request, $msg, $item);
                     $this->removeItem($item);
                 }
                 $this->em()->flush();
@@ -197,7 +197,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                                 '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
                             ]
                         );
-                        $this->publishConfirmMessage($request, $msg);
+                        $this->publishConfirmMessage($request, $msg, $item);
                     }
                 }
                 $this->em()->flush();
@@ -260,7 +260,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                                 '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
                             ]
                         );
-                        $this->publishConfirmMessage($request, $msg);
+                        $this->publishConfirmMessage($request, $msg, $item);
                     }
                 }
                 $this->em()->flush();
