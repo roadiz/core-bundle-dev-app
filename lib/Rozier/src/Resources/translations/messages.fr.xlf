@@ -2920,6 +2920,42 @@
         <source>custom_forms.bulk_delete.title</source>
         <target state="translated">Supprimer des formulaires personnalisés</target>
       </trans-unit>
+      <trans-unit id="no_users" xml:space="preserve">
+        <source>no_users</source>
+        <target state="translated">Aucun utilisateur</target>
+      </trans-unit>
+      <trans-unit id="bulk.enable" xml:space="preserve">
+        <source>bulk.enable</source>
+        <target state="translated">Tout activer</target>
+      </trans-unit>
+      <trans-unit id="bulk.disable" xml:space="preserve">
+        <source>bulk.disable</source>
+        <target state="translated">Tout désactiver</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.users</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les comptes utilisateurs sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="users.bulk_delete.title" xml:space="preserve">
+        <source>users.bulk_delete.title</source>
+        <target state="translated">Supprimer les utilisateurs sélectionnés</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve">
+        <source>are_you_sure.bulk_enable.users</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir réactiver tous les comptes utilisateurs sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="users.bulk_enable.title" xml:space="preserve">
+        <source>users.bulk_enable.title</source>
+        <target state="translated">Réactiver les utilisateurs sélectionnés</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_disable.users" xml:space="preserve">
+        <source>are_you_sure.bulk_disable.users</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir désactiver tous les comptes utilisateurs sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="users.bulk_disable.title" xml:space="preserve">
+        <source>users.bulk_disable.title</source>
+        <target state="translated">Désactiver les utilisateurs sélectionnés</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="reset.marker" approved="yes">
         <source>reset.marker</source>
         <target state="final">Supprimer le marqueur</target>
@@ -4762,6 +4798,16 @@
         <source>%namespace%.%item%.was_unpublished</source>
         <target state="translated">%namespace% "%item%" a été dépublié.</target>
         <note>Default controller bulkUnpublishAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_enabled">
+        <source>%namespace%.%item%.was_enabled</source>
+        <target state="translated">%namespace% "%item%" a été activé.</target>
+        <note>Default controller bulkEnableAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_disabled">
+        <source>%namespace%.%item%.was_disabled</source>
+        <target state="translated">%namespace% "%item%" a été désactivé.</target>
+        <note>Default controller bulkDisabledAction result message.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="document.document_display_gallery">
         <source>document.document_display_gallery</source>
