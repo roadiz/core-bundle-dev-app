@@ -56,7 +56,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ["home"]),
     ORM\HasLifecycleCallbacks,
     Gedmo\Loggable(logEntryClass: UserLogEntry::class),
-    UniqueEntity(fields: ["nodeName"]),
+    // Need to override repository method to see all nodes
+    UniqueEntity(
+        fields: 'nodeName',
+        message: 'nodeName.alreadyExists',
+        repositoryMethod: 'findOneWithoutSecurity'
+    ),
     ApiFilter(PropertyFilter::class)
 ]
 class Node extends AbstractDateTimedPositioned implements LeafInterface, AttributableInterface, Loggable

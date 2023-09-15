@@ -22,6 +22,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -1107,5 +1108,37 @@ final class NodeRepository extends StatusAwareRepository
         }
 
         return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Use by UniqueEntity Validator to bypass node status query filtering.
+     *
+     * @param array $criteria
+     * @return Node|null
+     * @throws NonUniqueResultException
+     */
+    public function findOneWithoutSecurity(array $criteria): ?Node
+    {
+        $this->setDisplayingAllNodesStatuses(true);
+        if (count($criteria) === 1 && !empty($criteria['nodeName'])) {
+            /*
+             * Test if nodeName is used as an url-alias too
+             */
+            $nodeName = (new AsciiSlugger())->slug($criteria['nodeName'])->lower()->trim()->toString();
+
+            $qb = $this->createQueryBuilder('o');
+            $qb->leftJoin('o.nodeSources', 'ns')
+                ->leftJoin('ns.urlAliases', 'ua')
+                ->andWhere($qb->expr()->orX(
+                    $qb->expr()->eq('ua.alias', ':nodeName'),
+                    $qb->expr()->eq('o.nodeName', ':nodeName')
+                ))
+                ->setParameter('nodeName', $nodeName)
+                ->setMaxResults(1)
+                ->setCacheable(true);
+            ;
+            return $qb->getQuery()->getOneOrNullResult();
+        }
+        return $this->findOneBy($criteria);
     }
 }

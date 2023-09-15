@@ -157,6 +157,7 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
+    #[Assert\Valid]
     private ?Node $node = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
