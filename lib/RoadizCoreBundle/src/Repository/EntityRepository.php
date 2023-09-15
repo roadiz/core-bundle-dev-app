@@ -262,7 +262,6 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
                     'childrenOrder',
                     'childrenOrderDirection',
                     'password',
-                    'salt',
                     'token',
                     'confirmationToken'
                 ])

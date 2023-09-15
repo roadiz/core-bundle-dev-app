@@ -52,6 +52,7 @@ services:
         environment:
             MYSQL_RANDOM_ROOT_PASSWORD: 1
             MYSQL_DATABASE: db_name
+            MYSQL_HOST: db
             MYSQL_USER: db_user
             MYSQL_PASSWORD: db_password
         links:
@@ -196,16 +197,6 @@ services:
             - "traefik.http.routers.${APP_NAMESPACE}_secure.rule=Host(${HOSTNAME})"
             - "traefik.http.routers.${APP_NAMESPACE}_secure.tls=true"
             - "traefik.http.routers.${APP_NAMESPACE}_secure.service=${APP_NAMESPACE}"
-
-    blackfire:
-        image: blackfire/blackfire
-        environment:
-            # Exposes BLACKFIRE_* environment variables from the host
-            BLACKFIRE_LOG_LEVEL: ${BLACKFIRE_LOG_LEVEL}
-            BLACKFIRE_SERVER_ID: ${BLACKFIRE_SERVER_ID}
-            BLACKFIRE_SERVER_TOKEN: ${BLACKFIRE_SERVER_TOKEN}
-            BLACKFIRE_CLIENT_ID: ${BLACKFIRE_CLIENT_ID}
-            BLACKFIRE_CLIENT_TOKEN: ${BLACKFIRE_CLIENT_TOKEN}
 
     mailer:
         image: mailhog/mailhog

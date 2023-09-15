@@ -10,16 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrength;
 use RZ\Roadiz\Core\AbstractEntities\AbstractHuman;
+use RZ\Roadiz\CoreBundle\Form\Constraint\ValidFacebookName;
 use RZ\Roadiz\CoreBundle\Repository\UserRepository;
 use RZ\Roadiz\CoreBundle\Security\User\AdvancedUserInterface;
-use RZ\Roadiz\Random\SaltGenerator;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
-use RZ\Roadiz\CoreBundle\Form\Constraint\ValidFacebookName;
 
 #[
     ORM\Entity(repositoryClass: UserRepository::class),
@@ -120,15 +119,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[Assert\NotBlank]
     #[Assert\Length(max: 200)]
     private string $username = '';
-
-    /**
-     * The salt to use for hashing.
-     */
-    #[ORM\Column(name: 'salt', type: 'string', length: 64)]
-    #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
-    #[Assert\Length(max: 64)]
-    private string $salt = '';
 
     /**
      * Encrypted password.
@@ -239,9 +229,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         $this->groups = new ArrayCollection();
         $this->sendCreationConfirmationEmail(false);
         $this->initAbstractDateTimed();
-
-        $saltGenerator = new SaltGenerator();
-        $this->setSalt($saltGenerator->generateSalt());
     }
 
     /**
@@ -361,17 +348,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      */
     public function getSalt(): ?string
     {
-        return $this->salt;
-    }
-
-    /**
-     * @param string $salt
-     * @return $this
-     */
-    public function setSalt(string $salt): User
-    {
-        $this->salt = $salt;
-        return $this;
+        return null;
     }
 
     /**
@@ -881,8 +858,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     {
         return [
             $this->password,
-            $this->salt,
             $this->username,
+            $this->getSalt(),
             $this->enabled,
             $this->id,
             $this->email,
@@ -898,10 +875,11 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     public function __unserialize(array $data): void
     {
+        $salt = null;
         [
             $this->password,
-            $this->salt,
             $this->username,
+            $salt,
             $this->enabled,
             $this->id,
             $this->email,
@@ -965,10 +943,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         }
 
         if ($this->getPassword() !== $user->getPassword()) {
-            return false;
-        }
-
-        if ($this->getSalt() !== $user->getSalt()) {
             return false;
         }
 
