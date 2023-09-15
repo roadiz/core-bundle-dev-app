@@ -2860,6 +2860,102 @@
         <source>bulk.actions</source>
         <target state="final">Bulk actions</target>
       </trans-unit>
+      <trans-unit id="bulk.delete" xml:space="preserve">
+        <source>bulk.delete</source>
+        <target state="translated">Delete all selected</target>
+      </trans-unit>
+      <trans-unit id="bulk.publish" xml:space="preserve">
+        <source>bulk.publish</source>
+        <target state="translated">Publish all selected</target>
+      </trans-unit>
+      <trans-unit id="bulk.unpublish" xml:space="preserve">
+        <source>bulk.unpublish</source>
+        <target state="translated">Unpublish all selected</target>
+      </trans-unit>
+      <trans-unit id="no_attributes" xml:space="preserve">
+        <source>no_attributes</source>
+        <target state="translated">No attributes</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.attributes</source>
+        <target state="translated">Are you sure you want to delete all selected attributes?</target>
+      </trans-unit>
+      <trans-unit id="attributes.bulk_delete.title" xml:space="preserve">
+        <source>attributes.bulk_delete.title</source>
+        <target state="translated">Delete attributes</target>
+      </trans-unit>
+      <trans-unit id="no_webhooks" xml:space="preserve">
+        <source>no_webhooks</source>
+        <target state="translated">No webhooks</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.webhooks</source>
+        <target state="translated">Are you sure you want to delete all selected webhooks?</target>
+      </trans-unit>
+      <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve">
+        <source>webhooks.bulk_delete.title</source>
+        <target state="translated">Delete webhooks</target>
+      </trans-unit>
+      <trans-unit id="no_redirections" xml:space="preserve">
+        <source>no_redirections</source>
+        <target state="translated">No redirections</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.redirections</source>
+        <target state="translated">Are you sure you want to delete all selected redirections?</target>
+      </trans-unit>
+      <trans-unit id="redirections.bulk_delete.title" xml:space="preserve">
+        <source>redirections.bulk_delete.title</source>
+        <target state="translated">Delete selected redirections</target>
+      </trans-unit>
+      <trans-unit id="no_custom_forms" xml:space="preserve">
+        <source>no_custom_forms</source>
+        <target state="translated">No custom forms</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.custom_forms</source>
+        <target state="translated">Are you sure you want to delete all selected custom forms?</target>
+      </trans-unit>
+      <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve">
+        <source>custom_forms.bulk_delete.title</source>
+        <target state="translated">Delete selected custom forms</target>
+      </trans-unit>
+      <trans-unit id="no_users" xml:space="preserve">
+        <source>no_users</source>
+        <target state="translated">No users</target>
+      </trans-unit>
+      <trans-unit id="bulk.enable" xml:space="preserve">
+        <source>bulk.enable</source>
+        <target state="translated">Enable all</target>
+      </trans-unit>
+      <trans-unit id="bulk.disable" xml:space="preserve">
+        <source>bulk.disable</source>
+        <target state="translated">Disable all</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.users</source>
+        <target state="translated">Are you sure you want to delete selected user accounts?</target>
+      </trans-unit>
+      <trans-unit id="users.bulk_delete.title" xml:space="preserve">
+        <source>users.bulk_delete.title</source>
+        <target state="translated">Delete selected users</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve">
+        <source>are_you_sure.bulk_enable.users</source>
+        <target state="translated">Are you sure you want to enable selected user accounts?</target>
+      </trans-unit>
+      <trans-unit id="users.bulk_enable.title" xml:space="preserve">
+        <source>users.bulk_enable.title</source>
+        <target state="translated">Enable selected users</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_disable.users" xml:space="preserve">
+        <source>are_you_sure.bulk_disable.users</source>
+        <target state="translated">Are you sure you want to disable selected user accounts?</target>
+      </trans-unit>
+      <trans-unit id="users.bulk_disable.title" xml:space="preserve">
+        <source>users.bulk_disable.title</source>
+        <target state="translated">Disable selected users</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="reset.marker" approved="yes">
         <source>reset.marker</source>
         <target state="final">Reset marker</target>
@@ -4692,6 +4788,26 @@
         <source>%namespace%.%item%.was_deleted</source>
         <target state="translated">%namespace% "%item%" was deleted.</target>
         <note>Default controller deleteAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_published">
+        <source>%namespace%.%item%.was_published</source>
+        <target state="translated">%namespace% "%item%" was published.</target>
+        <note>Default controller bulkPublishAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_unpublished">
+        <source>%namespace%.%item%.was_unpublished</source>
+        <target state="translated">%namespace% "%item%" was unpublished.</target>
+        <note>Default controller bulkUnpublishAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_enabled">
+        <source>%namespace%.%item%.was_enabled</source>
+        <target state="translated">%namespace% "%item%" was enabled.</target>
+        <note>Default controller bulkEnableAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_disabled">
+        <source>%namespace%.%item%.was_disabled</source>
+        <target state="translated">%namespace% "%item%" was disabled.</target>
+        <note>Default controller bulkDisabledAction result message.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="document.document_display_gallery">
         <source>document.document_display_gallery</source>
