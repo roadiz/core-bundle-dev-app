@@ -183,7 +183,7 @@ export default {
              */
             if (file.previewElement) {
                 let $preview = $(file.previewElement)
-                setTimeout(function () {
+                window.setTimeout(function () {
                     $preview.fadeOut(500)
                 }, 3000)
             }

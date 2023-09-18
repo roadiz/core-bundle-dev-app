@@ -105,7 +105,6 @@ final class NodeRouteHelper
      * Return FALSE or TRUE if node is viewable.
      *
      * @return bool
-     * @throws \ReflectionException
      */
     public function isViewable(): bool
     {
@@ -120,33 +119,14 @@ final class NodeRouteHelper
             );
             return false;
         }
-        /*
-         * For archived and deleted nodes
-         */
-        if ($this->node->getStatus() > Node::PUBLISHED) {
-            /*
-             * Not allowed to see deleted and archived nodes
-             * even for Admins
-             */
-            return false;
-        }
 
-        /*
-         * For unpublished nodes
-         */
-        if ($this->node->getStatus() < Node::PUBLISHED) {
-            if (true === $this->previewResolver->isPreview()) {
-                return true;
-            }
-            /*
-             * Not allowed to see unpublished nodes
-             */
-            return false;
+        if ($this->previewResolver->isPreview()) {
+            return $this->node->isDraft() || $this->node->isPending() || $this->node->isPublished();
         }
 
         /*
          * Everyone can view published nodes.
          */
-        return true;
+        return $this->node->isPublished();
     }
 }

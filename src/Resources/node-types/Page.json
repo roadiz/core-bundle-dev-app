@@ -291,6 +291,8 @@
         },
         {
             "position": 21.0,
+            "group_name": "Geo",
+            "group_name_canonical": "geo",
             "name": "multi_geolocation",
             "label": "Multi geolocations",
             "type": 21,

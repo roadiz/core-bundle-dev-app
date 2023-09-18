@@ -250,8 +250,8 @@ class NodesSourcesRepository extends StatusAwareRepository
      *
      * @param array $criteria
      * @param array|null $orderBy
-     * @param integer|null $limit
-     * @param integer|null $offset
+     * @param int|null $limit
+     * @param int|null $offset
      * @return QueryBuilder
      */
     protected function getContextualQuery(
@@ -259,7 +259,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         array $orderBy = null,
         $limit = null,
         $offset = null
-    ) {
+    ): QueryBuilder {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
         $this->alterQueryBuilderWithAuthorizationChecker($qb, static::NODESSOURCES_ALIAS);
         $qb->addSelect(static::NODE_ALIAS);
@@ -417,7 +417,7 @@ class NodesSourcesRepository extends StatusAwareRepository
     public function findOneBy(
         array $criteria,
         array $orderBy = null
-    ) {
+    ): ?NodesSources {
         $qb = $this->getContextualQuery(
             $criteria,
             $orderBy,

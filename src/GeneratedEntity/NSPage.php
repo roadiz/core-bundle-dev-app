@@ -1034,14 +1034,15 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
     /**
      * Multi geolocations.
+     * Group: Geo.
      */
     #[
         SymfonySerializer\SerializedName(serializedName: "multiGeolocation"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_geo"]),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "multi_geolocation", type: "json", nullable: true),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\Groups(["nodes_sources", "nodes_sources_geo"]),
         Serializer\MaxDepth(2)
     ]
     private $multiGeolocation = null;
