@@ -66,6 +66,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
      */
     public function indexAction(Request $request): Response
     {
+        // Only requires Search permission for nodes
         $this->denyAccessUnlessGranted(NodeVoter::SEARCH);
 
         $criteria = $this->parseFilterFromRequest($request);
@@ -226,7 +227,8 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
      */
     public function listAction(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
+        // Only requires Search permission for nodes
+        $this->denyAccessUnlessGranted(NodeVoter::SEARCH);
 
         if (!$request->query->has('ids')) {
             throw new InvalidParameterException('Ids should be provided within an array');
