@@ -20,6 +20,7 @@ final class NodeVoter extends Voter
     public const CREATE = 'CREATE';
     public const DUPLICATE = 'DUPLICATE';
     public const CREATE_AT_ROOT = 'CREATE_AT_ROOT';
+    public const SEARCH = 'SEARCH';
     public const READ = 'READ';
     public const READ_AT_ROOT = 'READ_AT_ROOT';
     public const EMPTY_TRASH = 'EMPTY_TRASH';
@@ -46,6 +47,7 @@ final class NodeVoter extends Voter
             \in_array($attribute, [
             self::CREATE_AT_ROOT,
             self::READ_AT_ROOT,
+            self::SEARCH,
             self::EMPTY_TRASH,
             ])
         ) {
@@ -96,6 +98,7 @@ final class NodeVoter extends Voter
             self::CREATE_AT_ROOT => $this->canCreateAtRoot($user),
             self::READ => $this->canRead($subject, $user),
             self::READ_AT_ROOT => $this->canReadAtRoot($user),
+            self::SEARCH => $this->canSearch($user),
             self::READ_LOGS => $this->canReadLogs($subject, $user),
             self::EDIT_CONTENT => $this->canEditContent($subject, $user),
             self::EDIT_SETTING => $this->canEditSetting($subject, $user),
@@ -151,6 +154,12 @@ final class NodeVoter extends Voter
     }
 
     private function canReadAtRoot(User $user): bool
+    {
+        $chroot = $this->chrootResolver->getChroot($user);
+        return null === $chroot && $this->security->isGranted('ROLE_ACCESS_NODES');
+    }
+
+    private function canSearch(User $user): bool
     {
         $chroot = $this->chrootResolver->getChroot($user);
         return null === $chroot && $this->security->isGranted('ROLE_ACCESS_NODES');

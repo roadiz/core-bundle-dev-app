@@ -36,7 +36,7 @@ class AjaxSearchNodesSourcesController extends AbstractAjaxController
      */
     public function searchAction(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
+        $this->denyAccessUnlessGranted(NodeVoter::SEARCH);
 
         if (!$request->query->has('searchTerms') || $request->query->get('searchTerms') == '') {
             throw new BadRequestHttpException('searchTerms parameter is missing.');
