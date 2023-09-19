@@ -163,6 +163,10 @@ class TagsController extends RozierApp
             'disabled' => $this->isReadOnly,
         ]);
         $form->handleRequest($request);
+        $isJsonRequest =
+            $request->isXmlHttpRequest() ||
+            \in_array('application/json', $request->getAcceptableContentTypes())
+        ;
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -196,19 +200,26 @@ class TagsController extends RozierApp
                 /*
                  * Force redirect to avoid resending form when refreshing page
                  */
-                return $this->getPostUpdateRedirection($tagTranslation);
+                if (!$isJsonRequest) {
+                    return $this->getPostUpdateRedirection($tagTranslation);
+                }
+
+                return new JsonResponse([
+                    'status' => 'success',
+                    'errors' => [],
+                ], Response::HTTP_PARTIAL_CONTENT);
             }
 
             /*
              * Handle errors when Ajax POST requests
              */
-            if ($request->isXmlHttpRequest()) {
+            if ($isJsonRequest) {
                 $errors = $this->getErrorsAsArray($form);
                 return new JsonResponse([
                     'status' => 'fail',
                     'errors' => $errors,
                     'message' => $this->getTranslator()->trans('form_has_errors.check_you_fields'),
-                ], JsonResponse::HTTP_BAD_REQUEST);
+                ], Response::HTTP_BAD_REQUEST);
             }
         }
         /** @var TranslationRepository $translationRepository */

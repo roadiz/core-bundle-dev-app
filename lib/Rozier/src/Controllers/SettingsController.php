@@ -116,6 +116,13 @@ class SettingsController extends RozierApp
         $this->assignation['filters'] = $listManager->getAssignation();
         $settings = $listManager->getEntities();
         $this->assignation['settings'] = [];
+        $isJson =
+            $request->isXmlHttpRequest() ||
+            $request->getRequestFormat('html') === 'json' ||
+            \in_array(
+                'application/json',
+                $request->getAcceptableContentTypes()
+            );
 
         /** @var Setting $setting */
         foreach ($settings as $setting) {
@@ -135,7 +142,7 @@ class SettingsController extends RozierApp
                         );
                         $this->publishConfirmMessage($request, $msg, $setting);
 
-                        if ($request->isXmlHttpRequest() || $request->getRequestFormat('html') === 'json') {
+                        if ($isJson) {
                             return new JsonResponse([
                                 'status' => 'success',
                                 'message' => $msg,
@@ -162,7 +169,7 @@ class SettingsController extends RozierApp
                     /*
                      * Do not publish any message, it may lead to flushing invalid form
                      */
-                    if ($request->isXmlHttpRequest() || $request->getRequestFormat('html') === 'json') {
+                    if ($isJson) {
                         return new JsonResponse([
                             'status' => 'failed',
                             'errors' => $errors,

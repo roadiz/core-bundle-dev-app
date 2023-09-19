@@ -110,12 +110,16 @@ class NodesSourcesController extends RozierApp
             ]
         );
         $form->handleRequest($request);
+        $isJsonRequest =
+            $request->isXmlHttpRequest() ||
+            \in_array('application/json', $request->getAcceptableContentTypes())
+        ;
 
         if ($form->isSubmitted()) {
             if ($form->isValid() && !$this->isReadOnly) {
                 $this->onPostUpdate($source, $request);
 
-                if (!$request->isXmlHttpRequest()) {
+                if (!$isJsonRequest) {
                     return $this->getPostUpdateRedirection($source);
                 }
 
@@ -168,7 +172,7 @@ class NodesSourcesController extends RozierApp
             /*
              * Handle errors when Ajax POST requests
              */
-            if ($request->isXmlHttpRequest()) {
+            if ($isJsonRequest) {
                 $errors = $this->formErrorSerializer->getErrorsAsArray($form);
                 return new JsonResponse([
                     'status' => 'fail',
