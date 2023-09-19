@@ -380,6 +380,10 @@ class TagsController extends RozierApp
         ]);
 
         $form->handleRequest($request);
+        $isJsonRequest =
+            $request->isXmlHttpRequest() ||
+            \in_array('application/json', $request->getAcceptableContentTypes())
+        ;
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -403,7 +407,7 @@ class TagsController extends RozierApp
             /*
              * Handle errors when Ajax POST requests
              */
-            if ($request->isXmlHttpRequest()) {
+            if ($isJsonRequest) {
                 $errors = $this->getErrorsAsArray($form);
                 return new JsonResponse([
                     'status' => 'fail',

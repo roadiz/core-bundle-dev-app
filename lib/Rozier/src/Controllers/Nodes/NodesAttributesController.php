@@ -71,6 +71,14 @@ class NodesAttributesController extends RozierApp
             return $response;
         }
 
+        $isJson =
+            $request->isXmlHttpRequest() ||
+            $request->getRequestFormat('html') === 'json' ||
+            \in_array(
+                'application/json',
+                $request->getAcceptableContentTypes()
+            );
+
         $this->assignation['attribute_value_translation_forms'] = [];
         $attributeValues = $node->getAttributeValues();
         /** @var AttributeValue $attributeValue */
@@ -108,7 +116,7 @@ class NodesAttributesController extends RozierApp
                     );
                     $this->publishConfirmMessage($request, $msg, $nodeSource);
 
-                    if ($request->isXmlHttpRequest() || $request->getRequestFormat('html') === 'json') {
+                    if ($isJson) {
                         return new JsonResponse([
                             'status' => 'success',
                             'message' => $msg,
@@ -123,7 +131,7 @@ class NodesAttributesController extends RozierApp
                     /*
                      * Handle errors when Ajax POST requests
                      */
-                    if ($request->isXmlHttpRequest() || $request->getRequestFormat('html') === 'json') {
+                    if ($isJson) {
                         return new JsonResponse([
                             'status' => 'fail',
                             'errors' => $errors,
