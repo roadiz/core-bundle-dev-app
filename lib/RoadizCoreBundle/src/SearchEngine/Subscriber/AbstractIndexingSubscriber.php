@@ -36,4 +36,28 @@ abstract class AbstractIndexingSubscriber implements EventSubscriberInterface
         }
         return null;
     }
+
+    protected function formatGeoJsonFeatureCollection(mixed $geoJson): ?array
+    {
+        if (null === $geoJson) {
+            return null;
+        }
+        if (\is_string($geoJson)) {
+            $geoJson = \json_decode($geoJson, true);
+        }
+        if (!\is_array($geoJson)) {
+            return null;
+        }
+        if (
+            isset($geoJson['type']) &&
+            $geoJson['type'] === 'FeatureCollection' &&
+            isset($geoJson['features']) &&
+            \count($geoJson['features']) > 0
+        ) {
+            return array_filter(array_map(function ($feature) {
+                return $this->formatGeoJsonFeature($feature);
+            }, $geoJson['features']));
+        }
+        return null;
+    }
 }

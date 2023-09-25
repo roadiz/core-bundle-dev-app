@@ -137,6 +137,10 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
             });
             $this->indexSuffixedFields($dateTimeFields, '_dt', $nodeSource, $assoc);
 
+            /*
+             * Make sure your Solr managed-schema has a field named `*_p` with type `location` singleValued
+             * <dynamicField name="*_p" type="location" indexed="true" stored="true" multiValued="false"/>
+             */
             $pointFields = $node->getNodeType()->getFields()->filter(function (NodeTypeField $field) {
                 return $field->isGeoTag();
             });
@@ -146,6 +150,21 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
                 $getter = $field->getGetterName();
                 $value = $nodeSource->$getter();
                 $assoc[$name] = $this->formatGeoJsonFeature($value);
+            }
+
+            /*
+             * Make sure your Solr managed-schema has a field named `*_ps` with type `location` multiValued
+             * <dynamicField name="*_ps" type="location" indexed="true" stored="true" multiValued="true"/>
+             */
+            $multiPointFields = $node->getNodeType()->getFields()->filter(function (NodeTypeField $field) {
+                return $field->isMultiGeoTag();
+            });
+            foreach ($multiPointFields as $field) {
+                $name = $field->getName();
+                $name .= '_ps';
+                $getter = $field->getGetterName();
+                $value = $nodeSource->$getter();
+                $assoc[$name] = $this->formatGeoJsonFeatureCollection($value);
             }
         }
 
