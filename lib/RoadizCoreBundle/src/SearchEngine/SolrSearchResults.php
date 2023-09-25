@@ -104,24 +104,18 @@ class SolrSearchResults implements SearchResultsInterface
     }
 
     /**
-     * Merge collection_txt localized fields.
+     * Get highlighting for one field.
+     * This do not merge highlighting for all fields anymore.
      *
      * @param string $id
-     * @return array|array[]|mixed
+     * @return array<string, array>
      */
-    protected function getHighlighting(string $id): mixed
+    protected function getHighlighting(string $id): array
     {
-        $highlights = $this->response['highlighting'][$id];
-        if (!isset($highlights['collection_txt'])) {
-            $collectionTxt = [];
-            foreach ($highlights as $field => $value) {
-                $collectionTxt = array_merge($collectionTxt, $value);
-            }
-            $highlights = array_merge($highlights, [
-                'collection_txt' => $collectionTxt
-            ]);
+        if (isset($this->response['highlighting'][$id]) && \is_array($this->response['highlighting'][$id])) {
+            return $this->response['highlighting'][$id];
         }
-        return $highlights;
+        return [];
     }
 
     /**

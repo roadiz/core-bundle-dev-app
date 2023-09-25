@@ -98,7 +98,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     {
         $tmp = [];
         $tmp["hl"] = true;
-        $tmp["hl.fl"] = $this->getCollectionField($args);
+        $tmp["hl.fl"] = $this->getTitleField($args) . ' ' . $this->getCollectionField($args);
         $tmp["hl.fragsize"] = $this->getHighlightingFragmentSize();
         $tmp["hl.simple.pre"] = '<span class="solr-highlight">';
         $tmp["hl.simple.post"] = '</span>';

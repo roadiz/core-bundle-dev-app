@@ -152,7 +152,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
          */
         $assoc['collection_txt'] = $collection;
         // Compile all text content into a single localized text field.
-        $assoc['collection_txt_' . $lang] = implode(PHP_EOL, $collection);
+        $assoc['collection_txt_' . $lang] = trim(implode(PHP_EOL, array_filter($collection)));
         $event->setAssociations($assoc);
     }
 
