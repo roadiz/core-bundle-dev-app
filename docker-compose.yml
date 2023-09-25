@@ -95,6 +95,8 @@ services:
                 aliases:
                     - ${APP_NAMESPACE}_solr
             default:
+                aliases:
+                    - solr
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}_solr.loadbalancer.server.scheme=http"

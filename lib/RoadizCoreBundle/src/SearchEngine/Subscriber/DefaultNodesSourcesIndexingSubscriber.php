@@ -36,10 +36,12 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
         $assoc[SolariumNodeSource::TYPE_DISCRIMINATOR] = SolariumNodeSource::DOCUMENT_TYPE;
         // Need a nodeSourceId field
         $assoc[SolariumNodeSource::IDENTIFIER_KEY] = $nodeSource->getId();
-        $assoc['node_type_s'] = $node->getNodeType()->getName();
+        $assoc['node_type_s'] = $nodeSource->getNodeTypeName();
         $assoc['node_name_s'] = $node->getNodeName();
+        $assoc['slug_s'] = $node->getNodeName();
         $assoc['node_status_i'] = $node->getStatus();
         $assoc['node_visible_b'] = $node->isVisible();
+        $assoc['node_reachable_b'] = $nodeSource->isReachable();
 
         // Need a locale field
         $locale = $nodeSource->getTranslation()->getLocale();
@@ -109,18 +111,42 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
             $allOut = array_filter(array_unique($allOut));
             // Use all_tags_slugs_ss to be compatible with other data types
             $assoc['all_tags_slugs_ss'] = $allOut;
-        }
 
-        $criteria = new Criteria();
-        $criteria->andWhere(Criteria::expr()->eq("type", AbstractField::BOOLEAN_T));
-        $booleanFields = $node->getNodeType()->getFields()->matching($criteria);
+            $booleanFields = $node->getNodeType()->getFields()->filter(function (NodeTypeField $field) {
+                return $field->isBoolean();
+            });
+            $this->indexSuffixedFields($booleanFields, '_b', $nodeSource, $assoc);
 
-        /** @var NodeTypeField $booleanField */
-        foreach ($booleanFields as $booleanField) {
-            $name = $booleanField->getName();
-            $name .= '_b';
-            $getter = $booleanField->getGetterName();
-            $assoc[$name] = $nodeSource->$getter();
+            $numberFields = $node->getNodeType()->getFields()->filter(function (NodeTypeField $field) {
+                return $field->isInteger();
+            });
+            $this->indexSuffixedFields($numberFields, '_i', $nodeSource, $assoc);
+
+            $decimalFields = $node->getNodeType()->getFields()->filter(function (NodeTypeField $field) {
+                return $field->isDecimal();
+            });
+            $this->indexSuffixedFields($decimalFields, '_f', $nodeSource, $assoc);
+
+            $stringFields = $node->getNodeType()->getFields()->filter(function (NodeTypeField $field) {
+                return $field->isEnum() || $field->isCountry() || $field->isColor() || $field->isEmail();
+            });
+            $this->indexSuffixedFields($stringFields, '_s', $nodeSource, $assoc);
+
+            $dateTimeFields = $node->getNodeType()->getFields()->filter(function (NodeTypeField $field) {
+                return $field->isDate() || $field->isDateTime();
+            });
+            $this->indexSuffixedFields($dateTimeFields, '_dt', $nodeSource, $assoc);
+
+            $pointFields = $node->getNodeType()->getFields()->filter(function (NodeTypeField $field) {
+                return $field->isGeoTag();
+            });
+            foreach ($pointFields as $field) {
+                $name = $field->getName();
+                $name .= '_p';
+                $getter = $field->getGetterName();
+                $value = $nodeSource->$getter();
+                $assoc[$name] = $this->formatGeoJsonFeature($value);
+            }
         }
 
         $searchableFields = $node->getNodeType()->getSearchableFields();
@@ -154,6 +180,28 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
         // Compile all text content into a single localized text field.
         $assoc['collection_txt_' . $lang] = trim(implode(PHP_EOL, array_filter($collection)));
         $event->setAssociations($assoc);
+    }
+
+    /**
+     * @param iterable<NodeTypeField> $fields
+     * @param string $suffix
+     * @param NodesSources $nodeSource
+     * @param array $assoc
+     * @return void
+     */
+    protected function indexSuffixedFields(iterable $fields, string $suffix, NodesSources $nodeSource, array &$assoc): void
+    {
+        foreach ($fields as $field) {
+            $name = $field->getName();
+            $name .= $suffix;
+            $getter = $field->getGetterName();
+            $value = $nodeSource->$getter();
+            if ($value instanceof \DateTimeInterface) {
+                $assoc[$name] = $this->formatDateTimeToUTC($value);
+            } elseif (null !== $value) {
+                $assoc[$name] = $value;
+            }
+        }
     }
 
     /**

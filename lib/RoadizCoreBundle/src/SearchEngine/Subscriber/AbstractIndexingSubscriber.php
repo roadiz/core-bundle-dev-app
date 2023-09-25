@@ -14,4 +14,26 @@ abstract class AbstractIndexingSubscriber implements EventSubscriberInterface
     {
         return gmdate('Y-m-d\TH:i:s\Z', $dateTime->getTimestamp());
     }
+
+    protected function formatGeoJsonFeature(mixed $geoJson): ?string
+    {
+        if (null === $geoJson) {
+            return null;
+        }
+        if (\is_string($geoJson)) {
+            $geoJson = \json_decode($geoJson, true);
+        }
+        if (!\is_array($geoJson)) {
+            return null;
+        }
+
+        if (
+            isset($geoJson['type']) &&
+            $geoJson['type'] === 'Feature' &&
+            isset($geoJson['geometry']['coordinates'])
+        ) {
+            return $geoJson['geometry']['coordinates'][1] . ',' . $geoJson['geometry']['coordinates'][0];
+        }
+        return null;
+    }
 }
