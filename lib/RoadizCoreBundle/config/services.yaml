@@ -42,6 +42,7 @@ services:
             $apiResourcesDir: '%kernel.project_dir%/config/api_resources'
             $debug: '%kernel.debug%'
             $defaultControllerClass: '%roadiz_core.default_node_source_controller%'
+            $defaultLocale: '%kernel.default_locale%'
             $webhookMessageTypes: '%roadiz_core.webhook.message_types%'
             $useAcceptLanguageHeader: '%roadiz_core.use_accept_language_header%'
             $healthCheckToken: '%roadiz_core.health_check_token%'

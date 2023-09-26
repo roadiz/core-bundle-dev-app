@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\SearchEngine\Subscriber;
 
-use Doctrine\Common\Collections\Criteria;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesIndexingEvent;
+use RZ\Roadiz\CoreBundle\SearchEngine\AbstractSolarium;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolariumNodeSource;
 
 final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscriber
@@ -33,15 +32,9 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
         $node = $nodeSource->getNode();
 
         // Need a documentType field
-        $assoc[SolariumNodeSource::TYPE_DISCRIMINATOR] = SolariumNodeSource::DOCUMENT_TYPE;
+        $assoc[AbstractSolarium::TYPE_DISCRIMINATOR] = SolariumNodeSource::DOCUMENT_TYPE;
         // Need a nodeSourceId field
         $assoc[SolariumNodeSource::IDENTIFIER_KEY] = $nodeSource->getId();
-        $assoc['node_type_s'] = $nodeSource->getNodeTypeName();
-        $assoc['node_name_s'] = $node->getNodeName();
-        $assoc['slug_s'] = $node->getNodeName();
-        $assoc['node_status_i'] = $node->getStatus();
-        $assoc['node_visible_b'] = $node->isVisible();
-        $assoc['node_reachable_b'] = $nodeSource->isReachable();
 
         // Need a locale field
         $locale = $nodeSource->getTranslation()->getLocale();
@@ -55,17 +48,23 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
         $assoc['title'] = $title;
         $assoc['title_txt_' . $lang] = $title;
 
-        $assoc['created_at_dt'] = $this->formatDateTimeToUTC($node->getCreatedAt());
-        $assoc['updated_at_dt'] = $this->formatDateTimeToUTC($node->getUpdatedAt());
-
-        if (null !== $nodeSource->getPublishedAt()) {
-            $assoc['published_at_dt'] =  $this->formatDateTimeToUTC($nodeSource->getPublishedAt());
-        }
-
         /*
          * Do not index locale and tags if this is a sub-resource
          */
         if (!$subResource) {
+            $assoc['node_type_s'] = $nodeSource->getNodeTypeName();
+            $assoc['node_name_s'] = $node->getNodeName();
+            $assoc['slug_s'] = $node->getNodeName();
+            $assoc['node_status_i'] = $node->getStatus();
+            $assoc['node_visible_b'] = $node->isVisible();
+            $assoc['node_reachable_b'] = $nodeSource->isReachable();
+            $assoc['created_at_dt'] = $this->formatDateTimeToUTC($node->getCreatedAt());
+            $assoc['updated_at_dt'] = $this->formatDateTimeToUTC($node->getUpdatedAt());
+
+            if (null !== $nodeSource->getPublishedAt()) {
+                $assoc['published_at_dt'] =  $this->formatDateTimeToUTC($nodeSource->getPublishedAt());
+            }
+
             if ($this->canIndexTitleInCollection($nodeSource)) {
                 $collection[] = $title;
             }
@@ -197,7 +196,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
          */
         $assoc['collection_txt'] = $collection;
         // Compile all text content into a single localized text field.
-        $assoc['collection_txt_' . $lang] = trim(implode(PHP_EOL, array_filter($collection)));
+        $assoc['collection_txt_' . $lang] = $this->flattenTextCollection($collection);
         $event->setAssociations($assoc);
     }
 
