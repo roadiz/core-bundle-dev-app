@@ -10,7 +10,7 @@ abstract class AbstractIndexingSubscriber implements EventSubscriberInterface
 {
     protected function flattenTextCollection(array $collection): string
     {
-        return trim(implode(PHP_EOL, array_filter($collection)));
+        return trim(implode(PHP_EOL, array_filter(array_unique($collection))));
     }
 
     protected function formatDateTimeToUTC(\DateTimeInterface $dateTime): string
