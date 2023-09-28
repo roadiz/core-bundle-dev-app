@@ -148,7 +148,7 @@ final class UsersCreationCommand extends UsersCommand
         }
 
         if ($input->getOption('password')) {
-            if (strlen($input->getOption('password')) < 5) {
+            if (\mb_strlen($input->getOption('password')) < 5) {
                 throw new \InvalidArgumentException('Password is too short.');
             }
 

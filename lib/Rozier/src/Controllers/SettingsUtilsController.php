@@ -52,7 +52,7 @@ class SettingsUtilsController extends RozierApp
             if (null === $group) {
                 throw $this->createNotFoundException();
             }
-            $fileName = 'settings-' . strtolower(StringHandler::cleanForFilename($group->getName())) . '-' . date("YmdHis") . '.json';
+            $fileName = 'settings-' . \mb_strtolower(StringHandler::cleanForFilename($group->getName())) . '-' . date("YmdHis") . '.json';
             $settings = $this->em()
                 ->getRepository(Setting::class)
                 ->findBySettingGroup($group);

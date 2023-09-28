@@ -317,7 +317,7 @@ abstract class PrefixAwareRepository extends EntityRepository
          */
         $criteriaFields = [];
         foreach (static::getSearchableColumnsNames($this->getClassMetadata()) as $field) {
-            $criteriaFields[$field] = '%' . strip_tags(mb_strtolower($pattern)) . '%';
+            $criteriaFields[$field] = '%' . strip_tags(\mb_strtolower($pattern)) . '%';
         }
 
         foreach ($criteriaFields as $key => $value) {

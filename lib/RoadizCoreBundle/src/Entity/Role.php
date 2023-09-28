@@ -193,7 +193,7 @@ class Role implements PersistableInterface
     #[SymfonySerializer\Groups(['role'])]
     public function getClassName(): string
     {
-        return str_replace('_', '-', strtolower($this->getRole()));
+        return str_replace('_', '-', \mb_strtolower($this->getRole()));
     }
 
     /**

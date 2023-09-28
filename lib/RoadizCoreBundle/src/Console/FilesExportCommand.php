@@ -106,7 +106,7 @@ class FilesExportCommand extends Command
             if (!$file->isDir()) {
                 // Get real and relative path for current file
                 $filePath = $file->getRealPath();
-                $relativePath = substr($filePath, strlen($folder) + 1);
+                $relativePath = \mb_substr($filePath, \mb_strlen($folder) + 1);
 
                 // Add current file to archive
                 $zip->addFile($filePath, $prefix . '/' . $relativePath);

@@ -206,7 +206,7 @@ class StringHandler
         $pos = strrpos($subject, $search);
 
         if ($pos !== false) {
-            $subject = substr_replace($subject, $replace, $pos, strlen($search));
+            $subject = \substr_replace($subject, $replace, $pos, \mb_strlen($search));
         }
 
         return $subject;

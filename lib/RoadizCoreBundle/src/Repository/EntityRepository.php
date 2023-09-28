@@ -288,7 +288,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
     ): QueryBuilder {
         $criteriaFields = [];
         foreach (static::getSearchableColumnsNames($this->getClassMetadata()) as $field) {
-            $criteriaFields[$field] = '%' . strip_tags(mb_strtolower($pattern)) . '%';
+            $criteriaFields[$field] = '%' . strip_tags(\mb_strtolower($pattern)) . '%';
         }
 
         foreach ($criteriaFields as $key => $value) {

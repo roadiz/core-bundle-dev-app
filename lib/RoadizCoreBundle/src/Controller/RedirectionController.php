@@ -40,7 +40,7 @@ final class RedirectionController
 
         if (
             null !== $redirection->getRedirectUri() &&
-            strlen($redirection->getRedirectUri()) > 0
+            \mb_strlen($redirection->getRedirectUri()) > 0
         ) {
             return new RedirectResponse($redirection->getRedirectUri(), $redirection->getType());
         }

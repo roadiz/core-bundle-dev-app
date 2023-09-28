@@ -38,7 +38,7 @@ final class TagFactory
         if (empty($tagName)) {
             throw new \RuntimeException('Tag name is empty.');
         }
-        if (mb_strlen($tagName) > 250) {
+        if (\mb_strlen($tagName) > 250) {
             throw new \InvalidArgumentException(sprintf('Tag name "%s" is too long.', $tagName));
         }
 

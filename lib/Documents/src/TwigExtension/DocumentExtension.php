@@ -70,7 +70,7 @@ final class DocumentExtension extends AbstractExtension
     public function formatBytes($bytes, int $precision = 2): string
     {
         $size = ['B','kB','MB','GB','TB','PB','EB','ZB','YB'];
-        $factor = floor((strlen((string) $bytes) - 1) / 3);
+        $factor = floor((\mb_strlen((string) $bytes) - 1) / 3);
         return sprintf("%.{$precision}f", (int) $bytes / pow(1024, $factor)) . @$size[$factor];
     }
 

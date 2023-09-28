@@ -526,7 +526,7 @@ class ContactFormManager extends EmailManager
         ];
         return
             is_string($key) &&
-            (substr($key, 0, 1) === '_' || \in_array($key, $privateFieldNames))
+            (\mb_substr($key, 0, 1) === '_' || \in_array($key, $privateFieldNames))
         ;
     }
 

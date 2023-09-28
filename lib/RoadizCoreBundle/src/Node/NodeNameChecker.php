@@ -35,14 +35,14 @@ class NodeNameChecker implements NodeNamePolicyInterface
             $title = StringHandler::slugify($nodeSource->getTitle());
             if ($nodeSource->isReachable() || !$this->useTypedSuffix) {
                 // truncate title to 250 chars if needed
-                if (strlen($title) > self::MAX_LENGTH) {
-                    $title = substr($title, 0, self::MAX_LENGTH);
+                if (\mb_strlen($title) > self::MAX_LENGTH) {
+                    $title = \mb_substr($title, 0, self::MAX_LENGTH);
                 }
                 return $title;
             }
             // truncate title if title + suffix + 1 exceed 250 chars
-            if ((strlen($title) + strlen($nodeTypeSuffix) + 1) > self::MAX_LENGTH) {
-                $title = substr($title, 0, self::MAX_LENGTH - (strlen($nodeTypeSuffix) + 1));
+            if ((\mb_strlen($title) + \mb_strlen($nodeTypeSuffix) + 1) > self::MAX_LENGTH) {
+                $title = \mb_substr($title, 0, self::MAX_LENGTH - (\mb_strlen($nodeTypeSuffix) + 1));
             }
             return sprintf(
                 '%s-%s',
@@ -63,11 +63,11 @@ class NodeNameChecker implements NodeNamePolicyInterface
         $uniqueId = uniqid();
 
         // truncate canonicalNodeName if canonicalNodeName + uniqueId + 1 exceed 250 chars
-        if ((strlen($canonicalNodeName) + strlen($uniqueId) + 1) > self::MAX_LENGTH) {
-            $canonicalNodeName = substr(
+        if ((\mb_strlen($canonicalNodeName) + \mb_strlen($uniqueId) + 1) > self::MAX_LENGTH) {
+            $canonicalNodeName = \mb_substr(
                 $canonicalNodeName,
                 0,
-                self::MAX_LENGTH - (strlen($uniqueId) + 1)
+                self::MAX_LENGTH - (\mb_strlen($uniqueId) + 1)
             );
         }
 
@@ -84,11 +84,11 @@ class NodeNameChecker implements NodeNamePolicyInterface
         $timestamp = $nodeSource->getPublishedAt()->format('Y-m-d');
 
         // truncate canonicalNodeName if canonicalNodeName + uniqueId + 1 exceed 250 chars
-        if ((strlen($canonicalNodeName) + strlen($timestamp) + 1) > self::MAX_LENGTH) {
-            $canonicalNodeName = substr(
+        if ((\mb_strlen($canonicalNodeName) + \mb_strlen($timestamp) + 1) > self::MAX_LENGTH) {
+            $canonicalNodeName = \mb_substr(
                 $canonicalNodeName,
                 0,
-                self::MAX_LENGTH - (strlen($timestamp) + 1)
+                self::MAX_LENGTH - (\mb_strlen($timestamp) + 1)
             );
         }
 

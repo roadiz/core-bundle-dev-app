@@ -29,11 +29,11 @@ class DoctrineMigrationCompilerPass implements CompilerPassInterface
     {
         if (isset($path[0]) && $path[0] === '@') {
             $pathParts  = explode('/', $path);
-            $bundleName = substr($pathParts[0], 1);
+            $bundleName = \mb_substr($pathParts[0], 1);
 
             $bundlePath = $this->getBundlePath($bundleName, $container);
 
-            return $bundlePath . substr($path, strlen('@' . $bundleName));
+            return $bundlePath . \mb_substr($path, \mb_strlen('@' . $bundleName));
         }
 
         return $path;

@@ -80,7 +80,7 @@ final class NodeFactory
         if (true === $repository->exists($nodeName)) {
             $nodeName = $this->nodeNamePolicy->getSafeNodeName($source);
         }
-        if (mb_strlen($nodeName) > 250) {
+        if (\mb_strlen($nodeName) > 250) {
             throw new \InvalidArgumentException(sprintf('Node name "%s" is too long.', $nodeName));
         }
         $node->setNodeName($nodeName);
