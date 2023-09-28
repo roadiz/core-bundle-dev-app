@@ -203,7 +203,7 @@ class CustomFormHelper
             ->findOrCreateByPath(
                 'custom_forms/' .
                 $this->customForm->getCreatedAt()->format('Ymd') . '_' .
-                substr($this->customForm->getDisplayName(), 0, 30)
+                \mb_substr($this->customForm->getDisplayName(), 0, 30)
             );
     }
 

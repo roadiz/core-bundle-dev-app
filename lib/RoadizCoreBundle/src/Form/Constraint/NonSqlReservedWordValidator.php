@@ -14,7 +14,7 @@ class NonSqlReservedWordValidator extends ConstraintValidator
     {
         if (null !== $value) {
             $fieldName = StringHandler::variablize($value);
-            $lowerName = strtolower($value);
+            $lowerName = \mb_strtolower($value);
             if (
                 in_array($value, NonSqlReservedWord::$forbiddenNames) ||
                 in_array($lowerName, NonSqlReservedWord::$forbiddenNames) ||

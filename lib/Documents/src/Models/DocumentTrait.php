@@ -271,7 +271,7 @@ trait DocumentTrait
 
     protected function initDocumentTrait(): void
     {
-        $this->setFolder(substr(hash("crc32b", date('YmdHi')), 0, 12));
+        $this->setFolder(\mb_substr(hash("crc32b", date('YmdHi')), 0, 12));
     }
 
     #[

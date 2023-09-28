@@ -30,11 +30,11 @@ class PasswordGenerator extends RandomGenerator implements PasswordGeneratorInte
         $all = '';
         $password = '';
         foreach ($sets as $set) {
-            $password .= $set[array_rand(str_split($set))];
+            $password .= $set[array_rand(\mb_str_split($set))];
             $all .= $set;
         }
 
-        $all = str_split($all);
+        $all = \mb_str_split($all);
         for ($i = 0; $i < $length - count($sets); $i++) {
             $password .= $all[array_rand($all)];
         }

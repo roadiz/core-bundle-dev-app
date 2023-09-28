@@ -31,7 +31,7 @@ class SimpleQueryBuilder
      */
     public function getParameterKey(string $key): string
     {
-        return strtolower(str_replace('.', '_', $key));
+        return \mb_strtolower(str_replace('.', '_', $key));
     }
 
     /**
@@ -57,7 +57,7 @@ class SimpleQueryBuilder
      */
     public function buildExpressionWithoutBinding($value, string $prefix, string $key, string $baseKey = null)
     {
-        if (strlen($prefix) > 0 && substr($prefix, -strlen('.')) !== '.') {
+        if (\mb_strlen($prefix) > 0 && \mb_substr($prefix, -\mb_strlen('.')) !== '.') {
             $prefix .= '.';
         }
 
@@ -111,7 +111,7 @@ class SimpleQueryBuilder
                         $fullKey = sprintf('LOWER(%s)', $prefix . $key);
                         return $this->queryBuilder->expr()->like(
                             $fullKey,
-                            $this->queryBuilder->expr()->literal(strtolower($value[1] ?? ''))
+                            $this->queryBuilder->expr()->literal(\mb_strtolower($value[1] ?? ''))
                         );
                     case 'NOT IN':
                         return $this->queryBuilder->expr()->notIn($prefix . $key, ':' . $baseKey);

@@ -258,7 +258,7 @@ abstract class Controller extends AbstractController
     public static function getCalledClass()
     {
         $className = get_called_class();
-        if (strpos($className, "\\") !== 0) {
+        if (\mb_strpos($className, "\\") !== 0) {
             $className = "\\" . $className;
         }
         return $className;

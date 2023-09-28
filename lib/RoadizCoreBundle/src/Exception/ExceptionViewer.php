@@ -266,8 +266,8 @@ class ExceptionViewer
         if (
             $request->headers->get('Content-Type') &&
             (
-                0 === strpos($request->headers->get('Content-Type'), 'application/json') ||
-                0 === strpos($request->headers->get('Content-Type'), 'application/ld+json')
+                0 === \mb_strpos($request->headers->get('Content-Type'), 'application/json') ||
+                0 === \mb_strpos($request->headers->get('Content-Type'), 'application/ld+json')
             )
         ) {
             return true;

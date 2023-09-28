@@ -12,7 +12,7 @@ class HexadecimalColorValidator extends ConstraintValidator
     public function validate(mixed $value, Constraint $constraint): void
     {
         if ($constraint instanceof HexadecimalColor) {
-            if (null !== $value && preg_match('#\#[0-9a-f]{6}#', strtolower($value)) === 0) {
+            if (null !== $value && preg_match('#\#[0-9a-f]{6}#', \mb_strtolower($value)) === 0) {
                 $this->context->addViolation($constraint->message);
             }
         }

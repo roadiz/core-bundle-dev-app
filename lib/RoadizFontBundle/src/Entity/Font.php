@@ -121,7 +121,7 @@ class Font extends AbstractDateTimed
      */
     public function __construct()
     {
-        $this->folder = substr(hash("crc32b", date('YmdHi')), 0, 12);
+        $this->folder = \mb_substr(hash("crc32b", date('YmdHi')), 0, 12);
         $this->initAbstractDateTimed();
     }
 
@@ -322,7 +322,7 @@ class Font extends AbstractDateTimed
      */
     public function generateHashWithSecret(string $secret): Font
     {
-        $this->hash = substr(hash("crc32b", $this->name . $secret), 0, 12);
+        $this->hash = \mb_substr(hash("crc32b", $this->name . $secret), 0, 12);
 
         return $this;
     }

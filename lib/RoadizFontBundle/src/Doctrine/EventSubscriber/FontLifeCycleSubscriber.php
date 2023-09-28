@@ -100,8 +100,8 @@ final class FontLifeCycleSubscriber implements EventSubscriber
             try {
                 // factorize previous code with loop
                 foreach (self::$formats as $format) {
-                    $getter = 'get' . mb_strtoupper($format) . 'Filename';
-                    $relativeUrlGetter = 'get' . mb_strtoupper($format) . 'RelativeUrl';
+                    $getter = 'get' . \mb_strtoupper($format) . 'Filename';
+                    $relativeUrlGetter = 'get' . \mb_strtoupper($format) . 'RelativeUrl';
                     if (null !== $entity->$getter() && $this->fontStorage->fileExists($entity->$relativeUrlGetter())) {
                         $this->fontStorage->delete($entity->$relativeUrlGetter());
                         $this->logger->info('Font file deleted', ['file' => $entity->$relativeUrlGetter()]);
@@ -136,7 +136,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
             /** @var UploadedFile|null $file */
             $file = $font->{'get' . ucfirst($format) . 'File'}();
             if (null !== $file) {
-                $font->{'set' . mb_strtoupper($format) . 'Filename'}($file->getClientOriginalName());
+                $font->{'set' . \mb_strtoupper($format) . 'Filename'}($file->getClientOriginalName());
             }
         }
     }
@@ -152,7 +152,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
             /** @var UploadedFile|null $file */
             $file = $font->{'get' . ucfirst($format) . 'File'}();
             /** @var string|null $relativeUrl */
-            $relativeUrl =  $font->{'get' . mb_strtoupper($format) . 'RelativeUrl'}();
+            $relativeUrl =  $font->{'get' . \mb_strtoupper($format) . 'RelativeUrl'}();
             if (null !== $file && null !== $relativeUrl) {
                 $filename = $file->getPathname();
                 $fontResource = fopen($file->getPathname(), 'r');

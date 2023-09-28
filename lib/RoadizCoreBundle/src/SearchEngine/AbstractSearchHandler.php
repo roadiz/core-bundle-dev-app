@@ -246,7 +246,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
              * Do not fuzz short words: Solr crashes
              * Proximity is set to 1 by default for single-words
              */
-            if (strlen($word) > 3) {
+            if (\mb_strlen($word) > 3) {
                 return $this->escapeQuery($word) . '~' . $proximity;
             }
             return $this->escapeQuery($word);

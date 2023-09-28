@@ -135,7 +135,7 @@ class Setting extends AbstractEntity
      */
     public function setName(?string $name)
     {
-        $this->name = trim(strtolower($name ?? ''));
+        $this->name = trim(\mb_strtolower($name ?? ''));
         $this->name = (new UnicodeString($this->name))
             ->ascii()
             ->toString();

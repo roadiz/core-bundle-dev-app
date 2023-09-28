@@ -39,8 +39,8 @@ abstract class AbstractAjaxController extends RozierApp
         }
 
         if (
-            in_array(strtolower($method), static::$validMethods) &&
-            strtolower($request->getMethod()) != strtolower($method)
+            in_array(\mb_strtolower($method), static::$validMethods) &&
+            \mb_strtolower($request->getMethod()) != \mb_strtolower($method)
         ) {
             throw new BadRequestHttpException('Bad method');
         }

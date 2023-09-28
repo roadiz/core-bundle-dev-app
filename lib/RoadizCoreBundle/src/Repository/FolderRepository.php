@@ -212,7 +212,7 @@ final class FolderRepository extends EntityRepository
 
         $criteriaFields = [];
         foreach (self::getSearchableColumnsNames($this->_em->getClassMetadata(FolderTranslation::class)) as $field) {
-            $criteriaFields[$field] = '%' . strip_tags(mb_strtolower($pattern)) . '%';
+            $criteriaFields[$field] = '%' . strip_tags(\mb_strtolower($pattern)) . '%';
         }
 
         foreach ($criteriaFields as $key => $value) {

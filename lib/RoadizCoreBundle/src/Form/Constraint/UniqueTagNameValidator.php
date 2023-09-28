@@ -80,6 +80,6 @@ class UniqueTagNameValidator extends ConstraintValidator
      */
     protected function isMulti(?string $value): bool
     {
-        return (bool) strpos($value ?? '', ',');
+        return (bool) \mb_strpos($value ?? '', ',');
     }
 }

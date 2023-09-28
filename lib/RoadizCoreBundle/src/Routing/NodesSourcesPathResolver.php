@@ -167,9 +167,9 @@ final class NodesSourcesPathResolver implements PathResolverInterface
 
         if (!empty($tokens[0])) {
             $firstToken = $tokens[0];
-            $locale = mb_strtolower(strip_tags((string) $firstToken));
+            $locale = \mb_strtolower(strip_tags((string) $firstToken));
             // First token is for language and should not exceed 11 chars, i.e. tzm-Latn-DZ
-            if ($locale !== null && $locale != '' && mb_strlen($locale) <= 11) {
+            if ($locale !== null && $locale != '' && \mb_strlen($locale) <= 11) {
                 $translation = $repository->$findOneByMethod($locale);
                 if (null !== $translation) {
                     return $translation;
@@ -220,7 +220,7 @@ final class NodesSourcesPathResolver implements PathResolverInterface
              * If the only url token is not for language
              */
             if (count($tokens) > 1 || !in_array($tokens[0], Translation::getAvailableLocales())) {
-                $identifier = mb_strtolower(strip_tags($tokens[(int) (count($tokens) - 1)]));
+                $identifier = \mb_strtolower(strip_tags($tokens[(int) (count($tokens) - 1)]));
                 if ($identifier !== null && $identifier != '') {
                     $array = $this->managerRegistry
                         ->getRepository(Node::class)

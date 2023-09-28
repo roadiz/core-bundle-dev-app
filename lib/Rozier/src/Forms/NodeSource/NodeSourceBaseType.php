@@ -27,7 +27,7 @@ final class NodeSourceBaseType extends AbstractType
             'required' => false,
             'attr' => [
                 'data-dev-name' => '{{ nodeSource.' . StringHandler::camelCase('title') . ' }}',
-                'lang' => strtolower(str_replace('_', '-', $options['translation']->getLocale())),
+                'lang' => \mb_strtolower(str_replace('_', '-', $options['translation']->getLocale())),
                 'dir' => $options['translation']->isRtl() ? 'rtl' : 'ltr',
             ],
             'constraints' => [
