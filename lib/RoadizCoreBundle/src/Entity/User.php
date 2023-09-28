@@ -741,7 +741,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     public function getGravatarUrl(string $type = "identicon", string $size = "200"): string
     {
         if (null !== $this->getEmail()) {
-            return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->getEmail()))) . "?d=" . $type . "&s=" . $size;
+            return "https://www.gravatar.com/avatar/" . md5(\mb_strtolower(trim($this->getEmail()))) . "?d=" . $type . "&s=" . $size;
         }
         return '';
     }
@@ -932,7 +932,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      */
     public function hasRole(string $role): bool
     {
-        return in_array(strtoupper((string) $role), $this->getRoles(), true);
+        return in_array(\mb_strtoupper((string) $role), $this->getRoles(), true);
     }
 
     /**

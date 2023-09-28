@@ -231,7 +231,7 @@ abstract class AbstractDocumentFactory
                 }
             }
 
-            $document->setFolder(substr(hash("crc32b", date('YmdHi')), 0, 12));
+            $document->setFolder(\mb_substr(hash("crc32b", date('YmdHi')), 0, 12));
         }
 
         $document->setFilename($this->getFileName());

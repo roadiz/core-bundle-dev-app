@@ -432,7 +432,7 @@ final class NodeSourceType extends AbstractType
                 ) ? $field->getGroupNameCanonical() : 'default',
                 'data-dev-name' => $devName,
                 'autocomplete' => 'off',
-                'lang' => strtolower(str_replace('_', '-', $nodeSource->getTranslation()->getLocale())),
+                'lang' => \mb_strtolower(str_replace('_', '-', $nodeSource->getTranslation()->getLocale())),
                 'dir' => $nodeSource->getTranslation()->isRtl() ? 'rtl' : 'ltr',
             ],
         ];

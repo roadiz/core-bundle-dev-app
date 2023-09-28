@@ -287,7 +287,7 @@ final class NodeTranstyper
 
         $translation = new Translation();
         $translation->setAvailable(true);
-        $translation->setLocale(substr($uniqueId, 0, 10));
+        $translation->setLocale(\mb_substr($uniqueId, 0, 10));
         $translation->setName('test' . $uniqueId);
         $this->getManager()->persist($translation);
 

@@ -56,7 +56,7 @@ final class SolrSearchListManager extends AbstractEntityListManager
          * Query must be longer than 3 chars or Solr might crash
          * on highlighting fields.
          */
-        if (strlen($query) > 3) {
+        if (\mb_strlen($query) > 3) {
             $this->searchResults = $this->searchHandler->searchWithHighlight(
                 $query, # Use ?q query parameter to search with
                 $this->criteria, # a simple criteria array to filter search results

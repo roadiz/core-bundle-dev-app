@@ -58,7 +58,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         $max = 0;
         foreach (explode(',', $this->field->getDefaultValues()) as $value) {
             $value = trim($value);
-            $max = max($max, strlen($value));
+            $max = max($max, \mb_strlen($value));
         }
 
         return $max > 0 ? $max : 250;

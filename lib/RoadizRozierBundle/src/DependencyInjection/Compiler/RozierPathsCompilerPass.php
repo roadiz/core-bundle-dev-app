@@ -72,7 +72,7 @@ class RozierPathsCompilerPass implements CompilerPassInterface
                 ->followLinks()
                 ->files()
                 ->filter(function (\SplFileInfo $file) {
-                    return 2 <= substr_count($file->getBasename(), '.') &&
+                    return 2 <= \mb_substr_count($file->getBasename(), '.') &&
                         preg_match('/\.\w+$/', $file->getBasename());
                 })
                 ->in($translationFolder)
@@ -97,7 +97,7 @@ class RozierPathsCompilerPass implements CompilerPassInterface
                     'scanned_directories' => $scannedDirectories = [$translationFolder],
                     'cache_vary' => [
                         'scanned_directories' => array_map(static function (string $dir) use ($projectDir): string {
-                            return str_starts_with($dir, $projectDir . '/') ? substr($dir, 1 + \strlen($projectDir)) : $dir;
+                            return str_starts_with($dir, $projectDir . '/') ? \mb_substr($dir, 1 + \mb_strlen($projectDir)) : $dir;
                         }, $scannedDirectories),
                     ],
                 ]
