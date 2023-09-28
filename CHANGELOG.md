@@ -1,3 +1,10 @@
+## [v2.1.46](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.45...v2.1.46) (2023-09-28)
+
+
+### Bug Fixes
+
+* Use multibyte string methods ([a9a5b84](https://github.com/roadiz/core-bundle-dev-app/commit/a9a5b8420492a4589fd2d88b9bc4434967e09498))
+
 ## [v2.1.45](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.44...v2.1.45) (2023-09-13)
 
 
