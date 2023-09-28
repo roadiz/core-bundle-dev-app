@@ -272,7 +272,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         // Add ordering
         if (null !== $orderBy) {
             foreach ($orderBy as $key => $value) {
-                if (false !== \mb_strpos($key, 'node.')) {
+                if (\str_contains($key, 'node.')) {
                     $simpleKey = str_replace('node.', '', $key);
                     $qb->addOrderBy(static::NODE_ALIAS . '.' . $simpleKey, $value);
                 } else {
@@ -653,7 +653,7 @@ class NodesSourcesRepository extends StatusAwareRepository
 
             if (!$event->isPropagationStopped()) {
                 $baseKey = $simpleQB->getParameterKey($key);
-                if (false !== \mb_strpos($key, 'node.nodeType.')) {
+                if (\str_contains($key, 'node.nodeType.')) {
                     if (!$this->hasJoinedNode($qb, $alias)) {
                         $qb->innerJoin($alias . '.node', static::NODE_ALIAS);
                     }
@@ -663,7 +663,7 @@ class NodesSourcesRepository extends StatusAwareRepository
                     $prefix = static::NODETYPE_ALIAS . '.';
                     $simpleKey = str_replace('node.nodeType.', '', $key);
                     $qb->andWhere($simpleQB->buildExpressionWithoutBinding($value, $prefix, $simpleKey, $baseKey));
-                } elseif (false !== \mb_strpos($key, 'node.')) {
+                } elseif (\str_contains($key, 'node.')) {
                     if (!$this->hasJoinedNode($qb, $alias)) {
                         $qb->innerJoin($alias . '.node', static::NODE_ALIAS);
                     }
