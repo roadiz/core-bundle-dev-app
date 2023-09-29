@@ -8,6 +8,8 @@ security:
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
+        jwt:
+            lexik_jwt: ~
         roadiz_user_provider:
             entity:
                 class: RZ\Roadiz\CoreBundle\Entity\User
@@ -20,12 +22,12 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        # JWT for API
-        api:
-            pattern: ^/api
+
+        # https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/index.html#configure-application-routing
+        api_login:
+            pattern: ^/api/token
             stateless: true
             provider: all_users
-            user_checker: RZ\Roadiz\CoreBundle\Security\UserChecker
             login_throttling:
                 max_attempts: 3
             json_login:
@@ -34,7 +36,21 @@ security:
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            user_checker: RZ\Roadiz\CoreBundle\Security\UserChecker
+
+        # https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/8-jwt-user-provider.html#symfony-5-3-and-higher
+        api:
+            pattern: ^/api
+            stateless: true
+            # Do not reload user from database, trust JWT roles in order to restrict PreviewUsers
+            # Only drawback is when you want to disable / block / expire a user, you'll have to
+            # wait for JWT token to expire.
+            provider: jwt
+            # If you really want to reload user from database, uncomment this line, but Preview JWT
+            # will be reloaded as full user and not as PreviewUser.
+            #provider: all_users
             jwt: ~
+
         # disables session creation for assets and healthcheck controllers
         assets:
             pattern: ^/assets
