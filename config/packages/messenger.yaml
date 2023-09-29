@@ -4,7 +4,11 @@ framework:
         # failure_transport: failed
         reset_on_message: true
         transports:
-            async: '%env(MESSENGER_TRANSPORT_DSN)%'
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                # Use JSON message to be able to decode them in a NodeJS worker
+                serializer: messenger.transport.symfony_serializer
             failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
 

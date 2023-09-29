@@ -25,6 +25,8 @@ final class SolrDeleteMessageHandler implements MessageHandlerInterface
     {
         try {
             if (!empty($message->getIdentifier())) {
+                // Cannot typehint with class-string: breaks Symfony Serializer 5.4
+                // @phpstan-ignore-next-line
                 $this->indexerFactory->getIndexerFor($message->getClassname())->delete($message->getIdentifier());
             }
         } catch (SolrServerNotAvailableException $exception) {
