@@ -41,20 +41,29 @@
                             })) }}</figure>
                     {% endif %}
                 {% else %}
-                    <p class="uk-alert uk-alert-warning"><i class="uk-icon-warning"></i> {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}</p>
+                    {% if document.pdf %}
+                        {# Try to download PDF using private route #}
+                        <object width="100%" height="700px" data="{{ path('documentsDownloadInlinePage', { documentId: document.id}) }}" type="application/pdf"></object>
+                    {% else %}
+                        <p class="uk-alert uk-alert-warning"><i class="uk-icon-warning"></i> {% trans %}current.document.is.private.you.cannot.preview.it{% endtrans %}</p>
+                    {% endif %}
                 {% endif %}
             </div>
         </article>
         <article class="content content-document-infos">
             <div class="content-inner">
                 <table class="uk-table content-table">
-                    <tr><th>{% trans %}document.relative_url{% endtrans %}</th><td>{{ document|url(thumbnailFormat) }}</td></tr>
-                    <tr><th>{% trans %}document.absolute_url{% endtrans %}</th><td>{{ document|url(thumbnailFormat|merge({absolute:true})) }}</td></tr>
-                    <tr><th>{% trans %}document.unprocessed_url{% endtrans %}</th><td>{{ document|url({noProcess:true}) }}</td></tr>
+                    {% if not document.private %}
+                        <tr><th>{% trans %}document.relative_url{% endtrans %}</th><td>{{ document|url(thumbnailFormat) }}</td></tr>
+                        <tr><th>{% trans %}document.absolute_url{% endtrans %}</th><td>{{ document|url(thumbnailFormat|merge({absolute:true})) }}</td></tr>
+                        <tr><th>{% trans %}document.unprocessed_url{% endtrans %}</th><td>{{ document|url({noProcess:true}) }}</td></tr>
+                    {% endif %}
                     {% if document.isEmbed and document|embedFinder %}
                         <tr><th>{% trans %}document.source_url{% endtrans %}</th><td>{{ (document|embedFinder).source }}</td></tr>
                     {% endif %}
-                    <tr><th>{% trans %}document.filesize{% endtrans %}</th><td>{{ document.filesize|formatBytes }}</td></tr>
+                    {% if document.filesize > 0 %}
+                        <tr><th>{% trans %}document.filesize{% endtrans %}</th><td>{{ document.filesize|formatBytes }}</td></tr>
+                    {% endif %}
                     {% for key, info in infos %}
                         <tr><th>{{ ('document.' ~ key)|trans }}</th><td>{{ info }}</td></tr>
                     {% endfor %}
@@ -68,7 +77,7 @@
                                 <td>{{ otherVideo.mimeType }}</td>
                                 <td>{{ otherVideo.relativePath }}</td>
                                 <td><a class="uk-button uk-button-content uk-button-small document-link"
-               href="{{ path('documentsEditPage', { documentId: otherVideo.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                                       href="{{ path('documentsEditPage', { documentId: otherVideo.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -82,7 +91,7 @@
                                 <td>{{ otherAudio.mimeType }}</td>
                                 <td>{{ otherAudio.relativePath }}</td>
                                 <td><a class="uk-button uk-button-content uk-button-small document-link"
-               href="{{ path('documentsEditPage', { documentId: otherAudio.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                                       href="{{ path('documentsEditPage', { documentId: otherAudio.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
                             </tr>
                         {% endfor %}
                     </table>
@@ -96,7 +105,7 @@
                                 <td>{{ otherPicture.mimeType }}</td>
                                 <td>{{ otherPicture.relativePath }}</td>
                                 <td><a class="uk-button uk-button-content uk-button-small document-link"
-               href="{{ path('documentsEditPage', { documentId: otherPicture.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
+                                       href="{{ path('documentsEditPage', { documentId: otherPicture.id }) }}"><i class="uk-icon-rz-pencil"></i></a></td>
                             </tr>
                         {% endfor %}
                     </table>

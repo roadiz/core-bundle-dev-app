@@ -29,6 +29,11 @@ documentsDownloadPage:
     defaults:
         _controller: Themes\Rozier\Controllers\Documents\DocumentsController::downloadAction
     requirements: { documentId : "[0-9]+" }
+documentsDownloadInlinePage:
+    path:     /download-inline/{documentId}
+    defaults:
+        _controller: Themes\Rozier\Controllers\Documents\DocumentsController::downloadInlineAction
+    requirements: { documentId : "[0-9]+" }
 documentsUsagePage:
     path:     /usage/{documentId}
     defaults:

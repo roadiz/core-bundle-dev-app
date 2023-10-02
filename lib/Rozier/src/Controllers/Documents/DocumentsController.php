@@ -623,6 +623,31 @@ class DocumentsController extends RozierApp
     }
 
     /**
+     * Download document file inline.
+     *
+     * @param Request $request
+     * @param int $documentId
+     * @return Response
+     * @throws FilesystemException
+     */
+    public function downloadInlineAction(Request $request, int $documentId): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
+
+        /** @var Document|null $document */
+        $document = $this->em()->find(Document::class, $documentId);
+
+        if ($document !== null) {
+            /** @var DocumentHandler $handler */
+            $handler = $this->handlerFactory->getHandler($document);
+
+            return $handler->getDownloadResponse(false);
+        }
+
+        throw new ResourceNotFoundException();
+    }
+
+    /**
      * @param Request $request
      * @param int|null $folderId
      * @param string $_format
