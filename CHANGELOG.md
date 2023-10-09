@@ -1,3 +1,10 @@
+## [v2.1.47](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.46...v2.1.47) (2023-10-09)
+
+
+### Bug Fixes
+
+* **Solr:** Fixed fuzzy/proximity integer ([7d72a02](https://github.com/roadiz/core-bundle-dev-app/commit/7d72a024dc61688c8c566d0d835c11240bb43e69))
+
 ## [v2.1.46](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.45...v2.1.46) (2023-09-28)
 
 
