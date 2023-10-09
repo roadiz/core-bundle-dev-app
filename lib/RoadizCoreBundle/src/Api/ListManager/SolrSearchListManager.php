@@ -50,7 +50,7 @@ final class SolrSearchListManager extends AbstractEntityListManager
                 $this->criteria, # a simple criteria array to filter search results
                 $this->getItemPerPage(), # result count
                 $this->searchInTags, # Search in tags too,
-                10000000,
+                1,
                 $this->getPage()
             );
         } else {
@@ -59,7 +59,7 @@ final class SolrSearchListManager extends AbstractEntityListManager
                 $this->criteria, # a simple criteria array to filter search results
                 $this->getItemPerPage(), # result count
                 $this->searchInTags, # Search in tags too,
-                10000000,
+                2,
                 $this->getPage()
             );
         }
