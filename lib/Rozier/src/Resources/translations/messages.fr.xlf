@@ -4821,6 +4821,54 @@
         <source>nodeSource.noIndex</source>
         <target state="translated">Interdire l'indexation</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageCropAlignment">
+        <source>document.imageCropAlignment</source>
+        <target state="translated">Alignement pour le redimensionnement</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageCropAlignment.help">
+        <source>document.imageCropAlignment.help</source>
+        <target state="translated">Définissez une zone d'intérêt pour permettre d'aligner le redimensionnement de votre image en fonction de la taille de votre écran.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.none">
+        <source>image_crop_alignment.none</source>
+        <target state="translated">Aucun alignement</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top-left">
+        <source>image_crop_alignment.top-left</source>
+        <target state="translated">En haut à gauche</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top">
+        <source>image_crop_alignment.top</source>
+        <target state="translated">En haut</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top-right">
+        <source>image_crop_alignment.top-right</source>
+        <target state="translated">En haut à droite</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.left">
+        <source>image_crop_alignment.left</source>
+        <target state="translated">À gauche</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.center">
+        <source>image_crop_alignment.center</source>
+        <target state="translated">Centré</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.right">
+        <source>image_crop_alignment.right</source>
+        <target state="translated">À droite</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left">
+        <source>image_crop_alignment.bottom-left</source>
+        <target state="translated">En bas à gauche</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom">
+        <source>image_crop_alignment.bottom</source>
+        <target state="translated">En bas</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right">
+        <source>image_crop_alignment.bottom-right</source>
+        <target state="translated">En bas à droite</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
