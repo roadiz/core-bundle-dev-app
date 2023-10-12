@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -18,7 +18,6 @@ use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\CopyrightValidFilter;
 use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
-use RZ\Roadiz\Documents\Models\DisplayableInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentTrait;
 use RZ\Roadiz\Documents\Models\FileHashInterface;
@@ -70,7 +69,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ]),
     ApiFilter(CopyrightValidFilter::class)
 ]
-class Document extends AbstractDateTimed implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, DisplayableInterface, FileHashInterface
+class Document extends AbstractDateTimed implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface
 {
     use DocumentTrait;
 
@@ -89,6 +88,37 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Groups(['document_copyright'])]
     #[Serializer\Groups(['document_copyright'])]
     protected ?\DateTime $copyrightValidUntil = null;
+
+    /**
+     * @var string|null Image crop alignment.
+     *
+     * The possible values are:
+     *
+     * top-left
+     * top
+     * top-right
+     * left
+     * center (default)
+     * right
+     * bottom-left
+     * bottom
+     * bottom-right
+     */
+    #[ORM\Column(name: 'image_crop_alignment', type: 'string', length: 12, nullable: true)]
+    #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    #[Assert\Length(max: 12)]
+    #[Assert\Choice(choices: [
+        'top-left',
+        'top',
+        'top-right',
+        'left',
+        'center',
+        'right',
+        'bottom-left',
+        'bottom',
+        'bottom-right'
+    ])]
+    protected ?string $imageCropAlignment = null;
 
     #[ORM\ManyToOne(
         targetEntity: Document::class,
@@ -808,6 +838,17 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     public function setEmbedId(?string $embedId): static
     {
         $this->embedId = $embedId;
+        return $this;
+    }
+
+    public function getImageCropAlignment(): ?string
+    {
+        return $this->imageCropAlignment;
+    }
+
+    public function setImageCropAlignment(?string $imageCropAlignment): Document
+    {
+        $this->imageCropAlignment = $imageCropAlignment;
         return $this;
     }
 }
