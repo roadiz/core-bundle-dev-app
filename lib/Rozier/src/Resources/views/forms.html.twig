@@ -305,6 +305,27 @@
     } %}
 {% endblock custom_forms_widget %}
 
+{%- block radio_widget -%}
+    <input type="radio" title="{{ label|trans }}" aria-label="{{ label|trans }}" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{%- endblock radio_widget -%}
+
+{% block image_crop_alignment_widget %}
+    {% apply spaceless %}
+    <div class="image-crop-alignments" {{ block('widget_container_attributes') }}>
+        <div class="uk-form-group uk-margin-bottom">
+        {%- for child in form %}
+            {{- form_widget(child) -}}
+            {{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}
+            {% if child.vars.value == null %}
+                </div>
+                <div class="image-crop-alignments__grid uk-form-group uk-margin-bottom">
+            {% endif %}
+        {% endfor -%}
+        </div>
+    </div>
+    {% endapply %}
+{% endblock %}
+
 {% block checkbox_widget -%}
     <input class="rz-boolean-checkbox"
            type="checkbox"

@@ -105,7 +105,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
      * bottom-right
      */
     #[ORM\Column(name: 'image_crop_alignment', type: 'string', length: 12, nullable: true)]
-    #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    #[SymfonySerializer\Ignore]
     #[Assert\Length(max: 12)]
     #[Assert\Choice(choices: [
         'top-left',

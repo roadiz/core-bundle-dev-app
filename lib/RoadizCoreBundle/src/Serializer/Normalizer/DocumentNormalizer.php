@@ -61,6 +61,14 @@ final class DocumentNormalizer extends AbstractPathNormalizer
             }
 
             if (
+                !$object->isPrivate() &&
+                $object->isProcessable() &&
+                null !== $alignment = $object->getImageCropAlignment()
+            ) {
+                $data['imageCropAlignment'] = $alignment;
+            }
+
+            if (
                 \in_array('document_folders_all', $serializationGroups, true)
             ) {
                 $data['folders'] = $object->getFolders()
