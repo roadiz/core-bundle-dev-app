@@ -4,6 +4,7 @@
     "display_name": "Article feed block",
     "visible": true,
     "publishable": false,
+    "attributable": false,
     "reachable": false,
     "hiding_nodes": true,
     "hiding_non_reachable_nodes": true,

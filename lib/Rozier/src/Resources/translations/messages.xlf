@@ -1368,6 +1368,9 @@
             <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left"><source>image_crop_alignment.bottom-left</source></trans-unit>
             <trans-unit xml:space="preserve" id="image_crop_alignment.bottom"><source>image_crop_alignment.bottom</source></trans-unit>
             <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right"><source>image_crop_alignment.bottom-right</source></trans-unit>
+
+            <trans-unit xml:space="preserve" id="attributable"><source>attributable</source></trans-unit>
+            <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type"><source>enables_node_attributes_for_this_type</source></trans-unit>
         </body>
     </file>
 </xliff>

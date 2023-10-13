@@ -28,6 +28,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ["name"], name: "node_type_name"),
     ORM\Index(columns: ["visible"]),
     ORM\Index(columns: ["publishable"]),
+    ORM\Index(columns: ["attributable"]),
     ORM\Index(columns: ["hiding_nodes"]),
     ORM\Index(columns: ["hiding_non_reachable_nodes"]),
     ORM\Index(columns: ["reachable"]),
@@ -89,6 +90,17 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
         Serializer\Type("boolean")
     ]
     private bool $publishable = false;
+
+    /**
+     * @var bool Define if this node-type produces nodes that will have attributes.
+     */
+    #[
+        ORM\Column(type: "boolean", nullable: false, options: ["default" => true]),
+        Serializer\Groups(["node_type"]),
+        SymfonySerializer\Groups(["node_type"]),
+        Serializer\Type("boolean")
+    ]
+    private bool $attributable = false;
     /**
      * Define if this node-type produces nodes that will be
      * viewable from a Controller.
@@ -518,6 +530,17 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
     public function setSearchable(bool $searchable): NodeType
     {
         $this->searchable = $searchable;
+        return $this;
+    }
+
+    public function isAttributable(): bool
+    {
+        return $this->attributable;
+    }
+
+    public function setAttributable(bool $attributable): NodeType
+    {
+        $this->attributable = $attributable;
         return $this;
     }
 }

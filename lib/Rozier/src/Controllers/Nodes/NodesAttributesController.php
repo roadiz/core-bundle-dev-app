@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
 use RZ\Roadiz\CoreBundle\Entity\AttributeValueTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\AttributeValueTranslationType;
@@ -67,6 +68,10 @@ class NodesAttributesController extends RozierApp
             throw $this->createNotFoundException('Node-source does not exist');
         }
 
+        if (!$this->isAttributable($node)) {
+            throw $this->createNotFoundException('Node type is not attributable');
+        }
+
         if (null !== $response = $this->handleAddAttributeForm($request, $node, $translation)) {
             return $response;
         }
@@ -120,7 +125,7 @@ class NodesAttributesController extends RozierApp
                         return new JsonResponse([
                             'status' => 'success',
                             'message' => $msg,
-                        ], JsonResponse::HTTP_ACCEPTED);
+                        ], Response::HTTP_ACCEPTED);
                     }
                     return $this->redirectToRoute('nodesEditAttributesPage', [
                         'nodeId' => $node->getId(),
@@ -136,7 +141,7 @@ class NodesAttributesController extends RozierApp
                             'status' => 'fail',
                             'errors' => $errors,
                             'message' => $this->getTranslator()->trans('form_has_errors.check_you_fields'),
-                        ], JsonResponse::HTTP_BAD_REQUEST);
+                        ], Response::HTTP_BAD_REQUEST);
                     }
                     foreach ($errors as $error) {
                         $this->publishErrorMessage($request, $error);
@@ -163,6 +168,15 @@ class NodesAttributesController extends RozierApp
         return $this->em()->getRepository(Attribute::class)->countBy([]) > 0;
     }
 
+    protected function isAttributable(Node $node): bool
+    {
+        $nodeType = $node->getNodeType();
+        if ($nodeType instanceof NodeType) {
+            return $nodeType->isAttributable();
+        }
+        return false;
+    }
+
     /**
      * @param Request     $request
      * @param Node        $node
@@ -172,6 +186,9 @@ class NodesAttributesController extends RozierApp
      */
     protected function handleAddAttributeForm(Request $request, Node $node, Translation $translation): ?RedirectResponse
     {
+        if (!$this->isAttributable($node)) {
+            return null;
+        }
         if (!$this->hasAttributes()) {
             return null;
         }

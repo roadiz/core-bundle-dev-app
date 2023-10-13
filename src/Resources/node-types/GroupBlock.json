@@ -4,6 +4,7 @@
     "display_name": "Group block",
     "visible": true,
     "publishable": false,
+    "attributable": false,
     "reachable": false,
     "hiding_nodes": false,
     "hiding_non_reachable_nodes": false,

@@ -38,4 +38,9 @@ final class Version20230828092821 extends AbstractMigration
         $this->addSql('DROP INDEX idx_user_created_at ON users');
         $this->addSql('DROP INDEX idx_user_updated_at ON users');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

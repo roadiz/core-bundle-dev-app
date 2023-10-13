@@ -4,6 +4,7 @@
     "display_name": "Lien du menu",
     "visible": false,
     "publishable": false,
+    "attributable": true,
     "reachable": false,
     "hiding_nodes": false,
     "hiding_non_reachable_nodes": false,

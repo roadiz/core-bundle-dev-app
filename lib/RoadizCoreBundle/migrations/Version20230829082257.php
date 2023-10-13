@@ -30,4 +30,9 @@ final class Version20230829082257 extends AbstractMigration
         $this->addSql('DROP INDEX idx_attribute_value_node_position ON attribute_values');
         $this->addSql('DROP INDEX idx_attribute_value_position ON attribute_values');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }

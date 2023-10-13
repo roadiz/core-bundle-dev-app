@@ -38,4 +38,9 @@ final class Version20230905140844 extends AbstractMigration
         $this->addSql('DROP INDEX IDX_319B9E709DFF5F89 ON attributes');
         $this->addSql('ALTER TABLE attributes DROP realm_id');
     }
+
+    public function isTransactional(): bool
+    {
+        return false;
+    }
 }
