@@ -43,7 +43,7 @@
                             <td class="table-actions-row table-actions-row-2">
                                 {% apply spaceless %}
                                     <a class="uk-button uk-button-content uk-button-small custom-form-field-edit-button rz-no-ajax-link" href="{{ path('customFormFieldsEditPage', { customFormFieldId: field.getId }) }}" title="{% trans %}edit{% endtrans %}" data-uk-tooltip="{animation:true}" data-index="{{ loop.index0 }}"><i class="uk-icon-rz-pencil"></i></a>
-                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger uk-button-table-delete" href="{{ path('customFormFieldsDeletePage', { customFormFieldId: field.getId }) }}" title="{% trans %}delete{% endtrans %}" data-uk-tooltip="{animation:true}">
+                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('customFormFieldsDeletePage', { customFormFieldId: field.getId }) }}" title="{% trans %}delete{% endtrans %}" data-uk-tooltip="{animation:true}">
                                         <i class="uk-icon-rz-trash-o"></i>
                                     </a>
                                 {% endapply %}

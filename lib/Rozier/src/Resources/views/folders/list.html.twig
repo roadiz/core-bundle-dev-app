@@ -45,7 +45,7 @@
                                title="{% trans %}download.folder.content{% endtrans %}"
                                data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></a>
                             {% if not folder.Locked %}
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger uk-button-table-delete"
+                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
                                    href="{{ path('foldersDeletePage', { folderId: folder.id }) }}"
                                    title="{% trans %}delete{% endtrans %}"
                                    data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></a>

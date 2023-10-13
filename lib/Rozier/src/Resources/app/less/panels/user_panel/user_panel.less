@@ -12,13 +12,13 @@
 
 #user-panel {
     position: relative;
-    background: @user-panel-color;
-    color: @user-panel-text-alt-color;
+    background: var(--user-panel-color);
+    color: var(--user-panel-text-alt-color);
     transition: width ease 0.5s;
     z-index:2;
 
     p, a, li, h1, h2, h3, h4, h5, h6 {
-        color: @user-panel-text-alt-color;
+        color: var(--user-panel-text-alt-color);
     }
     p, li, h1, h2, h3, h4, h5, h6 {
         transition: font-size ease 1s;
@@ -57,7 +57,7 @@
 
         &.uk-icon-rz-turn-off,
         &.uk-icon-rz-user {
-            border-color: @contrast-color;
+            border-color: var(--accent-color);
             opacity: 0.5;
 
             &:hover {
@@ -84,7 +84,7 @@
             margin: 4px;
             font-size: 32px;
             transition: font-size 1s ease;
-            color: lighten(@user-panel-color, 25%);
+            color: var(--user-panel-color-l25);
             text-shadow: 0 1px 0 rgba(0,0,0,.8);
         }
     }
@@ -148,7 +148,7 @@
 }
 
 #company {
-    background-color: @contrast-color;
+    background-color: var(--accent-color);
     height: @global-header-height;
     text-align: center;
     .box-sizing();
@@ -197,11 +197,11 @@
     }
 
     .username {
-        color: @user-panel-text-color;
+        color: var(--user-panel-text-color);
     }
 
     .user-actions {
-        border-top: 1px solid @user-panel-border-color;
+        border-top: 1px solid var(--user-panel-border-color);
 
         @media (min-width: @screen-sm-min) {
             display: flex;
@@ -222,8 +222,8 @@
     width: @user-picture-size;
     height: @user-picture-size;
     border-radius: 50%;
-    border: 3px solid @user-panel-color;
-    background: darken(@user-panel-color, 5%);
+    border: 3px solid var(--user-panel-color);
+    background: var(--user-panel-color-5);
     overflow: hidden;
     margin: 0 auto;
     transition: ~"width 1s ease, height 1s ease, border 0.4s ease";
@@ -267,18 +267,18 @@
     }
     p {
         font-size: 10px;
-        color: @grey-medium;
+        color: var(--global-text-lighter-color);
         margin: 5px 0 0;
         &.cms-version {
             padding-top: 10px;
-            border-top: 1px solid @user-panel-border-color;
+            border-top: 1px solid var(--user-panel-border-color);
         }
     }
 
     .uk-icon-rz-roadiz-icon,
     .uk-icon-rz-rezozero {
         font-size: 16px;
-        color: @grey-medium;
+        color: var(--global-text-lighter-color);
     }
 }
 

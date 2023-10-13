@@ -61,7 +61,7 @@
                                                title="{% trans %}export{% endtrans %}"
                                                data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></a>
                                             {% if is_granted(item) %}
-                                                <a class="uk-button uk-button-content uk-button-small uk-button-table-delete"
+                                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
                                                    href="{{ path('groupsDeletePage', { id: item.getId }) }}"
                                                    title="{% trans %}delete{% endtrans %}"
                                                    data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>

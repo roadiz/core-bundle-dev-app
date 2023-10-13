@@ -53,7 +53,7 @@
             {% apply spaceless %}
                 <a class="uk-button uk-button-content uk-button-small document-link"
                    href="{{ path('documentsEditPage', { documentId: document.id }) }}"><i class="uk-icon-rz-pencil"></i></a>
-                <a class="uk-button uk-button-content uk-button-small uk-button-table-delete"
+                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
                    href="{{ path('documentsDeletePage', { documentId: document.id }) }}"><i class="uk-icon-trash-o"></i></a>
             {% endapply %}
         </td>

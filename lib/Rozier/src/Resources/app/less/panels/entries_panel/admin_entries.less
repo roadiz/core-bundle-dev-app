@@ -12,7 +12,7 @@
 /* -------- STYLES -------- */
 #admin-menu {
     position: relative;
-    background: #fff;
+    background: var(--contrasted-bg);
     z-index:5;
 
     .uk-nav {
@@ -22,14 +22,14 @@
         a, p {
             padding: 0px;
             margin: 0px;
-            color: @admin-menu-color;
+            color: var(--admin-menu-color);
             transition: color ease 0.2s;
         }
     }
     header {
         height: @global-header-height;
         .box-sizing();
-        background-color: @global-header-color;
+        background-color: var(--global-header-color);
 
         hr {
             border-top: 1px dashed #c4c4c4;
@@ -44,7 +44,7 @@
         /* width: 30px; */
         margin: 0px auto;
         padding: 11px 10px 10px;
-        background: white;
+        background: var(--contrasted-bg);
         text-align: center;
 
         &:before {
@@ -53,7 +53,7 @@
             display: block;
             width: 28px;
             height: 1px;
-            background-color: @admin-entries-line-horizontal;
+            background-color: var(--admin-entries-line-horizontal);
             left: (@entries-panel-width - 28) / 2;
             top: 0px;
 
@@ -100,7 +100,7 @@
             position: absolute;
             z-index: 999;
             left: @entries-panel-width;
-            background-color: @admin-menu-info-color;
+            background-color: var(--admin-menu-info-color);
             height: 53px;
             font-size: 13px;
             line-height: 55px;
@@ -130,7 +130,7 @@
             left: @entries-panel-width;
             top: 52px;
             z-index: 999;
-            background-color: white;
+            background-color: var(--contrasted-bg);
             border-left: 1px dashed #c3c3c3;
             padding: 0;
             min-width: 210px;
@@ -144,7 +144,7 @@
             }
 
             li {
-                border-top: 1px solid @admin-entries-line-horizontal;
+                border-top: 1px solid var(--admin-entries-line-horizontal);
                 padding: 5px 10px;
                 min-width: 210px;
                 .box-sizing();
@@ -156,7 +156,6 @@
                 }
                 i {
                     font-size: 20px;
-                    //color: @admin-entries-subnav-text-color;
                 }
                 & > a {
                     padding: 5px 10px 5px 7px;
@@ -168,7 +167,7 @@
                      line-height: 43px;
                      left: 28px;
                      font-size: @default-font-size;
-                     color: @admin-entries-subnav-text-color;
+                     color: var(--admin-entries-subnav-text-color);
                      .box-shadow(0px 0px 0px rgba(0,0,0,0));
 
                      &:after {
@@ -199,7 +198,7 @@
         &:hover {
             & > a,
             & > p {
-                color: darken(@admin-menu-color, 25%);
+                color: var(--admin-menu-color-25);
                 .info {
                     display: inline-block;
                 }
@@ -226,7 +225,7 @@
                 height: 0;
                 border-top: 10px solid transparent;
                 border-bottom: 10px solid transparent;
-                border-right:10px solid @admin-menu-info-color;
+                border-right: 10px solid var(--admin-menu-info-color);
                 position: absolute;
                 z-index: 999;
                 left: @entries-panel-width - 10;
@@ -264,7 +263,7 @@
         padding: 35px 0;
     }
     &-link {
-        background: white;
+        background: var(--contrasted-bg);
         color: #909090;
         font-size: 28px;
         line-height: 38px;
@@ -279,7 +278,7 @@
 
         &:hover {
             border-color: @grey-form-submit-border-hover;
-            color: @grey-form-submit-icon-hover;
+            color: var(--global-title-color);
         }
     }
 }
@@ -315,7 +314,7 @@
         width: 20px;
         height: 20px;
         line-height: 18px;
-        background: darken(@global-header-color, 10%);
+        background: var(--global-header-color-10);
         border: 0 none;
         transition: background ease 0.35s;
 
@@ -324,7 +323,7 @@
         }
 
         &:hover {
-            background: darken(@global-header-color, 15%);
+            background: var(--global-header-color-15);
         }
     }
 }

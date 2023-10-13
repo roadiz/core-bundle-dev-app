@@ -20,7 +20,7 @@
     background-color:#E0E0E0;
     transition: background-color ease 0.35s;
     cursor: pointer;
-    color: @black-title;
+    color: var(--global-title-color);
 
     .uk-icon-rz-infos{
         -webkit-font-smoothing: none;
@@ -28,7 +28,7 @@
     }
     &:hover {
         background-color: darken(#E0E0E0, 10%);
-        color: @black-title;
+        color: var(--global-title-color);
     }
 }
 
@@ -79,7 +79,7 @@
         a {
             border-radius: 0px;
             background-color: #e5e5e5;
-            border: 1px solid #bfbfbf;
+            border: 1px solid var(--global-border-color);
             border-left: 0 none;
             font-size: @default-font-size;
             line-height: 25px;
@@ -113,8 +113,8 @@
         }
         &.uk-active {
             & > a {
-                background-color: #666666;
-                border-color: #666666;
+                background-color: var(--accent-color-darker);
+                border-color: var(--accent-color-darker);
                 box-shadow: none;
             }
         }

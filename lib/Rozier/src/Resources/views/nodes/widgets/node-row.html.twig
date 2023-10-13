@@ -50,7 +50,7 @@
                title="{% trans %}see.nodetree{% endtrans %}"
                data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-tree-mini"></i></a>
             {% if workflow_can(node, 'delete') %}
-                <a class="uk-button uk-button-content uk-button-small uk-button-danger uk-button-table-delete"
+                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
                    href="{{ path('nodesDeletePage', { nodeId: node.id }) }}"
                    title="{% trans %}delete{% endtrans %}"
                    data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>

@@ -5,7 +5,6 @@
 /* -------- VARS -------- */
 @children-nodes-border: #cbcbcb;
 @children-nodes-btn-bg: #ededed;
-@children-nodes-btn-border: #bfbfbf;
 @children-nodes-btn-color: #2d2d2d;
 @children-node-height: 42px;
 
@@ -19,7 +18,7 @@
     border: 1px solid @children-nodes-border;
 
     & > .children-nodes-tree {
-        background: #fff;
+        background: var(--contrasted-bg);
     }
 
     .uk-form-label {
@@ -39,7 +38,7 @@
         & > .non-nestable-list-item,
         & > .uk-nestable-item {
             padding: 0;
-            border-top: 1px solid #E2E2E2;
+            border-top: 1px solid var(--global-border-lighter-color);
 
             &:first-child {
                 padding: 0;
@@ -57,7 +56,7 @@
     .uk-button {
         background: @children-nodes-btn-bg;
         margin-right: 8px;
-        border: 1px solid @children-nodes-btn-border;
+        border: 1px solid var(--global-border-color);
         color: @children-nodes-btn-color;
 
         &:last-child {
@@ -65,7 +64,7 @@
         }
 
         &:hover {
-            border-color: darken(@children-nodes-btn-border, 15%);
+            border-color: var(--global-border-color-15);
             background-color: darken(@children-nodes-btn-bg, 10%);
             color: darken(@children-nodes-btn-color, 15%);
         }
@@ -98,7 +97,7 @@
                 height: auto;
                 padding: 8px 20px 7px 33px;
                 line-height: 17px;
-                border-bottom: 1px solid @children-nodes-btn-border;
+                border-bottom: 1px solid var(--global-border-color);
 
                 .uk-icon-rz-plus-simple {
                     position: absolute;
@@ -128,7 +127,7 @@
         &.uk-open {
             & > .uk-button {
                 background-color: #F7F7F7;
-                border-bottom: 1px dashed @children-nodes-btn-border;;
+                border-bottom: 1px dashed var(--global-border-color);
             }
         }
     }
@@ -213,7 +212,7 @@
     & > .non-nestable-list-item,
     & > .uk-nestable-item {
         position: relative;
-        background: #fff;
+        background: var(--contrasted-bg);
 
         [data-nestable-action="toggle"] {
             right: 5px;
@@ -337,7 +336,7 @@
                     color: @item-color;
                     font-size: @default-font-size;
                     border-radius: 100%;
-                    background-color: white;
+                    background-color: var(--contrasted-bg);
                     border: 1px solid #a0a0a0;
                     width: @children-node-height / 2;
                     height: @children-node-height / 2;
@@ -489,7 +488,7 @@
                 .uk-nestable-panel {
                     margin-left: @children-node-height - (15px - 2);
                     background: #F4F4F4;
-                    border-top: 1px solid #e2e2e2;
+                    border-top: 1px solid var(--global-border-lighter-color);
 
                     &:before {
                         position: absolute;
@@ -498,7 +497,7 @@
                         right: 0;
                         left: 0;
                         height: 1px;
-                        background: #fff;
+                        background: var(--contrasted-bg);
                     }
                 }
 

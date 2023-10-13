@@ -18,7 +18,7 @@
 
 .navbar-navigation {
     & > .uk-navbar-nav {
-        background-color: @maincontent-header-bg;
+        background-color: var(--maincontent-header-bg);
         text-align: center;
         display: flex;
         flex-wrap: wrap;
@@ -42,7 +42,7 @@
 
                 &:active, &:focus{
                     box-shadow: none;
-                    color: #222222;
+                    color: var(--global-text-color);
                 }
             }
 
@@ -82,7 +82,7 @@
         .uk-active {
             & > a {
                 box-shadow: none;
-                color: #1a1a1a;
+                color: var(--global-title-color);
             }
             &:after{
                 height:@active-border-size;

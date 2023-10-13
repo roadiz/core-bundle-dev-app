@@ -93,7 +93,7 @@
     }
     .CodeMirror-lines { padding: 10px; }
     .CodeMirror-selected { background: #d9d9d9; }
-    .CodeMirror-focused { background: #FFF; }
+    .CodeMirror-focused { background: var(--contrasted-bg); }
 
     &.content-limit{
         .CodeMirror{
@@ -209,13 +209,12 @@
         }
     }
     &-content {
-        //border: 1px solid @grey-form-border;
-        background: #fff;
+        background: var(--contrasted-bg);
         transition: ~'0.35s ease border-color, 0.5s ease background';
         cursor: text;
 
         &:hover {
-            background-color: white;
+            background-color: var(--contrasted-bg);
             border-color: @grey-form-submit-border-hover;
             color: #333;
         }
@@ -232,7 +231,7 @@
         h2, h3, h4, h5, h6 {
             font-weight: bold;
             margin: 5px 0;
-            color: #0F0F0F;
+            color: var(--global-title-color);
         }
         p {
             margin: 5px 0;

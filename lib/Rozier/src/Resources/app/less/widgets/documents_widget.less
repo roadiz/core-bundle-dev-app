@@ -30,7 +30,7 @@
 
     &.uk-active {
         z-index: 11100;
-        background: @maincontent-bg;
+        background: var(--maincontent-bg);
     }
 
     .documents-widget-uploader.dropzone {
@@ -101,7 +101,7 @@
 }
 
 .documents-widget-sortable-container {
-    background: #fff;
+    background: var(--contrasted-bg);
     position: relative;
     min-height: 121px;
 }
@@ -109,7 +109,7 @@
 .documents-widget-sortable{
     margin:0;
     padding:13px 25px 20px;
-    background:#fff;
+    background: var(--contrasted-bg);
 }
 
 .sortable-ghost {
@@ -145,7 +145,7 @@
         top:0; right:0; left:0;
         z-index: 15;
         height:4px;
-        background:@contrast-color;
+        background: var(--accent-color);
     }
 
     .document-image{

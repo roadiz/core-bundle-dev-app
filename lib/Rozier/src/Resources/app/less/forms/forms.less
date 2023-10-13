@@ -12,7 +12,6 @@
 
 @grey-form-border:              #D3D3D3;
 @grey-form-before:              #BBBBBB;
-@grey-form-label:               #555555;
 @grey-form-text:                #666666;
 @grey-form-submit:              #EAEAEA;
 @grey-form-submit-hover:        #CECECE;
@@ -20,7 +19,6 @@
 @grey-form-submit-border-hover: #888888;
 @grey-form-submit-color:        #333333;
 @grey-form-submit-icon:         #777777;
-@grey-form-submit-icon-hover:   #555555;
 @grey-form-submit-textsimple:   #999999;
 
 
@@ -75,7 +73,7 @@
         }
 
         &:hover {
-            background-color: white;
+            background-color: var(--contrasted-bg);
             border-color: @grey-form-submit-border-hover;
             color: #333;
         }
@@ -96,7 +94,7 @@
         background-color: @grey-form-submit;
         margin:3px;
         &:checked:before {
-            background: darken(@contrast-color, 10%);
+            background: var(--accent-color-darker);
         }
     }
 
@@ -112,7 +110,7 @@
         }
 
         &:checked:before{
-            color: darken(@contrast-color, 10%);
+            color: var(--accent-color-darker);
         }
     }
 
@@ -147,7 +145,6 @@
             height:36px;
             content: "\f0d7";
             padding:0 10px;
-            //background: white;
             font:normal 12px/36px 'FontAwesome';
             pointer-events: none;
         }
@@ -156,7 +153,7 @@
             height: 36px;
             .box-sizing();
             .border-radius(0px);
-            background-color: white;
+            background-color: var(--contrasted-bg);
             border: 1px solid @grey-form-border;
             padding: 8px 30px 8px 15px;
             //background-color: transparent;
@@ -230,7 +227,7 @@
     // Labels
     .uk-form-label {
         font-size: @default-font-size;
-        color: @grey-form-label;
+        color: var(--global-title-color);
         font-weight: normal;
 
         &:before {
@@ -251,7 +248,7 @@
 
     .form-check-label {
         font-size: @default-font-size;
-        color: @grey-form-label;
+        color: var(--global-title-color);
         font-weight: normal;
     }
 
@@ -470,7 +467,7 @@
 }
 
 .form-col-nodesourcebase {
-    background: #EFEFEF;
+    background: var(--maincontent-bar-bg);
     margin: -20px -15px 0; // keep negative top to compensate main content padding
     padding: 30px 15px 0;
 

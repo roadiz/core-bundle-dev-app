@@ -4,7 +4,7 @@
 
 .rz-node-type-field-dragged {
     background: #ddd;
-    border: 1px dashed #b5b5b5;
+    border: 1px dashed var(--global-border-color);
     display: table-row;
 
     .uk-button {
@@ -13,9 +13,9 @@
 
     tr{
         height:54px;
-        background:white;
+        background: var(--contrasted-bg);
         border-top:1px solid white;
-        border-bottom:1px solid @form-row-border-color;
+        border-bottom:1px solid var(--global-border-lighter-color);
 
         &:nth-child(2n){
             background:@grey-verylight;
@@ -30,7 +30,7 @@
     }
 
     a{
-        color:@grey-medium;
+        color: var(--global-text-lighter-color);
         transition: 0.4s color ease;
 
         &:hover{

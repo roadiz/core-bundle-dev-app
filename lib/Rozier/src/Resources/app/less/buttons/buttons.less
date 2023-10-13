@@ -84,10 +84,10 @@
         width: 32px;
         height: 32px;
         padding:0;
-        background: white;
+        background: var(--contrasted-bg);
         text-shadow: none;
         color:#909090;
-        border-color:@grey-form-border;
+        border-color: @grey-form-border;
 
         [class*=uk-icon-]{
             color:#909090;
@@ -104,7 +104,7 @@
         }
     }
 
-    &-content{
+    &-content {
         width: 25px;
         padding:0;
         margin-left:-1px;
@@ -123,25 +123,43 @@
         }
 
         &.uk-button-primary {
-            background:rgba(@contrast-color-darker-red, @contrast-color-darker-green, @contrast-color-darker-blue, 0.3);
-            border-color: @contrast-color-darker;
+            background: var(--main-contrast-color-30);
+            border-color: var(--accent-color-darker);
 
             [class*=uk-icon-]{
-                color: darken(@contrast-color-darker, 10%);
+                color: var(--accent-color-darkest);
             }
 
             &:hover, &:focus{
-                background:rgba(@contrast-color-darker-red, @contrast-color-darker-green, @contrast-color-darker-blue, 0.3);
-                border-color:darken(@contrast-color-darker, 15%);
+                background: var(--main-contrast-color-30);
+                border-color: var(--accent-color-darkest);
 
                 [class*=uk-icon-]{
-                    color: darken(@contrast-color-darker, 15%);
+                    color: var(--accent-color-darkest);
+                }
+            }
+        }
+
+        &.uk-button-success {
+            background: fade(@success-color, 20%);
+            border-color: @success-color;
+
+            [class*=uk-icon-]{
+                color: @success-color;
+            }
+
+            &:hover, &:focus{
+                background: fade(@success-color, 20%);
+                border-color:darken(@success-color, 15%);
+
+                [class*=uk-icon-]{
+                    color: darken(@success-color, 15%);
                 }
             }
         }
 
         &.uk-button-danger {
-            background:rgba(@alert-color-red, @alert-color-green, @alert-color-blue, 0.2);
+            background: fade(@alert-color, 20%);
             border-color: @alert-color;
 
             [class*=uk-icon-]{
@@ -149,11 +167,29 @@
             }
 
             &:hover, &:focus{
-                background:rgba(@alert-color-red, @alert-color-green, @alert-color-blue, 0.2);
+                background: fade(@alert-color, 20%);
                 border-color:darken(@alert-color, 15%);
 
                 [class*=uk-icon-]{
                     color: darken(@alert-color, 15%);
+                }
+            }
+        }
+
+        &.uk-button-warning {
+            background: fade(@warning-color, 20%);
+            border-color: @warning-color;
+
+            [class*=uk-icon-]{
+                color: @warning-color;
+            }
+
+            &:hover, &:focus{
+                background: fade(@warning-color, 20%);
+                border-color:darken(@warning-color, 15%);
+
+                [class*=uk-icon-]{
+                    color: darken(@warning-color, 15%);
                 }
             }
         }
@@ -169,8 +205,8 @@
     font-size: 10px;
     border-radius: 100%;
     border: none;
-    background: darken(@maintree-global-bg, 3%);
-    color: darken(@maintree-global-bg, 30%);
+    background: var(--maintree-global-bg-3);
+    color: var(--maintree-global-bg-30);
 }
 
 .uk-button-status{
@@ -204,14 +240,23 @@
 
 .uk-button-success {
     &:not(:disabled) {
-        background: @grey-form-submit;
-        border-color: @grey-form-submit-border;
-        color: @grey-form-submit-color;
+        background: fade(@success-color, 20%);
+        border-color: @success-color;
+        color: darken(@success-color, 15%);
+        text-shadow: none;
+
+        [class*=uk-icon-] {
+            color: darken(@success-color, 15%);
+        }
 
         &:hover, &:active, &:focus {
-            background-color: @grey-form-submit-hover;
-            border-color: #888888;
-            color: #333;
+            background: @success-color;
+            border-color: @success-color;
+            color: white;
+
+            [class*=uk-icon-] {
+                color: white;
+            }
         }
     }
 }
@@ -266,7 +311,7 @@
 
 .uk-button-primary {
     &:not(:disabled) {
-        background: @contrast-color-darker;
+        background: var(--accent-color-darker);
         border-color: transparent;
         color: white;
         text-shadow: none;
@@ -276,7 +321,7 @@
         }
 
         &:hover, &:active, &:focus {
-            background: @contrast-color;
+            background: var(--accent-color);
             border-color: transparent;
             color: white;
         }
@@ -297,7 +342,7 @@
     height: 36px;
     color: #444;
     text-align: center;
-    border: 1px solid @user-panel-text-alt-color;
+    border: 1px solid var(--user-panel-text-alt-color);
     background-origin: border-box;
     text-shadow: 0 1px 0 #fff;
     background: #333333;
@@ -306,7 +351,7 @@
 
     &:hover {
         opacity: 0.8;
-        border-color:@contrast-color;
+        border-color: var(--accent-color);
         background: #333333;
     }
 }
@@ -343,44 +388,6 @@
     }
 }
 
-.uk-button-table-save{
-    background:rgba(@contrast-color-darker-red, @contrast-color-darker-green, @contrast-color-darker-blue, 0.3);
-    border-color: @contrast-color-darker;
-
-    [class*=uk-icon-]{
-        color: darken(@contrast-color-darker, 10%);
-    }
-
-    &:hover, &:focus{
-        background:rgba(@contrast-color-darker-red, @contrast-color-darker-green, @contrast-color-darker-blue, 0.3);
-        border-color:darken(@contrast-color-darker, 15%);
-
-        [class*=uk-icon-]{
-            color: darken(@contrast-color-darker, 15%);
-        }
-    }
-}
-
-.uk-button-table-delete,
-.uk-button-bulk-delete {
-    background:rgba(@alert-color-red, @alert-color-green, @alert-color-blue, 0.2);
-    border-color: @alert-color;
-
-    [class*=uk-icon-]{
-        color: @alert-color;
-    }
-
-    &:hover, &:focus{
-        background:rgba(@alert-color-red, @alert-color-green, @alert-color-blue, 0.2);
-        border-color:darken(@alert-color, 15%);
-
-        [class*=uk-icon-]{
-            color: darken(@alert-color, 15%);
-        }
-    }
-}
-
-
 .uk-button-bulk{
     width:  50px;
     height: 50px;
@@ -398,18 +405,12 @@
         margin: 0;
         font-size: 16px;
         line-height: 32px;
-        background:#fff;
+        background: var(--contrasted-bg);
         border-radius: 18px;
         border:1px solid #cbcbcb;
         .box-sizing();
 
         transition: 0.35s ease border-color, 0.5s ease background;
-    }
-
-    &.uk-button-bulk-delete{
-        [class*=uk-icon-] {
-            border-color: @alert-color;
-        }
     }
 
     &:hover,

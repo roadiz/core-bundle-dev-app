@@ -18,7 +18,7 @@
 
 #main-content-scrollable{
     padding: 0px;
-    background-color: @maincontent-bg;
+    background-color: var(--maincontent-bg);
     overflow-y: auto;
 
     @media (max-width: @screen-xs-max) {
@@ -37,7 +37,7 @@
     .content {
         position: relative;
 
-        .nodetree-langs{
+        .nodetree-langs {
             margin-top: -15px;
             margin-bottom: 15px;
 
@@ -63,10 +63,10 @@
     position: relative;
     height: 220px;
     padding: 0px 30px;
-    background-color: @maincontent-header-bg;
+    background-color: var(--maincontent-header-bg);
     text-align: center;
     .box-sizing();
-    border-bottom: 1px solid @navbars-bg;
+    border-bottom: 1px solid var(--navbars-bg);
 
     .navbar-navigation {
         @media (min-width: @screen-sm-min) {
@@ -94,7 +94,7 @@
     padding: 3em 0 0;
     margin: 0px;
     text-align: center;
-    color:@black-title;
+    color: var(--content-title-color);
     font-weight: lighter;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -105,7 +105,7 @@
         position: absolute;
         width: 16px;
         height: 1px;
-        background-color: #808080;
+        background-color: @grey-medium;
         left: 50%;
         margin-left: -8px;
         margin-top: 3px;

@@ -82,7 +82,7 @@
         display: inline-block;
         //width:128px; height:128px;
         margin:0 16px 39px 0;
-        background:white;
+        background: var(--contrasted-bg);
         //overflow: hidden;
 
         &:hover{
@@ -183,7 +183,7 @@
     vertical-align: middle;
     -webkit-appearance: none;
     outline: 0;
-    background: #fff;
+    background: var(--contrasted-bg);
     cursor: pointer;
 
     &:focus{
@@ -200,7 +200,7 @@
             -webkit-font-smoothing: antialiased;
             text-align: center;
             line-height: 12px;
-            color: darken(@contrast-color, 10%);
+            color: var(--accent-color-darker);
         }
     }
 }

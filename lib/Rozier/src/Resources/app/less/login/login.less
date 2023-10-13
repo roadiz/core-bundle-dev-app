@@ -69,7 +69,7 @@
     left: 0;
     position: relative;
     .box-sizing();
-    background-color: white;
+    background-color: var(--contrasted-bg);
     padding: 0;
     text-align: center;
 
@@ -114,7 +114,7 @@
     #login-logo {
         width: @login-BarW;
         height: 70px;
-        background-color: @contrast-color;
+        background-color: var(--accent-color);
         top: 0px; left: 0;
         text-align: center;
 
@@ -167,14 +167,14 @@
         .uk-icon-rz-roadiz-icon,
         .uk-icon-rz-rezozero {
             font-size: 18px;
-            color: @grey-medium;
+            color: var(--global-text-lighter-color);
             bottom: 50px;
             width: 100%;
             left: 0px;
         }
 
         #login-version {
-            color: @grey-medium;
+            color: var(--global-text-lighter-color);
             font-size: 10px;
             bottom: 26px;
             width: 100%;
@@ -253,7 +253,7 @@
                 &:hover {
                     .uk-icon-rz-earth {
                         border-color: @grey-form-submit-border-hover;
-                        color: @grey-form-submit-icon-hover;
+                        color: var(--global-title-color);
                     }
                     .text {
                         color: @grey-form-text;

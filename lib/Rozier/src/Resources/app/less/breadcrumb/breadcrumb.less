@@ -9,7 +9,7 @@
 
 /* -------- VARS -------- */
 
-@breadcrumb-link-hover : #808080;
+@breadcrumb-link-hover : @grey-medium;
 
 
 /* -------- STYLES -------- */
@@ -34,12 +34,12 @@
 }
 
 .node-breadcrumb-item{
-    color:@grey-medium;
+    color: var(--global-text-lighter-color);
     text-transform:uppercase;
 }
 
 .node-breadcrumb-link{
-    color:@grey-medium;
+    color: var(--global-text-lighter-color);
     transition: 0.4s color ease;
 
     .uk-icon-rz-breadcrumb-home{

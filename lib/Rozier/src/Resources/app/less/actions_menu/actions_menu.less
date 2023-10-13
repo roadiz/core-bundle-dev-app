@@ -8,11 +8,6 @@
 @action-menu-H: 46px;
 @action-menu-W: @action-menu-H + @action-menu-border-size;
 @action-submenu-H: 36px;
-@separation-border-color: #DDDDDD;
-@item-global-color: #808080;
-@item-global-label-color: #999999;
-@item-global-border-color: #cecece;
-@item-global-background: #f9f9f9;
 @subnav-W: 240px;
 
 /* -------- STYLES -------- */
@@ -24,7 +19,7 @@
     background: @item-global-background;
     vertical-align: middle;
     border: 1px solid @item-global-border-color;
-    color: @item-global-color !important;
+    color: var(--global-text-lighter-color) !important;
     width: 32px;
     height: 32px;
     margin: 0;
@@ -62,7 +57,7 @@
         z-index: 9999;
         width: @action-menu-W;
         .box-sizing();
-        background:white;
+        background: var(--contrasted-bg);
         box-shadow: 3px 5px 30px rgba(0,0,0,0.1);
     }
 
@@ -83,9 +78,9 @@
             white-space: nowrap;
             text-align: left;
             padding: 6px 6px 6px (6px + @action-menu-border-size);
-            border-top: 1px solid @separation-border-color !important;
+            border-top: 1px solid var(--global-border-lighter-color) !important;
             background-image: none;
-            background-color: white;
+            background-color: var(--contrasted-bg);
             z-index: 999;
             justify-content: inherit;
 
@@ -102,9 +97,11 @@
             &:focus,
             &:hover {
                 &.uk-button-danger,
+                &.uk-button-success,
+                &.uk-button-warning,
                 &.uk-button-primary {
-                    border-color: @separation-border-color !important;
-                    background: white;
+                    border-color: var(--global-border-lighter-color) !important;
+                    background: var(--contrasted-bg);
                 }
                 i {
                     border-color: darken(@item-global-border-color, 10%) !important;
@@ -123,7 +120,13 @@
                 z-index: 99999;
             }
             &.uk-button-primary:before {
-                background-color: @contrast-color-darker;
+                background-color: var(--accent-color-darker);
+            }
+            &.uk-button-success:before {
+                background-color: @success-color;
+            }
+            &.uk-button-warning:before {
+                background-color: @warning-color;
             }
             &.uk-button-danger:before {
                 background-color: @alert-color;
@@ -136,7 +139,7 @@
         .uk-button {
             .icon-container {
                 position: absolute;
-                background-color: white;
+                background-color: var(--contrasted-bg);
                 top: 0;
                 right:0;
                 bottom:0;
@@ -165,7 +168,17 @@
 
             &.uk-button-primary {
                 .label-text {
-                    background-color: @contrast-color-darker;
+                    background-color: var(--accent-color-darker);
+                }
+            }
+            &.uk-button-success {
+                .label-text {
+                    background-color: @success-color;
+                }
+            }
+            &.uk-button-warning {
+                .label-text {
+                    background-color: @warning-color;
                 }
             }
             &.uk-button-danger {
@@ -306,7 +319,7 @@
                 white-space: nowrap;
                 text-align: left;
                 padding: 0 9px;
-                border-top: 1px solid @separation-border-color;
+                border-top: 1px solid var(--global-border-lighter-color);
                 background-color: @item-global-background;
                 .box-sizing();
                 line-height: @action-submenu-H;
@@ -349,7 +362,7 @@
                     top: @action-menu-border-size;
                 }
                 &:hover {
-                    background: white;
+                    background: var(--contrasted-bg);
                     i {
                         border-color: darken(@item-global-border-color, 10%);
                         color: darken(@item-global-color, 20%)

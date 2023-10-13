@@ -51,7 +51,7 @@
                                 </td>
                                 <td class="table-actions-row">
                                     {% apply spaceless %}
-                                        <a class="uk-button uk-button-content uk-button-small uk-button-settings-save no-ajax-link uk-button-table-save"
+                                        <a class="uk-button uk-button-content uk-button-small uk-button-settings-save no-ajax-link uk-button-success"
                                            href="#{{ attribute_value_translation_form.vars.id }}"
                                            title="{% trans %}save{% endtrans %}"
                                            data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-save-mini"></i></a>
@@ -68,7 +68,7 @@
                                         {% endif %}
 
                                         {% if translation and (translation.defaultTranslation or attributeValue.attributeValueTranslations.count == 1) %}
-                                            <a class="uk-button uk-button-content uk-button-small uk-button-table-delete"
+                                            <a class="uk-button uk-button-content uk-button-small uk-button-danger"
                                                href="{{ path('nodesDeleteAttributesPage', {
                                                    nodeId : node.id,
                                                    translationId : translation.id,

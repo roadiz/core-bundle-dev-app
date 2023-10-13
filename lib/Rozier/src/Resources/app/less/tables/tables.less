@@ -9,10 +9,6 @@
 
 /* -------- VARS -------- */
 
-@form-head-color :          #323232;
-@form-head-border-color :   #cccccc;
-@form-row-border-color :     #e2e2e2;
-
 .uk-table {
     font-size: @default-font-size;
 
@@ -47,14 +43,14 @@
     th {
         vertical-align: middle;
         position: relative;
-        color: @form-head-color;
+        color: var(--global-title-color);
         .box-sizing();
 
         a {
             margin-left:5px;
 
             &.active {
-                color: @contrast-color-darker;
+                color: var(--accent-color-darker);
             }
         }
     }
@@ -65,16 +61,20 @@
     }
     td {
         border-top: 1px solid white;
-        border-bottom: 1px solid @form-row-border-color;
+        border-bottom: 1px solid var(--global-border-lighter-color);
         transition: 0.7s background-color @easeOutExpo;
         vertical-align: middle;
-        color:@grey-medium;
+        color: var(--global-text-lighter-color);
     }
     tr {
         &:first-child {
             td, th {
-                border-top: 1px solid @form-row-border-color;
+                border-top: 1px solid var(--global-border-lighter-color);
             }
+        }
+
+        th {
+            border-bottom: 1px solid var(--global-border-lighter-color);
         }
 
         &:nth-of-type(2n){
@@ -86,7 +86,7 @@
 
 
     a {
-        color:@grey-medium;
+        color: var(--global-text-lighter-color);
         transition: 0.4s color ease;
 
         &:hover{
@@ -159,7 +159,7 @@
                 }
 
                 @media (max-width: @screen-sm-max) {
-                    border-top: 1px solid @form-row-border-color;
+                    border-top: 1px solid var(--global-border-lighter-color);
                 }
             }
         }

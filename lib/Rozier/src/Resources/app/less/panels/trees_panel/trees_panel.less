@@ -29,7 +29,7 @@
     }
 
     & > div {
-        background-color: @maintree-global-bg;
+        background-color: var(--maintree-global-bg);
     }
 
     .root-tree {
@@ -74,9 +74,10 @@
             text-align: center;
             margin:0;
             height:79px;
-            font-size: 19px; line-height:79px;
+            font-size: 19px;
+            line-height:79px;
             font-weight: bold;
-            border-bottom: 1px solid #b5b5b5;
+            border-bottom: 1px solid var(--global-border-color);
         }
     }
 }
@@ -110,7 +111,7 @@
     line-height: 12px;
 
     &:hover {
-        color: #000;
+        color: var(--global-text-color);
     }
 }
 
@@ -193,7 +194,7 @@
 
         &:focus,
         &:hover {
-            color: #111;
+            color: var(--global-text-color);
             &:after {
                 background-color: #777;
             }
@@ -217,7 +218,7 @@
 
 #nodes-sources-search {
     height: @global-header-height;
-    background-color: @maintree-search-bg;
+    background-color: var(--maintree-search-bg);
     text-align: center;
     overflow: hidden;
 
@@ -230,14 +231,14 @@
             transition: ~'background ease 0.35s, color ease 0.35s';
 
             i {
-                color: @maintree-search-placeholder;
+                color: var(--maintree-search-placeholder);
                 top: 17px;
                 left: 7px;
             }
             #nodes-sources-search-input {
-                background: @maintree-search-input-bg;
+                background: var(--maintree-search-input-bg);
                 border: 0 none;
-                color: @maintree-search-placeholder;
+                color: var(--maintree-search-placeholder);
                 font-size: @default-font-size;
                 width: 100%;
                 // padding: 19px 18px 18px;
@@ -245,22 +246,22 @@
                 text-indent: 5px;
 
                 &::-webkit-input-placeholder {
-                    color: @maintree-search-placeholder;
+                    color: var(--maintree-search-placeholder);
                 }
                 &:-moz-placeholder { /* Firefox 18- */
-                    color: @maintree-search-placeholder;
+                    color: var(--maintree-search-placeholder);
                 }
                 &::-moz-placeholder {  /* Firefox 19+ */
-                    color: @maintree-search-placeholder;
+                    color: var(--maintree-search-placeholder);
                 }
                 &:-ms-input-placeholder {
-                    color: @maintree-search-placeholder;
+                    color: var(--maintree-search-placeholder);
                 }
                 &:hover {
-                    background: darken(@maintree-search-input-bg, 4%);
+                    background: var(--maintree-search-input-bg-4);
                 }
                 &:focus {
-                    background: darken(@maintree-search-input-bg, 8%);
+                    background: var(--maintree-search-input-bg-4);
                 }
             }
         }
@@ -289,13 +290,13 @@
             margin: 0px 20px 0px 20px;
             text-decoration: none;
             border-left: 2px solid transparent;
-            border-right: 1px solid darken(@maintree-search-input-bg, 4%);
-            border-bottom: 1px solid darken(@maintree-search-input-bg, 4%);
+            border-right: 1px solid var(--maintree-search-input-bg-4);
+            border-bottom: 1px solid var(--maintree-search-input-bg-4);
             transition: ~'background ease 0.35s, color ease 0.35s';
             .text-ellipsis();
 
             &:hover {
-                background: darken(@maintree-search-input-bg, 4%);
+                background: var(--maintree-search-input-bg-4);
                 color: #333;
             }
 
@@ -307,13 +308,13 @@
             }
         }
         &:first-child a {
-            border-top: 1px solid darken(@maintree-search-input-bg, 4%);
+            border-top: 1px solid var(--maintree-search-input-bg-4);
         }
         #see-all {
             display: none;
 
             border-left: 2px solid #333;
-            background-color: @maintree-search-input-bg;
+            background-color: var(--maintree-search-input-bg);
             &:before {
                 display: inline-block;
                 content: "+";
@@ -334,19 +335,19 @@
     line-height: 1;
 
     border-left: 4px solid transparent;
-    border-right: 1px solid darken(@maintree-search-input-bg, 4%);
-    border-bottom: 1px solid darken(@maintree-search-input-bg, 4%);
+    border-right: 1px solid var(--maintree-search-input-bg-4);
+    border-bottom: 1px solid var(--maintree-search-input-bg-4);
     transition: ~'background ease 0.35s, color ease 0.35s';
     .text-ellipsis();
 
     &:hover {
         text-decoration: none;
-        background: darken(@maintree-search-input-bg, 4%);
+        background: var(--maintree-search-input-bg-4);
         color: #333;
     }
 
     li:first-child > & {
-        border-top: 1px solid darken(@maintree-search-input-bg, 4%);
+        border-top: 1px solid var(--maintree-search-input-bg-4);
     }
 
     .image-container {
@@ -397,7 +398,7 @@
         margin: 0;
         white-space: normal;
         line-height: 1.2;
-        color: #191919;
+        color: var(--global-title-color);
     }
 }
 
@@ -406,7 +407,7 @@
     border-bottom: 1px solid rgba(0,0,0,0.2);
     box-shadow: 0 1px 0 rgba(255,255,255,0.6);
     text-align: center;
-    background-color: @maintree-search-bg;
+    background-color: var(--maintree-search-bg);
 
     li {
         height: 39px;
@@ -442,24 +443,24 @@
                 }
 
                 &:hover {
-                    background-color: #d3d3d3;
+                    background-color: var(--maintree-global-bg);
                 }
             }
 
             &:hover {
-                border-color: #d3d3d3;
+                border-color: var(--maintree-global-bg);
             }
         }
 
-        &.uk-active {
-            background-color: #d3d3d3;
-            border-bottom: 1px solid #d3d3d3;
-            border-color: #d3d3d3;
+        &.uk-active {
+            background-color: var(--maintree-global-bg);
+            border-bottom: 1px solid var(--maintree-global-bg);
+            border-color: var(--maintree-global-bg);
             height: 40px;
             top: 0;
 
             a {
-                background: none #d3d3d3;
+                background: none var(--maintree-global-bg);
                 border: 0 none;
                 color: #555;
                 border-radius: 0;
