@@ -13,12 +13,16 @@
                 </h4>
                 {% if not nodeTree.rootNode %}
                     <a href="{{ path('nodesAddChildPage') }}"
-                       class="tree-btn-add"
-                       id="nodetree-btn-add"><i class="uk-icon-rz-plus-simple"></i>{% trans %}add.a.node{% endtrans %}</a>
+                       data-uk-tooltip="{animation:true}"
+                       title="{% trans %}add.a.node{% endtrans %}"
+                       class="uk-button tree-btn-add"
+                       id="nodetree-btn-add"><i class="uk-icon-rz-plus-simple"></i></a>
                 {% else %}
                     <a href="{{ path('nodesAddChildPage', { nodeId : nodeTree.rootNode.id }) }}"
-                       class="tree-btn-add"
-                       id="nodetree-btn-add"><i class="uk-icon-rz-plus-simple"></i>{% trans %}add.child.node{% endtrans %}</a>
+                       data-uk-tooltip="{animation:true}"
+                       title="{% trans %}add.child.node{% endtrans %}"
+                       class="uk-button tree-btn-add"
+                       id="nodetree-btn-add"><i class="uk-icon-rz-plus-simple"></i></a>
                 {% endif %}
             </div>
         {% endif %}

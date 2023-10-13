@@ -210,10 +210,7 @@ class NodesSources extends AbstractEntity implements Loggable
         $this->redirections = new ArrayCollection();
     }
 
-    /**
-     * @inheritDoc
-     * @Serializer\Exclude
-     */
+    #[Serializer\Exclude]
     public function injectObjectManager(ObjectManager $objectManager): void
     {
         $this->objectManager = $objectManager;
