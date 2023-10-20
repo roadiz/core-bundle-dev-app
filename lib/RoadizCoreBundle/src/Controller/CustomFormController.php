@@ -7,20 +7,17 @@ namespace RZ\Roadiz\CoreBundle\Controller;
 use Doctrine\Persistence\ManagerRegistry;
 use Exception;
 use League\Flysystem\FilesystemException;
-use League\Flysystem\FilesystemOperator;
 use Limenius\Liform\LiformInterface;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\CustomForm\CustomFormHelperFactory;
+use RZ\Roadiz\CoreBundle\CustomForm\Message\CustomFormAnswerNotifyMessage;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
-use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializerInterface;
-use RZ\Roadiz\CoreBundle\Mailer\EmailManager;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
@@ -32,19 +29,14 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mime\Address;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\LocaleAwareInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 final class CustomFormController extends AbstractController
 {
-    private EmailManager $emailManager;
     private Settings $settingsBag;
     private LoggerInterface $logger;
     private TranslatorInterface $translator;
@@ -54,11 +46,10 @@ final class CustomFormController extends AbstractController
     private FormErrorSerializerInterface $formErrorSerializer;
     private ManagerRegistry $registry;
     private RateLimiterFactory $customFormLimiter;
-    private FilesystemOperator $documentsStorage;
     private PreviewResolverInterface $previewResolver;
+    private MessageBusInterface $messageBus;
 
     public function __construct(
-        EmailManager $emailManager,
         Settings $settingsBag,
         LoggerInterface $logger,
         TranslatorInterface $translator,
@@ -68,10 +59,9 @@ final class CustomFormController extends AbstractController
         FormErrorSerializerInterface $formErrorSerializer,
         ManagerRegistry $registry,
         RateLimiterFactory $customFormLimiter,
-        FilesystemOperator $documentsStorage,
-        PreviewResolverInterface $previewResolver
+        PreviewResolverInterface $previewResolver,
+        MessageBusInterface $messageBus,
     ) {
-        $this->emailManager = $emailManager;
         $this->settingsBag = $settingsBag;
         $this->logger = $logger;
         $this->translator = $translator;
@@ -81,8 +71,8 @@ final class CustomFormController extends AbstractController
         $this->formErrorSerializer = $formErrorSerializer;
         $this->registry = $registry;
         $this->customFormLimiter = $customFormLimiter;
-        $this->documentsStorage = $documentsStorage;
         $this->previewResolver = $previewResolver;
+        $this->messageBus = $messageBus;
     }
 
     protected function validateCustomForm(?CustomForm $customForm): void
@@ -222,9 +212,6 @@ final class CustomFormController extends AbstractController
      * @param int $customFormId
      * @return Response
      * @throws FilesystemException
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     public function addAction(Request $request, int $customFormId): Response
     {
@@ -268,62 +255,7 @@ final class CustomFormController extends AbstractController
     }
 
     /**
-     * Send an answer form by Email.
-     *
-     * @param CustomFormAnswer $answer
-     * @param array $assignation
-     * @param string|array|null $receiver
-     * @return bool
-     * @throws TransportExceptionInterface
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @deprecated Use async message handler to send email receipt from CustomFormAnswer.
-     */
-    public function sendAnswer(
-        CustomFormAnswer $answer,
-        array $assignation,
-        $receiver
-    ): bool {
-        $defaultSender = $this->settingsBag->get('email_sender');
-        $defaultSender = !empty($defaultSender) ? $defaultSender : 'sender@roadiz.io';
-        $this->emailManager->setAssignation($assignation);
-        $this->emailManager->setEmailTemplate('@RoadizCore/email/forms/answerForm.html.twig');
-        $this->emailManager->setEmailPlainTextTemplate('@RoadizCore/email/forms/answerForm.txt.twig');
-        $this->emailManager->setSubject($assignation['title']);
-        $this->emailManager->setEmailTitle($assignation['title']);
-        $this->emailManager->setSender($defaultSender);
-
-        try {
-            foreach ($answer->getAnswerFields() as $customFormAnswerAttr) {
-                /** @var DocumentInterface $document */
-                foreach ($customFormAnswerAttr->getDocuments() as $document) {
-                    $this->emailManager->addResource(
-                        $this->documentsStorage->readStream($document->getMountPath()),
-                        $document->getFilename(),
-                        $this->documentsStorage->mimeType($document->getMountPath())
-                    );
-                }
-            }
-        } catch (FilesystemException $exception) {
-            $this->logger->error($exception->getMessage(), [
-                'entity' => $answer
-            ]);
-        }
-
-        if (empty($receiver)) {
-            $this->emailManager->setReceiver($defaultSender);
-        } else {
-            $this->emailManager->setReceiver($receiver);
-        }
-
-        // Send the message
-        $this->emailManager->send();
-        return true;
-    }
-
-    /**
-     * Prepare and handle a CustomForm Form then send a confirm email.
+     * Prepare and handle a CustomForm Form then send a confirmation email.
      *
      * * This method will return an assignation **array** if form is not validated.
      *     * customForm
@@ -338,7 +270,7 @@ final class CustomFormController extends AbstractController
      * @param string|null $emailSender
      * @param bool $prefix
      * @return array|Response
-     * @throws SyntaxError|RuntimeError|LoaderError|FilesystemException
+     * @throws FilesystemException
      */
     public function prepareAndHandleCustomFormAssignation(
         Request $request,
@@ -366,72 +298,35 @@ final class CustomFormController extends AbstractController
                  */
                 $answer = $helper->parseAnswerFormData($form, null, $request->getClientIp());
 
-                /*
-                 * Prepare field assignation for email content.
-                 */
-                $assignation["emailFields"] = [
-                    ["name" => "ip.address", "value" => $answer->getIp()],
-                    ["name" => "submittedAt", "value" => $answer->getSubmittedAt()->format('Y-m-d H:i:s')],
-                ];
-                $assignation["emailFields"] = array_merge(
-                    $assignation["emailFields"],
-                    $answer->toArray(false)
-                );
-
-                $assignation['title'] = $this->translator->trans(
-                    'new.answer.form.%site%',
-                    ['%site%' => $customFormsEntity->getDisplayName()]
-                );
-
-                if (null !== $emailSender && false !== filter_var($emailSender, FILTER_VALIDATE_EMAIL)) {
-                    $assignation['mailContact'] = $emailSender;
-                } else {
-                    $assignation['mailContact'] = $this->settingsBag->get('email_sender');
+                $answerId = $answer->getId();
+                if (!is_int($answerId)) {
+                    throw new \RuntimeException('Answer ID is null');
                 }
 
-                /*
-                 * Send answer notification
-                 */
-                try {
-                    $receiver = array_filter(
-                        array_map('trim', explode(',', $customFormsEntity->getEmail() ?? ''))
-                    );
-                    $receiver = array_map(function (string $email) {
-                        return new Address($email);
-                    }, $receiver);
-                    $this->sendAnswer(
-                        $answer,
-                        [
-                            'mailContact' => $assignation['mailContact'],
-                            'fields' => $assignation["emailFields"],
-                            'customForm' => $customFormsEntity,
-                            'title' => $this->translator->trans(
-                                'new.answer.form.%site%',
-                                ['%site%' => $customFormsEntity->getDisplayName()]
-                            ),
-                        ],
-                        $receiver
-                    );
-
-                    $msg = $this->translator->trans(
-                        'customForm.%name%.send',
-                        ['%name%' => $customFormsEntity->getDisplayName()]
-                    );
-
-                    $session = $request->getSession();
-                    if ($session instanceof Session) {
-                        $session->getFlashBag()->add('confirm', $msg);
-                    }
-                    $this->logger->info($msg);
-                } catch (TransportExceptionInterface $e) {
-                    // Do not fail if answer has been registered but email has not been sent.
-                    $this->logger->warning('Custom form answer has been registered but email could not been sent.', [
-                        'exception' => $e,
-                        'message' => $e->getMessage(),
-                        'customForm' => $customFormsEntity->getDisplayName(),
-                        'answerId' => $answer->getId()
-                    ]);
+                if (null === $emailSender || false === filter_var($emailSender, FILTER_VALIDATE_EMAIL)) {
+                    $emailSender = $this->settingsBag->get('email_sender');
                 }
+
+                $this->messageBus->dispatch(new CustomFormAnswerNotifyMessage(
+                    $answerId,
+                    $this->translator->trans(
+                        'new.answer.form.%site%',
+                        ['%site%' => $customFormsEntity->getDisplayName()]
+                    ),
+                    $emailSender,
+                    $request->getLocale()
+                ));
+
+                $msg = $this->translator->trans(
+                    'customForm.%name%.send',
+                    ['%name%' => $customFormsEntity->getDisplayName()]
+                );
+
+                $session = $request->getSession();
+                if ($session instanceof Session) {
+                    $session->getFlashBag()->add('confirm', $msg);
+                }
+                $this->logger->info($msg);
 
                 return $response;
             } catch (EntityAlreadyExistsException $e) {
