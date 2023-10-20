@@ -47,6 +47,8 @@ abstract class AbstractLockingDocumentMessageHandler extends AbstractDocumentMes
 
     protected function isFileLocal(DocumentInterface $document): bool
     {
-        return str_starts_with($this->documentsStorage->publicUrl($document->getMountPath()), '/');
+        return
+            $document->isPrivate() ||
+            str_starts_with($this->documentsStorage->publicUrl($document->getMountPath()), '/');
     }
 }
