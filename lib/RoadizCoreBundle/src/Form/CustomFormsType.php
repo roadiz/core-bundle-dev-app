@@ -140,38 +140,21 @@ class CustomFormsType extends AbstractType
      */
     protected function getTypeForField(CustomFormField $field): string
     {
-        switch ($field->getType()) {
-            case AbstractField::ENUM_T:
-            case AbstractField::MULTIPLE_T:
-            case AbstractField::RADIO_GROUP_T:
-            case AbstractField::CHECK_GROUP_T:
-                return ChoiceType::class;
-            case AbstractField::DOCUMENTS_T:
-                return FileType::class;
-            case AbstractField::MARKDOWN_T:
-                return MarkdownType::class;
-            case AbstractField::COLOUR_T:
-                return ColorType::class;
-            case AbstractField::DATETIME_T:
-                return DateTimeType::class;
-            case AbstractField::DATE_T:
-                return DateType::class;
-            case AbstractField::RICHTEXT_T:
-            case AbstractField::TEXT_T:
-                return TextareaType::class;
-            case AbstractField::BOOLEAN_T:
-                return CheckboxType::class;
-            case AbstractField::INTEGER_T:
-                return IntegerType::class;
-            case AbstractField::DECIMAL_T:
-                return NumberType::class;
-            case AbstractField::EMAIL_T:
-                return EmailType::class;
-            case AbstractField::COUNTRY_T:
-                return CountryType::class;
-            default:
-                return TextType::class;
-        }
+        return match ($field->getType()) {
+            AbstractField::ENUM_T, AbstractField::MULTIPLE_T, AbstractField::RADIO_GROUP_T, AbstractField::CHECK_GROUP_T => ChoiceType::class,
+            AbstractField::DOCUMENTS_T => FileType::class,
+            AbstractField::MARKDOWN_T => MarkdownType::class,
+            AbstractField::COLOUR_T => ColorType::class,
+            AbstractField::DATETIME_T => DateTimeType::class,
+            AbstractField::DATE_T => DateType::class,
+            AbstractField::RICHTEXT_T, AbstractField::TEXT_T => TextareaType::class,
+            AbstractField::BOOLEAN_T => CheckboxType::class,
+            AbstractField::INTEGER_T => IntegerType::class,
+            AbstractField::DECIMAL_T => NumberType::class,
+            AbstractField::EMAIL_T => EmailType::class,
+            AbstractField::COUNTRY_T => CountryType::class,
+            default => TextType::class,
+        };
     }
 
     /**
@@ -248,6 +231,10 @@ class CustomFormsType extends AbstractType
                 $mimeTypes = [
                     'application/pdf',
                     'application/x-pdf',
+                    'image/avif',
+                    'image/heif',
+                    'image/heic',
+                    'image/webp',
                     'image/jpeg',
                     'image/png',
                     'image/gif',
@@ -259,7 +246,7 @@ class CustomFormsType extends AbstractType
                 $option['constraints'][] = new All([
                     'constraints' => [
                         new File([
-                            'maxSize' => '10m',
+                            'maxSize' => $formOptions['fileUploadMaxSize'],
                             'mimeTypes' => $mimeTypes
                         ])
                     ]
@@ -308,12 +295,15 @@ class CustomFormsType extends AbstractType
             'recaptcha_name' => Recaptcha::FORM_NAME,
             'forceExpanded' => false,
             'csrf_protection' => false,
+            // You may reduce this value when you have multiple files upload fields
+            // to avoid hitting email server upload limit.
+            'fileUploadMaxSize' => '10m',
         ]);
 
         $resolver->setRequired('customForm');
-
         $resolver->setAllowedTypes('customForm', [CustomForm::class]);
         $resolver->setAllowedTypes('forceExpanded', ['boolean']);
+        $resolver->setAllowedTypes('fileUploadMaxSize', ['string']);
         $resolver->setAllowedTypes('recaptcha_name', ['string']);
     }
 
