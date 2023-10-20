@@ -158,7 +158,7 @@ final class CustomFormController extends AbstractController
      * @param Request $request
      * @param int $id
      * @return Response
-     * @throws Exception
+     * @throws Exception|FilesystemException
      */
     public function postAction(Request $request, int $id): Response
     {
@@ -221,8 +221,10 @@ final class CustomFormController extends AbstractController
      * @param Request $request
      * @param int $customFormId
      * @return Response
-     * @throws Exception
-     * @throws TransportExceptionInterface
+     * @throws FilesystemException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function addAction(Request $request, int $customFormId): Response
     {
@@ -276,6 +278,7 @@ final class CustomFormController extends AbstractController
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
+     * @deprecated Use async message handler to send email receipt from CustomFormAnswer.
      */
     public function sendAnswer(
         CustomFormAnswer $answer,
@@ -335,10 +338,7 @@ final class CustomFormController extends AbstractController
      * @param string|null $emailSender
      * @param bool $prefix
      * @return array|Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     * @throws TransportExceptionInterface
+     * @throws SyntaxError|RuntimeError|LoaderError|FilesystemException
      */
     public function prepareAndHandleCustomFormAssignation(
         Request $request,
@@ -378,17 +378,6 @@ final class CustomFormController extends AbstractController
                     $answer->toArray(false)
                 );
 
-                $msg = $this->translator->trans(
-                    'customForm.%name%.send',
-                    ['%name%' => $customFormsEntity->getDisplayName()]
-                );
-
-                $session = $request->getSession();
-                if ($session instanceof Session) {
-                    $session->getFlashBag()->add('confirm', $msg);
-                }
-                $this->logger->info($msg);
-
                 $assignation['title'] = $this->translator->trans(
                     'new.answer.form.%site%',
                     ['%site%' => $customFormsEntity->getDisplayName()]
@@ -403,25 +392,46 @@ final class CustomFormController extends AbstractController
                 /*
                  * Send answer notification
                  */
-                $receiver = array_filter(
-                    array_map('trim', explode(',', $customFormsEntity->getEmail() ?? ''))
-                );
-                $receiver = array_map(function (string $email) {
-                    return new Address($email);
-                }, $receiver);
-                $this->sendAnswer(
-                    $answer,
-                    [
-                        'mailContact' => $assignation['mailContact'],
-                        'fields' => $assignation["emailFields"],
-                        'customForm' => $customFormsEntity,
-                        'title' => $this->translator->trans(
-                            'new.answer.form.%site%',
-                            ['%site%' => $customFormsEntity->getDisplayName()]
-                        ),
-                    ],
-                    $receiver
-                );
+                try {
+                    $receiver = array_filter(
+                        array_map('trim', explode(',', $customFormsEntity->getEmail() ?? ''))
+                    );
+                    $receiver = array_map(function (string $email) {
+                        return new Address($email);
+                    }, $receiver);
+                    $this->sendAnswer(
+                        $answer,
+                        [
+                            'mailContact' => $assignation['mailContact'],
+                            'fields' => $assignation["emailFields"],
+                            'customForm' => $customFormsEntity,
+                            'title' => $this->translator->trans(
+                                'new.answer.form.%site%',
+                                ['%site%' => $customFormsEntity->getDisplayName()]
+                            ),
+                        ],
+                        $receiver
+                    );
+
+                    $msg = $this->translator->trans(
+                        'customForm.%name%.send',
+                        ['%name%' => $customFormsEntity->getDisplayName()]
+                    );
+
+                    $session = $request->getSession();
+                    if ($session instanceof Session) {
+                        $session->getFlashBag()->add('confirm', $msg);
+                    }
+                    $this->logger->info($msg);
+                } catch (TransportExceptionInterface $e) {
+                    // Do not fail if answer has been registered but email has not been sent.
+                    $this->logger->warning('Custom form answer has been registered but email could not been sent.', [
+                        'exception' => $e,
+                        'message' => $e->getMessage(),
+                        'customForm' => $customFormsEntity->getDisplayName(),
+                        'answerId' => $answer->getId()
+                    ]);
+                }
 
                 return $response;
             } catch (EntityAlreadyExistsException $e) {
