@@ -221,11 +221,10 @@ final class CustomFormController extends AbstractController
      * @param Request $request
      * @param int $customFormId
      * @return Response
-<<<<<<< Updated upstream
-     * @throws Exception
-=======
-     * @throws Exception|FilesystemException
->>>>>>> Stashed changes
+     * @throws FilesystemException
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
      */
     public function addAction(Request $request, int $customFormId): Response
     {
