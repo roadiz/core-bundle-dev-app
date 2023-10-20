@@ -1,3 +1,10 @@
+## [v2.1.48](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.47...v2.1.48) (2023-10-20)
+
+
+### Bug Fixes
+
+* **CustomForm:** Catch mailer transport exception when submitting custom-form answers ([52487e3](https://github.com/roadiz/core-bundle-dev-app/commit/52487e3b1ef626a771f382d9eb5b25d75ea2d483))
+
 ## [v2.1.47](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.46...v2.1.47) (2023-10-09)
 
 
