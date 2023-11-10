@@ -31,7 +31,7 @@ final class Version20230628143106 extends AbstractMigration
         $nodeSourceClass = NodesSources::class;
         $this->addSql(<<<EOF
 UPDATE log
-SET log.entity_class = '${nodeSourceClass}',
+SET log.entity_class = '{$nodeSourceClass}',
     log.entity_id = log.node_source_id
 WHERE log.node_source_id IS NOT NULL
 EOF
@@ -52,7 +52,7 @@ EOF
         $this->addSql(<<<EOF
 UPDATE log
 SET log.node_source_id = log.entity_id
-WHERE log.entity_class = '${nodeSourceClass}'
+WHERE log.entity_class = '{$nodeSourceClass}'
 EOF
         );
 
