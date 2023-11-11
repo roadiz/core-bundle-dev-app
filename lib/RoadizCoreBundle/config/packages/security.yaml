@@ -79,9 +79,6 @@ security:
                 max_attempts: 3
             logout:
                 path: logoutPage
-            guard:
-                authenticators:
-                    - lexik_jwt_authentication.jwt_token_authenticator
             custom_authenticator:
                 - RZ\Roadiz\RozierBundle\Security\RozierAuthenticator
 

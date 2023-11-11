@@ -119,7 +119,8 @@ services:
             #context: ./docker/php74-nginx-alpine
             #context: ./docker/php80-nginx-alpine
             #context: ./docker/php81-nginx-alpine
-            context: ./docker/php81-fpm-alpine
+            #context: ./docker/php81-fpm-alpine
+            context: ./docker/php82-fpm-alpine
             args:
                 USER_UID: ${USER_UID}
         depends_on:

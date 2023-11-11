@@ -24,11 +24,11 @@ requirements:
 	vendor/bin/requirements-checker
 
 cache :
-	docker-compose exec -u www-data app php bin/console cache:clear
-	docker-compose exec -u www-data app bin/console cache:pool:clear cache.global_clearer
+	docker compose exec -u www-data app php bin/console cache:clear
+	docker compose exec -u www-data app bin/console cache:pool:clear cache.global_clearer
 	# Force workers to restart
-	docker-compose exec -u www-data app php bin/console messenger:stop-workers
+	docker compose exec -u www-data app php bin/console messenger:stop-workers
 
 migrate:
-	docker-compose exec -u www-data app php bin/console doctrine:migrations:migrate
-	docker-compose exec -u www-data app php bin/console app:migrate
+	docker compose exec -u www-data app php bin/console doctrine:migrations:migrate
+	docker compose exec -u www-data app php bin/console app:migrate
