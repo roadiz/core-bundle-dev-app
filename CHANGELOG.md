@@ -1,3 +1,10 @@
+## [v2.1.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.49...v2.1.50) (2023-11-16)
+
+
+### Bug Fixes
+
+* Prevent doctrine/orm to upgrade to 2.17.0: Associations with fetch-mode=EAGER may not be using WITH conditions ([9ef566c](https://github.com/roadiz/core-bundle-dev-app/commit/9ef566cad69d256af5fbd37f20fbde9463e18a6f))
+
 ## [v2.1.49](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.48...v2.1.49) (2023-10-20)
 
 
