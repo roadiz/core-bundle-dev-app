@@ -33,7 +33,7 @@
     "require": {
         "php": ">=8.0",
         "ext-zip": "*",
-        "doctrine/orm": "^2.14.1",
+        "doctrine/orm": "^2.14.1 < 2.17",
         "guzzlehttp/guzzle": "^7.2.0",
         "jms/serializer": "^3.9.0",
         "league/flysystem": "^3.0",
