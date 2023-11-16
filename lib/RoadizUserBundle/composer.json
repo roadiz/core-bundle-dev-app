@@ -21,7 +21,7 @@
         "api-platform/core": "~2.7.0",
         "symfony/framework-bundle": "5.4.*",
         "symfony/rate-limiter": "5.4.*",
-        "doctrine/orm": "^2.14.1"
+        "doctrine/orm": "^2.14.1 < 2.17"
     },
     "require-dev": {
         "roadiz/core-bundle": "^2.1",
