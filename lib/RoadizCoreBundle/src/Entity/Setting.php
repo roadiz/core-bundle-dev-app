@@ -93,7 +93,6 @@ class Setting extends AbstractEntity
     #[ORM\ManyToOne(
         targetEntity: SettingGroup::class,
         cascade: ['persist', 'merge'],
-        fetch: 'EAGER',
         inversedBy: 'settings'
     )]
     #[ORM\JoinColumn(name: 'setting_group_id', referencedColumnName: 'id', onDelete: 'SET NULL')]

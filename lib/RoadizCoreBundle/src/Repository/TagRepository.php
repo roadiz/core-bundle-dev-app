@@ -141,7 +141,7 @@ final class TagRepository extends EntityRepository
                 $qb->leftJoin('tg.translatedTags', 'tt');
                 $qb->leftJoin(
                     'tt.translation',
-                    static::TRANSLATION_ALIAS,
+                    self::TRANSLATION_ALIAS,
                     'WITH',
                     't.defaultTranslation = true'
                 );

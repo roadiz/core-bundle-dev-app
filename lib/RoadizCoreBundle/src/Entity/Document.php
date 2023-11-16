@@ -209,7 +209,6 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[ORM\OneToMany(
         mappedBy: 'document',
         targetEntity: DocumentTranslation::class,
-        fetch: 'EAGER',
         orphanRemoval: true
     )]
     #[SymfonySerializer\Ignore]

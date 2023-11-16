@@ -217,29 +217,17 @@ class NodesSourcesRepository extends StatusAwareRepository
              * Forbid deleted node for backend user when authorizationChecker not null.
              */
             if (!$this->hasJoinedNode($qb, $prefix)) {
-                $qb->innerJoin(
-                    $prefix . '.node',
-                    static::NODE_ALIAS,
-                    'WITH',
-                    $qb->expr()->lte(static::NODE_ALIAS . '.status', Node::PUBLISHED)
-                );
-            } else {
-                $qb->andWhere($qb->expr()->lte(static::NODE_ALIAS . '.status', Node::PUBLISHED));
+                $qb->innerJoin($prefix . '.node', static::NODE_ALIAS);
             }
+            $qb->andWhere($qb->expr()->lte(static::NODE_ALIAS . '.status', Node::PUBLISHED));
         } else {
             /*
              * Forbid unpublished node for anonymous and not backend users.
              */
             if (!$this->hasJoinedNode($qb, $prefix)) {
-                $qb->innerJoin(
-                    $prefix . '.node',
-                    static::NODE_ALIAS,
-                    'WITH',
-                    $qb->expr()->eq(static::NODE_ALIAS . '.status', Node::PUBLISHED)
-                );
-            } else {
-                $qb->andWhere($qb->expr()->eq(static::NODE_ALIAS . '.status', Node::PUBLISHED));
+                $qb->innerJoin($prefix . '.node', static::NODE_ALIAS);
             }
+            $qb->andWhere($qb->expr()->eq(static::NODE_ALIAS . '.status', Node::PUBLISHED));
         }
         return $qb;
     }
