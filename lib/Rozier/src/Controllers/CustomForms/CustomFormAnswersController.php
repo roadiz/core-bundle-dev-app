@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Themes\Rozier\RozierApp;
+use Twig\Error\RuntimeError;
 
 /**
  * @package Themes\Rozier\Controllers
@@ -24,11 +25,12 @@ class CustomFormAnswersController extends RozierApp
      * List every node-types.
      *
      * @param Request $request
-     * @param int     $customFormId
+     * @param int $customFormId
      *
      * @return Response
+     * @throws RuntimeError
      */
-    public function listAction(Request $request, int $customFormId)
+    public function listAction(Request $request, int $customFormId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
         /*
@@ -55,50 +57,49 @@ class CustomFormAnswersController extends RozierApp
     }
 
     /**
-     * Return an deletion form for requested node-type.
+     * Return a deletion form for requested node-type.
      *
      * @param Request $request
      * @param int $customFormAnswerId
      *
      * @return Response
+     * @throws RuntimeError
      */
-    public function deleteAction(Request $request, int $customFormAnswerId)
+    public function deleteAction(Request $request, int $customFormAnswerId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS_DELETE');
 
         $customFormAnswer = $this->em()->find(CustomFormAnswer::class, $customFormAnswerId);
 
-        if (null !== $customFormAnswer) {
-            $this->assignation['customFormAnswer'] = $customFormAnswer;
-
-            $form = $this->buildDeleteForm($customFormAnswer);
-
-            $form->handleRequest($request);
-
-            if (
-                $form->isSubmitted() &&
-                $form->isValid() &&
-                $form->getData()['customFormAnswerId'] == $customFormAnswer->getId()
-            ) {
-                $this->em()->remove($customFormAnswer);
-
-                $msg = $this->getTranslator()->trans('customFormAnswer.%id%.deleted', ['%id%' => $customFormAnswer->getId()]);
-                $this->publishConfirmMessage($request, $msg);
-                /*
-                 * Redirect to update schema page
-                 */
-                return $this->redirectToRoute(
-                    'customFormAnswersHomePage',
-                    ["customFormId" => $customFormAnswer->getCustomForm()->getId()]
-                );
-            }
-
-            $this->assignation['form'] = $form->createView();
-
-            return $this->render('@RoadizRozier/custom-form-answers/delete.html.twig', $this->assignation);
+        if (null === $customFormAnswer) {
+            throw new ResourceNotFoundException();
         }
 
-        throw new ResourceNotFoundException();
+        $this->assignation['customFormAnswer'] = $customFormAnswer;
+        $form = $this->buildDeleteForm($customFormAnswer);
+        $form->handleRequest($request);
+
+        if (
+            $form->isSubmitted() &&
+            $form->isValid()
+        ) {
+            $this->em()->remove($customFormAnswer);
+            $this->em()->flush();
+
+            $msg = $this->getTranslator()->trans('customFormAnswer.%id%.deleted', ['%id%' => $customFormAnswer->getId()]);
+            $this->publishConfirmMessage($request, $msg);
+            /*
+             * Redirect to update schema page
+             */
+            return $this->redirectToRoute(
+                'customFormAnswersHomePage',
+                ["customFormId" => $customFormAnswer->getCustomForm()->getId()]
+            );
+        }
+
+        $this->assignation['form'] = $form->createView();
+
+        return $this->render('@RoadizRozier/custom-form-answers/delete.html.twig', $this->assignation);
     }
 
     /**
@@ -106,7 +107,7 @@ class CustomFormAnswersController extends RozierApp
      *
      * @return FormInterface
      */
-    private function buildDeleteForm(CustomFormAnswer $customFormAnswer)
+    private function buildDeleteForm(CustomFormAnswer $customFormAnswer): FormInterface
     {
         $builder = $this->createFormBuilder()
                         ->add('customFormAnswerId', HiddenType::class, [

@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Themes\Rozier\Forms\CustomFormFieldType;
 use Themes\Rozier\RozierApp;
+use Twig\Error\RuntimeError;
 
 /**
  * @package Themes\Rozier\Controllers
@@ -25,12 +26,12 @@ class CustomFormFieldsController extends RozierApp
     /**
      * List every node-type-fields.
      *
-     * @param Request $request
-     * @param int     $customFormId
+     * @param int $customFormId
      *
      * @return Response
+     * @throws RuntimeError
      */
-    public function listAction(Request $request, int $customFormId)
+    public function listAction(int $customFormId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
 
@@ -52,57 +53,58 @@ class CustomFormFieldsController extends RozierApp
      * Return an edition form for requested node-type.
      *
      * @param Request $request
-     * @param int     $customFormFieldId
+     * @param int $customFormFieldId
      *
      * @return Response
+     * @throws RuntimeError
      */
-    public function editAction(Request $request, int $customFormFieldId)
+    public function editAction(Request $request, int $customFormFieldId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
 
         /** @var CustomFormField|null $field */
         $field = $this->em()->find(CustomFormField::class, $customFormFieldId);
-
-        if ($field !== null) {
-            $this->assignation['customForm'] = $field->getCustomForm();
-            $this->assignation['field'] = $field;
-            $form = $this->createForm(CustomFormFieldType::class, $field);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->em()->flush();
-
-                $msg = $this->getTranslator()->trans('customFormField.%name%.updated', ['%name%' => $field->getName()]);
-                $this->publishConfirmMessage($request, $msg);
-
-                /*
-                 * Redirect to update schema page
-                 */
-                return $this->redirectToRoute(
-                    'customFormFieldsListPage',
-                    [
-                        'customFormId' => $field->getCustomForm()->getId(),
-                    ]
-                );
-            }
-
-            $this->assignation['form'] = $form->createView();
-
-            return $this->render('@RoadizRozier/custom-form-fields/edit.html.twig', $this->assignation);
+        if ($field === null) {
+            throw new ResourceNotFoundException();
         }
 
-        throw new ResourceNotFoundException();
+        $this->assignation['customForm'] = $field->getCustomForm();
+        $this->assignation['field'] = $field;
+        $form = $this->createForm(CustomFormFieldType::class, $field);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em()->flush();
+
+            $msg = $this->getTranslator()->trans('customFormField.%name%.updated', ['%name%' => $field->getName()]);
+            $this->publishConfirmMessage($request, $msg);
+
+            /*
+             * Redirect to update schema page
+             */
+            return $this->redirectToRoute(
+                'customFormFieldsListPage',
+                [
+                    'customFormId' => $field->getCustomForm()->getId(),
+                ]
+            );
+        }
+
+        $this->assignation['form'] = $form->createView();
+
+        return $this->render('@RoadizRozier/custom-form-fields/edit.html.twig', $this->assignation);
     }
 
     /**
-     * Return an creation form for requested node-type.
+     * Return a creation form for requested node-type.
      *
      * @param Request $request
-     * @param int     $customFormId
+     * @param int $customFormId
      *
      * @return Response
+     * @throws RuntimeError
      */
-    public function addAction(Request $request, int $customFormId)
+    public function addAction(Request $request, int $customFormId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
 
@@ -110,90 +112,22 @@ class CustomFormFieldsController extends RozierApp
         $customForm = $this->em()->find(CustomForm::class, $customFormId);
         $field->setCustomForm($customForm);
 
-        if (
-            $customForm !== null &&
-            $field !== null
-        ) {
-            $this->assignation['customForm'] = $customForm;
-            $this->assignation['field'] = $field;
-            $form = $this->createForm(CustomFormFieldType::class, $field);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    $this->em()->persist($field);
-                    $this->em()->flush();
-
-                    $msg = $this->getTranslator()->trans(
-                        'customFormField.%name%.created',
-                        ['%name%' => $field->getName()]
-                    );
-                    $this->publishConfirmMessage($request, $msg);
-
-                    /*
-                     * Redirect to update schema page
-                     */
-                    return $this->redirectToRoute(
-                        'customFormFieldsListPage',
-                        [
-                            'customFormId' => $customFormId,
-                        ]
-                    );
-                } catch (Exception $e) {
-                    $msg = $e->getMessage();
-                    $this->publishErrorMessage($request, $msg);
-                    /*
-                     * Redirect to add page
-                     */
-                    return $this->redirectToRoute(
-                        'customFormFieldsAddPage',
-                        ['customFormId' => $customFormId]
-                    );
-                }
-            }
-
-            $this->assignation['form'] = $form->createView();
-
-            return $this->render('@RoadizRozier/custom-form-fields/add.html.twig', $this->assignation);
+        if ($customForm === null) {
+            throw new ResourceNotFoundException();
         }
 
-        throw new ResourceNotFoundException();
-    }
+        $this->assignation['customForm'] = $customForm;
+        $this->assignation['field'] = $field;
+        $form = $this->createForm(CustomFormFieldType::class, $field);
+        $form->handleRequest($request);
 
-    /**
-     * Return a deletion form for requested node.
-     *
-     * @param Request $request
-     * @param int     $customFormFieldId
-     *
-     * @return Response
-     */
-    public function deleteAction(Request $request, int $customFormFieldId)
-    {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS_DELETE');
-
-        $field = $this->em()->find(CustomFormField::class, $customFormFieldId);
-
-        if ($field !== null) {
-            $this->assignation['field'] = $field;
-            $form = $this->buildDeleteForm($field);
-            $form->handleRequest($request);
-
-            if (
-                $form->isSubmitted() &&
-                $form->isValid() &&
-                $form->getData()['customFormFieldId'] == $field->getId()
-            ) {
-                $customFormId = $field->getCustomForm()->getId();
-
-                $this->em()->remove($field);
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $this->em()->persist($field);
                 $this->em()->flush();
 
-                /*
-                 * Update Database
-                 */
                 $msg = $this->getTranslator()->trans(
-                    'customFormField.%name%.deleted',
+                    'customFormField.%name%.created',
                     ['%name%' => $field->getName()]
                 );
                 $this->publishConfirmMessage($request, $msg);
@@ -207,14 +141,80 @@ class CustomFormFieldsController extends RozierApp
                         'customFormId' => $customFormId,
                     ]
                 );
+            } catch (Exception $e) {
+                $msg = $e->getMessage();
+                $this->publishErrorMessage($request, $msg);
+                /*
+                 * Redirect to add page
+                 */
+                return $this->redirectToRoute(
+                    'customFormFieldsAddPage',
+                    ['customFormId' => $customFormId]
+                );
             }
-
-            $this->assignation['form'] = $form->createView();
-
-            return $this->render('@RoadizRozier/custom-form-fields/delete.html.twig', $this->assignation);
         }
 
-        throw new ResourceNotFoundException();
+        $this->assignation['form'] = $form->createView();
+
+        return $this->render('@RoadizRozier/custom-form-fields/add.html.twig', $this->assignation);
+    }
+
+    /**
+     * Return a deletion form for requested node.
+     *
+     * @param Request $request
+     * @param int $customFormFieldId
+     *
+     * @return Response
+     * @throws RuntimeError
+     */
+    public function deleteAction(Request $request, int $customFormFieldId): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS_DELETE');
+
+        $field = $this->em()->find(CustomFormField::class, $customFormFieldId);
+
+        if ($field === null) {
+            throw new ResourceNotFoundException();
+        }
+
+        $this->assignation['field'] = $field;
+        $form = $this->buildDeleteForm($field);
+        $form->handleRequest($request);
+
+        if (
+            $form->isSubmitted() &&
+            $form->isValid() &&
+            $form->getData()['customFormFieldId'] == $field->getId()
+        ) {
+            $customFormId = $field->getCustomForm()->getId();
+
+            $this->em()->remove($field);
+            $this->em()->flush();
+
+            /*
+             * Update Database
+             */
+            $msg = $this->getTranslator()->trans(
+                'customFormField.%name%.deleted',
+                ['%name%' => $field->getName()]
+            );
+            $this->publishConfirmMessage($request, $msg);
+
+            /*
+             * Redirect to update schema page
+             */
+            return $this->redirectToRoute(
+                'customFormFieldsListPage',
+                [
+                    'customFormId' => $customFormId,
+                ]
+            );
+        }
+
+        $this->assignation['form'] = $form->createView();
+
+        return $this->render('@RoadizRozier/custom-form-fields/delete.html.twig', $this->assignation);
     }
 
     /**
@@ -222,7 +222,7 @@ class CustomFormFieldsController extends RozierApp
      *
      * @return FormInterface
      */
-    private function buildDeleteForm(CustomFormField $field)
+    private function buildDeleteForm(CustomFormField $field): FormInterface
     {
         $builder = $this->createFormBuilder()
                         ->add('customFormFieldId', HiddenType::class, [
