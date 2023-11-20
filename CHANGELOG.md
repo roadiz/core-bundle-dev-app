@@ -1,3 +1,10 @@
+## [v2.1.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.50...v2.1.51) (2023-11-20)
+
+
+### Bug Fixes
+
+* Fixed missing entityManager flush to remove custom-form answer. ([e9aa0ba](https://github.com/roadiz/core-bundle-dev-app/commit/e9aa0ba826244024426a0484a4e19a51008cbda2))
+
 ## [v2.1.50](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.49...v2.1.50) (2023-11-16)
 
 

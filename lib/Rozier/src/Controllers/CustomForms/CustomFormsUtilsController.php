@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\CustomForms;
 
+use PhpOffice\PhpSpreadsheet\Exception;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\CustomForm\CustomFormAnswerSerializer;
@@ -29,11 +30,13 @@ class CustomFormsUtilsController extends RozierApp
      * Export all custom form's answer in a Xlsx file (.rzt).
      *
      * @param Request $request
-     * @param int     $id
+     * @param int $id
      *
      * @return Response
+     * @throws Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function exportAction(Request $request, int $id)
+    public function exportAction(Request $request, int $id): Response
     {
         /** @var CustomForm|null $customForm */
         $customForm = $this->em()->find(CustomForm::class, $id);
@@ -90,7 +93,7 @@ class CustomFormsUtilsController extends RozierApp
      *
      * @return Response
      */
-    public function duplicateAction(Request $request, int $id)
+    public function duplicateAction(Request $request, int $id): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
         /** @var CustomForm|null $existingCustomForm */
