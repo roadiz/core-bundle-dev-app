@@ -26,7 +26,6 @@ security:
         # https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/index.html#configure-application-routing
         api_login:
             pattern: ^/api/token
-            stateless: true
             provider: all_users
             login_throttling:
                 max_attempts: 3
