@@ -92,7 +92,7 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
     /**
      * @inheritDoc
      */
-    public function supports($name): bool
+    public function supports(mixed $name): bool
     {
         return ($name instanceof NodesSources || $name === RouteObjectInterface::OBJECT_BASED_ROUTE_NAME);
     }

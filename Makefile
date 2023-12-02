@@ -6,7 +6,7 @@ test:
 	vendor/bin/monorepo-builder validate
 	vendor/bin/atoum -d ./lib/Documents/tests
 	vendor/bin/atoum -f ./lib/EntityGenerator/tests/units/*
-	vendor/bin/phpunit -v  lib/Models/tests
+	vendor/bin/phpunit -v
 	php -d "memory_limit=-1" vendor/bin/phpcs -p
 	make phpstan
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views

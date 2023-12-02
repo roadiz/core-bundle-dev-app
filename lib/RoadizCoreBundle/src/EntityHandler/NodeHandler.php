@@ -22,6 +22,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Workflow\Registry;
 use Symfony\Component\Workflow\Workflow;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
+use Symfony\Component\Workflow\WorkflowInterface;
 
 /**
  * Handle operations with nodes entities.
@@ -307,9 +308,9 @@ class NodeHandler extends AbstractHandler
     }
 
     /**
-     * @return Workflow
+     * @return WorkflowInterface
      */
-    private function getWorkflow(): Workflow
+    private function getWorkflow(): WorkflowInterface
     {
         return $this->registry->get($this->getNode());
     }

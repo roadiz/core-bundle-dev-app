@@ -70,12 +70,12 @@ class RedirectionRouter extends Router implements VersatileGeneratorInterface
         throw new \BadMethodCallException(get_class($this) . ' does not support path generation.');
     }
 
-    public function supports($name): bool
+    public function supports(mixed $name): bool
     {
         return false;
     }
 
-    public function getRouteDebugMessage($name, array $parameters = []): string
+    public function getRouteDebugMessage(mixed $name, array $parameters = []): string
     {
         return 'RedirectionRouter does not support path generation.';
     }

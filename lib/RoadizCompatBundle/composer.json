@@ -22,7 +22,7 @@
         "pimple/pimple": "^3.3.1",
         "roadiz/core-bundle": "2.2.x-dev",
         "roadiz/openid": "2.2.x-dev",
-        "symfony/framework-bundle": "5.4.*"
+        "symfony/framework-bundle": "6.4.*"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",

@@ -20,7 +20,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.1",
-        "symfony/framework-bundle": "5.4.*",
+        "symfony/framework-bundle": "6.4.*",
         "roadiz/core-bundle": "2.2.x-dev",
         "roadiz/rozier": "2.2.x-dev",
         "roadiz/compat-bundle": "2.2.x-dev",

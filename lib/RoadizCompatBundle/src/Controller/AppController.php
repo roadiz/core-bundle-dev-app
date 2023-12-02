@@ -321,7 +321,7 @@ abstract class AppController extends Controller
     public function prepareBaseAssignation()
     {
         /** @var KernelInterface $kernel */
-        $kernel = $this->get('kernel');
+        $kernel = $this->container->get('kernel');
         $this->assignation = [
             'head' => [
                 'ajax' => $this->getRequest()->isXmlHttpRequest(),
@@ -368,7 +368,7 @@ abstract class AppController extends Controller
     {
         $this->getStopwatch()->start('getTheme');
         /** @var ThemeResolverInterface $themeResolver */
-        $themeResolver = $this->get(ThemeResolverInterface::class);
+        $themeResolver = $this->container->get(ThemeResolverInterface::class);
         if (null === $this->theme) {
             $className = new UnicodeString(static::getCalledClass());
             while (!$className->endsWith('App')) {
@@ -475,7 +475,7 @@ abstract class AppController extends Controller
         /** @var User $user */
         $user = $this->getUser();
         /** @var NodeChrootResolver $chrootResolver */
-        $chrootResolver = $this->get(NodeChrootResolver::class);
+        $chrootResolver = $this->container->get(NodeChrootResolver::class);
         $chroot = $chrootResolver->getChroot($user);
 
         if ($this->isGranted($attributes) && $chroot === null) {
@@ -560,9 +560,9 @@ abstract class AppController extends Controller
         bool $allowClientCache = false
     ): Response {
         /** @var Kernel $kernel */
-        $kernel = $this->get('kernel');
+        $kernel = $this->container->get('kernel');
         /** @var RequestStack $requestStack */
-        $requestStack = $this->get(RequestStack::class);
+        $requestStack = $this->container->get(RequestStack::class);
         $settings = $this->getSettingsBag();
 
         if (
@@ -647,7 +647,7 @@ abstract class AppController extends Controller
     protected function getErrorsAsArray(FormInterface $form): array
     {
         /** @var FormErrorSerializer $formErrorSerializer */
-        $formErrorSerializer = $this->get(FormErrorSerializer::class);
+        $formErrorSerializer = $this->container->get(FormErrorSerializer::class);
         return $formErrorSerializer->getErrorsAsArray($form);
     }
 }

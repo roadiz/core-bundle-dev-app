@@ -64,7 +64,7 @@ final class UserLocaleSubscriber implements EventSubscriberInterface
         if (
             null !== $this->tokenStorage->getToken() &&
             $this->tokenStorage->getToken()->getUser() instanceof User &&
-            $this->tokenStorage->getToken()->getUsername() === $user->getUsername()
+            $this->tokenStorage->getToken()->getUserIdentifier() === $user->getUserIdentifier()
         ) {
             if (null === $user->getLocale()) {
                 $this->requestStack->getSession()->remove('_locale');

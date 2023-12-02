@@ -12,7 +12,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  */
 class PreviewNotAllowedException extends AccessDeniedHttpException
 {
-    public function __construct($message = "You are not allowed to use preview mode.")
+    public function __construct(string $message = "You are not allowed to use preview mode.")
     {
         parent::__construct($message);
     }

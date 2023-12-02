@@ -59,12 +59,12 @@ final class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInter
         return $this->innerRouter->match($pathinfo);
     }
 
-    public function supports($name): bool
+    public function supports(string $name): bool
     {
         return $this->innerRouter->supports($name);
     }
 
-    public function getRouteDebugMessage($name, array $parameters = []): string
+    public function getRouteDebugMessage(string $name, array $parameters = []): string
     {
         return $this->innerRouter->getRouteDebugMessage($name, $parameters);
     }
