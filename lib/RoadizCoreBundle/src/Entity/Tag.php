@@ -103,7 +103,6 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         mappedBy: 'tag',
         targetEntity: TagTranslation::class,
         cascade: ['all'],
-        fetch: 'EAGER',
         orphanRemoval: true
     )]
     #[SymfonySerializer\Groups(['translated_tag'])]
