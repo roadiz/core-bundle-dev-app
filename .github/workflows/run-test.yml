@@ -19,7 +19,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-version: ['8.0', '8.1']
+                php-version: ['8.1', '8.2', '8.3']
         steps:
             - uses: shivammathur/setup-php@v2
               with:
@@ -42,23 +42,10 @@ jobs:
               run: |
                   vendor/bin/atoum -d ./lib/Documents/tests
                   vendor/bin/atoum -f ./lib/EntityGenerator/tests/units/*
+                  vendor/bin/phpunit -v  lib/Models/tests
             - name: Run PHP Code Sniffer
               run: |
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/DocGenerator/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Documents/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/DtsGenerator/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/EntityGenerator/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Jwt/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Markdown/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Models/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/OpenId/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Random/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizCompatBundle/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizCoreBundle/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizFontBundle/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizRozierBundle/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/RoadizUserBundle/src
-                  php -d "memory_limit=-1" vendor/bin/phpcbf -p ./lib/Rozier/src
+                  php -d "memory_limit=-1" vendor/bin/phpcs --report=full -p
             - name: Run PHP Stan
               run: |
                   php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
@@ -70,3 +57,4 @@ jobs:
                   php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
                   php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
                   php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
+                  php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
