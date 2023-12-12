@@ -1,3 +1,178 @@
+## [v2.2.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.51...v2.2.0) (2023-12-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* Requires PHP 8.1 minimum
+* **Solr:** Make sure your Solr managed-schema has a dynamic field named `*_ps` with type `location` multiValued:
+
+```xml
+<dynamicField name="*_ps" type="location" indexed="true" stored="true" multiValued="true"/>
+```
+* **Solr:** Solr search with highlighting will output `highlighting` object with different labelled keys (`title_txt_en`, `collection_txt_en`) according to search `locale`.
+* **NodeVoter:** `validateNodeAccessForRole` is deprecated, use `denyAccessUnlessGranted` or `isGranted` with one of `NodeVoter` attribute and a Node instance
+* **NodeType:** `bin/console themes:migrate` command do not execute Doctrine migrations, generate NS entities and schema update. **You must version your NS\*\*\*\*.php files and migrations** to sync your app in different environments.
+
+- `bin/console themes:migrate` and `bin/console themes:install` are deprecated: use `bin/console app:install` to just import data in database or `bin/console app:migrate` to import data and generate Entities and Doctrine migrations
+* **NodeType:** `bin/console themes:migrate` command do not execute Doctrine migrations, generate NS entities and schema update. **You must version your NS\*\*\*\*.php files and migrations** to sync your app in different environments.
+* **ApiPlatform:** You must migrate your `config/api_resources/*.yml` files to use new [ApiPlatform interfaces and resource YML syntax](https://api-platform.com/docs/core/upgrade-guide/#summary-of-the-changes-between-26-and-2730)
+
+- Remove and regenerate your NS entities with `bin/console generate:nsentities` to update namespaces
+- Remove and regenerate your Resource configs with `bin/console generate:api-resources`
+    - If you do not want to remove existing config, [you'll have to move `itemOperations` and `collectionOperations` to single `operations` node](https://api-platform.com/docs/core/upgrade-guide/#metadata-changes) and add `class` with `ApiPlatform\Metadata\Get` or `ApiPlatform\Metadata\GetCollection`
+    - Rename `iri` to `types` and wrap single values into array
+    - Rename `path` to `uriTemplate`
+    - Rename `normalization_context` to `normalizationContext`
+    - Rename `openapi_context` to `openapiContext`
+    - Move `shortName` to each `operation`
+    - Rename `attributes` to `extraProperties` (for `/archives` endpoints)
+    - Add `uriTemplate` for your custom endpoints (for `/archives` endpoints)
+    - Prefix all named operations with `api_` to  avoid conflict with non API routes
+- All filters and extensions use new interfaces
+- Removed all deprecated DataTransformer and Dto classes
+- Once everything is migrated changed `metadata_backward_compatibility_layer: false` in `config/packages/api_platform.yaml`
+* Log namespace changed to `RZ\Roadiz\CoreBundle\Logger\Entity\Log`
+
+Make sure you update `config/packages/doctrine.yaml` with:
+
+```yaml
+    orm:
+        auto_generate_proxy_classes: true
+        default_entity_manager: default
+        entity_managers:
+            # Put `logger` entity manager first to select it as default for Log entity
+            logger:
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    ## Just sharding EM to avoid having Logs in default EM
+                    ## and flushing bad entities when storing log entries.
+                    RoadizCoreLogger:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/roadiz/core-bundle/src/Logger/Entity'
+                        prefix: 'RZ\Roadiz\CoreBundle\Logger\Entity'
+                        alias: RoadizCoreLogger
+            default:
+                dql:
+                    string_functions:
+                        JSON_CONTAINS: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonContains
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                auto_mapping: true
+                mappings:
+                    ## Keep RoadizCoreLogger to avoid creating different migrations since we are using
+                    ## the same database for both entity managers. Just sharding EM to avoid
+                    ## having Logs in default EM and flushing bad entities when storing log entries.
+                    RoadizCoreLogger:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/roadiz/core-bundle/src/Logger/Entity'
+                        prefix: 'RZ\Roadiz\CoreBundle\Logger\Entity'
+                        alias: RoadizCoreLogger
+                    App:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: App
+	            # ...
+```
+* RZ\Roadiz\CoreBundle\Entity\LoginAttempt has been removed with its manager and utils
+* **Log:** Log entity requires a Migration that may be destructive on `log` table.
+* roadiz/models namespace root is now ./src. Change your Doctrine entities path
+
+### Features
+
+* **AbstractAdminController:** Made AbstractAdminController getRepository method overridable ([a46157d](https://github.com/roadiz/core-bundle-dev-app/commit/a46157dd518958c46d89a15d98100680f497fc00))
+* **AbstractAdminWithBulkController:** Added generic bulk-actions behaviour using `AbstractAdminWithBulkController` and `@RoadizRozier/admin/bulk_actions.html.twig` template ([1495058](https://github.com/roadiz/core-bundle-dev-app/commit/14950586367e59606eafb057b1e2dfb22817833f))
+* **AbstractAdminWithBulkController:** Made new bulkActions more easy to code, added User enable/disable bulk actions. ([50651ea](https://github.com/roadiz/core-bundle-dev-app/commit/50651ea27960398f3373d77b9d670677951e6b93))
+* **AbstractAdminWithBulkController:** Made remove behaviour overridable. ([a306faf](https://github.com/roadiz/core-bundle-dev-app/commit/a306fafab42408e2b3f25ef9ba36209807454596))
+* Added all Doctrine string fields explicit length and validation assert. ([8c1d230](https://github.com/roadiz/core-bundle-dev-app/commit/8c1d23005ae79916aecdc03510e0403f123474b8))
+* Added Custom forms bulk delete actions ([25dd271](https://github.com/roadiz/core-bundle-dev-app/commit/25dd2712abfd10bbe22835a06545b4471ceee204))
+* Added Example PageController and more phpstan fixes ([db8cec8](https://github.com/roadiz/core-bundle-dev-app/commit/db8cec819f09718d4774cb6b93decabb5184a5dc))
+* Added more OpenApi context to generated api resources ([29c8fa3](https://github.com/roadiz/core-bundle-dev-app/commit/29c8fa310bae8b35c850435a947282335628bad5))
+* Added NodesSources getListingSortOptions method ([26ff61f](https://github.com/roadiz/core-bundle-dev-app/commit/26ff61f60c8d608d02588e4ea48835786e613714))
+* Added NumericFilter on node.position, added new `node_listing` serialization group ([a73b5b2](https://github.com/roadiz/core-bundle-dev-app/commit/a73b5b20cf632dc990668916bcdc515d802079c9))
+* Added redirections bulk delete action ([6652e67](https://github.com/roadiz/core-bundle-dev-app/commit/6652e67467c10af7de8f0894cb4d726577a71bd9))
+* Added Redirections usage count to better analyze your app routes ([3a6a38b](https://github.com/roadiz/core-bundle-dev-app/commit/3a6a38bcaf90dbb2fe2fe36985121132018fa1ff))
+* Added solarium webprofiler panel ([2cea745](https://github.com/roadiz/core-bundle-dev-app/commit/2cea74513e4153bcdc2c8a36cc22adf4c11a77fe))
+* Allowed `doctrine/dbal` 3.x ([ba47367](https://github.com/roadiz/core-bundle-dev-app/commit/ba4736750a3f364a0b08558e5672a162f5cc8927))
+* **ApiPlatform:** Disabled `metadata_backward_compatibility_layer` and migrated all API resources, filters, extensions to new `Operation` syntax ([f0317aa](https://github.com/roadiz/core-bundle-dev-app/commit/f0317aab253ad75011534c857e8bf9c7a70635cc))
+* **Attributes:** Added indexes on attributes values position, fallback value on default translation during Normalization ([453708f](https://github.com/roadiz/core-bundle-dev-app/commit/453708f1e63e6d8488154dc6deb4f9be9c91060a))
+* **Attributes:** Added relation between Realms and Attributes and AttributeValue to secure attribute access ([6f5f477](https://github.com/roadiz/core-bundle-dev-app/commit/6f5f477f94eaa53f4e88ec63e5844c0ce9bad2fa))
+* **Attributes:** Secure API collection and item attribute_values requests with realms ([fd68f51](https://github.com/roadiz/core-bundle-dev-app/commit/fd68f5152f76e1ca69824db593501cb5b9c661f6))
+* **Chroot:** Display node chroot on mainNodeTree instead of its children ([b9e2f7a](https://github.com/roadiz/core-bundle-dev-app/commit/b9e2f7ad83c36e81b70e2cb31cecaea596ad21f3))
+* Configure API firewall as database-less JWT by default to ensure PreviewUser are not reloaded ([51305e1](https://github.com/roadiz/core-bundle-dev-app/commit/51305e13b779162af68a576b16711acfbf5866b8))
+* **CustomForm:** Made custom-form answer email notification async. **Do not forget to define `framework.router.default_uri`.** ([5e783c2](https://github.com/roadiz/core-bundle-dev-app/commit/5e783c21734a0c4b85f443ca844ddadc6d662049))
+* Displays parent node listing sort options if parent is a stack (hiding children) ([48d06ce](https://github.com/roadiz/core-bundle-dev-app/commit/48d06ce9beb62e6d448fb02a7e1fb5d225a4ba9a))
+* **Document:** Added document image crop alignment control ([51e2cdb](https://github.com/roadiz/core-bundle-dev-app/commit/51e2cdb7ea2144e91126222e242e1d1e6439ef02))
+* **Documents:** Added image crop alignment for processable documents. ([970d4c6](https://github.com/roadiz/core-bundle-dev-app/commit/970d4c61046ef01ffb9243a9ec1b3e25e09df1ff))
+* **Documents:** Added inline download route to preview private PDF from backoffice. ([0b607d2](https://github.com/roadiz/core-bundle-dev-app/commit/0b607d27ca955ee961c82d6edeb02969180b80a3))
+* **DtsGenerator:** Added `AllRoadizNodesSources` Typescript type ([c249f37](https://github.com/roadiz/core-bundle-dev-app/commit/c249f375a9bf5a0e9d67bede61451dec40978cef))
+* Improved `classicLikeComparison` for Node and NodesSources to search in attribute-values translations ([d10dbbc](https://github.com/roadiz/core-bundle-dev-app/commit/d10dbbcc9cc0ac399a0e45b7a9200b7256feedf0))
+* **ListManager:** Refactored and factorized request query-params handling ([a6188c6](https://github.com/roadiz/core-bundle-dev-app/commit/a6188c6bea8fab24e1b5788ed69f10633a840275))
+* **Log:** Added entityClass and entityId to remove hard relationship with NodesSources ([7300cc3](https://github.com/roadiz/core-bundle-dev-app/commit/7300cc3a1d7359a996b3d3925e21a046e2437057))
+* **Log:** Added Twig Log extension to generate link to entities edit pages ([471a571](https://github.com/roadiz/core-bundle-dev-app/commit/471a571144ad7a3725b0cfd1137c2968cfeccffc))
+* **Log:** Made Log entity autonomous without any relationship, only loose references ([e0dd99c](https://github.com/roadiz/core-bundle-dev-app/commit/e0dd99cffa05918ebde1c8744cfe582eaef64520))
+* Migrated api-platform deprecated http_cache configuration ([4177d05](https://github.com/roadiz/core-bundle-dev-app/commit/4177d05ae2b83c996b441bd126657e3a89a4bd1e))
+* Moved `Log` entity to a different namespace to handle with a different entity-manager and avoid flushing Log in the same transaction with other entities ([6d2583c](https://github.com/roadiz/core-bundle-dev-app/commit/6d2583c8b6b420d743e940a50d9c1811c13392b8))
+* Moved Models namespace to src ([fe0960f](https://github.com/roadiz/core-bundle-dev-app/commit/fe0960fe3a076a9618e4ea3ae67624f37bb33cb9))
+* **Node:** Added new `SEARCH` attribute for NodeVoter to allow non-editor to at least search nodes. ([f713c0c](https://github.com/roadiz/core-bundle-dev-app/commit/f713c0c36b94eab1ee3a900e005920d5e2ab96d7))
+* **NodeType:** Added `attributable` node-type field to display or not nodes' attributes ([9206664](https://github.com/roadiz/core-bundle-dev-app/commit/92066648f23ea46ea9198de18d0d26091edb36dc))
+* **NodeType:** NodeTypeImporter now removes extra fields from database when not present on .json files ([c59919e](https://github.com/roadiz/core-bundle-dev-app/commit/c59919ea3183a197f895c63182d0057033960837))
+* **NodeType:** Roadiz now generates a new Doctrine Migration for each updates on node-types and node-types fields. ([d2cd965](https://github.com/roadiz/core-bundle-dev-app/commit/d2cd96566d0d8bc8c7addae41a019674fc1ca485))
+* **NodeType:** Roadiz now generates a new Doctrine Migration for each updates on node-types and node-types fields. ([3e1b8bb](https://github.com/roadiz/core-bundle-dev-app/commit/3e1b8bb2971be50e263f909cdc3b42a4c50f3e6d))
+* **NodeVoter:** Added a NodeVoter and deprecated `validateNodeAccessForRole` method ([f6de0ee](https://github.com/roadiz/core-bundle-dev-app/commit/f6de0ee867153d00f4d401b0bdcaf1f5c534ffa3))
+* **Redirections:** Added cache adapter to look for redirection query ([18da77c](https://github.com/roadiz/core-bundle-dev-app/commit/18da77cbb0736b6bc7424f938430f2bc3571ca00))
+* **Redirections:** Added redirection look-up cache and CRUD events ([a78b3d3](https://github.com/roadiz/core-bundle-dev-app/commit/a78b3d3e3a6353a5cb0c6e83df39d9fd2afb8cf6))
+* Removed dead code `ExceptionViewer` and redondant Logger levels constants ([f5287f6](https://github.com/roadiz/core-bundle-dev-app/commit/f5287f65e7b08a5334de6f7f8ee1ac56b814b0e2))
+* Removed deprecated LoginAttempt entity, using default Symfony login throtling ([f7e2a39](https://github.com/roadiz/core-bundle-dev-app/commit/f7e2a39bb06bf45adf9708b031889a88804e5191))
+* Removed jQuery from LeafletGeotagField.js MultiLeafletGeotagField.js ([6de56cf](https://github.com/roadiz/core-bundle-dev-app/commit/6de56cfafef2a2e8224729b4d5766e124f6d9482))
+* Require PHP 8.1 minimum ([2fc0299](https://github.com/roadiz/core-bundle-dev-app/commit/2fc02997ac386c7de98b31bc38767271a9f77668))
+* **Rozier:** Added UserActionsMenuEvent to customize backoffice user panel menu from other bundles ([ee5e2a6](https://github.com/roadiz/core-bundle-dev-app/commit/ee5e2a66a140ed6507dc51f88f00a50066028f80))
+* **SearchEngine:** Added `DocumentSearchQueryEvent` and `NodeSourceSearchQueryEvent` event to alter Solr select queries ([083d2e5](https://github.com/roadiz/core-bundle-dev-app/commit/083d2e5294ff31734cd8ca78258275a8adfba6c7))
+* **Solr:** Added `TreeWalkerIndexingEventSubscriber` to index node children using a TreeWalker, improved `AttributeValueIndexingSubscriber` ([fea4ea0](https://github.com/roadiz/core-bundle-dev-app/commit/fea4ea02d4d9e7dc38ad8912a585f256c0e72bbc))
+* **Solr:** Added multiple geojson point indexing ([13041a2](https://github.com/roadiz/core-bundle-dev-app/commit/13041a2c775f3a6baf9659d328d574c21b8b4c6b))
+* **Solr:** Highlighting keep fields name to allow to display title with highlighted parts, not only collection_txt ([3ae0379](https://github.com/roadiz/core-bundle-dev-app/commit/3ae0379100940b69da32798395f117d6e51536bc))
+* **Solr:** Index integer, decimal, datetime, string and geojson fields ([a62c29c](https://github.com/roadiz/core-bundle-dev-app/commit/a62c29c5157a58f3a09c9aa7c278e309d9531aff))
+* **TreeWalker:** Added new tag `roadiz_core.tree_walker_definition_factory` to inject TreeWalker definitions into TreeWalkerGenerator and any BlocksAwareWebResponseOutputDataTransformerTrait ([86e5ac6](https://github.com/roadiz/core-bundle-dev-app/commit/86e5ac6cc48662e54e69c7a1b90c4294580478f3))
+* **TwoFactorBundle:** Added backup codes and backoffice templates ([95db653](https://github.com/roadiz/core-bundle-dev-app/commit/95db653efaac1202268b458515967d12d179d841))
+* **TwoFactorBundle:** Added console command to disable 2FA and override users:list command ([81cd472](https://github.com/roadiz/core-bundle-dev-app/commit/81cd4720dea1c545741147ecca7e5e80723796db))
+* **TwoFactorBundle:** Added Github actions ([2bc480a](https://github.com/roadiz/core-bundle-dev-app/commit/2bc480a9d16546e681d56557cc69dd790f4c8991))
+* **TwoFactorBundle:** Added TwoFactor bundle to login to Roadiz with TOTP application ([0953b00](https://github.com/roadiz/core-bundle-dev-app/commit/0953b0086452343d40adce79ebba65089a0090bd))
+* Upgrade to ORM 2.17 and removed WITH joins on EAGER fetched relations ([7aadd02](https://github.com/roadiz/core-bundle-dev-app/commit/7aadd028af6b37a8119f32b87283d10d1db1986d))
+* Upgrade to rezozero/liform ^0.19 ([d4862d6](https://github.com/roadiz/core-bundle-dev-app/commit/d4862d6cac923f52d0b43cced1cbe0da48880909))
+* Use `ramsey/uuid` for Webhook ID generation, doctrine/dbal removed AutoGenerated uuids ([3b409d3](https://github.com/roadiz/core-bundle-dev-app/commit/3b409d39aa699d5ea22fd2b62a587548aa5e693c))
+* Use php82 ([e10fdd5](https://github.com/roadiz/core-bundle-dev-app/commit/e10fdd5632cb4327fcf598bfbdb32b272f9a4675))
+* Use RangeFilter on Node' position ([1423bf2](https://github.com/roadiz/core-bundle-dev-app/commit/1423bf245db02de23e6963bb1a8b101c7e948988))
+* **UserBundle:** Moved `/users/me` operation to `/me` to avoid conflict on User Get operation and IRI generation ([883146e](https://github.com/roadiz/core-bundle-dev-app/commit/883146e7839d19a9a072e361b9b7baf22ae77381))
+* **UserViewer:** Removed setUser setter for single method usage ([b7c0f75](https://github.com/roadiz/core-bundle-dev-app/commit/b7c0f75757410c6addd5e4ec7b8f8247cf339319))
+
+
+### Bug Fixes
+
+* Append History state.headerData to url query-param is set ([0a1e35c](https://github.com/roadiz/core-bundle-dev-app/commit/0a1e35cb803c72faa532d1a255338382bfc9730c))
+* CoreBundle must not reference other bundles classes. ([701cbf3](https://github.com/roadiz/core-bundle-dev-app/commit/701cbf3c0a7e5218032ccb3d05a837149dfbf31f))
+* Deprecated: Using ${var} in strings is deprecated, use {$var} instead ([fae9914](https://github.com/roadiz/core-bundle-dev-app/commit/fae991419558849ac31a5e97b1a0d0d6ac74e859))
+* Do not display children-nodes-quick-creation if no linked types ([a826ec9](https://github.com/roadiz/core-bundle-dev-app/commit/a826ec9a3007979bca2b336d1e8938abd0c03eb8))
+* Do not generate log URL when no entityId is set in log ([997ee20](https://github.com/roadiz/core-bundle-dev-app/commit/997ee2093b1754967fc9552443f28197655c0308))
+* Duplicated translation keys ([d108eec](https://github.com/roadiz/core-bundle-dev-app/commit/d108eeca37f2ee3eaf382f11e205d5d24032777a))
+* **EntityGenerator:** Nullable `$field->getDefaultValues()` ([297f099](https://github.com/roadiz/core-bundle-dev-app/commit/297f099cc738272c94e88f58b060b39351e655ed))
+* **EntityRepository:** Support `node.` order-by keys ([be7c441](https://github.com/roadiz/core-bundle-dev-app/commit/be7c4413a4f292b792da4fa14d7f4d22e0dd9b24))
+* Fixed monorepo phpcs config standard ([b3a1ac0](https://github.com/roadiz/core-bundle-dev-app/commit/b3a1ac0067ff61e76bf6125cfd3974b1c622cf74))
+* Fixed non-named inherited indexes ([a43439c](https://github.com/roadiz/core-bundle-dev-app/commit/a43439c910e379afca8577a3f64b0188657ea3df))
+* Gathered Mysql and Postgresql database initialization in the same Migration to avoid always skipping RZ\Roadiz\Migrations\Version20201225181256 ([af73bf4](https://github.com/roadiz/core-bundle-dev-app/commit/af73bf499c010fbc12882debcde550dcace9d7ae))
+* **LeafletGeotagField:** Do not display a Marker if field is empty ([9b6b27d](https://github.com/roadiz/core-bundle-dev-app/commit/9b6b27dfd3ca27e9d64be5ff2bb5711376f00352))
+* **Node:** Enforce UniqueEntity validation is used on all nodes and on UrlAlias when checking `nodeName` ([5d7e8ae](https://github.com/roadiz/core-bundle-dev-app/commit/5d7e8aebfb91e92c0df944dbb95369ce3421095e))
+* Reached phpstan level 7 validation ([89d9e8a](https://github.com/roadiz/core-bundle-dev-app/commit/89d9e8ae132d305567e613838b2ce3174a902231))
+* Reached phpstan level 7 validation ([d5c0bdc](https://github.com/roadiz/core-bundle-dev-app/commit/d5c0bdc9572d9cd95691f7b0782d705312abd2c9))
+* Renamed NodeTypeField and CustomFormField defaultValues field label ([957024b](https://github.com/roadiz/core-bundle-dev-app/commit/957024bd28517df295a38551ba760161181a2ceb))
+* **RozierBundle:** Add a second path to make RoadizRozier templates extendable with @!RoadizRozier namespace ([9fcb20b](https://github.com/roadiz/core-bundle-dev-app/commit/9fcb20ba9cd209184f55fb0fc3e9901ef483f245))
+* **Rozier:** Call `off()` on undefined element ([dd4324d](https://github.com/roadiz/core-bundle-dev-app/commit/dd4324df32e8648a7aa7967d66bf8190163be4cf))
+* **Rozier:** Fixed global backoffice grid when tree panel is hidden ([4aa8a5e](https://github.com/roadiz/core-bundle-dev-app/commit/4aa8a5ec210e63f9b2835bb293000a0a11b53e76))
+* **Serializer:** Do not use `class-string` type-hint it breaks JSON serializer https://github.com/symfony/symfony/issues/47736 ([9ffaf6e](https://github.com/roadiz/core-bundle-dev-app/commit/9ffaf6e550ac07afd9e5c9c5dba73129e3c76c3b))
+* Support reverseProxyCache host with or without protocol ([9a170d5](https://github.com/roadiz/core-bundle-dev-app/commit/9a170d51e9ec7593bc45b71aaff4b3f5c922a2f6))
+* **User:** Removed deprecated User salt column ([1294167](https://github.com/roadiz/core-bundle-dev-app/commit/1294167edff39e7bedbbcbe4133f752d9b93db2b))
+
 ## [v2.1.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.50...v2.1.51) (2023-11-20)
 
 
