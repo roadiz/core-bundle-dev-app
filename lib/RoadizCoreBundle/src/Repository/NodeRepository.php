@@ -1141,4 +1141,20 @@ final class NodeRepository extends StatusAwareRepository
         }
         return $this->findOneBy($criteria);
     }
+
+    protected function classicLikeComparison(
+        string $pattern,
+        QueryBuilder $qb,
+        string $alias = EntityRepository::DEFAULT_ALIAS
+    ): QueryBuilder {
+        $qb = parent::classicLikeComparison($pattern, $qb, $alias);
+        $qb
+            ->leftJoin($alias . '.attributeValues', 'av')
+            ->leftJoin('av.attributeValueTranslations', 'avt')
+        ;
+        $value =  '%' . strip_tags(\mb_strtolower($pattern)) . '%';
+        $qb->orWhere($qb->expr()->like('LOWER(avt.value)', $qb->expr()->literal($value)));
+        $qb->orWhere($qb->expr()->like('LOWER(' . $alias . '.nodeName)', $qb->expr()->literal($value)));
+        return $qb;
+    }
 }

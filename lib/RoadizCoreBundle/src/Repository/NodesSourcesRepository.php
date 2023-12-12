@@ -747,4 +747,21 @@ class NodesSourcesRepository extends StatusAwareRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    protected function classicLikeComparison(
+        string $pattern,
+        QueryBuilder $qb,
+        string $alias = EntityRepository::DEFAULT_ALIAS
+    ): QueryBuilder {
+        $qb = parent::classicLikeComparison($pattern, $qb, $alias);
+        $qb
+            ->innerJoin($alias . '.node', static::NODE_ALIAS)
+            ->leftJoin(static::NODE_ALIAS . '.attributeValues', 'av')
+            ->leftJoin('av.attributeValueTranslations', 'avt')
+        ;
+        $value =  '%' . strip_tags(\mb_strtolower($pattern)) . '%';
+        $qb->orWhere($qb->expr()->like('LOWER(avt.value)', $qb->expr()->literal($value)));
+        $qb->orWhere($qb->expr()->like('LOWER(' . static::NODE_ALIAS . '.nodeName)', $qb->expr()->literal($value)));
+        return $qb;
+    }
 }
