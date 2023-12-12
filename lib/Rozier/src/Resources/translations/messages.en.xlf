@@ -4869,6 +4869,14 @@
         <source>image_crop_alignment.bottom-right</source>
         <target state="translated">Bottom right</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="attributable">
+        <source>attributable</source>
+        <target state="translated">Attributable</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type">
+        <source>enables_node_attributes_for_this_type</source>
+        <target state="translated">Allows nodes of this type to hold attributes in addition of their data fields.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

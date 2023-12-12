@@ -6,6 +6,7 @@ namespace App\TreeWalker\Definition;
 
 use App\GeneratedEntity\NSArticle;
 use App\GeneratedEntity\NSArticleFeedBlock;
+use ArrayIterator;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -63,11 +64,11 @@ final class ArticleFeedBlockDefinition implements StoppableDefinition
 
             if ($children instanceof Paginator) {
                 $iterator = $children->getIterator();
-                if ($iterator instanceof \ArrayIterator) {
+                if ($iterator instanceof ArrayIterator) {
                     $children = $iterator->getArrayCopy();
-                } else {
-                    throw new \RuntimeException('Unexpected iterator type');
                 }
+                // @phpstan-ignore-next-line
+                $children = iterator_to_array($iterator);
             }
 
             $this->context->getStopwatch()->stop(self::class);
