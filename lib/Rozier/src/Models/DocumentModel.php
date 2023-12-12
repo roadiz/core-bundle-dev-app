@@ -140,7 +140,7 @@ final class DocumentModel implements ModelInterface
                 : $this->document->getShortType(),
             'shortMimeType' => $this->document->getShortMimeType(),
             'thumbnail_80' => $thumbnail80Url,
-            'url' => $previewUrl ?? $thumbnail80Url ?? null,
+            'url' => $previewUrl ?? $thumbnail80Url,
         ];
     }
 }

@@ -133,7 +133,7 @@ class SimpleQueryBuilder
         if (null === $value) {
             return $this->queryBuilder->expr()->isNull($prefix . $key);
         }
-
+        // @phpstan-ignore-next-line
         throw new \InvalidArgumentException('Value is not supported for expression.');
     }
 
@@ -187,7 +187,7 @@ class SimpleQueryBuilder
         if (null === $value) {
             return $this->queryBuilder;
         }
-
+        // @phpstan-ignore-next-line
         throw new \InvalidArgumentException('Value is not supported for binding.');
     }
 
