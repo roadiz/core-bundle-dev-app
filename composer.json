@@ -245,10 +245,9 @@
             "require": "5.4.*"
         },
         "branch-alias": {
-            "dev-main": "2.1.x-dev",
-            "dev-develop": "2.2.x-dev"
+            "dev-main": "2.2.x-dev",
+            "dev-develop": "2.3.x-dev"
         }
     },
-    "minimum-stability": "dev",
     "prefer-stable": true
 }

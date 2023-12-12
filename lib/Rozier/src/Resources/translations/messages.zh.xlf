@@ -1463,6 +1463,10 @@
         <source>tag.color</source>
         <target state="translated">颜色</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="folder.color">
+        <source>folder.color</source>
+        <target state="translated">颜色</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="374">
         <source>tag.tree</source>
         <target state="translated">标签树</target>
@@ -4613,6 +4617,10 @@
         <source>%namespace%.%item%.was_deleted</source>
         <target state="translated">%namespace% "%item%"已删除。</target>
         <note>Default controller deleteAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="attributable">
+        <source>attributable</source>
+        <target state="translated">属性</target>
       </trans-unit>
     </body>
   </file>
