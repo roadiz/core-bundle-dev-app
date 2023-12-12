@@ -4869,6 +4869,14 @@
         <source>image_crop_alignment.bottom-right</source>
         <target state="translated">En bas à droite</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="attributable">
+        <source>attributable</source>
+        <target state="translated">Accepte des attributs</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type">
+        <source>enables_node_attributes_for_this_type</source>
+        <target state="translated">Permets aux nœuds de ce type d'avoir des attributs en plus de leurs données.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
