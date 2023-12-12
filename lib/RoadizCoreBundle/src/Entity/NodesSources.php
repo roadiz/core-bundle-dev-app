@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,8 +20,10 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * NodesSources store Node content according to a translation and a NodeType.
@@ -58,15 +60,6 @@ class NodesSources extends AbstractEntity implements Loggable
     protected ?ObjectManager $objectManager = null;
 
     /**
-     * @var Collection<int, Log>
-     */
-    #[ORM\OneToMany(mappedBy: 'nodeSource', targetEntity: Log::class)]
-    #[ORM\OrderBy(['datetime' => 'DESC'])]
-    #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
-    protected Collection $logs;
-
-    /**
      * @var Collection<int, Redirection>
      */
     #[ORM\OneToMany(mappedBy: 'redirectNodeSource', targetEntity: Redirection::class)]
@@ -75,10 +68,11 @@ class NodesSources extends AbstractEntity implements Loggable
     protected Collection $redirections;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'title', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'title', type: 'string', length: 250, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Gedmo\Versioned]
+    #[Assert\Length(max: 250)]
     protected ?string $title = null;
 
     #[ApiFilter(BaseFilter\DateFilter::class)]
@@ -91,10 +85,11 @@ class NodesSources extends AbstractEntity implements Loggable
     protected ?\DateTime $publishedAt = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'meta_title', type: 'string', unique: false)]
+    #[ORM\Column(name: 'meta_title', type: 'string', length: 150, unique: false)]
     #[SymfonySerializer\Groups(['nodes_sources'])]
     #[Serializer\Groups(['nodes_sources'])]
     #[Gedmo\Versioned]
+    #[Assert\Length(max: 150)]
     protected string $metaTitle = '';
 
     #[ORM\Column(name: 'meta_keywords', type: 'text')]
@@ -132,6 +127,12 @@ class NodesSources extends AbstractEntity implements Loggable
         "node.createdAt",
         "node.updatedAt"
     ])]
+    #[ApiFilter(BaseFilter\NumericFilter::class, properties: [
+        "node.position",
+    ])]
+    #[ApiFilter(BaseFilter\RangeFilter::class, properties: [
+        "node.position",
+    ])]
     #[ApiFilter(BaseFilter\DateFilter::class, properties: [
         "node.createdAt",
         "node.updatedAt"
@@ -156,6 +157,7 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
+    #[Assert\Valid]
     private ?Node $node = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
@@ -205,14 +207,10 @@ class NodesSources extends AbstractEntity implements Loggable
         $this->translation = $translation;
         $this->urlAliases = new ArrayCollection();
         $this->documentsByFields = new ArrayCollection();
-        $this->logs = new ArrayCollection();
         $this->redirections = new ArrayCollection();
     }
 
-    /**
-     * @inheritDoc
-     * @Serializer\Exclude
-     */
+    #[Serializer\Exclude]
     public function injectObjectManager(ObjectManager $objectManager): void
     {
         $this->objectManager = $objectManager;
@@ -221,28 +219,29 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ORM\PreUpdate]
     public function preUpdate(): void
     {
-        $this->getNode()?->setUpdatedAt(new \DateTime("now"));
+        $this->getNode()->setUpdatedAt(new \DateTime("now"));
     }
 
     /**
-     * @return Node|null
+     * @return Node
      */
-    public function getNode(): ?Node
+    public function getNode(): Node
     {
+        if (null === $this->node) {
+            throw new \BadMethodCallException('NodeSource node should never be null.');
+        }
         return $this->node;
     }
 
     /**
-     * @param Node|null $node
+     * @param Node $node
      *
      * @return $this
      */
-    public function setNode(Node $node = null): NodesSources
+    public function setNode(Node $node): NodesSources
     {
         $this->node = $node;
-        if (null !== $node) {
-            $node->addNodeSources($this);
-        }
+        $node->addNodeSources($this);
 
         return $this;
     }
@@ -283,6 +282,23 @@ class NodesSources extends AbstractEntity implements Loggable
     public function getDocumentsByFields(): Collection
     {
         return $this->documentsByFields;
+    }
+
+    /**
+     * Get at least one document to represent this node-source as image.
+     *
+     * @return DocumentInterface|null
+     */
+    #[SymfonySerializer\Ignore]
+    public function getOneDisplayableDocument(): ?DocumentInterface
+    {
+        return $this->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsd) {
+            return null !== $nsd->getDocument() &&
+                $nsd->getDocument()->isImage() &&
+                $nsd->getDocument()->isProcessable();
+        })->map(function (NodesSourcesDocuments $nsd) {
+            return $nsd->getDocument();
+        })->first() ?: null;
     }
 
     /**
@@ -376,27 +392,6 @@ class NodesSources extends AbstractEntity implements Loggable
             })
             ->toArray()
         ;
-    }
-
-    /**
-     * Logs related to this node-source.
-     *
-     * @return Collection<int, Log>
-     */
-    public function getLogs(): Collection
-    {
-        return $this->logs;
-    }
-
-    /**
-     * @param Collection $logs
-     * @return $this
-     */
-    public function setLogs(Collection $logs): NodesSources
-    {
-        $this->logs = $logs;
-
-        return $this;
     }
 
     /**
@@ -641,6 +636,37 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
+     * Returns current listing sort options OR parent node's if parent node is hiding children.
+     *
+     * @return array
+     */
+    #[Serializer\Groups(['node_listing'])]
+    #[SymfonySerializer\Groups(['node_listing'])]
+    public function getListingSortOptions(): array
+    {
+        if (null !== $this->getParent() && $this->getParent()->getNode()->isHidingChildren()) {
+            return $this->getParent()->getListingSortOptions();
+        }
+        return match ($this->getNode()->getChildrenOrder()) {
+            'position' => [
+                'node.position' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            'nodeName' => [
+                'node.nodeName' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            'createdAt' => [
+                'node.createdAt' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            'updatedAt' => [
+                'node.updatedAt' => $this->getNode()->getChildrenOrderDirection()
+            ],
+            default => [
+                'publishedAt' => $this->getNode()->getChildrenOrderDirection()
+            ],
+        };
+    }
+
+    /**
      * After clone method.
      *
      * Be careful not to persist nor flush current entity after
@@ -659,8 +685,6 @@ class NodesSources extends AbstractEntity implements Loggable
             }
             // Clear url-aliases before cloning.
             $this->urlAliases->clear();
-            // Clear logs before cloning.
-            $this->logs->clear();
         }
     }
 }

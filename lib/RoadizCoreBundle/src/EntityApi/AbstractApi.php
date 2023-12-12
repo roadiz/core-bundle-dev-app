@@ -38,7 +38,6 @@ abstract class AbstractApi
      * Return one entity matching criteria array.
      *
      * @param array $criteria
-     *
      * @return mixed
      */
     abstract public function getOneBy(array $criteria);
@@ -47,7 +46,6 @@ abstract class AbstractApi
      * Count entities matching criteria array.
      *
      * @param array $criteria
-     *
      * @return int
      */
     abstract public function countBy(array $criteria);

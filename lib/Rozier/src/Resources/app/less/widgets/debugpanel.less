@@ -4,7 +4,7 @@
 #rz-debug-panel {
     font-size: 10px;
     .box-sizing();
-    background-color: #EFEFEF;
+    background-color: var(--maincontent-bar-bg, #efefef);
     position: fixed;
     bottom: 0;
     right: 0;
@@ -12,7 +12,6 @@
     height: 40px;
     width: 40px;
     border-radius: 10px 0 0 0;
-    font-family: Helvetica, Arial, sans-serif;
 
     &:before {
         content: '';

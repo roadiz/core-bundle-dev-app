@@ -45,7 +45,7 @@
 
     &.uk-active {
         z-index: 11100;
-        background: @maincontent-bg;
+        background: var(--maincontent-bg);
     }
 
     .uk-text-muted.uk-navbar-brand {
@@ -82,44 +82,46 @@
 
 .drawer-widget-nav {
     display: flex;
+    padding: 8px 0;
     align-items: center;
-    justify-content: space-between;
     border-bottom:1px dashed @documents-widget-border;
 
-    &::before,
-    &::after {
-        content: none;
-    }
-
-    .uk-navbar-nav {
-        float: none;
+    &__head {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+        padding: 0 8px;
     }
 
-    .uk-navbar-brand {
+    &__title {
         .widgetNavBarBrand();
-
         height: auto;
 
         .uk-text-muted {
             margin: 0 0 0 1em;
             font-size: 11px;
         }
-    }
 
-    .uk-icon-rz-documents{
-        font-size:28px;
+        [class*=uk-icon-] {
+            font-size: 22px;
+        }
+        [class*=uk-icon-rz-] {
+            font-size: 28px;
+        }
+
+        .uk-icon-flag {
+            font-size: 14px;
+        }
     }
 
     .documents-widget-quick-creation{
         margin:0;
     }
 
-    .uk-navbar-content {
-        padding: 11px 10px;
+    &__content {
+        padding: 0 10px;
         height: auto;
+        margin-left: auto;
     }
 
     .uk-button{
@@ -141,7 +143,7 @@
         }
 
         &.rz-coming-soon {
-            .opacity(0.5);
+            opacity: 0.5;
             pointer-events: none;
         }
     }
@@ -149,7 +151,7 @@
 
 .drawer-widget-sortable-container {
     position: relative;
-    background: #ffffff;
+    background: var(--contrasted-bg);
     @media (min-width: @screen-sm-min) {
         min-height: 108px;
     }

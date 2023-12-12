@@ -61,7 +61,7 @@ class TranslationsController extends RozierApp
                 $handler = $this->handlerFactory->getHandler($translation);
                 $handler->makeDefault();
                 $msg = $this->getTranslator()->trans('translation.%name%.made_default', ['%name%' => $translation->getName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $translation);
                 $this->dispatchEvent(new TranslationUpdatedEvent($translation));
                 /*
                  * Force redirect to avoid resending form when refreshing page
@@ -106,7 +106,7 @@ class TranslationsController extends RozierApp
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em()->flush();
             $msg = $this->getTranslator()->trans('translation.%name%.updated', ['%name%' => $translation->getName()]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $translation);
 
             $this->dispatchEvent(new TranslationUpdatedEvent($translation));
             /*
@@ -144,7 +144,7 @@ class TranslationsController extends RozierApp
             $this->em()->flush();
 
             $msg = $this->getTranslator()->trans('translation.%name%.created', ['%name%' => $translation->getName()]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $translation);
 
             $this->dispatchEvent(new TranslationCreatedEvent($translation));
             /*
@@ -184,7 +184,7 @@ class TranslationsController extends RozierApp
                 $this->em()->remove($translation);
                 $this->em()->flush();
                 $msg = $this->getTranslator()->trans('translation.%name%.deleted', ['%name%' => $translation->getName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $translation);
                 $this->dispatchEvent(new TranslationDeletedEvent($translation));
 
                 return $this->redirectToRoute('translationsHomePage');

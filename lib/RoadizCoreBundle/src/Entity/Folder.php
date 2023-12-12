@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -101,11 +101,12 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         nullable: false,
         options: ['default' => '#000000']
     )]
+    #[Assert\Length(max: 7)]
     #[SymfonySerializer\Groups(['folder', 'folder_color'])]
     protected string $color = '#000000';
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'folder_name', type: 'string', unique: true, nullable: false)]
+    #[ORM\Column(name: 'folder_name', type: 'string', length: 250, unique: true, nullable: false)]
     #[Serializer\Groups(['folder', 'document_folders'])]
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
     #[SymfonySerializer\SerializedName('slug')]

@@ -305,6 +305,27 @@
     } %}
 {% endblock custom_forms_widget %}
 
+{%- block radio_widget -%}
+    <input type="radio" title="{{ label|trans }}" aria-label="{{ label|trans }}" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
+{%- endblock radio_widget -%}
+
+{% block image_crop_alignment_widget %}
+    {% apply spaceless %}
+    <div class="image-crop-alignments" {{ block('widget_container_attributes') }}>
+        <div class="uk-form-group uk-margin-bottom">
+        {%- for child in form %}
+            {{- form_widget(child) -}}
+            {{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}
+            {% if child.vars.value == null %}
+                </div>
+                <div class="image-crop-alignments__grid uk-form-group uk-margin-bottom">
+            {% endif %}
+        {% endfor -%}
+        </div>
+    </div>
+    {% endapply %}
+{% endblock %}
+
 {% block checkbox_widget -%}
     <input class="rz-boolean-checkbox"
            type="checkbox"
@@ -365,29 +386,31 @@
             {% if label is empty -%}
                 {% set label = name|humanize %}
             {%- endif -%}
-            <nav class="drawer-widget-nav children-nodes-nav uk-navbar">
-                <ul class="uk-navbar-nav">
-                    <li class="uk-navbar-brand"><i class="uk-icon-rz-node-tree"></i></li>
-                    <li class="uk-navbar-brand label">{{ label|trans }}</li>
-                </ul>
-                <div class="uk-navbar-flip">
-                    <ul class="uk-navbar-nav">
-                        <li class="children-nodes-quick-creation"
-                            data-uk-dropdown="{mode:'click'}">
-                            <div class="uk-button"><i class="uk-icon-rz-plus-simple"></i></div>
-                            <div class="uk-dropdown uk-dropdown-navbar">
-                                {% for linkedType in linkedTypes %}
-                                    <a class="uk-button uk-button-small"
-                                        href="#"
-                                        data-children-node-type="{{ linkedType.getId }}"
-                                        data-children-parent-node="{{ nodeTree.rootNode.getId }}"
-                                        data-translation-id="{{ nodeTree.translation.getId }}">
-                                        <i class="uk-icon-rz-plus-simple"></i>{{ linkedType.getDisplayName }}
-                                    </a>
-                                {% endfor %}
-                            </div>
-                        </li>
-                    </ul>
+            <nav class="drawer-widget-nav children-nodes-nav">
+                <div class="drawer-widget-nav__head">
+                    <div class="drawer-widget-nav__title"><i class="uk-icon-rz-node-tree"></i></div>
+                    <div class="drawer-widget-nav__title label">{{ label|trans }}</div>
+                </div>
+                <div class="drawer-widget-nav__content">
+                    {% if linkedTypes|length %}
+                        <ul class="uk-navbar-nav">
+                            <li class="children-nodes-quick-creation"
+                                data-uk-dropdown="{mode:'click'}">
+                                <div class="uk-button"><i class="uk-icon-rz-plus-simple"></i></div>
+                                <div class="uk-dropdown uk-dropdown-navbar">
+                                    {% for linkedType in linkedTypes %}
+                                        <a class="uk-button uk-button-small"
+                                           href="#"
+                                           data-children-node-type="{{ linkedType.getId }}"
+                                           data-children-parent-node="{{ nodeTree.rootNode.getId }}"
+                                           data-translation-id="{{ nodeTree.translation.getId }}">
+                                            <i class="uk-icon-rz-plus-simple"></i>{{ linkedType.getDisplayName }}
+                                        </a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        </ul>
+                    {% endif %}
                 </div>
             </nav>
             <div class="children-nodes-tree">

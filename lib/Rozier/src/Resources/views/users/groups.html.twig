@@ -31,7 +31,7 @@
                         {% apply spaceless %}
                             {% if is_granted(group) %}
                                 <a class="uk-button uk-button-content uk-button-small" href="{{ path('groupsEditRolesPage', { id: group.getId }) }}" title="{% trans %}roles{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-star"></i></a>
-                                <a class="uk-button uk-button-content uk-button-small uk-button-table-delete" href="{{ path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }) }}" title="{% trans %}unlink{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                                <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('usersRemoveGroupsPage', { userId: user.getId, groupId: group.getId }) }}" title="{% trans %}unlink{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
                             {% endif %}
                         {% endapply %}
                         </td>

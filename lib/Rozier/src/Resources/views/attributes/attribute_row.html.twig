@@ -1,0 +1,23 @@
+<td class="name">
+    <a href="{{ path('attributesEditPage', { id: item.id }) }}">
+        <span class="color" style="background-color:{{ item.color|default('transparent') }};"></span>
+        {{ item.attributeTranslations.first.label|default(item.code) -}}
+    </a>
+</td>
+<td>{{- item.typeLabel|trans -}}</td>
+<td>{%- if item.group -%}
+        {{- item.group.name -}}
+    {%- endif -%}</td>
+<td class="table-actions-row">
+    {% apply spaceless %}
+        {% if hasBulkActions %}
+            <div class="bulk-selection">
+                <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ item.id }}" />
+            </div>
+        {% endif %}
+        <a class="uk-button uk-button-content uk-button-small" href="{{ path('attributesEditPage', { id: item.id }) }}" title="{% trans %}edit{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+        {% if is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') %}
+            <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('attributesDeletePage', { id: item.id }) }}" title="{% trans %}delete{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></a>
+        {% endif %}
+    {% endapply %}
+</td>

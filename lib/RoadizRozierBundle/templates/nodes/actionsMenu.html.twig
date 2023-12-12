@@ -1,7 +1,7 @@
 {# Override vendor/roadiz/rozier/src/Resources/views/nodes/actionsMenu.html.twig #}
 {% apply spaceless %}
     <nav data-roadiz-rozier-bundle data-action-menu class="actions-menu uk-navbar">
-        {% if node and not readOnly %}
+        {% if node and not readOnly and is_granted('DELETE', node) %}
             {# Delete current node #}
             {% if workflow_can(node, 'undelete') %}
                 <a role="button" tabindex="0" class="uk-button uk-button-danger" href="{{ path('nodesUndeletePage', { nodeId: node.getId}) }}">
@@ -118,16 +118,36 @@
                     {% endblock %}
 
                     {% if not node.isLocked %}
-                        <a class="uk-button rz-no-ajax-link" href="{{ path('nodesDuplicatePage', { nodeId:node.getId }) }}"><i class="uk-icon-rz-duplicate"></i><span class="label">{% trans %}duplicate{% endtrans %}</span></a>
-                        <a class="uk-button" href="{{ path('nodesTranstypePage', { nodeId:node.getId }) }}"><i class="uk-icon-bolt"></i><span class="label">{% trans %}transtype{% endtrans %}</span></a>
+                        {% if is_granted('DUPLICATE', node) %}
+                            <a
+                                class="uk-button rz-no-ajax-link"
+                                href="{{ path('nodesDuplicatePage', { nodeId:node.getId }) }}"
+                            >
+                                <i class="uk-icon-rz-duplicate"></i><span class="label">{% trans %}duplicate{% endtrans %}</span>
+                            </a>
+                        {% endif %}
+                        {% if is_granted('EDIT_ATTRIBUTE', node) %}
+                        <a
+                            class="uk-button"
+                            href="{{ path('nodesTranstypePage', { nodeId:node.getId }) }}"
+                        ><i class="uk-icon-bolt"></i><span class="label">{% trans %}transtype{% endtrans %}</span></a>
+                        {% endif %}
                     {% endif %}
-
                     {% block node_add_child %}
-                        <a class="uk-button" href="{{ path('nodesAddChildPage', { nodeId:node.getId }) }}"><i class="uk-icon-rz-plus"></i><span class="label">{% trans %}add.child{% endtrans %}</span></a>
+                        <a
+                            class="uk-button"
+                            href="{{ path('nodesAddChildPage', { nodeId:node.getId }) }}"
+                        ><i class="uk-icon-rz-plus"></i><span class="label">{% trans %}add.child{% endtrans %}</span></a>
                     {% endblock %}
                     {% block node_export %}
                         {% if node.hidingChildren and translation %}
-                            <a class="uk-button rz-no-ajax-link" href="{{ path('nodesExportNodeXlsxPage', {parentNodeId: node.id, translationId:translation.id}) }}"><i class="uk-icon-file-excel-o"></i> <span class="label">{{ 'export_format.excel.%language%'|trans({'%language%':translation.name }) }}</span></a>
+                            <a
+                                class="uk-button rz-no-ajax-link"
+                                href="{{ path('nodesExportNodeXlsxPage', {parentNodeId: node.id, translationId:translation.id}) }}"
+                            >
+                                <i class="uk-icon-file-excel-o"></i>
+                                <span class="label">{{ 'export_format.excel.%language%'|trans({'%language%':translation.name }) }}</span>
+                            </a>
                         {% endif %}
                     {% endblock %}
                 </nav>
@@ -136,7 +156,7 @@
             {#
             # Node parameters
             #}
-            {% if node and (is_granted('ROLE_ACCESS_NODES_STATUS')) %}
+            {% if node and (is_granted('EDIT_STATUS', node)) %}
                 <div role="button" tabindex="0" class="node-statuses node-parameters with-subnav">
                     <header><i class="uk-icon-rz-settings-general"></i><span class="label"><span class="label-text">{% trans %}parameters{% endtrans %}</span></span></header>
                     <ul>

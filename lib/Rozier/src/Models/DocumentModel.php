@@ -13,9 +13,6 @@ use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/**
- * @package Themes\Rozier\Models
- */
 final class DocumentModel implements ModelInterface
 {
     public static array $thumbnailArray = [
@@ -112,10 +109,10 @@ final class DocumentModel implements ModelInterface
             $editUrl = null;
         }
 
-        $embedFinder = $this->embedFinderFactory->createForPlatform(
+        $embedFinder = $this->embedFinderFactory?->createForPlatform(
             $this->document->getEmbedPlatform(),
             $this->document->getEmbedId()
-        );
+        ) ?? null;
 
         return [
             'id' => $id,
@@ -143,7 +140,7 @@ final class DocumentModel implements ModelInterface
                 : $this->document->getShortType(),
             'shortMimeType' => $this->document->getShortMimeType(),
             'thumbnail_80' => $thumbnail80Url,
-            'url' => $previewUrl ?? $thumbnail80Url ?? null,
+            'url' => $previewUrl ?? $thumbnail80Url,
         ];
     }
 }

@@ -157,6 +157,24 @@
                 <source>password_should_be_at_least_{{length}}_characters_long</source>
                 <target state="translated">Le mot de passe doit posséder au minimum {{length}} caractères</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.defaultRealm" approved="yes">
+                <source>attributes.defaultRealm</source>
+                <target state="final">Domaine sécurisé par défaut</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.defaultRealm.help" approved="yes">
+                <source>attributes.defaultRealm.help</source>
+                <target state="final">Choisissez un domaine sécurisé pour que tous les attributs créés soient protégés dans l'API. Cela n'affectera que les nouveaux attributs.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.defaultRealm.placeholder" approved="yes">
+                <source>attributes.defaultRealm.placeholder</source>
+                
+                <target state="final">-- Aucun domaine sécurisé par défaut --</target>
+            <note>Default text when no realm is attached to an attribute</note></trans-unit>
+      <trans-unit xml:space="preserve" id="attributeValue.realm.placeholder" approved="yes">
+                <source>attributeValue.realm.placeholder</source>
+                
+                <target state="final">-- Aucun domaine sécurisé --</target>
+            <note>Default text when no realm is attached to an attribute-value</note></trans-unit>
     </body>
   </file>
 </xliff>

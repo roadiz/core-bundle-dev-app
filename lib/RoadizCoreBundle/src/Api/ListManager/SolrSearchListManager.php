@@ -15,6 +15,7 @@ final class SolrSearchListManager extends AbstractEntityListManager
     protected ?SearchResultsInterface $searchResults;
     private array $criteria;
     private bool $searchInTags;
+    private ?string $query = null;
 
     public function __construct(
         ?Request $request,
@@ -34,31 +35,18 @@ final class SolrSearchListManager extends AbstractEntityListManager
             throw new \InvalidArgumentException('Cannot handle a NULL request.');
         }
 
-        $query = trim($this->request->query->get('search') ?? '');
+        $this->handleRequestQuery($disabled);
 
-        if (
-            $this->request->query->has('page') &&
-            $this->request->query->get('page') > 1
-        ) {
-            $this->setPage((int) $this->request->query->get('page'));
-        } else {
-            $this->setPage(1);
+        if (null === $this->query) {
+            throw new \InvalidArgumentException('Cannot handle a NULL query.');
         }
-
-        if (
-            $this->request->query->has('itemsPerPage') &&
-            $this->request->query->get('itemsPerPage') > 0
-        ) {
-            $this->setItemPerPage((int) $this->request->query->get('itemsPerPage'));
-        }
-
         /*
          * Query must be longer than 3 chars or Solr might crash
          * on highlighting fields.
          */
-        if (\mb_strlen($query) > 3) {
+        if (\mb_strlen($this->query) > 3) {
             $this->searchResults = $this->searchHandler->searchWithHighlight(
-                $query, # Use ?q query parameter to search with
+                $this->query, # Use ?q query parameter to search with
                 $this->criteria, # a simple criteria array to filter search results
                 $this->getItemPerPage(), # result count
                 $this->searchInTags, # Search in tags too,
@@ -67,7 +55,7 @@ final class SolrSearchListManager extends AbstractEntityListManager
             );
         } else {
             $this->searchResults = $this->searchHandler->search(
-                $query, # Use ?q query parameter to search with
+                $this->query, # Use ?q query parameter to search with
                 $this->criteria, # a simple criteria array to filter search results
                 $this->getItemPerPage(), # result count
                 $this->searchInTags, # Search in tags too,
@@ -75,6 +63,12 @@ final class SolrSearchListManager extends AbstractEntityListManager
                 $this->getPage()
             );
         }
+    }
+
+    protected function handleSearchParam(string $search): void
+    {
+        parent::handleSearchParam($search);
+        $this->query = trim($search);
     }
 
     /**

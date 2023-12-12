@@ -5,9 +5,19 @@
         <div class="tree-head tagtree-head">
             <h4>{% trans %}tagTree{% endtrans %}</h4>
             {% if tagTree.getRootTag == null %}
-            <a href="{{ path('tagsAddPage') }}" class="tree-btn-add" id="tagtree-btn-add"><i class="uk-icon-rz-plus-simple"></i>{% trans %}add.a.tag{% endtrans %}</a>
+            <a href="{{ path('tagsAddPage') }}"
+               title="{% trans %}add.a.tag{% endtrans %}"
+               data-uk-tooltip="{animation:true}"
+               class="uk-button tree-btn-add"
+               id="tagtree-btn-add"
+            ><i class="uk-icon-rz-plus-simple"></i></a>
             {% else %}
-            <a href="{{ path('tagsAddChildPage', { tagId : tagTree.getRootTag.getId }) }}" class="tree-btn-add" id="tagtree-btn-add"><i class="uk-icon-rz-plus-simple"></i>{% trans %}add.a.child.tag{% endtrans %}</a>
+            <a href="{{ path('tagsAddChildPage', { tagId : tagTree.getRootTag.getId }) }}"
+               title="{% trans %}add.a.child.tag{% endtrans %}"
+               data-uk-tooltip="{animation:true}"
+               class="uk-button tree-btn-add"
+               id="tagtree-btn-add"
+            ><i class="uk-icon-rz-plus-simple"></i></a>
             {% endif %}
         </div>
     {% endif %}

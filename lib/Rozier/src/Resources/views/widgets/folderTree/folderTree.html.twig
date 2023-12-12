@@ -5,14 +5,20 @@
             <div class="tree-head foldertree-head">
                 <h4>{% trans %}folderTree{% endtrans %}</h4>
                 {% if folderTree.getRootFolder == null %}
-                <a href="{{ path('foldersAddPage') }}" class="tree-btn-add" id="foldertree-btn-add">
-                    <i class="uk-icon-rz-plus-simple"></i>{% trans %}add.a.folder{% endtrans %}
+                <a href="{{ path('foldersAddPage') }}"
+                   data-uk-tooltip="{animation:true}"
+                   title="{% trans %}add.a.folder{% endtrans %}"
+                   class="uk-button tree-btn-add"
+                   id="foldertree-btn-add">
+                    <i class="uk-icon-rz-plus-simple"></i>
                 </a>
                 {% else %}
                 <a href="{{ path('foldersAddChildPage', { folderId : folderTree.rootFolder.id }) }}"
-                   class="tree-btn-add"
+                   class="uk-button tree-btn-add"
+                   data-uk-tooltip="{animation:true}"
+                   title="{% trans %}add.child.folder{% endtrans %}"
                    id="foldertree-btn-add">
-                    <i class="uk-icon-rz-plus-simple"></i>{% trans %}add.child.folder{% endtrans %}
+                    <i class="uk-icon-rz-plus-simple"></i>
                 </a>
                 {% endif %}
             </div>

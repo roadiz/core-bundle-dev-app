@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -18,7 +18,6 @@ use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\CopyrightValidFilter;
 use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
-use RZ\Roadiz\Documents\Models\DisplayableInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentTrait;
 use RZ\Roadiz\Documents\Models\FileHashInterface;
@@ -27,6 +26,7 @@ use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 use RZ\Roadiz\Documents\Models\TimeableInterface;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Documents entity represent a file on server with datetime and naming.
@@ -69,7 +69,7 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
     ]),
     ApiFilter(CopyrightValidFilter::class)
 ]
-class Document extends AbstractDateTimed implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, DisplayableInterface, FileHashInterface
+class Document extends AbstractDateTimed implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface
 {
     use DocumentTrait;
 
@@ -88,6 +88,37 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Groups(['document_copyright'])]
     #[Serializer\Groups(['document_copyright'])]
     protected ?\DateTime $copyrightValidUntil = null;
+
+    /**
+     * @var string|null Image crop alignment.
+     *
+     * The possible values are:
+     *
+     * top-left
+     * top
+     * top-right
+     * left
+     * center (default)
+     * right
+     * bottom-left
+     * bottom
+     * bottom-right
+     */
+    #[ORM\Column(name: 'image_crop_alignment', type: 'string', length: 12, nullable: true)]
+    #[SymfonySerializer\Ignore]
+    #[Assert\Length(max: 12)]
+    #[Assert\Choice(choices: [
+        'top-left',
+        'top',
+        'top-right',
+        'left',
+        'center',
+        'right',
+        'bottom-left',
+        'bottom',
+        'bottom-right'
+    ])]
+    protected ?string $imageCropAlignment = null;
 
     #[ORM\ManyToOne(
         targetEntity: Document::class,
@@ -108,30 +139,34 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     ]
     protected bool $raw = false;
 
-    #[ORM\Column(name: 'embedId', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'embedId', type: 'string', length: 250, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type("string")]
+    #[Assert\Length(max: 250)]
     protected ?string $embedId = null;
 
     #[ORM\Column(name: 'file_hash', type: 'string', length: 64, unique: false, nullable: true)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 64)]
     protected ?string $fileHash = null;
 
     #[ORM\Column(name: 'file_hash_algorithm', type: 'string', length: 15, unique: false, nullable: true)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 15)]
     protected ?string $fileHashAlgorithm = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "exact")]
     #[ApiFilter(RoadizFilter\NotFilter::class)]
-    #[ORM\Column(name: 'embedPlatform', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'embedPlatform', type: 'string', length: 100, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 100)]
     protected ?string $embedPlatform = null;
     /**
      * @var Collection<int, NodesSourcesDocuments>
@@ -174,7 +209,6 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[ORM\OneToMany(
         mappedBy: 'document',
         targetEntity: DocumentTranslation::class,
-        fetch: 'EAGER',
         orphanRemoval: true
     )]
     #[SymfonySerializer\Ignore]
@@ -185,20 +219,22 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
      * @var string|null
      */
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
-    #[ORM\Column(name: 'filename', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'filename', type: 'string', length: 250, nullable: true)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 250)]
     private ?string $filename = null;
     /**
      * @var string|null
      */
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "exact")]
     #[ApiFilter(RoadizFilter\NotFilter::class)]
-    #[ORM\Column(name: 'mime_type', type: 'string', nullable: true)]
+    #[ORM\Column(name: 'mime_type', type: 'string', length: 255, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 255)]
     private ?string $mimeType = null;
     /**
      * @var Collection<int, DocumentInterface>
@@ -210,8 +246,9 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     /**
      * @var string
      */
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', length: 100)]
     #[SymfonySerializer\Ignore]
+    #[Assert\Length(max: 100)]
     #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
     private string $folder = '';
@@ -254,6 +291,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
+    #[Assert\Length(max: 7)]
     private ?string $imageAverageColor = null;
     /**
      * @var int|null The filesize in bytes.
@@ -799,6 +837,17 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     public function setEmbedId(?string $embedId): static
     {
         $this->embedId = $embedId;
+        return $this;
+    }
+
+    public function getImageCropAlignment(): ?string
+    {
+        return $this->imageCropAlignment;
+    }
+
+    public function setImageCropAlignment(?string $imageCropAlignment): Document
+    {
+        $this->imageCropAlignment = $imageCropAlignment;
         return $this;
     }
 }

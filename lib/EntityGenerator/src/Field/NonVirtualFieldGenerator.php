@@ -52,18 +52,6 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         };
     }
 
-    protected function getMaxDefaultValuesLength(): int
-    {
-        // get max length of exploded default values
-        $max = 0;
-        foreach (explode(',', $this->field->getDefaultValues()) as $value) {
-            $value = trim($value);
-            $max = max($max, \mb_strlen($value));
-        }
-
-        return $max > 0 ? $max : 250;
-    }
-
     protected function isExcludingFieldFromJmsSerialization(): bool
     {
         return false;

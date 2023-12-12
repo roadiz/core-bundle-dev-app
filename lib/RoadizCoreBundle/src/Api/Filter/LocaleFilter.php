@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\Filter;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Util\QueryNameGeneratorInterface;
+use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Exception\FilterValidationException;
+use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 final class LocaleFilter extends GeneratedEntityFilter
 {
@@ -23,34 +24,23 @@ final class LocaleFilter extends GeneratedEntityFilter
     public function __construct(
         PreviewResolverInterface $previewResolver,
         ManagerRegistry $managerRegistry,
-        ?RequestStack $requestStack = null,
-        string $generatedEntityNamespacePattern = '#^App\\\GeneratedEntity\\\NS(?:[a-zA-Z]+)$#',
         LoggerInterface $logger = null,
-        array $properties = null
+        array $properties = null,
+        NameConverterInterface $nameConverter = null,
+        string $generatedEntityNamespacePattern = '#^App\\\GeneratedEntity\\\NS(?:[a-zA-Z]+)$#'
     ) {
-        parent::__construct($managerRegistry, $requestStack, $generatedEntityNamespacePattern, $logger, $properties);
+        parent::__construct($managerRegistry, $logger, $properties, $nameConverter, $generatedEntityNamespacePattern);
         $this->previewResolver = $previewResolver;
     }
 
-
-    /**
-     * Passes a property through the filter.
-     *
-     * @param string $property
-     * @param mixed $value
-     * @param QueryBuilder $queryBuilder
-     * @param QueryNameGeneratorInterface $queryNameGenerator
-     * @param string $resourceClass
-     * @param string|null $operationName
-     * @throws \Exception
-     */
     protected function filterProperty(
         string $property,
         $value,
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        string $operationName = null
+        ?Operation $operation = null,
+        array $context = []
     ): void {
         if ($property !== self::PROPERTY) {
             return;

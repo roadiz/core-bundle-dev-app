@@ -35,9 +35,6 @@ use Themes\Rozier\Traits\VersionedControllerTrait;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers\Tags
- */
 class TagsController extends RozierApp
 {
     use VersionedControllerTrait;
@@ -68,7 +65,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -105,7 +102,7 @@ class TagsController extends RozierApp
      * @return Response
      * @throws RuntimeError
      */
-    public function editTranslatedAction(Request $request, int $tagId, ?int $translationId = null)
+    public function editTranslatedAction(Request $request, int $tagId, ?int $translationId = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -166,6 +163,10 @@ class TagsController extends RozierApp
             'disabled' => $this->isReadOnly,
         ]);
         $form->handleRequest($request);
+        $isJsonRequest =
+            $request->isXmlHttpRequest() ||
+            \in_array('application/json', $request->getAcceptableContentTypes())
+        ;
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -194,24 +195,31 @@ class TagsController extends RozierApp
                 $msg = $this->getTranslator()->trans('tag.%name%.updated', [
                     '%name%' => $tagTranslation->getName(),
                 ]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $tag);
 
                 /*
                  * Force redirect to avoid resending form when refreshing page
                  */
-                return $this->getPostUpdateRedirection($tagTranslation);
+                if (!$isJsonRequest) {
+                    return $this->getPostUpdateRedirection($tagTranslation);
+                }
+
+                return new JsonResponse([
+                    'status' => 'success',
+                    'errors' => [],
+                ], Response::HTTP_PARTIAL_CONTENT);
             }
 
             /*
              * Handle errors when Ajax POST requests
              */
-            if ($request->isXmlHttpRequest()) {
+            if ($isJsonRequest) {
                 $errors = $this->getErrorsAsArray($form);
                 return new JsonResponse([
                     'status' => 'fail',
                     'errors' => $errors,
                     'message' => $this->getTranslator()->trans('form_has_errors.check_you_fields'),
-                ], JsonResponse::HTTP_BAD_REQUEST);
+                ], Response::HTTP_BAD_REQUEST);
             }
         }
         /** @var TranslationRepository $translationRepository */
@@ -246,7 +254,7 @@ class TagsController extends RozierApp
      * @return Response
      * @throws RuntimeError
      */
-    public function bulkDeleteAction(Request $request)
+    public function bulkDeleteAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS_DELETE');
 
@@ -299,7 +307,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function addAction(Request $request)
+    public function addAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -333,7 +341,7 @@ class TagsController extends RozierApp
                 $this->dispatchEvent(new TagCreatedEvent($tag));
 
                 $msg = $this->getTranslator()->trans('tag.%name%.created', ['%name%' => $tag->getTagName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $tag);
                 /*
                  * Force redirect to avoid resending form when refreshing page
                  */
@@ -354,7 +362,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function editSettingsAction(Request $request, int $tagId)
+    public function editSettingsAction(Request $request, int $tagId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -372,6 +380,10 @@ class TagsController extends RozierApp
         ]);
 
         $form->handleRequest($request);
+        $isJsonRequest =
+            $request->isXmlHttpRequest() ||
+            \in_array('application/json', $request->getAcceptableContentTypes())
+        ;
 
         if ($form->isSubmitted()) {
             if ($form->isValid()) {
@@ -382,7 +394,7 @@ class TagsController extends RozierApp
                 $this->dispatchEvent(new TagUpdatedEvent($tag));
 
                 $msg = $this->getTranslator()->trans('tag.%name%.updated', ['%name%' => $tag->getTagName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $this->publishConfirmMessage($request, $msg, $tag);
 
                 /*
                  * Force redirect to avoid resending form when refreshing page
@@ -395,7 +407,7 @@ class TagsController extends RozierApp
             /*
              * Handle errors when Ajax POST requests
              */
-            if ($request->isXmlHttpRequest()) {
+            if ($isJsonRequest) {
                 $errors = $this->getErrorsAsArray($form);
                 return new JsonResponse([
                     'status' => 'fail',
@@ -419,7 +431,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function treeAction(Request $request, int $tagId, ?int $translationId = null)
+    public function treeAction(Request $request, int $tagId, ?int $translationId = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -453,7 +465,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function deleteAction(Request $request, int $tagId)
+    public function deleteAction(Request $request, int $tagId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS_DELETE');
 
@@ -482,8 +494,12 @@ class TagsController extends RozierApp
                 $this->em()->remove($tag);
                 $this->em()->flush();
 
-                $msg = $this->getTranslator()->trans('tag.%name%.deleted', ['%name%' => $tag->getTranslatedTags()->first()->getName()]);
-                $this->publishConfirmMessage($request, $msg);
+                $msg = $this->getTranslator()->trans('tag.%name%.deleted', [
+                    '%name%' => $tag->getTranslatedTags()->first() ?
+                        $tag->getTranslatedTags()->first()->getName() :
+                        $tag->getTagName(),
+                ]);
+                $this->publishConfirmMessage($request, $msg, $tag);
 
                 /*
                  * Force redirect to avoid resending form when refreshing page
@@ -508,7 +524,7 @@ class TagsController extends RozierApp
      *
      * @return Response
      */
-    public function addChildAction(Request $request, int $tagId, ?int $translationId = null)
+    public function addChildAction(Request $request, int $tagId, ?int $translationId = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -550,7 +566,7 @@ class TagsController extends RozierApp
                     $this->dispatchEvent(new TagCreatedEvent($tag));
 
                     $msg = $this->getTranslator()->trans('child.tag.%name%.created', ['%name%' => $tag->getTagName()]);
-                    $this->publishConfirmMessage($request, $msg);
+                    $this->publishConfirmMessage($request, $msg, $tag);
 
                     return $this->redirectToRoute(
                         'tagsEditPage',
@@ -580,7 +596,7 @@ class TagsController extends RozierApp
      * @return Response
      * @throws RuntimeError
      */
-    public function editNodesAction(Request $request, int $tagId)
+    public function editNodesAction(Request $request, int $tagId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -618,7 +634,7 @@ class TagsController extends RozierApp
      *
      * @return FormInterface
      */
-    private function buildDeleteForm(Tag $tag)
+    private function buildDeleteForm(Tag $tag): FormInterface
     {
         $builder = $this->createFormBuilder()
             ->add('tagId', HiddenType::class, [
@@ -641,7 +657,7 @@ class TagsController extends RozierApp
     private function buildBulkDeleteForm(
         $referer = false,
         array $tagsIds = []
-    ) {
+    ): FormInterface {
         $builder = $this->formFactory
             ->createNamedBuilder('deleteForm')
             ->add('tagsIds', HiddenType::class, [
@@ -667,7 +683,7 @@ class TagsController extends RozierApp
      *
      * @return string
      */
-    private function bulkDeleteTags(array $data)
+    private function bulkDeleteTags(array $data): string
     {
         if (!empty($data['tagsIds'])) {
             $tagsIds = trim($data['tagsIds']);
@@ -711,7 +727,7 @@ class TagsController extends RozierApp
             $msg = $this->getTranslator()->trans('tag.%name%.updated', [
                 '%name%' => $entity->getName(),
             ]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $entity);
         }
     }
 

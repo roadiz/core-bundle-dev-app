@@ -25,32 +25,22 @@
 
 
 /* -------- COLORS -------- */
-
-@contrast-color:#00deab;
-@contrast-color-darker: #32cd9b;
-@contrast-color-darker-red: 50; @contrast-color-darker-green: 205; @contrast-color-darker-blue: 155;
-@contrast-color-50-rgba: rgba(0, 222, 171, 0.5);
-
 @global-background:             #EEEEEE;
 @grey-interface:                #4C4C4C;
 @grey-medium:                   #808080;
 @grey-verylight:                #F8F8F8;
 @icon-simple:                   #aaaaaa;
-@icon-simple-hover:             #808080;
-
+@icon-simple-hover:             @grey-medium;
 @black-title:                   #1a1a1a;
 
+@success-color: #32cd9b;
 @warning-color: #dd9000;
 @alert-color: #DD3C5B;
-@alert-color-red: 221;
-@alert-color-green: 60;
-@alert-color-blue: 91;
 
 @min-markdown-viewport-w: 1150px;
 
 
 /* -------- MATRIX -------- */
-
 @icon-size : 20px;
 @icons-picture : @icon-size*31 @icon-size*21;
 
@@ -64,25 +54,22 @@
 
 
 /* -------- FONTS -------- */
-
-@main-font: 'Roadiz', system-ui;
-@roadiz-mono-font: 'Roadiz Mono', monospace;
+@main-font: system-ui;
+@roadiz-mono-font: monospace;
 @roadiz-light: 300;
+@default-font-size: 13px;
 
 
 /* -------- ADMIN HEADERS -------- */
 
 @global-header-height: 140px;
-@global-header-color: #E5E5E5;
 @admin-entries-li-height: 54px;
 @mobile-admin-menu-height: 50px;
-@admin-entries-line-vertical: #C3C3C3;
+@global-header-color: #E5E5E5;
 @admin-entries-line-horizontal: #D8D8D8;
-@admin-entries-subnav-text-color: #808080;
+@admin-entries-subnav-text-color: @grey-medium;
 @admin-menu-color: #AEB0B2;
-@admin-menu-border-color: #E0E0E0;
 @admin-menu-info-color: #EBEBEB;
-
 
 /* -------- PANEL SIZES -------- */
 
@@ -105,7 +92,6 @@
 @user-panel-color: #4d4d4d;
 @user-panel-text-color: #d8d8d8;
 @user-panel-text-alt-color: #b7b7b7;
-//@user-panel-color-rgba: rgba(150, 150, 150, 0.7);
 @user-picture-size: 80px;
 @user-picture-size-mini: 70px;
 @user-panel-border-color: rgba(199,199,204, 0.14);
@@ -116,13 +102,11 @@
 @maintree-search-bg: #AAAAAA;
 @maintree-search-input-bg: #A3A3A3;
 @maintree-search-placeholder: #4C4C4C;
-@maintree-global-line: #b5b5b5;
 @maintree-global-bg: #D3D3D3;
 
 
 /* -------- MAIN CONTENT -------- */
-
-@maincontent-bg: #F8F8F8;
+@maincontent-bg: @grey-verylight;
 @maincontent-header-bg: #FBFBFB;
 
 
@@ -130,16 +114,63 @@
 
 @navbars-bg: #D8D8D8;
 
+@item-global-color: @grey-medium;
+@item-global-label-color: #999999;
+@item-global-border-color: #cecece;
+@item-global-background: @grey-verylight;
+
+:root {
+    --global-text-color: #222222;
+    --global-text-lighter-color: @grey-medium;
+    --global-title-color: #323232;
+    --global-border-color: #b5b5b5;
+    --global-border-lighter-color: #e2e2e2;
+    --global-border-color-15: darken(#b5b5b5, 15%);
+    --content-title-color: @black-title;
+    --global-header-color: @global-header-color;
+    --global-header-color-10: darken(@global-header-color, 10%);
+    --global-header-color-15: darken(@global-header-color, 15%);
+    --admin-entries-line-horizontal: @admin-entries-line-horizontal;
+    --admin-entries-subnav-text-color: @admin-entries-subnav-text-color;
+    --admin-menu-color: @admin-menu-color;
+    --admin-menu-color-25: darken(@admin-menu-color, 25%);
+    --admin-menu-info-color: @admin-menu-info-color;
+
+    --user-panel-color: @user-panel-color;
+    --user-panel-color-l25: lighten(@user-panel-color, 25%);
+    --user-panel-color-5: darken(@user-panel-color, 5%);
+    --user-panel-text-color: @user-panel-text-color;
+    --user-panel-text-alt-color: @user-panel-text-alt-color;
+    --user-panel-border-color: @user-panel-border-color;
+    --maintree-search-bg: @maintree-search-bg;
+    --maintree-search-input-bg: @maintree-search-input-bg;
+    --maintree-search-input-bg-4: darken(@maintree-search-input-bg, 4%);
+    --maintree-search-input-bg-8: darken(@maintree-search-input-bg, 8%);
+    --maintree-search-placeholder: @maintree-search-placeholder;
+    --maintree-global-bg: @maintree-global-bg;
+    --maintree-global-bg-3: darken(@maintree-global-bg, 3%);
+    --maintree-global-bg-30: darken(@maintree-global-bg, 30%);
+    --navbars-bg: @navbars-bg;
+    --maincontent-bg: @maincontent-bg;
+    --contrasted-bg: #ffffff;
+    --maincontent-bar-bg: #efefef;
+    --maincontent-header-bg: @maincontent-header-bg;
+
+    --accent-color: #00deab;
+    --accent-color-darker: #00c497;
+    --accent-color-darkest: #00ab83;
+}
+
 /**
  * Common brand and label definition for all widget fields
  * (documents, nodes, children, customForm and geotag)
  */
 .widgetNavBarBrand() {
     padding:0 10px 0 10px;
-    color:#666;
+    color: var(--global-title-color);
 
     &.label {
-        font-size: 12px;
+        font-size: @default-font-size;
         padding-left: 0px;
         margin-left: 0;
     }

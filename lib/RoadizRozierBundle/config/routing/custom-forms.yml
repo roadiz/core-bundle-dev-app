@@ -27,3 +27,8 @@ customFormsDuplicatePage:
     requirements: { id : "[0-9]+" }
     defaults:
         _controller: Themes\Rozier\Controllers\CustomForms\CustomFormsUtilsController::duplicateAction
+customFormsBulkDeletePage:
+    methods: [GET, POST]
+    path:     /bulk-delete
+    defaults:
+        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormsController::bulkDeleteAction

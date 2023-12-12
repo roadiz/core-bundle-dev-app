@@ -16,9 +16,6 @@ final class RedirectionController
 {
     private UrlGeneratorInterface $urlGenerator;
 
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     */
     public function __construct(UrlGeneratorInterface $urlGenerator)
     {
         $this->urlGenerator = $urlGenerator;

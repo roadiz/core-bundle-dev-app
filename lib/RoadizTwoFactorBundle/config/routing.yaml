@@ -1,0 +1,20 @@
+
+2fa_admin_two_factor:
+    path: /rz-admin/two-factor
+    defaults:
+        _controller: RZ\Roadiz\TwoFactorBundle\Controller\TwoFactorAdminController::twoFactorAdminAction
+
+2fa_admin_two_factor_disable:
+    path: /rz-admin/two-factor/disable
+    defaults:
+        _controller: RZ\Roadiz\TwoFactorBundle\Controller\TwoFactorAdminController::twoFactorDisableAction
+
+2fa_admin_two_factor_backup_codes:
+    path: /rz-admin/two-factor/backup-codes
+    defaults:
+        _controller: RZ\Roadiz\TwoFactorBundle\Controller\BackupCodesAdminController::backupCodesAdminAction
+
+2fa_qr_code_totp:
+    path: /rz-admin/two-factor/qr/totp
+    defaults:
+        _controller: RZ\Roadiz\TwoFactorBundle\Controller\QrCodeController::totpQrCodeAction

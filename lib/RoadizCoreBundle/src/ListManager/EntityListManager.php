@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\ListManager;
 
+use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
@@ -13,7 +14,6 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\StatusAwareRepository;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 
 /**
  * Perform basic filtering and search over entity listings.
@@ -28,7 +28,6 @@ class EntityListManager extends AbstractEntityListManager
     protected ?Paginator $paginator = null;
     protected ?array $orderingArray = null;
     protected ?array $filteringArray = null;
-    protected ?string $searchPattern = null;
     protected ?array $assignation = null;
     protected ?TranslationInterface $translation = null;
 
@@ -119,58 +118,29 @@ class EntityListManager extends AbstractEntityListManager
             unset($this->filteringArray["chroot"]); // remove placeholder
         }
 
-        if (false === $disabled && null !== $this->request) {
-            if (
-                $this->allowRequestSorting &&
-                $this->request->query->get('field') &&
-                $this->request->query->get('ordering')
-            ) {
-                $this->validateOrderingFieldName($this->request->query->get('field'));
-                $this->orderingArray = [
-                    $this->request->query->get('field') => $this->request->query->get('ordering')
-                ];
-                $this->queryArray['field'] = $this->request->query->get('field');
-                $this->queryArray['ordering'] = $this->request->query->get('ordering');
-            }
-
-            if ($this->allowRequestSearching && $this->request->query->get('search') != "") {
-                $this->searchPattern = $this->request->query->get('search');
-                $this->queryArray['search'] = $this->request->query->get('search');
-            }
-
-            if (
-                $this->request->query->has('item_per_page') &&
-                $this->request->query->get('item_per_page') > 0
-            ) {
-                $this->setItemPerPage((int) $this->request->query->get('item_per_page'));
-            }
-
-            if (
-                $this->request->query->has('page') &&
-                $this->request->query->get('page') > 1
-            ) {
-                $this->setPage((int) $this->request->query->get('page'));
-            } else {
-                $this->setPage(1);
-            }
-        } else {
-            /*
-             * Disable pagination and paginator
-             */
-            $this->disablePagination();
-        }
-
+        $this->handleRequestQuery($disabled);
         $this->createPaginator();
 
         if (
             $this->allowRequestSearching &&
             false === $disabled &&
-            null !== $this->request &&
-            $this->request->query->get('search') != ""
+            null !== $this->request
         ) {
-            $this->paginator->setSearchPattern($this->request->query->get('search'));
+            $search = $this->request->query->get('search');
+            if (\is_string($search) && $search !== "") {
+                $this->paginator->setSearchPattern($search);
+            }
         }
     }
+
+    protected function handleOrderingParam(string $field, string $ordering): void
+    {
+        $this->validateOrderingFieldName($field);
+        $this->orderingArray = [
+            $field => $ordering
+        ];
+    }
+
 
     protected function createPaginator(): void
     {
@@ -211,16 +181,6 @@ class EntityListManager extends AbstractEntityListManager
 
         $this->paginator->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
         $this->paginator->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
-    }
-
-    /**
-     * @return array
-     */
-    public function getAssignation(): array
-    {
-        return array_merge(parent::getAssignation(), [
-            'search' => $this->searchPattern,
-        ]);
     }
 
     /**

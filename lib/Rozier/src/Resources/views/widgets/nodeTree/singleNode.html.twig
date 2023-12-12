@@ -7,8 +7,8 @@
 {% set type = node.nodeType.name %}
 
 {% set classes = [
-type|lower,
-'nodetree-element'
+    type|lower,
+    'nodetree-element'
 ] %}
 
 {% set classes = classes|merge(['uk-nestable-item']) %}
@@ -52,7 +52,6 @@ type|lower,
     {% endif %}
 {% endif %}
 
-
 <li data-node-id="{{ node.id }}" class="{{ classes|join(' ') }}">
     {% if not mainNodeTree and not nodeTree.isStackTree %}
         <span class="nodetree-list-item-color"></span>
@@ -65,7 +64,7 @@ type|lower,
                 title="{{ node.nodeType.displayName }}"
                 data-uk-tooltip="{animation:true}"{%- endif -%}>
                 {% if not mainNodeTree and not nodeTree.isStackTree %}
-                    {% set thumbnail = source.documentsByFields.first.document %}
+                    {% set thumbnail = source.getOneDisplayableDocument %}
                     {% if thumbnail and (thumbnail.image or thumbnail.svg) and not thumbnail.private %}
                         <figure class="nodetree-element-img">
                             {{ thumbnail|display({"fit":"60x60", "quality":80}) }}

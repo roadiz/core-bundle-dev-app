@@ -118,6 +118,14 @@ class DocumentEditType extends AbstractType
             ]);
         }
 
+        if ($document->isProcessable()) {
+            $builder->add('imageCropAlignment', ImageCropAlignmentType::class, [
+                'label' => 'document.imageCropAlignment',
+                'help' => 'document.imageCropAlignment.help',
+                'required' => false,
+            ]);
+        }
+
         /*
          * Display thumbnails only if current Document is original.
          */

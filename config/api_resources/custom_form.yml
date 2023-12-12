@@ -1,23 +1,23 @@
 ---
 RZ\Roadiz\CoreBundle\Entity\CustomForm:
-    collectionOperations:
-        get:
+    operations:
+        ApiPlatform\Metadata\GetCollection:
             method: "GET"
-            normalization_context:
+            normalizationContext:
                 enable_max_depth: true
 
-    itemOperations:
-        get:
+        ApiPlatform\Metadata\Get:
             method: 'GET'
-            normalization_context:
+            normalizationContext:
                 enable_max_depth: true
 
         api_custom_forms_item_post:
             method: 'POST'
-            route_name: api_custom_forms_item_post
-            normalization_context:
+            class: ApiPlatform\Metadata\Post
+            routeName: api_custom_forms_item_post
+            normalizationContext:
                 enable_max_depth: true
-            openapi_context:
+            openapiContext:
                 summary: Post a user custom form
                 description: |
                     Post a user custom form
@@ -59,10 +59,11 @@ RZ\Roadiz\CoreBundle\Entity\CustomForm:
 
         api_custom_forms_item_definition:
             method: 'GET'
-            route_name: api_custom_forms_item_definition
-            normalization_context:
+            class: ApiPlatform\Metadata\Get
+            routeName: api_custom_forms_item_definition
+            normalizationContext:
                 enable_max_depth: true
-            openapi_context:
+            openapiContext:
                 summary: Get a custom form definition for frontend
                 description: |
                     Get a custom form definition for frontend

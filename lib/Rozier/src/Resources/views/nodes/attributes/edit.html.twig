@@ -18,27 +18,21 @@
         </header>
 
         <article class="content content-settings-list">
-            <div class="content-table-cont">
+            <div class="content-table-cont uk-margin">
                 <table class="attribute-value-forms content-table settings uk-table attributes">
-                    <thead>
-                        <tr>
-                            <th>{% trans %}attributes.code{% endtrans %}</th>
-                            <th class="uk-visible-large">{% trans %}attributes.group{% endtrans %}</th>
-                            <th>{% trans %}attributes.value{% endtrans %}</th>
-                            <th>{% trans %}actions{% endtrans %}</th>
-                        </tr>
-                    </thead>
                     <tbody class="uk-sortable" data-uk-sortable="{animation:0, dragCustomClass:'setting-row rz-node-type-field-dragged', handleClass:'attribute-value-col'}">
                         {% for attribute_value_translation_form in attribute_value_translation_forms %}
                             {% set attributeValue = attribute_value_translation_form.vars.data.attributeValue %}
                             <tr class="setting-row" data-position="{{ attributeValue.position }}" data-id="{{ attributeValue.getId }}">
-                                <td class="name attribute-value-col">
-                                    <span class="color" style="background-color:{{ attributeValue.attribute.color|default('transparent') }};"></span>
-                                    {{- attribute_value_translation_form.vars.data|attribute_label -}}
-                                </td>
-                                <td class="uk-visible-large">{%- if attributeValue.attribute.group %}
+                                <th class="name attribute-value-col">
+                                    <span class="color" style="--data-color: {{ attributeValue.attribute.color|default('transparent') }};"></span>
+                                    <strong>{{- attribute_value_translation_form.vars.data|attribute_label -}}</strong>
+                                </th>
+                                <td class="uk-visible-xlarge">
+                                    {%- if attributeValue.attribute.group %}
                                         {{- attributeValue.attribute.group|attribute_group_label -}}
-                                    {% endif -%}</td>
+                                    {% endif -%}
+                                </td>
                                 <td>
                                     {% form_theme attribute_value_translation_form '@RoadizRozier/horizontalForms.html.twig' %}
                                     {{ form_start(attribute_value_translation_form, {
@@ -57,7 +51,7 @@
                                 </td>
                                 <td class="table-actions-row">
                                     {% apply spaceless %}
-                                        <a class="uk-button uk-button-content uk-button-small uk-button-settings-save no-ajax-link uk-button-table-save"
+                                        <a class="uk-button uk-button-content uk-button-small uk-button-settings-save no-ajax-link uk-button-success"
                                            href="#{{ attribute_value_translation_form.vars.id }}"
                                            title="{% trans %}save{% endtrans %}"
                                            data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-save-mini"></i></a>
@@ -74,7 +68,7 @@
                                         {% endif %}
 
                                         {% if translation and (translation.defaultTranslation or attributeValue.attributeValueTranslations.count == 1) %}
-                                            <a class="uk-button uk-button-content uk-button-small uk-button-table-delete"
+                                            <a class="uk-button uk-button-content uk-button-small uk-button-danger"
                                                href="{{ path('nodesDeleteAttributesPage', {
                                                    nodeId : node.id,
                                                    translationId : translation.id,
@@ -89,30 +83,25 @@
                         {% endfor %}
                     </tbody>
                 </table>
-
-                {% if addAttributeForm %}
-                    <table>
-                        <tr>
-                            <td>
-                                {% form_theme addAttributeForm '@RoadizRozier/horizontalForms.html.twig' %}
-                                {{ form_start(addAttributeForm, {
-                                    'attr': {
-                                        'id': 'add-node-attribute-form',
-                                        'class': 'uk-form uk-form-stacked'
-                                    }
-                                }) }}{{ form_widget(addAttributeForm) }}
-                                {% apply spaceless %}
-                                    <button class="uk-button uk-button-primary" type="submit">
-                                        <span class="icon-container"><i class="uk-icon-rz-plus"></i></span>
-                                        <span class="label"><span class="label-text">{% trans %}add.a.node.attribute{% endtrans %}</span></span>
-                                    </button>
-                                {% endapply %}
-                                {{ form_end(addAttributeForm) }}
-                            </td>
-                        </tr>
-                    </table>
-                {% endif %}
             </div>
+            {% if addAttributeForm %}
+                <div class="content-table-cont uk-margin">
+                    {% form_theme addAttributeForm '@RoadizRozier/horizontalForms.html.twig' %}
+                    {{ form_start(addAttributeForm, {
+                        'attr': {
+                            'id': 'add-node-attribute-form',
+                            'class': 'uk-form uk-form-stacked'
+                        }
+                    }) }}{{ form_widget(addAttributeForm) }}
+                    {% apply spaceless %}
+                        <button class="uk-button uk-button-primary" type="submit">
+                            <span class="icon-container"><i class="uk-icon-rz-plus"></i></span>
+                            <span class="label"><span class="label-text">{% trans %}add.a.node.attribute{% endtrans %}</span></span>
+                        </button>
+                    {% endapply %}
+                    {{ form_end(addAttributeForm) }}
+                </div>
+            {% endif %}
             <hr>
 
             {% set currentPath = path('nodesEditAttributesPage', {

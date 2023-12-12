@@ -1,9 +1,11 @@
 {
     "name": "roadiz/font-bundle",
+    "description": "Manage and expose web fonts with Roadiz CMS",
     "license": "MIT",
     "keywords": [
         "cms",
         "backoffice",
+        "roadiz",
         "rezo zero"
     ],
     "authors": [
@@ -15,16 +17,17 @@
         }
     ],
     "type": "symfony-bundle",
+    "prefer-stable": true,
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.8.1",
         "doctrine/doctrine-migrations-bundle": "^3.1",
-        "doctrine/orm": "^2.14.1 < 2.17",
+        "doctrine/orm": "~2.17.0",
         "jms/serializer": "^3.9.0",
         "league/flysystem": "^3.0",
-        "roadiz/models": "^2.1",
-        "roadiz/rozier": "^2.1",
+        "roadiz/models": "2.2.*",
+        "roadiz/rozier": "2.2.*",
         "sensio/framework-extra-bundle": "^6.1",
         "symfony/asset": "5.4.*",
         "symfony/cache": "5.4.*",
@@ -40,7 +43,7 @@
         "symfony/twig-bundle": "5.4.*",
         "symfony/validator": "5.4.*",
         "symfony/yaml": "5.4.*",
-        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/extra-bundle": "^3.0",
         "twig/intl-extra": "*",
         "twig/string-extra": "*",
         "twig/twig": "^3.1"
@@ -54,11 +57,11 @@
         "symfony/browser-kit": "5.4.*",
         "symfony/phpunit-bridge": "5.4.*",
         "symfony/stopwatch": "5.4.*",
-        "roadiz/core-bundle": "^2.1",
-        "roadiz/compat-bundle": "^2.1",
-        "roadiz/rozier-bundle": "^2.1",
-        "roadiz/documents": "^2.1",
-        "roadiz/entity-generator": "^2.1"
+        "roadiz/core-bundle": "2.2.*",
+        "roadiz/compat-bundle": "2.2.*",
+        "roadiz/rozier-bundle": "2.2.*",
+        "roadiz/documents": "2.2.*",
+        "roadiz/entity-generator": "2.2.*"
     },
     "config": {
         "optimize-autoloader": true,
@@ -85,8 +88,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.1.x-dev",
-            "dev-develop": "2.2.x-dev"
+            "dev-main": "2.2.x-dev",
+            "dev-develop": "2.3.x-dev"
         }
     }
 }

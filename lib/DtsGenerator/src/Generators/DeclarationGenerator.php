@@ -40,7 +40,22 @@ final class DeclarationGenerator
             $blocks[] = $this->generatorFactory->createForNodeType($nodeType)->getContents();
         }
 
+        $blocks[] = $this->getAllTypesInterface();
+
         return implode(PHP_EOL . PHP_EOL, $blocks);
+    }
+
+    private function getAllTypesInterface(): string
+    {
+        $nodeTypeNames = array_map(function (NodeTypeInterface $nodeType) {
+            return $nodeType->getSourceEntityClassName();
+        }, $this->nodeTypes);
+
+        $nodeTypeNames = implode(' | ', $nodeTypeNames);
+
+        return <<<EOT
+export type AllRoadizNodesSources = {$nodeTypeNames};
+EOT;
     }
 
     private function getHeader(): string

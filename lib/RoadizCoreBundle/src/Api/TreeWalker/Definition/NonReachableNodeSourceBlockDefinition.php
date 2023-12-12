@@ -47,6 +47,8 @@ final class NonReachableNodeSourceBlockDefinition
                 if ($iterator instanceof ArrayIterator) {
                     return $iterator->getArrayCopy();
                 }
+                // @phpstan-ignore-next-line
+                return iterator_to_array($iterator);
             }
             return $children;
         }

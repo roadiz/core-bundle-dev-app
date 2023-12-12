@@ -6,20 +6,20 @@ namespace RZ\Roadiz\CoreBundle\Message;
 
 final class DeleteNodeTypeMessage implements AsyncMessage
 {
-    private int $nodeTypeId;
+    private int|string|null $nodeTypeId;
 
     /**
-     * @param int $nodeTypeId
+     * @param int|string|null $nodeTypeId
      */
-    public function __construct(int $nodeTypeId)
+    public function __construct(int|string|null $nodeTypeId)
     {
         $this->nodeTypeId = $nodeTypeId;
     }
 
     /**
-     * @return int
+     * @return int|string|null
      */
-    public function getNodeTypeId(): int
+    public function getNodeTypeId(): int|string|null
     {
         return $this->nodeTypeId;
     }

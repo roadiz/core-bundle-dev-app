@@ -10,14 +10,14 @@
     {% include '@RoadizRozier/admin/blocks/adminImage.html.twig' %}
     <div class="user-actions-menu">
         {% if app.user and app.user.id %}
-            <a id="user-picture" href="{{ path('usersEditPage', {'userId':app.user.id }) }}">
+            <a id="user-picture" href="{{ path('usersEditPage', {'id':app.user.id }) }}">
                 <img width="200"
                      height="200"
                      class="uk-thumbnail"
                      src="{{ app.user.pictureUrl }}"
                      alt="{{ app.user.identifier }}" />
             </a>
-            <p>{{ "hello.%name%"|trans({'%name%': app.user.identifier}) }}</p>
+            <h3 class="mobile-hidden">{{ "hello.%name%"|trans({'%name%': app.user.identifier}) }}</h3>
         {% elseif app.user %}
             {% set displayName = app.user.nickname|default(app.user.givenName|default(app.user.name)) %}
             {% if app.user.picture %}
@@ -29,10 +29,12 @@
                          alt="{{ displayName }}" />
                 </span>
             {% endif %}
-            <h3>{{ "hello.%name%"|trans({'%name%': displayName }) }}</h3>
+            <h3 class="mobile-hidden">{{ "hello.%name%"|trans({'%name%': displayName }) }}</h3>
         {% endif %}
         <nav class="user-actions">
-            <a class="uk-icon-button uk-icon-rz-earth" href="{% if app.request.basePath %}{{ app.request.basePath }}{% else %}/{% endif %}" target="_blank"><span class="user-action-label">{% trans %}see.website{% endtrans %}</span></a>
+            <a class="uk-icon-button uk-icon-rz-earth"
+               href="{% if app.request.basePath %}{{ app.request.basePath }}{% else %}/{% endif %}"
+               target="_blank"><span class="user-action-label">{% trans %}see.website{% endtrans %}</span></a>
             {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
                 <a title="{% trans %}delete.caches{% endtrans %}"
                    data-uk-tooltip="{animation:true}"
@@ -47,9 +49,15 @@
             {% endif %}
             {% if app.user and app.user.id %}
             <a class="uk-icon-button uk-icon-rz-user"
-               href="{{ path('usersEditPage', {'userId':app.user.id }) }}"><span class="user-action-label">{% trans %}edit.account{% endtrans %}</span></a>
+               href="{{ path('usersEditPage', {'id':app.user.id }) }}"><span class="user-action-label">{% trans %}edit.account{% endtrans %}</span></a>
             {% endif %}
-            {% if is_granted('ROLE_PREVIOUS_ADMIN') %}
+            {% for action in rozier_user_actions %}
+                <a class="uk-icon-button {{ action.icon }}"
+                   title="{{ action.label|trans }}"
+                   data-uk-tooltip="{animation:true}"
+                   href="{{ action.path }}"><span class="user-action-label">{{ action.label|trans }}</span></a>
+            {% endfor %}
+            {% if is_granted('IS_IMPERSONATOR') %}
                 <a title="{% trans %}stop.test.user.right{% endtrans %}"
                    data-uk-tooltip="{animation:true}"
                    class="uk-icon-button uk-icon-rz-turn-off rz-no-ajax-link"

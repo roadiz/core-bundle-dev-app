@@ -37,7 +37,7 @@
     }
 
     .bootstrap-switch-handle-on.bootstrap-switch-primary {
-        background-color: @contrast-color-darker;
+        background-color: var(--accent-color-darker);
         .border-radius(0, 0, @switch-round, @switch-round);
         color: rgba(255, 255, 255, 0.9);
     }
@@ -47,21 +47,10 @@
         color: rgba(255, 255, 255, 0.9);
     }
 
-    &.bootstrap-switch-off {
-        .bootstrap-switch-label {
-            //.border-radius(0, 0, @switch-round, @switch-round);
-        }
-    }
-    &.bootstrap-switch-on {
-        .bootstrap-switch-label {
-            //.border-radius(@switch-round, @switch-round, 0, 0);
-        }
-    }
-
     &.bootstrap-switch-focused,
     &:focus {
         outline: none;
         box-shadow: 1px 1px 5px 1px rgba(0, 0, 0, 0.2);
-        border-color: @contrast-color-darker;
+        border-color: var(--accent-color-darker);
     }
 }

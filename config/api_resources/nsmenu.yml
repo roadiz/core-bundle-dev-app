@@ -1,11 +1,11 @@
 App\GeneratedEntity\NSMenu:
-    iri: Menu
-    shortName: Menu
-    collectionOperations: {  }
-    itemOperations:
-        get:
+    types:
+        - Menu
+    operations:
+        ApiPlatform\Metadata\Get:
             method: GET
-            normalization_context:
+            shortName: Menu
+            normalizationContext:
                 groups:
                     - nodes_sources
                     - urls

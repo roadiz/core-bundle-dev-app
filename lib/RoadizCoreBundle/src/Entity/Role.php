@@ -36,7 +36,7 @@ class Role implements PersistableInterface
     ]
     protected ?int $id = null;
 
-    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Column(type: 'string', length: 250, unique: true)]
     #[SymfonySerializer\Groups(['user', 'role', 'group'])]
     #[Serializer\Groups(['user', 'role', 'group'])]
     #[Assert\NotNull]

@@ -1,5 +1,3 @@
-version: '3.7'
-
 services:
     db_test:
         build:
@@ -10,7 +8,7 @@ services:
             args:
                 USER_UID: ${USER_UID}
         networks:
-            default:
+            - default
         volumes:
             - "./.data/db_test:/var/lib/mysql:delegated"
             - "./docker/mysql/performances.cnf:/etc/mysql/conf.d/performances.cnf"
@@ -37,7 +35,7 @@ services:
         ports:
             - ${PUBLIC_DB_PORT}:3306/tcp
         networks:
-            default:
+            - default
         volumes:
             - "./.data/db:/var/lib/mysql:delegated"
             - "./docker/mysql/performances.cnf:/etc/mysql/conf.d/performances.cnf"
@@ -54,13 +52,18 @@ services:
         environment:
             MYSQL_RANDOM_ROOT_PASSWORD: 1
             MYSQL_DATABASE: db_name
+            MYSQL_HOST: db
             MYSQL_USER: db_user
             MYSQL_PASSWORD: db_password
+        links:
+            - db:db
         networks:
             frontproxynet:
                 aliases:
                     - ${APP_NAMESPACE}_pma
             default:
+                aliases:
+                    - pma
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}_pma.loadbalancer.server.scheme=http"
@@ -80,7 +83,7 @@ services:
         ports:
             - "${PUBLIC_SOLR_PORT}:8983/tcp"
         volumes:
-            - "./.data/solr:/var/solr:delegated"
+            - "solr_data:/var/solr:delegated"
         environment:
             SOLR_UID: ${USER_UID}
             SOLR_GID: ${USER_UID}
@@ -92,6 +95,8 @@ services:
                 aliases:
                     - ${APP_NAMESPACE}_solr
             default:
+                aliases:
+                    - solr
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}_solr.loadbalancer.server.scheme=http"
@@ -111,10 +116,9 @@ services:
         # Need to pass all vars to docker env for Crontab and supervisor scripts
         env_file: "./.env.local"
         build:
-            #context: ./docker/php74-nginx-alpine
-            #context: ./docker/php80-nginx-alpine
             #context: ./docker/php81-nginx-alpine
-            context: ./docker/php81-fpm-alpine
+            #context: ./docker/php81-fpm-alpine
+            context: ./docker/php82-fpm-alpine
             args:
                 USER_UID: ${USER_UID}
         depends_on:
@@ -128,7 +132,7 @@ services:
         volumes:
             - ./:/var/www/html:cached
         networks:
-            default:
+            - default
         environment:
             APP_CACHE: ${APP_CACHE}
             TRUSTED_PROXIES: ${TRUSTED_PROXIES}
@@ -172,8 +176,10 @@ services:
         networks:
             frontproxynet:
                 aliases:
-                    - ${APP_NAMESPACE}_app
+                    - ${APP_NAMESPACE}_nginx
             default:
+                aliases:
+                    - nginx
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.scheme=http"
@@ -193,16 +199,6 @@ services:
             - "traefik.http.routers.${APP_NAMESPACE}_secure.tls=true"
             - "traefik.http.routers.${APP_NAMESPACE}_secure.service=${APP_NAMESPACE}"
 
-    blackfire:
-        image: blackfire/blackfire
-        environment:
-            # Exposes BLACKFIRE_* environment variables from the host
-            BLACKFIRE_LOG_LEVEL: ${BLACKFIRE_LOG_LEVEL}
-            BLACKFIRE_SERVER_ID: ${BLACKFIRE_SERVER_ID}
-            BLACKFIRE_SERVER_TOKEN: ${BLACKFIRE_SERVER_TOKEN}
-            BLACKFIRE_CLIENT_ID: ${BLACKFIRE_CLIENT_ID}
-            BLACKFIRE_CLIENT_TOKEN: ${BLACKFIRE_CLIENT_TOKEN}
-
     mailer:
         image: mailhog/mailhog
         ports:
@@ -213,6 +209,8 @@ services:
                 aliases:
                     - ${APP_NAMESPACE}_mailer
             default:
+                aliases:
+                    - mailer
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}_mailer.loadbalancer.server.scheme=http"
@@ -233,3 +231,6 @@ networks:
             driver: default
             config:
                 -   subnet: ${DEFAULT_GATEWAY}/16
+
+volumes:
+    solr_data:

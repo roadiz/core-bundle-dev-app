@@ -13,9 +13,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * @package Themes\Rozier\Forms
- */
 class NodeTypeFieldType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -75,7 +72,7 @@ class NodeTypeFieldType extends AbstractType
             'required' => false,
         ])
         ->add('defaultValues', DynamicType::class, [
-            'label' => 'defaultValues',
+            'label' => 'nodeTypeField.defaultValues',
             'required' => false,
             'help' => 'for_children_node_and_node_references_enter_node_type_names_comma_separated',
             'attr' => [

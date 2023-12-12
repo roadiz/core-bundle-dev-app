@@ -1,11 +1,13 @@
 ---
 RZ\Roadiz\CoreBundle\Entity\Folder:
-    iri: Folder
-    shortName: Folder
-    collectionOperations: {}
-    itemOperations:
-        get:
+    operations:
+        ApiPlatform\Metadata\GetCollection:
             method: "GET"
-            normalization_context:
-                groups: [ "folder", "position" ]
+            normalizationContext:
+                groups: [ "folder" ]
+                enable_max_depth: true
+        ApiPlatform\Metadata\Get:
+            method: "GET"
+            normalizationContext:
+                groups: [ "folder" ]
                 enable_max_depth: true

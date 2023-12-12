@@ -9,13 +9,11 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeDuplicatedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Themes\Rozier\RozierApp;
 
-/**
- * @package Themes\Rozier\Controllers\Nodes
- */
 class NodesUtilsController extends RozierApp
 {
     private NodeNamePolicyInterface $nodeNamePolicy;
@@ -36,12 +34,16 @@ class NodesUtilsController extends RozierApp
      *
      * @return Response
      */
-    public function duplicateAction(Request $request, int $nodeId)
+    public function duplicateAction(Request $request, int $nodeId): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-
-        /** @var Node $existingNode */
+        /** @var Node|null $existingNode */
         $existingNode = $this->em()->find(Node::class, $nodeId);
+
+        if (null === $existingNode) {
+            throw $this->createNotFoundException();
+        }
+
+        $this->denyAccessUnlessGranted(NodeVoter::DUPLICATE, $existingNode);
 
         try {
             $duplicator = new NodeDuplicator(
@@ -61,7 +63,7 @@ class NodesUtilsController extends RozierApp
                 '%name%' => $existingNode->getNodeName(),
             ]);
 
-            $this->publishConfirmMessage($request, $msg, $newNode->getNodeSources()->first());
+            $this->publishConfirmMessage($request, $msg, $newNode->getNodeSources()->first() ?: $newNode);
 
             return $this->redirectToRoute(
                 'nodesEditPage',
@@ -72,7 +74,8 @@ class NodesUtilsController extends RozierApp
                 $request,
                 $this->getTranslator()->trans("impossible.duplicate.node.%name%", [
                     '%name%' => $existingNode->getNodeName(),
-                ])
+                ]),
+                $existingNode
             );
 
             return $this->redirectToRoute(

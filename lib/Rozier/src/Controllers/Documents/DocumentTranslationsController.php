@@ -22,9 +22,6 @@ use Themes\Rozier\RozierApp;
 use Themes\Rozier\Traits\VersionedControllerTrait;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers\Documents
- */
 class DocumentTranslationsController extends RozierApp
 {
     use VersionedControllerTrait;
@@ -179,13 +176,13 @@ class DocumentTranslationsController extends RozierApp
                         'document.translation.%name%.deleted',
                         ['%name%' => (string) $document]
                     );
-                    $this->publishConfirmMessage($request, $msg);
+                    $this->publishConfirmMessage($request, $msg, $document);
                 } catch (Exception $e) {
                     $msg = $this->getTranslator()->trans(
                         'document.translation.%name%.cannot_delete',
                         ['%name%' => (string) $document]
                     );
-                    $this->publishErrorMessage($request, $msg);
+                    $this->publishErrorMessage($request, $msg, $document);
                 }
                 /*
                  * Force redirect to avoid resending form when refreshing page
@@ -239,7 +236,7 @@ class DocumentTranslationsController extends RozierApp
             $msg = $this->getTranslator()->trans('document.translation.%name%.updated', [
                 '%name%' => (string) $entity->getDocument(),
             ]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $entity);
         }
     }
 

@@ -4,6 +4,7 @@
     "keywords": [
         "cms",
         "backoffice",
+        "roadiz",
         "rezo zero"
     ],
     "authors": [
@@ -15,8 +16,9 @@
         }
     ],
     "type": "symfony-bundle",
+    "prefer-stable": true,
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-zip": "*",
@@ -25,7 +27,7 @@
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.8.1",
         "doctrine/doctrine-migrations-bundle": "^3.1",
-        "doctrine/orm": "^2.14.1 < 2.17",
+        "doctrine/orm": "~2.17.0",
         "gedmo/doctrine-extensions": "^3.10.0",
         "inlinestyle/inlinestyle": "~1.2.7",
         "james-heinrich/getid3": "^1.9",
@@ -33,23 +35,23 @@
         "jms/serializer-bundle": "^3.10.0",
         "league/flysystem": "^3.0",
         "league/flysystem-bundle": "^3.0",
-        "lexik/jwt-authentication-bundle": "^2.13",
+        "lexik/jwt-authentication-bundle": "^2.19",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpoffice/phpspreadsheet": "^1.15",
         "ramsey/uuid": "^4.7",
         "rezozero/crypto": "^1.0.0",
         "rezozero/intervention-request-bundle": "~3.0.0",
-        "rezozero/liform-bundle": "^0.18.1",
+        "rezozero/liform-bundle": "^0.19",
         "rezozero/tree-walker": "^1.3.0",
-        "roadiz/doc-generator": "^2.1",
-        "roadiz/documents": "^2.1",
-        "roadiz/dts-generator": "^2.1",
-        "roadiz/entity-generator": "^2.1",
-        "roadiz/jwt": "^2.1",
-        "roadiz/markdown": "^2.1",
-        "roadiz/models": "^2.1",
+        "roadiz/doc-generator": "2.2.*",
+        "roadiz/documents": "2.2.*",
+        "roadiz/dts-generator": "2.2.*",
+        "roadiz/entity-generator": "2.2.*",
+        "roadiz/jwt": "2.2.*",
+        "roadiz/markdown": "2.2.*",
+        "roadiz/models": "2.2.*",
         "roadiz/nodetype-contracts": "~1.1.2",
-        "roadiz/random": "^2.1",
+        "roadiz/random": "2.2.*",
         "rollerworks/password-common-list": "^0.2.0",
         "rollerworks/password-strength-bundle": "^2.2",
         "scienta/doctrine-json-functions": "^4.2",
@@ -62,7 +64,7 @@
         "symfony/console": "5.4.*",
         "symfony/dotenv": "5.4.*",
         "symfony/expression-language": "5.4.*",
-        "symfony/flex": "^v1.19.4 || ^2.2.3",
+        "symfony/flex": "^2.2.3",
         "symfony/form": "5.4.*",
         "symfony/framework-bundle": "5.4.*",
         "symfony/http-client": "5.4.*",
@@ -87,7 +89,7 @@
         "symfony/web-link": "5.4.*",
         "symfony/workflow": "5.4.*",
         "symfony/yaml": "5.4.*",
-        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/extra-bundle": "^3.0",
         "twig/intl-extra": "*",
         "twig/string-extra": "*",
         "twig/twig": "^3.1"
@@ -130,8 +132,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.1.x-dev",
-            "dev-develop": "2.2.x-dev"
+            "dev-main": "2.2.x-dev",
+            "dev-develop": "2.3.x-dev"
         }
     }
 }

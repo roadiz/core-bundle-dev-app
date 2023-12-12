@@ -112,7 +112,7 @@ final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexin
          */
         $assoc['collection_txt'] = $collection;
         // Compile all text content into a single localized text field.
-        $assoc['collection_txt_' . $lang] = implode(PHP_EOL, $collection);
+        $assoc['collection_txt_' . $lang] = $this->flattenTextCollection($collection);
         $event->setAssociations($assoc);
     }
 }

@@ -16,9 +16,6 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
-/**
- * @package Themes\Rozier\Controllers
- */
 class CustomFormAnswersController extends RozierApp
 {
     /**
@@ -87,7 +84,7 @@ class CustomFormAnswersController extends RozierApp
             $this->em()->flush();
 
             $msg = $this->getTranslator()->trans('customFormAnswer.%id%.deleted', ['%id%' => $customFormAnswer->getId()]);
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $customFormAnswer);
             /*
              * Redirect to update schema page
              */

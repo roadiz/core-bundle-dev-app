@@ -10,9 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Themes\Rozier\Widgets\TagTreeWidget;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxTagTreeController extends AbstractAjaxController
 {
     private TreeWidgetFactory $treeWidgetFactory;

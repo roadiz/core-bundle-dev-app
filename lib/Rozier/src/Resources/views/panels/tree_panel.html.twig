@@ -17,17 +17,31 @@
     {% include '@RoadizRozier/widgets/nodesSourcesSearch.html.twig' %}
     <div id="tree-button" class="mobile-button"><i class="uk-icon-rz-node-tree"></i></div>
     <div id="tree-wrapper">
-        {# Only display tabs if there are more than 1 available tree #}
-        {% if tabCount > 1 %}
+        {% if tabCount >= 1 %}
         <ul id="tree-menu" class="uk-tab">
             {% if is_granted('ROLE_ACCESS_NODES')%}
-            <li id="tree-menu-tab-nodes" data-index="0" class="tabs"><a class="tab-link" href="#"><i class="uk-icon-rz-node-tree"></i><span class="label">{% trans %}nodes{% endtrans %}</span></a></li>
+            <li id="tree-menu-tab-nodes" data-index="0" class="tabs">
+                <a class="tab-link" href="#">
+                    <i class="uk-icon-rz-node-tree"></i>
+                    <span class="label">{% trans %}nodes{% endtrans %}</span>
+                </a>
+            </li>
             {% endif %}
             {% if is_granted('ROLE_ACCESS_TAGS')%}
-            <li id="tree-menu-tab-tags" data-index="1" class="tabs"><a class="tab-link" href="#"><i class="uk-icon-rz-tag-tree"></i><span class="label">{% trans %}tags{% endtrans %}</span></a></li>
+            <li id="tree-menu-tab-tags" data-index="1" class="tabs">
+                <a class="tab-link" href="#">
+                    <i class="uk-icon-rz-tag-tree"></i>
+                    <span class="label">{% trans %}tags{% endtrans %}</span>
+                </a>
+            </li>
             {% endif %}
             {% if is_granted('ROLE_ACCESS_DOCUMENTS')%}
-            <li id="tree-menu-tab-folders" data-index="2" class="tabs"><a class="tab-link" href="#"><i class="uk-icon-rz-folder-tree"></i><span class="label">{% trans %}folders{% endtrans %}</span></a></li>
+            <li id="tree-menu-tab-folders" data-index="2" class="tabs">
+                <a class="tab-link" href="#">
+                    <i class="uk-icon-rz-folder-tree"></i>
+                    <span class="label">{% trans %}folders{% endtrans %}</span>
+                </a>
+            </li>
             {% endif %}
         </ul>
         {% endif %}

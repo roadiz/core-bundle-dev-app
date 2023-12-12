@@ -18,7 +18,6 @@ use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
  * @method UserLogEntry|null findOneBy(array $criteria, array $orderBy = null)
  * @method UserLogEntry[]    findAll()
  * @method UserLogEntry[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * @extends LogEntryRepository<UserLogEntry>
  */
 final class UserLogEntryRepository extends LogEntryRepository implements ServiceEntityRepositoryInterface
 {

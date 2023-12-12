@@ -10,16 +10,15 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrength;
 use RZ\Roadiz\Core\AbstractEntities\AbstractHuman;
+use RZ\Roadiz\CoreBundle\Form\Constraint\ValidFacebookName;
 use RZ\Roadiz\CoreBundle\Repository\UserRepository;
 use RZ\Roadiz\CoreBundle\Security\User\AdvancedUserInterface;
-use RZ\Roadiz\Random\SaltGenerator;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
-use RZ\Roadiz\CoreBundle\Form\Constraint\ValidFacebookName;
 
 #[
     ORM\Entity(repositoryClass: UserRepository::class),
@@ -33,6 +32,8 @@ use RZ\Roadiz\CoreBundle\Form\Constraint\ValidFacebookName;
     ORM\Index(columns: ["last_login"], name: "idx_users_last_login"),
     ORM\Index(columns: ["locked"], name: "idx_users_locked"),
     ORM\Index(columns: ["locale"], name: "idx_users_locale"),
+    ORM\Index(columns: ["created_at"], name: "idx_user_created_at"),
+    ORM\Index(columns: ["updated_at"], name: "idx_user_updated_at"),
     ORM\HasLifecycleCallbacks,
     UniqueEntity("email"),
     UniqueEntity("username")
@@ -51,7 +52,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * @Serializer\Groups({"user_personal", "human"})
      * @var string|null
      */
-    #[ORM\Column(type: 'string', unique: true, nullable: false)]
+    #[ORM\Column(type: 'string', length: 200, unique: true, nullable: false)]
     #[SymfonySerializer\Groups(['user_personal', 'human'])]
     #[Assert\NotNull]
     #[Assert\NotBlank]
@@ -67,9 +68,10 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[SymfonySerializer\Ignore]
     protected bool $sendCreationConfirmationEmail = false;
 
-    #[ORM\Column(name: 'facebook_name', type: 'string', unique: false, nullable: true)]
+    #[ORM\Column(name: 'facebook_name', type: 'string', length: 128, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['user_social'])]
     #[Serializer\Groups(['user_social'])]
+    #[Assert\Length(max: 128)]
     #[ValidFacebookName]
     protected ?string $facebookName = null;
 
@@ -94,8 +96,9 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * @Serializer\Groups({"user_security"})
      * @var string|null
      */
-    #[ORM\Column(name: 'confirmation_token', type: 'string', unique: true, nullable: true)]
+    #[ORM\Column(name: 'confirmation_token', type: 'string', length: 128, unique: true, nullable: true)]
     #[SymfonySerializer\Groups(['user_security'])]
+    #[Assert\Length(max: 128)]
     protected ?string $confirmationToken = null;
 
     /**
@@ -110,7 +113,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * @Serializer\Groups({"user_personal", "log_user"})
      * @var string
      */
-    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Column(type: 'string', length: 200, unique: true)]
     #[SymfonySerializer\Groups(['user_personal', 'log_user'])]
     #[Assert\NotNull]
     #[Assert\NotBlank]
@@ -118,19 +121,12 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     private string $username = '';
 
     /**
-     * The salt to use for hashing.
-     */
-    #[ORM\Column(name: 'salt', type: 'string')]
-    #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
-    private string $salt = '';
-
-    /**
      * Encrypted password.
      */
-    #[ORM\Column(type: 'string', nullable: false)]
+    #[ORM\Column(type: 'string', length: 128, nullable: false)]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
+    #[Assert\Length(max: 128)]
     private string $password = '';
 
     /**
@@ -224,6 +220,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      */
     #[ORM\Column(name: 'locale', type: 'string', length: 7, nullable: true)]
     #[SymfonySerializer\Groups(['user'])]
+    #[Assert\Length(max: 7)]
     private ?string $locale = null;
 
     public function __construct()
@@ -232,9 +229,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         $this->groups = new ArrayCollection();
         $this->sendCreationConfirmationEmail(false);
         $this->initAbstractDateTimed();
-
-        $saltGenerator = new SaltGenerator();
-        $this->setSalt($saltGenerator->generateSalt());
     }
 
     /**
@@ -354,17 +348,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      */
     public function getSalt(): ?string
     {
-        return $this->salt;
-    }
-
-    /**
-     * @param string $salt
-     * @return $this
-     */
-    public function setSalt(string $salt): User
-    {
-        $this->salt = $salt;
-        return $this;
+        return null;
     }
 
     /**
@@ -874,8 +858,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     {
         return [
             $this->password,
-            $this->salt,
             $this->username,
+            $this->getSalt(),
             $this->enabled,
             $this->id,
             $this->email,
@@ -891,10 +875,11 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     public function __unserialize(array $data): void
     {
+        $salt = null;
         [
             $this->password,
-            $this->salt,
             $this->username,
+            $salt,
             $this->enabled,
             $this->id,
             $this->email,
@@ -958,10 +943,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         }
 
         if ($this->getPassword() !== $user->getPassword()) {
-            return false;
-        }
-
-        if ($this->getSalt() !== $user->getSalt()) {
             return false;
         }
 

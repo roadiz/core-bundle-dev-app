@@ -58,53 +58,43 @@ final class UsersRolesCommand extends UsersCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $name = $input->getArgument('username');
+        $user = $this->getUserForInput($input);
 
-        if ($name) {
-            /** @var User|null $user */
-            $user = $this->managerRegistry
-                ->getRepository(User::class)
-                ->findOneBy(['username' => $name]);
+        if ($input->getOption('add')) {
+            $roles = $this->managerRegistry
+                ->getRepository(Role::class)
+                ->getAllRoleName();
 
-            if (null !== $user) {
-                if ($input->getOption('add')) {
-                    $roles = $this->managerRegistry
-                        ->getRepository(Role::class)
-                        ->getAllRoleName();
+            $question = new Question(
+                'Enter the role name to add'
+            );
+            $question->setAutocompleterValues($roles);
 
-                    $question = new Question(
-                        'Enter the role name to add'
-                    );
-                    $question->setAutocompleterValues($roles);
-
-                    do {
-                        $role = $io->askQuestion($question);
-                        if ($role != "") {
-                            $user->addRoleEntity($this->rolesBag->get($role));
-                            $this->managerRegistry->getManagerForClass(User::class)->flush();
-                            $io->success('Role: ' . $role . ' added.');
-                        }
-                    } while ($role != "");
-                } elseif ($input->getOption('remove')) {
-                    do {
-                        $roles = $user->getRoles();
-                        $question = new Question(
-                            'Enter the role name to remove'
-                        );
-                        $question->setAutocompleterValues($roles);
-
-                        $role = $io->askQuestion($question);
-                        if (in_array($role, $roles)) {
-                            $user->removeRoleEntity($this->rolesBag->get($role));
-                            $this->managerRegistry->getManagerForClass(User::class)->flush();
-                            $io->success('Role: ' . $role . ' removed.');
-                        }
-                    } while ($role != "");
+            do {
+                $role = $io->askQuestion($question);
+                if ($role != "") {
+                    $user->addRoleEntity($this->rolesBag->get($role));
+                    $this->managerRegistry->getManagerForClass(User::class)->flush();
+                    $io->success('Role: ' . $role . ' added.');
                 }
-            } else {
-                throw new \InvalidArgumentException('User “' . $name . '” does not exist.');
-            }
+            } while ($role != "");
+        } elseif ($input->getOption('remove')) {
+            do {
+                $roles = $user->getRoles();
+                $question = new Question(
+                    'Enter the role name to remove'
+                );
+                $question->setAutocompleterValues($roles);
+
+                $role = $io->askQuestion($question);
+                if (in_array($role, $roles)) {
+                    $user->removeRoleEntity($this->rolesBag->get($role));
+                    $this->managerRegistry->getManagerForClass(User::class)->flush();
+                    $io->success('Role: ' . $role . ' removed.');
+                }
+            } while ($role != "");
         }
+
         return 0;
     }
 }

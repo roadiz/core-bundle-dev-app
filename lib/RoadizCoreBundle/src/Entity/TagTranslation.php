@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class TagTranslation extends AbstractEntity
 {
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', length: 250)]
     #[SymfonySerializer\Groups(['tag', 'node', 'nodes_sources'])]
     #[Serializer\Groups(['tag', 'node', 'nodes_sources'])]
     #[Assert\NotBlank]

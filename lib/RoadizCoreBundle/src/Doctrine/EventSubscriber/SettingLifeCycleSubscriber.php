@@ -99,6 +99,7 @@ final class SettingLifeCycleSubscriber implements EventSubscriber
                     [
                         'exception_message' => $exception->getMessage(),
                         'trace' => $exception->getTraceAsString(),
+                        'entity' => $setting
                     ]
                 );
             } catch (InvalidMessage $exception) {
@@ -107,6 +108,7 @@ final class SettingLifeCycleSubscriber implements EventSubscriber
                     [
                         'exception_message' => $exception->getMessage(),
                         'trace' => $exception->getTraceAsString(),
+                        'entity' => $setting
                     ]
                 );
             }

@@ -13,9 +13,9 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as OrmFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
  * DO NOT EDIT
@@ -25,6 +25,7 @@ use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
     ORM\Entity(repositoryClass: \App\GeneratedEntity\Repository\NSArticleRepository::class),
     ORM\Table(name: "ns_article"),
+    ORM\Index(columns: ["unpublished_at"]),
     ApiFilter(PropertyFilter::class)
 ]
 class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
@@ -148,6 +149,44 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         $this->realmASecret = null !== $realmASecret ?
             (string) $realmASecret :
             null;
+
+        return $this;
+    }
+
+
+    /**
+     * Date de dépublication.
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "unpublishedAt"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        ApiFilter(OrmFilter\OrderFilter::class),
+        ApiFilter(OrmFilter\DateFilter::class),
+        Gedmo\Versioned,
+        ORM\Column(name: "unpublished_at", type: "datetime", nullable: true),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("DateTime")
+    ]
+    private ?\DateTime $unpublishedAt = null;
+
+    /**
+     * @return \DateTime|null
+     */
+    public function getUnpublishedAt(): ?\DateTime
+    {
+        return $this->unpublishedAt;
+    }
+
+    /**
+     * @param \DateTime|null $unpublishedAt
+     *
+     * @return $this
+     */
+    public function setUnpublishedAt(?\DateTime $unpublishedAt): static
+    {
+        $this->unpublishedAt = $unpublishedAt;
 
         return $this;
     }

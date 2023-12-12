@@ -4,12 +4,13 @@ table.users {
     }
 }
 
-
+.table-thumbnail,
 .user-image {
     position: relative;
     object-fit: cover;
     width: 35px;
     height: 35px;
+    max-width: none;
     background-color: lightgrey;
     display: flex;
     justify-content: center;
@@ -33,7 +34,7 @@ table.users {
         }
     }
 
-    &.user-image-mini {
+    &-mini {
         width: 30px;
         height: 30px;
 

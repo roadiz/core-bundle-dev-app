@@ -1,0 +1,20 @@
+{% extends '@RoadizRozier/users/bulk_base.html.twig' %}
+{% block bulk_title %}{% trans %}users.bulk_disable.title{% endtrans %}{% endblock %}
+{% block bulk_form %}
+    {% if form %}
+        <article class="content content-disable content-no-action-menu">
+            {% form_theme form '@RoadizRozier/forms.html.twig' %}
+            {{ form_start(form, {
+                'attr': {
+                    'class': 'uk-form uk-form-stacked'
+                }
+            }) }}{{ form_widget(form) }}
+            <fieldset data-uk-margin>
+                <legend class="uk-alert uk-alert-warning"><i class="uk-icon uk-icon-warning"></i> {% trans %}are_you_sure.bulk_disable.users{% endtrans %}</legend>
+                <a href="{{ path('usersHomePage') }}" class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
+                <button class="uk-button uk-button-warning" type="submit"><i class="uk-icon-rz-trash-mini-o"></i> {% trans %}bulk.disable{% endtrans %}</button>
+            </fieldset>
+            {{ form_end(form) }}
+        </article>
+    {% endif %}
+{% endblock %}

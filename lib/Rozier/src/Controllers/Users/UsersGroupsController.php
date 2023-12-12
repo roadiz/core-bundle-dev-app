@@ -27,53 +27,52 @@ class UsersGroupsController extends RozierApp
 
         /** @var User|null $user */
         $user = $this->em()->find(User::class, $userId);
-
-        if ($user !== null) {
-            $this->assignation['user'] = $user;
-
-            $form = $this->buildEditGroupsForm($user);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $data = $form->getData();
-                if ($data['userId'] == $user->getId()) {
-                    if (array_key_exists('group', $data) && $data['group'][0] instanceof Group) {
-                        $group = $data['group'][0];
-                    } elseif (array_key_exists('group', $data) && is_numeric($data['group'])) {
-                        $group = $this->em()->find(Group::class, $data['group']);
-                    } else {
-                        $group = null;
-                    }
-
-                    if ($group !== null) {
-                        $user->addGroup($group);
-                        $this->em()->flush();
-
-                        $this->dispatchEvent(new UserJoinedGroupEvent($user, $group));
-
-                        $msg = $this->getTranslator()->trans('user.%user%.group.%group%.linked', [
-                            '%user%' => $user->getUserName(),
-                            '%group%' => $group->getName(),
-                        ]);
-                        $this->publishConfirmMessage($request, $msg);
-
-                        /*
-                         * Force redirect to avoid resending form when refreshing page
-                         */
-                        return $this->redirectToRoute(
-                            'usersEditGroupsPage',
-                            ['userId' => $user->getId()]
-                        );
-                    }
-                }
-            }
-
-            $this->assignation['form'] = $form->createView();
-
-            return $this->render('@RoadizRozier/users/groups.html.twig', $this->assignation);
+        if ($user === null) {
+            throw new ResourceNotFoundException();
         }
 
-        throw new ResourceNotFoundException();
+        $this->assignation['user'] = $user;
+
+        $form = $this->buildEditGroupsForm($user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData();
+            if ($data['userId'] == $user->getId()) {
+                if (array_key_exists('group', $data) && $data['group'][0] instanceof Group) {
+                    $group = $data['group'][0];
+                } elseif (array_key_exists('group', $data) && is_numeric($data['group'])) {
+                    $group = $this->em()->find(Group::class, $data['group']);
+                } else {
+                    $group = null;
+                }
+
+                if ($group !== null) {
+                    $user->addGroup($group);
+                    $this->em()->flush();
+
+                    $this->dispatchEvent(new UserJoinedGroupEvent($user, $group));
+
+                    $msg = $this->getTranslator()->trans('user.%user%.group.%group%.linked', [
+                        '%user%' => $user->getUserName(),
+                        '%group%' => $group->getName(),
+                    ]);
+                    $this->publishConfirmMessage($request, $msg, $user);
+
+                    /*
+                     * Force redirect to avoid resending form when refreshing page
+                     */
+                    return $this->redirectToRoute(
+                        'usersEditGroupsPage',
+                        ['userId' => $user->getId()]
+                    );
+                }
+            }
+        }
+
+        $this->assignation['form'] = $form->createView();
+
+        return $this->render('@RoadizRozier/users/groups.html.twig', $this->assignation);
     }
 
     public function removeGroupAction(Request $request, int $userId, int $groupId): Response
@@ -85,44 +84,47 @@ class UsersGroupsController extends RozierApp
         /** @var Group|null $group */
         $group = $this->em()->find(Group::class, $groupId);
 
+        if ($user === null) {
+            throw new ResourceNotFoundException();
+        }
+        if ($group === null) {
+            throw new ResourceNotFoundException();
+        }
+
         if (!$this->isGranted($group)) {
             throw $this->createAccessDeniedException();
         }
 
-        if ($user !== null) {
-            $this->assignation['user'] = $user;
-            $this->assignation['group'] = $group;
+        $this->assignation['user'] = $user;
+        $this->assignation['group'] = $group;
 
-            $form = $this->createForm(FormType::class);
-            $form->handleRequest($request);
+        $form = $this->createForm(FormType::class);
+        $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $user->removeGroup($group);
-                $this->em()->flush();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user->removeGroup($group);
+            $this->em()->flush();
 
-                $this->dispatchEvent(new UserLeavedGroupEvent($user, $group));
+            $this->dispatchEvent(new UserLeavedGroupEvent($user, $group));
 
-                $msg = $this->getTranslator()->trans('user.%user%.group.%group%.removed', [
-                    '%user%' => $user->getUserName(),
-                    '%group%' => $group->getName(),
-                ]);
-                $this->publishConfirmMessage($request, $msg);
+            $msg = $this->getTranslator()->trans('user.%user%.group.%group%.removed', [
+                '%user%' => $user->getUserName(),
+                '%group%' => $group->getName(),
+            ]);
+            $this->publishConfirmMessage($request, $msg, $user);
 
-                /*
-                 * Force redirect to avoid resending form when refreshing page
-                 */
-                return $this->redirectToRoute(
-                    'usersEditGroupsPage',
-                    ['userId' => $user->getId()]
-                );
-            }
-
-            $this->assignation['form'] = $form->createView();
-
-            return $this->render('@RoadizRozier/users/removeGroup.html.twig', $this->assignation);
+            /*
+             * Force redirect to avoid resending form when refreshing page
+             */
+            return $this->redirectToRoute(
+                'usersEditGroupsPage',
+                ['userId' => $user->getId()]
+            );
         }
 
-        throw new ResourceNotFoundException();
+        $this->assignation['form'] = $form->createView();
+
+        return $this->render('@RoadizRozier/users/removeGroup.html.twig', $this->assignation);
     }
 
     /**

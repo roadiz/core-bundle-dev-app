@@ -3,6 +3,7 @@
     <file original="./themes/Rozier/Resources/translations/messages.po" source-language="en-US" datatype="plaintext">
         <body>
             <trans-unit xml:space="preserve" id="2"><source>node.%name%.updated</source></trans-unit>
+            <trans-unit xml:space="preserve" id="node.%name%.was_moved"><source>node.%name%.was_moved</source></trans-unit>
             <trans-unit xml:space="preserve" id="3"><source>node.%nodeId%.not_exists</source></trans-unit>
             <trans-unit xml:space="preserve" id="4"><source>node.%name%.status.%field%.updated</source></trans-unit>
             <trans-unit xml:space="preserve" id="5"><source>node.has_no.field.%field%</source></trans-unit>
@@ -99,6 +100,8 @@
             <trans-unit xml:space="preserve" id="98"><source>type</source></trans-unit>
             <trans-unit xml:space="preserve" id="99"><source>indexed</source></trans-unit>
             <trans-unit xml:space="preserve" id="100"><source>defaultValues</source></trans-unit>
+            <trans-unit xml:space="preserve" id="customFormField.defaultValues"><source>customFormField.defaultValues</source></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeField.defaultValues"><source>nodeTypeField.defaultValues</source></trans-unit>
             <trans-unit xml:space="preserve" id="101"><source>enter_values_comma_separated</source></trans-unit>
             <trans-unit xml:space="preserve" id="102"><source>node.%name%.translated</source></trans-unit>
             <trans-unit xml:space="preserve" id="103"><source>node_source.%node_source%.updated.%translation%</source></trans-unit>
@@ -607,6 +610,7 @@
             <trans-unit xml:space="preserve" id="add.folder"><source>add.folder</source></trans-unit>
             <trans-unit xml:space="preserve" id="add.child.folder"><source>add.child.folder</source></trans-unit>
             <trans-unit xml:space="preserve" id="add.folder.%name%.child"><source>add.folder.%name%.child</source></trans-unit>
+            <trans-unit xml:space="preserve" id="folder.%name%.created"><source>folder.%name%.created</source></trans-unit>
             <trans-unit xml:space="preserve" id="edit.folder"><source>edit.folder</source></trans-unit>
             <trans-unit xml:space="preserve" id="delete.folder"><source>delete.folder</source></trans-unit>
             <trans-unit xml:space="preserve" id="back_to.folders"><source>back_to.folders</source></trans-unit>
@@ -782,6 +786,35 @@
             <trans-unit xml:space="preserve" id="nodes.bulk.not_untagged"><source>nodes.bulk.not_untagged</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodes.bulk.untagged"><source>nodes.bulk.untagged</source></trans-unit>
             <trans-unit xml:space="preserve" id="bulk.actions"><source>bulk.actions</source></trans-unit>
+            <trans-unit id="bulk.delete" xml:space="preserve"><source>bulk.delete</source></trans-unit>
+            <trans-unit id="bulk.publish" xml:space="preserve"><source>bulk.publish</source></trans-unit>
+            <trans-unit id="bulk.unpublish" xml:space="preserve"><source>bulk.unpublish</source></trans-unit>
+
+            <trans-unit id="no_attributes" xml:space="preserve"><source>no_attributes</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve"><source>are_you_sure.bulk_delete.attributes</source></trans-unit>
+            <trans-unit id="attributes.bulk_delete.title" xml:space="preserve"><source>attributes.bulk_delete.title</source></trans-unit>
+
+            <trans-unit id="no_webhooks" xml:space="preserve"><source>no_webhooks</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve"><source>are_you_sure.bulk_delete.webhooks</source></trans-unit>
+            <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve"><source>webhooks.bulk_delete.title</source></trans-unit>
+
+            <trans-unit id="no_redirections" xml:space="preserve"><source>no_redirections</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve"><source>are_you_sure.bulk_delete.redirections</source></trans-unit>
+            <trans-unit id="redirections.bulk_delete.title" xml:space="preserve"><source>redirections.bulk_delete.title</source></trans-unit>
+
+            <trans-unit id="no_custom_forms" xml:space="preserve"><source>no_custom_forms</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve"><source>are_you_sure.bulk_delete.custom_forms</source></trans-unit>
+            <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve"><source>custom_forms.bulk_delete.title</source></trans-unit>
+
+            <trans-unit id="no_users" xml:space="preserve"><source>no_users</source></trans-unit>
+            <trans-unit id="bulk.enable" xml:space="preserve"><source>bulk.enable</source></trans-unit>
+            <trans-unit id="bulk.disable" xml:space="preserve"><source>bulk.disable</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve"><source>are_you_sure.bulk_delete.users</source></trans-unit>
+            <trans-unit id="users.bulk_delete.title" xml:space="preserve"><source>users.bulk_delete.title</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve"><source>are_you_sure.bulk_enable.users</source></trans-unit>
+            <trans-unit id="users.bulk_enable.title" xml:space="preserve"><source>users.bulk_enable.title</source></trans-unit>
+            <trans-unit id="are_you_sure.bulk_disable.users" xml:space="preserve"><source>are_you_sure.bulk_disable.users</source></trans-unit>
+            <trans-unit id="users.bulk_disable.title" xml:space="preserve"><source>users.bulk_disable.title</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="reset.marker"><source>reset.marker</source></trans-unit>
             <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter"><source>geotag.type_an_address.then_type_enter</source></trans-unit>
@@ -1177,6 +1210,7 @@
             <trans-unit xml:space="preserve" id="redirection.type"><source>redirection.type</source><note>Redirection field which stands for HTTP code: 301 or 302</note></trans-unit>
             <trans-unit xml:space="preserve" id="redirection.moved_permanently"><source>redirection.moved_permanently</source><note>Redirection type description for 301 Moved Permanently</note></trans-unit>
             <trans-unit xml:space="preserve" id="redirection.moved_temporarily"><source>redirection.moved_temporarily</source><note>Redirection type description for 302 Moved Temporarily</note></trans-unit>
+            <trans-unit xml:space="preserve" id="redirection.use_count"><source>redirection.use_count</source><note>Redirection usage count</note></trans-unit>
             <trans-unit xml:space="preserve" id="login_image"><source>login_image</source><note>Global parameter to customize login screen background image</note></trans-unit>
             <trans-unit xml:space="preserve" id="publishedAt"><source>publishedAt</source><note>Field label for node-source publication date and time.</note></trans-unit>
             <trans-unit xml:space="preserve" id="publishable"><source>publishable</source><note>Field label for node-type publishable status.</note></trans-unit>
@@ -1313,10 +1347,30 @@
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_created"><source>%namespace%.%item%.was_created</source><note>Default controller addAction result message.</note></trans-unit>
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_updated"><source>%namespace%.%item%.was_updated</source><note>Default controller editAction result message.</note></trans-unit>
             <trans-unit xml:space="preserve" id="%namespace%.%item%.was_deleted"><source>%namespace%.%item%.was_deleted</source><note>Default controller deleteAction result message.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="%namespace%.%item%.was_published"><source>%namespace%.%item%.was_published</source><note>Default controller bulkPublishAction result message.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="%namespace%.%item%.was_unpublished"><source>%namespace%.%item%.was_unpublished</source><note>Default controller bulkUnpublishAction result message.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="%namespace%.%item%.was_enabled"><source>%namespace%.%item%.was_enabled</source><note>Default controller bulkEnableAction result message.</note></trans-unit>
+            <trans-unit xml:space="preserve" id="%namespace%.%item%.was_disabled"><source>%namespace%.%item%.was_disabled</source><note>Default controller bulkDisabledAction result message.</note></trans-unit>
 
             <trans-unit xml:space="preserve" id="document.document_display_gallery"><source>document.document_display_gallery</source></trans-unit>
             <trans-unit xml:space="preserve" id="documents.document_display_list"><source>documents.document_display_list</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeSource.noIndex"><source>nodeSource.noIndex</source></trans-unit>
+
+            <trans-unit xml:space="preserve" id="document.imageCropAlignment"><source>document.imageCropAlignment</source></trans-unit>
+            <trans-unit xml:space="preserve" id="document.imageCropAlignment.help"><source>document.imageCropAlignment.help</source></trans-unit>
+            <trans-unit xml:space="preserve" id="image_crop_alignment.none"><source>image_crop_alignment.none</source></trans-unit>
+            <trans-unit xml:space="preserve" id="image_crop_alignment.top-left"><source>image_crop_alignment.top-left</source></trans-unit>
+            <trans-unit xml:space="preserve" id="image_crop_alignment.top"><source>image_crop_alignment.top</source></trans-unit>
+            <trans-unit xml:space="preserve" id="image_crop_alignment.top-right"><source>image_crop_alignment.top-right</source></trans-unit>
+            <trans-unit xml:space="preserve" id="image_crop_alignment.left"><source>image_crop_alignment.left</source></trans-unit>
+            <trans-unit xml:space="preserve" id="image_crop_alignment.center"><source>image_crop_alignment.center</source></trans-unit>
+            <trans-unit xml:space="preserve" id="image_crop_alignment.right"><source>image_crop_alignment.right</source></trans-unit>
+            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left"><source>image_crop_alignment.bottom-left</source></trans-unit>
+            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom"><source>image_crop_alignment.bottom</source></trans-unit>
+            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right"><source>image_crop_alignment.bottom-right</source></trans-unit>
+
+            <trans-unit xml:space="preserve" id="attributable"><source>attributable</source></trans-unit>
+            <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type"><source>enables_node_attributes_for_this_type</source></trans-unit>
         </body>
     </file>
 </xliff>

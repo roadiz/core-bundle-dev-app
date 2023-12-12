@@ -12,9 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Themes\Rozier\RozierApp;
 
-/**
- * @package Themes\Rozier\Controllers\Tags
- */
 class TagsUtilsController extends RozierApp
 {
     private SerializerInterface $serializer;
@@ -31,11 +28,10 @@ class TagsUtilsController extends RozierApp
      * Export a Tag in a Json file
      *
      * @param Request $request
-     * @param int     $tagId
-     *
-     * @return Response
+     * @param int $tagId
+     * @return JsonResponse
      */
-    public function exportAction(Request $request, int $tagId)
+    public function exportAction(Request $request, int $tagId): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -47,7 +43,7 @@ class TagsUtilsController extends RozierApp
                 'json',
                 SerializationContext::create()->setGroups(['tag', 'position'])
             ),
-            JsonResponse::HTTP_OK,
+            Response::HTTP_OK,
             [
                 'Content-Disposition' => sprintf(
                     'attachment; filename="%s"',
@@ -64,9 +60,9 @@ class TagsUtilsController extends RozierApp
      * @param Request $request
      * @param int $tagId
      *
-     * @return Response
+     * @return JsonResponse
      */
-    public function exportAllAction(Request $request, int $tagId)
+    public function exportAllAction(Request $request, int $tagId): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
@@ -80,7 +76,7 @@ class TagsUtilsController extends RozierApp
                 'json',
                 SerializationContext::create()->setGroups(['tag', 'position'])
             ),
-            JsonResponse::HTTP_OK,
+            Response::HTTP_OK,
             [
                 'Content-Disposition' => sprintf(
                     'attachment; filename="%s"',

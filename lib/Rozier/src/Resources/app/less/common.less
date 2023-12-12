@@ -5,40 +5,6 @@
  * @author Adrien Scholaert <adrien@rezo-zero.com>
  */
 
-/* -------- FONTS -------- */
-@font-face {
-    font-family: 'Roadiz';
-    src: url('../fonts/roadiz-sans/RoadizSans-Light.woff2') format('woff2'),
-         url('../fonts/roadiz-sans/RoadizSans-Light.woff') format('woff');
-    font-weight: 300;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Roadiz';
-    src: url('../fonts/roadiz-sans/RoadizSans-Regular.woff2') format('woff2'),
-         url('../fonts/roadiz-sans/RoadizSans-Regular.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Roadiz';
-    src: url('../fonts/roadiz-sans/RoadizSans-Medium.woff2') format('woff2'),
-         url('../fonts/roadiz-sans/RoadizSans-Medium.woff') format('woff');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
-}
-@font-face {
-    font-family: 'Roadiz Mono';
-    src: url('../fonts/roadiz-sans/RoadizSans-Mono.woff2') format('woff2'),
-         url('../fonts/roadiz-sans/RoadizSans-Mono.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
-}
-
 html,
 body,
 h1, h2, h3, h4, h5, h6,
@@ -46,6 +12,7 @@ p, li, a, input, button, textarea {
     font-family: @main-font;
 }
 h1, h2, h3, h4, h5, h6 {
+    color: var(--global-title-color);
     -webkit-font-smoothing: antialiased;
 }
 audio {
@@ -82,7 +49,7 @@ background: #CCC;
     color: rgba(255, 255, 255, 0.6);
     font-size: 11px;
     line-height: 15px;
-    .rounded(3px);
+    border-radius: 3px;
     max-width: none;
     z-index: 20000;
 }
@@ -111,7 +78,7 @@ background: #CCC;
     padding: 1px;
     border: none;
     background: #C2C2C2;
-    .rounded(100%);
+    border-radius: 100%;
     .drop-shadow(0 0 0 rgba(0,0,0,0));
     height: auto;
     width: auto;
@@ -119,11 +86,18 @@ background: #CCC;
 
 .uk-text-small {
     max-width: 650px;
+    font-size: 12px;
+    letter-spacing: 0.005em;
+    line-height: 17px;
+
+    &.uk-text-muted {
+        color: #a5a5a5 !important;
+    }
 }
 
 .uk-text-danger {
     padding: 0 20px;
-    font-size: 12px;
+    font-size: @default-font-size;
 }
 
 @media screen and (max-width: @screen-md-max) {

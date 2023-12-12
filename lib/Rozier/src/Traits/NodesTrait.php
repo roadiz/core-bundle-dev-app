@@ -8,11 +8,9 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
-use RZ\Roadiz\CoreBundle\Form\Constraint\UniqueNodeName;
 use RZ\Roadiz\CoreBundle\Form\NodeTypesType;
 use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
@@ -100,52 +98,13 @@ trait NodesTrait
     }
 
     /**
-     * @param Node $parentNode
-     *
-     * @return FormInterface
-     */
-    protected function buildAddChildForm(Node $parentNode = null): FormInterface
-    {
-        $defaults = [];
-
-        $builder = $this->createFormBuilder($defaults)
-                        ->add('nodeName', TextType::class, [
-                            'label' => 'nodeName',
-                            'constraints' => [
-                                new NotNull(),
-                                new NotBlank(),
-                                new UniqueNodeName(),
-                            ],
-                        ])
-            ->add('nodeTypeId', NodeTypesType::class, [
-                'label' => 'nodeType',
-                'constraints' => [
-                    new NotNull(),
-                    new NotBlank(),
-                ],
-            ]);
-
-        if (null !== $parentNode) {
-            $builder->add('parentId', HiddenType::class, [
-                'data' => (int) $parentNode->getId(),
-                'constraints' => [
-                    new NotNull(),
-                    new NotBlank(),
-                ],
-            ]);
-        }
-
-        return $builder->getForm();
-    }
-
-    /**
      * @param Node $node
      *
      * @return FormInterface
      */
     protected function buildDeleteForm(Node $node): FormInterface
     {
-        $builder = $this->createNamedFormBuilder('remove_stack_type_' . $node->getId())
+        $builder = $this->createNamedFormBuilder('delete_node_' . $node->getId())
                         ->add('nodeId', HiddenType::class, [
                             'data' => $node->getId(),
                             'constraints' => [

@@ -39,7 +39,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, SerializableInterface
 {
     #[
-        ORM\Column(type: "string"),
+        ORM\Column(type: "string", length: 250),
         Serializer\Expose,
         Serializer\Groups(["node_type", "setting"]),
         SymfonySerializer\Groups(["node_type", "setting"]),

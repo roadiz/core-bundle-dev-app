@@ -9,10 +9,7 @@ use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeTypeHandler;
-use RZ\Roadiz\CoreBundle\Message\UpdateNodeTypeSchemaMessage;
 use RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TypedObjectConstructorInterface;
-use Symfony\Component\Messenger\Envelope;
-use Symfony\Component\Messenger\MessageBusInterface;
 
 class NodeTypesImporter implements EntityImporterInterface
 {

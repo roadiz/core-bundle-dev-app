@@ -32,7 +32,7 @@ class SvgDocumentViewer
      * @param FilesystemOperator $documentsStorage
      * @param DocumentInterface $document
      * @param array $attributes
-     * @param boolean $asObject Default false
+     * @param bool $asObject Default false
      * @param string $imageUrl Only needed if you set $asObject to true.
      */
     public function __construct(

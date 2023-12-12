@@ -9,6 +9,7 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\SearchEngine\Event\NodeSourceSearchQueryEvent;
 
 /**
  * @package RZ\Roadiz\CoreBundle\SearchEngine
@@ -37,49 +38,54 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         int $proximity = 1,
         int $page = 1
     ): ?array {
-        if (!empty($q)) {
-            $query = $this->createSolrQuery($args, $rows, $page);
-            $queryTxt = $this->buildQuery($q, $args, $searchTags, $proximity);
-
-            if ($this->boostByPublicationDate) {
-                $boost = '{!boost b=recip(ms(NOW,published_at_dt),3.16e-11,1,1)}';
-                $queryTxt = $boost . $queryTxt;
-            }
-            if ($this->boostByUpdateDate) {
-                $boost = '{!boost b=recip(ms(NOW,updated_at_dt),3.16e-11,1,1)}';
-                $queryTxt = $boost . $queryTxt;
-            }
-            if ($this->boostByCreationDate) {
-                $boost = '{!boost b=recip(ms(NOW,created_at_dt),3.16e-11,1,1)}';
-                $queryTxt = $boost . $queryTxt;
-            }
-
-            $query->setQuery($queryTxt);
-
-            /*
-             * Only need these fields as Doctrine
-             * will do the rest.
-             */
-            $query->setFields([
-                'score',
-                'id',
-                'document_type_s',
-                SolariumNodeSource::IDENTIFIER_KEY,
-                'node_name_s',
-                'locale_s',
-            ]);
-
-            $this->logger->debug('[Solr] Request node-sources search…', [
-                'query' => $queryTxt,
-                'fq' => $args["fq"] ?? [],
-                'params' => $query->getParams(),
-            ]);
-
-            $solrRequest = $this->getSolr()->execute($query);
-            return $solrRequest->getData();
-        } else {
+        if (empty($q)) {
             return null;
         }
+        $query = $this->createSolrQuery($args, $rows, $page);
+        $queryTxt = $this->buildQuery($q, $args, $searchTags, $proximity);
+
+        if ($this->boostByPublicationDate) {
+            $boost = '{!boost b=recip(ms(NOW,published_at_dt),3.16e-11,1,1)}';
+            $queryTxt = $boost . $queryTxt;
+        }
+        if ($this->boostByUpdateDate) {
+            $boost = '{!boost b=recip(ms(NOW,updated_at_dt),3.16e-11,1,1)}';
+            $queryTxt = $boost . $queryTxt;
+        }
+        if ($this->boostByCreationDate) {
+            $boost = '{!boost b=recip(ms(NOW,created_at_dt),3.16e-11,1,1)}';
+            $queryTxt = $boost . $queryTxt;
+        }
+
+        $query->setQuery($queryTxt);
+
+        /*
+         * Only need these fields as Doctrine
+         * will do the rest.
+         */
+        $query->setFields([
+            'score',
+            'id',
+            'document_type_s',
+            SolariumNodeSource::IDENTIFIER_KEY,
+            'node_name_s',
+            'locale_s',
+        ]);
+
+        $this->logger->debug('[Solr] Request node-sources search…', [
+            'query' => $queryTxt,
+            'fq' => $args["fq"] ?? [],
+            'params' => $query->getParams(),
+        ]);
+
+        /** @var NodeSourceSearchQueryEvent $event */
+        $event = $this->eventDispatcher->dispatch(
+            new NodeSourceSearchQueryEvent($query, $args)
+        );
+        $query = $event->getQuery();
+
+        $solrRequest = $this->getSolr()->execute($query);
+        return $solrRequest->getData();
     }
 
     /**

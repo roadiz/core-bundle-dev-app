@@ -18,7 +18,7 @@
 
         &:hover {
             & > .uk-nestable-panel > .tagtree-contextualmenu {
-                .opacity(1);
+                opacity: 1;
             }
 
             .tagtree-bulk-selection {
@@ -34,7 +34,7 @@
         top: 3px;
         right: 22px;
 
-        .opacity(0);
+        opacity: 0;
 
         .uk-icon-caret-down {
             font-size: 10px;
@@ -94,7 +94,7 @@
         .uk-nestable-handle-tag {
             display: inline-block;
             vertical-align: middle;
-            color: darken(@maintree-global-bg, 30%);
+            color: var(--maintree-global-bg-30);
 
             &:before {
                 display: none;
@@ -115,7 +115,7 @@
         }
 
         .uk-nestable-handle-tag {
-            color: darken(@maintree-global-bg, 30%);
+            color: var(--maintree-global-bg-30);
             &:after {
                 display: none;
             }

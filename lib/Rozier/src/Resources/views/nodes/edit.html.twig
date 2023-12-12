@@ -27,7 +27,7 @@
             {{ form_widget(form) }}
             <fieldset data-uk-margin>
                 {% apply spaceless %}
-                <button data-action-save="#edit-node-form" class="uk-button uk-button-primary rz-action-save" type="submit">
+                <button data-action-save="#edit-node-form" class="uk-button uk-button-success rz-action-save" type="submit">
                     <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
                     <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
                 </button>
@@ -38,15 +38,15 @@
         <div class="content-table-cont metadata-list">
             <table class="uk-table content-table">
                 <tr>
-                    <td>{% trans %}created.at{% endtrans %}</td>
+                    <th>{% trans %}created.at{% endtrans %}</th>
                     <td>{{ node.createdAt|format_datetime('long', locale=app.request.locale) }}</td>
                 </tr>
                 <tr>
-                    <td>{% trans %}updated.at{% endtrans %}</td>
+                    <th>{% trans %}updated.at{% endtrans %}</th>
                     <td>{{ node.updatedAt|format_datetime('long', locale=app.request.locale) }}</td>
                 </tr>
                 <tr>
-                    <td>{% trans %}position{% endtrans %}</td>
+                    <th>{% trans %}position{% endtrans %}</th>
                     <td>{{ node.position }}</td>
                 </tr>
             </table>

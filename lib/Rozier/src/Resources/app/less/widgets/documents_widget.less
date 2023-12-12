@@ -30,7 +30,7 @@
 
     &.uk-active {
         z-index: 11100;
-        background: @maincontent-bg;
+        background: var(--maincontent-bg);
     }
 
     .documents-widget-uploader.dropzone {
@@ -94,14 +94,14 @@
         }
 
         &.rz-coming-soon {
-            .opacity(0.5);
+            opacity: 0.5;
             pointer-events: none;
         }
     }
 }
 
 .documents-widget-sortable-container {
-    background: #fff;
+    background: var(--contrasted-bg);
     position: relative;
     min-height: 121px;
 }
@@ -109,7 +109,7 @@
 .documents-widget-sortable{
     margin:0;
     padding:13px 25px 20px;
-    background:#fff;
+    background: var(--contrasted-bg);
 }
 
 .sortable-ghost {
@@ -145,7 +145,7 @@
         top:0; right:0; left:0;
         z-index: 15;
         height:4px;
-        background:@contrast-color;
+        background: var(--accent-color);
     }
 
     .document-image{
@@ -155,7 +155,7 @@
 
     .document-name{
         display: none;
-        .transition(~"0.4s opacity ease, 0.4s top ease");
+        transition: ~"0.4s opacity ease, 0.4s top ease";
     }
 
     .document-mime-type{
@@ -168,15 +168,15 @@
         height:30px;
         bottom:-30px;
         overflow: hidden;
-        .transition(0.4s bottom @easeOutExpo);
+        transition: 0.4s bottom @easeOutExpo;
         background: rgba(255,255,255,0.8);
 
         .document-link {
             display: inline-block;
             width:40px;
             height:30px;
-            .rounded(0);
-            .opacity(0.95);
+            border-radius: 0;
+            opacity: 0.95;
 
             i {
                 margin:0;
@@ -200,12 +200,12 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        .rounded(4px);
+        border-radius: 4px;
         text-align: center;
         line-height: 35px;
         .box-shadow(0px 0px 3px rgba(0, 0, 0, 0.1));
-        .opacity(0.95);
-        .transition(0.9s opacity @easeOutExpo);
+        opacity: 0.95;
+        transition: 0.9s opacity @easeOutExpo;
 
         i{
             font-size: 28px;
@@ -221,7 +221,7 @@
         }
         .document-name {
             display: block;
-            .opacity(0.7);
+            opacity: 0.7;
             font-size: 9px;
             position: absolute;
             top: 63px;
@@ -236,7 +236,7 @@
             bottom:0px;
         }
         .document-platform-icon {
-            .opacity(0);
+            opacity: 0;
         }
         &.not-image {
             .document-name {

@@ -1,5 +1,5 @@
 parameters:
-    level: 6
+    level: 7
     paths:
         - lib/DocGenerator/src
         - lib/Documents/src
@@ -15,6 +15,7 @@ parameters:
         - lib/RoadizFontBundle/src
         - lib/RoadizRozierBundle/src
         - lib/RoadizUserBundle/src
+        - lib/RoadizTwoFactorBundle/src
         - lib/Rozier/src
         - src
     bootstrapFiles:
@@ -47,6 +48,8 @@ parameters:
         - '#Doctrine\\ORM\\Mapping\\GeneratedValue constructor expects#'
         - '#type mapping mismatch: property can contain Doctrine\\Common\\Collections\\Collection<int, [^\>]+> but database expects Doctrine\\Common\\Collections\\Collection&iterable<[^\>]+>#'
         - '#should return Doctrine\\Common\\Collections\\Collection<int, [^\>]+Interface> but returns Doctrine\\Common\\Collections\\Collection<int, [^\>]+>#'
+        - '#but returns Doctrine\\Common\\Collections\\ReadableCollection<int, [^\>]+>#'
+        - '#does not accept Doctrine\\Common\\Collections\\ReadableCollection<int, [^\>]+>#'
 
     reportUnmatchedIgnoredErrors: false
     checkGenericClassInNonGenericObjectType: false

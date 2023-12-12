@@ -166,6 +166,24 @@
                 <target></target>
             </trans-unit>
 
+            <trans-unit xml:space="preserve" id="attributes.defaultRealm">
+                <source>attributes.defaultRealm</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="attributes.defaultRealm.help">
+                <source>attributes.defaultRealm.help</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="attributes.defaultRealm.placeholder">
+                <source>attributes.defaultRealm.placeholder</source>
+                <note>Default text when no realm is attached to an attribute</note>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="attributeValue.realm.placeholder">
+                <source>attributeValue.realm.placeholder</source>
+                <note>Default text when no realm is attached to an attribute-value</note>
+                <target></target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

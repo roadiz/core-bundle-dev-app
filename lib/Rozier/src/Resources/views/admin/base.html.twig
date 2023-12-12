@@ -1,7 +1,7 @@
 {% extends "@RoadizRozier/layout.html.twig" %}
 
 {% block content %}
-    <section class="content-global">
+    <section class="bulk-layout content-global">
         <header class="content-header">
             <h1 class="content-title">{%- block content_title -%}{%- endblock -%}</h1>
             {%- block content_count_filters -%}
@@ -15,7 +15,6 @@
             {%- block content_header_nav -%}{%- endblock -%}
         </header>
         {%- block content_filters -%}{%- endblock -%}
-
         {%- block content_body -%}{%- endblock -%}
     </section>
 {% endblock %}

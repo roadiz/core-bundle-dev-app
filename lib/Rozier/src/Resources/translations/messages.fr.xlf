@@ -6,6 +6,10 @@
         <source>node.%name%.updated</source>
         <target state="final">Le nœud %name% a été mis à jour.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.was_moved">
+        <source>node.%name%.was_moved</source>
+        <target state="translated">Le nœud %name% a été déplacé.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="3" approved="yes">
         <source>node.%nodeId%.not_exists</source>
         <target state="final">Le nœud %nodeId% n’existe pas.</target>
@@ -389,6 +393,14 @@
       <trans-unit xml:space="preserve" id="100" approved="yes">
         <source>defaultValues</source>
         <target state="final">Valeur(s) par défaut</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.defaultValues">
+        <source>customFormField.defaultValues</source>
+        <target state="translated">Configuration avancée</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.defaultValues">
+        <source>nodeTypeField.defaultValues</source>
+        <target state="translated">Configuration avancée</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="101" approved="yes">
         <source>enter_values_comma_separated</source>
@@ -2230,6 +2242,10 @@
         <source>add.folder.%name%.child</source>
         <target state="translated">Ajouter un sous-dossier à «%name%»</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="folder.%name%.created">
+        <source>folder.%name%.created</source>
+        <target state="translated">Le dossier « %name% » a été créé.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="edit.folder" approved="yes">
         <source>edit.folder</source>
         <target state="final">Éditer le dossier</target>
@@ -2843,6 +2859,102 @@
       <trans-unit xml:space="preserve" id="bulk.actions" approved="yes">
         <source>bulk.actions</source>
         <target state="final">Actions groupées</target>
+      </trans-unit>
+      <trans-unit id="bulk.delete" xml:space="preserve">
+        <source>bulk.delete</source>
+        <target state="translated">Supprimer les éléments sélectionnés</target>
+      </trans-unit>
+      <trans-unit id="bulk.publish" xml:space="preserve">
+        <source>bulk.publish</source>
+        <target state="translated">Publier les éléments sélectionnés</target>
+      </trans-unit>
+      <trans-unit id="bulk.unpublish" xml:space="preserve">
+        <source>bulk.unpublish</source>
+        <target state="translated">Dépublier les éléments sélectionnés</target>
+      </trans-unit>
+      <trans-unit id="no_attributes" xml:space="preserve">
+        <source>no_attributes</source>
+        <target state="translated">Aucun attribut</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.attributes</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les attributs sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="attributes.bulk_delete.title" xml:space="preserve">
+        <source>attributes.bulk_delete.title</source>
+        <target state="translated">Supprimer des attributs</target>
+      </trans-unit>
+      <trans-unit id="no_webhooks" xml:space="preserve">
+        <source>no_webhooks</source>
+        <target state="translated">Aucun webhook</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.webhooks</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les webhooks sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve">
+        <source>webhooks.bulk_delete.title</source>
+        <target state="translated">Supprimer des webhooks</target>
+      </trans-unit>
+      <trans-unit id="no_redirections" xml:space="preserve">
+        <source>no_redirections</source>
+        <target state="translated">Aucune redirection</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.redirections</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer toutes les redirections sélectionnées ?</target>
+      </trans-unit>
+      <trans-unit id="redirections.bulk_delete.title" xml:space="preserve">
+        <source>redirections.bulk_delete.title</source>
+        <target state="translated">Supprimer des redirections</target>
+      </trans-unit>
+      <trans-unit id="no_custom_forms" xml:space="preserve">
+        <source>no_custom_forms</source>
+        <target state="translated">Aucun formulaire personnalisé</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.custom_forms</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les formulaires personnalisés sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve">
+        <source>custom_forms.bulk_delete.title</source>
+        <target state="translated">Supprimer des formulaires personnalisés</target>
+      </trans-unit>
+      <trans-unit id="no_users" xml:space="preserve">
+        <source>no_users</source>
+        <target state="translated">Aucun utilisateur</target>
+      </trans-unit>
+      <trans-unit id="bulk.enable" xml:space="preserve">
+        <source>bulk.enable</source>
+        <target state="translated">Tout activer</target>
+      </trans-unit>
+      <trans-unit id="bulk.disable" xml:space="preserve">
+        <source>bulk.disable</source>
+        <target state="translated">Tout désactiver</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve">
+        <source>are_you_sure.bulk_delete.users</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les comptes utilisateurs sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="users.bulk_delete.title" xml:space="preserve">
+        <source>users.bulk_delete.title</source>
+        <target state="translated">Supprimer les utilisateurs sélectionnés</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve">
+        <source>are_you_sure.bulk_enable.users</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir réactiver tous les comptes utilisateurs sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="users.bulk_enable.title" xml:space="preserve">
+        <source>users.bulk_enable.title</source>
+        <target state="translated">Réactiver les utilisateurs sélectionnés</target>
+      </trans-unit>
+      <trans-unit id="are_you_sure.bulk_disable.users" xml:space="preserve">
+        <source>are_you_sure.bulk_disable.users</source>
+        <target state="translated">Êtes-vous sûr(e) de vouloir désactiver tous les comptes utilisateurs sélectionnés ?</target>
+      </trans-unit>
+      <trans-unit id="users.bulk_disable.title" xml:space="preserve">
+        <source>users.bulk_disable.title</source>
+        <target state="translated">Désactiver les utilisateurs sélectionnés</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="reset.marker" approved="yes">
         <source>reset.marker</source>
@@ -4167,6 +4279,11 @@
         <target state="translated">Redirection temporaire</target>
         <note>Redirection type description for 302 Moved Temporarily</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="redirection.use_count">
+        <source>redirection.use_count</source>
+        <target state="translated">Nombre d'utilisations</target>
+        <note>Redirection usage count</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="login_image">
         <source>login_image</source>
         <target state="translated">Fond d'écran de la page de connexion</target>
@@ -4672,6 +4789,26 @@
         <target state="translated">%namespace% "%item%" a été supprimé.</target>
         <note>Default controller deleteAction result message.</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_published">
+        <source>%namespace%.%item%.was_published</source>
+        <target state="translated">%namespace% "%item%" a été publié.</target>
+        <note>Default controller bulkPublishAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_unpublished">
+        <source>%namespace%.%item%.was_unpublished</source>
+        <target state="translated">%namespace% "%item%" a été dépublié.</target>
+        <note>Default controller bulkUnpublishAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_enabled">
+        <source>%namespace%.%item%.was_enabled</source>
+        <target state="translated">%namespace% "%item%" a été activé.</target>
+        <note>Default controller bulkEnableAction result message.</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_disabled">
+        <source>%namespace%.%item%.was_disabled</source>
+        <target state="translated">%namespace% "%item%" a été désactivé.</target>
+        <note>Default controller bulkDisabledAction result message.</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="document.document_display_gallery">
         <source>document.document_display_gallery</source>
         <target state="translated">Galerie</target>
@@ -4683,6 +4820,62 @@
       <trans-unit xml:space="preserve" id="nodeSource.noIndex">
         <source>nodeSource.noIndex</source>
         <target state="translated">Interdire l'indexation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageCropAlignment">
+        <source>document.imageCropAlignment</source>
+        <target state="translated">Alignement pour le redimensionnement</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageCropAlignment.help">
+        <source>document.imageCropAlignment.help</source>
+        <target state="translated">Définissez une zone d'intérêt pour permettre d'aligner le redimensionnement de votre image en fonction de la taille de votre écran.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.none">
+        <source>image_crop_alignment.none</source>
+        <target state="translated">Aucun alignement</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top-left">
+        <source>image_crop_alignment.top-left</source>
+        <target state="translated">En haut à gauche</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top">
+        <source>image_crop_alignment.top</source>
+        <target state="translated">En haut</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top-right">
+        <source>image_crop_alignment.top-right</source>
+        <target state="translated">En haut à droite</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.left">
+        <source>image_crop_alignment.left</source>
+        <target state="translated">À gauche</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.center">
+        <source>image_crop_alignment.center</source>
+        <target state="translated">Centré</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.right">
+        <source>image_crop_alignment.right</source>
+        <target state="translated">À droite</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left">
+        <source>image_crop_alignment.bottom-left</source>
+        <target state="translated">En bas à gauche</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom">
+        <source>image_crop_alignment.bottom</source>
+        <target state="translated">En bas</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right">
+        <source>image_crop_alignment.bottom-right</source>
+        <target state="translated">En bas à droite</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="attributable">
+        <source>attributable</source>
+        <target state="translated">Accepte des attributs</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type">
+        <source>enables_node_attributes_for_this_type</source>
+        <target state="translated">Permets aux nœuds de ce type d'avoir des attributs en plus de leurs données.</target>
       </trans-unit>
     </body>
   </file>

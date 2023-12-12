@@ -103,9 +103,9 @@
         padding:0 11px;
         background: #4f4f4f;
         text-align: center;
-        .rounded(40px);
+        border-radius: 40px;
         .box-sizing();
-        .transition(background 0.3s linear);
+        transition: background 0.3s linear;
 
         @media (min-width: @screen-sm-min) {
             margin:0 20px;
@@ -165,7 +165,7 @@
             border-color:#4f4f4f;
             color:#ccc;
             text-indent: 5px;
-            .rounded(19px);
+            border-radius: 19px;
             .box-sizing();
 
             &:hover{
@@ -189,8 +189,8 @@
         width:16px;
         height:16px;
         cursor: pointer;
-        .opacity(0.8);
-        .transition(0.4s opacity @easeOutExpo);
+        opacity: 0.8;
+        transition: 0.4s opacity @easeOutExpo;
 
         @media (min-width: @screen-sm-min) {
             top:45px;
@@ -206,7 +206,7 @@
         }
 
         &:hover{
-            .opacity(1);
+            opacity: 1;
         }
 
         .uk-icon-rz-close-explorer{
@@ -287,7 +287,7 @@
             top:0; left:0;
             width:80px; height:80px;
             background:none;
-            .rounded(0);
+            border-radius: 0;
         }
 
         .link-button-inner{
@@ -297,9 +297,9 @@
             bottom:-30px;
             left:0;
             background:#BBBBBB;
-            .transition(0.4s bottom @easeOutExpo);
+            transition: 0.4s bottom @easeOutExpo;
             .transition-timing-function(@easeOutExpo);
-            .opacity(0.95);
+            opacity: 0.95;
 
             i{
                 color:#333;
@@ -330,7 +330,7 @@
         margin-left: auto;
         margin-right: auto;
         line-height: 45px;
-        font-size: 12px;
+        font-size: @default-font-size;
         width: ~"calc(100vw - 30px)";
 
         @media (min-width: @screen-sm-min) {
@@ -354,11 +354,11 @@
         line-height: 44px;
         .box-sizing();
         text-align: center;
-        .rounded(25px);
-        .transition(~"background-color linear 0.35s, border-color linear 0.35s, color linear 0.35s");
+        border-radius: 25px;
+        transition: ~"background-color linear 0.35s, border-color linear 0.35s, color linear 0.35s";
 
         .label{
-            font-size: 12px;
+            font-size: @default-font-size;
             padding-left: 8px;
             font-weight: 600;
         }

@@ -141,7 +141,7 @@ final class TagRepository extends EntityRepository
                 $qb->leftJoin('tg.translatedTags', 'tt');
                 $qb->leftJoin(
                     'tt.translation',
-                    static::TRANSLATION_ALIAS,
+                    self::TRANSLATION_ALIAS,
                     'WITH',
                     't.defaultTranslation = true'
                 );
@@ -608,19 +608,19 @@ final class TagRepository extends EntityRepository
                 // Dots are forbidden in field definitions
                 $baseKey = $simpleQB->getParameterKey($key);
 
-                if (false !== \mb_strpos($key, 'translation.')) {
+                if (\str_contains($key, 'translation.')) {
                     /*
                      * Search in translation fields
                      */
                     $prefix = static::TRANSLATION_ALIAS . '.';
                     $key = str_replace('translation.', '', $key);
-                } elseif (false !== \mb_strpos($key, 'nodes.')) {
+                } elseif (\str_contains($key, 'nodes.')) {
                     /*
                      * Search in node fields
                      */
                     $prefix = static::NODE_ALIAS . '.';
                     $key = str_replace('nodes.', '', $key);
-                } elseif (false !== \mb_strpos($key, 'translatedTag.')) {
+                } elseif (\str_contains($key, 'translatedTag.')) {
                     /*
                      * Search in translatedTags fields
                      */

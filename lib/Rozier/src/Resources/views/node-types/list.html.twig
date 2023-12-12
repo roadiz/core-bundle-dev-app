@@ -81,7 +81,7 @@
 
                         <tr class="{{ classes|join(' ') }}">
                             <td class="name"><a href="{{ path('nodeTypesEditPage', { nodeTypeId: type.getId }) }}">
-                                <span class="color" style="background-color:{{ type.getColor }};"></span>{{ type.getName }}
+                                <span class="color" style="--data-color:{{ type.getColor }};"></span>{{ type.getName }}
                             </a></td>
                             <td class="mobile-hidden uk-hidden-small">{{ type.getDisplayName }}</td>
                             <td class="mobile-hidden uk-hidden-small uk-visible-xlarge">{{ type.getSourceEntityClassName }}</td>
@@ -95,7 +95,7 @@
                                 <a class="uk-button uk-button-content uk-button-small" href="{{ path('nodeTypesEditPage', { nodeTypeId: type.getId }) }}" title="{% trans %}edit{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
                                 <a class="uk-button uk-button-content uk-button-small" href="{{ path('nodeTypeFieldsListPage', { nodeTypeId: type.getId }) }}" title="{% trans %}manage.nodeTypeFields{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-type-field"></i></a>
                                 <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link" href="{{ path('nodesTypesExportPage', { nodeTypeId: type.getId }) }}" title="{% trans %}export{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></a>
-                                <a class="uk-button uk-button-content uk-button-small uk-button-table-delete" href="{{ path('nodeTypesDeletePage', { nodeTypeId: type.getId }) }}" title="{% trans %}delete{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                                <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('nodeTypesDeletePage', { nodeTypeId: type.getId }) }}" title="{% trans %}delete{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
                             {% endapply %}
                             </td>
                         </tr>

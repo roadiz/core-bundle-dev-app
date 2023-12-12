@@ -53,7 +53,7 @@ class NodeNameChecker implements NodeNamePolicyInterface
         return sprintf(
             '%s-%s',
             $nodeTypeSuffix,
-            null !== $nodeSource->getNode() ? $nodeSource->getNode()->getId() : $nodeSource->getId()
+            null !== $nodeSource->getNode()->getId()
         );
     }
 

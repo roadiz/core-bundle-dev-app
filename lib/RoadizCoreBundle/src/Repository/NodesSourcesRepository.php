@@ -14,24 +14,24 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesApp
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesBuildEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryNodesSourcesEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
-use RZ\Roadiz\CoreBundle\Entity\Log;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
+use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResults;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * EntityRepository that implements search engine query with Solr.
  *
  * @template T of NodesSources
- * @extends StatusAwareRepository<T>
- * @template-extends StatusAwareRepository<T>
+ * @extends StatusAwareRepository<T|NodesSources>
+ * @template-extends StatusAwareRepository<T|NodesSources>
  */
 class NodesSourcesRepository extends StatusAwareRepository
 {
@@ -60,10 +60,11 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderNodesSourcesBuildEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryBuilderNodesSourcesBuildEvent($qb, $property, $value, $this->getEntityName())
         );
@@ -74,10 +75,11 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param string $property
      * @param mixed $value
      *
-     * @return object|QueryBuilderNodesSourcesApplyEvent
+     * @return Event
      */
     protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryBuilderNodesSourcesApplyEvent($qb, $property, $value, $this->getEntityName())
         );
@@ -86,10 +88,11 @@ class NodesSourcesRepository extends StatusAwareRepository
     /**
      * @param Query  $query
      *
-     * @return object|QueryNodesSourcesEvent
+     * @return Event
      */
     protected function dispatchQueryEvent(Query $query): object
     {
+        // @phpstan-ignore-next-line
         return $this->dispatcher->dispatch(
             new QueryNodesSourcesEvent($query, $this->getEntityName())
         );
@@ -147,9 +150,10 @@ class NodesSourcesRepository extends StatusAwareRepository
             if ($key == "tags" || $key == "tagExclusive") {
                 continue;
             }
-            /*
+            /**
              * Main QueryBuilder dispatch loop for
              * custom properties criteria.
+             * @var QueryBuilderNodesSourcesBuildEvent $event
              */
             $event = $this->dispatchQueryBuilderBuildEvent($qb, $key, $value);
 
@@ -183,6 +187,7 @@ class NodesSourcesRepository extends StatusAwareRepository
                 continue;
             }
 
+            /** @var QueryBuilderNodesSourcesApplyEvent $event */
             $event = $this->dispatchQueryBuilderApplyEvent($qb, $key, $value);
             if (!$event->isPropagationStopped()) {
                 $simpleQB->bindValue($key, $value);
@@ -212,29 +217,17 @@ class NodesSourcesRepository extends StatusAwareRepository
              * Forbid deleted node for backend user when authorizationChecker not null.
              */
             if (!$this->hasJoinedNode($qb, $prefix)) {
-                $qb->innerJoin(
-                    $prefix . '.node',
-                    static::NODE_ALIAS,
-                    'WITH',
-                    $qb->expr()->lte(static::NODE_ALIAS . '.status', Node::PUBLISHED)
-                );
-            } else {
-                $qb->andWhere($qb->expr()->lte(static::NODE_ALIAS . '.status', Node::PUBLISHED));
+                $qb->innerJoin($prefix . '.node', static::NODE_ALIAS);
             }
+            $qb->andWhere($qb->expr()->lte(static::NODE_ALIAS . '.status', Node::PUBLISHED));
         } else {
             /*
              * Forbid unpublished node for anonymous and not backend users.
              */
             if (!$this->hasJoinedNode($qb, $prefix)) {
-                $qb->innerJoin(
-                    $prefix . '.node',
-                    static::NODE_ALIAS,
-                    'WITH',
-                    $qb->expr()->eq(static::NODE_ALIAS . '.status', Node::PUBLISHED)
-                );
-            } else {
-                $qb->andWhere($qb->expr()->eq(static::NODE_ALIAS . '.status', Node::PUBLISHED));
+                $qb->innerJoin($prefix . '.node', static::NODE_ALIAS);
             }
+            $qb->andWhere($qb->expr()->eq(static::NODE_ALIAS . '.status', Node::PUBLISHED));
         }
         return $qb;
     }
@@ -245,8 +238,8 @@ class NodesSourcesRepository extends StatusAwareRepository
      *
      * @param array $criteria
      * @param array|null $orderBy
-     * @param integer|null $limit
-     * @param integer|null $offset
+     * @param int|null $limit
+     * @param int|null $offset
      * @return QueryBuilder
      */
     protected function getContextualQuery(
@@ -254,7 +247,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         array $orderBy = null,
         $limit = null,
         $offset = null
-    ) {
+    ): QueryBuilder {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
         $this->alterQueryBuilderWithAuthorizationChecker($qb, static::NODESSOURCES_ALIAS);
         $qb->addSelect(static::NODE_ALIAS);
@@ -267,7 +260,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         // Add ordering
         if (null !== $orderBy) {
             foreach ($orderBy as $key => $value) {
-                if (false !== \mb_strpos($key, 'node.')) {
+                if (\str_contains($key, 'node.')) {
                     $simpleKey = str_replace('node.', '', $key);
                     $qb->addOrderBy(static::NODE_ALIAS . '.' . $simpleKey, $value);
                 } else {
@@ -412,7 +405,7 @@ class NodesSourcesRepository extends StatusAwareRepository
     public function findOneBy(
         array $criteria,
         array $orderBy = null
-    ) {
+    ): ?NodesSources {
         $qb = $this->getContextualQuery(
             $criteria,
             $orderBy,
@@ -563,18 +556,20 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param int $maxResult
      * @return Paginator
      */
-    public function findByLatestUpdated($maxResult = 5)
+    public function findByLatestUpdated(int $maxResult = 5): Paginator
     {
         $subQuery = $this->_em->createQueryBuilder();
-        $subQuery->select('sns.id')
+        $subQuery->select('slog.entityId')
             ->from(Log::class, 'slog')
-            ->innerJoin(NodesSources::class, 'sns')
-            ->andWhere($subQuery->expr()->isNotNull('slog.nodeSource'))
+            ->andWhere($subQuery->expr()->eq('slog.entityClass', ':entityClass'))
             ->orderBy('slog.datetime', 'DESC');
 
         $query = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $query->andWhere($query->expr()->in(static::NODESSOURCES_ALIAS . '.id', $subQuery->getQuery()->getDQL()));
-        $query->setMaxResults($maxResult);
+        $query
+            ->andWhere($query->expr()->in(static::NODESSOURCES_ALIAS . '.id', $subQuery->getQuery()->getDQL()))
+            ->setParameter(':entityClass', NodesSources::class)
+            ->setMaxResults($maxResult)
+        ;
 
         return new Paginator($query->getQuery());
     }
@@ -646,7 +641,7 @@ class NodesSourcesRepository extends StatusAwareRepository
 
             if (!$event->isPropagationStopped()) {
                 $baseKey = $simpleQB->getParameterKey($key);
-                if (false !== \mb_strpos($key, 'node.nodeType.')) {
+                if (\str_contains($key, 'node.nodeType.')) {
                     if (!$this->hasJoinedNode($qb, $alias)) {
                         $qb->innerJoin($alias . '.node', static::NODE_ALIAS);
                     }
@@ -656,7 +651,7 @@ class NodesSourcesRepository extends StatusAwareRepository
                     $prefix = static::NODETYPE_ALIAS . '.';
                     $simpleKey = str_replace('node.nodeType.', '', $key);
                     $qb->andWhere($simpleQB->buildExpressionWithoutBinding($value, $prefix, $simpleKey, $baseKey));
-                } elseif (false !== \mb_strpos($key, 'node.')) {
+                } elseif (\str_contains($key, 'node.')) {
                     if (!$this->hasJoinedNode($qb, $alias)) {
                         $qb->innerJoin($alias . '.node', static::NODE_ALIAS);
                     }
@@ -751,5 +746,22 @@ class NodesSourcesRepository extends StatusAwareRepository
         }
 
         return $qb->getQuery()->getResult();
+    }
+
+    protected function classicLikeComparison(
+        string $pattern,
+        QueryBuilder $qb,
+        string $alias = EntityRepository::DEFAULT_ALIAS
+    ): QueryBuilder {
+        $qb = parent::classicLikeComparison($pattern, $qb, $alias);
+        $qb
+            ->innerJoin($alias . '.node', static::NODE_ALIAS)
+            ->leftJoin(static::NODE_ALIAS . '.attributeValues', 'av')
+            ->leftJoin('av.attributeValueTranslations', 'avt')
+        ;
+        $value =  '%' . strip_tags(\mb_strtolower($pattern)) . '%';
+        $qb->orWhere($qb->expr()->like('LOWER(avt.value)', $qb->expr()->literal($value)));
+        $qb->orWhere($qb->expr()->like('LOWER(' . static::NODE_ALIAS . '.nodeName)', $qb->expr()->literal($value)));
+        return $qb;
     }
 }

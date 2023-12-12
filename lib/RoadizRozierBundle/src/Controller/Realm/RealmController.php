@@ -9,9 +9,9 @@ use RZ\Roadiz\CoreBundle\Entity\Realm;
 use RZ\Roadiz\CoreBundle\Form\RealmType;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Themes\Rozier\Controllers\AbstractAdminController;
+use Themes\Rozier\Controllers\AbstractAdminWithBulkController;
 
-class RealmController extends AbstractAdminController
+class RealmController extends AbstractAdminWithBulkController
 {
     /**
      * @inheritDoc

@@ -11,6 +11,9 @@ roadiz_rozier:
 roadiz_font:
     resource: "@RoadizFontBundle/config/routing.yaml"
 
+roadiz_two_factor:
+    resource: "@RoadizTwoFactorBundle/config/routing.yaml"
+
 rz_intervention_request:
     resource: "@RZInterventionRequestBundle/Resources/config/routing.yml"
     prefix:   /

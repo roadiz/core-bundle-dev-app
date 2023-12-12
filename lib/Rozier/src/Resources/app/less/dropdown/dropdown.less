@@ -24,7 +24,7 @@
     padding: 10px;
     font-size: 13px;
     .box-sizing();
-    .rounded(0px);
+    border-radius: 0px;
     box-shadow: 1px 1px 2px rgba(0,0,0,.05);
 }
 
@@ -49,7 +49,7 @@
         }
         a{
             background: #e5e5e5;
-            font-size: 12px;
+            font-size: @default-font-size;
             min-width: 150px;
 
             &:active, &:focus{
@@ -89,7 +89,7 @@
             p {
                 margin: 0;
                 padding: 0 15px 0 20px;
-                font-size: 12px;
+                font-size: @default-font-size;
                 height: @contextualdropdown-p-height;
 
                 i {
@@ -101,12 +101,12 @@
             .add-child {
                 height: 40px;
                 line-height: 40px;
-                background-color: white;
+                background-color: var(--contrasted-bg);
                 border-bottom: 1px dashed @contextualdropdown-border-color;
                 padding-left: 16px;
                 padding-right: 11px;
                 font-weight: bold;
-                .transition(~'background ease 0.2s, color ease 0.2s');
+                transition: ~'background ease 0.2s, color ease 0.2s';
 
                 i {
                     line-height: 40px;
@@ -127,7 +127,7 @@
                     border-bottom: 1px solid @contextualdropdown-border-color;
                     padding: 0 13px;
                     color: @contextualdropdown-p-color;
-                    .transition(~'background ease 0.2s, color ease 0.2s');
+                    transition: ~'background ease 0.2s, color ease 0.2s';
 
                     &+p {
                         border-top: 1px solid rgba(255, 255, 255, 0.8);
@@ -161,7 +161,7 @@
     }
     .vertical-nodetype {
         position: absolute;
-        background-color: @contrast-color;
+        background-color: var(--accent-color);
         width: 26px;
         top: 0;
         bottom: 0;

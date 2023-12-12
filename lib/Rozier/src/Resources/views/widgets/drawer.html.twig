@@ -43,36 +43,33 @@
                     {% set label = name|humanize %}
                 {%- endif -%}
 
-                <nav class="drawer-widget-nav uk-navbar">
-                    <ul class="uk-navbar-nav">
-                        <li class="uk-navbar-brand">
-                            <i class="{{ icon }}"></i>
-                        </li>
-                        <li class="uk-navbar-brand label">
+                <nav class="drawer-widget-nav">
+                    <div class="drawer-widget-nav__head">
+                        <div class="drawer-widget-nav__title"><i class="{{ icon }}"></i></div>
+                        <div class="drawer-widget-nav__title label">
                             {{ label|trans }}
                             {% if isSortable == 'false' %}
-                                <span class="uk-text-muted">
-                            {% trans %}drawer.sortable-not-enable{% endtrans %}
-                        </span>
+                                <span class="uk-text-muted">{% trans %}drawer.sortable-not-enable{% endtrans %}</span>
                             {% endif %}
                             <span
                                 class="uk-text-muted"
-                                :class="{ 'uk-text-danger': items.length < this.drawer.minLength }">
-                            <template v-if="this.drawer.maxLength < 9999">
-                                ${ items.length } / ${ this.drawer.maxLength }
-                            </template>
-                            <template v-if="this.drawer.minLength > 0">
-                                ({% trans %}min{% endtrans %}: ${ this.drawer.minLength })
-                            </template>
-                        </span>
+                                :class="{ 'uk-text-danger': items.length < this.drawer.minLength }"
+                            >
+                                <template v-if="this.drawer.maxLength < 9999">
+                                    ${ items.length } / ${ this.drawer.maxLength }
+                                </template>
+                                <template v-if="this.drawer.minLength > 0">
+                                    ({% trans %}min{% endtrans %}: ${ this.drawer.minLength })
+                                </template>
+                            </span>
                             {% if attr['data-universal'] %}
                                 <i data-uk-tooltip="{animation:true}"
                                    title="{% trans %}universal{% endtrans %}"
                                    class="uk-icon uk-icon-flag universal-indicator"></i>
                             {% endif %}
-                        </li>
-                    </ul>
-                    <div class="uk-navbar-content uk-navbar-flip">
+                        </div>
+                    </div>
+                    <div class="drawer-widget-nav__content">
                         <div class="drawer-widget-quick-creation uk-button-group">
                             <rz-button :is-active="drawer.isActive"
                                        :callback="onExplorerButtonClick">

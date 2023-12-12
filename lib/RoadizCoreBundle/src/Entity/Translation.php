@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -573,7 +573,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      * @Serializer\Groups({"translation", "translation_base"})
      * @Serializer\Type("string")
      */
-    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Column(type: 'string', length: 250, unique: true)]
     #[SymfonySerializer\Groups(['translation', 'translation_base'])]
     #[Assert\NotNull]
     #[Assert\NotBlank]

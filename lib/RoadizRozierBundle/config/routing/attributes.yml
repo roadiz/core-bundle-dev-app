@@ -22,6 +22,11 @@ attributesDeletePage:
         _controller: Themes\Rozier\Controllers\Attributes\AttributeController::deleteAction
     requirements: { id : "[0-9]+" }
 
+attributesBulkDeletePage:
+    methods: [GET, POST]
+    path:     /bulk-delete
+    defaults:
+        _controller: Themes\Rozier\Controllers\Attributes\AttributeController::bulkDeleteAction
 
 attributeGroupsHomePage:
     path:     /groups

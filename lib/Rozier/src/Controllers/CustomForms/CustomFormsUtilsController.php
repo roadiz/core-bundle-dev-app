@@ -14,9 +14,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Themes\Rozier\RozierApp;
 
-/**
- * @package Themes\Rozier\Controllers
- */
 class CustomFormsUtilsController extends RozierApp
 {
     private CustomFormAnswerSerializer $customFormAnswerSerializer;
@@ -123,7 +120,7 @@ class CustomFormsUtilsController extends RozierApp
                 '%name%' => $existingCustomForm->getDisplayName(),
             ]);
 
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $newCustomForm);
 
             return $this->redirectToRoute(
                 'customFormsEditPage',
@@ -134,9 +131,10 @@ class CustomFormsUtilsController extends RozierApp
                 $request,
                 $this->getTranslator()->trans("impossible.duplicate.custom.form.%name%", [
                     '%name%' => $existingCustomForm->getDisplayName(),
-                ])
+                ]),
+                $newCustomForm
             );
-            $this->publishErrorMessage($request, $e->getMessage());
+            $this->publishErrorMessage($request, $e->getMessage(), $existingCustomForm);
 
             return $this->redirectToRoute(
                 'customFormsEditPage',

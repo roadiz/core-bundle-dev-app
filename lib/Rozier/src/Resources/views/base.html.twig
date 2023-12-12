@@ -24,11 +24,15 @@
     <body>
         <div id="app"></div>
         <div id="main-container">
-            <div id="main-container-inner">
+            {% set treePanelEnabled = (is_granted('ROLE_ACCESS_NODES') or
+                is_granted('ROLE_ACCESS_DOCUMENTS') or
+                is_granted('ROLE_ACCESS_TAGS')) %}
+            <div id="main-container-inner"{% if not treePanelEnabled %} class="trees-panel--hidden"{% endif %}>
                 <section class="main-container-section navigation-container-section" id="user-panel">
                     {% include '@RoadizRozier/panels/user_panel.html.twig' with {
                         'session' : session,
                         'head' : head,
+                        'rozier_user_actions': rozier_user_actions,
                         'themeServices':themeServices,
                     } only %}
                 </section>
@@ -38,9 +42,7 @@
                         'backofficeEntries':backofficeEntries,
                     } only %}
                 </section>
-                {% if (is_granted('ROLE_ACCESS_NODES') or
-                       is_granted('ROLE_ACCESS_DOCUMENTS') or
-                       is_granted('ROLE_ACCESS_TAGS')) %}
+                {% if treePanelEnabled %}
                 <section class="main-container-section navigation-container-section" id="main-trees">
                     <div id="main-trees-overlay"></div>
                     <div id="main-trees-container">

@@ -13,6 +13,7 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPreUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\Routing\NodeRouter;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\TwigExtension\JwtExtension;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormError;
@@ -54,8 +55,6 @@ class NodesSourcesController extends RozierApp
      */
     public function editSourceAction(Request $request, int $nodeId, int $translationId): Response
     {
-        $this->validateNodeAccessForRole('ROLE_ACCESS_NODES', $nodeId);
-
         /** @var Translation|null $translation */
         $translation = $this->em()->find(Translation::class, $translationId);
 
@@ -72,6 +71,8 @@ class NodesSourcesController extends RozierApp
         if (null === $gNode) {
             throw new ResourceNotFoundException('Node does not exist');
         }
+
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $gNode);
 
         /** @var NodesSources|null $source */
         $source = $this->em()
@@ -109,12 +110,16 @@ class NodesSourcesController extends RozierApp
             ]
         );
         $form->handleRequest($request);
+        $isJsonRequest =
+            $request->isXmlHttpRequest() ||
+            \in_array('application/json', $request->getAcceptableContentTypes())
+        ;
 
         if ($form->isSubmitted()) {
             if ($form->isValid() && !$this->isReadOnly) {
                 $this->onPostUpdate($source, $request);
 
-                if (!$request->isXmlHttpRequest()) {
+                if (!$isJsonRequest) {
                     return $this->getPostUpdateRedirection($source);
                 }
 
@@ -167,7 +172,7 @@ class NodesSourcesController extends RozierApp
             /*
              * Handle errors when Ajax POST requests
              */
-            if ($request->isXmlHttpRequest()) {
+            if ($isJsonRequest) {
                 $errors = $this->formErrorSerializer->getErrorsAsArray($form);
                 return new JsonResponse([
                     'status' => 'fail',
@@ -207,11 +212,9 @@ class NodesSourcesController extends RozierApp
         if (null === $ns) {
             throw new ResourceNotFoundException('Node source does not exist');
         }
-        /** @var Node $node */
+        $this->denyAccessUnlessGranted(NodeVoter::DELETE, $ns);
         $node = $ns->getNode();
         $this->em()->refresh($ns->getNode());
-
-        $this->validateNodeAccessForRole('ROLE_ACCESS_NODES_DELETE', $node->getId());
 
         /*
          * Prevent deleting last node-source available in node.
@@ -248,14 +251,18 @@ class NodesSourcesController extends RozierApp
             $this->em()->remove($ns);
             $this->em()->flush();
 
-            $ns = $node->getNodeSources()->first();
+            $ns = $node->getNodeSources()->first() ?: null;
+
+            if (null === $ns) {
+                throw new ResourceNotFoundException('No more node-source available for this node.');
+            }
 
             $msg = $this->getTranslator()->trans('node_source.%node_source%.deleted.%translation%', [
                 '%node_source%' => $node->getNodeName(),
                 '%translation%' => $ns->getTranslation()->getName(),
             ]);
 
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $node);
 
             return $this->redirectToRoute(
                 'nodesEditSourcePage',

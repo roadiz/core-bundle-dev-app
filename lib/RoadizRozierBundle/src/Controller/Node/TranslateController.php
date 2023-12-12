@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Node\NodeTranslator;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\RozierBundle\Form\TranslateNodeType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,7 +30,7 @@ final class TranslateController extends RozierApp
 
     public function translateAction(Request $request, Node $nodeId): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $nodeId);
 
         $node = $nodeId;
 

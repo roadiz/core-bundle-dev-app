@@ -7,7 +7,7 @@
 /* -------- STYLES -------- */
 
 #uk-navbar-filter{
-    background: #EFEFEF;
+    background: var(--maincontent-bar-bg);
     padding: 20px 0;
 
     .uk-navbar-content-cont{
@@ -26,8 +26,8 @@
     position: absolute;
     width:100%; height:22px;
     vertical-align: bottom;
-    font-size:12px; line-height:23px;
-    background:@maincontent-header-bg;
+    font-size: @default-font-size; line-height:23px;
+    background: var(--maincontent-header-bg);
     color:@icon-simple;
 
     span{
@@ -65,11 +65,11 @@
 }
 
 .filter-form-text{
-    font-size:12px;
+    font-size: @default-font-size;
 }
 
 .item-per-page-label {
-    font-size: 12px;
+    font-size: @default-font-size;
     display: inline-block;
     margin-right: 5px;
 }

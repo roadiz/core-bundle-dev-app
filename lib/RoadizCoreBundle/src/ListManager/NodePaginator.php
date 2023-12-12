@@ -39,11 +39,11 @@ class NodePaginator extends Paginator
      * Return entities filtered for current page.
      *
      * @param array   $order
-     * @param integer $page
+     * @param int $page
      *
-     * @return array
+     * @return array|\Doctrine\ORM\Tools\Pagination\Paginator
      */
-    public function findByAtPage(array $order = [], $page = 1)
+    public function findByAtPage(array $order = [], int $page = 1)
     {
         if (null !== $this->searchPattern) {
             return $this->searchByAtPage($order, $page);

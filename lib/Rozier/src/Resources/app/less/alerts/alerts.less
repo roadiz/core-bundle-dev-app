@@ -5,12 +5,11 @@
 .uk-alert {
     text-align: center;
     padding: 18px;
-    z-index: 9999;
-    font-size: 12px;
+    font-size: @default-font-size;
     font-weight: bold;
     background:#eaeaea;
-    color:@grey-medium;
-    .rounded(0px);
+    color: var(--global-text-lighter-color);
+    border-radius: 0px;
     .box-sizing();
     -webkit-font-smoothing: antialiased;
     //border-top: none;
@@ -30,9 +29,9 @@
 }
 
 .uk-alert-success {
-    color: darken(@contrast-color-darker, 15%);
-    background: fade(@contrast-color-darker, 20%);
-    border-color: fade(@contrast-color-darker, 50%);
+    color: darken(@success-color, 15%);
+    background: fade(@success-color, 20%);
+    border-color: fade(@success-color, 50%);
     text-shadow: none;
 }
 
@@ -100,7 +99,7 @@ td.uk-alert {
         text-align: left;
         .transform(scaleY(0));
         .transform-origin(left, top);
-        .opacity(0);
+        opacity: 0;
         .transform-transition(~' 0.5s ease, 0.5s opacity ease, 0.1s height ease');
         .transition-timing-function(@easeOutExpo);
     }
@@ -115,26 +114,38 @@ td.uk-alert {
     .form-col-focus {
         .form-help {
             .transform(scaleY(1));
-            .opacity(1);
+            opacity: 1;
         }
     }
 }
 
+@media (min-width: 480px) {
+    .uk-notify {
+        max-width: 70vw;
+        width: 650px;
+    }
+    .uk-notify-bottom-center,
+    .uk-notify-top-center {
+        margin-left: 0;
+        transform: translateX(-50%);
+    }
+}
+
 .uk-notify-message {
-    font-size: 12px;
+    font-size: @default-font-size;
     font-weight: bold;
     line-height: 18px;
 
     &-success {
-        background: @contrast-color-darker;
-        border-color: darken(@contrast-color-darker, 5%);
+        background: @success-color;
+        border-color: darken(@success-color, 5%);
         color: white;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
     }
 
     &-error {
         color: @alert-color;
-        border-color: rgba(@alert-color-red, @alert-color-green, @alert-color-blue, 0.5);
+        border-color: fade(@alert-color, 50%);
         background: #FFEEEE;
         text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
     }

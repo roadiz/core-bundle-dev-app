@@ -44,15 +44,12 @@ final class RealmVoter extends Voter
      */
     public function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
-        switch ($subject->getType()) {
-            case RealmInterface::TYPE_PLAIN_PASSWORD:
-                return $this->voteForPassword($attribute, $subject, $token);
-            case RealmInterface::TYPE_USER:
-                return $this->voteForUser($attribute, $subject, $token);
-            case RealmInterface::TYPE_ROLE:
-                return $this->voteForRole($attribute, $subject, $token);
-        }
-        return false;
+        return match ($subject->getType()) {
+            RealmInterface::TYPE_PLAIN_PASSWORD => $this->voteForPassword($attribute, $subject, $token),
+            RealmInterface::TYPE_USER => $this->voteForUser($attribute, $subject, $token),
+            RealmInterface::TYPE_ROLE => $this->voteForRole($attribute, $subject, $token),
+            default => false,
+        };
     }
 
     /**
@@ -61,7 +58,7 @@ final class RealmVoter extends Voter
      * @param TokenInterface $token
      * @return bool
      */
-    private function voteForRole(string $attribute, $subject, TokenInterface $token): bool
+    private function voteForRole(string $attribute, RealmInterface $subject, TokenInterface $token): bool
     {
         if (null === $role = $subject->getRole()) {
             return false;
@@ -75,7 +72,7 @@ final class RealmVoter extends Voter
      * @param TokenInterface $token
      * @return bool
      */
-    private function voteForUser(string $attribute, $subject, TokenInterface $token): bool
+    private function voteForUser(string $attribute, RealmInterface $subject, TokenInterface $token): bool
     {
         if ($subject->getUsers()->count() === 0 || null === $token->getUser()) {
             return false;
@@ -91,7 +88,7 @@ final class RealmVoter extends Voter
      * @param TokenInterface $token
      * @return bool
      */
-    private function voteForPassword(string $attribute, $subject, TokenInterface $token): bool
+    private function voteForPassword(string $attribute, RealmInterface $subject, TokenInterface $token): bool
     {
         $request = $this->requestStack->getCurrentRequest();
         if (null === $request || empty($subject->getPlainPassword())) {

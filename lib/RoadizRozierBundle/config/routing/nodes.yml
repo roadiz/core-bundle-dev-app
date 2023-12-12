@@ -91,6 +91,14 @@ nodesTreePage:
     requirements:
         nodeId : "[0-9]+"
         translationId : "[0-9]+"
+nodesMainTreePage:
+    path:     /tree/main/{translationId}
+    defaults:
+        _controller: Themes\Rozier\Controllers\Nodes\NodesTreesController::treeAction
+        nodeId : null
+        translationId : null
+    requirements:
+        translationId : "[0-9]+"
 nodesBulkDeletePage:
     path:     /bulk-delete
     defaults:

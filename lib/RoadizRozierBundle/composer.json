@@ -4,6 +4,7 @@
     "keywords": [
         "cms",
         "backoffice",
+        "roadiz",
         "rezo zero"
     ],
     "authors": [
@@ -15,13 +16,14 @@
         }
     ],
     "type": "symfony-bundle",
+    "prefer-stable": true,
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.1",
         "symfony/framework-bundle": "5.4.*",
-        "roadiz/core-bundle": "^2.1",
-        "roadiz/rozier": "^2.1",
-        "roadiz/compat-bundle": "^2.1",
-        "roadiz/openid": "^2.1"
+        "roadiz/core-bundle": "2.2.*",
+        "roadiz/rozier": "2.2.*",
+        "roadiz/compat-bundle": "2.2.*",
+        "roadiz/openid": "2.2.*"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",
@@ -52,8 +54,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.1.x-dev",
-            "dev-develop": "2.2.x-dev"
+            "dev-main": "2.2.x-dev",
+            "dev-develop": "2.3.x-dev"
         }
     }
 }

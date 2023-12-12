@@ -87,15 +87,16 @@ class Theme extends AbstractEntity
         $class = $this->getClassName();
 
         if (class_exists($class)) {
-            $reflector = new \ReflectionClass($class);
-            if ($reflector->isSubclassOf('\\RZ\\Roadiz\\CMS\\Controllers\\AppController')) {
-                return [
-                    'name' => call_user_func([$class, 'getThemeName']),
-                    'author' => call_user_func([$class, 'getThemeAuthor']),
-                    'copyright' => call_user_func([$class, 'getThemeCopyright']),
-                    'dir' => call_user_func([$class, 'getThemeDir'])
-                ];
-            }
+            $nameCallable = [$class, 'getThemeName'];
+            $authorCallable = [$class, 'getThemeAuthor'];
+            $copyrightCallable = [$class, 'getThemeCopyright'];
+            $dirCallable = [$class, 'getThemeDir'];
+            return [
+                'name' => \is_callable($nameCallable) ? call_user_func($nameCallable) : null,
+                'author' => \is_callable($authorCallable) ? call_user_func($authorCallable) : null,
+                'copyright' => \is_callable($copyrightCallable) ? call_user_func($copyrightCallable) : null,
+                'dir' => \is_callable($dirCallable) ? call_user_func($dirCallable) : null,
+            ];
         }
 
         return [];

@@ -11,8 +11,11 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 
 interface AttributeValueInterface extends PositionedInterface, PersistableInterface
 {
+    public function getRealm(): ?RealmInterface;
+    public function setRealm(?RealmInterface $realm): self;
+
     /**
-     * @return AttributeInterface
+     * @return AttributeInterface|null
      */
     public function getAttribute(): ?AttributeInterface;
 

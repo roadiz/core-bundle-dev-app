@@ -29,7 +29,7 @@ class SettingGroup extends AbstractEntity
     #[Serializer\Groups(['setting', 'setting_group'])]
     protected bool $inMenu = false;
 
-    #[ORM\Column(type: 'string', unique: true)]
+    #[ORM\Column(type: 'string', length: 250, unique: true)]
     #[SymfonySerializer\Groups(['setting', 'setting_group'])]
     #[Serializer\Groups(['setting', 'setting_group'])]
     #[Assert\NotNull]

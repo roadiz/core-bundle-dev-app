@@ -11,6 +11,7 @@ use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\CoreBundle\Repository\CustomFormAnswerRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: CustomFormAnswerRepository::class),
@@ -22,9 +23,10 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 class CustomFormAnswer extends AbstractEntity
 {
     #[
-        ORM\Column(name: "ip", type: "string", nullable: false),
+        ORM\Column(name: "ip", type: "string", length: 46, nullable: false),
         Serializer\Groups(["custom_form_answer"]),
-        SymfonySerializer\Groups(["custom_form_answer"])
+        SymfonySerializer\Groups(["custom_form_answer"]),
+        Assert\Length(max: 46)
     ]
     private string $ip = '';
 

@@ -40,7 +40,7 @@ final class LoginRequestController extends RozierApp
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
         $form = $this->createForm(LoginRequestForm::class);
         $form->handleRequest($request);
@@ -71,7 +71,7 @@ final class LoginRequestController extends RozierApp
     /**
      * @return Response
      */
-    public function confirmAction()
+    public function confirmAction(): Response
     {
         return $this->render('@RoadizRozier/login/requestConfirm.html.twig', $this->assignation);
     }

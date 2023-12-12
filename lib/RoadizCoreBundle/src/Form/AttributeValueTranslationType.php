@@ -13,10 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 
@@ -103,6 +105,9 @@ class AttributeValueTranslationType extends AbstractType
                     break;
             }
         }
+        $builder->add('attributeValue', AttributeValueRealmType::class, [
+            'label' => false,
+        ]);
     }
 
     /**
@@ -133,6 +138,15 @@ class AttributeValueTranslationType extends AbstractType
             'attributes.no_value' => null,
         ], $options ?: []);
     }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults([
+            'label' => false,
+            'data_class' => AttributeValueTranslationInterface::class,
+        ]);
+    }
+
 
     /**
      * @inheritDoc

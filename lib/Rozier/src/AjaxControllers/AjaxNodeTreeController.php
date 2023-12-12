@@ -18,9 +18,6 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxNodeTreeController extends AbstractAjaxController
 {
     private NodeChrootResolver $nodeChrootResolver;
@@ -124,7 +121,7 @@ class AjaxNodeTreeController extends AbstractAjaxController
                     $parent = $this->nodeChrootResolver->getChroot($this->getUser());
                 }
 
-                $nodeTree = $this->treeWidgetFactory->createNodeTree($parent, $translation);
+                $nodeTree = $this->treeWidgetFactory->createRootNodeTree($parent, $translation);
                 $this->assignation['mainNodeTree'] = true;
                 break;
         }

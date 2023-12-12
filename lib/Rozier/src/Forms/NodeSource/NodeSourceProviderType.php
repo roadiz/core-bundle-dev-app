@@ -105,7 +105,9 @@ final class NodeSourceProviderType extends AbstractConfigurableNodeSourceFieldTy
         $provider = $this->getProvider($configuration, $options);
 
         $displayableData = [];
-        $ids = call_user_func([$options['nodeSource'], $options['nodeTypeField']->getGetterName()]);
+        /** @var callable $callable */
+        $callable = [$options['nodeSource'], $options['nodeTypeField']->getGetterName()];
+        $ids = call_user_func($callable);
         if (!is_array($ids)) {
             $entities = $provider->getItemsById([$ids]);
         } else {

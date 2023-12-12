@@ -10,11 +10,11 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeTaggedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\RozierBundle\Form\NodesTagsType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Themes\Rozier\Forms\NodeTagsType;
 use Themes\Rozier\RozierApp;
 use Themes\Rozier\Traits\NodesTrait;
 
@@ -45,7 +45,6 @@ class NodesTagsController extends RozierApp
      */
     public function editTagsAction(Request $request, Node $nodeId): Response
     {
-        $this->validateNodeAccessForRole('ROLE_ACCESS_NODES', $nodeId);
         /** @var NodesSourcesRepository $nodeSourceRepository */
         $nodeSourceRepository = $this->em()->getRepository(NodesSources::class);
         $nodeSourceRepository
@@ -61,6 +60,8 @@ class NodesTagsController extends RozierApp
         if (null === $source) {
             throw new ResourceNotFoundException();
         }
+
+        $this->denyAccessUnlessGranted(NodeVoter::EDIT_TAGS, $source);
 
         $node = $source->getNode();
         $form = $this->createForm(NodesTagsType::class, $node);

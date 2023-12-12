@@ -1,0 +1,28 @@
+<th>{% trans %}webhooks.description{% endtrans %}</th>
+<th>
+    {% trans %}webhooks.messageType{% endtrans %}
+    {% if not no_sort %}
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'messageType',
+        'filters': filters,
+    } only %}
+    {% endif %}
+</th>
+<th>{% trans %}webhooks.automatic{% endtrans %}</th>
+<th>
+    {% trans %}webhooks.lastTriggeredAt{% endtrans %}
+    {% if not no_sort %}
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'lastTriggeredAt',
+        'filters': filters,
+    } only %}
+    {% endif %}
+</th>
+<th class="table-actions-row table-actions-row-3">
+    {% if hasBulkActions %}
+        <div class="bulk-selection">
+            <input class="checkbox" type="checkbox" name="bulk-selection-all" />
+        </div>
+    {% endif %}
+    {% trans %}actions{% endtrans %}
+</th>

@@ -1,13 +1,28 @@
 usersEditPage:
-    path:     /edit/{userId}
+    path:     /edit/{id}
     defaults:
         _controller: Themes\Rozier\Controllers\Users\UsersController::editAction
-    requirements: { userId : "[0-9]+" }
+    requirements: { id : "[0-9]+" }
+usersBulkDeletePage:
+    methods: [GET, POST]
+    path:     /bulk-delete
+    defaults:
+        _controller: Themes\Rozier\Controllers\Users\UsersController::bulkDeleteAction
+usersBulkEnablePage:
+    methods: [GET, POST]
+    path:     /bulk-enable
+    defaults:
+        _controller: Themes\Rozier\Controllers\Users\UsersController::bulkEnableAction
+usersBulkDisablePage:
+    methods: [GET, POST]
+    path:     /bulk-disable
+    defaults:
+        _controller: Themes\Rozier\Controllers\Users\UsersController::bulkDisableAction
 usersEditDetailsPage:
-    path:     /edit/{userId}/details
+    path:     /edit/{id}/details
     defaults:
         _controller: Themes\Rozier\Controllers\Users\UsersController::editDetailsAction
-    requirements: { userId : "[0-9]+" }
+    requirements: { id : "[0-9]+" }
 usersEditRolesPage:
     path:     /edit/{userId}/roles
     defaults:
@@ -31,13 +46,13 @@ usersRemoveGroupsPage:
 usersAddPage:
     path:     /add
     defaults:
+        _type: Themes\Rozier\Forms\AddUserType
         _controller: Themes\Rozier\Controllers\Users\UsersController::addAction
 usersDeletePage:
-    path:     /delete/{userId}
+    path:     /delete/{id}
     defaults:
         _controller: Themes\Rozier\Controllers\Users\UsersController::deleteAction
-    requirements: { userId : "[0-9]+" }
-
+    requirements: { id : "[0-9]+" }
 usersSecurityPage:
     path:     /edit/{userId}/security
     defaults:

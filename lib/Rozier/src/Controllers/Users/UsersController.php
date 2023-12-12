@@ -4,239 +4,292 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Users;
 
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Role;
 use RZ\Roadiz\CoreBundle\Entity\User;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Themes\Rozier\Forms\AddUserType;
+use Themes\Rozier\Controllers\AbstractAdminWithBulkController;
 use Themes\Rozier\Forms\UserDetailsType;
 use Themes\Rozier\Forms\UserType;
-use Themes\Rozier\RozierApp;
-use Themes\Rozier\Utils\SessionListFilters;
 use Twig\Error\RuntimeError;
 
-class UsersController extends RozierApp
+class UsersController extends AbstractAdminWithBulkController
 {
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     * @throws RuntimeError
-     */
-    public function indexAction(Request $request): Response
+    protected function supports(PersistableInterface $item): bool
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_USERS');
-
-        /*
-         * Manage get request to filter list
-         */
-        $listManager = $this->createEntityListManager(
-            User::class,
-            [],
-            ['username' => 'ASC']
-        );
-        $listManager->setDisplayingNotPublishedNodes(true);
-        /*
-         * Stored in session
-         */
-        $sessionListFilter = new SessionListFilters('user_item_per_page');
-        $sessionListFilter->handleItemPerPage($request, $listManager);
-        $listManager->handle();
-
-        $this->assignation['filters'] = $listManager->getAssignation();
-        $this->assignation['users'] = $listManager->getEntities();
-
-        return $this->render('@RoadizRozier/users/list.html.twig', $this->assignation);
+        return $item instanceof User;
     }
 
-    /**
-     * @param Request $request
-     * @param int $userId
-     *
-     * @return Response
-     * @throws RuntimeError
-     */
-    public function editAction(Request $request, int $userId): Response
+    protected function getNamespace(): string
     {
-        $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
-
-        if (
-            !(
-            $this->isGranted('ROLE_ACCESS_USERS') ||
-            ($this->getUser() instanceof User && $this->getUser()->getId() == $userId)
-            )
-        ) {
-            throw $this->createAccessDeniedException("You don't have access to this page: ROLE_ACCESS_USERS");
-        }
-        $user = $this->em()->find(User::class, $userId);
-        if ($user === null) {
-            throw new ResourceNotFoundException();
-        }
-        if (!$this->isGranted(Role::ROLE_SUPERADMIN) && $user->isSuperAdmin()) {
-            throw $this->createAccessDeniedException("You cannot edit a super admin.");
-        }
-
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->em()->flush();
-            $msg = $this->getTranslator()->trans(
-                'user.%name%.updated',
-                ['%name%' => $user->getUsername()]
-            );
-            $this->publishConfirmMessage($request, $msg);
-            /*
-             * Force redirect to avoid resending form when refreshing page
-             */
-            return $this->redirectToRoute(
-                'usersEditPage',
-                ['userId' => $user->getId()]
-            );
-        }
-
-        $this->assignation['user'] = $user;
-        $this->assignation['form'] = $form->createView();
-
-        return $this->render('@RoadizRozier/users/edit.html.twig', $this->assignation);
+        return 'user';
     }
 
-    /**
-     * @param Request $request
-     * @param int $userId
-     *
-     * @return Response
-     * @throws RuntimeError
-     */
-    public function editDetailsAction(Request $request, int $userId): Response
+    protected function createEmptyItem(Request $request): User
     {
-        $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
+        $user = new User();
+        $user->sendCreationConfirmationEmail(true);
+        return $user;
+    }
 
+    protected function getTemplateFolder(): string
+    {
+        return '@RoadizRozier/users';
+    }
+
+    protected function getRequiredRole(): string
+    {
+        return 'ROLE_ACCESS_USERS';
+    }
+
+    protected function getRequiredEditionRole(): string
+    {
+        // Allow any backoffice user to access user edition before
+        // checking if current editing item is the same as current user.
+        return 'ROLE_BACKEND_USER';
+    }
+
+    protected function getRequiredDeletionRole(): string
+    {
+        return 'ROLE_ACCESS_USERS_DELETE';
+    }
+
+    protected function getEntityClass(): string
+    {
+        return User::class;
+    }
+
+    protected function getFormType(): string
+    {
+        return UserType::class;
+    }
+
+    protected function getDefaultRouteName(): string
+    {
+        return 'usersHomePage';
+    }
+
+    protected function getEditRouteName(): string
+    {
+        return 'usersEditPage';
+    }
+
+    protected function getBulkDeleteRouteName(): ?string
+    {
+        return 'usersBulkDeletePage';
+    }
+
+    protected function denyAccessUnlessItemGranted(PersistableInterface $item): void
+    {
+        parent::denyAccessUnlessItemGranted($item);
+
+        if (!$item instanceof User) {
+            throw new \RuntimeException('Invalid item type.');
+        }
+        $requestUser = $this->getUser();
         if (
             !(
                 $this->isGranted('ROLE_ACCESS_USERS') ||
-                ($this->getUser() instanceof User && $this->getUser()->getId() === $userId)
+                ($requestUser instanceof User && $requestUser->getId() === $item->getId())
             )
         ) {
             throw $this->createAccessDeniedException("You don't have access to this page: ROLE_ACCESS_USERS");
         }
-        $user = $this->em()->find(User::class, $userId);
-
-        if ($user === null) {
-            throw new ResourceNotFoundException();
-        }
-        if (!$this->isGranted(Role::ROLE_SUPERADMIN) && $user->isSuperAdmin()) {
+        if (!$this->isGranted(Role::ROLE_SUPERADMIN) && $item->isSuperAdmin()) {
             throw $this->createAccessDeniedException("You cannot edit a super admin.");
         }
+    }
 
-        $form = $this->createForm(UserDetailsType::class, $user);
+    protected function getEntityName(PersistableInterface $item): string
+    {
+        if (!$item instanceof User) {
+            throw new \RuntimeException('Invalid item type.');
+        }
+        return $item->getUsername();
+    }
+
+    protected function getDefaultOrder(Request $request): array
+    {
+        return ['username' => 'ASC'];
+    }
+
+    protected function createUpdateEvent(PersistableInterface $item)
+    {
+        if (!$item instanceof User) {
+            throw new \RuntimeException('Invalid item type.');
+        }
+        /*
+         * If pictureUrl is empty, use default Gravatar image.
+         */
+        if ($item->getPictureUrl() == '') {
+            $item->setPictureUrl($item->getGravatarUrl());
+        }
+
+        return parent::createUpdateEvent($item); // TODO: Change the autogenerated stub
+    }
+
+    /**
+     * @param Request $request
+     * @param int $id
+     *
+     * @return Response
+     * @throws RuntimeError
+     */
+    public function editDetailsAction(Request $request, int $id): Response
+    {
+        $this->denyAccessUnlessGranted($this->getRequiredEditionRole());
+        $this->additionalAssignation($request);
+
+        /** @var mixed|object|null $item */
+        $item = $this->em()->find($this->getEntityClass(), $id);
+        if (!($item instanceof PersistableInterface)) {
+            throw $this->createNotFoundException();
+        }
+
+        $this->prepareWorkingItem($item);
+        $this->denyAccessUnlessItemGranted($item);
+
+        $form = $this->createForm(UserDetailsType::class, $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             /*
-             * If pictureUrl is empty, use default Gravatar image.
+             * Events are dispatched before entity manager is flushed
+             * to be able to throw exceptions before it is persisted.
              */
-            if ($user->getPictureUrl() == '') {
-                $user->setPictureUrl($user->getGravatarUrl());
-            }
-
+            $event = $this->createUpdateEvent($item);
+            $this->dispatchSingleOrMultipleEvent($event);
             $this->em()->flush();
 
+            /*
+             * Event that requires that EM is flushed
+             */
+            $postEvent = $this->createPostUpdateEvent($item);
+            $this->dispatchSingleOrMultipleEvent($postEvent);
+
             $msg = $this->getTranslator()->trans(
-                'user.%name%.updated',
-                ['%name%' => $user->getUsername()]
+                '%namespace%.%item%.was_updated',
+                [
+                    '%item%' => $this->getEntityName($item),
+                    '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
+                ]
             );
-            $this->publishConfirmMessage($request, $msg);
+            $this->publishConfirmMessage($request, $msg, $item);
 
             /*
              * Force redirect to avoid resending form when refreshing page
              */
             return $this->redirectToRoute(
                 'usersEditDetailsPage',
-                ['userId' => $user->getId()]
+                ['id' => $item->getId()]
             );
         }
 
-        $this->assignation['user'] = $user;
         $this->assignation['form'] = $form->createView();
+        $this->assignation['item'] = $item;
 
-        return $this->render('@RoadizRozier/users/editDetails.html.twig', $this->assignation);
+        return $this->render(
+            $this->getTemplateFolder() . '/editDetails.html.twig',
+            $this->assignation,
+            null,
+            $this->getTemplateNamespace()
+        );
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     * @throws RuntimeError
-     */
-    public function addAction(Request $request): Response
+
+
+    protected function additionalAssignation(Request $request): void
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_USERS');
+        parent::additionalAssignation($request);
 
-        $user = new User();
-        $user->sendCreationConfirmationEmail(true);
-        $this->assignation['user'] = $user;
-
-        $form = $this->createForm(AddUserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->em()->persist($user);
-            $this->em()->flush();
-
-            $msg = $this->getTranslator()->trans('user.%name%.created', ['%name%' => $user->getUsername()]);
-            $this->publishConfirmMessage($request, $msg);
-
-            return $this->redirectToRoute('usersHomePage');
+        if (null !== $this->getBulkEnableRouteName()) {
+            $bulkEnableForm = $this->createEnableBulkForm(true);
+            $this->assignation['bulkEnableForm'] = $bulkEnableForm->createView();
+            $this->assignation['hasBulkActions'] = true;
         }
 
-        $this->assignation['form'] = $form->createView();
-
-        return $this->render('@RoadizRozier/users/add.html.twig', $this->assignation);
+        if (null !== $this->getBulkDisableRouteName()) {
+            $bulkDisableForm = $this->createDisableBulkForm(true);
+            $this->assignation['bulkDisableForm'] = $bulkDisableForm->createView();
+            $this->assignation['hasBulkActions'] = true;
+        }
     }
 
-    /**
-     * @param Request $request
-     * @param int $userId
-     *
-     * @return Response
-     * @throws RuntimeError
+    /*
+     * User specific bulk actions
      */
-    public function deleteAction(Request $request, int $userId): Response
+
+    protected function createEnableBulkForm(bool $get = false, ?array $data = null): FormInterface
     {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_USERS_DELETE');
-        $user = $this->em()->find(User::class, (int) $userId);
+        return $this->createBulkForm(
+            $this->getBulkEnableRouteName(),
+            'bulk-enable',
+            $get,
+            $data
+        );
+    }
 
-        if ($user === null) {
-            throw new ResourceNotFoundException();
-        }
+    protected function createDisableBulkForm(bool $get = false, ?array $data = null): FormInterface
+    {
+        return $this->createBulkForm(
+            $this->getBulkDisableRouteName(),
+            'bulk-disable',
+            $get,
+            $data
+        );
+    }
 
-        if (!$this->isGranted(Role::ROLE_SUPERADMIN) && $user->isSuperAdmin()) {
-            throw $this->createAccessDeniedException("You cannot edit a super admin.");
-        }
+    private function getBulkEnableRouteName(): string
+    {
+        return 'usersBulkEnablePage';
+    }
 
-        $form = $this->createForm(FormType::class);
-        $form->handleRequest($request);
+    private function getBulkDisableRouteName(): string
+    {
+        return 'usersBulkDisablePage';
+    }
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->em()->remove($user);
-            $this->em()->flush();
-            $msg = $this->getTranslator()->trans(
-                'user.%name%.deleted',
-                ['%name%' => $user->getUsername()]
-            );
-            $this->publishConfirmMessage($request, $msg);
-            /*
-             * Force redirect to avoid resending form when refreshing page
-             */
-            return $this->redirectToRoute('usersHomePage');
-        }
+    public function bulkEnableAction(Request $request): Response
+    {
+        return $this->bulkAction(
+            $request,
+            $this->getRequiredRole(),
+            $this->createEnableBulkForm(true),
+            $this->createEnableBulkForm(),
+            function (string $ids) {
+                return $this->createEnableBulkForm(false, [
+                    'id' => $ids,
+                ]);
+            },
+            $this->getTemplateFolder() . '/bulk_enable.html.twig',
+            '%namespace%.%item%.was_enabled',
+            function (User $item) {
+                $item->setEnabled(true);
+            },
+            'bulkEnableForm'
+        );
+    }
 
-        $this->assignation['user'] = $user;
-        $this->assignation['form'] = $form->createView();
-
-        return $this->render('@RoadizRozier/users/delete.html.twig', $this->assignation);
+    public function bulkDisableAction(Request $request): Response
+    {
+        return $this->bulkAction(
+            $request,
+            $this->getRequiredRole(),
+            $this->createDisableBulkForm(true),
+            $this->createDisableBulkForm(),
+            function (string $ids) {
+                return $this->createDisableBulkForm(false, [
+                    'id' => $ids,
+                ]);
+            },
+            $this->getTemplateFolder() . '/bulk_disable.html.twig',
+            '%namespace%.%item%.was_disabled',
+            function (User $item) {
+                $item->setEnabled(false);
+            },
+            'bulkDisableForm'
+        );
     }
 }

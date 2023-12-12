@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.1.51'
+    roadiz_core.cms_version: '2.2.0'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -42,6 +42,7 @@ services:
             $apiResourcesDir: '%kernel.project_dir%/config/api_resources'
             $debug: '%kernel.debug%'
             $defaultControllerClass: '%roadiz_core.default_node_source_controller%'
+            $defaultLocale: '%kernel.default_locale%'
             $webhookMessageTypes: '%roadiz_core.webhook.message_types%'
             $useAcceptLanguageHeader: '%roadiz_core.use_accept_language_header%'
             $healthCheckToken: '%roadiz_core.health_check_token%'
@@ -375,6 +376,11 @@ services:
     RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry:
         arguments: ['@service_container']
 
+    RZ\Roadiz\CoreBundle\SearchEngine\SolariumLogger:
+        tags:
+            - { name: data_collector, template: '@RoadizCore/DataCollector/solarium.html.twig', id: 'solarium' }
+            - { name: monolog.logger, channel: solr }
+
     RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactory:
         arguments: ['@service_container']
 
@@ -444,7 +450,6 @@ services:
     Solarium\Core\Client\Client:
         factory: ['RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry', 'getClient']
 
-    # Provides LoginAttemptManager aware authentication
     RZ\Roadiz\CoreBundle\Security\Authentication\JwtAuthenticationSuccessHandler:
         decorates: 'lexik_jwt_authentication.handler.authentication_success'
 

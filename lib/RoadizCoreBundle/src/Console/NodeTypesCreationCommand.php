@@ -108,7 +108,8 @@ class NodeTypesCreationCommand extends Command
     protected function addNodeTypeField(NodeType $nodeType, int|float|string $position, SymfonyStyle $io): void
     {
         $field = new NodeTypeField();
-        $field->setPosition((float) $position);
+        $position = floatval($position);
+        $field->setPosition($position);
 
         $questionfName = new Question('[Field ' . $position . '] <question>Enter field name</question>', 'content');
         $fName = $io->askQuestion($questionfName);

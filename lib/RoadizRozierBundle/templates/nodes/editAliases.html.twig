@@ -28,7 +28,7 @@
                 {{ form_widget(seoForm) }}
                 <fieldset data-uk-margin>
                     {% apply spaceless %}
-                        <button data-action-save="#edit-seo-form" class="uk-button uk-button-primary rz-action-save" type="submit">
+                        <button data-action-save="#edit-seo-form" class="uk-button uk-button-success rz-action-save" type="submit">
                             <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
                             <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
                         </button>
@@ -39,7 +39,7 @@
         {% endif %}
 
         <h2 id="manage-aliases" class="content-subtitle">{% trans %}urlAlias{% endtrans %}</h2>
-        <p class="form-row-desc"><small>{% trans %}nodeSource.urlAlias.help{% endtrans %}</small></p>
+        <p class="form-row-desc">{% trans %}nodeSource.urlAlias.help{% endtrans %}</p>
 
         <div class="content-table-cont">
             <table class="aliases content-table uk-table">
@@ -75,7 +75,7 @@
         <hr />
 
         <h2 id="manage-redirections" class="content-subtitle">{% trans %}manage.redirections{% endtrans %}</h2>
-        <p class="form-row-desc"><small>{% trans %}nodeSource.redirections.help{% endtrans %}</small></p>
+        <p class="form-row-desc">{% trans %}nodeSource.redirections.help{% endtrans %}</p>
 
         <div class="content-table-cont">
             <table class="redirections content-table uk-table">

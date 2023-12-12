@@ -5,43 +5,67 @@ doctrine:
         # either here or in the DATABASE_URL env var (see .env file)
         #server_version: '13'
     orm:
-        dql:
-            string_functions:
-                JSON_CONTAINS: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonContains
         auto_generate_proxy_classes: true
-        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-        auto_mapping: true
-        mappings:
-            App:
-                is_bundle: false
-                type: attribute
-                dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'App\Entity'
-                alias: App
-            RoadizCoreBundle:
-                is_bundle: true
-                type: attribute
-                dir: 'src/Entity'
-                prefix: 'RZ\Roadiz\CoreBundle\Entity'
-                alias: RoadizCoreBundle
-            RZ\Roadiz\Core:
-                is_bundle: false
-                type: annotation
-                dir: '%kernel.project_dir%/vendor/roadiz/models/src/Roadiz/Core/AbstractEntities'
-                prefix: 'RZ\Roadiz\Core\AbstractEntities'
-                alias: AbstractEntities
-            App\GeneratedEntity:
-                is_bundle: false
-                type: attribute
-                dir: '%kernel.project_dir%/src/GeneratedEntity'
-                prefix: 'App\GeneratedEntity'
-                alias: App\GeneratedEntity
-            gedmo_loggable:
-                type: attribute
-                prefix: Gedmo\Loggable\Entity\MappedSuperclass
-                dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity/MappedSuperclass"
-                alias: GedmoLoggableMappedSuperclass
-                is_bundle: false
+        default_entity_manager: default
+        entity_managers:
+            # Put `logger` entity manager first to select it as default for Log entity
+            logger:
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                mappings:
+                    ## Just sharding EM to avoid having Logs in default EM
+                    ## and flushing bad entities when storing log entries.
+                    RoadizCoreLogger:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/roadiz/core-bundle/src/Logger/Entity'
+                        prefix: 'RZ\Roadiz\CoreBundle\Logger\Entity'
+                        alias: RoadizCoreLogger
+            default:
+                dql:
+                    string_functions:
+                        JSON_CONTAINS: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonContains
+                naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                auto_mapping: true
+                mappings:
+                    ## Keep RoadizCoreLogger to avoid creating different migrations since we are using
+                    ## the same database for both entity managers. Just sharding EM to avoid
+                    ## having Logs in default EM and flushing bad entities when storing log entries.
+                    RoadizCoreLogger:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/vendor/roadiz/core-bundle/src/Logger/Entity'
+                        prefix: 'RZ\Roadiz\CoreBundle\Logger\Entity'
+                        alias: RoadizCoreLogger
+                    App:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/Entity'
+                        prefix: 'App\Entity'
+                        alias: App
+                    RoadizCoreBundle:
+                        is_bundle: true
+                        type: attribute
+                        dir: 'src/Entity'
+                        prefix: 'RZ\Roadiz\CoreBundle\Entity'
+                        alias: RoadizCoreBundle
+                    RZ\Roadiz\Core:
+                        is_bundle: false
+                        type: annotation
+                        dir: '%kernel.project_dir%/vendor/roadiz/models/src/Core/AbstractEntities'
+                        prefix: 'RZ\Roadiz\Core\AbstractEntities'
+                        alias: AbstractEntities
+                    App\GeneratedEntity:
+                        is_bundle: false
+                        type: attribute
+                        dir: '%kernel.project_dir%/src/GeneratedEntity'
+                        prefix: 'App\GeneratedEntity'
+                        alias: App\GeneratedEntity
+                    gedmo_loggable:
+                        type: attribute
+                        prefix: Gedmo\Loggable\Entity\MappedSuperclass
+                        dir: "%kernel.project_dir%/vendor/gedmo/doctrine-extensions/src/Loggable/Entity/MappedSuperclass"
+                        alias: GedmoLoggableMappedSuperclass
+                        is_bundle: false
 
         resolve_target_entities:
             Symfony\Component\Security\Core\User\UserInterface: RZ\Roadiz\CoreBundle\Entity\User

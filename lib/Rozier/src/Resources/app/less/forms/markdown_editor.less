@@ -10,7 +10,7 @@
 /* -------- STYLES -------- */
 .uk-form-row {
     .CodeMirror {
-        font-size: 12px;
+        font-size: @default-font-size;
         height: auto;
     }
     .markdown-editor-tabs {
@@ -66,7 +66,7 @@
 .markdown-editor {
     .CodeMirror {
         font-family: @roadiz-mono-font;
-        font-size: 12px;
+        font-size: @default-font-size;
         line-height: 18px;
         color: #666666;
         border: 1px solid @grey-form-border;
@@ -93,7 +93,7 @@
     }
     .CodeMirror-lines { padding: 10px; }
     .CodeMirror-selected { background: #d9d9d9; }
-    .CodeMirror-focused { background: #FFF; }
+    .CodeMirror-focused { background: var(--contrasted-bg); }
 
     &.content-limit{
         .CodeMirror{
@@ -116,12 +116,14 @@
         &-nav {
             margin: 0;
             padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px 0;
         }
 
         li {
             width: @navbar-liHW;
             height: @navbar-liHW;
-            display: inline-block;
             .box-sizing();
 
             &:first-child {
@@ -166,8 +168,8 @@
                     width: 1px;
                     height: @navbar-liHW;
                     background-color: @grey-form-submit-border-hover;
-                    .opacity(0);
-                    .transition(opacity ease 0.2s);
+                    opacity: 0;
+                    transition: opacity ease 0.2s;
                 }
 
                 &.uk-active,
@@ -175,7 +177,7 @@
                     border-color: @grey-form-submit-border-hover;
                     background-color: @grey-form-submit-hover;
                     &:before {
-                        .opacity(1);
+                        opacity: 1;
                     }
                 }
             }
@@ -207,13 +209,12 @@
         }
     }
     &-content {
-        //border: 1px solid @grey-form-border;
-        background: #fff;
-        .transition(~'0.35s ease border-color, 0.5s ease background');
+        background: var(--contrasted-bg);
+        transition: ~'0.35s ease border-color, 0.5s ease background';
         cursor: text;
 
         &:hover {
-            background-color: white;
+            background-color: var(--contrasted-bg);
             border-color: @grey-form-submit-border-hover;
             color: #333;
         }
@@ -225,12 +226,12 @@
     }
     &-preview {
         padding: 10px 20px;
-        font-size: 12px;
+        font-size: @default-font-size;
 
         h2, h3, h4, h5, h6 {
             font-weight: bold;
             margin: 5px 0;
-            color: #0F0F0F;
+            color: var(--global-title-color);
         }
         p {
             margin: 5px 0;
@@ -272,7 +273,7 @@
     bottom: 0px;
     height: 30px;
     line-height: 30px;
-    font-size: 12px;
+    font-size: @default-font-size;
     text-align: right;
     display: none;
 }

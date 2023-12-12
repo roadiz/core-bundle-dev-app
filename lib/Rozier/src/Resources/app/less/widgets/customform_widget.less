@@ -78,7 +78,7 @@
 .custom-forms-widget-sortable{
     margin:0;
     padding:20px 25px 12px;
-    background:#fff;
+    background: var(--contrasted-bg);
 }
 
 .custom-forms-widget-sortable-list-item,
@@ -90,10 +90,10 @@
     padding-left:15px;
     background: @grey-verylight;
     color:#333;
-    font-size:12px; line-height:32px;
+    font-size: @default-font-size; line-height:32px;
     overflow: hidden;
     cursor: default;
-    .transition(0.4s background @easeOutExpo);
+    transition: 0.4s background @easeOutExpo;
 
     &:hover{
 
@@ -117,7 +117,7 @@
         position: absolute;
         top:0; bottom:0; left:0;
         width:4px;
-        background:@contrast-color;
+        background: var(--accent-color);
     }
 
     .custom-form-links{
@@ -125,14 +125,14 @@
         width:64px; height:32px;
         top:0; right:-64px;
         overflow: hidden;
-        .transition(0.4s right @easeOutExpo);
+        transition: 0.4s right @easeOutExpo;
 
         .custom-form-link{ // a
             display: inline-block; vertical-align: top;
             width:32px; height:32px;
-            .rounded(0);
+            border-radius: 0;
             color:#333;
-            .opacity(0.95);
+            opacity: 0.95;
 
             &:hover{
                 color:darken(#333, 10%);

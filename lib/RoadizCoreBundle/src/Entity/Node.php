@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -56,7 +56,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ["home"]),
     ORM\HasLifecycleCallbacks,
     Gedmo\Loggable(logEntryClass: UserLogEntry::class),
-    UniqueEntity(fields: ["nodeName"]),
+    // Need to override repository method to see all nodes
+    UniqueEntity(
+        fields: 'nodeName',
+        message: 'nodeName.alreadyExists',
+        repositoryMethod: 'findOneWithoutSecurity'
+    ),
     ApiFilter(PropertyFilter::class)
 ]
 class Node extends AbstractDateTimedPositioned implements LeafInterface, AttributableInterface, Loggable
@@ -80,7 +85,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         'publishedAt' => 'ns.publishedAt',
     ];
 
-    #[ORM\Column(name: 'node_name', type: 'string', unique: true)]
+    #[ORM\Column(name: 'node_name', type: 'string', length: 255, unique: true)]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node', 'log_sources'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node', 'log_sources'])]
     #[Serializer\Accessor(getter: "getNodeName", setter: "setNodeName")]
@@ -146,15 +151,17 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[Gedmo\Versioned]
     private bool $sterile = false;
 
-    #[ORM\Column(name: 'children_order', type: 'string')]
-    #[SymfonySerializer\Groups(['node'])]
-    #[Serializer\Groups(['node'])]
+    #[ORM\Column(name: 'children_order', type: 'string', length: 50)]
+    #[SymfonySerializer\Groups(['node', 'node_listing'])]
+    #[Serializer\Groups(['node', 'node_listing'])]
+    #[Assert\Length(max: 50)]
     #[Gedmo\Versioned]
     private string $childrenOrder = 'position';
 
     #[ORM\Column(name: 'children_order_direction', type: 'string', length: 4)]
-    #[SymfonySerializer\Groups(['node'])]
-    #[Serializer\Groups(['node'])]
+    #[SymfonySerializer\Groups(['node', 'node_listing'])]
+    #[Serializer\Groups(['node', 'node_listing'])]
+    #[Assert\Length(max: 4)]
     #[Gedmo\Versioned]
     private string $childrenOrderDirection = 'ASC';
 
@@ -929,11 +936,19 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[SymfonySerializer\Ignore]
     public function getOneLineSourceSummary(): string
     {
-        $text = "Source " . $this->getNodeSources()->first()->getId() . PHP_EOL;
+        $text = "Source " .
+            (
+                $this->getNodeSources()->first() ?
+                $this->getNodeSources()->first()->getId() :
+                ''
+            ) .
+            PHP_EOL;
 
         foreach ($this->getNodeType()->getFields() as $field) {
             $getterName = $field->getGetterName();
-            $text .= '[' . $field->getLabel() . ']: ' . $this->getNodeSources()->first()->$getterName() . PHP_EOL;
+            $text .= '[' . $field->getLabel() . ']: ' .
+                ($this->getNodeSources()->first() ? $this->getNodeSources()->first()->$getterName() : '') .
+                PHP_EOL;
         }
 
         return $text;
@@ -984,9 +999,14 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
             // Get a random string after node-name.
             // This is for safety reasons
             // NodeDuplicator service will override it
-            $namePrefix = $this->getNodeSources()->first()->getTitle() != "" ?
-                $this->getNodeSources()->first()->getTitle() :
-                $this->nodeName;
+            $nodeSource = $this->getNodeSources()->first();
+            if ($nodeSource !== false) {
+                $namePrefix = $nodeSource->getTitle() != "" ?
+                    $nodeSource->getTitle() :
+                    $this->nodeName;
+            } else {
+                $namePrefix = $this->nodeName;
+            }
             $this->setNodeName($namePrefix . "-" . uniqid());
             $this->setCreatedAt(new \DateTime());
             $this->setUpdatedAt(new \DateTime());

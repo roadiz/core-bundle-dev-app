@@ -1,7 +1,7 @@
 {% extends '@RoadizRozier/layout.html.twig' %}
 
 {% if app.user %}
-    {% set displayName = app.user.firstName|default(app.user.nickname|default(app.user.givenName|default(app.user.name|default(app.user.username)))) %}
+    {% set displayName = app.user.firstName|default(app.user.nickname|default(app.user.givenName|default(app.user.name|default(app.user.userIdentifier)))) %}
 {% else %}
     {% set displayName = '' %}
 {% endif %}
@@ -26,43 +26,35 @@
             <h3>{% trans %}latest.node-sources.updates{% endtrans %}</h3>
             {% apply spaceless %}
                 {% for log in latestLogs %}
-                    {% set source = log.nodeSource %}
                     <div class="latest-source">
-                        {% if is_granted('ROLE_ACCESS_NODES') %}
-                        <a href="{{ path("nodesEditSourcePage", {
-                            "nodeId": source.node.id,
-                            "translationId": source.translation.id
-                        }) }}">
+                        {% set entityPath = log_entity_edit_path(log) %}
+                        {% if entityPath %}
+                        <a href="{{ entityPath }}">
                         {% endif %}
-                            {% set thumbnail = source.documentsByFields.first.document %}
+                            {% set thumbnail = log.additionalData.entity_thumbnail_src %}
                             <figure>
-                                {% if thumbnail and thumbnail.image %}
-                                    {{ thumbnail|display({
-                                        "fit":'150x150',
-                                        "quality":70,
-                                        "picture": true,
-                                        "class": 'source-image'
-                                    }) }}
+                                {% if thumbnail %}
+                                    <img class="source-image" src="{{ thumbnail }}" alt="{{ log.additionalData.entity_title }}">
                                 {% else %}
-                                <span class="no-thumb"></span>
+                                    <span class="no-thumb"></span>
                                 {% endif %}
-                                {% if log.user %}
+                                {% if log.additionalData.user_picture_url %}
                                     <img width="60"
                                          height="60"
                                          class="user-image"
-                                         src="{{ log.user.pictureUrl }}"
-                                         alt="{{ log.user.identifier }}"
-                                         title="{{ log.user.identifier }}"
-                                         data-uk-tooltip="{animation:true}" />
+                                         src="{{ log.additionalData.user_picture_url }}"
+                                         alt="{{ log.additionalData.user_public_name|default(log.username) }}"
+                                         title="{{ log.additionalData.user_public_name|default(log.username) }}"
+                                         data-uk-tooltip="{animation:true}"/>
                                 {% elseif log.username %}
                                     <span class="user-image"
-                                          title="{{ log.username }}"
+                                          title="{{ log.additionalData.user_public_name|default(log.username) }}"
                                           data-uk-tooltip="{animation:true}" ><i class="uk-icon uk-icon-rz-user"></i></span>
                                 {% endif %}
                             </figure>
-                            <p class="source-title">{{ source.title }}</p>
+                            <p class="source-title">{{ log.additionalData.entity_title }}</p>
                             <p class="source-update-date">{{ log.datetime|format_datetime('medium', 'short', locale=app.request.locale) }}</p>
-                        {% if is_granted('ROLE_ACCESS_NODES') %}
+                        {% if entityPath %}
                         </a>
                         {% endif %}
                     </div>

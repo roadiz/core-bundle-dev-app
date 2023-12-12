@@ -20,3 +20,8 @@ webhooksDeletePage:
     defaults:
         _controller: Themes\Rozier\Controllers\WebhookController::deleteAction
     requirements: { id : "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" }
+webhooksBulkDeletePage:
+    methods: [GET, POST]
+    path:     /bulk-delete
+    defaults:
+        _controller: Themes\Rozier\Controllers\WebhookController::bulkDeleteAction

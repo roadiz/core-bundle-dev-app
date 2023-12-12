@@ -26,9 +26,6 @@ use Themes\Rozier\Explorer\FolderExplorerItem;
 use Themes\Rozier\Explorer\SettingExplorerItem;
 use Themes\Rozier\Explorer\UserExplorerItem;
 
-/**
- * @package Themes\Rozier\AjaxControllers
- */
 class AjaxEntitiesExplorerController extends AbstractAjaxController
 {
     private RendererInterface $renderer;
@@ -137,7 +134,7 @@ class AjaxEntitiesExplorerController extends AbstractAjaxController
             throw new InvalidParameterException('Ids should be provided within an array');
         }
 
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
+        $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
         /** @var EntityManager $em */
         $em = $this->em();

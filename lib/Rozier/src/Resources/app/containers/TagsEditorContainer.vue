@@ -15,17 +15,6 @@
             group-label="name"
             @tag="addTag"
             @input="tagsUpdateValue">
-
-            <!--<template slot="option" scope="props">-->
-                <!--<div class="option__desc">-->
-                    <!--<span class="option__name">{{ props.option.name }}</span>-->
-                    <!--<span class="option__children">-->
-                        <!--{{ props.option.children }}-->
-
-                    <!--</span>-->
-                <!--</div>-->
-            <!--</template>-->
-
         </multiselect>
         <pre class="language-json"><code>{{ value  }}</code></pre>
     </div>

@@ -13,6 +13,7 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\DocumentTranslationRepository;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: DocumentTranslationRepository::class),
@@ -22,9 +23,10 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 ]
 class DocumentTranslation extends AbstractEntity implements Loggable
 {
-    #[ORM\Column(type: 'string', nullable: true)]
+    #[ORM\Column(type: 'string', length: 250, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
+    #[Assert\Length(max: 250)]
     #[Gedmo\Versioned]
     protected ?string $name = null;
 

@@ -4,16 +4,11 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms\DataTransformer;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ObjectManager;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-/**
- * @package Themes\Rozier\Forms\DataTransformer
- */
 class TagTransformer implements DataTransformerInterface
 {
     private ObjectManager $manager;

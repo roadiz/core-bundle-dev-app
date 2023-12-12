@@ -9,7 +9,7 @@
 
 /* -------- VARS -------- */
 
-@breadcrumb-link-hover : #808080;
+@breadcrumb-link-hover : @grey-medium;
 
 
 /* -------- STYLES -------- */
@@ -28,29 +28,25 @@
         vertical-align: middle;
 
         &:nth-child(n+2):before{
-            content:'\2192';
-            font-size: 13px;
-            -webkit-font-smoothing: antialiased;
-            vertical-align: middle;
             margin: 0 5px;
         }
     }
 }
 
 .node-breadcrumb-item{
-    color:@grey-medium;
+    color: var(--global-text-lighter-color);
     text-transform:uppercase;
 }
 
 .node-breadcrumb-link{
-    color:@grey-medium;
-    .transition(0.4s color ease);
+    color: var(--global-text-lighter-color);
+    transition: 0.4s color ease;
 
     .uk-icon-rz-breadcrumb-home{
         margin-top:-3px;
         font-size:16px;
         color: @icon-simple;
-        .transition(0.4s color ease);
+        transition: 0.4s color ease;
         -webkit-font-smoothing: none;
     }
 

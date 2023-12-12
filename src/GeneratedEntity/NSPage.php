@@ -13,9 +13,9 @@ use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter as OrmFilter;
-use ApiPlatform\Core\Serializer\Filter\PropertyFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
  * DO NOT EDIT
@@ -645,58 +645,6 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
 
     /**
-     * Main user.
-     * Default values: # Entity class name
-     *     classname: \RZ\Roadiz\CoreBundle\Entity\User
-     *     # Displayable is the method used to display entity name
-     *     displayable: getUsername
-     *     # Same as Displayable but for a secondary information
-     *     alt_displayable: getEmail
-     *     # Same as Displayable but for a secondary information
-     *     thumbnail: ~
-     *     # Searchable entity fields
-     *     searchable:
-     *         - username
-     *         - email
-     *     # This order will only be used for explorer
-     *     orderBy:
-     *         - field: email
-     *           direction: ASC
-     * @var \RZ\Roadiz\CoreBundle\Entity\User|null
-     */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "mainUser"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        SymfonySerializer\MaxDepth(2),
-        ORM\ManyToOne(targetEntity: \RZ\Roadiz\CoreBundle\Entity\User::class),
-        ORM\JoinColumn(name: "main_user_id", referencedColumnName: "id", onDelete: "SET NULL"),
-        ApiFilter(OrmFilter\SearchFilter::class, strategy: "exact"),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2)
-    ]
-    private ?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null;
-
-    /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\User|null
-     */
-    public function getMainUser(): ?\RZ\Roadiz\CoreBundle\Entity\User
-    {
-        return $this->mainUser;
-    }
-
-    /**
-     * @param \RZ\Roadiz\CoreBundle\Entity\User|null $mainUser
-     * @return $this
-     */
-    public function setMainUser(?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null): static
-    {
-        $this->mainUser = $mainUser;
-
-        return $this;
-    }
-
-
-    /**
      * Reference to users
      *
      * @var Collection<int, \App\Entity\PositionedPageUser>
@@ -1086,14 +1034,15 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
     /**
      * Multi geolocations.
+     * Group: Geo.
      */
     #[
         SymfonySerializer\SerializedName(serializedName: "multiGeolocation"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_geo"]),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "multi_geolocation", type: "json", nullable: true),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\Groups(["nodes_sources", "nodes_sources_geo"]),
         Serializer\MaxDepth(2)
     ]
     private $multiGeolocation = null;
@@ -1160,6 +1109,58 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         $this->layout = null !== $layout ?
             (string) $layout :
             null;
+
+        return $this;
+    }
+
+
+    /**
+     * Main user.
+     * Default values: # Entity class name
+     *     classname: \RZ\Roadiz\CoreBundle\Entity\User
+     *     # Displayable is the method used to display entity name
+     *     displayable: getUsername
+     *     # Same as Displayable but for a secondary information
+     *     alt_displayable: getEmail
+     *     # Same as Displayable but for a secondary information
+     *     thumbnail: ~
+     *     # Searchable entity fields
+     *     searchable:
+     *         - username
+     *         - email
+     *     # This order will only be used for explorer
+     *     orderBy:
+     *         - field: email
+     *           direction: ASC
+     * @var \RZ\Roadiz\CoreBundle\Entity\User|null
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "mainUser"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        SymfonySerializer\MaxDepth(2),
+        ORM\ManyToOne(targetEntity: \RZ\Roadiz\CoreBundle\Entity\User::class),
+        ORM\JoinColumn(name: "main_user_id", referencedColumnName: "id", onDelete: "SET NULL"),
+        ApiFilter(OrmFilter\SearchFilter::class, strategy: "exact"),
+        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        Serializer\MaxDepth(2)
+    ]
+    private ?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null;
+
+    /**
+     * @return \RZ\Roadiz\CoreBundle\Entity\User|null
+     */
+    public function getMainUser(): ?\RZ\Roadiz\CoreBundle\Entity\User
+    {
+        return $this->mainUser;
+    }
+
+    /**
+     * @param \RZ\Roadiz\CoreBundle\Entity\User|null $mainUser
+     * @return $this
+     */
+    public function setMainUser(?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null): static
+    {
+        $this->mainUser = $mainUser;
 
         return $this;
     }
