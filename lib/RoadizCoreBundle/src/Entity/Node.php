@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -92,6 +93,10 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
+    #[ApiProperty(
+        description: 'Unique node name (slug) used to build content URL',
+        example: 'this-is-a-node-name',
+    )]
     private string $nodeName = '';
 
     #[ORM\Column(name: 'dynamic_node_name', type: 'boolean', nullable: false, options: ['default' => true])]
@@ -107,6 +112,10 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[SymfonySerializer\Groups(['nodes_sources_base', 'nodes_sources', 'node'])]
     #[Serializer\Groups(['nodes_sources_base', 'nodes_sources', 'node'])]
     #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'Is this node visible in website navigation?',
+        example: 'true',
+    )]
     private bool $visible = true;
 
     /**
@@ -128,6 +137,10 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[SymfonySerializer\Groups(['node'])]
     #[Serializer\Groups(['node'])]
     #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'Is this node locked to prevent deletion and renaming?',
+        example: 'false',
+    )]
     private bool $locked = false;
 
     /**
@@ -143,12 +156,20 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[SymfonySerializer\Groups(['node'])]
     #[Serializer\Groups(['node'])]
     #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'Does this node act as a container for other nodes?',
+        example: 'false',
+    )]
     private bool $hideChildren = false;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['node'])]
     #[Serializer\Groups(['node'])]
     #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'Can this node hold other nodes inside?',
+        example: 'false',
+    )]
     private bool $sterile = false;
 
     #[ORM\Column(name: 'children_order', type: 'string', length: 50)]
@@ -156,13 +177,32 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[Serializer\Groups(['node', 'node_listing'])]
     #[Assert\Length(max: 50)]
     #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'This node children will be sorted by a given field',
+        example: 'position',
+        schema: [
+            'type' => 'string',
+            'enum' => ['position', 'nodeName', 'createdAt', 'updatedAt', 'publishedAt'],
+            'example' => 'position'
+        ],
+    )]
     private string $childrenOrder = 'position';
 
     #[ORM\Column(name: 'children_order_direction', type: 'string', length: 4)]
     #[SymfonySerializer\Groups(['node', 'node_listing'])]
     #[Serializer\Groups(['node', 'node_listing'])]
     #[Assert\Length(max: 4)]
+    #[Assert\Choice(choices: ['ASC', 'DESC'])]
     #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'This node children will be sorted ascendant or descendant',
+        example: 'ASC',
+        schema: [
+            'type' => 'string',
+            'enum' => ['ASC', 'DESC'],
+            'example' => 'ASC'
+        ],
+    )]
     private string $childrenOrderDirection = 'ASC';
 
     /**

@@ -2,7 +2,7 @@ api_platform:
     title:       "%env(string:APP_TITLE)%"
     description: "%env(string:APP_DESCRIPTION)%"
     version:     '%env(string:APP_VERSION)%'
-    enable_swagger_ui: false
+    enable_swagger_ui: true
     enable_re_doc: true
     metadata_backward_compatibility_layer: false
     graphql:

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -73,6 +74,10 @@ class NodesSources extends AbstractEntity implements Loggable
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Gedmo\Versioned]
     #[Assert\Length(max: 250)]
+    #[ApiProperty(
+        description: 'Content title',
+        example: 'This is a title',
+    )]
     protected ?string $title = null;
 
     #[ApiFilter(BaseFilter\DateFilter::class)]
@@ -82,6 +87,9 @@ class NodesSources extends AbstractEntity implements Loggable
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base'])]
     #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'Content publication date and time',
+    )]
     protected ?\DateTime $publishedAt = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
@@ -90,6 +98,10 @@ class NodesSources extends AbstractEntity implements Loggable
     #[Serializer\Groups(['nodes_sources'])]
     #[Gedmo\Versioned]
     #[Assert\Length(max: 150)]
+    #[ApiProperty(
+        description: 'Title for search engine optimization, used in HTML title tag',
+        example: 'This is a title',
+    )]
     protected string $metaTitle = '';
 
     #[ORM\Column(name: 'meta_keywords', type: 'text')]
@@ -103,6 +115,10 @@ class NodesSources extends AbstractEntity implements Loggable
     #[SymfonySerializer\Groups(['nodes_sources'])]
     #[Serializer\Groups(['nodes_sources'])]
     #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'Description for search engine optimization, used in HTML meta description tag',
+        example: 'This is a description',
+    )]
     protected string $metaDescription = '';
 
     #[ApiFilter(BaseFilter\BooleanFilter::class)]
@@ -110,6 +126,10 @@ class NodesSources extends AbstractEntity implements Loggable
     #[SymfonySerializer\Groups(['nodes_sources'])]
     #[Serializer\Groups(['nodes_sources'])]
     #[Gedmo\Versioned]
+    #[ApiProperty(
+        description: 'Do not allow robots to index this content, used in HTML meta robots tag',
+        example: 'false',
+    )]
     protected bool $noIndex = false;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
