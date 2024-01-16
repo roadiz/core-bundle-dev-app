@@ -36,6 +36,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "content"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Your content"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "content", type: "text", nullable: true),
@@ -74,6 +75,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "realmBSecret"),
         SymfonySerializer\Groups(["realm_b"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Secret realm_b"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -117,6 +119,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "realmASecret"),
         SymfonySerializer\Groups(["realm_a"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Secret realm_a"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -160,6 +163,7 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "unpublishedAt"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Date de dépublication"),
         SymfonySerializer\MaxDepth(2),
         ApiFilter(OrmFilter\OrderFilter::class),
         ApiFilter(OrmFilter\DateFilter::class),

@@ -510,7 +510,8 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         example: 'this-is-a-tag-name',
     )]
     #[SymfonySerializer\SerializedName('slug')]
-    #[SymfonySerializer\Groups(['tag', 'tag_base'])]
+    #[SymfonySerializer\Groups(['tag', 'tag_base', 'node', 'nodes_sources'])]
+    #[Serializer\Groups(['tag', 'tag_base', 'node', 'nodes_sources'])]
     public function getSlug(): string
     {
         return $this->getTagName();

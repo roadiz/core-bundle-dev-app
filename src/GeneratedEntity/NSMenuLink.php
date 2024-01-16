@@ -35,6 +35,7 @@ class NSMenuLink extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "linkExternalUrl"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "URL externe"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -84,6 +85,7 @@ class NSMenuLink extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         Serializer\Exclude,
         SymfonySerializer\SerializedName(serializedName: "linkInternalReference"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default", "nodes_sources_nodes"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Référence au nœud (Page ou Bloc de page)"),
         SymfonySerializer\MaxDepth(2)
     ]
     private ?array $linkInternalReferenceSources = null;

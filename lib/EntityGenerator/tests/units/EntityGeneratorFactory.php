@@ -46,7 +46,7 @@ class EntityGeneratorFactory extends atoum
         /*
          * Uncomment for generating a mock file from tests
          */
-//        $dumpInstance = $this->newTestedInstance($mockNodeTypeResolver, [
+//        $dumpInstance = $this->newTestedInstance($mockNodeTypeResolver, $mockDefaultValuesResolver, [
 //            'parent_class' => '\mock\Entity\NodesSources',
 //            'node_class' => '\mock\Entity\Node',
 //            'translation_class' => '\mock\Entity\Translation',
@@ -94,7 +94,7 @@ class EntityGeneratorFactory extends atoum
         /*
          * Uncomment for generating a mock file from tests
          */
-//        $dumpInstance = $this->newTestedInstance($mockNodeTypeResolver, [
+//        $dumpInstance = $this->newTestedInstance($mockNodeTypeResolver, $mockDefaultValuesResolver, [
 //            'parent_class' => '\mock\Entity\NodesSources',
 //            'node_class' => '\mock\Entity\Node',
 //            'translation_class' => '\mock\Entity\Translation',
