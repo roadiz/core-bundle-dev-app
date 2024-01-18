@@ -300,30 +300,6 @@ abstract class FrontendController extends AppController
     }
 
     /**
-     * Add a default translation locale for static routes and
-     * node SEO data.
-     *
-     * * [parent assignations…]
-     * * **_default_locale**
-     * * meta
-     *     * siteName
-     *     * siteCopyright
-     *     * siteDescription
-     *
-     * @return $this
-     */
-    public function prepareBaseAssignation(): static
-    {
-        parent::prepareBaseAssignation();
-
-        /** @var TranslationInterface $translation */
-        $translation = $this->get('defaultTranslation');
-        $this->assignation['_default_locale'] = $translation->getLocale();
-
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function maintenanceAction(Request $request): Response

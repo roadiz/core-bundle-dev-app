@@ -83,11 +83,6 @@ class PreviewModeSubscriber implements EventSubscriberInterface
     public function onControllerMatched(ControllerEvent $event): void
     {
         if ($this->supports() && $event->isMainRequest()) {
-            /** @var TokenInterface|null $token */
-            $token = $this->tokenStorage->getToken();
-            if (null === $token || !$token->isAuthenticated()) {
-                throw new PreviewNotAllowedException('You are not authenticated to use preview mode.');
-            }
             if (!$this->security->isGranted($this->previewResolver->getRequiredRole())) {
                 throw new PreviewNotAllowedException('You are not granted to use preview mode.');
             }

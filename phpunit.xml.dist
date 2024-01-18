@@ -16,13 +16,6 @@
         <server name="SYMFONY_PHPUNIT_REMOVE" value="" />
         <server name="SYMFONY_PHPUNIT_VERSION" value="9.5" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
-
-        <!-- ###+ symfony/lock ### -->
-        <!-- Choose one of the stores below -->
-        <!-- postgresql+advisory://db_user:db_password@localhost/db_name -->
-        <env name="LOCK_DSN" value="semaphore"/>
-        <!-- ###- symfony/lock ### -->
-
         <!-- ###+ sentry/sentry-symfony ### -->
         <env name="SENTRY_DSN" value=""/>
         <!-- ###- sentry/sentry-symfony ### -->
@@ -36,11 +29,20 @@
         <!-- ###+ nelmio/cors-bundle ### -->
         <env name="CORS_ALLOW_ORIGIN" value="'^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$'"/>
         <!-- ###- nelmio/cors-bundle ### -->
+
+        <!--<env name="SYMFONY_DEPRECATIONS_HELPER" value="max[total]=999999"/>-->
+
+        <!-- ###+ symfony/lock ### -->
+        <!-- Choose one of the stores below -->
+        <!-- postgresql+advisory://db_user:db_password@localhost/db_name -->
+        <env name="LOCK_DSN" value="flock"/>
+        <!-- ###- symfony/lock ### -->
     </php>
 
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory>tests</directory>
+            <directory>lib/Models/tests</directory>
         </testsuite>
     </testsuites>
 

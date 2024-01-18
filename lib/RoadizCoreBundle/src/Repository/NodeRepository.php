@@ -330,6 +330,7 @@ final class NodeRepository extends StatusAwareRepository
         $this->applyFilterByTag($criteria, $qb);
         $this->applyFilterByCriteria($criteria, $qb);
         $this->applyTranslationByTag($qb, $translation);
+        // @phpstan-ignore-next-line
         $query = $qb->getQuery();
         $this->dispatchQueryEvent($query);
 
@@ -453,6 +454,7 @@ final class NodeRepository extends StatusAwareRepository
         $this->applyFilterByTag($criteria, $qb);
         $this->applyFilterByCriteria($criteria, $qb);
         $this->applyTranslationByTag($qb, $translation);
+        // @phpstan-ignore-next-line
         $query = $qb->getQuery();
         $this->dispatchQueryEvent($query);
 

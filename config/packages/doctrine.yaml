@@ -8,6 +8,7 @@ doctrine:
     orm:
         auto_generate_proxy_classes: true
         default_entity_manager: default
+        enable_lazy_ghost_objects: true
         entity_managers:
             # Put `logger` entity manager first to select it as default for Log entity
             logger:

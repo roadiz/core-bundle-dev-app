@@ -254,6 +254,7 @@ final class TagRepository extends EntityRepository
         $this->applyFilterByNodes($criteria, $qb);
         $this->applyFilterByCriteria($criteria, $qb);
         $this->applyTranslationByTag($qb, $translation);
+        // @phpstan-ignore-next-line
         $query = $qb->getQuery();
         $this->dispatchQueryEvent($query);
 
@@ -298,6 +299,7 @@ final class TagRepository extends EntityRepository
         $this->applyFilterByNodes($criteria, $qb);
         $this->applyFilterByCriteria($criteria, $qb);
         $this->applyTranslationByTag($qb, $translation);
+        // @phpstan-ignore-next-line
         $query = $qb->getQuery();
         $this->dispatchQueryEvent($query);
 
