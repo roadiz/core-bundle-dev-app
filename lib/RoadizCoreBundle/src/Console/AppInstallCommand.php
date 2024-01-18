@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Console;
 
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CompatBundle\Theme\ThemeGenerator;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Importer\AttributeImporter;
 use RZ\Roadiz\CoreBundle\Importer\EntityImporterInterface;
@@ -30,7 +29,6 @@ final class AppInstallCommand extends Command
     protected SymfonyStyle $io;
     private bool $dryRun = false;
     protected string $projectDir;
-    protected ThemeGenerator $themeGenerator;
     protected NodeTypesImporter $nodeTypesImporter;
     protected TagsImporter $tagsImporter;
     protected SettingsImporter $settingsImporter;
@@ -42,7 +40,6 @@ final class AppInstallCommand extends Command
     public function __construct(
         string $projectDir,
         ManagerRegistry $managerRegistry,
-        ThemeGenerator $themeGenerator,
         NodeTypesImporter $nodeTypesImporter,
         TagsImporter $tagsImporter,
         SettingsImporter $settingsImporter,
@@ -53,7 +50,6 @@ final class AppInstallCommand extends Command
     ) {
         parent::__construct($name);
         $this->projectDir = $projectDir;
-        $this->themeGenerator = $themeGenerator;
         $this->nodeTypesImporter = $nodeTypesImporter;
         $this->tagsImporter = $tagsImporter;
         $this->settingsImporter = $settingsImporter;
