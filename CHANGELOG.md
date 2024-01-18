@@ -1,3 +1,10 @@
+## [v2.2.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.0...v2.2.1) (2023-12-13)
+
+
+### Bug Fixes
+
+* **Api:** Added `AttributeValueQueryExtension` and `NodesTagsQueryExtension` to restrict tags and attributes linked to any published node. ([cd2a017](https://github.com/roadiz/core-bundle-dev-app/commit/cd2a017e840ec5fed0efd5c0825bfcb3d09f6275))
+
 ## [v2.2.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.51...v2.2.0) (2023-12-12)
 
 

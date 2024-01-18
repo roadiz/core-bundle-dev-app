@@ -1,7 +1,7 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.2.0'
-    roadiz_core.cms_version_prefix: 'main'
+    roadiz_core.cms_version: '2.3.x'
+    roadiz_core.cms_version_prefix: 'develop'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
     env(APP_USE_ACCEPT_LANGUAGE_HEADER): 'false'
@@ -113,6 +113,21 @@ services:
     RZ\Roadiz\CoreBundle\Api\Extension\ArchiveExtension:
         # Extension must be called after all filtering BUT before default pagination extension
         tags: [ { name: 'api_platform.doctrine.orm.query_extension.collection', priority: -40 } ]
+
+    #
+    # These API doctrine extension must be called last before pagination
+    # to perform on existing JOIN with node entities (found after filtering)
+    #
+    RZ\Roadiz\CoreBundle\Api\Extension\AttributeValueQueryExtension:
+        tags: [
+            { name: 'api_platform.doctrine.orm.query_extension.collection', priority: -40 },
+            { name: 'api_platform.doctrine.orm.query_extension.item', priority: -40 },
+        ]
+    RZ\Roadiz\CoreBundle\Api\Extension\NodesTagsQueryExtension:
+        tags: [
+            { name: 'api_platform.doctrine.orm.query_extension.collection', priority: -40 },
+            { name: 'api_platform.doctrine.orm.query_extension.item', priority: -40 },
+        ]
 
     RZ\Roadiz\CoreBundle\Bag\:
         resource: '../src/Bag/'
