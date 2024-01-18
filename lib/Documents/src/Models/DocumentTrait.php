@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\Models;
 
+use ApiPlatform\Metadata\ApiProperty;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 
 trait DocumentTrait
@@ -277,6 +278,10 @@ trait DocumentTrait
     #[
         SymfonySerializer\Groups(["document", "document_display", "nodes_sources", "tag", "attribute"]),
         SymfonySerializer\SerializedName("processable"),
+        ApiProperty(
+            description: 'Document can be processed as an image for resampling and other image operations.',
+            writable: false,
+        )
     ]
     public function isProcessable(): bool
     {

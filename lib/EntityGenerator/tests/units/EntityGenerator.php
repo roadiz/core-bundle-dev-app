@@ -19,7 +19,7 @@ class EntityGenerator extends atoum
         /*
          * Uncomment for generating a mock file from tests
          */
-//        $dumpInstance = $this->newTestedInstance($mockNodeType, $mockNodeTypeResolver, [
+//        $dumpInstance = $this->newTestedInstance($mockNodeType, $mockNodeTypeResolver, $mockDefaultValuesResolver, [
 //            'parent_class' => '\mock\Entity\NodesSources',
 //            'node_class' => '\mock\Entity\Node',
 //            'translation_class' => '\mock\Entity\Translation',

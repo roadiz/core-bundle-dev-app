@@ -150,6 +150,27 @@ abstract class AbstractFieldGenerator
             $attributes[] = new AttributeGenerator('SymfonySerializer\Groups', [
                 $this->getSerializationGroups()
             ]);
+
+            $description = $this->field->getLabel();
+            if (!empty($this->field->getDescription())) {
+                $description .= ': ' . $this->field->getDescription();
+            }
+            if ($this->field->isEnum()) {
+                $enumValues = explode(',', $this->field->getDefaultValues());
+                $enumValues = array_filter(array_map('trim', $enumValues));
+                $openapiContext = [
+                    'type' => 'string',
+                    'enum' => $enumValues,
+                    'example' => $enumValues[0] ?? null,
+                ];
+            }
+            $attributes[] = new AttributeGenerator('\ApiPlatform\Metadata\ApiProperty', [
+                'description' => AttributeGenerator::wrapString($description),
+                'schema' => $openapiContext ?? null,
+                'example' => $this->field->getPlaceholder() ?
+                    AttributeGenerator::wrapString($this->field->getPlaceholder()) :
+                    null,
+            ]);
             if ($this->getSerializationMaxDepth() > 0) {
                 $attributes[] = new AttributeGenerator('SymfonySerializer\MaxDepth', [
                     $this->getSerializationMaxDepth()

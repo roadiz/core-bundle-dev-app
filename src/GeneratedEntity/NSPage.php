@@ -39,6 +39,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "content"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Content: Content"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "content", type: "text", nullable: true),
@@ -77,6 +78,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "subTitle"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Sub-title"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -120,6 +122,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "color"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Page color"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -166,6 +169,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         Serializer\Exclude,
         SymfonySerializer\SerializedName(serializedName: "images"),
         SymfonySerializer\Groups(["realm_a"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Images"),
         SymfonySerializer\MaxDepth(2)
     ]
     private ?array $images = null;
@@ -241,6 +245,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         Serializer\Exclude,
         SymfonySerializer\SerializedName(serializedName: "headerImage"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_images", "nodes_sources_documents"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Header image"),
         SymfonySerializer\MaxDepth(2)
     ]
     private ?array $headerImage = null;
@@ -312,6 +317,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "overTitle"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Overtitle"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -360,6 +366,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         Serializer\Exclude,
         SymfonySerializer\SerializedName(serializedName: "pictures"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_images", "nodes_sources_documents"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Pictures: Picture for website"),
         SymfonySerializer\MaxDepth(2)
     ]
     private ?array $pictures = null;
@@ -437,6 +444,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         Serializer\Exclude,
         SymfonySerializer\SerializedName(serializedName: "nodeReferences"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default", "nodes_sources_nodes"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "References"),
         SymfonySerializer\MaxDepth(2)
     ]
     private ?array $nodeReferencesSources = null;
@@ -492,6 +500,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "sticky"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Sticky"),
         SymfonySerializer\MaxDepth(2),
         ApiFilter(OrmFilter\OrderFilter::class),
         ApiFilter(OrmFilter\BooleanFilter::class),
@@ -536,6 +545,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "stickytest"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_boolean"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Sticky test"),
         SymfonySerializer\MaxDepth(2),
         ApiFilter(OrmFilter\OrderFilter::class),
         ApiFilter(OrmFilter\BooleanFilter::class),
@@ -582,6 +592,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         Serializer\Exclude,
         SymfonySerializer\SerializedName(serializedName: "customForm"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default", "nodes_sources_custom_forms"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Custom form"),
         SymfonySerializer\MaxDepth(2)
     ]
     private ?array $customForm = null;
@@ -756,6 +767,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "folderReferences"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Reference to folders"),
         SymfonySerializer\MaxDepth(2),
         ORM\ManyToMany(targetEntity: \RZ\Roadiz\CoreBundle\Entity\Folder::class),
         ORM\JoinTable(name: "page_folder_references"),
@@ -798,6 +810,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "amount"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Amount"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -840,6 +853,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "emailTest"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Test email"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -884,6 +898,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "settings"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Settings"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "settings", type: "json", nullable: true),
@@ -920,6 +935,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "folder"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Folder simple"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -960,6 +976,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "country"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Country"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -1003,6 +1020,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "geolocation"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Geolocation"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "geolocation", type: "json", nullable: true),
@@ -1039,6 +1057,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "multiGeolocation"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_geo"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Multi geolocations"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "multi_geolocation", type: "json", nullable: true),
@@ -1075,6 +1094,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "layout"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Layout", schema: ["type" => "string", "enum" => ["dark","transparent"], "example" => "dark"], example: "light"),
         SymfonySerializer\MaxDepth(2),
         ApiFilter(OrmFilter\SearchFilter::class, strategy: "exact"),
         ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class),
@@ -1137,6 +1157,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "mainUser"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Main user"),
         SymfonySerializer\MaxDepth(2),
         ORM\ManyToOne(targetEntity: \RZ\Roadiz\CoreBundle\Entity\User::class),
         ORM\JoinColumn(name: "main_user_id", referencedColumnName: "id", onDelete: "SET NULL"),

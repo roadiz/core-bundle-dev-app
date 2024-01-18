@@ -35,6 +35,7 @@ class NSArticleFeedBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "listingCount"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Article count"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "listing_count", type: "integer", nullable: true),

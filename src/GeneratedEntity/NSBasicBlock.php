@@ -35,6 +35,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "content"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Content"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "content", type: "text", nullable: true),
@@ -73,6 +74,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "booleanField"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Boolean field"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -117,6 +119,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         Serializer\Exclude,
         SymfonySerializer\SerializedName(serializedName: "image"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default", "nodes_sources_documents"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Image"),
         SymfonySerializer\MaxDepth(2)
     ]
     private ?array $image = null;
