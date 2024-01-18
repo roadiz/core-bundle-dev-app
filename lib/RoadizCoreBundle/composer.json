@@ -57,7 +57,6 @@
         "scienta/doctrine-json-functions": "^4.2",
         "sensio/framework-extra-bundle": "^6.1",
         "solarium/solarium": "^6.0.4",
-        "symfony-cmf/routing": "^2.3.3",
         "symfony-cmf/routing-bundle": "^3.0.2",
         "symfony/asset": "6.4.*",
         "symfony/cache": "6.4.*",
