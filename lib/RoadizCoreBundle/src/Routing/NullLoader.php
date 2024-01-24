@@ -10,36 +10,23 @@ use Symfony\Component\Config\Loader\LoaderResolverInterface;
 final class NullLoader implements LoaderInterface
 {
     /**
-     * Loads a resource.
-     *
-     * @param mixed       $resource The resource
-     * @param string|null $type The resource type or null if unknown
-     * @return mixed
-     *
-     * @throws \Exception If something went wrong
+     * @inheritDoc
      */
-    public function load($resource, $type = null): mixed
+    public function load(mixed $resource, string $type = null): mixed
     {
         return null;
     }
 
     /**
-     * Returns whether this class supports the given resource.
-     *
-     * @param mixed       $resource A resource
-     * @param string|null $type The resource type or null if unknown
-     *
-     * @return bool True if this class supports the given resource, false otherwise
+     * @inheritDoc
      */
-    public function supports($resource, $type = null): bool
+    public function supports(mixed $resource, string $type = null): bool
     {
         return true;
     }
 
     /**
-     * Gets the loader resolver.
-     *
-     * @return LoaderResolverInterface|null A LoaderResolverInterface instance
+     * @inheritDoc
      */
     public function getResolver(): ?LoaderResolverInterface
     {
@@ -47,10 +34,7 @@ final class NullLoader implements LoaderInterface
     }
 
     /**
-     * Sets the loader resolver.
-     *
-     * @param LoaderResolverInterface $resolver
-     * @return NullLoader
+     * @inheritDoc
      */
     public function setResolver(LoaderResolverInterface $resolver): self
     {

@@ -20,28 +20,16 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 final class NodesSourcesPathResolver implements PathResolverInterface
 {
-    private ManagerRegistry $managerRegistry;
-    private Stopwatch $stopwatch;
     private static string $nodeNamePattern = '[a-zA-Z0-9\-\_\.]+';
-    private PreviewResolverInterface $previewResolver;
-    private Settings $settingsBag;
-    private RequestStack $requestStack;
-    private bool $useAcceptLanguageHeader;
 
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        PreviewResolverInterface $previewResolver,
-        Stopwatch $stopwatch,
-        Settings $settingsBag,
-        RequestStack $requestStack,
-        bool $useAcceptLanguageHeader
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly Stopwatch $stopwatch,
+        private readonly Settings $settingsBag,
+        private readonly RequestStack $requestStack,
+        private readonly bool $useAcceptLanguageHeader
     ) {
-        $this->stopwatch = $stopwatch;
-        $this->previewResolver = $previewResolver;
-        $this->managerRegistry = $managerRegistry;
-        $this->settingsBag = $settingsBag;
-        $this->requestStack = $requestStack;
-        $this->useAcceptLanguageHeader = $useAcceptLanguageHeader;
     }
 
     /**

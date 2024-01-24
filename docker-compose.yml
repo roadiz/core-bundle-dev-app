@@ -58,12 +58,8 @@ services:
         links:
             - db:db
         networks:
-            frontproxynet:
-                aliases:
-                    - ${APP_NAMESPACE}_pma
-            default:
-                aliases:
-                    - pma
+            - frontproxynet
+            - default
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}_pma.loadbalancer.server.scheme=http"
@@ -91,12 +87,8 @@ services:
             - solr-precreate
             - ${SOLR_CORE_NAME}
         networks:
-            frontproxynet:
-                aliases:
-                    - ${APP_NAMESPACE}_solr
-            default:
-                aliases:
-                    - solr
+            - frontproxynet
+            - default
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}_solr.loadbalancer.server.scheme=http"
@@ -174,12 +166,8 @@ services:
         volumes:
             - ./:/var/www/html:cached
         networks:
-            frontproxynet:
-                aliases:
-                    - ${APP_NAMESPACE}_nginx
-            default:
-                aliases:
-                    - nginx
+            - frontproxynet
+            - default
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.scheme=http"
@@ -205,12 +193,8 @@ services:
             - ${PUBLIC_MAILER_PORT}:8025/tcp
             - ${SMTP_MAILER_PORT}:1025/tcp
         networks:
-            frontproxynet:
-                aliases:
-                    - ${APP_NAMESPACE}_mailer
-            default:
-                aliases:
-                    - mailer
+            - frontproxynet
+            - default
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}_mailer.loadbalancer.server.scheme=http"

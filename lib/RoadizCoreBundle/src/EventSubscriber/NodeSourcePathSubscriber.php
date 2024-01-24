@@ -11,14 +11,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class NodeSourcePathSubscriber implements EventSubscriberInterface
 {
-    protected NodesSourcesPathAggregator $pathAggregator;
-
-    /**
-     * @param NodesSourcesPathAggregator $pathAggregator
-     */
-    public function __construct(NodesSourcesPathAggregator $pathAggregator)
-    {
-        $this->pathAggregator = $pathAggregator;
+    public function __construct(
+        protected readonly NodesSourcesPathAggregator $pathAggregator
+    ) {
     }
 
     /**
@@ -28,7 +23,6 @@ class NodeSourcePathSubscriber implements EventSubscriberInterface
     {
         return [
             NodesSourcesPathGeneratingEvent::class => [['onNodesSourcesPath', -100]],
-            '\RZ\Roadiz\Core\Events\NodesSources\NodesSourcesPathGeneratingEvent' => [['onNodesSourcesPath', -100]],
         ];
     }
 
@@ -39,7 +33,6 @@ class NodeSourcePathSubscriber implements EventSubscriberInterface
     {
         $urlGenerator = new NodesSourcesUrlGenerator(
             $this->pathAggregator,
-            null,
             $event->getNodeSource(),
             $event->isForceLocale(),
             $event->isForceLocaleWithUrlAlias()

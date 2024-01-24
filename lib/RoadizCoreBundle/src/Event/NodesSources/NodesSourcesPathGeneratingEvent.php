@@ -11,46 +11,14 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 final class NodesSourcesPathGeneratingEvent extends Event
 {
-    /**
-     * @var bool
-     */
-    protected $forceLocaleWithUrlAlias;
-    /**
-     * @var Theme|null
-     */
-    private $theme;
-    /**
-     * @var NodesSources|null
-     */
-    private $nodeSource;
-    /**
-     * @var array|null
-     */
-    private $parameters;
-    /**
-     * @var RequestContext|null
-     */
-    private $requestContext;
-    /**
-     * @var bool
-     */
-    private $forceLocale = false;
-    /**
-     * @var string|null
-     */
-    private $path;
+    private ?string $path;
     /**
      * @var bool Tells Node Router to prepend request context information to path or not.
      */
-    private $isComplete = false;
-    /**
-     * @var bool
-     */
-    protected $containsScheme = false;
+    private bool $isComplete = false;
+    protected bool $containsScheme = false;
 
     /**
-     * NodesSourcesPathGeneratingEvent constructor.
-     *
      * @param Theme|null          $theme
      * @param NodesSources|null   $nodeSource
      * @param RequestContext|null $requestContext
@@ -59,19 +27,13 @@ final class NodesSourcesPathGeneratingEvent extends Event
      * @param bool                $forceLocaleWithUrlAlias
      */
     public function __construct(
-        ?Theme $theme,
-        ?NodesSources $nodeSource,
-        ?RequestContext $requestContext,
-        array $parameters = [],
-        bool $forceLocale = false,
-        bool $forceLocaleWithUrlAlias = false
+        private readonly ?Theme $theme,
+        private ?NodesSources $nodeSource,
+        private readonly ?RequestContext $requestContext,
+        private array $parameters = [],
+        private readonly bool $forceLocale = false,
+        private bool $forceLocaleWithUrlAlias = false
     ) {
-        $this->theme = $theme;
-        $this->nodeSource = $nodeSource;
-        $this->requestContext = $requestContext;
-        $this->forceLocale = $forceLocale;
-        $this->parameters = $parameters;
-        $this->forceLocaleWithUrlAlias = $forceLocaleWithUrlAlias;
     }
 
     /**
