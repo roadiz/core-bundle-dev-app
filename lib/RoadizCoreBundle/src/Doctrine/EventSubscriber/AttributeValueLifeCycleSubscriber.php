@@ -5,26 +5,16 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Doctrine\EventSubscriber;
 
 use ArrayIterator;
-use Doctrine\Common\EventSubscriber;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\OnFlushEventArgs;
-use Doctrine\ORM\Events;
-use RZ\Roadiz\CoreBundle\Model\AttributeValueInterface;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
+use RZ\Roadiz\CoreBundle\Model\AttributeValueInterface;
 
-final class AttributeValueLifeCycleSubscriber implements EventSubscriber
+#[AsDoctrineListener('prePersist')]
+#[AsDoctrineListener('onFlush')]
+final class AttributeValueLifeCycleSubscriber
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::prePersist,
-            Events::onFlush,
-        ];
-    }
-
     /**
      * @param LifecycleEventArgs $event
      */
