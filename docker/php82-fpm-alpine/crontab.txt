@@ -10,3 +10,5 @@
 0 3 * * *    cd /var/www/html && /usr/local/bin/php -d memory_limit=-1 bin/console custom-form-answer:prune -n -q
 ### Empty node trashcan every month
 0 0 1 * *    cd /var/www/html && /usr/local/bin/php -d memory_limit=-1 bin/console nodes:empty-trash -n -q
+### Log last cron exec time
+0 4 * * *    cd /var/www/html && /usr/local/bin/php -d memory_limit=-1 bin/console cron:set-last-exec-date -n -q
