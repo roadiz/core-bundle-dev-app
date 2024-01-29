@@ -132,7 +132,7 @@ class Setting extends AbstractEntity
      *
      * @return $this
      */
-    public function setName(?string $name)
+    public function setName(?string $name): self
     {
         $this->name = trim(\mb_strtolower($name ?? ''));
         $this->name = (new UnicodeString($this->name))
@@ -178,7 +178,7 @@ class Setting extends AbstractEntity
      * @throws \Exception
      */
     #[SymfonySerializer\Ignore]
-    public function getValue()
+    public function getValue(): string|bool|\DateTime|int|null
     {
         if ($this->isEncrypted()) {
             $value = $this->clearValue;
@@ -203,11 +203,11 @@ class Setting extends AbstractEntity
     }
 
     /**
-     * @param null|mixed $value
+     * @param mixed $value
      *
      * @return $this
      */
-    public function setValue($value)
+    public function setValue(mixed $value): self
     {
         if (null === $value) {
             $this->value = null;
@@ -256,7 +256,7 @@ class Setting extends AbstractEntity
      *
      * @return $this
      */
-    public function setType(int $type)
+    public function setType(int $type): self
     {
         $this->type = $type;
 
@@ -290,7 +290,7 @@ class Setting extends AbstractEntity
      *
      * @return $this
      */
-    public function setVisible(bool $visible)
+    public function setVisible(bool $visible): self
     {
         $this->visible = $visible;
 
@@ -310,7 +310,7 @@ class Setting extends AbstractEntity
      *
      * @return $this
      */
-    public function setSettingGroup(?SettingGroup $settingGroup)
+    public function setSettingGroup(?SettingGroup $settingGroup): self
     {
         $this->settingGroup = $settingGroup;
 
@@ -330,7 +330,7 @@ class Setting extends AbstractEntity
      *
      * @return Setting
      */
-    public function setDefaultValues(?string $defaultValues)
+    public function setDefaultValues(?string $defaultValues): self
     {
         $this->defaultValues = $defaultValues;
 
