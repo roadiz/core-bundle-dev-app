@@ -131,6 +131,7 @@ fabric.properties
 ###< symfony/phpunit-bridge ###
 
 ###> phpunit/phpunit ###
+/coverage
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
