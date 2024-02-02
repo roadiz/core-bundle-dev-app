@@ -8,12 +8,12 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Realm;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\RealmVoter;
-use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 
-final class RealmSerializationGroupNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
+final class RealmSerializationGroupNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
@@ -34,7 +34,7 @@ final class RealmSerializationGroupNormalizer implements ContextAwareNormalizerI
     /**
      * @inheritDoc
      */
-    public function supportsNormalization($data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         // Make sure we're not called twice
         if (isset($context[self::ALREADY_CALLED])) {
@@ -48,7 +48,7 @@ final class RealmSerializationGroupNormalizer implements ContextAwareNormalizerI
      * @inheritDoc
      * @return array|string|int|float|bool|\ArrayObject|null
      */
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $realms = $this->getAuthorizedRealmsForObject($object);
 

@@ -12,11 +12,11 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 
-final class TranslationAwareNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
+final class TranslationAwareNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
@@ -43,7 +43,7 @@ final class TranslationAwareNormalizer implements ContextAwareNormalizerInterfac
      * @return array|\ArrayObject|bool|float|int|string|null
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         if ($object instanceof WebResponseInterface) {
             $item = $object->getItem();
@@ -98,7 +98,7 @@ final class TranslationAwareNormalizer implements ContextAwareNormalizerInterfac
             ->findDefault();
     }
 
-    public function supportsNormalization($data, $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         // Make sure we're not called twice
         if (isset($context[self::ALREADY_CALLED])) {

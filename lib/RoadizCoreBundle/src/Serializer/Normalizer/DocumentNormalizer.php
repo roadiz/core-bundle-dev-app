@@ -39,7 +39,7 @@ final class DocumentNormalizer extends AbstractPathNormalizer
      * @return array|\ArrayObject|bool|float|int|string|null
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $data = $this->decorated->normalize($object, $format, $context);
         if (
