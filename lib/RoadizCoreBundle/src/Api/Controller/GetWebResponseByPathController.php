@@ -20,24 +20,13 @@ use Symfony\Component\String\UnicodeString;
 
 final class GetWebResponseByPathController extends AbstractController
 {
-    private RequestStack $requestStack;
-    private PathResolverInterface $pathResolver;
-    private WebResponseDataTransformerInterface $webResponseDataTransformer;
-    private IriConverterInterface $iriConverter;
-    private PreviewResolverInterface $previewResolver;
-
     public function __construct(
-        RequestStack $requestStack,
-        PathResolverInterface $pathResolver,
-        WebResponseDataTransformerInterface $webResponseDataTransformer,
-        IriConverterInterface $iriConverter,
-        PreviewResolverInterface $previewResolver
+        private readonly RequestStack $requestStack,
+        private readonly PathResolverInterface $pathResolver,
+        private readonly WebResponseDataTransformerInterface $webResponseDataTransformer,
+        private readonly IriConverterInterface $iriConverter,
+        private readonly PreviewResolverInterface $previewResolver
     ) {
-        $this->requestStack = $requestStack;
-        $this->pathResolver = $pathResolver;
-        $this->webResponseDataTransformer = $webResponseDataTransformer;
-        $this->iriConverter = $iriConverter;
-        $this->previewResolver = $previewResolver;
     }
 
     public function __invoke(): ?WebResponseInterface
