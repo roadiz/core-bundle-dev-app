@@ -1,3 +1,10 @@
+## [v2.1.52](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.51...v2.1.52) (2024-02-07)
+
+
+### Bug Fixes
+
+* Prevent redirections to resolve a not-published resource. ([d7a5801](https://github.com/roadiz/core-bundle-dev-app/commit/d7a580142e745a8d9bd5c77f8a8e7a8f77c686c6))
+
 ## [v2.1.51](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.50...v2.1.51) (2023-11-20)
 
 
