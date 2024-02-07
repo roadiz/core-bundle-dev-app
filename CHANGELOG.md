@@ -1,3 +1,10 @@
+## [v2.1.53](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.52...v2.1.53) (2024-02-07)
+
+
+### Bug Fixes
+
+* Fix doctrine/orm constraint <2.17 ([35c4689](https://github.com/roadiz/core-bundle-dev-app/commit/35c46894dd637bcf583c05b6284444310359849a))
+
 ## [v2.1.52](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.51...v2.1.52) (2024-02-07)
 
 
