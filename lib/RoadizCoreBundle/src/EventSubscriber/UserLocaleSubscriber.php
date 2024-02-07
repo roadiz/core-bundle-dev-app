@@ -44,6 +44,10 @@ final class UserLocaleSubscriber implements EventSubscriberInterface
      */
     public function onInteractiveLogin(InteractiveLoginEvent $event): void
     {
+        if ($this->requestStack->getMainRequest()?->attributes->getBoolean('_stateless')) {
+            return;
+        }
+
         $user = $event->getAuthenticationToken()->getUser();
 
         if (
@@ -59,6 +63,9 @@ final class UserLocaleSubscriber implements EventSubscriberInterface
      */
     public function onUserUpdated(FilterUserEvent $event): void
     {
+        if ($this->requestStack->getMainRequest()?->attributes->getBoolean('_stateless')) {
+            return;
+        }
         $user = $event->getUser();
 
         if (
