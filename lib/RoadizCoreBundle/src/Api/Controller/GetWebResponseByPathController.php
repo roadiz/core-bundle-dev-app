@@ -10,6 +10,7 @@ use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use RZ\Roadiz\CoreBundle\Entity\Redirection;
+use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Routing\PathResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -23,23 +24,20 @@ final class GetWebResponseByPathController extends AbstractController
     private PathResolverInterface $pathResolver;
     private WebResponseDataTransformerInterface $webResponseDataTransformer;
     private IriConverterInterface $iriConverter;
+    private PreviewResolverInterface $previewResolver;
 
-    /**
-     * @param RequestStack $requestStack
-     * @param PathResolverInterface $pathResolver
-     * @param WebResponseDataTransformerInterface $webResponseDataTransformer
-     * @param IriConverterInterface $iriConverter
-     */
     public function __construct(
         RequestStack $requestStack,
         PathResolverInterface $pathResolver,
         WebResponseDataTransformerInterface $webResponseDataTransformer,
-        IriConverterInterface $iriConverter
+        IriConverterInterface $iriConverter,
+        PreviewResolverInterface $previewResolver
     ) {
         $this->requestStack = $requestStack;
         $this->pathResolver = $pathResolver;
         $this->webResponseDataTransformer = $webResponseDataTransformer;
         $this->iriConverter = $iriConverter;
+        $this->previewResolver = $previewResolver;
     }
 
     public function __invoke(): ?WebResponseInterface
@@ -54,9 +52,6 @@ final class GetWebResponseByPathController extends AbstractController
             $resource = $this->normalizeResourcePath(
                 (string) $this->requestStack->getMainRequest()->query->get('path')
             );
-            if (null === $resource) {
-                throw new ResourceNotFoundException('Resource not found');
-            }
             $this->requestStack->getMainRequest()->attributes->set('data', $resource);
             $this->requestStack->getMainRequest()->attributes->set('id', $resource->getId());
             /*
@@ -72,9 +67,9 @@ final class GetWebResponseByPathController extends AbstractController
 
     /**
      * @param string $path
-     * @return PersistableInterface|null
+     * @return PersistableInterface
      */
-    protected function normalizeResourcePath(string $path): ?PersistableInterface
+    protected function normalizeResourcePath(string $path): PersistableInterface
     {
         /*
          * Serve any PersistableInterface Resource by implementing
@@ -88,12 +83,19 @@ final class GetWebResponseByPathController extends AbstractController
         );
         $resource = $resourceInfo->getResource();
 
+        if (null === $resource) {
+            throw new ResourceNotFoundException('Cannot resolve resource path.');
+        }
+
         /*
          * Normalize redirection
          */
         if ($resource instanceof Redirection) {
-            if (null !== $resource->getRedirectNodeSource()) {
-                $resource = $resource->getRedirectNodeSource();
+            if (null !== $nodeSource = $resource->getRedirectNodeSource()) {
+                if (!$this->previewResolver->isPreview() && !$nodeSource->getNode()->isPublished()) {
+                    throw new ResourceNotFoundException('Cannot resolve resource path.');
+                }
+                $resource = $nodeSource;
             } elseif (
                 null !== $resource->getRedirectUri() &&
                 (new UnicodeString($resource->getRedirectUri()))->startsWith('/')
@@ -114,10 +116,10 @@ final class GetWebResponseByPathController extends AbstractController
         return $resource;
     }
 
-    protected function addResourceToCacheTags(?PersistableInterface $resource): void
+    protected function addResourceToCacheTags(PersistableInterface $resource): void
     {
         $request = $this->requestStack->getMainRequest();
-        if (null !== $request && null !== $resource) {
+        if (null !== $request) {
             $iri = $this->iriConverter->getIriFromResource($resource);
             $request->attributes->set('_resources', $request->attributes->get('_resources', []) + [ $iri => $iri ]);
         }
