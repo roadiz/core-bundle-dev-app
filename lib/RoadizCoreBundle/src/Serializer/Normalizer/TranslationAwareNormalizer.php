@@ -20,20 +20,13 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
 {
     use NormalizerAwareTrait;
 
-    private RequestStack $requestStack;
-    private ManagerRegistry $managerRegistry;
-    private PreviewResolverInterface $previewResolver;
-
     private const ALREADY_CALLED = 'TRANSLATION_AWARE_NORMALIZER_ALREADY_CALLED';
 
     public function __construct(
-        RequestStack $requestStack,
-        ManagerRegistry $managerRegistry,
-        PreviewResolverInterface $previewResolver
+        private readonly RequestStack $requestStack,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly PreviewResolverInterface $previewResolver
     ) {
-        $this->requestStack = $requestStack;
-        $this->managerRegistry = $managerRegistry;
-        $this->previewResolver = $previewResolver;
     }
 
     /**
@@ -106,5 +99,12 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
         }
 
         return true;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            '*' => false,
+        ];
     }
 }

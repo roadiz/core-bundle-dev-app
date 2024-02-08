@@ -44,6 +44,13 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
         return $data instanceof NodesSources;
     }
 
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            '*' => false,
+        ];
+    }
+
     /**
      * @inheritDoc
      * @return array|string|int|float|bool|\ArrayObject|null

@@ -57,4 +57,11 @@ abstract class AbstractPathNormalizer implements NormalizerInterface, Denormaliz
             $this->decorated->setSerializer($serializer);
         }
     }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            '*' => false,
+        ];
+    }
 }
