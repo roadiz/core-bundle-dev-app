@@ -12,7 +12,7 @@ use Doctrine\ORM\QueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Realm\RealmResolverInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class AttributeValueRealmExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {

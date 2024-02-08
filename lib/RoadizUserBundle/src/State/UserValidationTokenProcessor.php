@@ -15,7 +15,7 @@ use RZ\Roadiz\UserBundle\Entity\UserValidationToken;
 use RZ\Roadiz\UserBundle\Event\UserEmailValidated;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class UserValidationTokenProcessor implements ProcessorInterface

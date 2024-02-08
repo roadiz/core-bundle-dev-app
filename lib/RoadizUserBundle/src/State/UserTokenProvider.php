@@ -12,7 +12,7 @@ use RZ\Roadiz\UserBundle\Api\Dto\UserOutput;
 use RZ\Roadiz\UserBundle\Manager\UserMetadataManagerInterface;
 use RZ\Roadiz\UserBundle\Manager\UserValidationTokenManagerInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class UserTokenProvider implements ProviderInterface
