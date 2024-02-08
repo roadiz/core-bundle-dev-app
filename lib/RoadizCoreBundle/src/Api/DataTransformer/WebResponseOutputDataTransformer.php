@@ -25,30 +25,15 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
     use BlocksAwareWebResponseOutputDataTransformerTrait;
     use RealmsAwareWebResponseOutputDataTransformerTrait;
 
-    private NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory;
-    private BreadcrumbsFactoryInterface $breadcrumbsFactory;
-    private WalkerContextInterface $walkerContext;
-    private CacheItemPoolInterface $cacheItemPool;
-    private UrlGeneratorInterface $urlGenerator;
-    private RealmResolverInterface $realmResolver;
-    private TreeWalkerGenerator $treeWalkerGenerator;
-
     public function __construct(
-        NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
-        BreadcrumbsFactoryInterface $breadcrumbsFactory,
-        WalkerContextInterface $walkerContext,
-        CacheItemPoolInterface $cacheItemPool,
-        UrlGeneratorInterface $urlGenerator,
-        RealmResolverInterface $realmResolver,
-        TreeWalkerGenerator $treeWalkerGenerator
+        protected readonly NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
+        protected readonly BreadcrumbsFactoryInterface $breadcrumbsFactory,
+        protected readonly WalkerContextInterface $walkerContext,
+        protected readonly CacheItemPoolInterface $cacheItemPool,
+        protected readonly UrlGeneratorInterface $urlGenerator,
+        protected readonly RealmResolverInterface $realmResolver,
+        protected readonly TreeWalkerGenerator $treeWalkerGenerator
     ) {
-        $this->nodesSourcesHeadFactory = $nodesSourcesHeadFactory;
-        $this->breadcrumbsFactory = $breadcrumbsFactory;
-        $this->walkerContext = $walkerContext;
-        $this->cacheItemPool = $cacheItemPool;
-        $this->urlGenerator = $urlGenerator;
-        $this->realmResolver = $realmResolver;
-        $this->treeWalkerGenerator = $treeWalkerGenerator;
     }
 
     protected function getWalkerContext(): WalkerContextInterface
