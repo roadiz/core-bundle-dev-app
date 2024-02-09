@@ -214,9 +214,9 @@ class Setting extends AbstractEntity
             $this->value = null;
         } elseif (
             ($this->getType() === AbstractField::DATETIME_T || $this->getType() === AbstractField::DATE_T) &&
-            $value instanceof \DateTime
+            $value instanceof \DateTimeInterface
         ) {
-            $this->value = $value->format('c'); // $value is instance of \DateTime
+            $this->value = $value->format('c');
         } else {
             $this->value = (string) $value;
         }
