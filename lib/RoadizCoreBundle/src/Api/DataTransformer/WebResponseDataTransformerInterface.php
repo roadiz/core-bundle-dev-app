@@ -25,4 +25,6 @@ interface WebResponseDataTransformerInterface
      * @param object|array $data object on normalize / array on denormalize
      */
     public function supportsTransformation($data, string $to, array $context = []): bool;
+
+    public function createWebResponse(): WebResponseInterface;
 }

@@ -69,6 +69,11 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
         return $this->realmResolver;
     }
 
+    public function createWebResponse(): WebResponse
+    {
+        return new WebResponse();
+    }
+
     /**
      * @inheritDoc
      */
@@ -80,7 +85,7 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
                 PersistableInterface::class
             );
         }
-        $output = new WebResponse();
+        $output = $this->createWebResponse();
         $output->item = $object;
         if ($object instanceof NodesSources) {
             $this->injectRealms($output, $object);
