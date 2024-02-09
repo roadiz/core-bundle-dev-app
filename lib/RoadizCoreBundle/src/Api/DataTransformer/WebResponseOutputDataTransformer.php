@@ -8,7 +8,9 @@ use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Breadcrumbs\BreadcrumbsFactoryInterface;
+use RZ\Roadiz\CoreBundle\Api\Model\BlocksAwareWebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
+use RZ\Roadiz\CoreBundle\Api\Model\RealmsAwareWebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponse;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;
@@ -69,45 +71,32 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
         return $this->realmResolver;
     }
 
-    public function createWebResponse(): WebResponse
+    public function createWebResponse(): WebResponseInterface
     {
         return new WebResponse();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function transform($object, string $to, array $context = []): ?WebResponseInterface
+    public function transform(PersistableInterface $object, string $to, array $context = []): ?WebResponseInterface
     {
-        if (!$object instanceof PersistableInterface) {
-            throw new \InvalidArgumentException(
-                'Data to transform must be instance of ' .
-                PersistableInterface::class
-            );
-        }
         $output = $this->createWebResponse();
-        $output->item = $object;
+        $output->setItem($object);
         if ($object instanceof NodesSources) {
-            $this->injectRealms($output, $object);
-            $this->injectBlocks($output, $object);
+            if ($output instanceof RealmsAwareWebResponseInterface) {
+                $this->injectRealms($output, $object);
+            }
+            if ($output instanceof BlocksAwareWebResponseInterface) {
+                $this->injectBlocks($output, $object);
+            }
 
-            $output->path = $this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
+            $output->setPath($this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
                 RouteObjectInterface::ROUTE_OBJECT => $object
-            ], UrlGeneratorInterface::ABSOLUTE_PATH);
-            $output->head = $this->nodesSourcesHeadFactory->createForNodeSource($object);
-            $output->breadcrumbs = $this->breadcrumbsFactory->create($object);
+            ], UrlGeneratorInterface::ABSOLUTE_PATH));
+            $output->setHead($this->nodesSourcesHeadFactory->createForNodeSource($object));
+            $output->setBreadcrumbs($this->breadcrumbsFactory->create($object));
         }
         if ($object instanceof TranslationInterface) {
-            $output->head = $this->nodesSourcesHeadFactory->createForTranslation($object);
+            $output->setHead($this->nodesSourcesHeadFactory->createForTranslation($object));
         }
         return $output;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function supportsTransformation($data, string $to, array $context = []): bool
-    {
-        return WebResponseInterface::class === $to && $data instanceof PersistableInterface;
     }
 }

@@ -39,6 +39,18 @@ trait WebResponseTrait
     #[Serializer\Groups(["web_response"])]
     private bool $hidingBlocks = false;
 
+    public function setPath(?string $path): self
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+    public function setItem(?PersistableInterface $item): self
+    {
+        $this->item = $item;
+        return $this;
+    }
+
     /**
      * @return PersistableInterface|null
      */
@@ -98,6 +110,18 @@ trait WebResponseTrait
     public function setHidingBlocks(bool $hidingBlocks): self
     {
         $this->hidingBlocks = $hidingBlocks;
+        return $this;
+    }
+
+    public function setBreadcrumbs(?BreadcrumbsInterface $breadcrumbs): self
+    {
+        $this->breadcrumbs = $breadcrumbs;
+        return $this;
+    }
+
+    public function setHead(?NodesSourcesHeadInterface $head): self
+    {
+        $this->head = $head;
         return $this;
     }
 }
