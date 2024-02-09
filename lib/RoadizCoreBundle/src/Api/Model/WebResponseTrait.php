@@ -60,11 +60,11 @@ trait WebResponseTrait
     }
 
     /**
-     * @return Collection<int, WalkerInterface>|null
+     * @return WalkerInterface[]|null
      */
-    public function getBlocks(): ?Collection
+    public function getBlocks(): ?array
     {
-        return $this->blocks;
+        return $this->blocks?->getValues();
     }
 
     /**
