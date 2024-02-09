@@ -1,3 +1,10 @@
+## [v2.1.54](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.53...v2.1.54) (2024-02-09)
+
+
+### Bug Fixes
+
+* Fix Setting value with \DateTimeInterface ([56c8606](https://github.com/roadiz/core-bundle-dev-app/commit/56c8606a7ba6e382cd88b2bea110a6234dbad79c))
+
 ## [v2.1.53](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.52...v2.1.53) (2024-02-07)
 
 
