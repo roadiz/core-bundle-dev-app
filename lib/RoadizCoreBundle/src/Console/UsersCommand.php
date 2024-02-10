@@ -14,17 +14,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * Command line utils for managing users from terminal.
- */
 class UsersCommand extends Command
 {
-    protected ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry, string $name = null)
-    {
+    public function __construct(
+        protected readonly ManagerRegistry $managerRegistry,
+        string $name = null
+    ) {
         parent::__construct($name);
-        $this->managerRegistry = $managerRegistry;
     }
 
     protected function configure(): void

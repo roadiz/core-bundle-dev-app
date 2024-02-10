@@ -13,7 +13,7 @@ use RZ\Roadiz\Core\Handlers\AbstractHandler;
 /**
  * Handle operations with tags entities.
  */
-class TagHandler extends AbstractHandler
+final class TagHandler extends AbstractHandler
 {
     private ?Tag $tag = null;
 
@@ -32,7 +32,7 @@ class TagHandler extends AbstractHandler
      * @param Tag $tag
      * @return $this
      */
-    public function setTag(Tag $tag)
+    public function setTag(Tag $tag): self
     {
         $this->tag = $tag;
         return $this;
@@ -43,7 +43,7 @@ class TagHandler extends AbstractHandler
      *
      * @return $this
      */
-    private function removeChildren()
+    private function removeChildren(): self
     {
         /** @var Tag $tag */
         foreach ($this->tag->getChildren() as $tag) {
@@ -59,7 +59,7 @@ class TagHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeAssociations()
+    public function removeAssociations(): self
     {
         foreach ($this->tag->getTranslatedTags() as $tt) {
             $this->objectManager->remove($tt);
@@ -73,7 +73,7 @@ class TagHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeWithChildrenAndAssociations()
+    public function removeWithChildrenAndAssociations(): self
     {
         $this->removeChildren();
         $this->removeAssociations();
@@ -86,120 +86,6 @@ class TagHandler extends AbstractHandler
         $this->objectManager->flush();
 
         return $this;
-    }
-
-    /**
-     * @return array Array of Translation
-     * @deprecated Do not query DB here
-     */
-    public function getAvailableTranslations()
-    {
-        $query = $this->objectManager
-                        ->createQuery('
-            SELECT tr
-            FROM RZ\Roadiz\CoreBundle\Entity\Translation tr
-            INNER JOIN tr.tagTranslations tt
-            INNER JOIN tt.tag t
-            WHERE t.id = :tag_id')
-                        ->setParameter('tag_id', $this->tag->getId());
-
-        try {
-            return $query->getResult();
-        } catch (NoResultException $e) {
-            return [];
-        }
-    }
-    /**
-     * @return array Array of Translation id
-     * @deprecated Do not query DB here
-     */
-    public function getAvailableTranslationsId()
-    {
-        $query = $this->objectManager
-                        ->createQuery('
-            SELECT tr.id FROM RZ\Roadiz\CoreBundle\Entity\Tag t
-            INNER JOIN t.translatedTags tt
-            INNER JOIN tt.translation tr
-            WHERE t.id = :tag_id')
-                        ->setParameter('tag_id', $this->tag->getId());
-
-        try {
-            $simpleArray = [];
-            $complexArray = $query->getScalarResult();
-            foreach ($complexArray as $subArray) {
-                $simpleArray[] = $subArray['id'];
-            }
-
-            return $simpleArray;
-        } catch (NoResultException $e) {
-            return [];
-        }
-    }
-
-    /**
-     * @return array Array of Translation
-     * @deprecated Do not query DB here
-     */
-    public function getUnavailableTranslations()
-    {
-        $query = $this->objectManager
-                        ->createQuery('
-            SELECT tr FROM RZ\Roadiz\CoreBundle\Entity\Translation tr
-            WHERE tr.id NOT IN (:translations_id)')
-                        ->setParameter('translations_id', $this->getAvailableTranslationsId());
-
-        try {
-            return $query->getResult();
-        } catch (NoResultException $e) {
-            return [];
-        }
-    }
-
-    /**
-     * @return array Array of Translation id
-     * @deprecated Do not query DB here
-     */
-    public function getUnavailableTranslationsId()
-    {
-        /** @var Query $query */
-        $query = $this->objectManager
-                        ->createQuery('
-            SELECT t.id FROM RZ\Roadiz\CoreBundle\Entity\Translation t
-            WHERE t.id NOT IN (:translations_id)')
-                        ->setParameter('translations_id', $this->getAvailableTranslationsId());
-
-        try {
-            $simpleArray = [];
-            $complexArray = $query->getScalarResult();
-            foreach ($complexArray as $subArray) {
-                $simpleArray[] = $subArray['id'];
-            }
-
-            return $simpleArray;
-        } catch (NoResultException $e) {
-            return [];
-        }
-    }
-
-    /**
-     * Return every tag’s parents.
-     * @deprecated Use directly Tag::getParents
-     * @return array
-     */
-    public function getParents()
-    {
-        return $this->tag->getParents();
-    }
-
-    /**
-     * Get tag full path using tag names.
-     *
-     * @deprecated Use directly Tag::getFullPath
-     * @return string
-     */
-    public function getFullPath(): string
-    {
-        return $this->tag->getFullPath();
     }
 
     /**

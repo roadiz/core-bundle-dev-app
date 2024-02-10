@@ -23,21 +23,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class NodeTypesCreationCommand extends Command
 {
-    protected ManagerRegistry $managerRegistry;
-    protected HandlerFactory $handlerFactory;
-    protected SchemaUpdater $schemaUpdater;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param HandlerFactory $handlerFactory
-     * @param SchemaUpdater $schemaUpdater
-     */
-    public function __construct(ManagerRegistry $managerRegistry, HandlerFactory $handlerFactory, SchemaUpdater $schemaUpdater)
-    {
-        parent::__construct();
-        $this->managerRegistry = $managerRegistry;
-        $this->handlerFactory = $handlerFactory;
-        $this->schemaUpdater = $schemaUpdater;
+    public function __construct(
+        protected readonly ManagerRegistry $managerRegistry,
+        protected readonly HandlerFactory $handlerFactory,
+        protected readonly SchemaUpdater $schemaUpdater,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void

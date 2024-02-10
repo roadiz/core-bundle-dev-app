@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Console;
 
-use RZ\Crypto\KeyChain\KeyChainInterface;
 use RZ\Roadiz\CoreBundle\Crypto\UniqueKeyEncoderFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -15,16 +14,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @package RZ\Roadiz\CoreBundle\Console
  */
-class DecodePrivateKeyCommand extends Command
+final class DecodePrivateKeyCommand extends Command
 {
-    protected KeyChainInterface $keyChain;
-    protected UniqueKeyEncoderFactory $uniqueKeyEncoderFactory;
-
-    public function __construct(KeyChainInterface $keyChain, UniqueKeyEncoderFactory $uniqueKeyEncoderFactory)
-    {
-        parent::__construct();
-        $this->keyChain = $keyChain;
-        $this->uniqueKeyEncoderFactory = $uniqueKeyEncoderFactory;
+    public function __construct(
+        private readonly UniqueKeyEncoderFactory $uniqueKeyEncoderFactory,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void

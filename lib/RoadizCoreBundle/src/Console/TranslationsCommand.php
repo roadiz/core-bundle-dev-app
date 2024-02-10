@@ -11,20 +11,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * Command line utils for managing translations from terminal.
- */
 class TranslationsCommand extends Command
 {
-    protected ManagerRegistry $managerRegistry;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(ManagerRegistry $managerRegistry)
-    {
-        parent::__construct();
-        $this->managerRegistry = $managerRegistry;
+    public function __construct(
+        protected readonly ManagerRegistry $managerRegistry,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void

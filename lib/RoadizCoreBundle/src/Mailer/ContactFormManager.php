@@ -56,10 +56,6 @@ class ContactFormManager extends EmailManager
         'image/gif',
     ];
     protected int $maxFileSize = 5242880; // 5MB
-    protected FormFactoryInterface $formFactory;
-    protected FormErrorSerializerInterface $formErrorSerializer;
-    protected ?string $recaptchaPrivateKey;
-    protected ?string $recaptchaPublicKey;
 
     /*
      * DO NOT DIRECTLY USE THIS CONSTRUCTOR
@@ -67,20 +63,18 @@ class ContactFormManager extends EmailManager
      */
     public function __construct(
         RequestStack $requestStack,
-        FormFactoryInterface $formFactory,
         TranslatorInterface $translator,
         Environment $templating,
         MailerInterface $mailer,
         Settings $settingsBag,
         DocumentUrlGeneratorInterface $documentUrlGenerator,
-        FormErrorSerializerInterface $formErrorSerializer,
-        ?string $recaptchaPrivateKey,
-        ?string $recaptchaPublicKey
+        protected readonly FormFactoryInterface $formFactory,
+        protected readonly FormErrorSerializerInterface $formErrorSerializer,
+        protected readonly ?string $recaptchaPrivateKey,
+        protected readonly ?string $recaptchaPublicKey
     ) {
         parent::__construct($requestStack, $translator, $templating, $mailer, $settingsBag, $documentUrlGenerator);
 
-        $this->formFactory = $formFactory;
-        $this->formErrorSerializer = $formErrorSerializer;
         $this->options = [
             'attr' => [
                 'id' => 'contactForm',
@@ -101,8 +95,6 @@ class ContactFormManager extends EmailManager
             'new.contact.form.%site%',
             ['%site%' => $this->settingsBag->get('site_name')]
         ));
-        $this->recaptchaPrivateKey = $recaptchaPrivateKey;
-        $this->recaptchaPublicKey = $recaptchaPublicKey;
     }
 
     /**
@@ -130,7 +122,7 @@ class ContactFormManager extends EmailManager
      *
      * @return $this
      */
-    public function disableCsrfProtection()
+    public function disableCsrfProtection(): self
     {
         $this->options['csrf_protection'] = false;
         return $this;
@@ -153,7 +145,7 @@ class ContactFormManager extends EmailManager
      * @see https://symfony.com/doc/4.4/reference/constraints/Email.html#strict
      * @return $this
      */
-    public function setEmailStrictMode(bool $emailStrictMode = true)
+    public function setEmailStrictMode(bool $emailStrictMode = true): self
     {
         $this->emailStrictMode = $emailStrictMode;
 
@@ -171,9 +163,9 @@ class ContactFormManager extends EmailManager
      * Adds email, name and message fields with their constraints.
      *
      * @param bool $useHoneypot
-     * @return ContactFormManager $this
+     * @return $this
      */
-    public function withDefaultFields(bool $useHoneypot = true)
+    public function withDefaultFields(bool $useHoneypot = true): self
     {
         $this->getFormBuilder()->add('email', EmailType::class, [
             'label' => 'your.email',
@@ -184,7 +176,7 @@ class ContactFormManager extends EmailManager
                     'message' => 'email.not.valid',
                     'mode' => $this->isEmailStrictMode() ?
                         Email::VALIDATION_MODE_STRICT :
-                        Email::VALIDATION_MODE_LOOSE
+                        Email::VALIDATION_MODE_HTML5
                 ]),
             ],
         ])
@@ -217,7 +209,7 @@ class ContactFormManager extends EmailManager
      * @param string $honeypotName
      * @return $this
      */
-    public function withHoneypot(string $honeypotName = 'eml')
+    public function withHoneypot(string $honeypotName = 'eml'): self
     {
         $this->getFormBuilder()->add($honeypotName, HoneypotType::class);
         return $this;
@@ -229,7 +221,7 @@ class ContactFormManager extends EmailManager
      * @param string $consentDescription
      * @return $this
      */
-    public function withUserConsent(string $consentDescription = 'contact_form.user_consent')
+    public function withUserConsent(string $consentDescription = 'contact_form.user_consent'): self
     {
         $this->getFormBuilder()->add('consent', CheckboxType::class, [
             'label' => $consentDescription,
@@ -276,7 +268,7 @@ class ContactFormManager extends EmailManager
     public function withGoogleRecaptcha(
         string $name = 'recaptcha',
         string $validatorFieldName = Recaptcha::FORM_NAME
-    ) {
+    ): self {
         if (
             !empty($this->recaptchaPublicKey) &&
             !empty($this->recaptchaPrivateKey)
@@ -634,7 +626,7 @@ class ContactFormManager extends EmailManager
      *
      * @return self
      */
-    public function setRedirectUrl(?string $redirectUrl)
+    public function setRedirectUrl(?string $redirectUrl): self
     {
         $this->redirectUrl = $redirectUrl;
 
@@ -646,7 +638,7 @@ class ContactFormManager extends EmailManager
      *
      * @return int
      */
-    public function getMaxFileSize()
+    public function getMaxFileSize(): int
     {
         return $this->maxFileSize;
     }
@@ -658,7 +650,7 @@ class ContactFormManager extends EmailManager
      *
      * @return self
      */
-    public function setMaxFileSize($maxFileSize)
+    public function setMaxFileSize($maxFileSize): self
     {
         $this->maxFileSize = (int) $maxFileSize;
 
@@ -670,7 +662,7 @@ class ContactFormManager extends EmailManager
      *
      * @return array
      */
-    public function getAllowedMimeTypes()
+    public function getAllowedMimeTypes(): array
     {
         return $this->allowedMimeTypes;
     }
@@ -682,7 +674,7 @@ class ContactFormManager extends EmailManager
      *
      * @return self
      */
-    public function setAllowedMimeTypes(array $allowedMimeTypes)
+    public function setAllowedMimeTypes(array $allowedMimeTypes): self
     {
         $this->allowedMimeTypes = $allowedMimeTypes;
 
@@ -692,7 +684,7 @@ class ContactFormManager extends EmailManager
     /**
      * @return array
      */
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
@@ -700,9 +692,9 @@ class ContactFormManager extends EmailManager
     /**
      * @param array $options
      *
-     * @return ContactFormManager
+     * @return $this
      */
-    public function setOptions($options)
+    public function setOptions(array $options): self
     {
         $this->options = $options;
 

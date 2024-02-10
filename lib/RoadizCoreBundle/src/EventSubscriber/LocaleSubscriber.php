@@ -13,13 +13,10 @@ use Symfony\Component\Routing\RequestContextAwareInterface;
 
 final class LocaleSubscriber implements EventSubscriberInterface
 {
-    private ManagerRegistry $managerRegistry;
-    private RequestContextAwareInterface $router;
-
-    public function __construct(ManagerRegistry $managerRegistry, RequestContextAwareInterface $router)
-    {
-        $this->managerRegistry = $managerRegistry;
-        $this->router = $router;
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly RequestContextAwareInterface $router
+    ) {
     }
 
     /**

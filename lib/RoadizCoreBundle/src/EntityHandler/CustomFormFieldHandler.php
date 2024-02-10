@@ -11,14 +11,11 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 /**
  * Handle operations with customForms fields entities.
  */
-class CustomFormFieldHandler extends AbstractHandler
+final class CustomFormFieldHandler extends AbstractHandler
 {
     private ?CustomFormField $customFormField = null;
     private CustomFormHandler $customFormHandler;
 
-    /**
-     * @return CustomFormField
-     */
     public function getCustomFormField(): ?CustomFormField
     {
         return $this->customFormField;
@@ -27,15 +24,13 @@ class CustomFormFieldHandler extends AbstractHandler
      * @param CustomFormField $customFormField
      * @return $this
      */
-    public function setCustomFormField(CustomFormField $customFormField)
+    public function setCustomFormField(CustomFormField $customFormField): self
     {
         $this->customFormField = $customFormField;
         return $this;
     }
 
     /**
-     * Create a new custom-form-field handler with custom-form-field to handle.
-     *
      * @param ObjectManager $objectManager
      * @param CustomFormHandler $customFormHandler
      */

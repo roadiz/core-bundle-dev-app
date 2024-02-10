@@ -10,23 +10,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * @package RZ\Roadiz\CoreBundle\Console
- */
-class GeneratePrivateKeyCommand extends Command
+final class GeneratePrivateKeyCommand extends Command
 {
-    protected KeyChainInterface $keyChain;
-    protected string $privateKeyName;
-
-    /**
-     * @param KeyChainInterface $keyChain
-     * @param string $privateKeyName
-     */
-    public function __construct(KeyChainInterface $keyChain, string $privateKeyName)
-    {
-        parent::__construct();
-        $this->keyChain = $keyChain;
-        $this->privateKeyName = $privateKeyName;
+    public function __construct(
+        private readonly KeyChainInterface $keyChain,
+        private readonly string $privateKeyName,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void

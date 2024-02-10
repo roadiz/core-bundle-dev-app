@@ -4,34 +4,20 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Bag;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Bag\LazyParameterBag;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepository;
 
-class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterface
+final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterface
 {
-    private ?NodeTypeRepository $repository = null;
-    private ManagerRegistry $managerRegistry;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private readonly NodeTypeRepository $repository)
     {
         parent::__construct();
-        $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * @return NodeTypeRepository
-     */
     public function getRepository(): NodeTypeRepository
     {
-        if (null === $this->repository) {
-            $this->repository = $this->managerRegistry->getRepository(NodeType::class);
-        }
         return $this->repository;
     }
 

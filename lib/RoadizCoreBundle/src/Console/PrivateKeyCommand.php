@@ -11,17 +11,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * @package RZ\Roadiz\CoreBundle\Console
- */
-class PrivateKeyCommand extends Command
+final class PrivateKeyCommand extends Command
 {
-    protected KeyChainInterface $keyChain;
-
-    public function __construct(KeyChainInterface $keyChain)
-    {
-        parent::__construct();
-        $this->keyChain = $keyChain;
+    public function __construct(
+        private readonly KeyChainInterface $keyChain,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void

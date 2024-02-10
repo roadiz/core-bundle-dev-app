@@ -14,20 +14,17 @@ use Symfony\Component\Finder\SplFileInfo;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use ZipArchive;
 
-class FilesExportCommand extends Command
+final class FilesExportCommand extends Command
 {
     use FilesCommandTrait;
 
-    protected FileAwareInterface $fileAware;
-    protected string $exportDir;
-    protected string $appNamespace;
-
-    public function __construct(FileAwareInterface $fileAware, string $exportDir, string $appNamespace)
-    {
-        parent::__construct();
-        $this->fileAware = $fileAware;
-        $this->exportDir = $exportDir;
-        $this->appNamespace = $appNamespace;
+    public function __construct(
+        private readonly FileAwareInterface $fileAware,
+        private readonly string $exportDir,
+        private readonly string $appNamespace,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void

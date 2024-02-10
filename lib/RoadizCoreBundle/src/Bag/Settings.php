@@ -4,34 +4,25 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Bag;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Bag\LazyParameterBag;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
+use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\CoreBundle\Repository\SettingRepository;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-class Settings extends LazyParameterBag
+final class Settings extends LazyParameterBag
 {
-    private ManagerRegistry $managerRegistry;
-    private ?SettingRepository $repository = null;
-    private Stopwatch $stopwatch;
-
-    public function __construct(ManagerRegistry $managerRegistry, Stopwatch $stopwatch)
-    {
+    public function __construct(
+        private readonly SettingRepository $repository,
+        private readonly DocumentRepository $documentRepository,
+        private readonly Stopwatch $stopwatch
+    ) {
         parent::__construct();
-        $this->managerRegistry = $managerRegistry;
-        $this->stopwatch = $stopwatch;
     }
 
-    /**
-     * @return SettingRepository
-     */
     public function getRepository(): SettingRepository
     {
-        if (null === $this->repository) {
-            $this->repository = $this->managerRegistry->getRepository(Setting::class);
-        }
         return $this->repository;
     }
 
@@ -72,9 +63,7 @@ class Settings extends LazyParameterBag
     {
         try {
             $id = $this->getInt($key);
-            return $this->managerRegistry
-                        ->getRepository(Document::class)
-                        ->findOneById($id);
+            return $this->documentRepository->findOneById($id);
         } catch (\Exception $e) {
             return null;
         }

@@ -61,9 +61,8 @@ class DocumentIndexer extends AbstractIndexer
             ->createQueryBuilder('d')
             ->getQuery();
 
-        if (null !== $this->io) {
-            $this->io->progressStart((int) $countQuery->getSingleScalarResult());
-        }
+        $this->io?->title(get_class($this));
+        $this->io?->progressStart((int) $countQuery->getSingleScalarResult());
 
         foreach ($q->toIterable() as $row) {
             $solarium = $this->solariumFactory->createWithDocument($row);
@@ -72,9 +71,7 @@ class DocumentIndexer extends AbstractIndexer
             foreach ($solarium->getDocuments() as $document) {
                 $buffer->addDocument($document);
             }
-            if (null !== $this->io) {
-                $this->io->progressAdvance();
-            }
+            $this->io?->progressAdvance();
             // detach from Doctrine, so that it can be Garbage-Collected immediately
             $this->managerRegistry->getManager()->detach($row);
         }
@@ -83,8 +80,6 @@ class DocumentIndexer extends AbstractIndexer
 
         // optimize the index
         $this->optimizeSolr();
-        if (null !== $this->io) {
-            $this->io->progressFinish();
-        }
+        $this->io?->progressFinish();
     }
 }

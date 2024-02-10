@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\EntityHandler;
 
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ObjectManager;
-use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
+use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesCustomForms;
@@ -14,42 +15,28 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesToNodes;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
-use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
+use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Workflow\Registry;
-use Symfony\Component\Workflow\Workflow;
-use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use Symfony\Component\Workflow\WorkflowInterface;
 
 /**
  * Handle operations with nodes entities.
  */
-class NodeHandler extends AbstractHandler
+final class NodeHandler extends AbstractHandler
 {
-    protected NodeChrootResolver $chrootResolver;
-    private Registry $registry;
     private ?Node $node = null;
-    private NodeNamePolicyInterface $nodeNamePolicy;
 
-    /**
-     * @param ObjectManager      $objectManager
-     * @param Registry           $registry
-     * @param NodeChrootResolver $chrootResolver
-     * @param NodeNamePolicyInterface $nodeNamePolicy
-     */
     final public function __construct(
         ObjectManager $objectManager,
-        Registry $registry,
-        NodeChrootResolver $chrootResolver,
-        NodeNamePolicyInterface $nodeNamePolicy
+        private readonly Registry $registry,
+        private readonly NodeChrootResolver $chrootResolver,
+        private readonly NodeNamePolicyInterface $nodeNamePolicy
     ) {
         parent::__construct($objectManager);
-        $this->registry = $registry;
-        $this->chrootResolver = $chrootResolver;
-        $this->nodeNamePolicy = $nodeNamePolicy;
     }
 
     protected function createSelf(): self
@@ -75,9 +62,9 @@ class NodeHandler extends AbstractHandler
 
     /**
      * @param Node $node
-     * @return NodeHandler
+     * @return $this
      */
-    public function setNode(Node $node)
+    public function setNode(Node $node): self
     {
         $this->node = $node;
         return $this;
@@ -90,7 +77,7 @@ class NodeHandler extends AbstractHandler
      * @param bool $flush
      * @return $this
      */
-    public function cleanCustomFormsFromField(NodeTypeField $field, bool $flush = true)
+    public function cleanCustomFormsFromField(NodeTypeField $field, bool $flush = true): self
     {
         $nodesCustomForms = $this->objectManager
             ->getRepository(NodesCustomForms::class)
@@ -121,7 +108,7 @@ class NodeHandler extends AbstractHandler
         NodeTypeField $field,
         bool $flush = true,
         ?float $position = null
-    ) {
+    ): self {
         $ncf = new NodesCustomForms($this->getNode(), $customForm, $field);
 
         if (null === $position) {
@@ -165,7 +152,7 @@ class NodeHandler extends AbstractHandler
      * @param bool $flush
      * @return $this
      */
-    public function cleanNodesFromField(NodeTypeField $field, bool $flush = true)
+    public function cleanNodesFromField(NodeTypeField $field, bool $flush = true): self
     {
         $this->node->clearBNodesForField($field);
 
@@ -185,7 +172,7 @@ class NodeHandler extends AbstractHandler
      * @param null|float $position
      * @return $this
      */
-    public function addNodeForField(Node $node, NodeTypeField $field, bool $flush = true, ?float $position = null)
+    public function addNodeForField(Node $node, NodeTypeField $field, bool $flush = true, ?float $position = null): self
     {
         $ntn = new NodesToNodes($this->getNode(), $node, $field);
 
@@ -265,7 +252,7 @@ class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    private function removeChildren()
+    private function removeChildren(): self
     {
         /** @var Node $node */
         foreach ($this->getNode()->getChildren() as $node) {
@@ -281,7 +268,7 @@ class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeAssociations()
+    public function removeAssociations(): self
     {
         /** @var NodesSources $ns */
         foreach ($this->getNode()->getNodeSources() as $ns) {
@@ -298,7 +285,7 @@ class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeWithChildrenAndAssociations()
+    public function removeWithChildrenAndAssociations(): self
     {
         $this->removeChildren();
         $this->removeAssociations();
@@ -322,7 +309,7 @@ class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function softRemoveWithChildren()
+    public function softRemoveWithChildren(): self
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'delete')) {
@@ -346,7 +333,7 @@ class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function softUnremoveWithChildren()
+    public function softUnremoveWithChildren(): self
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'undelete')) {
@@ -370,7 +357,7 @@ class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function publishWithChildren()
+    public function publishWithChildren(): self
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'publish')) {
@@ -393,7 +380,7 @@ class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function archiveWithChildren()
+    public function archiveWithChildren(): self
     {
         $workflow = $this->getWorkflow();
         if ($workflow->can($this->getNode(), 'archive')) {
@@ -562,7 +549,7 @@ class NodeHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function makeHome()
+    public function makeHome(): self
     {
         $defaults = $this->getRepository()
             ->setDisplayingNotPublishedNodes(true)
@@ -584,7 +571,7 @@ class NodeHandler extends AbstractHandler
      * @return Node
      * @deprecated Use NodeDuplicator::duplicate() instead.
      */
-    public function duplicate()
+    public function duplicate(): Node
     {
         $duplicator = new NodeDuplicator(
             $this->getNode(),
@@ -597,15 +584,16 @@ class NodeHandler extends AbstractHandler
     /**
      * Get previous node from hierarchy.
      *
-     * @param  array|null           $criteria
-     * @param  array|null           $order
+     * @param array|null $criteria
+     * @param array|null $order
      *
      * @return Node|null
+     * @throws NonUniqueResultException
      */
     public function getPrevious(
         ?array $criteria = null,
         ?array $order = null
-    ) {
+    ): ?Node {
         if ($this->getNode()->getPosition() <= 1) {
             return null;
         }
@@ -646,7 +634,7 @@ class NodeHandler extends AbstractHandler
     public function getNext(
         ?array $criteria = null,
         ?array $order = null
-    ) {
+    ): ?Node {
         if (null === $criteria) {
             $criteria = [];
         }

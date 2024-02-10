@@ -10,21 +10,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * Command line utils for managing nodes from terminal.
- */
 class SolrCommand extends Command
 {
     protected ?SymfonyStyle $io = null;
-    protected ClientRegistry $clientRegistry;
 
-    /**
-     * @param ClientRegistry $clientRegistry
-     */
-    public function __construct(ClientRegistry $clientRegistry)
-    {
-        parent::__construct();
-        $this->clientRegistry = $clientRegistry;
+    public function __construct(
+        protected readonly ClientRegistry $clientRegistry,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void
@@ -57,7 +51,7 @@ class SolrCommand extends Command
         if (null !== $this->io) {
             $this->io->error('No Solr search engine server has been configured…');
             $this->io->note(<<<EOD
-Edit your app/config.yml file to enable Solr (example):
+Edit your config/packages/roadiz_core.yaml file to enable Solr (example):
 
 solr:
     endpoint:

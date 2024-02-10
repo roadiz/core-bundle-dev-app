@@ -24,18 +24,9 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * Handle operations with node-type entities.
  */
-class NodeTypeHandler extends AbstractHandler
+final class NodeTypeHandler extends AbstractHandler
 {
     private ?NodeType $nodeType = null;
-    private EntityGeneratorFactory $entityGeneratorFactory;
-    private ApiResourceGenerator $apiResourceGenerator;
-    private HandlerFactory $handlerFactory;
-    private string $generatedEntitiesDir;
-    private SerializerInterface $serializer;
-    private string $serializedNodeTypesDir;
-    private string $importFilesConfigPath;
-    private string $kernelProjectDir;
-    private LoggerInterface $logger;
 
     /**
      * @return NodeType
@@ -52,7 +43,7 @@ class NodeTypeHandler extends AbstractHandler
      * @param NodeType $nodeType
      * @return $this
      */
-    public function setNodeType(NodeType $nodeType)
+    public function setNodeType(NodeType $nodeType): self
     {
         $this->nodeType = $nodeType;
         return $this;
@@ -60,26 +51,17 @@ class NodeTypeHandler extends AbstractHandler
 
     public function __construct(
         ObjectManager $objectManager,
-        EntityGeneratorFactory $entityGeneratorFactory,
-        HandlerFactory $handlerFactory,
-        SerializerInterface $serializer,
-        ApiResourceGenerator $apiResourceGenerator,
-        LoggerInterface $logger,
-        string $generatedEntitiesDir,
-        string $serializedNodeTypesDir,
-        string $importFilesConfigPath,
-        string $kernelProjectDir
+        private readonly EntityGeneratorFactory $entityGeneratorFactory,
+        private readonly HandlerFactory $handlerFactory,
+        private readonly SerializerInterface $serializer,
+        private readonly ApiResourceGenerator $apiResourceGenerator,
+        private readonly LoggerInterface $logger,
+        private readonly string $generatedEntitiesDir,
+        private readonly string $serializedNodeTypesDir,
+        private readonly string $importFilesConfigPath,
+        private readonly string $kernelProjectDir
     ) {
         parent::__construct($objectManager);
-        $this->entityGeneratorFactory = $entityGeneratorFactory;
-        $this->handlerFactory = $handlerFactory;
-        $this->generatedEntitiesDir = $generatedEntitiesDir;
-        $this->serializer = $serializer;
-        $this->serializedNodeTypesDir = $serializedNodeTypesDir;
-        $this->importFilesConfigPath = $importFilesConfigPath;
-        $this->kernelProjectDir = $kernelProjectDir;
-        $this->apiResourceGenerator = $apiResourceGenerator;
-        $this->logger = $logger;
     }
 
     public function getGeneratedEntitiesFolder(): string

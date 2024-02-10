@@ -18,33 +18,16 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * Command line utils for installing RZ-CMS v3 from terminal.
- */
-class InstallCommand extends Command
+final class InstallCommand extends Command
 {
-    protected ManagerRegistry $managerRegistry;
-    protected RolesImporter $rolesImporter;
-    protected GroupsImporter $groupsImporter;
-    protected SettingsImporter $settingsImporter;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param RolesImporter $rolesImporter
-     * @param GroupsImporter $groupsImporter
-     * @param SettingsImporter $settingsImporter
-     */
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        RolesImporter $rolesImporter,
-        GroupsImporter $groupsImporter,
-        SettingsImporter $settingsImporter
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly RolesImporter $rolesImporter,
+        private readonly GroupsImporter $groupsImporter,
+        private readonly SettingsImporter $settingsImporter,
+        ?string $name = null
     ) {
-        parent::__construct();
-        $this->managerRegistry = $managerRegistry;
-        $this->rolesImporter = $rolesImporter;
-        $this->groupsImporter = $groupsImporter;
-        $this->settingsImporter = $settingsImporter;
+        parent::__construct($name);
     }
 
     protected function configure(): void

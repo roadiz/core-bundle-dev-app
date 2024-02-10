@@ -11,9 +11,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * Command line utils for managing users from terminal.
- */
 final class UsersDisableCommand extends UsersCommand
 {
     protected function configure(): void

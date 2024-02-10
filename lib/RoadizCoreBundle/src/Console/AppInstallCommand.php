@@ -21,42 +21,23 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * Command line utils for managing themes from terminal.
- */
 final class AppInstallCommand extends Command
 {
-    protected SymfonyStyle $io;
+    private SymfonyStyle $io;
     private bool $dryRun = false;
-    protected string $projectDir;
-    protected NodeTypesImporter $nodeTypesImporter;
-    protected TagsImporter $tagsImporter;
-    protected SettingsImporter $settingsImporter;
-    protected RolesImporter $rolesImporter;
-    protected GroupsImporter $groupsImporter;
-    protected AttributeImporter $attributeImporter;
-    protected ManagerRegistry $managerRegistry;
 
     public function __construct(
-        string $projectDir,
-        ManagerRegistry $managerRegistry,
-        NodeTypesImporter $nodeTypesImporter,
-        TagsImporter $tagsImporter,
-        SettingsImporter $settingsImporter,
-        RolesImporter $rolesImporter,
-        GroupsImporter $groupsImporter,
-        AttributeImporter $attributeImporter,
-        string $name = null
+        private readonly string $projectDir,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly NodeTypesImporter $nodeTypesImporter,
+        private readonly TagsImporter $tagsImporter,
+        private readonly SettingsImporter $settingsImporter,
+        private readonly RolesImporter $rolesImporter,
+        private readonly GroupsImporter $groupsImporter,
+        private readonly AttributeImporter $attributeImporter,
+        ?string $name = null
     ) {
         parent::__construct($name);
-        $this->projectDir = $projectDir;
-        $this->nodeTypesImporter = $nodeTypesImporter;
-        $this->tagsImporter = $tagsImporter;
-        $this->settingsImporter = $settingsImporter;
-        $this->rolesImporter = $rolesImporter;
-        $this->groupsImporter = $groupsImporter;
-        $this->attributeImporter = $attributeImporter;
-        $this->managerRegistry = $managerRegistry;
     }
 
     protected function configure(): void

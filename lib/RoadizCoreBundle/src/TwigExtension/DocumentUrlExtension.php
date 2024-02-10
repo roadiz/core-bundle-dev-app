@@ -15,21 +15,12 @@ use Twig\TwigFilter;
 /**
  * Extension that allow render documents Url
  */
-class DocumentUrlExtension extends AbstractExtension
+final class DocumentUrlExtension extends AbstractExtension
 {
-    protected DocumentUrlGeneratorInterface $documentUrlGenerator;
-    protected bool $throwExceptions;
-
-    /**
-     * @param DocumentUrlGeneratorInterface $documentUrlGenerator
-     * @param bool $throwExceptions Trigger exception if using filter on NULL values (default: false)
-     */
     public function __construct(
-        DocumentUrlGeneratorInterface $documentUrlGenerator,
-        bool $throwExceptions = false
+        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
+        private readonly bool $throwExceptions = false
     ) {
-        $this->throwExceptions = $throwExceptions;
-        $this->documentUrlGenerator = $documentUrlGenerator;
     }
 
     /**
@@ -54,7 +45,7 @@ class DocumentUrlExtension extends AbstractExtension
      * @return string
      * @throws RuntimeError
      */
-    public function getUrl(PersistableInterface $mixed = null, array $criteria = [])
+    public function getUrl(PersistableInterface $mixed = null, array $criteria = []): string
     {
         if (null === $mixed) {
             if ($this->throwExceptions) {

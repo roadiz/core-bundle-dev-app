@@ -19,20 +19,13 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class CustomFormAnswerPurgeCommand extends Command
 {
-    private ManagerRegistry $managerRegistry;
-    private EventDispatcherInterface $eventDispatcher;
-    private LoggerInterface $logger;
-
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        EventDispatcherInterface $eventDispatcher,
-        LoggerInterface $logger,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly LoggerInterface $logger,
         string $name = null
     ) {
         parent::__construct($name);
-        $this->managerRegistry = $managerRegistry;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->logger = $logger;
     }
 
     protected function configure(): void
