@@ -11,15 +11,18 @@ use RZ\Roadiz\CoreBundle\Repository\RoleRepository;
 
 final class Roles extends LazyParameterBag
 {
-    public function __construct(
-        private readonly RoleRepository $repository,
-        private readonly ManagerRegistry $managerRegistry
-    ) {
+    private ?RoleRepository $repository = null;
+
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
+    {
         parent::__construct();
     }
 
     public function getRepository(): RoleRepository
     {
+        if (null === $this->repository) {
+            $this->repository = $this->managerRegistry->getRepository(Role::class);
+        }
         return $this->repository;
     }
 
