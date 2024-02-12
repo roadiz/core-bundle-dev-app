@@ -4,23 +4,24 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\NodeType;
 
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Inflector\InflectorFactory;
 use LogicException;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
+use RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Yaml\Yaml;
 
 final class ApiResourceGenerator
 {
-    private string $apiResourcesDir;
-    private LoggerInterface $logger;
-
-    public function __construct(string $apiResourcesDir, LoggerInterface $logger)
-    {
-        $this->apiResourcesDir = $apiResourcesDir;
-        $this->logger = $logger;
+    public function __construct(
+        private readonly ApiResourceOperationNameGenerator $apiResourceOperationNameGenerator,
+        private readonly string $apiResourcesDir,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     /**
@@ -126,11 +127,17 @@ final class ApiResourceGenerator
                 "document_display_sources",
                 ...$this->getGroupedFieldsSerializationGroups($nodeType)
             ];
+
+            $collectionOperationName = $this->apiResourceOperationNameGenerator->generate(
+                $nodeType->getSourceEntityFullQualifiedClassName(),
+                'get_collection'
+            );
             $operations = array_merge(
                 $operations,
                 [
-                    'ApiPlatform\Metadata\GetCollection' => [
+                    $collectionOperationName => [
                         'method' => 'GET',
+                        'class' => GetCollection::class,
                         'shortName' => $nodeType->getName(),
                         'normalizationContext' => [
                             'enable_max_depth' => true,
@@ -141,13 +148,16 @@ final class ApiResourceGenerator
             );
         }
         if ($nodeType->isPublishable()) {
-            $archivesRouteName = '_api_' . $this->getResourceName($nodeType->getName()) . '_archives';
+            $archivesOperationName = $this->apiResourceOperationNameGenerator->generate(
+                $nodeType->getSourceEntityFullQualifiedClassName(),
+                'archives_collection'
+            );
             $operations = array_merge(
                 $operations,
                 [
-                    $archivesRouteName => [
+                    $archivesOperationName => [
                         'method' => 'GET',
-                        'class' => 'ApiPlatform\Metadata\GetCollection',
+                        'class' => GetCollection::class,
                         'shortName' => $nodeType->getName(),
                         'uriTemplate' => $this->getResourceUriPrefix($nodeType) . '/archives',
                         'extraProperties' => [
@@ -179,9 +189,14 @@ final class ApiResourceGenerator
             "document_display_sources",
             ...$this->getGroupedFieldsSerializationGroups($nodeType)
         ];
+        $itemOperationName = $this->apiResourceOperationNameGenerator->generate(
+            $nodeType->getSourceEntityFullQualifiedClassName(),
+            'get'
+        );
         $operations = [
-            'ApiPlatform\Metadata\Get' => [
+            $itemOperationName => [
                 'method' => 'GET',
+                'class' => Get::class,
                 'shortName' => $nodeType->getName(),
                 'normalizationContext' => [
                     'groups' => array_values(array_filter(array_unique($groups)))
@@ -193,12 +208,15 @@ final class ApiResourceGenerator
          * Create itemOperation for WebResponseController action
          */
         if ($nodeType->isReachable()) {
-            $operations['getByPath'] = [
+            $operationName = $this->apiResourceOperationNameGenerator->generateGetByPath(
+                $nodeType->getSourceEntityFullQualifiedClassName()
+            );
+            $operations[$operationName] = [
                 'method' => 'GET',
-                'class' => 'ApiPlatform\Metadata\Get',
+                'class' => Get::class,
                 'uriTemplate' => '/web_response_by_path',
                 'read' => false,
-                'controller' => 'RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController',
+                'controller' => GetWebResponseByPathController::class,
                 'normalizationContext' => [
                     'pagination_enabled' => false,
                     'enable_max_depth' => true,

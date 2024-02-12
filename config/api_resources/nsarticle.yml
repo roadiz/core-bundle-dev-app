@@ -2,8 +2,9 @@ App\GeneratedEntity\NSArticle:
     types:
         - Article
     operations:
-        ApiPlatform\Metadata\GetCollection:
+        article_get_collection:
             method: GET
+            class: ApiPlatform\Metadata\GetCollection
             shortName: Article
             normalizationContext:
                 enable_max_depth: true
@@ -16,7 +17,7 @@ App\GeneratedEntity\NSArticle:
                     - document_display
                     - document_thumbnails
                     - document_display_sources
-        _api_article_archives:
+        article_archives_collection:
             method: GET
             class: ApiPlatform\Metadata\GetCollection
             shortName: Article
@@ -25,8 +26,9 @@ App\GeneratedEntity\NSArticle:
                 archive_enabled: true
             openapiContext:
                 summary: 'Retrieve all Article ressources archives months and years'
-        ApiPlatform\Metadata\Get:
+        article_get:
             method: GET
+            class: ApiPlatform\Metadata\Get
             shortName: Article
             normalizationContext:
                 groups:
@@ -38,7 +40,7 @@ App\GeneratedEntity\NSArticle:
                     - document_display
                     - document_thumbnails
                     - document_display_sources
-        getByPath:
+        article_get_by_path:
             method: GET
             class: ApiPlatform\Metadata\Get
             uriTemplate: /web_response_by_path

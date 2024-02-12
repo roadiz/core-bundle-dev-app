@@ -2,8 +2,9 @@ App\GeneratedEntity\NSPage:
     types:
         - Page
     operations:
-        ApiPlatform\Metadata\GetCollection:
+        page_get_collection:
             method: GET
+            class: ApiPlatform\Metadata\GetCollection
             shortName: Page
             normalizationContext:
                 enable_max_depth: true
@@ -18,7 +19,8 @@ App\GeneratedEntity\NSPage:
                     - document_display_sources
                     - nodes_sources_images
                     - nodes_sources_boolean
-        _api_page_archives:
+                    - nodes_sources_geo
+        page_archives_collection:
             method: GET
             class: ApiPlatform\Metadata\GetCollection
             shortName: Page
@@ -27,8 +29,9 @@ App\GeneratedEntity\NSPage:
                 archive_enabled: true
             openapiContext:
                 summary: 'Retrieve all Page ressources archives months and years'
-        ApiPlatform\Metadata\Get:
+        page_get:
             method: GET
+            class: ApiPlatform\Metadata\Get
             shortName: Page
             normalizationContext:
                 groups:
@@ -42,7 +45,8 @@ App\GeneratedEntity\NSPage:
                     - document_display_sources
                     - nodes_sources_images
                     - nodes_sources_boolean
-        getByPath:
+                    - nodes_sources_geo
+        page_get_by_path:
             method: GET
             class: ApiPlatform\Metadata\Get
             uriTemplate: /web_response_by_path
@@ -62,6 +66,7 @@ App\GeneratedEntity\NSPage:
                     - document_display_sources
                     - nodes_sources_images
                     - nodes_sources_boolean
+                    - nodes_sources_geo
                     - web_response
                     - walker
                     - walker_level

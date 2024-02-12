@@ -2,8 +2,9 @@ App\GeneratedEntity\NSArticleFeedBlock:
     types:
         - ArticleFeedBlock
     operations:
-        ApiPlatform\Metadata\Get:
+        articlefeedblock_get:
             method: GET
+            class: ApiPlatform\Metadata\Get
             shortName: ArticleFeedBlock
             normalizationContext:
                 groups:

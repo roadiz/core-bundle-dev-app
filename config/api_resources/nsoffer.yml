@@ -2,8 +2,9 @@ App\GeneratedEntity\NSOffer:
     types:
         - Offer
     operations:
-        ApiPlatform\Metadata\GetCollection:
+        offer_get_collection:
             method: GET
+            class: ApiPlatform\Metadata\GetCollection
             shortName: Offer
             normalizationContext:
                 enable_max_depth: true
@@ -16,19 +17,21 @@ App\GeneratedEntity\NSOffer:
                     - document_display
                     - document_thumbnails
                     - document_display_sources
-        ApiPlatform\Metadata\Get:
+        offer_get:
             method: GET
+            class: ApiPlatform\Metadata\Get
             shortName: Offer
             normalizationContext:
                 groups:
                     - nodes_sources
+                    - node_listing
                     - urls
                     - tag_base
                     - translation_base
                     - document_display
                     - document_thumbnails
                     - document_display_sources
-        getByPath:
+        offer_get_by_path:
             method: GET
             class: ApiPlatform\Metadata\Get
             uriTemplate: /web_response_by_path
@@ -39,6 +42,7 @@ App\GeneratedEntity\NSOffer:
                 enable_max_depth: true
                 groups:
                     - nodes_sources
+                    - node_listing
                     - urls
                     - tag_base
                     - translation_base

@@ -2,8 +2,9 @@ App\GeneratedEntity\NSArticleContainer:
     types:
         - ArticleContainer
     operations:
-        ApiPlatform\Metadata\GetCollection:
+        articlecontainer_get_collection:
             method: GET
+            class: ApiPlatform\Metadata\GetCollection
             shortName: ArticleContainer
             normalizationContext:
                 enable_max_depth: true
@@ -16,8 +17,9 @@ App\GeneratedEntity\NSArticleContainer:
                     - document_display
                     - document_thumbnails
                     - document_display_sources
-        ApiPlatform\Metadata\Get:
+        articlecontainer_get:
             method: GET
+            class: ApiPlatform\Metadata\Get
             shortName: ArticleContainer
             normalizationContext:
                 groups:
@@ -29,7 +31,7 @@ App\GeneratedEntity\NSArticleContainer:
                     - document_display
                     - document_thumbnails
                     - document_display_sources
-        getByPath:
+        articlecontainer_get_by_path:
             method: GET
             class: ApiPlatform\Metadata\Get
             uriTemplate: /web_response_by_path
