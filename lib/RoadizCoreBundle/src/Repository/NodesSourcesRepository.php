@@ -21,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
+use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResults;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -434,7 +435,7 @@ class NodesSourcesRepository extends StatusAwareRepository
      *
      * @param string $query Solr query string (for example: `text:Lorem Ipsum`)
      * @param int $limit Result number to fetch (default: all)
-     * @return array
+     * @return array<SolrSearchResultItem<NodesSources>>
      */
     public function findBySearchQuery(string $query, int $limit = 25): array
     {

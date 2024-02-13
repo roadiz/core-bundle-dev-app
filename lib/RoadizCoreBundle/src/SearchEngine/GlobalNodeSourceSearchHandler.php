@@ -54,50 +54,55 @@ class GlobalNodeSourceSearchHandler
     ): array {
         $safeSearchTerms = strip_tags($searchTerm);
 
-        /*
-         * First try with Solr
+        /**
+         * First try with Solr.
+         *
+         * @var array<SolrSearchResultItem<NodesSources>> $nodesSources
          */
-        /** @var array $nodesSources */
         $nodesSources = $this->getRepository()->findBySearchQuery(
             $safeSearchTerms,
             $resultCount
         );
 
+        if (count($nodesSources) > 0) {
+            return array_map(function (SolrSearchResultItem $item) {
+                return $item->getItem();
+            }, $nodesSources);
+        }
+
         /*
          * Second try with sources fields
          */
+        $nodesSources = $this->getRepository()->searchBy(
+            $safeSearchTerms,
+            [],
+            [],
+            $resultCount
+        );
+
         if (count($nodesSources) === 0) {
-            $nodesSources = $this->getRepository()->searchBy(
-                $safeSearchTerms,
-                [],
-                [],
-                $resultCount
-            );
+            /*
+             * Then try with node name.
+             */
+            $qb = $this->getRepository()->createQueryBuilder('ns');
 
-            if (count($nodesSources) === 0) {
-                /*
-                 * Then try with node name.
-                 */
-                $qb = $this->getRepository()->createQueryBuilder('ns');
+            $qb->select('ns, n')
+                ->innerJoin('ns.node', 'n')
+                ->andWhere($qb->expr()->orX(
+                    $qb->expr()->like('n.nodeName', ':nodeName'),
+                    $qb->expr()->like('ns.title', ':nodeName')
+                ))
+                ->setMaxResults($resultCount)
+                ->setParameter('nodeName', '%' . $safeSearchTerms . '%');
 
-                $qb->select('ns, n')
-                    ->innerJoin('ns.node', 'n')
-                    ->andWhere($qb->expr()->orX(
-                        $qb->expr()->like('n.nodeName', ':nodeName'),
-                        $qb->expr()->like('ns.title', ':nodeName')
-                    ))
-                    ->setMaxResults($resultCount)
-                    ->setParameter('nodeName', '%' . $safeSearchTerms . '%');
-
-                if (null !== $translation) {
-                    $qb->andWhere($qb->expr()->eq('ns.translation', ':translation'))
-                        ->setParameter('translation', $translation);
-                }
-                try {
-                    return $qb->getQuery()->getResult();
-                } catch (NoResultException $e) {
-                    return [];
-                }
+            if (null !== $translation) {
+                $qb->andWhere($qb->expr()->eq('ns.translation', ':translation'))
+                    ->setParameter('translation', $translation);
+            }
+            try {
+                return $qb->getQuery()->getResult();
+            } catch (NoResultException $e) {
+                return [];
             }
         }
 

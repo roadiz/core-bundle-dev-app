@@ -85,7 +85,7 @@ final class SolrSearchListManager extends AbstractEntityListManager
     /**
      * @inheritDoc
      */
-    public function getEntities()
+    public function getEntities(): array
     {
         if (null !== $this->searchResults) {
             return $this->searchResults->getResultItems();
