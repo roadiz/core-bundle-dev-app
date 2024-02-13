@@ -82,6 +82,9 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
                 ->findDefault();
         }
 
+        /*
+         * Try to get translation resolved from LocaleSubscriber before
+         */
         $requestTranslation = $request->attributes->get('_translation');
         if ($requestTranslation instanceof TranslationInterface) {
             return $requestTranslation;
