@@ -76,19 +76,26 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
     {
         $request = $this->requestStack->getMainRequest();
 
-        if (null !== $request) {
-            $locale = $request->query->get('_locale', $request->getLocale());
-            if (
-                \is_string($locale) &&
-                null !== $translation = $this->getTranslationFromLocale($locale)
-            ) {
-                return $translation;
-            }
+        if (null === $request) {
+            return $this->managerRegistry
+                ->getRepository(Translation::class)
+                ->findDefault();
         }
 
-        return $this->managerRegistry
-            ->getRepository(Translation::class)
-            ->findDefault();
+        $requestTranslation = $request->attributes->get('_translation');
+        if ($requestTranslation instanceof TranslationInterface) {
+            return $requestTranslation;
+        }
+
+        $locale = $request->query->get('_locale', $request->getLocale());
+        if (
+            \is_string($locale) &&
+            null !== $translation = $this->getTranslationFromLocale($locale)
+        ) {
+            return $translation;
+        }
+
+        return null;
     }
 
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool

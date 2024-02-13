@@ -178,7 +178,8 @@ abstract class FrontendController extends AppController
          *
          * Get language from static route
          */
-        $translation = $this->bindLocaleFromRoute($request, $_locale);
+        /** @var TranslationInterface|null $translation */
+        $translation = $request->attributes->get('_translation');
 
         /*
          * Grab home flagged node
@@ -304,7 +305,8 @@ abstract class FrontendController extends AppController
      */
     public function maintenanceAction(Request $request): Response
     {
-        $translation = $this->bindLocaleFromRoute($request, $request->getLocale());
+        /** @var TranslationInterface|null $translation */
+        $translation = $request->attributes->get('_translation');
         $this->prepareThemeAssignation(null, $translation);
 
         return new Response(

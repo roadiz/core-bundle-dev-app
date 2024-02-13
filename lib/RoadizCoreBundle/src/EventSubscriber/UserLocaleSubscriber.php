@@ -35,7 +35,6 @@ final class UserLocaleSubscriber implements EventSubscriberInterface
         return [
             SecurityEvents::INTERACTIVE_LOGIN => 'onInteractiveLogin',
             UserUpdatedEvent::class => [['onUserUpdated']],
-            '\RZ\Roadiz\Core\Events\User\UserUpdatedEvent' => [['onUserUpdated']],
         ];
     }
 

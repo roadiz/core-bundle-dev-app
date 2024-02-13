@@ -40,7 +40,6 @@ class NodeRedirectionSubscriber implements EventSubscriberInterface
     {
         return [
             NodePathChangedEvent::class => 'redirectOldPaths',
-            '\RZ\Roadiz\Core\Events\Node\NodePathChangedEvent' => 'redirectOldPaths'
         ];
     }
 

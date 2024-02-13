@@ -31,11 +31,8 @@ class TranslationSubscriber implements EventSubscriberInterface
     {
         return [
             TranslationCreatedEvent::class => 'purgeCache',
-            '\RZ\Roadiz\Core\Events\Translation\TranslationCreatedEvent' => 'purgeCache',
             TranslationUpdatedEvent::class => 'purgeCache',
-            '\RZ\Roadiz\Core\Events\Translation\TranslationUpdatedEvent' => 'purgeCache',
             TranslationDeletedEvent::class => 'purgeCache',
-            '\RZ\Roadiz\Core\Events\Translation\TranslationDeletedEvent' => 'purgeCache',
         ];
     }
 

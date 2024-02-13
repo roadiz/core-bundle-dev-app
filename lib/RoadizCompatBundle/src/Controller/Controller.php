@@ -304,28 +304,6 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * Make translation variable with the good localization.
-     *
-     * @param Request $request
-     * @param string|null $_locale
-     *
-     * @return TranslationInterface
-     * @throws NoTranslationAvailableException
-     */
-    protected function bindLocaleFromRoute(Request $request, $_locale = null): TranslationInterface
-    {
-        /*
-         * If you use a static route for Home page
-         * we need to grab manually language.
-         *
-         * Get language from static route
-         */
-        $translation = $this->findTranslationForLocale($_locale);
-        $request->setLocale($translation->getPreferredLocale());
-        return $translation;
-    }
-
-    /**
      * @param string|null $_locale
      *
      * @return TranslationInterface

@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInter
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Redirection;
 use RZ\Roadiz\CoreBundle\NodeType\ApiResourceOperationNameGenerator;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
@@ -58,6 +59,12 @@ final class GetWebResponseByPathController extends AbstractController
             $request->attributes->set('_api_operation_name', $operationName);
             $request->attributes->set('_api_resource_class', $resourceClass);
             $request->attributes->set('_stateless', true);
+
+            if ($resource instanceof NodesSources) {
+                $request->attributes->set('_translation', $resource->getTranslation());
+                $request->attributes->set('_locale', $resource->getTranslation()->getPreferredLocale());
+            }
+
             return $this->webResponseDataTransformer->transform($resource, WebResponseInterface::class);
         } catch (ResourceNotFoundException|ResourceClassNotFoundException $exception) {
             throw $this->createNotFoundException($exception->getMessage(), $exception);
