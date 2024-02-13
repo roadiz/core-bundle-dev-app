@@ -6,10 +6,8 @@ namespace RZ\Roadiz\CoreBundle\Api\Controller;
 
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Exception\InvalidArgumentException;
-use ApiPlatform\Exception\OperationNotFoundException;
 use ApiPlatform\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
-use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
@@ -25,6 +23,7 @@ use Symfony\Component\String\UnicodeString;
 final class GetWebResponseByPathController extends AbstractController
 {
     public function __construct(
+        private readonly ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
         private readonly PathResolverInterface $pathResolver,
         private readonly WebResponseDataTransformerInterface $webResponseDataTransformer,
         private readonly IriConverterInterface $iriConverter,
@@ -54,12 +53,13 @@ final class GetWebResponseByPathController extends AbstractController
              */
             $resourceClass = get_class($resource);
             $operationName = $this->apiResourceOperationNameGenerator->generateGetByPath($resourceClass);
-
+            $operation = $this->resourceMetadataCollectionFactory->create($resourceClass)->getOperation($operationName);
+            $request->attributes->set('_api_operation', $operation);
             $request->attributes->set('_api_operation_name', $operationName);
             $request->attributes->set('_api_resource_class', $resourceClass);
             $request->attributes->set('_stateless', true);
             return $this->webResponseDataTransformer->transform($resource, WebResponseInterface::class);
-        } catch (ResourceNotFoundException $exception) {
+        } catch (ResourceNotFoundException|ResourceClassNotFoundException $exception) {
             throw $this->createNotFoundException($exception->getMessage(), $exception);
         }
     }
