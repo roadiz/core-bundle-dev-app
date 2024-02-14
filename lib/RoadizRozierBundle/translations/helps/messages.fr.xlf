@@ -23,9 +23,6 @@
       <trans-unit xml:space="preserve" id="nodeSource.metaTitle.help">
                 <source>nodeSource.metaTitle.help</source>
             <target state="translated">Le titre de référencement permet de rédiger entièrement le titre de votre page. Pour un affichage optimal dans les moteurs de recherche, le titre ne doit pas dépasser 55 à 65 caractères en moyenne.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.metaKeywords.help">
-                <source>nodeSource.metaKeywords.help</source>
-            <target state="translated">Les mot-clés de référencement sont aujourd’hui facultatifs et ne sont plus pris en compte par les moteurs de recherche.</target></trans-unit>
       <trans-unit xml:space="preserve" id="nodeSource.metaDescription.help">
                 <source>nodeSource.metaDescription.help</source>
             <target state="translated">La description est un résumé de quelques caractères de votre page. Son objectif est de décrire succinctement son contenu. Cette description doit respecter une taille entre 120 et 155 caractères.</target></trans-unit>
