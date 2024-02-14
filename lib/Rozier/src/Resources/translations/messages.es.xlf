@@ -346,10 +346,6 @@
         <source>metaTitle</source>
         <target state="translated">Meta-título</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="92">
-        <source>metaKeywords</source>
-        <target state="translated">Meta-frases clave</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="93">
         <source>metaDescription</source>
         <target state="translated">Meta-descripción</target>
@@ -4292,11 +4288,6 @@
         <source>versions</source>
         <target state="translated">Versiones</target>
         <note>Version management</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="encrypted" approved="yes">
-        <source>encrypted</source>
-        <target state="final">Encriptado</target>
-        <note>Settings : defines if setting value will be encrypted in database.</note>
       </trans-unit>
     </body>
   </file>
