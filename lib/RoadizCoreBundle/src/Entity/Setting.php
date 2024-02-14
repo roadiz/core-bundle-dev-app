@@ -222,20 +222,6 @@ class Setting extends AbstractEntity
     }
 
     /**
-     * Holds clear setting value after value is decoded by postLoad Doctrine event.
-     *
-     * @param string|null $clearValue
-     *
-     * @return Setting
-     */
-    public function setClearValue(?string $clearValue): Setting
-    {
-        $this->clearValue = $clearValue;
-
-        return $this;
-    }
-
-    /**
      * @return boolean
      */
     public function isVisible(): bool
