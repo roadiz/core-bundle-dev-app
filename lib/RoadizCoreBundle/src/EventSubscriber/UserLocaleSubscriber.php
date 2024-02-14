@@ -15,15 +15,10 @@ use Symfony\Component\Security\Http\SecurityEvents;
 
 final class UserLocaleSubscriber implements EventSubscriberInterface
 {
-    private RequestStack $requestStack;
-    private TokenStorageInterface $tokenStorage;
-
     public function __construct(
-        RequestStack $requestStack,
-        TokenStorageInterface $tokenStorage
+        private readonly RequestStack $requestStack,
+        private readonly TokenStorageInterface $tokenStorage
     ) {
-        $this->requestStack = $requestStack;
-        $this->tokenStorage = $tokenStorage;
     }
 
     /**
@@ -34,7 +29,7 @@ final class UserLocaleSubscriber implements EventSubscriberInterface
         // must be registered after the default Locale listener
         return [
             SecurityEvents::INTERACTIVE_LOGIN => 'onInteractiveLogin',
-            UserUpdatedEvent::class => [['onUserUpdated']],
+            UserUpdatedEvent::class => 'onUserUpdated',
         ];
     }
 

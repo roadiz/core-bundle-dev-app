@@ -18,13 +18,10 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 /**
  * Subscribe to Translation event to clear result cache.
  */
-class TranslationSubscriber implements EventSubscriberInterface
+final class TranslationSubscriber implements EventSubscriberInterface
 {
-    protected ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     public static function getSubscribedEvents(): array

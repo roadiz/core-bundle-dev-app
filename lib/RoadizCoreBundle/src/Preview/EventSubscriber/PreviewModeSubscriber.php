@@ -6,31 +6,21 @@ namespace RZ\Roadiz\CoreBundle\Preview\EventSubscriber;
 
 use RZ\Roadiz\CoreBundle\Preview\Exception\PreviewNotAllowedException;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ControllerEvent;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 
-class PreviewModeSubscriber implements EventSubscriberInterface
+final class PreviewModeSubscriber implements EventSubscriberInterface
 {
     public const QUERY_PARAM_NAME = '_preview';
 
-    protected PreviewResolverInterface $previewResolver;
-    protected TokenStorageInterface $tokenStorage;
-    protected Security $security;
-
     public function __construct(
-        PreviewResolverInterface $previewResolver,
-        TokenStorageInterface $tokenStorage,
-        Security $security
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly Security $security
     ) {
-        $this->previewResolver = $previewResolver;
-        $this->tokenStorage = $tokenStorage;
-        $this->security = $security;
     }
 
     /**
@@ -39,7 +29,7 @@ class PreviewModeSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::REQUEST => ['onKernelRequest', 9999],
+            KernelEvents::REQUEST => ['onKernelRequest', 2047],
             KernelEvents::CONTROLLER => ['onControllerMatched', 10],
             KernelEvents::RESPONSE => 'onResponse',
         ];
@@ -61,9 +51,9 @@ class PreviewModeSubscriber implements EventSubscriberInterface
         $request = $event->getRequest();
         if (
             $event->isMainRequest() &&
-            $request->query->has(static::QUERY_PARAM_NAME) &&
+            $request->query->has(self::QUERY_PARAM_NAME) &&
             \in_array(
-                $request->query->get(static::QUERY_PARAM_NAME, 0),
+                $request->query->get(self::QUERY_PARAM_NAME, 0),
                 ['true', true, '1', 1, 'on', 'yes', 'y'],
                 true
             )

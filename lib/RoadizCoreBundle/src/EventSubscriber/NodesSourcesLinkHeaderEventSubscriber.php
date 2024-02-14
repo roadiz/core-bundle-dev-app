@@ -14,17 +14,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\WebLink\GenericLinkProvider;
 use Symfony\Component\WebLink\Link;
 
-class NodesSourcesLinkHeaderEventSubscriber implements EventSubscriberInterface
+final class NodesSourcesLinkHeaderEventSubscriber implements EventSubscriberInterface
 {
-    private ManagerRegistry $managerRegistry;
-    private UrlGeneratorInterface $urlGenerator;
-
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        UrlGeneratorInterface $urlGenerator
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly UrlGeneratorInterface $urlGenerator
     ) {
-        $this->managerRegistry = $managerRegistry;
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -40,33 +35,35 @@ class NodesSourcesLinkHeaderEventSubscriber implements EventSubscriberInterface
     public function onKernelView(ViewEvent $event): void
     {
         $request = $event->getRequest();
-        $resources = $request->attributes->get('data', null);
+        $resources = $request->attributes->get('data');
         $linkProvider = $request->attributes->get('_links', new GenericLinkProvider());
 
-        if ($resources instanceof NodesSources && $linkProvider instanceof EvolvableLinkProviderInterface) {
-            /*
-             * Preview and authentication is handled at repository level.
-             */
-            /** @var NodesSources[] $allSources */
-            $allSources = $this->managerRegistry
-                ->getRepository(get_class($resources))
-                ->findByNode($resources->getNode());
-
-            foreach ($allSources as $singleSource) {
-                $linkProvider = $linkProvider->withLink(
-                    (new Link(
-                        'alternate',
-                        $this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                            RouteObjectInterface::ROUTE_OBJECT => $singleSource
-                        ])
-                    ))
-                        ->withAttribute('hreflang', $singleSource->getTranslation()->getLocale())
-                        // Must encode translation name in base64 because headers are ASCII only
-                        ->withAttribute('title', \base64_encode($singleSource->getTranslation()->getName()))
-                        ->withAttribute('type', 'text/html')
-                );
-            }
-            $request->attributes->set('_links', $linkProvider);
+        if (!$resources instanceof NodesSources || !$linkProvider instanceof EvolvableLinkProviderInterface) {
+            return;
         }
+
+        /*
+         * Preview and authentication is handled at repository level.
+         */
+        /** @var NodesSources[] $allSources */
+        $allSources = $this->managerRegistry
+            ->getRepository(get_class($resources))
+            ->findByNode($resources->getNode());
+
+        foreach ($allSources as $singleSource) {
+            $linkProvider = $linkProvider->withLink(
+                (new Link(
+                    'alternate',
+                    $this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
+                        RouteObjectInterface::ROUTE_OBJECT => $singleSource
+                    ])
+                ))
+                    ->withAttribute('hreflang', $singleSource->getTranslation()->getLocale())
+                    // Must encode translation name in base64 because headers are ASCII only
+                    ->withAttribute('title', \base64_encode($singleSource->getTranslation()->getName()))
+                    ->withAttribute('type', 'text/html')
+            );
+        }
+        $request->attributes->set('_links', $linkProvider);
     }
 }

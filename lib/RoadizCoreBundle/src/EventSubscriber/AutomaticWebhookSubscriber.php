@@ -35,7 +35,7 @@ final class AutomaticWebhookSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'workflow.node.completed' => ['onAutomaticWebhook'],
+            'workflow.node.completed' => 'onAutomaticWebhook',
             NodeVisibilityChangedEvent::class => 'onAutomaticWebhook',
             NodesSourcesPreUpdatedEvent::class => 'onAutomaticWebhook',
             NodesSourcesDeletedEvent::class => 'onAutomaticWebhook',

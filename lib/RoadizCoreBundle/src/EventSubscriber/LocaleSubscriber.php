@@ -30,7 +30,7 @@ final class LocaleSubscriber implements EventSubscriberInterface
     {
         return [
             // must be registered just after Symfony\Component\HttpKernel\EventListener\LocaleListener
-            RequestEvent::class => [['onKernelRequest', 16]],
+            RequestEvent::class => ['onKernelRequest', 16],
         ];
     }
 
