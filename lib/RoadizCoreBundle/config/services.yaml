@@ -34,7 +34,6 @@ services:
             $appNamespace: '%roadiz_core.app_namespace%'
             $projectDir: '%kernel.project_dir%'
             $exportDir: '%kernel.project_dir%/var/export'
-            $privateKeyName: '%roadiz_core.private_key_name%'
             $generatedEntitiesDir: '%roadiz_core.generated_entities_dir%'
             $serializedNodeTypesDir: '%roadiz_core.serialized_node_types_dir%'
             $importFilesConfigPath: '%roadiz_core.import_files_config_path%'
@@ -435,12 +434,6 @@ services:
         public: true
 
     RZ\Roadiz\Random\PasswordGenerator: ~
-
-    RZ\Crypto\KeyChain\KeyChainInterface:
-        alias: RZ\Crypto\KeyChain\AsymmetricFilesystemKeyChain
-
-    RZ\Crypto\KeyChain\AsymmetricFilesystemKeyChain:
-        arguments: ['%kernel.project_dir%/var/secret', true]
 
     JMS\Serializer\Construction\ObjectConstructorInterface:
         alias: RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor
