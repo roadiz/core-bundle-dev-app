@@ -91,7 +91,6 @@
             <trans-unit xml:space="preserve" id="source_translation"><source>source_translation</source></trans-unit>
             <trans-unit xml:space="preserve" id="destination_translation"><source>destination_translation</source></trans-unit>
             <trans-unit xml:space="preserve" id="91"><source>metaTitle</source></trans-unit>
-            <trans-unit xml:space="preserve" id="92"><source>metaKeywords</source></trans-unit>
             <trans-unit xml:space="preserve" id="93"><source>metaDescription</source></trans-unit>
             <trans-unit xml:space="preserve" id="94"><source>nodeTypeField.%name%.updated</source></trans-unit>
             <trans-unit xml:space="preserve" id="95"><source>nodeTypeField.%name%.created</source></trans-unit>
@@ -1329,7 +1328,6 @@
             <trans-unit xml:space="preserve" id="max_versions_showed"><source>max_versions_showed</source><note>Version management : setting label to choose how many version to display in action-menu</note></trans-unit>
             <trans-unit xml:space="preserve" id="versions.back_to_working_copy"><source>versions.back_to_working_copy</source><note>Version management : Button label to go back to working copy</note></trans-unit>
 
-            <trans-unit xml:space="preserve" id="encrypted"><source>encrypted</source><note>Settings : defines if setting value will be encrypted in database.</note></trans-unit>
 
             <trans-unit xml:space="preserve" id="original.document"><source>original.document</source><note>Document : Label to display original document when dealing with thumbnails.</note></trans-unit>
             <trans-unit xml:space="preserve" id="see.original.document"><source>see.original.document</source><note>Document : Button Label to display original document when dealing with thumbnails.</note></trans-unit>

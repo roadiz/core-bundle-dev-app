@@ -104,12 +104,6 @@ class NodesSources extends AbstractEntity implements Loggable
     )]
     protected string $metaTitle = '';
 
-    #[ORM\Column(name: 'meta_keywords', type: 'text')]
-    #[SymfonySerializer\Groups(['nodes_sources'])]
-    #[Serializer\Groups(['nodes_sources'])]
-    #[Gedmo\Versioned]
-    protected string $metaKeywords = '';
-
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
     #[ORM\Column(name: 'meta_description', type: 'text')]
     #[SymfonySerializer\Groups(['nodes_sources'])]
@@ -466,26 +460,6 @@ class NodesSources extends AbstractEntity implements Loggable
     public function setMetaTitle(?string $metaTitle): NodesSources
     {
         $this->metaTitle = null !== $metaTitle ? trim($metaTitle) : '';
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMetaKeywords(): string
-    {
-        return $this->metaKeywords;
-    }
-
-    /**
-     * @param string|null $metaKeywords
-     *
-     * @return $this
-     */
-    public function setMetaKeywords(?string $metaKeywords): NodesSources
-    {
-        $this->metaKeywords = null !== $metaKeywords ? trim($metaKeywords) : '';
 
         return $this;
     }

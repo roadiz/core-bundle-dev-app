@@ -20,9 +20,6 @@
       <trans-unit xml:space="preserve" id="nodeSource.metaTitle.help">
                 <source>nodeSource.metaTitle.help</source>
             <target state="translated">Judul SEO memungkinkan Anda untuk menulis seluruh judul halaman Anda. Untuk tampilan optimal di mesin pencari, judulnya tidak boleh melebihi 55 hingga 65 karakter rata-rata.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.metaKeywords.help">
-                <source>nodeSource.metaKeywords.help</source>
-            <target state="translated">Kata kunci SEO sekarang opsional dan tidak lagi diperhitungkan oleh mesin pencari.</target></trans-unit>
       <trans-unit xml:space="preserve" id="nodeSource.metaDescription.help">
                 <source>nodeSource.metaDescription.help</source>
             <target state="translated">Deskripsi SEO adalah ringkasan dalam beberapa karakter halaman Anda. Tujuannya adalah untuk menggambarkan kontennya secara singkat. Deskripsi ini harus antara 120 dan 155 karakter.</target></trans-unit>

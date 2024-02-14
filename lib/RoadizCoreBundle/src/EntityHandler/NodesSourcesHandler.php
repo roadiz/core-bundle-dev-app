@@ -480,7 +480,6 @@ final class NodesSourcesHandler extends AbstractHandler
             'description' => ($this->nodeSource->getMetaDescription() != "") ?
             $this->nodeSource->getMetaDescription() :
             $this->nodeSource->getTitle() . ', ' . $this->settingsBag->get('seo_description'),
-            'keywords' => $this->nodeSource->getMetaKeywords(),
         ];
     }
 

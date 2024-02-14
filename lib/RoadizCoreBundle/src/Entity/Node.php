@@ -143,15 +143,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     )]
     private bool $locked = false;
 
-    /**
-     * @var float|string|int
-     */
-    #[ORM\Column(type: 'decimal', precision: 2, scale: 1)]
-    #[SymfonySerializer\Groups(['node'])]
-    #[Serializer\Groups(['node'])]
-    #[Gedmo\Versioned]
-    private string|float|int $priority = 0.8;
-
     #[ORM\Column(name: 'hide_children', type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['node'])]
     #[Serializer\Groups(['node'])]
@@ -491,24 +482,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     public function setLocked(bool $locked): static
     {
         $this->locked = $locked;
-        return $this;
-    }
-
-    /**
-     * @return float|string
-     */
-    public function getPriority()
-    {
-        return $this->priority;
-    }
-
-    /**
-     * @param float|string $priority
-     * @return $this
-     */
-    public function setPriority($priority): static
-    {
-        $this->priority = $priority;
         return $this;
     }
 

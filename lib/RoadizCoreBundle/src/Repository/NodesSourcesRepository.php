@@ -515,7 +515,6 @@ class NodesSourcesRepository extends StatusAwareRepository
             ->andWhere($qb->expr()->orX(
                 $qb->expr()->like(static::NODESSOURCES_ALIAS . '.title', ':query'),
                 $qb->expr()->like(static::NODESSOURCES_ALIAS . '.metaTitle', ':query'),
-                $qb->expr()->like(static::NODESSOURCES_ALIAS . '.metaKeywords', ':query'),
                 $qb->expr()->like(static::NODESSOURCES_ALIAS . '.metaDescription', ':query')
             ))
             ->orderBy(static::NODESSOURCES_ALIAS . '.title', 'ASC')

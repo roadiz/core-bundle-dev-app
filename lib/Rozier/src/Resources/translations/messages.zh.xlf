@@ -4548,11 +4548,6 @@
         <target state="translated">回到最新版本</target>
         <note>Version management : Button label to go back to working copy</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="encrypted">
-        <source>encrypted</source>
-        <target state="translated">已加密</target>
-        <note>Settings : defines if setting value will be encrypted in database.</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="original.document">
         <source>original.document</source>
         <target state="translated">原始文档</target>

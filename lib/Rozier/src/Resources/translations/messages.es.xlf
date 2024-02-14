@@ -4293,11 +4293,6 @@
         <target state="translated">Versiones</target>
         <note>Version management</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="encrypted" approved="yes">
-        <source>encrypted</source>
-        <target state="final">Encriptado</target>
-        <note>Settings : defines if setting value will be encrypted in database.</note>
-      </trans-unit>
     </body>
   </file>
 </xliff>
