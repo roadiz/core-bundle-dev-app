@@ -31,7 +31,8 @@ final class PreviewModeSubscriber implements EventSubscriberInterface
         return [
             KernelEvents::REQUEST => ['onKernelRequest', 2047],
             KernelEvents::CONTROLLER => ['onControllerMatched', 10],
-            KernelEvents::RESPONSE => 'onResponse',
+            // Must Triggered after API platform AddHeadersListener
+            KernelEvents::RESPONSE => ['onResponse', -255],
         ];
     }
 
@@ -88,10 +89,11 @@ final class PreviewModeSubscriber implements EventSubscriberInterface
     {
         if ($this->supports()) {
             $response = $event->getResponse();
-            $response->expire();
+            $response->setMaxAge(0);
+            $response->setSharedMaxAge(0);
             $response->headers->addCacheControlDirective('no-store');
             $response->headers->add(['X-Roadiz-Preview' => true]);
-            $event->setResponse($response);
+            $response->setPrivate();
         }
     }
 }

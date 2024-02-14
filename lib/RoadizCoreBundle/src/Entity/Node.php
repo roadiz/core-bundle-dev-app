@@ -128,10 +128,12 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 0])]
     #[Assert\GreaterThanOrEqual(value: 0)]
+    #[Assert\NotNull]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
     #[Gedmo\Versioned]
-    private int $ttl = 0;
+    // @phpstan-ignore-next-line
+    private ?int $ttl = 0;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['node'])]
@@ -421,15 +423,15 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      */
     public function getTtl(): int
     {
-        return $this->ttl;
+        return $this->ttl ?? 0;
     }
 
     /**
-     * @param int $ttl
+     * @param int|null $ttl
      *
      * @return Node
      */
-    public function setTtl(int $ttl): Node
+    public function setTtl(?int $ttl): Node
     {
         $this->ttl = $ttl;
         return $this;
