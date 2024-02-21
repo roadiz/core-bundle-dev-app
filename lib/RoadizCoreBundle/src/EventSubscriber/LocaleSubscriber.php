@@ -83,7 +83,20 @@ final class LocaleSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (!$request->attributes->getBoolean('_stateless') && $request->hasPreviousSession()) {
+        $statelessRoutes = [
+            'api_genid',
+            'api_doc',
+            'api_entrypoint',
+            'api_graphql_entrypoint',
+            'api_jsonld_context',
+            'healthCheckAction',
+            'interventionRequestProcess',
+        ];
+        if (
+            !\in_array($request->attributes->getString('_route'), $statelessRoutes, true) &&
+            !$request->attributes->getBoolean('_stateless') &&
+            $request->hasPreviousSession()
+        ) {
             $sessionLocale = $request->getSession()->get('_locale', null);
             if ($this->supportsLocale($sessionLocale)) {
                 $this->setTranslation($request, $this->getTranslationByLocale($sessionLocale));
