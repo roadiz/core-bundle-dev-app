@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Exception;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-class MaintenanceModeException extends \Exception
+class MaintenanceModeException extends ServiceUnavailableHttpException
 {
-    protected AbstractController $controller;
+    protected ?AbstractController $controller;
 
-    /**
-     * @return AbstractController
-     */
-    public function getController(): AbstractController
+    public function getController(): ?AbstractController
     {
         return $this->controller;
     }
@@ -28,12 +26,12 @@ class MaintenanceModeException extends \Exception
      * @param string $message
      * @param int $code
      */
-    public function __construct(AbstractController $controller = null, $message = null, $code = 0)
+    public function __construct(?AbstractController $controller = null, $message = null, $code = 0)
     {
         if (null !== $message) {
-            parent::__construct($message, $code);
+            parent::__construct(null, $message, null, $code);
         } else {
-            parent::__construct($this->message, $code);
+            parent::__construct(null, $this->message, null, $code);
         }
 
         $this->controller = $controller;
