@@ -229,9 +229,11 @@ final class NodesSourcesPathResolver implements PathResolverInterface
                             ]);
                         return $nodeSource;
                     } else {
+                        $this->stopwatch->stop('parseFromIdentifier');
                         throw new ResourceNotFoundException(sprintf('"%s" was not found.', $identifier));
                     }
                 } else {
+                    $this->stopwatch->stop('parseFromIdentifier');
                     throw new ResourceNotFoundException();
                 }
             }

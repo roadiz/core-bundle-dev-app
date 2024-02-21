@@ -80,18 +80,14 @@ commit_preprocessors = [
 ]
 # regex for parsing and grouping commits
 commit_parsers = [
-  { message = "^feat", group = "Features" },
-  { message = "^fix", group = "Bug Fixes" },
-  { message = "^doc", group = "Documentation" },
+  { message = "^feat(ure)?", group = "Features" },
+  { message = "^fix(es)?", group = "Bug Fixes" },
+  { message = "^docs?", group = "Documentation" },
   { message = "^perf", group = "Performance" },
   { message = "^refactor", group = "Refactor" },
   { message = "^style", group = "Styling" },
-  { message = "^test", group = "Testing" },
+  { message = "^tests?", group = "Testing" },
   { message = "^chore", skip = true },
-  { message = "^chore\\(release\\): prepare for", skip = true },
-  { message = "^chore\\(deps\\)", skip = true },
-  { message = "^chore\\(pr\\)", skip = true },
-  { message = "^chore\\(pull\\)", skip = true },
   { message = "^ci", group = "CI/CD" },
   { body = ".*security", group = "Security" },
   { message = "^revert", group = "Revert" },
@@ -99,17 +95,17 @@ commit_parsers = [
 # protect breaking changes from being skipped due to matching a skipping commit_parser
 protect_breaking_commits = false
 # filter out the commits that are not matched by commit parsers
-filter_commits = false
+filter_commits = true
 # regex for matching git tags
-tag_pattern = "v[0-9].*"
+tag_pattern = "v?[0-9].*"
 
 # regex for skipping tags
 skip_tags = "v0.1.0-beta.1"
 # regex for ignoring tags
 ignore_tags = ""
 # sort the tags topologically
-topo_order = false
+topo_order = true
 # sort the commits inside sections by oldest/newest order
-sort_commits = "oldest"
+sort_commits = "newest"
 # limit the number of commits included in the changelog.
 # limit_commits = 42
