@@ -1,3 +1,11 @@
+## [v2.1.55](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.54...v2.1.55) (2024-02-21)
+
+
+### Bug Fixes
+
+* Fixed fetching non-ISO locale from database and querying result cache ([1383959](https://github.com/roadiz/core-bundle-dev-app/commit/1383959be20286ea29822fbf329f9c32d57fb1b3))
+* Fixed maintenance mode exception when using API endpoints ([1f1b49d](https://github.com/roadiz/core-bundle-dev-app/commit/1f1b49d1d37f52aad982066bbab9a6e80d4ab9ca))
+
 ## [v2.1.54](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.53...v2.1.54) (2024-02-09)
 
 
