@@ -27,17 +27,17 @@ final class UserSignupProcessor implements ProcessorInterface
     use RecaptchaProtectedTrait;
 
     public function __construct(
-        private ValidatorInterface $validator,
-        private Security $security,
-        private RequestStack $requestStack,
-        private EventDispatcherInterface $eventDispatcher,
-        private RateLimiterFactory $userSignupLimiter,
-        private RecaptchaServiceInterface $recaptchaService,
-        private ProcessorInterface $persistProcessor,
-        private UserMetadataManagerInterface $userMetadataManager,
-        private Roles $rolesBag,
-        private string $publicUserRoleName,
-        private string $recaptchaHeaderName = 'x-g-recaptcha-response',
+        private readonly ValidatorInterface $validator,
+        private readonly Security $security,
+        private readonly RequestStack $requestStack,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly RateLimiterFactory $userSignupLimiter,
+        private readonly RecaptchaServiceInterface $recaptchaService,
+        private readonly ProcessorInterface $persistProcessor,
+        private readonly UserMetadataManagerInterface $userMetadataManager,
+        private readonly Roles $rolesBag,
+        private readonly string $publicUserRoleName,
+        private readonly string $recaptchaHeaderName = 'x-g-recaptcha-response',
     ) {
     }
 

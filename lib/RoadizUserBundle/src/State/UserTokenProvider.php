@@ -18,9 +18,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final class UserTokenProvider implements ProviderInterface
 {
     public function __construct(
-        private Security $security,
-        private UserValidationTokenManagerInterface $userValidationTokenManager,
-        private UserMetadataManagerInterface $userMetadataManager,
+        private readonly Security $security,
+        private readonly UserValidationTokenManagerInterface $userValidationTokenManager,
+        private readonly UserMetadataManagerInterface $userMetadataManager,
     ) {
     }
 

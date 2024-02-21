@@ -14,6 +14,7 @@ api_platform:
             - '%kernel.project_dir%/src/Entity'
             - '%kernel.project_dir%/src/GeneratedEntity'
             - '%kernel.project_dir%/lib/RoadizCoreBundle/src/Entity'
+            - '%kernel.project_dir%/lib/RoadizUserBundle/src/Api/Dto'
             - '%kernel.project_dir%/vendor/rezozero/tree-walker/src'
             - '%kernel.project_dir%/config/api_resources'
     patch_formats:
