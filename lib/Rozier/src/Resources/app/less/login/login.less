@@ -122,10 +122,17 @@
             height: 116px;
         }
 
+        // Center vertically Default icon when no-image
         .uk-icon-rz-roadiz-icon {
-            vertical-align: middle;
-            display: inline-block;
-            font-size: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 40px;
+
+            @media (min-width: @screen-sm-min) {
+                font-size: 55px;
+            }
         }
 
         img, svg, object {
