@@ -38,7 +38,7 @@ roadiz_rozier:
             roles: [ 'ROLE_ACCESS_NODES' ]
             subentries:
                 all_nodes:
-                    name: 'all.nodes'
+                    name: 'all.nodessdfksdlf sdf sdf sdf sdf sdlksjd'
                     route: nodesHomePage
                     icon: uk-icon-rz-all-nodes
                     roles: ~

@@ -115,19 +115,11 @@
         width: @login-BarW;
         height: 70px;
         background-color: var(--accent-color);
-        top: 0px; left: 0;
+        top: 0; left: 0;
         text-align: center;
 
         @media (min-width: @screen-sm-min) {
             height: 116px;
-        }
-
-        &:before {
-            content: "";
-            display: inline-block;
-            height: 100%;
-            vertical-align: middle;
-
         }
 
         .uk-icon-rz-roadiz-icon {
@@ -136,17 +128,14 @@
             font-size: 55px;
         }
 
-        picture,
-        img,
-        svg,
-        object {
-            position: relative;
-            max-width: 80%;
-            height: auto;
-            max-height: 100px;
-            vertical-align: middle;
-            display: inline-block;
-            width: auto;
+        img, svg, object {
+            display: block;
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+            object-position: center;
+            margin: 0 auto;
+            padding: 10px;
         }
     }
 
