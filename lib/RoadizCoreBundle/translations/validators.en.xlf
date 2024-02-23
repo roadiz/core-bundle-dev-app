@@ -10,6 +10,12 @@
                 <source>tagName.%name%.alreadyExists</source>
                 <target state="translated">Tag %name% already exists.</target>
             </trans-unit>
+
+
+        <trans-unit id="field_with_same_name_already_exists_but_with_different_doctrine_type" xml:space="preserve">
+            <source>field_with_same_name_already_exists_but_with_different_doctrine_type</source>
+            <target state="translated">There already is a "%name%" field inside "%nodeTypeName%" but with a different data-type: %type%.</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>

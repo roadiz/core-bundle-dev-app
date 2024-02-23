@@ -10,6 +10,11 @@
                 <source>tagName.%name%.alreadyExists</source>
                 <target state="translated">L'étiquette «%name%» existe déjà.</target>
             </trans-unit>
+
+        <trans-unit id="field_with_same_name_already_exists_but_with_different_doctrine_type" xml:space="preserve">
+            <source>field_with_same_name_already_exists_but_with_different_doctrine_type</source>
+            <target state="translated">Un champ « %name% » existe déjà pour « %nodeTypeName% » mais avec un type de données différent : %type%.</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>
