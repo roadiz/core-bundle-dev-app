@@ -66,7 +66,7 @@ final class GetWebResponseByPathController extends AbstractController
             }
 
             return $this->webResponseDataTransformer->transform($resource, WebResponseInterface::class);
-        } catch (ResourceNotFoundException|ResourceClassNotFoundException $exception) {
+        } catch (ResourceNotFoundException | ResourceClassNotFoundException $exception) {
             throw $this->createNotFoundException($exception->getMessage(), $exception);
         }
     }
