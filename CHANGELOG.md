@@ -4,12 +4,20 @@ All notable changes to Roadiz will be documented in this file.
 
 ## [unreleased]
 
+### Styling
+
+- Fixed roadiz icon position when no custom image set - ([cfaf751](https://github.com/roadiz/core-bundle-dev-app/commit/cfaf751a390d9bf0dd49fac3646738274766d661))
+- Upgraded Backoffice user-panel and admin-menu sub-nav items - ([744aec2](https://github.com/roadiz/core-bundle-dev-app/commit/744aec23b2990b89bfee60f0751a39c844a5bcbc))
+
+## [2.2.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.4...v2.2.5) - 2024-02-23
+
 ### Bug Fixes
 
 - Prevent some api endpoint routes to trigger session from LocaleSubscriber - ([fa63c8c](https://github.com/roadiz/core-bundle-dev-app/commit/fa63c8cc0cde00bb328e42724a92223d79e6ec58))
 
 ### Features
 
+- Prevent creating same NodeTypeField name but with different doctrine type. - ([d4a5c58](https://github.com/roadiz/core-bundle-dev-app/commit/d4a5c583d8208fd289126f5338b0dda7f861a90f))
 - Prevent creating same NodeTypeField name but with different doctrine type. - ([c81773d](https://github.com/roadiz/core-bundle-dev-app/commit/c81773dd367eed945cdf9849a1950a1aca5e5d10))
 
 ## [2.2.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.3...v2.2.4) - 2024-02-21
@@ -336,9 +344,9 @@ Remove any crypto configuration from `config/packages/roadiz_core.yml`:
 ### ⚠ Breaking changes
 
 - `bin/console themes:migrate` command do not execute Doctrine migrations, generate NS entities and schema update. **You must version your NS\*\*\*\*.php files and migrations** to sync your app in different environments.
+- `bin/console themes:migrate` command do not execute Doctrine migrations, generate NS entities and schema update. **You must version your NS\*\*\*\*.php files and migrations** to sync your app in different environments.
 
 - `bin/console themes:migrate` and `bin/console themes:install` are deprecated: use `bin/console app:install` to just import data in database or `bin/console app:migrate` to import data and generate Entities and Doctrine migrations
-- `bin/console themes:migrate` command do not execute Doctrine migrations, generate NS entities and schema update. **You must version your NS\*\*\*\*.php files and migrations** to sync your app in different environments.
 
 ### Bug Fixes
 
@@ -346,9 +354,9 @@ Remove any crypto configuration from `config/packages/roadiz_core.yml`:
 
 ### Features
 
+- **(NodeType)** [**breaking**] Roadiz now generates a new Doctrine Migration for each updates on node-types and node-types fields. - ([3e1b8bb](https://github.com/roadiz/core-bundle-dev-app/commit/3e1b8bb2971be50e263f909cdc3b42a4c50f3e6d))
 - **(NodeType)** NodeTypeImporter now removes extra fields from database when not present on .json files - ([c59919e](https://github.com/roadiz/core-bundle-dev-app/commit/c59919ea3183a197f895c63182d0057033960837))
 - **(NodeType)** [**breaking**] Roadiz now generates a new Doctrine Migration for each updates on node-types and node-types fields. - ([d2cd965](https://github.com/roadiz/core-bundle-dev-app/commit/d2cd96566d0d8bc8c7addae41a019674fc1ca485))
-- **(NodeType)** [**breaking**] Roadiz now generates a new Doctrine Migration for each updates on node-types and node-types fields. - ([3e1b8bb](https://github.com/roadiz/core-bundle-dev-app/commit/3e1b8bb2971be50e263f909cdc3b42a4c50f3e6d))
 - Added more OpenApi context to generated api resources - ([29c8fa3](https://github.com/roadiz/core-bundle-dev-app/commit/29c8fa310bae8b35c850435a947282335628bad5))
 
 ## [2.1.32](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.31...v2.1.32) - 2023-07-25
@@ -529,8 +537,8 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - **(OpenID)** Do not register `roadiz_rozier.open_id.discovery` if `discovery_url` is not valid - ([120b6a9](https://github.com/roadiz/core-bundle-dev-app/commit/120b6a999b6635d120ce5c7ee7225b61328692b1))
 - CoreBundle must not reference other bundles classes. - ([701cbf3](https://github.com/roadiz/core-bundle-dev-app/commit/701cbf3c0a7e5218032ccb3d05a837149dfbf31f))
 - Fixed monorepo phpcs config standard - ([b3a1ac0](https://github.com/roadiz/core-bundle-dev-app/commit/b3a1ac0067ff61e76bf6125cfd3974b1c622cf74))
-- Reached phpstan level 7 validation - ([89d9e8a](https://github.com/roadiz/core-bundle-dev-app/commit/89d9e8ae132d305567e613838b2ce3174a902231))
 - Reached phpstan level 7 validation - ([d5c0bdc](https://github.com/roadiz/core-bundle-dev-app/commit/d5c0bdc9572d9cd95691f7b0782d705312abd2c9))
+- Reached phpstan level 7 validation - ([89d9e8a](https://github.com/roadiz/core-bundle-dev-app/commit/89d9e8ae132d305567e613838b2ce3174a902231))
 
 ### Features
 
@@ -634,6 +642,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - **(TwoFactorBundle)** Added github actions - ([2bc480a](https://github.com/roadiz/core-bundle-dev-app/commit/2bc480a9d16546e681d56557cc69dd790f4c8991))
 - **(TwoFactorBundle)** Added backup codes and backoffice templates - ([95db653](https://github.com/roadiz/core-bundle-dev-app/commit/95db653efaac1202268b458515967d12d179d841))
 - **(TwoFactorBundle)** Added TwoFactor bundle to login to Roadiz with TOTP application - ([0953b00](https://github.com/roadiz/core-bundle-dev-app/commit/0953b0086452343d40adce79ebba65089a0090bd))
+- **(UserViewer)** Removed setUser setter for single method usage - ([b7c0f75](https://github.com/roadiz/core-bundle-dev-app/commit/b7c0f75757410c6addd5e4ec7b8f8247cf339319))
 - Added solarium webprofiler panel - ([2cea745](https://github.com/roadiz/core-bundle-dev-app/commit/2cea74513e4153bcdc2c8a36cc22adf4c11a77fe))
 
 ## [2.1.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.8...v2.1.9) - 2023-04-11
@@ -654,10 +663,6 @@ Make sure you update `config/packages/doctrine.yaml` with:
 
 - **(Documents)** Prevent renaming document filename if new pathname is not available - ([13982cc](https://github.com/roadiz/core-bundle-dev-app/commit/13982cce13b1876d6f55167a40abcb456cd1e64f))
 - **(EntityGenerator)** Nullable `$field->getDefaultValues()` - ([297f099](https://github.com/roadiz/core-bundle-dev-app/commit/297f099cc738272c94e88f58b060b39351e655ed))
-
-### Features
-
-- **(UserViewer)** Removed setUser setter for single method usage - ([b7c0f75](https://github.com/roadiz/core-bundle-dev-app/commit/b7c0f75757410c6addd5e4ec7b8f8247cf339319))
 
 ## [2.1.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.5...v2.1.6) - 2023-03-23
 
@@ -710,7 +715,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0] - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.6...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 
