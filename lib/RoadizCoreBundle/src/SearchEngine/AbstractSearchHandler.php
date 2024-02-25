@@ -69,6 +69,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     ): SearchResultsInterface {
         $args = $this->argFqProcess($args);
         $args["fq"][] = "document_type_s:" . $this->getDocumentType();
+        $args["hl.q"] = $this->escapeQuery(trim($q));
         $args = array_merge($this->getHighlightingOptions($args), $args);
         $response = $this->nativeSearch($q, $args, $rows, $searchTags, $proximity, $page);
         return $this->createSearchResultsFromResponse($response);
