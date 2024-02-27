@@ -26,6 +26,8 @@ final class TagNormalizer extends AbstractPathNormalizer
         $data = $this->decorated->normalize($object, $format, $context);
         if ($object instanceof Tag && is_array($data)) {
             $data['slug'] = $object->getTagName();
+            /** @var array<string> $serializationGroups */
+            $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
 
             if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {
                 $documentsContext = $context;
@@ -34,9 +36,12 @@ final class TagNormalizer extends AbstractPathNormalizer
                 if ($translatedData instanceof TagTranslation) {
                     $data['name'] = $translatedData->getName();
                     $data['description'] = $translatedData->getDescription();
-                    $data['documents'] = array_map(function (DocumentInterface $document) use ($format, $documentsContext) {
-                        return $this->decorated->normalize($document, $format, $documentsContext);
-                    }, $translatedData->getDocuments());
+
+                    if (\in_array('tag_documents', $serializationGroups, true)) {
+                        $data['documents'] = array_map(function (DocumentInterface $document) use ($format, $documentsContext) {
+                            return $this->decorated->normalize($document, $format, $documentsContext);
+                        }, $translatedData->getDocuments());
+                    }
                 }
             }
         }

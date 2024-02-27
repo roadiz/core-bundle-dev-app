@@ -58,8 +58,9 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         nullable: false,
         options: ['default' => '#000000']
     )]
-    #[SymfonySerializer\Groups(['tag', 'tag_base', 'color'])]
-    #[Serializer\Groups(['tag', 'tag_base', 'color'])]
+    #[SymfonySerializer\Groups(['tag', 'tag_color', 'color'])]
+    #[Serializer\Groups(['tag', 'tag_color', 'color'])]
+    #[Assert\Length(max: 7)]
     protected string $color = '#000000';
 
     /**
@@ -131,12 +132,14 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
 
     #[ORM\Column(name: 'children_order', type: 'string', options: ['default' => 'position'])]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Groups(["tag"])]
+    #[Serializer\Groups(["tag", "tag_children_order"])]
+    #[Assert\Length(max: 60)]
     private string $childrenOrder = 'position';
 
     #[ORM\Column(name: 'children_order_direction', type: 'string', length: 4, options: ['default' => 'ASC'])]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Groups(["tag"])]
+    #[Serializer\Groups(["tag", "tag_children_order"])]
+    #[Assert\Length(max: 4)]
     private string $childrenOrderDirection = 'ASC';
 
     #[ApiFilter(BaseFilter\BooleanFilter::class)]
