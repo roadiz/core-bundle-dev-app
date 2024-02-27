@@ -1,3 +1,10 @@
+## [v2.1.57](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.56...v2.1.57) (2024-02-27)
+
+
+### Bug Fixes
+
+* Lighten Tag and NodesSources serialization with `tag_documents` and `tag_color` serialization groups ([24eb88d](https://github.com/roadiz/core-bundle-dev-app/commit/24eb88d953d735298a71253096d03ed14d2dbd7c))
+
 ## [v2.1.56](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.55...v2.1.56) (2024-02-25)
 
 
