@@ -2,7 +2,11 @@
 
 All notable changes to Roadiz will be documented in this file.
 
-## [unreleased]
+## [2.2.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.5...v2.2.6) - 2024-02-25
+
+### Bug Fixes
+
+- **(Search)** Missing `hl.q` Solr param when requesting highlight with complex queries - ([ae7fb60](https://github.com/roadiz/core-bundle-dev-app/commit/ae7fb60a11445a1ba0a2e39b51b8b713f2a9d919))
 
 ### Styling
 
@@ -715,7 +719,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.6...v2.1.0) - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.7...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 
