@@ -2,7 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
-## [2.2.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.5...2.2.6) - 2024-02-25
+## [2.2.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.6...v2.2.7) - 2024-02-27
+
+### Bug Fixes
+
+- Lighten Tag and NodesSources serialization with `tag_documents` and `tag_color` serialization groups - ([6890501](https://github.com/roadiz/core-bundle-dev-app/commit/68905012e4200983a2a054d5ac71f4e0f05949cf))
+
+## [2.2.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.5...v2.2.6) - 2024-02-25
 
 ### Bug Fixes
 
@@ -653,7 +659,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.5...v2.1.0) - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.6...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 
