@@ -4,7 +4,6 @@ api_platform:
     version:     '%env(string:APP_VERSION)%'
     enable_swagger_ui: true
     enable_re_doc: true
-    metadata_backward_compatibility_layer: false
     graphql:
         graphiql:
             enabled: false
@@ -27,6 +26,10 @@ api_platform:
             items_per_page_parameter_name: itemsPerPage
 
     defaults:
+        stateless: true
+        extra_properties:
+            standard_put: true
+            rfc_7807_compliant_errors: false
         enable_max_depth: true
         normalization_context:
             skip_null_values: true

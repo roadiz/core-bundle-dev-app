@@ -106,7 +106,6 @@ RZ\Roadiz\CoreBundle\Entity\User:
             class: ApiPlatform\Metadata\Get
             # Path must be different from item operation to avoid conflict
             uriTemplate: '/me'
-            itemUriTemplate: /users/{id}
             provider: RZ\Roadiz\UserBundle\State\UserTokenProvider
             output: RZ\Roadiz\UserBundle\Api\Dto\UserOutput
             normalizationContext:
