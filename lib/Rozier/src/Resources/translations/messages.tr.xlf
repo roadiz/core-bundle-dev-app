@@ -346,10 +346,6 @@
         <source>metaTitle</source>
         <target state="translated">Meta başlık</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="92">
-        <source>metaKeywords</source>
-        <target state="translated">Meta anahtar kelimeleri</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="93">
         <source>metaDescription</source>
         <target state="translated">Meta açıklama</target>

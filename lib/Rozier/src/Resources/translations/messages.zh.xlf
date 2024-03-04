@@ -346,10 +346,6 @@
         <source>metaTitle</source>
         <target state="translated">元-标题</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="92">
-        <source>metaKeywords</source>
-        <target state="translated">元-关键词</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="93">
         <source>metaDescription</source>
         <target state="translated">元-描述</target>

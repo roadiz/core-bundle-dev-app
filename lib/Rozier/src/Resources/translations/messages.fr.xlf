@@ -358,10 +358,6 @@
         <source>metaTitle</source>
         <target state="final">Titre « méta »</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="92" approved="yes">
-        <source>metaKeywords</source>
-        <target state="final">Mots-clef « méta »</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="93" approved="yes">
         <source>metaDescription</source>
         <target state="final">Description « méta »</target>
