@@ -59,7 +59,7 @@ final class RealmNodeInheritanceSubscriber implements EventSubscriberInterface
          */
         $this->bus->dispatch(new Envelope(new ApplyRealmNodeInheritanceMessage(
             $event->getRealmNode()->getNode()->getId(),
-            $event->getRealmNode()->getRealm()?->getId()
+            $event->getRealmNode()->getRealm()->getId()
         )));
     }
 
@@ -70,7 +70,7 @@ final class RealmNodeInheritanceSubscriber implements EventSubscriberInterface
          */
         $this->bus->dispatch(new Envelope(new CleanRealmNodeInheritanceMessage(
             $event->getRealmNode()->getNode()->getId(),
-            $event->getRealmNode()->getRealm()?->getId()
+            $event->getRealmNode()->getRealm()->getId()
         )));
     }
 }
