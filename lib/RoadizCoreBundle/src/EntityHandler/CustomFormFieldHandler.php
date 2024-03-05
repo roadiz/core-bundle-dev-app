@@ -52,11 +52,7 @@ final class CustomFormFieldHandler extends AbstractHandler
             throw new \BadMethodCallException('CustomForm is null');
         }
 
-        if ($this->customFormField->getCustomForm() !== null) {
-            $this->customFormHandler->setCustomForm($this->customFormField->getCustomForm());
-            return $this->customFormHandler->cleanFieldsPositions($setPositions);
-        }
-
-        return 1;
+        $this->customFormHandler->setCustomForm($this->customFormField->getCustomForm());
+        return $this->customFormHandler->cleanFieldsPositions($setPositions);
     }
 }

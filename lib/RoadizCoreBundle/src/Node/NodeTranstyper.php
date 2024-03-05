@@ -214,7 +214,8 @@ final class NodeTranstyper
          */
         /** @var UrlAlias $urlAlias */
         foreach ($existingSource->getUrlAliases() as $urlAlias) {
-            $newUrlAlias = new UrlAlias($source);
+            $newUrlAlias = new UrlAlias();
+            $newUrlAlias->setNodeSource($source);
             $this->getManager()->persist($newUrlAlias);
             $newUrlAlias->setAlias($urlAlias->getAlias());
             $source->addUrlAlias($newUrlAlias);

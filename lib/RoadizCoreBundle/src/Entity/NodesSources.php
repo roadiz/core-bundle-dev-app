@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
-use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -16,7 +16,6 @@ use Doctrine\Persistence\ObjectManager;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
-use RuntimeException;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
@@ -168,21 +167,23 @@ class NodesSources extends AbstractEntity implements Loggable
         "node.nodesTags.tag.tagName",
     ])]
     #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'nodeSources')]
-    #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Assert\Valid]
-    private ?Node $node = null;
+    #[Assert\NotNull]
+    private Node $node;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
         "translation.id" => "exact",
         "translation.locale" => "exact",
     ])]
     #[ORM\ManyToOne(targetEntity: Translation::class, inversedBy: 'nodeSources')]
-    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['translation_base'])]
     #[Serializer\Groups(['translation_base'])]
-    private ?TranslationInterface $translation = null;
+    #[Assert\NotNull]
+    private TranslationInterface $translation;
 
     /**
      * @var Collection<int, UrlAlias>
@@ -236,22 +237,11 @@ class NodesSources extends AbstractEntity implements Loggable
         $this->getNode()->setUpdatedAt(new \DateTime("now"));
     }
 
-    /**
-     * @return Node
-     */
     public function getNode(): Node
     {
-        if (null === $this->node) {
-            throw new \BadMethodCallException('NodeSource node should never be null.');
-        }
         return $this->node;
     }
 
-    /**
-     * @param Node $node
-     *
-     * @return $this
-     */
     public function setNode(Node $node): NodesSources
     {
         $this->node = $node;
@@ -575,9 +565,6 @@ class NodesSources extends AbstractEntity implements Loggable
      */
     public function getTranslation(): TranslationInterface
     {
-        if (null === $this->translation) {
-            throw new RuntimeException('Node source translation cannot be null.');
-        }
         return $this->translation;
     }
 

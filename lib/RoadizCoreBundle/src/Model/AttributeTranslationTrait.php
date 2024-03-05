@@ -13,12 +13,12 @@ trait AttributeTranslationTrait
 {
     #[
         ORM\ManyToOne(targetEntity: TranslationInterface::class),
-        ORM\JoinColumn(onDelete: "CASCADE"),
+        ORM\JoinColumn(name: "translation_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
         Serializer\Groups(["attribute", "node", "nodes_sources"]),
         Serializer\Type("RZ\Roadiz\Core\AbstractEntities\TranslationInterface"),
         Serializer\Accessor(getter: "getTranslation", setter: "setTranslation")
     ]
-    protected ?TranslationInterface $translation = null;
+    protected TranslationInterface $translation;
 
     #[
         ORM\Column(type: "string", length: 250, unique: false, nullable: false),
@@ -40,10 +40,10 @@ trait AttributeTranslationTrait
 
     #[
         ORM\ManyToOne(targetEntity: AttributeInterface::class, cascade: ["persist"], inversedBy: "attributeTranslations"),
-        ORM\JoinColumn(referencedColumnName: "id", onDelete: "CASCADE"),
+        ORM\JoinColumn(name: "attribute_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
         Serializer\Exclude
     ]
-    protected ?AttributeInterface $attribute = null;
+    protected AttributeInterface $attribute;
 
     /**
      * @return string|null
@@ -66,7 +66,6 @@ trait AttributeTranslationTrait
 
     /**
      * @param TranslationInterface $translation
-     *
      * @return $this
      */
     public function setTranslation(TranslationInterface $translation)
@@ -75,10 +74,7 @@ trait AttributeTranslationTrait
         return $this;
     }
 
-    /**
-     * @return TranslationInterface|null
-     */
-    public function getTranslation(): ?TranslationInterface
+    public function getTranslation(): TranslationInterface
     {
         return $this->translation;
     }
@@ -93,7 +89,6 @@ trait AttributeTranslationTrait
 
     /**
      * @param AttributeInterface $attribute
-     *
      * @return $this
      */
     public function setAttribute(AttributeInterface $attribute)

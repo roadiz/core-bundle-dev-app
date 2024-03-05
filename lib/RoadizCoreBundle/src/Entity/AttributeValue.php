@@ -35,12 +35,9 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
 {
     use AttributeValueTrait;
 
-    /**
-     * @var Node|null
-     */
     #[
         ORM\ManyToOne(targetEntity: Node::class, inversedBy: "attributeValues"),
-        ORM\JoinColumn(name: "node_id", onDelete: "CASCADE"),
+        ORM\JoinColumn(name: "node_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
         Serializer\Groups(["attribute_node"]),
         SymfonySerializer\Groups(["attribute_node"]),
         SymfonySerializer\MaxDepth(1),
@@ -55,7 +52,7 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
             "node.visible"
         ])
     ]
-    protected ?Node $node = null;
+    protected Node $node;
 
     #[ORM\ManyToOne(targetEntity: Realm::class)]
     #[ORM\JoinColumn(
@@ -85,10 +82,7 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
         return $this->position;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getAttributable(): ?AttributableInterface
+    public function getAttributable(): Node
     {
         return $this->node;
     }
@@ -105,20 +99,12 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
         throw new \InvalidArgumentException('Attributable have to be an instance of Node.');
     }
 
-    /**
-     * @return Node|null
-     */
-    public function getNode(): ?Node
+    public function getNode(): Node
     {
         return $this->node;
     }
 
-    /**
-     * @param Node|null $node
-     *
-     * @return AttributeValue
-     */
-    public function setNode(?Node $node): AttributeValue
+    public function setNode(Node $node): AttributeValue
     {
         $this->node = $node;
 

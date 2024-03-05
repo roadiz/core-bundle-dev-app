@@ -32,12 +32,13 @@ class AttributeDocuments extends AbstractPositioned
         ORM\JoinColumn(
             name: "attribute_id",
             referencedColumnName: "id",
+            nullable: false,
             onDelete: "CASCADE"
         ),
         Serializer\Exclude(),
         SymfonySerializer\Ignore()
     ]
-    protected ?Attribute $attribute = null;
+    protected Attribute $attribute;
 
     #[
         ORM\ManyToOne(
@@ -49,72 +50,45 @@ class AttributeDocuments extends AbstractPositioned
         ORM\JoinColumn(
             name: "document_id",
             referencedColumnName: "id",
+            nullable: false,
             onDelete: "CASCADE"
         ),
         Serializer\Groups(["attribute"]),
         SymfonySerializer\Groups(["attribute"]),
         Serializer\Type(Document::class)
     ]
-    protected ?Document $document = null;
+    protected Document $document;
 
-    /**
-     * @param Attribute|null $attribute
-     * @param Document|null $document
-     */
-    public function __construct(Attribute $attribute = null, Document $document = null)
+    public function __construct(Attribute $attribute, Document $document)
     {
         $this->document = $document;
         $this->attribute = $attribute;
     }
 
-    /**
-     *
-     */
     public function __clone()
     {
         if ($this->id) {
             $this->id = null;
-            $this->attribute = null;
         }
     }
 
-    /**
-     * Gets the value of document.
-     *
-     * @return Document|null
-     */
-    public function getDocument(): ?Document
+    public function getDocument(): Document
     {
         return $this->document;
     }
 
-    /**
-     * Sets the value of document.
-     *
-     * @param Document|null $document the document
-     *
-     * @return AttributeDocuments
-     */
-    public function setDocument(?Document $document): AttributeDocuments
+    public function setDocument(Document $document): AttributeDocuments
     {
         $this->document = $document;
-
         return $this;
     }
 
-    /**
-     * @return Attribute|null
-     */
-    public function getAttribute(): ?Attribute
+    public function getAttribute(): Attribute
     {
         return $this->attribute;
     }
 
-    /**
-     * @param Attribute|null $attribute
-     * @return AttributeDocuments
-     */
-    public function setAttribute(?Attribute $attribute): AttributeDocuments
+    public function setAttribute(Attribute $attribute): AttributeDocuments
     {
         $this->attribute = $attribute;
         return $this;

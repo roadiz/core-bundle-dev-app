@@ -40,7 +40,7 @@ final class NodeSourceModel implements ModelInterface
             'thumbnail' => $thumbnail ? $thumbnail->getDocument() : null,
             'isPublished' => $node->isPublished(),
             'nodeType' => [
-                'color' => $node->getNodeType()?->getColor() ?? '#000000',
+                'color' => $node->getNodeType()->getColor() ?? '#000000',
             ]
         ];
 

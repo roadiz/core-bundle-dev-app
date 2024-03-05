@@ -56,11 +56,11 @@ class CustomFormAnswer extends AbstractEntity
             targetEntity: CustomForm::class,
             inversedBy: "customFormAnswers"
         ),
-        ORM\JoinColumn(name: "custom_form_id", referencedColumnName: "id", onDelete: "CASCADE"),
+        ORM\JoinColumn(name: "custom_form_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
         Serializer\Exclude,
         SymfonySerializer\Ignore
     ]
-    private ?CustomForm $customForm = null;
+    private CustomForm $customForm;
 
     public function __construct()
     {

@@ -553,7 +553,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      * @Serializer\Groups({"translation", "document", "nodes_sources", "tag", "attribute", "folder", "log_sources"})
      * @Serializer\Type("string")
      */
-    #[ORM\Column(type: 'string', length: 10, unique: true)]
+    #[ORM\Column(type: 'string', length: 10, unique: true, nullable: false)]
     #[SymfonySerializer\Ignore]
     #[Assert\NotBlank]
     #[Assert\NotNull]

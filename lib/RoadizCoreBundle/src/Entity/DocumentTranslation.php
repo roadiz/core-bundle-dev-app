@@ -43,16 +43,16 @@ class DocumentTranslation extends AbstractEntity implements Loggable
     protected ?string $externalUrl = null;
 
     #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'documentTranslations')]
-    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
-    protected ?TranslationInterface $translation = null;
+    protected TranslationInterface $translation;
 
     #[ORM\ManyToOne(targetEntity: Document::class, fetch: 'EXTRA_LAZY', inversedBy: 'documentTranslations')]
-    #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
-    protected ?DocumentInterface $document;
+    protected DocumentInterface $document;
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[SymfonySerializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
@@ -79,19 +79,11 @@ class DocumentTranslation extends AbstractEntity implements Loggable
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     *
-     * @return $this
-     */
     public function setDescription(?string $description): DocumentTranslation
     {
         $this->description = $description;
@@ -167,7 +159,7 @@ class DocumentTranslation extends AbstractEntity implements Loggable
      * @param DocumentInterface $document
      * @return $this
      */
-    public function setDocument(DocumentInterface $document)
+    public function setDocument(DocumentInterface $document): DocumentTranslation
     {
         $this->document = $document;
         return $this;

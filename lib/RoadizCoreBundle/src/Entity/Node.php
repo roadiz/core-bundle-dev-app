@@ -198,15 +198,12 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     )]
     private string $childrenOrderDirection = 'ASC';
 
-    /**
-     * @var NodeTypeInterface|null
-     */
     #[ORM\ManyToOne(targetEntity: NodeTypeInterface::class)]
-    #[ORM\JoinColumn(name: 'nodeType_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'nodeType_id', referencedColumnName: 'id', nullable:false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['node'])]
     #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
-    private ?NodeTypeInterface $nodeType = null;
+    private NodeTypeInterface $nodeType;
 
     /**
      * @var Node|null
@@ -905,19 +902,12 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
-    /**
-     * @return NodeTypeInterface|null
-     */
-    public function getNodeType(): ?NodeTypeInterface
+    public function getNodeType(): NodeTypeInterface
     {
         return $this->nodeType;
     }
 
-    /**
-     * @param NodeTypeInterface|null $nodeType
-     * @return $this
-     */
-    public function setNodeType(?NodeTypeInterface $nodeType = null): static
+    public function setNodeType(NodeTypeInterface $nodeType): Node
     {
         $this->nodeType = $nodeType;
         return $this;

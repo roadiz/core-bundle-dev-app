@@ -74,11 +74,11 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
 
     #[
         ORM\ManyToOne(targetEntity: NodeType::class, inversedBy: "fields"),
-        ORM\JoinColumn(name: "node_type_id", onDelete: "CASCADE"),
+        ORM\JoinColumn(name: "node_type_id", nullable: false, onDelete: "CASCADE"),
         Serializer\Exclude(),
         SymfonySerializer\Ignore
     ]
-    private ?NodeTypeInterface $nodeType = null;
+    private NodeTypeInterface $nodeType;
 
     #[
         Serializer\Groups(["node_type"]),
@@ -152,46 +152,28 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
     ]
     public function getNodeTypeName(): string
     {
-        return $this->getNodeType() ? $this->getNodeType()->getName() : '';
+        return $this->getNodeType()->getName();
     }
 
-    /**
-     * @return NodeTypeInterface|null
-     */
-    public function getNodeType(): ?NodeTypeInterface
+    public function getNodeType(): NodeTypeInterface
     {
         return $this->nodeType;
     }
 
-    /**
-     * @param NodeTypeInterface|null $nodeType
-     *
-     * @return $this
-     */
-    public function setNodeType(?NodeTypeInterface $nodeType)
+    public function setNodeType(NodeTypeInterface $nodeType): NodeTypeField
     {
         $this->nodeType = $nodeType;
-
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getMinLength(): ?int
     {
         return $this->minLength;
     }
 
-    /**
-     * @param int|null $minLength
-     *
-     * @return $this
-     */
-    public function setMinLength(?int $minLength)
+    public function setMinLength(?int $minLength): NodeTypeField
     {
         $this->minLength = $minLength;
-
         return $this;
     }
 
@@ -203,15 +185,9 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
         return $this->maxLength;
     }
 
-    /**
-     * @param int|null $maxLength
-     *
-     * @return $this
-     */
-    public function setMaxLength(?int $maxLength)
+    public function setMaxLength(?int $maxLength): NodeTypeField
     {
         $this->maxLength = $maxLength;
-
         return $this;
     }
 
@@ -229,7 +205,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
      * @return string
      */
     #[SymfonySerializer\Ignore]
-    public function getOneLineSummary()
+    public function getOneLineSummary(): string
     {
         return $this->getId() . " — " . $this->getLabel() . ' [' . $this->getName() . ']' .
         ' - ' . $this->getTypeName() .
@@ -246,11 +222,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
         return $this->indexed && $this->getDoctrineType() !== 'json';
     }
 
-    /**
-     * @param bool $indexed
-     * @return $this
-     */
-    public function setIndexed(bool $indexed)
+    public function setIndexed(bool $indexed): NodeTypeField
     {
         $this->indexed = $indexed;
         return $this;
@@ -264,14 +236,9 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
         return $this->visible;
     }
 
-    /**
-     * @param bool $visible
-     * @return $this
-     */
-    public function setVisible(bool $visible)
+    public function setVisible(bool $visible): NodeTypeField
     {
         $this->visible = $visible;
-
         return $this;
     }
 
@@ -296,7 +263,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
      * @param bool $universal
      * @return NodeTypeField
      */
-    public function setUniversal(bool $universal)
+    public function setUniversal(bool $universal): NodeTypeField
     {
         $this->universal = $universal;
         return $this;
@@ -318,29 +285,18 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
         return $this->excludeFromSearch;
     }
 
-    /**
-     * @return bool
-     */
     public function isExcludeFromSearch(): bool
     {
         return $this->getExcludeFromSearch();
     }
 
-    /**
-     * @param bool $excludeFromSearch
-     *
-     * @return NodeTypeField
-     */
-    public function setExcludeFromSearch(bool $excludeFromSearch)
+    public function setExcludeFromSearch(bool $excludeFromSearch): NodeTypeField
     {
         $this->excludeFromSearch = $excludeFromSearch;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSerializationExclusionExpression(): ?string
     {
         return $this->serializationExclusionExpression;

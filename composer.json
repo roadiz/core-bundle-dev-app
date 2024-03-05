@@ -111,6 +111,7 @@
         "symfony/property-info": "6.4.*",
         "symfony/proxy-manager-bridge": "6.4.*",
         "symfony/rate-limiter": "6.4.*",
+        "symfony/redis-messenger": "6.4.*",
         "symfony/requirements-checker": "^2.0",
         "symfony/routing": "6.4.*",
         "symfony/runtime": "6.4.*",

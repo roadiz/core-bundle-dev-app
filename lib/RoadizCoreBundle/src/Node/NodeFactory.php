@@ -17,19 +17,10 @@ use RZ\Roadiz\CoreBundle\Repository\UrlAliasRepository;
 
 final class NodeFactory
 {
-    private ManagerRegistry $managerRegistry;
-    private NodeNamePolicyInterface $nodeNamePolicy;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param NodeNamePolicyInterface $nodeNamePolicy
-     */
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        NodeNamePolicyInterface $nodeNamePolicy
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly NodeNamePolicyInterface $nodeNamePolicy
     ) {
-        $this->nodeNamePolicy = $nodeNamePolicy;
-        $this->managerRegistry = $managerRegistry;
     }
 
     public function create(
@@ -100,10 +91,12 @@ final class NodeFactory
         ?Node $parent = null
     ): Node {
         $node = $this->create($title, $type, $translation, $node, $parent);
+        $nodeSource = $node->getNodeSources()->first();
         /** @var UrlAliasRepository $repository */
         $repository = $this->managerRegistry->getRepository(UrlAlias::class);
-        if (false === $repository->exists($urlAlias)) {
-            $alias = new UrlAlias($node->getNodeSources()->first() ?: null);
+        if (false !== $nodeSource && false === $repository->exists($urlAlias)) {
+            $alias = new UrlAlias();
+            $alias->setNodeSource($nodeSource);
             $alias->setAlias($urlAlias);
             $this->managerRegistry->getManagerForClass(UrlAlias::class)->persist($alias);
         }

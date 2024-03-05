@@ -339,7 +339,6 @@ class CustomForm extends AbstractDateTimed
     {
         if ($this->getFields()->contains($field)) {
             $this->getFields()->removeElement($field);
-            $field->setCustomForm(null);
         }
 
         return $this;

@@ -551,6 +551,31 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     }
 
     /**
+     * @param NodesSources  $nodeSource
+     * @param int $fieldId
+     * @return array
+     */
+    public function findByNodeSourceAndFieldId(
+        NodesSources $nodeSource,
+        int $fieldId
+    ): array {
+        $qb = $this->createQueryBuilder('d');
+        $qb->addSelect('dt')
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
+            ->andWhere($qb->expr()->eq('nsf.field', ':field'))
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->addOrderBy('nsf.position', 'ASC')
+            ->setParameter('field', $fieldId)
+            ->setParameter('nodeSource', $nodeSource)
+            ->setParameter('translation', $nodeSource->getTranslation())
+            ->setParameter('raw', false)
+            ->setCacheable(true);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
      * Find documents used as Settings.
      *
      * @return array<Document>

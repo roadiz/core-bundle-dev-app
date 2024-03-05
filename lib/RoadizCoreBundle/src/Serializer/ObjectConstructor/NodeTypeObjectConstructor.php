@@ -45,7 +45,6 @@ class NodeTypeObjectConstructor extends AbstractTypedObjectConstructor
         foreach ($nodeType->getFields() as $field) {
             if (!\in_array($field->getName(), $fieldsName)) {
                 $nodeType->getFields()->removeElement($field);
-                $field->setNodeType(null);
             }
         }
 
