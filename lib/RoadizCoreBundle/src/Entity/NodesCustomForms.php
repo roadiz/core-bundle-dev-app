@@ -22,32 +22,23 @@ use RZ\Roadiz\CoreBundle\Repository\NodesCustomFormsRepository;
 ]
 class NodesCustomForms extends AbstractPositioned
 {
-    /**
-     * @var Node|null
-     */
     #[ORM\ManyToOne(targetEntity: Node::class, fetch: 'EAGER', inversedBy: 'customForms')]
-    #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?Node $node = null;
+    #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected Node $node;
 
-    /**
-     * @var CustomForm|null
-     */
     #[ORM\ManyToOne(targetEntity: CustomForm::class, fetch: 'EAGER', inversedBy: 'nodes')]
-    #[ORM\JoinColumn(name: 'custom_form_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?CustomForm $customForm = null;
+    #[ORM\JoinColumn(name: 'custom_form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected CustomForm $customForm;
 
-    /**
-     * @var NodeTypeField|null
-     */
     #[ORM\ManyToOne(targetEntity: NodeTypeField::class)]
-    #[ORM\JoinColumn(name: 'node_type_field_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?NodeTypeField $field = null;
+    #[ORM\JoinColumn(name: 'node_type_field_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected NodeTypeField $field;
 
     /**
      * Create a new relation between a Node, a CustomForm and a NodeTypeField.
      *
-     * @param Node          $node
-     * @param CustomForm    $customForm
+     * @param Node $node
+     * @param CustomForm $customForm
      * @param NodeTypeFieldInterface $field NodeTypeField
      */
     public function __construct(Node $node, CustomForm $customForm, NodeTypeFieldInterface $field)
@@ -64,16 +55,15 @@ class NodesCustomForms extends AbstractPositioned
     {
         if ($this->id) {
             $this->id = null;
-            $this->node = null;
         }
     }
 
     /**
      * Gets the value of node.
      *
-     * @return Node|null
+     * @return Node
      */
-    public function getNode(): ?Node
+    public function getNode(): Node
     {
         return $this->node;
     }
