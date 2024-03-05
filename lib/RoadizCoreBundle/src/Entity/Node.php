@@ -45,6 +45,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ["created_at"]),
     ORM\Index(columns: ["updated_at"]),
     ORM\Index(columns: ["hide_children"]),
+    ORM\Index(columns: ["home"]),
     ORM\Index(columns: ["node_name", "status"]),
     ORM\Index(columns: ["visible", "status"]),
     ORM\Index(columns: ["visible", "status", "parent_node_id"], name: "node_visible_status_parent"),
@@ -52,9 +53,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ["nodeType_id", "status", "parent_node_id"], name: "node_nodetype_status_parent"),
     ORM\Index(columns: ["nodeType_id", "status", "parent_node_id", "position"], name: "node_nodetype_status_parent_position"),
     ORM\Index(columns: ["visible", "parent_node_id"], name: "node_visible_parent"),
+    ORM\Index(columns: ["parent_node_id", "position"], name: "node_parent_position"),
     ORM\Index(columns: ["visible", "parent_node_id", "position"], name: "node_visible_parent_position"),
     ORM\Index(columns: ["status", "visible", "parent_node_id", "position"], name: "node_status_visible_parent_position"),
-    ORM\Index(columns: ["home"]),
     ORM\HasLifecycleCallbacks,
     Gedmo\Loggable(logEntryClass: UserLogEntry::class),
     // Need to override repository method to see all nodes
