@@ -824,9 +824,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      */
     public function setBNodes(Collection $bNodes): static
     {
-        foreach ($this->bNodes as $bNode) {
-            $bNode->setNodeA(null);
-        }
         $this->bNodes->clear();
         foreach ($bNodes as $bNode) {
             if (!$this->hasBNode($bNode)) {
@@ -866,7 +863,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         /** @var NodesToNodes $toRemove */
         foreach ($toRemoveCollection as $toRemove) {
             $this->getBNodes()->removeElement($toRemove);
-            $toRemove->setNodeA(null);
         }
         return $this;
     }
