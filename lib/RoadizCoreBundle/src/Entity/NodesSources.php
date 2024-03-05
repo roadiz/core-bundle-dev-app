@@ -284,7 +284,6 @@ class NodesSources extends AbstractEntity implements Loggable
         /** @var NodesSourcesDocuments $toRemove */
         foreach ($toRemoveCollection as $toRemove) {
             $this->getDocumentsByFields()->removeElement($toRemove);
-            $toRemove->setNodeSource(null);
         }
 
         return $this;
@@ -322,9 +321,6 @@ class NodesSources extends AbstractEntity implements Loggable
      */
     public function setDocumentsByFields(Collection $documentsByFields): NodesSources
     {
-        foreach ($this->documentsByFields as $documentsByField) {
-            $documentsByField->setNodeSource(null);
-        }
         $this->documentsByFields->clear();
         foreach ($documentsByFields as $documentsByField) {
             if (!$this->hasNodesSourcesDocuments($documentsByField)) {
