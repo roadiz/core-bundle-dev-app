@@ -2,6 +2,32 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [unreleased]
+
+### ⚠ Breaking changes
+
+- Switched to ApiPlatform 3.2, make sure to upgrade `bundles.php` file and `api_platform.yaml` configuration
+
+### Features
+
+- **(Admin)** Create an update event for each bulk entity - ([7ca5792](https://github.com/roadiz/core-bundle-dev-app/commit/7ca57920922893e58bd37031a81494faaa33488e))
+- **(CustomForms)** Made NodesCustomForms.php relation columns not nullable for index performance - ([dba0237](https://github.com/roadiz/core-bundle-dev-app/commit/dba02370ac5bd4fd8cf93d8d610ea7a51c4e1d7e))
+- **(Documents)** Made NodesSourcesDocuments.php relation columns not nullable for index performance - ([167b2dd](https://github.com/roadiz/core-bundle-dev-app/commit/167b2dd3934b90ba40b6940605f12b700cb341bc))
+- **(Nodes)** Made NodesToNodes.php relation columns not nullable for index performance - ([bd9f5d6](https://github.com/roadiz/core-bundle-dev-app/commit/bd9f5d63e5ccb2cdfb600d77564fd19c2f24d113))
+- **(Realms)** Made RealmNode.php realm_id column not nullable for index performance - ([153d53c](https://github.com/roadiz/core-bundle-dev-app/commit/153d53cc2f8a1aefe3d0639d9b1b87f191fd976b))
+-  [**breaking**]Upgrade to ApiPlatform 3.2 - ([4962d87](https://github.com/roadiz/core-bundle-dev-app/commit/4962d87b316a9fac6a0163eaabf23987a94c4bf0))
+
+### Performance
+
+- Missing `node_parent_position` composite index - ([9147b6b](https://github.com/roadiz/core-bundle-dev-app/commit/9147b6bb03a7176ee05257eed5fc6ca66c8c7e78))
+- Made all foreign key columns not nullable for index performance - ([fd90805](https://github.com/roadiz/core-bundle-dev-app/commit/fd908058e2856c58cca0d1eba582bee020145a3c))
+
+## [2.2.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.6...v2.2.7) - 2024-02-27
+
+### Bug Fixes
+
+- Lighten Tag and NodesSources serialization with `tag_documents` and `tag_color` serialization groups - ([6890501](https://github.com/roadiz/core-bundle-dev-app/commit/68905012e4200983a2a054d5ac71f4e0f05949cf))
+
 ## [2.2.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.5...v2.2.6) - 2024-02-25
 
 ### Bug Fixes
@@ -719,7 +745,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.7...v2.1.0) - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.8...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 
