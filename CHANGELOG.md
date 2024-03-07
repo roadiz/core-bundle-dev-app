@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.8...v2.2.9) - 2024-03-07
+
+### Bug Fixes
+
+- **(AttributeValue)** Always join Node to filter out attribute values linked to not-published nodes. - ([cdd4158](https://github.com/roadiz/core-bundle-dev-app/commit/cdd41580b85f7781a4a9c4d0a7060b9e26bb0d6d))
+
 ## [2.2.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.7...v2.2.8) - 2024-03-07
 
 ### ⚠ Breaking changes
