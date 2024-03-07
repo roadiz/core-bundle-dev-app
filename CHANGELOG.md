@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.8...v2.2.9) - 2024-03-07
+
+### Bug Fixes
+
+- **(AttributeValue)** Always join Node to filter out attribute values linked to not-published nodes. - ([cdd4158](https://github.com/roadiz/core-bundle-dev-app/commit/cdd41580b85f7781a4a9c4d0a7060b9e26bb0d6d))
+
 ## [2.2.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.7...v2.2.8) - 2024-03-07
 
 ### Bug Fixes
@@ -665,7 +671,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.7...v2.1.0) - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.8...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 
