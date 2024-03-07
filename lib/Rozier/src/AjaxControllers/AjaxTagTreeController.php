@@ -15,24 +15,14 @@ use Themes\Rozier\Widgets\TreeWidgetFactory;
  */
 class AjaxTagTreeController extends AbstractAjaxController
 {
-    private TreeWidgetFactory $treeWidgetFactory;
-
-    public function __construct(TreeWidgetFactory $treeWidgetFactory)
+    public function __construct(private TreeWidgetFactory $treeWidgetFactory)
     {
-        $this->treeWidgetFactory = $treeWidgetFactory;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    public function getTreeAction(Request $request)
+    public function getTreeAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
+        $translation = $this->getTranslation($request);
 
         /** @var TagTreeWidget|null $tagTree */
         $tagTree = null;
@@ -52,7 +42,7 @@ class AjaxTagTreeController extends AbstractAjaxController
                     $tag = null;
                 }
 
-                $tagTree = $this->treeWidgetFactory->createTagTree($tag);
+                $tagTree = $this->treeWidgetFactory->createTagTree($tag, $translation);
 
                 $this->assignation['mainTagTree'] = false;
 
@@ -62,7 +52,7 @@ class AjaxTagTreeController extends AbstractAjaxController
              */
             case 'requestMainTagTree':
                 $parent = null;
-                $tagTree = $this->treeWidgetFactory->createTagTree($parent);
+                $tagTree = $this->treeWidgetFactory->createTagTree($parent, $translation);
                 $this->assignation['mainTagTree'] = true;
                 break;
         }

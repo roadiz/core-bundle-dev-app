@@ -22,17 +22,10 @@ class AjaxFolderTreeController extends AbstractAjaxController
         $this->treeWidgetFactory = $treeWidgetFactory;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return JsonResponse
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    public function getTreeAction(Request $request)
+    public function getTreeAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
+        $translation = $this->getTranslation($request);
 
         /** @var FolderTreeWidget|null $folderTree */
         $folderTree = null;
@@ -52,7 +45,7 @@ class AjaxFolderTreeController extends AbstractAjaxController
                     $folder = null;
                 }
 
-                $folderTree = $this->treeWidgetFactory->createFolderTree($folder);
+                $folderTree = $this->treeWidgetFactory->createFolderTree($folder, $translation);
 
                 $this->assignation['mainFolderTree'] = false;
 
@@ -62,7 +55,7 @@ class AjaxFolderTreeController extends AbstractAjaxController
              */
             case 'requestMainFolderTree':
                 $parent = null;
-                $folderTree = $this->treeWidgetFactory->createFolderTree($parent);
+                $folderTree = $this->treeWidgetFactory->createFolderTree($parent, $translation);
                 $this->assignation['mainFolderTree'] = true;
                 break;
         }

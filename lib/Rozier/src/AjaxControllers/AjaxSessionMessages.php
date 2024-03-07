@@ -7,16 +7,11 @@ namespace Themes\Rozier\AjaxControllers;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\FlashBagAwareSessionInterface;
 
 class AjaxSessionMessages extends AbstractAjaxController
 {
-    /**
-     * @param Request $request
-     *
-     * @return Response JSON response
-     */
-    public function getMessagesAction(Request $request)
+    public function getMessagesAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
@@ -27,7 +22,7 @@ class AjaxSessionMessages extends AbstractAjaxController
 
         if ($request->hasPreviousSession()) {
             $session = $request->getSession();
-            if ($session instanceof Session) {
+            if ($session instanceof FlashBagAwareSessionInterface) {
                 $responseArray['messages'] = $session->getFlashBag()->all();
             }
         }
