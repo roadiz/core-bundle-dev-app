@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.10...v2.2.11) - 2024-03-07
+
+### Bug Fixes
+
+- **(Trees)** Fixed tag and folder trees when they display first created translation instead of user chosen translation - ([87878c2](https://github.com/roadiz/core-bundle-dev-app/commit/87878c28e56e8812041e6c506d2db96e2c5c05c7))
+
+### Refactor
+
+- Use constructor readonly initializers on Ajax controllers - ([ce01609](https://github.com/roadiz/core-bundle-dev-app/commit/ce016097734698486d84fefa209c075db0c02c3b))
+
 ## [2.2.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.9...v2.2.10) - 2024-03-07
 
 ### Bug Fixes
