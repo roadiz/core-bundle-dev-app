@@ -15,11 +15,8 @@ use Themes\Rozier\Models\CustomFormModel;
 
 class AjaxCustomFormsExplorerController extends AbstractAjaxController
 {
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**
@@ -108,7 +105,7 @@ class AjaxCustomFormsExplorerController extends AbstractAjaxController
      * @param array<CustomForm>|\Traversable<CustomForm> $customForms
      * @return array
      */
-    private function normalizeCustomForms($customForms)
+    private function normalizeCustomForms(iterable $customForms): array
     {
         $customFormsArray = [];
 

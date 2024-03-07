@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\Widgets;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -14,27 +15,17 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class TagTreeWidget extends AbstractWidget
 {
-    protected ?Tag $parentTag = null;
-    protected ?iterable $tags = null;
-    protected bool $canReorder = true;
-    protected bool $forceTranslation = false;
+    private ?iterable $tags = null;
+    private bool $canReorder = true;
 
-    /**
-     * @param RequestStack $requestStack
-     * @param ManagerRegistry $managerRegistry
-     * @param Tag|null $parent
-     * @param bool $forceTranslation
-     */
     public function __construct(
         RequestStack $requestStack,
         ManagerRegistry $managerRegistry,
-        Tag $parent = null,
-        bool $forceTranslation = false
+        private readonly ?Tag $parentTag = null,
+        private readonly ?TranslationInterface $translation = null,
+        private readonly bool $forceTranslation = false
     ) {
         parent::__construct($requestStack, $managerRegistry);
-
-        $this->parentTag = $parent;
-        $this->forceTranslation = $forceTranslation;
     }
 
     /**
@@ -133,5 +124,13 @@ final class TagTreeWidget extends AbstractWidget
     public function getCanReorder(): bool
     {
         return $this->canReorder;
+    }
+
+    /**
+     * @return TranslationInterface
+     */
+    public function getTranslation(): TranslationInterface
+    {
+        return $this->translation ?? parent::getTranslation();
     }
 }

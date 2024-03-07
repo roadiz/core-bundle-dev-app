@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.9...v2.2.10) - 2024-03-07
+
+### Bug Fixes
+
+- **(NodeTypes)** Do not update DB schema when importing a NodeType JSON file. Fixes `app:install` command which updated JSON files and schema instead of just importing Types. - ([80f7a86](https://github.com/roadiz/core-bundle-dev-app/commit/80f7a86d20994e2fce09cf6e2f9cf57a6a6dad3f))
+
 ## [2.2.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.8...v2.2.9) - 2024-03-07
 
 ### Bug Fixes

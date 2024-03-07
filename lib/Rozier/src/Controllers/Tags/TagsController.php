@@ -448,7 +448,7 @@ class TagsController extends RozierApp
         }
 
         if (null !== $tag) {
-            $widget = $this->treeWidgetFactory->createTagTree($tag);
+            $widget = $this->treeWidgetFactory->createTagTree($tag, $translation);
             $this->assignation['tag'] = $tag;
             $this->assignation['translation'] = $translation;
             $this->assignation['specificTagTree'] = $widget;

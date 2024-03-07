@@ -21,8 +21,8 @@ class AjaxSearchNodesSourcesController extends AbstractAjaxController
     public const RESULT_COUNT = 10;
 
     public function __construct(
-        private DocumentUrlGeneratorInterface $documentUrlGenerator,
-        private Security $security
+        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
+        private readonly Security $security
     ) {
     }
 

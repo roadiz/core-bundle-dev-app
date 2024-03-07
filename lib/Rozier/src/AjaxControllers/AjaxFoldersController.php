@@ -13,23 +13,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AjaxFoldersController extends AbstractAjaxController
 {
-    private HandlerFactoryInterface $handlerFactory;
-
-    public function __construct(HandlerFactoryInterface $handlerFactory)
+    public function __construct(private readonly HandlerFactoryInterface $handlerFactory)
     {
-        $this->handlerFactory = $handlerFactory;
     }
 
-    /**
+    /*
      * Handle AJAX edition requests for Folder
      * such as coming from tag-tree widgets.
-     *
-     * @param Request $request
-     * @param int $folderId
-     *
-     * @return Response JSON response
      */
-    public function editAction(Request $request, int $folderId)
+    public function editAction(Request $request, int $folderId): JsonResponse
     {
         $this->validateRequest($request);
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
@@ -81,7 +73,7 @@ class AjaxFoldersController extends AbstractAjaxController
      * @param Request $request
      * @return JsonResponse
      */
-    public function searchAction(Request $request)
+    public function searchAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
@@ -111,11 +103,7 @@ class AjaxFoldersController extends AbstractAjaxController
         throw $this->createNotFoundException($this->getTranslator()->trans('no.folder.found'));
     }
 
-    /**
-     * @param array $parameters
-     * @param Folder $folder
-     */
-    protected function updatePosition($parameters, Folder $folder): void
+    protected function updatePosition(array $parameters, Folder $folder): void
     {
         /*
          * First, we set the new parent
