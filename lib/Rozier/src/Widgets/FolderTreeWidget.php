@@ -14,19 +14,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class FolderTreeWidget extends AbstractWidget
 {
-    private ?Folder $parentFolder = null;
     private ?iterable $folders = null;
-    private ?TranslationInterface $translation;
 
     public function __construct(
         RequestStack $requestStack,
         ManagerRegistry $managerRegistry,
-        ?Folder $parent = null,
-        ?TranslationInterface $translation = null,
+        private readonly ?Folder $parentFolder = null,
+        private readonly ?TranslationInterface $translation = null,
     ) {
         parent::__construct($requestStack, $managerRegistry);
-        $this->parentFolder = $parent;
-        $this->translation = $translation;
     }
 
     /**

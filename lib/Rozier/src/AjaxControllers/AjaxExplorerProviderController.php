@@ -17,11 +17,8 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 class AjaxExplorerProviderController extends AbstractAjaxController
 {
-    private ContainerInterface $psrContainer;
-
-    public function __construct(ContainerInterface $psrContainer)
+    public function __construct(private readonly ContainerInterface $psrContainer)
     {
-        $this->psrContainer = $psrContainer;
     }
 
     /**

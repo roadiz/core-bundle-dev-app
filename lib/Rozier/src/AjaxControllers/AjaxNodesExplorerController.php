@@ -26,27 +26,14 @@ use Themes\Rozier\Models\NodeSourceModel;
 
 final class AjaxNodesExplorerController extends AbstractAjaxController
 {
-    private SerializerInterface $serializer;
-    private ClientRegistry $clientRegistry;
-    private NodeSourceSearchHandlerInterface $nodeSourceSearchHandler;
-    private NodeTypeApi $nodeTypeApi;
-    private UrlGeneratorInterface $urlGenerator;
-    private Security $security;
-
     public function __construct(
-        SerializerInterface $serializer,
-        ClientRegistry $clientRegistry,
-        NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
-        NodeTypeApi $nodeTypeApi,
-        UrlGeneratorInterface $urlGenerator,
-        Security $security,
+        private readonly SerializerInterface $serializer,
+        private readonly ClientRegistry $clientRegistry,
+        private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
+        private readonly NodeTypeApi $nodeTypeApi,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly Security $security,
     ) {
-        $this->nodeSourceSearchHandler = $nodeSourceSearchHandler;
-        $this->nodeTypeApi = $nodeTypeApi;
-        $this->serializer = $serializer;
-        $this->urlGenerator = $urlGenerator;
-        $this->clientRegistry = $clientRegistry;
-        $this->security = $security;
     }
 
     protected function getItemPerPage(): int

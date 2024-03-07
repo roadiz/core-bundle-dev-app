@@ -15,24 +15,17 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class TagTreeWidget extends AbstractWidget
 {
-    protected ?Tag $parentTag = null;
-    protected ?iterable $tags = null;
-    protected bool $canReorder = true;
-    protected bool $forceTranslation = false;
-    private ?TranslationInterface $translation;
+    private ?iterable $tags = null;
+    private bool $canReorder = true;
 
     public function __construct(
         RequestStack $requestStack,
         ManagerRegistry $managerRegistry,
-        Tag $parent = null,
-        ?TranslationInterface $translation = null,
-        bool $forceTranslation = false
+        private readonly ?Tag $parentTag = null,
+        private readonly ?TranslationInterface $translation = null,
+        private readonly bool $forceTranslation = false
     ) {
         parent::__construct($requestStack, $managerRegistry);
-
-        $this->parentTag = $parent;
-        $this->forceTranslation = $forceTranslation;
-        $this->translation = $translation;
     }
 
     /**

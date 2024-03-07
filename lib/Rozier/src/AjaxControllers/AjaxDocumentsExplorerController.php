@@ -11,28 +11,18 @@ use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Themes\Rozier\Models\DocumentModel;
 
 class AjaxDocumentsExplorerController extends AbstractAjaxController
 {
-    private RendererInterface $renderer;
-    private DocumentUrlGeneratorInterface $documentUrlGenerator;
-    private UrlGeneratorInterface $urlGenerator;
-    private EmbedFinderFactory $embedFinderFactory;
-
     public function __construct(
-        RendererInterface $renderer,
-        DocumentUrlGeneratorInterface $documentUrlGenerator,
-        UrlGeneratorInterface $urlGenerator,
-        EmbedFinderFactory $embedFinderFactory
+        private readonly RendererInterface $renderer,
+        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly EmbedFinderFactory $embedFinderFactory
     ) {
-        $this->renderer = $renderer;
-        $this->documentUrlGenerator = $documentUrlGenerator;
-        $this->urlGenerator = $urlGenerator;
-        $this->embedFinderFactory = $embedFinderFactory;
     }
 
     public static array $thumbnailArray = [
@@ -40,12 +30,8 @@ class AjaxDocumentsExplorerController extends AbstractAjaxController
         "quality" => 50,
         "inline" => false,
     ];
-    /**
-     * @param Request $request
-     *
-     * @return Response JSON response
-     */
-    public function indexAction(Request $request)
+
+    public function indexAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
@@ -108,7 +94,7 @@ class AjaxDocumentsExplorerController extends AbstractAjaxController
      * @param Request $request
      * @return JsonResponse
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 

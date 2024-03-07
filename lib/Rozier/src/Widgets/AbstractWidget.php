@@ -17,18 +17,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 abstract class AbstractWidget
 {
-    protected RequestStack $requestStack;
-    protected ManagerRegistry $managerRegistry;
     protected ?TranslationInterface $defaultTranslation = null;
 
-    /**
-     * @param RequestStack $requestStack
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(RequestStack $requestStack, ManagerRegistry $managerRegistry)
+    public function __construct(protected RequestStack $requestStack, protected ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
-        $this->requestStack = $requestStack;
     }
 
     /**

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use Psr\Log\LoggerInterface;
-use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
@@ -19,6 +18,7 @@ use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
 use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,27 +29,14 @@ use Symfony\Component\Workflow\Registry;
 
 class AjaxNodesController extends AbstractAjaxController
 {
-    private NodeNamePolicyInterface $nodeNamePolicy;
-    private LoggerInterface $logger;
-    private NodeMover $nodeMover;
-    private NodeChrootResolver $nodeChrootResolver;
-    private Registry $workflowRegistry;
-    private UniqueNodeGenerator $uniqueNodeGenerator;
-
     public function __construct(
-        NodeNamePolicyInterface $nodeNamePolicy,
-        LoggerInterface $logger,
-        NodeMover $nodeMover,
-        NodeChrootResolver $nodeChrootResolver,
-        Registry $workflowRegistry,
-        UniqueNodeGenerator $uniqueNodeGenerator
+        private readonly NodeNamePolicyInterface $nodeNamePolicy,
+        private readonly LoggerInterface $logger,
+        private readonly NodeMover $nodeMover,
+        private readonly NodeChrootResolver $nodeChrootResolver,
+        private readonly Registry $workflowRegistry,
+        private readonly UniqueNodeGenerator $uniqueNodeGenerator
     ) {
-        $this->nodeNamePolicy = $nodeNamePolicy;
-        $this->logger = $logger;
-        $this->nodeMover = $nodeMover;
-        $this->nodeChrootResolver = $nodeChrootResolver;
-        $this->workflowRegistry = $workflowRegistry;
-        $this->uniqueNodeGenerator = $uniqueNodeGenerator;
     }
 
     /**
@@ -248,10 +235,7 @@ class AjaxNodesController extends AbstractAjaxController
      * Update node's status.
      *
      * @param Request $request
-     *
      * @return JsonResponse
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function statusesAction(Request $request): JsonResponse
     {
