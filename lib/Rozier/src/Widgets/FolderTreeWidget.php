@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\Widgets;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -13,21 +14,15 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class FolderTreeWidget extends AbstractWidget
 {
-    protected ?Folder $parentFolder = null;
-    protected ?iterable $folders = null;
+    private ?iterable $folders = null;
 
-    /**
-     * @param RequestStack $requestStack
-     * @param ManagerRegistry $managerRegistry
-     * @param Folder|null $parent
-     */
     public function __construct(
         RequestStack $requestStack,
         ManagerRegistry $managerRegistry,
-        ?Folder $parent = null
+        private readonly ?Folder $parentFolder = null,
+        private readonly ?TranslationInterface $translation = null,
     ) {
         parent::__construct($requestStack, $managerRegistry);
-        $this->parentFolder = $parent;
     }
 
     /**
@@ -59,5 +54,13 @@ final class FolderTreeWidget extends AbstractWidget
                 ->findByParentAndTranslation($this->getRootFolder(), $this->getTranslation());
         }
         return $this->folders;
+    }
+
+    /**
+     * @return TranslationInterface
+     */
+    public function getTranslation(): TranslationInterface
+    {
+        return $this->translation ?? parent::getTranslation();
     }
 }

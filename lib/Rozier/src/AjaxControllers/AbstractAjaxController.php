@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Entity\Translation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Themes\Rozier\RozierApp;
@@ -19,6 +21,22 @@ abstract class AbstractAjaxController extends RozierApp
         Request::METHOD_GET,
     ];
 
+    protected function getTranslation(Request $request): ?TranslationInterface
+    {
+        $translationId = $request->get('translationId', null);
+        if (\is_numeric($translationId) && $translationId > 0) {
+            $translation = $this->em()->find(
+                Translation::class,
+                $translationId
+            );
+            if (null !== $translation) {
+                return $translation;
+            }
+        }
+
+        return $this->em()->getRepository(Translation::class)->findDefault();
+    }
+
     /**
      * @param Request $request
      * @param string  $method
@@ -26,7 +44,7 @@ abstract class AbstractAjaxController extends RozierApp
      *
      * @return bool  Return true if request is valid, else throw exception
      */
-    protected function validateRequest(Request $request, $method = 'POST', $requestCsrfToken = true)
+    protected function validateRequest(Request $request, string $method = 'POST', bool $requestCsrfToken = true): bool
     {
         if ($request->get('_action') == "") {
             throw new BadRequestHttpException('Wrong action requested');

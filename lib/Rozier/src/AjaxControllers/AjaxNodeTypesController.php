@@ -100,7 +100,7 @@ class AjaxNodeTypesController extends AjaxAbstractFieldsController
      * @param array<NodeType>|\Traversable<NodeType> $nodeTypes
      * @return array
      */
-    private function normalizeNodeType($nodeTypes)
+    private function normalizeNodeType(iterable $nodeTypes): array
     {
         $nodeTypesArray = [];
 

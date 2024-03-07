@@ -13,17 +13,10 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 final class TreeWidgetFactory
 {
-    private RequestStack $requestStack;
-    private ManagerRegistry $managerRegistry;
-
-    /**
-     * @param RequestStack $requestStack
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(RequestStack $requestStack, ManagerRegistry $managerRegistry)
-    {
-        $this->requestStack = $requestStack;
-        $this->managerRegistry = $managerRegistry;
+    public function __construct(
+        private readonly RequestStack $requestStack,
+        private readonly ManagerRegistry $managerRegistry
+    ) {
     }
 
     public function createNodeTree(?Node $root = null, ?TranslationInterface $translation = null): NodeTreeWidget
@@ -47,21 +40,23 @@ final class TreeWidgetFactory
         );
     }
 
-    public function createTagTree(?Tag $root = null): TagTreeWidget
+    public function createTagTree(?Tag $root = null, ?TranslationInterface $translation = null): TagTreeWidget
     {
         return new TagTreeWidget(
             $this->requestStack,
             $this->managerRegistry,
-            $root
+            $root,
+            $translation
         );
     }
 
-    public function createFolderTree(?Folder $root = null): FolderTreeWidget
+    public function createFolderTree(?Folder $root = null, ?TranslationInterface $translation = null): FolderTreeWidget
     {
         return new FolderTreeWidget(
             $this->requestStack,
             $this->managerRegistry,
-            $root
+            $root,
+            $translation
         );
     }
 }

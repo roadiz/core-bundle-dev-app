@@ -63,13 +63,7 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
         );
     }
 
-    /**
-     * @param array         $parameters
-     * @param AttributeValue $attributeValue
-     *
-     * @return array
-     */
-    protected function updatePosition($parameters, AttributeValue $attributeValue): array
+    protected function updatePosition(array $parameters, AttributeValue $attributeValue): array
     {
         $attributable = $attributeValue->getAttributable();
         $details = [
