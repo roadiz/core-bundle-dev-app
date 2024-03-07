@@ -47,21 +47,23 @@ final class TreeWidgetFactory
         );
     }
 
-    public function createTagTree(?Tag $root = null): TagTreeWidget
+    public function createTagTree(?Tag $root = null, ?TranslationInterface $translation = null): TagTreeWidget
     {
         return new TagTreeWidget(
             $this->requestStack,
             $this->managerRegistry,
-            $root
+            $root,
+            $translation
         );
     }
 
-    public function createFolderTree(?Folder $root = null): FolderTreeWidget
+    public function createFolderTree(?Folder $root = null, ?TranslationInterface $translation = null): FolderTreeWidget
     {
         return new FolderTreeWidget(
             $this->requestStack,
             $this->managerRegistry,
-            $root
+            $root,
+            $translation
         );
     }
 }
