@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.9...v2.2.10) - 2024-03-07
+
+### Bug Fixes
+
+- **(NodeTypes)** Do not update DB schema when importing a NodeType JSON file. Fixes `app:install` command which updated JSON files and schema instead of just importing Types. - ([80f7a86](https://github.com/roadiz/core-bundle-dev-app/commit/80f7a86d20994e2fce09cf6e2f9cf57a6a6dad3f))
+
 ## [2.2.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.8...v2.2.9) - 2024-03-07
 
 ### Bug Fixes
@@ -671,7 +677,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.8...v2.1.0) - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.9...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 
