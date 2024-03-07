@@ -12,18 +12,15 @@ use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\RealmVoter;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 final class RealmResolver implements RealmResolverInterface
 {
-    private ManagerRegistry $managerRegistry;
-    private Security $security;
-    private CacheItemPoolInterface $cache;
-
-    public function __construct(ManagerRegistry $managerRegistry, Security $security, CacheItemPoolInterface $cache)
-    {
-        $this->managerRegistry = $managerRegistry;
-        $this->security = $security;
-        $this->cache = $cache;
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly Security $security,
+        private readonly CacheItemPoolInterface $cache
+    ) {
     }
 
     public function getRealms(?Node $node): array
@@ -49,9 +46,16 @@ final class RealmResolver implements RealmResolverInterface
         }
     }
 
+    private function getUserCacheKey(): string
+    {
+        return (new AsciiSlugger())
+            ->slug($this->security->getUser()?->getUserIdentifier() ?? 'anonymous')
+            ->__toString();
+    }
+
     public function getGrantedRealms(): array
     {
-        $cacheItem = $this->cache->getItem('granted_realms');
+        $cacheItem = $this->cache->getItem('granted_realms_' . $this->getUserCacheKey());
         if (!$cacheItem->isHit()) {
             $allRealms = $this->managerRegistry->getRepository(Realm::class)->findBy([]);
             $cacheItem->set(array_filter($allRealms, fn(RealmInterface $realm) => $this->isGranted($realm)));
@@ -63,7 +67,7 @@ final class RealmResolver implements RealmResolverInterface
 
     public function getDeniedRealms(): array
     {
-        $cacheItem = $this->cache->getItem('denied_realms');
+        $cacheItem = $this->cache->getItem('denied_realms_' . $this->getUserCacheKey());
         if (!$cacheItem->isHit()) {
             $allRealms = $this->managerRegistry->getRepository(Realm::class)->findBy([]);
             $cacheItem->set(array_filter($allRealms, fn(RealmInterface $realm) => !$this->isGranted($realm)));
