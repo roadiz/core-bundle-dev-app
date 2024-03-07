@@ -5,7 +5,7 @@
     "description": "Article",
     "visible": true,
     "publishable": true,
-    "attributable": false,
+    "attributable": true,
     "reachable": true,
     "hiding_nodes": false,
     "hiding_non_reachable_nodes": true,
