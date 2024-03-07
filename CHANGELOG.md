@@ -1,3 +1,11 @@
+## [v2.1.58](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.57...v2.1.58) (2024-03-07)
+
+
+### Bug Fixes
+
+* Fixed roadiz version constraint to `2.1.*` ([7ded7e9](https://github.com/roadiz/core-bundle-dev-app/commit/7ded7e9c03480d4276a7815786a92e5c4bb7e3cf))
+* **Trees:** Fixed tag and folder trees when they display first created translation instead of user chosen translation ([d39ffed](https://github.com/roadiz/core-bundle-dev-app/commit/d39ffed47fe61b99a88fbe65135023ee1a0f90cb))
+
 ## [v2.1.57](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.56...v2.1.57) (2024-02-27)
 
 
