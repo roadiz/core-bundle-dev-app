@@ -116,9 +116,7 @@ final class RealmNodeController extends RozierApp
                 'node.%node%.left.%realm%',
                 [
                     '%node%' => $nodeSource->getTitle(),
-                    '%realm%' => $realmNode->getRealm() ?
-                        $realmNode->getRealm()->getName() :
-                        $this->translator->trans('node.no_realm')
+                    '%realm%' => $realmNode->getRealm()->getName()
                 ]
             );
             $this->publishConfirmMessage($request, $msg);
