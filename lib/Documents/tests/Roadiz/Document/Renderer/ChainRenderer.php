@@ -14,8 +14,6 @@ use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Renderer;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 

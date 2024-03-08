@@ -89,9 +89,7 @@ class SearchController extends RozierApp
     protected function processCriteria($data, string $prefix = ""): mixed
     {
         if (!empty($data[$prefix . "nodeName"])) {
-            if (isset($data[$prefix . "nodeName_exact"]) && $data[$prefix . "nodeName_exact"] === true) {
-                $data[$prefix . "nodeName"] = $data[$prefix . "nodeName"];
-            } else {
+            if (!isset($data[$prefix . "nodeName_exact"]) || $data[$prefix . "nodeName_exact"] !== true) {
                 $data[$prefix . "nodeName"] = ["LIKE", "%" . $data[$prefix . "nodeName"] . "%"];
             }
         }

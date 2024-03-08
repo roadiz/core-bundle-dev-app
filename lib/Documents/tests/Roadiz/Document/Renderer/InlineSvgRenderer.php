@@ -11,8 +11,6 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\MountManager;
 use League\Flysystem\UrlGeneration\PublicUrlGenerator;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 
 class InlineSvgRenderer extends atoum
 {

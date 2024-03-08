@@ -12,8 +12,6 @@ use League\Flysystem\MountManager;
 use League\Flysystem\UrlGeneration\PublicUrlGenerator;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
