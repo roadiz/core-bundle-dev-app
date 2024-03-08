@@ -43,8 +43,7 @@ final class TreeWidgetFactory
             $this->requestStack,
             $this->managerRegistry,
             $root,
-            $translation,
-            true
+            $translation
         );
     }
 
