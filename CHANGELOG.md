@@ -1,3 +1,10 @@
+## [v2.1.60](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.59...v2.1.60) (2024-03-08)
+
+
+### Bug Fixes
+
+* Error during back-porting from 2.2 ([a533030](https://github.com/roadiz/core-bundle-dev-app/commit/a533030b705a08ff30b211f9949bca8392c9b6bc))
+
 ## [v2.1.59](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.58...v2.1.59) (2024-03-08)
 
 
