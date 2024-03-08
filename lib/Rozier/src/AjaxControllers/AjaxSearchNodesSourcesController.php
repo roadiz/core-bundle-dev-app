@@ -92,9 +92,10 @@ class AjaxSearchNodesSourcesController extends AbstractAjaxController
         /** @var Translation $translation */
         $translation = $source->getTranslation();
         $displayableNSDoc = $source->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsDoc) {
-            return $nsDoc->getDocument()->isImage() || $nsDoc->getDocument()->isSvg();
+            $doc = $nsDoc->getDocument();
+            return !$doc->isPrivate() && ($doc->isImage() || $doc->isSvg());
         })->first();
-        if ($displayableNSDoc instanceof NodesSourcesDocuments) {
+        if (false !== $displayableNSDoc) {
             $thumbnail = $displayableNSDoc->getDocument();
             $this->documentUrlGenerator->setDocument($thumbnail);
             $this->documentUrlGenerator->setOptions([

@@ -7,6 +7,7 @@ namespace RZ\Roadiz\Documents\UrlGenerators;
 use League\Flysystem\FilesystemOperator;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
+use RZ\Roadiz\Documents\Exceptions\PrivateDocumentException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\OptionsResolver\ViewOptionsResolver;
 use Symfony\Component\HttpFoundation\UrlHelper;
@@ -15,35 +16,18 @@ abstract class AbstractDocumentUrlGenerator implements DocumentUrlGeneratorInter
 {
     protected ?DocumentInterface $document;
     protected array $options;
-    protected CacheItemPoolInterface $optionsCacheAdapter;
     protected ViewOptionsResolver $viewOptionsResolver;
     protected OptionsCompiler $optionCompiler;
-    protected FilesystemOperator $documentsStorage;
-    private UrlHelper $urlHelper;
 
-    /**
-     * @param FilesystemOperator $documentsStorage
-     * @param UrlHelper $urlHelper
-     * @param CacheItemPoolInterface $optionsCacheAdapter
-     * @param DocumentInterface|null $document
-     * @param array $options
-     * @throws InvalidArgumentException
-     */
     public function __construct(
-        FilesystemOperator $documentsStorage,
-        UrlHelper $urlHelper,
-        CacheItemPoolInterface $optionsCacheAdapter,
-        DocumentInterface $document = null,
+        protected FilesystemOperator $documentsStorage,
+        protected UrlHelper $urlHelper,
+        protected CacheItemPoolInterface $optionsCacheAdapter,
         array $options = []
     ) {
-        $this->document = $document;
         $this->viewOptionsResolver = new ViewOptionsResolver();
         $this->optionCompiler = new OptionsCompiler();
-        $this->optionsCacheAdapter = $optionsCacheAdapter;
-
         $this->setOptions($options);
-        $this->documentsStorage = $documentsStorage;
-        $this->urlHelper = $urlHelper;
     }
 
     /**
@@ -85,22 +69,16 @@ abstract class AbstractDocumentUrlGenerator implements DocumentUrlGeneratorInter
         return $this;
     }
 
-    /**
-     * @param bool $absolute
-     *
-     * @return string
-     */
     public function getUrl(bool $absolute = false): string
     {
         if (null === $this->document) {
             throw new \InvalidArgumentException('Cannot get URL from a NULL document');
         }
+        if ($this->document->isPrivate()) {
+            throw new PrivateDocumentException('Cannot get URL from a private document');
+        }
 
         $mountPath = $this->document->getMountPath();
-
-        if ($this->document->isPrivate()) {
-            throw new \InvalidArgumentException('Cannot get URL from a private document');
-        }
 
         if (null !== $mountPath && ($this->options['noProcess'] === true || !$this->document->isProcessable())) {
             $publicUrl = $this->documentsStorage->publicUrl($mountPath);

@@ -97,7 +97,12 @@ abstract class AbstractImageRenderer extends AbstractRenderer
     ): string {
         $output = [];
         foreach ($srcSetArray as $set) {
-            if (isset($set['format']) && isset($set['rule']) && !empty($document->getRelativePath())) {
+            if (
+                isset($set['format']) &&
+                isset($set['rule']) &&
+                !$document->isPrivate() &&
+                !empty($document->getRelativePath())
+            ) {
                 $this->documentUrlGenerator->setOptions($this->urlOptionsResolver->resolve($set['format']));
                 $this->documentUrlGenerator->setDocument($document);
                 $path = $this->documentUrlGenerator->getUrl($absolute);

@@ -78,7 +78,7 @@ class VideoRenderer extends AbstractRenderer
             $document->hasThumbnails()
         ) {
             $thumbnail = $document->getThumbnails()->first();
-            if ($thumbnail instanceof DocumentInterface) {
+            if (false !== $thumbnail) {
                 $this->documentUrlGenerator->setOptions($options);
                 $this->documentUrlGenerator->setDocument($thumbnail);
                 return $this->documentUrlGenerator->getUrl($absolute);
