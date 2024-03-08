@@ -36,9 +36,9 @@ class DocumentClearFolderCommand extends AbstractDocumentCommand
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);
+        $folderId = $input->getArgument('folderId');
 
-        $folderId = intval($input->getArgument('folderId'));
-        if ($folderId <= 0) {
+        if (!\is_numeric($folderId) || $folderId <= 0) {
             throw new \InvalidArgumentException('Folder ID must be a valid ID');
         }
         $em = $this->getManager();
