@@ -28,13 +28,10 @@ use Twig\Error\RuntimeError;
 
 class SettingsController extends RozierApp
 {
-    private FormFactoryInterface $formFactory;
-    private FormErrorSerializer $formErrorSerializer;
-
-    public function __construct(FormFactoryInterface $formFactory, FormErrorSerializer $formErrorSerializer)
-    {
-        $this->formFactory = $formFactory;
-        $this->formErrorSerializer = $formErrorSerializer;
+    public function __construct(
+        private readonly FormFactoryInterface $formFactory,
+        private readonly FormErrorSerializer $formErrorSerializer
+    ) {
     }
 
     /**

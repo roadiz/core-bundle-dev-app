@@ -12,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Event\Document\DocumentTranslationUpdatedEvent;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -34,7 +35,7 @@ class DocumentTranslationsController extends RozierApp
      * @return Response
      * @throws RuntimeError
      */
-    public function editAction(Request $request, int $documentId, ?int $translationId = null)
+    public function editAction(Request $request, int $documentId, ?int $translationId = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
@@ -117,14 +118,10 @@ class DocumentTranslationsController extends RozierApp
         throw new ResourceNotFoundException();
     }
 
-    /**
-     * @param Document $document
-     * @param TranslationInterface $translation
-     *
-     * @return DocumentTranslation
-     */
-    protected function createDocumentTranslation(Document $document, TranslationInterface $translation)
-    {
+    protected function createDocumentTranslation(
+        Document $document,
+        TranslationInterface $translation
+    ): DocumentTranslation {
         $dt = new DocumentTranslation();
         $dt->setDocument($document);
         $dt->setTranslation($translation);
@@ -144,7 +141,7 @@ class DocumentTranslationsController extends RozierApp
      * @return Response
      * @throws RuntimeError
      */
-    public function deleteAction(Request $request, int $documentId, int $translationId)
+    public function deleteAction(Request $request, int $documentId, int $translationId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS_DELETE');
 
@@ -201,12 +198,7 @@ class DocumentTranslationsController extends RozierApp
         throw new ResourceNotFoundException();
     }
 
-    /**
-     * @param DocumentTranslation $doc
-     *
-     * @return \Symfony\Component\Form\FormInterface
-     */
-    private function buildDeleteForm(DocumentTranslation $doc)
+    private function buildDeleteForm(DocumentTranslation $doc): FormInterface
     {
         $defaults = [
             'documentTranslationId' => $doc->getId(),
@@ -240,11 +232,6 @@ class DocumentTranslationsController extends RozierApp
         }
     }
 
-    /**
-     * @param PersistableInterface $entity
-     *
-     * @return Response
-     */
     protected function getPostUpdateRedirection(PersistableInterface $entity): ?Response
     {
         if (

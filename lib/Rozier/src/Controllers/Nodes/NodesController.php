@@ -42,21 +42,6 @@ class NodesController extends RozierApp
 {
     use NodesTrait;
 
-    private NodeChrootResolver $nodeChrootResolver;
-    private NodeMover $nodeMover;
-    private Registry $workflowRegistry;
-    private HandlerFactoryInterface $handlerFactory;
-    private UniqueNodeGenerator $uniqueNodeGenerator;
-    private NodeFactory $nodeFactory;
-    /**
-     * @var class-string<AbstractType>
-     */
-    private string $nodeFormTypeClass;
-    /**
-     * @var class-string<AbstractType>
-     */
-    private string $addNodeFormTypeClass;
-
     /**
      * @param NodeChrootResolver $nodeChrootResolver
      * @param NodeMover $nodeMover
@@ -68,23 +53,15 @@ class NodesController extends RozierApp
      * @param class-string<AbstractType> $addNodeFormTypeClass
      */
     public function __construct(
-        NodeChrootResolver $nodeChrootResolver,
-        NodeMover $nodeMover,
-        Registry $workflowRegistry,
-        HandlerFactoryInterface $handlerFactory,
-        UniqueNodeGenerator $uniqueNodeGenerator,
-        NodeFactory $nodeFactory,
-        string $nodeFormTypeClass,
-        string $addNodeFormTypeClass
+        private readonly NodeChrootResolver $nodeChrootResolver,
+        private readonly NodeMover $nodeMover,
+        private readonly Registry $workflowRegistry,
+        private readonly HandlerFactoryInterface $handlerFactory,
+        private readonly UniqueNodeGenerator $uniqueNodeGenerator,
+        private readonly NodeFactory $nodeFactory,
+        private readonly string $nodeFormTypeClass,
+        private readonly string $addNodeFormTypeClass
     ) {
-        $this->nodeChrootResolver = $nodeChrootResolver;
-        $this->nodeMover = $nodeMover;
-        $this->workflowRegistry = $workflowRegistry;
-        $this->handlerFactory = $handlerFactory;
-        $this->nodeFormTypeClass = $nodeFormTypeClass;
-        $this->addNodeFormTypeClass = $addNodeFormTypeClass;
-        $this->uniqueNodeGenerator = $uniqueNodeGenerator;
-        $this->nodeFactory = $nodeFactory;
     }
 
     protected function getNodeFactory(): NodeFactory

@@ -39,23 +39,11 @@ class TagsController extends RozierApp
 {
     use VersionedControllerTrait;
 
-    private HandlerFactoryInterface $handlerFactory;
-    private FormFactoryInterface $formFactory;
-    private TreeWidgetFactory $treeWidgetFactory;
-
-    /**
-     * @param FormFactoryInterface $formFactory
-     * @param HandlerFactoryInterface $handlerFactory
-     * @param TreeWidgetFactory $treeWidgetFactory
-     */
     public function __construct(
-        FormFactoryInterface $formFactory,
-        HandlerFactoryInterface $handlerFactory,
-        TreeWidgetFactory $treeWidgetFactory
+        private readonly FormFactoryInterface $formFactory,
+        private readonly HandlerFactoryInterface $handlerFactory,
+        private readonly TreeWidgetFactory $treeWidgetFactory
     ) {
-        $this->handlerFactory = $handlerFactory;
-        $this->formFactory = $formFactory;
-        $this->treeWidgetFactory = $treeWidgetFactory;
     }
 
     /**
@@ -304,8 +292,8 @@ class TagsController extends RozierApp
 
     /**
      * @param Request $request
-     *
      * @return Response
+     * @throws RuntimeError
      */
     public function addAction(Request $request): Response
     {
@@ -361,6 +349,7 @@ class TagsController extends RozierApp
      * @param int $tagId
      *
      * @return Response
+     * @throws RuntimeError
      */
     public function editSettingsAction(Request $request, int $tagId): Response
     {
@@ -430,6 +419,7 @@ class TagsController extends RozierApp
      * @param int|null $translationId
      *
      * @return Response
+     * @throws RuntimeError
      */
     public function treeAction(Request $request, int $tagId, ?int $translationId = null): Response
     {
@@ -461,9 +451,10 @@ class TagsController extends RozierApp
      * Return a deletion form for requested tag.
      *
      * @param Request $request
-     * @param int     $tagId
+     * @param int $tagId
      *
      * @return Response
+     * @throws RuntimeError
      */
     public function deleteAction(Request $request, int $tagId): Response
     {
@@ -523,6 +514,7 @@ class TagsController extends RozierApp
      * @param int|null $translationId
      *
      * @return Response
+     * @throws RuntimeError
      */
     public function addChildAction(Request $request, int $tagId, ?int $translationId = null): Response
     {
@@ -649,13 +641,13 @@ class TagsController extends RozierApp
     }
 
     /**
-     * @param false|string $referer
+     * @param null|string $referer
      * @param array $tagsIds
      *
      * @return FormInterface
      */
     private function buildBulkDeleteForm(
-        $referer = false,
+        ?string $referer = null,
         array $tagsIds = []
     ): FormInterface {
         $builder = $this->formFactory
@@ -669,7 +661,7 @@ class TagsController extends RozierApp
                 ],
             ]);
 
-        if (false !== $referer && (new UnicodeString($referer))->startsWith('/')) {
+        if (null !== $referer && (new UnicodeString($referer))->startsWith('/')) {
             $builder->add('referer', HiddenType::class, [
                 'data' => $referer,
             ]);

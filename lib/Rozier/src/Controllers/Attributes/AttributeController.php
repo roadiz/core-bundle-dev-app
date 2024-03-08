@@ -21,18 +21,14 @@ use Twig\Error\RuntimeError;
 
 class AttributeController extends AbstractAdminWithBulkController
 {
-    private AttributeImporter $attributeImporter;
-
     public function __construct(
-        AttributeImporter $attributeImporter,
+        private readonly AttributeImporter $attributeImporter,
         FormFactoryInterface $formFactory,
         SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator
     ) {
         parent::__construct($formFactory, $serializer, $urlGenerator);
-        $this->attributeImporter = $attributeImporter;
     }
-
 
     /**
      * @inheritDoc

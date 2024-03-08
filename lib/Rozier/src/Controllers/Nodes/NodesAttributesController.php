@@ -26,14 +26,8 @@ use Twig\Error\RuntimeError;
 
 class NodesAttributesController extends RozierApp
 {
-    private FormFactoryInterface $formFactory;
-
-    /**
-     * @param FormFactoryInterface $formFactory
-     */
-    public function __construct(FormFactoryInterface $formFactory)
+    public function __construct(private readonly FormFactoryInterface $formFactory)
     {
-        $this->formFactory = $formFactory;
     }
 
     /**

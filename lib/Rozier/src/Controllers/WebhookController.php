@@ -19,16 +19,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class WebhookController extends AbstractAdminWithBulkController
 {
-    private WebhookDispatcher $webhookDispatcher;
-
     public function __construct(
-        WebhookDispatcher $webhookDispatcher,
+        private readonly WebhookDispatcher $webhookDispatcher,
         FormFactoryInterface $formFactory,
         SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator
     ) {
         parent::__construct($formFactory, $serializer, $urlGenerator);
-        $this->webhookDispatcher = $webhookDispatcher;
     }
 
     public function triggerAction(Request $request, string $id): Response

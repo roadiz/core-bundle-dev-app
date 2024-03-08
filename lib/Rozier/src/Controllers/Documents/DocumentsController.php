@@ -60,18 +60,6 @@ use Twig\Error\RuntimeError;
 
 class DocumentsController extends RozierApp
 {
-    private array $documentPlatforms;
-    private DocumentFactory $documentFactory;
-    private HandlerFactoryInterface $handlerFactory;
-    private LoggerInterface $logger;
-    private RandomImageFinder $randomImageFinder;
-    private RendererInterface $renderer;
-    private DocumentUrlGeneratorInterface $documentUrlGenerator;
-    private UrlGeneratorInterface $urlGenerator;
-    private FilesystemOperator $documentsStorage;
-    private ?string $googleServerId;
-    private ?string $soundcloudClientId;
-
     protected array $thumbnailFormat = [
         'quality' => 50,
         'fit' => '128x128',
@@ -81,34 +69,21 @@ class DocumentsController extends RozierApp
         'controls' => false,
         'loading' => 'lazy',
     ];
-    private EmbedFinderFactory $embedFinderFactory;
 
     public function __construct(
-        array $documentPlatforms,
-        FilesystemOperator $documentsStorage,
-        HandlerFactoryInterface $handlerFactory,
-        LoggerInterface $logger,
-        RandomImageFinder $randomImageFinder,
-        DocumentFactory $documentFactory,
-        RendererInterface $renderer,
-        DocumentUrlGeneratorInterface $documentUrlGenerator,
-        UrlGeneratorInterface $urlGenerator,
-        EmbedFinderFactory $embedFinderFactory,
-        ?string $googleServerId = null,
-        ?string $soundcloudClientId = null
+        private readonly array $documentPlatforms,
+        private readonly FilesystemOperator $documentsStorage,
+        private readonly HandlerFactoryInterface $handlerFactory,
+        private readonly LoggerInterface $logger,
+        private readonly RandomImageFinder $randomImageFinder,
+        private readonly DocumentFactory $documentFactory,
+        private readonly RendererInterface $renderer,
+        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly EmbedFinderFactory $embedFinderFactory,
+        private readonly ?string $googleServerId = null,
+        private readonly ?string $soundcloudClientId = null
     ) {
-        $this->documentPlatforms = $documentPlatforms;
-        $this->handlerFactory = $handlerFactory;
-        $this->logger = $logger;
-        $this->randomImageFinder = $randomImageFinder;
-        $this->documentFactory = $documentFactory;
-        $this->renderer = $renderer;
-        $this->documentUrlGenerator = $documentUrlGenerator;
-        $this->urlGenerator = $urlGenerator;
-        $this->googleServerId = $googleServerId;
-        $this->soundcloudClientId = $soundcloudClientId;
-        $this->documentsStorage = $documentsStorage;
-        $this->embedFinderFactory = $embedFinderFactory;
     }
 
     /**

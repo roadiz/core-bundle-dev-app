@@ -11,6 +11,7 @@ services:
             $addNodeFormTypeClass: '%roadiz_rozier.add_node_form.class%'
             $googleServerId: '%roadiz_core.medias.google_server_id%'
             $soundcloudClientId: '%roadiz_core.medias.soundcloud_client_id%'
+            $allowNodeTypeEdition: '%kernel.debug%'
 
     RZ\Roadiz\RozierBundle\:
         resource: '../src/'

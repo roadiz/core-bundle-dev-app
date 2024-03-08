@@ -34,13 +34,10 @@ class NodesSourcesController extends RozierApp
 {
     use VersionedControllerTrait;
 
-    private JwtExtension $jwtExtension;
-    private FormErrorSerializer $formErrorSerializer;
-
-    public function __construct(JwtExtension $jwtExtension, FormErrorSerializer $formErrorSerializer)
-    {
-        $this->jwtExtension = $jwtExtension;
-        $this->formErrorSerializer = $formErrorSerializer;
+    public function __construct(
+        private readonly JwtExtension $jwtExtension,
+        private readonly FormErrorSerializer $formErrorSerializer
+    ) {
     }
 
     /**
@@ -241,7 +238,6 @@ class NodesSourcesController extends RozierApp
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Node $node */
             $node = $ns->getNode();
             /*
              * Dispatch event

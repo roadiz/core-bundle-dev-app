@@ -12,7 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Themes\Rozier\Forms\NodeTypeType;
@@ -22,13 +21,10 @@ use Twig\Error\RuntimeError;
 
 class NodeTypesController extends RozierApp
 {
-    private MessageBusInterface $messageBus;
-    private KernelInterface $kernel;
-
-    public function __construct(KernelInterface $kernel, MessageBusInterface $messageBus)
-    {
-        $this->messageBus = $messageBus;
-        $this->kernel = $kernel;
+    public function __construct(
+        private readonly bool $allowNodeTypeEdition,
+        private readonly MessageBusInterface $messageBus
+    ) {
     }
 
     public function indexAction(Request $request): Response
@@ -112,12 +108,12 @@ class NodeTypesController extends RozierApp
         $nodeType = new NodeType();
 
         $form = $this->createForm(NodeTypeType::class, $nodeType, [
-            'disabled' => !$this->kernel->isDebug()
+            'disabled' => !$this->allowNodeTypeEdition
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$this->kernel->isDebug()) {
+            if (!$this->allowNodeTypeEdition) {
                 $form->addError(new FormError('You cannot create a node-type in production mode.'));
             } else {
                 try {
@@ -166,7 +162,7 @@ class NodeTypesController extends RozierApp
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if (!$this->kernel->isDebug()) {
+            if (!$this->allowNodeTypeEdition) {
                 $form->addError(new FormError('You cannot delete a node-type in production mode.'));
             } else {
                 $this->messageBus->dispatch(new Envelope(new DeleteNodeTypeMessage($nodeType->getId())));
