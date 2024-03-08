@@ -27,7 +27,6 @@ services:
             $cmsVersion: '%roadiz_core.cms_version%'
             $appVersion: '%roadiz_core.app_version%'
             $cmsVersionPrefix: '%roadiz_core.cms_version_prefix%'
-            $staticDomain: '%roadiz_core.static_domain_name%'
             $hideRoadizVersion: '%roadiz_core.hide_roadiz_version%'
             $inheritanceType: '%roadiz_core.inheritance_type%'
             $maxPixelSize: '%rz_intervention_request.max_pixel_size%'
@@ -544,7 +543,6 @@ services:
         alias: RZ\Roadiz\CoreBundle\Filesystem\RoadizFileDirectories
         public: true
 
-    RZ\Roadiz\Documents\Packages: ~
     RZ\Roadiz\Documents\DownscaleImageManager: ~
     RZ\Roadiz\Documents\DocumentArchiver: ~
     #
