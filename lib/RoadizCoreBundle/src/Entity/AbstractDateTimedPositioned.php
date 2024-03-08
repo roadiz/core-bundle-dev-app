@@ -2,15 +2,18 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\Core\AbstractEntities;
+namespace RZ\Roadiz\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Comparable;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
+use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
-use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 
 /**
  * Combined AbstractDateTimed and PositionedTrait.
