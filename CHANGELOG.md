@@ -1,3 +1,10 @@
+## [v2.1.59](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.58...v2.1.59) (2024-03-08)
+
+
+### Bug Fixes
+
+* **Documents:** Do not try to render private Document URLs even for thumbnails ([2ddfb89](https://github.com/roadiz/core-bundle-dev-app/commit/2ddfb89beae68b2c455f1eeea5069f389d9d342d))
+
 ## [v2.1.58](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.57...v2.1.58) (2024-03-07)
 
 
