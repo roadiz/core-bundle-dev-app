@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\TwigExtension;
 
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
-use RZ\Roadiz\CoreBundle\Entity\Document;
+use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
 use Twig\Error\RuntimeError;
@@ -55,7 +55,7 @@ final class DocumentUrlExtension extends AbstractExtension
             }
         }
 
-        if ($mixed instanceof Document) {
+        if ($mixed instanceof DocumentInterface) {
             try {
                 $absolute = false;
                 if (isset($criteria['absolute'])) {

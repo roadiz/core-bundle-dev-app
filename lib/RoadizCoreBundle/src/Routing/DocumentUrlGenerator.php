@@ -13,23 +13,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class DocumentUrlGenerator extends AbstractDocumentUrlGenerator
 {
-    private UrlGeneratorInterface $urlGenerator;
-
-    /**
-     * @param FilesystemOperator $documentsStorage
-     * @param UrlHelper $urlHelper
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param CacheItemPoolInterface $optionsCacheAdapter
-     * @throws InvalidArgumentException
-     */
     public function __construct(
         FilesystemOperator $documentsStorage,
         UrlHelper $urlHelper,
-        UrlGeneratorInterface $urlGenerator,
+        private readonly UrlGeneratorInterface $urlGenerator,
         CacheItemPoolInterface $optionsCacheAdapter
     ) {
         parent::__construct($documentsStorage, $urlHelper, $optionsCacheAdapter);
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**
