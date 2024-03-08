@@ -552,6 +552,7 @@ abstract class AppController extends Controller
      * @param bool $allowClientCache Allows browser level cache
      *
      * @return Response
+     * @deprecated Use stateless routes and cache-control headers in your controllers
      */
     public function makeResponseCachable(
         Request $request,

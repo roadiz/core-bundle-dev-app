@@ -681,7 +681,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
      */
     public function getThumbnails(): Collection
     {
-        return $this->thumbnails;
+        // Filter private thumbnails
+        return $this->thumbnails->filter(function (DocumentInterface $thumbnail) {
+            return !$thumbnail->isPrivate();
+        });
     }
 
     public function setThumbnails(Collection $thumbnails): static
