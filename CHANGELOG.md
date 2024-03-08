@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.12...v2.2.13) - 2024-03-08
+
+### Bug Fixes
+
+- Error during back-porting from 2.3.x-dev - ([409eed2](https://github.com/roadiz/core-bundle-dev-app/commit/409eed2df003f3107ab5b73e2b9cbac56239c93a))
+
 ## [2.2.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.11...v2.2.12) - 2024-03-08
 
 ### Bug Fixes
