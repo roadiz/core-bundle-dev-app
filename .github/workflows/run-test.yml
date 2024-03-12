@@ -40,9 +40,7 @@ jobs:
                   vendor/bin/monorepo-builder validate
             - name: Run unit tests
               run: |
-                  vendor/bin/atoum -d ./lib/Documents/tests
-                  vendor/bin/atoum -f ./lib/EntityGenerator/tests/units/*
-                  vendor/bin/phpunit -v  lib/Models/tests
+                  XDEBUG_MODE=coverage vendor/bin/phpunit -v
             - name: Run PHP Code Sniffer
               run: |
                   php -d "memory_limit=-1" vendor/bin/phpcs --report=full -p
