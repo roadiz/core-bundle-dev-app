@@ -194,8 +194,7 @@
             "RZ\\Roadiz\\UserBundle\\": "lib/RoadizUserBundle/src/",
             "RZ\\Roadiz\\Utils\\": "lib/Models/src/Roadiz/Utils/",
             "Themes\\": "themes/",
-            "Themes\\Rozier\\": "lib/Rozier/src/",
-            "tests\\mocks\\": "lib/EntityGenerator/tests/mocks/"
+            "Themes\\Rozier\\": "lib/Rozier/src/"
         }
     },
     "autoload-dev": {

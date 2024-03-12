@@ -6,6 +6,9 @@ parameters:
         - */node_modules/*
         - */bower_components/*
         - */static/*
+    doctrine:
+        repositoryClass: RZ\Roadiz\CoreBundle\Repository\EntityRepository
+        objectManagerLoader: ./tests/object-manager.php
     ignoreErrors:
         - '#Call to an undefined method RZ\\Roadiz\\CoreBundle\\Repository#'
         - '#Call to an undefined method RZ\\Roadiz\\UserBundle\\Repository#'
@@ -32,5 +35,7 @@ parameters:
     reportUnmatchedIgnoredErrors: false
     checkGenericClassInNonGenericObjectType: false
     checkMissingIterableValueType: false
+    treatPhpDocTypesAsCertain: false
 includes:
     - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-doctrine/rules.neon
