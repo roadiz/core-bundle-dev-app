@@ -65,9 +65,9 @@
                 data-uk-tooltip="{animation:true}"{%- endif -%}>
                 {% if not mainNodeTree and not nodeTree.isStackTree %}
                     {% set thumbnail = source.getOneDisplayableDocument %}
-                    {% if thumbnail and (thumbnail.image or thumbnail.svg) and not thumbnail.private %}
+                    {% if thumbnail %}
                         <figure class="nodetree-element-img">
-                            {{ thumbnail|display({"fit":"60x60", "quality":80}) }}
+                            {{ thumbnail|display({"fit":"60x60", "quality": 70}) }}
                         </figure>
                     {% endif %}
                 {% endif %}

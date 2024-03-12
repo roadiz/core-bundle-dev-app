@@ -297,7 +297,8 @@ class NodesSources extends AbstractEntity implements Loggable
     {
         return $this->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsd) {
             return null !== $nsd->getDocument() &&
-                $nsd->getDocument()->isImage() &&
+                !$nsd->getDocument()->isPrivate() &&
+                ($nsd->getDocument()->isImage() || $nsd->getDocument()->isSvg()) &&
                 $nsd->getDocument()->isProcessable();
         })->map(function (NodesSourcesDocuments $nsd) {
             return $nsd->getDocument();

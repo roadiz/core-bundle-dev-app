@@ -184,13 +184,12 @@ final class NodeTreeWidget extends AbstractWidget
             /*
              * Stored in session
              */
-            $sessionListFilter = new SessionListFilters(static::SESSION_ITEM_PER_PAGE);
+            $sessionListFilter = new SessionListFilters(self::SESSION_ITEM_PER_PAGE);
             $sessionListFilter->handleItemPerPage($this->getRequest(), $listManager);
         } else {
             $listManager->setItemPerPage(99999);
             $listManager->handle(true);
         }
-
 
         if ($subRequest) {
             $listManager->disablePagination();
