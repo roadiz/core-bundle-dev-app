@@ -39,5 +39,5 @@ jobs:
               run: vendor/bin/phpcs --extensions=php --warning-severity=0 --standard=PSR12 -p ./src
             - name: Run PHPStan
               run: vendor/bin/phpstan analyse --no-progress -c phpstan.neon
-            - name: Run atoum unit tests
-              run: vendor/bin/atoum -f tests/units/*
+            - name: Run unit tests
+              run: vendor/bin/phpunit -v --whitelist ./src --coverage-clover ./build/logs/clover.xml src/Test

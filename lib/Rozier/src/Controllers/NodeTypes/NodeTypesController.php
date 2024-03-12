@@ -6,6 +6,7 @@ namespace Themes\Rozier\Controllers\NodeTypes;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
+use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\CoreBundle\Message\DeleteNodeTypeMessage;
 use RZ\Roadiz\CoreBundle\Message\UpdateNodeTypeSchemaMessage;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -16,7 +17,6 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Themes\Rozier\Forms\NodeTypeType;
 use Themes\Rozier\RozierApp;
-use Themes\Rozier\Utils\SessionListFilters;
 use Twig\Error\RuntimeError;
 
 class NodeTypesController extends RozierApp

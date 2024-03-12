@@ -19,6 +19,7 @@ use RZ\Roadiz\CoreBundle\Entity\TagTranslationDocuments;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\EntityHandler\DocumentHandler;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
+use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
 use RZ\Roadiz\Documents\Events\DocumentDeletedEvent;
 use RZ\Roadiz\Documents\Events\DocumentFileUpdatedEvent;
@@ -55,7 +56,6 @@ use Themes\Rozier\Forms\DocumentEditType;
 use Themes\Rozier\Forms\DocumentEmbedType;
 use Themes\Rozier\Models\DocumentModel;
 use Themes\Rozier\RozierApp;
-use Themes\Rozier\Utils\SessionListFilters;
 use Twig\Error\RuntimeError;
 
 class DocumentsController extends RozierApp

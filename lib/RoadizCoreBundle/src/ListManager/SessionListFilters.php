@@ -2,24 +2,16 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\RozierBundle\ListManager;
+namespace RZ\Roadiz\CoreBundle\ListManager;
 
-use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class SessionListFilters
 {
-    private string $sessionIdentifier;
-    private int $defaultItemsParPage;
-
-    /**
-     * @param string $sessionIdentifier
-     * @param int $defaultItemsParPage
-     */
-    public function __construct(string $sessionIdentifier, int $defaultItemsParPage = 20)
-    {
-        $this->sessionIdentifier = $sessionIdentifier;
-        $this->defaultItemsParPage = $defaultItemsParPage;
+    public function __construct(
+        private readonly string $sessionIdentifier,
+        private readonly int $defaultItemsParPage = 20
+    ) {
     }
 
     /**

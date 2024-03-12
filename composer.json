@@ -138,7 +138,6 @@
     "require-dev": {
         "ambroisemaupate/intervention-request": "^4.0",
         "async-aws/simple-s3": "^1.1",
-        "atoum/atoum": "^4.0.0",
         "league/flysystem-async-aws-s3": "^3.10",
         "league/flysystem-aws-s3-v3": "^3.10",
         "php-coveralls/php-coveralls": "^2.4",

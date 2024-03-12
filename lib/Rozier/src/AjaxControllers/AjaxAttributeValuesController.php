@@ -62,7 +62,7 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
             Response::HTTP_PARTIAL_CONTENT
         );
     }
-    
+
     protected function updatePosition(array $parameters, AttributeValue $attributeValue): array
     {
         $attributable = $attributeValue->getAttributable();

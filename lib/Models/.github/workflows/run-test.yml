@@ -36,7 +36,7 @@ jobs:
             - name: Install Dependencies
               run: composer install --no-scripts --no-ansi --no-interaction --no-progress
             - name: Run PHPUnit tests
-              run: vendor/bin/phpunit -v --bootstrap=tests/bootstrap.php --whitelist ./src --coverage-clover ./build/logs/clover.xml tests/
+              run: vendor/bin/phpunit -v --whitelist ./src --coverage-clover ./build/logs/clover.xml tests/
             - name: Run PHP Code Sniffer
               run: vendor/bin/phpcs -p ./src
             - name: Run PHPStan

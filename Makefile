@@ -6,8 +6,6 @@ test:
 	vendor/bin/monorepo-builder validate
 	make phpstan
 	XDEBUG_MODE=coverage vendor/bin/phpunit -v
-	XDEBUG_MODE=coverage vendor/bin/atoum -d ./lib/Documents/tests
-	XDEBUG_MODE=coverage vendor/bin/atoum -f ./lib/EntityGenerator/tests/units/*
 	php -d "memory_limit=-1" vendor/bin/phpcs -p
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views

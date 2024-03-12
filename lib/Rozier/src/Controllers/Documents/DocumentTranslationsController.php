@@ -29,8 +29,8 @@ class DocumentTranslationsController extends RozierApp
 
     /**
      * @param Request $request
-     * @param int     $documentId
-     * @param int|null     $translationId
+     * @param int $documentId
+     * @param int|null $translationId
      *
      * @return Response
      * @throws RuntimeError
@@ -63,59 +63,59 @@ class DocumentTranslationsController extends RozierApp
             $documentTr = $this->createDocumentTranslation($document, $translation);
         }
 
-        if ($documentTr !== null && $document !== null) {
-            $this->assignation['document'] = $document;
-            $this->assignation['translation'] = $translation;
-            $this->assignation['documentTr'] = $documentTr;
+        if ($documentTr === null || $document === null) {
+            throw new ResourceNotFoundException();
+        }
 
-            /**
-             * Versioning
-             */
-            if ($this->isGranted('ROLE_ACCESS_VERSIONS')) {
-                if (null !== $response = $this->handleVersions($request, $documentTr)) {
-                    return $response;
-                }
+        $this->assignation['document'] = $document;
+        $this->assignation['translation'] = $translation;
+        $this->assignation['documentTr'] = $documentTr;
+
+        /**
+         * Versioning
+         */
+        if ($this->isGranted('ROLE_ACCESS_VERSIONS')) {
+            if (null !== $response = $this->handleVersions($request, $documentTr)) {
+                return $response;
+            }
+        }
+
+        /*
+         * Handle main form
+         */
+        $form = $this->createForm(DocumentTranslationType::class, $documentTr, [
+            'referer' => $this->getRequest()->get('referer'),
+            'disabled' => $this->isReadOnly,
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->onPostUpdate($documentTr, $request);
+
+            $routeParams = [
+                'documentId' => $document->getId(),
+                'translationId' => $translationId,
+            ];
+
+            if ($form->get('referer')->getData()) {
+                $routeParams = array_merge($routeParams, [
+                    'referer' => $form->get('referer')->getData()
+                ]);
             }
 
             /*
-             * Handle main form
+             * Force redirect to avoid resending form when refreshing page
              */
-            $form = $this->createForm(DocumentTranslationType::class, $documentTr, [
-                'referer' => $this->getRequest()->get('referer'),
-                'disabled' => $this->isReadOnly,
-            ]);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->onPostUpdate($documentTr, $request);
-
-                $routeParams = [
-                    'documentId' => $document->getId(),
-                    'translationId' => $translationId,
-                ];
-
-                if ($form->get('referer')->getData()) {
-                    $routeParams = array_merge($routeParams, [
-                        'referer' => $form->get('referer')->getData()
-                    ]);
-                }
-
-                /*
-                 * Force redirect to avoid resending form when refreshing page
-                 */
-                return $this->redirectToRoute(
-                    'documentsMetaPage',
-                    $routeParams
-                );
-            }
-
-            $this->assignation['form'] = $form->createView();
-            $this->assignation['readOnly'] = $this->isReadOnly;
-
-            return $this->render('@RoadizRozier/document-translations/edit.html.twig', $this->assignation);
+            return $this->redirectToRoute(
+                'documentsMetaPage',
+                $routeParams
+            );
         }
 
-        throw new ResourceNotFoundException();
+        $this->assignation['form'] = $form->createView();
+        $this->assignation['readOnly'] = $this->isReadOnly;
+
+        return $this->render('@RoadizRozier/document-translations/edit.html.twig', $this->assignation);
     }
 
     protected function createDocumentTranslation(

@@ -116,7 +116,7 @@ trait AttributeValueTranslationTrait
         $this->attributeValue = $attributeValue;
         return $this;
     }
-    
+
     public function getAttribute(): AttributeInterface
     {
         return $this->getAttributeValue()->getAttribute();

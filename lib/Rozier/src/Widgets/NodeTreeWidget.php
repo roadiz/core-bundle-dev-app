@@ -9,8 +9,8 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManager;
+use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Themes\Rozier\Utils\SessionListFilters;
 
 /**
  * Prepare a Node tree according to Node hierarchy and given options.
