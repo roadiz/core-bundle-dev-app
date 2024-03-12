@@ -24,7 +24,7 @@
         "symfony/framework-bundle": "6.4.*",
         "symfony/rate-limiter": "6.4.*",
         "symfony/lock": "6.4.*",
-        "doctrine/orm": "~2.17.0"
+        "doctrine/orm": "~2.19.0"
     },
     "require-dev": {
         "roadiz/core-bundle": "2.3.x-dev",
