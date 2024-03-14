@@ -103,10 +103,7 @@ class RozierApp extends AppController
         return $view;
     }
 
-    /**
-     * @return $this
-     */
-    public function prepareBaseAssignation()
+    public function prepareBaseAssignation(): static
     {
         parent::prepareBaseAssignation();
         /*

@@ -15,6 +15,7 @@ use RZ\Roadiz\CoreBundle\Event\Tag\TagCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
+use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -41,6 +42,7 @@ class TagsController extends RozierApp
 
     public function __construct(
         private readonly FormFactoryInterface $formFactory,
+        private readonly FormErrorSerializer $formErrorSerializer,
         private readonly HandlerFactoryInterface $handlerFactory,
         private readonly TreeWidgetFactory $treeWidgetFactory
     ) {
@@ -202,7 +204,7 @@ class TagsController extends RozierApp
              * Handle errors when Ajax POST requests
              */
             if ($isJsonRequest) {
-                $errors = $this->getErrorsAsArray($form);
+                $errors = $this->formErrorSerializer->getErrorsAsArray($form);
                 return new JsonResponse([
                     'status' => 'fail',
                     'errors' => $errors,
@@ -397,7 +399,7 @@ class TagsController extends RozierApp
              * Handle errors when Ajax POST requests
              */
             if ($isJsonRequest) {
-                $errors = $this->getErrorsAsArray($form);
+                $errors = $this->formErrorSerializer->getErrorsAsArray($form);
                 return new JsonResponse([
                     'status' => 'fail',
                     'errors' => $errors,

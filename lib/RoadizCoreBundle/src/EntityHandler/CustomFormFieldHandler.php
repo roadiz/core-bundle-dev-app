@@ -14,12 +14,7 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 final class CustomFormFieldHandler extends AbstractHandler
 {
     private ?CustomFormField $customFormField = null;
-    private CustomFormHandler $customFormHandler;
 
-    public function getCustomFormField(): ?CustomFormField
-    {
-        return $this->customFormField;
-    }
     /**
      * @param CustomFormField $customFormField
      * @return $this
@@ -34,10 +29,11 @@ final class CustomFormFieldHandler extends AbstractHandler
      * @param ObjectManager $objectManager
      * @param CustomFormHandler $customFormHandler
      */
-    public function __construct(ObjectManager $objectManager, CustomFormHandler $customFormHandler)
-    {
+    public function __construct(
+        ObjectManager $objectManager,
+        private readonly CustomFormHandler $customFormHandler
+    ) {
         parent::__construct($objectManager);
-        $this->customFormHandler = $customFormHandler;
     }
 
     /**

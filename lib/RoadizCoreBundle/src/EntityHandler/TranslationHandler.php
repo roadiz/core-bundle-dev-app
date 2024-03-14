@@ -19,17 +19,6 @@ final class TranslationHandler extends AbstractHandler
     private ?TranslationInterface $translation = null;
 
     /**
-     * @return TranslationInterface
-     */
-    public function getTranslation(): TranslationInterface
-    {
-        if (null === $this->translation) {
-            throw new \BadMethodCallException('Translation is null');
-        }
-        return $this->translation;
-    }
-
-    /**
      * @param TranslationInterface $translation
      *
      * @return $this

@@ -62,7 +62,6 @@
         "nelmio/cors-bundle": "^2.2",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpoffice/phpspreadsheet": "^1.15",
-        "pimple/pimple": "^3.3.1",
         "psr/cache": ">=1.0.1",
         "psr/log": ">=1.1",
         "ramsey/uuid": "^4.7",

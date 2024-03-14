@@ -15,11 +15,6 @@ final class CustomFormHandler extends AbstractHandler
 {
     protected ?CustomForm $customForm = null;
 
-    public function getCustomForm(): ?CustomForm
-    {
-        return $this->customForm;
-    }
-
     public function setCustomForm(CustomForm $customForm): self
     {
         $this->customForm = $customForm;

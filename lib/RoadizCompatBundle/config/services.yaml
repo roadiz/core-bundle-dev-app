@@ -40,7 +40,6 @@ services:
     # Explicit declaration
     RZ\Roadiz\CompatBundle\Controller\AppController: ~
     RZ\Roadiz\CompatBundle\Controller\Controller: ~
-    RZ\Roadiz\CompatBundle\Controller\FrontendController: ~
 
     securityTokenStorage:
         alias: security.token_storage

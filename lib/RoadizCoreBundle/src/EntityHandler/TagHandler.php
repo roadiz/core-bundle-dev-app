@@ -18,17 +18,6 @@ final class TagHandler extends AbstractHandler
     private ?Tag $tag = null;
 
     /**
-     * @return Tag
-     */
-    public function getTag(): Tag
-    {
-        if (null === $this->tag) {
-            throw new \BadMethodCallException('Tag is null');
-        }
-        return $this->tag;
-    }
-
-    /**
      * @param Tag $tag
      * @return $this
      */
