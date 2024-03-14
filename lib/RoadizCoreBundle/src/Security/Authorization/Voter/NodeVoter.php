@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Security\Authorization\Voter;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -39,7 +40,7 @@ final class NodeVoter extends Voter
     public function __construct(
         private readonly NodeChrootResolver $chrootResolver,
         private readonly Security $security,
-        private readonly HandlerFactoryInterface $handlerFactory,
+        private readonly ManagerRegistry $managerRegistry,
         private readonly CacheItemPoolInterface $cache
     ) {
     }
@@ -127,9 +128,8 @@ final class NodeVoter extends Voter
          */
         $cacheItem = $this->cache->getItem('node_offspring_ids_' . $chroot->getId());
         if (!$cacheItem->isHit()) {
-            /** @var NodeHandler $nodeHandler */
-            $nodeHandler = $this->handlerFactory->getHandler($chroot);
-            $offspringIds = $nodeHandler->getAllOffspringId();
+            $nodeRepository = $this->managerRegistry->getRepository(Node::class);
+            $offspringIds = $nodeRepository->findAllOffspringIdByNode($chroot);
             $cacheItem->set($offspringIds);
             $this->cache->save($cacheItem);
         } else {

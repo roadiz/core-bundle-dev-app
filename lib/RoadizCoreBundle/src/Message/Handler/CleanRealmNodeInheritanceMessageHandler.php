@@ -16,13 +16,8 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 final class CleanRealmNodeInheritanceMessageHandler implements MessageHandlerInterface
 {
-    private ManagerRegistry $managerRegistry;
-    private HandlerFactoryInterface $handlerFactory;
-
-    public function __construct(ManagerRegistry $managerRegistry, HandlerFactoryInterface $handlerFactory)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
-        $this->handlerFactory = $handlerFactory;
     }
 
     public function __invoke(CleanRealmNodeInheritanceMessage $message): void
@@ -40,9 +35,8 @@ final class CleanRealmNodeInheritanceMessageHandler implements MessageHandlerInt
             throw new UnrecoverableMessageHandlingException('Realm does not exist');
         }
 
-        /** @var NodeHandler $nodeHandler */
-        $nodeHandler = $this->handlerFactory->getHandler($node);
-        $childrenIds = $nodeHandler->getAllOffspringId();
+        $nodeRepository = $this->managerRegistry->getRepository(Node::class);
+        $childrenIds = $nodeRepository->findAllOffspringIdByNode($node);
 
         $realmNodes = $this->managerRegistry
             ->getRepository(RealmNode::class)

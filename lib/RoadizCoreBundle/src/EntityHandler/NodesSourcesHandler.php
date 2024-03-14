@@ -120,6 +120,7 @@ final class NodesSourcesHandler extends AbstractHandler
      *
      * @param string $fieldName Name of the node-type field
      * @return array<Document>
+     * @deprecated Use directly NodesSources::getDocumentsByFieldsWithName
      */
     public function getDocumentsFromFieldName(string $fieldName): array
     {
@@ -168,7 +169,7 @@ final class NodesSourcesHandler extends AbstractHandler
      *
      * @param array|null $criteria
      * @return array<NodesSources>
-     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @deprecated Use NodesSourcesRepository::findParents
      */
     public function getParents(
         array $criteria = null
@@ -213,6 +214,7 @@ final class NodesSourcesHandler extends AbstractHandler
      * @param array|null $order Non default ordering
      *
      * @return array<object|NodesSources>
+     * @deprecated Use TreeWalker or NodesSourcesRepository::findChildren
      */
     public function getChildren(
         array $criteria = null,
@@ -248,6 +250,7 @@ final class NodesSourcesHandler extends AbstractHandler
      * @param array|null $order
      *
      * @return NodesSources|null
+     * @deprecated Use NodesSourcesRepository::findFirstChild
      */
     public function getFirstChild(
         array $criteria = null,
@@ -282,6 +285,7 @@ final class NodesSourcesHandler extends AbstractHandler
      * @param  array|null $order
      *
      * @return NodesSources|null
+     * @deprecated Use NodesSourcesRepository::findLastChild
      */
     public function getLastChild(
         array $criteria = null,
@@ -317,6 +321,7 @@ final class NodesSourcesHandler extends AbstractHandler
      * @param  array|null $order
      *
      * @return NodesSources|null
+     * @deprecated Use NodesSourcesRepository::findFirstSibling
      */
     public function getFirstSibling(
         array $criteria = null,
@@ -339,6 +344,7 @@ final class NodesSourcesHandler extends AbstractHandler
      * @param array|null $order
      *
      * @return NodesSources|null
+     * @deprecated Use NodesSourcesRepository::findLastSibling
      */
     public function getLastSibling(
         array $criteria = null,
@@ -361,6 +367,7 @@ final class NodesSourcesHandler extends AbstractHandler
      * @param array|null $order
      *
      * @return NodesSources|null
+     * @deprecated Use NodesSourcesRepository::findPrevious
      */
     public function getPrevious(
         array $criteria = null,
@@ -407,6 +414,7 @@ final class NodesSourcesHandler extends AbstractHandler
      * @param array|null $order
      *
      * @return NodesSources|null
+     * @deprecated Use NodesSourcesRepository::findNext
      */
     public function getNext(
         array $criteria = null,
@@ -446,6 +454,7 @@ final class NodesSourcesHandler extends AbstractHandler
      * Get node tags with current source translation.
      *
      * @return iterable<Tag>
+     * @deprecated Use TagRepository::findByNodesSources
      */
     public function getTags(): iterable
     {

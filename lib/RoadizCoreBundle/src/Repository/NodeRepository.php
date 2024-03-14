@@ -1159,4 +1159,74 @@ final class NodeRepository extends StatusAwareRepository
         $qb->orWhere($qb->expr()->like('LOWER(' . $alias . '.nodeName)', $qb->expr()->literal($value)));
         return $qb;
     }
+
+    /**
+     * Get previous node from hierarchy
+     */
+    public function findPreviousNode(
+        Node $node,
+        ?array $criteria = null,
+        ?array $order = null
+    ): ?Node {
+        if ($node->getPosition() <= 1) {
+            return null;
+        }
+        if (null === $order) {
+            $order = [];
+        }
+
+        if (null === $criteria) {
+            $criteria = [];
+        }
+
+        $criteria['parent'] = $node->getParent();
+        /*
+         * Use < operator to get first previous nodeSource
+         * even if it’s not the previous position index
+         */
+        $criteria['position'] = [
+            '<',
+            $node->getPosition(),
+        ];
+
+        $order['position'] = 'DESC';
+
+        return $this->findOneBy(
+            $criteria,
+            $order
+        );
+    }
+
+    /**
+     * Get next node from hierarchy.
+     */
+    public function findNextNode(
+        Node $node,
+        ?array $criteria = null,
+        ?array $order = null
+    ): ?Node {
+        if (null === $criteria) {
+            $criteria = [];
+        }
+        if (null === $order) {
+            $order = [];
+        }
+
+        $criteria['parent'] = $node->getParent();
+
+        /*
+         * Use > operator to get first next nodeSource
+         * even if it’s not the next position index
+         */
+        $criteria['position'] = [
+            '>',
+            $node->getPosition(),
+        ];
+        $order['position'] = 'ASC';
+
+        return $this->findOneBy(
+            $criteria,
+            $order
+        );
+    }
 }

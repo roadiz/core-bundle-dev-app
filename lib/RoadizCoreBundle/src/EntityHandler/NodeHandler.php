@@ -239,6 +239,7 @@ final class NodeHandler extends AbstractHandler
      * @param Translation $translation
      *
      * @return null|NodesSources
+     * @deprecated Use Node::getNodeSourcesByTranslation() instead.
      */
     public function getNodeSourceByTranslation($translation): ?NodesSources
     {
@@ -398,17 +399,6 @@ final class NodeHandler extends AbstractHandler
     }
 
     /**
-     * Return if is in Newsletter Node.
-     *
-     * @deprecated Just here not to break themes.
-     * @return bool
-     */
-    public function isRelatedToNewsletter(): bool
-    {
-        return false;
-    }
-
-    /**
      * Return if part of Node offspring.
      *
      * @param Node $relative
@@ -538,6 +528,7 @@ final class NodeHandler extends AbstractHandler
      * Return all node offspring id.
      *
      * @return array
+     * @deprecated Use NodeRepository::findAllOffspringIdByNode() instead.
      */
     public function getAllOffspringId(): array
     {
@@ -589,6 +580,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @return Node|null
      * @throws NonUniqueResultException
+     * @deprecated Use NodeRepository::findPreviousNode() instead.
      */
     public function getPrevious(
         ?array $criteria = null,
@@ -626,10 +618,12 @@ final class NodeHandler extends AbstractHandler
     /**
      * Get next node from hierarchy.
      *
-     * @param  array|null $criteria
-     * @param  array|null $order
+     * @param array|null $criteria
+     * @param array|null $order
      *
      * @return Node|null
+     * @throws NonUniqueResultException
+     * @deprecated Use NodeRepository::findNextNode() instead.
      */
     public function getNext(
         ?array $criteria = null,
@@ -664,7 +658,7 @@ final class NodeHandler extends AbstractHandler
     /**
      * @return NodeRepository
      */
-    public function getRepository(): NodeRepository
+    protected function getRepository(): NodeRepository
     {
         return $this->objectManager->getRepository(Node::class);
     }

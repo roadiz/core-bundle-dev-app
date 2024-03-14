@@ -566,10 +566,8 @@ class NodesController extends RozierApp
             /** @var Node|null $chroot */
             $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
             if ($chroot !== null) {
-                /** @var NodeHandler $nodeHandler */
-                $nodeHandler = $this->handlerFactory->getHandler($chroot);
-                $ids = $nodeHandler->getAllOffspringId();
-                $criteria["parent"] = $ids;
+                $nodeRepository = $this->em()->getRepository(Node::class);
+                $criteria["parent"] = $nodeRepository->findAllOffspringIdByNode($chroot);
             }
 
             $nodes = $this->em()
