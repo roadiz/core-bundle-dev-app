@@ -43,7 +43,8 @@ final class NodeFactory
         }
 
         if ($node === null) {
-            $node = new Node($type);
+            $node = new Node();
+            $node->setNodeType($type);
         }
 
         if ($type instanceof NodeType) {

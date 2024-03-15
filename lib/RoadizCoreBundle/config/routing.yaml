@@ -33,10 +33,6 @@ healthCheckAction:
     stateless: true
     controller: RZ\Roadiz\CoreBundle\Controller\HealthCheckController
 
-roadiz_core_themes:
-    resource: .
-    type: themes
-
 api_login_check:
     methods: [POST]
     stateless: true

@@ -89,8 +89,6 @@ services:
     roadiz_compat.twig_loader:
         class: Twig\Loader\FilesystemLoader
         tags: ['twig.loader']
-    RZ\Roadiz\CompatBundle\Routing\ThemeRoutesLoader:
-        tags: [ routing.loader ]
 
     #
     # Made routers theme aware

@@ -318,7 +318,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     /**
      * Create a new empty Node according to given node-type.
      */
-    public function __construct(NodeTypeInterface $nodeType = null)
+    public function __construct()
     {
         $this->nodesTags = new ArrayCollection();
         $this->children = new ArrayCollection();
@@ -328,8 +328,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         $this->aNodes = new ArrayCollection();
         $this->bNodes = new ArrayCollection();
         $this->attributeValues = new ArrayCollection();
-
-        $this->setNodeType($nodeType);
         $this->initAbstractDateTimed();
     }
 

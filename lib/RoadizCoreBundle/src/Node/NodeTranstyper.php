@@ -257,6 +257,7 @@ final class NodeTranstyper
          * transtype, not to get an orphan node.
          */
         $node = new Node();
+        $node->setNodeType($nodeType);
         $node->setNodeName('testing_before_transtype' . $uniqueId);
         $this->getManager()->persist($node);
 

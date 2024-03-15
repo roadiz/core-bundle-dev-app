@@ -326,7 +326,9 @@ class NodesController extends RozierApp
             throw new ResourceNotFoundException(sprintf('Translation #%s does not exist.', $translationId));
         }
 
-        $node = new Node($type);
+        $node = new Node();
+        $node->setNodeType($type);
+
         $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
         if (null !== $chroot) {
             // If user is jailed in a node, prevent moving nodes out.

@@ -49,7 +49,8 @@ class UniqueNodeGenerator
         bool $pushToTop = false
     ): NodesSources {
         $name = $nodeType->getDisplayName() . " " . uniqid();
-        $node = new Node($nodeType);
+        $node = new Node();
+        $node->setNodeType($nodeType);
         $node->setTtl($nodeType->getDefaultTtl());
 
         if (null !== $tag) {
