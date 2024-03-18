@@ -29,6 +29,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ["group_name"]),
     ORM\Index(columns: ["group_name_canonical"]),
     ORM\Index(columns: ["type"]),
+    ORM\Index(columns: ["name"], name: 'ntf_name'),
     ORM\Index(columns: ["universal"]),
     ORM\Index(columns: ["node_type_id", "position"], name: "ntf_type_position"),
     ORM\UniqueConstraint(columns: ["name", "node_type_id"]),
@@ -39,11 +40,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, SerializableInterface
 {
     #[
-        ORM\Column(type: "string", length: 250),
+        ORM\Column(type: "string", length: 50),
         Serializer\Expose,
         Serializer\Groups(["node_type", "setting"]),
         SymfonySerializer\Groups(["node_type", "setting"]),
-        Assert\Length(max: 250),
+        Assert\Length(max: 50),
         Serializer\Type("string"),
         RoadizAssert\NonSqlReservedWord(),
         RoadizAssert\SimpleLatinString()

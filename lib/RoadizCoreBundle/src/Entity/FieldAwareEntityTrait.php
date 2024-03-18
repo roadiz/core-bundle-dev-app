@@ -10,8 +10,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 trait FieldAwareEntityTrait
 {
-    #[ORM\Column(name: 'field_name', length: 250, nullable: false)]
-    #[Assert\Length(max: 250)]
+    #[ORM\Column(name: 'field_name', length: 50, nullable: false)]
+    #[Assert\Length(max: 50)]
     protected string $fieldName;
 
     public function getFieldName(): string
