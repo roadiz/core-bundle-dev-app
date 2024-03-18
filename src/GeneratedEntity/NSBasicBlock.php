@@ -137,16 +137,12 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function getImage(): array
     {
         if (null === $this->image) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->image = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndField(
+                    ->findByNodeSourceAndFieldName(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("image")
+                        'image'
                     );
             } else {
                 $this->image = [];
@@ -162,23 +158,16 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      */
     public function addImage(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("image");
-            if (null !== $field) {
-                $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
-                    $this,
-                    $document,
-                    $field
-                );
-                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
-                    $this->objectManager->persist($nodeSourceDocument);
-                    $this->addDocumentsByFields($nodeSourceDocument);
-                    $this->image = null;
-                }
+        if (null !== $this->objectManager) {
+            $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
+                $this,
+                $document
+            );
+            $nodeSourceDocument->setFieldName('image');
+            if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+                $this->objectManager->persist($nodeSourceDocument);
+                $this->addDocumentsByFields($nodeSourceDocument);
+                $this->image = null;
             }
         }
         return $this;

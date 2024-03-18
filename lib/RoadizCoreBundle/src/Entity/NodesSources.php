@@ -16,6 +16,7 @@ use Doctrine\Persistence\ObjectManager;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
@@ -264,11 +265,11 @@ class NodesSources extends AbstractEntity implements Loggable
         return $this;
     }
 
-    public function clearDocumentsByFields(NodeTypeField $nodeTypeField): NodesSources
+    public function clearDocumentsByFields(NodeTypeFieldInterface $field): NodesSources
     {
         $toRemoveCollection = $this->getDocumentsByFields()->filter(
-            function (NodesSourcesDocuments $element) use ($nodeTypeField) {
-                return $element->getField()->getId() === $nodeTypeField->getId();
+            function (NodesSourcesDocuments $element) use ($field) {
+                return $element->getFieldName() === $field->getName();
             }
         );
         /** @var NodesSourcesDocuments $toRemove */
@@ -333,7 +334,7 @@ class NodesSources extends AbstractEntity implements Loggable
             function ($key, NodesSourcesDocuments $element) use ($nodesSourcesDocuments) {
                 return $nodesSourcesDocuments->getDocument()->getId() !== null &&
                     $element->getDocument()->getId() === $nodesSourcesDocuments->getDocument()->getId() &&
-                    $element->getField()->getId() === $nodesSourcesDocuments->getField()->getId();
+                    $element->getFieldName() === $nodesSourcesDocuments->getFieldName();
             }
         );
     }
@@ -359,14 +360,14 @@ class NodesSources extends AbstractEntity implements Loggable
      *
      * @return Document[]
      */
-    public function getDocumentsByFieldsWithField(NodeTypeField $field): array
+    public function getDocumentsByFieldsWithField(NodeTypeFieldInterface $field): array
     {
         $criteria = Criteria::create();
         $criteria->orderBy(['position' => 'ASC']);
         return $this->getDocumentsByFields()
             ->matching($criteria)
             ->filter(function (NodesSourcesDocuments $element) use ($field) {
-                return $element->getField() === $field;
+                return $element->getFieldName() === $field->getName();
             })
             ->map(function (NodesSourcesDocuments $nodesSourcesDocuments) {
                 return $nodesSourcesDocuments->getDocument();
@@ -386,7 +387,7 @@ class NodesSources extends AbstractEntity implements Loggable
         return $this->getDocumentsByFields()
             ->matching($criteria)
             ->filter(function (NodesSourcesDocuments $element) use ($fieldName) {
-                return $element->getField()->getName() === $fieldName;
+                return $element->getFieldName() === $fieldName;
             })
             ->map(function (NodesSourcesDocuments $nodesSourcesDocuments) {
                 return $nodesSourcesDocuments->getDocument();

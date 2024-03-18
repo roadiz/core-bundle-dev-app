@@ -58,16 +58,12 @@ class DocumentsFieldGenerator extends AbstractFieldGenerator
     public function ' . $this->field->getGetterName() . '(): array
     {
         if (null === $this->' . $this->field->getVarName() . ') {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->' . $this->field->getVarName() . ' = $this->objectManager
                     ->getRepository(' . $this->options['document_class'] . '::class)
-                    ->findByNodeSourceAndField(
+                    ->findByNodeSourceAndFieldName(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("' . $this->field->getName() . '")
+                        \'' . $this->field->getName() . '\'
                     );
             } else {
                 $this->' . $this->field->getVarName() . ' = [];
@@ -92,23 +88,16 @@ class DocumentsFieldGenerator extends AbstractFieldGenerator
      */
     public function add' . ucfirst($this->field->getVarName()) . '(' . $this->options['document_class'] . ' $document): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("' . $this->field->getName() . '");
-            if (null !== $field) {
-                $nodeSourceDocument = new ' . $this->options['document_proxy_class'] . '(
-                    $this,
-                    $document,
-                    $field
-                );
-                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
-                    $this->objectManager->persist($nodeSourceDocument);
-                    $this->addDocumentsByFields($nodeSourceDocument);
-                    $this->' . $this->field->getVarName() . ' = null;
-                }
+        if (null !== $this->objectManager) {
+            $nodeSourceDocument = new ' . $this->options['document_proxy_class'] . '(
+                $this,
+                $document
+            );
+            $nodeSourceDocument->setFieldName(\'' . $this->field->getName() . '\');
+            if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+                $this->objectManager->persist($nodeSourceDocument);
+                $this->addDocumentsByFields($nodeSourceDocument);
+                $this->' . $this->field->getVarName() . ' = null;
             }
         }
         return $this;

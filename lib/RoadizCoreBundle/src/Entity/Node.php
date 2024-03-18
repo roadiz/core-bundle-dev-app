@@ -15,6 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
@@ -795,10 +796,10 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      * @return Collection<int, NodesToNodes>
      */
     #[SymfonySerializer\Ignore]
-    public function getBNodesByField(NodeTypeField $field): Collection
+    public function getBNodesByField(NodeTypeFieldInterface $field): Collection
     {
         $criteria = Criteria::create();
-        $criteria->andWhere(Criteria::expr()->eq('field', $field));
+        $criteria->andWhere(Criteria::expr()->eq('fieldName', $field->getName()));
         $criteria->orderBy(['position' => 'ASC']);
         return $this->getBNodes()->matching($criteria);
     }
@@ -833,7 +834,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this->getBNodes()->exists(function ($key, NodesToNodes $element) use ($bNode) {
             return $bNode->getNodeB()->getId() !== null &&
                 $element->getNodeB()->getId() === $bNode->getNodeB()->getId() &&
-                $element->getField()->getId() === $bNode->getField()->getId();
+                $element->getFieldName() === $bNode->getFieldName();
         });
     }
 
@@ -850,10 +851,10 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
-    public function clearBNodesForField(NodeTypeField $nodeTypeField): Node
+    public function clearBNodesForField(NodeTypeFieldInterface $field): Node
     {
-        $toRemoveCollection = $this->getBNodes()->filter(function (NodesToNodes $element) use ($nodeTypeField) {
-            return $element->getField()->getId() === $nodeTypeField->getId();
+        $toRemoveCollection = $this->getBNodes()->filter(function (NodesToNodes $element) use ($field) {
+            return $element->getFieldName() === $field->getName();
         });
         /** @var NodesToNodes $toRemove */
         foreach ($toRemoveCollection as $toRemove) {

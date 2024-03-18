@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\EntityHandler;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ObjectManager;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -77,11 +78,11 @@ final class NodeHandler extends AbstractHandler
      * @param bool $flush
      * @return $this
      */
-    public function cleanCustomFormsFromField(NodeTypeField $field, bool $flush = true): self
+    public function cleanCustomFormsFromField(NodeTypeFieldInterface $field, bool $flush = true): self
     {
         $nodesCustomForms = $this->objectManager
             ->getRepository(NodesCustomForms::class)
-            ->findBy(['node' => $this->getNode(), 'field' => $field]);
+            ->findBy(['node' => $this->getNode(), 'fieldName' => $field->getName()]);
 
         foreach ($nodesCustomForms as $ncf) {
             $this->objectManager->remove($ncf);
@@ -105,7 +106,7 @@ final class NodeHandler extends AbstractHandler
      */
     public function addCustomFormForField(
         CustomForm $customForm,
-        NodeTypeField $field,
+        NodeTypeFieldInterface $field,
         bool $flush = true,
         ?float $position = null
     ): self {
@@ -114,7 +115,7 @@ final class NodeHandler extends AbstractHandler
         if (null === $position) {
             $latestPosition = $this->objectManager
                 ->getRepository(NodesCustomForms::class)
-                ->getLatestPosition($this->getNode(), $field);
+                ->getLatestPositionForFieldName($this->getNode(), $field->getName());
             $ncf->setPosition($latestPosition + 1);
         } else {
             $ncf->setPosition($position);
@@ -139,9 +140,9 @@ final class NodeHandler extends AbstractHandler
     {
         return $this->objectManager
             ->getRepository(CustomForm::class)
-            ->findByNodeAndField(
+            ->findByNodeAndFieldName(
                 $this->getNode(),
-                $this->getNode()->getNodeType()->getFieldByName($fieldName)
+                $fieldName
             );
     }
 
@@ -152,7 +153,7 @@ final class NodeHandler extends AbstractHandler
      * @param bool $flush
      * @return $this
      */
-    public function cleanNodesFromField(NodeTypeField $field, bool $flush = true): self
+    public function cleanNodesFromField(NodeTypeFieldInterface $field, bool $flush = true): self
     {
         $this->node->clearBNodesForField($field);
 
@@ -172,7 +173,7 @@ final class NodeHandler extends AbstractHandler
      * @param null|float $position
      * @return $this
      */
-    public function addNodeForField(Node $node, NodeTypeField $field, bool $flush = true, ?float $position = null): self
+    public function addNodeForField(Node $node, NodeTypeFieldInterface $field, bool $flush = true, ?float $position = null): self
     {
         $ntn = new NodesToNodes($this->getNode(), $node, $field);
 
@@ -180,7 +181,7 @@ final class NodeHandler extends AbstractHandler
             if (null === $position) {
                 $latestPosition = $this->objectManager
                     ->getRepository(NodesToNodes::class)
-                    ->getLatestPosition($this->getNode(), $field);
+                    ->getLatestPositionForFieldName($this->getNode(), $field->getName());
                 $ntn->setPosition($latestPosition + 1);
             } else {
                 $ntn->setPosition($position);

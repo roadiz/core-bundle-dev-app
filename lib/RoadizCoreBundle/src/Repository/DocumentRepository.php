@@ -528,7 +528,8 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     /**
      * @param NodesSources  $nodeSource
      * @param NodeTypeFieldInterface $field
-     * @return array
+     * @return array<Document>
+     * @deprecated Use findByNodeSourceAndFieldName instead
      */
     public function findByNodeSourceAndField(
         NodesSources $nodeSource,
@@ -538,10 +539,10 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         $qb->addSelect('dt')
             ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
             ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
-            ->andWhere($qb->expr()->eq('nsf.field', ':field'))
+            ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->addOrderBy('nsf.position', 'ASC')
-            ->setParameter('field', $field)
+            ->setParameter('fieldName', $field->getName())
             ->setParameter('nodeSource', $nodeSource)
             ->setParameter('translation', $nodeSource->getTranslation())
             ->setParameter('raw', false)
@@ -552,21 +553,21 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
 
     /**
      * @param NodesSources  $nodeSource
-     * @param int $fieldId
-     * @return array
+     * @param string $fieldName
+     * @return array<Document>
      */
-    public function findByNodeSourceAndFieldId(
+    public function findByNodeSourceAndFieldName(
         NodesSources $nodeSource,
-        int $fieldId
+        string $fieldName
     ): array {
         $qb = $this->createQueryBuilder('d');
         $qb->addSelect('dt')
             ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
             ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
-            ->andWhere($qb->expr()->eq('nsf.field', ':field'))
+            ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->addOrderBy('nsf.position', 'ASC')
-            ->setParameter('field', $fieldId)
+            ->setParameter('fieldName', $fieldName)
             ->setParameter('nodeSource', $nodeSource)
             ->setParameter('translation', $nodeSource->getTranslation())
             ->setParameter('raw', false)

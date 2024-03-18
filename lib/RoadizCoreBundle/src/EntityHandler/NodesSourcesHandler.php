@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\EntityHandler;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\Persistence\ObjectManager;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\Document;
@@ -67,7 +68,7 @@ final class NodesSourcesHandler extends AbstractHandler
      * @param bool $flush
      * @return $this
      */
-    public function cleanDocumentsFromField(NodeTypeField $field, bool $flush = true): self
+    public function cleanDocumentsFromField(NodeTypeFieldInterface $field, bool $flush = true): self
     {
         $this->nodeSource->clearDocumentsByFields($field);
 
@@ -89,7 +90,7 @@ final class NodesSourcesHandler extends AbstractHandler
      */
     public function addDocumentForField(
         Document $document,
-        NodeTypeField $field,
+        NodeTypeFieldInterface $field,
         bool $flush = true,
         ?float $position = null
     ): self {
@@ -99,7 +100,7 @@ final class NodesSourcesHandler extends AbstractHandler
             if (null === $position) {
                 $latestPosition = $this->objectManager
                     ->getRepository(NodesSourcesDocuments::class)
-                    ->getLatestPosition($this->nodeSource, $field);
+                    ->getLatestPositionForFieldName($this->nodeSource, $field->getName());
 
                 $nsDoc->setPosition($latestPosition + 1);
             } else {
@@ -124,16 +125,12 @@ final class NodesSourcesHandler extends AbstractHandler
      */
     public function getDocumentsFromFieldName(string $fieldName): array
     {
-        $field = $this->nodeSource->getNode()->getNodeType()->getFieldByName($fieldName);
-        if (null !== $field) {
-            return $this->objectManager
-                ->getRepository(Document::class)
-                ->findByNodeSourceAndField(
-                    $this->nodeSource,
-                    $field
-                );
-        }
-        return [];
+        return $this->objectManager
+            ->getRepository(Document::class)
+            ->findByNodeSourceAndFieldName(
+                $this->nodeSource,
+                $fieldName
+            );
     }
 
     /**

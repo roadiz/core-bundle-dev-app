@@ -12,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Themes\Rozier\RozierApp;
+use Twig\Error\RuntimeError;
 
 final class DocumentUnusedController extends RozierApp
 {
@@ -28,8 +29,9 @@ final class DocumentUnusedController extends RozierApp
     /**
      * See unused documents.
      *
-     * @param  Request $request
+     * @param Request $request
      * @return Response
+     * @throws RuntimeError
      */
     public function unusedAction(Request $request): Response
     {

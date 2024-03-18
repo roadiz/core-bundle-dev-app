@@ -97,6 +97,7 @@ final class NodeTranstyper
         }
         $this->logger->debug('Get matching fields');
 
+        /** @var class-string<NodesSources> $sourceClass */
         $sourceClass = $destinationNodeType->getSourceEntityFullQualifiedClassName();
 
         /*
@@ -164,7 +165,7 @@ final class NodeTranstyper
      * @param Node $node
      * @param NodesSources $existingSource
      * @param TranslationInterface $translation
-     * @param string $sourceClass
+     * @param class-string<NodesSources> $sourceClass
      * @param array $fieldAssociations
      * @param array $existingRedirections
      * @return NodesSources
@@ -201,7 +202,8 @@ final class NodeTranstyper
                  */
                 $documents = $existingSource->getDocumentsByFieldsWithName($oldField->getName());
                 foreach ($documents as $document) {
-                    $nsDoc = new NodesSourcesDocuments($source, $document, $matchingField);
+                    $nsDoc = new NodesSourcesDocuments($source, $document);
+                    $nsDoc->setFieldName($matchingField->getName());
                     $this->getManager()->persist($nsDoc);
                     $source->getDocumentsByFields()->add($nsDoc);
                 }

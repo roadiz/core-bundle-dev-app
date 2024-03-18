@@ -700,7 +700,7 @@ class NodesSourcesRepository extends StatusAwareRepository
     /**
      * @param NodesSources  $nodesSources
      * @param NodeTypeFieldInterface $field
-     *
+     * @deprecated Use findByNodesSourcesAndFieldNameAndTranslation instead
      * @return array|null
      */
     public function findByNodesSourcesAndFieldAndTranslation(
@@ -712,7 +712,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             ->innerJoin('ns.node', static::NODE_ALIAS)
             ->leftJoin('ns.urlAliases', 'ua')
             ->innerJoin('n.aNodes', 'ntn')
-            ->andWhere($qb->expr()->eq('ntn.field', ':field'))
+            ->andWhere($qb->expr()->eq('ntn.fieldName', ':fieldName'))
             ->andWhere($qb->expr()->eq('ntn.nodeA', ':nodeA'))
             ->andWhere($qb->expr()->eq('ns.translation', ':translation'))
             ->addOrderBy('ntn.position', 'ASC')
@@ -720,7 +720,37 @@ class NodesSourcesRepository extends StatusAwareRepository
 
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
 
-        $qb->setParameter('field', $field)
+        $qb->setParameter('fieldName', $field->getName())
+            ->setParameter('nodeA', $nodesSources->getNode())
+            ->setParameter('translation', $nodesSources->getTranslation());
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @param NodesSources  $nodesSources
+     * @param string $fieldName
+     *
+     * @return array|null
+     */
+    public function findByNodesSourcesAndFieldNameAndTranslation(
+        NodesSources $nodesSources,
+        string $fieldName
+    ): ?array {
+        $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
+        $qb->select('ns, n, ua')
+            ->innerJoin('ns.node', static::NODE_ALIAS)
+            ->leftJoin('ns.urlAliases', 'ua')
+            ->innerJoin('n.aNodes', 'ntn')
+            ->andWhere($qb->expr()->eq('ntn.fieldName', ':fieldName'))
+            ->andWhere($qb->expr()->eq('ntn.nodeA', ':nodeA'))
+            ->andWhere($qb->expr()->eq('ns.translation', ':translation'))
+            ->addOrderBy('ntn.position', 'ASC')
+            ->setCacheable(true);
+
+        $this->alterQueryBuilderWithAuthorizationChecker($qb);
+
+        $qb->setParameter('fieldName', $fieldName)
             ->setParameter('nodeA', $nodesSources->getNode())
             ->setParameter('translation', $nodesSources->getTranslation());
 

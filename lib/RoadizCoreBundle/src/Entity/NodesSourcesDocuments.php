@@ -18,11 +18,13 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Entity(repositoryClass: NodesSourcesDocumentsRepository::class),
     ORM\Table(name: "nodes_sources_documents"),
     ORM\Index(columns: ["position"]),
-    ORM\Index(columns: ["ns_id", "node_type_field_id"], name: "nsdoc_field"),
-    ORM\Index(columns: ["ns_id", "node_type_field_id", "position"], name: "nsdoc_field_position")
+    ORM\Index(columns: ["ns_id", "field_name"], name: "nsdoc_field"),
+    ORM\Index(columns: ["ns_id", "field_name", "position"], name: "nsdoc_field_position")
 ]
 class NodesSourcesDocuments extends AbstractPositioned
 {
+    use FieldAwareEntityTrait;
+
     /**
      * @var NodesSources
      */
@@ -50,28 +52,20 @@ class NodesSourcesDocuments extends AbstractPositioned
     protected Document $document;
 
     /**
-     * @var NodeTypeField
-     */
-    #[ORM\ManyToOne(targetEntity: NodeTypeField::class)]
-    #[Assert\NotNull]
-    #[ORM\JoinColumn(name: 'node_type_field_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    protected NodeTypeField $field;
-
-    /**
      * Create a new relation between NodeSource, a Document and a NodeTypeField.
      *
      * @param NodesSources  $nodeSource NodesSources and inherited types
      * @param Document $document Document to link
-     * @param NodeTypeFieldInterface $field  NodeTypeField
+     * @param NodeTypeFieldInterface|null $field  NodeTypeField
      */
-    public function __construct(NodesSources $nodeSource, Document $document, NodeTypeFieldInterface $field)
+    public function __construct(NodesSources $nodeSource, Document $document, ?NodeTypeFieldInterface $field = null)
     {
         if (!$field instanceof NodeTypeField) {
             throw new \InvalidArgumentException('NodesSourcesDocuments field must be a NodeTypeField instance.');
         }
         $this->nodeSource = $nodeSource;
         $this->document = $document;
-        $this->field = $field;
+        $this->initializeFieldAwareEntityTrait($field);
     }
 
     public function __clone()
@@ -125,30 +119,6 @@ class NodesSourcesDocuments extends AbstractPositioned
     public function setDocument(Document $document): NodesSourcesDocuments
     {
         $this->document = $document;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of field.
-     *
-     * @return NodeTypeField
-     */
-    public function getField(): NodeTypeField
-    {
-        return $this->field;
-    }
-
-    /**
-     * Sets the value of field.
-     *
-     * @param NodeTypeField $field the field
-     *
-     * @return self
-     */
-    public function setField(NodeTypeField $field): NodesSourcesDocuments
-    {
-        $this->field = $field;
 
         return $this;
     }
