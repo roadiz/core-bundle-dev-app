@@ -16,7 +16,6 @@
             "label": "Number",
             "type": 6,
             "expanded": false,
-            "node_type_name": "Neutral",
             "universal": false,
             "exclude_from_search": false,
             "excluded_from_serialization": false,

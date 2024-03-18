@@ -448,7 +448,6 @@ services:
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TagObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeFieldObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingObjectConstructor',
