@@ -4,6 +4,46 @@ All notable changes to Roadiz will be documented in this file.
 
 ## [unreleased]
 
+### ⚠ Breaking changes
+
+- Make sure you don't have fields with name longer than 50 characters before migrating. Migration can be skipped if so.
+- Removed NodeTypeField `id` join column from NodesCustomForms, NodesSourcesDocuments and NodesToNodes relation tables to use `field_name` string column for loose relation. **Make sure to backup your database before performing this migration**.
+- `node_type_name` JSON property is no-longer required in node-type JSON export files.
+- Node constructor does not accept any argument anymore.
+
+### Bug Fixes
+
+- **(Documents)** Requires api-platform/metadata for unit tests - ([ae67dba](https://github.com/roadiz/core-bundle-dev-app/commit/ae67dba4325f43bae173dd250ad237b46767b60e))
+- Missing `orphanRemoval: true` on non-nullable OneToMany relationships - ([019b353](https://github.com/roadiz/core-bundle-dev-app/commit/019b3534ba89effa1479673382e2150164f63973))
+-  [**breaking**]Removed NodeTypeInterface from Node constructor, Removed ThemeRoutesLoader.php - ([0816525](https://github.com/roadiz/core-bundle-dev-app/commit/08165257777756f954be303719659ec7070a586e))
+- LoginController.php with random images - ([032e68e](https://github.com/roadiz/core-bundle-dev-app/commit/032e68e7cd184b7a4be7c88397dad8ac41a15c70))
+- Moved AbstractDateTimedPositioned.php to CoreBundle to avoid requiring ApiPlatform on Models - ([359c026](https://github.com/roadiz/core-bundle-dev-app/commit/359c026527e1d8a61eaa2c27e3471e05270a6559))
+
+### Features
+
+-  [**breaking**]Reduce NodeTypeField name to maximum 50 characters long. - ([8d7529a](https://github.com/roadiz/core-bundle-dev-app/commit/8d7529aad953f5b4f5689672df9fd6ae725bc89f))
+-  [**breaking**]Removed NodeTypeField `id` join column from NodesCustomForms, NodesSourcesDocuments and NodesToNodes relation tables to use string column for loose relation. - ([fb5a2d8](https://github.com/roadiz/core-bundle-dev-app/commit/fb5a2d812cd5544d9c34d00dc6e787f2dc5a0749))
+-  [**breaking**]Removed NodeTypeFieldObjectConstructor.php for app:install to avoid conflicts between object construction and dropping all fields. `node_type_name` JSON property is no-longer required - ([6a30b32](https://github.com/roadiz/core-bundle-dev-app/commit/6a30b32b7720cc761b57c34b5555bb50bdcf5f5d))
+- Upgrade to doctrine/orm ~2.19.0 - ([b14f5be](https://github.com/roadiz/core-bundle-dev-app/commit/b14f5bef13870c6c4c929b1fe914295e89e00751))
+
+### Refactor
+
+- Removed deprecated AppController.php and Handler methods. Removed FrontendController.php. - ([4c72de2](https://github.com/roadiz/core-bundle-dev-app/commit/4c72de294546bcf4666924697be406ec84d6f84a))
+- Some constructor args refactoring, remove direct dependency on KernelInterface - ([de5356f](https://github.com/roadiz/core-bundle-dev-app/commit/de5356f702520492ef2fb455eda93826f307d7f3))
+
+### Testing
+
+- Fixed tests directory - ([ad895dc](https://github.com/roadiz/core-bundle-dev-app/commit/ad895dccf9c701b0ae689c28eb4c58ef2c3ab997))
+- Align all phpstan.neon levels - ([261c583](https://github.com/roadiz/core-bundle-dev-app/commit/261c5839ff4150bee3307e470cc9d3ea16fcaf78))
+- Remove atoum from github actions - ([dff59c9](https://github.com/roadiz/core-bundle-dev-app/commit/dff59c9df3da2eae6a5ca2cdb18d24a3e230ad41))
+- Replace atoum with PHPUnit for unit tests - ([49f315f](https://github.com/roadiz/core-bundle-dev-app/commit/49f315f99b1a4c5110105f11eae1327af264b9f1))
+
+## [2.2.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.11...v2.2.12) - 2024-03-08
+
+### Bug Fixes
+
+- **(Documents)** Do not try to render private Document URLs even for thumbnails - ([57ee606](https://github.com/roadiz/core-bundle-dev-app/commit/57ee606e35b8e2cd2b5327cd47593a4925ff0b90))
+
 ### Refactor
 
 - Removed deprecated Packages.php - ([d8f7511](https://github.com/roadiz/core-bundle-dev-app/commit/d8f75116ee6740e21b4bffc531585a3457632f7d))
