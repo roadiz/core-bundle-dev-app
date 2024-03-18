@@ -132,7 +132,12 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
      * @var Collection<int, NodeTypeField>
      */
     #[
-        ORM\OneToMany(mappedBy: "nodeType", targetEntity: NodeTypeField::class, cascade: ["all"]),
+        ORM\OneToMany(
+            mappedBy: "nodeType",
+            targetEntity: NodeTypeField::class,
+            cascade: ["all"],
+            orphanRemoval: true
+        ),
         ORM\OrderBy(["position" => "ASC"]),
         Serializer\Groups(["node_type"]),
         SymfonySerializer\Groups(["node_type"]),

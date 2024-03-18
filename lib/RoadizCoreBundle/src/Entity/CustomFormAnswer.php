@@ -44,7 +44,8 @@ class CustomFormAnswer extends AbstractEntity
         ORM\OneToMany(
             mappedBy: "customFormAnswer",
             targetEntity: CustomFormFieldAttribute::class,
-            cascade: ["ALL"]
+            cascade: ["ALL"],
+            orphanRemoval: true
         ),
         Serializer\Groups(["custom_form_answer"]),
         SymfonySerializer\Groups(["custom_form_answer"])

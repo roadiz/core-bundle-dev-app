@@ -40,7 +40,12 @@ trait AttributeGroupTrait
      * @var Collection<int, AttributeGroupTranslationInterface>
      */
     #[
-        ORM\OneToMany(mappedBy: "attributeGroup", targetEntity: AttributeGroupTranslationInterface::class, cascade: ["all"]),
+        ORM\OneToMany(
+            mappedBy: "attributeGroup",
+            targetEntity: AttributeGroupTranslationInterface::class,
+            cascade: ["all"],
+            orphanRemoval: true
+        ),
         Serializer\Groups(["attribute_group", "attribute", "node", "nodes_sources"]),
         Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Model\AttributeGroupTranslationInterface>"),
         Serializer\Accessor(getter: "getAttributeGroupTranslations", setter: "setAttributeGroupTranslations")
