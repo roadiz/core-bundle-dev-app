@@ -129,10 +129,7 @@ class SolrSearchResults implements SearchResultsInterface
                         DocumentTranslation::class,
                         $item[SolariumDocumentTranslation::IDENTIFIER_KEY]
                     );
-                    if (null === $documentTranslation) {
-                        return null;
-                    }
-                    return $documentTranslation->getDocument();
+                    return $documentTranslation?->getDocument();
             }
         }
 
@@ -143,11 +140,11 @@ class SolrSearchResults implements SearchResultsInterface
      * Return the current element
      *
      * @link https://php.net/manual/en/iterator.current.php
-     * @return mixed Can return any type.
+     * @return SolrSearchResultItem
      * @since 5.0
      */
     #[\ReturnTypeWillChange]
-    public function current(): mixed
+    public function current(): SolrSearchResultItem
     {
         return $this->getResultItems()[$this->position];
     }

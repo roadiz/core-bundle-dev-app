@@ -14,6 +14,7 @@ use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeTypeApi;
 use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
+use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -250,7 +251,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
     /**
      * Normalize response Node list result.
      *
-     * @param iterable<Node|NodesSources> $nodes
+     * @param iterable<Node|NodesSources|SolrSearchResultItem> $nodes
      * @return array
      */
     private function normalizeNodes(iterable $nodes): array
@@ -258,22 +259,28 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         $nodesArray = [];
 
         foreach ($nodes as $node) {
-            if (null !== $node) {
-                if ($node instanceof NodesSources) {
-                    if (!key_exists($node->getNode()->getId(), $nodesArray)) {
-                        $nodeModel = new NodeSourceModel($node, $this->urlGenerator, $this->security);
-                        $nodesArray[$node->getNode()->getId()] = $nodeModel->toArray();
-                    }
-                } else {
-                    if (!key_exists($node->getId(), $nodesArray)) {
-                        $nodeModel = new NodeModel($node, $this->urlGenerator, $this->security);
-                        $nodesArray[$node->getId()] = $nodeModel->toArray();
-                    }
+            if ($node instanceof SolrSearchResultItem) {
+                $item = $node->getItem();
+                if ($item instanceof NodesSources || $item instanceof Node) {
+                    $this->normalizeItem($item, $nodesArray);
                 }
+            } else {
+                $this->normalizeItem($node, $nodesArray);
             }
         }
 
         return array_values($nodesArray);
+    }
+
+    private function normalizeItem(NodesSources|Node $item, array &$nodesArray): void
+    {
+        if ($item instanceof NodesSources && !key_exists($item->getNode()->getId(), $nodesArray)) {
+            $nodeSourceModel = new NodeSourceModel($item, $this->urlGenerator, $this->security);
+            $nodesArray[$item->getNode()->getId()] = $nodeSourceModel->toArray();
+        } elseif ($item instanceof Node && !key_exists($item->getId(), $nodesArray)) {
+            $nodeModel = new NodeModel($item, $this->urlGenerator, $this->security);
+            $nodesArray[$item->getId()] = $nodeModel->toArray();
+        }
     }
 
     /**
