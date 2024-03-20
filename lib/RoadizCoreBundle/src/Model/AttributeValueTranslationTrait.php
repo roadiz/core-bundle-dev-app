@@ -72,7 +72,7 @@ trait AttributeValueTranslationTrait
                 return $this;
             case AttributeInterface::DATETIME_T:
             case AttributeInterface::DATE_T:
-                if ($value instanceof \DateTime) {
+                if ($value instanceof \DateTimeInterface) {
                     $this->value = $value->format('Y-m-d H:i:s');
                 } else {
                     $this->value = (string) $value;
