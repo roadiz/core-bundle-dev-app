@@ -168,15 +168,15 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
          */
         if (isset($args['publishedAt'])) {
             $tmp = "published_at_dt:";
-            if (!is_array($args['publishedAt']) && $args['publishedAt'] instanceof \DateTime) {
+            if (!is_array($args['publishedAt']) && $args['publishedAt'] instanceof \DateTimeInterface) {
                 $tmp .= $this->formatDateTimeToUTC($args['publishedAt']);
             } elseif (
                 isset($args['publishedAt'][0]) &&
                 $args['publishedAt'][0] === "BETWEEN" &&
                 isset($args['publishedAt'][1]) &&
-                $args['publishedAt'][1] instanceof \DateTime &&
+                $args['publishedAt'][1] instanceof \DateTimeInterface &&
                 isset($args['publishedAt'][2]) &&
-                $args['publishedAt'][2] instanceof \DateTime
+                $args['publishedAt'][2] instanceof \DateTimeInterface
             ) {
                 $tmp .= "[" .
                     $this->formatDateTimeToUTC($args['publishedAt'][1]) .
@@ -186,14 +186,14 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
                 isset($args['publishedAt'][0]) &&
                 $args['publishedAt'][0] === "<=" &&
                 isset($args['publishedAt'][1]) &&
-                $args['publishedAt'][1] instanceof \DateTime
+                $args['publishedAt'][1] instanceof \DateTimeInterface
             ) {
                 $tmp .= "[* TO " . $this->formatDateTimeToUTC($args['publishedAt'][1]) . "]";
             } elseif (
                 isset($args['publishedAt'][0]) &&
                 $args['publishedAt'][0] === ">=" &&
                 isset($args['publishedAt'][1]) &&
-                $args['publishedAt'][1] instanceof \DateTime
+                $args['publishedAt'][1] instanceof \DateTimeInterface
             ) {
                 $tmp .= "[" . $this->formatDateTimeToUTC($args['publishedAt'][1]) . " TO *]";
             }

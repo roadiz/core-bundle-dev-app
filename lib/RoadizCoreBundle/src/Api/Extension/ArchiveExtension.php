@@ -104,7 +104,7 @@ final class ArchiveExtension implements QueryResultCollectionExtensionInterface
 
         foreach ($paginator as $result) {
             $dateTimeField = reset($result);
-            if ($dateTimeField instanceof \DateTime) {
+            if ($dateTimeField instanceof \DateTimeInterface) {
                 $year = $dateTimeField->format('Y');
                 $month = $dateTimeField->format('Y-m');
 
