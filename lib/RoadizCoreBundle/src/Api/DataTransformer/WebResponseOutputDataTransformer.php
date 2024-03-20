@@ -93,6 +93,7 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
             ], UrlGeneratorInterface::ABSOLUTE_PATH));
             $output->setHead($this->nodesSourcesHeadFactory->createForNodeSource($object));
             $output->setBreadcrumbs($this->breadcrumbsFactory->create($object));
+            $output->setMaxAge($object->getNode()->getTtl() * 60);
         }
         if ($object instanceof TranslationInterface) {
             $output->setHead($this->nodesSourcesHeadFactory->createForTranslation($object));

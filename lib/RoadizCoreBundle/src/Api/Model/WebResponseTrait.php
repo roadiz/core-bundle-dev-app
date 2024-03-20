@@ -39,6 +39,23 @@ trait WebResponseTrait
     #[Serializer\Groups(["web_response"])]
     private bool $hidingBlocks = false;
 
+    /**
+     * @var int|null WebResponse item maximum age in seconds
+     */
+    #[Serializer\Groups(["web_response"])]
+    private ?int $maxAge = null;
+
+    public function getMaxAge(): ?int
+    {
+        return $this->maxAge;
+    }
+
+    public function setMaxAge(?int $maxAge): self
+    {
+        $this->maxAge = $maxAge;
+        return $this;
+    }
+
     public function setPath(?string $path): self
     {
         $this->path = $path;

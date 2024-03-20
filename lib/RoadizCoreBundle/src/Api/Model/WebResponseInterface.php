@@ -14,4 +14,6 @@ interface WebResponseInterface
     public function setItem(?PersistableInterface $item): self;
     public function setPath(?string $path): self;
     public function getItem(): ?PersistableInterface;
+    public function getMaxAge(): ?int;
+    public function setMaxAge(?int $maxAge): self;
 }
