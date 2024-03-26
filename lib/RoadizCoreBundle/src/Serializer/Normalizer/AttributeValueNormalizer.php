@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
+use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Model\AttributeValueTranslationInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 
@@ -50,8 +51,11 @@ final class AttributeValueNormalizer extends AbstractPathNormalizer
             }
 
             if (\in_array('attribute_documents', $serializationGroups, true)) {
-                $documentsContext = $context;
-                $documentsContext['groups'] = ['document_display'];
+                $documentsContext = [
+                    ...$context,
+                    'groups' => 'document_display',
+                    'resource_class' => Document::class
+                ];
                 $data['documents'] = array_map(function (DocumentInterface $document) use ($format, $documentsContext) {
                     return $this->decorated->normalize($document, $format, $documentsContext);
                 }, $object->getAttribute()->getDocuments()->toArray());

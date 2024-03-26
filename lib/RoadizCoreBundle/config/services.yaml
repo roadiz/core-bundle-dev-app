@@ -134,6 +134,8 @@ services:
         autowire: true
         public: true
 
+    RZ\Roadiz\CoreBundle\Api\Property\WebResponseItemPropertyMetadataFactory:
+        decorates: 'api_platform.json_schema.metadata.property.metadata_factory.schema'
 
     RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator:
         decorates: 'api_platform.openapi.factory'

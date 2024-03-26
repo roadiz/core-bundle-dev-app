@@ -37,8 +37,11 @@ final class DocumentSourcesNormalizer extends AbstractPathNormalizer
                 /*
                  * Reduce serialization group to avoid normalization loop.
                  */
-                $sourcesContext = $context;
-                $sourcesContext['groups'] = ['document_display'];
+                $sourcesContext = [
+                    ...$context,
+                    'groups' => 'document_display',
+                    'resource_class' => Document::class
+                ];
 
                 if ($object->isLocal() && $object->isVideo()) {
                     $data['altSources'] = [];

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\TagTranslation;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
@@ -38,8 +39,11 @@ final class TagNormalizer extends AbstractPathNormalizer
                 $data['description'] = $translatedData->getDescription();
 
                 if (\in_array('tag_documents', $serializationGroups, true)) {
-                    $documentsContext = $context;
-                    $documentsContext['groups'] = ['document_display'];
+                    $documentsContext = [
+                        ...$context,
+                        'groups' => 'document_display',
+                        'resource_class' => Document::class
+                    ];
                     $data['documents'] = array_map(function (DocumentInterface $document) use ($format, $documentsContext) {
                         return $this->decorated->normalize($document, $format, $documentsContext);
                     }, $translatedData->getDocuments());
