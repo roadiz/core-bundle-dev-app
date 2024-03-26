@@ -59,7 +59,8 @@ final class GetWebResponseByPathController extends AbstractController
             try {
                 /*
                  * Force API Platform to look for real resource configuration and serialization
-                 * context. You must define "%entity%_get_by_path" operation for your API resource configuration.
+                 * context. You must define "%entity%_get_by_path" operation for your WebResponse resource configuration.
+                 * It should be generated automatically by Roadiz when you create new reachable NodeTypes.
                  */
                 $resourceClass = get_class($resource);
                 $operationName = $this->apiResourceOperationNameGenerator->generateGetByPath($resourceClass);
@@ -68,6 +69,7 @@ final class GetWebResponseByPathController extends AbstractController
                     ->create($webResponseClass)
                     ->getOperation($operationName);
                 $request->attributes->set('_api_operation', $operation);
+                $request->attributes->set('_web_response_item_class', $resourceClass);
                 $request->attributes->set('_api_operation_name', $operationName);
             } catch (OperationNotFoundException $exception) {
                 // Do not fail if operation is not found
