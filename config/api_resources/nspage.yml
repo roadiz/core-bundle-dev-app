@@ -1,48 +1,83 @@
-App\GeneratedEntity\NSPage:
-    types:
-        - Page
-    operations:
-        page_get_collection:
-            method: GET
-            class: ApiPlatform\Metadata\GetCollection
-            shortName: Page
-            normalizationContext:
-                enable_max_depth: true
-                groups:
-                    - nodes_sources_base
-                    - nodes_sources_default
-                    - urls
-                    - tag_base
-                    - translation_base
-                    - document_display
-                    - document_thumbnails
-                    - document_display_sources
-                    - nodes_sources_images
-                    - nodes_sources_boolean
-                    - nodes_sources_geo
-        page_archives_collection:
-            method: GET
-            class: ApiPlatform\Metadata\GetCollection
-            shortName: Page
-            uriTemplate: /pages/archives
-            extraProperties:
-                archive_enabled: true
-            openapiContext:
-                summary: 'Retrieve all Page ressources archives months and years'
-        page_get:
-            method: GET
-            class: ApiPlatform\Metadata\Get
-            shortName: Page
-            normalizationContext:
-                groups:
-                    - nodes_sources
-                    - node_listing
-                    - urls
-                    - tag_base
-                    - translation_base
-                    - document_display
-                    - document_thumbnails
-                    - document_display_sources
-                    - nodes_sources_images
-                    - nodes_sources_boolean
-                    - nodes_sources_geo
+resources:
+    App\GeneratedEntity\NSPage:
+        shortName: Page
+        types:
+            - Page
+        graphQlOperations:
+            - class: ApiPlatform\Metadata\GraphQl\Query
+              normalizationContext:
+                  enable_max_depth: true
+                  groups:
+                      - nodes_sources_documents_by_fields
+                      - nodes_sources_base
+                      - nodes_sources_default
+                      - urls
+                      - tag_base
+                      - translation_base
+                      - document_display
+                      - document_thumbnails
+                      - document_display_sources
+                      - nodes_sources_images
+                      - nodes_sources_boolean
+                      - nodes_sources_geo
+            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
+              normalizationContext:
+                  enable_max_depth: true
+                  groups:
+                      - nodes_sources_documents_by_fields
+                      - nodes_sources_base
+                      - nodes_sources_default
+                      - urls
+                      - tag_base
+                      - translation_base
+                      - document_display
+                      - document_thumbnails
+                      - document_display_sources
+                      - nodes_sources_images
+                      - nodes_sources_boolean
+                      - nodes_sources_geo
+        operations:
+            page_get_collection:
+                method: GET
+                class: ApiPlatform\Metadata\GetCollection
+                shortName: Page
+                normalizationContext:
+                    enable_max_depth: true
+                    groups:
+                        - nodes_sources_base
+                        - nodes_sources_default
+                        - urls
+                        - tag_base
+                        - translation_base
+                        - document_display
+                        - document_thumbnails
+                        - document_display_sources
+                        - nodes_sources_images
+                        - nodes_sources_boolean
+                        - nodes_sources_geo
+            page_archives_collection:
+                method: GET
+                class: ApiPlatform\Metadata\GetCollection
+                shortName: Page
+                uriTemplate: /pages/archives
+                extraProperties:
+                    archive_enabled: true
+                openapiContext:
+                    summary: 'Retrieve all Page ressources archives months and years'
+            page_get:
+                method: GET
+                class: ApiPlatform\Metadata\Get
+                shortName: Page
+                normalizationContext:
+                    groups:
+                        - nodes_sources
+                        - node_listing
+                        - urls
+                        - tag_base
+                        - translation_base
+                        - document_display
+                        - document_thumbnails
+                        - document_display_sources
+                        - nodes_sources_images
+                        - nodes_sources_boolean
+                        - nodes_sources_geo

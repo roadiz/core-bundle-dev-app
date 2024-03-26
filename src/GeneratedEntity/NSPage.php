@@ -18,8 +18,8 @@ use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
- * DO NOT EDIT
- * Generated custom node-source type by Roadiz.
+ * Page node-source entity.
+ * Page
  */
 #[
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),

@@ -51,15 +51,17 @@ final class ApiResourceGenerator
             $filesystem->dumpFile(
                 $webResponseResourcePath,
                 Yaml::dump([
-                    $this->webResponseClass => [
-                        'operations' => [],
+                    'resources' => [
+                        $this->webResponseClass => [
+                            'operations' => [],
+                        ]
                     ]
-                ], 6)
+                ], 7)
             );
         }
         $filesystem->dumpFile(
             $webResponseResourcePath,
-            Yaml::dump($this->addWebResponseResourceOperation($nodeType, $webResponseResourcePath), 6)
+            Yaml::dump($this->addWebResponseResourceOperation($nodeType, $webResponseResourcePath), 7)
         );
         $this->logger->info('API WebResponse config file has been updated.', [
             'file' => $webResponseResourcePath,
@@ -69,7 +71,7 @@ final class ApiResourceGenerator
         if (!$filesystem->exists($resourcePath)) {
             $filesystem->dumpFile(
                 $resourcePath,
-                Yaml::dump($this->getApiResourceDefinition($nodeType), 6)
+                Yaml::dump($this->getApiResourceDefinition($nodeType), 7)
             );
             $this->logger->info('API resource config file has been generated.', [
                 'nodeType' => $nodeType->getName(),
@@ -96,7 +98,7 @@ final class ApiResourceGenerator
         if ($filesystem->exists($webResponseResourcePath)) {
             $filesystem->dumpFile(
                 $webResponseResourcePath,
-                Yaml::dump($this->removeWebResponseResourceOperation($nodeType, $webResponseResourcePath), 6)
+                Yaml::dump($this->removeWebResponseResourceOperation($nodeType, $webResponseResourcePath), 7)
             );
             $this->logger->info('API WebResponse config file has been updated.', [
                 'file' => $webResponseResourcePath,
@@ -148,13 +150,18 @@ final class ApiResourceGenerator
             ->trimStart('\\')
             ->toString();
 
-        return [ $fqcn => [
-            'types' => [$nodeType->getName()],
-            'operations' => [
-                ...$this->getCollectionOperations($nodeType),
-                ...$this->getItemOperations($nodeType)
-            ],
-        ]];
+        return [
+            'resources' => [
+                $fqcn => [
+                    'shortName' => $nodeType->getName(),
+                    'types' => [$nodeType->getName()],
+                    'operations' => [
+                        ...$this->getCollectionOperations($nodeType),
+                        ...$this->getItemOperations($nodeType)
+                    ],
+                ]
+            ]
+        ];
     }
 
     protected function addWebResponseResourceOperation(NodeTypeInterface $nodeType, string $webResponseResourcePath): array
@@ -164,16 +171,18 @@ final class ApiResourceGenerator
         );
         $webResponseResource = Yaml::parseFile($webResponseResourcePath);
 
-        if (!\array_key_exists($this->webResponseClass, $webResponseResource)) {
+        if (!\array_key_exists($this->webResponseClass, $webResponseResource['resources'])) {
             $webResponseResource = [
-                $this->webResponseClass => [
-                    'operations' => [],
-                ]
+                'resources' => [
+                    $this->webResponseClass => [
+                        'operations' => [],
+                    ]
+                ],
             ];
         }
 
-        if (\array_key_exists('operations', $webResponseResource[$this->webResponseClass])) {
-            $operations = $webResponseResource[$this->webResponseClass]['operations'];
+        if (\array_key_exists('operations', $webResponseResource['resources'][$this->webResponseClass])) {
+            $operations = $webResponseResource['resources'][$this->webResponseClass]['operations'];
         } else {
             $operations = [];
         }
@@ -226,7 +235,7 @@ final class ApiResourceGenerator
             ]
         ];
 
-        $webResponseResource[$this->webResponseClass]['operations'] = $operations;
+        $webResponseResource['resources'][$this->webResponseClass]['operations'] = $operations;
         return $webResponseResource;
     }
 
@@ -237,11 +246,11 @@ final class ApiResourceGenerator
         );
         $webResponseResource = Yaml::parseFile($webResponseResourcePath);
 
-        if (!\array_key_exists($this->webResponseClass, $webResponseResource)) {
+        if (!\array_key_exists($this->webResponseClass, $webResponseResource['resources'])) {
             return $webResponseResource;
         }
-        if (\array_key_exists('operations', $webResponseResource[$this->webResponseClass])) {
-            $operations = $webResponseResource[$this->webResponseClass]['operations'];
+        if (\array_key_exists('operations', $webResponseResource['resources'][$this->webResponseClass])) {
+            $operations = $webResponseResource['resources'][$this->webResponseClass]['operations'];
         } else {
             return $webResponseResource;
         }
@@ -251,7 +260,7 @@ final class ApiResourceGenerator
         }
 
         unset($operations[$getByPathOperationName]);
-        $webResponseResource[$this->webResponseClass]['operations'] = array_filter($operations);
+        $webResponseResource['resources'][$this->webResponseClass]['operations'] = array_filter($operations);
         return $webResponseResource;
     }
 
