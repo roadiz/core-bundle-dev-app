@@ -14,7 +14,12 @@ use Symfony\Component\Serializer\Annotation as Serializer;
 
 trait WebResponseTrait
 {
-    #[ApiProperty(identifier: true)]
+    #[ApiProperty(
+        description: "The path of the current WebResponse.",
+        readable: true,
+        writable: false,
+        identifier: true
+    )]
     public ?string $path = null;
 
     #[Serializer\Groups(["web_response"])]

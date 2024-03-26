@@ -9,26 +9,20 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Realm;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\RealmVoter;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 final class RealmSerializationGroupNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
 
     private const ALREADY_CALLED = 'REALM_SERIALIZER_NORMALIZER_ALREADY_CALLED';
-    private Security $security;
-    private ManagerRegistry $managerRegistry;
 
-    /**
-     * @param Security $security
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(Security $security, ManagerRegistry $managerRegistry)
-    {
-        $this->security = $security;
-        $this->managerRegistry = $managerRegistry;
+    public function __construct(
+        private readonly Security $security,
+        private readonly ManagerRegistry $managerRegistry
+    ) {
     }
 
     /**

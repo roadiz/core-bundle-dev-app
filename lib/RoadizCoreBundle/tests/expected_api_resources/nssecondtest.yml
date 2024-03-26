@@ -1,11 +1,11 @@
-App\GeneratedEntity\NSOffer:
+App\GeneratedEntity\NSSecondTest:
     types:
-        - Offer
+        - SecondTest
     operations:
-        offer_get_collection:
+        secondtest_get_collection:
             method: GET
             class: ApiPlatform\Metadata\GetCollection
-            shortName: Offer
+            shortName: SecondTest
             normalizationContext:
                 enable_max_depth: true
                 groups:
@@ -17,10 +17,10 @@ App\GeneratedEntity\NSOffer:
                     - document_display
                     - document_thumbnails
                     - document_display_sources
-        offer_get:
+        secondtest_get:
             method: GET
             class: ApiPlatform\Metadata\Get
-            shortName: Offer
+            shortName: SecondTest
             normalizationContext:
                 groups:
                     - nodes_sources

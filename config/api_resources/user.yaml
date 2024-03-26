@@ -5,6 +5,7 @@ RZ\Roadiz\CoreBundle\Entity\User:
             class: ApiPlatform\Metadata\Post
             method: 'POST'
             uriTemplate: '/users/signup'
+            itemUriTemplate: '/users/{id}'
             processor: RZ\Roadiz\UserBundle\State\UserSignupProcessor
             input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
             output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
@@ -26,6 +27,7 @@ RZ\Roadiz\CoreBundle\Entity\User:
             class: ApiPlatform\Metadata\Post
             method: 'POST'
             uriTemplate: '/users/password_request'
+            itemUriTemplate: '/users/{id}'
             processor: RZ\Roadiz\UserBundle\State\UserPasswordRequestProcessor
             input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput
             output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
@@ -95,6 +97,7 @@ RZ\Roadiz\CoreBundle\Entity\User:
         ApiPlatform\Metadata\GetCollection:
             method: 'GET'
             security: "is_granted('ROLE_ACCESS_USERS')"
+            itemUriTemplate: '/users/{id}'
             normalizationContext:
                 groups: [ 'user', 'user_personal' ]
                 enable_max_depth: true

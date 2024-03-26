@@ -7,7 +7,9 @@ namespace RZ\Roadiz\CoreBundle\Api\Controller;
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Exception\InvalidArgumentException;
 use ApiPlatform\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Metadata\Exception\OperationNotFoundException;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
@@ -30,6 +32,7 @@ final class GetWebResponseByPathController extends AbstractController
         private readonly IriConverterInterface $iriConverter,
         private readonly PreviewResolverInterface $previewResolver,
         private readonly ApiResourceOperationNameGenerator $apiResourceOperationNameGenerator,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -46,18 +49,32 @@ final class GetWebResponseByPathController extends AbstractController
                 $request,
                 (string) $request->query->get('path')
             );
-            $request->attributes->set('data', $resource);
             $request->attributes->set('id', $resource->getId());
-            /*
-             * Force API Platform to look for real resource configuration and serialization
-             * context. You must define "%entity%_get_by_path" operation for your API resource configuration.
-             */
-            $resourceClass = get_class($resource);
-            $operationName = $this->apiResourceOperationNameGenerator->generateGetByPath($resourceClass);
-            $operation = $this->resourceMetadataCollectionFactory->create($resourceClass)->getOperation($operationName);
-            $request->attributes->set('_api_operation', $operation);
-            $request->attributes->set('_api_operation_name', $operationName);
-            $request->attributes->set('_api_resource_class', $resourceClass);
+            $request->attributes->set('path', (string) $request->query->get('path'));
+            $request->attributes->set('_route_params', [
+                ...$request->attributes->get('_route_params', []),
+                'path' => (string) $request->query->get('path'),
+            ]);
+
+            try {
+                /*
+                 * Force API Platform to look for real resource configuration and serialization
+                 * context. You must define "%entity%_get_by_path" operation for your API resource configuration.
+                 */
+                $resourceClass = get_class($resource);
+                $operationName = $this->apiResourceOperationNameGenerator->generateGetByPath($resourceClass);
+                $webResponseClass = $request->attributes->get('_api_resource_class');
+                $operation = $this->resourceMetadataCollectionFactory
+                    ->create($webResponseClass)
+                    ->getOperation($operationName);
+                $request->attributes->set('_api_operation', $operation);
+                $request->attributes->set('_api_operation_name', $operationName);
+            } catch (OperationNotFoundException $exception) {
+                // Do not fail if operation is not found
+                // But warn in logs about missing operation configuration for this resource
+                $this->logger->warning($exception->getMessage());
+            }
+
             $request->attributes->set('_stateless', true);
 
             if ($resource instanceof NodesSources) {

@@ -18,18 +18,13 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 final class DocumentNormalizer extends AbstractPathNormalizer
 {
-    private FilesystemOperator $documentsStorage;
-    private EmbedFinderFactory $embedFinderFactory;
-
     public function __construct(
-        FilesystemOperator $documentsStorage,
         NormalizerInterface $decorated,
         UrlGeneratorInterface $urlGenerator,
-        EmbedFinderFactory $embedFinderFactory
+        private readonly FilesystemOperator $documentsStorage,
+        private readonly EmbedFinderFactory $embedFinderFactory
     ) {
         parent::__construct($decorated, $urlGenerator);
-        $this->documentsStorage = $documentsStorage;
-        $this->embedFinderFactory = $embedFinderFactory;
     }
 
     /**

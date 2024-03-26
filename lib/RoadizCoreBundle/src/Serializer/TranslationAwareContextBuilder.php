@@ -13,18 +13,11 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class TranslationAwareContextBuilder implements SerializerContextBuilderInterface
 {
-    private ManagerRegistry $managerRegistry;
-    private SerializerContextBuilderInterface $decorated;
-    private PreviewResolverInterface $previewResolver;
-
     public function __construct(
-        SerializerContextBuilderInterface $decorated,
-        ManagerRegistry $managerRegistry,
-        PreviewResolverInterface $previewResolver
+        private readonly SerializerContextBuilderInterface $decorated,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly PreviewResolverInterface $previewResolver
     ) {
-        $this->decorated = $decorated;
-        $this->managerRegistry = $managerRegistry;
-        $this->previewResolver = $previewResolver;
     }
     /**
      * @inheritDoc

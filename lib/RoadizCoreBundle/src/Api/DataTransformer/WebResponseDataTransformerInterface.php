@@ -10,10 +10,11 @@ use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 interface WebResponseDataTransformerInterface
 {
     /**
-     * @param PersistableInterface $object
+     * @template T of PersistableInterface
+     * @param T $object
      * @param string $to
      * @param array $context
-     * @return WebResponseInterface|null
+     * @return WebResponseInterface<T>|null
      */
     public function transform(PersistableInterface $object, string $to, array $context = []): ?WebResponseInterface;
 

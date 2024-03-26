@@ -41,10 +41,7 @@
 
     <testsuites>
         <testsuite name="Roadiz Monorepo Test Suite">
-            <directory>lib/Models/src/Test</directory>
-            <directory>lib/RoadizCoreBundle/src/Test</directory>
-            <directory>lib/Documents/src/Test</directory>
-            <directory>lib/EntityGenerator/src/Test</directory>
+            <directory>src/Test</directory>
         </testsuite>
     </testsuites>
 
@@ -56,16 +53,7 @@
               disableCodeCoverageIgnore="true">
         <include>
             <directory suffix=".php">src</directory>
-            <directory suffix=".php">lib</directory>
         </include>
-        <exclude>
-            <directory>lib/EntityGenerator/tests/mocks</directory>
-            <directory>tests</directory>
-            <directory>lib/RoadizCoreBundle/tests</directory>
-            <directory>lib/Models/src/Test</directory>
-            <directory>lib/Documents/src/Test</directory>
-            <directory>lib/EntityGenerator/src/Test</directory>
-        </exclude>
         <report>
             <text outputFile="php://stdout"/>
             <clover outputFile="coverage/clover.xml"/>
@@ -76,11 +64,4 @@
     <listeners>
         <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener" />
     </listeners>
-
-    <!-- Run `composer require symfony/panther` before enabling this extension -->
-    <!--
-    <extensions>
-        <extension class="Symfony\Component\Panther\ServerExtension" />
-    </extensions>
-    -->
 </phpunit>

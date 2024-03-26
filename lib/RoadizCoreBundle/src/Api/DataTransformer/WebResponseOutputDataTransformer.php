@@ -11,7 +11,6 @@ use RZ\Roadiz\CoreBundle\Api\Breadcrumbs\BreadcrumbsFactoryInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\BlocksAwareWebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\RealmsAwareWebResponseInterface;
-use RZ\Roadiz\CoreBundle\Api\Model\WebResponse;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
@@ -27,6 +26,16 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
     use BlocksAwareWebResponseOutputDataTransformerTrait;
     use RealmsAwareWebResponseOutputDataTransformerTrait;
 
+    /**
+     * @param NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory
+     * @param BreadcrumbsFactoryInterface $breadcrumbsFactory
+     * @param WalkerContextInterface $walkerContext
+     * @param CacheItemPoolInterface $cacheItemPool
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param RealmResolverInterface $realmResolver
+     * @param TreeWalkerGenerator $treeWalkerGenerator
+     * @param class-string<WebResponseInterface> $webResponseClass
+     */
     public function __construct(
         protected readonly NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
         protected readonly BreadcrumbsFactoryInterface $breadcrumbsFactory,
@@ -34,7 +43,8 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
         protected readonly CacheItemPoolInterface $cacheItemPool,
         protected readonly UrlGeneratorInterface $urlGenerator,
         protected readonly RealmResolverInterface $realmResolver,
-        protected readonly TreeWalkerGenerator $treeWalkerGenerator
+        protected readonly TreeWalkerGenerator $treeWalkerGenerator,
+        private readonly string $webResponseClass
     ) {
     }
 
@@ -73,7 +83,7 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
 
     public function createWebResponse(): WebResponseInterface
     {
-        return new WebResponse();
+        return new ($this->webResponseClass)();
     }
 
     public function transform(PersistableInterface $object, string $to, array $context = []): ?WebResponseInterface

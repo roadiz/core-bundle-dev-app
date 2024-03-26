@@ -145,8 +145,8 @@ services:
         volumes:
             - ./:/var/www/html:cached
         networks:
-            - frontproxynet
             - default
+            - frontproxynet
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.scheme=http"

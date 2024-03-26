@@ -50,6 +50,7 @@ services:
             $maxVersionsShowed: '%roadiz_core.max_versions_showed%'
             $recaptchaPublicKey: '%roadiz_core.medias.recaptcha_public_key%'
             $recaptchaPrivateKey: '%roadiz_core.medias.recaptcha_private_key%'
+            $webResponseClass: '%roadiz_core.web_response_class%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'
