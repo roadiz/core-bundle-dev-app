@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
 use ApiPlatform\Util\RequestAttributesExtractor;
+use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -54,6 +55,11 @@ final class NodesSourcesAddHeadersSubscriber implements EventSubscriberInterface
 
         $resourceCacheHeaders = $attributes['cache_headers'] ?? [];
         $data = $request->attributes->get('data');
+
+        // Work with WebResponse item instead of WebResponse itself
+        if ($data instanceof WebResponseInterface) {
+            $data = $data->getItem();
+        }
 
         // if the public-property is defined and not yet set; apply it to the response
         $public = $resourceCacheHeaders['public'] ?? null;

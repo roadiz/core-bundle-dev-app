@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Link\EvolvableLinkProviderInterface;
+use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -37,6 +38,11 @@ final class NodesSourcesLinkHeaderEventSubscriber implements EventSubscriberInte
         $request = $event->getRequest();
         $resources = $request->attributes->get('data');
         $linkProvider = $request->attributes->get('_links', new GenericLinkProvider());
+
+        // Work with WebResponse item instead of WebResponse itself
+        if ($resources instanceof WebResponseInterface) {
+            $resources = $resources->getItem();
+        }
 
         if (!$resources instanceof NodesSources || !$linkProvider instanceof EvolvableLinkProviderInterface) {
             return;

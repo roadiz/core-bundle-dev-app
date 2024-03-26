@@ -84,7 +84,10 @@ final class GetWebResponseByPathController extends AbstractController
                 $request->attributes->set('_locale', $resource->getTranslation()->getPreferredLocale());
             }
 
-            return $this->webResponseDataTransformer->transform($resource, WebResponseInterface::class);
+            $data = $this->webResponseDataTransformer->transform($resource, WebResponseInterface::class);
+            $request->attributes->set('data', $data);
+
+            return $data;
         } catch (ResourceNotFoundException | ResourceClassNotFoundException $exception) {
             throw $this->createNotFoundException($exception->getMessage(), $exception);
         }
