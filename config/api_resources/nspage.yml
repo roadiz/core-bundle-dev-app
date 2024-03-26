@@ -5,37 +5,7 @@ resources:
             - Page
         graphQlOperations:
             - class: ApiPlatform\Metadata\GraphQl\Query
-              normalizationContext:
-                  enable_max_depth: true
-                  groups:
-                      - nodes_sources_documents_by_fields
-                      - nodes_sources_base
-                      - nodes_sources_default
-                      - urls
-                      - tag_base
-                      - translation_base
-                      - document_display
-                      - document_thumbnails
-                      - document_display_sources
-                      - nodes_sources_images
-                      - nodes_sources_boolean
-                      - nodes_sources_geo
             - class: ApiPlatform\Metadata\GraphQl\QueryCollection
-              normalizationContext:
-                  enable_max_depth: true
-                  groups:
-                      - nodes_sources_documents_by_fields
-                      - nodes_sources_base
-                      - nodes_sources_default
-                      - urls
-                      - tag_base
-                      - translation_base
-                      - document_display
-                      - document_thumbnails
-                      - document_display_sources
-                      - nodes_sources_images
-                      - nodes_sources_boolean
-                      - nodes_sources_geo
         operations:
             page_get_collection:
                 method: GET

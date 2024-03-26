@@ -3,6 +3,9 @@ resources:
         shortName: Neutral
         types:
             - Neutral
+        graphQlOperations:
+            - class: ApiPlatform\Metadata\GraphQl\Query
+            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             neutral_get:
                 method: GET

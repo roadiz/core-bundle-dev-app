@@ -1,5 +1,6 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\Realm:
+        graphQlOperations: []
         operations:
     #        ApiPlatform\Metadata\GetCollection:
     #            method: "GET"

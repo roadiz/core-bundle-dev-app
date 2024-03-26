@@ -3,6 +3,9 @@ resources:
         shortName: Menu
         types:
             - Menu
+        graphQlOperations:
+            - class: ApiPlatform\Metadata\GraphQl\Query
+            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             menu_get:
                 method: GET

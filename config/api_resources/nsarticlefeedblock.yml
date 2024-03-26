@@ -3,6 +3,9 @@ resources:
         shortName: ArticleFeedBlock
         types:
             - ArticleFeedBlock
+        graphQlOperations:
+            - class: ApiPlatform\Metadata\GraphQl\Query
+            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             articlefeedblock_get:
                 method: GET

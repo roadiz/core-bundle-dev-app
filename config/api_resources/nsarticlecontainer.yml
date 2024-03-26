@@ -3,6 +3,9 @@ resources:
         shortName: ArticleContainer
         types:
             - ArticleContainer
+        graphQlOperations:
+            - class: ApiPlatform\Metadata\GraphQl\Query
+            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             articlecontainer_get_collection:
                 method: GET

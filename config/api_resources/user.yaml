@@ -1,5 +1,6 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\User:
+        graphQlOperations: [ ]
         operations:
             api_user_signup:
                 class: ApiPlatform\Metadata\Post

@@ -1,5 +1,6 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\CustomForm:
+        graphQlOperations: []
         operations:
             ApiPlatform\Metadata\GetCollection:
                 method: "GET"
