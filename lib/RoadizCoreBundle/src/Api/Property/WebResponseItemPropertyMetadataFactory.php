@@ -6,15 +6,21 @@ namespace RZ\Roadiz\CoreBundle\Api\Property;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\Property\Factory\PropertyMetadataFactoryInterface;
-use RZ\Roadiz\CoreBundle\Api\Model\WebResponse;
+use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\PropertyInfo\Type;
 
 class WebResponseItemPropertyMetadataFactory implements PropertyMetadataFactoryInterface
 {
+    /**
+     * @param PropertyMetadataFactoryInterface $decorated
+     * @param RequestStack $requestStack
+     * @param class-string<WebResponseInterface> $webResponseClass
+     */
     public function __construct(
         private readonly PropertyMetadataFactoryInterface $decorated,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
+        private readonly string $webResponseClass
     ) {
     }
 
@@ -25,7 +31,7 @@ class WebResponseItemPropertyMetadataFactory implements PropertyMetadataFactoryI
 
         if (null !== $request &&
             ($webResponseClass = $request->attributes->get('_web_response_item_class')) &&
-            $resourceClass === WebResponse::class &&
+            $resourceClass === $this->webResponseClass &&
             $property === 'item'
         ) {
             if (\is_string($webResponseClass)) {
