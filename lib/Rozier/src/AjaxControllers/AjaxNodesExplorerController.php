@@ -185,7 +185,6 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
             $arrayFilter,
             $this->getItemPerPage(),
             true,
-            2,
             (int) $currentPage
         );
         $pageCount = ceil($results->getResultCount() / $this->getItemPerPage());
