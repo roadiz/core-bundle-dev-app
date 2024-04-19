@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.14...v2.2.15) - 2024-04-19
+
+### Bug Fixes
+
+- **(Documents)** Updated Dailymotion oembed discovery and iframe source generation. - ([2628f40](https://github.com/roadiz/core-bundle-dev-app/commit/2628f40dfe9e50139a16e759018d8ff356f11496))
+
 ## [2.2.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.13...v2.2.14) - 2024-03-20
 
 ### Bug Fixes
