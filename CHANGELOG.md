@@ -6,6 +6,31 @@ All notable changes to Roadiz will be documented in this file.
 
 ### ⚠ Breaking changes
 
+- Removed `$proximity` argument from `search` and `searchWithHighlight` SearchHandlerInterface methods
+
+### Bug Fixes
+
+- **(Documents)** Updated Dailymotion oembed discovery and iframe source generation. - ([2a06744](https://github.com/roadiz/core-bundle-dev-app/commit/2a067441e808cf16d872a9d9d3688cb3b7d0c23a))
+- Allow OpenApi decoration with no `web_response_by_path` path - ([c74dc6f](https://github.com/roadiz/core-bundle-dev-app/commit/c74dc6f2f65cbfe0ed9082b99af40e72a9c1684d))
+- Need to comment all bundle config api_resource definitions - ([cfd0c53](https://github.com/roadiz/core-bundle-dev-app/commit/cfd0c530297ae002410698b628b1e16dc806075a))
+- Rewrote all api_resources config files with `resources:` prefix - ([40e5e9a](https://github.com/roadiz/core-bundle-dev-app/commit/40e5e9a4fe3b030858301e33c3a62924fcd2f4ea))
+
+### Features
+
+- **(Solr)** [**breaking**] Removed `$proximity` argument from `search` and `searchWithHighlight` SearchHandlerInterface methods - ([e0e36b5](https://github.com/roadiz/core-bundle-dev-app/commit/e0e36b51bd1eadc239dc5f5adea0ee0d7858375f))
+- **(WebResponse)** Expose request attribute `_web_response_item_class` to store WebResponse item class name - ([e483039](https://github.com/roadiz/core-bundle-dev-app/commit/e483039982cf655012c25b5d72c6fc94c21be0fb))
+- Set Request attribute `data` as WebResponse instead of WebResponse item. Changed LinkHeader and AddHeaders event subscribers to check if `data` is WebResponseInterface - ([a7da352](https://github.com/roadiz/core-bundle-dev-app/commit/a7da352e369d185c9531b0528c9835bf4010a82e))
+
+## [2.2.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.13...v2.2.14) - 2024-03-20
+
+### Bug Fixes
+
+- Use `\DateTimeInterface` to check object types instead of `\DateTime` - ([9389865](https://github.com/roadiz/core-bundle-dev-app/commit/9389865ed9d2ef47e5c680b5bf519bd45111dea5))
+
+## [2.2.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.12...v2.2.13) - 2024-03-08
+
+### ⚠ Breaking changes
+
 - Make sure you don't have fields with name longer than 50 characters before migrating. Migration can be skipped if so.
 - Removed NodeTypeField `id` join column from NodesCustomForms, NodesSourcesDocuments and NodesToNodes relation tables to use `field_name` string column for loose relation. **Make sure to backup your database before performing this migration**.
 - `node_type_name` JSON property is no-longer required in node-type JSON export files.
@@ -15,6 +40,7 @@ All notable changes to Roadiz will be documented in this file.
 
 - **(Documents)** Requires api-platform/metadata for unit tests - ([ae67dba](https://github.com/roadiz/core-bundle-dev-app/commit/ae67dba4325f43bae173dd250ad237b46767b60e))
 - **(Setting)** Always format DateTimeInterface to string in settings even if type is wrongly set - ([3c9eda6](https://github.com/roadiz/core-bundle-dev-app/commit/3c9eda63c3bbf30e9feed9130d8701fb27397100))
+- Error during back-porting from 2.3.x-dev - ([409eed2](https://github.com/roadiz/core-bundle-dev-app/commit/409eed2df003f3107ab5b73e2b9cbac56239c93a))
 - Fixed AjaxNodesExplorerController with SearchResultsInterface - ([9231f42](https://github.com/roadiz/core-bundle-dev-app/commit/9231f42e35decc50aebdc7c4c1b3c9634b4edf64))
 - Missing `orphanRemoval: true` on non-nullable OneToMany relationships - ([019b353](https://github.com/roadiz/core-bundle-dev-app/commit/019b3534ba89effa1479673382e2150164f63973))
 -  [**breaking**]Removed NodeTypeInterface from Node constructor, Removed ThemeRoutesLoader.php - ([0816525](https://github.com/roadiz/core-bundle-dev-app/commit/08165257777756f954be303719659ec7070a586e))
@@ -824,7 +850,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.9...v2.1.0) - 2023-03-06
+## [2.1.0] - 2023-03-06
 
 ### Bug Fixes
 
