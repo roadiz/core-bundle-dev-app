@@ -30,3 +30,7 @@ cache :
 migrate:
 	docker compose exec -u www-data app php bin/console doctrine:migrations:migrate
 	docker compose exec -u www-data app php bin/console app:migrate
+
+update:
+	docker compose exec -u www-data app php bin/console doctrine:migrations:migrate -n
+	docker compose exec -u www-data app php bin/console app:install
