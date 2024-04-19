@@ -1,3 +1,10 @@
+## [v2.1.61](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.60...v2.1.61) (2024-04-19)
+
+
+### Bug Fixes
+
+* **Documents:** Updated Dailymotion oembed discovery and iframe source generation. ([656b497](https://github.com/roadiz/core-bundle-dev-app/commit/656b497894e235f960a6f1bcbfa072a5d5563989))
+
 ## [v2.1.60](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.59...v2.1.60) (2024-03-08)
 
 
