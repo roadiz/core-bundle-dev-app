@@ -13,6 +13,7 @@ trait DocumentTrait
      * Associate mime type to simple types.
      *
      * - code
+     * - text
      * - image
      * - word
      * - video
@@ -22,86 +23,115 @@ trait DocumentTrait
      * - excel
      * - powerpoint
      * - font
+     * - 3d
      *
      * @var array<string, string>
      * @internal
      */
     #[SymfonySerializer\Ignore()]
     protected static array $mimeToIcon = [
-        'text/html' => 'code',
+        // Code
         'application/javascript' => 'code',
+        'application/json' => 'code',
+        'application/ld+json' => 'code',
         'text/css' => 'code',
-        'text/rtf' => 'word',
+        'text/html' => 'code',
         'text/xml' => 'code',
-        'image/png' => 'image',
-        'image/jpeg' => 'image',
-        'image/gif' => 'image',
-        'image/tiff' => 'image',
-        'image/webp' => 'image',
+        // Text
+        'text/plain' => 'text',
+        // Images types
         'image/avif' => 'image',
+        'image/bmp' => 'image',
+        'image/gif' => 'image',
         'image/heic' => 'image',
         'image/heif' => 'image',
+        'image/jpeg' => 'image',
+        'image/png' => 'image',
+        'image/svg+xml' => 'image',
+        'image/tiff' => 'image',
         'image/vnd.microsoft.icon' => 'image',
+        'image/webp' => 'image',
         'image/x-icon' => 'image',
+        // PDF
         'application/pdf' => 'pdf',
         // Audio types
-        'audio/mpeg' => 'audio',
-        'audio/x-m4a' => 'audio',
-        'audio/x-wav' => 'audio',
-        'audio/wav' => 'audio',
         'audio/aac' => 'audio',
+        'audio/ac3' => 'audio',
+        'audio/eac3' => 'audio',
+        'audio/flac' => 'audio',
+        'audio/matroska' => 'audio',
         'audio/mp4' => 'audio',
-        'audio/webm' => 'audio',
+        'audio/mpeg' => 'audio',
         'audio/ogg' => 'audio',
         'audio/vorbis' => 'audio',
-        'audio/ac3' => 'audio',
+        'audio/wav' => 'audio',
+        'audio/webm' => 'audio',
+        'audio/x-m4a' => 'audio',
         'audio/x-matroska' => 'audio',
+        'audio/x-wav' => 'audio',
         // Video types
         'application/ogg' => 'video',
-        'video/ogg' => 'video',
-        'video/webm' => 'video',
-        'video/mpeg' => 'video',
-        'video/mp4' => 'video',
-        'video/x-m4v' => 'video',
-        'video/quicktime' => 'video',
-        'video/x-flv' => 'video',
         'video/3gpp' => 'video',
-        'video/3gpp2' => 'video',
         'video/3gpp-tt' => 'video',
+        'video/3gpp2' => 'video',
         'video/VP8' => 'video',
+        'video/matroska' => 'video',
+        'video/matroska-3d' => 'video',
+        'video/mp4' => 'video',
+        'video/mpeg' => 'video',
+        'video/ogg' => 'video',
+        'video/quicktime' => 'video',
+        'video/webm' => 'video',
+        'video/x-flv' => 'video',
+        'video/x-m4v' => 'video',
         'video/x-matroska' => 'video',
         // Epub type
         'application/epub+zip' => 'epub',
         // Archives types
         'application/gzip' => 'archive',
-        'application/zip' => 'archive',
-        'application/x-bzip2' => 'archive',
-        'application/x-tar' => 'archive',
         'application/x-7z-compressed' => 'archive',
         'application/x-apple-diskimage' => 'archive',
+        'application/x-bzip2' => 'archive',
         'application/x-rar-compressed' => 'archive',
+        'application/x-tar' => 'archive',
+        'application/zip' => 'archive',
         // Office types
         'application/msword' => 'word',
         'application/vnd.ms-excel' => 'excel',
         'application/vnd.ms-office' => 'excel',
         'application/vnd.ms-powerpoint' => 'powerpoint',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'word',
+        'application/vnd.oasis.opendocument.presentation' => 'powerpoint',
+        'application/vnd.oasis.opendocument.spreadsheet' => 'excel',
         'application/vnd.oasis.opendocument.text ' => 'word',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'powerpoint',
+        'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'powerpoint',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'excel',
         'application/vnd.openxmlformats-officedocument.spreadsheetml.template' => 'excel',
-        'application/vnd.oasis.opendocument.spreadsheet' => 'excel',
-        'application/vnd.openxmlformats-officedocument.presentationml.slideshow' => 'powerpoint',
-        'application/vnd.oasis.opendocument.presentation' => 'powerpoint',
-        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'powerpoint',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'word',
+        'text/rtf' => 'word',
         // Fonts types
-        'image/svg+xml' => 'font',
-        'application/x-font-ttf' => 'font',
-        'application/x-font-truetype' => 'font',
-        'application/x-font-opentype' => 'font',
         'application/font-woff' => 'font',
+        'application/font-woff2' => 'font',
         'application/vnd.ms-fontobject' => 'font',
+        'application/x-font-opentype' => 'font',
+        'application/x-font-truetype' => 'font',
+        'application/x-font-ttf' => 'font',
         'font/opentype' => 'font',
         'font/ttf' => 'font',
+        'font/woff' => 'font',
+        'font/woff2' => 'font',
+        // 3d
+        'model/gltf+binary' => '3d',
+        'model/gltf+json' => '3d',
+        'model/gltf-binary' => '3d',
+        'model/mtl' => '3d',
+        'model/obj' => '3d',
+        'model/stl' => '3d',
+        'model/u3d' => '3d',
+        'model/vnd.gltf+json' => '3d',
+        'model/vnd.gltf.binary' => '3d',
+        'model/vnd.usda' => '3d',
+        'model/vnd.usdz+zip' => '3d',
     ];
 
     /**
