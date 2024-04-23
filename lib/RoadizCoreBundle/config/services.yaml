@@ -526,9 +526,9 @@ services:
     RZ\Roadiz\Documents\Renderer\PdfRenderer:
         tags: [ 'roadiz_core.document_renderer' ]
     RZ\Roadiz\Documents\Renderer\SvgRenderer:
-        tags: [ 'roadiz_core.document_renderer' ]
+        tags: [ { name: 'roadiz_core.document_renderer', priority: 10 } ]
     RZ\Roadiz\Documents\Renderer\InlineSvgRenderer:
-        tags: [ 'roadiz_core.document_renderer' ]
+        tags: [ { name: 'roadiz_core.document_renderer', priority: 11 } ]
     RZ\Roadiz\Documents\Renderer\EmbedRenderer:
         tags: [ { name: 'roadiz_core.document_renderer', priority: -128 } ]
     RZ\Roadiz\Documents\Renderer\ThumbnailRenderer:

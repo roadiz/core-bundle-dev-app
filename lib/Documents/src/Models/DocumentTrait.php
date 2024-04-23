@@ -47,6 +47,7 @@ trait DocumentTrait
         'image/heif' => 'image',
         'image/jpeg' => 'image',
         'image/png' => 'image',
+        'image/svg' => 'image',
         'image/svg+xml' => 'image',
         'image/tiff' => 'image',
         'image/vnd.microsoft.icon' => 'image',
@@ -315,11 +316,7 @@ trait DocumentTrait
     ]
     public function isProcessable(): bool
     {
-        if ($this->isImage() && in_array($this->getMimeType(), static::$processableMimeTypes)) {
-            return true;
-        }
-
-        return false;
+        return $this->isImage() && in_array($this->getMimeType(), static::$processableMimeTypes, true);
     }
 
     #[
