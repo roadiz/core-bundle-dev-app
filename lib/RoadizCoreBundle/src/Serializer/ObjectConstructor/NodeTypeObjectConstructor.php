@@ -6,22 +6,24 @@ namespace RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor;
 
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\Exception\ObjectConstructionException;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 
-class NodeTypeObjectConstructor extends AbstractTypedObjectConstructor
+final class NodeTypeObjectConstructor extends AbstractTypedObjectConstructor
 {
     /**
      * @inheritDoc
      */
     public function supports(string $className, array $data): bool
     {
-        return $className === NodeType::class && array_key_exists('name', $data);
+        return \is_subclass_of($className, NodeTypeInterface::class) &&
+            array_key_exists('name', $data);
     }
 
     /**
      * @inheritDoc
      */
-    protected function findObject($data, DeserializationContext $context): ?object
+    protected function findObject(mixed $data, DeserializationContext $context): ?object
     {
         if (null === $data['name'] || $data['name'] === '') {
             throw new ObjectConstructionException('NodeType name can not be empty');

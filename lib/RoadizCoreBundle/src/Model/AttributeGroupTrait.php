@@ -32,7 +32,7 @@ trait AttributeGroupTrait
     #[
         ORM\OneToMany(mappedBy: "group", targetEntity: AttributeInterface::class),
         Serializer\Groups(["attribute_group"]),
-        Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Model\AttributeInterface>")
+        Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Entity\Attribute>")
     ]
     protected Collection $attributes;
 
@@ -47,7 +47,7 @@ trait AttributeGroupTrait
             orphanRemoval: true
         ),
         Serializer\Groups(["attribute_group", "attribute", "node", "nodes_sources"]),
-        Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Model\AttributeGroupTranslationInterface>"),
+        Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Entity\AttributeGroupTranslation>"),
         Serializer\Accessor(getter: "getAttributeGroupTranslations", setter: "setAttributeGroupTranslations")
     ]
     protected Collection $attributeGroupTranslations;

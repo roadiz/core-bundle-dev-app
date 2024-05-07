@@ -446,6 +446,7 @@ services:
             - '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor'
             - [
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TranslationObjectConstructor',
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\AttributeObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TagObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeObjectConstructor',
