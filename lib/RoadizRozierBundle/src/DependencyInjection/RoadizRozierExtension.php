@@ -102,6 +102,7 @@ class RoadizRozierExtension extends Extension
                     'adminHomePage',
                     $config['open_id']['oauth_client_id'],
                     $config['open_id']['oauth_client_secret'],
+                    $config['open_id']['force_ssl_on_redirect_uri'],
                     $config['open_id']['requires_local_user'],
                     $config['open_id']['openid_username_claim'],
                     '_target_path',
