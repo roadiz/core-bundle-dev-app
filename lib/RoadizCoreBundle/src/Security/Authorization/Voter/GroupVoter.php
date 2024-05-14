@@ -13,11 +13,8 @@ use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
 class GroupVoter extends RoleVoter
 {
-    private RoleHierarchyInterface $roleHierarchy;
-
-    public function __construct(RoleHierarchyInterface $roleHierarchy, string $prefix = 'ROLE_')
+    public function __construct(private readonly RoleHierarchyInterface $roleHierarchy, string $prefix = 'ROLE_')
     {
-        $this->roleHierarchy = $roleHierarchy;
         parent::__construct($prefix);
     }
 
@@ -96,11 +93,6 @@ class GroupVoter extends RoleVoter
      */
     protected function isRoleContained(string $role, array $roles): bool
     {
-        foreach ($roles as $singleRole) {
-            if ($role === $singleRole) {
-                return true;
-            }
-        }
-        return false;
+        return \in_array($role, $roles, true);
     }
 }

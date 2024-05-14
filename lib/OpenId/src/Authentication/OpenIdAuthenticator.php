@@ -6,6 +6,7 @@ namespace RZ\Roadiz\OpenId\Authentication;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Query;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
@@ -68,7 +69,6 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
             $this->discovery->isValid() &&
             $this->httpUtils->checkRequestPath($request, $this->returnPath) &&
             $request->query->has('state') &&
-            $request->query->has('scope') &&
             ($request->query->has('code') || $request->query->has('error'));
     }
 
@@ -132,9 +132,28 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
             ]);
             /** @var array $jsonResponse */
             $jsonResponse = \json_decode($response->getBody()->getContents(), true);
+        } catch (RequestException $e) {
+            if (null !== $e->getResponse()) {
+                /** @var array $jsonResponse */
+                $jsonResponse = \json_decode($e->getResponse()->getBody()->getContents(), true);
+                $errorTitle = $jsonResponse['error'] ?? $e->getMessage();
+                $errorDescription = $jsonResponse['error_description'] ?? '';
+
+                throw new OpenIdAuthenticationException(
+                    $errorTitle . ': ' . $errorDescription,
+                    $e->getCode(),
+                    $e
+                );
+            }
+
+            throw new OpenIdAuthenticationException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
         } catch (GuzzleException $e) {
             throw new OpenIdAuthenticationException(
-                'Cannot contact Identity provider to issue authorization_code.' . $e->getMessage(),
+                $e->getMessage(),
                 $e->getCode(),
                 $e
             );
