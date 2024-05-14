@@ -216,7 +216,7 @@
 }
 
 #user-picture {
-    display: block;
+    display: flex;
     width: @user-picture-size;
     height: @user-picture-size;
     border-radius: 50%;
@@ -239,7 +239,11 @@
             padding: 0px;
         }
     }
+    .uk-icon {
+        color: rgba(255, 255, 255, 0.5);
+    }
     &:hover  {
+        text-decoration: none;
         border: 3px solid #333;
     }
 }

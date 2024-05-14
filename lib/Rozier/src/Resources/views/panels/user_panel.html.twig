@@ -12,20 +12,26 @@
         {% if app.user and app.user.id %}
             <a id="user-picture"
                data-uk-tooltip="{animation:true}"
+               class="user-image"
                title="{{ app.user.identifier }}"
                href="{{ path('usersEditPage', {'id':app.user.id }) }}"
             >
-                <img width="200"
-                     height="200"
-                     class="uk-thumbnail"
-                     src="{{ app.user.pictureUrl }}"
-                     alt="{{ app.user.identifier }}" />
+                {% if app.user.pictureUrl and app.user.pictureUrl != '#' %}
+                    <img width="200"
+                         height="200"
+                         class="uk-thumbnail"
+                         src="{{ app.user.pictureUrl }}"
+                         alt="{{ app.user.identifier }}" />
+                {% else %}
+                    <i class="uk-icon uk-icon-rz-user"></i>
+                {% endif %}
             </a>
         {% elseif app.user %}
             {% set displayName = app.user.nickname|default(app.user.givenName|default(app.user.name)) %}
             {% if app.user.picture %}
                 <span
                     id="user-picture"
+                    class="user-image"
                     title="{{ displayName }}"
                     data-uk-tooltip="{animation:true}"
                 >
@@ -34,6 +40,14 @@
                          class="uk-thumbnail"
                          src="{{ app.user.picture }}"
                          alt="{{ displayName }}" />
+                </span>
+            {% else %}
+                <span
+                    id="user-picture"
+                    title="{{ displayName }}"
+                    class="user-image uk-thumbnail"
+                    data-uk-tooltip="{animation:true}">
+                    <i class="uk-icon uk-icon-rz-user"></i>
                 </span>
             {% endif %}
         {% endif %}
