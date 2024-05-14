@@ -20,20 +20,17 @@ use RZ\Roadiz\Bag\LazyParameterBag;
 class Discovery extends LazyParameterBag
 {
     public const CACHE_KEY = 'rz_openid_discovery_parameters';
-
-    protected string $discoveryUri;
-    protected CacheItemPoolInterface $cacheAdapter;
     protected ?array $jwksData = null;
 
     /**
      * @param string  $discoveryUri
      * @param CacheItemPoolInterface $cacheAdapter
      */
-    public function __construct(string $discoveryUri, CacheItemPoolInterface $cacheAdapter)
-    {
+    public function __construct(
+        protected readonly string $discoveryUri,
+        protected readonly CacheItemPoolInterface $cacheAdapter
+    ) {
         parent::__construct();
-        $this->discoveryUri = $discoveryUri;
-        $this->cacheAdapter = $cacheAdapter;
     }
 
     public function isValid(): bool

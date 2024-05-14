@@ -35,56 +35,28 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
 {
     use TargetPathTrait;
 
-    private HttpUtils $httpUtils;
-    private ?Discovery $discovery;
     private Client $client;
-    private JwtRoleStrategy $roleStrategy;
-    private OpenIdJwtConfigurationFactory $jwtConfigurationFactory;
-    private UrlGeneratorInterface $urlGenerator;
-    private string $returnPath;
-    private string $defaultRoute;
-    private ?string $oauthClientId;
-    private ?string $oauthClientSecret;
-    private string $usernameClaim;
-    private string $targetPathParameter;
-    private array $defaultRoles;
-    private bool $forceSsl;
-    private bool $requiresLocalUsers;
 
     public function __construct(
-        HttpUtils $httpUtils,
-        ?Discovery $discovery,
-        JwtRoleStrategy $roleStrategy,
-        OpenIdJwtConfigurationFactory $jwtConfigurationFactory,
-        UrlGeneratorInterface $urlGenerator,
-        string $returnPath,
-        string $defaultRoute,
-        ?string $oauthClientId,
-        ?string $oauthClientSecret,
-        bool $requiresLocalUsers = true,
-        string $usernameClaim = 'email',
-        string $targetPathParameter = '_target_path',
-        array $defaultRoles = [],
-        bool $forceSsl = true
+        private readonly HttpUtils $httpUtils,
+        private readonly ?Discovery $discovery,
+        private readonly JwtRoleStrategy $roleStrategy,
+        private readonly OpenIdJwtConfigurationFactory $jwtConfigurationFactory,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly string $returnPath,
+        private readonly string $defaultRoute,
+        private readonly ?string $oauthClientId,
+        private readonly ?string $oauthClientSecret,
+        private readonly bool $forceSslOnRedirectUri,
+        private readonly bool $requiresLocalUsers,
+        private readonly string $usernameClaim = 'email',
+        private readonly string $targetPathParameter = '_target_path',
+        private readonly array $defaultRoles = []
     ) {
-        $this->httpUtils = $httpUtils;
-        $this->discovery = $discovery;
         $this->client = new Client([
             // You can set any number of default request options.
             'timeout'  => 2.0,
         ]);
-        $this->roleStrategy = $roleStrategy;
-        $this->returnPath = $returnPath;
-        $this->oauthClientId = $oauthClientId;
-        $this->oauthClientSecret = $oauthClientSecret;
-        $this->usernameClaim = $usernameClaim;
-        $this->targetPathParameter = $targetPathParameter;
-        $this->defaultRoles = $defaultRoles;
-        $this->defaultRoute = $defaultRoute;
-        $this->urlGenerator = $urlGenerator;
-        $this->jwtConfigurationFactory = $jwtConfigurationFactory;
-        $this->forceSsl = $forceSsl;
-        $this->requiresLocalUsers = $requiresLocalUsers;
     }
 
     /**
@@ -142,7 +114,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
             /*
              * Redirect URI should always use SSL
              */
-            if ($this->forceSsl && str_starts_with($redirectUri, 'http://')) {
+            if ($this->forceSslOnRedirectUri && str_starts_with($redirectUri, 'http://')) {
                 $redirectUri = str_replace('http://', 'https://', $redirectUri);
             }
 

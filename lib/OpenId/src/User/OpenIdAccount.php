@@ -114,7 +114,9 @@ class OpenIdAccount implements UserInterface, EquatableInterface
         $this->givenName = $this->getStringClaim($claims, 'given_name');
         $this->familyName = $this->getStringClaim($claims, 'family_name');
         $this->middleName = $this->getStringClaim($claims, 'middle_name');
-        $this->nickname = $this->getStringClaim($claims, 'nickname');
+        $this->nickname = $this->getStringClaim($claims, 'nickname') ??
+            $this->getStringClaim($claims, 'preferred_username') ??
+            null;
         $this->profile = $this->getStringClaim($claims, 'profile');
         $this->picture = $this->getStringClaim($claims, 'picture');
         $this->locale = $this->getStringClaim($claims, 'locale');

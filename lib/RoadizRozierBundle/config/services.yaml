@@ -12,6 +12,7 @@ services:
             $googleServerId: '%roadiz_core.medias.google_server_id%'
             $soundcloudClientId: '%roadiz_core.medias.soundcloud_client_id%'
             $allowNodeTypeEdition: '%kernel.debug%'
+            $forceSslOnRedirectUri: '%roadiz_rozier.open_id.force_ssl_on_redirect_uri%'
 
     RZ\Roadiz\RozierBundle\:
         resource: '../src/'
