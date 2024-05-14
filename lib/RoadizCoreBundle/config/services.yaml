@@ -51,6 +51,7 @@ services:
             $recaptchaPublicKey: '%roadiz_core.medias.recaptcha_public_key%'
             $recaptchaPrivateKey: '%roadiz_core.medias.recaptcha_private_key%'
             $webResponseClass: '%roadiz_core.web_response_class%'
+            $useGravatar: '%roadiz_core.use_gravatar%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'

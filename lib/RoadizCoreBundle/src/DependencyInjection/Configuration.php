@@ -50,6 +50,9 @@ class Configuration implements ConfigurationInterface
             ->booleanNode('hideRoadizVersion')
                 ->defaultValue(false)
             ->end()
+            ->booleanNode('useGravatar')
+                ->defaultTrue()
+            ->end()
             ->scalarNode('documentsLibDir')->defaultValue(
                 'vendor/roadiz/documents/src'
             )->info('Relative path to Roadiz Documents lib sources from project directory.')->end()

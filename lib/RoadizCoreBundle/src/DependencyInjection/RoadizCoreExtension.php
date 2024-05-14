@@ -57,6 +57,7 @@ class RoadizCoreExtension extends Extension
 
         $container->setParameter('roadiz_core.app_namespace', $config['appNamespace']);
         $container->setParameter('roadiz_core.app_version', $config['appVersion']);
+        $container->setParameter('roadiz_core.use_gravatar', $config['useGravatar']);
         $container->setParameter('roadiz_core.health_check_token', $config['healthCheckToken']);
         $container->setParameter('roadiz_core.inheritance_type', $config['inheritance']['type']);
         $container->setParameter('roadiz_core.max_versions_showed', $config['maxVersionsShowed']);
