@@ -2,7 +2,103 @@
 
 All notable changes to Roadiz will be documented in this file.
 
-## [unreleased]
+## [2.3.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.15...v2.3.0) - 2024-05-15
+
+### ⚠ BREAKING CHANGES
+
+* **Solr:** Removed `$proximity` argument from `search` and `searchWithHighlight` SearchHandlerInterface methods
+* Make sure you don't have fields with name longer than 50 characters before migrating. Migration can be skipped if so.
+* Removed NodeTypeField `id` join column from NodesCustomForms, NodesSourcesDocuments and NodesToNodes relation tables to use `field_name` string column for loose relation. **Make sure to backup your database before performing this migration**.
+* `node_type_name` JSON property is no-longer required in node-type JSON export files.
+* Node constructor does not accept any argument anymore.
+* Switched to ApiPlatform 3.2, make sure to upgrade `bundles.php` file and `api_platform.yaml` configuration
+* **Nodes:** NodesSources `metaKeyword` and Node `priority` fields will be dropped.
+* **Settings:** Setting encryption and crypto keys have been dropped, migrate all your secrets to symfony:secrets to get only one secure vault.
+
+Remove any crypto configuration from `config/packages/roadiz_core.yml`:
+
+```yaml
+    security:
+        private_key_name: default
+```
+* `getResultItems` method will always return `array<SolrSearchResultItem>` no matter item type or highlighting.
+* Regenerate your api platform resource YAML files, or rename `getByPath` operation to `%entity%_get_by_path`
+* Command constructor signatures changed
+* Controller::get and Controller::has methods have been removed
+
+### Features
+
+* Added ApiProperty documentation for base entities fields ([fa4a0be](https://github.com/roadiz/core-bundle-dev-app/commit/fa4a0be43309ebedcd5816d1f2650d9d07f2452f))
+* Added more social network urls to head ([b4f6863](https://github.com/roadiz/core-bundle-dev-app/commit/b4f68631c46442655208c922bf6d63e7c135e52c))
+* Added new `cron` testing commands to test if your cron jobs are executing ([efdbaa5](https://github.com/roadiz/core-bundle-dev-app/commit/efdbaa59ba4930dc239e1aeaacf189828ef0cfd5))
+* Added new `cron` testing commands to test if your cron jobs are executing ([b486bec](https://github.com/roadiz/core-bundle-dev-app/commit/b486bec23bfeef277e05c2f07d618dcfff7b5bc2))
+* Added new `DataListTextType` to render HTML input with their datalist. ([5316137](https://github.com/roadiz/core-bundle-dev-app/commit/5316137b85a1fd493fa657dfcbadd5be76690005))
+* **Admin:** Create an update event for each bulk entity ([7ca5792](https://github.com/roadiz/core-bundle-dev-app/commit/7ca57920922893e58bd37031a81494faaa33488e))
+* Allow WebResponse object instantiation overriding ([8690594](https://github.com/roadiz/core-bundle-dev-app/commit/8690594d2cd4119ee575126f710f0c9ae12a26a5))
+* Always use SolrSearchResultItem to wrap a single object from search engine results. ([00ebe1d](https://github.com/roadiz/core-bundle-dev-app/commit/00ebe1df1d6db05d8a5fb54fa47d2b58f9db8230))
+* Better overridability for WebResponses ([1dff926](https://github.com/roadiz/core-bundle-dev-app/commit/1dff926798e5df990725aeb78e4243d528f6b658))
+* **CoreBundle:** Refactored node routing ([eea6399](https://github.com/roadiz/core-bundle-dev-app/commit/eea6399eef1dfef2ef242d1237fd4a539e97172f))
+* Create different operation names for each Entity with WebResponse. ([21fdc5c](https://github.com/roadiz/core-bundle-dev-app/commit/21fdc5cad7de5b6bce3d0ededd7fdab253485e37))
+* **CustomForms:** Made NodesCustomForms.php relation columns not nullable for index performance ([dba0237](https://github.com/roadiz/core-bundle-dev-app/commit/dba02370ac5bd4fd8cf93d8d610ea7a51c4e1d7e))
+* Do not serialize tag slug manually ([42747f1](https://github.com/roadiz/core-bundle-dev-app/commit/42747f1a957a13e1e555bc9e8ba53f03cdc752c5))
+* **Documents:** Improved $mimeToIcon with additional mime-types and new `3d` category. ([898264f](https://github.com/roadiz/core-bundle-dev-app/commit/898264fa246334137b0d804ffef66e1cc3e230e4))
+* **Documents:** Made NodesSourcesDocuments.php relation columns not nullable for index performance ([167b2dd](https://github.com/roadiz/core-bundle-dev-app/commit/167b2dd3934b90ba40b6940605f12b700cb341bc))
+* **Documents:** Set SvgRenderers higher priority than ImageRenderer ([920f273](https://github.com/roadiz/core-bundle-dev-app/commit/920f273c1671f9887abbe19c084bfd8361f0987c))
+* **EntityGenerator:** Added ApiProperty documentation for generated entities non-virtual fields ([d6e4462](https://github.com/roadiz/core-bundle-dev-app/commit/d6e44626bd92ebaeeb275130138151efead59105))
+* Expose WebResponse optional `maxAge` and populate with Node's TTL when available ([1a020de](https://github.com/roadiz/core-bundle-dev-app/commit/1a020de46bde509543e806903c4cedc9c5ae7963))
+* Fixed api-platform version to 3.2 ([6501910](https://github.com/roadiz/core-bundle-dev-app/commit/6501910e6613a80c59d37754f5734e8bb60f7243))
+* Improved *locale* management by storing `_translation` into Request attributes during LocaleSubscriber ([9e70e04](https://github.com/roadiz/core-bundle-dev-app/commit/9e70e04f068c677c20aa0becb98ca144517be279))
+* Made Gravatar optional with roadiz_core.useGravatar config option ([6e8c396](https://github.com/roadiz/core-bundle-dev-app/commit/6e8c3965ee83c118bc826271fec8e9a6975b8a70))
+* **Nodes:** Made NodesToNodes.php relation columns not nullable for index performance ([bd9f5d6](https://github.com/roadiz/core-bundle-dev-app/commit/bd9f5d63e5ccb2cdfb600d77564fd19c2f24d113))
+* **Nodes:** Removed useless NodesSources metaKeyword and Node priority fields. ([e3bed58](https://github.com/roadiz/core-bundle-dev-app/commit/e3bed5894589327507add5dcd24868ad3fad10b2))
+* **NodesSources:** Respect user set TTL on nodes-sources during API requests ([f1c66c2](https://github.com/roadiz/core-bundle-dev-app/commit/f1c66c2628fa7cb4c7860a4b69d91a40348c1487))
+* **OpenId:** Added `force_ssl_on_redirect_uri` open_id configuration to allow `http` redirectUri ([352bf79](https://github.com/roadiz/core-bundle-dev-app/commit/352bf796344e44b0ebfcd2f569697bf638396319))
+* Override `_api_operation` attribute as well when using `GetWebResponseByPathController` ([89dd9a3](https://github.com/roadiz/core-bundle-dev-app/commit/89dd9a3cf8378749055ba7ddbeeae27cf838899f))
+* Prevent creating same NodeTypeField name but with different doctrine type. ([c81773d](https://github.com/roadiz/core-bundle-dev-app/commit/c81773dd367eed945cdf9849a1950a1aca5e5d10))
+* **Realms:** Made RealmNode.php realm_id column not nullable for index performance ([153d53c](https://github.com/roadiz/core-bundle-dev-app/commit/153d53cc2f8a1aefe3d0639d9b1b87f191fd976b))
+* Reduce NodeTypeField name to maximum 50 characters long. ([8d7529a](https://github.com/roadiz/core-bundle-dev-app/commit/8d7529aad953f5b4f5689672df9fd6ae725bc89f))
+* Refactored command signatures ([173a4fb](https://github.com/roadiz/core-bundle-dev-app/commit/173a4fbcec66c92125330ac3bb609f82c60d34f8))
+* Removed NodeTypeField `id` join column from NodesCustomForms, NodesSourcesDocuments and NodesToNodes relation tables to use string column for loose relation. ([fb5a2d8](https://github.com/roadiz/core-bundle-dev-app/commit/fb5a2d812cd5544d9c34d00dc6e787f2dc5a0749))
+* Removed NodeTypeFieldObjectConstructor.php for app:install to avoid conflicts between object construction and dropping all fields. `node_type_name` JSON property is no-longer required ([6a30b32](https://github.com/roadiz/core-bundle-dev-app/commit/6a30b32b7720cc761b57c34b5555bb50bdcf5f5d))
+* Set Request attribute `data` as WebResponse instead of WebResponse item. Changed LinkHeader and AddHeaders event subscribers to check if `data` is WebResponseInterface ([a7da352](https://github.com/roadiz/core-bundle-dev-app/commit/a7da352e369d185c9531b0528c9835bf4010a82e))
+* **Settings:** Removed encrypted Settings. Use symfony:secret to store secrets. ([ccec892](https://github.com/roadiz/core-bundle-dev-app/commit/ccec89210ba7e0a677f523b983ed168441d65d1d))
+* **Solr:** Removed `$proximity` argument from `search` and `searchWithHighlight` SearchHandlerInterface methods ([e0e36b5](https://github.com/roadiz/core-bundle-dev-app/commit/e0e36b51bd1eadc239dc5f5adea0ee0d7858375f))
+* Upgrade to ApiPlatform 3.2 ([4962d87](https://github.com/roadiz/core-bundle-dev-app/commit/4962d87b316a9fac6a0163eaabf23987a94c4bf0))
+* Upgrade to doctrine/orm ~2.19.0 ([b14f5be](https://github.com/roadiz/core-bundle-dev-app/commit/b14f5bef13870c6c4c929b1fe914295e89e00751))
+* Upgraded to Symfony 6.4 LTS ([0e37266](https://github.com/roadiz/core-bundle-dev-app/commit/0e37266d7ebb9f6b6a72d9e81714496a99fba8db))
+* WebResponseDataTransformer must always transform PersistableInterface ([de1226a](https://github.com/roadiz/core-bundle-dev-app/commit/de1226a45ac7d7e9bac7d4643810bae5f5f46deb))
+* **WebResponse:** Expose request attribute `_web_response_item_class` to store WebResponse item class name ([e483039](https://github.com/roadiz/core-bundle-dev-app/commit/e483039982cf655012c25b5d72c6fc94c21be0fb))
+* **WebResponse:** Moved all web_response_by_path operations to WebResponse resource to avoid cheating with Api Platform resource resolution. ([a44745a](https://github.com/roadiz/core-bundle-dev-app/commit/a44745ae4f3598e6ca64133937c1de35a15bb7e8))
+
+
+### Bug Fixes
+
+* Allow OpenApi decoration with no `web_response_by_path` path ([c74dc6f](https://github.com/roadiz/core-bundle-dev-app/commit/c74dc6f2f65cbfe0ed9082b99af40e72a9c1684d))
+* **Documents:** Requires api-platform/metadata for unit tests ([ae67dba](https://github.com/roadiz/core-bundle-dev-app/commit/ae67dba4325f43bae173dd250ad237b46767b60e))
+* **Documents:** Updated Dailymotion oembed discovery and iframe source generation. ([2a06744](https://github.com/roadiz/core-bundle-dev-app/commit/2a067441e808cf16d872a9d9d3688cb3b7d0c23a))
+* Fixed AjaxNodesExplorerController with SearchResultsInterface ([9231f42](https://github.com/roadiz/core-bundle-dev-app/commit/9231f42e35decc50aebdc7c4c1b3c9634b4edf64))
+* Fixed Attributes import ([9023668](https://github.com/roadiz/core-bundle-dev-app/commit/90236689350a01e850332282791dec2382aef6b2))
+* Fixed permission for nodesTranstypePage action menu button ([151878e](https://github.com/roadiz/core-bundle-dev-app/commit/151878e7cce5b58da2c9c9b6ce48b9d26e707f9d))
+* Fixed stateless with some listeners ([b04faa2](https://github.com/roadiz/core-bundle-dev-app/commit/b04faa2a99167233328a5fdf6393cb2ae0041e2c))
+* LoginController.php with random images ([032e68e](https://github.com/roadiz/core-bundle-dev-app/commit/032e68e7cd184b7a4be7c88397dad8ac41a15c70))
+* Missing `orphanRemoval: true` on non-nullable OneToMany relationships ([019b353](https://github.com/roadiz/core-bundle-dev-app/commit/019b3534ba89effa1479673382e2150164f63973))
+* Moved AbstractDateTimedPositioned.php to CoreBundle to avoid requiring ApiPlatform on Models ([359c026](https://github.com/roadiz/core-bundle-dev-app/commit/359c026527e1d8a61eaa2c27e3471e05270a6559))
+* Need to comment all bundle config api_resource definitions ([cfd0c53](https://github.com/roadiz/core-bundle-dev-app/commit/cfd0c530297ae002410698b628b1e16dc806075a))
+* Prevent some api endpoint routes to trigger session from LocaleSubscriber ([fa63c8c](https://github.com/roadiz/core-bundle-dev-app/commit/fa63c8cc0cde00bb328e42724a92223d79e6ec58))
+* Removed explicit symfony-cmf/routing dependency ([6daf32f](https://github.com/roadiz/core-bundle-dev-app/commit/6daf32f8ae25ab371ca7eba94945e41894959103))
+* Removed NodeTypeInterface from Node constructor, Removed ThemeRoutesLoader.php ([0816525](https://github.com/roadiz/core-bundle-dev-app/commit/08165257777756f954be303719659ec7070a586e))
+* Rewrote all api_resources config files with `resources:` prefix ([40e5e9a](https://github.com/roadiz/core-bundle-dev-app/commit/40e5e9a4fe3b030858301e33c3a62924fcd2f4ea))
+* **Security:** Fixed `NodeVoter` accepting `UserInterface` for OpenId accounts ([e9dc229](https://github.com/roadiz/core-bundle-dev-app/commit/e9dc229853a56ccae34730de10ed4935e72e0364))
+* **Setting:** Always format DateTimeInterface to string in settings even if type is wrongly set ([3c9eda6](https://github.com/roadiz/core-bundle-dev-app/commit/3c9eda63c3bbf30e9feed9130d8701fb27397100))
+
+
+### Performance Improvements
+
+* Improved event subscriber registration and initialization ([febf372](https://github.com/roadiz/core-bundle-dev-app/commit/febf372018ec54726914ba07ebba480acf1dc661))
+* Made all foreign key columns not nullable for index performance ([fd90805](https://github.com/roadiz/core-bundle-dev-app/commit/fd908058e2856c58cca0d1eba582bee020145a3c))
+* Missing `node_parent_position` composite index ([9147b6b](https://github.com/roadiz/core-bundle-dev-app/commit/9147b6bb03a7176ee05257eed5fc6ca66c8c7e78))
+
+## [2.2.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.14...v2.2.15) - 2024-04-19
 
 ### ⚠ Breaking changes
 
@@ -10,7 +106,7 @@ All notable changes to Roadiz will be documented in this file.
 
 ### Bug Fixes
 
-- **(Documents)** Updated Dailymotion oembed discovery and iframe source generation. - ([2a06744](https://github.com/roadiz/core-bundle-dev-app/commit/2a067441e808cf16d872a9d9d3688cb3b7d0c23a))
+- **(Documents)** Updated Dailymotion oembed discovery and iframe source generation. - ([2628f40](https://github.com/roadiz/core-bundle-dev-app/commit/2628f40dfe9e50139a16e759018d8ff356f11496))
 - Allow OpenApi decoration with no `web_response_by_path` path - ([c74dc6f](https://github.com/roadiz/core-bundle-dev-app/commit/c74dc6f2f65cbfe0ed9082b99af40e72a9c1684d))
 - Need to comment all bundle config api_resource definitions - ([cfd0c53](https://github.com/roadiz/core-bundle-dev-app/commit/cfd0c530297ae002410698b628b1e16dc806075a))
 - Rewrote all api_resources config files with `resources:` prefix - ([40e5e9a](https://github.com/roadiz/core-bundle-dev-app/commit/40e5e9a4fe3b030858301e33c3a62924fcd2f4ea))
@@ -153,7 +249,6 @@ All notable changes to Roadiz will be documented in this file.
 ### Features
 
 - Prevent creating same NodeTypeField name but with different doctrine type. - ([d4a5c58](https://github.com/roadiz/core-bundle-dev-app/commit/d4a5c583d8208fd289126f5338b0dda7f861a90f))
-- Prevent creating same NodeTypeField name but with different doctrine type. - ([c81773d](https://github.com/roadiz/core-bundle-dev-app/commit/c81773dd367eed945cdf9849a1950a1aca5e5d10))
 
 ## [2.2.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.3...v2.2.4) - 2024-02-21
 
@@ -180,7 +275,6 @@ Remove any crypto configuration from `config/packages/roadiz_core.yml`:
 ### Documentation
 
 - Changed CHANGELOG generator to git-cliff - ([1de377b](https://github.com/roadiz/core-bundle-dev-app/commit/1de377bb3822a023ecd02db87dbd214a229cc297))
-- Changed CHANGELOG generator to git-cliff - ([6f28f4d](https://github.com/roadiz/core-bundle-dev-app/commit/6f28f4d2b656058e00debfddec8fa0d81ddad82c))
 
 ### Features
 
@@ -223,7 +317,6 @@ Remove any crypto configuration from `config/packages/roadiz_core.yml`:
 - **(CoreBundle)** Refactored node routing - ([eea6399](https://github.com/roadiz/core-bundle-dev-app/commit/eea6399eef1dfef2ef242d1237fd4a539e97172f))
 - **(EntityGenerator)** Added ApiProperty documentation for generated entities non-virtual fields - ([d6e4462](https://github.com/roadiz/core-bundle-dev-app/commit/d6e44626bd92ebaeeb275130138151efead59105))
 - Added new `cron` testing commands to test if your cron jobs are executing - ([efdbaa5](https://github.com/roadiz/core-bundle-dev-app/commit/efdbaa59ba4930dc239e1aeaacf189828ef0cfd5))
-- Added new `cron` testing commands to test if your cron jobs are executing - ([b486bec](https://github.com/roadiz/core-bundle-dev-app/commit/b486bec23bfeef277e05c2f07d618dcfff7b5bc2))
 - Added new `DataListTextType` to render HTML input with their datalist. - ([5316137](https://github.com/roadiz/core-bundle-dev-app/commit/5316137b85a1fd493fa657dfcbadd5be76690005))
 - Added ApiProperty documentation for base entities fields - ([fa4a0be](https://github.com/roadiz/core-bundle-dev-app/commit/fa4a0be43309ebedcd5816d1f2650d9d07f2452f))
 - Do not serialize tag slug manually - ([42747f1](https://github.com/roadiz/core-bundle-dev-app/commit/42747f1a957a13e1e555bc9e8ba53f03cdc752c5))
@@ -479,9 +572,6 @@ Remove any crypto configuration from `config/packages/roadiz_core.yml`:
 ### ⚠ Breaking changes
 
 - `bin/console themes:migrate` command do not execute Doctrine migrations, generate NS entities and schema update. **You must version your NS\*\*\*\*.php files and migrations** to sync your app in different environments.
-- `bin/console themes:migrate` command do not execute Doctrine migrations, generate NS entities and schema update. **You must version your NS\*\*\*\*.php files and migrations** to sync your app in different environments.
-
-- `bin/console themes:migrate` and `bin/console themes:install` are deprecated: use `bin/console app:install` to just import data in database or `bin/console app:migrate` to import data and generate Entities and Doctrine migrations
 
 ### Bug Fixes
 
@@ -491,7 +581,6 @@ Remove any crypto configuration from `config/packages/roadiz_core.yml`:
 
 - **(NodeType)** [**breaking**] Roadiz now generates a new Doctrine Migration for each updates on node-types and node-types fields. - ([3e1b8bb](https://github.com/roadiz/core-bundle-dev-app/commit/3e1b8bb2971be50e263f909cdc3b42a4c50f3e6d))
 - **(NodeType)** NodeTypeImporter now removes extra fields from database when not present on .json files - ([c59919e](https://github.com/roadiz/core-bundle-dev-app/commit/c59919ea3183a197f895c63182d0057033960837))
-- **(NodeType)** [**breaking**] Roadiz now generates a new Doctrine Migration for each updates on node-types and node-types fields. - ([d2cd965](https://github.com/roadiz/core-bundle-dev-app/commit/d2cd96566d0d8bc8c7addae41a019674fc1ca485))
 - Added more OpenApi context to generated api resources - ([29c8fa3](https://github.com/roadiz/core-bundle-dev-app/commit/29c8fa310bae8b35c850435a947282335628bad5))
 
 ## [2.1.32](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.31...v2.1.32) - 2023-07-25
@@ -673,7 +762,6 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - CoreBundle must not reference other bundles classes. - ([701cbf3](https://github.com/roadiz/core-bundle-dev-app/commit/701cbf3c0a7e5218032ccb3d05a837149dfbf31f))
 - Fixed monorepo phpcs config standard - ([b3a1ac0](https://github.com/roadiz/core-bundle-dev-app/commit/b3a1ac0067ff61e76bf6125cfd3974b1c622cf74))
 - Reached phpstan level 7 validation - ([d5c0bdc](https://github.com/roadiz/core-bundle-dev-app/commit/d5c0bdc9572d9cd95691f7b0782d705312abd2c9))
-- Reached phpstan level 7 validation - ([89d9e8a](https://github.com/roadiz/core-bundle-dev-app/commit/89d9e8ae132d305567e613838b2ce3174a902231))
 
 ### Features
 
@@ -850,7 +938,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0] - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.9...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 

@@ -38,16 +38,16 @@
         "jms/serializer": "^3.9.0",
         "league/flysystem": "^3.0",
         "ramsey/uuid": "^4.7",
-        "roadiz/compat-bundle": "2.3.x-dev",
-        "roadiz/core-bundle": "2.3.x-dev",
-        "roadiz/doc-generator": "2.3.x-dev",
-        "roadiz/documents": "2.3.x-dev",
-        "roadiz/dts-generator": "2.3.x-dev",
-        "roadiz/markdown": "2.3.x-dev",
-        "roadiz/models": "2.3.x-dev",
+        "roadiz/compat-bundle": "2.3.*",
+        "roadiz/core-bundle": "2.3.*",
+        "roadiz/doc-generator": "2.3.*",
+        "roadiz/documents": "2.3.*",
+        "roadiz/dts-generator": "2.3.*",
+        "roadiz/markdown": "2.3.*",
+        "roadiz/models": "2.3.*",
         "roadiz/nodetype-contracts": "~1.1.2",
-        "roadiz/openid": "2.3.x-dev",
-        "roadiz/rozier-bundle": "2.3.x-dev",
+        "roadiz/openid": "2.3.*",
+        "roadiz/rozier-bundle": "2.3.*",
         "symfony/asset": "6.4.*",
         "symfony/filesystem": "6.4.*",
         "symfony/form": "6.4.*",
@@ -67,9 +67,9 @@
         "php-coveralls/php-coveralls": "^2.4",
         "phpstan/phpstan": "^1.5.3",
         "phpstan/phpstan-doctrine": "^1.3",
-        "roadiz/entity-generator": "2.3.x-dev",
-        "roadiz/random": "2.3.x-dev",
-        "roadiz/jwt": "2.3.x-dev",
+        "roadiz/entity-generator": "2.3.*",
+        "roadiz/random": "2.3.*",
+        "roadiz/jwt": "2.3.*",
         "squizlabs/php_codesniffer": "^3.5"
     },
     "autoload": {
@@ -95,8 +95,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.2.x-dev",
-            "dev-develop": "2.3.x-dev"
+            "dev-main": "2.3.x-dev",
+            "dev-develop": "2.4.x-dev"
         }
     }
 }
