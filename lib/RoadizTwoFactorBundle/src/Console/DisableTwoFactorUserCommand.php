@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\TwoFactorBundle\Console;
 
-use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Console\UsersCommand;
 use RZ\Roadiz\TwoFactorBundle\Entity\TwoFactorUser;
-use RZ\Roadiz\TwoFactorBundle\Security\Provider\TwoFactorUserProviderInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,18 +17,6 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 final class DisableTwoFactorUserCommand extends UsersCommand
 {
-    private TwoFactorUserProviderInterface $twoFactorUserProvider;
-
-    public function __construct(
-        ManagerRegistry $managerRegistry,
-        TwoFactorUserProviderInterface $twoFactorUserProvider,
-        string $name = null
-    ) {
-        parent::__construct($managerRegistry, $name);
-        $this->twoFactorUserProvider = $twoFactorUserProvider;
-        $this->managerRegistry = $managerRegistry;
-    }
-
     protected function configure(): void
     {
         $this->addArgument(

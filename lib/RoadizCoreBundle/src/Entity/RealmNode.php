@@ -42,12 +42,12 @@ class RealmNode extends AbstractEntity
         name: 'realm_id',
         referencedColumnName: 'id',
         unique: false,
-        nullable: true,
+        nullable: false,
         onDelete: 'CASCADE'
     )]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
-    private ?Realm $realm = null;
+    private Realm $realm;
 
     #[ORM\Column(name: 'inheritance_type', type: 'string', length: 10, nullable: false)]
     #[SymfonySerializer\Ignore]
@@ -74,18 +74,18 @@ class RealmNode extends AbstractEntity
     }
 
     /**
-     * @return Realm|null
+     * @return Realm
      */
-    public function getRealm(): ?Realm
+    public function getRealm(): Realm
     {
         return $this->realm;
     }
 
     /**
-     * @param Realm|null $realm
+     * @param Realm $realm
      * @return RealmNode
      */
-    public function setRealm(?Realm $realm): RealmNode
+    public function setRealm(Realm $realm): RealmNode
     {
         $this->realm = $realm;
         return $this;

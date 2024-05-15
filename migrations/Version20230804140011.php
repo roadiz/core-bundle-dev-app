@@ -14,7 +14,7 @@ final class Version20230804140011 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Added listing_count field on nodes_sources';
     }
 
     public function up(Schema $schema): void

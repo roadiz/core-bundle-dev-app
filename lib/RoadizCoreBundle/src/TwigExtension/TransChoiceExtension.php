@@ -15,14 +15,8 @@ use Twig\TwigFilter;
  */
 final class TransChoiceExtension extends AbstractExtension
 {
-    private TranslatorInterface $translator;
-
-    /**
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     public function getFilters(): array

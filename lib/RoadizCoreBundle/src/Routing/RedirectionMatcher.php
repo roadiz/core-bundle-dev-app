@@ -18,17 +18,12 @@ use Symfony\Component\Routing\RouteCollection;
  */
 final class RedirectionMatcher extends UrlMatcher
 {
-    private LoggerInterface $logger;
-    private RedirectionPathResolver $pathResolver;
-
     public function __construct(
         RequestContext $context,
-        RedirectionPathResolver $pathResolver,
-        LoggerInterface $logger
+        private readonly RedirectionPathResolver $pathResolver,
+        private readonly LoggerInterface $logger
     ) {
         parent::__construct(new RouteCollection(), $context);
-        $this->logger = $logger;
-        $this->pathResolver = $pathResolver;
     }
 
     /**

@@ -247,10 +247,15 @@ namespace ' . ltrim($this->options['namespace'], '\\') . ';
      */
     protected function getClassAnnotations(): string
     {
+        $annotations = [
+            $this->nodeType->getName() . ' node-source entity.',
+            $this->nodeType->getDescription()
+        ];
+        $annotations = array_filter($annotations);
+
         return '
 /**
- * DO NOT EDIT
- * Generated custom node-source type by Roadiz.
+ * ' . implode(PHP_EOL . ' * ', $annotations) . '
  */' . PHP_EOL;
     }
 

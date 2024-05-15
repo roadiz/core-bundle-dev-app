@@ -84,7 +84,7 @@ namespace ' . ltrim($this->options['namespace'], '\\') . ';
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**

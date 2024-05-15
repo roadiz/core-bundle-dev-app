@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.2.15'
+    roadiz_core.cms_version: '2.3.0'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -27,20 +27,19 @@ services:
             $cmsVersion: '%roadiz_core.cms_version%'
             $appVersion: '%roadiz_core.app_version%'
             $cmsVersionPrefix: '%roadiz_core.cms_version_prefix%'
-            $staticDomain: '%roadiz_core.static_domain_name%'
             $hideRoadizVersion: '%roadiz_core.hide_roadiz_version%'
             $inheritanceType: '%roadiz_core.inheritance_type%'
             $maxPixelSize: '%rz_intervention_request.max_pixel_size%'
             $appNamespace: '%roadiz_core.app_namespace%'
             $projectDir: '%kernel.project_dir%'
             $exportDir: '%kernel.project_dir%/var/export'
-            $privateKeyName: '%roadiz_core.private_key_name%'
             $generatedEntitiesDir: '%roadiz_core.generated_entities_dir%'
             $serializedNodeTypesDir: '%roadiz_core.serialized_node_types_dir%'
             $importFilesConfigPath: '%roadiz_core.import_files_config_path%'
             $kernelProjectDir: '%kernel.project_dir%'
             $apiResourcesDir: '%kernel.project_dir%/config/api_resources'
             $debug: '%kernel.debug%'
+            $kernelEnvironment: '%kernel.environment%'
             $defaultControllerClass: '%roadiz_core.default_node_source_controller%'
             $defaultLocale: '%kernel.default_locale%'
             $webhookMessageTypes: '%roadiz_core.webhook.message_types%'
@@ -51,6 +50,8 @@ services:
             $maxVersionsShowed: '%roadiz_core.max_versions_showed%'
             $recaptchaPublicKey: '%roadiz_core.medias.recaptcha_public_key%'
             $recaptchaPrivateKey: '%roadiz_core.medias.recaptcha_private_key%'
+            $webResponseClass: '%roadiz_core.web_response_class%'
+            $useGravatar: '%roadiz_core.use_gravatar%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'
@@ -436,12 +437,6 @@ services:
 
     RZ\Roadiz\Random\PasswordGenerator: ~
 
-    RZ\Crypto\KeyChain\KeyChainInterface:
-        alias: RZ\Crypto\KeyChain\AsymmetricFilesystemKeyChain
-
-    RZ\Crypto\KeyChain\AsymmetricFilesystemKeyChain:
-        arguments: ['%kernel.project_dir%/var/secret', true]
-
     JMS\Serializer\Construction\ObjectConstructorInterface:
         alias: RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor
 
@@ -452,10 +447,10 @@ services:
             - '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor'
             - [
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TranslationObjectConstructor',
+                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\AttributeObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TagObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeFieldObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
                     '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingObjectConstructor',
@@ -533,9 +528,9 @@ services:
     RZ\Roadiz\Documents\Renderer\PdfRenderer:
         tags: [ 'roadiz_core.document_renderer' ]
     RZ\Roadiz\Documents\Renderer\SvgRenderer:
-        tags: [ 'roadiz_core.document_renderer' ]
+        tags: [ { name: 'roadiz_core.document_renderer', priority: 10 } ]
     RZ\Roadiz\Documents\Renderer\InlineSvgRenderer:
-        tags: [ 'roadiz_core.document_renderer' ]
+        tags: [ { name: 'roadiz_core.document_renderer', priority: 11 } ]
     RZ\Roadiz\Documents\Renderer\EmbedRenderer:
         tags: [ { name: 'roadiz_core.document_renderer', priority: -128 } ]
     RZ\Roadiz\Documents\Renderer\ThumbnailRenderer:
@@ -551,7 +546,6 @@ services:
         alias: RZ\Roadiz\CoreBundle\Filesystem\RoadizFileDirectories
         public: true
 
-    RZ\Roadiz\Documents\Packages: ~
     RZ\Roadiz\Documents\DownscaleImageManager: ~
     RZ\Roadiz\Documents\DocumentArchiver: ~
     #

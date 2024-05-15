@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Routing;
 
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -15,7 +16,6 @@ use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
@@ -28,24 +28,12 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
      */
     public const NO_CACHE_PARAMETER = '_no_cache';
     private ?Theme $theme = null;
-    private CacheItemPoolInterface $nodeSourceUrlCacheAdapter;
-    private Settings $settingsBag;
-    private EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @param NodeUrlMatcherInterface $matcher
-     * @param Settings $settingsBag
-     * @param EventDispatcherInterface $eventDispatcher
-     * @param CacheItemPoolInterface $nodeSourceUrlCacheAdapter
-     * @param array $options
-     * @param RequestContext $context
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         NodeUrlMatcherInterface $matcher,
-        Settings $settingsBag,
-        EventDispatcherInterface $eventDispatcher,
-        CacheItemPoolInterface $nodeSourceUrlCacheAdapter,
+        protected readonly Settings $settingsBag,
+        protected readonly EventDispatcherInterface $eventDispatcher,
+        protected readonly CacheItemPoolInterface $nodeSourceUrlCacheAdapter,
         RequestContext $context,
         LoggerInterface $logger,
         array $options = []
@@ -57,10 +45,7 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
             $context,
             $logger
         );
-        $this->settingsBag = $settingsBag;
-        $this->eventDispatcher = $eventDispatcher;
         $this->matcher = $matcher;
-        $this->nodeSourceUrlCacheAdapter = $nodeSourceUrlCacheAdapter;
     }
 
     /**
@@ -82,22 +67,6 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
     }
 
     /**
-     * No generator for a node router.
-     */
-    public function getGenerator(): UrlGeneratorInterface
-    {
-        throw new \BadMethodCallException(get_class($this) . ' does not support path generation.');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function supports($name): bool
-    {
-        return ($name instanceof NodesSources || $name === RouteObjectInterface::OBJECT_BASED_ROUTE_NAME);
-    }
-
-    /**
      * @return Theme|null
      */
     public function getTheme(): ?Theme
@@ -116,24 +85,11 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
     }
 
     /**
-     * Convert a route identifier (name, content object etc) into a string
-     * usable for logging and other debug/error messages
-     *
-     * @param mixed $name
-     * @param array $parameters which should contain a content field containing
-     *                          a RouteReferrersReadInterface object
-     *
-     * @return string
+     * @inheritDoc
      */
-    public function getRouteDebugMessage($name, array $parameters = []): string
+    public function getRouteDebugMessage(string $name, array $parameters = []): string
     {
-        if ($name instanceof NodesSources) {
-            @trigger_error('Passing an object as route name is deprecated since version 1.5. Pass the `RouteObjectInterface::OBJECT_BASED_ROUTE_NAME` as route name and the object in the parameters with key `RouteObjectInterface::ROUTE_OBJECT` resp the content id with content_id.', E_USER_DEPRECATED);
-            return '[' . $name->getTranslation()->getLocale() . ']' .
-                $name->getTitle() . ' - ' .
-                $name->getNode()->getNodeName() .
-                '[' . $name->getNode()->getId() . ']';
-        } elseif (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name) {
+        if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name) {
             if (
                 array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters) &&
                 $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof NodesSources
@@ -150,19 +106,20 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
 
     /**
      * {@inheritdoc}
+     * @throws InvalidArgumentException
      */
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
-        if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name) {
-            if (
-                array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters) &&
-                $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof NodesSources
-            ) {
-                $route = $parameters[RouteObjectInterface::ROUTE_OBJECT];
-                unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
-            } else {
-                $route = null;
-            }
+        if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME !== $name) {
+            throw new RouteNotFoundException();
+        }
+
+        if (
+            array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters) &&
+            $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof NodesSources
+        ) {
+            $route = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+            unset($parameters[RouteObjectInterface::ROUTE_OBJECT]);
         } else {
             $route = null;
         }

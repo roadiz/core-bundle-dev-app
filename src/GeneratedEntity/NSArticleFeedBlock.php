@@ -18,8 +18,7 @@ use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
- * DO NOT EDIT
- * Generated custom node-source type by Roadiz.
+ * ArticleFeedBlock node-source entity.
  */
 #[
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
@@ -35,6 +34,7 @@ class NSArticleFeedBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "listingCount"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Article count"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "listing_count", type: "integer", nullable: true),

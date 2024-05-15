@@ -20,27 +20,12 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class PurgeReverseProxyCacheMessageHandler implements MessageHandlerInterface
 {
-    private UrlGeneratorInterface $urlGenerator;
-    private ReverseProxyCacheLocator $reverseProxyCacheLocator;
-    private MessageBusInterface $bus;
-    private ManagerRegistry $managerRegistry;
-
-    /**
-     * @param MessageBusInterface $bus
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param ReverseProxyCacheLocator $reverseProxyCacheLocator
-     * @param ManagerRegistry $managerRegistry
-     */
     public function __construct(
-        MessageBusInterface $bus,
-        UrlGeneratorInterface $urlGenerator,
-        ReverseProxyCacheLocator $reverseProxyCacheLocator,
-        ManagerRegistry $managerRegistry
+        private readonly MessageBusInterface $bus,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ReverseProxyCacheLocator $reverseProxyCacheLocator,
+        private readonly ManagerRegistry $managerRegistry
     ) {
-        $this->urlGenerator = $urlGenerator;
-        $this->reverseProxyCacheLocator = $reverseProxyCacheLocator;
-        $this->managerRegistry = $managerRegistry;
-        $this->bus = $bus;
     }
 
     public function __invoke(PurgeReverseProxyCacheMessage $message): void

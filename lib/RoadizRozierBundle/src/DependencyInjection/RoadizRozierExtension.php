@@ -44,6 +44,7 @@ class RoadizRozierExtension extends Extension
     private function registerOpenId(array $config, ContainerBuilder $container): void
     {
         $container->setParameter('roadiz_rozier.open_id.verify_user_info', $config['open_id']['verify_user_info']);
+        $container->setParameter('roadiz_rozier.open_id.force_ssl_on_redirect_uri', $config['open_id']['force_ssl_on_redirect_uri']);
         $container->setParameter('roadiz_rozier.open_id.discovery_url', $config['open_id']['discovery_url']);
         $container->setParameter('roadiz_rozier.open_id.hosted_domain', $config['open_id']['hosted_domain']);
         $container->setParameter('roadiz_rozier.open_id.oauth_client_id', $config['open_id']['oauth_client_id']);
@@ -101,6 +102,7 @@ class RoadizRozierExtension extends Extension
                     'adminHomePage',
                     $config['open_id']['oauth_client_id'],
                     $config['open_id']['oauth_client_secret'],
+                    $config['open_id']['force_ssl_on_redirect_uri'],
                     $config['open_id']['requires_local_user'],
                     $config['open_id']['openid_username_claim'],
                     '_target_path',

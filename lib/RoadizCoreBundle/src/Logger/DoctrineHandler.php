@@ -215,10 +215,10 @@ final class DoctrineHandler extends AbstractProcessingHandler
                             ]
                         );
                     } else {
-                        $log->setUsername($user->getUsername());
+                        $log->setUsername($user->getUserIdentifier());
                     }
                 } else {
-                    $log->setUsername($token->getUsername());
+                    $log->setUsername($token->getUserIdentifier());
                 }
             }
 

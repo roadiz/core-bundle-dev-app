@@ -5,8 +5,8 @@
     "require": {
         "php": ">=8.1",
         "roadiz/nodetype-contracts": "~1.1.2",
-        "symfony/translation": "5.4.*",
-        "symfony/http-foundation": "5.4.*"
+        "symfony/translation": "6.4.*",
+        "symfony/http-foundation": "6.4.*"
     },
     "license": "MIT",
     "authors": [
@@ -28,8 +28,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.2.x-dev",
-            "dev-develop": "2.3.x-dev"
+            "dev-main": "2.3.x-dev",
+            "dev-develop": "2.4.x-dev"
         }
     }
 }

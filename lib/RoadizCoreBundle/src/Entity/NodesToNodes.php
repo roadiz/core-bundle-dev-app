@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
 use RZ\Roadiz\CoreBundle\Repository\NodesToNodesRepository;
 
@@ -16,62 +17,43 @@ use RZ\Roadiz\CoreBundle\Repository\NodesToNodesRepository;
     ORM\Entity(repositoryClass: NodesToNodesRepository::class),
     ORM\Table(name: "nodes_to_nodes"),
     ORM\Index(columns: ["position"]),
-    ORM\Index(columns: ["node_a_id", "node_type_field_id"], name: "node_a_field"),
-    ORM\Index(columns: ["node_a_id", "node_type_field_id", "position"], name: "node_a_field_position"),
-    ORM\Index(columns: ["node_b_id", "node_type_field_id"], name: "node_b_field"),
-    ORM\Index(columns: ["node_b_id", "node_type_field_id", "position"], name: "node_b_field_position")
+    ORM\Index(columns: ["node_a_id", "field_name"], name: "node_a_field"),
+    ORM\Index(columns: ["node_a_id", "field_name", "position"], name: "node_a_field_position"),
+    ORM\Index(columns: ["node_b_id", "field_name"], name: "node_b_field"),
+    ORM\Index(columns: ["node_b_id", "field_name", "position"], name: "node_b_field_position")
 ]
 class NodesToNodes extends AbstractPositioned
 {
-    /**
-     * @var Node|null
-     */
+    use FieldAwareEntityTrait;
+
     #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'bNodes')]
-    #[ORM\JoinColumn(name: 'node_a_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?Node $nodeA;
+    #[ORM\JoinColumn(name: 'node_a_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected Node $nodeA;
 
-    /**
-     * @var Node|null
-     */
     #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'aNodes')]
-    #[ORM\JoinColumn(name: 'node_b_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?Node $nodeB;
+    #[ORM\JoinColumn(name: 'node_b_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected Node $nodeB;
 
-    /**
-     * @var NodeTypeField|null
-     */
-    #[ORM\ManyToOne(targetEntity: NodeTypeField::class)]
-    #[ORM\JoinColumn(name: 'node_type_field_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?NodeTypeField $field;
-
-    /**
-     * Create a new relation between two Nodes and a NodeTypeField.
-     *
-     * @param Node          $nodeA
-     * @param Node          $nodeB
-     * @param NodeTypeField $field NodeTypeField
-     */
-    public function __construct(Node $nodeA, Node $nodeB, NodeTypeField $field)
+    public function __construct(Node $nodeA, Node $nodeB, ?NodeTypeFieldInterface $field = null)
     {
         $this->nodeA = $nodeA;
         $this->nodeB = $nodeB;
-        $this->field = $field;
+        $this->initializeFieldAwareEntityTrait($field);
     }
 
     public function __clone()
     {
         if ($this->id) {
             $this->id = null;
-            $this->nodeA = null;
         }
     }
 
     /**
      * Gets the value of nodeA.
      *
-     * @return Node|null
+     * @return Node
      */
-    public function getNodeA(): ?Node
+    public function getNodeA(): Node
     {
         return $this->nodeA;
     }
@@ -79,11 +61,11 @@ class NodesToNodes extends AbstractPositioned
     /**
      * Sets the value of nodeA.
      *
-     * @param Node|null $nodeA the node
+     * @param Node $nodeA the node
      *
      * @return self
      */
-    public function setNodeA(?Node $nodeA): NodesToNodes
+    public function setNodeA(Node $nodeA): NodesToNodes
     {
         $this->nodeA = $nodeA;
 
@@ -93,9 +75,9 @@ class NodesToNodes extends AbstractPositioned
     /**
      * Gets the value of nodeB.
      *
-     * @return Node|null
+     * @return Node
      */
-    public function getNodeB(): ?Node
+    public function getNodeB(): Node
     {
         return $this->nodeB;
     }
@@ -103,38 +85,13 @@ class NodesToNodes extends AbstractPositioned
     /**
      * Sets the value of nodeB.
      *
-     * @param Node|null $nodeB the node
+     * @param Node $nodeB the node
      *
      * @return self
      */
-    public function setNodeB(?Node $nodeB): NodesToNodes
+    public function setNodeB(Node $nodeB): NodesToNodes
     {
         $this->nodeB = $nodeB;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of field.
-     *
-     * @return NodeTypeField|null
-     */
-    public function getField(): ?NodeTypeField
-    {
-        return $this->field;
-    }
-
-    /**
-     * Sets the value of field.
-     *
-     * @param NodeTypeField|null $field the field
-     *
-     * @return self
-     */
-    public function setField(?NodeTypeField $field): NodesToNodes
-    {
-        $this->field = $field;
-
         return $this;
     }
 }

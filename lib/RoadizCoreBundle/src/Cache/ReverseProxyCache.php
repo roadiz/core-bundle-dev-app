@@ -6,23 +6,12 @@ namespace RZ\Roadiz\CoreBundle\Cache;
 
 final class ReverseProxyCache
 {
-    protected string $name;
-    protected string $host;
-    protected string $domainName;
-    protected int $timeout;
-
-    /**
-     * @param string $name
-     * @param string $host
-     * @param string $domainName
-     * @param int $timeout
-     */
-    public function __construct(string $name, string $host, string $domainName, int $timeout)
-    {
-        $this->name = $name;
-        $this->host = $host;
-        $this->domainName = $domainName;
-        $this->timeout = $timeout;
+    public function __construct(
+        private readonly string $name,
+        private readonly string $host,
+        private readonly string $domainName,
+        private readonly int $timeout
+    ) {
     }
 
     /**
@@ -47,5 +36,10 @@ final class ReverseProxyCache
     public function getDomainName(): string
     {
         return $this->domainName;
+    }
+
+    public function getTimeout(): int
+    {
+        return $this->timeout;
     }
 }

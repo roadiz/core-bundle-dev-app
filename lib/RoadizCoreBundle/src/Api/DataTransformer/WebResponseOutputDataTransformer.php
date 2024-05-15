@@ -8,8 +8,9 @@ use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Breadcrumbs\BreadcrumbsFactoryInterface;
+use RZ\Roadiz\CoreBundle\Api\Model\BlocksAwareWebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
-use RZ\Roadiz\CoreBundle\Api\Model\WebResponse;
+use RZ\Roadiz\CoreBundle\Api\Model\RealmsAwareWebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
@@ -25,30 +26,26 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
     use BlocksAwareWebResponseOutputDataTransformerTrait;
     use RealmsAwareWebResponseOutputDataTransformerTrait;
 
-    private NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory;
-    private BreadcrumbsFactoryInterface $breadcrumbsFactory;
-    private WalkerContextInterface $walkerContext;
-    private CacheItemPoolInterface $cacheItemPool;
-    private UrlGeneratorInterface $urlGenerator;
-    private RealmResolverInterface $realmResolver;
-    private TreeWalkerGenerator $treeWalkerGenerator;
-
+    /**
+     * @param NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory
+     * @param BreadcrumbsFactoryInterface $breadcrumbsFactory
+     * @param WalkerContextInterface $walkerContext
+     * @param CacheItemPoolInterface $cacheItemPool
+     * @param UrlGeneratorInterface $urlGenerator
+     * @param RealmResolverInterface $realmResolver
+     * @param TreeWalkerGenerator $treeWalkerGenerator
+     * @param class-string<WebResponseInterface> $webResponseClass
+     */
     public function __construct(
-        NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
-        BreadcrumbsFactoryInterface $breadcrumbsFactory,
-        WalkerContextInterface $walkerContext,
-        CacheItemPoolInterface $cacheItemPool,
-        UrlGeneratorInterface $urlGenerator,
-        RealmResolverInterface $realmResolver,
-        TreeWalkerGenerator $treeWalkerGenerator
+        protected readonly NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
+        protected readonly BreadcrumbsFactoryInterface $breadcrumbsFactory,
+        protected readonly WalkerContextInterface $walkerContext,
+        protected readonly CacheItemPoolInterface $cacheItemPool,
+        protected readonly UrlGeneratorInterface $urlGenerator,
+        protected readonly RealmResolverInterface $realmResolver,
+        protected readonly TreeWalkerGenerator $treeWalkerGenerator,
+        private readonly string $webResponseClass
     ) {
-        $this->nodesSourcesHeadFactory = $nodesSourcesHeadFactory;
-        $this->breadcrumbsFactory = $breadcrumbsFactory;
-        $this->walkerContext = $walkerContext;
-        $this->cacheItemPool = $cacheItemPool;
-        $this->urlGenerator = $urlGenerator;
-        $this->realmResolver = $realmResolver;
-        $this->treeWalkerGenerator = $treeWalkerGenerator;
     }
 
     protected function getWalkerContext(): WalkerContextInterface
@@ -84,40 +81,33 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
         return $this->realmResolver;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function transform($object, string $to, array $context = []): ?WebResponseInterface
+    public function createWebResponse(): WebResponseInterface
     {
-        if (!$object instanceof PersistableInterface) {
-            throw new \InvalidArgumentException(
-                'Data to transform must be instance of ' .
-                PersistableInterface::class
-            );
-        }
-        $output = new WebResponse();
-        $output->item = $object;
-        if ($object instanceof NodesSources) {
-            $this->injectRealms($output, $object);
-            $this->injectBlocks($output, $object);
-
-            $output->path = $this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                RouteObjectInterface::ROUTE_OBJECT => $object
-            ], UrlGeneratorInterface::ABSOLUTE_PATH);
-            $output->head = $this->nodesSourcesHeadFactory->createForNodeSource($object);
-            $output->breadcrumbs = $this->breadcrumbsFactory->create($object);
-        }
-        if ($object instanceof TranslationInterface) {
-            $output->head = $this->nodesSourcesHeadFactory->createForTranslation($object);
-        }
-        return $output;
+        return new ($this->webResponseClass)();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function supportsTransformation($data, string $to, array $context = []): bool
+    public function transform(PersistableInterface $object, string $to, array $context = []): ?WebResponseInterface
     {
-        return WebResponseInterface::class === $to && $data instanceof PersistableInterface;
+        $output = $this->createWebResponse();
+        $output->setItem($object);
+        if ($object instanceof NodesSources) {
+            if ($output instanceof RealmsAwareWebResponseInterface) {
+                $this->injectRealms($output, $object);
+            }
+            if ($output instanceof BlocksAwareWebResponseInterface) {
+                $this->injectBlocks($output, $object);
+            }
+
+            $output->setPath($this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
+                RouteObjectInterface::ROUTE_OBJECT => $object
+            ], UrlGeneratorInterface::ABSOLUTE_PATH));
+            $output->setHead($this->nodesSourcesHeadFactory->createForNodeSource($object));
+            $output->setBreadcrumbs($this->breadcrumbsFactory->create($object));
+            $output->setMaxAge($object->getNode()->getTtl() * 60);
+        }
+        if ($object instanceof TranslationInterface) {
+            $output->setHead($this->nodesSourcesHeadFactory->createForTranslation($object));
+        }
+        return $output;
     }
 }

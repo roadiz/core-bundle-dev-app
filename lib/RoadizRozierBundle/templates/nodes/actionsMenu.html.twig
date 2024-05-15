@@ -126,7 +126,7 @@
                                 <i class="uk-icon-rz-duplicate"></i><span class="label">{% trans %}duplicate{% endtrans %}</span>
                             </a>
                         {% endif %}
-                        {% if is_granted('EDIT_ATTRIBUTE', node) %}
+                        {% if is_granted('EDIT_SETTING', node) %}
                         <a
                             class="uk-button"
                             href="{{ path('nodesTranstypePage', { nodeId:node.getId }) }}"

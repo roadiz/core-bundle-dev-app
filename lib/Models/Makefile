@@ -1,5 +1,5 @@
 test:
-	vendor/bin/phpunit -v --bootstrap=tests/bootstrap.php --whitelist ./src --coverage-clover ./build/logs/clover.xml tests/
+	vendor/bin/phpunit -v --whitelist ./src --coverage-clover ./build/logs/clover.xml src/Test
 	vendor/bin/phpcbf -p ./src
 	vendor/bin/phpstan analyse -c phpstan.neon
 

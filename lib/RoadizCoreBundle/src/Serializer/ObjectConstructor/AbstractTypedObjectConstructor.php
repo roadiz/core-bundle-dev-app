@@ -13,17 +13,10 @@ use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 
 abstract class AbstractTypedObjectConstructor implements TypedObjectConstructorInterface
 {
-    protected ObjectManager $entityManager;
-    protected ObjectConstructorInterface $fallbackConstructor;
-
-    /**
-     * @param ObjectManager $entityManager
-     * @param ObjectConstructorInterface $fallbackConstructor
-     */
-    public function __construct(ObjectManager $entityManager, ObjectConstructorInterface $fallbackConstructor)
-    {
-        $this->entityManager = $entityManager;
-        $this->fallbackConstructor = $fallbackConstructor;
+    public function __construct(
+        protected readonly ObjectManager $entityManager,
+        protected readonly ObjectConstructorInterface $fallbackConstructor
+    ) {
     }
 
     /**
@@ -32,7 +25,7 @@ abstract class AbstractTypedObjectConstructor implements TypedObjectConstructorI
      *
      * @return object|null
      */
-    abstract protected function findObject($data, DeserializationContext $context): ?object;
+    abstract protected function findObject(mixed $data, DeserializationContext $context): ?object;
 
     /**
      * @param object $object

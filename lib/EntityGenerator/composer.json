@@ -15,10 +15,10 @@
         "php": ">=8.1",
         "ext-json": "*",
         "roadiz/nodetype-contracts": "~1.1.2",
-        "symfony/string": "5.4.*",
-        "symfony/yaml": "5.4.*",
-        "symfony/serializer": "5.4.*",
-        "symfony/options-resolver": "5.4.*"
+        "symfony/string": "6.4.*",
+        "symfony/yaml": "6.4.*",
+        "symfony/serializer": "6.4.*",
+        "symfony/options-resolver": "6.4.*"
     },
     "suggest": {
         "api-platform/core": "If you need to create ApiFilter annotation right into your entities"
@@ -32,13 +32,13 @@
     "require-dev": {
         "squizlabs/php_codesniffer": "^3.5",
         "phpstan/phpstan": "^1.5.3",
-        "atoum/atoum": "^4.0.0",
-        "api-platform/core": "~2.7.0"
+        "phpunit/phpunit": "^9.5",
+        "api-platform/core": "~3.2.14"
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.2.x-dev",
-            "dev-develop": "2.3.x-dev"
+            "dev-main": "2.3.x-dev",
+            "dev-develop": "2.4.x-dev"
         }
     }
 }

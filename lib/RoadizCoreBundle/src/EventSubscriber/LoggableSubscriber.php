@@ -5,27 +5,18 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
 use Gedmo\Loggable\LoggableListener;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class LoggableSubscriber implements EventSubscriberInterface
 {
-    private LoggableListener $loggableListener;
-    private ?TokenStorageInterface $tokenStorage;
-    private ?AuthorizationCheckerInterface $authorizationChecker;
-
     public function __construct(
-        LoggableListener $loggableListener,
-        TokenStorageInterface $tokenStorage = null,
-        AuthorizationCheckerInterface $authorizationChecker = null
+        private readonly LoggableListener $loggableListener,
+        private readonly Security $security,
     ) {
-        $this->loggableListener = $loggableListener;
-        $this->tokenStorage = $tokenStorage;
-        $this->authorizationChecker = $authorizationChecker;
     }
 
     public function onKernelRequest(RequestEvent $event): void
@@ -34,14 +25,12 @@ final class LoggableSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (null === $this->tokenStorage || null === $this->authorizationChecker) {
+        if (null === $user = $this->security->getUser()) {
             return;
         }
 
-        $token = $this->tokenStorage->getToken();
-
-        if (null !== $token && $this->authorizationChecker->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->loggableListener->setUsername($token);
+        if ($this->security->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $this->loggableListener->setUsername($user);
         }
     }
 

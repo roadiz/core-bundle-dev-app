@@ -13,12 +13,12 @@ trait AttributeValueTranslationTrait
 {
     #[
         ORM\ManyToOne(targetEntity: TranslationInterface::class),
-        ORM\JoinColumn(name: "translation_id", referencedColumnName: "id", onDelete: "CASCADE"),
+        ORM\JoinColumn(name: "translation_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
         Serializer\Groups(["attribute", "node", "nodes_sources"]),
         Serializer\Type("RZ\Roadiz\Core\AbstractEntities\TranslationInterface"),
         Serializer\Accessor(getter: "getTranslation", setter: "setTranslation")
     ]
-    protected ?TranslationInterface $translation = null;
+    protected TranslationInterface $translation;
 
     #[
         ORM\Column(type: "string", length: 255, unique: false, nullable: true),
@@ -30,16 +30,16 @@ trait AttributeValueTranslationTrait
 
     #[
         ORM\ManyToOne(targetEntity: AttributeValueInterface::class, cascade: ["persist"], inversedBy: "attributeValueTranslations"),
-        ORM\JoinColumn(name: "attribute_value", referencedColumnName: "id", onDelete: "CASCADE"),
+        ORM\JoinColumn(name: "attribute_value", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
         Serializer\Exclude
     ]
-    protected ?AttributeValueInterface $attributeValue = null;
+    protected AttributeValueInterface $attributeValue;
 
     /**
      * @return bool|\DateTime|float|int|string|null
      * @throws \Exception
      */
-    public function getValue()
+    public function getValue(): bool|\DateTime|float|int|string|null
     {
         if (null === $this->value) {
             return null;
@@ -56,9 +56,9 @@ trait AttributeValueTranslationTrait
     /**
      * @param mixed|null $value
      *
-     * @return static
+     * @return self
      */
-    public function setValue($value)
+    public function setValue(mixed $value)
     {
         if (null === $value) {
             $this->value = null;
@@ -86,8 +86,7 @@ trait AttributeValueTranslationTrait
 
     /**
      * @param TranslationInterface $translation
-     *
-     * @return static
+     * @return self
      */
     public function setTranslation(TranslationInterface $translation)
     {
@@ -95,10 +94,7 @@ trait AttributeValueTranslationTrait
         return $this;
     }
 
-    /**
-     * @return TranslationInterface|null
-     */
-    public function getTranslation(): ?TranslationInterface
+    public function getTranslation(): TranslationInterface
     {
         return $this->translation;
     }
@@ -113,8 +109,7 @@ trait AttributeValueTranslationTrait
 
     /**
      * @param AttributeValueInterface $attributeValue
-     *
-     * @return static
+     * @return self
      */
     public function setAttributeValue(AttributeValueInterface $attributeValue)
     {
@@ -122,10 +117,7 @@ trait AttributeValueTranslationTrait
         return $this;
     }
 
-    /**
-     * @return AttributeInterface|null
-     */
-    public function getAttribute(): ?AttributeInterface
+    public function getAttribute(): AttributeInterface
     {
         return $this->getAttributeValue()->getAttribute();
     }

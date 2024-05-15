@@ -6,13 +6,12 @@ namespace RZ\Roadiz\CoreBundle\EntityHandler;
 
 use Doctrine\Common\Collections\Criteria;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
-use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 
 /**
  * Handle operations with folders entities.
  */
-class FolderHandler extends AbstractHandler
+final class FolderHandler extends AbstractHandler
 {
     protected ?Folder $folder = null;
 
@@ -28,7 +27,7 @@ class FolderHandler extends AbstractHandler
      * @param Folder $folder
      * @return $this
      */
-    public function setFolder(Folder $folder)
+    public function setFolder(Folder $folder): self
     {
         $this->folder = $folder;
         return $this;
@@ -39,7 +38,7 @@ class FolderHandler extends AbstractHandler
      *
      * @return $this
      */
-    private function removeChildren()
+    private function removeChildren(): self
     {
         /** @var Folder $folder */
         foreach ($this->getFolder()->getChildren() as $folder) {
@@ -57,7 +56,7 @@ class FolderHandler extends AbstractHandler
      *
      * @return $this
      */
-    public function removeWithChildrenAndAssociations()
+    public function removeWithChildrenAndAssociations(): self
     {
         $this->removeChildren();
         $this->objectManager->remove($this->getFolder());
@@ -67,49 +66,6 @@ class FolderHandler extends AbstractHandler
          */
         $this->objectManager->flush();
         return $this;
-    }
-
-    /**
-     * Return every folder’s parents.
-     *
-     * @deprecated Use directly Folder::getParents method.
-     * @return array<Folder>
-     */
-    public function getParents(): array
-    {
-        $parentsArray = [];
-        $parent = $this->getFolder();
-
-        do {
-            $parent = $parent->getParent();
-            if ($parent !== null) {
-                $parentsArray[] = $parent;
-            } else {
-                break;
-            }
-        } while ($parent !== null);
-
-        return array_reverse($parentsArray);
-    }
-
-    /**
-     * Get folder full path using folder names.
-     *
-     * @deprecated Use directly Folder::getFullPath method.
-     * @return string
-     */
-    public function getFullPath(): string
-    {
-        $parents = $this->getParents();
-        $path = [];
-
-        foreach ($parents as $parent) {
-            $path[] = $parent->getFolderName();
-        }
-
-        $path[] = $this->getFolder()->getFolderName();
-
-        return implode('/', $path);
     }
 
     /**

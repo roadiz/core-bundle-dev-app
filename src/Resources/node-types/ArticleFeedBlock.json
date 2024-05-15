@@ -15,7 +15,6 @@
             "label": "Article count",
             "type": 6,
             "expanded": false,
-            "node_type_name": "ArticleFeedBlock",
             "universal": true,
             "exclude_from_search": true,
             "excluded_from_serialization": false,

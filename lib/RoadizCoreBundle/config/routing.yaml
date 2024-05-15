@@ -5,12 +5,14 @@ api_custom_forms_item_definition:
     methods: [GET]
     path: /api/custom_forms/{id}/definition
     controller: RZ\Roadiz\CoreBundle\Controller\CustomFormController::definitionAction
+    stateless: true
     requirements:
         id: "[0-9]+"
 api_custom_forms_item_post:
     methods: [POST]
     path: /api/custom_forms/{id}/post
     controller: RZ\Roadiz\CoreBundle\Controller\CustomFormController::postAction
+    stateless: true
     requirements:
         id: "[0-9]+"
 
@@ -28,12 +30,10 @@ customFormSentAction:
 healthCheckAction:
     methods: [GET]
     path:     /health-check
+    stateless: true
     controller: RZ\Roadiz\CoreBundle\Controller\HealthCheckController
-
-roadiz_core_themes:
-    resource: .
-    type: themes
 
 api_login_check:
     methods: [POST]
+    stateless: true
     path: /api/token

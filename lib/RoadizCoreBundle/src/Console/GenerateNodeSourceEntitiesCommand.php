@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Console;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\EntityHandler\HandlerFactory;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeTypeHandler;
@@ -13,23 +15,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * Command line utils for managing node-types from terminal.
- */
-class GenerateNodeSourceEntitiesCommand extends Command
+final class GenerateNodeSourceEntitiesCommand extends Command
 {
-    protected ManagerRegistry $managerRegistry;
-    protected HandlerFactory $handlerFactory;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param HandlerFactory $handlerFactory
-     */
-    public function __construct(ManagerRegistry $managerRegistry, HandlerFactory $handlerFactory)
-    {
-        parent::__construct();
-        $this->managerRegistry = $managerRegistry;
-        $this->handlerFactory = $handlerFactory;
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly HandlerFactory $handlerFactory,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void
@@ -38,6 +31,10 @@ class GenerateNodeSourceEntitiesCommand extends Command
             ->setDescription('Generate node-sources entities PHP classes.');
     }
 
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

@@ -13,12 +13,12 @@ trait AttributeGroupTranslationTrait
 {
     #[
         ORM\ManyToOne(targetEntity: "RZ\Roadiz\Core\AbstractEntities\TranslationInterface"),
-        ORM\JoinColumn(name: "translation_id", onDelete: "CASCADE"),
+        ORM\JoinColumn(name: "translation_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
         Serializer\Groups(["attribute_group", "attribute", "node", "nodes_sources"]),
         Serializer\Type("RZ\Roadiz\Core\AbstractEntities\TranslationInterface"),
         Serializer\Accessor(getter: "getTranslation", setter: "setTranslation")
     ]
-    protected ?TranslationInterface $translation = null;
+    protected TranslationInterface $translation;
 
     #[
         ORM\Column(type: "string", length: 255, unique: false, nullable: false),
@@ -30,10 +30,10 @@ trait AttributeGroupTranslationTrait
 
     #[
         ORM\ManyToOne(targetEntity: AttributeGroupInterface::class, cascade: ["persist"], inversedBy: "attributeGroupTranslations"),
-        ORM\JoinColumn(name: "attribute_group_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE"),
+        ORM\JoinColumn(name: "attribute_group_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
         Serializer\Exclude
     ]
-    protected ?AttributeGroupInterface $attributeGroup = null;
+    protected AttributeGroupInterface $attributeGroup;
 
     /**
      * @return string
@@ -45,7 +45,6 @@ trait AttributeGroupTranslationTrait
 
     /**
      * @param string $value
-     *
      * @return self
      */
     public function setName(string $value)
@@ -56,8 +55,7 @@ trait AttributeGroupTranslationTrait
 
     /**
      * @param TranslationInterface $translation
-     *
-     * @return mixed
+     * @return self
      */
     public function setTranslation(TranslationInterface $translation)
     {
@@ -65,10 +63,7 @@ trait AttributeGroupTranslationTrait
         return $this;
     }
 
-    /**
-     * @return TranslationInterface|null
-     */
-    public function getTranslation(): ?TranslationInterface
+    public function getTranslation(): TranslationInterface
     {
         return $this->translation;
     }
@@ -83,8 +78,7 @@ trait AttributeGroupTranslationTrait
 
     /**
      * @param AttributeGroupInterface $attributeGroup
-     *
-     * @return mixed
+     * @return self
      */
     public function setAttributeGroup(AttributeGroupInterface $attributeGroup)
     {

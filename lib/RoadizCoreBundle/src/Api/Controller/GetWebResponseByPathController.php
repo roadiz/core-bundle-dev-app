@@ -6,70 +6,94 @@ namespace RZ\Roadiz\CoreBundle\Api\Controller;
 
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Exception\InvalidArgumentException;
+use ApiPlatform\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Metadata\Exception\OperationNotFoundException;
+use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Redirection;
+use RZ\Roadiz\CoreBundle\NodeType\ApiResourceOperationNameGenerator;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Routing\PathResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\String\UnicodeString;
 
 final class GetWebResponseByPathController extends AbstractController
 {
-    private RequestStack $requestStack;
-    private PathResolverInterface $pathResolver;
-    private WebResponseDataTransformerInterface $webResponseDataTransformer;
-    private IriConverterInterface $iriConverter;
-    private PreviewResolverInterface $previewResolver;
-
     public function __construct(
-        RequestStack $requestStack,
-        PathResolverInterface $pathResolver,
-        WebResponseDataTransformerInterface $webResponseDataTransformer,
-        IriConverterInterface $iriConverter,
-        PreviewResolverInterface $previewResolver
+        private readonly ResourceMetadataCollectionFactoryInterface $resourceMetadataCollectionFactory,
+        private readonly PathResolverInterface $pathResolver,
+        private readonly WebResponseDataTransformerInterface $webResponseDataTransformer,
+        private readonly IriConverterInterface $iriConverter,
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly ApiResourceOperationNameGenerator $apiResourceOperationNameGenerator,
+        private readonly LoggerInterface $logger
     ) {
-        $this->requestStack = $requestStack;
-        $this->pathResolver = $pathResolver;
-        $this->webResponseDataTransformer = $webResponseDataTransformer;
-        $this->iriConverter = $iriConverter;
-        $this->previewResolver = $previewResolver;
     }
 
-    public function __invoke(): ?WebResponseInterface
+    public function __invoke(?Request $request): ?WebResponseInterface
     {
         try {
             if (
-                null === $this->requestStack->getMainRequest() ||
-                empty($this->requestStack->getMainRequest()->query->get('path'))
+                null === $request ||
+                empty($request->query->get('path'))
             ) {
                 throw new InvalidArgumentException('path query parameter is mandatory');
             }
             $resource = $this->normalizeResourcePath(
-                (string) $this->requestStack->getMainRequest()->query->get('path')
+                $request,
+                (string) $request->query->get('path')
             );
-            $this->requestStack->getMainRequest()->attributes->set('data', $resource);
-            $this->requestStack->getMainRequest()->attributes->set('id', $resource->getId());
-            /*
-             * Force API Platform to look for real resource configuration and serialization
-             * context. You must define "itemOperations.getByPath" for your API resource configuration.
-             */
-            $this->requestStack->getMainRequest()->attributes->set('_api_resource_class', get_class($resource));
-            return $this->webResponseDataTransformer->transform($resource, WebResponseInterface::class);
-        } catch (ResourceNotFoundException $exception) {
-            throw new NotFoundHttpException($exception->getMessage(), $exception);
+            $request->attributes->set('id', $resource->getId());
+            $request->attributes->set('path', (string) $request->query->get('path'));
+            $request->attributes->set('_route_params', [
+                ...$request->attributes->get('_route_params', []),
+                'path' => (string) $request->query->get('path'),
+            ]);
+
+            try {
+                /*
+                 * Force API Platform to look for real resource configuration and serialization
+                 * context. You must define "%entity%_get_by_path" operation for your WebResponse resource configuration.
+                 * It should be generated automatically by Roadiz when you create new reachable NodeTypes.
+                 */
+                $resourceClass = get_class($resource);
+                $operationName = $this->apiResourceOperationNameGenerator->generateGetByPath($resourceClass);
+                $webResponseClass = $request->attributes->get('_api_resource_class');
+                $operation = $this->resourceMetadataCollectionFactory
+                    ->create($webResponseClass)
+                    ->getOperation($operationName);
+                $request->attributes->set('_api_operation', $operation);
+                $request->attributes->set('_web_response_item_class', $resourceClass);
+                $request->attributes->set('_api_operation_name', $operationName);
+            } catch (OperationNotFoundException $exception) {
+                // Do not fail if operation is not found
+                // But warn in logs about missing operation configuration for this resource
+                $this->logger->warning($exception->getMessage());
+            }
+
+            $request->attributes->set('_stateless', true);
+
+            if ($resource instanceof NodesSources) {
+                $request->attributes->set('_translation', $resource->getTranslation());
+                $request->attributes->set('_locale', $resource->getTranslation()->getPreferredLocale());
+            }
+
+            $data = $this->webResponseDataTransformer->transform($resource, WebResponseInterface::class);
+            $request->attributes->set('data', $data);
+
+            return $data;
+        } catch (ResourceNotFoundException | ResourceClassNotFoundException $exception) {
+            throw $this->createNotFoundException($exception->getMessage(), $exception);
         }
     }
 
-    /**
-     * @param string $path
-     * @return PersistableInterface
-     */
-    protected function normalizeResourcePath(string $path): PersistableInterface
+    protected function normalizeResourcePath(?Request $request, string $path): PersistableInterface
     {
         /*
          * Serve any PersistableInterface Resource by implementing
@@ -104,11 +128,11 @@ final class GetWebResponseByPathController extends AbstractController
                  * Recursive call to normalize path coming from Redirection if redirected path
                  * is internal (starting with /)
                  */
-                return $this->normalizeResourcePath($resource->getRedirectUri());
+                return $this->normalizeResourcePath($request, $resource->getRedirectUri());
             }
         }
 
-        $this->addResourceToCacheTags($resource);
+        $this->addResourceToCacheTags($request, $resource);
 
         /*
          * Or plain entity
@@ -116,9 +140,8 @@ final class GetWebResponseByPathController extends AbstractController
         return $resource;
     }
 
-    protected function addResourceToCacheTags(PersistableInterface $resource): void
+    protected function addResourceToCacheTags(?Request $request, PersistableInterface $resource): void
     {
-        $request = $this->requestStack->getMainRequest();
         if (null !== $request) {
             $iri = $this->iriConverter->getIriFromResource($resource);
             $request->attributes->set('_resources', $request->attributes->get('_resources', []) + [ $iri => $iri ]);

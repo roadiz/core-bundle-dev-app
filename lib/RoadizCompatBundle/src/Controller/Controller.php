@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CompatBundle\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
@@ -50,7 +51,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -68,6 +69,7 @@ abstract class Controller extends AbstractController
             'csrfTokenManager' => CsrfTokenManagerInterface::class,
             'defaultTranslation' => 'defaultTranslation',
             'dispatcher' => 'event_dispatcher',
+            'doctrine' => 'doctrine',
             'em' => EntityManagerInterface::class,
             'event_dispatcher' => 'event_dispatcher',
             EventDispatcherInterface::class => EventDispatcherInterface::class,
@@ -112,11 +114,12 @@ abstract class Controller extends AbstractController
 
     /**
      * @return Request
+     * @deprecated
      */
     protected function getRequest(): Request
     {
         /** @var RequestStack $requestStack */
-        $requestStack = $this->get(RequestStack::class);
+        $requestStack = $this->container->get(RequestStack::class);
         $request = $requestStack->getCurrentRequest();
         if (null === $request) {
             throw new BadRequestHttpException('Request is not available in this context');
@@ -125,24 +128,15 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @return Security
-     */
-    protected function getAuthorizationChecker(): Security
-    {
-        /** @var Security $security */ # php-stan hint
-        $security = $this->get(Security::class);
-        return $security;
-    }
-
-    /**
      * Alias for `$this->container['securityTokenStorage']`.
      *
      * @return TokenStorageInterface
+     * @deprecated
      */
     protected function getTokenStorage(): TokenStorageInterface
     {
         /** @var TokenStorageInterface $tokenStorage */ # php-stan hint
-        $tokenStorage = $this->get(TokenStorageInterface::class);
+        $tokenStorage = $this->container->get(TokenStorageInterface::class);
         return $tokenStorage;
     }
 
@@ -150,76 +144,110 @@ abstract class Controller extends AbstractController
      * Alias for `$this->container['em']`.
      *
      * @return ObjectManager
+     * @deprecated
      */
     protected function em(): ObjectManager
     {
-        return $this->getDoctrine()->getManager();
+        return $this->container->get('em');
     }
 
     /**
      * @return TranslatorInterface
+     * @deprecated
      */
     protected function getTranslator(): TranslatorInterface
     {
         /** @var TranslatorInterface $translator */ # php-stan hint
-        $translator = $this->get(TranslatorInterface::class);
+        $translator = $this->container->get(TranslatorInterface::class);
         return $translator;
     }
 
     /**
      * @return Environment
+     * @deprecated
      */
     protected function getTwig(): Environment
     {
         /** @var Environment $twig */ # php-stan hint
-        $twig = $this->get(Environment::class);
+        $twig = $this->container->get(Environment::class);
         return $twig;
     }
 
+    /**
+     * @return Stopwatch
+     * @deprecated
+     */
     protected function getStopwatch(): Stopwatch
     {
         /** @var Stopwatch $stopwatch */
-        $stopwatch = $this->get(Stopwatch::class);
+        $stopwatch = $this->container->get(Stopwatch::class);
         return $stopwatch;
     }
 
+    /**
+     * @deprecated
+     */
     protected function getPreviewResolver(): PreviewResolverInterface
     {
         /** @var PreviewResolverInterface $previewResolver */
-        $previewResolver = $this->get(PreviewResolverInterface::class);
+        $previewResolver = $this->container->get(PreviewResolverInterface::class);
         return $previewResolver;
+    }
+
+    /**
+     * @return ManagerRegistry
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @deprecated
+     */
+    protected function getDoctrine(): ManagerRegistry
+    {
+        return $this->container->get('doctrine');
     }
 
     /**
      * @param object $event
      * @param string|null $eventName
      * @return object The passed $event MUST be returned
+     * @deprecated
      */
     protected function dispatchEvent(object $event, string $eventName = null): object
     {
         /** @var EventDispatcherInterface $eventDispatcher */ # php-stan hint
-        $eventDispatcher = $this->get(EventDispatcherInterface::class);
+        $eventDispatcher = $this->container->get(EventDispatcherInterface::class);
         return $eventDispatcher->dispatch($event, $eventName);
     }
 
+    /**
+     * @return Settings
+     * @deprecated
+     */
     protected function getSettingsBag(): Settings
     {
         /** @var Settings $settingsBag */ # php-stan hint
-        $settingsBag = $this->get(Settings::class);
+        $settingsBag = $this->container->get(Settings::class);
         return $settingsBag;
     }
 
+    /**
+     * @return HandlerFactoryInterface
+     * @deprecated
+     */
     protected function getHandlerFactory(): HandlerFactoryInterface
     {
         /** @var HandlerFactoryInterface $handlerFactory */ # php-stan hint
-        $handlerFactory = $this->get(HandlerFactoryInterface::class);
+        $handlerFactory = $this->container->get(HandlerFactoryInterface::class);
         return $handlerFactory;
     }
 
+    /**
+     * @return LoggerInterface
+     * @deprecated
+     */
     protected function getLogger(): LoggerInterface
     {
         /** @var LoggerInterface $logger */ # php-stan hint
-        $logger = $this->get(LoggerInterface::class);
+        $logger = $this->container->get(LoggerInterface::class);
         return $logger;
     }
 
@@ -235,7 +263,7 @@ abstract class Controller extends AbstractController
     {
         if ($route instanceof NodesSources) {
             /** @var UrlGeneratorInterface $urlGenerator */
-            $urlGenerator = $this->get(UrlGeneratorInterface::class);
+            $urlGenerator = $this->container->get(UrlGeneratorInterface::class);
             return $urlGenerator->generate(
                 RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
                 array_merge($parameters, [RouteObjectInterface::ROUTE_OBJECT => $route]),
@@ -273,28 +301,6 @@ abstract class Controller extends AbstractController
         $url = str_replace($pathInfo, rtrim($pathInfo, ' /'), $requestUri);
 
         return $this->redirect($url, Response::HTTP_MOVED_PERMANENTLY);
-    }
-
-    /**
-     * Make translation variable with the good localization.
-     *
-     * @param Request $request
-     * @param string|null $_locale
-     *
-     * @return TranslationInterface
-     * @throws NoTranslationAvailableException
-     */
-    protected function bindLocaleFromRoute(Request $request, $_locale = null): TranslationInterface
-    {
-        /*
-         * If you use a static route for Home page
-         * we need to grab manually language.
-         *
-         * Get language from static route
-         */
-        $translation = $this->findTranslationForLocale($_locale);
-        $request->setLocale($translation->getPreferredLocale());
-        return $translation;
     }
 
     /**
@@ -408,7 +414,7 @@ abstract class Controller extends AbstractController
     protected function createNamedFormBuilder(string $name = 'form', $data = null, array $options = [])
     {
         /** @var FormFactoryInterface $formFactory */
-        $formFactory = $this->get(FormFactoryInterface::class);
+        $formFactory = $this->container->get(FormFactoryInterface::class);
         return $formFactory->createNamedBuilder($name, FormType::class, $data, $options);
     }
 
@@ -433,33 +439,6 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * Create and return a ContactFormManager to build and send contact
-     * form by email.
-     *
-     * @return ContactFormManager
-     * @deprecated Use constructor service injection
-     */
-    public function createContactFormManager(): ContactFormManager
-    {
-        /** @var ContactFormManager $contactFormManager */ # php-stan hinting
-        $contactFormManager = $this->get(ContactFormManager::class);
-        return $contactFormManager;
-    }
-
-    /**
-     * Create and return a EmailManager to build and send emails.
-     *
-     * @return EmailManager
-     * @deprecated Use constructor service injection
-     */
-    public function createEmailManager(): EmailManager
-    {
-        /** @var EmailManager $emailManager */ # php-stan hinting
-        $emailManager = $this->get(EmailManager::class);
-        return $emailManager;
-    }
-
-    /**
      * Get a user from the tokenStorage.
      *
      * @return UserInterface|null
@@ -470,10 +449,6 @@ abstract class Controller extends AbstractController
      */
     protected function getUser(): ?UserInterface
     {
-        if (!$this->has('securityTokenStorage')) {
-            throw new \LogicException('No TokenStorage has been registered in your application.');
-        }
-
         /** @var TokenInterface|null $token */
         $token = $this->getTokenStorage()->getToken();
         return $token?->getUser();

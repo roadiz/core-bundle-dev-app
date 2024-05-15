@@ -14,7 +14,7 @@ final class Version20230803143556 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Added unpublished_at field and index on nodes_sources';
     }
 
     public function up(Schema $schema): void

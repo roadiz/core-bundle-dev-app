@@ -12,28 +12,21 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\Serializer\Normalizer\ContextAwareNormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 
-final class TranslationAwareNormalizer implements ContextAwareNormalizerInterface, NormalizerAwareInterface
+final class TranslationAwareNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
     use NormalizerAwareTrait;
-
-    private RequestStack $requestStack;
-    private ManagerRegistry $managerRegistry;
-    private PreviewResolverInterface $previewResolver;
 
     private const ALREADY_CALLED = 'TRANSLATION_AWARE_NORMALIZER_ALREADY_CALLED';
 
     public function __construct(
-        RequestStack $requestStack,
-        ManagerRegistry $managerRegistry,
-        PreviewResolverInterface $previewResolver
+        private readonly RequestStack $requestStack,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly PreviewResolverInterface $previewResolver
     ) {
-        $this->requestStack = $requestStack;
-        $this->managerRegistry = $managerRegistry;
-        $this->previewResolver = $previewResolver;
     }
 
     /**
@@ -43,7 +36,7 @@ final class TranslationAwareNormalizer implements ContextAwareNormalizerInterfac
      * @return array|\ArrayObject|bool|float|int|string|null
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         if ($object instanceof WebResponseInterface) {
             $item = $object->getItem();
@@ -83,22 +76,32 @@ final class TranslationAwareNormalizer implements ContextAwareNormalizerInterfac
     {
         $request = $this->requestStack->getMainRequest();
 
-        if (null !== $request) {
-            $locale = $request->query->get('_locale', $request->getLocale());
-            if (
-                \is_string($locale) &&
-                null !== $translation = $this->getTranslationFromLocale($locale)
-            ) {
-                return $translation;
-            }
+        if (null === $request) {
+            return $this->managerRegistry
+                ->getRepository(Translation::class)
+                ->findDefault();
         }
 
-        return $this->managerRegistry
-            ->getRepository(Translation::class)
-            ->findDefault();
+        /*
+         * Try to get translation resolved from LocaleSubscriber before
+         */
+        $requestTranslation = $request->attributes->get('_translation');
+        if ($requestTranslation instanceof TranslationInterface) {
+            return $requestTranslation;
+        }
+
+        $locale = $request->query->get('_locale', $request->getLocale());
+        if (
+            \is_string($locale) &&
+            null !== $translation = $this->getTranslationFromLocale($locale)
+        ) {
+            return $translation;
+        }
+
+        return null;
     }
 
-    public function supportsNormalization($data, $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         // Make sure we're not called twice
         if (isset($context[self::ALREADY_CALLED])) {
@@ -106,5 +109,12 @@ final class TranslationAwareNormalizer implements ContextAwareNormalizerInterfac
         }
 
         return true;
+    }
+
+    public function getSupportedTypes(?string $format): array
+    {
+        return [
+            '*' => false,
+        ];
     }
 }

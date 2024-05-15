@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Repository;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesCustomForms;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
@@ -22,20 +23,38 @@ final class NodesCustomFormsRepository extends EntityRepository
     ) {
         parent::__construct($registry, NodesCustomForms::class, $dispatcher);
     }
+
     /**
-     * @param Node          $node
-     * @param NodeTypeField $field
-     *
-     * @return integer
+     * @param Node $node
+     * @param NodeTypeFieldInterface $field
+     * @return int
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @deprecated Use getLatestPositionForFieldName instead
      */
-    public function getLatestPosition(Node $node, NodeTypeField $field)
+    public function getLatestPosition(Node $node, NodeTypeFieldInterface $field): int
     {
         $query = $this->_em->createQuery('
             SELECT MAX(ncf.position) FROM RZ\Roadiz\CoreBundle\Entity\NodesCustomForms ncf
-            WHERE ncf.node = :node AND ncf.field = :field')
+            WHERE ncf.node = :node AND ncf.fieldName = :fieldName')
                     ->setParameter('node', $node)
-                    ->setParameter('field', $field);
+                    ->setParameter('fieldName', $field->getName());
 
-        return (int) $query->getSingleScalarResult();
+        $latestPosition = $query->getSingleScalarResult();
+
+        return is_numeric($latestPosition) ? (int) $latestPosition : 0;
+    }
+
+    public function getLatestPositionForFieldName(Node $node, string $fieldName): int
+    {
+        $query = $this->_em->createQuery('
+            SELECT MAX(ncf.position) FROM RZ\Roadiz\CoreBundle\Entity\NodesCustomForms ncf
+            WHERE ncf.node = :node AND ncf.fieldName = :fieldName')
+                    ->setParameter('node', $node)
+                    ->setParameter('fieldName', $fieldName);
+
+        $latestPosition = $query->getSingleScalarResult();
+
+        return is_numeric($latestPosition) ? (int) $latestPosition : 0;
     }
 }

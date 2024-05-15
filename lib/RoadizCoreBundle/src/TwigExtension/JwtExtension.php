@@ -9,24 +9,16 @@ use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Preview\User\PreviewUserProviderInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 final class JwtExtension extends AbstractExtension
 {
-    private PreviewUserProviderInterface $previewUserProvider;
-    private JWTTokenManagerInterface $tokenManager;
-    private LoggerInterface $logger;
-
     public function __construct(
-        JWTTokenManagerInterface $tokenManager,
-        LoggerInterface $logger,
-        PreviewUserProviderInterface $previewUserProvider
+        private readonly JWTTokenManagerInterface $tokenManager,
+        private readonly LoggerInterface $logger,
+        private readonly PreviewUserProviderInterface $previewUserProvider
     ) {
-        $this->tokenManager = $tokenManager;
-        $this->logger = $logger;
-        $this->previewUserProvider = $previewUserProvider;
     }
 
     public function getFunctions(): array

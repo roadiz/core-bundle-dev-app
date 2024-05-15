@@ -18,8 +18,7 @@ use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
- * DO NOT EDIT
- * Generated custom node-source type by Roadiz.
+ * BasicBlock node-source entity.
  */
 #[
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
@@ -35,6 +34,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "content"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Content"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(name: "content", type: "text", nullable: true),
@@ -73,6 +73,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "booleanField"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Boolean field"),
         SymfonySerializer\MaxDepth(2),
         Gedmo\Versioned,
         ORM\Column(
@@ -117,6 +118,7 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         Serializer\Exclude,
         SymfonySerializer\SerializedName(serializedName: "image"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default", "nodes_sources_documents"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Image"),
         SymfonySerializer\MaxDepth(2)
     ]
     private ?array $image = null;
@@ -134,16 +136,12 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function getImage(): array
     {
         if (null === $this->image) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->image = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndField(
+                    ->findByNodeSourceAndFieldName(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("image")
+                        'image'
                     );
             } else {
                 $this->image = [];
@@ -159,23 +157,16 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      */
     public function addImage(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("image");
-            if (null !== $field) {
-                $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
-                    $this,
-                    $document,
-                    $field
-                );
-                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
-                    $this->objectManager->persist($nodeSourceDocument);
-                    $this->addDocumentsByFields($nodeSourceDocument);
-                    $this->image = null;
-                }
+        if (null !== $this->objectManager) {
+            $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
+                $this,
+                $document
+            );
+            $nodeSourceDocument->setFieldName('image');
+            if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+                $this->objectManager->persist($nodeSourceDocument);
+                $this->addDocumentsByFields($nodeSourceDocument);
+                $this->image = null;
             }
         }
         return $this;

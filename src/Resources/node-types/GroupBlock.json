@@ -16,7 +16,6 @@
             "default_values": "BasicBlock",
             "type": 16,
             "expanded": false,
-            "node_type_name": "GroupBlock",
             "universal": false,
             "exclude_from_search": false,
             "excluded_from_serialization": false,

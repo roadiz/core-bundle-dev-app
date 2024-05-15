@@ -15,21 +15,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-/**
- * @package RZ\Roadiz\CoreBundle\Console
- */
 final class NodesCleanNamesCommand extends Command
 {
-    protected NodeNamePolicyInterface $nodeNamePolicy;
-    protected ManagerRegistry $managerRegistry;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(ManagerRegistry $managerRegistry)
-    {
-        parent::__construct();
-        $this->managerRegistry = $managerRegistry;
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly NodeNamePolicyInterface $nodeNamePolicy,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void

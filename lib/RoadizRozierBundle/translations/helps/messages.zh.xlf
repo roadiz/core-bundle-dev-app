@@ -20,9 +20,6 @@
       <trans-unit xml:space="preserve" id="nodeSource.metaTitle.help">
                 <source>nodeSource.metaTitle.help</source>
             <target state="translated">SEO 标题能让您写下您页面的全部标题。为了在搜索引擎中完全显示，标题一般不应该超过 55 到 65 个字。</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.metaKeywords.help">
-                <source>nodeSource.metaKeywords.help</source>
-            <target state="translated">SEO 关键词现在是可选的，且不再被搜索引擎重视。</target></trans-unit>
       <trans-unit xml:space="preserve" id="nodeSource.metaDescription.help">
                 <source>nodeSource.metaDescription.help</source>
             <target state="translated">SEO 描述是您页面的几个字的总结。它的目的是为了简略的描述它的内容。此描述的长度必须介于 120 到 155 个字之间。</target></trans-unit>

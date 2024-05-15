@@ -35,8 +35,8 @@ jobs:
                       ${{ runner.os }}-php-${{ matrix.php-version }}-
             - name: Install Dependencies
               run: composer install --no-scripts --no-ansi --no-interaction --no-progress
-            - name: Run atoum unit tests
-              run: vendor/bin/atoum -d tests
+            - name: Run Unit tests
+              run: vendor/bin/phpunit -v --whitelist ./src --coverage-clover ./build/logs/clover.xml src/Test
             - name: Run PHP Code Sniffer
               run: vendor/bin/phpcs -p ./src
             - name: Run PHPStan

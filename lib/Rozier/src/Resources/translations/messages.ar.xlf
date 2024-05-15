@@ -334,10 +334,6 @@
         <source>metaTitle</source>
         <target state="translated">عنوان وصفي</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="92">
-        <source>metaKeywords</source>
-        <target state="translated">الكلمات الدلالية</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="94">
         <source>nodeTypeField.%name%.updated</source>
         <target state="translated">حقل نوع العقدة.%name%.تم تحديثه</target>

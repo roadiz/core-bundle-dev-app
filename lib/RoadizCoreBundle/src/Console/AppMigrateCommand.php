@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\Console;
 
 use RZ\Roadiz\CoreBundle\Doctrine\SchemaUpdater;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,14 +15,12 @@ use Symfony\Component\Process\Process;
 
 final class AppMigrateCommand extends Command
 {
-    protected string $projectDir;
-    private SchemaUpdater $schemaUpdater;
-
-    public function __construct(SchemaUpdater $schemaUpdater, string $projectDir, ?string $name = null)
-    {
+    public function __construct(
+        private readonly SchemaUpdater $schemaUpdater,
+        private readonly string $projectDir,
+        ?string $name = null
+    ) {
         parent::__construct($name);
-        $this->projectDir = $projectDir;
-        $this->schemaUpdater = $schemaUpdater;
     }
 
     protected function configure(): void

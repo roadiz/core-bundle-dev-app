@@ -358,10 +358,6 @@
         <source>metaTitle</source>
         <target state="final">Titre « méta »</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="92" approved="yes">
-        <source>metaKeywords</source>
-        <target state="final">Mots-clef « méta »</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="93" approved="yes">
         <source>metaDescription</source>
         <target state="final">Description « méta »</target>
@@ -4718,11 +4714,6 @@
         <source>versions.back_to_working_copy</source>
         <target state="translated">Retour à la version actuelle</target>
         <note>Version management : Button label to go back to working copy</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="encrypted">
-        <source>encrypted</source>
-        <target state="translated">Chiffré</target>
-        <note>Settings : defines if setting value will be encrypted in database.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="original.document">
         <source>original.document</source>

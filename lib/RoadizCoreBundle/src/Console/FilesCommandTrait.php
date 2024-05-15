@@ -9,7 +9,7 @@ trait FilesCommandTrait
     /**
      * @return string
      */
-    protected function getPublicFolderName()
+    protected function getPublicFolderName(): string
     {
         return '/exported_public';
     }
@@ -17,7 +17,7 @@ trait FilesCommandTrait
     /**
      * @return string
      */
-    protected function getPrivateFolderName()
+    protected function getPrivateFolderName(): string
     {
         return '/exported_private';
     }
@@ -25,7 +25,7 @@ trait FilesCommandTrait
     /**
      * @return string
      */
-    protected function getFontsFolderName()
+    protected function getFontsFolderName(): string
     {
         return '/exported_fonts';
     }

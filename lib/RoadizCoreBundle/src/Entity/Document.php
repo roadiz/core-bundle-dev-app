@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -79,6 +80,9 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[ORM\Column(name: 'copyright_valid_since', type: 'datetime', nullable: true)]
     #[SymfonySerializer\Groups(['document_copyright'])]
     #[Serializer\Groups(['document_copyright'])]
+    #[ApiProperty(
+        description: 'Document copyright starting date',
+    )]
     protected ?\DateTime $copyrightValidSince = null;
 
     /**
@@ -87,6 +91,9 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[ORM\Column(name: 'copyright_valid_until', type: 'datetime', nullable: true)]
     #[SymfonySerializer\Groups(['document_copyright'])]
     #[Serializer\Groups(['document_copyright'])]
+    #[ApiProperty(
+        description: 'Document copyright expiry date',
+    )]
     protected ?\DateTime $copyrightValidUntil = null;
 
     /**
@@ -143,6 +150,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type("string")]
+    #[ApiProperty(
+        description: 'Embed ID on external platforms',
+        example: 'FORSwsjtQSE',
+    )]
     #[Assert\Length(max: 250)]
     protected ?string $embedId = null;
 
@@ -167,6 +178,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
     #[Assert\Length(max: 100)]
+    #[ApiProperty(
+        description: 'Embed platform name',
+        example: 'youtube',
+    )]
     protected ?string $embedPlatform = null;
     /**
      * @var Collection<int, NodesSourcesDocuments>
@@ -235,6 +250,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
     #[Assert\Length(max: 255)]
+    #[ApiProperty(
+        description: 'Document file mime type',
+        example: 'image/jpeg',
+    )]
     private ?string $mimeType = null;
     /**
      * @var Collection<int, DocumentInterface>
@@ -267,6 +286,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('int')]
+    #[ApiProperty(
+        description: 'When document has visual size: width in pixels',
+        example: '1280',
+    )]
     private int $imageWidth = 0;
     /**
      * @var integer
@@ -275,6 +298,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('int')]
+    #[ApiProperty(
+        description: 'When document has visual size: height in pixels',
+        example: '800',
+    )]
     private int $imageHeight = 0;
     /**
      * @var integer
@@ -283,6 +310,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('int')]
+    #[ApiProperty(
+        description: 'When document is audio or video: duration in seconds',
+        example: '300',
+    )]
     private int $mediaDuration = 0;
     /**
      * @var string|null
@@ -292,6 +323,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('string')]
     #[Assert\Length(max: 7)]
+    #[ApiProperty(
+        description: 'When document is image: average color in hexadecimal format',
+        example: '#ffffff'
+    )]
     private ?string $imageAverageColor = null;
     /**
      * @var int|null The filesize in bytes.
@@ -619,6 +654,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         Serializer\SerializedName("alt"),
         SymfonySerializer\Groups(["document", "document_display", "nodes_sources", "tag", "attribute"]),
         SymfonySerializer\SerializedName("alt"),
+        ApiProperty(
+            description: 'Document alternative text, for img HTML tag.',
+            writable: false,
+        )
     ]
     public function getAlternativeText(): string
     {

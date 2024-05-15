@@ -55,7 +55,7 @@ class SimpleQueryBuilder
      *
      * @return Comparison|Func|string
      */
-    public function buildExpressionWithoutBinding($value, string $prefix, string $key, string $baseKey = null)
+    public function buildExpressionWithoutBinding(mixed $value, string $prefix, string $key, string $baseKey = null)
     {
         if (\mb_strlen($prefix) > 0 && \mb_substr($prefix, -\mb_strlen('.')) !== '.') {
             $prefix .= '.';
@@ -127,14 +127,11 @@ class SimpleQueryBuilder
         if ($value instanceof PersistableInterface) {
             return $this->queryBuilder->expr()->eq($prefix . $key, ':' . $baseKey);
         }
-        if (isset($value)) {
-            return $this->queryBuilder->expr()->eq($prefix . $key, ':' . $baseKey);
-        }
         if (null === $value) {
             return $this->queryBuilder->expr()->isNull($prefix . $key);
         }
-        // @phpstan-ignore-next-line
-        throw new \InvalidArgumentException('Value is not supported for expression.');
+
+        return $this->queryBuilder->expr()->eq($prefix . $key, ':' . $baseKey);
     }
 
     /**
@@ -181,14 +178,11 @@ class SimpleQueryBuilder
         if ($value instanceof PersistableInterface) {
             return $this->queryBuilder->setParameter($key, $value->getId());
         }
-        if (isset($value)) {
-            return $this->queryBuilder->setParameter($key, $value);
-        }
         if (null === $value) {
             return $this->queryBuilder;
         }
-        // @phpstan-ignore-next-line
-        throw new \InvalidArgumentException('Value is not supported for binding.');
+
+        return $this->queryBuilder->setParameter($key, $value);
     }
 
     /**

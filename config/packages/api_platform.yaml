@@ -2,18 +2,21 @@ api_platform:
     title:       "%env(string:APP_TITLE)%"
     description: "%env(string:APP_DESCRIPTION)%"
     version:     '%env(string:APP_VERSION)%'
-    enable_swagger_ui: false
+    enable_swagger_ui: true
     enable_re_doc: true
-    metadata_backward_compatibility_layer: false
     graphql:
+        introspection: '%kernel.debug%'
         graphiql:
             enabled: false
+        graphql_playground:
+            enabled: true
     show_webby: false
     mapping:
         paths:
             - '%kernel.project_dir%/src/Entity'
             - '%kernel.project_dir%/src/GeneratedEntity'
             - '%kernel.project_dir%/lib/RoadizCoreBundle/src/Entity'
+            - '%kernel.project_dir%/lib/RoadizUserBundle/src/Api/Dto'
             - '%kernel.project_dir%/vendor/rezozero/tree-walker/src'
             - '%kernel.project_dir%/config/api_resources'
     patch_formats:
@@ -26,6 +29,10 @@ api_platform:
             items_per_page_parameter_name: itemsPerPage
 
     defaults:
+        stateless: true
+        extra_properties:
+            standard_put: true
+            rfc_7807_compliant_errors: false
         enable_max_depth: true
         normalization_context:
             skip_null_values: true
@@ -41,6 +48,12 @@ api_platform:
 
 when@prod:
     api_platform:
+        graphql:
+            introspection: false
+            graphiql:
+                enabled: false
+            graphql_playground:
+                enabled: false
         http_cache:
             invalidation:
                 enabled: true

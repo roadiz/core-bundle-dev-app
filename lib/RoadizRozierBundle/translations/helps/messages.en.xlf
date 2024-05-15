@@ -23,9 +23,6 @@
       <trans-unit xml:space="preserve" id="nodeSource.metaTitle.help">
                 <source>nodeSource.metaTitle.help</source>
             <target state="translated">SEO title allows you to write the entire title of your page. For optimal display in search engines, the title should not exceed 55 to 65 characters on average.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.metaKeywords.help">
-                <source>nodeSource.metaKeywords.help</source>
-            <target state="translated">SEO keywords are now optional and are no longer taken into account by search engines.</target></trans-unit>
       <trans-unit xml:space="preserve" id="nodeSource.metaDescription.help">
                 <source>nodeSource.metaDescription.help</source>
             <target state="translated">SEO description is a summary in a few characters of your page. Its purpose is to briefly describe its content. This description must be between 120 and 155 characters long.</target></trans-unit>

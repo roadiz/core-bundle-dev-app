@@ -85,7 +85,7 @@ final class NodeSourceCustomFormType extends AbstractNodeSourceFieldType
 
         $event->setData($this->managerRegistry
             ->getRepository(CustomForm::class)
-            ->findByNodeAndField($nodeSource->getNode(), $nodeTypeField));
+            ->findByNodeAndFieldName($nodeSource->getNode(), $nodeTypeField->getName()));
     }
 
     /**

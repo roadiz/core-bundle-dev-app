@@ -6,9 +6,9 @@ namespace Themes\Rozier\Controllers;
 
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
-use RZ\Roadiz\CoreBundle\Importer\SettingsImporter;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
 use RZ\Roadiz\CoreBundle\Entity\SettingGroup;
+use RZ\Roadiz\CoreBundle\Importer\SettingsImporter;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormError;
@@ -21,17 +21,10 @@ use Twig\Error\RuntimeError;
 
 class SettingsUtilsController extends RozierApp
 {
-    private SerializerInterface $serializer;
-    private SettingsImporter $settingsImporter;
-
-    /**
-     * @param SerializerInterface $serializer
-     * @param SettingsImporter $settingsImporter
-     */
-    public function __construct(SerializerInterface $serializer, SettingsImporter $settingsImporter)
-    {
-        $this->serializer = $serializer;
-        $this->settingsImporter = $settingsImporter;
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+        private readonly SettingsImporter $settingsImporter
+    ) {
     }
 
     /**

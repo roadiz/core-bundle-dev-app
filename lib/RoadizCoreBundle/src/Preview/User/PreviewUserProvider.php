@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Preview\User;
 
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class PreviewUserProvider implements PreviewUserProviderInterface

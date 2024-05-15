@@ -41,14 +41,6 @@ class ANodesFilter implements EventSubscriberInterface
     }
 
     /**
-     * @return string
-     */
-    protected function getNodeFieldJoinAlias(): string
-    {
-        return 'a_n_f';
-    }
-
-    /**
      * @param QueryBuilderBuildEvent $event
      */
     public function onNodeQueryBuilderBuild(QueryBuilderBuildEvent $event): void
@@ -72,24 +64,9 @@ class ANodesFilter implements EventSubscriberInterface
                         $this->getNodeJoinAlias()
                     );
                 }
-                if (str_contains($event->getProperty(), $this->getProperty() . '.field.')) {
-                    if (
-                        !$simpleQB->joinExists(
-                            $simpleQB->getRootAlias(),
-                            $this->getNodeFieldJoinAlias()
-                        )
-                    ) {
-                        $qb->innerJoin(
-                            $this->getNodeJoinAlias() . '.field',
-                            $this->getNodeFieldJoinAlias()
-                        );
-                    }
-                    $prefix = $this->getNodeFieldJoinAlias() . '.';
-                    $key = str_replace($this->getProperty() . '.field.', '', $event->getProperty());
-                } else {
-                    $prefix = $this->getNodeJoinAlias() . '.';
-                    $key = str_replace($this->getProperty() . '.', '', $event->getProperty());
-                }
+
+                $prefix = $this->getNodeJoinAlias() . '.';
+                $key = str_replace($this->getProperty() . '.', '', $event->getProperty());
 
                 $qb->andWhere($simpleQB->buildExpressionWithoutBinding($event->getValue(), $prefix, $key, $baseKey));
             }
@@ -132,24 +109,9 @@ class ANodesFilter implements EventSubscriberInterface
                         $this->getNodeJoinAlias()
                     );
                 }
-                if (str_contains($event->getProperty(), 'node.' . $this->getProperty() . '.field.')) {
-                    if (
-                        !$simpleQB->joinExists(
-                            $simpleQB->getRootAlias(),
-                            $this->getNodeFieldJoinAlias()
-                        )
-                    ) {
-                        $qb->innerJoin(
-                            $this->getNodeJoinAlias() . '.field',
-                            $this->getNodeFieldJoinAlias()
-                        );
-                    }
-                    $prefix = $this->getNodeFieldJoinAlias() . '.';
-                    $key = str_replace('node.' . $this->getProperty() . '.field.', '', $event->getProperty());
-                } else {
-                    $prefix = $this->getNodeJoinAlias() . '.';
-                    $key = str_replace('node.' . $this->getProperty() . '.', '', $event->getProperty());
-                }
+
+                $prefix = $this->getNodeJoinAlias() . '.';
+                $key = str_replace('node.' . $this->getProperty() . '.', '', $event->getProperty());
 
                 $qb->andWhere($simpleQB->buildExpressionWithoutBinding($event->getValue(), $prefix, $key, $baseKey));
             }

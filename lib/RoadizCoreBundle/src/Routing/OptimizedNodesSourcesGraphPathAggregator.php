@@ -7,22 +7,16 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\InvalidArgumentException;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 
 final class OptimizedNodesSourcesGraphPathAggregator implements NodesSourcesPathAggregator
 {
-    private ManagerRegistry $managerRegistry;
-    private CacheItemPoolInterface $cacheAdapter;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param CacheItemPoolInterface $cacheAdapter
-     */
-    public function __construct(ManagerRegistry $managerRegistry, CacheItemPoolInterface $cacheAdapter)
-    {
-        $this->managerRegistry = $managerRegistry;
-        $this->cacheAdapter = $cacheAdapter;
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly CacheItemPoolInterface $cacheAdapter
+    ) {
     }
 
     private function getCacheKey(NodesSources $nodesSources): string
@@ -34,6 +28,7 @@ final class OptimizedNodesSourcesGraphPathAggregator implements NodesSourcesPath
      * @param NodesSources $nodesSources
      * @param array $parameters
      * @return string
+     * @throws InvalidArgumentException
      */
     public function aggregatePath(NodesSources $nodesSources, array $parameters = []): string
     {
@@ -59,7 +54,7 @@ final class OptimizedNodesSourcesGraphPathAggregator implements NodesSourcesPath
      *
      * @return array<int, int|string>
      */
-    protected function getParentsIds(Node $parent): array
+    private function getParentsIds(Node $parent): array
     {
         $parentIds = [];
         while ($parent !== null && !$parent->isHome()) {
@@ -72,13 +67,13 @@ final class OptimizedNodesSourcesGraphPathAggregator implements NodesSourcesPath
 
     /**
      * Get every nodeSource parents identifier from current to
-     * farest ancestor.
+     * farthest ancestor.
      *
      * @param NodesSources $source
      *
      * @return array
      */
-    protected function getIdentifiers(NodesSources $source): array
+    private function getIdentifiers(NodesSources $source): array
     {
         $urlTokens = [];
         $parents = [];

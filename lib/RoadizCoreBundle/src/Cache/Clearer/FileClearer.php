@@ -7,11 +7,9 @@ namespace RZ\Roadiz\CoreBundle\Cache\Clearer;
 abstract class FileClearer implements ClearerInterface
 {
     protected ?string $output = null;
-    protected string $cacheDir;
 
-    public function __construct(string $cacheDir)
+    public function __construct(protected readonly string $cacheDir)
     {
-        $this->cacheDir = $cacheDir;
     }
 
     public function clear(): bool

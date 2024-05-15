@@ -4,11 +4,9 @@ phpstan:
 test:
 	vendor/bin/requirements-checker
 	vendor/bin/monorepo-builder validate
-	vendor/bin/atoum -d ./lib/Documents/tests
-	vendor/bin/atoum -f ./lib/EntityGenerator/tests/units/*
-	vendor/bin/phpunit -v  lib/Models/tests
-	php -d "memory_limit=-1" vendor/bin/phpcs -p
 	make phpstan
+	XDEBUG_MODE=coverage vendor/bin/phpunit -v
+	php -d "memory_limit=-1" vendor/bin/phpcs -p
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
@@ -32,3 +30,7 @@ cache :
 migrate:
 	docker compose exec -u www-data app php bin/console doctrine:migrations:migrate
 	docker compose exec -u www-data app php bin/console app:migrate
+
+update:
+	docker compose exec -u www-data app php bin/console doctrine:migrations:migrate -n
+	docker compose exec -u www-data app php bin/console app:install

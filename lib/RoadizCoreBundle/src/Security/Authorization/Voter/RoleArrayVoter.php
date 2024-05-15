@@ -40,10 +40,8 @@ class RoleArrayVoter extends RoleVoter
                 }
 
                 $result = VoterInterface::ACCESS_DENIED;
-                foreach ($roles as $role) {
-                    if ($singleAttribute === $role) {
-                        return VoterInterface::ACCESS_GRANTED;
-                    }
+                if (\in_array($singleAttribute, $roles, true)) {
+                    return VoterInterface::ACCESS_GRANTED;
                 }
             }
         }

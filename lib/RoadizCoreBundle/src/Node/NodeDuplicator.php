@@ -102,8 +102,7 @@ final class NodeDuplicator
                 $nsDoc->setNodeSource($nodeSource);
                 $doc = $nsDoc->getDocument();
                 $nsDoc->setDocument($doc);
-                $f = $nsDoc->getField();
-                $nsDoc->setField($f);
+                $nsDoc->setFieldName($nsDoc->getFieldName());
                 $this->objectManager->persist($nsDoc);
             }
         }
@@ -141,9 +140,11 @@ final class NodeDuplicator
      */
     private function doDuplicateNodeRelations(Node $node): Node
     {
-        $nodeRelations = new ArrayCollection($node->getBNodes()->toArray());
+        /** @var NodesToNodes[] $nodeRelations */
+        $nodeRelations = $node->getBNodes()->toArray();
         foreach ($nodeRelations as $position => $nodeRelation) {
-            $ntn = new NodesToNodes($node, $nodeRelation->getNodeB(), $nodeRelation->getField());
+            $ntn = new NodesToNodes($node, $nodeRelation->getNodeB());
+            $ntn->setFieldName($nodeRelation->getFieldName());
             $ntn->setPosition($position);
             $this->objectManager->persist($ntn);
         }

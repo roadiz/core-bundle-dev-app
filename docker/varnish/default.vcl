@@ -22,6 +22,7 @@ acl local {
     "app";
     "varnish";
     "localhost";
+    "172.58.0.0/16";
 }
 
 sub vcl_recv {

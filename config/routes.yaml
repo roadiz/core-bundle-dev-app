@@ -18,8 +18,15 @@ rz_intervention_request:
     resource: "@RZInterventionRequestBundle/Resources/config/routing.yml"
     prefix:   /
 
+
+graphql_playground:
+    path: /api/docs/graphql_playground
+    stateless: false
+    controller: api_platform.graphql.action.graphql_playground
+
 api_contact_form_definition:
     methods: [GET]
+    stateless: true
     path: /api/contact_form/definition
     defaults:
         _controller: App\Controller\ContactFormController::definitionAction
@@ -28,6 +35,7 @@ api_contact_form_definition:
 
 api_contact_form_post:
     methods: [POST]
+    stateless: true
     path: /api/contact_form/post
     defaults:
         _controller: App\Controller\ContactFormController::formAction

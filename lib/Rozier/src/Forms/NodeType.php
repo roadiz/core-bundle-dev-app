@@ -31,7 +31,7 @@ class NodeType extends AbstractType
 
         /** @var Node|null $node */
         $node = $builder->getData();
-        $isReachable = null !== $node && $node->getNodeType()?->isReachable();
+        $isReachable = null !== $node && $node->getNodeType()->isReachable();
         if ($isReachable) {
             $builder->add('home', CheckboxType::class, [
                 'label' => 'node.isHome',

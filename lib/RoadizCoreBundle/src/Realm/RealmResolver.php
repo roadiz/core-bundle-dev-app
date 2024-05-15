@@ -11,7 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\Realm;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\RealmVoter;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 final class RealmResolver implements RealmResolverInterface

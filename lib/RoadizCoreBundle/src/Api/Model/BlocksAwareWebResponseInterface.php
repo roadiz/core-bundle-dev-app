@@ -10,13 +10,13 @@ use RZ\TreeWalker\WalkerInterface;
 interface BlocksAwareWebResponseInterface extends WebResponseInterface
 {
     /**
-     * @return Collection<int, WalkerInterface>|null
+     * @return WalkerInterface[]|null
      */
-    public function getBlocks(): ?Collection;
+    public function getBlocks(): ?array;
 
     /**
      * @param Collection<int, WalkerInterface>|null $blocks
-     * @return BlocksAwareWebResponseInterface
+     * @return $this
      */
-    public function setBlocks(?Collection $blocks): BlocksAwareWebResponseInterface;
+    public function setBlocks(?Collection $blocks): self;
 }

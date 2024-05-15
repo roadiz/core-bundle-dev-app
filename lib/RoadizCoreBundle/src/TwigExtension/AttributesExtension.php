@@ -19,16 +19,10 @@ use Twig\TwigFilter;
 use Twig\TwigFunction;
 use Twig\TwigTest;
 
-class AttributesExtension extends AbstractExtension
+final class AttributesExtension extends AbstractExtension
 {
-    protected EntityManagerInterface $entityManager;
-
-    /**
-     * @param EntityManagerInterface $entityManager
-     */
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(private readonly EntityManagerInterface $entityManager)
     {
-        $this->entityManager = $entityManager;
     }
 
     public function getFunctions(): array
@@ -213,7 +207,7 @@ class AttributesExtension extends AbstractExtension
      *
      * @return string|null
      */
-    public function getAttributeLabelOrCode($mixed, TranslationInterface $translation = null): ?string
+    public function getAttributeLabelOrCode(mixed $mixed, TranslationInterface $translation = null): ?string
     {
         if (null === $mixed) {
             return null;
@@ -240,7 +234,7 @@ class AttributesExtension extends AbstractExtension
      * @param TranslationInterface|null $translation
      * @return string|null
      */
-    public function getAttributeGroupLabelOrCode($mixed, TranslationInterface $translation = null): ?string
+    public function getAttributeGroupLabelOrCode(mixed $mixed, TranslationInterface $translation = null): ?string
     {
         if (null === $mixed) {
             return null;

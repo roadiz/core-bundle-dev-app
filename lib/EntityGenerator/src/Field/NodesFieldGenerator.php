@@ -130,16 +130,12 @@ class NodesFieldGenerator extends AbstractFieldGenerator
     public function ' . $this->field->getGetterName() . 'Sources(): array
     {
         if (null === $this->' . $this->getFieldSourcesName() . ') {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->' . $this->getFieldSourcesName() . ' = $this->objectManager
                     ->getRepository(' . $this->getRepositoryClass() . '::class)
-                    ->findByNodesSourcesAndFieldAndTranslation(
+                    ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("' . $this->field->getName() . '")
+                        \'' . $this->field->getName() . '\'
                     );
             } else {
                 $this->' . $this->getFieldSourcesName() . ' = [];

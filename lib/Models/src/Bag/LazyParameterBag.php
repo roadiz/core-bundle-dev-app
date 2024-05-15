@@ -23,7 +23,7 @@ abstract class LazyParameterBag extends ParameterBag
      * @param mixed|null $default
      * @return mixed|null
      */
-    public function get(string $key, $default = null)
+    public function get(string $key, $default = null): mixed
     {
         if (!$this->ready) {
             $this->populateParameters();
@@ -50,7 +50,7 @@ abstract class LazyParameterBag extends ParameterBag
      *
      * @return bool
      */
-    public function has(string $key)
+    public function has(string $key): bool
     {
         if (!$this->ready) {
             $this->populateParameters();
@@ -62,7 +62,7 @@ abstract class LazyParameterBag extends ParameterBag
     /**
      * @return array
      */
-    public function keys()
+    public function keys(): array
     {
         if (!$this->ready) {
             $this->populateParameters();
@@ -75,7 +75,7 @@ abstract class LazyParameterBag extends ParameterBag
      * @return \ArrayIterator
      */
     #[\ReturnTypeWillChange]
-    public function getIterator()
+    public function getIterator(): \ArrayIterator
     {
         if (!$this->ready) {
             $this->populateParameters();
@@ -88,7 +88,7 @@ abstract class LazyParameterBag extends ParameterBag
      * @return int
      */
     #[\ReturnTypeWillChange]
-    public function count()
+    public function count(): int
     {
         if (!$this->ready) {
             $this->populateParameters();
@@ -105,7 +105,7 @@ abstract class LazyParameterBag extends ParameterBag
      *
      * @return mixed
      */
-    public function filter(string $key, $default = null, int $filter = \FILTER_DEFAULT, $options = [])
+    public function filter(string $key, $default = null, int $filter = \FILTER_DEFAULT, $options = []): mixed
     {
         if (!$this->ready) {
             $this->populateParameters();

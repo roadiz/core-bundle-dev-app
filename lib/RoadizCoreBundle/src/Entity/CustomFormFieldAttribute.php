@@ -24,15 +24,15 @@ class CustomFormFieldAttribute extends AbstractEntity
 {
     #[
         ORM\ManyToOne(targetEntity: CustomFormAnswer::class, inversedBy: "answerFields"),
-        ORM\JoinColumn(name: "custom_form_answer_id", referencedColumnName: "id", onDelete: "CASCADE")
+        ORM\JoinColumn(name: "custom_form_answer_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")
     ]
-    protected ?CustomFormAnswer $customFormAnswer = null;
+    protected CustomFormAnswer $customFormAnswer;
 
     #[
         ORM\ManyToOne(targetEntity: CustomFormField::class, inversedBy: "customFormFieldAttributes"),
-        ORM\JoinColumn(name: "custom_form_field_id", referencedColumnName: "id", onDelete: "CASCADE")
+        ORM\JoinColumn(name: "custom_form_field_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")
     ]
-    protected ?CustomFormField $customFormField = null;
+    protected CustomFormField $customFormField;
 
     /**
      * @var Collection<int, Document>
@@ -83,23 +83,11 @@ class CustomFormFieldAttribute extends AbstractEntity
         return $this;
     }
 
-    /**
-     * Gets the value of customFormAnswer.
-     *
-     * @return CustomFormAnswer|null
-     */
-    public function getCustomFormAnswer(): ?CustomFormAnswer
+    public function getCustomFormAnswer(): CustomFormAnswer
     {
         return $this->customFormAnswer;
     }
 
-    /**
-     * Sets the value of customFormAnswer.
-     *
-     * @param CustomFormAnswer $customFormAnswer the custom form answer
-     *
-     * @return self
-     */
     public function setCustomFormAnswer(CustomFormAnswer $customFormAnswer): CustomFormFieldAttribute
     {
         $this->customFormAnswer = $customFormAnswer;
@@ -116,20 +104,11 @@ class CustomFormFieldAttribute extends AbstractEntity
         return $this->getValue() ?? '';
     }
 
-    /**
-     * @return CustomFormField|null
-     */
-    public function getCustomFormField(): ?CustomFormField
+    public function getCustomFormField(): CustomFormField
     {
         return $this->customFormField;
     }
 
-    /**
-     * Sets the value of customFormField.
-     *
-     * @param CustomFormField $customFormField the custom form field
-     * @return self
-     */
     public function setCustomFormField(CustomFormField $customFormField): CustomFormFieldAttribute
     {
         $this->customFormField = $customFormField;

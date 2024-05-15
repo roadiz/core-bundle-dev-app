@@ -18,8 +18,8 @@ use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
- * DO NOT EDIT
- * Generated custom node-source type by Roadiz.
+ * Neutral node-source entity.
+ * Neutral
  */
 #[
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
@@ -36,6 +36,7 @@ class NSNeutral extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[
         SymfonySerializer\SerializedName(serializedName: "number"),
         SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Number"),
         SymfonySerializer\MaxDepth(2),
         ApiFilter(OrmFilter\OrderFilter::class),
         ApiFilter(OrmFilter\NumericFilter::class),

@@ -25,7 +25,6 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
      * @param array   $args
      * @param integer $rows
      * @param bool $searchTags
-     * @param int $proximity Proximity matching: Lucene supports finding words are a within a specific distance away.
      * @param int $page
      *
      * @return array|null
@@ -35,14 +34,13 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         array $args = [],
         int $rows = 20,
         bool $searchTags = false,
-        int $proximity = 1,
         int $page = 1
     ): ?array {
         if (empty($q)) {
             return null;
         }
         $query = $this->createSolrQuery($args, $rows, $page);
-        $queryTxt = $this->buildQuery($q, $args, $searchTags, $proximity);
+        $queryTxt = $this->buildQuery($q, $args, $searchTags);
 
         if ($this->boostByPublicationDate) {
             $boost = '{!boost b=recip(ms(NOW,published_at_dt),3.16e-11,1,1)}';

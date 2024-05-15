@@ -50,11 +50,11 @@ class CustomFormField extends AbstractField
 
     #[
         ORM\ManyToOne(targetEntity: CustomForm::class, inversedBy: "fields"),
-        ORM\JoinColumn(name: "custom_form_id", referencedColumnName: "id", onDelete: "CASCADE"),
+        ORM\JoinColumn(name: "custom_form_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
         Serializer\Exclude,
         SymfonySerializer\Ignore
     ]
-    private ?CustomForm $customForm = null;
+    private CustomForm $customForm;
 
     /**
      * @var Collection<int, CustomFormFieldAttribute>
@@ -84,7 +84,7 @@ class CustomFormField extends AbstractField
      *
      * @return $this
      */
-    public function setLabel($label)
+    public function setLabel($label): CustomFormField
     {
         parent::setLabel($label);
         $this->setName($label);
@@ -92,25 +92,15 @@ class CustomFormField extends AbstractField
         return $this;
     }
 
-    /**
-     * @return CustomForm|null
-     */
-    public function getCustomForm(): ?CustomForm
+    public function getCustomForm(): CustomForm
     {
         return $this->customForm;
     }
 
-    /**
-     * @param CustomForm|null $customForm
-     *
-     * @return $this
-     */
-    public function setCustomForm(CustomForm $customForm = null): CustomFormField
+    public function setCustomForm(CustomForm $customForm): CustomFormField
     {
         $this->customForm = $customForm;
-        if (null !== $customForm) {
-            $this->customForm->addField($this);
-        }
+        $this->customForm->addField($this);
 
         return $this;
     }
@@ -162,7 +152,6 @@ class CustomFormField extends AbstractField
     {
         if ($this->id) {
             $this->id = null;
-            $this->customForm = null;
             $this->customFormFieldAttributes = new ArrayCollection();
         }
     }
