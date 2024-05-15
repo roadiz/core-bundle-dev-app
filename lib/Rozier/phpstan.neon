@@ -34,6 +34,7 @@ parameters:
         - '#does not accept Doctrine\\Common\\Collections\\ReadableCollection<int, [^\>]+>#'
 
     reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
 
 includes:
     - vendor/phpstan/phpstan-doctrine/extension.neon
