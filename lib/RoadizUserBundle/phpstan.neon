@@ -7,6 +7,8 @@ parameters:
         - */bower_components/*
         - */static/*
     ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
         - '#Call to an undefined method RZ\\Roadiz\\CoreBundle\\Repository#'
         - '#Call to an undefined method RZ\\Roadiz\\UserBundle\\Repository#'
         - '#Call to an undefined method Doctrine\\Persistence\\ObjectRepository#'
@@ -30,8 +32,6 @@ parameters:
         - '#does not accept Doctrine\\Common\\Collections\\ReadableCollection<int, [^\>]+>#'
 
     reportUnmatchedIgnoredErrors: false
-    checkGenericClassInNonGenericObjectType: false
-    checkMissingIterableValueType: false
     doctrine:
         repositoryClass: RZ\Roadiz\CoreBundle\Repository\EntityRepository
 includes:

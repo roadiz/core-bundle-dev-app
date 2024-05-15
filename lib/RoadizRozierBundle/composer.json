@@ -21,10 +21,10 @@
     "require": {
         "php": ">=8.1",
         "symfony/framework-bundle": "6.4.*",
-        "roadiz/core-bundle": "2.3.x-dev",
-        "roadiz/rozier": "2.3.x-dev",
-        "roadiz/compat-bundle": "2.3.x-dev",
-        "roadiz/openid": "2.3.x-dev"
+        "roadiz/core-bundle": "2.3.*",
+        "roadiz/rozier": "2.3.*",
+        "roadiz/compat-bundle": "2.3.*",
+        "roadiz/openid": "2.3.*"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",
@@ -55,8 +55,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.2.x-dev",
-            "dev-develop": "2.3.x-dev"
+            "dev-main": "2.3.x-dev",
+            "dev-develop": "2.4.x-dev"
         }
     }
 }
