@@ -7,9 +7,9 @@ parameters:
         - */bower_components/*
         - */static/*
     ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
         - '#unknown class Parsedown(Extra)?#'
         - '#Instantiated class Memcached not found#'
         - '#Instantiated class Redis not found#'
     reportUnmatchedIgnoredErrors: false
-    checkGenericClassInNonGenericObjectType: false
-    checkMissingIterableValueType: false

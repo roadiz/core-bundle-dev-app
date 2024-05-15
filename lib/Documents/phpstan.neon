@@ -7,6 +7,8 @@ parameters:
         - */bower_components/*
         - */static/*
     ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
         - '#Call to an undefined method Doctrine\\Persistence\\ObjectRepository#'
         - '#Call to an undefined method Doctrine\\Persistence\\ObjectManager#'
         - '#Call to an undefined method Doctrine\\ORM\\EntityRepository#'
@@ -20,8 +22,6 @@ parameters:
         - '#but returns Doctrine\\Common\\Collections\\ReadableCollection<int, [^\>]+>#'
         - '#does not accept Doctrine\\Common\\Collections\\ReadableCollection<int, [^\>]+>#'
     reportUnmatchedIgnoredErrors: false
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
 
 includes:
     - vendor/phpstan/phpstan-doctrine/extension.neon
