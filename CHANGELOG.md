@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.0...v2.3.1) - 2024-05-22
+
+### Bug Fixes
+
+- **(Node)** Always set node TTL against its node-type - ([a772d06](https://github.com/roadiz/core-bundle-dev-app/commit/a772d065602cf7411ae7a090707e3809f7c6e9f4))
+
 ## [2.3.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.15...v2.3.0) - 2024-05-15
 
 ### ⚠ BREAKING CHANGES

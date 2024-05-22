@@ -93,6 +93,6 @@
             "visible": true
         }
     ],
-    "default_ttl": 0,
+    "default_ttl": 15,
     "searchable": true
 }
