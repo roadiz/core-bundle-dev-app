@@ -1,6 +1,6 @@
 resources:
     RZ\Roadiz\CoreBundle\Api\Model\WebResponse:
-        graphQlOperations: []
+        graphQlOperations: {  }
         operations:
             article_get_by_path:
                 method: GET
