@@ -47,9 +47,10 @@ final class NodeFactory
             $node->setNodeType($type);
         }
 
-        if ($type instanceof NodeType) {
-            $node->setTtl($type->getDefaultTtl());
+        if ($node->getNodeType() instanceof NodeType) {
+            $node->setTtl($node->getNodeType()->getDefaultTtl());
         }
+
         if (null !== $parent) {
             $node->setParent($parent);
         }

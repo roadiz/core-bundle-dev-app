@@ -328,6 +328,7 @@ class NodesController extends RozierApp
 
         $node = new Node();
         $node->setNodeType($type);
+        $node->setTtl($type->getDefaultTtl());
 
         $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
         if (null !== $chroot) {
