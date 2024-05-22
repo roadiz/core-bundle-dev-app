@@ -26,11 +26,9 @@ trait NodesTrait
      * @param NodeTypeInterface|null $type
      *
      * @return Node
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     protected function createNode(
-        $title,
+        string $title,
         TranslationInterface $translation,
         Node $node = null,
         NodeTypeInterface $type = null
