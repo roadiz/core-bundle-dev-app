@@ -18,7 +18,7 @@ use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Yaml\Yaml;
 use Themes\Rozier\Explorer\ConfigurableExplorerItem;
@@ -46,7 +46,7 @@ class AjaxEntitiesExplorerController extends AbstractAjaxController
             $nodeTypeField->getType() !== AbstractField::MANY_TO_MANY_T &&
             $nodeTypeField->getType() !== AbstractField::MANY_TO_ONE_T
         ) {
-            throw new InvalidParameterException('nodeTypeField is not a valid entity join.');
+            throw new BadRequestHttpException('nodeTypeField is not a valid entity join.');
         }
 
         $configs = [
@@ -63,11 +63,16 @@ class AjaxEntitiesExplorerController extends AbstractAjaxController
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
         if (!$request->query->has('nodeTypeFieldId')) {
-            throw new InvalidParameterException('nodeTypeFieldId parameter is missing.');
+            throw new BadRequestHttpException('nodeTypeFieldId parameter is missing.');
         }
 
-        /** @var NodeTypeField $nodeTypeField */
+        /** @var NodeTypeField|null $nodeTypeField */
         $nodeTypeField = $this->em()->find(NodeTypeField::class, $request->query->get('nodeTypeFieldId'));
+
+        if (null === $nodeTypeField) {
+            throw new BadRequestHttpException('nodeTypeField does not exist.');
+        }
+
         $configuration = $this->getFieldConfiguration($nodeTypeField);
         /** @var class-string<PersistableInterface> $className */
         $className = $configuration['classname'];
@@ -112,11 +117,11 @@ class AjaxEntitiesExplorerController extends AbstractAjaxController
     public function listAction(Request $request): JsonResponse
     {
         if (!$request->query->has('nodeTypeFieldId')) {
-            throw new InvalidParameterException('nodeTypeFieldId parameter is missing.');
+            throw new BadRequestHttpException('nodeTypeFieldId parameter is missing.');
         }
 
         if (!$request->query->has('ids')) {
-            throw new InvalidParameterException('Ids should be provided within an array');
+            throw new BadRequestHttpException('Ids should be provided within an array');
         }
 
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
@@ -124,8 +129,13 @@ class AjaxEntitiesExplorerController extends AbstractAjaxController
         /** @var EntityManager $em */
         $em = $this->em();
 
-        /** @var NodeTypeField $nodeTypeField */
+        /** @var NodeTypeField|null $nodeTypeField */
         $nodeTypeField = $this->em()->find(NodeTypeField::class, $request->query->get('nodeTypeFieldId'));
+
+        if (null === $nodeTypeField) {
+            throw new BadRequestHttpException('nodeTypeField does not exist.');
+        }
+
         $configuration = $this->getFieldConfiguration($nodeTypeField);
         /** @var class-string<PersistableInterface> $className */
         $className = $configuration['classname'];
