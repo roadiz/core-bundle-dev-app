@@ -22,20 +22,25 @@
                 {% set userPath = '#' %}
             {% endif %}
             <a href="{{ userPath }}">
-                <img width="60"
-                     height="60"
-                     class="user-image uk-thumbnail"
-                     src="{{ log.additionalData.user_picture_url }}"
-                     alt="{{ log.additionalData.user_public_name|default(log.username) }}"
-                     title="{{ log.additionalData.user_public_name|default(log.username) }}"
-                     data-uk-tooltip="{animation:true}"/>
+                {% if log.additionalData.user_picture_url %}
+                    <img width="60"
+                         height="60"
+                         class="user-image uk-thumbnail"
+                         src="{{ log.additionalData.user_picture_url }}"
+                         alt="{{ log.additionalData.user_public_name|default(log.username) }}"
+                         title="{{ log.additionalData.user_public_name|default(log.username) }}"
+                         data-uk-tooltip="{animation:true}"/>
+                {% else %}
+                    <span
+                        data-uk-tooltip="{animation:true}"
+                        title="{{ log.additionalData.user_public_name|default(log.username) }}"
+                        class="user-image uk-thumbnail"><i class="uk-icon uk-icon-rz-user"></i></span>
+                {% endif %}
             </a>
         </div>
     {% elseif log.username %}
         <div class="history-log-user">
             <span class="user-image uk-thumbnail"
-                  width="60"
-                  height="60"
                   title="{{ log.username }}"
                   data-uk-tooltip="{animation:true}" ><i class="uk-icon uk-icon-rz-user"></i></span>
         </div>

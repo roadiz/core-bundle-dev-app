@@ -66,7 +66,9 @@ class RoadizRozierExtension extends Extension
                     ->setPublic(true)
                     ->setArguments([
                         $config['open_id']['discovery_url'],
-                        new Reference(\Psr\Cache\CacheItemPoolInterface::class)
+                        new Reference(\Psr\Cache\CacheItemPoolInterface::class),
+                        new Reference(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
+                        new Reference(\Psr\Log\LoggerInterface::class)
                     ])
             );
         }
@@ -98,6 +100,7 @@ class RoadizRozierExtension extends Extension
                     new Reference(\RZ\Roadiz\OpenId\Authentication\Provider\ChainJwtRoleStrategy::class),
                     new Reference('roadiz_rozier.open_id.jwt_configuration_factory'),
                     new Reference(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class),
+                    new Reference(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
                     'loginPage',
                     'adminHomePage',
                     $config['open_id']['oauth_client_id'],

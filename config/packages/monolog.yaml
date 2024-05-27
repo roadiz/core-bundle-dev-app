@@ -10,14 +10,6 @@ when@dev:
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
                 channels: ["!event"]
-            # uncomment to get logging in your browser
-            # you may have to allow bigger header sizes in your Web server configuration
-            #firephp:
-            #    type: firephp
-            #    level: info
-            #chromephp:
-            #    type: chromephp
-            #    level: info
             messenger:
                 type: stream
                 path: "%kernel.logs_dir%/messenger.%kernel.environment%.log"
@@ -26,7 +18,12 @@ when@dev:
             console:
                 type: console
                 process_psr_3_messages: false
-                channels: ["!event", "!doctrine", "!console"]
+                channels: ["!event", "!doctrine", "!console", "!deprecation"]
+            custom:
+                type: service
+                id: RZ\Roadiz\CoreBundle\Logger\DoctrineHandler
+                level: info
+                channels: [ "app" ]
 
 when@test:
     monolog:
@@ -51,12 +48,14 @@ when@prod:
                 handler: nested
                 excluded_http_codes: [404, 405]
                 buffer_size: 50 # How many messages should be saved? Prevent memory leaks
+                channels: ["!event", "!doctrine", "!deprecation"]
             nested:
                 type: stream
                 path: php://stderr
                 level: info
                 formatter: monolog.formatter.json
+                channels: ["!event", "!doctrine", "!deprecation"]
             console:
                 type: console
                 process_psr_3_messages: false
-                channels: ["!event", "!doctrine"]
+                channels: ["!event", "!doctrine", "!deprecation"]

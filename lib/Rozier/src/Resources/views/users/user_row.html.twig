@@ -1,10 +1,19 @@
 <td class="mobile-hidden uk-visible-xlarge">
-    <img width="45" height="45"
-         data-uk-tooltip="{animation:true}"
-         title="{{- item.identifier|default(item.username) -}}"
-         class="uk-thumbnail gravatar user-image"
-         src="{{ item.pictureUrl }}"
-         alt="{{ item.identifier }}" />
+    {% if item.pictureUrl and item.pictureUrl != '#' %}
+        <img width="45" height="45"
+             data-uk-tooltip="{animation:true}"
+             title="{{- item.identifier|default(item.username) -}}"
+             class="uk-thumbnail gravatar user-image"
+             src="{{ item.pictureUrl }}"
+             alt="{{ item.identifier }}" />
+    {% else %}
+        <span
+            data-uk-tooltip="{animation:true}"
+            title="{{- item.identifier|default(item.username) -}}"
+            class="uk-thumbnail gravatar user-image">
+            <i class="uk-icon uk-icon-rz-user"></i>
+        </span>
+    {% endif %}
 </td>
 <td>
     {% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}

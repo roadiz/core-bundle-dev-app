@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\OpenId\Authentication;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Query;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use RZ\Roadiz\OpenId\Authentication\Provider\JwtRoleStrategy;
@@ -31,12 +27,15 @@ use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class OpenIdAuthenticator extends AbstractAuthenticator
 {
     use TargetPathTrait;
 
-    private Client $client;
+    private HttpClientInterface $client;
 
     public function __construct(
         private readonly HttpUtils $httpUtils,
@@ -44,6 +43,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         private readonly JwtRoleStrategy $roleStrategy,
         private readonly OpenIdJwtConfigurationFactory $jwtConfigurationFactory,
         private readonly UrlGeneratorInterface $urlGenerator,
+        HttpClientInterface $client,
         private readonly string $returnPath,
         private readonly string $defaultRoute,
         private readonly ?string $oauthClientId,
@@ -54,7 +54,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         private readonly string $targetPathParameter = '_target_path',
         private readonly array $defaultRoles = []
     ) {
-        $this->client = new Client([
+        $this->client = $client->withOptions([
             // You can set any number of default request options.
             'timeout'  => 2.0,
         ]);
@@ -96,7 +96,8 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         if (null === $request->query->get('state')) {
             throw new OpenIdAuthenticationException('State is not valid');
         }
-        $state = Query::parse((string) $request->query->get('state'));
+
+        \parse_str((string) $request->query->get('state'), $state);
 
         /*
          * Fetch _target_path parameter from OAuth2 state
@@ -121,8 +122,8 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
             if (!\is_string($tokenEndpoint) || empty($tokenEndpoint)) {
                 throw new OpenIdConfigurationException('Discovery does not provide a valid token_endpoint.');
             }
-            $response = $this->client->post($tokenEndpoint, [
-                'form_params' => [
+            $response = $this->client->request('POST', $tokenEndpoint, [
+                'body' => [
                     'code' => $request->query->get('code'),
                     'client_id' => $this->oauthClientId ?? '',
                     'client_secret' => $this->oauthClientSecret ?? '',
@@ -131,27 +132,19 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
                 ]
             ]);
             /** @var array $jsonResponse */
-            $jsonResponse = \json_decode($response->getBody()->getContents(), true);
-        } catch (RequestException $e) {
-            if (null !== $e->getResponse()) {
-                /** @var array $jsonResponse */
-                $jsonResponse = \json_decode($e->getResponse()->getBody()->getContents(), true);
-                $errorTitle = $jsonResponse['error'] ?? $e->getMessage();
-                $errorDescription = $jsonResponse['error_description'] ?? '';
-
-                throw new OpenIdAuthenticationException(
-                    $errorTitle . ': ' . $errorDescription,
-                    $e->getCode(),
-                    $e
-                );
-            }
+            $jsonResponse = \json_decode(json: $response->getContent(), associative: true, flags: JSON_THROW_ON_ERROR);
+        } catch (HttpExceptionInterface $e) {
+            /** @var array $jsonResponse */
+            $jsonResponse = \json_decode(json: $e->getResponse()->getContent(false), associative: true, flags: JSON_THROW_ON_ERROR);
+            $errorTitle = $jsonResponse['error'] ?? $e->getMessage();
+            $errorDescription = $jsonResponse['error_description'] ?? '';
 
             throw new OpenIdAuthenticationException(
-                $e->getMessage(),
+                $errorTitle . ': ' . $errorDescription,
                 $e->getCode(),
                 $e
             );
-        } catch (GuzzleException $e) {
+        } catch (ExceptionInterface $e) {
             throw new OpenIdAuthenticationException(
                 $e->getMessage(),
                 $e->getCode(),
