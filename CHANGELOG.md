@@ -2,6 +2,14 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.1...v2.3.2) - 2024-05-27
+
+### Bug Fixes
+
+- **(OpenId)** Drop Guzzle client for Symfony Http client and silent open-id misconfiguration errors on Discovery - ([4fe292f](https://github.com/roadiz/core-bundle-dev-app/commit/4fe292f66932d98b22057df6b341afa4e2735fab))
+- **(User)** Fixed user-list image when no picture - ([399bd91](https://github.com/roadiz/core-bundle-dev-app/commit/399bd9140341d67b8779317082af9cd268728466))
+- Throw 400 when requesting explorer entities with bad node-type-field id - ([883bc71](https://github.com/roadiz/core-bundle-dev-app/commit/883bc715ec0013c8652d53effd1105c5d9b4e517))
+
 ## [2.3.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.0...v2.3.1) - 2024-05-22
 
 ### Bug Fixes
@@ -944,7 +952,7 @@ Make sure you update `config/packages/doctrine.yaml` with:
 - Added NodesSourcesHeadFactoryInterface for better WebResponse and CommonContent responses maintainability. - ([ed05a24](https://github.com/roadiz/core-bundle-dev-app/commit/ed05a24947da4caa5533b37190c480b0b5358bd5))
 - Updated Solr indexing tags fields for multivalued strings and use composite ID for easy overriding - ([50a04af](https://github.com/roadiz/core-bundle-dev-app/commit/50a04afc913eb1a7b67cd550fc39305598c4db19))
 
-## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.9...v2.1.0) - 2023-03-06
+## [2.1.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.1...v2.1.0) - 2023-03-06
 
 ### Bug Fixes
 
