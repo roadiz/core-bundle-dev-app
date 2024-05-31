@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.3.2'
+    roadiz_core.cms_version: '2.3.3'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
