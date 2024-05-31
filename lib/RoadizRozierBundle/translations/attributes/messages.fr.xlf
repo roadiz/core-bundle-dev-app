@@ -312,6 +312,11 @@
                 <target state="translated">La valeur de l’attribut %attributeValueId% n’existe pas</target>
                 <note/>
             </trans-unit>
+        <trans-unit xml:space="preserve" id="attributes.usage">
+            <source>attributes.usage</source>
+            <target state="translated">Nombre d'utilisations</target>
+            <note></note>
+        </trans-unit>
     </body>
   </file>
 </xliff>
