@@ -365,4 +365,9 @@ trait AttributeTrait
              default => 'attributes.form.type.string',
         };
     }
+
+    public function getAttributeValues(): Collection
+    {
+        return $this->attributeValues;
+    }
 }

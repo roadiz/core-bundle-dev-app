@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.2...v2.3.3) - 2024-05-31
+
+### Bug Fixes
+
+- Display attribute code in list with usage count - ([4f88a0a](https://github.com/roadiz/core-bundle-dev-app/commit/4f88a0a1a854be03db31d254849ddb9596acd631))
+
 ## [2.3.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.1...v2.3.2) - 2024-05-27
 
 ### Bug Fixes
