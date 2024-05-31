@@ -312,6 +312,11 @@
                 <target state="translated">Attribute %attributeValueId% value does not exist</target>
                 <note/>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="attributes.usage">
+                  <source>attributes.usage</source>
+                  <target state="translated">Usage count</target>
+                  <note></note>
+              </trans-unit>
     </body>
   </file>
 </xliff>
