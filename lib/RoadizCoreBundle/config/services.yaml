@@ -170,16 +170,6 @@ services:
         decorates: 'api_platform.serializer.normalizer.item'
         decoration_priority: 21
 
-    RZ\Roadiz\CoreBundle\DataCollector\RequestDataCollector:
-        autoconfigure: false
-        arguments: [ '%roadiz_core.cms_version%', '%roadiz_core.cms_version_prefix%']
-        tags:
-            -   name: data_collector
-                template: '@RoadizCore/DataCollector/request.html.twig'
-                # must match the value returned by the getName() method
-                id: 'roadiz.data_collector.request'
-                priority: 400
-
     # Document
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentNormalizer:
         # By default, .inner is passed as argument
