@@ -4,6 +4,7 @@ api_platform:
     version:     '%env(string:APP_VERSION)%'
     enable_swagger_ui: true
     enable_re_doc: true
+    keep_legacy_inflector: false
     graphql:
         introspection: '%kernel.debug%'
         graphiql:

@@ -30,12 +30,9 @@ final class SuperAdminRoleHierarchyVoter extends RoleArrayVoter
     private function isSuperAdmin(TokenInterface $token): bool
     {
         $roleNames = parent::extractRoles($token);
-        if (
+        return (
             \in_array('ROLE_SUPER_ADMIN', $roleNames) ||
             \in_array('ROLE_SUPERADMIN', $roleNames)
-        ) {
-            return true;
-        }
-        return false;
+        );
     }
 }
