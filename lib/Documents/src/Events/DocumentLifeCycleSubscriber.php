@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\Events;
 
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Event\PostRemoveEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToMoveFile;
@@ -18,36 +18,27 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 /**
  * Handle file management on document's lifecycle events.
  */
-class DocumentLifeCycleSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::postRemove)]
+#[AsDoctrineListener(event: Events::preUpdate)]
+final class DocumentLifeCycleSubscriber
 {
-    private FilesystemOperator $documentsStorage;
-
-    public function __construct(FilesystemOperator $documentsStorage)
+    public function __construct(private readonly FilesystemOperator $documentsStorage)
     {
-        $this->documentsStorage = $documentsStorage;
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents(): array
-    {
-        return array(
-            Events::postRemove,
-            Events::preUpdate,
-        );
-    }
-
-    /**
-     * @param PreUpdateEventArgs $args
      * @throws FilesystemException
      */
     public function preUpdate(PreUpdateEventArgs $args): void
     {
         $document = $args->getObject();
+
+        if (!$document instanceof DocumentInterface) {
+            return;
+        }
+
         if (
-            $document instanceof DocumentInterface
-            && $args->hasChangedField('filename')
+            $args->hasChangedField('filename')
             && is_string($args->getOldValue('filename'))
             && is_string($args->getNewValue('filename'))
             && $args->getOldValue('filename') !== ''
@@ -66,21 +57,16 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
                 }
             }
         }
-        if ($document instanceof DocumentInterface && $args->hasChangedField('private')) {
+        if ($args->hasChangedField('private')) {
             if ($document->isPrivate() === true) {
-                $this->makePrivate($document, $args);
+                $this->makePrivate($document);
             } else {
-                $this->makePublic($document, $args);
+                $this->makePublic($document);
             }
         }
     }
 
-    /**
-     * @param DocumentInterface $document
-     * @param PreUpdateEventArgs $args
-     * @throws FilesystemException
-     */
-    protected function makePublic(DocumentInterface $document, PreUpdateEventArgs $args): void
+    private function makePublic(DocumentInterface $document): void
     {
         $this->validateDocument($document);
         $documentPublicPath = $this->getDocumentPublicPath($document);
@@ -96,12 +82,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
         }
     }
 
-    /**
-     * @param DocumentInterface $document
-     * @param PreUpdateEventArgs $args
-     * @throws FilesystemException
-     */
-    protected function makePrivate(DocumentInterface $document, PreUpdateEventArgs $args): void
+    private function makePrivate(DocumentInterface $document): void
     {
         $this->validateDocument($document);
         $documentPublicPath = $this->getDocumentPublicPath($document);
@@ -120,25 +101,28 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
     /**
      * Unlink file after document has been deleted.
      *
-     * @param LifecycleEventArgs $args
+     * @param PostRemoveEventArgs $args
      * @throws FilesystemException
      */
-    public function postRemove(LifecycleEventArgs $args): void
+    public function postRemove(PostRemoveEventArgs $args): void
     {
         $document = $args->getObject();
-        if ($document instanceof DocumentInterface) {
-            try {
-                $this->validateDocument($document);
-                $document->setRawDocument(null);
-                $documentPath = $this->getDocumentPath($document);
 
-                if ($this->documentsStorage->fileExists($documentPath)) {
-                    $this->documentsStorage->delete($documentPath);
-                }
-                $this->cleanFileDirectory($this->getDocumentFolderPath($document));
-            } catch (DocumentWithoutFileException $e) {
-                // Do nothing when document does not have any file on system.
+        if (!$document instanceof DocumentInterface) {
+            return;
+        }
+
+        try {
+            $this->validateDocument($document);
+            $document->setRawDocument(null);
+            $documentPath = $this->getDocumentPath($document);
+
+            if ($this->documentsStorage->fileExists($documentPath)) {
+                $this->documentsStorage->delete($documentPath);
             }
+            $this->cleanFileDirectory($this->getDocumentFolderPath($document));
+        } catch (DocumentWithoutFileException $e) {
+            // Do nothing when document does not have any file on system.
         }
     }
 
@@ -149,7 +133,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
      * @return void
      * @throws FilesystemException
      */
-    protected function cleanFileDirectory(string $documentFolderPath): void
+    private function cleanFileDirectory(string $documentFolderPath): void
     {
         if ($this->documentsStorage->directoryExists($documentFolderPath)) {
             $isDirEmpty = \count($this->documentsStorage->listContents($documentFolderPath)->toArray()) <= 0;
@@ -165,7 +149,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
      *
      * @return string
      */
-    protected function getDocumentRelativePathForFilename(DocumentInterface $document, string $filename): string
+    private function getDocumentRelativePathForFilename(DocumentInterface $document, string $filename): string
     {
         $this->validateDocument($document);
 
@@ -178,7 +162,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
      *
      * @return string
      */
-    protected function getDocumentMountPathForFilename(DocumentInterface $document, string $filename): string
+    private function getDocumentMountPathForFilename(DocumentInterface $document, string $filename): string
     {
         if ($document->isPrivate()) {
             return 'private://' . $this->getDocumentRelativePathForFilename($document, $filename);
@@ -190,7 +174,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
      * @param DocumentInterface $document
      * @return string
      */
-    protected function getDocumentPath(DocumentInterface $document): string
+    private function getDocumentPath(DocumentInterface $document): string
     {
         $this->validateDocument($document);
 
@@ -204,7 +188,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
      * @param  DocumentInterface $document
      * @return string
      */
-    protected function getDocumentPublicPath(DocumentInterface $document): string
+    private function getDocumentPublicPath(DocumentInterface $document): string
     {
         return 'public://' . $document->getRelativePath();
     }
@@ -213,7 +197,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
      * @param  DocumentInterface $document
      * @return string
      */
-    protected function getDocumentPrivatePath(DocumentInterface $document): string
+    private function getDocumentPrivatePath(DocumentInterface $document): string
     {
         return 'private://' . $document->getRelativePath();
     }
@@ -222,7 +206,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
      * @param  DocumentInterface $document
      * @return string
      */
-    protected function getDocumentFolderPath(DocumentInterface $document): string
+    private function getDocumentFolderPath(DocumentInterface $document): string
     {
         if ($document->isPrivate()) {
             return $this->getDocumentPrivateFolderPath($document);
@@ -234,7 +218,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
      * @param DocumentInterface $document
      * @return string
      */
-    protected function getDocumentPublicFolderPath(DocumentInterface $document): string
+    private function getDocumentPublicFolderPath(DocumentInterface $document): string
     {
         return 'public://' . $document->getFolder();
     }
@@ -243,7 +227,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
      * @param DocumentInterface $document
      * @return string
      */
-    protected function getDocumentPrivateFolderPath(DocumentInterface $document): string
+    private function getDocumentPrivateFolderPath(DocumentInterface $document): string
     {
         return 'private://' . $document->getFolder();
     }
@@ -252,7 +236,7 @@ class DocumentLifeCycleSubscriber implements EventSubscriber
      * @param DocumentInterface $document
      * @throws DocumentWithoutFileException
      */
-    protected function validateDocument(DocumentInterface $document): void
+    private function validateDocument(DocumentInterface $document): void
     {
         if (!$document->isLocal()) {
             throw new DocumentWithoutFileException($document);
