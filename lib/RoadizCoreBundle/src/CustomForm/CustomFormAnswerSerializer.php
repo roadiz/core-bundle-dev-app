@@ -9,25 +9,14 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormFieldAttribute;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class CustomFormAnswerSerializer
+final class CustomFormAnswerSerializer
 {
-    /**
-     * @var UrlGeneratorInterface
-     */
-    protected UrlGeneratorInterface $urlGenerator;
-
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     */
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**
-     * @param CustomFormAnswer $answer
-     *
-     * @return array
+     * @throws \Exception
      */
     public function toSimpleArray(CustomFormAnswer $answer): array
     {

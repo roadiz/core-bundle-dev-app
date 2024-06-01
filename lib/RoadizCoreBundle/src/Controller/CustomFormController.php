@@ -22,7 +22,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
@@ -250,13 +249,6 @@ final class CustomFormController extends AbstractController
                     'customForm.%name%.send',
                     ['%name%' => $customFormsEntity->getDisplayName()]
                 );
-
-                if (!$request->attributes->getBoolean('_stateless') && $request->hasPreviousSession()) {
-                    $session = $request->getSession();
-                    if ($session instanceof Session) {
-                        $session->getFlashBag()->add('confirm', $msg);
-                    }
-                }
 
                 $this->logger->info($msg);
 

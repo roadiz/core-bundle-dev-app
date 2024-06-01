@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\CustomForm;
 
 use Doctrine\Persistence\ObjectManager;
 use League\Flysystem\FilesystemException;
-use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
@@ -17,6 +16,7 @@ use RZ\Roadiz\Documents\AbstractDocumentFactory;
 use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Utils\StringHandler;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -24,39 +24,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class CustomFormHelper
+#[Exclude]
+final class CustomFormHelper
 {
     public const ARRAY_SEPARATOR = ', ';
-
-    protected AbstractDocumentFactory $documentFactory;
-    protected ObjectManager $em;
-    protected CustomForm $customForm;
-    protected FormFactoryInterface $formFactory;
-    protected Settings $settingsBag;
-    protected EventDispatcherInterface $eventDispatcher;
-
-    /**
-     * @param ObjectManager $em
-     * @param CustomForm $customForm
-     * @param AbstractDocumentFactory $documentFactory
-     * @param FormFactoryInterface $formFactory
-     * @param Settings $settingsBag
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
-        ObjectManager $em,
-        CustomForm $customForm,
-        AbstractDocumentFactory $documentFactory,
-        FormFactoryInterface $formFactory,
-        Settings $settingsBag,
-        EventDispatcherInterface $eventDispatcher
+        private readonly ObjectManager $em,
+        private readonly CustomForm $customForm,
+        private readonly AbstractDocumentFactory $documentFactory,
+        private readonly FormFactoryInterface $formFactory,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        $this->em = $em;
-        $this->customForm = $customForm;
-        $this->documentFactory = $documentFactory;
-        $this->formFactory = $formFactory;
-        $this->settingsBag = $settingsBag;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -179,6 +157,7 @@ class CustomFormHelper
      * @param CustomFormFieldAttribute $fieldAttr
      * @return DocumentInterface|null
      * @throws FilesystemException
+     * @throws \Exception
      */
     protected function handleUploadedFile(
         UploadedFile $file,
