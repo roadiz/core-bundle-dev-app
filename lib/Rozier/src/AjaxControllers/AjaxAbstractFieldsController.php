@@ -12,14 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class AjaxAbstractFieldsController extends AbstractAjaxController
 {
-    private HandlerFactoryInterface $handlerFactory;
-
-    /**
-     * @param HandlerFactoryInterface $handlerFactory
-     */
-    public function __construct(HandlerFactoryInterface $handlerFactory)
+    public function __construct(protected readonly HandlerFactoryInterface $handlerFactory)
     {
-        $this->handlerFactory = $handlerFactory;
     }
 
     /**
@@ -30,7 +24,7 @@ abstract class AjaxAbstractFieldsController extends AbstractAjaxController
      *
      * @return null|Response
      */
-    protected function handleFieldActions(Request $request, AbstractField $field = null)
+    protected function handleFieldActions(Request $request, AbstractField $field = null): ?Response
     {
         /*
          * Validate

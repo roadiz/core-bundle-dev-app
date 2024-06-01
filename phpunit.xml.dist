@@ -5,7 +5,7 @@
          xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          backupGlobals="false"
          colors="true"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="./tests/bootstrap.php"
          convertDeprecationsToExceptions="false"
 >
     <php>
@@ -40,16 +40,37 @@
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
-            <directory>lib/Models/tests</directory>
+        <testsuite name="Roadiz Monorepo Test Suite">
+            <directory>lib/Models/src/Test</directory>
+            <directory>lib/RoadizCoreBundle/src/Test</directory>
+            <directory>lib/Documents/src/Test</directory>
+            <directory>lib/EntityGenerator/src/Test</directory>
         </testsuite>
     </testsuites>
 
-    <coverage processUncoveredFiles="true">
+    <coverage cacheDirectory="coverage"
+              includeUncoveredFiles="true"
+              processUncoveredFiles="true"
+              pathCoverage="false"
+              ignoreDeprecatedCodeUnits="true"
+              disableCodeCoverageIgnore="true">
         <include>
             <directory suffix=".php">src</directory>
+            <directory suffix=".php">lib</directory>
         </include>
+        <exclude>
+            <directory>lib/EntityGenerator/tests/mocks</directory>
+            <directory>tests</directory>
+            <directory>lib/RoadizCoreBundle/tests</directory>
+            <directory>lib/Models/src/Test</directory>
+            <directory>lib/Documents/src/Test</directory>
+            <directory>lib/EntityGenerator/src/Test</directory>
+        </exclude>
+        <report>
+            <text outputFile="php://stdout"/>
+            <clover outputFile="coverage/clover.xml"/>
+            <cobertura outputFile="coverage/cobertura.xml"/>
+        </report>
     </coverage>
 
     <listeners>

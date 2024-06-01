@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
-use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -16,7 +16,7 @@ use Doctrine\Persistence\ObjectManager;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
-use RuntimeException;
+use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
@@ -104,12 +104,6 @@ class NodesSources extends AbstractEntity implements Loggable
     )]
     protected string $metaTitle = '';
 
-    #[ORM\Column(name: 'meta_keywords', type: 'text')]
-    #[SymfonySerializer\Groups(['nodes_sources'])]
-    #[Serializer\Groups(['nodes_sources'])]
-    #[Gedmo\Versioned]
-    protected string $metaKeywords = '';
-
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
     #[ORM\Column(name: 'meta_description', type: 'text')]
     #[SymfonySerializer\Groups(['nodes_sources'])]
@@ -174,21 +168,23 @@ class NodesSources extends AbstractEntity implements Loggable
         "node.nodesTags.tag.tagName",
     ])]
     #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'nodeSources')]
-    #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Assert\Valid]
-    private ?Node $node = null;
+    #[Assert\NotNull]
+    private Node $node;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
         "translation.id" => "exact",
         "translation.locale" => "exact",
     ])]
     #[ORM\ManyToOne(targetEntity: Translation::class, inversedBy: 'nodeSources')]
-    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['translation_base'])]
     #[Serializer\Groups(['translation_base'])]
-    private ?TranslationInterface $translation = null;
+    #[Assert\NotNull]
+    private TranslationInterface $translation;
 
     /**
      * @var Collection<int, UrlAlias>
@@ -242,22 +238,11 @@ class NodesSources extends AbstractEntity implements Loggable
         $this->getNode()->setUpdatedAt(new \DateTime("now"));
     }
 
-    /**
-     * @return Node
-     */
     public function getNode(): Node
     {
-        if (null === $this->node) {
-            throw new \BadMethodCallException('NodeSource node should never be null.');
-        }
         return $this->node;
     }
 
-    /**
-     * @param Node $node
-     *
-     * @return $this
-     */
     public function setNode(Node $node): NodesSources
     {
         $this->node = $node;
@@ -280,17 +265,16 @@ class NodesSources extends AbstractEntity implements Loggable
         return $this;
     }
 
-    public function clearDocumentsByFields(NodeTypeField $nodeTypeField): NodesSources
+    public function clearDocumentsByFields(NodeTypeFieldInterface $field): NodesSources
     {
         $toRemoveCollection = $this->getDocumentsByFields()->filter(
-            function (NodesSourcesDocuments $element) use ($nodeTypeField) {
-                return $element->getField()->getId() === $nodeTypeField->getId();
+            function (NodesSourcesDocuments $element) use ($field) {
+                return $element->getFieldName() === $field->getName();
             }
         );
         /** @var NodesSourcesDocuments $toRemove */
         foreach ($toRemoveCollection as $toRemove) {
             $this->getDocumentsByFields()->removeElement($toRemove);
-            $toRemove->setNodeSource(null);
         }
 
         return $this;
@@ -314,7 +298,8 @@ class NodesSources extends AbstractEntity implements Loggable
     {
         return $this->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsd) {
             return null !== $nsd->getDocument() &&
-                $nsd->getDocument()->isImage() &&
+                !$nsd->getDocument()->isPrivate() &&
+                ($nsd->getDocument()->isImage() || $nsd->getDocument()->isSvg()) &&
                 $nsd->getDocument()->isProcessable();
         })->map(function (NodesSourcesDocuments $nsd) {
             return $nsd->getDocument();
@@ -328,9 +313,6 @@ class NodesSources extends AbstractEntity implements Loggable
      */
     public function setDocumentsByFields(Collection $documentsByFields): NodesSources
     {
-        foreach ($this->documentsByFields as $documentsByField) {
-            $documentsByField->setNodeSource(null);
-        }
         $this->documentsByFields->clear();
         foreach ($documentsByFields as $documentsByField) {
             if (!$this->hasNodesSourcesDocuments($documentsByField)) {
@@ -352,7 +334,7 @@ class NodesSources extends AbstractEntity implements Loggable
             function ($key, NodesSourcesDocuments $element) use ($nodesSourcesDocuments) {
                 return $nodesSourcesDocuments->getDocument()->getId() !== null &&
                     $element->getDocument()->getId() === $nodesSourcesDocuments->getDocument()->getId() &&
-                    $element->getField()->getId() === $nodesSourcesDocuments->getField()->getId();
+                    $element->getFieldName() === $nodesSourcesDocuments->getFieldName();
             }
         );
     }
@@ -378,14 +360,14 @@ class NodesSources extends AbstractEntity implements Loggable
      *
      * @return Document[]
      */
-    public function getDocumentsByFieldsWithField(NodeTypeField $field): array
+    public function getDocumentsByFieldsWithField(NodeTypeFieldInterface $field): array
     {
         $criteria = Criteria::create();
         $criteria->orderBy(['position' => 'ASC']);
         return $this->getDocumentsByFields()
             ->matching($criteria)
             ->filter(function (NodesSourcesDocuments $element) use ($field) {
-                return $element->getField() === $field;
+                return $element->getFieldName() === $field->getName();
             })
             ->map(function (NodesSourcesDocuments $nodesSourcesDocuments) {
                 return $nodesSourcesDocuments->getDocument();
@@ -405,7 +387,7 @@ class NodesSources extends AbstractEntity implements Loggable
         return $this->getDocumentsByFields()
             ->matching($criteria)
             ->filter(function (NodesSourcesDocuments $element) use ($fieldName) {
-                return $element->getField()->getName() === $fieldName;
+                return $element->getFieldName() === $fieldName;
             })
             ->map(function (NodesSourcesDocuments $nodesSourcesDocuments) {
                 return $nodesSourcesDocuments->getDocument();
@@ -466,26 +448,6 @@ class NodesSources extends AbstractEntity implements Loggable
     public function setMetaTitle(?string $metaTitle): NodesSources
     {
         $this->metaTitle = null !== $metaTitle ? trim($metaTitle) : '';
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMetaKeywords(): string
-    {
-        return $this->metaKeywords;
-    }
-
-    /**
-     * @param string|null $metaKeywords
-     *
-     * @return $this
-     */
-    public function setMetaKeywords(?string $metaKeywords): NodesSources
-    {
-        $this->metaKeywords = null !== $metaKeywords ? trim($metaKeywords) : '';
 
         return $this;
     }
@@ -605,9 +567,6 @@ class NodesSources extends AbstractEntity implements Loggable
      */
     public function getTranslation(): TranslationInterface
     {
-        if (null === $this->translation) {
-            throw new RuntimeException('Node source translation cannot be null.');
-        }
         return $this->translation;
     }
 

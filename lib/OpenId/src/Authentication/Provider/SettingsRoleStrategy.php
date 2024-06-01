@@ -10,14 +10,9 @@ class SettingsRoleStrategy implements JwtRoleStrategy
 {
     public const SETTING_NAME = 'openid_default_roles';
 
-    protected ParameterBag $settingsBag;
-
-    /**
-     * @param ParameterBag $settingsBag
-     */
-    public function __construct(ParameterBag $settingsBag)
-    {
-        $this->settingsBag = $settingsBag;
+    public function __construct(
+        protected readonly ParameterBag $settingsBag
+    ) {
     }
 
     public function supports(): bool

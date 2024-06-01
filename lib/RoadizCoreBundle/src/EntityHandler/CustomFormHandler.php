@@ -11,20 +11,11 @@ use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 /**
  * Handle operations with node-type entities.
  */
-class CustomFormHandler extends AbstractHandler
+final class CustomFormHandler extends AbstractHandler
 {
     protected ?CustomForm $customForm = null;
 
-    public function getCustomForm(): ?CustomForm
-    {
-        return $this->customForm;
-    }
-
-    /**
-     * @param CustomForm $customForm
-     * @return $this
-     */
-    public function setCustomForm(CustomForm $customForm)
+    public function setCustomForm(CustomForm $customForm): self
     {
         $this->customForm = $customForm;
         return $this;

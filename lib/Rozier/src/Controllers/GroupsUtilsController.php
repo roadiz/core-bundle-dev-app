@@ -20,17 +20,10 @@ use Twig\Error\RuntimeError;
 
 class GroupsUtilsController extends RozierApp
 {
-    private SerializerInterface $serializer;
-    private GroupsImporter $groupsImporter;
-
-    /**
-     * @param SerializerInterface $serializer
-     * @param GroupsImporter $groupsImporter
-     */
-    public function __construct(SerializerInterface $serializer, GroupsImporter $groupsImporter)
-    {
-        $this->serializer = $serializer;
-        $this->groupsImporter = $groupsImporter;
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+        private readonly GroupsImporter $groupsImporter
+    ) {
     }
 
     /**

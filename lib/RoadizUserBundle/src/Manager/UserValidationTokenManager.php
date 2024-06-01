@@ -20,39 +20,18 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class UserValidationTokenManager implements UserValidationTokenManagerInterface
 {
-    private ManagerRegistry $managerRegistry;
-    private UrlGeneratorInterface $urlGenerator;
-    private TranslatorInterface $translator;
-    private LoggerInterface $logger;
-    private EmailManager $emailManager;
-    private Settings $settingsBag;
-    private RoleHierarchyInterface $roleHierarchy;
-    private string $emailValidatedRoleName;
-    private int $userValidationExpiresIn;
-    private string $userValidationUrl;
-
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        UrlGeneratorInterface $urlGenerator,
-        TranslatorInterface $translator,
-        LoggerInterface $logger,
-        EmailManager $emailManager,
-        Settings $settingsBag,
-        RoleHierarchyInterface $roleHierarchy,
-        string $emailValidatedRoleName,
-        int $userValidationExpiresIn,
-        string $userValidationUrl
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly TranslatorInterface $translator,
+        private readonly LoggerInterface $logger,
+        private readonly EmailManager $emailManager,
+        private readonly Settings $settingsBag,
+        private readonly RoleHierarchyInterface $roleHierarchy,
+        private readonly string $emailValidatedRoleName,
+        private readonly int $userValidationExpiresIn,
+        private readonly string $userValidationUrl
     ) {
-        $this->managerRegistry = $managerRegistry;
-        $this->logger = $logger;
-        $this->userValidationExpiresIn = $userValidationExpiresIn;
-        $this->emailManager = $emailManager;
-        $this->userValidationUrl = $userValidationUrl;
-        $this->settingsBag = $settingsBag;
-        $this->urlGenerator = $urlGenerator;
-        $this->translator = $translator;
-        $this->roleHierarchy = $roleHierarchy;
-        $this->emailValidatedRoleName = $emailValidatedRoleName;
     }
 
     public function createForUser(UserInterface $user): UserValidationToken

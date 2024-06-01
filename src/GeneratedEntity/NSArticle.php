@@ -18,8 +18,8 @@ use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
- * DO NOT EDIT
- * Generated custom node-source type by Roadiz.
+ * Article node-source entity.
+ * Article
  */
 #[
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
@@ -191,6 +191,50 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function setUnpublishedAt(?\DateTime $unpublishedAt): static
     {
         $this->unpublishedAt = $unpublishedAt;
+
+        return $this;
+    }
+
+
+    /**
+     * Only on web response.
+     */
+    #[
+        SymfonySerializer\SerializedName(serializedName: "onlyOnWebresponse"),
+        SymfonySerializer\Groups(["article_get_by_path"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Only on web response"),
+        SymfonySerializer\MaxDepth(2),
+        Gedmo\Versioned,
+        ORM\Column(
+            name: "only_on_webresponse",
+            type: "string",
+            nullable: true,
+            length: 250
+        ),
+        Serializer\Groups(["article_get_by_path"]),
+        Serializer\MaxDepth(2),
+        Serializer\Type("string")
+    ]
+    private ?string $onlyOnWebresponse = null;
+
+    /**
+     * @return string|null
+     */
+    public function getOnlyOnWebresponse(): ?string
+    {
+        return $this->onlyOnWebresponse;
+    }
+
+    /**
+     * @param string|null $onlyOnWebresponse
+     *
+     * @return $this
+     */
+    public function setOnlyOnWebresponse(?string $onlyOnWebresponse): static
+    {
+        $this->onlyOnWebresponse = null !== $onlyOnWebresponse ?
+            (string) $onlyOnWebresponse :
+            null;
 
         return $this;
     }

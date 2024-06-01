@@ -15,9 +15,9 @@ interface RealmsAwareWebResponseInterface extends WebResponseInterface
 
     /**
      * @param RealmInterface[]|null $realms
-     * @return RealmsAwareWebResponseInterface
+     * @return $this
      */
-    public function setRealms(?array $realms): RealmsAwareWebResponseInterface;
+    public function setRealms(?array $realms): self;
 
     /**
      * @return bool
@@ -26,7 +26,7 @@ interface RealmsAwareWebResponseInterface extends WebResponseInterface
 
     /**
      * @param bool $hidingBlocks
-     * @return RealmsAwareWebResponseInterface
+     * @return $this
      */
-    public function setHidingBlocks(bool $hidingBlocks): RealmsAwareWebResponseInterface;
+    public function setHidingBlocks(bool $hidingBlocks): self;
 }

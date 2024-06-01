@@ -18,8 +18,8 @@ use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
- * DO NOT EDIT
- * Generated custom node-source type by Roadiz.
+ * Page node-source entity.
+ * Page
  */
 #[
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
@@ -187,16 +187,12 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function getImages(): array
     {
         if (null === $this->images) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->images = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndField(
+                    ->findByNodeSourceAndFieldName(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("images")
+                        'images'
                     );
             } else {
                 $this->images = [];
@@ -212,23 +208,16 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      */
     public function addImages(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("images");
-            if (null !== $field) {
-                $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
-                    $this,
-                    $document,
-                    $field
-                );
-                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
-                    $this->objectManager->persist($nodeSourceDocument);
-                    $this->addDocumentsByFields($nodeSourceDocument);
-                    $this->images = null;
-                }
+        if (null !== $this->objectManager) {
+            $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
+                $this,
+                $document
+            );
+            $nodeSourceDocument->setFieldName('images');
+            if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+                $this->objectManager->persist($nodeSourceDocument);
+                $this->addDocumentsByFields($nodeSourceDocument);
+                $this->images = null;
             }
         }
         return $this;
@@ -263,16 +252,12 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function getHeaderImage(): array
     {
         if (null === $this->headerImage) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->headerImage = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndField(
+                    ->findByNodeSourceAndFieldName(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("header_image")
+                        'header_image'
                     );
             } else {
                 $this->headerImage = [];
@@ -288,23 +273,16 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      */
     public function addHeaderImage(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("header_image");
-            if (null !== $field) {
-                $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
-                    $this,
-                    $document,
-                    $field
-                );
-                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
-                    $this->objectManager->persist($nodeSourceDocument);
-                    $this->addDocumentsByFields($nodeSourceDocument);
-                    $this->headerImage = null;
-                }
+        if (null !== $this->objectManager) {
+            $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
+                $this,
+                $document
+            );
+            $nodeSourceDocument->setFieldName('header_image');
+            if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+                $this->objectManager->persist($nodeSourceDocument);
+                $this->addDocumentsByFields($nodeSourceDocument);
+                $this->headerImage = null;
             }
         }
         return $this;
@@ -384,16 +362,12 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function getPictures(): array
     {
         if (null === $this->pictures) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->pictures = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndField(
+                    ->findByNodeSourceAndFieldName(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("pictures")
+                        'pictures'
                     );
             } else {
                 $this->pictures = [];
@@ -409,23 +383,16 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      */
     public function addPictures(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("pictures");
-            if (null !== $field) {
-                $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
-                    $this,
-                    $document,
-                    $field
-                );
-                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
-                    $this->objectManager->persist($nodeSourceDocument);
-                    $this->addDocumentsByFields($nodeSourceDocument);
-                    $this->pictures = null;
-                }
+        if (null !== $this->objectManager) {
+            $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
+                $this,
+                $document
+            );
+            $nodeSourceDocument->setFieldName('pictures');
+            if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+                $this->objectManager->persist($nodeSourceDocument);
+                $this->addDocumentsByFields($nodeSourceDocument);
+                $this->pictures = null;
             }
         }
         return $this;
@@ -462,16 +429,12 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function getNodeReferencesSources(): array
     {
         if (null === $this->nodeReferencesSources) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->nodeReferencesSources = $this->objectManager
                     ->getRepository(\App\GeneratedEntity\NSPage::class)
-                    ->findByNodesSourcesAndFieldAndTranslation(
+                    ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("node_references")
+                        'node_references'
                     );
             } else {
                 $this->nodeReferencesSources = [];
@@ -609,16 +572,12 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function getCustomForm(): array
     {
         if (null === $this->customForm) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->customForm = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\CustomForm::class)
-                    ->findByNodeAndField(
+                    ->findByNodeAndFieldName(
                         $this->getNode(),
-                        $this->getNode()->getNodeType()->getFieldByName("custom_form")
+                        'custom_form'
                     );
             } else {
                 $this->customForm = [];
@@ -634,22 +593,15 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      */
     public function addCustomForm(\RZ\Roadiz\CoreBundle\Entity\CustomForm $customForm): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("custom_form");
-            if (null !== $field) {
-                $nodeCustomForm = new \RZ\Roadiz\CoreBundle\Entity\NodesCustomForms(
-                    $this->getNode(),
-                    $customForm,
-                    $field
-                );
-                $this->objectManager->persist($nodeCustomForm);
-                $this->getNode()->addCustomForm($nodeCustomForm);
-                $this->customForm = null;
-            }
+        if (null !== $this->objectManager) {
+            $nodeCustomForm = new \RZ\Roadiz\CoreBundle\Entity\NodesCustomForms(
+                $this->getNode(),
+                $customForm
+            );
+            $nodeCustomForm->setFieldName('custom_form');
+            $this->objectManager->persist($nodeCustomForm);
+            $this->getNode()->addCustomForm($nodeCustomForm);
+            $this->customForm = null;
         }
         return $this;
     }

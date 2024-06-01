@@ -12,9 +12,8 @@ use RZ\Roadiz\Core\Handlers\AbstractHandler;
 /**
  * Handle operations with node-type fields entities.
  */
-class NodeTypeFieldHandler extends AbstractHandler
+final class NodeTypeFieldHandler extends AbstractHandler
 {
-    private HandlerFactory $handlerFactory;
     private ?NodeTypeField $nodeTypeField = null;
 
     public function getNodeTypeField(): NodeTypeField
@@ -35,16 +34,9 @@ class NodeTypeFieldHandler extends AbstractHandler
         return $this;
     }
 
-    /**
-     * Create a new node-type-field handler with node-type-field to handle.
-     *
-     * @param ObjectManager $objectManager
-     * @param HandlerFactory $handlerFactory
-     */
-    public function __construct(ObjectManager $objectManager, HandlerFactory $handlerFactory)
+    public function __construct(ObjectManager $objectManager, private readonly HandlerFactory $handlerFactory)
     {
         parent::__construct($objectManager);
-        $this->handlerFactory = $handlerFactory;
     }
 
     /**

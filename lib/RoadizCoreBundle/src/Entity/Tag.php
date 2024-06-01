@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
-use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimedPositioned;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
@@ -59,8 +58,8 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         nullable: false,
         options: ['default' => '#000000']
     )]
-    #[SymfonySerializer\Groups(['tag', 'tag_base', 'color'])]
-    #[Serializer\Groups(['tag', 'tag_base', 'color'])]
+    #[SymfonySerializer\Groups(['tag', 'tag_color', 'color'])]
+    #[Serializer\Groups(['tag', 'tag_color', 'color'])]
     #[Assert\Length(max: 7)]
     #[ApiProperty(
         description: 'Tag color in hexadecimal format.',
@@ -144,7 +143,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
 
     #[ORM\Column(name: 'children_order', type: 'string', length: 60, options: ['default' => 'position'])]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Groups(["tag"])]
+    #[Serializer\Groups(["tag", "tag_children_order"])]
     #[Assert\Length(max: 60)]
     #[ApiProperty(
         description: 'This tag children will be sorted by a given field',
@@ -159,7 +158,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
 
     #[ORM\Column(name: 'children_order_direction', type: 'string', length: 4, options: ['default' => 'ASC'])]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Groups(["tag"])]
+    #[Serializer\Groups(["tag", "tag_children_order"])]
     #[Assert\Length(max: 4)]
     #[ApiProperty(
         description: 'This tag children will be sorted ascendant or descendant',

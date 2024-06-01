@@ -10,12 +10,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class UserSignedUpSubscriber implements EventSubscriberInterface
 {
-    private UserValidationTokenManagerInterface $userValidationTokenManager;
-
     public function __construct(
-        UserValidationTokenManagerInterface $userValidationTokenManager
+        private readonly UserValidationTokenManagerInterface $userValidationTokenManager
     ) {
-        $this->userValidationTokenManager = $userValidationTokenManager;
     }
 
     /**

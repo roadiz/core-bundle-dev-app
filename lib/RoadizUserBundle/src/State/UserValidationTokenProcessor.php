@@ -15,17 +15,17 @@ use RZ\Roadiz\UserBundle\Entity\UserValidationToken;
 use RZ\Roadiz\UserBundle\Event\UserEmailValidated;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class UserValidationTokenProcessor implements ProcessorInterface
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
-        private Roles $rolesBag,
-        private Security $security,
-        private EventDispatcherInterface $eventDispatcher,
-        private string $emailValidatedRoleName
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly Roles $rolesBag,
+        private readonly Security $security,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly string $emailValidatedRoleName
     ) {
     }
 

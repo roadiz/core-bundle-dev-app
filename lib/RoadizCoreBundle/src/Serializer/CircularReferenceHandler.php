@@ -6,18 +6,11 @@ namespace RZ\Roadiz\CoreBundle\Serializer;
 
 use ApiPlatform\Api\IriConverterInterface;
 use ApiPlatform\Api\UrlGeneratorInterface;
-use ApiPlatform\Metadata\Operation;
 
 final class CircularReferenceHandler
 {
-    private IriConverterInterface $iriConverter;
-
-    /**
-     * @param IriConverterInterface $iriConverter
-     */
-    public function __construct(IriConverterInterface $iriConverter)
+    public function __construct(private readonly IriConverterInterface $iriConverter)
     {
-        $this->iriConverter = $iriConverter;
     }
 
     public function __invoke(mixed $object, string $format, array $context): ?string

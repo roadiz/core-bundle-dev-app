@@ -14,19 +14,16 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 final class LogExtension extends AbstractExtension
 {
-    private Security $security;
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(Security $security, UrlGeneratorInterface $urlGenerator)
-    {
-        $this->security = $security;
-        $this->urlGenerator = $urlGenerator;
+    public function __construct(
+        private readonly Security $security,
+        private readonly UrlGeneratorInterface $urlGenerator
+    ) {
     }
 
     public function getFunctions(): array

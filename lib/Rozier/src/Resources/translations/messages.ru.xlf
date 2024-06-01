@@ -342,10 +342,6 @@
         <source>metaTitle</source>
         <target state="translated">Мета-заголовок</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="92">
-        <source>metaKeywords</source>
-        <target state="translated">Мета-ключевые слова</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="93">
         <source>metaDescription</source>
         <target state="translated">Мета-описание</target>

@@ -1,16 +1,23 @@
-App\GeneratedEntity\NSNeutral:
-    types:
-        - Neutral
-    operations:
-        ApiPlatform\Metadata\Get:
-            method: GET
-            shortName: Neutral
-            normalizationContext:
-                groups:
-                    - nodes_sources
-                    - urls
-                    - tag_base
-                    - translation_base
-                    - document_display
-                    - document_thumbnails
-                    - document_display_sources
+resources:
+    App\GeneratedEntity\NSNeutral:
+        shortName: Neutral
+        types:
+            - Neutral
+        graphQlOperations:
+            - class: ApiPlatform\Metadata\GraphQl\Query
+            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
+        operations:
+            neutral_get:
+                method: GET
+                class: ApiPlatform\Metadata\Get
+                shortName: Neutral
+                normalizationContext:
+                    groups:
+                        - nodes_sources
+                        - node_listing
+                        - urls
+                        - tag_base
+                        - translation_base
+                        - document_display
+                        - document_thumbnails
+                        - document_display_sources

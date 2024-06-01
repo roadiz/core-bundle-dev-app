@@ -213,7 +213,7 @@ class CustomFormHelper
      */
     private function formValueToString($rawValue): string
     {
-        if ($rawValue instanceof \DateTime) {
+        if ($rawValue instanceof \DateTimeInterface) {
             return $rawValue->format('Y-m-d H:i:s');
         } elseif (is_array($rawValue)) {
             $values = $rawValue;

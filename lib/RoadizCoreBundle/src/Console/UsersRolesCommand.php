@@ -20,16 +20,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 final class UsersRolesCommand extends UsersCommand
 {
-    private Roles $rolesBag;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param Roles $rolesBag
-     */
-    public function __construct(ManagerRegistry $managerRegistry, Roles $rolesBag)
-    {
-        parent::__construct($managerRegistry);
-        $this->rolesBag = $rolesBag;
+    public function __construct(
+        private readonly Roles $rolesBag,
+        ManagerRegistry $managerRegistry,
+        ?string $name = null
+    ) {
+        parent::__construct($managerRegistry, $name);
     }
 
     protected function configure(): void

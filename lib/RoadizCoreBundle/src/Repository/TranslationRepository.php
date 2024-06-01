@@ -31,6 +31,15 @@ final class TranslationRepository extends EntityRepository
         parent::__construct($registry, Translation::class, $dispatcher);
     }
 
+    public function isLocaleValid(?string $locale): bool
+    {
+        if (null === $locale) {
+            return false;
+        }
+
+        return preg_match('/^[A-Za-z]{2,4}([_-][A-Za-z]{4})?([_-]([A-Za-z]{2}|[0-9]{3}))?$/', $locale) === 1;
+    }
+
     /**
      * Get single default translation.
      *
@@ -82,6 +91,10 @@ final class TranslationRepository extends EntityRepository
      */
     public function exists(string $locale): bool
     {
+        if (!$this->isLocaleValid($locale)) {
+            return false;
+        }
+
         $qb = $this->createQueryBuilder('t');
         $qb->select($qb->expr()->countDistinct('t.locale'))
             ->andWhere($qb->expr()->eq('t.locale', ':locale'))
@@ -189,6 +202,9 @@ final class TranslationRepository extends EntityRepository
      */
     public function findByLocaleAndAvailable(string $locale): array
     {
+        if (!$this->isLocaleValid($locale)) {
+            return [];
+        }
         $qb = $this->createQueryBuilder(self::TRANSLATION_ALIAS);
         $qb->andWhere($qb->expr()->eq(self::TRANSLATION_ALIAS . '.available', ':available'))
             ->andWhere($qb->expr()->eq(self::TRANSLATION_ALIAS . '.locale', ':locale'))
@@ -213,6 +229,9 @@ final class TranslationRepository extends EntityRepository
      */
     public function findByOverrideLocaleAndAvailable(string $overrideLocale): array
     {
+        if (!$this->isLocaleValid($overrideLocale)) {
+            return [];
+        }
         $qb = $this->createQueryBuilder(self::TRANSLATION_ALIAS);
         $qb->andWhere($qb->expr()->eq(self::TRANSLATION_ALIAS . '.available', ':available'))
             ->andWhere($qb->expr()->eq(self::TRANSLATION_ALIAS . '.overrideLocale', ':overrideLocale'))
@@ -242,6 +261,9 @@ final class TranslationRepository extends EntityRepository
         string $locale,
         string $alias = TranslationRepository::TRANSLATION_ALIAS
     ): ?TranslationInterface {
+        if (!$this->isLocaleValid($locale)) {
+            return null;
+        }
         $qb = $this->createQueryBuilder($alias);
         $qb->andWhere($qb->expr()->orX(
             $qb->expr()->eq($alias . '.locale', ':locale'),
@@ -267,6 +289,9 @@ final class TranslationRepository extends EntityRepository
      */
     public function findOneAvailableByLocaleOrOverrideLocale(string $locale): ?TranslationInterface
     {
+        if (!$this->isLocaleValid($locale)) {
+            return null;
+        }
         $qb = $this->createQueryBuilder(self::TRANSLATION_ALIAS);
         $qb->andWhere($qb->expr()->orX(
             $qb->expr()->eq(self::TRANSLATION_ALIAS . '.locale', ':locale'),
@@ -294,6 +319,9 @@ final class TranslationRepository extends EntityRepository
      */
     public function findOneByLocaleAndAvailable(string $locale): ?TranslationInterface
     {
+        if (!$this->isLocaleValid($locale)) {
+            return null;
+        }
         $qb = $this->createQueryBuilder(self::TRANSLATION_ALIAS);
         $qb->andWhere($qb->expr()->eq(self::TRANSLATION_ALIAS . '.available', ':available'))
             ->andWhere($qb->expr()->eq(self::TRANSLATION_ALIAS . '.locale', ':locale'))
@@ -318,6 +346,9 @@ final class TranslationRepository extends EntityRepository
      */
     public function findOneByOverrideLocaleAndAvailable(string $overrideLocale): ?TranslationInterface
     {
+        if (!$this->isLocaleValid($overrideLocale)) {
+            return null;
+        }
         $qb = $this->createQueryBuilder(self::TRANSLATION_ALIAS);
         $qb->andWhere($qb->expr()->eq(self::TRANSLATION_ALIAS . '.available', ':available'))
             ->andWhere($qb->expr()->eq(self::TRANSLATION_ALIAS . '.overrideLocale', ':overrideLocale'))

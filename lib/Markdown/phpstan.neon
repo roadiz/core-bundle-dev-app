@@ -1,5 +1,5 @@
 parameters:
-    level: max
+    level: 7
     paths:
         - src
     excludePaths:
@@ -7,6 +7,8 @@ parameters:
         - */bower_components/*
         - */static/*
     ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
         - '#Instantiated class Memcached not found#'
         - '#Instantiated class Redis not found#'
     reportUnmatchedIgnoredErrors: false

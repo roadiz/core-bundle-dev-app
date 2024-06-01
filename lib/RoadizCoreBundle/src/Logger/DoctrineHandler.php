@@ -46,7 +46,7 @@ final class DoctrineHandler extends AbstractProcessingHandler
 
     protected function getThumbnailSourcePath(?DocumentInterface $thumbnail): ?string
     {
-        if (null === $thumbnail) {
+        if (null === $thumbnail || $thumbnail->isPrivate()) {
             return null;
         }
         return $this->documentUrlGenerator

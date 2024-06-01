@@ -33,21 +33,17 @@ class FolderTranslation extends AbstractEntity
     protected string $name = '';
 
     #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'translatedFolders')]
-    #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Ignore]
     #[Serializer\Exclude]
-    protected ?Folder $folder = null;
+    protected Folder $folder;
 
     #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'folderTranslations')]
-    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['folder', 'document'])]
     #[Serializer\Groups(['folder', 'document'])]
-    protected ?TranslationInterface $translation = null;
+    protected TranslationInterface $translation;
 
-    /**
-     * @param Folder $original
-     * @param TranslationInterface $translation
-     */
     public function __construct(Folder $original, TranslationInterface $translation)
     {
         $this->setFolder($original);
@@ -67,7 +63,7 @@ class FolderTranslation extends AbstractEntity
      * @param string $name
      * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name): FolderTranslation
     {
         $this->name = $name;
         return $this;

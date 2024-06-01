@@ -14,14 +14,8 @@ use Themes\Rozier\RozierApp;
 
 class TagsUtilsController extends RozierApp
 {
-    private SerializerInterface $serializer;
-
-    /**
-     * @param SerializerInterface $serializer
-     */
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(private readonly SerializerInterface $serializer)
     {
-        $this->serializer = $serializer;
     }
 
     /**

@@ -1,0 +1,35 @@
+resources:
+    App\GeneratedEntity\NSTest:
+        shortName: Test
+        types:
+            - Test
+        operations:
+            test_get_collection:
+                method: GET
+                class: ApiPlatform\Metadata\GetCollection
+                shortName: Test
+                normalizationContext:
+                    enable_max_depth: true
+                    groups:
+                        - nodes_sources_base
+                        - nodes_sources_default
+                        - urls
+                        - tag_base
+                        - translation_base
+                        - document_display
+                        - document_thumbnails
+                        - document_display_sources
+            test_get:
+                method: GET
+                class: ApiPlatform\Metadata\Get
+                shortName: Test
+                normalizationContext:
+                    groups:
+                        - nodes_sources
+                        - node_listing
+                        - urls
+                        - tag_base
+                        - translation_base
+                        - document_display
+                        - document_thumbnails
+                        - document_display_sources

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms;
 
-use RZ\Roadiz\CoreBundle\Form\MarkdownType;
 use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
+use RZ\Roadiz\CoreBundle\Form\MarkdownType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -29,7 +29,11 @@ class DocumentTranslationType extends AbstractType
                 'required' => false,
             ])
             ->add('copyright', TextType::class, [
-                'label' => 'copyright',
+                'label' => 'document.copyrightHolder',
+                'required' => false,
+            ])
+            ->add('externalUrl', TextType::class, [
+                'label' => 'document.externalUrl',
                 'required' => false,
             ]);
     }

@@ -11,28 +11,13 @@ use JMS\Serializer\Metadata\ClassMetadata;
 use JMS\Serializer\Visitor\DeserializationVisitorInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 
-class ChainDoctrineObjectConstructor implements ObjectConstructorInterface
+final class ChainDoctrineObjectConstructor implements ObjectConstructorInterface
 {
-    protected ?ObjectManager $entityManager;
-    /**
-     * @var array<TypedObjectConstructorInterface>
-     */
-    protected array $typedObjectConstructors;
-    protected ObjectConstructorInterface $fallbackConstructor;
-
-    /**
-     * @param ObjectManager|null $entityManager
-     * @param ObjectConstructorInterface $fallbackConstructor
-     * @param array $typedObjectConstructors
-     */
     public function __construct(
-        ?ObjectManager $entityManager,
-        ObjectConstructorInterface $fallbackConstructor,
-        array $typedObjectConstructors
+        private readonly ?ObjectManager $entityManager,
+        private readonly ObjectConstructorInterface $fallbackConstructor,
+        private readonly array $typedObjectConstructors
     ) {
-        $this->entityManager = $entityManager;
-        $this->typedObjectConstructors = $typedObjectConstructors;
-        $this->fallbackConstructor = $fallbackConstructor;
     }
 
     /**
@@ -103,7 +88,6 @@ class ChainDoctrineObjectConstructor implements ObjectConstructorInterface
 
         foreach ($classMetadata->getIdentifierFieldNames() as $name) {
             if (
-                isset($metadata->propertyMetadata[$name]) &&
                 isset($metadata->propertyMetadata[$name]->serializedName)
             ) {
                 $dataName = $metadata->propertyMetadata[$name]->serializedName;

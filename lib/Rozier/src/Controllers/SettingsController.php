@@ -15,6 +15,7 @@ use RZ\Roadiz\CoreBundle\Event\Setting\SettingUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\Form\SettingType;
+use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -23,18 +24,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Themes\Rozier\RozierApp;
-use Themes\Rozier\Utils\SessionListFilters;
 use Twig\Error\RuntimeError;
 
 class SettingsController extends RozierApp
 {
-    private FormFactoryInterface $formFactory;
-    private FormErrorSerializer $formErrorSerializer;
-
-    public function __construct(FormFactoryInterface $formFactory, FormErrorSerializer $formErrorSerializer)
-    {
-        $this->formFactory = $formFactory;
-        $this->formErrorSerializer = $formErrorSerializer;
+    public function __construct(
+        private readonly FormFactoryInterface $formFactory,
+        private readonly FormErrorSerializer $formErrorSerializer
+    ) {
     }
 
     /**

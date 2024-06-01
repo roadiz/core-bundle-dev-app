@@ -7,11 +7,16 @@ namespace RZ\Roadiz\OpenId;
 use CoderCat\JWKToPEM\Exception\Base64DecodeException;
 use CoderCat\JWKToPEM\Exception\JWKConverterException;
 use CoderCat\JWKToPEM\JWKConverter;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\RequestException;
 use Psr\Cache\CacheItemPoolInterface;
+use Psr\Cache\InvalidArgumentException;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Bag\LazyParameterBag;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * @package RZ\Roadiz\OpenId
@@ -20,20 +25,15 @@ use RZ\Roadiz\Bag\LazyParameterBag;
 class Discovery extends LazyParameterBag
 {
     public const CACHE_KEY = 'rz_openid_discovery_parameters';
-
-    protected string $discoveryUri;
-    protected CacheItemPoolInterface $cacheAdapter;
     protected ?array $jwksData = null;
 
-    /**
-     * @param string  $discoveryUri
-     * @param CacheItemPoolInterface $cacheAdapter
-     */
-    public function __construct(string $discoveryUri, CacheItemPoolInterface $cacheAdapter)
-    {
+    public function __construct(
+        protected readonly string $discoveryUri,
+        protected readonly CacheItemPoolInterface $cacheAdapter,
+        protected readonly HttpClientInterface $client,
+        protected readonly LoggerInterface $logger,
+    ) {
         parent::__construct();
-        $this->discoveryUri = $discoveryUri;
-        $this->cacheAdapter = $cacheAdapter;
     }
 
     public function isValid(): bool
@@ -49,16 +49,19 @@ class Discovery extends LazyParameterBag
             $parameters = $cacheItem->get();
         } else {
             try {
-                $client = new Client([
-                    // You can set any number of default request options.
-                    'timeout'  => 2.0,
+                $client = $this->client->withOptions([
+                    'timeout' => 2.0,
                 ]);
-                $response = $client->get($this->discoveryUri);
+                $response = $client->request('GET', $this->discoveryUri);
                 /** @var array $parameters */
-                $parameters = \json_decode($response->getBody()->getContents(), true);
+                $parameters = \json_decode(json: $response->getContent(), associative: true, flags: JSON_THROW_ON_ERROR);
                 $cacheItem->set($parameters);
                 $this->cacheAdapter->save($cacheItem);
-            } catch (RequestException $exception) {
+            } catch (ExceptionInterface $exception) {
+                $this->logger->warning('Cannot fetch OpenID discovery parameters: ' . $exception->getMessage());
+                return;
+            } catch (\JsonException $exception) {
+                $this->logger->warning('Cannot fetch OpenID discovery parameters: ' . $exception->getMessage());
                 return;
             }
         }
@@ -81,8 +84,13 @@ class Discovery extends LazyParameterBag
     /**
      * @return array<string>|null
      * @throws Base64DecodeException
+     * @throws ClientExceptionInterface
+     * @throws InvalidArgumentException
      * @throws JWKConverterException
-     * @throws GuzzleException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws \JsonException
      * @see https://auth0.com/docs/tokens/json-web-tokens/json-web-key-sets
      */
     public function getPems(): ?array
@@ -97,7 +105,12 @@ class Discovery extends LazyParameterBag
 
     /**
      * @return array|null
-     * @throws GuzzleException
+     * @throws ClientExceptionInterface
+     * @throws InvalidArgumentException
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
+     * @throws \JsonException
      */
     protected function getJwksData(): ?array
     {
@@ -115,12 +128,11 @@ class Discovery extends LazyParameterBag
                     $this->jwksData = null;
                 }
             } else {
-                $client = new Client([
-                    // You can set any number of default request options.
-                    'timeout'  => 3.0,
+                $client = $this->client->withOptions([
+                    'timeout' => 2.0,
                 ]);
-                $response = $client->get($jwksUri);
-                $data = \json_decode($response->getBody()->getContents(), true);
+                $response = $client->request('GET', $jwksUri);
+                $data = \json_decode(json: $response->getContent(), associative: true, flags: JSON_THROW_ON_ERROR);
                 if (is_array($data)) {
                     $this->jwksData = $data;
                 } else {

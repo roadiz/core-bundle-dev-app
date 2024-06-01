@@ -155,8 +155,8 @@ abstract class AbstractFieldGenerator
             if (!empty($this->field->getDescription())) {
                 $description .= ': ' . $this->field->getDescription();
             }
-            if ($this->field->isEnum()) {
-                $enumValues = explode(',', $this->field->getDefaultValues());
+            if ($this->field->isEnum() && null !== $defaultValues = $this->field->getDefaultValues()) {
+                $enumValues = explode(',', $defaultValues);
                 $enumValues = array_filter(array_map('trim', $enumValues));
                 $openapiContext = [
                     'type' => 'string',

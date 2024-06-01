@@ -14,7 +14,6 @@ final class Aliases
         return [
             \RZ\Roadiz\CompatBundle\Controller\AppController::class => \RZ\Roadiz\CMS\Controllers\AppController::class,
             \RZ\Roadiz\CompatBundle\Controller\Controller::class => \RZ\Roadiz\CMS\Controllers\Controller::class,
-            \RZ\Roadiz\CompatBundle\Controller\FrontendController::class => \RZ\Roadiz\CMS\Controllers\FrontendController::class,
             \RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface::class => \RZ\Roadiz\Utils\Theme\ThemeResolverInterface::class,
             \RZ\Roadiz\CoreBundle\Bag\NodeTypes::class => \RZ\Roadiz\Core\Bags\NodeTypes::class,
             \RZ\Roadiz\CoreBundle\Bag\Roles::class => \RZ\Roadiz\Core\Bags\Roles::class,

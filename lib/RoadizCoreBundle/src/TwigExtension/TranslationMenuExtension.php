@@ -13,17 +13,10 @@ use Twig\TwigFilter;
 
 final class TranslationMenuExtension extends AbstractExtension
 {
-    private RequestStack $requestStack;
-    private TranslationViewer $translationViewer;
-
-    /**
-     * @param RequestStack $requestStack
-     * @param TranslationViewer $translationViewer
-     */
-    public function __construct(RequestStack $requestStack, TranslationViewer $translationViewer)
-    {
-        $this->requestStack = $requestStack;
-        $this->translationViewer = $translationViewer;
+    public function __construct(
+        private readonly RequestStack $requestStack,
+        private readonly TranslationViewer $translationViewer
+    ) {
     }
 
     public function getFilters(): array
@@ -40,7 +33,7 @@ final class TranslationMenuExtension extends AbstractExtension
      * @return array
      * @throws ORMException
      */
-    public function getMenuAssignation(TranslationInterface $translation = null, bool $absolute = false)
+    public function getMenuAssignation(TranslationInterface $translation = null, bool $absolute = false): array
     {
         if (null !== $translation) {
             $this->translationViewer->setTranslation($translation);

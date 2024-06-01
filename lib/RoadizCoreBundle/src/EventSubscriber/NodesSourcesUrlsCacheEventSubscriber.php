@@ -37,28 +37,17 @@ final class NodesSourcesUrlsCacheEventSubscriber implements EventSubscriberInter
     {
         return [
             NodesSourcesCreatedEvent::class => 'onPurgeRequest',
-            '\RZ\Roadiz\Core\Events\NodesSources\NodesSourcesCreatedEvent' => 'onPurgeRequest',
             NodesSourcesDeletedEvent::class => 'onPurgeRequest',
-            '\RZ\Roadiz\Core\Events\NodesSources\NodesSourcesDeletedEvent' => 'onPurgeRequest',
             TranslationUpdatedEvent::class => 'onPurgeRequest',
-            '\RZ\Roadiz\Core\Events\Translation\TranslationUpdatedEvent' => 'onPurgeRequest',
             TranslationDeletedEvent::class => 'onPurgeRequest',
-            '\RZ\Roadiz\Core\Events\Translation\TranslationDeletedEvent' => 'onPurgeRequest',
             NodeDeletedEvent::class => 'onPurgeRequest',
-            '\RZ\Roadiz\Core\Events\Node\NodeDeletedEvent' => 'onPurgeRequest',
             NodeUndeletedEvent::class => 'onPurgeRequest',
-            '\RZ\Roadiz\Core\Events\Node\NodeUndeletedEvent' => 'onPurgeRequest',
             NodeUpdatedEvent::class => 'onPurgeRequest',
-            '\RZ\Roadiz\Core\Events\Node\NodeUpdatedEvent' => 'onPurgeRequest',
             UrlAliasCreatedEvent::class => 'onPurgeRequest',
-            '\RZ\Roadiz\Core\Events\UrlAlias\UrlAliasCreatedEvent' => 'onPurgeRequest',
             UrlAliasUpdatedEvent::class => 'onPurgeRequest',
-            '\RZ\Roadiz\Core\Events\UrlAlias\UrlAliasUpdatedEvent' => 'onPurgeRequest',
             UrlAliasDeletedEvent::class => 'onPurgeRequest',
-            '\RZ\Roadiz\Core\Events\UrlAlias\UrlAliasDeletedEvent' => 'onPurgeRequest',
             'workflow.node.completed' => 'onPurgeRequest',
             CachePurgeRequestEvent::class => ['onPurgeRequest', 3],
-            '\RZ\Roadiz\Core\Events\Cache\CachePurgeRequestEvent' => ['onPurgeRequest', 3],
         ];
     }
 

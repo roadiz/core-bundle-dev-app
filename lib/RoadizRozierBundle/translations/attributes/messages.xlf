@@ -316,6 +316,11 @@
                 <target></target>
                 <note></note>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="attributes.usage">
+                <source>attributes.usage</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
         </body>
     </file>
 </xliff>

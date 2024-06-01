@@ -15,16 +15,10 @@ use Twig\TwigFilter;
  * Extension that allow render inner page part calling directly their
  * controller response instead of doing a simple include.
  */
-class BlockRenderExtension extends AbstractExtension
+final class BlockRenderExtension extends AbstractExtension
 {
-    protected FragmentHandler $handler;
-
-    /**
-     * @param FragmentHandler $handler
-     */
-    public function __construct(FragmentHandler $handler)
+    public function __construct(private readonly FragmentHandler $handler)
     {
-        $this->handler = $handler;
     }
 
     public function getFilters(): array
@@ -42,7 +36,7 @@ class BlockRenderExtension extends AbstractExtension
      * @return string
      * @throws RuntimeError
      */
-    public function blockRender(NodesSources $nodeSource = null, string $themeName = "DefaultTheme", array $assignation = [])
+    public function blockRender(NodesSources $nodeSource = null, string $themeName = "DefaultTheme", array $assignation = []): string
     {
         if (null !== $nodeSource) {
             if (!empty($themeName)) {

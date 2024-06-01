@@ -107,7 +107,7 @@ class XlsxExporter
                     continue;
                 }
 
-                if ($value instanceof \DateTime) {
+                if ($value instanceof \DateTimeInterface) {
                     $value = Date::PHPToExcel($value);
                     $activeSheet->getStyle($columnAlpha . ($activeRow))
                         ->getNumberFormat()

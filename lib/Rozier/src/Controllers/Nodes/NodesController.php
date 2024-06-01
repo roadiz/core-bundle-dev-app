@@ -18,6 +18,7 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodePathChangedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUndeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
+use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\CoreBundle\Node\Exception\SameNodeUrlException;
 use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
@@ -35,27 +36,11 @@ use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Workflow\Registry;
 use Themes\Rozier\RozierApp;
 use Themes\Rozier\Traits\NodesTrait;
-use Themes\Rozier\Utils\SessionListFilters;
 use Twig\Error\RuntimeError;
 
 class NodesController extends RozierApp
 {
     use NodesTrait;
-
-    private NodeChrootResolver $nodeChrootResolver;
-    private NodeMover $nodeMover;
-    private Registry $workflowRegistry;
-    private HandlerFactoryInterface $handlerFactory;
-    private UniqueNodeGenerator $uniqueNodeGenerator;
-    private NodeFactory $nodeFactory;
-    /**
-     * @var class-string<AbstractType>
-     */
-    private string $nodeFormTypeClass;
-    /**
-     * @var class-string<AbstractType>
-     */
-    private string $addNodeFormTypeClass;
 
     /**
      * @param NodeChrootResolver $nodeChrootResolver
@@ -68,23 +53,15 @@ class NodesController extends RozierApp
      * @param class-string<AbstractType> $addNodeFormTypeClass
      */
     public function __construct(
-        NodeChrootResolver $nodeChrootResolver,
-        NodeMover $nodeMover,
-        Registry $workflowRegistry,
-        HandlerFactoryInterface $handlerFactory,
-        UniqueNodeGenerator $uniqueNodeGenerator,
-        NodeFactory $nodeFactory,
-        string $nodeFormTypeClass,
-        string $addNodeFormTypeClass
+        private readonly NodeChrootResolver $nodeChrootResolver,
+        private readonly NodeMover $nodeMover,
+        private readonly Registry $workflowRegistry,
+        private readonly HandlerFactoryInterface $handlerFactory,
+        private readonly UniqueNodeGenerator $uniqueNodeGenerator,
+        private readonly NodeFactory $nodeFactory,
+        private readonly string $nodeFormTypeClass,
+        private readonly string $addNodeFormTypeClass
     ) {
-        $this->nodeChrootResolver = $nodeChrootResolver;
-        $this->nodeMover = $nodeMover;
-        $this->workflowRegistry = $workflowRegistry;
-        $this->handlerFactory = $handlerFactory;
-        $this->nodeFormTypeClass = $nodeFormTypeClass;
-        $this->addNodeFormTypeClass = $addNodeFormTypeClass;
-        $this->uniqueNodeGenerator = $uniqueNodeGenerator;
-        $this->nodeFactory = $nodeFactory;
     }
 
     protected function getNodeFactory(): NodeFactory
@@ -349,7 +326,10 @@ class NodesController extends RozierApp
             throw new ResourceNotFoundException(sprintf('Translation #%s does not exist.', $translationId));
         }
 
-        $node = new Node($type);
+        $node = new Node();
+        $node->setNodeType($type);
+        $node->setTtl($type->getDefaultTtl());
+
         $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
         if (null !== $chroot) {
             // If user is jailed in a node, prevent moving nodes out.
@@ -589,10 +569,8 @@ class NodesController extends RozierApp
             /** @var Node|null $chroot */
             $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
             if ($chroot !== null) {
-                /** @var NodeHandler $nodeHandler */
-                $nodeHandler = $this->handlerFactory->getHandler($chroot);
-                $ids = $nodeHandler->getAllOffspringId();
-                $criteria["parent"] = $ids;
+                $nodeRepository = $this->em()->getRepository(Node::class);
+                $criteria["parent"] = $nodeRepository->findAllOffspringIdByNode($chroot);
             }
 
             $nodes = $this->em()

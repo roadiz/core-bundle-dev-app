@@ -132,7 +132,12 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
      * @var Collection<int, NodeTypeField>
      */
     #[
-        ORM\OneToMany(mappedBy: "nodeType", targetEntity: NodeTypeField::class, cascade: ["all"]),
+        ORM\OneToMany(
+            mappedBy: "nodeType",
+            targetEntity: NodeTypeField::class,
+            cascade: ["all"],
+            orphanRemoval: true
+        ),
         ORM\OrderBy(["position" => "ASC"]),
         Serializer\Groups(["node_type"]),
         SymfonySerializer\Groups(["node_type"]),
@@ -145,9 +150,11 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
         Serializer\Groups(["node_type"]),
         SymfonySerializer\Groups(["node_type"]),
         Serializer\Type("int"),
-        Assert\GreaterThanOrEqual(value: 0)
+        Assert\GreaterThanOrEqual(value: 0),
+        Assert\NotNull
     ]
-    private int $defaultTtl = 0;
+    // @phpstan-ignore-next-line
+    private ?int $defaultTtl = 0;
     /**
      * Define if this node-type title will be indexed during its parent indexation.
      */
@@ -340,15 +347,15 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
      */
     public function getDefaultTtl(): int
     {
-        return $this->defaultTtl;
+        return $this->defaultTtl ?? 0;
     }
 
     /**
-     * @param int $defaultTtl
+     * @param int|null $defaultTtl
      *
      * @return NodeType
      */
-    public function setDefaultTtl(int $defaultTtl): NodeType
+    public function setDefaultTtl(?int $defaultTtl): NodeType
     {
         $this->defaultTtl = $defaultTtl;
 

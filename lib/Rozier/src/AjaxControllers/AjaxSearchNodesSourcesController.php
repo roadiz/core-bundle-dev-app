@@ -14,15 +14,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class AjaxSearchNodesSourcesController extends AbstractAjaxController
 {
     public const RESULT_COUNT = 10;
 
     public function __construct(
-        private DocumentUrlGeneratorInterface $documentUrlGenerator,
-        private Security $security
+        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
+        private readonly Security $security
     ) {
     }
 
@@ -92,9 +92,10 @@ class AjaxSearchNodesSourcesController extends AbstractAjaxController
         /** @var Translation $translation */
         $translation = $source->getTranslation();
         $displayableNSDoc = $source->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsDoc) {
-            return $nsDoc->getDocument()->isImage() || $nsDoc->getDocument()->isSvg();
+            $doc = $nsDoc->getDocument();
+            return !$doc->isPrivate() && ($doc->isImage() || $doc->isSvg());
         })->first();
-        if ($displayableNSDoc instanceof NodesSourcesDocuments) {
+        if (false !== $displayableNSDoc) {
             $thumbnail = $displayableNSDoc->getDocument();
             $this->documentUrlGenerator->setDocument($thumbnail);
             $this->documentUrlGenerator->setOptions([

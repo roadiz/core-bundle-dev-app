@@ -15,25 +15,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 final class MaintenanceModeSubscriber implements EventSubscriberInterface
 {
-    private Settings $settings;
-    private Security $security;
-    private ThemeResolverInterface $themeResolver;
-    private ContainerInterface $serviceLocator;
-
     public function __construct(
-        Settings $settings,
-        Security $security,
-        ThemeResolverInterface $themeResolver,
-        ContainerInterface $serviceLocator
+        private readonly Settings $settings,
+        private readonly Security $security,
+        private readonly ThemeResolverInterface $themeResolver,
+        private readonly ContainerInterface $serviceLocator
     ) {
-        $this->settings = $settings;
-        $this->security = $security;
-        $this->themeResolver = $themeResolver;
-        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -131,15 +122,6 @@ final class MaintenanceModeSubscriber implements EventSubscriberInterface
             $controller->prepareBaseAssignation();
             // No node controller matching in install mode
             $request->attributes->set('theme', $controller->getTheme());
-        }
-
-        /*
-         * Set request locale if _locale param
-         * is present in Route.
-         */
-        $routeParams = $request->get('_route_params');
-        if (!empty($routeParams["_locale"])) {
-            $request->setLocale($routeParams["_locale"]);
         }
 
         return $controller;

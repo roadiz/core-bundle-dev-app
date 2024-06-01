@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\OpenId\Authentication;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Psr7\Query;
 use Lcobucci\JWT\Token\Plain;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use RZ\Roadiz\OpenId\Authentication\Provider\JwtRoleStrategy;
@@ -22,70 +19,45 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Http\Authenticator\AbstractAuthenticator;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 use Symfony\Component\Security\Http\Authenticator\Passport\Credentials\CustomCredentials;
 use Symfony\Component\Security\Http\Authenticator\Passport\Passport;
 use Symfony\Component\Security\Http\HttpUtils;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\HttpExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class OpenIdAuthenticator extends AbstractAuthenticator
 {
     use TargetPathTrait;
 
-    private HttpUtils $httpUtils;
-    private ?Discovery $discovery;
-    private Client $client;
-    private JwtRoleStrategy $roleStrategy;
-    private OpenIdJwtConfigurationFactory $jwtConfigurationFactory;
-    private UrlGeneratorInterface $urlGenerator;
-    private string $returnPath;
-    private string $defaultRoute;
-    private ?string $oauthClientId;
-    private ?string $oauthClientSecret;
-    private string $usernameClaim;
-    private string $targetPathParameter;
-    private array $defaultRoles;
-    private bool $forceSsl;
-    private bool $requiresLocalUsers;
+    private HttpClientInterface $client;
 
     public function __construct(
-        HttpUtils $httpUtils,
-        ?Discovery $discovery,
-        JwtRoleStrategy $roleStrategy,
-        OpenIdJwtConfigurationFactory $jwtConfigurationFactory,
-        UrlGeneratorInterface $urlGenerator,
-        string $returnPath,
-        string $defaultRoute,
-        ?string $oauthClientId,
-        ?string $oauthClientSecret,
-        bool $requiresLocalUsers = true,
-        string $usernameClaim = 'email',
-        string $targetPathParameter = '_target_path',
-        array $defaultRoles = [],
-        bool $forceSsl = true
+        private readonly HttpUtils $httpUtils,
+        private readonly ?Discovery $discovery,
+        private readonly JwtRoleStrategy $roleStrategy,
+        private readonly OpenIdJwtConfigurationFactory $jwtConfigurationFactory,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        HttpClientInterface $client,
+        private readonly string $returnPath,
+        private readonly string $defaultRoute,
+        private readonly ?string $oauthClientId,
+        private readonly ?string $oauthClientSecret,
+        private readonly bool $forceSslOnRedirectUri,
+        private readonly bool $requiresLocalUsers,
+        private readonly string $usernameClaim = 'email',
+        private readonly string $targetPathParameter = '_target_path',
+        private readonly array $defaultRoles = []
     ) {
-        $this->httpUtils = $httpUtils;
-        $this->discovery = $discovery;
-        $this->client = new Client([
+        $this->client = $client->withOptions([
             // You can set any number of default request options.
             'timeout'  => 2.0,
         ]);
-        $this->roleStrategy = $roleStrategy;
-        $this->returnPath = $returnPath;
-        $this->oauthClientId = $oauthClientId;
-        $this->oauthClientSecret = $oauthClientSecret;
-        $this->usernameClaim = $usernameClaim;
-        $this->targetPathParameter = $targetPathParameter;
-        $this->defaultRoles = $defaultRoles;
-        $this->defaultRoute = $defaultRoute;
-        $this->urlGenerator = $urlGenerator;
-        $this->jwtConfigurationFactory = $jwtConfigurationFactory;
-        $this->forceSsl = $forceSsl;
-        $this->requiresLocalUsers = $requiresLocalUsers;
     }
 
     /**
@@ -97,7 +69,6 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
             $this->discovery->isValid() &&
             $this->httpUtils->checkRequestPath($request, $this->returnPath) &&
             $request->query->has('state') &&
-            $request->query->has('scope') &&
             ($request->query->has('code') || $request->query->has('error'));
     }
 
@@ -125,7 +96,8 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         if (null === $request->query->get('state')) {
             throw new OpenIdAuthenticationException('State is not valid');
         }
-        $state = Query::parse((string) $request->query->get('state'));
+
+        \parse_str((string) $request->query->get('state'), $state);
 
         /*
          * Fetch _target_path parameter from OAuth2 state
@@ -143,15 +115,15 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
             /*
              * Redirect URI should always use SSL
              */
-            if ($this->forceSsl && str_starts_with($redirectUri, 'http://')) {
+            if ($this->forceSslOnRedirectUri && str_starts_with($redirectUri, 'http://')) {
                 $redirectUri = str_replace('http://', 'https://', $redirectUri);
             }
 
             if (!\is_string($tokenEndpoint) || empty($tokenEndpoint)) {
                 throw new OpenIdConfigurationException('Discovery does not provide a valid token_endpoint.');
             }
-            $response = $this->client->post($tokenEndpoint, [
-                'form_params' => [
+            $response = $this->client->request('POST', $tokenEndpoint, [
+                'body' => [
                     'code' => $request->query->get('code'),
                     'client_id' => $this->oauthClientId ?? '',
                     'client_secret' => $this->oauthClientSecret ?? '',
@@ -160,10 +132,21 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
                 ]
             ]);
             /** @var array $jsonResponse */
-            $jsonResponse = \json_decode($response->getBody()->getContents(), true);
-        } catch (GuzzleException $e) {
+            $jsonResponse = \json_decode(json: $response->getContent(), associative: true, flags: JSON_THROW_ON_ERROR);
+        } catch (HttpExceptionInterface $e) {
+            /** @var array $jsonResponse */
+            $jsonResponse = \json_decode(json: $e->getResponse()->getContent(false), associative: true, flags: JSON_THROW_ON_ERROR);
+            $errorTitle = $jsonResponse['error'] ?? $e->getMessage();
+            $errorDescription = $jsonResponse['error_description'] ?? '';
+
             throw new OpenIdAuthenticationException(
-                'Cannot contact Identity provider to issue authorization_code.' . $e->getMessage(),
+                $errorTitle . ': ' . $errorDescription,
+                $e->getCode(),
+                $e
+            );
+        } catch (ExceptionInterface $e) {
+            throw new OpenIdAuthenticationException(
+                $e->getMessage(),
                 $e->getCode(),
                 $e
             );
@@ -274,7 +257,7 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
         if ($request->hasSession()) {
-            $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
+            $request->getSession()->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);
         }
         $url = $this->urlGenerator->generate($this->defaultRoute);
 

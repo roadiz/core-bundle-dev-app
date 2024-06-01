@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\UserBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\UserBundle\Repository\UserValidationTokenRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;

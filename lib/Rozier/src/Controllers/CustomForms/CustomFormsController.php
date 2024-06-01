@@ -6,9 +6,9 @@ namespace Themes\Rozier\Controllers\CustomForms;
 
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
-use RZ\Roadiz\RozierBundle\Form\CustomFormType;
 use Symfony\Component\HttpFoundation\Request;
 use Themes\Rozier\Controllers\AbstractAdminWithBulkController;
+use Themes\Rozier\Forms\CustomFormType;
 
 class CustomFormsController extends AbstractAdminWithBulkController
 {

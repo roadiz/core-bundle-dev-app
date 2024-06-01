@@ -11,12 +11,7 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class AjaxSessionMessages extends AbstractAjaxController
 {
-    /**
-     * @param Request $request
-     *
-     * @return Response JSON response
-     */
-    public function getMessagesAction(Request $request)
+    public function getMessagesAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 

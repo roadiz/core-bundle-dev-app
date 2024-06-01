@@ -5,7 +5,7 @@
     "description": "Article",
     "visible": true,
     "publishable": true,
-    "attributable": false,
+    "attributable": true,
     "reachable": true,
     "hiding_nodes": false,
     "hiding_non_reachable_nodes": true,
@@ -16,7 +16,6 @@
             "label": "Your content",
             "type": 4,
             "expanded": false,
-            "node_type_name": "Article",
             "universal": false,
             "exclude_from_search": false,
             "excluded_from_serialization": false,
@@ -29,7 +28,6 @@
             "label": "Secret realm_b",
             "type": 0,
             "expanded": false,
-            "node_type_name": "Article",
             "universal": false,
             "exclude_from_search": false,
             "serialization_groups": [
@@ -45,7 +43,6 @@
             "label": "Secret realm_a",
             "type": 0,
             "expanded": false,
-            "node_type_name": "Article",
             "universal": false,
             "exclude_from_search": false,
             "serialization_groups": [
@@ -62,7 +59,6 @@
             "default_values": "BasicBlock, GroupBlock",
             "type": 16,
             "expanded": false,
-            "node_type_name": "Article",
             "universal": false,
             "exclude_from_search": false,
             "excluded_from_serialization": false,
@@ -75,14 +71,28 @@
             "label": "Date de d\u00e9publication",
             "type": 1,
             "expanded": false,
-            "node_type_name": "Article",
             "universal": true,
             "exclude_from_search": false,
             "excluded_from_serialization": false,
             "indexed": true,
             "visible": true
+        },
+        {
+            "position": 7.0,
+            "name": "only_on_webresponse",
+            "label": "Only on web response",
+            "type": 0,
+            "expanded": false,
+            "universal": false,
+            "exclude_from_search": false,
+            "serialization_groups": [
+                "article_get_by_path"
+            ],
+            "excluded_from_serialization": false,
+            "indexed": false,
+            "visible": true
         }
     ],
-    "default_ttl": 0,
+    "default_ttl": 15,
     "searchable": true
 }

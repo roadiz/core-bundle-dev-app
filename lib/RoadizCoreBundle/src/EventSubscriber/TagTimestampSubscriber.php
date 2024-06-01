@@ -22,9 +22,6 @@ class TagTimestampSubscriber implements EventSubscriberInterface
 
     public function onTagUpdatedEvent(TagUpdatedEvent $event): void
     {
-        $tag = $event->getTag();
-        if ($tag instanceof AbstractDateTimed) {
-            $tag->setUpdatedAt(new \DateTime());
-        }
+        $event->getTag()->setUpdatedAt(new \DateTime());
     }
 }

@@ -24,9 +24,7 @@ return [
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
     RZ\InterventionRequestBundle\RZInterventionRequestBundle::class => ['all' => true],
     Sentry\SentryBundle\SentryBundle::class => ['all' => true],
-    // Symfony flex recipe add old bundle alias
-    // ApiPlatform\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
-    ApiPlatform\Core\Bridge\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
+    ApiPlatform\Symfony\Bundle\ApiPlatformBundle::class => ['all' => true],
     Limenius\LiformBundle\LimeniusLiformBundle::class => ['all' => true],
     Lexik\Bundle\JWTAuthenticationBundle\LexikJWTAuthenticationBundle::class => ['all' => true],
     Nelmio\CorsBundle\NelmioCorsBundle::class => ['all' => true],

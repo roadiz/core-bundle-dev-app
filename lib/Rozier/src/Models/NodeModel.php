@@ -11,7 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @Serializer\ExclusionPolicy("all")
@@ -37,7 +37,7 @@ final class NodeModel implements ModelInterface
                 'nodeName' => $this->node->getNodeName(),
                 'isPublished' => $this->node->isPublished(),
                 'nodeType' => [
-                    'color' => $this->node->getNodeType()?->getColor() ?? '#000000',
+                    'color' => $this->node->getNodeType()->getColor() ?? '#000000',
                 ]
             ];
             if ($this->security->isGranted(NodeVoter::EDIT_SETTING, $this->node)) {
@@ -60,7 +60,7 @@ final class NodeModel implements ModelInterface
             'nodeName' => $this->node->getNodeName(),
             'isPublished' => $this->node->isPublished(),
             'nodeType' => [
-                'color' => $this->node->getNodeType()?->getColor() ?? '#000000',
+                'color' => $this->node->getNodeType()->getColor() ?? '#000000',
             ]
         ];
 

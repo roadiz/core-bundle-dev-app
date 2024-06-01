@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\DependencyInjection\Compiler;
 
-use RZ\Roadiz\RozierBundle\DependencyInjection\Configuration;
 use Symfony\Component\Asset\PathPackage;
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;

@@ -24,8 +24,48 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        # https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/index.html#configure-application-routing
+        api_login:
+            pattern: ^/api/token
+            stateless: true
+            provider: all_users
+            login_throttling:
+                max_attempts: 3
+            json_login:
+                check_path: /api/token
+                username_path: username
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+            user_checker: RZ\Roadiz\CoreBundle\Security\UserChecker
+
+        # https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/8-jwt-user-provider.html#symfony-5-3-and-higher
+        api:
+            pattern: ^/api
+            stateless: true
+            # Do not reload user from database, trust JWT roles in order to restrict PreviewUsers
+            # Only drawback is when you want to disable / block / expire a user, you'll have to
+            # wait for JWT token to expire.
+            provider: jwt
+            # If you really want to reload user from database, uncomment this line, but Preview JWT
+            # will be reloaded as full user and not as PreviewUser.
+            #provider: all_users
+            jwt: ~
+
+        # disables session creation for assets and healthcheck controllers
+        assets:
+            pattern: ^/assets
+            stateless: true
+            security: false
+        healthCheck:
+            pattern: ^/health-check$
+            stateless: true
+            security: false
+
         main:
             lazy: true
+            stateless: false
             provider: all_users
             two_factor:
                 auth_form_path: 2fa_login    # The route name you have used in the routes.yaml
@@ -49,38 +89,7 @@ security:
             custom_authenticator:
                 - RZ\Roadiz\RozierBundle\Security\RozierAuthenticator
                 - roadiz_rozier.open_id.authenticator
-        # https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/8-jwt-user-provider.html#symfony-5-3-and-higher
-        api:
-            pattern: ^/api
-            stateless: true
-            # Do not reload user from database, trust JWT roles in order to restrict PreviewUsers
-            # Only drawback is when you want to disable / block / expire a user, you'll have to
-            # wait for JWT token to expire.
-            provider: jwt
-            entry_point: jwt
-            # If you really want to reload user from database, uncomment this line, but Preview JWT
-            # will be reloaded as full user and not as PreviewUser.
-            #provider: all_users
-            jwt: ~
-            login_throttling:
-                max_attempts: 3
-            json_login:
-                check_path: /api/token
-                username_path: username
-                password_path: password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
-            user_checker: RZ\Roadiz\CoreBundle\Security\UserChecker
 
-        # disables session creation for assets and healthcheck controllers
-        assets:
-            pattern: ^/assets
-            stateless: true
-            security: false
-        healthCheck:
-            pattern: ^/health-check$
-            stateless: true
-            security: false
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
@@ -90,6 +99,7 @@ security:
         # This ensures that the form can only be accessed when two-factor authentication is in progress.
         - { path: ^/2fa, role: IS_AUTHENTICATED_2FA_IN_PROGRESS }
         - { path: ^/api/token, roles: PUBLIC_ACCESS }
+        - { path: ^/api/graphql, roles: PUBLIC_ACCESS }
         - { path: "^/api/custom_forms/(?:[0-9]+)/post", methods: [ POST ], roles: PUBLIC_ACCESS }
         - { path: "^/api/contact_form/post", methods: [ POST ], roles: PUBLIC_ACCESS }
         - { path: "^/api/users/signup", methods: [ POST ], roles: PUBLIC_ACCESS }

@@ -18,24 +18,18 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 /**
  * Subscribe to Translation event to clear result cache.
  */
-class TranslationSubscriber implements EventSubscriberInterface
+final class TranslationSubscriber implements EventSubscriberInterface
 {
-    protected ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
             TranslationCreatedEvent::class => 'purgeCache',
-            '\RZ\Roadiz\Core\Events\Translation\TranslationCreatedEvent' => 'purgeCache',
             TranslationUpdatedEvent::class => 'purgeCache',
-            '\RZ\Roadiz\Core\Events\Translation\TranslationUpdatedEvent' => 'purgeCache',
             TranslationDeletedEvent::class => 'purgeCache',
-            '\RZ\Roadiz\Core\Events\Translation\TranslationDeletedEvent' => 'purgeCache',
         ];
     }
 

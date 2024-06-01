@@ -18,62 +18,50 @@ use RZ\Roadiz\CoreBundle\Repository\NodesCustomFormsRepository;
     ORM\Table(name: "nodes_custom_forms"),
     ORM\Index(columns: ["position"]),
     ORM\Index(columns: ["node_id", "position"], name: "customform_node_position"),
-    ORM\Index(columns: ["node_id", "node_type_field_id", "position"], name: "customform_node_field_position")
+    ORM\Index(columns: ["node_id", "field_name", "position"], name: "customform_node_field_position")
 ]
 class NodesCustomForms extends AbstractPositioned
 {
-    /**
-     * @var Node|null
-     */
+    use FieldAwareEntityTrait;
+
     #[ORM\ManyToOne(targetEntity: Node::class, fetch: 'EAGER', inversedBy: 'customForms')]
-    #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?Node $node = null;
+    #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected Node $node;
 
-    /**
-     * @var CustomForm|null
-     */
     #[ORM\ManyToOne(targetEntity: CustomForm::class, fetch: 'EAGER', inversedBy: 'nodes')]
-    #[ORM\JoinColumn(name: 'custom_form_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?CustomForm $customForm = null;
-
-    /**
-     * @var NodeTypeField|null
-     */
-    #[ORM\ManyToOne(targetEntity: NodeTypeField::class)]
-    #[ORM\JoinColumn(name: 'node_type_field_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    protected ?NodeTypeField $field = null;
+    #[ORM\JoinColumn(name: 'custom_form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    protected CustomForm $customForm;
 
     /**
      * Create a new relation between a Node, a CustomForm and a NodeTypeField.
      *
-     * @param Node          $node
-     * @param CustomForm    $customForm
-     * @param NodeTypeFieldInterface $field NodeTypeField
+     * @param Node $node
+     * @param CustomForm $customForm
+     * @param NodeTypeFieldInterface|null $field NodeTypeField
      */
-    public function __construct(Node $node, CustomForm $customForm, NodeTypeFieldInterface $field)
+    public function __construct(Node $node, CustomForm $customForm, ?NodeTypeFieldInterface $field = null)
     {
         if (!$field instanceof NodeTypeField) {
             throw new \InvalidArgumentException('NodesCustomForms only accept NodeTypeField');
         }
         $this->node = $node;
         $this->customForm = $customForm;
-        $this->field = $field;
+        $this->initializeFieldAwareEntityTrait($field);
     }
 
     public function __clone()
     {
         if ($this->id) {
             $this->id = null;
-            $this->node = null;
         }
     }
 
     /**
      * Gets the value of node.
      *
-     * @return Node|null
+     * @return Node
      */
-    public function getNode(): ?Node
+    public function getNode(): Node
     {
         return $this->node;
     }
@@ -111,31 +99,6 @@ class NodesCustomForms extends AbstractPositioned
     public function setCustomForm(CustomForm $customForm): NodesCustomForms
     {
         $this->customForm = $customForm;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of field.
-     *
-     * @return NodeTypeField
-     */
-    public function getField(): NodeTypeField
-    {
-        return $this->field;
-    }
-
-    /**
-     * Sets the value of field.
-     *
-     * @param NodeTypeField $field the field
-     *
-     * @return self
-     */
-    public function setField(NodeTypeField $field): NodesCustomForms
-    {
-        $this->field = $field;
-
         return $this;
     }
 }

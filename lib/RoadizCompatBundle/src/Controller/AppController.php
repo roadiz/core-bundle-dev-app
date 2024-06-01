@@ -4,23 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CompatBundle\Controller;
 
-use InvalidArgumentException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use ReflectionException;
 use RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface;
-use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
-use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Entity\Node;
-use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Theme;
-use RZ\Roadiz\CoreBundle\Entity\User;
-use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
 use RZ\Roadiz\CoreBundle\Exception\ThemeClassNotValidException;
-use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
-use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
-use RZ\Roadiz\Documents\Packages;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,9 +18,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Routing\Loader\YamlFileLoader;
-use Symfony\Component\Routing\RouteCollection;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\String\UnicodeString;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -93,10 +80,6 @@ abstract class AppController extends Controller
      * Assignation for twig template engine.
      */
     protected array $assignation = [];
-    /**
-     * @var Node|null
-     */
-    private ?Node $homeNode = null;
 
     /**
      * @return string
@@ -147,34 +130,6 @@ abstract class AppController extends Controller
     }
 
     /**
-     * @return RouteCollection
-     * @throws ReflectionException
-     */
-    public static function getRoutes(): RouteCollection
-    {
-        $locator = static::getFileLocator();
-        $loader = new YamlFileLoader($locator);
-        return $loader->load('routes.yml');
-    }
-
-    /**
-     * Return a file locator with theme
-     * Resource folder.
-     *
-     * @return FileLocator
-     * @throws ReflectionException
-     */
-    public static function getFileLocator(): FileLocator
-    {
-        $resourcesFolder = static::getResourcesFolder();
-        return new FileLocator([
-            $resourcesFolder,
-            $resourcesFolder . '/routing',
-            $resourcesFolder . '/config',
-        ]);
-    }
-
-    /**
      * Return theme Resource folder according to
      * main theme class inheriting AppController.
      *
@@ -183,6 +138,7 @@ abstract class AppController extends Controller
      *
      * @return string
      * @throws ReflectionException
+     * @throws ThemeClassNotValidException
      */
     public static function getResourcesFolder(): string
     {
@@ -231,24 +187,6 @@ abstract class AppController extends Controller
     public static function getThemeMainClassName(): string
     {
         return static::getThemeDir() . 'App';
-    }
-
-    /**
-     * These routes are used to extend Roadiz back-office.
-     *
-     * @return RouteCollection|null
-     * @throws ReflectionException
-     */
-    public static function getBackendRoutes(): ?RouteCollection
-    {
-        $locator = static::getFileLocator();
-
-        try {
-            $loader = new YamlFileLoader($locator);
-            return $loader->load('backend-routes.yml');
-        } catch (InvalidArgumentException $e) {
-            return null;
-        }
     }
 
     /**
@@ -317,8 +255,10 @@ abstract class AppController extends Controller
      * - securityAuthorizationChecker
      *
      * @return $this
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
-    public function prepareBaseAssignation()
+    public function prepareBaseAssignation(): static
     {
         /** @var KernelInterface $kernel */
         $kernel = $this->container->get('kernel');
@@ -344,7 +284,7 @@ abstract class AppController extends Controller
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function throw404($message = '')
+    public function throw404(string $message = ''): Response
     {
         $this->assignation['nodeName'] = 'error-404';
         $this->assignation['nodeTypeName'] = 'error404';
@@ -363,6 +303,8 @@ abstract class AppController extends Controller
      * Return the current Theme
      *
      * @return Theme|null
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function getTheme(): ?Theme
     {
@@ -456,71 +398,13 @@ abstract class AppController extends Controller
     }
 
     /**
-     * Validate a request against a given ROLE_*
-     * and check chroot
-     * and throws an AccessDeniedException exception.
-     *
-     * @param mixed $attributes
-     * @param mixed $nodeId
-     * @param bool|false $includeChroot
-     * @return void
-     *
-     * @throws AccessDeniedException
-     * @deprecated Use denyAccessUnlessGranted with NodeVoter attribute and a Node subject.
-     */
-    public function validateNodeAccessForRole(mixed $attributes, mixed $nodeId = null, bool $includeChroot = false): void
-    {
-        /** @var Node|null $node */
-        $node = null;
-        /** @var User $user */
-        $user = $this->getUser();
-        /** @var NodeChrootResolver $chrootResolver */
-        $chrootResolver = $this->container->get(NodeChrootResolver::class);
-        $chroot = $chrootResolver->getChroot($user);
-
-        if ($this->isGranted($attributes) && $chroot === null) {
-            /*
-             * Already grant access if user is not chroot-ed.
-             */
-            return;
-        }
-
-        if ($nodeId instanceof Node) {
-            $node = $nodeId;
-        } elseif (\is_scalar($nodeId)) {
-            /** @var Node|null $node */
-            $node = $this->em()->find(Node::class, (int) $nodeId);
-        }
-
-        if (null === $node) {
-            throw $this->createAccessDeniedException("You don't have access to this page");
-        }
-
-        $this->em()->refresh($node);
-
-        /** @var NodeHandler $nodeHandler */
-        $nodeHandler = $this->getHandlerFactory()->getHandler($node);
-        $parents = $nodeHandler->getParents();
-
-        if ($includeChroot) {
-            $parents[] = $node;
-        }
-
-        if (!$this->isGranted($attributes)) {
-            throw $this->createAccessDeniedException("You don't have access to this page");
-        }
-
-        if (null !== $user && $chroot !== null && !in_array($chroot, $parents, true)) {
-            throw $this->createAccessDeniedException("You don't have access to this page");
-        }
-    }
-
-    /**
      * Generate a simple view to inform visitors that website is
      * currently unavailable.
      *
      * @param Request $request
      * @return Response
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function maintenanceAction(Request $request): Response
     {
@@ -552,6 +436,7 @@ abstract class AppController extends Controller
      * @param bool $allowClientCache Allows browser level cache
      *
      * @return Response
+     * @deprecated Use stateless routes and cache-control headers in your controllers
      */
     public function makeResponseCachable(
         Request $request,
@@ -595,59 +480,5 @@ abstract class AppController extends Controller
         }
 
         return $response;
-    }
-
-    /**
-     * Returns a fully qualified view path for Twig rendering.
-     *
-     * @param string $view
-     * @param string $namespace
-     * @return string
-     */
-    protected function getNamespacedView(string $view, string $namespace = ''): string
-    {
-        if ($namespace !== "" && $namespace !== "/") {
-            $view = '@' . $namespace . '/' . $view;
-        } elseif (static::getThemeDir() !== "" && $namespace !== "/") {
-            // when no namespace is used
-            // use current theme directory
-            $view = '@' . static::getThemeDir() . '/' . $view;
-        }
-
-        return $view;
-    }
-
-    /**
-     * @param TranslationInterface|null $translation
-     * @return null|Node
-     */
-    protected function getHome(?TranslationInterface $translation = null): ?Node
-    {
-        $this->getStopwatch()->start('getHome');
-        if (null === $this->homeNode) {
-            $nodeRepository = $this->em()->getRepository(Node::class);
-            if ($translation !== null) {
-                $this->homeNode = $nodeRepository->findHomeWithTranslation($translation);
-            } else {
-                $this->homeNode = $nodeRepository->findHomeWithDefaultTranslation();
-            }
-        }
-        $this->getStopwatch()->stop('getHome');
-
-        return $this->homeNode;
-    }
-
-    /**
-     * Return all Form errors as an array.
-     *
-     * @param FormInterface $form
-     * @return array
-     * @deprecated Use FormErrorSerializer::getErrorsAsArray instead
-     */
-    protected function getErrorsAsArray(FormInterface $form): array
-    {
-        /** @var FormErrorSerializer $formErrorSerializer */
-        $formErrorSerializer = $this->container->get(FormErrorSerializer::class);
-        return $formErrorSerializer->getErrorsAsArray($form);
     }
 }

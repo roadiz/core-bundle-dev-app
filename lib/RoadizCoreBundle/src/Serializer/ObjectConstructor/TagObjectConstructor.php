@@ -9,7 +9,7 @@ use JMS\Serializer\Exception\ObjectConstructionException;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 
-class TagObjectConstructor extends AbstractTypedObjectConstructor
+final class TagObjectConstructor extends AbstractTypedObjectConstructor
 {
     public const EXCEPTION_ON_EXISTING_TAG = 'exception_on_existing_tag';
 
@@ -27,7 +27,7 @@ class TagObjectConstructor extends AbstractTypedObjectConstructor
     /**
      * @inheritDoc
      */
-    protected function findObject($data, DeserializationContext $context): ?object
+    protected function findObject(mixed $data, DeserializationContext $context): ?object
     {
         if (empty($data['tagName']) && empty($data['tag_name'])) {
             throw new ObjectConstructionException('Tag name can not be empty');

@@ -10,16 +10,9 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 final class SuperAdminRoleHierarchyVoter extends RoleArrayVoter
 {
-    private ManagerRegistry $managerRegistry;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param string $prefix
-     */
-    public function __construct(ManagerRegistry $managerRegistry, string $prefix = 'ROLE_')
+    public function __construct(private readonly ManagerRegistry $managerRegistry, string $prefix = 'ROLE_')
     {
         parent::__construct($prefix);
-        $this->managerRegistry = $managerRegistry;
     }
 
     protected function extractRoles(TokenInterface $token): array
@@ -37,7 +30,10 @@ final class SuperAdminRoleHierarchyVoter extends RoleArrayVoter
     private function isSuperAdmin(TokenInterface $token): bool
     {
         $roleNames = parent::extractRoles($token);
-        if (\in_array('ROLE_SUPER_ADMIN', $roleNames) || \in_array('ROLE_SUPERADMIN', $roleNames)) {
+        if (
+            \in_array('ROLE_SUPER_ADMIN', $roleNames) ||
+            \in_array('ROLE_SUPERADMIN', $roleNames)
+        ) {
             return true;
         }
         return false;

@@ -6,32 +6,15 @@ namespace RZ\Roadiz\CoreBundle\Cache;
 
 final class CloudflareProxyCache
 {
-    protected string $name;
-    protected string $zone;
-    protected string $version;
-    protected string $bearer;
-    protected string $email;
-    protected string $key;
-    protected int $timeout;
-
-    /**
-     * @param string $name
-     * @param string $zone
-     * @param string $version
-     * @param string $bearer
-     * @param string $email
-     * @param string $key
-     * @param int $timeout
-     */
-    public function __construct(string $name, string $zone, string $version, string $bearer, string $email, string $key, int $timeout)
-    {
-        $this->name = $name;
-        $this->zone = $zone;
-        $this->version = $version;
-        $this->bearer = $bearer;
-        $this->email = $email;
-        $this->key = $key;
-        $this->timeout = $timeout;
+    public function __construct(
+        private readonly string $name,
+        private readonly string $zone,
+        private readonly string $version,
+        private readonly string $bearer,
+        private readonly string $email,
+        private readonly string $key,
+        private readonly int $timeout
+    ) {
     }
 
     /**

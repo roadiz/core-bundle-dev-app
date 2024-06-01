@@ -11,35 +11,18 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
-class RoadizExtension extends AbstractExtension implements GlobalsInterface
+final class RoadizExtension extends AbstractExtension implements GlobalsInterface
 {
-    protected Settings $settingsBag;
-    protected NodeTypes $nodeTypesBag;
-    protected PreviewResolverInterface $previewResolver;
-    protected NodeChrootResolver $chrootResolver;
-    protected string $cmsVersion;
-    protected string $cmsVersionPrefix;
-    protected bool $hideRoadizVersion;
-    protected int $maxVersionsShowed;
-
     public function __construct(
-        Settings $settingsBag,
-        NodeTypes $nodeTypesBag,
-        PreviewResolverInterface $previewResolver,
-        NodeChrootResolver $chrootResolver,
-        string $cmsVersion,
-        string $cmsVersionPrefix,
-        bool $hideRoadizVersion,
-        int $maxVersionsShowed
+        private readonly Settings $settingsBag,
+        private readonly NodeTypes $nodeTypesBag,
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly NodeChrootResolver $chrootResolver,
+        private readonly string $cmsVersion,
+        private readonly string $cmsVersionPrefix,
+        private readonly bool $hideRoadizVersion,
+        private readonly int $maxVersionsShowed
     ) {
-        $this->settingsBag = $settingsBag;
-        $this->nodeTypesBag = $nodeTypesBag;
-        $this->previewResolver = $previewResolver;
-        $this->chrootResolver = $chrootResolver;
-        $this->cmsVersion = $cmsVersion;
-        $this->cmsVersionPrefix = $cmsVersionPrefix;
-        $this->hideRoadizVersion = $hideRoadizVersion;
-        $this->maxVersionsShowed = $maxVersionsShowed;
     }
 
     /**

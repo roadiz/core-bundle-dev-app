@@ -51,7 +51,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -301,28 +301,6 @@ abstract class Controller extends AbstractController
         $url = str_replace($pathInfo, rtrim($pathInfo, ' /'), $requestUri);
 
         return $this->redirect($url, Response::HTTP_MOVED_PERMANENTLY);
-    }
-
-    /**
-     * Make translation variable with the good localization.
-     *
-     * @param Request $request
-     * @param string|null $_locale
-     *
-     * @return TranslationInterface
-     * @throws NoTranslationAvailableException
-     */
-    protected function bindLocaleFromRoute(Request $request, $_locale = null): TranslationInterface
-    {
-        /*
-         * If you use a static route for Home page
-         * we need to grab manually language.
-         *
-         * Get language from static route
-         */
-        $translation = $this->findTranslationForLocale($_locale);
-        $request->setLocale($translation->getPreferredLocale());
-        return $translation;
     }
 
     /**

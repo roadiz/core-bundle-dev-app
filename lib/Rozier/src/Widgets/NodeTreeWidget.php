@@ -9,8 +9,8 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManager;
+use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Themes\Rozier\Utils\SessionListFilters;
 
 /**
  * Prepare a Node tree according to Node hierarchy and given options.
@@ -18,35 +18,28 @@ use Themes\Rozier\Utils\SessionListFilters;
 final class NodeTreeWidget extends AbstractWidget
 {
     public const SESSION_ITEM_PER_PAGE = 'nodetree_item_per_page';
-    private ?Node $parentNode = null;
     private ?iterable $nodes = null;
     private ?Tag $tag = null;
-    private ?TranslationInterface $translation = null;
     private bool $stackTree = false;
     private ?array $filters = null;
     private bool $canReorder = true;
     private array $additionalCriteria = [];
-    private bool $includeRootNode;
 
     /**
      * @param RequestStack $requestStack
      * @param ManagerRegistry $managerRegistry
-     * @param Node|null $parent Entry point of NodeTreeWidget, set null if it's root
+     * @param Node|null $parentNode Entry point of NodeTreeWidget, set null if it's root
      * @param TranslationInterface|null $translation NodeTree translation
      * @param bool $includeRootNode
      */
     public function __construct(
         RequestStack $requestStack,
         ManagerRegistry $managerRegistry,
-        ?Node $parent = null,
-        ?TranslationInterface $translation = null,
-        bool $includeRootNode = false
+        private readonly ?Node $parentNode = null,
+        private readonly ?TranslationInterface $translation = null,
+        private readonly bool $includeRootNode = false
     ) {
         parent::__construct($requestStack, $managerRegistry);
-
-        $this->parentNode = $parent;
-        $this->translation = $translation;
-        $this->includeRootNode = $includeRootNode;
     }
 
     /**
@@ -191,13 +184,12 @@ final class NodeTreeWidget extends AbstractWidget
             /*
              * Stored in session
              */
-            $sessionListFilter = new SessionListFilters(static::SESSION_ITEM_PER_PAGE);
+            $sessionListFilter = new SessionListFilters(self::SESSION_ITEM_PER_PAGE);
             $sessionListFilter->handleItemPerPage($this->getRequest(), $listManager);
         } else {
             $listManager->setItemPerPage(99999);
             $listManager->handle(true);
         }
-
 
         if ($subRequest) {
             $listManager->disablePagination();

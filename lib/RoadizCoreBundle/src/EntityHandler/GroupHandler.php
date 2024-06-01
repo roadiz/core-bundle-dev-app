@@ -11,7 +11,7 @@ use RZ\Roadiz\Core\Handlers\AbstractHandler;
 /**
  * Handle operations with Group entities.
  */
-class GroupHandler extends AbstractHandler
+final class GroupHandler extends AbstractHandler
 {
     private ?Group $group = null;
 

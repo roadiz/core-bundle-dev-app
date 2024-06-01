@@ -55,26 +55,29 @@ final class AttributeValueQueryExtension implements QueryItemExtensionInterface,
             return;
         }
 
-        $parts = $queryBuilder->getDQLPart('join');
         $rootAlias = $queryBuilder->getRootAliases()[0];
-        if (!\is_array($parts) || !isset($parts[$rootAlias])) {
-            return;
-        }
 
+        /**
+         * AttributeValue is always linked to a Node.
+         * We need to join Node to filter by its status.
+         */
         $existingNodeJoin = QueryBuilderHelper::getExistingJoin($queryBuilder, 'o', 'node');
         if (null === $existingNodeJoin || !$existingNodeJoin->getAlias()) {
-            return;
+            $queryBuilder->leftJoin($rootAlias . '.node', 'node');
+            $joinAlias = 'node';
+        } else {
+            $joinAlias = $existingNodeJoin->getAlias();
         }
 
         if ($this->previewResolver->isPreview()) {
             $queryBuilder
-                ->andWhere($queryBuilder->expr()->lte($existingNodeJoin->getAlias() . '.status', ':status'))
+                ->andWhere($queryBuilder->expr()->lte($joinAlias . '.status', ':status'))
                 ->setParameter(':status', Node::PUBLISHED);
             return;
         }
 
         $queryBuilder
-            ->andWhere($queryBuilder->expr()->eq($existingNodeJoin->getAlias() . '.status', ':status'))
+            ->andWhere($queryBuilder->expr()->eq($joinAlias . '.status', ':status'))
             ->setParameter(':status', Node::PUBLISHED);
         return;
     }

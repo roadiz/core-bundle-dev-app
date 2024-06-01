@@ -19,7 +19,7 @@ class AjaxNodeTypeFieldsController extends AjaxAbstractFieldsController
      *
      * @return Response JSON response
      */
-    public function editAction(Request $request, int $nodeTypeFieldId)
+    public function editAction(Request $request, int $nodeTypeFieldId): Response
     {
         /*
          * Validate

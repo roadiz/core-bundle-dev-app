@@ -8,7 +8,7 @@ use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\Exception\ObjectConstructionException;
 use RZ\Roadiz\CoreBundle\Entity\Role;
 
-class RoleObjectConstructor extends AbstractTypedObjectConstructor
+final class RoleObjectConstructor extends AbstractTypedObjectConstructor
 {
     /**
      * @inheritDoc
@@ -21,7 +21,7 @@ class RoleObjectConstructor extends AbstractTypedObjectConstructor
     /**
      * @inheritDoc
      */
-    protected function findObject($data, DeserializationContext $context): ?object
+    protected function findObject(mixed $data, DeserializationContext $context): ?object
     {
         if (null === $data['name'] || $data['name'] === '') {
             throw new ObjectConstructionException('Role name can not be empty');

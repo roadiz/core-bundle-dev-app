@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
+use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\EntityHandler\TranslationHandler;
 use RZ\Roadiz\CoreBundle\Event\Translation\TranslationCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Translation\TranslationDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Translation\TranslationUpdatedEvent;
-use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
-use RZ\Roadiz\CoreBundle\EntityHandler\TranslationHandler;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,11 +23,8 @@ class TranslationsController extends RozierApp
 {
     public const ITEM_PER_PAGE = 5;
 
-    private HandlerFactoryInterface $handlerFactory;
-
-    public function __construct(HandlerFactoryInterface $handlerFactory)
+    public function __construct(private readonly HandlerFactoryInterface $handlerFactory)
     {
-        $this->handlerFactory = $handlerFactory;
     }
 
     /**

@@ -18,8 +18,7 @@ use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
- * DO NOT EDIT
- * Generated custom node-source type by Roadiz.
+ * MenuLink node-source entity.
  */
 #[
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
@@ -78,7 +77,7 @@ class NSMenuLink extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
      * (Virtual field, this var is a buffer)
      *
      * Référence au nœud (Page ou Bloc de page).
-     * Default values: Page, ContentBlock, MediaBlock, BigTextBlock, TechnologyBlock, ColumnGroupBlock, LogoBlock, OpportunitiesFeedBlock, DetailedContentBlock, CrossSiteBlock
+     * Default values: Page, Article, ArticleContainer, Offer
      * @var \RZ\Roadiz\CoreBundle\Entity\NodesSources[]|null
      */
     #[
@@ -103,16 +102,12 @@ class NSMenuLink extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     public function getLinkInternalReferenceSources(): array
     {
         if (null === $this->linkInternalReferenceSources) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->linkInternalReferenceSources = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\NodesSources::class)
-                    ->findByNodesSourcesAndFieldAndTranslation(
+                    ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("link_internal_reference")
+                        'link_internal_reference'
                     );
             } else {
                 $this->linkInternalReferenceSources = [];
@@ -130,6 +125,70 @@ class NSMenuLink extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     {
         $this->linkInternalReferenceSources = $linkInternalReferenceSources;
 
+        return $this;
+    }
+
+
+    /**
+     * Image.
+     *
+     * (Virtual field, this var is a buffer)
+     */
+    #[
+        Serializer\Exclude,
+        SymfonySerializer\SerializedName(serializedName: "image"),
+        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default", "nodes_sources_documents"]),
+        \ApiPlatform\Metadata\ApiProperty(description: "Image"),
+        SymfonySerializer\MaxDepth(2)
+    ]
+    private ?array $image = null;
+
+    /**
+     * @return \RZ\Roadiz\CoreBundle\Entity\Document[] Documents array
+     */
+    #[
+        Serializer\Groups(["nodes_sources", "nodes_sources_default", "nodes_sources_documents"]),
+        Serializer\MaxDepth(2),
+        Serializer\VirtualProperty,
+        Serializer\SerializedName("image"),
+        Serializer\Type("array<RZ\Roadiz\CoreBundle\Entity\Document>")
+    ]
+    public function getImage(): array
+    {
+        if (null === $this->image) {
+            if (null !== $this->objectManager) {
+                $this->image = $this->objectManager
+                    ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
+                    ->findByNodeSourceAndFieldName(
+                        $this,
+                        'image'
+                    );
+            } else {
+                $this->image = [];
+            }
+        }
+        return $this->image;
+    }
+
+    /**
+     * @param \RZ\Roadiz\CoreBundle\Entity\Document $document
+     *
+     * @return $this
+     */
+    public function addImage(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
+    {
+        if (null !== $this->objectManager) {
+            $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
+                $this,
+                $document
+            );
+            $nodeSourceDocument->setFieldName('image');
+            if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+                $this->objectManager->persist($nodeSourceDocument);
+                $this->addDocumentsByFields($nodeSourceDocument);
+                $this->image = null;
+            }
+        }
         return $this;
     }
 

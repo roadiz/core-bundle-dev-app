@@ -2,7 +2,6 @@
     {
         "name": "force_locale",
         "visible": true,
-        "encrypted": false,
         "description": "Force displaying translation locale in every node’ paths. This should be *ON* if you redirect users based on their language on homepage.",
         "setting_group": {
             "name": "Development",
@@ -15,7 +14,6 @@
         "name": "force_locale_with_urlaliases",
         "description": "force_locale_with_urlaliases.help",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Development",
             "in_menu": true
@@ -25,7 +23,6 @@
     {
         "name": "leaflet_map_tile_url",
         "value": "https:\/\/{s}.tile.osm.org\/{z}\/{x}\/{y}.png",
-        "encrypted": false,
         "description": "Default maps tiles layout when using *Leaflet*.",
         "visible": true,
         "setting_group": {
@@ -38,7 +35,6 @@
     {
         "name": "maps_default_location",
         "value": "{\"lat\":45.769785, \"lng\":4.833967, \"zoom\":14}",
-        "encrypted": false,
         "description": "Default maps marker location.",
         "visible": true,
         "setting_group": {
@@ -52,7 +48,6 @@
         "name": "openid_button_label",
         "description": "openid_button_label.help",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "OpenId",
             "in_menu": true
@@ -62,7 +57,6 @@
     {
         "name": "support_email_address",
         "visible": true,
-        "encrypted": false,
         "description": "Support email address, used in every system emails footer",
         "setting_group": {
             "name": "Emailings",
@@ -74,7 +68,6 @@
     {
         "name": "email_sender",
         "visible": true,
-        "encrypted": false,
         "description": "Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**",
         "setting_group": {
             "name": "Emailings",
@@ -86,7 +79,6 @@
     {
         "name": "email_sender_name",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Emailings",
             "in_menu": true
@@ -97,7 +89,6 @@
     {
         "name": "universal_analytics_id",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "APIs",
             "in_menu": true
@@ -108,18 +99,6 @@
     {
         "name": "google_tag_manager_id",
         "visible": true,
-        "encrypted": false,
-        "setting_group": {
-            "name": "APIs",
-            "in_menu": true
-        },
-        "type": 0,
-        "default_values": ""
-    },
-    {
-        "name": "instagram_access_token",
-        "visible": true,
-        "encrypted": true,
         "setting_group": {
             "name": "APIs",
             "in_menu": true
@@ -130,7 +109,6 @@
     {
         "name": "seo_description",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Site information",
             "in_menu": true
@@ -141,7 +119,6 @@
     {
         "name": "site_name",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Site information",
             "in_menu": true
@@ -152,7 +129,6 @@
     {
         "name": "maintenance_mode",
         "visible": true,
-        "encrypted": false,
         "description": "Switch maintenance mode. Only login page will be available for public requests.",
         "setting_group": {
             "name": "Site information",
@@ -164,7 +140,6 @@
     {
         "name": "site_copyright",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Site information",
             "in_menu": true
@@ -174,7 +149,6 @@
     },
     {
         "name": "main_color",
-        "encrypted": false,
         "visible": true,
         "setting_group": {
             "name": "Site information",
@@ -186,7 +160,6 @@
     {
         "name": "admin_image",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Site information",
             "in_menu": true
@@ -197,7 +170,6 @@
     {
         "name": "login_image",
         "visible": true,
-        "encrypted": false,
         "description": "Replace random *Splashbase* login images with your own.",
         "setting_group": {
             "name": "Site information",
@@ -209,7 +181,6 @@
     {
         "name": "facebook_url",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Social networks",
             "in_menu": true
@@ -220,7 +191,6 @@
     {
         "name": "instagram_url",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Social networks",
             "in_menu": true
@@ -231,7 +201,6 @@
     {
         "name": "pinterest_url",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Social networks",
             "in_menu": true
@@ -242,7 +211,6 @@
     {
         "name": "twitter_url",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Social networks",
             "in_menu": true
@@ -253,7 +221,6 @@
     {
         "name": "linkedin_url",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Social networks",
             "in_menu": true
@@ -264,7 +231,6 @@
     {
         "name": "youtube_url",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Social networks",
             "in_menu": true
@@ -276,7 +242,6 @@
         "name": "custom_preview_scheme",
         "description": "custom_preview_scheme.help",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Site information",
             "in_menu": true
@@ -287,7 +252,6 @@
         "name": "custom_public_scheme",
         "description": "custom_public_scheme.help",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Site information",
             "in_menu": true
@@ -298,7 +262,6 @@
         "name": "dashboard_iframe",
         "description": "dashboard_iframe.help",
         "visible": true,
-        "encrypted": false,
         "setting_group": {
             "name": "Site information",
             "in_menu": true

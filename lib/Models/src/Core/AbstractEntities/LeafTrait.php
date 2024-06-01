@@ -10,6 +10,9 @@ trait LeafTrait
 {
     use PositionedTrait;
 
+    /**
+     * @return Collection<int, LeafInterface>
+     */
     public function getChildren(): Collection
     {
         return $this->children;

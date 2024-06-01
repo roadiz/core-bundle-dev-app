@@ -19,23 +19,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Command line utils for managing node-types from terminal.
  */
-class NodeTypesDeleteCommand extends Command
+final class NodeTypesDeleteCommand extends Command
 {
-    protected ManagerRegistry $managerRegistry;
-    protected HandlerFactory $handlerFactory;
-    protected SchemaUpdater $schemaUpdater;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param HandlerFactory $handlerFactory
-     * @param SchemaUpdater $schemaUpdater
-     */
-    public function __construct(ManagerRegistry $managerRegistry, HandlerFactory $handlerFactory, SchemaUpdater $schemaUpdater)
-    {
-        parent::__construct();
-        $this->managerRegistry = $managerRegistry;
-        $this->handlerFactory = $handlerFactory;
-        $this->schemaUpdater = $schemaUpdater;
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly HandlerFactory $handlerFactory,
+        private readonly SchemaUpdater $schemaUpdater,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function configure(): void

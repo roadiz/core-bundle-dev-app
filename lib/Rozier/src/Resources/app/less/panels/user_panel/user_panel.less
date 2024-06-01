@@ -24,6 +24,10 @@
         transition: font-size ease 1s;
     }
 
+    h1, h2, h3, h4, h5, h6 {
+        padding: 0 10px;
+    }
+
     &-container{
         padding-bottom:0;
 
@@ -34,16 +38,11 @@
 
     .uk-icon-button {
         text-shadow: 0 1px 0 rgba(0,0,0,.8);
-        font-size: 16px;
-        line-height: 34px;
+        font-size: 12px;
+        width: 30px;
+        height: 30px;
+        line-height: 29px;
         opacity: 0.3;
-
-        @media (min-width: @screen-sm-min) and (max-width: @screen-md-max) {
-            font-size: 12px;
-            width: 30px;
-            height: 30px;
-            line-height: 29px;
-        }
 
         &:hover {
             opacity: 0.8;
@@ -109,8 +108,6 @@
     }
 
     @media screen and (max-width: @screen-lg-max) {
-        width:90px;
-
         #cms-version {
             a {
                 display: block;
@@ -125,12 +122,12 @@
 }
 
 .user-actions {
-    padding: 15px 0px;
+    padding: 15px 10px;
 
     @media (max-width: @screen-xs-max) {
         display: block;
-        position:fixed;
-        top:50px;
+        position: fixed;
+        top: 50px;
         right:0;
         bottom:0;
         width:80%;
@@ -154,35 +151,36 @@
     .box-sizing();
     padding: 0;
 
-    &:before {
-        content:"";
-        display: inline-block;
-        vertical-align: middle;
-        height: 100%;
-    }
-
     a {
+        position: relative;
         font-size: 55px;
         color: #333333;
-        display: inline-block;
+        display: block;
         text-decoration: none;
-        opacity: 0.95;
-        transition: opacity ease 0.5s;
-        padding-left: 0px;
-        width: 99%; // on Firefox, prevent line-return
-        vertical-align: middle;
+        padding: 0;
+        height: 100%;
+        width: 100%;
 
         img, svg, object {
             display: block;
-            max-width: 95%;
-            height: auto;
-            width: auto;
-            max-height: 110px;
+            height: 100%;
+            width: 100%;
+            object-fit: contain;
+            object-position: center;
             margin: 0 auto;
+            padding: 10px;
         }
 
         &:hover {
             opacity: 1;
+        }
+
+        // Center vertically Default icon when no-image
+        &.uk-icon-rz-roadiz-icon:before {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
         }
     }
 }
@@ -201,14 +199,14 @@
     }
 
     .user-actions {
-        border-top: 1px solid var(--user-panel-border-color);
-
         @media (min-width: @screen-sm-min) {
+            margin: 20px 0 0 0;
+            border-top: 1px solid var(--user-panel-border-color);
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 5px;
+            gap: 10px;
         }
     }
 
@@ -218,7 +216,7 @@
 }
 
 #user-picture {
-    display: block;
+    display: flex;
     width: @user-picture-size;
     height: @user-picture-size;
     border-radius: 50%;
@@ -241,17 +239,12 @@
             padding: 0px;
         }
     }
-    &:hover  {
-        border: 3px solid #333;
+    .uk-icon {
+        color: rgba(255, 255, 255, 0.5);
     }
-    @media (max-width: @screen-lg-max) {
-        width:56px;
-        height:56px;
-
-        img{
-            width:56px;
-            height:56px;
-        }
+    &:hover  {
+        text-decoration: none;
+        border: 3px solid #333;
     }
 }
 #cms-version {

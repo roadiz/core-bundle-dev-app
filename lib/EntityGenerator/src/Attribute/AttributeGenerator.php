@@ -14,7 +14,7 @@ class AttributeGenerator
 
     /**
      * @param string $className
-     * @param array<string|int, string|int|array> $parameters
+     * @param array<string|int, string|int|array|null> $parameters
      */
     public function __construct(string $className, array $parameters = [])
     {

@@ -18,8 +18,7 @@ use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 
 /**
- * DO NOT EDIT
- * Generated custom node-source type by Roadiz.
+ * Mock node-source entity.
  */
 #[
     Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
@@ -649,16 +648,12 @@ class NSMock extends \mock\Entity\NodesSources
     public function getBar(): array
     {
         if (null === $this->bar) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->bar = $this->objectManager
                     ->getRepository(\mock\Entity\Document::class)
-                    ->findByNodeSourceAndField(
+                    ->findByNodeSourceAndFieldName(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("bar")
+                        'bar'
                     );
             } else {
                 $this->bar = [];
@@ -674,23 +669,16 @@ class NSMock extends \mock\Entity\NodesSources
      */
     public function addBar(\mock\Entity\Document $document): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("bar");
-            if (null !== $field) {
-                $nodeSourceDocument = new \mock\Entity\NodesSourcesDocument(
-                    $this,
-                    $document,
-                    $field
-                );
-                if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
-                    $this->objectManager->persist($nodeSourceDocument);
-                    $this->addDocumentsByFields($nodeSourceDocument);
-                    $this->bar = null;
-                }
+        if (null !== $this->objectManager) {
+            $nodeSourceDocument = new \mock\Entity\NodesSourcesDocument(
+                $this,
+                $document
+            );
+            $nodeSourceDocument->setFieldName('bar');
+            if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+                $this->objectManager->persist($nodeSourceDocument);
+                $this->addDocumentsByFields($nodeSourceDocument);
+                $this->bar = null;
             }
         }
         return $this;
@@ -723,16 +711,12 @@ class NSMock extends \mock\Entity\NodesSources
     public function getTheForms(): array
     {
         if (null === $this->theForms) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->theForms = $this->objectManager
                     ->getRepository(\mock\Entity\CustomForm::class)
-                    ->findByNodeAndField(
+                    ->findByNodeAndFieldName(
                         $this->getNode(),
-                        $this->getNode()->getNodeType()->getFieldByName("the_forms")
+                        'the_forms'
                     );
             } else {
                 $this->theForms = [];
@@ -748,22 +732,15 @@ class NSMock extends \mock\Entity\NodesSources
      */
     public function addTheForms(\mock\Entity\CustomForm $customForm): static
     {
-        if (
-            null !== $this->objectManager &&
-            null !== $this->getNode() &&
-            null !== $this->getNode()->getNodeType()
-        ) {
-            $field = $this->getNode()->getNodeType()->getFieldByName("the_forms");
-            if (null !== $field) {
-                $nodeCustomForm = new \mock\Entity\NodesSourcesCustomForm(
-                    $this->getNode(),
-                    $customForm,
-                    $field
-                );
-                $this->objectManager->persist($nodeCustomForm);
-                $this->getNode()->addCustomForm($nodeCustomForm);
-                $this->theForms = null;
-            }
+        if (null !== $this->objectManager) {
+            $nodeCustomForm = new \mock\Entity\NodesSourcesCustomForm(
+                $this->getNode(),
+                $customForm
+            );
+            $nodeCustomForm->setFieldName('the_forms');
+            $this->objectManager->persist($nodeCustomForm);
+            $this->getNode()->addCustomForm($nodeCustomForm);
+            $this->theForms = null;
         }
         return $this;
     }
@@ -799,16 +776,12 @@ class NSMock extends \mock\Entity\NodesSources
     public function getFooBarSources(): array
     {
         if (null === $this->fooBarSources) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->fooBarSources = $this->objectManager
                     ->getRepository(\mock\Entity\NodesSources::class)
-                    ->findByNodesSourcesAndFieldAndTranslation(
+                    ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("foo_bar")
+                        'foo_bar'
                     );
             } else {
                 $this->fooBarSources = [];
@@ -854,16 +827,12 @@ class NSMock extends \mock\Entity\NodesSources
     public function getFooBarHiddenSources(): array
     {
         if (null === $this->fooBarHiddenSources) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->fooBarHiddenSources = $this->objectManager
                     ->getRepository(\mock\Entity\NodesSources::class)
-                    ->findByNodesSourcesAndFieldAndTranslation(
+                    ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("foo_bar_hidden")
+                        'foo_bar_hidden'
                     );
             } else {
                 $this->fooBarHiddenSources = [];
@@ -915,16 +884,12 @@ class NSMock extends \mock\Entity\NodesSources
     public function getFooBarTypedSources(): array
     {
         if (null === $this->fooBarTypedSources) {
-            if (
-                null !== $this->objectManager &&
-                null !== $this->getNode() &&
-                null !== $this->getNode()->getNodeType()
-            ) {
+            if (null !== $this->objectManager) {
                 $this->fooBarTypedSources = $this->objectManager
                     ->getRepository(\tests\mocks\GeneratedNodesSources\NSMockTwo::class)
-                    ->findByNodesSourcesAndFieldAndTranslation(
+                    ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        $this->getNode()->getNodeType()->getFieldByName("foo_bar_typed")
+                        'foo_bar_typed'
                     );
             } else {
                 $this->fooBarTypedSources = [];

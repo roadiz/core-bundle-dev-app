@@ -89,14 +89,14 @@ RZ\Roadiz\CoreBundle\Entity\User:
             method: 'GET'
             security: "is_granted('ROLE_ACCESS_USERS') or object == user"
             normalizationContext:
-                groups: ['user', 'user_security']
+                groups: ['user', 'user_personal', 'user_security']
                 enable_max_depth: true
 
         ApiPlatform\Metadata\GetCollection:
             method: 'GET'
             security: "is_granted('ROLE_ACCESS_USERS')"
             normalizationContext:
-                groups: [ 'user' ]
+                groups: [ 'user', 'user_personal' ]
                 enable_max_depth: true
 
         # Current user information operation MUST be declared AFTER ApiPlatform\Metadata\Get
@@ -106,9 +106,11 @@ RZ\Roadiz\CoreBundle\Entity\User:
             class: ApiPlatform\Metadata\Get
             # Path must be different from item operation to avoid conflict
             uriTemplate: '/me'
-            itemUriTemplate: /users/{id}
             provider: RZ\Roadiz\UserBundle\State\UserTokenProvider
             output: RZ\Roadiz\UserBundle\Api\Dto\UserOutput
+            normalizationContext:
+                groups: ['user', 'user_personal', 'user_security']
+                enable_max_depth: true
             openapiContext:
                 summary: Get current user (JWT) information
                 description: |

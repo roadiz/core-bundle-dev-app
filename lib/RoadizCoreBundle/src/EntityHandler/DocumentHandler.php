@@ -21,15 +21,13 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 /**
  * Handle operations with documents entities.
  */
-class DocumentHandler extends AbstractHandler
+final class DocumentHandler extends AbstractHandler
 {
-    protected ?DocumentInterface $document = null;
-    private FilesystemOperator $documentStorage;
+    private ?DocumentInterface $document = null;
 
-    public function __construct(ObjectManager $objectManager, FilesystemOperator $documentStorage)
+    public function __construct(ObjectManager $objectManager, private readonly FilesystemOperator $documentStorage)
     {
         parent::__construct($objectManager);
-        $this->documentStorage = $documentStorage;
     }
 
     /**
@@ -95,9 +93,9 @@ class DocumentHandler extends AbstractHandler
 
     /**
      * @param DocumentInterface $document
-     * @return DocumentHandler
+     * @return $this
      */
-    public function setDocument(DocumentInterface $document): DocumentHandler
+    public function setDocument(DocumentInterface $document): self
     {
         $this->document = $document;
         return $this;

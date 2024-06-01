@@ -106,6 +106,8 @@ roadiz_rozier:
     open_id:
         # Verify User info in JWT at each login
         verify_user_info: false
+        # Force generating redirect uri with https scheme. (required by some OpenID providers)
+        force_ssl_on_redirect_uri: true
         # Standard OpenID autodiscovery URL, required to enable OpenId login in Roadiz CMS.
         discovery_url: '%env(string:OPEN_ID_DISCOVERY_URL)%'
         # For public identity providers (such as Google), restrict users emails by their domain.
