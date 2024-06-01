@@ -106,7 +106,7 @@ services:
         # Need to pass all vars to docker env for Crontab and supervisor scripts
         env_file: "./.env.local"
         build:
-            context: ./docker/php82-fpm-alpine
+            context: ./docker/php-fpm-alpine
             args:
                 USER_UID: ${USER_UID}
         depends_on:
@@ -193,7 +193,7 @@ networks:
         ipam:
             driver: default
             config:
-                -   subnet: ${DEFAULT_GATEWAY}/16
+                -   subnet: ${DEFAULT_GATEWAY}/24
 
 volumes:
     solr_data:

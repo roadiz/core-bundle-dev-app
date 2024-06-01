@@ -1,4 +1,4 @@
-FROM roadiz/php82-fpm-alpine
+FROM roadiz/php83-fpm-alpine
 MAINTAINER Ambroise Maupate <ambroise@rezo-zero.com>
 
 ARG USER_UID=1000
