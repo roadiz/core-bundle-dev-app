@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\FontBundle\Doctrine\EventSubscriber;
 
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Event\PreRemoveEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
@@ -16,36 +20,22 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * Handle file management on Fonts lifecycle events.
  */
-final class FontLifeCycleSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::prePersist)]
+#[AsDoctrineListener(event: Events::preUpdate)]
+#[AsDoctrineListener(event: Events::preRemove)]
+#[AsDoctrineListener(event: Events::postPersist)]
+#[AsDoctrineListener(event: Events::postUpdate)]
+final class FontLifeCycleSubscriber
 {
     private static array $formats = ['svg', 'otf', 'eot', 'woff', 'woff2'];
-    private LoggerInterface $logger;
-    private FilesystemOperator $fontStorage;
 
-    public function __construct(FilesystemOperator $fontStorage, LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-        $this->fontStorage = $fontStorage;
+    public function __construct(
+        private readonly FilesystemOperator $fontStorage,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::prePersist,
-            Events::preUpdate,
-            Events::preRemove,
-            Events::postPersist,
-            Events::postUpdate,
-        ];
-    }
-
-    /**
-     * @param LifecycleEventArgs $args
-     */
-    public function prePersist(LifecycleEventArgs $args): void
+    public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
         // perhaps you only want to act on some "Font" entity
@@ -54,10 +44,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
         }
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     */
-    public function preUpdate(LifecycleEventArgs $args): void
+    public function preUpdate(PreUpdateEventArgs $args): void
     {
         $entity = $args->getObject();
         // perhaps you only want to act on some "Font" entity
@@ -66,11 +53,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
         }
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     * @throws FilesystemException
-     */
-    public function postPersist(LifecycleEventArgs $args): void
+    public function postPersist(PostPersistEventArgs $args): void
     {
         $entity = $args->getObject();
         // perhaps you only want to act on some "Font" entity
@@ -79,11 +62,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
         }
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     * @throws FilesystemException
-     */
-    public function postUpdate(LifecycleEventArgs $args): void
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
         $entity = $args->getObject();
         // perhaps you only want to act on some "Font" entity
@@ -92,7 +71,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
         }
     }
 
-    public function preRemove(LifecycleEventArgs $args): void
+    public function preRemove(PreRemoveEventArgs $args): void
     {
         $entity = $args->getObject();
         // perhaps you only want to act on some "Product" entity

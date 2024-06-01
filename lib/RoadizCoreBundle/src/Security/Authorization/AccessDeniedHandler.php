@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Security\Authorization;
 
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,29 +17,14 @@ use Symfony\Component\Security\Http\Authorization\AccessDeniedHandlerInterface;
  * This is used by the ExceptionListener to translate an AccessDeniedException
  * to a Response object.
  */
-class AccessDeniedHandler implements AccessDeniedHandlerInterface
+final class AccessDeniedHandler implements AccessDeniedHandlerInterface
 {
-    protected LoggerInterface $logger;
-    protected UrlGeneratorInterface $urlGenerator;
-    protected string $redirectRoute;
-    protected array $redirectParameters;
-
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param LoggerInterface|null $logger
-     * @param string $redirectRoute Route to redirect if access denied is thrown
-     * @param array $redirectParameters
-     */
     public function __construct(
-        UrlGeneratorInterface $urlGenerator,
-        ?LoggerInterface $logger = null,
-        string $redirectRoute = '',
-        array $redirectParameters = []
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ?LoggerInterface $logger,
+        private readonly string $redirectRoute = '',
+        private readonly array $redirectParameters = []
     ) {
-        $this->logger = $logger ?? new NullLogger();
-        $this->urlGenerator = $urlGenerator;
-        $this->redirectRoute = $redirectRoute;
-        $this->redirectParameters = $redirectParameters;
     }
 
     /**

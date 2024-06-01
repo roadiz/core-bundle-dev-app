@@ -30,7 +30,6 @@ final class UpdateFontSubscriber implements EventSubscriberInterface
     {
         return [
             PreUpdatedFontEvent::class => 'onPreUpdatedFont',
-            '\RZ\Roadiz\Core\Events\Font\PreUpdatedFontEvent' => 'onPreUpdatedFont',
         ];
     }
 

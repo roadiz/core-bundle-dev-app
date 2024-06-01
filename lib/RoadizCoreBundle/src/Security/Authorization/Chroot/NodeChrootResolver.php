@@ -22,12 +22,12 @@ interface NodeChrootResolver
      *
      * @return bool
      */
-    public function supports($user): bool;
+    public function supports(mixed $user): bool;
 
     /**
      * @param mixed $user
      *
      * @return Node|null
      */
-    public function getChroot($user): ?Node;
+    public function getChroot(mixed $user): ?Node;
 }

@@ -4,32 +4,16 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Doctrine\EventSubscriber;
 
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\Events;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 use RZ\Roadiz\CoreBundle\EntityHandler\CustomFormFieldHandler;
 
-final class CustomFormFieldLifeCycleSubscriber implements EventSubscriber
+#[AsDoctrineListener('prePersist')]
+final class CustomFormFieldLifeCycleSubscriber
 {
-    private CustomFormFieldHandler $customFormFieldHandler;
-
-    /**
-     * @param CustomFormFieldHandler $customFormFieldHandler
-     */
-    public function __construct(CustomFormFieldHandler $customFormFieldHandler)
+    public function __construct(private readonly CustomFormFieldHandler $customFormFieldHandler)
     {
-        $this->customFormFieldHandler = $customFormFieldHandler;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::prePersist,
-        ];
     }
 
     /**

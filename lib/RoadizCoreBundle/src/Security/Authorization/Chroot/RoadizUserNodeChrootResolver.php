@@ -12,9 +12,9 @@ use RZ\Roadiz\CoreBundle\Entity\User;
  *
  * @package RZ\Roadiz\CoreBundle\Security\Authorization\Chroot
  */
-class RoadizUserNodeChrootResolver implements NodeChrootResolver
+final class RoadizUserNodeChrootResolver implements NodeChrootResolver
 {
-    public function supports($user): bool
+    public function supports(mixed $user): bool
     {
         return $user instanceof User;
     }
@@ -24,7 +24,7 @@ class RoadizUserNodeChrootResolver implements NodeChrootResolver
      *
      * @return Node|null
      */
-    public function getChroot($user): ?Node
+    public function getChroot(mixed $user): ?Node
     {
         return $user->getChroot();
     }

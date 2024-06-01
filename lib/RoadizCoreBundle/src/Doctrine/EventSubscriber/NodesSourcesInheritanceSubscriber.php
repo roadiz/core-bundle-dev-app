@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Doctrine\EventSubscriber;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
+use Doctrine\ORM\Event\PostLoadEventArgs;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
@@ -15,43 +15,29 @@ use RZ\Roadiz\CoreBundle\DependencyInjection\Configuration;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 
-final class NodesSourcesInheritanceSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::postLoad)]
+#[AsDoctrineListener(event: Events::loadClassMetadata)]
+final class NodesSourcesInheritanceSubscriber
 {
-    private NodeTypes $nodeTypes;
-    private string $inheritanceType;
-
     /**
      * @param NodeTypes $nodeTypes
      * @param string $inheritanceType
      */
-    public function __construct(NodeTypes $nodeTypes, string $inheritanceType)
-    {
-        $this->nodeTypes = $nodeTypes;
-        $this->inheritanceType = $inheritanceType;
+    public function __construct(
+        private NodeTypes $nodeTypes,
+        private string $inheritanceType
+    ) {
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::loadClassMetadata,
-            Events::postLoad
-        ];
-    }
-
-    public function postLoad(LifecycleEventArgs $event): void
+    public function postLoad(PostLoadEventArgs $event): void
     {
         $object = $event->getObject();
-        if ($object instanceof NodesSources) {
-            $object->injectObjectManager($event->getObjectManager());
+        if (!$object instanceof NodesSources) {
+            return;
         }
+        $object->injectObjectManager($event->getObjectManager());
     }
 
-    /**
-     * @param LoadClassMetadataEventArgs $eventArgs
-     */
     public function loadClassMetadata(LoadClassMetadataEventArgs $eventArgs): void
     {
         // the $metadata is all the mapping info for this class

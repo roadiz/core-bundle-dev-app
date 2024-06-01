@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Doctrine\EventSubscriber;
 
-use Doctrine\Common\EventSubscriber;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
+use Doctrine\Persistence\Event\LifecycleEventArgs;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Event\User\UserCreatedEvent;
@@ -22,7 +22,12 @@ use RZ\Roadiz\Random\TokenGenerator;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-final class UserLifeCycleSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::preUpdate)]
+#[AsDoctrineListener(event: Events::prePersist)]
+#[AsDoctrineListener(event: Events::postPersist)]
+#[AsDoctrineListener(event: Events::postUpdate)]
+#[AsDoctrineListener(event: Events::postRemove)]
+final class UserLifeCycleSubscriber
 {
     public function __construct(
         private readonly UserViewer $userViewer,
@@ -34,27 +39,13 @@ final class UserLifeCycleSubscriber implements EventSubscriber
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::preUpdate,
-            Events::prePersist,
-            Events::postPersist,
-            Events::postUpdate,
-            Events::postRemove,
-        ];
-    }
-
-    /**
      * @param PreUpdateEventArgs $event
      * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function preUpdate(PreUpdateEventArgs $event): void
     {
-        $user = $event->getEntity();
+        $user = $event->getObject();
         if ($user instanceof User) {
             if (
                 $event->hasChangedField('enabled') &&

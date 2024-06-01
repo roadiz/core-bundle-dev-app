@@ -13,26 +13,15 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class UserViewer
+final class UserViewer
 {
-    protected Settings $settingsBag;
-    protected UrlGeneratorInterface $urlGenerator;
-    protected TranslatorInterface $translator;
-    protected EmailManager $emailManager;
-    protected LoggerInterface $logger;
-
     public function __construct(
-        Settings $settingsBag,
-        UrlGeneratorInterface $urlGenerator,
-        TranslatorInterface $translator,
-        EmailManager $emailManager,
-        LoggerInterface $logger
+        private readonly Settings $settingsBag,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly TranslatorInterface $translator,
+        private readonly EmailManager $emailManager,
+        private readonly LoggerInterface $logger
     ) {
-        $this->settingsBag = $settingsBag;
-        $this->translator = $translator;
-        $this->emailManager = $emailManager;
-        $this->logger = $logger;
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**
