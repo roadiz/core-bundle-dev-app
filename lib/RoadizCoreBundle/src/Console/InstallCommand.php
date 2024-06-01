@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Console;
 
-use Doctrine\Common\Cache\CacheProvider;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Importer\GroupsImporter;
@@ -16,33 +14,41 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Yaml\Yaml;
 
 final class InstallCommand extends Command
 {
+    use RunningCommandsTrait;
+
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly RolesImporter $rolesImporter,
         private readonly GroupsImporter $groupsImporter,
         private readonly SettingsImporter $settingsImporter,
+        #[Autowire('%kernel.project_dir%')]
+        private readonly string $projectDir,
         ?string $name = null
     ) {
         parent::__construct($name);
+    }
+
+    public function getProjectDir(): string
+    {
+        return $this->projectDir;
     }
 
     protected function configure(): void
     {
         $this
             ->setName('install')
-            ->setDescription('Install Roadiz roles, settings, translations and default backend theme');
+            ->setDescription('Install Roadiz database, roles, settings and a default translation.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
-        $io->note('Before installing Roadiz, did you create database schema? ' . PHP_EOL .
-            'If not execute: bin/console doctrine:migrations:migrate');
         $question = new ConfirmationQuestion(
             '<question>Are you sure to perform installation?</question>',
             false
@@ -52,6 +58,14 @@ final class InstallCommand extends Command
             $input->getOption('no-interaction') ||
             $io->askQuestion($question)
         ) {
+            $this->runCommand(
+                'doctrine:migrations:migrate',
+                '',
+                null,
+                false,
+                true
+            ) === 0 ? $io->success('doctrine:migrations:migrate') : $io->error('doctrine:migrations:migrate');
+
             $fixturesRoot = dirname(__DIR__) . '/../config';
             $fixtureFile = file_get_contents($fixturesRoot . "/fixtures.yaml");
 
@@ -117,13 +131,7 @@ final class InstallCommand extends Command
             }
             $manager->flush();
 
-            if ($manager instanceof EntityManagerInterface) {
-                // Clear result cache
-                $cacheDriver = $manager->getConfiguration()->getResultCacheImpl();
-                if ($cacheDriver instanceof CacheProvider) {
-                    $cacheDriver->deleteAll();
-                }
-            }
+            $this->clearCaches($io);
         }
         return 0;
     }

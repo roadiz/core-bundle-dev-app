@@ -11,28 +11,22 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Command line utils for managing themes from terminal.
  */
-class ThemesListCommand extends Command
+final class ThemesListCommand extends Command
 {
-    protected Filesystem $filesystem;
-    protected ThemeResolverInterface $themeResolver;
-
-    public function __construct(ThemeResolverInterface $themeResolver)
-    {
+    public function __construct(
+        private readonly ThemeResolverInterface $themeResolver
+    ) {
         parent::__construct();
-        $this->themeResolver = $themeResolver;
-        $this->filesystem = new Filesystem();
     }
-
 
     protected function configure(): void
     {
         $this->setName('themes:list')
-            ->setDescription('Installed themes')
+            ->setDescription('List installed themes')
             ->addArgument(
                 'classname',
                 InputArgument::OPTIONAL,

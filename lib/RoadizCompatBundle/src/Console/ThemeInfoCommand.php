@@ -4,25 +4,23 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CompatBundle\Console;
 
-use RZ\Roadiz\CompatBundle\Theme\ThemeGenerator;
 use RZ\Roadiz\CompatBundle\Theme\ThemeInfo;
+use RZ\Roadiz\CoreBundle\Exception\ThemeClassNotValidException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-class ThemeInfoCommand extends Command
+final class ThemeInfoCommand extends Command
 {
-    protected string $projectDir;
-    protected ThemeGenerator $themeGenerator;
-
-    public function __construct(string $projectDir, ThemeGenerator $themeGenerator)
-    {
+    public function __construct(
+        #[Autowire('%kernel.project_dir%')]
+        private readonly string $projectDir,
+    ) {
         parent::__construct();
-        $this->projectDir = $projectDir;
-        $this->themeGenerator = $themeGenerator;
     }
 
     protected function configure(): void
@@ -38,9 +36,7 @@ class ThemeInfoCommand extends Command
     }
 
     /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
+     * @throws ThemeClassNotValidException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {

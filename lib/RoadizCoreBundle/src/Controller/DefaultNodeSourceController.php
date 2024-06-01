@@ -8,7 +8,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-class DefaultNodeSourceController extends AbstractController
+final class DefaultNodeSourceController extends AbstractController
 {
     public function indexAction(NodesSources $nodeSource): Response
     {

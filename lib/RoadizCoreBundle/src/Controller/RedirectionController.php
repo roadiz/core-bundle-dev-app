@@ -14,11 +14,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class RedirectionController
 {
-    private UrlGeneratorInterface $urlGenerator;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
-        $this->urlGenerator = $urlGenerator;
     }
 
     /**

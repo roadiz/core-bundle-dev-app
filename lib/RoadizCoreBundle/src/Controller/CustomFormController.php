@@ -47,7 +47,7 @@ final class CustomFormController extends AbstractController
     ) {
     }
 
-    protected function validateCustomForm(?CustomForm $customForm): void
+    private function validateCustomForm(?CustomForm $customForm): void
     {
         if (null === $customForm) {
             throw new NotFoundHttpException('Custom form not found');
@@ -144,7 +144,7 @@ final class CustomFormController extends AbstractController
      */
     public function addAction(Request $request, int $customFormId): Response
     {
-        /** @var CustomForm $customForm */
+        /** @var CustomForm|null $customForm */
         $customForm = $this->registry->getRepository(CustomForm::class)->find($customFormId);
         $this->validateCustomForm($customForm);
 
@@ -195,13 +195,13 @@ final class CustomFormController extends AbstractController
      * @param Request $request
      * @param CustomForm $customFormsEntity
      * @param Response $response
-     * @param boolean $forceExpanded
+     * @param bool $forceExpanded
      * @param string|null $emailSender
      * @param bool $prefix
      * @return array|Response
      * @throws FilesystemException
      */
-    public function prepareAndHandleCustomFormAssignation(
+    private function prepareAndHandleCustomFormAssignation(
         Request $request,
         CustomForm $customFormsEntity,
         Response $response,

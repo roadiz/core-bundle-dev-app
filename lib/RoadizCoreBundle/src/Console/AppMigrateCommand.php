@@ -11,16 +11,24 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Process\Process;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final class AppMigrateCommand extends Command
 {
+    use RunningCommandsTrait;
+
     public function __construct(
         private readonly SchemaUpdater $schemaUpdater,
+        #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
         ?string $name = null
     ) {
         parent::__construct($name);
+    }
+
+    public function getProjectDir(): string
+    {
+        return $this->projectDir;
     }
 
     protected function configure(): void
@@ -77,50 +85,8 @@ final class AppMigrateCommand extends Command
             $this->schemaUpdater->updateSchema();
             $io->success('doctrine-migrations');
 
-            $this->runCommand(
-                'doctrine:cache:clear-metadata',
-                '',
-                null,
-                false,
-                true
-            ) === 0 ? $io->success('doctrine:cache:clear-metadata') : $io->error('doctrine:cache:clear-metadata');
-
-            $this->runCommand(
-                'cache:clear',
-                '',
-                null,
-                false,
-                true
-            ) === 0 ? $io->success('cache:clear') : $io->error('cache:clear');
-
-            $this->runCommand(
-                'cache:pool:clear',
-                'cache.global_clearer',
-                null,
-                false,
-                true
-            ) === 0 ? $io->success('cache:pool:clear') : $io->error('cache:pool:clear');
+            $this->clearCaches($io);
         }
         return 0;
-    }
-
-    protected function runCommand(
-        string $command,
-        string $args = '',
-        ?string $environment = null,
-        bool $interactive = true,
-        bool $quiet = false
-    ): int {
-        $args .= $interactive ? '' : ' --no-interaction ';
-        $args .= $quiet ? ' --quiet ' : ' -v ';
-        $args .= is_string($environment) ? (' --env ' . $environment) : '';
-
-        $process = Process::fromShellCommandline(
-            'php bin/console ' . $command  . ' ' . $args
-        );
-        $process->setWorkingDirectory($this->projectDir);
-        $process->setTty($interactive);
-        $process->run();
-        return $process->wait();
     }
 }
