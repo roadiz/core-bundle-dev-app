@@ -8,17 +8,15 @@ use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactoryInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\Message\SolrDeleteMessage;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-final class SolrDeleteMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class SolrDeleteMessageHandler
 {
-    private LoggerInterface $logger;
-    private IndexerFactoryInterface $indexerFactory;
-
-    public function __construct(IndexerFactoryInterface $indexerFactory, LoggerInterface $searchEngineLogger)
-    {
-        $this->logger = $searchEngineLogger;
-        $this->indexerFactory = $indexerFactory;
+    public function __construct(
+        private readonly IndexerFactoryInterface $indexerFactory,
+        private readonly LoggerInterface $searchEngineLogger
+    ) {
     }
 
     public function __invoke(SolrDeleteMessage $message): void
@@ -32,7 +30,7 @@ final class SolrDeleteMessageHandler implements MessageHandlerInterface
         } catch (SolrServerNotAvailableException $exception) {
             return;
         } catch (\LogicException $exception) {
-            $this->logger->error($exception->getMessage());
+            $this->searchEngineLogger->error($exception->getMessage());
         }
     }
 }

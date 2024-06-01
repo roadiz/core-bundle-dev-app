@@ -8,10 +8,11 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Message\HttpRequestMessage;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class HttpRequestMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class HttpRequestMessageHandler
 {
     public function __construct(
         private readonly LoggerInterface $logger

@@ -13,16 +13,13 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 
 final class DocumentRawMessageHandler extends AbstractLockingDocumentMessageHandler
 {
-    private DownscaleImageManager $downscaleImageManager;
-
     public function __construct(
-        DownscaleImageManager $downscaleImageManager,
+        private readonly DownscaleImageManager $downscaleImageManager,
         ManagerRegistry $managerRegistry,
-        LoggerInterface $logger,
+        LoggerInterface $messengerLogger,
         FilesystemOperator $documentsStorage
     ) {
-        parent::__construct($managerRegistry, $logger, $documentsStorage);
-        $this->downscaleImageManager = $downscaleImageManager;
+        parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
     }
 
     /**

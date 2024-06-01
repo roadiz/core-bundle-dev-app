@@ -14,12 +14,13 @@ use RZ\Roadiz\CoreBundle\Message\ApplyRealmNodeInheritanceMessage;
 use RZ\Roadiz\CoreBundle\Message\CleanRealmNodeInheritanceMessage;
 use RZ\Roadiz\CoreBundle\Message\SearchRealmNodeInheritanceMessage;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class SearchRealmNodeInheritanceMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class SearchRealmNodeInheritanceMessageHandler
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,

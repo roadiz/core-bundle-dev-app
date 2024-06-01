@@ -11,14 +11,15 @@ use RZ\Roadiz\CoreBundle\Message\GuzzleRequestMessage;
 use RZ\Roadiz\CoreBundle\Message\PurgeReverseProxyCacheMessage;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\NoHandlerForMessageException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class PurgeReverseProxyCacheMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class PurgeReverseProxyCacheMessageHandler
 {
     public function __construct(
         private readonly MessageBusInterface $bus,

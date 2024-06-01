@@ -12,12 +12,13 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeTypeHandler;
 use RZ\Roadiz\CoreBundle\Message\DeleteNodeTypeMessage;
 use RZ\Roadiz\CoreBundle\Message\UpdateDoctrineSchemaMessage;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class DeleteNodeTypeMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class DeleteNodeTypeMessageHandler
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,

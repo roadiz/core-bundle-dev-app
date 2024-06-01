@@ -14,21 +14,22 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Mailer\EmailManager;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Mime\Address;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-final class CustomFormAnswerNotifyMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class CustomFormAnswerNotifyMessageHandler
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
-        private EmailManager $emailManager,
-        private Settings $settingsBag,
-        private FilesystemOperator $documentsStorage,
-        private LoggerInterface $logger,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly EmailManager $emailManager,
+        private readonly Settings $settingsBag,
+        private readonly FilesystemOperator $documentsStorage,
+        private readonly LoggerInterface $logger,
     ) {
     }
 

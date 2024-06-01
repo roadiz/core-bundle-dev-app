@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Message\Handler;
 
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Realm;
 use RZ\Roadiz\CoreBundle\Entity\RealmNode;
-use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
 use RZ\Roadiz\CoreBundle\Message\CleanRealmNodeInheritanceMessage;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class CleanRealmNodeInheritanceMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class CleanRealmNodeInheritanceMessageHandler
 {
     public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
