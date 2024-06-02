@@ -8,44 +8,39 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use Doctrine\Persistence\ObjectManager;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Repository\EntityRepository;
 use RZ\Roadiz\CoreBundle\Repository\StatusAwareRepository;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 /**
  * A simple paginator class to filter entities with limit and search.
+ *
+ * @template T of PersistableInterface
  */
+#[Exclude]
 class Paginator
 {
-    protected int $itemsPerPage;
     protected ?int $itemCount = null;
-    /**
-     * @var class-string
-     */
-    protected string $entityName;
-    protected array $criteria;
     protected ?string $searchPattern = null;
-    protected ObjectManager $em;
     protected ?int $totalCount = null;
     protected bool $displayNotPublishedNodes;
     protected bool $displayAllNodesStatuses;
 
     /**
      * @param ObjectManager $em
-     * @param class-string $entityName
-     * @param int $itemPerPages
+     * @param class-string<T> $entityName
+     * @param int $itemsPerPage
      * @param array $criteria
      */
     public function __construct(
-        ObjectManager $em,
-        string $entityName,
-        int $itemPerPages = 10,
-        array $criteria = []
+        protected readonly ObjectManager $em,
+        protected readonly string $entityName,
+        protected int $itemsPerPage = 10,
+        protected readonly array $criteria = []
     ) {
-        $this->em = $em;
-        $this->entityName = $entityName;
-        $this->itemsPerPage = $itemPerPages;
-        $this->criteria = $criteria;
         $this->displayNotPublishedNodes = false;
         $this->displayAllNodesStatuses = false;
 
@@ -69,7 +64,7 @@ class Paginator
      * @param bool $displayNonPublishedNodes
      * @return Paginator
      */
-    public function setDisplayingNotPublishedNodes(bool $displayNonPublishedNodes)
+    public function setDisplayingNotPublishedNodes(bool $displayNonPublishedNodes): Paginator
     {
         $this->displayNotPublishedNodes = $displayNonPublishedNodes;
         return $this;
@@ -90,7 +85,7 @@ class Paginator
      * @param bool $displayAllNodesStatuses
      * @return $this
      */
-    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses)
+    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses): Paginator
     {
         $this->displayAllNodesStatuses = $displayAllNodesStatuses;
         return $this;
@@ -109,7 +104,7 @@ class Paginator
      *
      * @return $this
      */
-    public function setSearchPattern(?string $searchPattern)
+    public function setSearchPattern(?string $searchPattern): Paginator
     {
         $this->searchPattern = $searchPattern;
 
@@ -168,9 +163,9 @@ class Paginator
      * @param array $order
      * @param int $page
      *
-     * @return array|\Doctrine\ORM\Tools\Pagination\Paginator
+     * @return array<T>|DoctrinePaginator<T>
      */
-    public function findByAtPage(array $order = [], int $page = 1)
+    public function findByAtPage(array $order = [], int $page = 1): array|DoctrinePaginator
     {
         if (null !== $this->searchPattern) {
             return $this->searchByAtPage($order, $page);
@@ -191,12 +186,13 @@ class Paginator
      * @param array $order
      * @param int $page
      *
-     * @return array|\Doctrine\ORM\Tools\Pagination\Paginator
+     * @return array<T>|DoctrinePaginator<T>
      */
-    public function searchByAtPage(array $order = [], int $page = 1)
+    public function searchByAtPage(array $order = [], int $page = 1): array|DoctrinePaginator
     {
         $repository = $this->getRepository();
         if ($repository instanceof EntityRepository) {
+            // @phpstan-ignore-next-line
             return $repository->searchBy(
                 $this->searchPattern,
                 $this->criteria,
@@ -268,9 +264,9 @@ class Paginator
     }
 
     /**
-     * @return \Doctrine\ORM\EntityRepository|EntityRepository|StatusAwareRepository
+     * @return \Doctrine\ORM\EntityRepository<T>
      */
-    protected function getRepository()
+    protected function getRepository(): \Doctrine\ORM\EntityRepository
     {
         $repository = $this->em->getRepository($this->entityName);
         if ($repository instanceof StatusAwareRepository) {

@@ -10,46 +10,41 @@ use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\StatusAwareRepository;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Perform basic filtering and search over entity listings.
+ *
+ * @template T of PersistableInterface
  */
+#[Exclude]
 class EntityListManager extends AbstractEntityListManager
 {
     /**
-     * @var class-string<PersistableInterface>
+     * @var Paginator<T>|null
      */
-    protected string $entityName;
-    protected ObjectManager $entityManager;
     protected ?Paginator $paginator = null;
-    protected ?array $orderingArray = null;
-    protected ?array $filteringArray = null;
     protected ?array $assignation = null;
     protected ?TranslationInterface $translation = null;
 
     /**
      * @param Request|null  $request
      * @param ObjectManager $entityManager
-     * @param class-string<PersistableInterface> $entityName
-     * @param array $preFilters
-     * @param array $preOrdering
+     * @param class-string<T> $entityName
+     * @param array $filteringArray
+     * @param array $orderingArray
      */
     public function __construct(
         ?Request $request,
-        ObjectManager $entityManager,
-        string $entityName,
-        array $preFilters = [],
-        array $preOrdering = []
+        protected readonly ObjectManager $entityManager,
+        protected readonly string $entityName,
+        protected array $filteringArray = [],
+        protected array $orderingArray = []
     ) {
         parent::__construct($request);
-        $this->entityName = $entityName;
-        $this->entityManager = $entityManager;
-        $this->orderingArray = $preOrdering;
-        $this->filteringArray = $preFilters;
         $this->assignation = [];
     }
 
@@ -65,7 +60,7 @@ class EntityListManager extends AbstractEntityListManager
      * @param TranslationInterface|null $translation
      * @return $this
      */
-    public function setTranslation(TranslationInterface $translation = null)
+    public function setTranslation(TranslationInterface $translation = null): self
     {
         $this->translation = $translation;
 
@@ -77,8 +72,9 @@ class EntityListManager extends AbstractEntityListManager
      *
      * @param bool $disabled Disable pagination and filtering over GET params
      * @return void
+     * @throws \ReflectionException
      */
-    public function handle(bool $disabled = false)
+    public function handle(bool $disabled = false): void
     {
         // transform the key chroot in parent
         if (array_key_exists('chroot', $this->filteringArray)) {
@@ -142,14 +138,15 @@ class EntityListManager extends AbstractEntityListManager
     }
 
 
+    /**
+     * @throws \ReflectionException
+     */
     protected function createPaginator(): void
     {
-        if (
-            $this->entityName === Node::class ||
-            $this->entityName === 'RZ\Roadiz\CoreBundle\Entity\Node' ||
-            $this->entityName === '\RZ\Roadiz\CoreBundle\Entity\Node' ||
-            $this->entityName === "Node"
-        ) {
+        $reflectionClass = new \ReflectionClass($this->entityName);
+
+        if ($this->entityName === Node::class) {
+            // @phpstan-ignore-next-line
             $this->paginator = new NodePaginator(
                 $this->entityManager,
                 $this->entityName,
@@ -158,14 +155,13 @@ class EntityListManager extends AbstractEntityListManager
             );
             $this->paginator->setTranslation($this->translation);
         } elseif (
-            $this->entityName == NodesSources::class ||
-            $this->entityName == 'RZ\Roadiz\CoreBundle\Entity\NodesSources' ||
-            $this->entityName == '\RZ\Roadiz\CoreBundle\Entity\NodesSources' ||
-            $this->entityName == "NodesSources" ||
-            str_contains($this->entityName, NodeType::getGeneratedEntitiesNamespace())
+            $this->entityName === NodesSources::class ||
+            $reflectionClass->isSubclassOf(NodesSources::class)
         ) {
+            // @phpstan-ignore-next-line
             $this->paginator = new NodesSourcesPaginator(
                 $this->entityManager,
+                // @phpstan-ignore-next-line
                 $this->entityName,
                 $this->itemPerPage,
                 $this->filteringArray
@@ -216,7 +212,7 @@ class EntityListManager extends AbstractEntityListManager
     /**
      * Return filtered entities.
      *
-     * @return array|DoctrinePaginator
+     * @return array<T>|DoctrinePaginator<T>
      */
     public function getEntities(): array|DoctrinePaginator
     {

@@ -328,7 +328,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
      * @param int|null $offset
      * @param string $alias
      *
-     * @return array|Paginator
+     * @return array<TEntityClass>|Paginator<TEntityClass>
      * @psalm-return array<TEntityClass>|Paginator<TEntityClass>
      */
     public function searchBy(

@@ -33,6 +33,7 @@
         "ext-json": "*",
         "ext-openssl": "*",
         "ext-simplexml": "*",
+        "ext-mbstring": "*",
         "ext-zip": "*",
         "api-platform/core": "~3.2.14",
         "codercat/jwk-to-pem": "^1.0",

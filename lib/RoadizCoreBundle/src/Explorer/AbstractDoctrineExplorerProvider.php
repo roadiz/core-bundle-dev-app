@@ -54,6 +54,7 @@ abstract class AbstractDoctrineExplorerProvider extends AbstractExplorerProvider
         $this->configureOptions($resolver);
         $this->options = $resolver->resolve($options);
 
+        /** @var EntityListManager<PersistableInterface> $listManager */
         $listManager = new EntityListManager(
             $this->requestStack->getCurrentRequest(),
             $this->managerRegistry->getManager(),

@@ -19,8 +19,10 @@ abstract class AbstractWidget
 {
     protected ?TranslationInterface $defaultTranslation = null;
 
-    public function __construct(protected RequestStack $requestStack, protected ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        protected RequestStack $requestStack,
+        protected ManagerRegistry $managerRegistry
+    ) {
     }
 
     /**

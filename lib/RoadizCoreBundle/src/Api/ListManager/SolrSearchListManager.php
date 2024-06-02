@@ -11,25 +11,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 final class SolrSearchListManager extends AbstractEntityListManager
 {
-    protected SearchHandlerInterface $searchHandler;
     protected ?SearchResultsInterface $searchResults;
-    private array $criteria;
-    private bool $searchInTags;
     private ?string $query = null;
 
     public function __construct(
         ?Request $request,
-        SearchHandlerInterface $searchHandler,
-        array $criteria = [],
-        bool $searchInTags = true
+        private readonly SearchHandlerInterface $searchHandler,
+        private readonly array $criteria = [],
+        private readonly bool $searchInTags = true
     ) {
         parent::__construct($request);
-        $this->searchHandler = $searchHandler;
-        $this->criteria = $criteria;
-        $this->searchInTags = $searchInTags;
     }
 
-    public function handle(bool $disabled = false)
+    public function handle(bool $disabled = false): void
     {
         if ($this->request === null) {
             throw new \InvalidArgumentException('Cannot handle a NULL request.');

@@ -23,6 +23,7 @@
         "ext-iconv": "*",
         "ext-zip": "*",
         "ext-json": "*",
+        "ext-mbstring": "*",
         "api-platform/core": "~3.2.14",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.8.1",

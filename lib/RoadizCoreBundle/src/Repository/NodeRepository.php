@@ -250,35 +250,6 @@ final class NodeRepository extends StatusAwareRepository
     }
 
     /**
-     * Just like the findBy method but with a given Translation
-     *
-     * If no translation nor authorizationChecker is given, the vanilla `findBy`
-     * method will be called instead.
-     *
-     * @param array $criteria
-     * @param array|null $orderBy
-     * @param int|null $limit
-     * @param int|null $offset
-     * @param TranslationInterface|null $translation
-     * @return array|Paginator
-     */
-    public function findByWithTranslation(
-        array $criteria,
-        array $orderBy = null,
-        ?int $limit = null,
-        ?int $offset = null,
-        TranslationInterface $translation = null
-    ): array|Paginator {
-        return $this->findBy(
-            $criteria,
-            $orderBy,
-            $limit,
-            $offset,
-            $translation
-        );
-    }
-
-    /**
      * Just like the findBy method but with relational criteria.
      *
      * Reimplementing findBy features… with extra things:
@@ -308,7 +279,7 @@ final class NodeRepository extends StatusAwareRepository
      * @param int|null $limit
      * @param int|null $offset
      * @param TranslationInterface|null $translation
-     * @return array|Paginator
+     * @return array<Node>|Paginator<Node>
      */
     public function findBy(
         array $criteria,

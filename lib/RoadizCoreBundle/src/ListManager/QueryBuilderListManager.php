@@ -6,8 +6,10 @@ namespace RZ\Roadiz\CoreBundle\ListManager;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\Request;
 
+#[Exclude]
 class QueryBuilderListManager extends AbstractEntityListManager
 {
     protected QueryBuilder $queryBuilder;
@@ -59,7 +61,7 @@ class QueryBuilderListManager extends AbstractEntityListManager
         }
     }
 
-    public function handle(bool $disabled = false)
+    public function handle(bool $disabled = false): void
     {
         $this->handleRequestQuery($disabled);
     }

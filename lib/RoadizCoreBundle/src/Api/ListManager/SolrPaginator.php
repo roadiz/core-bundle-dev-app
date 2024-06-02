@@ -5,19 +5,13 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\ListManager;
 
 use ApiPlatform\State\Pagination\PaginatorInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
 {
     private bool $handled = false;
-    private SolrSearchListManager $listManager;
 
-    /**
-     * @param SolrSearchListManager $listManager
-     */
-    public function __construct(SolrSearchListManager $listManager)
+    public function __construct(private readonly SolrSearchListManager $listManager)
     {
-        $this->listManager = $listManager;
     }
 
     protected function handleOnce(): void

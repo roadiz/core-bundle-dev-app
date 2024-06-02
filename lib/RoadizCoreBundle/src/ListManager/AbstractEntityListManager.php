@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractEntityListManager implements EntityListManagerInterface
 {
-    protected ?Request $request = null;
     protected bool $pagination = true;
     protected ?array $queryArray = null;
     protected ?int $currentPage = null;
@@ -19,12 +18,8 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     protected bool $allowRequestSorting = true;
     protected bool $allowRequestSearching = true;
 
-    /**
-     * @param Request|null  $request
-     */
-    public function __construct(?Request $request)
+    public function __construct(protected readonly ?Request $request = null)
     {
-        $this->request = $request;
         $this->displayNotPublishedNodes = false;
         $this->displayAllNodesStatuses = false;
         if (null !== $request) {
@@ -35,13 +30,13 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
         $this->itemPerPage = static::ITEM_PER_PAGE;
     }
 
-    public function setAllowRequestSorting(bool $allowRequestSorting)
+    public function setAllowRequestSorting(bool $allowRequestSorting): self
     {
         $this->allowRequestSorting = $allowRequestSorting;
         return $this;
     }
 
-    public function setAllowRequestSearching(bool $allowRequestSearching)
+    public function setAllowRequestSearching(bool $allowRequestSearching): self
     {
         $this->allowRequestSearching = $allowRequestSearching;
         return $this;
@@ -55,11 +50,7 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
         return $this->displayNotPublishedNodes;
     }
 
-    /**
-     * @param bool $displayNotPublishedNodes
-     * @return EntityListManagerInterface
-     */
-    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes)
+    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes): self
     {
         $this->displayNotPublishedNodes = $displayNotPublishedNodes;
         return $this;
@@ -76,11 +67,8 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     /**
      * Switch repository to disable any security on Node status. To use ONLY in order to
      * view deleted and archived nodes.
-     *
-     * @param bool $displayAllNodesStatuses
-     * @return EntityListManagerInterface
      */
-    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses)
+    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses): self
     {
         $this->displayAllNodesStatuses = $displayAllNodesStatuses;
         return $this;
@@ -89,7 +77,7 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     /**
      * @inheritDoc
      */
-    public function setPage(int $page)
+    public function setPage(int $page): self
     {
         if ($page < 1) {
             throw new \RuntimeException("Page cannot be lesser than 1.", 1);
@@ -107,19 +95,13 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
         return $this->currentPage;
     }
 
-    /**
-     * @return EntityListManagerInterface
-     */
-    public function enablePagination()
+    public function enablePagination(): self
     {
         $this->pagination = true;
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function disablePagination()
+    public function disablePagination(): self
     {
         $this->setPage(1);
         $this->pagination = false;
@@ -192,12 +174,8 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
 
     /**
      * Configure a custom item count per page.
-     *
-     * @param int $itemPerPage
-     *
-     * @return EntityListManagerInterface
      */
-    public function setItemPerPage(int $itemPerPage)
+    public function setItemPerPage(int $itemPerPage): self
     {
         if ($itemPerPage < 1) {
             throw new \RuntimeException("Item count per page cannot be lesser than 1.", 1);

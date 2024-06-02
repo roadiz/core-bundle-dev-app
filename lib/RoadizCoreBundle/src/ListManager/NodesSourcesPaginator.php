@@ -4,11 +4,18 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\ListManager;
 
+use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
+
 /**
  * A paginator class to filter node-sources entities with limit and search.
  *
- * This class add authorizationChecker filters
+ * This class add authorizationChecker filters.
+ *
+ * @extends Paginator<NodesSources>
  */
+#[Exclude]
 class NodesSourcesPaginator extends Paginator
 {
     /**
@@ -27,15 +34,7 @@ class NodesSourcesPaginator extends Paginator
         return $this->totalCount;
     }
 
-    /**
-     * Return entities filtered for current page.
-     *
-     * @param array   $order
-     * @param integer $page
-     *
-     * @return array|\Doctrine\ORM\Tools\Pagination\Paginator
-     */
-    public function findByAtPage(array $order = [], int $page = 1)
+    public function findByAtPage(array $order = [], int $page = 1): array|DoctrinePaginator
     {
         if (null !== $this->searchPattern) {
             return $this->searchByAtPage($order, $page);

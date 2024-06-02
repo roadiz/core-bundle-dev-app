@@ -9,6 +9,7 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManager;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -84,8 +85,9 @@ final class NodeTreeWidget extends AbstractWidget
 
     /**
      * Fill twig assignation array with NodeTree entities.
+     * @throws \ReflectionException
      */
-    protected function getRootListManager(): EntityListManager
+    protected function getRootListManager(): EntityListManagerInterface
     {
         /*
          * Only use additional criteria for ROOT list-manager
@@ -139,13 +141,14 @@ final class NodeTreeWidget extends AbstractWidget
      * @param Node|null $parent
      * @param bool $subRequest Default: false
      * @param array $additionalCriteria Default: []
-     * @return EntityListManager
+     * @return EntityListManagerInterface
+     * @throws \ReflectionException
      */
     protected function getListManager(
         Node $parent = null,
         bool $subRequest = false,
         array $additionalCriteria = []
-    ): EntityListManager {
+    ): EntityListManagerInterface {
         $criteria = array_merge($additionalCriteria, [
             'parent' => $parent,
             'translation' => $this->translation,
@@ -165,8 +168,10 @@ final class NodeTreeWidget extends AbstractWidget
             ];
             $this->canReorder = false;
         }
-        /*
+        /**
          * Manage get request to filter list
+         *
+         * @var EntityListManager<Node> $listManager
          */
         $listManager = new EntityListManager(
             $this->getRequest(),
@@ -202,6 +207,7 @@ final class NodeTreeWidget extends AbstractWidget
      * @param Node|null $parent
      * @param bool $subRequest Default: false
      * @return iterable<Node>
+     * @throws \ReflectionException
      */
     public function getChildrenNodes(Node $parent = null, bool $subRequest = false): iterable
     {
@@ -212,6 +218,7 @@ final class NodeTreeWidget extends AbstractWidget
      * @param Node|null $parent
      * @param bool $subRequest Default: false
      * @return iterable<Node>
+     * @throws \ReflectionException
      */
     public function getReachableChildrenNodes(Node $parent = null, bool $subRequest = false): iterable
     {

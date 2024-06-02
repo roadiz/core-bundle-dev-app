@@ -7,12 +7,16 @@ namespace RZ\Roadiz\CoreBundle\ListManager;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\TagTranslation;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 
 /**
  * Perform basic filtering and search over entity listings.
+ *
+ * @extends EntityListManager<Tag>
  */
+#[Exclude]
 class TagListManager extends EntityListManager
 {
     /**

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\ListManager;
 
+use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
+
 interface EntityListManagerInterface
 {
     public const ITEM_PER_PAGE = 20;
@@ -12,13 +14,13 @@ interface EntityListManagerInterface
      * @param bool $allowRequestSorting
      * @return $this
      */
-    public function setAllowRequestSorting(bool $allowRequestSorting);
+    public function setAllowRequestSorting(bool $allowRequestSorting): self;
 
     /**
      * @param bool $allowRequestSearching
      * @return $this
      */
-    public function setAllowRequestSearching(bool $allowRequestSearching);
+    public function setAllowRequestSearching(bool $allowRequestSearching): self;
 
     /**
      * @return bool
@@ -29,7 +31,7 @@ interface EntityListManagerInterface
      * @param bool $displayNotPublishedNodes
      * @return EntityListManagerInterface
      */
-    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes);
+    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes): self;
 
     /**
      * @return bool
@@ -43,7 +45,7 @@ interface EntityListManagerInterface
      * @param bool $displayAllNodesStatuses
      * @return EntityListManagerInterface
      */
-    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses);
+    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses): self;
 
     /**
      * Handle request to find filter to apply to entity listing.
@@ -51,7 +53,7 @@ interface EntityListManagerInterface
      * @param bool $disabled Disable pagination and filtering over GET params
      * @return void
      */
-    public function handle(bool $disabled = false);
+    public function handle(bool $disabled = false): void;
 
     /**
      * Configure a custom current page.
@@ -60,12 +62,12 @@ interface EntityListManagerInterface
      *
      * @return EntityListManagerInterface
      */
-    public function setPage(int $page);
+    public function setPage(int $page): self;
 
     /**
      * @return EntityListManagerInterface
      */
-    public function disablePagination();
+    public function disablePagination(): self;
 
     /**
      * Get Twig assignation to render list details.
@@ -102,9 +104,9 @@ interface EntityListManagerInterface
     /**
      * Return filtered entities.
      *
-     * @return array|\Doctrine\ORM\Tools\Pagination\Paginator
+     * @return array|DoctrinePaginator
      */
-    public function getEntities();
+    public function getEntities(): array|DoctrinePaginator;
 
     /**
      * Configure a custom item count per page.
@@ -113,5 +115,5 @@ interface EntityListManagerInterface
      *
      * @return EntityListManagerInterface
      */
-    public function setItemPerPage(int $itemPerPage);
+    public function setItemPerPage(int $itemPerPage): self;
 }
