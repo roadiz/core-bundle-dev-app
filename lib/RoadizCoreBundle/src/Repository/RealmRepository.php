@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Repository;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Realm;
+use RZ\Roadiz\CoreBundle\Entity\Redirection;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @method Realm|null findOneByName(string $name)
@@ -18,6 +20,11 @@ use RZ\Roadiz\CoreBundle\Entity\Realm;
  */
 final class RealmRepository extends EntityRepository
 {
+    public function __construct(ManagerRegistry $registry, EventDispatcherInterface $dispatcher)
+    {
+        parent::__construct($registry, Realm::class, $dispatcher);
+    }
+
     public function findByNode(Node $node): array
     {
         $qb = $this->createQueryBuilder('r');

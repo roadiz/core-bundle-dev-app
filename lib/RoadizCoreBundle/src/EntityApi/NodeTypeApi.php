@@ -7,6 +7,9 @@ namespace RZ\Roadiz\CoreBundle\EntityApi;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepository;
 
+/**
+ * @deprecated Use NodeTypeRepository directly
+ */
 class NodeTypeApi extends AbstractApi
 {
     /**

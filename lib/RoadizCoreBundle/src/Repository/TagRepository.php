@@ -17,6 +17,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\TagTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Model\TagTreeDto;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -274,6 +275,69 @@ final class TagRepository extends EntityRepository
     }
 
     /**
+     * Just like the findBy method but with relational criteria.
+     *
+     * @param array                                   $criteria
+     * @param array|string[]|null                     $orderBy
+     * @param int|null                            $limit
+     * @param int|null                            $offset
+     * @param TranslationInterface|null               $translation
+     *
+     * @return array<TagTreeDto>
+     */
+    public function findByAsTagTreeDto(
+        array $criteria,
+        array $orderBy = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        TranslationInterface $translation = null
+    ): array {
+        $qb = $this->getContextualQueryWithTranslation(
+            $criteria,
+            $orderBy,
+            $limit,
+            $offset,
+            $translation
+        );
+
+        $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
+        $this->applyFilterByNodes($criteria, $qb);
+        $this->applyFilterByCriteria($criteria, $qb);
+        $this->applyTranslationByTag($qb, $translation);
+        $this->alterQueryBuilderAsTagTreeDto($qb);
+        // @phpstan-ignore-next-line
+        $query = $qb->getQuery();
+        $this->dispatchQueryEvent($query);
+
+        return $query->getResult();
+    }
+
+    protected function alterQueryBuilderAsTagTreeDto(QueryBuilder $qb): QueryBuilder
+    {
+        $qb->select(sprintf(
+            <<<EOT
+NEW %s(
+    %s.id,
+    %s.tagName,
+    %s.name,
+    %s.color,
+    %s.visible,
+    IDENTITY(%s.parent)
+)
+EOT,
+            TagTreeDto::class,
+            EntityRepository::TAG_ALIAS,
+            EntityRepository::TAG_ALIAS,
+            'tt',
+            EntityRepository::TAG_ALIAS,
+            EntityRepository::TAG_ALIAS,
+            EntityRepository::TAG_ALIAS,
+        ));
+
+        return $qb;
+    }
+
+    /**
      * Just like the findOneBy method but with relational criteria.
      *
      * @param array $criteria
@@ -464,7 +528,7 @@ final class TagRepository extends EntityRepository
 
     /**
      * @param TranslationInterface $translation
-     * @param Tag $parent
+     * @param Tag|null $parent
      *
      * @return Tag[]
      */

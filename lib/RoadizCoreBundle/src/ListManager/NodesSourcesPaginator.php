@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\ListManager;
 
 use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 /**
@@ -46,5 +47,14 @@ class NodesSourcesPaginator extends Paginator
                 $this->getItemsPerPage() * ($page - 1)
             );
         }
+    }
+
+    protected function getRepository(): NodesSourcesRepository
+    {
+        /** @var NodesSourcesRepository $repository */
+        $repository = $this->em->getRepository($this->entityName);
+        $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
+        $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
+        return $repository;
     }
 }

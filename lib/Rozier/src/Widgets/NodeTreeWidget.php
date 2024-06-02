@@ -6,11 +6,13 @@ namespace Themes\Rozier\Widgets;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
-use RZ\Roadiz\CoreBundle\ListManager\EntityListManager;
-use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
+use RZ\Roadiz\CoreBundle\ListManager\NodeTreeDtoListManager;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
+use RZ\Roadiz\CoreBundle\Model\NodeTreeDto;
+use RZ\Roadiz\CoreBundle\Model\TagTreeDto;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -19,6 +21,9 @@ use Symfony\Component\HttpFoundation\RequestStack;
 final class NodeTreeWidget extends AbstractWidget
 {
     public const SESSION_ITEM_PER_PAGE = 'nodetree_item_per_page';
+    /**
+     * @var iterable<NodeTreeDto|Node>|null
+     */
     private ?iterable $nodes = null;
     private ?Tag $tag = null;
     private bool $stackTree = false;
@@ -87,7 +92,7 @@ final class NodeTreeWidget extends AbstractWidget
      * Fill twig assignation array with NodeTree entities.
      * @throws \ReflectionException
      */
-    protected function getRootListManager(): EntityListManagerInterface
+    protected function getRootListManager(): NodeTreeDtoListManager
     {
         /*
          * Only use additional criteria for ROOT list-manager
@@ -115,12 +120,12 @@ final class NodeTreeWidget extends AbstractWidget
     }
 
     /**
-     * @param Node|null $parent
+     * @param Node|NodeTreeDto|null $parent
      * @param bool $subRequest
      *
      * @return bool
      */
-    protected function canOrderByParent(Node $parent = null, bool $subRequest = false): bool
+    protected function canOrderByParent(Node|NodeTreeDto|null $parent = null, bool $subRequest = false): bool
     {
         if (true === $subRequest || null === $parent) {
             return false;
@@ -138,19 +143,19 @@ final class NodeTreeWidget extends AbstractWidget
     }
 
     /**
-     * @param Node|null $parent
+     * @param Node|NodeTreeDto|null $parent
      * @param bool $subRequest Default: false
      * @param array $additionalCriteria Default: []
-     * @return EntityListManagerInterface
+     * @return NodeTreeDtoListManager
      * @throws \ReflectionException
      */
     protected function getListManager(
-        Node $parent = null,
+        Node|NodeTreeDto|null $parent = null,
         bool $subRequest = false,
         array $additionalCriteria = []
-    ): EntityListManagerInterface {
+    ): NodeTreeDtoListManager {
         $criteria = array_merge($additionalCriteria, [
-            'parent' => $parent,
+            'parent' => $parent?->getId() ?? null,
             'translation' => $this->translation,
         ]);
 
@@ -168,12 +173,8 @@ final class NodeTreeWidget extends AbstractWidget
             ];
             $this->canReorder = false;
         }
-        /**
-         * Manage get request to filter list
-         *
-         * @var EntityListManager<Node> $listManager
-         */
-        $listManager = new EntityListManager(
+
+        $listManager = new NodeTreeDtoListManager(
             $this->getRequest(),
             $this->getManagerRegistry()->getManager(),
             Node::class,
@@ -204,23 +205,23 @@ final class NodeTreeWidget extends AbstractWidget
     }
 
     /**
-     * @param Node|null $parent
+     * @param Node|NodeTreeDto|null $parent
      * @param bool $subRequest Default: false
-     * @return iterable<Node>
+     * @return array<NodeTreeDto>
      * @throws \ReflectionException
      */
-    public function getChildrenNodes(Node $parent = null, bool $subRequest = false): iterable
+    public function getChildrenNodes(Node|NodeTreeDto|null $parent = null, bool $subRequest = false): array
     {
         return $this->getListManager($parent, $subRequest)->getEntities();
     }
 
     /**
-     * @param Node|null $parent
+     * @param Node|NodeTreeDto|null $parent
      * @param bool $subRequest Default: false
-     * @return iterable<Node>
+     * @return array<NodeTreeDto>
      * @throws \ReflectionException
      */
-    public function getReachableChildrenNodes(Node $parent = null, bool $subRequest = false): iterable
+    public function getReachableChildrenNodes(Node|NodeTreeDto|null $parent = null, bool $subRequest = false): array
     {
         return $this->getListManager($parent, $subRequest, [
             'nodeType.reachable' => true,
@@ -269,7 +270,8 @@ final class NodeTreeWidget extends AbstractWidget
     }
 
     /**
-     * @return iterable<Node>
+     * @return iterable<NodeTreeDto|Node>
+     * @throws \ReflectionException
      */
     public function getNodes(): iterable
     {
@@ -283,6 +285,28 @@ final class NodeTreeWidget extends AbstractWidget
         }
 
         return $this->nodes;
+    }
+
+    /**
+     * @return array<TagTreeDto>
+     */
+    public function getTags(Node|NodeTreeDto $node): array
+    {
+        return $this->managerRegistry->getRepository(Tag::class)->findByAsTagTreeDto([
+            "nodes" => $node->getId(),
+        ], [
+            'position' => 'ASC',
+        ], null, null, $this->getTranslation());
+    }
+
+    public function getOneDisplayableDocument(NodeTreeDto $node): ?Document
+    {
+        return $this->managerRegistry
+            ->getRepository(Document::class)
+            ->findOneDisplayableByNodeSource(
+                $node->getNodeSource()->getId(),
+                $this->getTranslation()
+            );
     }
 
     /**

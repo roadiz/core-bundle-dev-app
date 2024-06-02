@@ -42,9 +42,9 @@
 
                 {% if workflow_can(node, 'delete') %}
                     {% set refererUrl = null %}
-                    {% if node.parent %}
+                    {% if node.parentId %}
                         {% set refererUrl = path('nodesEditSourcePage', {
-                            nodeId: node.parent.id,
+                            nodeId: node.parentId,
                             translationId: nodeTree.translation.id
                         }) %}
                     {% endif %}

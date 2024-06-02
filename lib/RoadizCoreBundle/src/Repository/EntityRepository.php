@@ -497,7 +497,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
      * @param  string  $alias
      * @return bool
      */
-    protected function hasJoinedNode(QueryBuilder $qb, string $alias)
+    protected function hasJoinedNode(QueryBuilder $qb, string $alias): bool
     {
         return $this->joinExists($qb, $alias, static::NODE_ALIAS);
     }
@@ -509,7 +509,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
      * @param  string  $alias
      * @return bool
      */
-    protected function hasJoinedNodesSources(QueryBuilder $qb, string $alias)
+    protected function hasJoinedNodesSources(QueryBuilder $qb, string $alias): bool
     {
         return $this->joinExists($qb, $alias, static::NODESSOURCES_ALIAS);
     }
@@ -521,7 +521,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
      * @param  string  $alias
      * @return bool
      */
-    protected function hasJoinedNodeType(QueryBuilder $qb, string $alias)
+    protected function hasJoinedNodeType(QueryBuilder $qb, string $alias): bool
     {
         return $this->joinExists($qb, $alias, static::NODETYPE_ALIAS);
     }
@@ -532,12 +532,11 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
      * @param string $joinAlias
      * @return bool
      */
-    protected function joinExists(QueryBuilder $qb, string $rootAlias, string $joinAlias)
+    protected function joinExists(QueryBuilder $qb, string $rootAlias, string $joinAlias): bool
     {
         if (isset($qb->getDQLPart('join')[$rootAlias])) {
             foreach ($qb->getDQLPart('join')[$rootAlias] as $join) {
                 if (
-                    null !== $join &&
                     $join instanceof Join &&
                     $join->getAlias() === $joinAlias
                 ) {

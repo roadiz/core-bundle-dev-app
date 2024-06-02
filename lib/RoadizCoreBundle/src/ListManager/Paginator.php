@@ -264,7 +264,7 @@ class Paginator
     }
 
     /**
-     * @return \Doctrine\ORM\EntityRepository<T>
+     * @return EntityRepository<T>
      */
     protected function getRepository(): \Doctrine\ORM\EntityRepository
     {
