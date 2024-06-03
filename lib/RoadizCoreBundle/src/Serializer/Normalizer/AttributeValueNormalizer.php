@@ -31,6 +31,7 @@ final class AttributeValueNormalizer extends AbstractPathNormalizer
             $data['type'] = $object->getType();
             $data['code'] = $object->getAttribute()->getCode();
             $data['color'] = $object->getAttribute()->getColor();
+            $data['weight'] = $object->getAttribute()->getWeight();
 
             if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {
                 $translatedData = $object->getAttributeValueTranslation($context['translation']);
