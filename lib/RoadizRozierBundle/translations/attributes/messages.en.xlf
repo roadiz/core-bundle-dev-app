@@ -317,6 +317,17 @@
                   <target state="translated">Usage count</target>
                   <note></note>
               </trans-unit>
+
+    <trans-unit xml:space="preserve" id="attributes.weight">
+        <source>attributes.weight</source>
+        <target state="translated">Weight</target>
+        <note></note>
+    </trans-unit>
+    <trans-unit xml:space="preserve" id="attributes.form_help.weight">
+        <source>attributes.form_help.weight</source>
+        <target state="translated">Absolute weight to sort attribute in filtered lists.</target>
+        <note></note>
+    </trans-unit>
     </body>
   </file>
 </xliff>
