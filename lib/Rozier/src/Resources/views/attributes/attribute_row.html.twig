@@ -21,6 +21,9 @@
         {{- item.group.name -}}
     {%- endif -%}
 </td>
+<td class="mobile-hidden">
+    {{- item.weight -}}
+</td>
 <td class="table-actions-row">
     {% apply spaceless %}
         {% if hasBulkActions %}

@@ -107,7 +107,10 @@ class AttributeController extends AbstractAdminWithBulkController
      */
     protected function getDefaultOrder(Request $request): array
     {
-        return ['code' => 'ASC'];
+        return [
+            'weight' => 'DESC',
+            'code' => 'ASC',
+        ];
     }
 
     /**
