@@ -28,6 +28,9 @@ trait AttributeValueTrait
         ApiFilter(BaseFilter\BooleanFilter::class, properties: [
             "attribute.visible",
             "attribute.searchable"
+        ]),
+        ApiFilter(BaseFilter\OrderFilter::class, properties: [
+            "attribute.weight" => "DESC",
         ])
     ]
     protected AttributeInterface $attribute;

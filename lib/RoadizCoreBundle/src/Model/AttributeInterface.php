@@ -129,6 +129,8 @@ interface AttributeInterface extends PersistableInterface
      */
     public function getColor(): ?string;
 
+    public function getWeight(): int;
+
     /**
      * @param string|null $color
      */
