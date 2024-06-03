@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.4...v2.3.5) - 2024-06-03
+
+### Bug Fixes
+
+- Undefined JS var - ([cb67bec](https://github.com/roadiz/core-bundle-dev-app/commit/cb67bec1803b28a2ab356d4a4ad9697f32f672fd))
+
 ## [2.3.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.3...v2.3.4) - 2024-06-03
 
 ### Bug Fixes
