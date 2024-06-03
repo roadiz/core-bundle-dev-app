@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.16...v2.2.17) - 2024-06-03
+
+### Bug Fixes
+
+- **(UI)** Fixed drag and drop custom-form fields, node-type fields and attribute-values by setting new position against previous or next element id - ([ca93d4f](https://github.com/roadiz/core-bundle-dev-app/commit/ca93d4f81fdb5d0efd30be9bcbf613b5d52477b6))
+
+### Features
+
+- **(Attributes)** Added Attribute `weight` field to sort filtered lists. - ([d17d5fc](https://github.com/roadiz/core-bundle-dev-app/commit/d17d5fc72c687d5526ffdc93e15a1a9900675b28))
+
 ## [2.2.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.15...v2.2.16) - 2024-05-31
 
 ### Bug Fixes
