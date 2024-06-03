@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Themes\Rozier\Models\NodeTypeModel;
 
-class AjaxNodeTypesController extends AjaxAbstractFieldsController
+class AjaxNodeTypesController extends AbstractAjaxController
 {
     /**
      * @param Request $request
