@@ -31,10 +31,16 @@
                     <tbody class="uk-sortable" data-uk-sortable="{animation:0, dragCustomClass:'setting-row rz-node-type-field-dragged', handleClass:'attribute-value-col'}">
                         {% for attribute_value_translation_form in attribute_value_translation_forms %}
                             {% set attributeValue = attribute_value_translation_form.vars.data.attributeValue %}
-                            <tr class="setting-row" data-position="{{ attributeValue.position }}" data-id="{{ attributeValue.getId }}">
-                                <td class="name attribute-value-col">
-                                    <span class="color" style="background-color:{{ attributeValue.attribute.color|default('transparent') }};"></span>
-                                    {{- attribute_value_translation_form.vars.data|attribute_label -}}
+
+                            <tr class="setting-row" data-position="{{ attributeValue.position }}" data-id="{{ attributeValue.id }}">
+                                <th class="name attribute-value-col">
+                                    <span class="color" style="--data-color: {{ attributeValue.attribute.color|default('transparent') }};"></span>
+                                    <strong>{{- attribute_value_translation_form.vars.data|attribute_label -}}</strong>
+                                </th>
+                                <td class="uk-visible-xlarge">
+                                    {%- if attributeValue.attribute.group %}
+                                        {{- attributeValue.attribute.group|attribute_group_label -}}
+                                    {% endif -%}
                                 </td>
                                 <td class="uk-visible-large">{%- if attributeValue.attribute.group %}
                                         {{- attributeValue.attribute.group|attribute_group_label -}}

@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 final class AjaxAttributeValuesController extends AbstractAjaxController
 {
@@ -25,11 +26,8 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
      *
      * @return Response JSON response
      */
-    public function editAction(Request $request, int $attributeValueId)
+    public function editAction(Request $request, int $attributeValueId): Response
     {
-        /*
-         * Validate
-         */
         $this->validateRequest($request, 'POST', false);
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODE_ATTRIBUTES');
 
@@ -74,12 +72,31 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
             '%name%' => $attributeValue->getAttribute()->getLabelOrCode(),
             '%nodeName%' => $attributable instanceof Node ? $attributable->getNodeName() : '',
         ];
-        /*
-         * First, we set the new parent
-         */
-        if (!empty($parameters['newPosition'])) {
-            $attributeValue->setPosition((float) $parameters['newPosition']);
-            // Apply position update before cleaning
+
+        if (!empty($parameters['afterAttributeValueId']) && is_numeric($parameters['afterAttributeValueId'])) {
+            /** @var AttributeValue|null $afterAttributeValue */
+            $afterAttributeValue = $this->em()->find(AttributeValue::class, (int) $parameters['afterAttributeValueId']);
+            if (null === $afterAttributeValue) {
+                throw new BadRequestHttpException('afterAttributeValueId does not exist');
+            }
+            $attributeValue->setPosition($afterAttributeValue->getPosition() + 0.5);
+            $this->em()->flush();
+            return [
+                'statusCode' => '200',
+                'status' => 'success',
+                'responseText' => $this->getTranslator()->trans(
+                    'attribute_value_translation.%name%.updated_from_node.%nodeName%',
+                    $details
+                ),
+            ];
+        }
+        if (!empty($parameters['beforeAttributeValueId']) && is_numeric($parameters['beforeAttributeValueId'])) {
+            /** @var AttributeValue|null $beforeAttributeValue */
+            $beforeAttributeValue = $this->em()->find(AttributeValue::class, (int) $parameters['beforeAttributeValueId']);
+            if (null === $beforeAttributeValue) {
+                throw new BadRequestHttpException('beforeAttributeValueId does not exist');
+            }
+            $attributeValue->setPosition($beforeAttributeValue->getPosition() - 0.5);
             $this->em()->flush();
             return [
                 'statusCode' => '200',
@@ -91,13 +108,6 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
             ];
         }
 
-        return [
-            'statusCode' => '400',
-            'status' => 'error',
-            'responseText' => $this->getTranslator()->trans(
-                'attribute_value_translation.%name%.updated_from_node.%nodeName%',
-                $details
-            ),
-        ];
+        throw new BadRequestHttpException('Cannot update position for AttributeValue. Missing parameters.');
     }
 }
