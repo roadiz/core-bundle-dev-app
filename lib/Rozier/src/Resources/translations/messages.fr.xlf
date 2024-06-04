@@ -4868,6 +4868,14 @@
         <source>enables_node_attributes_for_this_type</source>
         <target state="translated">Permets aux nœuds de ce type d'avoir des attributs en plus de leurs données.</target>
       </trans-unit>
-    </body>
+      <trans-unit xml:space="preserve" id="sortingAttributesByWeight">
+        <source>sortingAttributesByWeight</source>
+        <target state="translated">Trier les attributs par poids</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="sort_attributes_by_weight_for_this_type">
+        <source>sort_attributes_by_weight_for_this_type</source>
+        <target state="translated">Si le type de nœud accepte les attributs, cette option force le tri des attributs par poids plutôt que par position manuelle.</target>
+      </trans-unit>
+      </body>
   </file>
 </xliff>

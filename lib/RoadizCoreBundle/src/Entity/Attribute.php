@@ -30,6 +30,7 @@ use Symfony\Component\Validator\Constraints\Range;
     ORM\Index(columns: ["type"]),
     ORM\Index(columns: ["searchable"]),
     ORM\Index(columns: ["weight"]),
+    ORM\Index(columns: ["color"]),
     ORM\Index(columns: ["group_id"]),
     ORM\HasLifecycleCallbacks,
     UniqueEntity(fields: ["code"]),
