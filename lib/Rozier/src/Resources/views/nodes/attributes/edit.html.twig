@@ -20,7 +20,11 @@
         <article class="content content-settings-list">
             <div class="content-table-cont uk-margin">
                 <table class="attribute-value-forms content-table settings uk-table attributes">
+                    {% if not order_by_weight %}
                     <tbody class="uk-sortable" data-uk-sortable="{animation:0, dragCustomClass:'setting-row rz-node-type-field-dragged', handleClass:'attribute-value-col'}">
+                    {% else %}
+                    <tbody>
+                    {% endif %}
                         {% for attribute_value_translation_form in attribute_value_translation_forms %}
                             {% set attributeValue = attribute_value_translation_form.vars.data.attributeValue %}
                             <tr class="setting-row" data-position="{{ attributeValue.position }}" data-id="{{ attributeValue.id }}">
