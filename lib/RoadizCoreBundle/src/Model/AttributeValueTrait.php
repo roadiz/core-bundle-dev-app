@@ -21,6 +21,7 @@ trait AttributeValueTrait
         ApiFilter(BaseFilter\SearchFilter::class, properties: [
             "attribute.id" => "exact",
             "attribute.code" => "exact",
+            "attribute.color" => "exact",
             "attribute.type" => "exact",
             "attribute.group" => "exact",
             "attribute.group.canonicalName" => "exact",
@@ -28,6 +29,10 @@ trait AttributeValueTrait
         ApiFilter(BaseFilter\BooleanFilter::class, properties: [
             "attribute.visible",
             "attribute.searchable"
+        ]),
+        ApiFilter(BaseFilter\ExistsFilter::class, properties: [
+            "attribute.color",
+            "attribute.group"
         ]),
         ApiFilter(BaseFilter\OrderFilter::class, properties: [
             "attribute.weight" => "DESC",
