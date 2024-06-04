@@ -46,6 +46,11 @@ class NodeTypeType extends AbstractType
                 'required' => false,
                 'help' => 'enables_node_attributes_for_this_type',
             ])
+            ->add('sortingAttributesByWeight', CheckboxType::class, [
+                'label' => 'sortingAttributesByWeight',
+                'required' => false,
+                'help' => 'sort_attributes_by_weight_for_this_type',
+            ])
             ->add('reachable', CheckboxType::class, [
                 'label' => 'reachable',
                 'required' => false,
