@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.5...v2.3.6) - 2024-06-04
+
+### Features
+
+- **(NodeType)** Added `sortingAttributesByWeight` boolean option for NodeType - ([becf83e](https://github.com/roadiz/core-bundle-dev-app/commit/becf83e34f2242545f78b8496465f8a2a30777f3))
+
 ## [2.3.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.4...v2.3.5) - 2024-06-03
 
 ### Bug Fixes
