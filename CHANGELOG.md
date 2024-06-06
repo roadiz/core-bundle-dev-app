@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.6...v2.3.7) - 2024-06-06
+
+### Features
+
+- **(CoreBundle)** Made preview required RoleName configurable - ([1f94711](https://github.com/roadiz/core-bundle-dev-app/commit/1f947114846778923527effa243538e7b49316d1))
+
 ## [2.3.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.5...v2.3.6) - 2024-06-04
 
 ### Features

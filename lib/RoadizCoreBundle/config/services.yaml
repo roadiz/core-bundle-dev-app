@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.3.6'
+    roadiz_core.cms_version: '2.3.7'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -387,7 +387,7 @@ services:
     RZ\Roadiz\CoreBundle\Preview\RequestPreviewRevolver:
         arguments:
             - '@Symfony\Component\HttpFoundation\RequestStack'
-            - 'ROLE_BACKEND_USER'
+            - '%roadiz_core.preview_required_role_name%'
 
     RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry:
         arguments: ['@service_container']
