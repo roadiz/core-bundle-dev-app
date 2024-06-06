@@ -75,6 +75,7 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.use_typed_node_names', $config['useTypedNodeNames']);
         $container->setParameter('roadiz_core.hide_roadiz_version', $config['hideRoadizVersion']);
         $container->setParameter('roadiz_core.use_accept_language_header', $config['useAcceptLanguageHeader']);
+        $container->setParameter('roadiz_core.preview_required_role_name', $config['previewRequiredRoleName']);
 
         /*
          * Assets config
