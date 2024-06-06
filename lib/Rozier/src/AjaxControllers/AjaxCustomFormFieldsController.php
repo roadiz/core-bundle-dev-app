@@ -21,13 +21,10 @@ class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
      */
     public function editAction(Request $request, int $customFormFieldId): Response
     {
-        /*
-         * Validate
-         */
         $this->validateRequest($request);
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS_DELETE');
 
-        $field = $this->em()->find(CustomFormField::class, (int) $customFormFieldId);
+        $field = $this->findEntity((int) $customFormFieldId);
 
         if (null !== $field && null !== $response = $this->handleFieldActions($request, $field)) {
             return $response;
@@ -39,5 +36,10 @@ class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
                 '%customFormFieldId%' => $customFormFieldId
             ]
         ));
+    }
+
+    protected function getEntityClass(): string
+    {
+        return CustomFormField::class;
     }
 }

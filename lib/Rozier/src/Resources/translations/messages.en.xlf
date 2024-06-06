@@ -4868,6 +4868,14 @@
         <source>enables_node_attributes_for_this_type</source>
         <target state="translated">Allows nodes of this type to hold attributes in addition of their data fields.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="sortingAttributesByWeight">
+        <source>sortingAttributesByWeight</source>
+        <target state="translated">Sort attributes by weight</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="sort_attributes_by_weight_for_this_type">
+        <source>sort_attributes_by_weight_for_this_type</source>
+        <target state="translated">If node-type is attributable, this option enforce attribute sorting by weight instead of manual position.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

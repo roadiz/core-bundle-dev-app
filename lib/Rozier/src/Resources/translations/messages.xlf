@@ -1370,6 +1370,9 @@
 
             <trans-unit xml:space="preserve" id="attributable"><source>attributable</source></trans-unit>
             <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type"><source>enables_node_attributes_for_this_type</source></trans-unit>
+
+            <trans-unit xml:space="preserve" id="sortingAttributesByWeight"><source>sortingAttributesByWeight</source></trans-unit>
+            <trans-unit xml:space="preserve" id="sort_attributes_by_weight_for_this_type"><source>sort_attributes_by_weight_for_this_type</source></trans-unit>
         </body>
     </file>
 </xliff>

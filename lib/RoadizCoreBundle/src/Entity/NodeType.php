@@ -101,6 +101,13 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
         Serializer\Type("boolean")
     ]
     private bool $attributable = false;
+    #[
+        ORM\Column(name: "attributable_by_weight", type: "boolean", nullable: false, options: ["default" => false]),
+        Serializer\Groups(["node_type"]),
+        SymfonySerializer\Groups(["node_type"]),
+        Serializer\Type("boolean")
+    ]
+    private bool $sortingAttributesByWeight = false;
     /**
      * Define if this node-type produces nodes that will be
      * viewable from a Controller.
@@ -548,6 +555,17 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
     public function setAttributable(bool $attributable): NodeType
     {
         $this->attributable = $attributable;
+        return $this;
+    }
+
+    public function isSortingAttributesByWeight(): bool
+    {
+        return $this->sortingAttributesByWeight;
+    }
+
+    public function setSortingAttributesByWeight(bool $sortingAttributesByWeight): NodeType
+    {
+        $this->sortingAttributesByWeight = $sortingAttributesByWeight;
         return $this;
     }
 }

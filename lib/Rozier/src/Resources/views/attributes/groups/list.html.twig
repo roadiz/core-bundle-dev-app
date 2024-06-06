@@ -23,11 +23,14 @@
                 <thead>
                     <tr>
                         <th>
-                            {% trans %}attribute_groups.name{% endtrans %}
+                            {% trans %}attribute_group.form.canonicalName{% endtrans %}
                             {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
                                 'field': 'name',
                                 'filters': filters,
                             } only %}
+                        </th>
+                        <th>
+                            {% trans %}attribute_groups.name{% endtrans %}
                         </th>
                         <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
                     </tr>
@@ -35,6 +38,11 @@
                 <tbody>
                     {% for item in items %}
                     <tr>
+                        <td>
+                            <a href="{{ path('attributeGroupsEditPage', { id: item.id }) }}">
+                                {{- item.canonicalName -}}
+                            </a>
+                        </td>
                         <td>
                             <a href="{{ path('attributeGroupsEditPage', { id: item.id }) }}">
                                 {{- item.name -}}
