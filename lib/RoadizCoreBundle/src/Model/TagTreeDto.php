@@ -17,7 +17,7 @@ final class TagTreeDto implements PersistableInterface
         private readonly ?string $name,
         private readonly string $color,
         private readonly bool $visible,
-        private readonly int $parentId,
+        private readonly ?int $parentId,
     ) {
     }
 
@@ -46,7 +46,7 @@ final class TagTreeDto implements PersistableInterface
         return $this->visible;
     }
 
-    public function getParentId(): int
+    public function getParentId(): ?int
     {
         return $this->parentId;
     }

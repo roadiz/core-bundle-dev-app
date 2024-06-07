@@ -290,8 +290,11 @@ final class NodeTreeWidget extends AbstractWidget
     /**
      * @return array<TagTreeDto>
      */
-    public function getTags(Node|NodeTreeDto $node): array
+    public function getTags(Node|NodeTreeDto|null $node): array
     {
+        if (null === $node) {
+            return [];
+        }
         return $this->managerRegistry->getRepository(Tag::class)->findByAsTagTreeDto([
             "nodes" => $node->getId(),
         ], [
