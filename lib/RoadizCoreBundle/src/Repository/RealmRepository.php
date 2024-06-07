@@ -41,4 +41,13 @@ final class RealmRepository extends EntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+    public function countWithSerializationGroup(): int
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->select($qb->expr()->count('r'))
+            ->andWhere($qb->expr()->isNotNull('r.serializationGroup'));
+
+        return intval($qb->getQuery()->getSingleScalarResult());
+    }
 }

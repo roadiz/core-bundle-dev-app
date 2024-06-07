@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.7...v2.3.8) - 2024-06-07
+
+### Performance
+
+- Do not execute `RealmSerializationGroupNormalizer` if there are no realms setup with a serialization_group. - ([32da06d](https://github.com/roadiz/core-bundle-dev-app/commit/32da06dc98312371d230fd70f7c464b5b931d4f6))
+
 ## [2.3.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.6...v2.3.7) - 2024-06-06
 
 ### Features
