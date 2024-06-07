@@ -42,9 +42,9 @@
 
                 {% if workflow_can(node, 'delete') %}
                     {% set refererUrl = null %}
-                    {% if node.parent %}
+                    {% if node.parentId %}
                         {% set refererUrl = path('nodesEditSourcePage', {
-                            nodeId: node.parent.id,
+                            nodeId: node.parentId,
                             translationId: nodeTree.translation.id
                         }) %}
                     {% endif %}
@@ -56,7 +56,7 @@
                     </p>
                 {% endif %}
             </div>
-            {% if not node.Locked %}
+            {% if not node.locked %}
                 <div class="wrapper node-actions">
                     <header class="uk-nav-header">{% trans %}statuses{% endtrans %}</header>
                     <p>
@@ -76,7 +76,7 @@
                                href="#"><i class="uk-icon-rz-visibility-mini"></i> {% trans %}node.show{% endtrans %}</a>
                         {% endif %}
                     </p>
-                    {% if not node.isPublished and workflow_can(node, 'publish') %}
+                    {% if not node.published and workflow_can(node, 'publish') %}
                         <p>
                             <a data-action="publish"
                                data-status="status"

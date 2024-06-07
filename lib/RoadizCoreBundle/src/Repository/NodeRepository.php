@@ -13,6 +13,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
+use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderApplyEvent;
@@ -20,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderBuildEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Model\NodeTreeDto;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -125,7 +127,9 @@ final class NodeRepository extends StatusAwareRepository
             isset($criteria['translation.id']) ||
             isset($criteria['translation.available'])
         ) {
-            $qb->innerJoin(self::NODE_ALIAS . '.nodeSources', self::NODESSOURCES_ALIAS);
+            if (!$this->hasJoinedNodesSources($qb, self::NODE_ALIAS)) {
+                $qb->innerJoin(self::NODE_ALIAS . '.nodeSources', self::NODESSOURCES_ALIAS);
+            }
             $qb->innerJoin(self::NODESSOURCES_ALIAS . '.translation', self::TRANSLATION_ALIAS);
         } else {
             if (null !== $translation) {
@@ -143,7 +147,9 @@ final class NodeRepository extends StatusAwareRepository
                  * With a null translation, not filter by translation to enable
                  * nodes with only one translation which is not the default one.
                  */
-                $qb->innerJoin(self::NODE_ALIAS . '.nodeSources', self::NODESSOURCES_ALIAS);
+                if (!$this->hasJoinedNodesSources($qb, self::NODE_ALIAS)) {
+                    $qb->innerJoin(self::NODE_ALIAS . '.nodeSources', self::NODESSOURCES_ALIAS);
+                }
             }
         }
     }
@@ -279,7 +285,7 @@ final class NodeRepository extends StatusAwareRepository
      * @param int|null $limit
      * @param int|null $offset
      * @param TranslationInterface|null $translation
-     * @return array<Node>|Paginator<Node>
+     * @return array<Node>
      */
     public function findBy(
         array $criteria,
@@ -287,7 +293,7 @@ final class NodeRepository extends StatusAwareRepository
         $limit = null,
         $offset = null,
         TranslationInterface $translation = null
-    ): array|Paginator {
+    ): array {
         $qb = $this->getContextualQueryWithTranslation(
             $criteria,
             $orderBy,
@@ -313,10 +319,166 @@ final class NodeRepository extends StatusAwareRepository
              * We need to use Doctrine paginator
              * if a limit is set because of the default inner join
              */
-            return new Paginator($query);
+            return (new Paginator($query))->getIterator()->getArrayCopy();
         } else {
             return $query->getResult();
         }
+    }
+
+
+    /**
+     * @param array $criteria
+     * @param array|null $orderBy
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param TranslationInterface|null $translation
+     * @return array<NodeTreeDto>
+     */
+    public function findByAsNodeTreeDto(
+        array $criteria,
+        array $orderBy = null,
+        ?int $limit = null,
+        ?int $offset = null,
+        TranslationInterface $translation = null
+    ): array {
+        $qb = $this->getContextualQueryWithTranslation(
+            $criteria,
+            $orderBy,
+            $limit,
+            $offset,
+            $translation
+        );
+
+        $qb->setCacheable(true);
+        $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
+        $this->applyFilterByTag($criteria, $qb);
+        $this->applyFilterByCriteria($criteria, $qb);
+        $this->applyTranslationByTag($qb, $translation);
+
+        $this->alterQueryBuilderAsNodeTreeDto($qb);
+
+        // @phpstan-ignore-next-line
+        $query = $qb->getQuery();
+        $this->dispatchQueryEvent($query);
+
+        return $query->getResult();
+    }
+
+    /**
+     * @param string  $pattern  Search pattern
+     * @param array   $criteria Additional criteria
+     * @param array   $orders
+     * @param int|null $limit
+     * @param int|null $offset
+     * @param string $alias
+     *
+     * @return array<NodeTreeDto>
+     * @psalm-return array<NodeTreeDto>
+     */
+    public function searchByAsNodeTreeDto(
+        string $pattern,
+        array $criteria = [],
+        array $orders = [],
+        ?int $limit = null,
+        ?int $offset = null,
+        string $alias = EntityRepository::DEFAULT_ALIAS
+    ): array {
+        $qb = $this->createQueryBuilder($alias);
+        $qb = $this->createSearchBy($pattern, $qb, $criteria, $alias);
+
+        // Add ordering
+        foreach ($orders as $key => $value) {
+            if (
+                (\str_starts_with($key, 'node.') || \str_starts_with($key, static::NODE_ALIAS . '.')) &&
+                $this->hasJoinedNode($qb, $alias)
+            ) {
+                $key = preg_replace('#^node\.#', static::NODE_ALIAS . '.', $key);
+                $qb->addOrderBy($key, $value);
+            } elseif (
+                \str_starts_with($key, static::NODESSOURCES_ALIAS . '.') &&
+                $this->hasJoinedNodesSources($qb, $alias)
+            ) {
+                $qb->addOrderBy($key, $value);
+            } else {
+                $qb->addOrderBy($alias . '.' . $key, $value);
+            }
+        }
+        if (null !== $offset) {
+            $qb->setFirstResult($offset);
+        }
+        if (null !== $limit) {
+            $qb->setMaxResults($limit);
+        }
+
+        $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
+        $this->applyFilterByCriteria($criteria, $qb);
+
+        $this->alterQueryBuilderAsNodeTreeDto($qb);
+
+        $query = $qb->getQuery();
+        $this->dispatchQueryEvent($query);
+
+        return $query->getResult();
+    }
+
+    protected function alterQueryBuilderAsNodeTreeDto(QueryBuilder $qb): QueryBuilder
+    {
+        if (!$this->hasJoinedNodeType($qb, self::NODE_ALIAS)) {
+            $qb->innerJoin(self::NODE_ALIAS . '.nodeType', self::NODETYPE_ALIAS);
+        }
+        if (!$this->hasJoinedNodesSources($qb, self::NODE_ALIAS)) {
+            $qb->innerJoin(self::NODE_ALIAS . '.nodeSources', self::NODESSOURCES_ALIAS);
+        }
+
+        $qb->select(sprintf(
+            <<<EOT
+NEW %s(
+    %s.id,
+    %s.nodeName,
+    %s.hideChildren,
+    %s.home,
+    %s.visible,
+    %s.status,
+    IDENTITY(%s.parent),
+    %s.childrenOrder,
+    %s.childrenOrderDirection,
+    %s.locked,
+    %s.name,
+    %s.publishable,
+    %s.reachable,
+    %s.displayName,
+    %s.color,
+    %s.hidingNodes,
+    %s.hidingNonReachableNodes,
+    %s.id,
+    %s.title,
+    %s.publishedAt
+)
+EOT,
+            NodeTreeDto::class,
+            self::NODE_ALIAS,
+            self::NODE_ALIAS,
+            self::NODE_ALIAS,
+            self::NODE_ALIAS,
+            self::NODE_ALIAS,
+            self::NODE_ALIAS,
+            self::NODE_ALIAS,
+            self::NODE_ALIAS,
+            self::NODE_ALIAS,
+            self::NODE_ALIAS,
+            self::NODETYPE_ALIAS,
+            self::NODETYPE_ALIAS,
+            self::NODETYPE_ALIAS,
+            self::NODETYPE_ALIAS,
+            self::NODETYPE_ALIAS,
+            self::NODETYPE_ALIAS,
+            self::NODETYPE_ALIAS,
+            self::NODESSOURCES_ALIAS,
+            self::NODESSOURCES_ALIAS,
+            self::NODESSOURCES_ALIAS,
+        ));
+
+        return $qb;
     }
 
     /**
@@ -409,8 +571,8 @@ final class NodeRepository extends StatusAwareRepository
      */
     public function findOneBy(
         array $criteria,
-        array $orderBy = null,
-        TranslationInterface $translation = null
+        ?array $orderBy = null,
+        ?TranslationInterface $translation = null
     ): ?Node {
         $qb = $this->getContextualQueryWithTranslation(
             $criteria,
@@ -879,10 +1041,10 @@ final class NodeRepository extends StatusAwareRepository
     }
 
     /**
-     * @param Node $node
+     * @param NodeInterface $node
      * @return array<int>
      */
-    public function findAllOffspringIdByNode(Node $node): array
+    public function findAllOffspringIdByNode(NodeInterface $node): array
     {
         $theOffsprings = [];
         $in = \array_filter([(int) $node->getId()]);

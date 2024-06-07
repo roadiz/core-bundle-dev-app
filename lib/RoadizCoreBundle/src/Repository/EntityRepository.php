@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Repository;
 
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -16,7 +15,6 @@ use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
-use LogicException;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderApplyEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderBuildEvent;
@@ -29,30 +27,21 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @template TEntityClass of object
- * @extends \Doctrine\ORM\EntityRepository<TEntityClass>
+ * @extends ServiceEntityRepository<TEntityClass>
  */
-abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implements ServiceEntityRepositoryInterface
+abstract class EntityRepository extends ServiceEntityRepository
 {
-    protected EventDispatcherInterface $dispatcher;
-
     /**
      * @param ManagerRegistry $registry
      * @param class-string<TEntityClass> $entityClass
      * @param EventDispatcherInterface $dispatcher
      */
-    public function __construct(ManagerRegistry $registry, string $entityClass, EventDispatcherInterface $dispatcher)
-    {
-        $this->dispatcher = $dispatcher;
-        $manager = $registry->getManagerForClass($entityClass);
-
-        if (!($manager instanceof EntityManagerInterface)) {
-            throw new LogicException(sprintf(
-                'Could not find the entity manager for class "%s". Check your Doctrine configuration to make sure it is configured to load this entity’s metadata.',
-                $entityClass
-            ));
-        }
-
-        parent::__construct($manager, $manager->getClassMetadata($entityClass));
+    public function __construct(
+        ManagerRegistry $registry,
+        string $entityClass,
+        protected readonly EventDispatcherInterface $dispatcher
+    ) {
+        parent::__construct($registry, $entityClass);
     }
 
     /**
@@ -154,7 +143,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
      * @param  string       $alias
      * @return QueryBuilder
      */
-    protected function prepareComparisons(array &$criteria, QueryBuilder $qb, string $alias)
+    protected function prepareComparisons(array &$criteria, QueryBuilder $qb, string $alias): QueryBuilder
     {
         $simpleQB = new SimpleQueryBuilder($qb);
         foreach ($criteria as $key => $value) {
@@ -321,15 +310,15 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
     }
 
     /**
-     * @param string  $pattern  Search pattern
-     * @param array   $criteria Additional criteria
-     * @param array   $orders
+     * @param string $pattern Search pattern
+     * @param array $criteria Additional criteria
+     * @param array $orders
      * @param int|null $limit
      * @param int|null $offset
      * @param string $alias
      *
-     * @return array<TEntityClass>|Paginator<TEntityClass>
-     * @psalm-return array<TEntityClass>|Paginator<TEntityClass>
+     * @return array<TEntityClass>
+     * @throws \Exception
      */
     public function searchBy(
         string $pattern,
@@ -338,7 +327,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
         ?int $limit = null,
         ?int $offset = null,
         string $alias = EntityRepository::DEFAULT_ALIAS
-    ): array|Paginator {
+    ): array {
         $qb = $this->createQueryBuilder($alias);
         $qb = $this->createSearchBy($pattern, $qb, $criteria, $alias);
 
@@ -379,7 +368,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
              * We need to use Doctrine paginator
              * if a limit is set because of the default inner join
              */
-            return new Paginator($query);
+            return (new Paginator($query))->getIterator()->getArrayCopy();
         } else {
             return $query->getResult();
         }
@@ -497,7 +486,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
      * @param  string  $alias
      * @return bool
      */
-    protected function hasJoinedNode(QueryBuilder $qb, string $alias)
+    protected function hasJoinedNode(QueryBuilder $qb, string $alias): bool
     {
         return $this->joinExists($qb, $alias, static::NODE_ALIAS);
     }
@@ -509,7 +498,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
      * @param  string  $alias
      * @return bool
      */
-    protected function hasJoinedNodesSources(QueryBuilder $qb, string $alias)
+    protected function hasJoinedNodesSources(QueryBuilder $qb, string $alias): bool
     {
         return $this->joinExists($qb, $alias, static::NODESSOURCES_ALIAS);
     }
@@ -521,7 +510,7 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
      * @param  string  $alias
      * @return bool
      */
-    protected function hasJoinedNodeType(QueryBuilder $qb, string $alias)
+    protected function hasJoinedNodeType(QueryBuilder $qb, string $alias): bool
     {
         return $this->joinExists($qb, $alias, static::NODETYPE_ALIAS);
     }
@@ -532,12 +521,11 @@ abstract class EntityRepository extends \Doctrine\ORM\EntityRepository implement
      * @param string $joinAlias
      * @return bool
      */
-    protected function joinExists(QueryBuilder $qb, string $rootAlias, string $joinAlias)
+    protected function joinExists(QueryBuilder $qb, string $rootAlias, string $joinAlias): bool
     {
         if (isset($qb->getDQLPart('join')[$rootAlias])) {
             foreach ($qb->getDQLPart('join')[$rootAlias] as $join) {
                 if (
-                    null !== $join &&
                     $join instanceof Join &&
                     $join->getAlias() === $joinAlias
                 ) {

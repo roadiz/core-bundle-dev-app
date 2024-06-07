@@ -10,10 +10,13 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
+/**
+ * @deprecated Use NodesSourcesRepository directly
+ */
 class NodeSourceApi extends AbstractApi
 {
     /**
-     * @var class-string
+     * @var class-string<NodesSources>
      */
     protected string $nodeSourceClassName = NodesSources::class;
 

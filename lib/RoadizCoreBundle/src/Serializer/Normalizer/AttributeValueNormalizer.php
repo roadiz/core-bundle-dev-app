@@ -25,6 +25,7 @@ final class AttributeValueNormalizer extends AbstractPathNormalizer
     {
         $data = $this->decorated->normalize($object, $format, $context);
         if ($object instanceof AttributeValue && is_array($data)) {
+            $this->stopwatch->start('normalizeAttributeValue', 'serializer');
             /** @var array<string> $serializationGroups */
             $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
 
@@ -57,6 +58,7 @@ final class AttributeValueNormalizer extends AbstractPathNormalizer
                     return $this->decorated->normalize($document, $format, $documentsContext);
                 }, $object->getAttribute()->getDocuments()->toArray());
             }
+            $this->stopwatch->stop('normalizeAttributeValue');
         }
         return $data;
     }

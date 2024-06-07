@@ -12,10 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 #[Exclude]
 class QueryBuilderListManager extends AbstractEntityListManager
 {
-    protected QueryBuilder $queryBuilder;
     protected ?Paginator $paginator = null;
-    protected string $identifier;
-    protected bool $debug = false;
     /**
      * @var null|callable
      */
@@ -29,14 +26,11 @@ class QueryBuilderListManager extends AbstractEntityListManager
      */
     public function __construct(
         ?Request $request,
-        QueryBuilder $queryBuilder,
-        string $identifier = 'obj',
-        bool $debug = false
+        protected readonly QueryBuilder $queryBuilder,
+        protected readonly string $identifier = 'obj',
+        protected readonly bool $debug = false
     ) {
         parent::__construct($request);
-        $this->queryBuilder = $queryBuilder;
-        $this->identifier = $identifier;
-        $this->debug = $debug;
     }
 
     /**
@@ -118,9 +112,9 @@ class QueryBuilderListManager extends AbstractEntityListManager
     /**
      * @inheritDoc
      */
-    public function getEntities(): Paginator
+    public function getEntities(): array
     {
-        return $this->getPaginator();
+        return $this->getPaginator()->getIterator()->getArrayCopy();
     }
 
     /**

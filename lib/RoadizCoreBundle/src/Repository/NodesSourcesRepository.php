@@ -247,8 +247,8 @@ class NodesSourcesRepository extends StatusAwareRepository
     protected function getContextualQuery(
         array &$criteria,
         array $orderBy = null,
-        $limit = null,
-        $offset = null
+        ?int $limit = null,
+        ?int $offset = null
     ): QueryBuilder {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
         $this->alterQueryBuilderWithAuthorizationChecker($qb, static::NODESSOURCES_ALIAS);
@@ -352,14 +352,14 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param array|null $orderBy
      * @param int|null $limit
      * @param int|null $offset
-     * @return array<NodesSources>|Paginator<NodesSources>
+     * @return array<NodesSources>
      */
     public function findBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
         $offset = null
-    ) {
+    ): array {
         $qb = $this->getContextualQuery(
             $criteria,
             $orderBy,
@@ -388,7 +388,7 @@ class NodesSourcesRepository extends StatusAwareRepository
              * We need to use Doctrine paginator
              * if a limit is set because of the default inner join
              */
-            return new Paginator($query);
+            return (new Paginator($query))->getIterator()->getArrayCopy();
         } else {
             return $query->getResult();
         }
@@ -406,7 +406,7 @@ class NodesSourcesRepository extends StatusAwareRepository
      */
     public function findOneBy(
         array $criteria,
-        array $orderBy = null
+        ?array $orderBy = null
     ): ?NodesSources {
         $qb = $this->getContextualQuery(
             $criteria,
@@ -629,7 +629,7 @@ class NodesSourcesRepository extends StatusAwareRepository
      * Extends EntityRepository to make join possible with «node.» prefix.
      * Required if making search with EntityListManager and filtering by node criteria.
      */
-    protected function prepareComparisons(array &$criteria, QueryBuilder $qb, $alias)
+    protected function prepareComparisons(array &$criteria, QueryBuilder $qb, string $alias): QueryBuilder
     {
         $simpleQB = new SimpleQueryBuilder($qb);
 
@@ -693,7 +693,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         $limit = null,
         $offset = null,
         string $alias = EntityRepository::DEFAULT_ALIAS
-    ): array|Paginator {
+    ): array {
         return parent::searchBy($pattern, $criteria, $orders, $limit, $offset, static::NODESSOURCES_ALIAS);
     }
 

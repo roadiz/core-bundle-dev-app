@@ -8,12 +8,15 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 
+/**
+ * @deprecated Use NodeRepository directly
+ */
 class NodeApi extends AbstractApi
 {
     /**
      * @return NodeRepository
      */
-    public function getRepository()
+    public function getRepository(): NodeRepository
     {
         // phpstan cannot resolve repository type.
         /** @var NodeRepository $repository */

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\ListManager;
 
-use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 /**
@@ -34,7 +34,7 @@ class NodesSourcesPaginator extends Paginator
         return $this->totalCount;
     }
 
-    public function findByAtPage(array $order = [], int $page = 1): array|DoctrinePaginator
+    public function findByAtPage(array $order = [], int $page = 1): array
     {
         if (null !== $this->searchPattern) {
             return $this->searchByAtPage($order, $page);
@@ -46,5 +46,14 @@ class NodesSourcesPaginator extends Paginator
                 $this->getItemsPerPage() * ($page - 1)
             );
         }
+    }
+
+    protected function getRepository(): NodesSourcesRepository
+    {
+        /** @var NodesSourcesRepository $repository */
+        $repository = $this->em->getRepository($this->entityName);
+        $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
+        $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
+        return $repository;
     }
 }

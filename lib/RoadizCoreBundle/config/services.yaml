@@ -62,6 +62,10 @@ services:
             - '../src/Kernel.php'
             - '../src/Tests/'
             - '../src/Event/'
+            - '../src/Model/'
+            - '../src/ListManager/'
+            - '../src/Serializer/Normalizer/'
+            - '../src/Importer/'
 
     RZ\Roadiz\CoreBundle\EntityHandler\:
         resource: '../src/EntityHandler/'

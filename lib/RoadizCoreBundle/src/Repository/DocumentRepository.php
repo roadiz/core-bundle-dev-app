@@ -424,7 +424,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      * @param int|null $offset
      * @param TranslationInterface|null $translation
      *
-     * @return array|Paginator
+     * @return array
      */
     public function findBy(
         array $criteria,
@@ -432,7 +432,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         $limit = null,
         $offset = null,
         TranslationInterface $translation = null
-    ): array|Paginator {
+    ): array {
         $qb = $this->getContextualQueryWithTranslation(
             $criteria,
             $orderBy,
@@ -455,7 +455,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
              * We need to use Doctrine paginator
              * if a limit is set because of the default inner join
              */
-            return new Paginator($query);
+            return (new Paginator($query))->getIterator()->getArrayCopy();
         } else {
             return $query->getResult();
         }
@@ -473,8 +473,8 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      */
     public function findOneBy(
         array $criteria,
-        array $orderBy = null,
-        TranslationInterface $translation = null
+        ?array $orderBy = null,
+        ?TranslationInterface $translation = null
     ): ?Document {
         $qb = $this->getContextualQueryWithTranslation(
             $criteria,
@@ -523,6 +523,32 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
             return (int) $query->getQuery()->getSingleScalarResult();
         }
         return 0;
+    }
+
+    /**
+     * @param NodesSources|int $nodeSource
+     * @param TranslationInterface|int $translation
+     * @return Document|null
+     * @throws NonUniqueResultException
+     */
+    public function findOneDisplayableByNodeSource(
+        NodesSources|int $nodeSource,
+        TranslationInterface|int $translation
+    ): ?Document {
+        $qb = $this->createQueryBuilder('d');
+        $qb->addSelect('dt')
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->andWhere($qb->expr()->in('d.mimeType', ':mimeType'))
+            ->setParameter('nodeSource', $nodeSource)
+            ->setParameter('translation', $translation)
+            ->setParameter('raw', false)
+            ->setParameter('mimeType', ['image/webp', 'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'])
+            ->setMaxResults(1)
+            ->setCacheable(true);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**

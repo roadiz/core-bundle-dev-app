@@ -8,6 +8,9 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 
+/**
+ * @deprecated Use TagRepository directly
+ */
 class TagApi extends AbstractApi
 {
     /**

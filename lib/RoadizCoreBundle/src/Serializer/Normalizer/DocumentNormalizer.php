@@ -12,6 +12,7 @@ use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\Models\FolderInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * Override Document default normalization.
@@ -21,10 +22,11 @@ final class DocumentNormalizer extends AbstractPathNormalizer
     public function __construct(
         NormalizerInterface $decorated,
         UrlGeneratorInterface $urlGenerator,
+        Stopwatch $stopwatch,
         private readonly FilesystemOperator $documentsStorage,
-        private readonly EmbedFinderFactory $embedFinderFactory
+        private readonly EmbedFinderFactory $embedFinderFactory,
     ) {
-        parent::__construct($decorated, $urlGenerator);
+        parent::__construct($decorated, $urlGenerator, $stopwatch);
     }
 
     /**
@@ -41,6 +43,7 @@ final class DocumentNormalizer extends AbstractPathNormalizer
             $object instanceof Document &&
             is_array($data)
         ) {
+            $this->stopwatch->start('normalizeDocument', 'serializer');
             /** @var array<string> $serializationGroups */
             $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
             $data['type'] = $object->getShortType();
@@ -105,6 +108,8 @@ final class DocumentNormalizer extends AbstractPathNormalizer
                     $data['externalUrl'] = $translatedData->getExternalUrl();
                 }
             }
+
+            $this->stopwatch->stop('normalizeDocument');
         }
         return $data;
     }

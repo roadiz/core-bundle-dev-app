@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
-use RZ\Roadiz\CoreBundle\Entity\FolderTranslation;
 
 /**
  * Class PrefixAwareRepository for defining join-queries prefixes.
@@ -149,15 +148,15 @@ abstract class PrefixAwareRepository extends EntityRepository
      * @param array|null $orderBy
      * @param int|null $limit
      * @param int|null $offset
-     * @return array|Paginator
-     * @psalm-return array<TEntityClass>|Paginator<TEntityClass>
+     * @return array<TEntityClass>
+     * @throws \Exception
      */
     public function findBy(
         array $criteria,
         array $orderBy = null,
         $limit = null,
         $offset = null
-    ): array|Paginator {
+    ): array {
         $qb = $this->createQueryBuilder($this->getDefaultPrefix());
         $qb->select($this->getDefaultPrefix());
         $qb = $this->prepareComparisons($criteria, $qb, $this->getDefaultPrefix());
@@ -189,7 +188,7 @@ abstract class PrefixAwareRepository extends EntityRepository
              * We need to use Doctrine paginator
              * if a limit is set because of the default inner join
              */
-            return new Paginator($query);
+            return (new Paginator($query))->getIterator()->getArrayCopy();
         } else {
             return $query->getResult();
         }
@@ -201,14 +200,14 @@ abstract class PrefixAwareRepository extends EntityRepository
      * @param array      $criteria
      * @param array|null $orderBy
      *
-     * @return Entity
+     * @return object|null
      * @psalm-return TEntityClass
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findOneBy(
         array $criteria,
-        array $orderBy = null
-    ) {
+        ?array $orderBy = null
+    ): ?object {
         $qb = $this->createQueryBuilder($this->getDefaultPrefix());
         $qb->select($this->getDefaultPrefix());
         $qb = $this->prepareComparisons($criteria, $qb, $this->getDefaultPrefix());
@@ -238,8 +237,7 @@ abstract class PrefixAwareRepository extends EntityRepository
      * @param integer $offset
      * @param string  $alias
      *
-     * @return array|Paginator
-     * @psalm-return array<TEntityClass>|Paginator<TEntityClass>
+     * @return array<TEntityClass>
      */
     public function searchBy(
         string $pattern,
@@ -248,7 +246,7 @@ abstract class PrefixAwareRepository extends EntityRepository
         $limit = null,
         $offset = null,
         string $alias = EntityRepository::DEFAULT_ALIAS
-    ): array|Paginator {
+    ): array {
         $qb = $this->createQueryBuilder($alias);
         $qb->select($alias);
         $qb = $this->createSearchBy($pattern, $qb, $criteria, $alias);
@@ -281,7 +279,7 @@ abstract class PrefixAwareRepository extends EntityRepository
              * We need to use Doctrine paginator
              * if a limit is set because of the default inner join
              */
-            return new Paginator($query);
+            return (new Paginator($query))->getIterator()->getArrayCopy();
         } else {
             return $query->getResult();
         }

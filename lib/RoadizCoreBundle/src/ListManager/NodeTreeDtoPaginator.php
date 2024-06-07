@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\ListManager;
 
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Model\NodeTreeDto;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
@@ -14,10 +15,9 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
  *
  * This class add some translation and security filters
  *
- * @extends Paginator<Node>
  */
 #[Exclude]
-class NodePaginator extends Paginator
+class NodeTreeDtoPaginator extends Paginator
 {
     protected ?TranslationInterface $translation = null;
 
@@ -32,27 +32,29 @@ class NodePaginator extends Paginator
         return $this;
     }
 
+    /**
+     * @param array $order
+     * @param int $page
+     * @return array<NodeTreeDto>
+     */
     public function findByAtPage(array $order = [], int $page = 1): array
     {
+        $repository = $this->getRepository();
         if (null !== $this->searchPattern) {
-            return $this->searchByAtPage($order, $page);
-        } else {
-            /** @var NodeRepository $repository */
-            $repository = $this->getRepository();
-            if ($repository instanceof NodeRepository) {
-                return $repository->findBy(
-                    $this->criteria,
-                    $order,
-                    $this->getItemsPerPage(),
-                    $this->getItemsPerPage() * ($page - 1),
-                    $this->getTranslation()
-                );
-            }
-            return $repository->findBy(
+            return $repository->searchByAsNodeTreeDto(
+                $this->searchPattern,
                 $this->criteria,
                 $order,
                 $this->getItemsPerPage(),
                 $this->getItemsPerPage() * ($page - 1)
+            );
+        } else {
+            return $repository->findByAsNodeTreeDto(
+                $this->criteria,
+                $order,
+                $this->getItemsPerPage(),
+                $this->getItemsPerPage() * ($page - 1),
+                $this->getTranslation()
             );
         }
     }
@@ -64,19 +66,22 @@ class NodePaginator extends Paginator
                 $this->totalCount = $this->getRepository()
                     ->countSearchBy($this->searchPattern, $this->criteria);
             } else {
-                $repository = $this->getRepository();
-                if ($repository instanceof NodeRepository) {
-                    $this->totalCount = $repository->countBy(
-                        $this->criteria,
-                        $this->getTranslation()
-                    );
-                }
-                $this->totalCount = $repository->countBy(
-                    $this->criteria
+                $this->totalCount = $this->getRepository()->countBy(
+                    $this->criteria,
+                    $this->getTranslation()
                 );
             }
         }
 
         return $this->totalCount;
+    }
+
+    // @phpstan-ignore-next-line
+    protected function getRepository(): NodeRepository
+    {
+        $repository = $this->em->getRepository(Node::class);
+        $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
+        $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
+        return $repository;
     }
 }

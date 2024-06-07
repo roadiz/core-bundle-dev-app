@@ -8,7 +8,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesCustomForms;
-use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**

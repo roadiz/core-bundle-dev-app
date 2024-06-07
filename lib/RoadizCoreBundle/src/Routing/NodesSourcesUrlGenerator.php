@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Theme;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Do not extend this class, use NodesSourcesPathGeneratingEvent::class event.

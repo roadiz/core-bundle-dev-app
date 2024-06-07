@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Repository\EntityRepository;
@@ -163,9 +162,9 @@ class Paginator
      * @param array $order
      * @param int $page
      *
-     * @return array<T>|DoctrinePaginator<T>
+     * @return array<T>
      */
-    public function findByAtPage(array $order = [], int $page = 1): array|DoctrinePaginator
+    public function findByAtPage(array $order = [], int $page = 1): array
     {
         if (null !== $this->searchPattern) {
             return $this->searchByAtPage($order, $page);
@@ -186,9 +185,10 @@ class Paginator
      * @param array $order
      * @param int $page
      *
-     * @return array<T>|DoctrinePaginator<T>
+     * @return array<T>
+     * @throws \Exception
      */
-    public function searchByAtPage(array $order = [], int $page = 1): array|DoctrinePaginator
+    public function searchByAtPage(array $order = [], int $page = 1): array
     {
         $repository = $this->getRepository();
         if ($repository instanceof EntityRepository) {
@@ -264,7 +264,7 @@ class Paginator
     }
 
     /**
-     * @return \Doctrine\ORM\EntityRepository<T>
+     * @return EntityRepository<T>
      */
     protected function getRepository(): \Doctrine\ORM\EntityRepository
     {

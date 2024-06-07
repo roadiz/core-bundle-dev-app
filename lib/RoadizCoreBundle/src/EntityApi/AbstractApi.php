@@ -7,6 +7,9 @@ namespace RZ\Roadiz\CoreBundle\EntityApi;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @deprecated Use EntityRepository directly
+ */
 abstract class AbstractApi
 {
     protected ManagerRegistry $managerRegistry;
