@@ -4,7 +4,8 @@ api_platform:
     version:     '%env(string:APP_VERSION)%'
     enable_swagger_ui: true
     enable_re_doc: true
-    keep_legacy_inflector: false
+    # Symfony inflector wrongly pluralizes "nodes_sources" to "nodes_sourcess"
+    keep_legacy_inflector: true
     graphql:
         introspection: '%kernel.debug%'
         graphiql:
