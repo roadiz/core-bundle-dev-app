@@ -5,6 +5,11 @@
     </a>
 </td>
 <td>{{ item.attributeTranslations.first.label -}}</td>
+<td class="mobile-hidden">
+    {%- if item.group -%}
+        {{- item.group.name -}}
+    {%- endif -%}
+</td>
 <td>{{- item.typeLabel|trans -}}</td>
 <td class="mobile-hidden">
     {%- if item.attributeValues|length > 0 -%}
@@ -17,9 +22,7 @@
     {%- endif -%}
 </td>
 <td class="mobile-hidden">
-    {%- if item.group -%}
-        {{- item.group.name -}}
-    {%- endif -%}
+    {{- item.weight -}}
 </td>
 <td class="table-actions-row">
     {% apply spaceless %}

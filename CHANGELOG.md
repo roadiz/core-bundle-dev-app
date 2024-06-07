@@ -2,6 +2,34 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.6...v2.3.7) - 2024-06-06
+
+### Features
+
+- **(CoreBundle)** Made preview required RoleName configurable - ([1f94711](https://github.com/roadiz/core-bundle-dev-app/commit/1f947114846778923527effa243538e7b49316d1))
+
+## [2.3.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.5...v2.3.6) - 2024-06-04
+
+### Features
+
+- **(NodeType)** Added `sortingAttributesByWeight` boolean option for NodeType - ([becf83e](https://github.com/roadiz/core-bundle-dev-app/commit/becf83e34f2242545f78b8496465f8a2a30777f3))
+
+## [2.3.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.4...v2.3.5) - 2024-06-03
+
+### Bug Fixes
+
+- Undefined JS var - ([cb67bec](https://github.com/roadiz/core-bundle-dev-app/commit/cb67bec1803b28a2ab356d4a4ad9697f32f672fd))
+
+## [2.3.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.3...v2.3.4) - 2024-06-03
+
+### Bug Fixes
+
+- **(UI)** Fixed drag and drop custom-form fields, node-type fields and attribute-values by setting new position against previous or next element id - ([1c929fc](https://github.com/roadiz/core-bundle-dev-app/commit/1c929fcdf5c636a77a7ec3730895c0790e1a9c09))
+
+### Features
+
+- **(Attributes)** Added Attribute `weight` field to sort filtered lists. - ([cbcc6e6](https://github.com/roadiz/core-bundle-dev-app/commit/cbcc6e682f0783b9da02454f411fe06f0417f0cb))
+
 ## [2.3.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.2...v2.3.3) - 2024-05-31
 
 ### Bug Fixes

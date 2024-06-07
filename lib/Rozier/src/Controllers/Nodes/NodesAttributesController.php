@@ -82,7 +82,15 @@ class NodesAttributesController extends RozierApp
             );
 
         $this->assignation['attribute_value_translation_forms'] = [];
-        $attributeValues = $node->getAttributeValues();
+        $nodeType = $node->getNodeType();
+        $orderByWeight = false;
+        if ($nodeType instanceof NodeType) {
+            $orderByWeight = $nodeType->isSortingAttributesByWeight();
+        }
+        $attributeValues = $this->em()->getRepository(AttributeValue::class)->findByAttributable(
+            $node,
+            $orderByWeight
+        );
         /** @var AttributeValue $attributeValue */
         foreach ($attributeValues as $attributeValue) {
             $name = $node->getNodeName() . '_attribute_' . $attributeValue->getId();
@@ -151,6 +159,7 @@ class NodesAttributesController extends RozierApp
 
         $this->assignation['source'] = $nodeSource;
         $this->assignation['translation'] = $translation;
+        $this->assignation['order_by_weight'] = $orderByWeight;
         $availableTranslations = $this->em()
             ->getRepository(Translation::class)
             ->findAvailableTranslationsForNode($node);

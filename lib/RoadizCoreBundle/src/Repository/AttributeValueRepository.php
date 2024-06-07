@@ -24,14 +24,15 @@ final class AttributeValueRepository extends EntityRepository
 
     /**
      * @param AttributableInterface $attributable
-     *
-     * @return array
+     * @param bool $orderByWeight
+     * @return array<AttributeValue>
      */
     public function findByAttributable(
-        AttributableInterface $attributable
+        AttributableInterface $attributable,
+        bool $orderByWeight = false
     ): array {
         $qb = $this->createQueryBuilder('av');
-        return $qb->addSelect('avt')
+        $qb = $qb->addSelect('avt')
             ->addSelect('a')
             ->addSelect('at')
             ->addSelect('ad')
@@ -44,12 +45,18 @@ final class AttributeValueRepository extends EntityRepository
             ->leftJoin('a.group', 'ag')
             ->leftJoin('ag.attributeGroupTranslations', 'agt')
             ->andWhere($qb->expr()->eq('av.node', ':attributable'))
-            ->addOrderBy('av.position', 'ASC')
             ->setParameters([
                 'attributable' => $attributable,
             ])
-            ->setCacheable(true)
-            ->getQuery()
+            ->setCacheable(true);
+
+        if ($orderByWeight) {
+            $qb->addOrderBy('a.weight', 'DESC');
+        } else {
+            $qb->addOrderBy('av.position', 'ASC');
+        }
+
+        return $qb->getQuery()
             ->getResult();
     }
 

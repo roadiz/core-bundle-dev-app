@@ -10,6 +10,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -58,6 +59,12 @@ class AttributeType extends AbstractType
                 'label' => 'attributes.form.searchable',
                 'required' => false,
                 'help' => 'attributes.form_help.searchable'
+            ])
+            ->add('weight', NumberType::class, [
+                'label' => 'attributes.weight',
+                'required' => false,
+                'scale' => 1,
+                'help' => 'attributes.form_help.weight'
             ])
             ->add('defaultRealm', RealmChoiceType::class, [
                 'label' => 'attributes.defaultRealm',
