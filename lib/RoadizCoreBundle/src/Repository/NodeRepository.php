@@ -13,6 +13,7 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
+use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderApplyEvent;
@@ -1038,10 +1039,10 @@ EOT,
     }
 
     /**
-     * @param Node $node
+     * @param NodeInterface $node
      * @return array<int>
      */
-    public function findAllOffspringIdByNode(Node $node): array
+    public function findAllOffspringIdByNode(NodeInterface $node): array
     {
         $theOffsprings = [];
         $in = \array_filter([(int) $node->getId()]);

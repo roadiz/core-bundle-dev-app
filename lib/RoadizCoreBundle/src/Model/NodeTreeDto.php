@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Model;
 
-use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 
 /**
  * Doctrine Data transfer object to represent a Node in a tree.
  */
-final class NodeTreeDto implements PersistableInterface
+final class NodeTreeDto implements NodeInterface
 {
     public NodeTypeTreeDto $nodeType;
     public NodesSourcesTreeDto $nodeSource;

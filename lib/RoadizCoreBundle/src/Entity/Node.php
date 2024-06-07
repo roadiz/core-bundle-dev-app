@@ -19,6 +19,7 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
+use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Model\AttributableInterface;
@@ -66,7 +67,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ),
     ApiFilter(PropertyFilter::class)
 ]
-class Node extends AbstractDateTimedPositioned implements LeafInterface, AttributableInterface, Loggable
+class Node extends AbstractDateTimedPositioned implements LeafInterface, AttributableInterface, Loggable, NodeInterface
 {
     use LeafTrait;
     use AttributableTrait;
