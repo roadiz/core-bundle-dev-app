@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\ListManager;
 
-use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
-
 interface EntityListManagerInterface
 {
     public const ITEM_PER_PAGE = 20;
@@ -104,9 +102,9 @@ interface EntityListManagerInterface
     /**
      * Return filtered entities.
      *
-     * @return array|DoctrinePaginator
+     * @return array
      */
-    public function getEntities(): array|DoctrinePaginator;
+    public function getEntities(): array;
 
     /**
      * Configure a custom item count per page.

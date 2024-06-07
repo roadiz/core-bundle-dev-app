@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\ListManager;
 
-use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
@@ -212,9 +211,9 @@ class EntityListManager extends AbstractEntityListManager
     /**
      * Return filtered entities.
      *
-     * @return array<T>|DoctrinePaginator<T>
+     * @return array<T>
      */
-    public function getEntities(): array|DoctrinePaginator
+    public function getEntities(): array
     {
         if ($this->pagination === true && null !== $this->paginator) {
             $this->paginator->setItemsPerPage($this->getItemPerPage());

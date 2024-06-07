@@ -19,8 +19,6 @@ abstract class StatusAwareRepository extends EntityRepository
 {
     private bool $displayNotPublishedNodes;
     private bool $displayAllNodesStatuses;
-    protected Security $security;
-    protected PreviewResolverInterface $previewResolver;
 
     /**
      * @param ManagerRegistry $registry
@@ -32,16 +30,14 @@ abstract class StatusAwareRepository extends EntityRepository
     public function __construct(
         ManagerRegistry $registry,
         string $entityClass,
-        PreviewResolverInterface $previewResolver,
+        protected readonly PreviewResolverInterface $previewResolver,
         EventDispatcherInterface $dispatcher,
-        Security $security
+        protected readonly Security $security
     ) {
         parent::__construct($registry, $entityClass, $dispatcher);
 
         $this->displayNotPublishedNodes = false;
         $this->displayAllNodesStatuses = false;
-        $this->security = $security;
-        $this->previewResolver = $previewResolver;
     }
 
 
@@ -55,9 +51,9 @@ abstract class StatusAwareRepository extends EntityRepository
 
     /**
      * @param bool $displayNotPublishedNodes
-     * @return static
+     * @return $this
      */
-    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes)
+    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes): self
     {
         $this->displayNotPublishedNodes = $displayNotPublishedNodes;
         return $this;
@@ -76,10 +72,9 @@ abstract class StatusAwareRepository extends EntityRepository
      * view deleted and archived nodes.
      *
      * @param bool $displayAllNodesStatuses
-     *
-     * @return static
+     * @return $this
      */
-    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses)
+    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses): self
     {
         $this->displayAllNodesStatuses = $displayAllNodesStatuses;
         return $this;

@@ -235,7 +235,7 @@ final class TagRepository extends EntityRepository
      * @param integer|null                            $offset
      * @param TranslationInterface|null               $translation
      *
-     * @return array<Tag>|Paginator<Tag>
+     * @return array<Tag>
      */
     public function findBy(
         array $criteria,
@@ -243,7 +243,7 @@ final class TagRepository extends EntityRepository
         $limit = null,
         $offset = null,
         TranslationInterface $translation = null
-    ): array|Paginator {
+    ): array {
         $qb = $this->getContextualQueryWithTranslation(
             $criteria,
             $orderBy,
@@ -268,7 +268,7 @@ final class TagRepository extends EntityRepository
              * We need to use Doctrine paginator
              * if a limit is set because of the default inner join
              */
-            return new Paginator($query);
+            return (new Paginator($query))->getIterator()->getArrayCopy();
         } else {
             return $query->getResult();
         }
@@ -349,9 +349,9 @@ EOT,
      */
     public function findOneBy(
         array $criteria,
-        array $orderBy = null,
-        TranslationInterface $translation = null
-    ) {
+        ?array $orderBy = null,
+        ?TranslationInterface $translation = null
+    ): ?Tag {
         $qb = $this->getContextualQueryWithTranslation(
             $criteria,
             $orderBy,
@@ -648,7 +648,7 @@ EOT,
      * @param  string       $alias
      * @return QueryBuilder
      */
-    protected function prepareComparisons(array &$criteria, QueryBuilder $qb, $alias)
+    protected function prepareComparisons(array &$criteria, QueryBuilder $qb, string $alias): QueryBuilder
     {
         $simpleQB = new SimpleQueryBuilder($qb);
         foreach ($criteria as $key => $value) {

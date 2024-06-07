@@ -9,7 +9,6 @@ use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\TagTranslation;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\Tools\Pagination\Paginator as DoctrinePaginator;
 
 /**
  * Perform basic filtering and search over entity listings.
@@ -35,9 +34,9 @@ class TagListManager extends EntityListManager
     }
 
     /**
-     * @return array|DoctrinePaginator
+     * @return array
      */
-    public function getEntities(): array|DoctrinePaginator
+    public function getEntities(): array
     {
         try {
             if ($this->searchPattern != '') {

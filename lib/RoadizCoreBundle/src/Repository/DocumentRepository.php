@@ -424,7 +424,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      * @param int|null $offset
      * @param TranslationInterface|null $translation
      *
-     * @return array|Paginator
+     * @return array
      */
     public function findBy(
         array $criteria,
@@ -432,7 +432,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         $limit = null,
         $offset = null,
         TranslationInterface $translation = null
-    ): array|Paginator {
+    ): array {
         $qb = $this->getContextualQueryWithTranslation(
             $criteria,
             $orderBy,
@@ -455,7 +455,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
              * We need to use Doctrine paginator
              * if a limit is set because of the default inner join
              */
-            return new Paginator($query);
+            return (new Paginator($query))->getIterator()->getArrayCopy();
         } else {
             return $query->getResult();
         }
@@ -473,8 +473,8 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      */
     public function findOneBy(
         array $criteria,
-        array $orderBy = null,
-        TranslationInterface $translation = null
+        ?array $orderBy = null,
+        ?TranslationInterface $translation = null
     ): ?Document {
         $qb = $this->getContextualQueryWithTranslation(
             $criteria,

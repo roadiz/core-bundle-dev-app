@@ -6,8 +6,6 @@ namespace App\TreeWalker\Definition;
 
 use App\GeneratedEntity\NSArticle;
 use App\GeneratedEntity\NSArticleFeedBlock;
-use ArrayIterator;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\TreeWalker\Definition\ContextualDefinitionTrait;
@@ -31,50 +29,44 @@ final class ArticleFeedBlockDefinition implements StoppableDefinition
      */
     public function __invoke(NodesSources $source, WalkerInterface $walker): array
     {
-        if ($this->context instanceof NodeSourceWalkerContext) {
-            $this->context->getStopwatch()->start(self::class);
-            if (!$source instanceof NSArticleFeedBlock) {
-                throw new \InvalidArgumentException('Source must be instance of ' . NSArticleFeedBlock::class);
-            }
+        if (!($this->context instanceof NodeSourceWalkerContext)) {
+            throw new \InvalidArgumentException('Context should be instance of ' . NodeSourceWalkerContext::class);
+        }
 
-            $criteria = [
-                'node.visible' => true,
-                'publishedAt' => ['<=', new \DateTime()],
-                'translation' => $source->getTranslation(),
-                'node.nodeType' => $this->context->getNodeTypesBag()->get('Article')
-            ];
+        $this->context->getStopwatch()->start(self::class);
+        if (!$source instanceof NSArticleFeedBlock) {
+            throw new \InvalidArgumentException('Source must be instance of ' . NSArticleFeedBlock::class);
+        }
 
-            // Prevent Article feed to list root Article again
-            $root = $walker->getRoot()->getItem();
-            if ($root instanceof NSArticle) {
-                $criteria['id'] = ['!=', $root->getId()];
-            }
+        $criteria = [
+            'node.visible' => true,
+            'publishedAt' => ['<=', new \DateTime()],
+            'translation' => $source->getTranslation(),
+            'node.nodeType' => $this->context->getNodeTypesBag()->get('Article')
+        ];
 
-            if (null !== $source->getNode() && \count($source->getNode()->getTags()) > 0) {
-                $criteria['tags'] = $source->getNode()->getTags();
-                $criteria['tagExclusive'] = true;
-            }
+        // Prevent Article feed to list root Article again
+        $root = $walker->getRoot()->getItem();
+        if ($root instanceof NSArticle) {
+            $criteria['id'] = ['!=', $root->getId()];
+        }
 
-            $count = (int) ($source->getListingCount() ?? 4);
+        if (null !== $source->getNode() && \count($source->getNode()->getTags()) > 0) {
+            $criteria['tags'] = $source->getNode()->getTags();
+            $criteria['tagExclusive'] = true;
+        }
 
-            $children = $this->context->getNodeSourceApi()->getBy($criteria, [
+        $count = (int) ($source->getListingCount() ?? 4);
+
+        // @phpstan-ignore-next-line
+        $children = $this->context->getManagerRegistry()
+            ->getRepository(NSArticle::class)
+            ->findBy($criteria, [
                 'publishedAt' => 'DESC'
             ], $count);
 
+        $this->context->getStopwatch()->stop(self::class);
 
-            if ($children instanceof Paginator) {
-                $iterator = $children->getIterator();
-                if ($iterator instanceof ArrayIterator) {
-                    $children = $iterator->getArrayCopy();
-                }
-                // @phpstan-ignore-next-line
-                $children = iterator_to_array($iterator);
-            }
-
-            $this->context->getStopwatch()->stop(self::class);
-
-            return $children;
-        }
-        throw new \InvalidArgumentException('Context should be instance of ' . NodeSourceWalkerContext::class);
+        return $children;
     }
 }
