@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Routing;
 
 use Psr\Log\LoggerInterface;
-use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\Utils\StringHandler;
@@ -13,22 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class NodeRouteHelper
 {
-    private Node $node;
-    private ?Theme $theme;
-    private PreviewResolverInterface $previewResolver;
-    private LoggerInterface $logger;
-    private string $defaultControllerNamespace;
-    /**
-     * @var class-string<AbstractController>
-     */
-    private string $defaultControllerClass;
     /**
      * @var class-string<AbstractController>|null
      */
     private ?string $controller = null;
 
     /**
-     * @param Node $node
+     * @param NodeInterface $node
      * @param Theme|null $theme
      * @param PreviewResolverInterface $previewResolver
      * @param LoggerInterface $logger
@@ -36,19 +27,13 @@ final class NodeRouteHelper
      * @param string $defaultControllerNamespace
      */
     public function __construct(
-        Node $node,
-        ?Theme $theme,
-        PreviewResolverInterface $previewResolver,
-        LoggerInterface $logger,
-        string $defaultControllerClass,
-        string $defaultControllerNamespace = '\\App\\Controller'
+        private readonly NodeInterface $node,
+        private readonly ?Theme $theme,
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly LoggerInterface $logger,
+        private readonly string $defaultControllerClass,
+        private readonly string $defaultControllerNamespace = '\\App\\Controller'
     ) {
-        $this->node = $node;
-        $this->theme = $theme;
-        $this->previewResolver = $previewResolver;
-        $this->defaultControllerClass = $defaultControllerClass;
-        $this->logger = $logger;
-        $this->defaultControllerNamespace = $defaultControllerNamespace;
     }
 
     /**

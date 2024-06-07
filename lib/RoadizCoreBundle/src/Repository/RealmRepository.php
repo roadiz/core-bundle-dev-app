@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Realm;
-use RZ\Roadiz\CoreBundle\Entity\Redirection;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
@@ -33,7 +32,19 @@ final class RealmRepository extends EntityRepository
             ->andWhere($qb->expr()->isNotNull('rn.realm'))
             ->setParameter('node', $node);
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->setCacheable(true)->getResult();
+    }
+
+    public function findByNodeWithSerializationGroup(Node $node): array
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->innerJoin('r.realmNodes', 'rn')
+            ->andWhere($qb->expr()->in('rn.node', ':node'))
+            ->andWhere($qb->expr()->isNotNull('rn.realm'))
+            ->andWhere($qb->expr()->isNotNull('r.serializationGroup'))
+            ->setParameter('node', $node);
+
+        return $qb->getQuery()->setCacheable(true)->getResult();
     }
 
     public function findByNodeAndBehaviour(Node $node, string $realmBehaviour): array
@@ -46,6 +57,6 @@ final class RealmRepository extends EntityRepository
             ->setParameter('node', $node)
             ->setParameter('behaviour', $realmBehaviour);
 
-        return $qb->getQuery()->getResult();
+        return $qb->getQuery()->setCacheable(true)->getResult();
     }
 }

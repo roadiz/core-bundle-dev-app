@@ -12,6 +12,7 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 final class RealmSerializationGroupNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
@@ -21,7 +22,8 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
 
     public function __construct(
         private readonly Security $security,
-        private readonly ManagerRegistry $managerRegistry
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly Stopwatch $stopwatch
     ) {
     }
 
@@ -51,6 +53,7 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
      */
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
+        $this->stopwatch->start('getAuthorizedRealmsForObject', 'serializer');
         $realms = $this->getAuthorizedRealmsForObject($object);
 
         foreach ($realms as $realm) {
@@ -58,6 +61,7 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
                 $context['groups'][] = $realm->getSerializationGroup();
             }
         }
+        $this->stopwatch->stop('getAuthorizedRealmsForObject');
 
         $context[self::ALREADY_CALLED] = true;
 
@@ -69,7 +73,9 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
      */
     private function getAuthorizedRealmsForObject(NodesSources $object): array
     {
-        $realms = $this->managerRegistry->getRepository(Realm::class)->findByNode($object->getNode());
+        $realms = $this->managerRegistry
+            ->getRepository(Realm::class)
+            ->findByNodeWithSerializationGroup($object->getNode());
 
         return array_filter($realms, function (Realm $realm) {
             return $this->security->isGranted(RealmVoter::READ, $realm);

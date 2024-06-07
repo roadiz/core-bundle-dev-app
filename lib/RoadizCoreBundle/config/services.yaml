@@ -64,6 +64,7 @@ services:
             - '../src/Event/'
             - '../src/Model/'
             - '../src/ListManager/'
+            - '../src/Serializer/Normalizer/'
             - '../src/Importer/'
 
     RZ\Roadiz\CoreBundle\EntityHandler\:

@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 
 use League\Flysystem\FilesystemOperator;
 use Psr\Cache\CacheItemPoolInterface;
-use Psr\Cache\InvalidArgumentException;
 use RZ\Roadiz\Documents\UrlGenerators\AbstractDocumentUrlGenerator;
 use Symfony\Component\HttpFoundation\UrlHelper;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;

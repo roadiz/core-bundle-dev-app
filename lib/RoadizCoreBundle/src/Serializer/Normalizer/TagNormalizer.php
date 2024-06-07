@@ -30,6 +30,7 @@ final class TagNormalizer extends AbstractPathNormalizer
             isset($context['translation']) &&
             $context['translation'] instanceof TranslationInterface
         ) {
+            $this->stopwatch->start('normalizeTag', 'serializer');
             /** @var array<string> $serializationGroups */
             $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
             $translatedData = $object->getTranslatedTagsByTranslation($context['translation'])->first() ?: null;
@@ -45,6 +46,7 @@ final class TagNormalizer extends AbstractPathNormalizer
                     }, $translatedData->getDocuments());
                 }
             }
+            $this->stopwatch->stop('normalizeTag');
         }
         return $data;
     }

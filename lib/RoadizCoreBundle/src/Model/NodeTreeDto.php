@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Model;
 
+use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 
@@ -29,6 +30,7 @@ final class NodeTreeDto implements NodeInterface
         // NodeType
         string $nodeTypeName,
         bool $nodeTypePublishable,
+        bool $nodeTypeReachable,
         string $nodeTypeDisplayName,
         string $nodeTypeColor,
         bool $nodeTypeHidingNodes,
@@ -41,6 +43,7 @@ final class NodeTreeDto implements NodeInterface
         $this->nodeType = new NodeTypeTreeDto(
             $nodeTypeName,
             $nodeTypePublishable,
+            $nodeTypeReachable,
             $nodeTypeDisplayName,
             $nodeTypeColor,
             $nodeTypeHidingNodes,
@@ -135,7 +138,7 @@ final class NodeTreeDto implements NodeInterface
         return ($this->status === Node::DELETED);
     }
 
-    public function getNodeType(): NodeTypeTreeDto
+    public function getNodeType(): NodeTypeInterface
     {
         return $this->nodeType;
     }
