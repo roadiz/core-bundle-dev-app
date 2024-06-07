@@ -31,6 +31,14 @@ final class RealmResolver implements RealmResolverInterface
         return $this->managerRegistry->getRepository(Realm::class)->findByNode($node);
     }
 
+    public function getRealmsWithSerializationGroup(?Node $node): array
+    {
+        if (null === $node) {
+            return [];
+        }
+        return $this->managerRegistry->getRepository(Realm::class)->findByNodeWithSerializationGroup($node);
+    }
+
     public function isGranted(RealmInterface $realm): bool
     {
         return $this->security->isGranted(RealmVoter::READ, $realm);
@@ -72,6 +80,30 @@ final class RealmResolver implements RealmResolverInterface
             $allRealms = $this->managerRegistry->getRepository(Realm::class)->findBy([]);
             $cacheItem->set(array_filter($allRealms, fn(RealmInterface $realm) => !$this->isGranted($realm)));
             $cacheItem->expiresAfter(new \DateInterval('PT1H'));
+            $this->cache->save($cacheItem);
+        }
+        return $cacheItem->get();
+    }
+
+    public function hasRealms(): bool
+    {
+        $cacheItem = $this->cache->getItem('app_has_realms');
+        if (!$cacheItem->isHit()) {
+            $hasRealms = $this->managerRegistry->getRepository(Realm::class)->countBy([]) > 0;
+            $cacheItem->set($hasRealms);
+            $cacheItem->expiresAfter(new \DateInterval('PT2H'));
+            $this->cache->save($cacheItem);
+        }
+        return $cacheItem->get();
+    }
+
+    public function hasRealmsWithSerializationGroup(): bool
+    {
+        $cacheItem = $this->cache->getItem('app_has_realms_with_serialization_group');
+        if (!$cacheItem->isHit()) {
+            $hasRealms = $this->managerRegistry->getRepository(Realm::class)->countWithSerializationGroup() > 0;
+            $cacheItem->set($hasRealms);
+            $cacheItem->expiresAfter(new \DateInterval('PT2H'));
             $this->cache->save($cacheItem);
         }
         return $cacheItem->get();

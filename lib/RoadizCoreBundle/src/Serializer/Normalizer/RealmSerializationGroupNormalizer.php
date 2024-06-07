@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\Realm;
+use RZ\Roadiz\CoreBundle\Model\RealmInterface;
+use RZ\Roadiz\CoreBundle\Realm\RealmResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\RealmVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 final class RealmSerializationGroupNormalizer implements NormalizerInterface, NormalizerAwareInterface
 {
@@ -21,7 +22,8 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
 
     public function __construct(
         private readonly Security $security,
-        private readonly ManagerRegistry $managerRegistry
+        private readonly RealmResolver $realmResolver,
+        private readonly Stopwatch $stopwatch
     ) {
     }
 
@@ -30,12 +32,15 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
      */
     public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
+        if (!($data instanceof NodesSources)) {
+            return false;
+        }
         // Make sure we're not called twice
         if (isset($context[self::ALREADY_CALLED])) {
             return false;
         }
 
-        return $data instanceof NodesSources;
+        return $this->realmResolver->hasRealmsWithSerializationGroup();
     }
 
     public function getSupportedTypes(?string $format): array
@@ -51,6 +56,7 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
      */
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
+        $this->stopwatch->start('realm-serialization-group-normalizer', 'serializer');
         $realms = $this->getAuthorizedRealmsForObject($object);
 
         foreach ($realms as $realm) {
@@ -60,18 +66,19 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
         }
 
         $context[self::ALREADY_CALLED] = true;
+        $this->stopwatch->stop('realm-serialization-group-normalizer');
 
         return $this->normalizer->normalize($object, $format, $context);
     }
 
     /**
-     * @return Realm[]
+     * @return RealmInterface[]
      */
     private function getAuthorizedRealmsForObject(NodesSources $object): array
     {
-        $realms = $this->managerRegistry->getRepository(Realm::class)->findByNode($object->getNode());
+        $realms = $this->realmResolver->getRealmsWithSerializationGroup($object->getNode());
 
-        return array_filter($realms, function (Realm $realm) {
+        return array_filter($realms, function (RealmInterface $realm) {
             return $this->security->isGranted(RealmVoter::READ, $realm);
         });
     }
