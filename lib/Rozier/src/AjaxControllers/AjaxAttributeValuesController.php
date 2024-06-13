@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
+use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
