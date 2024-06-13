@@ -161,10 +161,12 @@ final class NodeVoter extends Voter
         return null === $chroot && $this->security->isGranted('ROLE_ACCESS_NODES');
     }
 
+    /*
+     * All node users can search even if they are chroot-ed
+     */
     private function canSearch(UserInterface $user): bool
     {
-        $chroot = $this->chrootResolver->getChroot($user);
-        return null === $chroot && $this->security->isGranted('ROLE_ACCESS_NODES');
+        return $this->security->isGranted('ROLE_ACCESS_NODES');
     }
 
     private function canEmptyTrash(UserInterface $user): bool

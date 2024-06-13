@@ -148,7 +148,10 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                     }
                 }
                 $this->em()->flush();
-                return $this->redirect($this->urlGenerator->generate($this->getDefaultRouteName()));
+                return $this->redirect($this->urlGenerator->generate(
+                    $this->getDefaultRouteName(),
+                    $this->getDefaultRouteParameters()
+                ));
             }
         }
 
@@ -164,6 +167,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
 
     public function bulkDeleteAction(Request $request): Response
     {
+        $this->additionalAssignation($request);
         return $this->bulkAction(
             $request,
             $this->getRequiredDeletionRole(),
@@ -185,6 +189,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
 
     public function bulkPublishAction(Request $request): Response
     {
+        $this->additionalAssignation($request);
         return $this->bulkAction(
             $request,
             $this->getRequiredRole(),
@@ -206,6 +211,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
 
     public function bulkUnpublishAction(Request $request): Response
     {
+        $this->additionalAssignation($request);
         return $this->bulkAction(
             $request,
             $this->getRequiredRole(),

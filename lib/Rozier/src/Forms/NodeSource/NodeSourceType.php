@@ -17,6 +17,8 @@ use RZ\Roadiz\CoreBundle\Form\JsonType;
 use RZ\Roadiz\CoreBundle\Form\MarkdownType;
 use RZ\Roadiz\CoreBundle\Form\MultipleEnumerationType;
 use RZ\Roadiz\CoreBundle\Form\YamlType;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeTypeFieldVoter;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
@@ -40,18 +42,18 @@ use Themes\Rozier\Forms\NodeTreeType;
 final class NodeSourceType extends AbstractType
 {
     protected ManagerRegistry $managerRegistry;
+    private Security $security;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(ManagerRegistry $managerRegistry, Security $security)
     {
         $this->managerRegistry = $managerRegistry;
+        $this->security = $security;
     }
 
     /**
-     * @param  FormBuilderInterface $builder
-     * @param  array                $options
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     * @throws \ReflectionException
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -63,8 +65,11 @@ final class NodeSourceType extends AbstractType
                 'translation' => $builder->getData()->getTranslation(),
             ]);
         }
-        /** @var NodeTypeField $field */
+
         foreach ($fields as $field) {
+            if (!$this->security->isGranted(NodeTypeFieldVoter::VIEW, $field)) {
+                continue;
+            }
             if ($options['withVirtual'] === true || !$field->isVirtual()) {
                 $builder->add(
                     $field->getVarName(),
@@ -106,7 +111,7 @@ final class NodeSourceType extends AbstractType
     /**
      * @param NodesSources $source
      * @param NodeType $nodeType
-     * @return array
+     * @return array<NodeTypeField>
      */
     private function getFieldsForSource(NodesSources $source, NodeType $nodeType): array
     {
