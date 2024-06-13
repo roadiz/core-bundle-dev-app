@@ -1,3 +1,10 @@
+## [v2.1.62](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.61...v2.1.62) (2024-06-13)
+
+
+### Features
+
+* Added customizable `getDefaultRouteParameters` in AbstractAdminController ([985a02e](https://github.com/roadiz/core-bundle-dev-app/commit/985a02e0ae89c4a52d89803bf1ced6049804014a))
+
 ## [v2.1.61](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.60...v2.1.61) (2024-04-19)
 
 
