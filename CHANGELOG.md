@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.8...v2.3.9) - 2024-06-13
+
+### Features
+
+- Added security layer on NodesSources form type for each node-type-field (NodeTypeFieldVoter) - ([29b0332](https://github.com/roadiz/core-bundle-dev-app/commit/29b03327001d3b27db38928b5c7eee758bf1a9a6))
+- Added customizable `getDefaultRouteParameters` in AbstractAdminController - ([899b397](https://github.com/roadiz/core-bundle-dev-app/commit/899b39788c25d9b735dc1d049684b4303d8b42a1))
+
 ## [2.3.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.7...v2.3.8) - 2024-06-07
 
 ### Performance
