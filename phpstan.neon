@@ -28,6 +28,8 @@ parameters:
         repositoryClass: RZ\Roadiz\CoreBundle\Repository\EntityRepository
         objectManagerLoader: ./tests/object-manager.php
     ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
         - '#Call to an undefined method RZ\\Roadiz\\CoreBundle\\Repository#'
         - '#Call to an undefined method RZ\\Roadiz\\UserBundle\\Repository#'
         - '#Call to an undefined method Doctrine\\Persistence\\ObjectRepository#'
@@ -49,8 +51,6 @@ parameters:
         - '#should return Doctrine\\Common\\Collections\\Collection<int, [^\>]+Interface> but returns Doctrine\\Common\\Collections\\Collection<int, [^\>]+>#'
 
     reportUnmatchedIgnoredErrors: false
-    checkGenericClassInNonGenericObjectType: false
-    checkMissingIterableValueType: false
 includes:
     - vendor/phpstan/phpstan-doctrine/extension.neon
     - vendor/phpstan/phpstan-doctrine/rules.neon
