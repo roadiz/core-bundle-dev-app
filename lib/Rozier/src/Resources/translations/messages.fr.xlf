@@ -2530,7 +2530,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer" approved="yes">
         <source>are_you_sure.delete.customFormAnswer</source>
-        <target state="final">Êtes-vous sûr(e) de vouloir supprimer ce formulaire personnalisé ?</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir supprimer cette réponse de formulaire personnalisé ?</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%" approved="yes">
         <source>delete.customFormAnswer.%name%</source>
@@ -4875,6 +4875,10 @@
       <trans-unit xml:space="preserve" id="sort_attributes_by_weight_for_this_type">
         <source>sort_attributes_by_weight_for_this_type</source>
         <target state="translated">Si le type de nœud accepte les attributs, cette option force le tri des attributs par poids plutôt que par position manuelle.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ip_address">
+        <source>ip_address</source>
+        <target state="translated">Adresse IP</target>
       </trans-unit>
       </body>
   </file>

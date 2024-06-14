@@ -12,10 +12,10 @@ set -e
 /bin/chown -R www-data:www-data /var/www/html/config || true;
 
 # Print local env vars to .env.xxx.php file for performances and crontab jobs
-/usr/bin/sudo -u www-data -- bash -c "/var/www/html/bin/console cache:clear -n"
-/usr/bin/sudo -u www-data -- bash -c "/var/www/html/bin/console cache:pool:clear cache.global_clearer -n"
-/usr/bin/sudo -u www-data -- bash -c "/var/www/html/bin/console assets:install -n"
-/usr/bin/sudo -u www-data -- bash -c "/var/www/html/bin/console themes:assets:install -n Rozier --relative --symlink"
+/usr/bin/sudo -E -u www-data -- bash -c "/var/www/html/bin/console cache:clear -n"
+/usr/bin/sudo -E -u www-data -- bash -c "/var/www/html/bin/console cache:pool:clear cache.global_clearer -n"
+/usr/bin/sudo -E -u www-data -- bash -c "/var/www/html/bin/console assets:install -n"
+/usr/bin/sudo -E -u www-data -- bash -c "/var/www/html/bin/console themes:assets:install -n Rozier --relative --symlink"
 
 #
 # Wait for database to be ready for next commands and migrations

@@ -42,6 +42,12 @@
                     <th>{% trans %}updated.at{% endtrans %}</th>
                     <td>{{ item.updatedAt|format_datetime('long', locale=app.request.locale) }}</td>
                 </tr>
+                {% if item.id == app.user.id %}
+                    <tr>
+                        <th>{% trans %}ip_address{% endtrans %}</th>
+                        <td>{{ app.request.clientIp }}</td>
+                    </tr>
+                {% endif %}
             </table>
         </div>
     </article>
