@@ -19,15 +19,15 @@ use Symfony\Component\Security\Core\Security;
 final class UserValidationRequestProcessor implements ProcessorInterface
 {
     public function __construct(
-        private UserProvider $userProvider,
-        private Security $security,
-        private UserValidationTokenManagerInterface $userValidationTokenManager,
-        private ManagerRegistry $managerRegistry,
-        private string $emailValidatedRoleName
+        private readonly UserProvider $userProvider,
+        private readonly Security $security,
+        private readonly UserValidationTokenManagerInterface $userValidationTokenManager,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly string $emailValidatedRoleName
     ) {
     }
 
-    public function process($data, Operation $operation, array $uriVariables = [], array $context = []): VoidOutput
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): VoidOutput
     {
         if (!$data instanceof UserValidationRequestInput) {
             throw new \RuntimeException(sprintf('Cannot process %s', get_class($data)));
