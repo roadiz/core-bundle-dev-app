@@ -265,7 +265,10 @@ class UsersController extends AbstractAdminWithBulkController
             },
             $this->getTemplateFolder() . '/bulk_enable.html.twig',
             '%namespace%.%item%.was_enabled',
-            function (User $item) {
+            function (PersistableInterface $item) {
+                if (!$item instanceof User) {
+                    throw new \RuntimeException('Invalid item type.');
+                }
                 $item->setEnabled(true);
             },
             'bulkEnableForm'
@@ -286,7 +289,10 @@ class UsersController extends AbstractAdminWithBulkController
             },
             $this->getTemplateFolder() . '/bulk_disable.html.twig',
             '%namespace%.%item%.was_disabled',
-            function (User $item) {
+            function (PersistableInterface $item) {
+                if (!$item instanceof User) {
+                    throw new \RuntimeException('Invalid item type.');
+                }
                 $item->setEnabled(false);
             },
             'bulkDisableForm'
