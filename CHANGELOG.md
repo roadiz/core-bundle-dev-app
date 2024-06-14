@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.21...v2.2.22) - 2024-06-14
+
+### Bug Fixes
+
+- PHPStan errors fixes - ([7fe9bc5](https://github.com/roadiz/core-bundle-dev-app/commit/7fe9bc5c8580885922cdebf75797fa7d7773216d))
+- Pass FormInterface to `bulkAction` to update bulk item with a form field data. - ([a719cbe](https://github.com/roadiz/core-bundle-dev-app/commit/a719cbe6c07f4418888695b48bddd4075a3d80ab))
+
 ## [2.2.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.20...v2.2.21) - 2024-06-13
 
 ### Features
