@@ -2518,7 +2518,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer" approved="yes">
         <source>are_you_sure.delete.customFormAnswer</source>
-        <target state="final">Are you sure you want to delete delete this answer</target>
+        <target state="final">Are you sure you want to delete this custom-form answer?</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%" approved="yes">
         <source>delete.customFormAnswer.%name%</source>
@@ -4683,6 +4683,74 @@
       <trans-unit xml:space="preserve" id="nodeSource.noIndex">
         <source>nodeSource.noIndex</source>
         <target state="translated">Disallow indexing</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageCropAlignment">
+        <source>document.imageCropAlignment</source>
+        <target state="translated">Image crop alignment</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageCropAlignment.help">
+        <source>document.imageCropAlignment.help</source>
+        <target state="translated">Define an interest area in your image for responsive image cropping.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.none">
+        <source>image_crop_alignment.none</source>
+        <target state="translated">No alignment set</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top-left">
+        <source>image_crop_alignment.top-left</source>
+        <target state="translated">Top left</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top">
+        <source>image_crop_alignment.top</source>
+        <target state="translated">Top</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top-right">
+        <source>image_crop_alignment.top-right</source>
+        <target state="translated">Top right</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.left">
+        <source>image_crop_alignment.left</source>
+        <target state="translated">Left</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.center">
+        <source>image_crop_alignment.center</source>
+        <target state="translated">Center</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.right">
+        <source>image_crop_alignment.right</source>
+        <target state="translated">Right</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left">
+        <source>image_crop_alignment.bottom-left</source>
+        <target state="translated">Bottom left</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom">
+        <source>image_crop_alignment.bottom</source>
+        <target state="translated">Bottom</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right">
+        <source>image_crop_alignment.bottom-right</source>
+        <target state="translated">Bottom right</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="attributable">
+        <source>attributable</source>
+        <target state="translated">Attributable</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type">
+        <source>enables_node_attributes_for_this_type</source>
+        <target state="translated">Allows nodes of this type to hold attributes in addition of their data fields.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="sortingAttributesByWeight">
+        <source>sortingAttributesByWeight</source>
+        <target state="translated">Sort attributes by weight</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="sort_attributes_by_weight_for_this_type">
+        <source>sort_attributes_by_weight_for_this_type</source>
+        <target state="translated">If node-type is attributable, this option enforce attribute sorting by weight instead of manual position.</target>
+      </trans-unit>
+        <trans-unit xml:space="preserve" id="ip_address">
+        <source>ip_address</source>
+            <target state="translated">IP address</target>
       </trans-unit>
     </body>
   </file>
