@@ -58,7 +58,7 @@
             {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
                 <a title="{% trans %}delete.caches{% endtrans %}"
                    data-uk-tooltip="{animation:true}"
-                   class="uk-icon-button uk-icon-rz-flash"
+                   class="uk-icon-button uk-icon-rz-flash rz-no-ajax-link"
                    href="{{ path('deleteDoctrineCache') }}"><span class="user-action-label">{% trans %}delete.caches{% endtrans %}</span></a>
             {% endif %}
             {% if (is_granted('ROLE_ACCESS_DOCTRINE_CACHE_DELETE')) %}
