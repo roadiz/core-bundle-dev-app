@@ -1,3 +1,10 @@
+## [v2.1.63](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.62...v2.1.63) (2024-06-14)
+
+
+### Bug Fixes
+
+* Pass FormInterface to `bulkAction` to update bulk item with a form field data. ([b7684fd](https://github.com/roadiz/core-bundle-dev-app/commit/b7684fdad9e374c039ed80aad0ca7086eca3125a))
+
 ## [v2.1.62](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.61...v2.1.62) (2024-06-13)
 
 
