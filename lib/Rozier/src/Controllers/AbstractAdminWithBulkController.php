@@ -81,13 +81,36 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         if (null === $form) {
             return [];
         }
-        $ids = \json_decode($form->getData() ?? '[]');
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            return [];
+        }
+        $json = $form->getData();
+        if (is_string($json)) {
+            $json = stripslashes(trim($json, '"'));
+        } else {
+            return [];
+        }
+        $ids = \json_decode($json, true);
+
         return \array_filter($ids, function ($id) {
             // Allow int or UUID identifiers
             return is_numeric($id) || is_string($id);
         });
     }
 
+    /**
+     * @param Request $request
+     * @param string $requiredRole
+     * @param FormInterface $bulkForm
+     * @param FormInterface $form
+     * @param callable(string): FormInterface $createBulkFormWithIds
+     * @param string $templatePath
+     * @param string $confirmMessageTemplate
+     * @param callable(PersistableInterface, FormInterface): void $alterItemCallable
+     * @param string $bulkFormName
+     * @return Response
+     * @throws \Twig\Error\RuntimeError
+     */
     protected function bulkAction(
         Request $request,
         string $requiredRole,
@@ -111,7 +134,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                 $items = $this->getRepository()->findBy([
                     'id' => $ids,
                 ]);
-                $formWithIds = $createBulkFormWithIds(json_encode($ids));
+                $formWithIds = $createBulkFormWithIds(\json_encode($ids, JSON_THROW_ON_ERROR));
                 if (!$formWithIds instanceof FormInterface) {
                     throw new \RuntimeException('Invalid form returned.');
                 }
@@ -132,7 +155,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                 ]);
                 foreach ($items as $item) {
                     if ($this->supports($item)) {
-                        $alterItemCallable($item);
+                        $alterItemCallable($item, $form);
                         $updateEvent = $this->createUpdateEvent($item);
                         if (null !== $updateEvent) {
                             $this->dispatchSingleOrMultipleEvent($updateEvent);
