@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.11...v2.3.12) - 2024-06-17
+
+### Bug Fixes
+
+- **(Nodes)** Fixed node offspring resolution cache with new `NodeOffspringResolverInterface` service - ([cf62690](https://github.com/roadiz/core-bundle-dev-app/commit/cf62690c623bdba20812afb557538720b53b2abb))
+
 ## [2.3.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.10...v2.3.11) - 2024-06-17
 
 ### Bug Fixes
