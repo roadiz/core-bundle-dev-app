@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Form;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Attribute;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use Symfony\Component\Form\AbstractType;
@@ -14,8 +14,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AttributeChoiceType extends AbstractType
+final class AttributeChoiceType extends AbstractType
 {
+    public function __construct(private ManagerRegistry $managerRegistry)
+    {
+    }
+
     /**
      * @inheritDoc
      */
@@ -28,8 +32,8 @@ class AttributeChoiceType extends AbstractType
                 }
                 return null;
             },
-            function ($formToData) use ($options) {
-                return $options['entityManager']->find(Attribute::class, $formToData);
+            function ($formToData) {
+                return $this->managerRegistry->getRepository(Attribute::class)->find($formToData);
             }
         ));
     }
@@ -41,14 +45,12 @@ class AttributeChoiceType extends AbstractType
     {
         parent::configureOptions($resolver);
         $resolver->setDefault('empty_data', null);
-        $resolver->setRequired('entityManager');
-        $resolver->setAllowedTypes('entityManager', [EntityManagerInterface::class]);
         $resolver->setRequired('translation');
         $resolver->setAllowedTypes('translation', [Translation::class]);
         $resolver->setNormalizer('choices', function (Options $options) {
             $choices = [];
             /** @var Attribute[] $attributes */
-            $attributes = $options['entityManager']->getRepository(Attribute::class)->findBy(
+            $attributes = $this->managerRegistry->getRepository(Attribute::class)->findBy(
                 [],
                 ['code' => 'ASC']
             );
