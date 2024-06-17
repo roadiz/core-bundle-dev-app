@@ -38,7 +38,8 @@ final class AttributeValueRepository extends EntityRepository
             ->addSelect('ad')
             ->addSelect('ag')
             ->addSelect('agt')
-            ->innerJoin('av.attributeValueTranslations', 'avt')
+            // We need to fetch values without translations too
+            ->leftJoin('av.attributeValueTranslations', 'avt')
             ->innerJoin('av.attribute', 'a')
             ->leftJoin('a.attributeDocuments', 'ad')
             ->leftJoin('a.attributeTranslations', 'at')
