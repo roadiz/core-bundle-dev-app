@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Security\Authorization\Voter;
 
-use Psr\Cache\CacheItemPoolInterface;
-use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
+use RZ\Roadiz\CoreBundle\Node\NodeOffspringResolverInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -34,10 +32,9 @@ final class NodeVoter extends Voter
     public const DELETE = 'DELETE';
 
     public function __construct(
-        private NodeChrootResolver $chrootResolver,
-        private Security $security,
-        private HandlerFactoryInterface $handlerFactory,
-        private CacheItemPoolInterface $cache
+        private readonly NodeChrootResolver $chrootResolver,
+        private readonly Security $security,
+        private readonly NodeOffspringResolverInterface $nodeOffspringResolver,
     ) {
     }
 
@@ -122,18 +119,7 @@ final class NodeVoter extends Voter
          * Test if node is inside user chroot using all Chroot node offspring ids
          * to be able to cache all results.
          */
-        $cacheItem = $this->cache->getItem('node_offspring_ids_' . $chroot->getId());
-        if (!$cacheItem->isHit()) {
-            /** @var NodeHandler $nodeHandler */
-            $nodeHandler = $this->handlerFactory->getHandler($chroot);
-            $offspringIds = $nodeHandler->getAllOffspringId();
-            $cacheItem->set($offspringIds);
-            $this->cache->save($cacheItem);
-        } else {
-            $offspringIds = $cacheItem->get();
-        }
-
-        return \in_array($node->getId(), $offspringIds, true);
+        return \in_array($node->getId(), $this->nodeOffspringResolver->getAllOffspringIds($chroot), true);
     }
 
     private function isGrantedWithUserChroot(Node $node, UserInterface $user, array|string $roles, bool $includeChroot): bool

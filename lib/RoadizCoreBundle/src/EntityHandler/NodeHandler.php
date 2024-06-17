@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\EntityHandler;
 
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\Persistence\ObjectManager;
-use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
+use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesCustomForms;
@@ -14,14 +14,13 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesToNodes;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
-use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
+use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Workflow\Registry;
 use Symfony\Component\Workflow\Workflow;
-use RZ\Roadiz\Core\Handlers\AbstractHandler;
 
 /**
  * Handle operations with nodes entities.
@@ -550,6 +549,7 @@ class NodeHandler extends AbstractHandler
      * Return all node offspring id.
      *
      * @return array
+     * @deprecated Use NodeOffspringResolverInterface::getAllOffspringIds($chroot).
      */
     public function getAllOffspringId(): array
     {

@@ -910,6 +910,7 @@ final class NodeRepository extends StatusAwareRepository
     /**
      * @param Node $node
      * @return array<int>
+     * @internal Use NodeOffspringResolverInterface service instead
      */
     public function findAllOffspringIdByNode(Node $node): array
     {
@@ -969,6 +970,10 @@ final class NodeRepository extends StatusAwareRepository
         );
     }
 
+    /**
+     * @param Node $node
+     * @return array<int|string>
+     */
     public function findAllParentsIdByNode(Node $node): array
     {
         $theParents = [];
@@ -979,7 +984,7 @@ final class NodeRepository extends StatusAwareRepository
             $parent = $parent->getParent();
         }
 
-        return $theParents;
+        return array_filter($theParents);
     }
 
     /**
