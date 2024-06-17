@@ -1,3 +1,10 @@
+## [v2.1.64](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.63...v2.1.64) (2024-06-17)
+
+
+### Bug Fixes
+
+* **Attributes:** Fixed AttributeValueRepository findByAttributable method preventing fetch attribute values without translations. Fixed AttributeChoiceType still requesting entityManager. ([5f59b69](https://github.com/roadiz/core-bundle-dev-app/commit/5f59b69885efa388fc16baba6c2c487abb38a561))
+
 ## [v2.1.63](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.62...v2.1.63) (2024-06-14)
 
 
