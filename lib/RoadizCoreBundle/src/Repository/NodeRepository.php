@@ -1043,6 +1043,7 @@ EOT,
     /**
      * @param NodeInterface $node
      * @return array<int>
+     * @internal Use NodeOffspringResolverInterface service instead
      */
     public function findAllOffspringIdByNode(NodeInterface $node): array
     {
@@ -1102,6 +1103,10 @@ EOT,
         );
     }
 
+    /**
+     * @param Node $node
+     * @return array<int|string>
+     */
     public function findAllParentsIdByNode(Node $node): array
     {
         $theParents = [];
@@ -1112,7 +1117,7 @@ EOT,
             $parent = $parent->getParent();
         }
 
-        return $theParents;
+        return array_filter($theParents);
     }
 
     /**

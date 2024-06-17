@@ -10,13 +10,16 @@ use RZ\Roadiz\CoreBundle\Entity\Realm;
 use RZ\Roadiz\CoreBundle\Entity\RealmNode;
 use RZ\Roadiz\CoreBundle\Message\CleanRealmNodeInheritanceMessage;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use RZ\Roadiz\CoreBundle\Node\NodeOffspringResolverInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[AsMessageHandler]
 final class CleanRealmNodeInheritanceMessageHandler
 {
-    public function __construct(private readonly ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly NodeOffspringResolverInterface $nodeOffspringResolver
+    ) {
     }
 
     public function __invoke(CleanRealmNodeInheritanceMessage $message): void
@@ -34,8 +37,7 @@ final class CleanRealmNodeInheritanceMessageHandler
             throw new UnrecoverableMessageHandlingException('Realm does not exist');
         }
 
-        $nodeRepository = $this->managerRegistry->getRepository(Node::class);
-        $childrenIds = $nodeRepository->findAllOffspringIdByNode($node);
+        $childrenIds = $this->nodeOffspringResolver->getAllOffspringIds($node);
 
         $realmNodes = $this->managerRegistry
             ->getRepository(RealmNode::class)

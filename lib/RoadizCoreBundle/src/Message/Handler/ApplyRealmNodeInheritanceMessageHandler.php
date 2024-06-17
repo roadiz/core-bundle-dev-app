@@ -11,13 +11,16 @@ use RZ\Roadiz\CoreBundle\Entity\RealmNode;
 use RZ\Roadiz\CoreBundle\Message\ApplyRealmNodeInheritanceMessage;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+use RZ\Roadiz\CoreBundle\Node\NodeOffspringResolverInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[AsMessageHandler]
 final class ApplyRealmNodeInheritanceMessageHandler
 {
-    public function __construct(private readonly ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly NodeOffspringResolverInterface $nodeOffspringResolver
+    ) {
     }
 
     public function __invoke(ApplyRealmNodeInheritanceMessage $message): void
@@ -48,7 +51,7 @@ final class ApplyRealmNodeInheritanceMessageHandler
         }
 
         $nodeRepository = $this->managerRegistry->getRepository(Node::class);
-        $childrenIds = $nodeRepository->findAllOffspringIdByNode($node);
+        $childrenIds = $this->nodeOffspringResolver->getAllOffspringIds($node);
 
         foreach ($childrenIds as $childId) {
             /** @var Node|null $child */
