@@ -529,7 +529,7 @@ final class NodeHandler extends AbstractHandler
      * Return all node offspring id.
      *
      * @return array
-     * @deprecated Use NodeRepository::findAllOffspringIdByNode() instead.
+     * @deprecated Use NodeOffspringResolverInterface::getAllOffspringIds($chroot).
      */
     public function getAllOffspringId(): array
     {
