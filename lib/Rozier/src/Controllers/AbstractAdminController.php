@@ -409,6 +409,14 @@ abstract class AbstractAdminController extends RozierApp
     abstract protected function getDefaultRouteName(): string;
 
     /**
+     * @return array<string, string|int|null>
+     */
+    protected function getDefaultRouteParameters(): array
+    {
+        return [];
+    }
+
+    /**
      * @return string
      */
     abstract protected function getEditRouteName(): string;
@@ -483,7 +491,10 @@ abstract class AbstractAdminController extends RozierApp
      */
     protected function getPostDeleteResponse(PersistableInterface $item): Response
     {
-        return $this->redirect($this->urlGenerator->generate($this->getDefaultRouteName()));
+        return $this->redirect($this->urlGenerator->generate(
+            $this->getDefaultRouteName(),
+            $this->getDefaultRouteParameters()
+        ));
     }
 
     /**
