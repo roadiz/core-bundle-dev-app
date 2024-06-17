@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.23...v2.2.22) - 2024-06-17
+
+### Bug Fixes
+
+- **(Attributes)** Fixed AttributeValueRepository findByAttributable method preventing fetch attribute values without translations. Fixed AttributeChoiceType still requesting entityManager. - ([9cd098d](https://github.com/roadiz/core-bundle-dev-app/commit/9cd098d0ad01c008a8df294cb05ee3a2eecedd82))
+- Missing use statement on AjaxAttributeValuesController - ([d2c4902](https://github.com/roadiz/core-bundle-dev-app/commit/d2c49021fefb0e09b24dc12d9c458b5559443736))
+
 ## [2.2.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.21...v2.2.22) - 2024-06-14
 
 ### Bug Fixes
