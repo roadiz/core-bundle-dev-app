@@ -201,7 +201,6 @@ class NodesAttributesController extends RozierApp
         $attributeValue = new AttributeValue();
         $attributeValue->setAttributable($node);
         $addAttributeForm = $this->createForm(AttributeValueType::class, $attributeValue, [
-            'entityManager' => $this->em(),
             'translation' => $this->em()->getRepository(Translation::class)->findDefault(),
         ]);
         $addAttributeForm->handleRequest($request);
@@ -209,6 +208,18 @@ class NodesAttributesController extends RozierApp
         if ($addAttributeForm->isSubmitted() && $addAttributeForm->isValid()) {
             $this->em()->persist($attributeValue);
             $this->em()->flush();
+
+            $nodeSource = $node->getNodeSourcesByTranslation($translation)->first() ?: null;
+            if ($nodeSource instanceof NodesSources) {
+                $msg = $this->getTranslator()->trans(
+                    'attribute_value_translation.%name%.updated_from_node.%nodeName%',
+                    [
+                        '%name%' => $attributeValue->getAttribute()->getLabelOrCode($translation),
+                        '%nodeName%' => $nodeSource->getTitle(),
+                    ]
+                );
+                $this->publishConfirmMessage($request, $msg, $nodeSource);
+            }
 
             return $this->redirectToRoute('nodesEditAttributesPage', [
                 'nodeId' => $node->getId(),

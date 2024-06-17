@@ -19,7 +19,6 @@ class AttributeValueType extends AbstractType
     {
         $builder->add('attribute', AttributeChoiceType::class, [
             'label' => 'attribute_values.form.attribute',
-            'entityManager' => $options['entityManager'],
             'translation' => $options['translation'],
         ]);
     }
@@ -31,8 +30,6 @@ class AttributeValueType extends AbstractType
     {
         parent::configureOptions($resolver);
 
-        $resolver->setRequired('entityManager');
-        $resolver->setAllowedTypes('entityManager', [EntityManagerInterface::class]);
         $resolver->setRequired('translation');
         $resolver->setAllowedTypes('translation', [Translation::class]);
     }
