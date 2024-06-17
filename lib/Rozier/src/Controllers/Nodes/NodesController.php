@@ -22,6 +22,7 @@ use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\CoreBundle\Node\Exception\SameNodeUrlException;
 use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
+use RZ\Roadiz\CoreBundle\Node\NodeOffspringResolverInterface;
 use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
@@ -38,7 +39,7 @@ use Themes\Rozier\RozierApp;
 use Themes\Rozier\Traits\NodesTrait;
 use Twig\Error\RuntimeError;
 
-class NodesController extends RozierApp
+final class NodesController extends RozierApp
 {
     use NodesTrait;
 
@@ -49,6 +50,7 @@ class NodesController extends RozierApp
      * @param HandlerFactoryInterface $handlerFactory
      * @param UniqueNodeGenerator $uniqueNodeGenerator
      * @param NodeFactory $nodeFactory
+     * @param NodeOffspringResolverInterface $nodeOffspringResolver
      * @param class-string<AbstractType> $nodeFormTypeClass
      * @param class-string<AbstractType> $addNodeFormTypeClass
      */
@@ -59,6 +61,7 @@ class NodesController extends RozierApp
         private readonly HandlerFactoryInterface $handlerFactory,
         private readonly UniqueNodeGenerator $uniqueNodeGenerator,
         private readonly NodeFactory $nodeFactory,
+        private readonly NodeOffspringResolverInterface $nodeOffspringResolver,
         private readonly string $nodeFormTypeClass,
         private readonly string $addNodeFormTypeClass
     ) {
@@ -569,8 +572,7 @@ class NodesController extends RozierApp
             /** @var Node|null $chroot */
             $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
             if ($chroot !== null) {
-                $nodeRepository = $this->em()->getRepository(Node::class);
-                $criteria["parent"] = $nodeRepository->findAllOffspringIdByNode($chroot);
+                $criteria["parent"] = $this->nodeOffspringResolver->getAllOffspringIds($chroot);
             }
 
             $nodes = $this->em()
