@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.24...v2.2.25) - 2024-06-19
+
+### Bug Fixes
+
+- Removed duplicated twig templates - ([b4306ca](https://github.com/roadiz/core-bundle-dev-app/commit/b4306cae55bb479dfe64ffef05736ed19525ddda))
+
 ## [2.2.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.23...v2.2.24) - 2024-06-17
 
 ### Bug Fixes
