@@ -1,3 +1,11 @@
+## [v2.1.65](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.64...v2.1.65) (2024-06-19)
+
+
+### Bug Fixes
+
+* Removed duplicated twig templates ([c485670](https://github.com/roadiz/core-bundle-dev-app/commit/c4856709586e0144794f7ed57e4ca3dd27ef36dd))
+
+
 ## [v2.1.64](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.63...v2.1.64) (2024-06-17)
 
 
