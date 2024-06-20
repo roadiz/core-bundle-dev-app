@@ -1,3 +1,10 @@
+## [v2.1.66](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.65...v2.1.66) (2024-06-20)
+
+
+### Bug Fixes
+
+* **UI:** Fixed drag and drop custom-form fields, node-type fields and attribute-values by setting new position against previous or next element id ([191b7c4](https://github.com/roadiz/core-bundle-dev-app/commit/191b7c4e09989da512286234195a3fe58ed3616e))
+
 ## [v2.1.65](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.64...v2.1.65) (2024-06-19)
 
 
