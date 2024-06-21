@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.13...v2.3.14) - 2024-06-21
+
+### Bug Fixes
+
+- Fixed `null` newParent parameter for Ajax Node/Tag/Folder controllers - ([81d3570](https://github.com/roadiz/core-bundle-dev-app/commit/81d3570abc5c5b4dae139b71da03b6b6094c66da))
+
 ## [2.3.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.12...v2.3.13) - 2024-06-19
 
 ### Bug Fixes
