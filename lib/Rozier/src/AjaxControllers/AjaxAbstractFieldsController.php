@@ -32,32 +32,17 @@ abstract class AjaxAbstractFieldsController extends AbstractAjaxController
      */
     protected function handleFieldActions(Request $request, AbstractField $field = null): ?Response
     {
-        /*
-         * Validate
-         */
         $this->validateRequest($request);
 
         if ($field !== null) {
-            $responseArray = null;
-
             /*
              * Get the right update method against "_action" parameter
              */
-            switch ($request->get('_action')) {
-                case 'updatePosition':
-                    $responseArray = $this->updatePosition($request->request->all(), $field);
-                    break;
+            if ($request->get('_action') !== 'updatePosition') {
+                throw new BadRequestHttpException('Action does not exist');
             }
 
-            if ($responseArray === null) {
-                $responseArray = [
-                    'statusCode' => '200',
-                    'status' => 'success',
-                    'responseText' => $this->getTranslator()->trans('field.%name%.updated', [
-                        '%name%' => $field->getName(),
-                    ]),
-                ];
-            }
+            $responseArray = $this->updatePosition($request->request->all(), $field);
 
             return new JsonResponse(
                 $responseArray,

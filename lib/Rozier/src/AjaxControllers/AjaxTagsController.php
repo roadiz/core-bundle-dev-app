@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
@@ -19,7 +21,7 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Themes\Rozier\Models\TagModel;
 
-class AjaxTagsController extends AbstractAjaxController
+final class AjaxTagsController extends AbstractAjaxController
 {
     public function __construct(
         private readonly HandlerFactoryInterface $handlerFactory,
@@ -30,7 +32,7 @@ class AjaxTagsController extends AbstractAjaxController
     /**
      * @return TagRepository
      */
-    protected function getRepository()
+    protected function getRepository(): TagRepository
     {
         return $this->em()->getRepository(Tag::class);
     }
@@ -225,70 +227,66 @@ class AjaxTagsController extends AbstractAjaxController
 
         $tag = $this->em()->find(Tag::class, (int) $tagId);
 
-        if ($tag !== null) {
-            /*
-             * Get the right update method against "_action" parameter
-             */
-            switch ($request->get('_action')) {
-                case 'updatePosition':
-                    $this->updatePosition($request->request->all(), $tag);
-                    break;
-            }
-
-            return new JsonResponse(
-                [
-                    'statusCode' => '200',
-                    'status' => 'success',
-                    'responseText' => ('Tag ' . $tagId . ' edited '),
-                ],
-                Response::HTTP_PARTIAL_CONTENT
-            );
+        if ($tag === null) {
+            throw $this->createNotFoundException('Tag ' . $tagId . ' does not exists');
+        }
+        /*
+         * Get the right update method against "_action" parameter
+         */
+        if ($request->get('_action') !== 'updatePosition') {
+            throw new BadRequestHttpException('Action does not exist');
         }
 
-        throw $this->createNotFoundException('Tag ' . $tagId . ' does not exists');
+        $this->updatePosition($request->request->all(), $tag);
+
+        return new JsonResponse(
+            [
+                'statusCode' => '200',
+                'status' => 'success',
+                'responseText' => ('Tag ' . $tagId . ' edited '),
+            ],
+            Response::HTTP_PARTIAL_CONTENT
+        );
     }
 
     /**
      * @param Request $request
      *
      * @return JsonResponse
+     * @throws \Exception
      */
     public function searchAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
-        if ($request->get('search') != "") {
-            $responseArray = [];
-
-            $pattern = strip_tags($request->get('search'));
-
-            $tags = $this->getRepository()
-                         ->searchBy($pattern, [], [], 10);
-
-            if (0 === count($tags)) {
-                /*
-                 * Try again using tag slug
-                 */
-                $pattern = StringHandler::slugify($pattern);
-                $tags = $this->getRepository()
-                             ->searchBy($pattern, [], [], 10);
-            }
-
-            if (count($tags) > 0) {
-                /** @var Tag $tag */
-                foreach ($tags as $tag) {
-                    $responseArray[] = $tag->getFullPath();
-                }
-
-                return new JsonResponse(
-                    $responseArray
-                );
-            } else {
-                throw $this->createNotFoundException('No tags found.');
-            }
+        if (empty($request->get('search'))) {
+            throw new BadRequestHttpException('Search is empty.');
         }
 
-        throw new BadRequestHttpException('Search is empty.');
+        $responseArray = [];
+        $pattern = strip_tags($request->get('search'));
+        $tags = $this->getRepository()->searchBy($pattern, [], [], 10);
+
+        if (count($tags) === 0) {
+            /*
+             * Try again using tag slug
+             */
+            $pattern = StringHandler::slugify($pattern);
+            $tags = $this->getRepository()->searchBy($pattern, [], [], 10);
+        }
+
+        if (count($tags) === 0) {
+            throw $this->createNotFoundException('No tags found.');
+        }
+
+        /** @var Tag $tag */
+        foreach ($tags as $tag) {
+            $responseArray[] = $tag->getFullPath();
+        }
+
+        return new JsonResponse(
+            $responseArray
+        );
     }
 
     /**
@@ -300,15 +298,12 @@ class AjaxTagsController extends AbstractAjaxController
         /*
          * First, we set the new parent
          */
-        $parent = null;
-
         if (
             !empty($parameters['newParent']) &&
+            is_numeric($parameters['newParent']) &&
             $parameters['newParent'] > 0
         ) {
-            $parent = $this->em()
-                           ->find(Tag::class, (int) $parameters['newParent']);
-
+            $parent = $this->em()->find(Tag::class, (int) $parameters['newParent']);
             if ($parent !== null) {
                 $tag->setParent($parent);
             }
@@ -356,6 +351,8 @@ class AjaxTagsController extends AbstractAjaxController
      *
      * @param Request $request
      * @return JsonResponse
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
     public function createAction(Request $request): JsonResponse
     {

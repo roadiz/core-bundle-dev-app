@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\NotSupported;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Themes\Rozier\Models\CustomFormModel;
 
-class AjaxCustomFormsExplorerController extends AbstractAjaxController
+final class AjaxCustomFormsExplorerController extends AbstractAjaxController
 {
     public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
@@ -63,6 +64,7 @@ class AjaxCustomFormsExplorerController extends AbstractAjaxController
      *
      * @param Request $request
      * @return Response
+     * @throws NotSupported
      */
     public function listAction(Request $request): Response
     {

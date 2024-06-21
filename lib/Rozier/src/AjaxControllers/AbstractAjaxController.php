@@ -46,14 +46,15 @@ abstract class AbstractAjaxController extends RozierApp
      */
     protected function validateRequest(Request $request, string $method = 'POST', bool $requestCsrfToken = true): bool
     {
-        if ($request->get('_action') == "") {
+        if (empty($request->get('_action'))) {
             throw new BadRequestHttpException('Wrong action requested');
         }
 
-        if ($requestCsrfToken === true) {
-            if (!$this->isCsrfTokenValid(static::AJAX_TOKEN_INTENTION, $request->get('_token'))) {
-                throw new BadRequestHttpException('Bad CSRF token');
-            }
+        if (
+            $requestCsrfToken === true &&
+            !$this->isCsrfTokenValid(static::AJAX_TOKEN_INTENTION, $request->get('_token'))
+        ) {
+            throw new BadRequestHttpException('Bad CSRF token');
         }
 
         if (

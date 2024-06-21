@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Bundle\SecurityBundle\Security;
 
-class AjaxSearchNodesSourcesController extends AbstractAjaxController
+final class AjaxSearchNodesSourcesController extends AbstractAjaxController
 {
     public const RESULT_COUNT = 10;
 
@@ -48,42 +48,42 @@ class AjaxSearchNodesSourcesController extends AbstractAjaxController
         /** @var array $nodesSources */
         $nodesSources = $searchHandler->getNodeSourcesBySearchTerm(
             $request->get('searchTerms'),
-            static::RESULT_COUNT
+            self::RESULT_COUNT
         );
 
-        if (count($nodesSources) > 0) {
-            $responseArray = [
+        if (count($nodesSources) === 0) {
+            return new JsonResponse([
                 'statusCode' => Response::HTTP_OK,
                 'status' => 'success',
                 'data' => [],
-                'responseText' => count($nodesSources) . ' results found.',
-            ];
-
-            foreach ($nodesSources as $source) {
-                if (
-                    $source instanceof NodesSources &&
-                    $this->security->isGranted(NodeVoter::READ, $source) &&
-                    !key_exists($source->getNode()->getId(), $responseArray['data'])
-                ) {
-                    $responseArray['data'][$source->getNode()->getId()] = $this->getNodeSourceData($source);
-                }
-            }
-            /*
-             * Only display one nodeSource
-             */
-            $responseArray['data'] = array_values($responseArray['data']);
-
-            return new JsonResponse(
-                $responseArray
-            );
+                'responseText' => 'No results found.',
+            ]);
         }
 
-        return new JsonResponse([
+        $responseArray = [
             'statusCode' => Response::HTTP_OK,
             'status' => 'success',
             'data' => [],
-            'responseText' => 'No results found.',
-        ]);
+            'responseText' => count($nodesSources) . ' results found.',
+        ];
+
+        foreach ($nodesSources as $source) {
+            if (
+                $source instanceof NodesSources &&
+                $this->security->isGranted(NodeVoter::READ, $source) &&
+                !key_exists($source->getNode()->getId(), $responseArray['data'])
+            ) {
+                $responseArray['data'][$source->getNode()->getId()] = $this->getNodeSourceData($source);
+            }
+        }
+        /*
+         * Only display one nodeSource
+         */
+        $responseArray['data'] = array_values($responseArray['data']);
+
+        return new JsonResponse(
+            $responseArray
+        );
     }
 
     protected function getNodeSourceData(NodesSources $source): array

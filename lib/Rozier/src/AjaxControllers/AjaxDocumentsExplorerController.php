@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Themes\Rozier\Models\DocumentModel;
 
-class AjaxDocumentsExplorerController extends AbstractAjaxController
+final class AjaxDocumentsExplorerController extends AbstractAjaxController
 {
     public function __construct(
         private readonly RendererInterface $renderer,
@@ -43,11 +43,10 @@ class AjaxDocumentsExplorerController extends AbstractAjaxController
         ];
 
         if ($request->query->has('folderId') && $request->get('folderId') > 0) {
-            $folder = $this->em()
-                        ->find(
-                            Folder::class,
-                            $request->get('folderId')
-                        );
+            $folder = $this->em()->find(
+                Folder::class,
+                $request->get('folderId')
+            );
 
             $arrayFilter['folders'] = [$folder];
         }
@@ -132,14 +131,13 @@ class AjaxDocumentsExplorerController extends AbstractAjaxController
     /**
      * Normalize response Document list result.
      *
-     * @param array<Document>|\Traversable<Document> $documents
+     * @param array<Document> $documents
      * @return array
      */
-    private function normalizeDocuments($documents)
+    private function normalizeDocuments(array $documents): array
     {
         $documentsArray = [];
 
-        /** @var Document $doc */
         foreach ($documents as $doc) {
             $documentModel = new DocumentModel(
                 $doc,
@@ -159,7 +157,7 @@ class AjaxDocumentsExplorerController extends AbstractAjaxController
      *
      * @return array
      */
-    private function getTrans()
+    private function getTrans(): array
     {
         return [
             'editDocument' => $this->getTranslator()->trans('edit.document'),

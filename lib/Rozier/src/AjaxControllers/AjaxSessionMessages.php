@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 
-class AjaxSessionMessages extends AbstractAjaxController
+final class AjaxSessionMessages extends AbstractAjaxController
 {
     public function getMessagesAction(Request $request): JsonResponse
     {

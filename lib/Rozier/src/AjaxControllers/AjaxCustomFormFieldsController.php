@@ -8,7 +8,7 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
+final class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
 {
     /**
      * Handle AJAX edition requests for CustomFormFields

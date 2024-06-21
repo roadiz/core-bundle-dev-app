@@ -7,9 +7,8 @@ namespace Themes\Rozier\AjaxControllers;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
-class AjaxFoldersExplorerController extends AbstractAjaxController
+final class AjaxFoldersExplorerController extends AbstractAjaxController
 {
     public function indexAction(Request $request): JsonResponse
     {
