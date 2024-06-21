@@ -194,7 +194,11 @@ class AjaxNodesController extends AbstractAjaxController
      */
     protected function parseParentNode(array $parameters): ?Node
     {
-        if (!empty($parameters['newParent']) && $parameters['newParent'] > 0) {
+        if (
+            !empty($parameters['newParent']) &&
+            is_numeric($parameters['newParent']) &&
+            $parameters['newParent'] > 0
+        ) {
             return $this->em()->find(Node::class, (int) $parameters['newParent']);
         } elseif (null !== $this->getUser()) {
             // If user is jailed in a node, prevent moving nodes out.
