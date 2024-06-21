@@ -300,10 +300,9 @@ class AjaxTagsController extends AbstractAjaxController
         /*
          * First, we set the new parent
          */
-        $parent = null;
-
         if (
             !empty($parameters['newParent']) &&
+            is_numeric($parameters['newParent']) &&
             $parameters['newParent'] > 0
         ) {
             $parent = $this->em()
