@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.14...v2.3.15) - 2024-06-26
+
+### Bug Fixes
+
+- Still execute migration Version20240318204224 when there are no node_type_fields: i.e at Roadiz first install - ([6fda4a9](https://github.com/roadiz/core-bundle-dev-app/commit/6fda4a9b55361d9d49e847c79cc1876f5f3cce0a))
+
 ## [2.3.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.13...v2.3.14) - 2024-06-21
 
 ### Bug Fixes
