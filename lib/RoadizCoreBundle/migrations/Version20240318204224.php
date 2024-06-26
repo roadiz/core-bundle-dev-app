@@ -19,11 +19,16 @@ final class Version20240318204224 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $result = $this->connection->executeQuery('SELECT max(length(name)) FROM `node_type_fields`');
-        $maxLength = $result->fetchOne();
+        $result = $this->connection->executeQuery('SELECT count(id) FROM `node_type_fields`');
+        $count = $result->fetchOne();
 
-        $this->skipIf(!is_numeric($maxLength), 'Cannot find node_type_fields name maximum length.');
-        $this->skipIf($maxLength >= 50, 'You have at least on node_type_field name that exceed 50 characters long.');
+        if ($count > 0) {
+            $result = $this->connection->executeQuery('SELECT max(length(name)) FROM `node_type_fields`');
+            $maxLength = $result->fetchOne();
+
+            $this->skipIf(!is_numeric($maxLength), 'Cannot find node_type_fields name maximum length.');
+            $this->skipIf($maxLength >= 50, 'You have at least on node_type_field name that exceed 50 characters long.');
+        }
 
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE node_type_fields CHANGE name name VARCHAR(50) NOT NULL');
