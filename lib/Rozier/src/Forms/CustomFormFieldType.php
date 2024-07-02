@@ -61,6 +61,42 @@ class CustomFormFieldType extends AbstractType
                 'label' => 'groupName',
                 'required' => false,
                 'help' => 'use_the_same_group_names_over_fields_to_gather_them_in_tabs',
+            ])
+            ->add('autocomplete', ChoiceType::class, [
+                'label' => 'customForm.autocomplete',
+                'help' => 'customForm.autocomplete.help',
+                'choices' => [
+                    'off',
+                    'name',
+                    'honorific-prefix',
+                    'honorific-suffix',
+                    'given-name',
+                    'additional-name',
+                    'family-name',
+                    'nickname',
+                    'email',
+                    'username',
+                    'organization-title',
+                    'organization',
+                    'street-address',
+                    'country',
+                    'country-name',
+                    'postal-code',
+                    'bday',
+                    'bday-day',
+                    'bday-month',
+                    'bday-year',
+                    'sex',
+                    'tel',
+                    'tel-national',
+                    'url',
+                    'photo',
+                ],
+                'placeholder' => 'autocomplete.no_autocomplete',
+                'choice_label' => function ($choice, $key, $value) {
+                    return 'autocomplete.' . $value;
+                },
+                'required' => false,
             ]);
     }
 

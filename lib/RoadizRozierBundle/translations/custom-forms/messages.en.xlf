@@ -57,6 +57,146 @@
                 <target state="translated">2 year</target>
                 <note/>
             </trans-unit>
+        <trans-unit xml:space="preserve" id="customForm.autocomplete">
+                <source>customForm.autocomplete</source>
+            <target state="translated">Auto-complete hint</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="customForm.autocomplete.help">
+                <source>customForm.autocomplete.help</source>
+            <target state="translated">Provides a specific hint to browsers and input helpers on the value to auto-complete for this field.</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.no_autocomplete">
+                <source>autocomplete.no_autocomplete</source>
+            <target state="translated">-- Undefined --</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.off">
+                <source>autocomplete.off</source>
+            <target state="translated">Do not auto-complete this field</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.name">
+                <source>autocomplete.name</source>
+            <target state="translated">Full name</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.honorific-prefix">
+                <source>autocomplete.honorific-prefix</source>
+            <target state="translated">Prefix or title, such as "Mrs.", "Mr.", "Miss", "Ms.", "Dr.", etc</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.honorific-suffix">
+                <source>autocomplete.honorific-suffix</source>
+            <target state="translated">Suffix, such as "Jr.", "B.Sc.", "PhD.", "MBASW", or "IV"</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.given-name">
+                <source>autocomplete.given-name</source>
+            <target state="translated">Given (or "first") name</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.additional-name">
+                <source>autocomplete.additional-name</source>
+            <target state="translated">Middle name</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.family-name">
+                <source>autocomplete.family-name</source>
+            <target state="translated">Family (or "last") name</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.nickname">
+                <source>autocomplete.nickname</source>
+            <target state="translated">Nickname or handle</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.email">
+                <source>autocomplete.email</source>
+            <target state="translated">Email address</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.username">
+                <source>autocomplete.username</source>
+            <target state="translated">Username or account name</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.organization-title">
+                <source>autocomplete.organization-title</source>
+            <target state="translated">Job title</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.organization">
+                <source>autocomplete.organization</source>
+            <target state="translated">Company or organization name</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.street-address">
+                <source>autocomplete.street-address</source>
+            <target state="translated">Street address</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.country">
+                <source>autocomplete.country</source>
+            <target state="translated">Country or territory code</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.country-name">
+                <source>autocomplete.country-name</source>
+            <target state="translated">Country or territory name</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.postal-code">
+                <source>autocomplete.postal-code</source>
+            <target state="translated">Postal (or ZIP) code</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.bday">
+                <source>autocomplete.bday</source>
+            <target state="translated">Birth date, as a full date</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.bday-day">
+                <source>autocomplete.bday-day</source>
+            <target state="translated">Day of the month of a birth date</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.bday-month">
+                <source>autocomplete.bday-month</source>
+            <target state="translated">Month of the year of a birth date</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.bday-year">
+                <source>autocomplete.bday-year</source>
+            <target state="translated">Year of a birth date</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.sex">
+                <source>autocomplete.sex</source>
+            <target state="translated">Gender identity</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.tel">
+                <source>autocomplete.tel</source>
+            <target state="translated">Full phone number, including the country code</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.tel-national">
+                <source>autocomplete.tel-national</source>
+            <target state="translated">Phone number without the country code component</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.url">
+                <source>autocomplete.url</source>
+            <target state="translated">A URL, as appropriate given the context of the form</target>
+            <note></note>
+            </trans-unit>
+        <trans-unit xml:space="preserve" id="autocomplete.photo">
+                <source>autocomplete.photo</source>
+            <target state="translated">URL of an image representing the contact information given in the form.</target>
+            <note></note>
+            </trans-unit>
     </body>
   </file>
 </xliff>
