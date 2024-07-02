@@ -2,6 +2,21 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.15...v2.3.16) - 2024-07-02
+
+### Bug Fixes
+
+- Missing `RealmRepository::findByNodeWithSerializationGroup` method - ([aac6e4e](https://github.com/roadiz/core-bundle-dev-app/commit/aac6e4e3eda25967908a0a9d2789c799acf82b0a))
+- Missing `NodesTagsRepository` - ([b80548d](https://github.com/roadiz/core-bundle-dev-app/commit/b80548de67835ea4fb05374f3670972940cad754))
+- `StringHandler::variablize` method with non-alphanum characters - ([6db4486](https://github.com/roadiz/core-bundle-dev-app/commit/6db4486e7414f3cb2335b56455debbaa86175930))
+
+### Features
+
+- Added required column in custom-form field listing view - ([f184d4e](https://github.com/roadiz/core-bundle-dev-app/commit/f184d4e1ca294e3c5cbd12a0998474979430c736))
+- Transform CustomFormField `groupName` to DataList to improve user experience - ([676a016](https://github.com/roadiz/core-bundle-dev-app/commit/676a0161ad593e2efbfdcd4f0a15db8086b28425))
+- Added CustomFormField `autocomplete` field to provide HTML autocomplete hint - ([6b8c3e7](https://github.com/roadiz/core-bundle-dev-app/commit/6b8c3e722e0c4385587f3fcd2566d6e04f9e68c1))
+- Upgrade rezozero/tree-walker package - ([d90c04a](https://github.com/roadiz/core-bundle-dev-app/commit/d90c04ae736629a0d6618022b866fa625da7c958))
+
 ## [2.3.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.14...v2.3.15) - 2024-06-26
 
 ### Bug Fixes
