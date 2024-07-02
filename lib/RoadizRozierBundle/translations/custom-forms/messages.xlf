@@ -57,6 +57,146 @@
                 <target></target>
                 <note></note>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.autocomplete">
+                <source>customForm.autocomplete</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.autocomplete.help">
+                <source>customForm.autocomplete.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.no_autocomplete">
+                <source>autocomplete.no_autocomplete</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.off">
+                <source>autocomplete.off</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.name">
+                <source>autocomplete.name</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.honorific-prefix">
+                <source>autocomplete.honorific-prefix</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.honorific-suffix">
+                <source>autocomplete.honorific-suffix</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.given-name">
+                <source>autocomplete.given-name</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.additional-name">
+                <source>autocomplete.additional-name</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.family-name">
+                <source>autocomplete.family-name</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.nickname">
+                <source>autocomplete.nickname</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.email">
+                <source>autocomplete.email</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.username">
+                <source>autocomplete.username</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.organization-title">
+                <source>autocomplete.organization-title</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.organization">
+                <source>autocomplete.organization</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.street-address">
+                <source>autocomplete.street-address</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.country">
+                <source>autocomplete.country</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.country-name">
+                <source>autocomplete.country-name</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.postal-code">
+                <source>autocomplete.postal-code</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.bday">
+                <source>autocomplete.bday</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.bday-day">
+                <source>autocomplete.bday-day</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.bday-month">
+                <source>autocomplete.bday-month</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.bday-year">
+                <source>autocomplete.bday-year</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.sex">
+                <source>autocomplete.sex</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.tel">
+                <source>autocomplete.tel</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.tel-national">
+                <source>autocomplete.tel-national</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.url">
+                <source>autocomplete.url</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="autocomplete.photo">
+                <source>autocomplete.photo</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
         </body>
     </file>
 </xliff>
