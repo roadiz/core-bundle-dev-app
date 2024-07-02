@@ -136,6 +136,7 @@ fabric.properties
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
+/*.sql
 /generated/*
 /.data/db/*
 /.data/db_test/*

@@ -173,8 +173,12 @@ class CustomFormsType extends AbstractType
             ],
         ];
 
-        if ($field->getPlaceholder() !== '') {
+        if (!empty($field->getPlaceholder())) {
             $option['attr']['placeholder'] = $field->getPlaceholder();
+        }
+
+        if ($field->getAutocomplete() !== null) {
+            $option['attr']['autocomplete'] = $field->getAutocomplete();
         }
 
         if ($field->isRequired()) {
@@ -198,7 +202,7 @@ class CustomFormsType extends AbstractType
                 $option["format"] = DateType::HTML5_FORMAT;
                 break;
             case AbstractField::ENUM_T:
-                if ($field->getPlaceholder() !== '') {
+                if (!empty($field->getPlaceholder())) {
                     $option['placeholder'] = $field->getPlaceholder();
                 }
                 $option["choices"] = $this->getChoices($field);
@@ -212,7 +216,7 @@ class CustomFormsType extends AbstractType
                 }
                 break;
             case AbstractField::MULTIPLE_T:
-                if ($field->getPlaceholder() !== '') {
+                if (!empty($field->getPlaceholder())) {
                     $option['placeholder'] = $field->getPlaceholder();
                 }
                 $option["choices"] = $this->getChoices($field);
@@ -255,7 +259,7 @@ class CustomFormsType extends AbstractType
                 break;
             case AbstractField::COUNTRY_T:
                 $option["expanded"] = $field->isExpanded();
-                if ($field->getPlaceholder() !== '') {
+                if (!empty($field->getPlaceholder())) {
                     $option['placeholder'] = $field->getPlaceholder();
                 }
                 if (!empty($field->getDefaultValues())) {

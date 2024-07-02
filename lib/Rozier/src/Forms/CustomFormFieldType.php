@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Themes\Rozier\Forms;
 
 use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
+use RZ\Roadiz\CoreBundle\Form\DataListTextType;
 use RZ\Roadiz\CoreBundle\Form\MarkdownType;
+use RZ\Roadiz\CoreBundle\Repository\CustomFormFieldRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,6 +18,20 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomFormFieldType extends AbstractType
 {
+    public function __construct(
+        private readonly CustomFormFieldRepository $customFormFieldRepository
+    ) {
+    }
+
+    /**
+     * @param CustomFormField $field
+     * @return string[]
+     */
+    protected function getAllGroupsNames(CustomFormField $field): array
+    {
+        return $this->customFormFieldRepository->findDistinctGroupNamesInCustomForm($field->getCustomForm());
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('label', TextType::class, [
@@ -57,10 +73,51 @@ class CustomFormFieldType extends AbstractType
                     ],
                 ]
             )
-            ->add('groupName', TextType::class, [
+            ->add('groupName', DataListTextType::class, [
                 'label' => 'groupName',
                 'required' => false,
                 'help' => 'use_the_same_group_names_over_fields_to_gather_them_in_tabs',
+                'list' => $this->getAllGroupsNames($builder->getData()),
+                'listName' => 'group-names',
+                'attr' => [
+                    'autocomplete' => 'off',
+                ],
+            ])
+            ->add('autocomplete', ChoiceType::class, [
+                'label' => 'customForm.autocomplete',
+                'help' => 'customForm.autocomplete.help',
+                'choices' => [
+                    'off',
+                    'name',
+                    'honorific-prefix',
+                    'honorific-suffix',
+                    'given-name',
+                    'additional-name',
+                    'family-name',
+                    'nickname',
+                    'email',
+                    'username',
+                    'organization-title',
+                    'organization',
+                    'street-address',
+                    'country',
+                    'country-name',
+                    'postal-code',
+                    'bday',
+                    'bday-day',
+                    'bday-month',
+                    'bday-year',
+                    'sex',
+                    'tel',
+                    'tel-national',
+                    'url',
+                    'photo',
+                ],
+                'placeholder' => 'autocomplete.no_autocomplete',
+                'choice_label' => function ($choice, $key, $value) {
+                    return 'autocomplete.' . $value;
+                },
+                'required' => false,
             ]);
     }
 

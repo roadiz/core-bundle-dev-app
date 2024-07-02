@@ -8,16 +8,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\CoreBundle\Repository\CustomFormFieldRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
+use Symfony\Component\Validator\Constraints\Choice;
 
 /**
  * CustomFormField entities are used to create CustomForms with
  * custom data structure.
  */
 #[
-    ORM\Entity(repositoryClass: "RZ\Roadiz\CoreBundle\Repository\CustomFormFieldRepository"),
+    ORM\Entity(repositoryClass: CustomFormFieldRepository::class),
     ORM\Table(name: "custom_form_fields"),
     ORM\UniqueConstraint(columns: ["name", "custom_form_id"]),
     ORM\Index(columns: ["position"]),
@@ -72,6 +74,43 @@ class CustomFormField extends AbstractField
         SymfonySerializer\Groups(["custom_form"])
     ]
     private bool $required = false;
+
+    /**
+     * @var string|null https://developer.mozilla.org/fr/docs/Web/HTML/Attributes/autocomplete
+     */
+    #[
+        ORM\Column(name: "autocomplete", type: 'string', length:18, nullable: true),
+        Serializer\Groups(["custom_form"]),
+        SymfonySerializer\Groups(["custom_form"]),
+        Choice([
+            'off',
+            'name',
+            'honorific-prefix',
+            'honorific-suffix',
+            'given-name',
+            'additional-name',
+            'family-name',
+            'nickname',
+            'email',
+            'username',
+            'organization-title',
+            'organization',
+            'street-address',
+            'country',
+            'country-name',
+            'postal-code',
+            'bday',
+            'bday-day',
+            'bday-month',
+            'bday-year',
+            'sex',
+            'tel',
+            'tel-national',
+            'url',
+            'photo',
+        ])
+    ]
+    private ?string $autocomplete = null;
 
     public function __construct()
     {
@@ -129,6 +168,17 @@ class CustomFormField extends AbstractField
     public function setRequired(bool $required): CustomFormField
     {
         $this->required = $required;
+        return $this;
+    }
+
+    public function getAutocomplete(): ?string
+    {
+        return $this->autocomplete;
+    }
+
+    public function setAutocomplete(?string $autocomplete): CustomFormField
+    {
+        $this->autocomplete = $autocomplete;
         return $this;
     }
 
