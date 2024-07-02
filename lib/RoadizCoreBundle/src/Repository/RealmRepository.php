@@ -42,6 +42,18 @@ final class RealmRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    public function findByNodeWithSerializationGroup(Node $node): array
+    {
+        $qb = $this->createQueryBuilder('r');
+        $qb->innerJoin('r.realmNodes', 'rn')
+            ->andWhere($qb->expr()->in('rn.node', ':node'))
+            ->andWhere($qb->expr()->isNotNull('rn.realm'))
+            ->andWhere($qb->expr()->isNotNull('r.serializationGroup'))
+            ->setParameter('node', $node);
+
+        return $qb->getQuery()->setCacheable(true)->getResult();
+    }
+
     public function countWithSerializationGroup(): int
     {
         $qb = $this->createQueryBuilder('r');
