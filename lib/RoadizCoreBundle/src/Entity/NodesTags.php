@@ -9,10 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
 use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
+use RZ\Roadiz\CoreBundle\Repository\NodesTagsRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 
 #[
-    ORM\Entity,
+    ORM\Entity(repositoryClass: NodesTagsRepository::class),
     ORM\Table(name: "nodes_tags"),
     ORM\Index(columns: ['node_id', 'position'], name: 'nodes_tags_node_id_position'),
     ORM\Index(columns: ['tag_id', 'position'], name: 'nodes_tags_tag_id_position'),
