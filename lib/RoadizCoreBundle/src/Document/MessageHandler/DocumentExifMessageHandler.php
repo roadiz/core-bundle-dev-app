@@ -50,7 +50,7 @@ final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHan
                 $description = $this->getDescription($exif);
 
                 if (null !== $copyright || null !== $description) {
-                    $this->logger->debug(
+                    $this->messengerLogger->debug(
                         'EXIF information available for document.',
                         [
                             'document' => (string)$document

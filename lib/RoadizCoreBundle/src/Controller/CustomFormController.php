@@ -160,8 +160,7 @@ final class CustomFormController extends AbstractController
         );
 
         if ($mixed instanceof Response) {
-            $mixed->prepare($request);
-            return $mixed->send();
+            return $mixed;
         } else {
             return $this->render('@RoadizCore/customForm/customForm.html.twig', $mixed);
         }
@@ -232,6 +231,9 @@ final class CustomFormController extends AbstractController
                     throw new \RuntimeException('Answer ID is null');
                 }
 
+                if (null === $emailSender || false === filter_var($answer->getEmail(), FILTER_VALIDATE_EMAIL)) {
+                    $emailSender = $answer->getEmail();
+                }
                 if (null === $emailSender || false === filter_var($emailSender, FILTER_VALIDATE_EMAIL)) {
                     $emailSender = $this->settingsBag->get('email_sender');
                 }

@@ -46,7 +46,7 @@ final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHan
             $document->setImageWidth($imageProcess->width());
             $document->setImageHeight($imageProcess->height());
         } catch (NotReadableException $exception) {
-            $this->logger->warning(
+            $this->messengerLogger->warning(
                 'Document file is not a readable image.',
                 [
                     'path' => $document->getMountPath(),
