@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.27](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.26...v2.2.27) - 2024-07-05
+
+### Bug Fixes
+
+- **(Serialization)** Always falls back on default translation if no translation for Tag, Folder and Document entities - ([dcaa1b3](https://github.com/roadiz/core-bundle-dev-app/commit/dcaa1b308d30babc6dded9a564b9d0e1e4c2969c))
+
 ## [2.2.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.25...v2.2.26) - 2024-06-21
 
 ### Bug Fixes
