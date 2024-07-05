@@ -223,6 +223,14 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this->translatedFolders->matching($criteria);
     }
 
+    #[SymfonySerializer\Ignore]
+    public function getTranslatedFoldersByDefaultTranslation(): ?FolderTranslation
+    {
+        return $this->translatedFolders->findFirst(function (int $key, FolderTranslation $translatedFolder) {
+            return $translatedFolder->getTranslation()->isDefaultTranslation();
+        });
+    }
+
     /**
      * @return string|null
      * @Serializer\VirtualProperty

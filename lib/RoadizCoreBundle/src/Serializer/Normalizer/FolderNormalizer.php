@@ -25,7 +25,11 @@ final class FolderNormalizer extends AbstractPathNormalizer
         $data = $this->decorated->normalize($object, $format, $context);
         if ($object instanceof Folder && is_array($data)) {
             if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {
-                $translatedData = $object->getTranslatedFoldersByTranslation($context['translation'])->first() ?: null;
+                /*
+                 * Always falls back on default translation if no translation is found for Folders entities
+                 */
+                $translatedData = $object->getTranslatedFoldersByTranslation($context['translation'])->first() ?:
+                    $object->getTranslatedFoldersByDefaultTranslation();
                 if ($translatedData instanceof FolderTranslation) {
                     $data['name'] = $translatedData->getName();
                 }
