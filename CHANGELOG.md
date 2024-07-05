@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.28](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.27...v2.2.28) - 2024-07-05
+
+### Bug Fixes
+
+- **(EmailManager)** Removed EmailManager and ContactFormManager direct usage. Use their *Factory service to avoid sharing service data between async requests. - ([4eb4102](https://github.com/roadiz/core-bundle-dev-app/commit/4eb4102e3ba4cd3e2305e9288cf120c8a8ec8701))
+- Fixed StringHandler::variablize method since symfony/string broke `snake` method - ([370d622](https://github.com/roadiz/core-bundle-dev-app/commit/370d622df445688cbcf09f3f73cedc8157d7a12d))
+
 ## [2.2.27](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.26...v2.2.27) - 2024-07-05
 
 ### Bug Fixes
