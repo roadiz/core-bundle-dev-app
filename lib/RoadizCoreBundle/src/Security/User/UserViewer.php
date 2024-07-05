@@ -7,7 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Security\User;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\User;
-use RZ\Roadiz\CoreBundle\Mailer\EmailManager;
+use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -19,7 +19,7 @@ final class UserViewer
         private readonly Settings $settingsBag,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly TranslatorInterface $translator,
-        private readonly EmailManager $emailManager,
+        private readonly EmailManagerFactory $emailManagerFactory,
         private readonly LoggerInterface $logger
     ) {
     }
@@ -41,6 +41,7 @@ final class UserViewer
         string $htmlTemplate = '@RoadizCore/email/users/reset_password_email.html.twig',
         string $txtTemplate = '@RoadizCore/email/users/reset_password_email.txt.twig'
     ): bool {
+        $emailManager = $this->emailManagerFactory->create();
         $emailContact = $this->getContactEmail();
         $siteName = $this->getSiteName();
 
@@ -62,24 +63,24 @@ final class UserViewer
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
         }
-        $this->emailManager->setAssignation([
+        $emailManager->setAssignation([
             'resetLink' => $resetLink,
             'user' => $user,
             'site' => $siteName,
             'mailContact' => $emailContact,
         ]);
-        $this->emailManager->setEmailTemplate($htmlTemplate);
-        $this->emailManager->setEmailPlainTextTemplate($txtTemplate);
-        $this->emailManager->setSubject($this->translator->trans(
+        $emailManager->setEmailTemplate($htmlTemplate);
+        $emailManager->setEmailPlainTextTemplate($txtTemplate);
+        $emailManager->setSubject($this->translator->trans(
             'reset.password.request'
         ));
 
         try {
-            $this->emailManager->setReceiver($user->getEmail());
-            $this->emailManager->setSender([$emailContact => $siteName]);
+            $emailManager->setReceiver($user->getEmail());
+            $emailManager->setSender([$emailContact => $siteName]);
 
             // Send the message
-            $this->emailManager->send();
+            $emailManager->send();
             return true;
         } catch (\Exception $e) {
             // Silent error not to prevent user creation if mailer is not configured

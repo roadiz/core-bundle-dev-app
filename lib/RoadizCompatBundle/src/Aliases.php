@@ -238,8 +238,6 @@ final class Aliases
             \RZ\Roadiz\CoreBundle\ListManager\Paginator::class => \RZ\Roadiz\Core\ListManagers\Paginator::class,
             \RZ\Roadiz\CoreBundle\ListManager\QueryBuilderListManager::class => \RZ\Roadiz\Core\ListManagers\QueryBuilderListManager::class,
             \RZ\Roadiz\CoreBundle\ListManager\TagListManager::class => \RZ\Roadiz\Core\ListManagers\TagListManager::class,
-            \RZ\Roadiz\CoreBundle\Mailer\ContactFormManager::class => \RZ\Roadiz\Utils\ContactFormManager::class,
-            \RZ\Roadiz\CoreBundle\Mailer\EmailManager::class => \RZ\Roadiz\Utils\EmailManager::class,
             \RZ\Roadiz\CoreBundle\Node\NodeDuplicator::class => \RZ\Roadiz\Utils\Node\NodeDuplicator::class,
             \RZ\Roadiz\CoreBundle\Node\NodeFactory::class => \RZ\Roadiz\Utils\Node\NodeFactory::class,
             \RZ\Roadiz\CoreBundle\Node\NodeMover::class => \RZ\Roadiz\Utils\Node\NodeMover::class,

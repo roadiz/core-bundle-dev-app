@@ -13,7 +13,6 @@ use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
-use RZ\Roadiz\CoreBundle\Mailer\EmailManager;
 use RZ\Roadiz\OpenId\OAuth2LinkGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,7 +58,6 @@ class RozierApp extends AppController
         return array_merge(parent::getSubscribedServices(), [
             'securityAuthenticationUtils' => AuthenticationUtils::class,
             'urlGenerator' => UrlGeneratorInterface::class,
-            EmailManager::class => EmailManager::class,
             'logger' => LoggerInterface::class,
             'kernel' => KernelInterface::class,
             'settingsBag' => Settings::class,

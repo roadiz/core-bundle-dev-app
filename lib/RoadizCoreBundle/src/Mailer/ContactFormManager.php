@@ -37,7 +37,10 @@ use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
-class ContactFormManager extends EmailManager
+/**
+ * @internal Use ContactFormManagerFactory to create a new instance.
+ */
+final class ContactFormManager extends EmailManager
 {
     protected string $formName = 'contact_form';
     protected ?array $uploadedFiles = null;
@@ -59,7 +62,7 @@ class ContactFormManager extends EmailManager
 
     /*
      * DO NOT DIRECTLY USE THIS CONSTRUCTOR
-     * USE 'contactFormManager' Factory Service
+     * USE 'ContactFormManagerFactory' Factory Service
      */
     public function __construct(
         RequestStack $requestStack,

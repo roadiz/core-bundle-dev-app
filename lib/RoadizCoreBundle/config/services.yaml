@@ -341,6 +341,18 @@ services:
     RZ\Roadiz\CoreBundle\Mailer\EmailManager:
         # Recreate manager for each usage
         shared: false
+        deprecated:
+            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 3.0. Use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory instead.'
+            package: roadiz/core-bundle
+            version: '2.3.18'
+
+    RZ\Roadiz\CoreBundle\Mailer\ContactFormManager:
+        # Recreate manager for each usage
+        shared: false
+        deprecated:
+            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 3.0. Use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory instead.'
+            package: roadiz/core-bundle
+            version: '2.3.18'
 
     RZ\Roadiz\CoreBundle\Doctrine\EventSubscriber\:
         resource: '../src/Doctrine/EventSubscriber'

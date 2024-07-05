@@ -11,6 +11,7 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\CoreBundle\Entity\CustomFormFieldAttribute;
 use RZ\Roadiz\Documents\Repository\DocumentRepositoryInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
@@ -631,12 +632,8 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         return $this->getAllUnusedQueryBuilder()->getQuery()->getResult();
     }
 
-    /**
-     * @return QueryBuilder
-     */
-    public function getAllUnusedQueryBuilder(): QueryBuilder
+    protected function getAllDocumentsIdUsedInSettings(): array
     {
-        $qb1 = $this->createQueryBuilder('d1');
         $qb2 = $this->_em->createQueryBuilder();
 
         /*
@@ -655,6 +652,43 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         foreach ($array as $value) {
             $idArray[] = (int) $value['value'];
         }
+
+        return $idArray;
+    }
+
+    protected function getAllDocumentsIdUsedInCustomFormAnswers(): array
+    {
+        $qb2 = $this->_em->createQueryBuilder();
+
+        /*
+         * Get documents used by settings
+         */
+        $qb2->select('d.id')
+            ->from(CustomFormFieldAttribute::class, 'cffa')
+            ->innerJoin('cffa.documents', 'd')
+        ;
+
+        $subQuery = $qb2->getQuery();
+        $array = $subQuery->getScalarResult();
+        $idArray = [];
+
+        foreach ($array as $value) {
+            $idArray[] = (int) $value['id'];
+        }
+
+        return $idArray;
+    }
+
+    /**
+     * @return QueryBuilder
+     */
+    public function getAllUnusedQueryBuilder(): QueryBuilder
+    {
+        $qb1 = $this->createQueryBuilder('d1');
+
+        $idArray = [];
+        $idArray = array_merge($idArray, $this->getAllDocumentsIdUsedInSettings());
+        $idArray = array_merge($idArray, $this->getAllDocumentsIdUsedInCustomFormAnswers());
 
         /*
          * Get unused documents

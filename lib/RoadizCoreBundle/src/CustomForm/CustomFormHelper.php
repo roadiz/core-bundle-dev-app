@@ -75,81 +75,84 @@ final class CustomFormHelper
         CustomFormAnswer $answer = null,
         string $ipAddress = ""
     ): CustomFormAnswer {
-        if ($form->isSubmitted() && $form->isValid()) {
-            /*
-             * Create answer if null.
-             */
-            if (null === $answer) {
-                $answer = new CustomFormAnswer();
-                $answer->setCustomForm($this->customForm);
-                $this->em->persist($answer);
-            }
-            $answer->setSubmittedAt(new \DateTime());
-            $answer->setIp($ipAddress);
-            $documentsUploaded = [];
-
-            /** @var CustomFormField $customFormField */
-            foreach ($this->customForm->getFields() as $customFormField) {
-                $formField = null;
-                $fieldAttr = null;
-
-                /*
-                 * Get data in form groups
-                 */
-                if ($customFormField->getGroupName() != '') {
-                    $groupCanonical = StringHandler::slugify($customFormField->getGroupName());
-                    $formGroup = $form->get($groupCanonical);
-                    if ($formGroup->has($customFormField->getName())) {
-                        $formField = $formGroup->get($customFormField->getName());
-                        $fieldAttr = $this->getAttribute($answer, $customFormField);
-                    }
-                } else {
-                    if ($form->has($customFormField->getName())) {
-                        $formField = $form->get($customFormField->getName());
-                        $fieldAttr = $this->getAttribute($answer, $customFormField);
-                    }
-                }
-
-                if (null !== $formField) {
-                    $data = $formField->getData();
-                    /*
-                    * Create attribute if null.
-                    */
-                    if (null === $fieldAttr) {
-                        $fieldAttr = new CustomFormFieldAttribute();
-                        $fieldAttr->setCustomFormAnswer($answer);
-                        $fieldAttr->setCustomFormField($customFormField);
-                        $this->em->persist($fieldAttr);
-                    }
-
-                    if (is_array($data) && isset($data[0]) && $data[0] instanceof UploadedFile) {
-                        /** @var UploadedFile $file */
-                        foreach ($data as $file) {
-                            $documentsUploaded[] = $this->handleUploadedFile($file, $fieldAttr);
-                        }
-                    } elseif ($data instanceof UploadedFile) {
-                        $documentsUploaded[] = $this->handleUploadedFile($data, $fieldAttr);
-                    } else {
-                        $fieldAttr->setValue($this->formValueToString($data));
-                    }
-                }
-            }
-
-            $this->em->flush();
-
-            // Dispatch event on document uploaded
-            foreach ($documentsUploaded as $documentUploaded) {
-                if ($documentUploaded instanceof DocumentInterface) {
-                    $this->eventDispatcher->dispatch(new DocumentCreatedEvent($documentUploaded));
-                }
-            }
-
-            $this->em->refresh($answer);
-
-            return $answer;
+        if (!$form->isSubmitted()) {
+            throw new \InvalidArgumentException('Form must be submitted before begin parsing.');
+        }
+        if (!$form->isValid()) {
+            throw new \InvalidArgumentException('Form must be validated before begin parsing.');
         }
 
-        throw new \InvalidArgumentException('Form must be submitted and validated before begin parsing.');
+        /*
+         * Create answer if null.
+         */
+        if (null === $answer) {
+            $answer = new CustomFormAnswer();
+            $answer->setCustomForm($this->customForm);
+            $this->em->persist($answer);
+        }
+        $answer->setSubmittedAt(new \DateTime());
+        $answer->setIp($ipAddress);
+        $documentsUploaded = [];
+
+        /** @var CustomFormField $customFormField */
+        foreach ($this->customForm->getFields() as $customFormField) {
+            $formField = null;
+            $fieldAttr = null;
+
+            /*
+             * Get data in form groups
+             */
+            if ($customFormField->getGroupName() != '') {
+                $groupCanonical = StringHandler::slugify($customFormField->getGroupName());
+                $formGroup = $form->get($groupCanonical);
+                if ($formGroup->has($customFormField->getName())) {
+                    $formField = $formGroup->get($customFormField->getName());
+                    $fieldAttr = $this->getAttribute($answer, $customFormField);
+                }
+            } else {
+                if ($form->has($customFormField->getName())) {
+                    $formField = $form->get($customFormField->getName());
+                    $fieldAttr = $this->getAttribute($answer, $customFormField);
+                }
+            }
+
+            if (null !== $formField) {
+                $data = $formField->getData();
+                /*
+                * Create attribute if null.
+                */
+                if (null === $fieldAttr) {
+                    $fieldAttr = new CustomFormFieldAttribute();
+                    $fieldAttr->setCustomFormAnswer($answer);
+                    $fieldAttr->setCustomFormField($customFormField);
+                    $this->em->persist($fieldAttr);
+                }
+
+                if (is_array($data) && isset($data[0]) && $data[0] instanceof UploadedFile) {
+                    /** @var UploadedFile $file */
+                    foreach ($data as $file) {
+                        $documentsUploaded[] = $this->handleUploadedFile($file, $fieldAttr);
+                    }
+                } elseif ($data instanceof UploadedFile) {
+                    $documentsUploaded[] = $this->handleUploadedFile($data, $fieldAttr);
+                } else {
+                    $fieldAttr->setValue($this->formValueToString($data));
+                }
+            }
+        }
+
+        $this->em->flush();
+
+        // Dispatch event on document uploaded
+        foreach ($documentsUploaded as $documentUploaded) {
+            if ($documentUploaded instanceof DocumentInterface) {
+                $this->eventDispatcher->dispatch(new DocumentCreatedEvent($documentUploaded));
+            }
+        }
+
+        $this->em->refresh($answer);
+
+        return $answer;
     }
 
     /**
