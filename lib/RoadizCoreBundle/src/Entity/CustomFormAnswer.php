@@ -170,7 +170,6 @@ class CustomFormAnswer extends AbstractEntity
 
     /**
      * @return string|null
-     * @throws \Exception
      */
     public function getEmail(): ?string
     {

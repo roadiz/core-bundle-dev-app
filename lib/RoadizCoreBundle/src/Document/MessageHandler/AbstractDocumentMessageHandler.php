@@ -15,23 +15,11 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 abstract class AbstractDocumentMessageHandler implements MessageHandlerInterface
 {
-    protected ManagerRegistry $managerRegistry;
-    protected LoggerInterface $logger;
-    protected FilesystemOperator $documentsStorage;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param LoggerInterface $messengerLogger
-     * @param FilesystemOperator $documentsStorage
-     */
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        LoggerInterface $messengerLogger,
-        FilesystemOperator $documentsStorage
+        protected readonly ManagerRegistry $managerRegistry,
+        protected readonly LoggerInterface $messengerLogger,
+        protected readonly FilesystemOperator $documentsStorage
     ) {
-        $this->managerRegistry = $managerRegistry;
-        $this->logger = $messengerLogger;
-        $this->documentsStorage = $documentsStorage;
     }
 
     abstract protected function supports(DocumentInterface $document): bool;

@@ -21,6 +21,9 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
+/**
+ * @internal Use EmailManagerFactory to create a new instance.
+ */
 class EmailManager
 {
     protected ?string $subject = null;
@@ -43,6 +46,10 @@ class EmailManager
     /** @var array  */
     protected array $resources = [];
 
+    /*
+     * DO NOT DIRECTLY USE THIS CONSTRUCTOR
+     * USE 'EmailManagerFactory' Factory Service
+     */
     public function __construct(
         protected readonly RequestStack $requestStack,
         protected readonly TranslatorInterface $translator,

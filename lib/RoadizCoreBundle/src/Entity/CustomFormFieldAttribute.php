@@ -38,7 +38,7 @@ class CustomFormFieldAttribute extends AbstractEntity
      * @var Collection<int, Document>
      */
     #[
-        ORM\ManyToMany(targetEntity: "RZ\Roadiz\CoreBundle\Entity\Document", inversedBy: "customFormFieldAttributes"),
+        ORM\ManyToMany(targetEntity: Document::class, inversedBy: "customFormFieldAttributes"),
         ORM\JoinTable(name: "custom_form_answers_documents"),
         ORM\JoinColumn(name: "customformfieldattribute_id", onDelete: "CASCADE"),
         ORM\InverseJoinColumn(name: "document_id", onDelete: "CASCADE")
@@ -132,7 +132,6 @@ class CustomFormFieldAttribute extends AbstractEntity
     public function setDocuments(Collection $documents): CustomFormFieldAttribute
     {
         $this->documents = $documents;
-
         return $this;
     }
 }

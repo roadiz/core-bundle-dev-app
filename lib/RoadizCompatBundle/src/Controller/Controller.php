@@ -24,8 +24,6 @@ use RZ\Roadiz\CoreBundle\Exception\NoTranslationAvailableException;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManager;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
-use RZ\Roadiz\CoreBundle\Mailer\ContactFormManager;
-use RZ\Roadiz\CoreBundle\Mailer\EmailManager;
 use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
@@ -37,6 +35,7 @@ use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use RZ\Roadiz\OpenId\OAuth2LinkGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -51,7 +50,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -87,9 +85,7 @@ abstract class Controller extends AbstractController
             'translator' => TranslatorInterface::class,
             'urlGenerator' => UrlGeneratorInterface::class,
             UrlGeneratorInterface::class => UrlGeneratorInterface::class,
-            ContactFormManager::class => ContactFormManager::class,
             DocumentUrlGeneratorInterface::class => DocumentUrlGeneratorInterface::class,
-            EmailManager::class => EmailManager::class,
             Environment::class => Environment::class,
             FormErrorSerializer::class => FormErrorSerializer::class,
             LoggerInterface::class => LoggerInterface::class,

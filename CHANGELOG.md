@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.17...v2.3.18) - 2024-07-05
+
+### Bug Fixes
+
+- **(Document)** Remove Documents used by CustomFormAnswer from unused repository method - ([f5289b8](https://github.com/roadiz/core-bundle-dev-app/commit/f5289b884266c1366d936f3c5f9690ed16dcf5b1))
+- **(EmailManager)** Removed EmailManager and ContactFormManager direct usage. Use their *Factory service to avoid sharing service data between async requests. - ([80e25e5](https://github.com/roadiz/core-bundle-dev-app/commit/80e25e52319213bde65d2ca5021bbcf083870e6a))
+
 ## [2.3.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.16...v2.3.17) - 2024-07-05
 
 ### Bug Fixes

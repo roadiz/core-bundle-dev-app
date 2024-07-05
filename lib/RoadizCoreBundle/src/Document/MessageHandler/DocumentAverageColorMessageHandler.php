@@ -53,7 +53,7 @@ final class DocumentAverageColorMessageHandler extends AbstractLockingDocumentMe
             $mediumColor = (new AverageColorResolver())->getAverageColor($this->imageManager->make($documentStream));
             $document->setImageAverageColor($mediumColor);
         } catch (NotReadableException $exception) {
-            $this->logger->warning(
+            $this->messengerLogger->warning(
                 'Document file is not a readable image.',
                 [
                     'path' => $document->getMountPath(),
