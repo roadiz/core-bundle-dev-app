@@ -314,6 +314,14 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         });
     }
 
+    #[SymfonySerializer\Ignore]
+    public function getTranslatedTagsByDefaultTranslation(): ?TagTranslation
+    {
+        return $this->translatedTags->findFirst(function (int $key, TagTranslation $tagTranslation) {
+            return $tagTranslation->getTranslation()->isDefaultTranslation();
+        });
+    }
+
     /**
      * @return string
      */

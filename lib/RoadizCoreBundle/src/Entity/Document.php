@@ -506,6 +506,14 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this->documentTranslations->matching($criteria);
     }
 
+    #[SymfonySerializer\Ignore]
+    public function getDocumentTranslationsByDefaultTranslation(): ?DocumentTranslation
+    {
+        return $this->documentTranslations->findFirst(function (int $key, DocumentTranslation $documentTranslation) {
+            return $documentTranslation->getTranslation()->isDefaultTranslation();
+        });
+    }
+
     /**
      * @param DocumentTranslation $documentTranslation
      * @return $this

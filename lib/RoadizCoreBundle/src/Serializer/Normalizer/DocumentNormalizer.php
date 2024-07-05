@@ -96,7 +96,11 @@ final class DocumentNormalizer extends AbstractPathNormalizer
             }
 
             if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {
-                $translatedData = $object->getDocumentTranslationsByTranslation($context['translation'])->first() ?: null;
+                /*
+                 * Always falls back on default translation if no translation is found for Documents entities
+                 */
+                $translatedData = $object->getDocumentTranslationsByTranslation($context['translation'])->first() ?:
+                    $object->getDocumentTranslationsByDefaultTranslation();
                 if ($translatedData instanceof DocumentTranslation) {
                     $data['name'] = $translatedData->getName();
                     $data['description'] = $translatedData->getDescription();
