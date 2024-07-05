@@ -1,3 +1,10 @@
+## [v2.1.68](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.67...v2.1.68) (2024-07-05)
+
+
+### Bug Fixes
+
+* **Serialization:** Always falls back on default translation if no translation for Tag, Folder and Document entities ([3370dc8](https://github.com/roadiz/core-bundle-dev-app/commit/3370dc8234bb458c3fb6bfd708c3ab5598234a8a))
+
 ## [v2.1.67](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.66...v2.1.67) (2024-06-21)
 
 
