@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\CustomForm\Message\CustomFormAnswerNotifyMessage;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
-use RZ\Roadiz\CoreBundle\Mailer\EmailManager;
+use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -25,7 +25,7 @@ final class CustomFormAnswerNotifyMessageHandler implements MessageHandlerInterf
 {
     public function __construct(
         private ManagerRegistry $managerRegistry,
-        private EmailManager $emailManager,
+        private EmailManagerFactory $emailManagerFactory,
         private Settings $settingsBag,
         private FilesystemOperator $documentsStorage,
         private LoggerInterface $logger,
@@ -86,20 +86,21 @@ final class CustomFormAnswerNotifyMessageHandler implements MessageHandlerInterf
         array $assignation,
         $receiver
     ): void {
+        $emailManager = $this->emailManagerFactory->create();
         $defaultSender = $this->settingsBag->get('email_sender');
         $defaultSender = !empty($defaultSender) ? $defaultSender : 'sender@roadiz.io';
-        $this->emailManager->setAssignation($assignation);
-        $this->emailManager->setEmailTemplate('@RoadizCore/email/forms/answerForm.html.twig');
-        $this->emailManager->setEmailPlainTextTemplate('@RoadizCore/email/forms/answerForm.txt.twig');
-        $this->emailManager->setSubject($assignation['title']);
-        $this->emailManager->setEmailTitle($assignation['title']);
-        $this->emailManager->setSender($defaultSender);
+        $emailManager->setAssignation($assignation);
+        $emailManager->setEmailTemplate('@RoadizCore/email/forms/answerForm.html.twig');
+        $emailManager->setEmailPlainTextTemplate('@RoadizCore/email/forms/answerForm.txt.twig');
+        $emailManager->setSubject($assignation['title']);
+        $emailManager->setEmailTitle($assignation['title']);
+        $emailManager->setSender($defaultSender);
 
         try {
             foreach ($answer->getAnswerFields() as $customFormAnswerAttr) {
                 /** @var DocumentInterface $document */
                 foreach ($customFormAnswerAttr->getDocuments() as $document) {
-                    $this->emailManager->addResource(
+                    $emailManager->addResource(
                         $this->documentsStorage->readStream($document->getMountPath()),
                         $document->getFilename(),
                         $this->documentsStorage->mimeType($document->getMountPath())
@@ -113,12 +114,12 @@ final class CustomFormAnswerNotifyMessageHandler implements MessageHandlerInterf
         }
 
         if (empty($receiver)) {
-            $this->emailManager->setReceiver($defaultSender);
+            $emailManager->setReceiver($defaultSender);
         } else {
-            $this->emailManager->setReceiver($receiver);
+            $emailManager->setReceiver($receiver);
         }
 
         // Send the message
-        $this->emailManager->send();
+        $emailManager->send();
     }
 }

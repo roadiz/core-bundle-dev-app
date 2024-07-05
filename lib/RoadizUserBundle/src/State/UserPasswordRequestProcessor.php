@@ -11,7 +11,7 @@ use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
-use RZ\Roadiz\CoreBundle\Mailer\EmailManager;
+use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory;
 use RZ\Roadiz\CoreBundle\Security\User\UserProvider;
 use RZ\Roadiz\Random\TokenGenerator;
 use RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput;
@@ -39,7 +39,7 @@ final class UserPasswordRequestProcessor implements ProcessorInterface
         private readonly ManagerRegistry $managerRegistry,
         private readonly RequestStack $requestStack,
         private readonly UserProvider $userProvider,
-        private readonly EmailManager $emailManager,
+        private readonly EmailManagerFactory $emailManagerFactory,
         private readonly Settings $settingsBag,
         private readonly TranslatorInterface $translator,
         private readonly UrlGeneratorInterface $urlGenerator,
@@ -146,8 +146,8 @@ final class UserPasswordRequestProcessor implements ProcessorInterface
                     ]
             );
         }
-
-        $this->emailManager->setAssignation(
+        $emailManager = $this->emailManagerFactory->create();
+        $emailManager->setAssignation(
             [
                 'resetLink' => $resetLink,
                 'user' => $user,
@@ -155,15 +155,15 @@ final class UserPasswordRequestProcessor implements ProcessorInterface
                 'mailContact' => $emailContact,
             ]
         );
-        $this->emailManager->setEmailTemplate('@RoadizUser/email/users/reset_password_email.html.twig');
-        $this->emailManager->setEmailPlainTextTemplate('@RoadizUser/email/users/reset_password_email.txt.twig');
-        $this->emailManager->setSubject(
+        $emailManager->setEmailTemplate('@RoadizUser/email/users/reset_password_email.html.twig');
+        $emailManager->setEmailPlainTextTemplate('@RoadizUser/email/users/reset_password_email.txt.twig');
+        $emailManager->setSubject(
             $this->translator->trans(
                 'reset.password.request'
             )
         );
-        $this->emailManager->setReceiver($user->getEmail());
-        $this->emailManager->setSender(new Address($emailContact, $siteName ?? ''));
-        $this->emailManager->send();
+        $emailManager->setReceiver($user->getEmail());
+        $emailManager->setSender(new Address($emailContact, $siteName ?? ''));
+        $emailManager->send();
     }
 }

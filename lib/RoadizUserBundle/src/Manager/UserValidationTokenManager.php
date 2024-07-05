@@ -8,7 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\User;
-use RZ\Roadiz\CoreBundle\Mailer\EmailManager;
+use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory;
 use RZ\Roadiz\Random\TokenGenerator;
 use RZ\Roadiz\UserBundle\Entity\UserValidationToken;
 use Symfony\Component\Mime\Address;
@@ -24,7 +24,7 @@ final class UserValidationTokenManager implements UserValidationTokenManagerInte
     private UrlGeneratorInterface $urlGenerator;
     private TranslatorInterface $translator;
     private LoggerInterface $logger;
-    private EmailManager $emailManager;
+    private EmailManagerFactory $emailManagerFactory;
     private Settings $settingsBag;
     private RoleHierarchyInterface $roleHierarchy;
     private string $emailValidatedRoleName;
@@ -36,7 +36,7 @@ final class UserValidationTokenManager implements UserValidationTokenManagerInte
         UrlGeneratorInterface $urlGenerator,
         TranslatorInterface $translator,
         LoggerInterface $logger,
-        EmailManager $emailManager,
+        EmailManagerFactory $emailManagerFactory,
         Settings $settingsBag,
         RoleHierarchyInterface $roleHierarchy,
         string $emailValidatedRoleName,
@@ -46,7 +46,7 @@ final class UserValidationTokenManager implements UserValidationTokenManagerInte
         $this->managerRegistry = $managerRegistry;
         $this->logger = $logger;
         $this->userValidationExpiresIn = $userValidationExpiresIn;
-        $this->emailManager = $emailManager;
+        $this->emailManagerFactory = $emailManagerFactory;
         $this->userValidationUrl = $userValidationUrl;
         $this->settingsBag = $settingsBag;
         $this->urlGenerator = $urlGenerator;
@@ -87,6 +87,7 @@ final class UserValidationTokenManager implements UserValidationTokenManagerInte
 
     private function sendUserValidationEmail(UserValidationToken $userValidationToken): void
     {
+        $emailManager = $this->emailManagerFactory->create();
         $emailContact = $this->settingsBag->get('support_email_address', null) ??
             $this->settingsBag->get('email_sender', null);
         $siteName = $this->settingsBag->get('site_name');
@@ -118,7 +119,7 @@ final class UserValidationTokenManager implements UserValidationTokenManagerInte
             );
         }
 
-        $this->emailManager->setAssignation(
+        $emailManager->setAssignation(
             [
                 'validationLink' => $validationLink,
                 'user' => $user,
@@ -126,15 +127,15 @@ final class UserValidationTokenManager implements UserValidationTokenManagerInte
                 'mailContact' => $emailContact,
             ]
         );
-        $this->emailManager->setEmailTemplate('@RoadizUser/email/users/validate_email.html.twig');
-        $this->emailManager->setEmailPlainTextTemplate('@RoadizUser/email/users/validate_email.txt.twig');
-        $this->emailManager->setSubject(
+        $emailManager->setEmailTemplate('@RoadizUser/email/users/validate_email.html.twig');
+        $emailManager->setEmailPlainTextTemplate('@RoadizUser/email/users/validate_email.txt.twig');
+        $emailManager->setSubject(
             $this->translator->trans(
                 'validate_email.subject'
             )
         );
-        $this->emailManager->setReceiver($user->getEmail());
-        $this->emailManager->setSender(new Address($emailContact, $siteName ?? ''));
-        $this->emailManager->send();
+        $emailManager->setReceiver($user->getEmail());
+        $emailManager->setSender(new Address($emailContact, $siteName ?? ''));
+        $emailManager->send();
     }
 }

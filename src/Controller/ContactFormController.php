@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Form\ContactFormType;
 use Limenius\Liform\LiformInterface;
 use RZ\Roadiz\CoreBundle\Form\Constraint\Recaptcha;
-use RZ\Roadiz\CoreBundle\Mailer\ContactFormManager;
+use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,32 +17,33 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 final class ContactFormController
 {
-    private ContactFormManager $contactFormManager;
+    private ContactFormManagerFactory $contactFormManagerFactory;
     private RateLimiterFactory $contactFormLimiter;
     private LiformInterface $liform;
 
     public function __construct(
-        ContactFormManager $contactFormManager,
+        ContactFormManagerFactory $contactFormManagerFactory,
         RateLimiterFactory $contactFormLimiter,
         LiformInterface $liform
     ) {
-        $this->contactFormManager = $contactFormManager;
+        $this->contactFormManagerFactory = $contactFormManagerFactory;
         $this->contactFormLimiter = $contactFormLimiter;
         $this->liform = $liform;
     }
 
     public function definitionAction(Request $request): JsonResponse
     {
+        $contactFormManager = $this->contactFormManagerFactory->create();
         // Do not forget to disable CSRF and form-name
-        $this->contactFormManager
+        $contactFormManager
             ->setUseRealResponseCode(true)
             ->setFormName('')
             ->disableCsrfProtection();
-        $builder = $this->contactFormManager->getFormBuilder();
+        $builder = $contactFormManager->getFormBuilder();
         $builder->add('form', ContactFormType::class);
 
-        $this->contactFormManager->withUserConsent();
-        $this->contactFormManager->withGoogleRecaptcha(Recaptcha::FORM_NAME);
+        $contactFormManager->withUserConsent();
+        $contactFormManager->withGoogleRecaptcha(Recaptcha::FORM_NAME);
 
         $schema = json_encode($this->liform->transform($builder->getForm()));
 
@@ -72,19 +73,20 @@ final class ContactFormController
             throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
         }
 
+        $contactFormManager = $this->contactFormManagerFactory->create();
         // Do not forget to disable CSRF and form-name
-        $this->contactFormManager
+        $contactFormManager
             ->setUseRealResponseCode(true)
             ->setFormName('')
             ->disableCsrfProtection();
 
-        $builder = $this->contactFormManager->getFormBuilder();
+        $builder = $contactFormManager->getFormBuilder();
         $builder->add('form', ContactFormType::class);
 
-        $this->contactFormManager->withUserConsent();
-        $this->contactFormManager->withGoogleRecaptcha(Recaptcha::FORM_NAME);
+        $contactFormManager->withUserConsent();
+        $contactFormManager->withGoogleRecaptcha(Recaptcha::FORM_NAME);
 
-        if (null !== $response = $this->contactFormManager->handle()) {
+        if (null !== $response = $contactFormManager->handle()) {
             $response->headers->add($headers);
             return $response;
         }
