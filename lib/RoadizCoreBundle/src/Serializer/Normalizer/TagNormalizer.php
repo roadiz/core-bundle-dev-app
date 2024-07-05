@@ -32,7 +32,11 @@ final class TagNormalizer extends AbstractPathNormalizer
             if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {
                 $documentsContext = $context;
                 $documentsContext['groups'] = ['document_display'];
-                $translatedData = $object->getTranslatedTagsByTranslation($context['translation'])->first() ?: null;
+                /*
+                 * Always falls back on default translation if no translation is found for Tags entities
+                 */
+                $translatedData = $object->getTranslatedTagsByTranslation($context['translation'])->first() ?:
+                    $object->getTranslatedTagsByDefaultTranslation();
                 if ($translatedData instanceof TagTranslation) {
                     $data['name'] = $translatedData->getName();
                     $data['description'] = $translatedData->getDescription();
