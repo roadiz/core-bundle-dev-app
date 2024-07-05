@@ -33,7 +33,11 @@ final class TagNormalizer extends AbstractPathNormalizer
             $this->stopwatch->start('normalizeTag', 'serializer');
             /** @var array<string> $serializationGroups */
             $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
-            $translatedData = $object->getTranslatedTagsByTranslation($context['translation'])->first() ?: null;
+            /*
+             * Always falls back on default translation if no translation is found for Tags entities
+             */
+            $translatedData = $object->getTranslatedTagsByTranslation($context['translation'])->first() ?:
+                $object->getTranslatedTagsByDefaultTranslation();
             if ($translatedData instanceof TagTranslation) {
                 $data['name'] = $translatedData->getName();
                 $data['description'] = $translatedData->getDescription();
