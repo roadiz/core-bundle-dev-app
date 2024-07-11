@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
+ * @deprecated XLSX serialization is deprecated and will be removed in next major version.
  * XLSX Serialization handler for NodeSource.
  */
 class NodeSourceXlsxSerializer extends AbstractXlsxSerializer
