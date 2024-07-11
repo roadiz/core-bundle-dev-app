@@ -106,7 +106,7 @@ services:
         # Need to pass all vars to docker env for Crontab and supervisor scripts
         env_file: "./.env.local"
         build:
-            context: ./docker/php82-fpm-alpine
+            context: ./docker/php83-fpm-alpine
             args:
                 USER_UID: ${USER_UID}
         depends_on:
