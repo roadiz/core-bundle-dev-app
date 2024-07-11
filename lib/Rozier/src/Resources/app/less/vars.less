@@ -157,9 +157,14 @@
     --maincontent-bar-bg: #efefef;
     --maincontent-header-bg: @maincontent-header-bg;
 
-    --accent-color: #00deab;
-    --accent-color-darker: #00c497;
-    --accent-color-darkest: #00ab83;
+    --color-light-mix: 70%;
+    --color-darker-mix: 95%;
+    --color-darkest-mix: 85%;
+
+    --rz-accent-color: #00deab;
+    --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
+    --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
+    --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
 }
 
 /**

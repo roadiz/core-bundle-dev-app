@@ -27,9 +27,9 @@
                     {% endif %}
                         {% for attribute_value_translation_form in attribute_value_translation_forms %}
                             {% set attributeValue = attribute_value_translation_form.vars.data.attributeValue %}
-                            <tr class="setting-row" data-position="{{ attributeValue.position }}" data-id="{{ attributeValue.id }}">
+                            <tr style="--rz-accent-color: {{ attributeValue.attribute.color|default('transparent') }};" class="setting-row" data-position="{{ attributeValue.position }}" data-id="{{ attributeValue.id }}">
                                 <th class="name attribute-value-col">
-                                    <span class="color" style="--data-color: {{ attributeValue.attribute.color|default('transparent') }};"></span>
+                                    <span class="color"></span>
                                     <strong>{{- attribute_value_translation_form.vars.data|attribute_label -}}</strong>
                                 </th>
                                 <td class="uk-visible-xlarge">

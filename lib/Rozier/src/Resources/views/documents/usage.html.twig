@@ -62,7 +62,7 @@
                     </thead>
                     <tbody>
                     {% for attribute in attributes %}
-                        <tr>
+                        <tr style="--rz-accent-color: {{ attribute.color }};">
                             <td class="name">
                                 <a href="{{ path('attributesEditPage', { id: attribute.id }) }}">
                                     <span class="color"
@@ -91,7 +91,7 @@
                     </thead>
                     <tbody>
                     {% for tag in tags %}
-                        <tr>
+                        <tr style="--rz-accent-color: {{ tag.color }};">
                             <td class="name">
                                 <a href="{{ path('tagsEditPage', { tagId: tag.id }) }}">
                                     <span class="color"

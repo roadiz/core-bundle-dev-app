@@ -10,12 +10,16 @@
         {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
         {# CSS scripts inclusions / Using webpack #}
         {% include '@RoadizRozier/partials/css-inject.html.twig' %}
+        {% if head.mainColor %}
         <style>
-            /* Login */
-            #login #login-infos #login-logo{
-                background-color:{{ head.mainColor }};
+            :root {
+                --rz-accent-color: {{ head.mainColor|raw }};
+                --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
+                --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
+                --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
             }
         </style>
+        {% endif %}
         <script src="{{ asset('vendor/modernizr.custom.50380.js', 'Rozier') }}"></script>
     </head>
     <body id="simple-body">
