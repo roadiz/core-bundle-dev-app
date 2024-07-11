@@ -16,14 +16,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class XlsxExporter
 {
-    protected TranslatorInterface $translator;
-
-    /**
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected readonly TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**
