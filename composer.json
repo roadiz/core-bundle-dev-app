@@ -193,13 +193,16 @@
             "RZ\\Roadiz\\Typescript\\Declaration\\": "lib/DtsGenerator/src/",
             "RZ\\Roadiz\\UserBundle\\": "lib/RoadizUserBundle/src/",
             "RZ\\Roadiz\\Utils\\": "lib/Models/src/Roadiz/Utils/",
-            "Themes\\": "themes/",
             "Themes\\Rozier\\": "lib/Rozier/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Tests\\": "tests/"
+            "App\\Tests\\": "tests/",
+            "RZ\\Roadiz\\Tests\\": "lib/Models/tests/",
+            "RZ\\Roadiz\\CoreBundle\\Tests\\": "lib/RoadizCoreBundle/tests/",
+            "RZ\\Roadiz\\Documents\\Tests\\": "lib/Documents/tests/",
+            "RZ\\Roadiz\\EntityGenerator\\Tests\\": "lib/EntityGenerator/tests/"
         }
     },
     "replace": {

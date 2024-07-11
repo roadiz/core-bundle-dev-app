@@ -38,6 +38,11 @@
             "RZ\\Roadiz\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "RZ\\Roadiz\\Tests\\": "tests/"
+        }
+    },
     "config": {
         "allow-plugins": {
             "composer/package-versions-deprecated": true,

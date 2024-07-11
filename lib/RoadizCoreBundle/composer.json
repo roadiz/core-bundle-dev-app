@@ -123,6 +123,11 @@
             "RZ\\Roadiz\\CoreBundle\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "RZ\\Roadiz\\CoreBundle\\Tests\\": "tests/"
+        }
+    },
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
