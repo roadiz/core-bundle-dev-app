@@ -16,27 +16,14 @@ use RZ\Roadiz\Documents\Models\FileHashInterface;
 
 final class DownscaleImageManager
 {
-    protected EntityManagerInterface $em;
-    protected ?LoggerInterface $logger;
-    protected int $maxPixelSize = 0;
-    protected string $rawImageSuffix = ".raw";
-    protected ImageManager $imageManager;
-    private FilesystemOperator $documentsStorage;
-
     public function __construct(
-        EntityManagerInterface $em,
-        FilesystemOperator $documentsStorage,
-        ImageManager $imageManager,
-        ?LoggerInterface $logger = null,
-        int $maxPixelSize = 0,
-        string $rawImageSuffix = ".raw"
+        private readonly EntityManagerInterface $em,
+        private readonly FilesystemOperator $documentsStorage,
+        private readonly ImageManager $imageManager,
+        private readonly ?LoggerInterface $logger = null,
+        private readonly int $maxPixelSize = 0,
+        private readonly string $rawImageSuffix = ".raw"
     ) {
-        $this->maxPixelSize = $maxPixelSize;
-        $this->rawImageSuffix = $rawImageSuffix;
-        $this->em = $em;
-        $this->logger = $logger;
-        $this->imageManager = $imageManager;
-        $this->documentsStorage = $documentsStorage;
     }
 
     /**

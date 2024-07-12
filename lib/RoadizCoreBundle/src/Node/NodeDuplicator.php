@@ -4,36 +4,25 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Node;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodesToNodes;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 /**
  * Handles node duplication.
  */
+#[Exclude]
 final class NodeDuplicator
 {
-    private Node $originalNode;
-    private ObjectManager $objectManager;
-    private NodeNamePolicyInterface $nodeNamePolicy;
-
-    /**
-     * @param Node $originalNode
-     * @param ObjectManager $objectManager
-     * @param NodeNamePolicyInterface $nodeNamePolicy
-     */
     public function __construct(
-        Node $originalNode,
-        ObjectManager $objectManager,
-        NodeNamePolicyInterface $nodeNamePolicy
+        private readonly Node $originalNode,
+        private readonly ObjectManager $objectManager,
+        private readonly NodeNamePolicyInterface $nodeNamePolicy
     ) {
-        $this->objectManager = $objectManager;
-        $this->originalNode = $originalNode;
-        $this->nodeNamePolicy = $nodeNamePolicy;
     }
 
     /**
@@ -136,9 +125,8 @@ final class NodeDuplicator
      * Warning, do not do any FLUSH here to preserve transactional integrity.
      *
      * @param Node $node
-     * @return Node
      */
-    private function doDuplicateNodeRelations(Node $node): Node
+    private function doDuplicateNodeRelations(Node $node): void
     {
         /** @var NodesToNodes[] $nodeRelations */
         $nodeRelations = $node->getBNodes()->toArray();
@@ -148,7 +136,5 @@ final class NodeDuplicator
             $ntn->setPosition($position);
             $this->objectManager->persist($ntn);
         }
-
-        return $node;
     }
 }

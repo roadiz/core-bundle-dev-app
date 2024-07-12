@@ -15,16 +15,13 @@ use RZ\Roadiz\Documents\Models\SizeableInterface;
 
 final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHandler
 {
-    private ImageManager $imageManager;
-
     public function __construct(
         ManagerRegistry $managerRegistry,
         LoggerInterface $messengerLogger,
         FilesystemOperator $documentsStorage,
-        ImageManager $imageManager
+        private readonly ImageManager $imageManager
     ) {
         parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
-        $this->imageManager = $imageManager;
     }
 
     /**

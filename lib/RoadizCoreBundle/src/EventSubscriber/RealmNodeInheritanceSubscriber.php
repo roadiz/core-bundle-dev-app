@@ -19,14 +19,8 @@ use Symfony\Component\Messenger\MessageBusInterface;
 
 final class RealmNodeInheritanceSubscriber implements EventSubscriberInterface
 {
-    private MessageBusInterface $bus;
-
-    /**
-     * @param MessageBusInterface $bus
-     */
-    public function __construct(MessageBusInterface $bus)
+    public function __construct(private readonly MessageBusInterface $bus)
     {
-        $this->bus = $bus;
     }
 
     /**

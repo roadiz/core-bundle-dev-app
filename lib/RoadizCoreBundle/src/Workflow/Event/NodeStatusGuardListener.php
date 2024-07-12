@@ -13,14 +13,8 @@ use Symfony\Component\Workflow\TransitionBlocker;
 
 final class NodeStatusGuardListener implements EventSubscriberInterface
 {
-    private Security $security;
-
-    /**
-     * @param Security $security
-     */
-    public function __construct(Security $security)
+    public function __construct(private readonly Security $security)
     {
-        $this->security = $security;
     }
 
     /**

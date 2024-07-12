@@ -9,14 +9,8 @@ namespace RZ\Roadiz\CoreBundle\Message;
  */
 final class UpdateNodeTypeSchemaMessage
 {
-    private int|string|null $nodeTypeId;
-
-    /**
-     * @param int|string|null $nodeTypeId
-     */
-    public function __construct(int|string|null $nodeTypeId)
+    public function __construct(private readonly int|string|null $nodeTypeId)
     {
-        $this->nodeTypeId = $nodeTypeId;
     }
 
     /**

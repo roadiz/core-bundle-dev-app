@@ -17,8 +17,8 @@ use Symfony\Bundle\SecurityBundle\Security;
 final class AttributeValueRealmExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
     public function __construct(
-        private Security $security,
-        private RealmResolverInterface $realmResolver
+        private readonly Security $security,
+        private readonly RealmResolverInterface $realmResolver
     ) {
     }
 

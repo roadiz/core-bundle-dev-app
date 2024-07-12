@@ -37,31 +37,13 @@ final class DocumentModel implements ModelInterface
         "noProcess" => true,
     ];
 
-    private DocumentInterface $document;
-    private RendererInterface $renderer;
-    private DocumentUrlGeneratorInterface $documentUrlGenerator;
-    private UrlGeneratorInterface $urlGenerator;
-    private ?EmbedFinderFactory $embedFinderFactory;
-
-    /**
-     * @param DocumentInterface $document
-     * @param RendererInterface $renderer
-     * @param DocumentUrlGeneratorInterface $documentUrlGenerator
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param EmbedFinderFactory|null $embedFinderFactory
-     */
     public function __construct(
-        DocumentInterface $document,
-        RendererInterface $renderer,
-        DocumentUrlGeneratorInterface $documentUrlGenerator,
-        UrlGeneratorInterface $urlGenerator,
-        ?EmbedFinderFactory $embedFinderFactory = null
+        private readonly DocumentInterface $document,
+        private readonly RendererInterface $renderer,
+        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ?EmbedFinderFactory $embedFinderFactory = null
     ) {
-        $this->document = $document;
-        $this->renderer = $renderer;
-        $this->documentUrlGenerator = $documentUrlGenerator;
-        $this->urlGenerator = $urlGenerator;
-        $this->embedFinderFactory = $embedFinderFactory;
     }
 
     public function toArray(): array

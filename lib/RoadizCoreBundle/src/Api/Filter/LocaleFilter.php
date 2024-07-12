@@ -19,10 +19,8 @@ final class LocaleFilter extends GeneratedEntityFilter
 {
     public const PROPERTY = '_locale';
 
-    private PreviewResolverInterface $previewResolver;
-
     public function __construct(
-        PreviewResolverInterface $previewResolver,
+        private readonly PreviewResolverInterface $previewResolver,
         ManagerRegistry $managerRegistry,
         LoggerInterface $logger = null,
         array $properties = null,
@@ -30,7 +28,6 @@ final class LocaleFilter extends GeneratedEntityFilter
         string $generatedEntityNamespacePattern = '#^App\\\GeneratedEntity\\\NS(?:[a-zA-Z]+)$#'
     ) {
         parent::__construct($managerRegistry, $logger, $properties, $nameConverter, $generatedEntityNamespacePattern);
-        $this->previewResolver = $previewResolver;
     }
 
     protected function filterProperty(

@@ -23,18 +23,11 @@ use Themes\Rozier\RozierApp;
 
 final class RealmNodeController extends RozierApp
 {
-    private ManagerRegistry $managerRegistry;
-    private TranslatorInterface $translator;
-    private EventDispatcherInterface $eventDispatcher;
-
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        TranslatorInterface $translator,
-        EventDispatcherInterface $eventDispatcher
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly TranslatorInterface $translator,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        $this->managerRegistry = $managerRegistry;
-        $this->translator = $translator;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function defaultAction(Request $request, Node $id): Response

@@ -10,16 +10,16 @@ use Exception;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\TreeWalker\Definition\ContextualDefinitionTrait;
+use RZ\TreeWalker\WalkerContextInterface;
 
 final class NonReachableNodeSourceBlockDefinition
 {
     use ContextualDefinitionTrait;
 
-    private bool $onlyVisible;
-
-    public function __construct(bool $onlyVisible = true)
-    {
-        $this->onlyVisible = $onlyVisible;
+    public function __construct(
+        private readonly WalkerContextInterface $context,
+        private readonly bool $onlyVisible = true
+    ) {
     }
 
     /**
@@ -27,31 +27,32 @@ final class NonReachableNodeSourceBlockDefinition
      */
     public function __invoke(NodesSources $source): array
     {
-        if ($this->context instanceof NodeSourceWalkerContext) {
-            $this->context->getStopwatch()->start(self::class);
-            $criteria = [
-                'node.parent' => $source->getNode(),
-                'translation' => $source->getTranslation(),
-                'node.nodeType.reachable' => false,
-            ];
-            if ($this->onlyVisible) {
-                $criteria['node.visible'] = true;
-            }
-            $children = $this->context->getNodeSourceApi()->getBy($criteria, [
-                'node.position' => 'ASC',
-            ]);
-            $this->context->getStopwatch()->stop(self::class);
-
-            if ($children instanceof Paginator) {
-                $iterator = $children->getIterator();
-                if ($iterator instanceof ArrayIterator) {
-                    return $iterator->getArrayCopy();
-                }
-                // @phpstan-ignore-next-line
-                return iterator_to_array($iterator);
-            }
-            return $children;
+        if (!($this->context instanceof NodeSourceWalkerContext)) {
+            throw new \InvalidArgumentException('Context should be instance of ' . NodeSourceWalkerContext::class);
         }
-        throw new \InvalidArgumentException('Context should be instance of ' . NodeSourceWalkerContext::class);
+
+        $this->context->getStopwatch()->start(self::class);
+        $criteria = [
+            'node.parent' => $source->getNode(),
+            'translation' => $source->getTranslation(),
+            'node.nodeType.reachable' => false,
+        ];
+        if ($this->onlyVisible) {
+            $criteria['node.visible'] = true;
+        }
+        $children = $this->context->getNodeSourceApi()->getBy($criteria, [
+            'node.position' => 'ASC',
+        ]);
+        $this->context->getStopwatch()->stop(self::class);
+
+        if ($children instanceof Paginator) {
+            $iterator = $children->getIterator();
+            if ($iterator instanceof ArrayIterator) {
+                return $iterator->getArrayCopy();
+            }
+            // @phpstan-ignore-next-line
+            return iterator_to_array($iterator);
+        }
+        return $children;
     }
 }

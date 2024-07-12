@@ -18,14 +18,8 @@ use Themes\Rozier\RozierApp;
 
 final class TranslateController extends RozierApp
 {
-    private NodeTranslator $nodeTranslator;
-
-    /**
-     * @param NodeTranslator $nodeTranslator
-     */
-    public function __construct(NodeTranslator $nodeTranslator)
+    public function __construct(private readonly NodeTranslator $nodeTranslator)
     {
-        $this->nodeTranslator = $nodeTranslator;
     }
 
     public function translateAction(Request $request, Node $nodeId): Response

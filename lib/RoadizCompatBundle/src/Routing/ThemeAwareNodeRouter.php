@@ -16,10 +16,6 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInterface, VersatileGeneratorInterface
 {
-    /**
-     * @param ThemeResolverInterface $themeResolver
-     * @param NodeRouter $innerRouter
-     */
     public function __construct(
         private readonly ThemeResolverInterface $themeResolver,
         private readonly NodeRouter $innerRouter

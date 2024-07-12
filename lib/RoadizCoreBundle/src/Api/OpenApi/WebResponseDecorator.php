@@ -10,12 +10,9 @@ use ApiPlatform\OpenApi\OpenApi;
 
 final class WebResponseDecorator implements OpenApiFactoryInterface
 {
-    private OpenApiFactoryInterface $decorated;
-
     public function __construct(
-        OpenApiFactoryInterface $decorated
+        private readonly OpenApiFactoryInterface $decorated
     ) {
-        $this->decorated = $decorated;
     }
 
     public function __invoke(array $context = []): OpenApi

@@ -16,12 +16,9 @@ use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 
 final class NodeQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
-    private PreviewResolverInterface $previewResolver;
-
     public function __construct(
-        PreviewResolverInterface $previewResolver
+        private readonly PreviewResolverInterface $previewResolver
     ) {
-        $this->previewResolver = $previewResolver;
     }
 
     public function applyToItem(

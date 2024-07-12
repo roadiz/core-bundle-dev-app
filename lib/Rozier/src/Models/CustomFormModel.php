@@ -10,23 +10,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class CustomFormModel implements ModelInterface
 {
-    private CustomForm $customForm;
-    private UrlGeneratorInterface $urlGenerator;
-    private TranslatorInterface $translator;
-
-    /**
-     * @param CustomForm $customForm
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(CustomForm $customForm, UrlGeneratorInterface $urlGenerator, TranslatorInterface $translator)
-    {
-        $this->customForm = $customForm;
-        $this->urlGenerator = $urlGenerator;
-        $this->translator = $translator;
+    public function __construct(
+        private readonly CustomForm $customForm,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly TranslatorInterface $translator
+    ) {
     }
 
-    public function toArray()
+    public function toArray(): array
     {
         $countFields = strip_tags($this->translator->trans(
             '{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields',

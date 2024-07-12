@@ -11,24 +11,16 @@ use RZ\Roadiz\Typescript\Declaration\DeclarationGeneratorFactory;
 
 final class NodeTypeGenerator
 {
-    private NodeTypeInterface $nodeType;
     /**
      * @var array<AbstractFieldGenerator>
      */
     private array $fieldGenerators;
-    private DeclarationGeneratorFactory $generatorFactory;
 
-    /**
-     * @param NodeTypeInterface $nodeType
-     * @param DeclarationGeneratorFactory $generatorFactory
-     */
     public function __construct(
-        NodeTypeInterface $nodeType,
-        DeclarationGeneratorFactory $generatorFactory
+        private readonly NodeTypeInterface $nodeType,
+        private readonly DeclarationGeneratorFactory $generatorFactory
     ) {
-        $this->nodeType = $nodeType;
         $this->fieldGenerators = [];
-        $this->generatorFactory = $generatorFactory;
 
         /** @var NodeTypeFieldInterface $field */
         foreach ($this->nodeType->getFields() as $field) {

@@ -21,8 +21,8 @@ use Twig\Error\RuntimeError;
 final class TwoFactorAdminController extends RozierApp
 {
     public function __construct(
-        private TwoFactorUserProviderInterface $twoFactorUserProvider,
-        private AuthenticatorTwoFactorProvider $authenticatorTwoFactorProvider,
+        private readonly TwoFactorUserProviderInterface $twoFactorUserProvider,
+        private readonly AuthenticatorTwoFactorProvider $authenticatorTwoFactorProvider,
     ) {
     }
 

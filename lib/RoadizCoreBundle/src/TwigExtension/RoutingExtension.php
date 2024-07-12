@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\TwigExtension;
 
+use Symfony\Bridge\Twig\Extension\RoutingExtension as BaseRoutingExtension;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Error\RuntimeError;
@@ -17,7 +18,7 @@ use Twig\TwigFunction;
 final class RoutingExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly \Symfony\Bridge\Twig\Extension\RoutingExtension $decorated,
+        private readonly BaseRoutingExtension $decorated,
         private readonly UrlGeneratorInterface $generator
     ) {
     }

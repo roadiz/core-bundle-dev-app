@@ -16,21 +16,12 @@ use RZ\TreeWalker\WalkerInterface;
  */
 final class TreeWalkerIndexingEventSubscriber extends AbstractIndexingSubscriber
 {
-    private WalkerContextInterface $walkerContext;
-    private SolariumFactoryInterface $solariumFactory;
-    private int $maxLevel;
-    private string $defaultLocale;
-
     public function __construct(
-        WalkerContextInterface $walkerContext,
-        SolariumFactoryInterface $solariumFactory,
-        int $maxLevel = 5,
-        string $defaultLocale = 'en'
+        private readonly WalkerContextInterface $walkerContext,
+        private readonly SolariumFactoryInterface $solariumFactory,
+        private readonly int $maxLevel = 5,
+        private readonly string $defaultLocale = 'en'
     ) {
-        $this->walkerContext = $walkerContext;
-        $this->solariumFactory = $solariumFactory;
-        $this->maxLevel = $maxLevel;
-        $this->defaultLocale = $defaultLocale;
     }
 
     /**

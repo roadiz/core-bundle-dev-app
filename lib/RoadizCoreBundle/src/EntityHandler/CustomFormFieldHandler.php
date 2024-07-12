@@ -16,16 +16,6 @@ final class CustomFormFieldHandler extends AbstractHandler
     private ?CustomFormField $customFormField = null;
 
     /**
-     * @param CustomFormField $customFormField
-     * @return $this
-     */
-    public function setCustomFormField(CustomFormField $customFormField): self
-    {
-        $this->customFormField = $customFormField;
-        return $this;
-    }
-
-    /**
      * @param ObjectManager $objectManager
      * @param CustomFormHandler $customFormHandler
      */
@@ -34,6 +24,16 @@ final class CustomFormFieldHandler extends AbstractHandler
         private readonly CustomFormHandler $customFormHandler
     ) {
         parent::__construct($objectManager);
+    }
+
+    /**
+     * @param CustomFormField $customFormField
+     * @return $this
+     */
+    public function setCustomFormField(CustomFormField $customFormField): self
+    {
+        $this->customFormField = $customFormField;
+        return $this;
     }
 
     /**

@@ -14,15 +14,10 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerI
 
 final class JwtAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
-    private ManagerRegistry $managerRegistry;
-    private AuthenticationSuccessHandler $decorated;
-
     public function __construct(
-        AuthenticationSuccessHandler $decorated,
-        ManagerRegistry $managerRegistry
+        private readonly AuthenticationSuccessHandler $decorated,
+        private readonly ManagerRegistry $managerRegistry
     ) {
-        $this->decorated = $decorated;
-        $this->managerRegistry = $managerRegistry;
     }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): Response

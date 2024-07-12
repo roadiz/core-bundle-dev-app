@@ -12,23 +12,12 @@ use RZ\Roadiz\CoreBundle\Webhook\WebhookInterface;
 
 final class GitlabPipelineTriggerMessage implements AsyncMessage, HttpRequestMessage, WebhookMessage
 {
-    private string $uri;
-    private string $token;
-    private string $ref;
-    private ?array $variables;
-
-    /**
-     * @param string $uri
-     * @param string $token
-     * @param string $ref
-     * @param array|null $variables
-     */
-    public function __construct(string $uri, string $token, string $ref = 'main', ?array $variables = null)
-    {
-        $this->uri = $uri;
-        $this->token = $token;
-        $this->ref = $ref;
-        $this->variables = $variables;
+    public function __construct(
+        private readonly string $uri,
+        private readonly string $token,
+        private readonly string $ref = 'main',
+        private readonly ?array $variables = null
+    ) {
     }
 
     public function getRequest(): RequestInterface
@@ -67,7 +56,7 @@ final class GitlabPipelineTriggerMessage implements AsyncMessage, HttpRequestMes
      * @param WebhookInterface $webhook
      * @return static
      */
-    public static function fromWebhook(WebhookInterface $webhook)
+    public static function fromWebhook(WebhookInterface $webhook): self
     {
         $payload = $webhook->getPayload();
         return new self(

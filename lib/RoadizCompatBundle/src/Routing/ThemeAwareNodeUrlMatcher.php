@@ -15,15 +15,10 @@ use Symfony\Component\Routing\RequestContext;
 
 final class ThemeAwareNodeUrlMatcher implements UrlMatcherInterface, RequestMatcherInterface, NodeUrlMatcherInterface
 {
-    private ThemeResolverInterface $themeResolver;
-    private NodeUrlMatcher $innerMatcher;
-
     public function __construct(
-        ThemeResolverInterface $themeResolver,
-        NodeUrlMatcher $innerMatcher
+        private readonly ThemeResolverInterface $themeResolver,
+        private readonly NodeUrlMatcher $innerMatcher
     ) {
-        $this->themeResolver = $themeResolver;
-        $this->innerMatcher = $innerMatcher;
     }
 
     /**

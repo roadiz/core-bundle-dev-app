@@ -24,24 +24,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 final class DoctrineHandler extends AbstractProcessingHandler
 {
-    private ManagerRegistry $managerRegistry;
-    private TokenStorageInterface $tokenStorage;
-    private RequestStack $requestStack;
-    private DocumentUrlGeneratorInterface $documentUrlGenerator;
-
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        TokenStorageInterface $tokenStorage,
-        RequestStack $requestStack,
-        DocumentUrlGeneratorInterface $documentUrlGenerator,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly TokenStorageInterface $tokenStorage,
+        private readonly RequestStack $requestStack,
+        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
         $level = Logger::INFO,
         $bubble = true
     ) {
         parent::__construct($level, $bubble);
-        $this->tokenStorage = $tokenStorage;
-        $this->requestStack = $requestStack;
-        $this->managerRegistry = $managerRegistry;
-        $this->documentUrlGenerator = $documentUrlGenerator;
     }
 
     protected function getThumbnailSourcePath(?DocumentInterface $thumbnail): ?string

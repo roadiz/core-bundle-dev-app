@@ -29,22 +29,15 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 final class DocumentAudioVideoMessageHandler extends AbstractLockingDocumentMessageHandler
 {
-    private DocumentFactory $documentFactory;
-    private EventDispatcherInterface $eventDispatcher;
-    private ?string $ffmpegPath;
-
     public function __construct(
-        DocumentFactory $documentFactory,
-        EventDispatcherInterface $eventDispatcher,
-        ?string $ffmpegPath,
+        private readonly DocumentFactory $documentFactory,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly ?string $ffmpegPath,
         ManagerRegistry $managerRegistry,
         LoggerInterface $messengerLogger,
         FilesystemOperator $documentsStorage
     ) {
         parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
-        $this->ffmpegPath = $ffmpegPath;
-        $this->documentFactory = $documentFactory;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**

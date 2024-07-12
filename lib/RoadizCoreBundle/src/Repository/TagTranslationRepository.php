@@ -18,8 +18,10 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 final class TagTranslationRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry, EventDispatcherInterface $dispatcher)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        EventDispatcherInterface $dispatcher
+    ) {
         parent::__construct($registry, TagTranslation::class, $dispatcher);
     }
 }
