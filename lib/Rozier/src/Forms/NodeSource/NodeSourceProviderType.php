@@ -19,16 +19,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class NodeSourceProviderType extends AbstractConfigurableNodeSourceFieldType
 {
-    protected ContainerInterface $container;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param ContainerInterface $container
-     */
-    public function __construct(ManagerRegistry $managerRegistry, ContainerInterface $container)
+    public function __construct(ManagerRegistry $managerRegistry, private readonly ContainerInterface $container)
     {
         parent::__construct($managerRegistry);
-        $this->container = $container;
     }
 
     /**

@@ -12,10 +12,12 @@ use RZ\Roadiz\CoreBundle\EntityApi\NodeSourceApi;
 use RZ\Roadiz\CoreBundle\NodeType\NodeTypeResolver;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\TreeWalker\WalkerContextInterface;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Stopwatch\Stopwatch;
 
+#[Exclude]
 class NodeSourceWalkerContext implements WalkerContextInterface
 {
     public function __construct(

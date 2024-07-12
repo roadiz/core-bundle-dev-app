@@ -34,7 +34,7 @@
         <ul class="tags-list">
         {% for tag in tags %}
             {% set source = tag.translatedTags.first %}
-            <li class="tag-item" data-tag-id="{{ tag.id }}">
+            <li style="--rz-accent-color: {{ tag.color }};" class="tag-item" data-tag-id="{{ tag.id }}">
                 <div class="tag-name"><i class="uk-icon-rz-tag-tree"></i> {{ source.name|default(tag.tagName) }}</div>
             </li>
         {% endfor %}

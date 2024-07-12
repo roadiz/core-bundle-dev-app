@@ -34,9 +34,6 @@ class ExportController extends RozierApp
      */
     public function exportAllXlsxAction(Request $request, int $translationId, ?int $parentNodeId = null): Response
     {
-        /*
-         * Get translation
-         */
         $translation = $this->em()
             ->find(Translation::class, $translationId);
 
@@ -69,7 +66,7 @@ class ExportController extends RozierApp
             ->findBy($criteria, $order);
 
         $this->xlsxSerializer->setOnlyTexts(true);
-        $this->xlsxSerializer->addUrls($request, $this->getSettingsBag()->get('force_locale'));
+        $this->xlsxSerializer->addUrls();
         $xlsx = $this->xlsxSerializer->serialize($sources);
 
         $response = new Response(

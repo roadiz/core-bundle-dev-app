@@ -10,18 +10,13 @@ use Symfony\Component\Serializer\Annotation as Serializer;
 final class Breadcrumbs implements BreadcrumbsInterface
 {
     /**
-     * @var array<PersistableInterface>
+     * @param PersistableInterface[] $items
      */
-    #[Serializer\Groups(["breadcrumbs", "web_response"])]
-    #[Serializer\MaxDepth(1)]
-    private array $items;
-
-    /**
-     * @param array<PersistableInterface> $items
-     */
-    public function __construct(array $items)
-    {
-        $this->items = $items;
+    public function __construct(
+        #[Serializer\Groups(["breadcrumbs", "web_response"])]
+        #[Serializer\MaxDepth(1)]
+        private readonly array $items
+    ) {
     }
 
     /**

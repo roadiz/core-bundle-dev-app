@@ -11,14 +11,8 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class FormErrorSerializer implements FormErrorSerializerInterface
 {
-    private TranslatorInterface $translator;
-
-    /**
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(private readonly TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     public function getErrorsAsArray(FormInterface $form): array

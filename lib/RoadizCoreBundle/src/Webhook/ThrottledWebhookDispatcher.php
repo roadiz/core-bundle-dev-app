@@ -12,18 +12,11 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 
 final class ThrottledWebhookDispatcher implements WebhookDispatcher
 {
-    private WebhookMessageFactoryInterface $messageFactory;
-    private MessageBusInterface $messageBus;
-    private RateLimiterFactory $throttledWebhooksLimiter;
-
     public function __construct(
-        WebhookMessageFactoryInterface $messageFactory,
-        MessageBusInterface $messageBus,
-        RateLimiterFactory $throttledWebhooksLimiter
+        private readonly WebhookMessageFactoryInterface $messageFactory,
+        private readonly MessageBusInterface $messageBus,
+        private readonly RateLimiterFactory $throttledWebhooksLimiter
     ) {
-        $this->messageFactory = $messageFactory;
-        $this->messageBus = $messageBus;
-        $this->throttledWebhooksLimiter = $throttledWebhooksLimiter;
     }
 
     /**

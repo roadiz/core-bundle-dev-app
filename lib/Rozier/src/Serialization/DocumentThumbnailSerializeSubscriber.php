@@ -13,11 +13,8 @@ use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 
 final class DocumentThumbnailSerializeSubscriber implements EventSubscriberInterface
 {
-    private DocumentUrlGeneratorInterface $documentUrlGenerator;
-
-    public function __construct(DocumentUrlGeneratorInterface $documentUrlGenerator)
+    public function __construct(private readonly DocumentUrlGeneratorInterface $documentUrlGenerator)
     {
-        $this->documentUrlGenerator = $documentUrlGenerator;
     }
 
     public static function getSubscribedEvents(): array

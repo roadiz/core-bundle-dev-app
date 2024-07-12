@@ -9,9 +9,7 @@ use RZ\Roadiz\CompatBundle\Controller\AppController;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Bag\Roles;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
-use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
-use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
 use RZ\Roadiz\OpenId\OAuth2LinkGenerator;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,9 +22,7 @@ use Themes\Rozier\Event\UserActionsMenuEvent;
 use Themes\Rozier\Explorer\FoldersProvider;
 use Themes\Rozier\Explorer\SettingsProvider;
 use Themes\Rozier\Explorer\UsersProvider;
-use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
 /**
  * Rozier main theme application
@@ -138,48 +134,11 @@ class RozierApp extends AppController
 
     /**
      * @param Request $request
-     *
      * @return Response $response
      * @throws RuntimeError
      */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
         return $this->render('@RoadizRozier/index.html.twig', $this->assignation);
-    }
-
-    /**
-     * @param Request $request
-     *
-     * @return Response $response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    public function cssAction(Request $request): Response
-    {
-        /** @var NodeTypes $nodeTypesBag */
-        $nodeTypesBag = $this->container->get('nodeTypesBag');
-        $this->assignation['mainColor'] = $this->getSettingsBag()->get('main_color');
-        $this->assignation['nodeTypes'] = $nodeTypesBag->all();
-
-        $folderQb = $this->em()->getRepository(Folder::class)->createQueryBuilder('f');
-        $this->assignation['folders'] = $folderQb->andWhere($folderQb->expr()->neq('f.color', ':defaultColor'))
-            ->setParameter('defaultColor', '#000000')
-            ->getQuery()
-            ->getResult();
-
-        $tagQb = $this->em()->getRepository(Tag::class)->createQueryBuilder('t');
-        $this->assignation['tags'] = $tagQb->andWhere($tagQb->expr()->neq('t.color', ':defaultColor'))
-            ->setParameter('defaultColor', '#000000')
-            ->getQuery()
-            ->getResult();
-
-        $response = new Response(
-            $this->getTwig()->render('@RoadizRozier/css/mainColor.css.twig', $this->assignation),
-            Response::HTTP_OK,
-            ['content-type' => 'text/css']
-        );
-
-        return $this->makeResponseCachable($request, $response, 60, true);
     }
 }

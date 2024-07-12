@@ -18,11 +18,6 @@ final class RedirectionController
     {
     }
 
-    /**
-     * @param Request $request
-     * @param Redirection $redirection
-     * @return RedirectResponse
-     */
     public function redirectAction(Request $request, Redirection $redirection): RedirectResponse
     {
         if (null !== $redirection->getRedirectNodeSource()) {

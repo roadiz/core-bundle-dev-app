@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\ListManager;
 
 use ApiPlatform\State\Pagination\PaginatorInterface;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
+#[Exclude]
 final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
 {
     private bool $handled = false;
@@ -57,9 +59,6 @@ final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
     {
         $this->handleOnce();
         $entities = $this->listManager->getEntities();
-        if (\is_array($entities)) {
-            return new \ArrayIterator($entities);
-        }
-        return $entities->getIterator();
+        return new \ArrayIterator($entities);
     }
 }

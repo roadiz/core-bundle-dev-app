@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\EntityHandler;
 
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\Query;
-use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
+use RZ\Roadiz\CoreBundle\Entity\Tag;
 
 /**
  * Handle operations with tags entities.

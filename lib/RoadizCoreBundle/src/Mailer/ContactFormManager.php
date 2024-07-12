@@ -71,10 +71,10 @@ final class ContactFormManager extends EmailManager
         MailerInterface $mailer,
         Settings $settingsBag,
         DocumentUrlGeneratorInterface $documentUrlGenerator,
-        protected readonly FormFactoryInterface $formFactory,
-        protected readonly FormErrorSerializerInterface $formErrorSerializer,
-        protected readonly ?string $recaptchaPrivateKey,
-        protected readonly ?string $recaptchaPublicKey
+        private readonly FormFactoryInterface $formFactory,
+        private readonly FormErrorSerializerInterface $formErrorSerializer,
+        private readonly ?string $recaptchaPrivateKey,
+        private readonly ?string $recaptchaPublicKey
     ) {
         parent::__construct($requestStack, $translator, $templating, $mailer, $settingsBag, $documentUrlGenerator);
 

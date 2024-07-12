@@ -10,6 +10,7 @@
 {% set children = tagTree.childrenTags(tag) %}
 
 <li data-tag-id="{{ tag.id }}"
+    style="--rz-accent-color: {{ tag.color }};"
     class="uk-nestable-item uk-nestable-list-item-tag tagtree-element{% if tag.children.count > 0 %} has-children{% endif %}">
     <div class="tree-element-inner uk-nestable-panel uk-nestable-item-tag {% if not tag.isVisible %} hidden-tag{% endif %}{% if tag.isLocked %} locked-tag{% endif %}">
         {% apply spaceless %}

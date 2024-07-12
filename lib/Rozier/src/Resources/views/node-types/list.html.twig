@@ -79,9 +79,9 @@
                             {% set classes = classes|merge(['hiding-children']) %}
                         {% endif %}
 
-                        <tr class="{{ classes|join(' ') }}">
+                        <tr style="--rz-accent-color:{{ type.getColor }};" class="{{ classes|join(' ') }}">
                             <td class="name"><a href="{{ path('nodeTypesEditPage', { nodeTypeId: type.getId }) }}">
-                                <span class="color" style="--data-color:{{ type.getColor }};"></span>{{ type.getName }}
+                                <span class="color"></span>{{ type.getName }}
                             </a></td>
                             <td class="mobile-hidden uk-hidden-small">{{ type.getDisplayName }}</td>
                             <td class="mobile-hidden uk-hidden-small uk-visible-xlarge">{{ type.getSourceEntityClassName }}</td>

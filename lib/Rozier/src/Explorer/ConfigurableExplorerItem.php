@@ -17,27 +17,14 @@ use Themes\Rozier\Models\DocumentModel;
 
 final class ConfigurableExplorerItem extends AbstractExplorerItem
 {
-    private PersistableInterface $entity;
-    private array $configuration;
-    private RendererInterface $renderer;
-    private DocumentUrlGeneratorInterface $documentUrlGenerator;
-    private UrlGeneratorInterface $urlGenerator;
-    private ?EmbedFinderFactory $embedFinderFactory;
-
     public function __construct(
-        PersistableInterface $entity,
-        array &$configuration,
-        RendererInterface $renderer,
-        DocumentUrlGeneratorInterface $documentUrlGenerator,
-        UrlGeneratorInterface $urlGenerator,
-        ?EmbedFinderFactory $embedFinderFactory = null
+        private readonly PersistableInterface $entity,
+        private readonly array &$configuration,
+        private readonly RendererInterface $renderer,
+        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly ?EmbedFinderFactory $embedFinderFactory = null
     ) {
-        $this->entity = $entity;
-        $this->configuration = $configuration;
-        $this->renderer = $renderer;
-        $this->documentUrlGenerator = $documentUrlGenerator;
-        $this->urlGenerator = $urlGenerator;
-        $this->embedFinderFactory = $embedFinderFactory;
     }
 
     /**

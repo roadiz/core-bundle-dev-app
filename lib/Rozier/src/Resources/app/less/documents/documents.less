@@ -95,9 +95,6 @@ table.documents {
         margin: 0 auto;
 
         &:hover {
-            .document-border{
-                background: #C8C8C8;
-            }
             .document-links{
                 bottom:0px;
             }
@@ -122,18 +119,18 @@ table.documents {
         overflow: hidden;
     }
 
-    .document-border{
+    .document-border {
         position: absolute;
         top:0;
         right:0;
         left:0;
         height:4px;
-        background-color:#eaeaea;
+        background: var(--rz-accent-color);
         transition: 0.5s background-color @easeOutExpo;
         z-index:3;
     }
 
-    .document-image{
+    .document-image {
         width:128px;
         height:128px;
         background: #E2E2E2; // not white to see white PNG logotypes

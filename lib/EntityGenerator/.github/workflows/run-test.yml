@@ -40,4 +40,4 @@ jobs:
             - name: Run PHPStan
               run: vendor/bin/phpstan analyse --no-progress -c phpstan.neon
             - name: Run unit tests
-              run: vendor/bin/phpunit -v --whitelist ./src --coverage-clover ./build/logs/clover.xml src/Test
+              run: vendor/bin/phpunit -v --whitelist ./src tests

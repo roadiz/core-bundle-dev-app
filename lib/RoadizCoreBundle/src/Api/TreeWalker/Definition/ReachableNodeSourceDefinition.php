@@ -8,16 +8,16 @@ use Exception;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\TreeWalker\Definition\ContextualDefinitionTrait;
+use RZ\TreeWalker\WalkerContextInterface;
 
 final class ReachableNodeSourceDefinition
 {
     use ContextualDefinitionTrait;
 
-    private bool $onlyVisible;
-
-    public function __construct(bool $onlyVisible = true)
-    {
-        $this->onlyVisible = $onlyVisible;
+    public function __construct(
+        private readonly WalkerContextInterface $context,
+        private readonly bool $onlyVisible = true
+    ) {
     }
 
     /**

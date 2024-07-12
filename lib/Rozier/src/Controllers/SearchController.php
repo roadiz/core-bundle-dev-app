@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers;
 
 use DateTime;
-use IteratorAggregate;
 use PhpOffice\PhpSpreadsheet\Exception;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -18,7 +17,7 @@ use RZ\Roadiz\CoreBundle\Form\ExtendedBooleanType;
 use RZ\Roadiz\CoreBundle\Form\NodeStatesType;
 use RZ\Roadiz\CoreBundle\Form\NodeTypesType;
 use RZ\Roadiz\CoreBundle\Form\SeparatorType;
-use RZ\Roadiz\CoreBundle\Xlsx\XlsxExporter;
+use RZ\Roadiz\CoreBundle\Xlsx\NodeSourceXlsxSerializer;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -43,6 +42,10 @@ class SearchController extends RozierApp
 {
     protected bool $pagination = true;
     protected ?int $itemPerPage = null;
+
+    public function __construct(protected readonly NodeSourceXlsxSerializer $xlsxSerializer)
+    {
+    }
 
     /**
      * @param mixed $var
@@ -265,7 +268,6 @@ class SearchController extends RozierApp
         $this->extendForm($builder, $nodetype);
         $this->addButtons($builder, true);
 
-        /** @var Form $form */
         $form = $builder->getForm();
         $form->handleRequest($request);
 
@@ -277,7 +279,7 @@ class SearchController extends RozierApp
             return $response;
         }
 
-        if (null !== $response = $this->handleNodeForm($form, $nodetype)) {
+        if (null !== $response = $this->handleNodeForm($request, $form, $nodetype)) {
             return $response;
         }
 
@@ -314,11 +316,11 @@ class SearchController extends RozierApp
 
     /**
      * @param FormBuilderInterface $builder
-     * @param bool $exportXlsx
+     * @param bool $export
      *
      * @return FormBuilderInterface
      */
-    protected function addButtons(FormBuilderInterface $builder, bool $exportXlsx = false): FormBuilderInterface
+    protected function addButtons(FormBuilderInterface $builder, bool $export = false): FormBuilderInterface
     {
         $builder->add('search', SubmitType::class, [
             'label' => 'search.a.node',
@@ -327,7 +329,7 @@ class SearchController extends RozierApp
             ],
         ]);
 
-        if ($exportXlsx) {
+        if ($export) {
             $builder->add('export', SubmitType::class, [
                 'label' => 'export.all.nodesSource',
                 'attr' => [
@@ -363,6 +365,7 @@ class SearchController extends RozierApp
     }
 
     /**
+     * @param Request $request
      * @param FormInterface $form
      * @param NodeType $nodetype
      *
@@ -370,7 +373,7 @@ class SearchController extends RozierApp
      * @throws Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    protected function handleNodeForm(FormInterface $form, NodeType $nodetype): ?Response
+    protected function handleNodeForm(Request $request, FormInterface $form, NodeType $nodetype): ?Response
     {
         if ($form->isSubmitted() && $form->isValid()) {
             $data = [];
@@ -416,8 +419,13 @@ class SearchController extends RozierApp
              */
             $button = $form->get('export');
             if ($button instanceof ClickableInterface && $button->isClicked()) {
+                $filename = 'search-' . $nodetype->getName() . '-' . date("YmdHis") . '.xlsx';
+                $this->xlsxSerializer->setOnlyTexts(true);
+                $this->xlsxSerializer->addUrls();
+                $xlsx = $this->xlsxSerializer->serialize($entities);
+
                 $response = new Response(
-                    $this->getXlsxResults($nodetype, $entities),
+                    $xlsx,
                     Response::HTTP_OK,
                     []
                 );
@@ -426,10 +434,11 @@ class SearchController extends RozierApp
                     'Content-Disposition',
                     $response->headers->makeDisposition(
                         ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                        'search.xlsx'
+                        $filename
                     )
                 );
 
+                $response->prepare($request);
                 return $response;
             }
 
@@ -439,43 +448,6 @@ class SearchController extends RozierApp
         }
 
         return null;
-    }
-
-    /**
-     * @param NodeType $nodetype
-     * @param array|IteratorAggregate $entities
-     *
-     * @return string
-     * @throws Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
-     */
-    protected function getXlsxResults(NodeType $nodetype, iterable $entities): string
-    {
-        $fields = $nodetype->getFields();
-        $keys = [];
-        $answers = [];
-        $keys[] = "title";
-        /** @var NodeTypeField $field */
-        foreach ($fields as $field) {
-            if (!$field->isVirtual() && !$field->isCollection()) {
-                $keys[] = $field->getName();
-            }
-        }
-        foreach ($entities as $idx => $nodesSource) {
-            $array = [];
-            foreach ($keys as $key) {
-                $getter = 'get' . str_replace('_', '', ucwords($key));
-                $tmp = $nodesSource->$getter();
-                if (is_array($tmp)) {
-                    $tmp = implode(',', $tmp);
-                }
-                $array[] = $tmp;
-            }
-            $answers[$idx] = $array;
-        }
-
-        $exporter = new XlsxExporter($this->getTranslator());
-        return $exporter->exportXlsx($answers, $keys);
     }
 
     /**

@@ -19,13 +19,9 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 #[AsDoctrineListener(event: Events::loadClassMetadata)]
 final class NodesSourcesInheritanceSubscriber
 {
-    /**
-     * @param NodeTypes $nodeTypes
-     * @param string $inheritanceType
-     */
     public function __construct(
-        private NodeTypes $nodeTypes,
-        private string $inheritanceType
+        private readonly NodeTypes $nodeTypes,
+        private readonly string $inheritanceType
     ) {
     }
 

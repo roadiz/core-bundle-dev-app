@@ -4,26 +4,27 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block title %}{% trans %}back_office{% endtrans %}{% endblock %}</title>
+    <title>{% block title %}{% trans %}back_office{% endtrans %}: {{ head.siteTitle|default(meta.siteName) }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
     {# CSS scripts inclusions / Using webpack #}
     {% include '@RoadizRozier/partials/css-inject.html.twig' %}
-    <style>
-        /* Login */
-        {% if bags.settings.get('main_color') %}
-        #login #login-infos #login-logo{
-            background-color: {{ bags.settings.get('main_color') }};
-        }
-        {% endif %}
-    </style>
+    {% if head.mainColor %}
+        <style>
+            :root {
+                --rz-accent-color: {{ head.mainColor|raw }};
+                --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
+                --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
+                --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
+            }
+        </style>
+    {% endif %}
     <script src="{{ asset('vendor/modernizr.custom.50380.js', 'Rozier') }}"></script>
 </head>
 <body id="simple-body">
 {% include '@RoadizRozier/includes/messages.html.twig' %}
 <div id="main-container">
-    <!-- Add your site or application content here -->
     <div id="splash-container"></div>
     <div id="main_content">
         {% block content %}

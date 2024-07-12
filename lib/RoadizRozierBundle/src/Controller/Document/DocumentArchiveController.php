@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Controller\Document;
 
 use Doctrine\Persistence\ManagerRegistry;
+use League\Flysystem\FilesystemException;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\Documents\DocumentArchiver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -16,21 +17,15 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\RozierApp;
+use Twig\Error\RuntimeError;
 
 final class DocumentArchiveController extends RozierApp
 {
-    private ManagerRegistry $managerRegistry;
-    private TranslatorInterface $translator;
-    private DocumentArchiver $documentArchiver;
-
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        TranslatorInterface $translator,
-        DocumentArchiver $documentArchiver
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly TranslatorInterface $translator,
+        private readonly DocumentArchiver $documentArchiver
     ) {
-        $this->managerRegistry = $managerRegistry;
-        $this->translator = $translator;
-        $this->documentArchiver = $documentArchiver;
     }
 
     /**
@@ -39,6 +34,8 @@ final class DocumentArchiveController extends RozierApp
      * @param Request $request
      *
      * @return Response
+     * @throws FilesystemException
+     * @throws RuntimeError
      */
     public function bulkDownloadAction(Request $request): Response
     {

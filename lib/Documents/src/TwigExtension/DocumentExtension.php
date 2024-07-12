@@ -22,11 +22,6 @@ use Twig\TwigFilter;
  */
 final class DocumentExtension extends AbstractExtension
 {
-    private bool $throwExceptions;
-    private RendererInterface $renderer;
-    private EmbedFinderFactory $embedFinderFactory;
-    private FilesystemOperator $documentsStorage;
-
     /**
      * @param RendererInterface $renderer
      * @param EmbedFinderFactory $embedFinderFactory
@@ -34,15 +29,11 @@ final class DocumentExtension extends AbstractExtension
      * @param bool $throwExceptions Trigger exception if using filter on NULL values (default: false)
      */
     public function __construct(
-        RendererInterface $renderer,
-        EmbedFinderFactory $embedFinderFactory,
-        FilesystemOperator $documentsStorage,
-        bool $throwExceptions = false
+        private readonly RendererInterface $renderer,
+        private readonly EmbedFinderFactory $embedFinderFactory,
+        private readonly FilesystemOperator $documentsStorage,
+        private readonly bool $throwExceptions = false
     ) {
-        $this->throwExceptions = $throwExceptions;
-        $this->renderer = $renderer;
-        $this->embedFinderFactory = $embedFinderFactory;
-        $this->documentsStorage = $documentsStorage;
     }
 
     /**

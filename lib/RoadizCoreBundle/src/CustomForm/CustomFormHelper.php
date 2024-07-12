@@ -176,9 +176,6 @@ final class CustomFormHelper
         return $document;
     }
 
-    /**
-     * @return Folder|null
-     */
     protected function getDocumentFolderForCustomForm(): ?Folder
     {
         return $this->em->getRepository(Folder::class)
@@ -189,11 +186,7 @@ final class CustomFormHelper
             );
     }
 
-    /**
-     * @param mixed $rawValue
-     * @return string
-     */
-    private function formValueToString($rawValue): string
+    private function formValueToString(mixed $rawValue): string
     {
         if ($rawValue instanceof \DateTimeInterface) {
             return $rawValue->format('Y-m-d H:i:s');

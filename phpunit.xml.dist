@@ -41,10 +41,10 @@
 
     <testsuites>
         <testsuite name="Roadiz Monorepo Test Suite">
-            <directory>lib/Models/src/Test</directory>
-            <directory>lib/RoadizCoreBundle/src/Test</directory>
-            <directory>lib/Documents/src/Test</directory>
-            <directory>lib/EntityGenerator/src/Test</directory>
+            <directory>lib/Models/tests</directory>
+            <directory>lib/RoadizCoreBundle/tests</directory>
+            <directory>lib/Documents/tests</directory>
+            <directory>lib/EntityGenerator/tests</directory>
         </testsuite>
     </testsuites>
 
@@ -59,12 +59,12 @@
             <directory suffix=".php">lib</directory>
         </include>
         <exclude>
-            <directory>lib/EntityGenerator/tests/mocks</directory>
+            <directory>lib/EntityGenerator/tests</directory>
             <directory>tests</directory>
             <directory>lib/RoadizCoreBundle/tests</directory>
-            <directory>lib/Models/src/Test</directory>
-            <directory>lib/Documents/src/Test</directory>
-            <directory>lib/EntityGenerator/src/Test</directory>
+            <directory>lib/Models/tests</directory>
+            <directory>lib/Documents/tests</directory>
+            <directory>lib/EntityGenerator/tests</directory>
         </exclude>
         <report>
             <text outputFile="php://stdout"/>

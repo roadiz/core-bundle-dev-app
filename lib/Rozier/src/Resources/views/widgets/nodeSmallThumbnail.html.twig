@@ -8,7 +8,7 @@
 {% endif %}
 
 {% apply spaceless %}
-<li class="uk-sortable-list-item nodes-widget-sortable-list-item{% if not node.isPublished %} not-published{% endif %}" data-node-id="{{ node.getId }}">
+<li style="--rz-accent-color: {{ node.nodeType.color }};" class="uk-sortable-list-item nodes-widget-sortable-list-item{% if not node.isPublished %} not-published{% endif %}" data-node-id="{{ node.getId }}">
 	<div class="uk-sortable-handle"></div>
     <div class="node-border" style="background-color:{{ node.nodeType.color }};"></div>
     {% if parent %}

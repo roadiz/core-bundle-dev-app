@@ -11,17 +11,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class MarkdownGeneratorFactory
 {
-    private ParameterBag $nodeTypesBag;
-    private TranslatorInterface $translator;
-
-    /**
-     * @param ParameterBag $nodeTypesBag
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(ParameterBag $nodeTypesBag, TranslatorInterface $translator)
-    {
-        $this->nodeTypesBag = $nodeTypesBag;
-        $this->translator = $translator;
+    public function __construct(
+        private readonly ParameterBag $nodeTypesBag,
+        private readonly TranslatorInterface $translator
+    ) {
     }
 
     public function getHumanBool(bool $bool): string
@@ -50,16 +43,11 @@ final class MarkdownGeneratorFactory
      */
     public function createForNodeTypeField(NodeTypeFieldInterface $field): AbstractFieldGenerator
     {
-        switch (true) {
-            case $field->isNodes():
-                return new NodeReferencesFieldGenerator($this, $field, $this->nodeTypesBag, $this->translator);
-            case $field->isChildrenNodes():
-                return new ChildrenNodeFieldGenerator($this, $field, $this->nodeTypesBag, $this->translator);
-            case $field->isMultiple():
-            case $field->isEnum():
-                return new DefaultValuedFieldGenerator($this, $field, $this->nodeTypesBag, $this->translator);
-            default:
-                return new CommonFieldGenerator($this, $field, $this->nodeTypesBag, $this->translator);
-        }
+        return match (true) {
+            $field->isNodes() => new NodeReferencesFieldGenerator($this, $field, $this->nodeTypesBag, $this->translator),
+            $field->isChildrenNodes() => new ChildrenNodeFieldGenerator($this, $field, $this->nodeTypesBag, $this->translator),
+            $field->isMultiple(), $field->isEnum() => new DefaultValuedFieldGenerator($this, $field, $this->nodeTypesBag, $this->translator),
+            default => new CommonFieldGenerator($this, $field, $this->nodeTypesBag, $this->translator),
+        };
     }
 }

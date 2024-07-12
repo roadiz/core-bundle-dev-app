@@ -20,11 +20,10 @@ final class MultiTypeChildrenDefinition
      * @param bool $onlyVisible
      */
     public function __construct(
-        WalkerContextInterface $context,
+        private readonly WalkerContextInterface $context,
         private readonly array $types,
         private readonly bool $onlyVisible = true
     ) {
-        $this->context = $context;
     }
 
     /**
@@ -63,6 +62,7 @@ final class MultiTypeChildrenDefinition
             ->findBy($criteria, [
                 'node.position' => 'ASC',
             ]);
+
         $this->context->getStopwatch()->stop(self::class);
 
         return $children;

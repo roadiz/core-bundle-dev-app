@@ -21,8 +21,8 @@ final class SolrSearchResultItem
      * @param array<string, array<string>> $highlighting
      */
     public function __construct(
-        protected readonly object $item,
-        protected readonly array $highlighting = []
+        private readonly object $item,
+        private readonly array $highlighting = []
     ) {
     }
 

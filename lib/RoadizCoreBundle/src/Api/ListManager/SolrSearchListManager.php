@@ -7,11 +7,13 @@ namespace RZ\Roadiz\CoreBundle\Api\ListManager;
 use RZ\Roadiz\CoreBundle\ListManager\AbstractEntityListManager;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\Request;
 
+#[Exclude]
 final class SolrSearchListManager extends AbstractEntityListManager
 {
-    protected ?SearchResultsInterface $searchResults;
+    private ?SearchResultsInterface $searchResults;
     private ?string $query = null;
 
     public function __construct(

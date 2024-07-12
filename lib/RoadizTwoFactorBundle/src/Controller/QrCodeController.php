@@ -22,9 +22,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 final class QrCodeController extends AbstractController
 {
     public function __construct(
-        private TwoFactorUserProviderInterface $twoFactorUserProvider,
-        private TotpAuthenticatorInterface $totpAuthenticator,
-        private GoogleAuthenticatorInterface $googleAuthenticator
+        private readonly TwoFactorUserProviderInterface $twoFactorUserProvider,
+        private readonly TotpAuthenticatorInterface $totpAuthenticator,
+        private readonly GoogleAuthenticatorInterface $googleAuthenticator
     ) {
     }
 

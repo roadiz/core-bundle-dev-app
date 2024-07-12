@@ -55,7 +55,7 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
     {% endif %}
 {% endif %}
 
-<li data-node-id="{{ node.id }}" class="{{ classes|join(' ') }}">
+<li style="--rz-accent-color: {{ node.nodeType.color }};" data-node-id="{{ node.id }}" class="{{ classes|join(' ') }}">
     {% if not mainNodeTree and not nodeTree.isStackTree %}
         <span class="nodetree-list-item-color"></span>
     {% endif %}

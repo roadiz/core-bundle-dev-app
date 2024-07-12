@@ -61,6 +61,7 @@ services:
             - '../src/Traits/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+            - '../src/DataCollector/'
             - '../src/Event/'
             - '../src/Model/'
             - '../src/ListManager/'
@@ -72,6 +73,13 @@ services:
         # Recreate handlers for each usage
         shared: false
         public: true
+
+    RZ\Roadiz\CoreBundle\Xlsx\:
+        resource: '../src/Xlsx/'
+        deprecated:
+            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use CSV serialization instead.'
+            package: roadiz/core-bundle
+            version: '2.3.19'
 
     RZ\Roadiz\CoreBundle\Document\MediaFinder\YoutubeEmbedFinder:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'youtube' } ]
@@ -342,7 +350,7 @@ services:
         # Recreate manager for each usage
         shared: false
         deprecated:
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 3.0. Use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory instead.'
+            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory instead.'
             package: roadiz/core-bundle
             version: '2.3.18'
 
@@ -350,7 +358,7 @@ services:
         # Recreate manager for each usage
         shared: false
         deprecated:
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 3.0. Use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory instead.'
+            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory instead.'
             package: roadiz/core-bundle
             version: '2.3.18'
 

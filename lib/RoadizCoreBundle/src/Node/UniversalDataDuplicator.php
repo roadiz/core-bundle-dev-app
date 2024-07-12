@@ -16,14 +16,8 @@ use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 
 final class UniversalDataDuplicator
 {
-    private ManagerRegistry $managerRegistry;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     /**

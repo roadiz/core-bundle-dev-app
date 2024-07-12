@@ -13,8 +13,8 @@ use Scheb\TwoFactorBundle\Security\TwoFactor\Backup\BackupCodeManagerInterface;
 final class BackupCodeManager implements BackupCodeManagerInterface
 {
     public function __construct(
-        private TwoFactorUserProviderInterface $twoFactorUserProvider,
-        private PersisterInterface $persister
+        private readonly TwoFactorUserProviderInterface $twoFactorUserProvider,
+        private readonly PersisterInterface $persister
     ) {
     }
 

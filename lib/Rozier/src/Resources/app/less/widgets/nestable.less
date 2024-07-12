@@ -146,7 +146,7 @@
         .uk-icon-rz-home-unpublished {
             position: relative;
             font-size: 16px;
-            color: darken(@item-color, 10%);
+            color: var(--rz-accent-color);
             vertical-align: middle;
             top: -1px;
             left: -2px;
@@ -167,12 +167,12 @@
             z-index:4;
         }
         &:hover {
-            .nodetree-element-name a{
+            .nodetree-element-name a {
                 color: @item-color-name-color-hover;
             }
             .uk-icon-rz-home,
             .uk-icon-rz-home-unpublished {
-                color: @nestable-handle-border-color-hover;
+                color: var(--rz-accent-color-darker);
             }
         }
     }
@@ -207,7 +207,7 @@
             font-size: @default-font-size;
             border-radius: 100%;
             background-color: var(--contrasted-bg);
-            border: 1px solid @item-color;
+            border: 1px solid var(--rz-accent-color);
             width: 10px;
             display: inline-block;
             height: 10px;
@@ -229,7 +229,7 @@
                     color: @item-color;
                     font-size: @default-font-size;
                     border-radius: 100%;
-                    background-color: @item-color;
+                    background-color: var(--rz-accent-color);
                     width: 4px;
                     height: 4px;
                     top: 3px;
@@ -473,7 +473,7 @@
         font-size: @default-font-size;
         border-radius: 100%;
         background-color: var(--contrasted-bg);
-        border: 1px solid @item-color;
+        border: 1px solid var(--rz-accent-color);
         width: 10px;
         display: inline-block;
         height: 10px;

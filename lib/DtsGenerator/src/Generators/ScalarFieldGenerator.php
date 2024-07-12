@@ -8,30 +8,22 @@ final class ScalarFieldGenerator extends AbstractFieldGenerator
 {
     protected function getType(): string
     {
-        switch (true) {
-            case $this->field->isString():
-            case $this->field->isRichText():
-            case $this->field->isText():
-            case $this->field->isMarkdown():
-            case $this->field->isCss():
-            case $this->field->isColor():
-            case $this->field->isCountry():
-            case $this->field->isDate():
-            case $this->field->isDateTime():
-            case $this->field->isGeoTag():
-            case $this->field->isMultiGeoTag():
-                return 'string';
-            case $this->field->isBool():
-                return 'boolean';
-            case $this->field->isDecimal():
-            case $this->field->isInteger():
-                return 'number';
-            case $this->field->isCollection():
-            case $this->field->isMultiProvider():
-                // Data cannot be known, this depends on user configuration
-                return 'Array<unknown>';
-            default:
-                return 'unknown';
-        }
+        return match (true) {
+            $this->field->isString(),
+            $this->field->isRichText(),
+            $this->field->isText(),
+            $this->field->isMarkdown(),
+            $this->field->isCss(),
+            $this->field->isColor(),
+            $this->field->isCountry(),
+            $this->field->isDate(),
+            $this->field->isDateTime(),
+            $this->field->isGeoTag(),
+            $this->field->isMultiGeoTag() => 'string',
+            $this->field->isBool() => 'boolean',
+            $this->field->isDecimal(), $this->field->isInteger() => 'number',
+            $this->field->isCollection(), $this->field->isMultiProvider() => 'Array<unknown>',
+            default => 'unknown',
+        };
     }
 }

@@ -10,18 +10,11 @@ use RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface;
 
 final class EntityGeneratorFactory
 {
-    private NodeTypeResolverInterface $nodeTypeResolverBag;
-    private DefaultValuesResolverInterface $defaultValuesResolver;
-    private array $options;
-
     public function __construct(
-        NodeTypeResolverInterface $nodeTypeResolverBag,
-        DefaultValuesResolverInterface $defaultValuesResolver,
-        array $options
+        private readonly NodeTypeResolverInterface $nodeTypeResolverBag,
+        private readonly DefaultValuesResolverInterface $defaultValuesResolver,
+        private readonly array $options
     ) {
-        $this->nodeTypeResolverBag = $nodeTypeResolverBag;
-        $this->defaultValuesResolver = $defaultValuesResolver;
-        $this->options = $options;
     }
 
     public function create(NodeTypeInterface $nodeType): EntityGeneratorInterface

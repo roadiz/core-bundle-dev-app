@@ -25,8 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "RZ\\Roadiz\\EntityGenerator\\": "src/",
-            "tests\\mocks\\": "tests/mocks/"
+            "RZ\\Roadiz\\EntityGenerator\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "RZ\\Roadiz\\EntityGenerator\\Tests\\": "tests/"
         }
     },
     "require-dev": {

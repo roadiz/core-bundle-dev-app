@@ -14,17 +14,8 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 final class AttributeDocumentsTransformer implements DataTransformerInterface
 {
-    private ObjectManager $manager;
-    private Attribute $attribute;
-
-    /**
-     * @param ObjectManager $manager
-     * @param Attribute $attribute
-     */
-    public function __construct(ObjectManager $manager, Attribute $attribute)
+    public function __construct(private readonly ObjectManager $manager, private readonly Attribute $attribute)
     {
-        $this->manager = $manager;
-        $this->attribute = $attribute;
     }
 
     /**

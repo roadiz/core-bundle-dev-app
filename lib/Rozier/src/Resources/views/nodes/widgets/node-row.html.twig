@@ -1,4 +1,4 @@
-<tr>
+<tr style="--rz-accent-color: {{ node.nodeType.color }};">
     <td class="nodes-list-item-link">
         <span class="nodes-list-item-color" style="background-color:{{ node.nodeType.color }};"></span>
         <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}">{{ node.nodeSources.first.title|default(node.nodeName) }}</a>

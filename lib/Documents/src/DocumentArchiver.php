@@ -16,11 +16,8 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
  */
 final class DocumentArchiver
 {
-    private FilesystemOperator $documentsStorage;
-
-    public function __construct(FilesystemOperator $documentsStorage)
+    public function __construct(private readonly FilesystemOperator $documentsStorage)
     {
-        $this->documentsStorage = $documentsStorage;
     }
 
     /**
