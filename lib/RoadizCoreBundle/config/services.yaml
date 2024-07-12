@@ -61,6 +61,7 @@ services:
             - '../src/Traits/'
             - '../src/Kernel.php'
             - '../src/Tests/'
+            - '../src/DataCollector/'
             - '../src/Event/'
 
     RZ\Roadiz\CoreBundle\EntityHandler\:
