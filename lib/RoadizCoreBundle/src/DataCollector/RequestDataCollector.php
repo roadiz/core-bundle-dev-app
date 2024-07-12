@@ -11,13 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class RequestDataCollector extends AbstractDataCollector
 {
-    private ?string $cmsVersion = null;
-    private ?string $cmsVersionPrefix = null;
-
-    public function __construct(string $cmsVersion, string $cmsVersionPrefix)
-    {
-        $this->cmsVersion = $cmsVersion;
-        $this->cmsVersionPrefix = $cmsVersionPrefix;
+    public function __construct(
+        private readonly string $cmsVersion,
+        private readonly string $cmsVersionPrefix
+    ) {
     }
 
     /**

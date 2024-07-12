@@ -1,6 +1,6 @@
 {% extends '@RoadizCore/customForm/base_custom_form.html.twig' %}
 
-{% block title %}{{ customForm.displayName }}{% endblock %}
+{% block title %}{{ customForm.displayName }} | {{ parent() }}{% endblock %}
 
 {% block content %}
 <section class="content-global">

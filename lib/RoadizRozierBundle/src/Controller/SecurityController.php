@@ -11,28 +11,19 @@ use RZ\Roadiz\OpenId\OAuth2LinkGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Themes\Rozier\RozierServiceRegistry;
 
 class SecurityController extends AbstractController
 {
-    private OAuth2LinkGenerator $oAuth2LinkGenerator;
-    private LoggerInterface $logger;
-    private Settings $settingsBag;
-    private RozierServiceRegistry $rozierServiceRegistry;
-
     public function __construct(
-        OAuth2LinkGenerator $oAuth2LinkGenerator,
-        LoggerInterface $logger,
-        Settings $settingsBag,
-        RozierServiceRegistry $rozierServiceRegistry
+        private readonly OAuth2LinkGenerator $oAuth2LinkGenerator,
+        private readonly LoggerInterface $logger,
+        private readonly Settings $settingsBag,
+        private readonly RozierServiceRegistry $rozierServiceRegistry
     ) {
-        $this->oAuth2LinkGenerator = $oAuth2LinkGenerator;
-        $this->logger = $logger;
-        $this->settingsBag = $settingsBag;
-        $this->rozierServiceRegistry = $rozierServiceRegistry;
     }
 
     #[Route(path: '/rz-admin/login', name: 'roadiz_rozier_login')]
@@ -49,7 +40,11 @@ class SecurityController extends AbstractController
         $assignation = [
             'last_username' => $lastUsername,
             'error' => $error,
-            'themeServices' => $this->rozierServiceRegistry
+            'themeServices' => $this->rozierServiceRegistry,
+            'head' => [
+                'siteTitle' => $this->settingsBag->get('site_name') . ' backstage',
+                'mainColor' => $this->settingsBag->get('main_color'),
+            ]
         ];
 
         try {

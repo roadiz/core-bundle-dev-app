@@ -11,23 +11,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class CustomFormAnswerSerializer
 {
-    /**
-     * @var UrlGeneratorInterface
-     */
-    protected UrlGeneratorInterface $urlGenerator;
-
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     */
-    public function __construct(UrlGeneratorInterface $urlGenerator)
+    public function __construct(protected readonly UrlGeneratorInterface $urlGenerator)
     {
-        $this->urlGenerator = $urlGenerator;
     }
 
-    /**
-     * @param CustomFormAnswer $answer
-     * @return array
-     */
     public function toSimpleArray(CustomFormAnswer $answer): array
     {
         $answers = [

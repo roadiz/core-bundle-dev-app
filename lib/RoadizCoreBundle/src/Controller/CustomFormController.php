@@ -208,9 +208,14 @@ final class CustomFormController extends AbstractController
         ?string $emailSender = null,
         bool $prefix = true
     ) {
-        $assignation = [];
-        $assignation['customForm'] = $customFormsEntity;
-        $assignation['fields'] = $customFormsEntity->getFields();
+        $assignation = [
+            'customForm' => $customFormsEntity,
+            'fields' => $customFormsEntity->getFields(),
+            'head' => [
+                'siteTitle' => $this->settingsBag->get('site_name'),
+                'mainColor' => $this->settingsBag->get('main_color'),
+            ]
+        ];
         $helper = $this->customFormHelperFactory->createHelper($customFormsEntity);
         $form = $helper->getForm(
             $request,
