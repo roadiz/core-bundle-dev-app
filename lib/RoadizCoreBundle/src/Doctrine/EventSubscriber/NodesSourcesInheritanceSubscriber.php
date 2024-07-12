@@ -17,17 +17,10 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 
 final class NodesSourcesInheritanceSubscriber implements EventSubscriber
 {
-    private NodeTypes $nodeTypes;
-    private string $inheritanceType;
-
-    /**
-     * @param NodeTypes $nodeTypes
-     * @param string $inheritanceType
-     */
-    public function __construct(NodeTypes $nodeTypes, string $inheritanceType)
-    {
-        $this->nodeTypes = $nodeTypes;
-        $this->inheritanceType = $inheritanceType;
+    public function __construct(
+        private readonly NodeTypes $nodeTypes,
+        private readonly string $inheritanceType
+    ) {
     }
 
     /**

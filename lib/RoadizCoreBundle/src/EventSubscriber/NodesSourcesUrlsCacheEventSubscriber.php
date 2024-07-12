@@ -20,14 +20,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final class NodesSourcesUrlsCacheEventSubscriber implements EventSubscriberInterface
 {
-    private NodesSourcesUrlsCacheClearer $cacheClearer;
-
-    /**
-     * @param NodesSourcesUrlsCacheClearer $cacheClearer
-     */
-    public function __construct(NodesSourcesUrlsCacheClearer $cacheClearer)
+    public function __construct(private readonly NodesSourcesUrlsCacheClearer $cacheClearer)
     {
-        $this->cacheClearer = $cacheClearer;
     }
 
     /**

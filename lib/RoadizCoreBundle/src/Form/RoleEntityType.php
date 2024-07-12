@@ -14,13 +14,10 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 final class RoleEntityType extends AbstractType
 {
-    private ManagerRegistry $managerRegistry;
-    private Security $security;
-
-    public function __construct(ManagerRegistry $managerRegistry, Security $security)
-    {
-        $this->managerRegistry = $managerRegistry;
-        $this->security = $security;
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly Security $security
+    ) {
     }
 
     /**

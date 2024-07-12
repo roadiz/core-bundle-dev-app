@@ -15,8 +15,10 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class CustomFormAnswerRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry, EventDispatcherInterface $dispatcher)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        EventDispatcherInterface $dispatcher
+    ) {
         parent::__construct($registry, CustomFormAnswer::class, $dispatcher);
     }
 

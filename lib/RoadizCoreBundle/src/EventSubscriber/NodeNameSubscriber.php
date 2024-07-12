@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use RZ\Roadiz\CoreBundle\Event\Node\NodePathChangedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPreUpdatedEvent;
@@ -20,20 +19,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
  */
 final class NodeNameSubscriber implements EventSubscriberInterface
 {
-    private NodeMover $nodeMover;
-    private LoggerInterface $logger;
-    private NodeNamePolicyInterface $nodeNamePolicy;
-
-    /**
-     * @param LoggerInterface|null $logger
-     * @param NodeNamePolicyInterface $nodeNamePolicy
-     * @param NodeMover $nodeMover
-     */
-    public function __construct(?LoggerInterface $logger, NodeNamePolicyInterface $nodeNamePolicy, NodeMover $nodeMover)
-    {
-        $this->logger = $logger ?? new NullLogger();
-        $this->nodeNamePolicy = $nodeNamePolicy;
-        $this->nodeMover = $nodeMover;
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly NodeNamePolicyInterface $nodeNamePolicy,
+        private readonly NodeMover $nodeMover
+    ) {
     }
 
     /**

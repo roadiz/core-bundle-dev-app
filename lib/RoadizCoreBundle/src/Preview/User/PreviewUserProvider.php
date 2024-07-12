@@ -11,17 +11,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class PreviewUserProvider implements PreviewUserProviderInterface
 {
-    private PreviewResolverInterface $previewResolver;
-    private Security $security;
-
-    /**
-     * @param PreviewResolverInterface $previewResolver
-     * @param Security $security
-     */
-    public function __construct(PreviewResolverInterface $previewResolver, Security $security)
-    {
-        $this->previewResolver = $previewResolver;
-        $this->security = $security;
+    public function __construct(
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly Security $security
+    ) {
     }
 
     public function createFromSecurity(): UserInterface

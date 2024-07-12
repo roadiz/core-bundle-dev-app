@@ -12,8 +12,8 @@ use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInte
 final class TwoFactorUserProvider implements TwoFactorUserProviderInterface
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
-        private TotpAuthenticatorInterface $totpAuthenticator
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly TotpAuthenticatorInterface $totpAuthenticator
     ) {
     }
 

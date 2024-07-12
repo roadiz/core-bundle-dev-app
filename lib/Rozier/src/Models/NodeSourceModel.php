@@ -18,9 +18,9 @@ use Symfony\Bundle\SecurityBundle\Security;
 final class NodeSourceModel implements ModelInterface
 {
     public function __construct(
-        private NodesSources $nodeSource,
-        private UrlGeneratorInterface $urlGenerator,
-        private Security $security
+        private readonly NodesSources $nodeSource,
+        private readonly UrlGeneratorInterface $urlGenerator,
+        private readonly Security $security
     ) {
     }
 

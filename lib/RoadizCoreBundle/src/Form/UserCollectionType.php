@@ -14,11 +14,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class UserCollectionType extends AbstractType
 {
-    private ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

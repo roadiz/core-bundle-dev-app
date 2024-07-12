@@ -13,31 +13,13 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class CustomFormHelperFactory
 {
-    protected PrivateDocumentFactory $privateDocumentFactory;
-    protected ObjectManager $em;
-    protected FormFactoryInterface $formFactory;
-    protected Settings $settingsBag;
-    protected EventDispatcherInterface $eventDispatcher;
-
-    /**
-     * @param PrivateDocumentFactory $privateDocumentFactory
-     * @param ObjectManager $em
-     * @param FormFactoryInterface $formFactory
-     * @param Settings $settingsBag
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
-        PrivateDocumentFactory $privateDocumentFactory,
-        ObjectManager $em,
-        FormFactoryInterface $formFactory,
-        Settings $settingsBag,
-        EventDispatcherInterface $eventDispatcher
+        private readonly PrivateDocumentFactory $privateDocumentFactory,
+        private readonly ObjectManager $em,
+        private readonly FormFactoryInterface $formFactory,
+        private readonly Settings $settingsBag,
+        private readonly EventDispatcherInterface $eventDispatcher
     ) {
-        $this->privateDocumentFactory = $privateDocumentFactory;
-        $this->em = $em;
-        $this->formFactory = $formFactory;
-        $this->settingsBag = $settingsBag;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function createHelper(CustomForm $customForm): CustomFormHelper

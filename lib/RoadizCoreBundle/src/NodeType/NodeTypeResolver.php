@@ -11,11 +11,8 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 
 final class NodeTypeResolver
 {
-    private CacheItemPoolInterface $cacheAdapter;
-
-    public function __construct(CacheItemPoolInterface $cacheAdapter)
+    public function __construct(private readonly CacheItemPoolInterface $cacheAdapter)
     {
-        $this->cacheAdapter = $cacheAdapter;
     }
 
     /**

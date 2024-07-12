@@ -29,14 +29,12 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
     private ?SolariumRequest $currentRequest = null;
     private ?float $currentStartTime = null;
     private ?SolariumEndpoint $currentEndpoint = null;
-    private LoggerInterface $logger;
-    private Stopwatch $stopwatch;
 
-    public function __construct(LoggerInterface $searchEngineLogger, Stopwatch $stopwatch)
-    {
+    public function __construct(
+        private readonly LoggerInterface $searchEngineLogger,
+        private readonly Stopwatch $stopwatch
+    ) {
         parent::__construct();
-        $this->logger = $searchEngineLogger;
-        $this->stopwatch = $stopwatch;
     }
 
     public static function getSubscribedEvents(): array
@@ -107,8 +105,7 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
 
         $this->currentRequest = $event->getRequest();
         $this->currentEndpoint = $event->getEndpoint();
-
-        $this->logger->debug($this->getEndpointBaseUrl($this->currentEndpoint) . $this->currentRequest->getUri());
+        $this->searchEngineLogger->debug($this->getEndpointBaseUrl($this->currentEndpoint) . $this->currentRequest->getUri());
         $this->currentStartTime = microtime(true);
     }
 

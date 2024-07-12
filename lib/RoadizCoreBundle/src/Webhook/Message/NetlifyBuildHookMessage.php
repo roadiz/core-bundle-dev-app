@@ -12,17 +12,10 @@ use RZ\Roadiz\CoreBundle\Webhook\WebhookInterface;
 
 final class NetlifyBuildHookMessage implements AsyncMessage, HttpRequestMessage, WebhookMessage
 {
-    private string $uri;
-    private ?array $payload;
-
-    /**
-     * @param string $uri
-     * @param array|null $payload
-     */
-    public function __construct(string $uri, ?array $payload = null)
-    {
-        $this->uri = $uri;
-        $this->payload = $payload;
+    public function __construct(
+        private readonly string $uri,
+        private readonly ?array $payload = null
+    ) {
     }
 
     public function getRequest(): RequestInterface
@@ -56,7 +49,7 @@ final class NetlifyBuildHookMessage implements AsyncMessage, HttpRequestMessage,
      * @param WebhookInterface $webhook
      * @return static
      */
-    public static function fromWebhook(WebhookInterface $webhook)
+    public static function fromWebhook(WebhookInterface $webhook): self
     {
         return new self($webhook->getUri(), $webhook->getPayload());
     }

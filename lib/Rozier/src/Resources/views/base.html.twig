@@ -12,7 +12,16 @@
         {# CSS scripts inclusions / Using webpack #}
         {% include '@RoadizRozier/partials/css-inject.html.twig' %}
 
-        <link rel="stylesheet" href="{{ path('cssMainColor') }}" />
+        {% if head.mainColor %}
+            <style>
+                :root {
+                    --rz-accent-color: {{ head.mainColor|raw }};
+                    --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
+                    --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
+                    --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
+                }
+            </style>
+        {% endif %}
         {% block customStyles %}{% endblock %}
         {% if additionalStylesheets %}
             {% for additionalStylesheet in additionalStylesheets %}

@@ -6,7 +6,6 @@ namespace RZ\Roadiz\TwoFactorBundle\Controller;
 
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\TwoFactorBundle\Entity\TwoFactorUser;
-use RZ\Roadiz\TwoFactorBundle\Security\Provider\AuthenticatorTwoFactorProvider;
 use RZ\Roadiz\TwoFactorBundle\Security\Provider\TwoFactorUserProviderInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +16,7 @@ use Themes\Rozier\RozierApp;
 final class BackupCodesAdminController extends RozierApp
 {
     public function __construct(
-        private TwoFactorUserProviderInterface $twoFactorUserProvider
+        private readonly TwoFactorUserProviderInterface $twoFactorUserProvider
     ) {
     }
 

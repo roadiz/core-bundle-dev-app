@@ -16,33 +16,16 @@ use Symfony\Component\Stopwatch\Stopwatch;
 
 final class NodeSourceWalkerContextFactory implements WalkerContextFactoryInterface
 {
-    private Stopwatch $stopwatch;
-    private NodeTypes $nodeTypesBag;
-    private NodeSourceApi $nodeSourceApi;
-    private RequestStack $requestStack;
-    private ManagerRegistry $managerRegistry;
-    private CacheItemPoolInterface $cacheAdapter;
-    private NodeTypeResolver $nodeTypeResolver;
-    private PreviewResolverInterface $previewResolver;
-
     public function __construct(
-        Stopwatch $stopwatch,
-        NodeTypes $nodeTypesBag,
-        NodeSourceApi $nodeSourceApi,
-        RequestStack $requestStack,
-        ManagerRegistry $managerRegistry,
-        CacheItemPoolInterface $cacheAdapter,
-        NodeTypeResolver $nodeTypeResolver,
-        PreviewResolverInterface $previewResolver
+        private readonly Stopwatch $stopwatch,
+        private readonly NodeTypes $nodeTypesBag,
+        private readonly NodeSourceApi $nodeSourceApi,
+        private readonly RequestStack $requestStack,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly CacheItemPoolInterface $cacheAdapter,
+        private readonly NodeTypeResolver $nodeTypeResolver,
+        private readonly PreviewResolverInterface $previewResolver
     ) {
-        $this->stopwatch = $stopwatch;
-        $this->nodeTypesBag = $nodeTypesBag;
-        $this->nodeSourceApi = $nodeSourceApi;
-        $this->requestStack = $requestStack;
-        $this->managerRegistry = $managerRegistry;
-        $this->cacheAdapter = $cacheAdapter;
-        $this->nodeTypeResolver = $nodeTypeResolver;
-        $this->previewResolver = $previewResolver;
     }
 
     public function createWalkerContext(): WalkerContextInterface

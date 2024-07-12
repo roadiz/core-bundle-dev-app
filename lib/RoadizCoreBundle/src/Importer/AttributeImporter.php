@@ -11,14 +11,8 @@ use RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TypedObjectConstructorInte
 
 final class AttributeImporter implements EntityImporterInterface
 {
-    protected SerializerInterface $serializer;
-
-    /**
-     * @param SerializerInterface $serializer
-     */
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(private readonly SerializerInterface $serializer)
     {
-        $this->serializer = $serializer;
     }
 
     /**

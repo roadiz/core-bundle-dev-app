@@ -1,4 +1,4 @@
-<td class="name">
+<td style="--rz-accent-color: {{ item.color }};" class="name">
     <a href="{{ path('attributesEditPage', { id: item.id }) }}">
         <span class="color" style="background-color:{{ item.color|default('transparent') }};"></span>
         {{ item.code -}}

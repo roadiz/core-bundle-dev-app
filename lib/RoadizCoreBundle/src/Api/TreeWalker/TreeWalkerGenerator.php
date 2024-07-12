@@ -18,26 +18,17 @@ use Symfony\Component\String\UnicodeString;
 
 final class TreeWalkerGenerator
 {
-    private NodeSourceApi $nodeSourceApi;
-    private NodeTypes $nodeTypesBag;
-    private WalkerContextInterface $walkerContext;
-    private CacheItemPoolInterface $cacheItemPool;
-
     /**
      * @var array<class-string, DefinitionFactoryConfiguration>
      */
     private array $walkerDefinitionFactories = [];
 
     public function __construct(
-        NodeSourceApi $nodeSourceApi,
-        NodeTypes $nodeTypesBag,
-        WalkerContextInterface $walkerContext,
-        CacheItemPoolInterface $cacheItemPool
+        private readonly NodeSourceApi $nodeSourceApi,
+        private readonly NodeTypes $nodeTypesBag,
+        private readonly WalkerContextInterface $walkerContext,
+        private readonly CacheItemPoolInterface $cacheItemPool
     ) {
-        $this->nodeSourceApi = $nodeSourceApi;
-        $this->nodeTypesBag = $nodeTypesBag;
-        $this->walkerContext = $walkerContext;
-        $this->cacheItemPool = $cacheItemPool;
     }
 
     /**

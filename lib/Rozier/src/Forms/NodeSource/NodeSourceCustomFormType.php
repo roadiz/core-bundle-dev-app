@@ -19,16 +19,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class NodeSourceCustomFormType extends AbstractNodeSourceFieldType
 {
-    protected NodeHandler $nodeHandler;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param NodeHandler $nodeHandler
-     */
-    public function __construct(ManagerRegistry $managerRegistry, NodeHandler $nodeHandler)
-    {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        private readonly NodeHandler $nodeHandler
+    ) {
         parent::__construct($managerRegistry);
-        $this->nodeHandler = $nodeHandler;
     }
 
     /**

@@ -351,7 +351,7 @@ class CustomForm extends AbstractDateTimed
     }
 
     /**
-     * @return Collection
+     * @return Collection<int, CustomFormAnswer>
      */
     public function getCustomFormAnswers(): Collection
     {

@@ -8,16 +8,16 @@ use Psr\Http\Message\RequestInterface;
 
 final class GuzzleRequestMessage implements AsyncMessage, HttpRequestMessage
 {
-    private RequestInterface $request;
     private array $options;
 
     /**
      * @param RequestInterface $request
      * @param array $options
      */
-    public function __construct(RequestInterface $request, array $options = [])
-    {
-        $this->request = $request;
+    public function __construct(
+        private readonly RequestInterface $request,
+        array $options = []
+    ) {
         $this->options = array_merge([
             'debug' => false,
             'timeout' => 3

@@ -1,0 +1,199 @@
+services:
+    db_test:
+        build:
+            # Custom image for file permissions
+#            context: ./docker/mysql
+            context: ./docker/postgres
+            #context: ./docker/mariadb
+            args:
+                USER_UID: ${USER_UID}
+        networks:
+            - default
+        volumes:
+            - "./.data/db_test:/var/lib/mysql:delegated"
+            - "./docker/mysql/performances.cnf:/etc/mysql/conf.d/performances.cnf"
+            - "./.data/pgsql_test:/var/lib/postgresql/data:delegated"
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: 1
+            MYSQL_DATABASE: db_name_test
+            MYSQL_USER: db_user
+            MYSQL_PASSWORD: db_password
+            # Enable easy switching with Postgres
+            PGDATA: /var/lib/postgresql/data
+            POSTGRES_USER: db_user
+            POSTGRES_PASSWORD: db_password
+            POSTGRES_DB: db_name_test
+
+    db:
+        build:
+            # Custom image for file permissions
+            context: ./docker/mysql
+            args:
+                USER_UID: ${USER_UID}
+        ports:
+            - ${PUBLIC_DB_PORT}:3306/tcp
+        networks:
+            - default
+        volumes:
+            - "./.data/db:/var/lib/mysql:delegated"
+            - "./docker/mysql/performances.cnf:/etc/mysql/conf.d/performances.cnf"
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: 1
+            MYSQL_DATABASE: db_name
+            MYSQL_USER: db_user
+            MYSQL_PASSWORD: db_password
+
+    pma:
+        image: phpmyadmin/phpmyadmin
+        ports:
+            - ${PUBLIC_PMA_PORT}:80/tcp
+        environment:
+            MYSQL_RANDOM_ROOT_PASSWORD: 1
+            MYSQL_DATABASE: db_name
+            MYSQL_HOST: db
+            MYSQL_USER: db_user
+            MYSQL_PASSWORD: db_password
+        depends_on:
+            - db
+        networks:
+            - frontproxynet
+            - default
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${APP_NAMESPACE}_pma.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${APP_NAMESPACE}_pma.loadbalancer.server.port=80"
+            - "traefik.http.services.${APP_NAMESPACE}_pma.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${APP_NAMESPACE}_pma.entrypoints=http"
+            - "traefik.http.routers.${APP_NAMESPACE}_pma.rule=Host(${HOSTNAME_PMA})"
+            - "traefik.http.routers.${APP_NAMESPACE}_pma.service=${APP_NAMESPACE}_pma"
+
+    solr:
+        build:
+            # Custom image for file permissions
+            context: ./docker/solr
+            args:
+                USER_UID: ${USER_UID}
+        ports:
+            - "${PUBLIC_SOLR_PORT}:8983/tcp"
+        volumes:
+            - "solr_data:/var/solr:delegated"
+        environment:
+            SOLR_UID: ${USER_UID}
+            SOLR_GID: ${USER_UID}
+        command:
+            - solr-precreate
+            - ${SOLR_CORE_NAME}
+        networks:
+            - frontproxynet
+            - default
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${APP_NAMESPACE}_solr.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${APP_NAMESPACE}_solr.loadbalancer.server.port=8983"
+            - "traefik.http.services.${APP_NAMESPACE}_solr.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${APP_NAMESPACE}_solr.entrypoints=http"
+            - "traefik.http.routers.${APP_NAMESPACE}_solr.rule=Host(${HOSTNAME_SOLR})"
+            - "traefik.http.routers.${APP_NAMESPACE}_solr.service=${APP_NAMESPACE}_solr"
+
+    redis:
+        image: redis:7-alpine
+        networks:
+            - default
+
+    app: &app_template
+        # Need to pass all vars to docker env for Crontab and supervisor scripts
+        env_file: "./.env.local"
+        build:
+            context: ./docker/php83-fpm-alpine
+            args:
+                USER_UID: ${USER_UID}
+        depends_on:
+            - db
+            - solr
+            - redis
+        volumes:
+            - ./:/var/www/html:cached
+        networks:
+            - default
+        environment:
+            APP_CACHE: ${APP_CACHE}
+            TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+            USER_UID: ${USER_UID}
+            DEFAULT_GATEWAY: ${DEFAULT_GATEWAY}
+
+    worker:
+        <<: *app_template
+        deploy:
+            replicas: 1
+        entrypoint: ["php", "/var/www/html/bin/console", "messenger:consume", "async", "--time-limit=60"]
+        restart: unless-stopped
+
+    cron:
+        <<: *app_template
+        # https://github.com/dubiousjim/dcron/issues/13#issuecomment-1406937781
+        init: true
+        entrypoint: ["crond", "-f", "-L", "15"]
+
+    nginx:
+        image: roadiz/nginx-alpine:latest
+        ports:
+            - ${PUBLIC_APP_PORT}:80/tcp
+        depends_on:
+            - app
+        volumes:
+            - ./:/var/www/html:cached
+        networks:
+            - default
+            - frontproxynet
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.port=80"
+            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.passhostheader=true"
+#            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.healthcheck.path=/health-check"
+#            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.healthcheck.interval=10s"
+#            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.healthcheck.timeout=3s"
+#            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.healthcheck.headers.x-health-check=${APP_HEALTH_CHECK_TOKEN}"
+            # Listen HTTP
+            - "traefik.http.routers.${APP_NAMESPACE}.entrypoints=http"
+            - "traefik.http.routers.${APP_NAMESPACE}.rule=Host(${HOSTNAME})"
+            - "traefik.http.routers.${APP_NAMESPACE}.service=${APP_NAMESPACE}"
+            # Listen HTTPS
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.entrypoints=https"
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.rule=Host(${HOSTNAME})"
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.tls=true"
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.service=${APP_NAMESPACE}"
+
+    mailer:
+        image: mailhog/mailhog
+        ports:
+            - ${PUBLIC_MAILER_PORT}:8025/tcp
+            - ${SMTP_MAILER_PORT}:1025/tcp
+        networks:
+            - frontproxynet
+            - default
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${APP_NAMESPACE}_mailer.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${APP_NAMESPACE}_mailer.loadbalancer.server.port=8025"
+            - "traefik.http.services.${APP_NAMESPACE}_mailer.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${APP_NAMESPACE}_mailer.entrypoints=http"
+            - "traefik.http.routers.${APP_NAMESPACE}_mailer.rule=Host(${HOSTNAME_MAILER})"
+            - "traefik.http.routers.${APP_NAMESPACE}_mailer.service=${APP_NAMESPACE}_mailer"
+
+networks:
+    frontproxynet:
+        external: true
+    # If you need to use port forwarding, fixing default gateway can be useful
+    # to keep same host IP address between service restarts
+    default:
+        ipam:
+            driver: default
+            config:
+                -   subnet: ${DEFAULT_GATEWAY}/16
+
+volumes:
+    solr_data:

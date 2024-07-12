@@ -10,27 +10,12 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 final class DocumentTranslationIndexingEvent extends Event
 {
-    protected DocumentTranslation $documentTranslation;
-    protected array $associations;
-    protected AbstractSolarium $solariumDocument;
-    protected bool $subResource;
-
-    /**
-     * @param DocumentTranslation $documentTranslation
-     * @param array $associations
-     * @param AbstractSolarium $solariumDocument
-     * @param bool $subResource
-     */
     public function __construct(
-        DocumentTranslation $documentTranslation,
-        array $associations,
-        AbstractSolarium $solariumDocument,
-        bool $subResource = false
+        private readonly DocumentTranslation $documentTranslation,
+        private array $associations,
+        private readonly AbstractSolarium $solariumDocument,
+        private readonly bool $subResource = false
     ) {
-        $this->documentTranslation = $documentTranslation;
-        $this->associations = $associations;
-        $this->solariumDocument = $solariumDocument;
-        $this->subResource = $subResource;
     }
 
     /**
@@ -72,16 +57,6 @@ final class DocumentTranslationIndexingEvent extends Event
     public function setAssociations(array $associations): DocumentTranslationIndexingEvent
     {
         $this->associations = $associations;
-        return $this;
-    }
-
-    /**
-     * @param AbstractSolarium $solariumDocument
-     * @return DocumentTranslationIndexingEvent
-     */
-    public function setSolariumDocument(AbstractSolarium $solariumDocument): DocumentTranslationIndexingEvent
-    {
-        $this->solariumDocument = $solariumDocument;
         return $this;
     }
 }

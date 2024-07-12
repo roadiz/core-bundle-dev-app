@@ -11,21 +11,12 @@ use Symfony\Component\Process\Process;
 
 final class SchemaUpdater
 {
-    private LoggerInterface $logger;
-    private OPCacheClearer $opCacheClearer;
-    private string $projectDir;
-    private CacheClearerInterface $cacheClearer;
-
     public function __construct(
-        CacheClearerInterface $cacheClearer,
-        OPCacheClearer $opCacheClearer,
-        LoggerInterface $logger,
-        string $projectDir
+        private readonly CacheClearerInterface $cacheClearer,
+        private readonly OPCacheClearer $opCacheClearer,
+        private readonly LoggerInterface $logger,
+        private readonly string $projectDir
     ) {
-        $this->logger = $logger;
-        $this->opCacheClearer = $opCacheClearer;
-        $this->projectDir = $projectDir;
-        $this->cacheClearer = $cacheClearer;
     }
 
     public function clearMetadata(): void

@@ -8,14 +8,8 @@ use RZ\Roadiz\Documents\Models\FileAwareInterface;
 
 final class RoadizFileDirectories implements FileAwareInterface
 {
-    private string $projectDir;
-
-    /**
-     * @param string $projectDir
-     */
-    public function __construct(string $projectDir)
+    public function __construct(private readonly string $projectDir)
     {
-        $this->projectDir = $projectDir;
     }
 
     public function getPublicFilesPath(): string

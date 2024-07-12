@@ -19,13 +19,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 final class FontLifeCycleSubscriber implements EventSubscriber
 {
     private static array $formats = ['svg', 'otf', 'eot', 'woff', 'woff2'];
-    private LoggerInterface $logger;
-    private FilesystemOperator $fontStorage;
 
-    public function __construct(FilesystemOperator $fontStorage, LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-        $this->fontStorage = $fontStorage;
+    public function __construct(
+        private readonly FilesystemOperator $fontStorage,
+        private readonly LoggerInterface $logger
+    ) {
     }
 
     /**

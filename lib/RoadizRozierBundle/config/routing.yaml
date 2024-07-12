@@ -214,10 +214,6 @@ webhooksRoutes:
 # CSS to style with main color
 # NOT SECURED ROUTES
 #
-cssMainColor:
-    path : /css/main-color.css
-    controller: Themes\Rozier\RozierApp::cssAction
-
 loginImagePage:
     path: /css/login/image
     controller: Themes\Rozier\Controllers\LoginController::imageAction

@@ -19,11 +19,10 @@ final class NodesSourcesBreadcrumbsFactory implements BreadcrumbsFactoryInterfac
             return null;
         }
 
-        if (
-            !$entity->isReachable()
-        ) {
+        if (!$entity->isReachable()) {
             return null;
         }
+
         $parents = [];
 
         while (null !== $entity = $entity->getParent()) {

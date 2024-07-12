@@ -13,15 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class NodeRouteHelper
 {
-    private Node $node;
-    private ?Theme $theme;
-    private PreviewResolverInterface $previewResolver;
-    private LoggerInterface $logger;
-    private string $defaultControllerNamespace;
-    /**
-     * @var class-string<AbstractController>
-     */
-    private string $defaultControllerClass;
     /**
      * @var class-string<AbstractController>|null
      */
@@ -36,19 +27,13 @@ final class NodeRouteHelper
      * @param string $defaultControllerNamespace
      */
     public function __construct(
-        Node $node,
-        ?Theme $theme,
-        PreviewResolverInterface $previewResolver,
-        LoggerInterface $logger,
-        string $defaultControllerClass,
-        string $defaultControllerNamespace = '\\App\\Controller'
+        private readonly Node $node,
+        private readonly ?Theme $theme,
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly LoggerInterface $logger,
+        private readonly string $defaultControllerClass,
+        private readonly string $defaultControllerNamespace = '\\App\\Controller'
     ) {
-        $this->node = $node;
-        $this->theme = $theme;
-        $this->previewResolver = $previewResolver;
-        $this->defaultControllerClass = $defaultControllerClass;
-        $this->logger = $logger;
-        $this->defaultControllerNamespace = $defaultControllerNamespace;
     }
 
     /**

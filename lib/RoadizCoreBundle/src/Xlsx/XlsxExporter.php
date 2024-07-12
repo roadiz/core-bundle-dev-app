@@ -11,16 +11,13 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @deprecated XLSX serialization is deprecated and will be removed in next major version.
+ */
 class XlsxExporter
 {
-    protected TranslatorInterface $translator;
-
-    /**
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(TranslatorInterface $translator)
+    public function __construct(protected readonly TranslatorInterface $translator)
     {
-        $this->translator = $translator;
     }
 
     /**

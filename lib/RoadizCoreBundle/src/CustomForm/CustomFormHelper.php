@@ -17,6 +17,7 @@ use RZ\Roadiz\Documents\AbstractDocumentFactory;
 use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Utils\StringHandler;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -24,39 +25,19 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+#[Exclude]
 class CustomFormHelper
 {
     public const ARRAY_SEPARATOR = ', ';
 
-    protected AbstractDocumentFactory $documentFactory;
-    protected ObjectManager $em;
-    protected CustomForm $customForm;
-    protected FormFactoryInterface $formFactory;
-    protected Settings $settingsBag;
-    protected EventDispatcherInterface $eventDispatcher;
-
-    /**
-     * @param ObjectManager $em
-     * @param CustomForm $customForm
-     * @param AbstractDocumentFactory $documentFactory
-     * @param FormFactoryInterface $formFactory
-     * @param Settings $settingsBag
-     * @param EventDispatcherInterface $eventDispatcher
-     */
     public function __construct(
-        ObjectManager $em,
-        CustomForm $customForm,
-        AbstractDocumentFactory $documentFactory,
-        FormFactoryInterface $formFactory,
-        Settings $settingsBag,
-        EventDispatcherInterface $eventDispatcher
+        protected readonly ObjectManager $em,
+        protected readonly CustomForm $customForm,
+        protected readonly AbstractDocumentFactory $documentFactory,
+        protected readonly FormFactoryInterface $formFactory,
+        protected readonly Settings $settingsBag,
+        protected readonly EventDispatcherInterface $eventDispatcher
     ) {
-        $this->em = $em;
-        $this->customForm = $customForm;
-        $this->documentFactory = $documentFactory;
-        $this->formFactory = $formFactory;
-        $this->settingsBag = $settingsBag;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -197,9 +178,6 @@ class CustomFormHelper
         return $document;
     }
 
-    /**
-     * @return Folder|null
-     */
     protected function getDocumentFolderForCustomForm(): ?Folder
     {
         return $this->em->getRepository(Folder::class)
@@ -210,11 +188,7 @@ class CustomFormHelper
             );
     }
 
-    /**
-     * @param mixed $rawValue
-     * @return string
-     */
-    private function formValueToString($rawValue): string
+    private function formValueToString(mixed $rawValue): string
     {
         if ($rawValue instanceof \DateTimeInterface) {
             return $rawValue->format('Y-m-d H:i:s');
