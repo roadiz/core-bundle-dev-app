@@ -41,6 +41,7 @@
 
     <testsuites>
         <testsuite name="Roadiz Monorepo Test Suite">
+            <directory>tests</directory>
             <directory>lib/Models/tests</directory>
             <directory>lib/RoadizCoreBundle/tests</directory>
             <directory>lib/Documents/tests</directory>
