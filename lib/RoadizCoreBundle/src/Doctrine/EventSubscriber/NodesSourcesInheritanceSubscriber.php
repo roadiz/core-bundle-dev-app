@@ -71,6 +71,7 @@ final class NodesSourcesInheritanceSubscriber
                         ['columns' => ['discr']],
                         ['columns' => ['title']],
                         ['columns' => ['published_at']],
+                        'ns_no_index' => ['columns' => ['no_index']],
                         'ns_node_translation_published' => ['columns' => ['node_id', 'translation_id', 'published_at']],
                         'ns_node_discr_translation' => ['columns' => ['node_id', 'discr', 'translation_id']],
                         'ns_node_discr_translation_published' => ['columns' => ['node_id', 'discr', 'translation_id', 'published_at']],

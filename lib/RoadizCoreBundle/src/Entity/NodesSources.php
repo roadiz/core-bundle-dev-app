@@ -35,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ["discr"]),
     ORM\Index(columns: ["title"]),
     ORM\Index(columns: ["published_at"]),
-    ORM\Index(columns: ["no_index"]),
+    ORM\Index(columns: ["no_index"], name: 'ns_no_index'),
     ORM\Index(columns: ["node_id", "translation_id", "published_at"], name: "ns_node_translation_published"),
     ORM\Index(columns: ["node_id", "discr", "translation_id"], name: "ns_node_discr_translation"),
     ORM\Index(columns: ["node_id", "discr", "translation_id", "published_at"], name: "ns_node_discr_translation_published"),
