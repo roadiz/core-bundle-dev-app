@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.19...v2.3.20) - 2024-07-13
+
+### Bug Fixes
+
+- Do not crash Doctrine metadata if NodesSources class does not exist. - ([93d84df](https://github.com/roadiz/core-bundle-dev-app/commit/93d84df1019c5fbb04ee3622e4cfe5085ed4ef41))
+
 ## [2.3.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.18...v2.3.19) - 2024-07-12
 
 ### Bug Fixes

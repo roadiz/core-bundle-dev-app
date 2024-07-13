@@ -9,6 +9,7 @@ use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 use Doctrine\ORM\Event\PostLoadEventArgs;
 use Doctrine\ORM\Events;
 use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\DependencyInjection\Configuration;
@@ -21,7 +22,8 @@ final class NodesSourcesInheritanceSubscriber
 {
     public function __construct(
         private readonly NodeTypes $nodeTypes,
-        private readonly string $inheritanceType
+        private readonly string $inheritanceType,
+        private readonly LoggerInterface $logger
     ) {
     }
 
@@ -48,7 +50,15 @@ final class NodesSourcesInheritanceSubscriber
                 $nodeTypes = $this->nodeTypes->all();
                 $map = [];
                 foreach ($nodeTypes as $type) {
-                    $map[\mb_strtolower($type->getName())] = $type->getSourceEntityFullQualifiedClassName();
+                    if (\class_exists($type->getSourceEntityFullQualifiedClassName())) {
+                        $map[\mb_strtolower($type->getName())] = $type->getSourceEntityFullQualifiedClassName();
+                    } else {
+                        $this->logger->critical(sprintf(
+                            '"%s" node-type is registered in database but source entity class "%s" does not exist.',
+                            $type->getName(),
+                            $type->getSourceEntityFullQualifiedClassName()
+                        ));
+                    }
                 }
                 $metadata->setDiscriminatorMap($map);
 
