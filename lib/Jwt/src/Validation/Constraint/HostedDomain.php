@@ -8,16 +8,10 @@ use Lcobucci\JWT\Token;
 use Lcobucci\JWT\Validation\Constraint;
 use Lcobucci\JWT\Validation\ConstraintViolation;
 
-class HostedDomain implements Constraint
+final class HostedDomain implements Constraint
 {
-    protected string $hostedDomain;
-
-    /**
-     * @param string $hostedDomain
-     */
-    public function __construct(string $hostedDomain)
+    public function __construct(private readonly string $hostedDomain)
     {
-        $this->hostedDomain = $hostedDomain;
     }
 
     public function assert(Token $token): void

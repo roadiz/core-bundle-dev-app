@@ -15,11 +15,13 @@ use Lcobucci\JWT\Validation\Constraint\PermittedFor;
 use RZ\Roadiz\JWT\JwtConfigurationFactory;
 use RZ\Roadiz\JWT\Validation\Constraint\HostedDomain;
 use RZ\Roadiz\JWT\Validation\Constraint\UserInfoEndpoint;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
 {
     public function __construct(
         private readonly ?Discovery $discovery,
+        private readonly HttpClientInterface $client,
         private readonly ?string $openIdHostedDomain,
         private readonly ?string $oauthClientId,
         private readonly bool $verifyUserInfo
@@ -50,7 +52,7 @@ final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
                 $validators[] = new IssuedBy($issuer);
             }
             if ($this->verifyUserInfo && is_string($userinfoEndpoint) && !empty($userinfoEndpoint)) {
-                $validators[] = new UserInfoEndpoint(trim($userinfoEndpoint));
+                $validators[] = new UserInfoEndpoint(trim($userinfoEndpoint), $this->client);
             }
         }
 
