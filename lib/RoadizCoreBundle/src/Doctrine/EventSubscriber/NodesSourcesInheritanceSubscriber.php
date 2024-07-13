@@ -15,6 +15,7 @@ use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\DependencyInjection\Configuration;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 #[AsDoctrineListener(event: Events::postLoad)]
 #[AsDoctrineListener(event: Events::loadClassMetadata)]
@@ -23,7 +24,8 @@ final class NodesSourcesInheritanceSubscriber
     public function __construct(
         private readonly NodeTypes $nodeTypes,
         private readonly string $inheritanceType,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly Stopwatch $stopwatch
     ) {
     }
 
@@ -45,6 +47,7 @@ final class NodesSourcesInheritanceSubscriber
         $class = $metadata->getReflectionClass();
 
         if ($class->getName() === NodesSources::class) {
+            $this->stopwatch->start('NodesSources loadClassMetadata');
             try {
                 /** @var NodeType[] $nodeTypes */
                 $nodeTypes = $this->nodeTypes->all();
@@ -114,6 +117,8 @@ final class NodesSourcesInheritanceSubscriber
                  * Need Install
                  */
             }
+
+            $this->stopwatch->stop('NodesSources loadClassMetadata');
         }
     }
 }
