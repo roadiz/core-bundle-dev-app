@@ -34,7 +34,7 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-php-${{ matrix.php-version }}-
             - name: Install Dependencies
-              run: composer install --no-scripts --no-ansi --no-interaction --no-progress
+              run: composer install --no-ansi --no-interaction --no-progress
             - name: Run PHP Code Sniffer
               run: vendor/bin/phpcs -p ./src
             - name: Run PHPStan
