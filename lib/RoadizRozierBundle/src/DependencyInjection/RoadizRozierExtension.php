@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class RoadizRozierExtension extends Extension
 {
@@ -80,6 +81,7 @@ class RoadizRozierExtension extends Extension
                 ->setPublic(true)
                 ->setArguments([
                     new Reference('roadiz_rozier.open_id.discovery', ContainerInterface::NULL_ON_INVALID_REFERENCE),
+                    new Reference(HttpClientInterface::class),
                     $config['open_id']['hosted_domain'],
                     $config['open_id']['oauth_client_id'],
                     $config['open_id']['verify_user_info'],
