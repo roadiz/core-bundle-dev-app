@@ -201,6 +201,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @param string $fieldName Name of the node-type field
      * @return Node[]
+     * @deprecated
      */
     public function getNodesFromFieldName(string $fieldName): array
     {
@@ -220,6 +221,7 @@ final class NodeHandler extends AbstractHandler
      *
      * @param string $fieldName Name of the node-type field
      * @return Node[]
+     * @deprecated
      */
     public function getReverseNodesFromFieldName(string $fieldName): array
     {

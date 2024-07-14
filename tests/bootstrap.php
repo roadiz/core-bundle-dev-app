@@ -31,13 +31,7 @@ if (0 === $resultCode) {
     ));
 
     passthru(sprintf(
-        'APP_ENV=%s php "%s/../bin/console" --env=test install -n',
-        $_ENV['APP_ENV'],
-        __DIR__
-    ));
-
-    passthru(sprintf(
-        'APP_ENV=%s php "%s/../bin/console" --env=test app:install -n',
+        'APP_ENV=%s php "%s/../bin/console" --env=test doctrine:fixtures:load -n',
         $_ENV['APP_ENV'],
         __DIR__
     ));

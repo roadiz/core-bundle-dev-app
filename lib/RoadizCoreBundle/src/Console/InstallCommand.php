@@ -42,7 +42,7 @@ final class InstallCommand extends Command
     {
         $this
             ->setName('install')
-            ->setDescription('Install Roadiz database, roles, settings and a default translation.');
+            ->setDescription('Perform Doctrine migrations, install default Roadiz roles, settings and translation.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -139,11 +139,10 @@ final class InstallCommand extends Command
     /**
      * Tell if there is any translation.
      *
-     * @return boolean
+     * @return bool
      */
     public function hasDefaultTranslation(): bool
     {
-        $default = $this->managerRegistry->getRepository(Translation::class)->findOneBy([]);
-        return $default !== null;
+        return null !== $this->managerRegistry->getRepository(Translation::class)->findDefault();
     }
 }

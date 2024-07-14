@@ -15,10 +15,10 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Bundle\SecurityBundle\Security;
 
 class UniqueNodeGenerator
 {
@@ -32,13 +32,14 @@ class UniqueNodeGenerator
     /**
      * Generate a node with a unique name.
      *
-     * This method flush entity-manager.
+     * This method flush entity-manager by default.
      *
      * @param NodeType $nodeType
      * @param TranslationInterface $translation
      * @param Node|null $parent
      * @param Tag|null $tag
      * @param bool $pushToTop
+     * @param bool $flush
      * @return NodesSources
      */
     public function generate(
@@ -46,7 +47,8 @@ class UniqueNodeGenerator
         TranslationInterface $translation,
         Node $parent = null,
         Tag $tag = null,
-        bool $pushToTop = false
+        bool $pushToTop = false,
+        bool $flush = true
     ): NodesSources {
         $name = $nodeType->getDisplayName() . " " . uniqid();
         $node = new Node();
@@ -77,7 +79,9 @@ class UniqueNodeGenerator
         if (null !== $manager) {
             $manager->persist($node);
             $manager->persist($source);
-            $manager->flush();
+            if ($flush) {
+                $manager->flush();
+            }
         }
 
         return $source;

@@ -493,8 +493,8 @@ final class NodesSourcesHandler extends AbstractHandler
      * Get nodes linked to current node for a given fieldname.
      *
      * @param string $fieldName Name of the node-type field
-     *
      * @return array<Node> Collection of nodes
+     * @deprecated
      */
     public function getNodesFromFieldName(string $fieldName): array
     {
@@ -515,8 +515,8 @@ final class NodesSourcesHandler extends AbstractHandler
      * Get nodes which own a reference to current node for a given fieldname.
      *
      * @param string $fieldName Name of the node-type field
-     *
      * @return array<Node> Collection of nodes
+     * @deprecated
      */
     public function getReverseNodesFromFieldName(string $fieldName): array
     {
