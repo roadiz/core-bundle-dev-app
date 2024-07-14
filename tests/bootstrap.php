@@ -15,9 +15,9 @@ if (file_exists(dirname(__DIR__).'/config/bootstrap.php')) {
  * for tests
  */
 $dbServerExists = passthru(sprintf(
-  'APP_ENV=%s php "%s/../bin/console" --env=test doctrine:database:create --if-not-exists',
-  $_ENV['APP_ENV'],
-  __DIR__
+    'APP_ENV=%s php "%s/../bin/console" --env=test doctrine:database:create --if-not-exists',
+    $_ENV['APP_ENV'],
+    __DIR__
 ), $resultCode);
 
 /*
