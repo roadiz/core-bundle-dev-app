@@ -45,15 +45,17 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @param EventDispatcherInterface $dispatcher
      * @param Security $security
      * @param NodeSourceSearchHandlerInterface|null $nodeSourceSearchHandler
+     * @param class-string<NodesSources> $entityClass
      */
     public function __construct(
         ManagerRegistry $registry,
         PreviewResolverInterface $previewResolver,
         EventDispatcherInterface $dispatcher,
         Security $security,
-        ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler
+        ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
+        string $entityClass = NodesSources::class
     ) {
-        parent::__construct($registry, NodesSources::class, $previewResolver, $dispatcher, $security);
+        parent::__construct($registry, $entityClass, $previewResolver, $dispatcher, $security);
         $this->nodeSourceSearchHandler = $nodeSourceSearchHandler;
     }
 

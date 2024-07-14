@@ -31,8 +31,6 @@ class NSMenuLinkRepository extends \RZ\Roadiz\CoreBundle\Repository\NodesSources
         Security $security,
         ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler
     ) {
-        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler);
-
-        $this->_entityName = \App\GeneratedEntity\NSMenuLink::class;
+        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, \App\GeneratedEntity\NSMenuLink::class);
     }
 }

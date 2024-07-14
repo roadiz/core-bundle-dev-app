@@ -31,8 +31,6 @@ class NSMenuRepository extends \RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepo
         Security $security,
         ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler
     ) {
-        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler);
-
-        $this->_entityName = \App\GeneratedEntity\NSMenu::class;
+        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, \App\GeneratedEntity\NSMenu::class);
     }
 }

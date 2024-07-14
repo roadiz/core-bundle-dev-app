@@ -31,8 +31,6 @@ class NSNeutralRepository extends \RZ\Roadiz\CoreBundle\Repository\NodesSourcesR
         Security $security,
         ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler
     ) {
-        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler);
-
-        $this->_entityName = \App\GeneratedEntity\NSNeutral::class;
+        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, \App\GeneratedEntity\NSNeutral::class);
     }
 }

@@ -31,8 +31,6 @@ class NSMockRepository extends \RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepo
         Security $security,
         ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler
     ) {
-        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler);
-
-        $this->_entityName = \RZ\Roadiz\EntityGenerator\Tests\Mocks\GeneratedNodesSourcesWithRepository\NSMock::class;
+        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, \RZ\Roadiz\EntityGenerator\Tests\Mocks\GeneratedNodesSourcesWithRepository\NSMock::class);
     }
 }

@@ -31,8 +31,6 @@ class NSArticleContainerRepository extends \RZ\Roadiz\CoreBundle\Repository\Node
         Security $security,
         ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler
     ) {
-        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler);
-
-        $this->_entityName = \App\GeneratedEntity\NSArticleContainer::class;
+        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, \App\GeneratedEntity\NSArticleContainer::class);
     }
 }

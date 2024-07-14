@@ -110,9 +110,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
         Security $security,
         ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler
     ) {
-        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler);
-
-        $this->_entityName = ' . $this->options['entity_namespace'] . '\\' . $this->nodeType->getSourceEntityClassName() . '::class;
+        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, ' . $this->options['entity_namespace'] . '\\' . $this->nodeType->getSourceEntityClassName() . '::class);
     }' . PHP_EOL;
     }
 }

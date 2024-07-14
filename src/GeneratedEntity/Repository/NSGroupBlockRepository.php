@@ -31,8 +31,6 @@ class NSGroupBlockRepository extends \RZ\Roadiz\CoreBundle\Repository\NodesSourc
         Security $security,
         ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler
     ) {
-        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler);
-
-        $this->_entityName = \App\GeneratedEntity\NSGroupBlock::class;
+        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, \App\GeneratedEntity\NSGroupBlock::class);
     }
 }
