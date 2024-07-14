@@ -21,12 +21,7 @@ class ApiResourceGeneratorTest extends KernelTestCase
 
     protected function getApiResourceGenerator(): ApiResourceGenerator
     {
-        $this->bootKernel([
-            // Override environment to test
-            // You have requested a non-existent service "test.service_container". Did you mean this: "service_container"?
-            "environment" => 'test'
-        ]);
-
+        $this->bootKernel();
         $this->assertTrue($this->getContainer()->has(ApiResourceOperationNameGenerator::class));
         /** @var ApiResourceOperationNameGenerator $apiResourceOperationNameGenerator */
         $apiResourceOperationNameGenerator = $this->getContainer()->get(ApiResourceOperationNameGenerator::class);
