@@ -41,7 +41,7 @@
         "phpoffice/phpspreadsheet": "^1.15",
         "ramsey/uuid": "^4.7",
         "rezozero/intervention-request-bundle": "~3.0.0",
-        "rezozero/liform-bundle": "^0.20",
+        "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
         "roadiz/doc-generator": "2.4.x-dev",
         "roadiz/documents": "2.4.x-dev",
