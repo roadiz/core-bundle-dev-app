@@ -52,7 +52,7 @@ abstract class AbstractDateTimed extends AbstractEntity
 
     /**
      * @param DateTime|null $createdAt
-     * @return AbstractDateTimed
+     * @return $this
      */
     public function setCreatedAt(?DateTime $createdAt)
     {
@@ -70,7 +70,7 @@ abstract class AbstractDateTimed extends AbstractEntity
 
     /**
      * @param DateTime|null $updatedAt
-     * @return AbstractDateTimed
+     * @return $this
      */
     public function setUpdatedAt(?DateTime $updatedAt)
     {

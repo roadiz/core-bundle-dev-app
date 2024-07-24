@@ -4,77 +4,80 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
-use PhpOffice\PhpSpreadsheet\Writer\Exception;
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
-use RZ\Roadiz\CoreBundle\Xlsx\NodeSourceXlsxSerializer;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\Serializer\SerializerInterface;
 use Themes\Rozier\RozierApp;
 
 class ExportController extends RozierApp
 {
-    public function __construct(private readonly NodeSourceXlsxSerializer $xlsxSerializer)
-    {
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly SerializerInterface $serializer
+    ) {
     }
 
     /**
-     * Export all Node in a XLSX file (Excel).
+     * Export all Node in a CSV file.
      *
-     * @param Request $request
      * @param int $translationId
      * @param int|null $parentNodeId
      *
      * @return Response
-     * @throws \PhpOffice\PhpSpreadsheet\Exception
-     * @throws Exception
      */
-    public function exportAllXlsxAction(Request $request, int $translationId, ?int $parentNodeId = null): Response
+    public function exportAllAction(int $translationId, ?int $parentNodeId = null): Response
     {
-        $translation = $this->em()
-            ->find(Translation::class, $translationId);
+        $translation = $this->managerRegistry
+            ->getRepository(Translation::class)
+            ->find($translationId);
 
         if (null === $translation) {
-            $translation = $this->em()
+            $translation = $this->managerRegistry
                 ->getRepository(Translation::class)
                 ->findDefault();
         }
         $criteria = ["translation" => $translation];
         $order = ['node.nodeType' => 'ASC'];
-        $filename = 'nodes-' . date("YmdHis") . '.' . $translation->getLocale() . '.xlsx';
+        $filename = 'nodes-' . date("YmdHis") . '.' . $translation->getLocale() . '.csv';
 
         if (null !== $parentNodeId) {
             /** @var Node|null $parentNode */
-            $parentNode = $this->em()->find(Node::class, $parentNodeId);
+            $parentNode = $this->managerRegistry
+                ->getRepository(Node::class)
+                ->find($parentNodeId);
             if (null === $parentNode) {
                 throw $this->createNotFoundException();
             }
             $this->denyAccessUnlessGranted(NodeVoter::READ, $parentNode);
             $criteria['node.parent'] = $parentNode;
-            $filename = $parentNode->getNodeName() . '-' . date("YmdHis") . '.' . $translation->getLocale() . '.xlsx';
+            $filename = $parentNode->getNodeName() . '-' . date("YmdHis") . '.' . $translation->getLocale() . '.csv';
         } else {
             $this->denyAccessUnlessGranted(NodeVoter::READ_AT_ROOT);
         }
 
-        $sources = $this->em()
+        $sources = $this->managerRegistry
             ->getRepository(NodesSources::class)
             ->setDisplayingAllNodesStatuses(true)
             ->setDisplayingNotPublishedNodes(true)
             ->findBy($criteria, $order);
 
-        $this->xlsxSerializer->setOnlyTexts(true);
-        $this->xlsxSerializer->addUrls();
-        $xlsx = $this->xlsxSerializer->serialize($sources);
-
-        $response = new Response(
-            $xlsx,
-            Response::HTTP_OK,
-            []
-        );
-
+        $response = new StreamedResponse(function () use ($sources) {
+            echo $this->serializer->serialize($sources, 'csv', [
+                'groups' => [
+                    'nodes_sources',
+                    'urls',
+                    'tag_base',
+                    'document_display',
+                ],
+            ]);
+        });
+        $response->headers->set('Content-Type', 'text/csv');
         $response->headers->set(
             'Content-Disposition',
             $response->headers->makeDisposition(
@@ -82,8 +85,6 @@ class ExportController extends RozierApp
                 $filename
             )
         );
-
-        $response->prepare($request);
 
         return $response;
     }

@@ -4069,6 +4069,10 @@
         <source>export_format.excel.%language%</source>
         <target state="final">Excel file format (%language%)</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="export_format.csv.%language%" approved="yes">
+        <source>export_format.csv.%language%</source>
+        <target state="final">CSV file format (%language%)</target>
+      </trans-unit>
       <!-- Bulk tags -->
       <trans-unit xml:space="preserve" id="delete.tags" approved="yes">
         <source>delete.tags</source>

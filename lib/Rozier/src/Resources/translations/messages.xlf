@@ -1151,6 +1151,7 @@
 
             <trans-unit xml:space="preserve" id="export_format.rzn"><source>export_format.rzn</source></trans-unit>
             <trans-unit xml:space="preserve" id="export_format.excel.%language%"><source>export_format.excel.%language%</source></trans-unit>
+            <trans-unit xml:space="preserve" id="export_format.csv.%language%"><source>export_format.csv.%language%</source></trans-unit>
 
             <!-- Bulk tags -->
             <trans-unit xml:space="preserve" id="delete.tags"><source>delete.tags</source></trans-unit>
