@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\Controller;
 
-use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Exception\InvalidArgumentException;
-use ApiPlatform\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
+use ApiPlatform\Metadata\Exception\ResourceClassNotFoundException;
 use ApiPlatform\Metadata\Exception\OperationNotFoundException;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use Psr\Log\LoggerInterface;

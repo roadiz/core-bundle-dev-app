@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Serializer;
 
-use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Api\UrlGeneratorInterface;
+use ApiPlatform\Metadata\IriConverterInterface;
+use ApiPlatform\Metadata\UrlGeneratorInterface;
 
 final class CircularReferenceHandler
 {

@@ -18,6 +18,8 @@ framework:
         circular_reference_handler: 'RZ\Roadiz\CoreBundle\Serializer\CircularReferenceHandler'
         max_depth_handler: 'RZ\Roadiz\CoreBundle\Serializer\CircularReferenceHandler'
 
+    handle_all_throwables: true
+
     #esi: true
     #fragments: true
     php_errors:
