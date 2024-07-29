@@ -6,29 +6,33 @@
 /* -------- STYLES -------- */
 @sortable-margin: 40px;
 
-.widget-explorer{
+:root {
+    --explorer-width: 100vw;
+
+    @media (min-width: @screen-sm-min) {
+        --explorer-width: @user-panel-sm-width + @entries-panel-width + @trees-panel-width;
+    }
+    @media (min-width: @screen-lg-min) {
+        --explorer-width: @user-panel-lg-width + @entries-panel-lg-width + @trees-panel-lg-width;
+    }
+    @media (min-width: @screen-xl-min) {
+        --explorer-width: @user-panel-xl-width + @entries-panel-xl-width + @trees-panel-xl-width;
+    }
+    @media (min-width: @screen-xxl-min) {
+        --explorer-width: @user-panel-xl-width + @entries-panel-xl-width + @trees-panel-xxl-width;
+    }
+}
+
+.widget-explorer {
     background-color: #3D3D3D;
     position: fixed;
     left: 0px;
     top: 0px;
     bottom: 0px;
-    width: 100vw;
+    width: var(--explorer-width);
     overflow-y: auto;
     overflow-x: hidden;
     z-index: 19000; // Tool-tips are at 20000
-
-    @media (min-width: @screen-sm-min) {
-        width: @user-panel-sm-width + @entries-panel-width + @trees-panel-width;
-    }
-    @media (min-width: @screen-lg-min) {
-        width: @user-panel-lg-width + @entries-panel-lg-width + @trees-panel-lg-width;
-    }
-    @media (min-width: @screen-xl-min) {
-        width: @user-panel-xl-width + @entries-panel-xl-width + @trees-panel-xl-width;
-    }
-    @media (min-width: @screen-xxl-min) {
-        width: @user-panel-xl-width + @entries-panel-xl-width + @trees-panel-xxl-width;
-    }
 
     a {
         outline: none;
@@ -44,8 +48,7 @@
     }
 
     &.filter-explorer-open .widget-explorer-wrapper {
-        transform: translateX(200px);
-        width: 360px;
+        transform: translateX(~"calc(var(--explorer-width) / 2)");
 
         .widget-explorer-search {
             opacity: 0;
@@ -58,7 +61,6 @@
         margin: 0;
 
         @media (min-width: @screen-sm-min) {
-            padding: 32px 15px 0;
             width: calc(~'100% - 84px');
             padding: 32px @sortable-margin 0;
         }
@@ -94,7 +96,7 @@
         }
     }
 
-    .widget-explorer-logo{
+    .widget-explorer-logo {
         position: relative;
         display: inline-block;
         width:37px;
