@@ -7,32 +7,30 @@
             :class="{ 'has-thumbnail': item.thumbnail, 'not-published': item.isPublished === false  }">
 
             <div class="uk-sortable-handle"></div>
-            <div class="border" :style="{ backgroundColor: getColor() }"></div>
+            <div class="border" :style="{ backgroundColor: color }"></div>
             <figure class="thumbnail"
-                    v-if="getThumbnail() && !item.thumbnail.processable"
-                    :style="{ 'background-image': 'url(' + getThumbnail() + ')' }"></figure>
+                    v-if="thumbnailUrl && !item.thumbnail.processable"
+                    :style="{ 'background-image': 'url(' + thumbnailUrl + ')' }"></figure>
             <figure class="thumbnail"
-                    v-else-if="getThumbnail() && item.thumbnail.processable">
+                    v-else-if="thumbnailUrl && item.thumbnail.processable">
                 <picture>
-                    <source :srcset="getThumbnail() + '.webp'" type="image/webp" />
-                    <img :src="getThumbnail()" :alt="name">
+                    <source :srcset="thumbnailUrl + '.webp'" type="image/webp" />
+                    <img :src="thumbnailUrl" :alt="name">
                 </picture>
             </figure>
             <div class="names">
-                <p class="parent-name">
-                    <template v-if="parentName">
-                        <template v-if="subParentName">
-                        <span class="sub">
-                            {{ subParentName }}
-                        </span>
-                        </template>
-                        <span class="direct">{{ parentName }}</span>
+                <p class="parent-name" v-if="parentName">
+                    <template v-if="subParentName">
+                    <span class="sub">
+                        {{ subParentName }}
+                    </span>
                     </template>
+                    <span class="direct">{{ parentName }}</span>
                 </p>
                 <span class="name">{{ name }}</span>
-                <input type="hidden" :name="drawerName + '[' + index +']'" :value="item.id" />
-                <div class="links" :class="getEditItem() ? '' : 'no-edit'">
-                    <ajax-link :href="getEditItem() + getReferer()" class="uk-button link uk-button-mini" v-if="getEditItem()">
+                <input type="hidden" :name="inputName" :value="item.id" v-if="inputName && item && item.id" />
+                <div class="links" :class="editItemUrl ? '' : 'no-edit'">
+                    <ajax-link :href="editItemUrl + referer" class="uk-button link uk-button-mini" v-if="editItemUrl">
                         <i class="uk-icon-rz-pencil"></i>
                     </ajax-link><a href="#"
                                    class="uk-button uk-button-mini link uk-button-danger rz-no-ajax-link"
@@ -85,6 +83,41 @@
                 type: String
             }
         },
+        computed: {
+            color: function () {
+                if (this.item.nodeType && this.item.nodeType.color) {
+                    return this.item.nodeType.color
+                } else if (this.item.color) {
+                    return this.item.color
+                }
+                return null
+            },
+            inputName () {
+                if (this.drawerName) {
+                    return this.drawerName + '[' + this.index + ']'
+                }
+            },
+            editItemUrl () {
+                if (this.editItem) {
+                    return this.editItem
+                } else if (this.item.editItem) {
+                    return this.item.editItem
+                }
+
+                return null
+            },
+            referer: function () {
+                return '?referer=' + window.location.pathname
+            },
+            thumbnailUrl: function () {
+                if (this.item.thumbnail && this.item.thumbnail.url) {
+                    return this.item.thumbnail.url
+                } else if (this.item.thumbnail) {
+                    return this.item.thumbnail
+                }
+                return null
+            }
+        },
         methods: {
             onAddItemButtonClick: function () {
                 // If document is in the explorer panel
@@ -95,34 +128,6 @@
             onRemoveItemButtonClick: function () {
                 // Call parent function to remove the document from widget
                 this.removeItem(this.item)
-            },
-            getColor: function () {
-                if (this.item.nodeType && this.item.nodeType.color) {
-                    return this.item.nodeType.color
-                } else if (this.item.color) {
-                    return this.item.color
-                }
-                return null
-            },
-            getEditItem () {
-                if (this.editItem) {
-                    return this.editItem
-                } else if (this.item.editItem) {
-                    return this.item.editItem
-                }
-
-                return null
-            },
-            getReferer: function () {
-                return '?referer=' + window.location.pathname
-            },
-            getThumbnail: function () {
-                if (this.item.thumbnail && this.item.thumbnail.url) {
-                    return this.item.thumbnail.url
-                } else if (this.item.thumbnail) {
-                    return this.item.thumbnail
-                }
-                return null
             }
         },
         components: {

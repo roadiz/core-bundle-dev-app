@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.20...v2.3.21) - 2024-07-29
+
+### Bug Fixes
+
+- **(Style)** Fixed explorer drawer item style to allow long titles and breadcrumbs - ([c621b6a](https://github.com/roadiz/core-bundle-dev-app/commit/c621b6ae459724f548867b5a9be8d85f4f472e91))
+- Added autocomplete on login template - ([7369d9c](https://github.com/roadiz/core-bundle-dev-app/commit/7369d9cb4f56fd7779d19d8377e48323f74aeace))
+
 ## [2.3.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.19...v2.3.20) - 2024-07-13
 
 ### Bug Fixes
