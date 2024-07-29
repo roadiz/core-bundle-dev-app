@@ -671,7 +671,7 @@ class DocumentsController extends RozierApp
                         return new JsonResponse([
                             'success' => true,
                             'document' => $documentModel->toArray(),
-                        ], JsonResponse::HTTP_CREATED);
+                        ], Response::HTTP_CREATED);
                     } else {
                         return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
                     }

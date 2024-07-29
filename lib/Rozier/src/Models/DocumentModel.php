@@ -15,12 +15,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class DocumentModel implements ModelInterface
 {
-    public static array $thumbnailArray = [
-        "fit" => "40x40",
-        "quality" => 50,
-        "sharpen" => 5,
-        "inline" => false,
-    ];
     public static array $thumbnail80Array = [
         "fit" => "80x80",
         "quality" => 50,
@@ -32,9 +26,6 @@ final class DocumentModel implements ModelInterface
         "quality" => 80,
         "inline" => false,
         "embed" => true,
-    ];
-    public static array $largeArray = [
-        "noProcess" => true,
     ];
 
     public function __construct(
