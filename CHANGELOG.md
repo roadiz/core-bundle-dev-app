@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.21...v2.3.22) - 2024-08-01
+
+### Bug Fixes
+
+- Do not require a `themes` folder at project root - ([02b2e1c](https://github.com/roadiz/core-bundle-dev-app/commit/02b2e1cf242c8b8f63fb9caaa6d8eca0220ec53b))
+
 ## [2.3.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.20...v2.3.21) - 2024-07-29
 
 ### Bug Fixes
