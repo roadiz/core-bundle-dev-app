@@ -167,14 +167,51 @@
             </trans-unit>
       <trans-unit xml:space="preserve" id="attributes.defaultRealm.placeholder" approved="yes">
                 <source>attributes.defaultRealm.placeholder</source>
-                
+
                 <target state="final">-- Aucun domaine sécurisé par défaut --</target>
             <note>Default text when no realm is attached to an attribute</note></trans-unit>
       <trans-unit xml:space="preserve" id="attributeValue.realm.placeholder" approved="yes">
                 <source>attributeValue.realm.placeholder</source>
-                
+
                 <target state="final">-- Aucun domaine sécurisé --</target>
             <note>Default text when no realm is attached to an attribute-value</note></trans-unit>
+
+        <trans-unit xml:space="preserve" id="login_link">
+            <source>login_link</source>
+            <target state="final">Lien de connexion</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="login_link_sent">
+            <source>login_link_sent</source>
+            <target state="final">Un lien de connexion vous a été envoyé</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="login_link_sent_if_email_exists.check_inbox">
+            <source>login_link_sent_if_email_exists.check_inbox</source>
+            <target state="final">Un lien de connexion vous a été envoyé par email si votre compte est valide, veuillez vérifier votre boîte de réception.</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="request_login_link">
+            <source>request_login_link</source>
+            <target state="final">Demander un lien de connexion</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="login_link.request">
+            <source>login_link.request</source>
+            <target state="final">Votre lien de connexion</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="you.asked.for.a.login_link.on.site">
+            <source>you.asked.for.a.login_link.on.site</source>
+            <target state="final">Vous avez fait une demande de connexion sur le site : %site%</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="click_on_following_link_to_login">
+            <source>click_on_following_link_to_login</source>
+            <target state="final">Cliquez sur le lien suivant pour vous connecter automatiquement.</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="login_link_will_expire_at.expiresAt">
+            <source>login_link_will_expire_at.expiresAt</source>
+            <target state="final">Ce lien expirera le %expiresAt%</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="classic.login_password">
+            <source>classic.login_password</source>
+            <target state="final">Se connecter avec mot de passe</target>
+        </trans-unit>
     </body>
   </file>
 </xliff>

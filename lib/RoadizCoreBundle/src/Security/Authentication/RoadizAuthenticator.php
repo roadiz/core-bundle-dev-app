@@ -62,9 +62,7 @@ abstract class RoadizAuthenticator extends AbstractLoginFormAuthenticator
         if ($user instanceof User) {
             $user->setLastLogin(new \DateTime('now'));
             $manager = $this->managerRegistry->getManagerForClass(User::class);
-            if (null !== $manager) {
-                $manager->flush();
-            }
+            $manager?->flush();
         }
 
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {

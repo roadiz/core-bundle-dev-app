@@ -184,6 +184,44 @@
                 <note>Default text when no realm is attached to an attribute-value</note>
                 <target></target>
             </trans-unit>
+
+            <trans-unit xml:space="preserve" id="login_link">
+                <source>login_link</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="login_link_sent">
+                <source>login_link_sent</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="login_link_sent_if_email_exists.check_inbox">
+                <source>login_link_sent_if_email_exists.check_inbox</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="request_login_link">
+                <source>request_login_link</source>
+                <note>Button label to request a login link</note>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="login_link.request">
+                <source>login_link.request</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="you.asked.for.a.login_link.on.site">
+                <source>you.asked.for.a.login_link.on.%site%</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="click_on_following_link_to_login">
+                <source>click_on_following_link_to_login</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="login_link_will_expire_at.expiresAt">
+                <source>login_link_will_expire_at.%expiresAt%</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="classic.login_password">
+                <source>classic.login_password</source>
+                <target></target>
+            </trans-unit>
         </body>
     </file>
 </xliff>

@@ -11,6 +11,8 @@ use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkDetails;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class UserViewer
@@ -91,6 +93,36 @@ final class UserViewer
             ]);
             return false;
         }
+    }
+
+    public function sendLoginLink(
+        UserInterface $user,
+        LoginLinkDetails $loginLinkDetails,
+        string $htmlTemplate = '@RoadizCore/email/users/login_link_email.html.twig',
+        string $txtTemplate = '@RoadizCore/email/users/login_link_email.txt.twig'
+    ): void {
+        $emailManager = $this->emailManagerFactory->create();
+        $emailContact = $this->getContactEmail();
+        $siteName = $this->getSiteName();
+
+        $emailManager->setAssignation([
+            'loginLink' => $loginLinkDetails->getUrl(),
+            'expiresAt' => $loginLinkDetails->getExpiresAt(),
+            'user' => $user,
+            'site' => $siteName,
+            'mailContact' => $emailContact,
+        ]);
+        $emailManager->setEmailTemplate($htmlTemplate);
+        $emailManager->setEmailPlainTextTemplate($txtTemplate);
+        $emailManager->setSubject($this->translator->trans(
+            'login_link.request'
+        ));
+
+        $emailManager->setReceiver($user->getEmail());
+        $emailManager->setSender([$emailContact => $siteName]);
+
+        // Send the message
+        $emailManager->send();
     }
 
     /**
