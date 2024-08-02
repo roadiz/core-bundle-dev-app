@@ -1,0 +1,39 @@
+{% extends '@RoadizCore/email/base_email.html.twig' %}
+
+{% block title %}<title>{% trans %}login_link.request{% endtrans %}</title>{% endblock %}
+
+{% block content_table %}
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="content-block">
+            {% block content_title %}
+                <h1 itemprop="name">{% trans %}login_link.request{% endtrans %}</h1>
+            {% endblock %}
+        </td>
+    </tr>
+    <tr>
+        <td class="content-block">
+            <table class="invoice" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction">
+                <tr>
+                    <td class="content-block">
+                        {% block content_subtitle %}
+                            <h2>{{ 'you.asked.for.a.login_link.on.site'|trans({'%site%':site})|escape }}</h2>
+                        {% endblock %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>{% trans %}click_on_following_link_to_login{% endtrans %}</p>
+                        <p>{{ 'login_link_will_expire_at.expiresAt'|trans({
+                            '%expiresAt%': expiresAt|format_datetime('short', 'short'),
+                        }) }}</p>
+                        <p class="aligncenter" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler">
+                            <a class="btn-primary" href="{{ loginLink }}" itemprop="url">{% trans %}login{% endtrans %}</a>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+{% endblock %}

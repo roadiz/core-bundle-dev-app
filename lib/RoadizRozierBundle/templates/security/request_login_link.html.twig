@@ -1,0 +1,32 @@
+{% extends '@RoadizRozier/login/base.html.twig' %}
+
+{% block title %}{% trans %}login_link{% endtrans %} | {{ parent() }}{% endblock %}
+
+{% block login_content %}
+    <form id="login-form"
+          action="{{ path('roadiz_rozier_login_link') }}"
+          class="uk-form uk-form-stacked {% if error %}uk-animation-shake{% endif %}"
+          method="post">
+        <div class="data-uk-margin">
+            <div class="uk-form-row form-col-text form-col--email">
+                <label for="email" class="uk-form-label required">
+                    <span class="uk-form-label-title">{% trans %}email{% endtrans %}</span>
+                </label>
+                <input type="email"
+                       name="email"
+                       id="email"
+                       autocomplete="email"
+                       placeholder="{% trans %}email{% endtrans %}"
+                       class="form-control"
+                       required
+                       autofocus>
+            </div>
+        </div>
+        <fieldset>
+            <button class="uk-button uk-button-primary"
+                    type="submit"><i class="uk-icon-chain"></i> {% trans %}request_login_link{% endtrans %}</button>
+            <a class="uk-button uk-button-secondary"
+               href="{{ path('loginPage') }}"><i class="uk-icon-key"></i> {% trans %}classic.login_password{% endtrans %}</a>
+        </fieldset>
+    </form>
+{% endblock %}
