@@ -122,14 +122,13 @@ class StringHandler
             return '';
         }
 
-        return (new UnicodeString($string))
+        return mb_lcfirst((new UnicodeString($string))
             ->ascii()
-            ->camel()
             ->trim('-')
             ->trim('_')
             ->trim()
-            ->toString()
-        ;
+            ->camel()
+            ->toString());
     }
 
 
