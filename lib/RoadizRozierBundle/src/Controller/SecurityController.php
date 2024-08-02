@@ -96,7 +96,8 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/rz-admin/login_link_sent', name: 'roadiz_rozier_login_link_sent')]
-    public function loginLinkSent(): Response {
+    public function loginLinkSent(): Response
+    {
         return $this->render('@RoadizRozier/security/login_link_sent.html.twig');
     }
 

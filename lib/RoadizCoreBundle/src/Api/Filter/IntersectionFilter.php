@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Api\Filter;
 
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
-use ApiPlatform\Metadata\Exception\FilterValidationException;
+use ApiPlatform\Exception\FilterValidationException;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;

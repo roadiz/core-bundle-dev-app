@@ -101,6 +101,10 @@ final class UserViewer
         string $htmlTemplate = '@RoadizCore/email/users/login_link_email.html.twig',
         string $txtTemplate = '@RoadizCore/email/users/login_link_email.txt.twig'
     ): void {
+        if (!(($user instanceof User) && $user->isEnabled())) {
+            throw new \InvalidArgumentException('User must be enabled to send a login link.');
+        }
+
         $emailManager = $this->emailManagerFactory->create();
         $emailContact = $this->getContactEmail();
         $siteName = $this->getSiteName();

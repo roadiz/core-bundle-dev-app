@@ -27,6 +27,7 @@ final class TranslationAwareContextBuilder implements SerializerContextBuilderIn
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
 
         if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {
+            // @phpstan-ignore-next-line
             return $context;
         }
 
