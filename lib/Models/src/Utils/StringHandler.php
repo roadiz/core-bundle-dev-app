@@ -110,7 +110,7 @@ class StringHandler
     }
 
     /**
-     * Transform to camelcase.
+     * Transform to lower camelCase.
      *
      * @param string|null $string
      *
@@ -122,14 +122,13 @@ class StringHandler
             return '';
         }
 
-        return (new UnicodeString($string))
+        return mb_lcfirst((new UnicodeString($string))
             ->ascii()
-            ->camel()
             ->trim('-')
             ->trim('_')
             ->trim()
-            ->toString()
-        ;
+            ->camel()
+            ->toString());
     }
 
 
