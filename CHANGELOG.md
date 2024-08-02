@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.22...v2.3.23) - 2024-08-02
+
+### Bug Fixes
+
+- Fixed StringHandler camelCase method with lc_first - ([47c7798](https://github.com/roadiz/core-bundle-dev-app/commit/47c7798dc33e6453dd8028eaebb41f62fe0e528b))
+
 ## [2.3.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.21...v2.3.22) - 2024-08-01
 
 ### Bug Fixes
