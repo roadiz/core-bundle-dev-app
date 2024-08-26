@@ -134,6 +134,15 @@ final class GetWebResponseByPathController extends AbstractController
 
         $this->addResourceToCacheTags($request, $resource);
 
+        // Set translation and locale to be used in Request context
+        if (null !== $resourceInfo->getTranslation()) {
+            $request->attributes->set('_translation', $resourceInfo->getTranslation());
+        }
+
+        if (null !== $resourceInfo->getLocale()) {
+            $request->attributes->set('_locale', $resourceInfo->getLocale());
+        }
+
         /*
          * Or plain entity
          */
