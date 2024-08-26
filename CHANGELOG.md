@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.24...v2.3.25) - 2024-08-26
+
+### Bug Fixes
+
+- Set translation and locale to be used in Request context from Roadiz ResourceInfo - ([a444bc9](https://github.com/roadiz/core-bundle-dev-app/commit/a444bc98026c55d628b4465238c832da0eb473fb))
+
 ## [2.3.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.23...v2.3.24) - 2024-08-26
 
 ### Bug Fixes
