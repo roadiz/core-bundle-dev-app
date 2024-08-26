@@ -19,7 +19,7 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
 {
     public function __construct(
         private readonly PersistableInterface $entity,
-        private readonly array &$configuration,
+        private readonly array $configuration,
         private readonly RendererInterface $renderer,
         private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
         private readonly UrlGeneratorInterface $urlGenerator,

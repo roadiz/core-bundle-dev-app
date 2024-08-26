@@ -173,7 +173,7 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxController
      * @param array $configuration
      * @return array<array>
      */
-    private function normalizeEntities(iterable $entities, array &$configuration): array
+    private function normalizeEntities(iterable $entities, array $configuration): array
     {
         $entitiesArray = [];
 
