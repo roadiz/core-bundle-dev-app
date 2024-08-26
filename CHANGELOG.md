@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.23...v2.3.24) - 2024-08-26
+
+### Bug Fixes
+
+- Do not use array reference for ConfigurableExplorerItem.php anymore - ([6a23ba0](https://github.com/roadiz/core-bundle-dev-app/commit/6a23ba032d174e58545f85bf81f2cdaf1760b154))
+
 ## [2.3.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.22...v2.3.23) - 2024-08-02
 
 ### Bug Fixes
