@@ -47,6 +47,7 @@ abstract class AbstractDoctrineExplorerProvider extends AbstractExplorerProvider
      * @param array $options
      *
      * @return EntityListManagerInterface
+     * @throws \ReflectionException
      */
     protected function doFetchItems(array $options = []): EntityListManagerInterface
     {

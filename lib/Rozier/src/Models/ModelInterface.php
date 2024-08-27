@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Models;
 
+/**
+ * @deprecated Use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemInterface instead.
+ */
 interface ModelInterface
 {
     /**

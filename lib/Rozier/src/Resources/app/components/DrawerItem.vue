@@ -4,15 +4,15 @@
             class="uk-sortable-list-item drawer-item type-label"
             v-if="item"
             @click.prevent="onAddItemButtonClick"
-            :class="{ 'has-thumbnail': item.thumbnail, 'not-published': item.isPublished === false  }">
+            :class="{ 'has-thumbnail': !!thumbnailUrl, 'not-published': published === false  }">
 
             <div class="uk-sortable-handle"></div>
             <div class="border" :style="{ backgroundColor: color }"></div>
             <figure class="thumbnail"
-                    v-if="thumbnailUrl && !item.thumbnail.processable"
+                    v-if="thumbnailUrl && !isThumbnailProcessable"
                     :style="{ 'background-image': 'url(' + thumbnailUrl + ')' }"></figure>
             <figure class="thumbnail"
-                    v-else-if="thumbnailUrl && item.thumbnail.processable">
+                    v-else-if="thumbnailUrl && isThumbnailProcessable">
                 <picture>
                     <source :srcset="thumbnailUrl + '.webp'" type="image/webp" />
                     <img :src="thumbnailUrl" :alt="name">
@@ -84,6 +84,9 @@
             }
         },
         computed: {
+            published: function () {
+                return this.item.published
+            },
             color: function () {
                 if (this.item.nodeType && this.item.nodeType.color) {
                     return this.item.nodeType.color
@@ -116,6 +119,12 @@
                     return this.item.thumbnail
                 }
                 return null
+            },
+            isThumbnailProcessable: function () {
+                if (this.item.thumbnail && this.item.thumbnail.processable) {
+                    return this.item.thumbnail.processable
+                }
+                return false
             }
         },
         methods: {

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Models;
 
-use JMS\Serializer\Annotation as Serializer;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\Groups;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-/**
- * @Serializer\ExclusionPolicy("all")
- */
-final class NodeModel implements ModelInterface
+final class NodeModel extends AbstractExplorerItem
 {
     public function __construct(
         private readonly Node $node,
@@ -25,70 +25,98 @@ final class NodeModel implements ModelInterface
     ) {
     }
 
-    public function toArray(): array
+    #[Groups(['model', 'node'])]
+    public function getId(): string|int
+    {
+        return $this->node->getId();
+    }
+
+    #[Groups(['model', 'node'])]
+    public function getAlternativeDisplayable(): ?string
+    {
+        $parent = $this->node->getParent();
+
+        if (!($parent instanceof Node)) {
+            return null;
+        }
+
+        $items = [];
+        $items[] = $parent->getNodeSources()->first() ?
+                $parent->getNodeSources()->first()->getTitle() :
+                $parent->getNodeName();
+
+        $subParent = $parent->getParent();
+        if ($subParent instanceof Node) {
+            $items[] = $subParent->getNodeSources()->first() ?
+                $subParent->getNodeSources()->first()->getTitle() :
+                $subParent->getNodeName();
+        }
+
+        return implode(' / ', array_reverse($items));
+    }
+
+    #[Groups(['model', 'node'])]
+    public function getDisplayable(): string
+    {
+        /** @var NodesSources|false $nodeSource */
+        $nodeSource = $this->node->getNodeSources()->first();
+        return false !== $nodeSource ?
+            ($nodeSource->getTitle() ?? $this->node->getNodeName()) :
+            $this->node->getNodeName();
+    }
+
+    #[Exclude]
+    public function getOriginal(): Node
+    {
+        return $this->node;
+    }
+
+    #[Groups(['model', 'node'])]
+    public function getEditItemPath(): ?string
     {
         /** @var NodesSources|false $nodeSource */
         $nodeSource = $this->node->getNodeSources()->first();
 
         if (false === $nodeSource) {
-            $result = [
-                'id' => $this->node->getId(),
-                'title' => $this->node->getNodeName(),
-                'nodeName' => $this->node->getNodeName(),
-                'isPublished' => $this->node->isPublished(),
-                'nodeType' => [
-                    'color' => $this->node->getNodeType()->getColor() ?? '#000000',
-                ]
-            ];
             if ($this->security->isGranted(NodeVoter::EDIT_SETTING, $this->node)) {
-                $result['nodesEditPage'] = $this->urlGenerator->generate('nodesEditPage', [
+                return $this->urlGenerator->generate('nodesEditPage', [
                     'nodeId' => $this->node->getId(),
                 ]);
             }
-            return $result;
+            return null;
         }
 
-        /** @var NodesSourcesDocuments|false $thumbnail */
-        $thumbnail = $nodeSource->getDocumentsByFields()->first();
         /** @var Translation $translation */
         $translation = $nodeSource->getTranslation();
 
-        $result = [
-            'id' => $this->node->getId(),
-            'title' => $nodeSource->getTitle() ?? $this->node->getNodeName(),
-            'thumbnail' => $thumbnail ? $thumbnail->getDocument() : null,
-            'nodeName' => $this->node->getNodeName(),
-            'isPublished' => $this->node->isPublished(),
-            'nodeType' => [
-                'color' => $this->node->getNodeType()->getColor() ?? '#000000',
-            ]
-        ];
-
         if ($this->security->isGranted(NodeVoter::EDIT_CONTENT, $nodeSource)) {
-            $result['nodesEditPage'] = $this->urlGenerator->generate('nodesEditSourcePage', [
+            return $this->urlGenerator->generate('nodesEditSourcePage', [
                 'nodeId' => $this->node->getId(),
                 'translationId' => $translation->getId(),
             ]);
         }
+        return null;
+    }
 
-        $parent = $this->node->getParent();
+    #[Groups(['model', 'node'])]
+    public function getThumbnail(): ?DocumentInterface
+    {
+        /** @var NodesSources|false $nodeSource */
+        $nodeSource = $this->node->getNodeSources()->first();
+        /** @var NodesSourcesDocuments|false $thumbnail */
+        $thumbnail = false !== $nodeSource ? $nodeSource->getDocumentsByFields()->first() : false;
+        return $thumbnail ? $thumbnail->getDocument() : null;
+    }
 
-        if ($parent instanceof Node) {
-            $result['parent'] = [
-                'title' => $parent->getNodeSources()->first() ?
-                    $parent->getNodeSources()->first()->getTitle() :
-                    $parent->getNodeName()
-            ];
-            $subParent = $parent->getParent();
-            if ($subParent instanceof Node) {
-                $result['subparent'] = [
-                    'title' => $subParent->getNodeSources()->first() ?
-                        $subParent->getNodeSources()->first()->getTitle() :
-                        $subParent->getNodeName()
-                ];
-            }
-        }
+    #[Groups(['model', 'node'])]
+    public function isPublished(): bool
+    {
+        return $this->node->isPublished();
+    }
 
-        return $result;
+    #[Groups(['model', 'node'])]
+    public function getColor(): string
+    {
+        return $this->node->getNodeType()->getColor() ?? '#000000';
     }
 }

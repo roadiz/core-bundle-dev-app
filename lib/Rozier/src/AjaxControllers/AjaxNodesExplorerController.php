@@ -12,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeTypeApi;
+use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
@@ -251,7 +252,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
      * Normalize response Node list result.
      *
      * @param iterable<Node|NodesSources|SolrSearchResultItem> $nodes
-     * @return array
+     * @return array<AbstractExplorerItem>
      */
     private function normalizeNodes(iterable $nodes): array
     {
