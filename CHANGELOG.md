@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.25...v2.3.26) - 2024-08-27
+
+### Bug Fixes
+
+- Missing `processable` property for backoffice Explorer thumbnails - ([72e2195](https://github.com/roadiz/core-bundle-dev-app/commit/72e21955c7024a085555edfadeffb5abe00f97ae))
+
 ## [2.3.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.24...v2.3.25) - 2024-08-26
 
 ### Bug Fixes
