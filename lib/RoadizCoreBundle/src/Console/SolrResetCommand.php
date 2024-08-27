@@ -31,30 +31,22 @@ final class SolrResetCommand extends SolrCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $solr = $this->clientRegistry->getClient();
         $this->io = new SymfonyStyle($input, $output);
 
-        if (null !== $solr) {
-            if (true === $this->clientRegistry->isClientReady($solr)) {
-                $confirmation = new ConfirmationQuestion(
-                    '<question>Are you sure to reset Solr index?</question>',
-                    false
-                );
-                if ($this->io->askQuestion($confirmation)) {
-                    $indexer  = $this->indexerFactory->getIndexerFor(NodesSources::class);
-                    if ($indexer instanceof CliAwareIndexer) {
-                        $indexer->setIo($this->io);
-                    }
-                    $indexer->emptySolr();
-                    $this->io->success('Solr index resetted.');
-                }
-            } else {
-                $this->io->error('Solr search engine server does not respond…');
-                $this->io->note('See your config.yml file to correct your Solr connexion settings.');
-                return 1;
+        if (null === $this->validateSolrState($this->io)) {
+            return 1;
+        }
+        $confirmation = new ConfirmationQuestion(
+            '<question>Are you sure to reset Solr index?</question>',
+            false
+        );
+        if ($this->io->askQuestion($confirmation)) {
+            $indexer  = $this->indexerFactory->getIndexerFor(NodesSources::class);
+            if ($indexer instanceof CliAwareIndexer) {
+                $indexer->setIo($this->io);
             }
-        } else {
-            $this->displayBasicConfig();
+            $indexer->emptySolr();
+            $this->io->success('Solr index resetted.');
         }
         return 0;
     }

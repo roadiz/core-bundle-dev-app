@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Console;
 
 use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
+use Solarium\Core\Client\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,31 +28,44 @@ class SolrCommand extends Command
             ->setDescription('Check Solr search engine server');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function validateSolrState(SymfonyStyle $io): ?Client
     {
         $client = $this->clientRegistry->getClient();
-        $this->io = new SymfonyStyle($input, $output);
 
-        if (null !== $client) {
-            if (true === $this->clientRegistry->isClientReady($client)) {
-                $this->io->writeln('<info>Solr search engine server is running…</info>');
-            } else {
-                $this->io->error('Solr search engine server does not respond…');
-                $this->io->note('See your config.yml file to correct your Solr connexion settings.');
-                return 1;
-            }
-        } else {
+        if (null === $client) {
             $this->displayBasicConfig();
+            return null;
         }
+
+        if (true !== $this->clientRegistry->isClientReady($client)) {
+            $io->error('Solr search engine server does not respond…');
+            $io->note('See your `config/packages/roadiz_core.yaml` file to correct your Solr connection settings.');
+            return null;
+        }
+
+        return $client;
+    }
+
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->io = new SymfonyStyle($input, $output);
+        if (null === $this->validateSolrState($this->io)) {
+            return 1;
+        }
+
+        $this->io->success('Solr search engine server is running.');
         return 0;
     }
 
     protected function displayBasicConfig(): void
     {
-        if (null !== $this->io) {
-            $this->io->error('No Solr search engine server has been configured…');
-            $this->io->note(<<<EOD
-Edit your config/packages/roadiz_core.yaml file to enable Solr (example):
+        if (null === $this->io) {
+            return;
+        }
+
+        $this->io->error('No Solr search engine server has been configured…');
+        $this->io->note(<<<EOD
+Edit your `config/packages/roadiz_core.yaml` file to enable Solr (example):
 
 solr:
     endpoint:
@@ -64,6 +78,5 @@ solr:
             username: ""
             password: ""
 EOD);
-        }
     }
 }

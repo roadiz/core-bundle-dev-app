@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Console;
 
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Process\Process;
+use Symfony\Component\Process\PhpSubprocess;
 
 trait RunningCommandsTrait
 {
@@ -22,9 +22,11 @@ trait RunningCommandsTrait
         $args .= $quiet ? ' --quiet ' : ' -v ';
         $args .= is_string($environment) ? (' --env ' . $environment) : '';
 
-        $process = Process::fromShellCommandline(
-            'php bin/console ' . $command  . ' ' . $args
-        );
+        $process = new PhpSubprocess([
+            'bin/console',
+            $command,
+            ...array_filter(explode(' ', trim($args))),
+        ]);
         $process->setWorkingDirectory($this->getProjectDir());
         $process->setTty($interactive);
         $process->run();

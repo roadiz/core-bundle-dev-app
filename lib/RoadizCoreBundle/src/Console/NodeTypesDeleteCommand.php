@@ -55,32 +55,32 @@ final class NodeTypesDeleteCommand extends Command
             ->getRepository(NodeType::class)
             ->findOneByName($name);
 
-        if ($nodeType !== null) {
-            $io->note('///////////////////////////////' . PHP_EOL .
-                '/////////// WARNING ///////////' . PHP_EOL .
-                '///////////////////////////////' . PHP_EOL .
-                'This operation cannot be undone.' . PHP_EOL .
-                'Deleting a node-type, you will automatically delete every nodes of this type.');
-            $question = new ConfirmationQuestion(
-                '<question>Are you sure to delete ' . $nodeType->getName() . ' node-type?</question>',
-                false
-            );
-            if (
-                $io->askQuestion(
-                    $question
-                )
-            ) {
-                /** @var NodeTypeHandler $handler */
-                $handler = $this->handlerFactory->getHandler($nodeType);
-                $handler->removeSourceEntityClass();
-                $this->managerRegistry->getManagerForClass(NodeType::class)->remove($nodeType);
-                $this->managerRegistry->getManagerForClass(NodeType::class)->flush();
-                $this->schemaUpdater->updateNodeTypesSchema();
-                $io->success('Node-type deleted.');
-            }
-        } else {
+        if ($nodeType === null) {
             $io->error('"' . $name . '" node type does not exist');
             return 1;
+        }
+
+        $io->note('///////////////////////////////' . PHP_EOL .
+            '/////////// WARNING ///////////' . PHP_EOL .
+            '///////////////////////////////' . PHP_EOL .
+            'This operation cannot be undone.' . PHP_EOL .
+            'Deleting a node-type, you will automatically delete every nodes of this type.');
+        $question = new ConfirmationQuestion(
+            '<question>Are you sure to delete ' . $nodeType->getName() . ' node-type?</question>',
+            false
+        );
+        if (
+            $io->askQuestion(
+                $question
+            )
+        ) {
+            /** @var NodeTypeHandler $handler */
+            $handler = $this->handlerFactory->getHandler($nodeType);
+            $handler->removeSourceEntityClass();
+            $this->managerRegistry->getManagerForClass(NodeType::class)->remove($nodeType);
+            $this->managerRegistry->getManagerForClass(NodeType::class)->flush();
+            $this->schemaUpdater->updateNodeTypesSchema();
+            $io->success('Node-type deleted.');
         }
         return 0;
     }

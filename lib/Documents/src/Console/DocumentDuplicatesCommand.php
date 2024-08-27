@@ -29,7 +29,7 @@ class DocumentDuplicatesCommand extends AbstractDocumentCommand
         $count = \count($documents);
         $rows = [];
 
-        if ($count <= 0) {
+        if ($count === 0) {
             $this->io->success('No duplicated documents were found.');
             return 0;
         }

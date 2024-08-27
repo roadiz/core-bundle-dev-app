@@ -40,37 +40,30 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $solr = $this->clientRegistry->getClient();
         $this->io = new SymfonyStyle($input, $output);
 
-        if (null !== $solr) {
-            if (true === $this->clientRegistry->isClientReady($solr)) {
-                if (
-                    $this->io->confirm(
-                        'Are you sure to reindex your Node and Document database?',
-                        !$input->isInteractive()
-                    )
-                ) {
-                    $stopwatch = new Stopwatch();
-                    $stopwatch->start('global');
+        if (null === $this->validateSolrState($this->io)) {
+            return 1;
+        }
 
-                    if ($input->getOption('documents')) {
-                        $this->executeForDocuments($stopwatch);
-                    } elseif ($input->getOption('nodes')) {
-                        $batchCount = (int) ($input->getOption('batch-count') ?? 1);
-                        $batchNumber = (int) ($input->getOption('batch-number') ?? 0);
-                        $this->executeForNodes($stopwatch, $batchCount, $batchNumber);
-                    } else {
-                        $this->executeForAll($stopwatch);
-                    }
-                }
+        if (
+            $this->io->confirm(
+                'Are you sure to reindex your Node and Document database?',
+                !$input->isInteractive()
+            )
+        ) {
+            $stopwatch = new Stopwatch();
+            $stopwatch->start('global');
+
+            if ($input->getOption('documents')) {
+                $this->executeForDocuments($stopwatch);
+            } elseif ($input->getOption('nodes')) {
+                $batchCount = (int) ($input->getOption('batch-count') ?? 1);
+                $batchNumber = (int) ($input->getOption('batch-number') ?? 0);
+                $this->executeForNodes($stopwatch, $batchCount, $batchNumber);
             } else {
-                $this->io->error('Solr search engine server does not respond…');
-                $this->io->note('See your config.yml file to correct your Solr connexion settings.');
-                return 1;
+                $this->executeForAll($stopwatch);
             }
-        } else {
-            $this->displayBasicConfig();
         }
         return 0;
     }

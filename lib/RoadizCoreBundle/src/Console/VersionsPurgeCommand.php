@@ -79,7 +79,6 @@ EOT
     private function purgeByDate(InputInterface $input, OutputInterface $output): void
     {
         $io = new SymfonyStyle($input, $output);
-        $em = $this->managerRegistry->getManagerForClass(UserLogEntry::class);
         $dateTime = new \DateTime($input->getOption('before'));
 
         if ($dateTime >= new \DateTime()) {
@@ -105,7 +104,6 @@ EOT
     {
         $io = new SymfonyStyle($input, $output);
         $count = (int) $input->getOption('count');
-        $em = $this->managerRegistry->getManagerForClass(UserLogEntry::class);
 
         $question = new ConfirmationQuestion(sprintf(
             'Do you want to purge all entities versions and to keep only the <info>latest %s</info>?',

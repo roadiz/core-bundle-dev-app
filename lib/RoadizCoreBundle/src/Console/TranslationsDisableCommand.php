@@ -36,23 +36,23 @@ final class TranslationsDisableCommand extends TranslationsCommand
             ->getRepository(Translation::class)
             ->findOneByLocale($locale);
 
-        if ($translation !== null) {
-            $confirmation = new ConfirmationQuestion(
-                '<question>Are you sure to disable ' . $translation->getName() . ' (' . $translation->getLocale() . ') translation?</question>',
-                false
-            );
-            if (
-                $io->askQuestion(
-                    $confirmation
-                )
-            ) {
-                $translation->setAvailable(false);
-                $this->managerRegistry->getManagerForClass(Translation::class)->flush();
-                $io->success('Translation disabled.');
-            }
-        } else {
+        if ($translation === null) {
             $io->error('Translation for locale ' . $locale . ' does not exist.');
             return 1;
+        }
+
+        $confirmation = new ConfirmationQuestion(
+            '<question>Are you sure to disable ' . $translation->getName() . ' (' . $translation->getLocale() . ') translation?</question>',
+            false
+        );
+        if (
+            $io->askQuestion(
+                $confirmation
+            )
+        ) {
+            $translation->setAvailable(false);
+            $this->managerRegistry->getManagerForClass(Translation::class)->flush();
+            $io->success('Translation disabled.');
         }
         return 0;
     }

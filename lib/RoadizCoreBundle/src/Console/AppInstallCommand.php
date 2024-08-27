@@ -82,39 +82,40 @@ final class AppInstallCommand extends Command
     {
         $data = $this->getAppConfig($themeConfigPath);
 
-        if (isset($data["importFiles"])) {
-            if (isset($data["importFiles"]['groups'])) {
-                foreach ($data["importFiles"]['groups'] as $filename) {
-                    $this->importFile($filename, $this->groupsImporter);
-                }
-            }
-            if (isset($data["importFiles"]['roles'])) {
-                foreach ($data["importFiles"]['roles'] as $filename) {
-                    $this->importFile($filename, $this->rolesImporter);
-                }
-            }
-            if (isset($data["importFiles"]['settings'])) {
-                foreach ($data["importFiles"]['settings'] as $filename) {
-                    $this->importFile($filename, $this->settingsImporter);
-                }
-            }
-            if (isset($data["importFiles"]['nodetypes'])) {
-                foreach ($data["importFiles"]['nodetypes'] as $filename) {
-                    $this->importFile($filename, $this->nodeTypesImporter);
-                }
-            }
-            if (isset($data["importFiles"]['tags'])) {
-                foreach ($data["importFiles"]['tags'] as $filename) {
-                    $this->importFile($filename, $this->tagsImporter);
-                }
-            }
-            if (isset($data["importFiles"]['attributes'])) {
-                foreach ($data["importFiles"]['attributes'] as $filename) {
-                    $this->importFile($filename, $this->attributeImporter);
-                }
-            }
-        } else {
+        if (!isset($data["importFiles"]) || !is_array($data["importFiles"])) {
             $this->io->warning('Config file "' . $themeConfigPath . '" has no data to import.');
+            return;
+        }
+
+        if (isset($data["importFiles"]['groups'])) {
+            foreach ($data["importFiles"]['groups'] as $filename) {
+                $this->importFile($filename, $this->groupsImporter);
+            }
+        }
+        if (isset($data["importFiles"]['roles'])) {
+            foreach ($data["importFiles"]['roles'] as $filename) {
+                $this->importFile($filename, $this->rolesImporter);
+            }
+        }
+        if (isset($data["importFiles"]['settings'])) {
+            foreach ($data["importFiles"]['settings'] as $filename) {
+                $this->importFile($filename, $this->settingsImporter);
+            }
+        }
+        if (isset($data["importFiles"]['nodetypes'])) {
+            foreach ($data["importFiles"]['nodetypes'] as $filename) {
+                $this->importFile($filename, $this->nodeTypesImporter);
+            }
+        }
+        if (isset($data["importFiles"]['tags'])) {
+            foreach ($data["importFiles"]['tags'] as $filename) {
+                $this->importFile($filename, $this->tagsImporter);
+            }
+        }
+        if (isset($data["importFiles"]['attributes'])) {
+            foreach ($data["importFiles"]['attributes'] as $filename) {
+                $this->importFile($filename, $this->attributeImporter);
+            }
         }
     }
 
@@ -129,24 +130,30 @@ final class AppInstallCommand extends Command
         } else {
             throw new \RuntimeException($filename . ' is not a valid file');
         }
-        if (!$this->dryRun) {
-            try {
-                if (false === $fileContent = file_get_contents($file->getPathname())) {
-                    throw new \RuntimeException($file->getPathname() . ' file is not readable');
-                }
-                $importer->import($fileContent);
-                $this->managerRegistry->getManager()->flush();
-                $this->io->writeln(
-                    '* <info>' . $file->getPathname() . '</info> file has been imported.'
-                );
-                return;
-            } catch (EntityAlreadyExistsException $e) {
-                $this->io->writeln(
-                    '* <info>' . $file->getPathname() . '</info>' .
-                    ' <error>has NOT been imported (' . $e->getMessage() . ')</error>.'
-                );
-            }
+        if ($this->dryRun) {
+            $this->io->writeln(
+                '* <info>' . $file->getPathname() . '</info> file would be imported.'
+            );
+            return;
         }
+
+        try {
+            if (false === $fileContent = file_get_contents($file->getPathname())) {
+                throw new \RuntimeException($file->getPathname() . ' file is not readable');
+            }
+            $importer->import($fileContent);
+            $this->managerRegistry->getManager()->flush();
+            $this->io->writeln(
+                '* <info>' . $file->getPathname() . '</info> file has been imported.'
+            );
+            return;
+        } catch (EntityAlreadyExistsException $e) {
+            $this->io->writeln(
+                '* <info>' . $file->getPathname() . '</info>' .
+                ' <error>has NOT been imported (' . $e->getMessage() . ')</error>.'
+            );
+        }
+
         $this->io->writeln(
             '* <info>' . $file->getPathname() . '</info> file has been imported.'
         );

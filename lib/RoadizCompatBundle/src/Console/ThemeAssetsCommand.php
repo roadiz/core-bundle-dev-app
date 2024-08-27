@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CompatBundle\Console;
 
 use RZ\Roadiz\CompatBundle\Theme\ThemeGenerator;
 use RZ\Roadiz\CompatBundle\Theme\ThemeInfo;
+use RZ\Roadiz\CoreBundle\Exception\ThemeClassNotValidException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -39,6 +40,9 @@ final class ThemeAssetsCommand extends Command
         ;
     }
 
+    /**
+     * @throws ThemeClassNotValidException
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -56,18 +60,19 @@ final class ThemeAssetsCommand extends Command
 
         $themeInfo = new ThemeInfo($name, $this->projectDir);
 
-        if ($themeInfo->exists()) {
-            $io->table([
-                'Description', 'Value'
-            ], [
-                ['Given name', $themeInfo->getName()],
-                ['Theme path', $themeInfo->getThemePath()],
-                ['Assets path', $themeInfo->getThemePath() . '/static'],
-            ]);
-
-            $this->themeGenerator->installThemeAssets($themeInfo, $expectedMethod);
-            return 0;
+        if (!$themeInfo->exists()) {
+            throw new InvalidArgumentException($themeInfo->getThemePath() . ' does not exist.');
         }
-        throw new InvalidArgumentException($themeInfo->getThemePath() . ' does not exist.');
+
+        $io->table([
+            'Description', 'Value'
+        ], [
+            ['Given name', $themeInfo->getName()],
+            ['Theme path', $themeInfo->getThemePath()],
+            ['Assets path', $themeInfo->getThemePath() . '/static'],
+        ]);
+
+        $this->themeGenerator->installThemeAssets($themeInfo, $expectedMethod);
+        return 0;
     }
 }

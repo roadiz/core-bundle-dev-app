@@ -33,22 +33,23 @@ class TranslationsCommand extends Command
             ->getRepository(Translation::class)
             ->findAll();
 
-        if (count($translations) > 0) {
-            $tableContent = [];
-            /** @var Translation $trans */
-            foreach ($translations as $trans) {
-                $tableContent[] = [
-                    $trans->getId(),
-                    $trans->getName(),
-                    $trans->getLocale(),
-                    (!$trans->isAvailable() ? 'X' : ''),
-                    ($trans->isDefaultTranslation() ? 'X' : ''),
-                ];
-            }
-            $io->table(['Id', 'Name', 'Locale', 'Disabled', 'Default'], $tableContent);
-        } else {
+        if (count($translations) === 0) {
             $io->error('No available translations.');
+            return 1;
         }
+
+        $tableContent = [];
+        /** @var Translation $trans */
+        foreach ($translations as $trans) {
+            $tableContent[] = [
+                $trans->getId(),
+                $trans->getName(),
+                $trans->getLocale(),
+                (!$trans->isAvailable() ? 'X' : ''),
+                ($trans->isDefaultTranslation() ? 'X' : ''),
+            ];
+        }
+        $io->table(['Id', 'Name', 'Locale', 'Disabled', 'Default'], $tableContent);
         return 0;
     }
 }

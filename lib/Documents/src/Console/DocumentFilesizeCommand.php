@@ -24,25 +24,24 @@ class DocumentFilesizeCommand extends AbstractDocumentCommand
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $em = $this->getManager();
         $this->io = new SymfonyStyle($input, $output);
 
-        $this->onEachDocument(function (DocumentInterface $document) {
+        return $this->onEachDocument(function (DocumentInterface $document) {
             if ($document instanceof AdvancedDocumentInterface) {
                 $this->updateDocumentFilesize($document);
             }
         }, new SymfonyStyle($input, $output));
-        return 0;
     }
 
     private function updateDocumentFilesize(AdvancedDocumentInterface $document): void
     {
-        if (null !== $document->getMountPath()) {
-            try {
-                $document->setFilesize($this->documentsStorage->fileSize($document->getMountPath()));
-            } catch (FilesystemException $exception) {
-                $this->io->error($exception->getMessage());
-            }
+        if (null === $document->getMountPath()) {
+            return;
+        }
+        try {
+            $document->setFilesize($this->documentsStorage->fileSize($document->getMountPath()));
+        } catch (FilesystemException $exception) {
+            $this->io->error($exception->getMessage());
         }
     }
 }

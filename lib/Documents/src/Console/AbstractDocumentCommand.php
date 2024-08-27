@@ -16,16 +16,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class AbstractDocumentCommand extends Command
 {
-    protected ManagerRegistry $managerRegistry;
-    protected ImageManager $imageManager;
-    protected FilesystemOperator $documentsStorage;
-
-    public function __construct(ManagerRegistry $managerRegistry, ImageManager $imageManager, FilesystemOperator $documentsStorage)
-    {
-        parent::__construct();
-        $this->managerRegistry = $managerRegistry;
-        $this->imageManager = $imageManager;
-        $this->documentsStorage = $documentsStorage;
+    public function __construct(
+        protected ManagerRegistry $managerRegistry,
+        protected ImageManager $imageManager,
+        protected FilesystemOperator $documentsStorage,
+        ?string $name = null
+    ) {
+        parent::__construct($name);
     }
 
     protected function getManager(): ObjectManager
@@ -49,11 +46,11 @@ abstract class AbstractDocumentCommand extends Command
      * @param callable $method
      * @param SymfonyStyle $io
      * @param int $batchSize
-     * @return int|void
+     * @return int
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    protected function onEachDocument(callable $method, SymfonyStyle $io, int $batchSize = 20)
+    protected function onEachDocument(callable $method, SymfonyStyle $io, int $batchSize = 20): int
     {
         $i = 0;
         $manager = $this->getManager();
@@ -85,5 +82,6 @@ abstract class AbstractDocumentCommand extends Command
         }
         $manager->flush();
         $io->progressFinish();
+        return 0;
     }
 }

@@ -61,30 +61,30 @@ class DocumentClearFolderCommand extends AbstractDocumentCommand
             return 0;
         }
 
-        if (
-            $this->io->askQuestion(new ConfirmationQuestion(
-                sprintf('Are you sure to delete permanently %d documents?', $count),
-                false
-            ))
-        ) {
-            /** @var DocumentInterface[] $results */
-            $results = $this->getDocumentQueryBuilder($folder)
-                ->select('d')
-                ->getQuery()
-                ->getResult();
-
-            $this->io->progressStart($count);
-            foreach ($results as $document) {
-                $em->remove($document);
-                if (($i % $batchSize) === 0) {
-                    $em->flush(); // Executes all updates.
-                }
-                ++$i;
-                $this->io->progressAdvance();
-            }
-            $em->flush();
-            $this->io->progressFinish();
+        if (!$this->io->askQuestion(new ConfirmationQuestion(
+            sprintf('Are you sure to delete permanently %d documents?', $count),
+            false
+        ))) {
+            return 0;
         }
+
+        /** @var DocumentInterface[] $results */
+        $results = $this->getDocumentQueryBuilder($folder)
+            ->select('d')
+            ->getQuery()
+            ->getResult();
+
+        $this->io->progressStart($count);
+        foreach ($results as $document) {
+            $em->remove($document);
+            if (($i % $batchSize) === 0) {
+                $em->flush(); // Executes all updates.
+            }
+            ++$i;
+            $this->io->progressAdvance();
+        }
+        $em->flush();
+        $this->io->progressFinish();
 
         return 0;
     }

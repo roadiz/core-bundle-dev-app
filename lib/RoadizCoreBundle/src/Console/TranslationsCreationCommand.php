@@ -38,41 +38,43 @@ final class TranslationsCreationCommand extends TranslationsCommand
         $name = $input->getArgument('name');
         $locale = $input->getArgument('locale');
 
-        if ($name) {
-            $translationByName = $this->managerRegistry
-                ->getRepository(Translation::class)
-                ->findOneByName($name);
-            $translationByLocale = $this->managerRegistry
-                ->getRepository(Translation::class)
-                ->findOneByLocale($locale);
+        if (!$name) {
+            return 1;
+        }
 
-            $confirmation = new ConfirmationQuestion(
-                '<question>Are you sure to create ' . $name . ' (' . $locale . ') translation?</question>',
-                false
-            );
+        $translationByName = $this->managerRegistry
+            ->getRepository(Translation::class)
+            ->findOneByName($name);
+        $translationByLocale = $this->managerRegistry
+            ->getRepository(Translation::class)
+            ->findOneByLocale($locale);
 
-            if (null !== $translationByName) {
-                $io->error('Translation ' . $name . ' already exists.');
-                return 1;
-            } elseif (null !== $translationByLocale) {
-                $io->error('Translation locale ' . $locale . ' is already used.');
-                return 1;
-            } else {
-                if (
-                    $io->askQuestion(
-                        $confirmation
-                    )
-                ) {
-                    $newTrans = new Translation();
-                    $newTrans->setName($name)
-                        ->setLocale($locale);
+        $confirmation = new ConfirmationQuestion(
+            '<question>Are you sure to create ' . $name . ' (' . $locale . ') translation?</question>',
+            false
+        );
 
-                    $this->managerRegistry->getManagerForClass(Translation::class)->persist($newTrans);
-                    $this->managerRegistry->getManagerForClass(Translation::class)->flush();
+        if (null !== $translationByName) {
+            $io->error('Translation ' . $name . ' already exists.');
+            return 1;
+        } elseif (null !== $translationByLocale) {
+            $io->error('Translation locale ' . $locale . ' is already used.');
+            return 1;
+        }
 
-                    $io->success('New ' . $newTrans->getName() . ' translation for ' . $newTrans->getLocale() . ' locale.');
-                }
-            }
+        if (
+            $io->askQuestion(
+                $confirmation
+            )
+        ) {
+            $newTrans = new Translation();
+            $newTrans->setName($name)
+                ->setLocale($locale);
+
+            $this->managerRegistry->getManagerForClass(Translation::class)->persist($newTrans);
+            $this->managerRegistry->getManagerForClass(Translation::class)->flush();
+
+            $io->success('New ' . $newTrans->getName() . ' translation for ' . $newTrans->getLocale() . ' locale.');
         }
         return 0;
     }

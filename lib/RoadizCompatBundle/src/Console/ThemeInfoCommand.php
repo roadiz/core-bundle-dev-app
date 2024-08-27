@@ -44,20 +44,21 @@ final class ThemeInfoCommand extends Command
         $name = str_replace('/', '\\', $input->getArgument('name'));
         $themeInfo = new ThemeInfo($name, $this->projectDir);
 
-        if ($themeInfo->exists()) {
-            if (!$themeInfo->isValid()) {
-                throw new InvalidArgumentException($themeInfo->getClassname() . ' is not a valid theme.');
-            }
-            $io->table([
-                'Description', 'Value'
-            ], [
-                ['Given name', $themeInfo->getName()],
-                ['Theme classname', $themeInfo->getClassname()],
-                ['Theme path', $themeInfo->getThemePath()],
-                ['Assets path', $themeInfo->getThemePath() . '/static'],
-            ]);
-            return 0;
+        if (!$themeInfo->exists()) {
+            throw new InvalidArgumentException($themeInfo->getClassname() . ' does not exist.');
         }
-        throw new InvalidArgumentException($themeInfo->getClassname() . ' does not exist.');
+
+        if (!$themeInfo->isValid()) {
+            throw new InvalidArgumentException($themeInfo->getClassname() . ' is not a valid theme.');
+        }
+        $io->table([
+            'Description', 'Value'
+        ], [
+            ['Given name', $themeInfo->getName()],
+            ['Theme classname', $themeInfo->getClassname()],
+            ['Theme path', $themeInfo->getThemePath()],
+            ['Assets path', $themeInfo->getThemePath() . '/static'],
+        ]);
+        return 0;
     }
 }

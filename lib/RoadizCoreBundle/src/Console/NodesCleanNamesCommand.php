@@ -71,78 +71,76 @@ final class NodesCleanNamesCommand extends Command
 
             $question1 = new ConfirmationQuestion('<question>Are you sure to proceed? This could break many page URLs!</question>', false);
 
-            if ($io->askQuestion($question1)) {
-                $io->note('Renaming ' . count($nodes) . ' nodes…');
-                $renameCount = 0;
-                $names = [];
-
-                /** @var Node $node */
-                foreach ($nodes as $node) {
-                    $nodeSource = $node->getNodeSources()->first() ?: null;
-                    if ($nodeSource !== null) {
-                        $prefixName = $nodeSource->getTitle() != "" ?
-                            $nodeSource->getTitle() :
-                            $node->getNodeName();
-
-                        $prefixNameSlug = $this->nodeNamePolicy->getCanonicalNodeName($nodeSource);
-                        /*
-                         * Proceed to rename only if best name is not the current
-                         * node-name AND if it is not ALREADY suffixed with a unique ID.
-                         */
-                        if (
-                            $prefixNameSlug != $node->getNodeName() &&
-                            $this->nodeNamePolicy->isNodeNameValid($prefixNameSlug) &&
-                            !$this->nodeNamePolicy->isNodeNameWithUniqId($prefixNameSlug, $nodeSource->getNode()->getNodeName())
-                        ) {
-                            $alreadyUsed = $this->nodeNamePolicy->isNodeNameAlreadyUsed($prefixNameSlug);
-                            if (!$alreadyUsed) {
-                                $names[] = [
-                                    $node->getNodeName(),
-                                    $prefixNameSlug
-                                ];
-                                $node->setNodeName($prefixNameSlug);
-                            } else {
-                                if (
-                                    $input->getOption('use-date') &&
-                                    null !== $nodeSource->getPublishedAt()
-                                ) {
-                                    $suffixedNameSlug = $this->nodeNamePolicy->getDatestampedNodeName($nodeSource);
-                                } else {
-                                    $suffixedNameSlug = $this->nodeNamePolicy->getSafeNodeName($nodeSource);
-                                }
-                                if (!$this->nodeNamePolicy->isNodeNameAlreadyUsed($suffixedNameSlug)) {
-                                    $names[] = [
-                                        $node->getNodeName(),
-                                        $suffixedNameSlug
-                                    ];
-                                    $node->setNodeName($suffixedNameSlug);
-                                } else {
-                                    $suffixedNameSlug = $this->nodeNamePolicy->getSafeNodeName($nodeSource);
-                                    $names[] = [
-                                        $node->getNodeName(),
-                                        $suffixedNameSlug
-                                    ];
-                                    $node->setNodeName($suffixedNameSlug);
-                                }
-                            }
-                            if (!$input->getOption('dry-run')) {
-                                $entityManager->flush();
-                            }
-                            $renameCount++;
-                        }
-                    }
-                }
-
-                $io->table(['Old name', 'New name'], $names);
-
-                if (!$input->getOption('dry-run')) {
-                    $io->success('Renaming done! ' . $renameCount . ' nodes have been affected. Do not forget to reindex your Solr documents if you are using it.');
-                } else {
-                    $io->success($renameCount . ' nodes would have been affected. Nothing was saved to database.');
-                }
-            } else {
+            if (!$io->askQuestion($question1)) {
                 $io->warning('Renaming cancelled…');
                 return 1;
+            }
+
+            $io->note('Renaming ' . count($nodes) . ' nodes…');
+            $renameCount = 0;
+            $names = [];
+
+            /** @var Node $node */
+            foreach ($nodes as $node) {
+                $nodeSource = $node->getNodeSources()->first() ?: null;
+                if ($nodeSource === null) {
+                    continue;
+                }
+
+                $prefixNameSlug = $this->nodeNamePolicy->getCanonicalNodeName($nodeSource);
+                /*
+                 * Proceed to rename only if best name is not the current
+                 * node-name AND if it is not ALREADY suffixed with a unique ID.
+                 */
+                if (
+                    $prefixNameSlug != $node->getNodeName() &&
+                    $this->nodeNamePolicy->isNodeNameValid($prefixNameSlug) &&
+                    !$this->nodeNamePolicy->isNodeNameWithUniqId($prefixNameSlug, $nodeSource->getNode()->getNodeName())
+                ) {
+                    $alreadyUsed = $this->nodeNamePolicy->isNodeNameAlreadyUsed($prefixNameSlug);
+                    if (!$alreadyUsed) {
+                        $names[] = [
+                            $node->getNodeName(),
+                            $prefixNameSlug
+                        ];
+                        $node->setNodeName($prefixNameSlug);
+                    } else {
+                        if (
+                            $input->getOption('use-date') &&
+                            null !== $nodeSource->getPublishedAt()
+                        ) {
+                            $suffixedNameSlug = $this->nodeNamePolicy->getDatestampedNodeName($nodeSource);
+                        } else {
+                            $suffixedNameSlug = $this->nodeNamePolicy->getSafeNodeName($nodeSource);
+                        }
+                        if (!$this->nodeNamePolicy->isNodeNameAlreadyUsed($suffixedNameSlug)) {
+                            $names[] = [
+                                $node->getNodeName(),
+                                $suffixedNameSlug
+                            ];
+                            $node->setNodeName($suffixedNameSlug);
+                        } else {
+                            $suffixedNameSlug = $this->nodeNamePolicy->getSafeNodeName($nodeSource);
+                            $names[] = [
+                                $node->getNodeName(),
+                                $suffixedNameSlug
+                            ];
+                            $node->setNodeName($suffixedNameSlug);
+                        }
+                    }
+                    if (!$input->getOption('dry-run')) {
+                        $entityManager->flush();
+                    }
+                    $renameCount++;
+                }
+            }
+
+            $io->table(['Old name', 'New name'], $names);
+
+            if (!$input->getOption('dry-run')) {
+                $io->success('Renaming done! ' . $renameCount . ' nodes have been affected. Do not forget to reindex your Solr documents if you are using it.');
+            } else {
+                $io->success($renameCount . ' nodes would have been affected. Nothing was saved to database.');
             }
         }
 

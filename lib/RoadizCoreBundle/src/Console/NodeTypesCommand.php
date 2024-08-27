@@ -43,50 +43,49 @@ final class NodeTypesCommand extends Command
                 ->getRepository(NodeType::class)
                 ->findOneByName($name);
 
-            if ($nodetype !== null) {
-                /** @var array<NodeTypeField> $fields */
-                $fields = $this->managerRegistry->getRepository(NodeTypeField::class)
-                    ->findBy([
-                        'nodeType' => $nodetype,
-                    ], ['position' => 'ASC']);
-
-                $tableContent = [];
-                foreach ($fields as $field) {
-                    $tableContent[] = [
-                        $field->getId(),
-                        $field->getLabel(),
-                        $field->getName(),
-                        str_replace('.type', '', $field->getTypeName()),
-                        ($field->isVisible() ? 'X' : ''),
-                        ($field->isIndexed() ? 'X' : ''),
-                    ];
-                }
-                $io->table(['Id', 'Label', 'Name', 'Type', 'Visible', 'Index'], $tableContent);
-            } else {
+            if ($nodetype === null) {
                 $io->note($name . ' node type does not exist.');
                 return 0;
             }
+            /** @var array<NodeTypeField> $fields */
+            $fields = $this->managerRegistry->getRepository(NodeTypeField::class)
+                ->findBy([
+                    'nodeType' => $nodetype,
+                ], ['position' => 'ASC']);
+
+            $tableContent = [];
+            foreach ($fields as $field) {
+                $tableContent[] = [
+                    $field->getId(),
+                    $field->getLabel(),
+                    $field->getName(),
+                    str_replace('.type', '', $field->getTypeName()),
+                    ($field->isVisible() ? 'X' : ''),
+                    ($field->isIndexed() ? 'X' : ''),
+                ];
+            }
+            $io->table(['Id', 'Label', 'Name', 'Type', 'Visible', 'Index'], $tableContent);
         } else {
             /** @var array<NodeType> $nodetypes */
             $nodetypes = $this->managerRegistry
                 ->getRepository(NodeType::class)
                 ->findBy([], ['name' => 'ASC']);
 
-            if (count($nodetypes) > 0) {
-                $tableContent = [];
-
-                foreach ($nodetypes as $nt) {
-                    $tableContent[] = [
-                        $nt->getId(),
-                        $nt->getName(),
-                        ($nt->isVisible() ? 'X' : ''),
-                    ];
-                }
-
-                $io->table(['Id', 'Title', 'Visible'], $tableContent);
-            } else {
+            if (count($nodetypes) === 0) {
                 $io->note('No available node-types…');
             }
+
+            $tableContent = [];
+
+            foreach ($nodetypes as $nt) {
+                $tableContent[] = [
+                    $nt->getId(),
+                    $nt->getName(),
+                    ($nt->isVisible() ? 'X' : ''),
+                ];
+            }
+
+            $io->table(['Id', 'Title', 'Visible'], $tableContent);
         }
         return 0;
     }

@@ -24,7 +24,7 @@ final class TagModel implements ModelInterface
             $name = $firstTrans->getName();
         }
 
-        $result = [
+        return [
             'id' => $this->tag->getId(),
             'name' => $name,
             'tagName' => $this->tag->getTagName(),
@@ -34,8 +34,6 @@ final class TagModel implements ModelInterface
                 'tagId' => $this->tag->getId()
             ]),
         ];
-
-        return $result;
     }
 
     /**

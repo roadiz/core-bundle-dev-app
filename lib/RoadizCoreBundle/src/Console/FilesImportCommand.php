@@ -63,34 +63,32 @@ final class FilesImportCommand extends Command
 
         $zipArchivePath = $input->getArgument('input');
         $zip = new ZipArchive();
-        if (true === $zip->open($zipArchivePath)) {
-            if (
-                $io->askQuestion(
-                    $confirmation
-                )
-            ) {
-                $zip->extractTo($tempDir);
-
-                $fs = new Filesystem();
-                if ($fs->exists($tempDir . $this->getPublicFolderName())) {
-                    $fs->mirror($tempDir . $this->getPublicFolderName(), $this->fileAware->getPublicFilesPath());
-                    $io->success('Public files have been imported.');
-                }
-                if ($fs->exists($tempDir . $this->getPrivateFolderName())) {
-                    $fs->mirror($tempDir . $this->getPrivateFolderName(), $this->fileAware->getPrivateFilesPath());
-                    $io->success('Private files have been imported.');
-                }
-                if ($fs->exists($tempDir . $this->getFontsFolderName())) {
-                    $fs->mirror($tempDir . $this->getFontsFolderName(), $this->fileAware->getFontsFilesPath());
-                    $io->success('Font files have been imported.');
-                }
-
-                $fs->remove($tempDir);
-            }
-            return 0;
-        } else {
+        if (true !== $zip->open($zipArchivePath)) {
             $io->error('Zip archive does not exist or is invalid.');
             return 1;
         }
+
+        if (!$io->askQuestion($confirmation)) {
+            return 0;
+        }
+
+        $zip->extractTo($tempDir);
+
+        $fs = new Filesystem();
+        if ($fs->exists($tempDir . $this->getPublicFolderName())) {
+            $fs->mirror($tempDir . $this->getPublicFolderName(), $this->fileAware->getPublicFilesPath());
+            $io->success('Public files have been imported.');
+        }
+        if ($fs->exists($tempDir . $this->getPrivateFolderName())) {
+            $fs->mirror($tempDir . $this->getPrivateFolderName(), $this->fileAware->getPrivateFilesPath());
+            $io->success('Private files have been imported.');
+        }
+        if ($fs->exists($tempDir . $this->getFontsFolderName())) {
+            $fs->mirror($tempDir . $this->getFontsFolderName(), $this->fileAware->getFontsFilesPath());
+            $io->success('Font files have been imported.');
+        }
+
+        $fs->remove($tempDir);
+        return 0;
     }
 }
