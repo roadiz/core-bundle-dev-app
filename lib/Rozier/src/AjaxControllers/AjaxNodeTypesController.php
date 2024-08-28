@@ -11,10 +11,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Themes\Rozier\Models\NodeTypeModel;
 
 final class AjaxNodeTypesController extends AbstractAjaxController
 {
+    public function __construct(
+        private readonly UrlGeneratorInterface $urlGenerator
+    ) {
+    }
+
     /**
      * @param Request $request
      *
@@ -106,7 +112,7 @@ final class AjaxNodeTypesController extends AbstractAjaxController
 
         /** @var NodeType $nodeType */
         foreach ($nodeTypes as $nodeType) {
-            $nodeModel = new NodeTypeModel($nodeType);
+            $nodeModel = new NodeTypeModel($nodeType, $this->urlGenerator);
             $nodeTypesArray[] = $nodeModel->toArray();
         }
 

@@ -61,7 +61,8 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
             ]
         );
         $listManager->setDisplayingNotPublishedNodes(true);
-        $listManager->setItemPerPage(30);
+        // Use a factor of 12 for a better grid display
+        $listManager->setItemPerPage(36);
         $listManager->handle();
 
         $documents = $listManager->getEntities();

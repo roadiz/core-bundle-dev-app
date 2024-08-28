@@ -30,7 +30,7 @@
                 <span class="name">{{ name }}</span>
                 <input type="hidden" :name="inputName" :value="item.id" v-if="inputName && item && item.id" />
                 <div class="links" :class="editItemUrl ? '' : 'no-edit'">
-                    <ajax-link :href="editItemUrl + referer" class="uk-button link uk-button-mini" v-if="editItemUrl">
+                    <ajax-link :href="editItemUrl" class="uk-button link uk-button-mini" v-if="editItemUrl">
                         <i class="uk-icon-rz-pencil"></i>
                     </ajax-link><a href="#"
                                    class="uk-button uk-button-mini link uk-button-danger rz-no-ajax-link"
@@ -102,9 +102,9 @@
             },
             editItemUrl () {
                 if (this.editItem) {
-                    return this.editItem
+                    return this.editItem + this.referer
                 } else if (this.item.editItem) {
-                    return this.item.editItem
+                    return this.item.editItem + this.referer
                 }
 
                 return null

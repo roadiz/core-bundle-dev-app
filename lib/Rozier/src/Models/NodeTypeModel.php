@@ -5,20 +5,46 @@ declare(strict_types=1);
 namespace Themes\Rozier\Models;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class NodeTypeModel implements ModelInterface
+final class NodeTypeModel extends AbstractExplorerItem
 {
-    public function __construct(private readonly NodeType $nodeType)
-    {
+    public function __construct(
+        private readonly NodeType $nodeType,
+        private readonly UrlGeneratorInterface $urlGenerator
+    ) {
     }
 
-    public function toArray(): array
+    public function getId(): string|int
     {
-        return [
-            'id' => $this->nodeType->getId(),
-            'nodeName' => $this->nodeType->getName(),
-            'name' => $this->nodeType->getDisplayName(),
-            'color' => $this->nodeType->getColor(),
-        ];
+        return $this->nodeType->getId();
+    }
+
+    public function getAlternativeDisplayable(): ?string
+    {
+        return $this->nodeType->getName();
+    }
+
+    public function getDisplayable(): string
+    {
+        return $this->nodeType->getDisplayName();
+    }
+
+    public function getOriginal(): NodeType
+    {
+        return $this->nodeType;
+    }
+
+    protected function getEditItemPath(): ?string
+    {
+        return $this->urlGenerator->generate('nodeTypesEditPage', [
+            'nodeTypeId' => $this->nodeType->getId()
+        ]);
+    }
+
+    protected function getColor(): ?string
+    {
+        return $this->nodeType->getColor();
     }
 }
