@@ -47,10 +47,12 @@ class DocumentPruneCommand extends AbstractDocumentCommand
             return 0;
         }
 
-        if (!$this->io->askQuestion(new ConfirmationQuestion(
-            sprintf('Are you sure to delete permanently %d unused documents?', $count),
-            false
-        ))) {
+        if (
+            !$this->io->askQuestion(new ConfirmationQuestion(
+                sprintf('Are you sure to delete permanently %d unused documents?', $count),
+                false
+            ))
+        ) {
             return 0;
         }
 

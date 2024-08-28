@@ -35,7 +35,7 @@ final class TagExplorerItem extends AbstractExplorerItem
 
     public function getAlternativeDisplayable(): ?string
     {
-       return $this->getTagParents($this->tag);
+        return $this->getTagParents($this->tag);
     }
 
     public function getDisplayable(): string
