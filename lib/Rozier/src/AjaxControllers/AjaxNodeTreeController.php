@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -19,8 +20,10 @@ final class AjaxNodeTreeController extends AbstractAjaxController
     public function __construct(
         private readonly NodeChrootResolver $nodeChrootResolver,
         private readonly TreeWidgetFactory $treeWidgetFactory,
-        private readonly NodeTypes $nodeTypesBag
+        private readonly NodeTypes $nodeTypesBag,
+        SerializerInterface $serializer
     ) {
+        parent::__construct($serializer);
     }
 
     public function getTreeAction(Request $request): JsonResponse
@@ -102,17 +105,13 @@ final class AjaxNodeTreeController extends AbstractAjaxController
         // Need to expose linkedTypes to add data-attributes on widget again
         $this->assignation['linkedTypes'] = $linkedTypes;
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
             'linkedTypes' => array_map(function (NodeType $nodeType) {
                 return $nodeType->getName();
             }, $linkedTypes),
             'nodeTree' => trim($this->getTwig()->render('@RoadizRozier/widgets/nodeTree/nodeTree.html.twig', $this->assignation)),
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 }

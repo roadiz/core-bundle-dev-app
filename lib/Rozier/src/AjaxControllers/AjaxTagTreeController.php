@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,8 +13,11 @@ use Themes\Rozier\Widgets\TreeWidgetFactory;
 
 final class AjaxTagTreeController extends AbstractAjaxController
 {
-    public function __construct(private readonly TreeWidgetFactory $treeWidgetFactory)
-    {
+    public function __construct(
+        private readonly TreeWidgetFactory $treeWidgetFactory,
+        SerializerInterface $serializer
+    ) {
+        parent::__construct($serializer);
     }
 
     public function getTreeAction(Request $request): JsonResponse
@@ -56,14 +60,10 @@ final class AjaxTagTreeController extends AbstractAjaxController
 
         $this->assignation['tagTree'] = $tagTree;
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
             'tagTree' => $this->getTwig()->render('@RoadizRozier/widgets/tagTree/tagTree.html.twig', $this->assignation),
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 }

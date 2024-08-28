@@ -6,6 +6,7 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,8 +17,10 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 final class AjaxNodeTypesController extends AbstractAjaxController
 {
     public function __construct(
-        private readonly ExplorerItemFactoryInterface $explorerItemFactory
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        SerializerInterface $serializer
     ) {
+        parent::__construct($serializer);
     }
 
     /**
@@ -44,17 +47,13 @@ final class AjaxNodeTypesController extends AbstractAjaxController
         $nodeTypes = $listManager->getEntities();
         $documentsArray = $this->normalizeNodeType($nodeTypes);
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'nodeTypes' => $documentsArray,
             'nodeTypesCount' => count($nodeTypes),
             'filters' => $listManager->getAssignation()
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     /**
@@ -88,15 +87,11 @@ final class AjaxNodeTypesController extends AbstractAjaxController
             $nodesArray = $this->normalizeNodeType($nodeTypes);
         }
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'items' => $nodesArray
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     /**

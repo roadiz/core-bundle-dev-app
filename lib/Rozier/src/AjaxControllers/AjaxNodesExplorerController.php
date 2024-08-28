@@ -6,7 +6,6 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
-use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -27,11 +26,12 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
 {
     public function __construct(
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
-        private readonly SerializerInterface $serializer,
         private readonly ClientRegistry $clientRegistry,
         private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         private readonly NodeTypeApi $nodeTypeApi,
+        SerializerInterface $serializer
     ) {
+        parent::__construct($serializer);
     }
 
     protected function getItemPerPage(): int
@@ -274,27 +274,5 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         if (!key_exists($model->getId(), $nodesArray)) {
             $nodesArray[$model->getId()] = $model->toArray();
         }
-    }
-
-    /**
-     * @param array $data
-     * @return JsonResponse
-     */
-    protected function createSerializedResponse(array $data): JsonResponse
-    {
-        return new JsonResponse(
-            $this->serializer->serialize(
-                $data,
-                'json',
-                SerializationContext::create()->setGroups([
-                    'document_display',
-                    'explorer_thumbnail',
-                    'model'
-                ])
-            ),
-            200,
-            [],
-            true
-        );
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
@@ -14,8 +15,10 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 final class AjaxDocumentsExplorerController extends AbstractAjaxController
 {
     public function __construct(
-        private readonly ExplorerItemFactoryInterface $explorerItemFactory
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        SerializerInterface $serializer
     ) {
+        parent::__construct($serializer);
     }
 
     public function indexAction(Request $request): JsonResponse
@@ -70,7 +73,7 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
             ]);
         }
 
-        return new JsonResponse(
+        return $this->createSerializedResponse(
             $responseArray
         );
     }
@@ -104,16 +107,12 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
             $documentsArray = $this->normalizeDocuments($documents);
         }
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'documents' => $documentsArray,
             'trans' => $this->getTrans()
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     /**

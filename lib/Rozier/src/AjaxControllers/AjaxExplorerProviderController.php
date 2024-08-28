@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use JMS\Serializer\SerializerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -11,13 +12,15 @@ use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemInterface;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerProviderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 class AjaxExplorerProviderController extends AbstractAjaxController
 {
-    public function __construct(private readonly ContainerInterface $psrContainer)
-    {
+    public function __construct(
+        private readonly ContainerInterface $psrContainer,
+        SerializerInterface $serializer
+    ) {
+        parent::__construct($serializer);
     }
 
     /**
@@ -91,17 +94,12 @@ class AjaxExplorerProviderController extends AbstractAjaxController
             }
         }
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'entities' => $entitiesArray,
             'filters' => $provider->getFilters($options),
-        ];
-
-        return new JsonResponse(
-            $responseArray,
-            Response::HTTP_PARTIAL_CONTENT
-        );
+        ]);
     }
 
     /**
@@ -136,14 +134,10 @@ class AjaxExplorerProviderController extends AbstractAjaxController
             }
         }
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'items' => $entitiesArray
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Configuration\JoinNodeTypeFieldConfiguration;
@@ -20,7 +21,9 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxController
 {
     public function __construct(
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        SerializerInterface $serializer
     ) {
+        parent::__construct($serializer);
     }
 
     /**
@@ -89,16 +92,12 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxController
 
         $entitiesArray = $this->normalizeEntities($entities, $configuration);
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'entities' => $entitiesArray,
             'filters' => $listManager->getAssignation(),
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     public function listAction(Request $request): JsonResponse
@@ -142,15 +141,11 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxController
             $entitiesArray = $this->normalizeEntities($entities, $configuration);
         }
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'items' => $entitiesArray
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     /**

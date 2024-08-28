@@ -25,15 +25,11 @@ final class AjaxFoldersExplorerController extends AbstractAjaxController
                             ]
                         );
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'folders' => $this->recurseFolders($folders),
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     protected function recurseFolders(?iterable $folders = null): array

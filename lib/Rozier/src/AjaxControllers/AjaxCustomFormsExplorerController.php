@@ -6,9 +6,9 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
@@ -17,7 +17,9 @@ final class AjaxCustomFormsExplorerController extends AbstractAjaxController
 {
     public function __construct(
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        SerializerInterface $serializer
     ) {
+        parent::__construct($serializer);
     }
 
     /**
@@ -46,17 +48,13 @@ final class AjaxCustomFormsExplorerController extends AbstractAjaxController
 
         $customFormsArray = $this->normalizeCustomForms($customForms);
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'customForms' => $customFormsArray,
             'customFormsCount' => count($customForms),
             'filters' => $listManager->getAssignation(),
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     /**
@@ -90,15 +88,11 @@ final class AjaxCustomFormsExplorerController extends AbstractAjaxController
             $customFormsArray = $this->normalizeCustomForms($customForms);
         }
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'forms' => $customFormsArray
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     /**

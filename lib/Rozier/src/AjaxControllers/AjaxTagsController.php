@@ -6,6 +6,7 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -24,8 +25,10 @@ final class AjaxTagsController extends AbstractAjaxController
 {
     public function __construct(
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
-        private readonly HandlerFactoryInterface $handlerFactory
+        private readonly HandlerFactoryInterface $handlerFactory,
+        SerializerInterface $serializer
     ) {
+        parent::__construct($serializer);
     }
 
     /**
@@ -59,15 +62,11 @@ final class AjaxTagsController extends AbstractAjaxController
             $tags = $this->getRepository()->findByParentWithDefaultTranslation();
         }
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'tags' => $this->recurseTags($tags, $onlyParents),
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     /**
@@ -99,15 +98,11 @@ final class AjaxTagsController extends AbstractAjaxController
             $normalizedTags = $this->normalizeTags($tags);
         }
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'tags' => $normalizedTags
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     /**
@@ -154,16 +149,12 @@ final class AjaxTagsController extends AbstractAjaxController
 
         $tags = $listManager->getEntities();
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
             'tags' => $this->normalizeTags($tags),
             'filters' => $listManager->getAssignation(),
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 
     /**
@@ -283,7 +274,7 @@ final class AjaxTagsController extends AbstractAjaxController
             $responseArray[] = $tag->getFullPath();
         }
 
-        return new JsonResponse(
+        return $this->createSerializedResponse(
             $responseArray
         );
     }
@@ -292,7 +283,7 @@ final class AjaxTagsController extends AbstractAjaxController
      * @param array $parameters
      * @param Tag   $tag
      */
-    protected function updatePosition($parameters, Tag $tag): void
+    protected function updatePosition(array $parameters, Tag $tag): void
     {
         /*
          * First, we set the new parent

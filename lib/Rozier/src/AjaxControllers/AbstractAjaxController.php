@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Themes\Rozier\RozierApp;
@@ -16,6 +19,11 @@ use Themes\Rozier\RozierApp;
  */
 abstract class AbstractAjaxController extends RozierApp
 {
+    public function __construct(
+        protected readonly SerializerInterface $serializer
+    ) {
+    }
+
     protected static array $validMethods = [
         Request::METHOD_POST,
         Request::METHOD_GET,
@@ -82,5 +90,27 @@ abstract class AbstractAjaxController extends RozierApp
         }
 
         return $return;
+    }
+
+    /**
+     * @param array $data
+     * @return JsonResponse
+     */
+    protected function createSerializedResponse(array $data): JsonResponse
+    {
+        return new JsonResponse(
+            $this->serializer->serialize(
+                $data,
+                'json',
+                SerializationContext::create()->setGroups([
+                    'document_display',
+                    'explorer_thumbnail',
+                    'model'
+                ])
+            ),
+            200,
+            [],
+            true
+        );
     }
 }

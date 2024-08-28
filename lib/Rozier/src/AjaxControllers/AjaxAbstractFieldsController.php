@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -13,8 +14,11 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 abstract class AjaxAbstractFieldsController extends AbstractAjaxController
 {
-    public function __construct(protected readonly HandlerFactoryInterface $handlerFactory)
-    {
+    public function __construct(
+        protected readonly HandlerFactoryInterface $handlerFactory,
+        SerializerInterface $serializer
+    ) {
+        parent::__construct($serializer);
     }
 
     protected function findEntity(int|string $entityId): ?AbstractField

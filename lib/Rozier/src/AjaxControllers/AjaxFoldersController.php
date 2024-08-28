@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\EntityHandler\FolderHandler;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
@@ -14,8 +15,11 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 final class AjaxFoldersController extends AbstractAjaxController
 {
-    public function __construct(private readonly HandlerFactoryInterface $handlerFactory)
-    {
+    public function __construct(
+        private readonly HandlerFactoryInterface $handlerFactory,
+        SerializerInterface $serializer
+    ) {
+        parent::__construct($serializer);
     }
 
     /*

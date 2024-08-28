@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -22,8 +23,10 @@ final class AjaxSearchNodesSourcesController extends AbstractAjaxController
 
     public function __construct(
         private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
-        private readonly Security $security
+        private readonly Security $security,
+        SerializerInterface $serializer
     ) {
+        parent::__construct($serializer);
     }
 
     /**
@@ -81,7 +84,7 @@ final class AjaxSearchNodesSourcesController extends AbstractAjaxController
          */
         $responseArray['data'] = array_values($responseArray['data']);
 
-        return new JsonResponse(
+        return $this->createSerializedResponse(
             $responseArray
         );
     }

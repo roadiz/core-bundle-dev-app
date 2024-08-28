@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,8 +13,11 @@ use Themes\Rozier\Widgets\TreeWidgetFactory;
 
 final class AjaxFolderTreeController extends AbstractAjaxController
 {
-    public function __construct(private readonly TreeWidgetFactory $treeWidgetFactory)
-    {
+    public function __construct(
+        private readonly TreeWidgetFactory $treeWidgetFactory,
+        SerializerInterface $serializer
+    ) {
+        parent::__construct($serializer);
     }
 
     public function getTreeAction(Request $request): JsonResponse
@@ -56,14 +60,10 @@ final class AjaxFolderTreeController extends AbstractAjaxController
 
         $this->assignation['folderTree'] = $folderTree;
 
-        $responseArray = [
+        return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
             'folderTree' => $this->getTwig()->render('@RoadizRozier/widgets/folderTree/folderTree.html.twig', $this->assignation),
-        ];
-
-        return new JsonResponse(
-            $responseArray
-        );
+        ]);
     }
 }
