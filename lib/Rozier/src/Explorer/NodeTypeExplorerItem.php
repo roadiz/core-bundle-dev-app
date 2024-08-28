@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Themes\Rozier\Models;
+namespace Themes\Rozier\Explorer;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class NodeTypeModel extends AbstractExplorerItem
+final class NodeTypeExplorerItem extends AbstractExplorerItem
 {
     public function __construct(
         private readonly NodeType $nodeType,

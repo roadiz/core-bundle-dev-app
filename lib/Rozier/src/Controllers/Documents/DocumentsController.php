@@ -19,6 +19,7 @@ use RZ\Roadiz\CoreBundle\Entity\TagTranslationDocuments;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\EntityHandler\DocumentHandler;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
 use RZ\Roadiz\Documents\Events\DocumentDeletedEvent;
@@ -28,11 +29,8 @@ use RZ\Roadiz\Documents\Events\DocumentOutFolderEvent;
 use RZ\Roadiz\Documents\Events\DocumentUpdatedEvent;
 use RZ\Roadiz\Documents\Exceptions\APINeedsAuthentificationException;
 use RZ\Roadiz\Documents\MediaFinders\AbstractEmbedFinder;
-use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\MediaFinders\RandomImageFinder;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
-use RZ\Roadiz\Documents\Renderer\RendererInterface;
-use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -47,14 +45,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Themes\Rozier\Forms\DocumentEditType;
 use Themes\Rozier\Forms\DocumentEmbedType;
-use Themes\Rozier\Models\DocumentModel;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
@@ -71,16 +67,13 @@ class DocumentsController extends RozierApp
     ];
 
     public function __construct(
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly array $documentPlatforms,
         private readonly FilesystemOperator $documentsStorage,
         private readonly HandlerFactoryInterface $handlerFactory,
         private readonly LoggerInterface $logger,
         private readonly RandomImageFinder $randomImageFinder,
         private readonly DocumentFactory $documentFactory,
-        private readonly RendererInterface $renderer,
-        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly EmbedFinderFactory $embedFinderFactory,
         private readonly ?string $googleServerId = null,
         private readonly ?string $soundcloudClientId = null
     ) {
@@ -661,12 +654,8 @@ class DocumentsController extends RozierApp
                     );
 
                     if ($_format === 'json' || $request->isXmlHttpRequest()) {
-                        $documentModel = new DocumentModel(
-                            $document,
-                            $this->renderer,
-                            $this->documentUrlGenerator,
-                            $this->urlGenerator,
-                            $this->embedFinderFactory
+                        $documentModel = $this->explorerItemFactory->createForEntity(
+                            $document
                         );
                         return new JsonResponse([
                             'success' => true,

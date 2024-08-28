@@ -6,11 +6,12 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
-use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
-use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\EntityHandler\TagHandler;
+use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,14 +19,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Themes\Rozier\Models\TagModel;
 
 final class AjaxTagsController extends AbstractAjaxController
 {
     public function __construct(
-        private readonly HandlerFactoryInterface $handlerFactory,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        private readonly HandlerFactoryInterface $handlerFactory
     ) {
     }
 
@@ -176,7 +175,7 @@ final class AjaxTagsController extends AbstractAjaxController
         $tagsArray = [];
         if ($tags !== null) {
             foreach ($tags as $tag) {
-                $tagModel = new TagModel($tag, $this->urlGenerator);
+                $tagModel = $this->explorerItemFactory->createForEntity($tag);
                 $tagsArray[] = $tagModel->toArray();
             }
         }
@@ -368,7 +367,7 @@ final class AjaxTagsController extends AbstractAjaxController
 
         /** @var Tag $tag */
         $tag = $this->getRepository()->findOrCreateByPath($request->get('tagName'));
-        $tagModel = new TagModel($tag, $this->urlGenerator);
+        $tagModel = $this->explorerItemFactory->createForEntity($tag);
 
         return new JsonResponse(
             [

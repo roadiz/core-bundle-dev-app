@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Themes\Rozier\Models;
+namespace Themes\Rozier\Explorer;
 
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Document;
@@ -15,7 +15,7 @@ use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class DocumentModel extends AbstractExplorerItem
+final class DocumentExplorerItem extends AbstractExplorerItem
 {
     public static array $thumbnail80Array = [
         "fit" => "80x80",

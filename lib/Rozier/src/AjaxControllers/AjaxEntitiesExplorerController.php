@@ -8,31 +8,18 @@ use Doctrine\ORM\EntityManager;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Configuration\JoinNodeTypeFieldConfiguration;
-use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
-use RZ\Roadiz\CoreBundle\Entity\Setting;
-use RZ\Roadiz\CoreBundle\Entity\User;
-use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
-use RZ\Roadiz\Documents\Renderer\RendererInterface;
-use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Yaml\Yaml;
-use Themes\Rozier\Explorer\ConfigurableExplorerItem;
-use Themes\Rozier\Explorer\FolderExplorerItem;
-use Themes\Rozier\Explorer\SettingExplorerItem;
-use Themes\Rozier\Explorer\UserExplorerItem;
 
 final class AjaxEntitiesExplorerController extends AbstractAjaxController
 {
     public function __construct(
-        private readonly RendererInterface $renderer,
-        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly EmbedFinderFactory $embedFinderFactory
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
     ) {
     }
 
@@ -177,24 +164,11 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxController
     {
         $entitiesArray = [];
 
-        /** @var PersistableInterface $entity */
         foreach ($entities as $entity) {
-            if ($entity instanceof Folder) {
-                $explorerItem = new FolderExplorerItem($entity, $this->urlGenerator);
-            } elseif ($entity instanceof Setting) {
-                $explorerItem = new SettingExplorerItem($entity, $this->urlGenerator);
-            } elseif ($entity instanceof User) {
-                $explorerItem = new UserExplorerItem($entity, $this->urlGenerator);
-            } else {
-                $explorerItem = new ConfigurableExplorerItem(
-                    $entity,
-                    $configuration,
-                    $this->renderer,
-                    $this->documentUrlGenerator,
-                    $this->urlGenerator,
-                    $this->embedFinderFactory
-                );
-            }
+            $explorerItem = $this->explorerItemFactory->createForEntity(
+                $entity,
+                $configuration
+            );
             $entitiesArray[] = $explorerItem->toArray();
         }
 

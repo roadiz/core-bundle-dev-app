@@ -8,7 +8,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Container\ContainerInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
-use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerProvider;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerProviderInterface;
 use RZ\Roadiz\CoreBundle\Form\DataTransformer\ProviderDataTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -68,10 +67,6 @@ final class NodeSourceProviderType extends AbstractConfigurableNodeSourceFieldTy
         } else {
             /** @var ExplorerProviderInterface $provider */
             $provider = new $configuration['classname']();
-        }
-
-        if ($provider instanceof AbstractExplorerProvider) {
-            $provider->setContainer($this->container);
         }
 
         return $provider;

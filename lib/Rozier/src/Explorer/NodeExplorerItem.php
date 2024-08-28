@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Themes\Rozier\Models;
+namespace Themes\Rozier\Explorer;
 
-use JMS\Serializer\Annotation\Exclude;
-use JMS\Serializer\Annotation\Groups;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
@@ -16,7 +14,7 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class NodeModel extends AbstractExplorerItem
+final class NodeExplorerItem extends AbstractExplorerItem
 {
     public function __construct(
         private readonly Node $node,
@@ -25,13 +23,11 @@ final class NodeModel extends AbstractExplorerItem
     ) {
     }
 
-    #[Groups(['model', 'node'])]
     public function getId(): string|int
     {
         return $this->node->getId();
     }
 
-    #[Groups(['model', 'node'])]
     public function getAlternativeDisplayable(): ?string
     {
         $parent = $this->node->getParent();
@@ -55,7 +51,6 @@ final class NodeModel extends AbstractExplorerItem
         return implode(' / ', array_reverse($items));
     }
 
-    #[Groups(['model', 'node'])]
     public function getDisplayable(): string
     {
         /** @var NodesSources|false $nodeSource */
@@ -65,13 +60,11 @@ final class NodeModel extends AbstractExplorerItem
             $this->node->getNodeName();
     }
 
-    #[Exclude]
     public function getOriginal(): Node
     {
         return $this->node;
     }
 
-    #[Groups(['model', 'node'])]
     public function getEditItemPath(): ?string
     {
         /** @var NodesSources|false $nodeSource */
@@ -98,7 +91,6 @@ final class NodeModel extends AbstractExplorerItem
         return null;
     }
 
-    #[Groups(['model', 'node'])]
     public function getThumbnail(): ?DocumentInterface
     {
         /** @var NodesSources|false $nodeSource */
@@ -108,13 +100,11 @@ final class NodeModel extends AbstractExplorerItem
         return $thumbnail ? $thumbnail->getDocument() : null;
     }
 
-    #[Groups(['model', 'node'])]
     public function isPublished(): bool
     {
         return $this->node->isPublished();
     }
 
-    #[Groups(['model', 'node'])]
     public function getColor(): string
     {
         return $this->node->getNodeType()->getColor() ?? '#000000';

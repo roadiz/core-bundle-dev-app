@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Themes\Rozier\Models;
+namespace Themes\Rozier\Explorer;
 
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class CustomFormModel extends AbstractExplorerItem
+final class CustomFormExplorerItem extends AbstractExplorerItem
 {
     public function __construct(
         private readonly CustomForm $customForm,

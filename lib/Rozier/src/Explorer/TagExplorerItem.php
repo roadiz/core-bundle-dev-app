@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Themes\Rozier\Models;
+namespace Themes\Rozier\Explorer;
 
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class TagModel extends AbstractExplorerItem
+final class TagExplorerItem extends AbstractExplorerItem
 {
     public function __construct(
         private readonly Tag $tag,

@@ -57,6 +57,11 @@ services:
     Themes\Rozier\Explorer\UsersProvider:
         public: true
 
+    RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface:
+        class: Themes\Rozier\Explorer\ExplorerItemFactory
+        autowire: true
+        autoconfigure: true
+
     # Since symfony/dependency-injection 5.1: The "Psr\Container\ContainerInterface" autowiring alias is deprecated.
     # Define it explicitly in your app if you want to keep using it.
     Themes\Rozier\Forms\NodeSource\NodeSourceProviderType:

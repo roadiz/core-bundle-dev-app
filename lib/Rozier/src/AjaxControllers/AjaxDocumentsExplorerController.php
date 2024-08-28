@@ -6,30 +6,17 @@ namespace Themes\Rozier\AjaxControllers;
 
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
-use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
-use RZ\Roadiz\Documents\Renderer\RendererInterface;
-use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Themes\Rozier\Models\DocumentModel;
 
 final class AjaxDocumentsExplorerController extends AbstractAjaxController
 {
     public function __construct(
-        private readonly RendererInterface $renderer,
-        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly EmbedFinderFactory $embedFinderFactory
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory
     ) {
     }
-
-    public static array $thumbnailArray = [
-        "fit" => "40x40",
-        "quality" => 50,
-        "inline" => false,
-    ];
 
     public function indexAction(Request $request): JsonResponse
     {
@@ -132,21 +119,15 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
     /**
      * Normalize response Document list result.
      *
-     * @param array<Document> $documents
+     * @param iterable<Document> $documents
      * @return array
      */
-    private function normalizeDocuments(array $documents): array
+    private function normalizeDocuments(iterable $documents): array
     {
         $documentsArray = [];
 
         foreach ($documents as $doc) {
-            $documentModel = new DocumentModel(
-                $doc,
-                $this->renderer,
-                $this->documentUrlGenerator,
-                $this->urlGenerator,
-                $this->embedFinderFactory
-            );
+            $documentModel = $this->explorerItemFactory->createForEntity($doc);
             $documentsArray[] = $documentModel->toArray();
         }
 
