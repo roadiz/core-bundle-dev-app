@@ -10,8 +10,15 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractExplorerProvider implements ExplorerProviderInterface
 {
     protected array $options;
+
+    /**
+     * @deprecated
+     */
     protected ContainerInterface $container;
 
+    /**
+     * @deprecated
+     */
     public function setContainer(ContainerInterface $container): self
     {
         $this->container = $container;

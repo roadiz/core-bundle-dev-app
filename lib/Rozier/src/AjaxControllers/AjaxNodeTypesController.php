@@ -7,14 +7,19 @@ namespace Themes\Rozier\AjaxControllers;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
-use Themes\Rozier\Models\NodeTypeModel;
 
 final class AjaxNodeTypesController extends AbstractAjaxController
 {
+    public function __construct(
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory
+    ) {
+    }
+
     /**
      * @param Request $request
      *
@@ -97,16 +102,15 @@ final class AjaxNodeTypesController extends AbstractAjaxController
     /**
      * Normalize response NodeType list result.
      *
-     * @param array<NodeType>|\Traversable<NodeType> $nodeTypes
+     * @param iterable<NodeType> $nodeTypes
      * @return array
      */
     private function normalizeNodeType(iterable $nodeTypes): array
     {
         $nodeTypesArray = [];
 
-        /** @var NodeType $nodeType */
         foreach ($nodeTypes as $nodeType) {
-            $nodeModel = new NodeTypeModel($nodeType);
+            $nodeModel = $this->explorerItemFactory->createForEntity($nodeType);
             $nodeTypesArray[] = $nodeModel->toArray();
         }
 

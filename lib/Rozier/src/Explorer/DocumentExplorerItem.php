@@ -2,18 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Themes\Rozier\Models;
+namespace Themes\Rozier\Explorer;
 
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Document;
+use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
+use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class DocumentModel implements ModelInterface
+final class DocumentExplorerItem extends AbstractExplorerItem
 {
     public static array $thumbnail80Array = [
         "fit" => "80x80",
@@ -25,6 +27,7 @@ final class DocumentModel implements ModelInterface
         "width" => 1440,
         "quality" => 80,
         "inline" => false,
+        "picture" => true,
         "embed" => true,
     ];
 
@@ -37,19 +40,58 @@ final class DocumentModel implements ModelInterface
     ) {
     }
 
-    public function toArray(): array
+    public function getId(): string|int
     {
-        $name = (string) $this->document;
-        $thumbnail80Url = null;
-        $previewUrl = null;
+        if ($this->document instanceof PersistableInterface) {
+            return $this->document->getId();
+        }
+        return 0;
+    }
 
+    public function getAlternativeDisplayable(): ?string
+    {
+        return (string) $this->document;
+    }
+
+    public function getDisplayable(): string
+    {
         if (
             $this->document instanceof Document &&
             $this->document->getDocumentTranslations()->first() &&
             $this->document->getDocumentTranslations()->first()->getName()
         ) {
-            $name = $this->document->getDocumentTranslations()->first()->getName();
+            return $this->document->getDocumentTranslations()->first()->getName();
         }
+        return (string) $this->document;
+    }
+
+    public function getOriginal(): DocumentInterface
+    {
+        return $this->document;
+    }
+
+    protected function getEditItemPath(): ?string
+    {
+        if (!($this->document instanceof PersistableInterface)) {
+            return null;
+        }
+        return $this->urlGenerator->generate('documentsEditPage', [
+            'documentId' => $this->document->getId()
+        ]);
+    }
+
+    protected function getColor(): ?string
+    {
+        if ($this->document instanceof AdvancedDocumentInterface) {
+            return $this->document->getImageAverageColor();
+        }
+        return null;
+    }
+
+
+    public function toArray(): array
+    {
+        $thumbnail80Url = null;
 
         $this->documentUrlGenerator->setDocument($this->document);
         $hasThumbnail = false;
@@ -65,21 +107,9 @@ final class DocumentModel implements ModelInterface
         }
 
         if (!$this->document->isPrivate() && !empty($this->document->getRelativePath())) {
-            $this->documentUrlGenerator->setOptions(DocumentModel::$thumbnail80Array);
+            $this->documentUrlGenerator->setOptions(self::$thumbnail80Array);
             $thumbnail80Url = $this->documentUrlGenerator->getUrl();
-            $this->documentUrlGenerator->setOptions(DocumentModel::$previewArray);
-            $previewUrl = $this->documentUrlGenerator->getUrl();
-        }
-
-        if ($this->document instanceof PersistableInterface) {
-            $id = $this->document->getId();
-            $editUrl = $this->urlGenerator
-                ->generate('documentsEditPage', [
-                    'documentId' => $this->document->getId()
-                ]);
-        } else {
-            $id = null;
-            $editUrl = null;
+            $this->documentUrlGenerator->setOptions(self::$previewArray);
         }
 
         $embedFinder = $this->embedFinderFactory?->createForPlatform(
@@ -88,9 +118,7 @@ final class DocumentModel implements ModelInterface
         ) ?? null;
 
         return [
-            'id' => $id,
-            'filename' => (string) $this->document,
-            'name' => $name,
+            ...parent::toArray(),
             'hasThumbnail' => $hasThumbnail,
             'isImage' => $this->document->isImage(),
             'isWebp' => $this->document->getMimeType() === 'image/webp',
@@ -102,18 +130,15 @@ final class DocumentModel implements ModelInterface
             'shortType' => $this->document->getShortType(),
             'processable' => $this->document->isProcessable(),
             'relativePath' => $this->document->getRelativePath(),
-            'editUrl' => $editUrl,
-            'preview' => $previewUrl,
-            'preview_html' => !$this->document->isPrivate() ?
-                $this->renderer->render($this->document, DocumentModel::$previewArray) :
+            'previewHtml' => !$this->document->isPrivate() ?
+                $this->renderer->render($this->document, self::$previewArray) :
                 null,
             'embedPlatform' => $this->document->getEmbedPlatform(),
             'icon' => null !== $embedFinder
                 ? $embedFinder->getShortType()
                 : $this->document->getShortType(),
             'shortMimeType' => $this->document->getShortMimeType(),
-            'thumbnail_80' => $thumbnail80Url,
-            'url' => $previewUrl ?? $thumbnail80Url,
+            'thumbnail80' => $thumbnail80Url,
         ];
     }
 }

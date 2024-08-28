@@ -61,10 +61,12 @@ class DocumentClearFolderCommand extends AbstractDocumentCommand
             return 0;
         }
 
-        if (!$this->io->askQuestion(new ConfirmationQuestion(
-            sprintf('Are you sure to delete permanently %d documents?', $count),
-            false
-        ))) {
+        if (
+            !$this->io->askQuestion(new ConfirmationQuestion(
+                sprintf('Are you sure to delete permanently %d documents?', $count),
+                false
+            ))
+        ) {
             return 0;
         }
 

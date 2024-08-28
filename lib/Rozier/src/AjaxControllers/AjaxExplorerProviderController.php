@@ -7,7 +7,6 @@ namespace Themes\Rozier\AjaxControllers;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerProvider;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemInterface;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerProviderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -56,12 +55,7 @@ class AjaxExplorerProviderController extends AbstractAjaxController
             throw new InvalidParameterException('providerClass is not a valid ExplorerProviderInterface class.');
         }
 
-        $provider = $this->getProvider($providerClass);
-        if ($provider instanceof AbstractExplorerProvider) {
-            $provider->setContainer($this->psrContainer);
-        }
-
-        return $provider;
+        return $this->getProvider($providerClass);
     }
 
     /**

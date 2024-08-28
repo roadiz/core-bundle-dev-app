@@ -12,6 +12,8 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeTypeApi;
+use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
@@ -20,20 +22,15 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\SecurityBundle\Security;
-use Themes\Rozier\Models\NodeModel;
-use Themes\Rozier\Models\NodeSourceModel;
 
 final class AjaxNodesExplorerController extends AbstractAjaxController
 {
     public function __construct(
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly SerializerInterface $serializer,
         private readonly ClientRegistry $clientRegistry,
         private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         private readonly NodeTypeApi $nodeTypeApi,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly Security $security,
     ) {
     }
 
@@ -251,7 +248,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
      * Normalize response Node list result.
      *
      * @param iterable<Node|NodesSources|SolrSearchResultItem> $nodes
-     * @return array
+     * @return array<AbstractExplorerItem>
      */
     private function normalizeNodes(iterable $nodes): array
     {
@@ -273,12 +270,9 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
 
     private function normalizeItem(NodesSources|Node $item, array &$nodesArray): void
     {
-        if ($item instanceof NodesSources && !key_exists($item->getNode()->getId(), $nodesArray)) {
-            $nodeSourceModel = new NodeSourceModel($item, $this->urlGenerator, $this->security);
-            $nodesArray[$item->getNode()->getId()] = $nodeSourceModel->toArray();
-        } elseif ($item instanceof Node && !key_exists($item->getId(), $nodesArray)) {
-            $nodeModel = new NodeModel($item, $this->urlGenerator, $this->security);
-            $nodesArray[$item->getId()] = $nodeModel->toArray();
+        $model = $this->explorerItemFactory->createForEntity($item);
+        if (!key_exists($model->getId(), $nodesArray)) {
+            $nodesArray[$model->getId()] = $model->toArray();
         }
     }
 

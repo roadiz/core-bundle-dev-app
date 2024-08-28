@@ -7,17 +7,17 @@ namespace Themes\Rozier\AjaxControllers;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Themes\Rozier\Models\CustomFormModel;
 
 final class AjaxCustomFormsExplorerController extends AbstractAjaxController
 {
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
-    {
+    public function __construct(
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+    ) {
     }
 
     /**
@@ -104,16 +104,15 @@ final class AjaxCustomFormsExplorerController extends AbstractAjaxController
     /**
      * Normalize response CustomForm list result.
      *
-     * @param array<CustomForm>|\Traversable<CustomForm> $customForms
+     * @param iterable<CustomForm> $customForms
      * @return array
      */
     private function normalizeCustomForms(iterable $customForms): array
     {
         $customFormsArray = [];
 
-        /** @var CustomForm $customForm */
         foreach ($customForms as $customForm) {
-            $customFormModel = new CustomFormModel($customForm, $this->urlGenerator, $this->getTranslator());
+            $customFormModel = $this->explorerItemFactory->createForEntity($customForm);
             $customFormsArray[] = $customFormModel->toArray();
         }
 

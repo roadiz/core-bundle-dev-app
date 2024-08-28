@@ -92,12 +92,12 @@ final class CustomFormAnswerPurgeCommand extends Command
         if (
             !$input->getOption('dry-run') &&
             (!$input->isInteractive() || $io->confirm(\sprintf(
-                    'Are you sure you want to delete %d custom-form answer(s) and %d document(s) from “%s” before %s',
-                    $count,
-                    $documentsCount,
-                    $customForm->getName(),
-                    $purgeBefore->format('Y-m-d H:i')
-                ), false))
+                'Are you sure you want to delete %d custom-form answer(s) and %d document(s) from “%s” before %s',
+                $count,
+                $documentsCount,
+                $customForm->getName(),
+                $purgeBefore->format('Y-m-d H:i')
+            ), false))
         ) {
             $this->managerRegistry
                 ->getRepository(CustomFormAnswer::class)
