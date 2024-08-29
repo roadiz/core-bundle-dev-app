@@ -152,14 +152,21 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
             );
         }
 
-        if (empty($jsonResponse['id_token'])) {
+        if (!\is_string($jsonResponse['id_token']) || empty($jsonResponse['id_token'])) {
             throw new OpenIdAuthenticationException('JWT is missing from response.');
         }
 
-        $jwt = $this->jwtConfigurationFactory
-            ->create()
-            ->parser()
-            ->parse((string) $jsonResponse['id_token']);
+        if (!\is_string($this->usernameClaim) || empty($this->usernameClaim)) {
+            throw new OpenIdAuthenticationException('Username claim is not a valid string.');
+        }
+
+        $configuration = $this->jwtConfigurationFactory->create();
+
+        if (null === $configuration) {
+            throw new OpenIdAuthenticationException('No JWT configuration available.');
+        }
+
+        $jwt = $configuration->parser()->parse($jsonResponse['id_token']);
 
         if (!($jwt instanceof Plain)) {
             throw new OpenIdAuthenticationException(
@@ -186,6 +193,9 @@ final class OpenIdAuthenticator extends AbstractAuthenticator
         $customCredentials = new CustomCredentials(
             function (Plain $jwt) {
                 $configuration = $this->jwtConfigurationFactory->create();
+                if (null === $configuration) {
+                    throw new OpenIdAuthenticationException('No JWT configuration available.');
+                }
                 $constraints = $configuration->validationConstraints();
 
                 try {

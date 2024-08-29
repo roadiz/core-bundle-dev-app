@@ -30,9 +30,7 @@ final class UserInfoEndpoint implements Constraint
             $response->getContent();
         } catch (ExceptionInterface $e) {
             throw new ConstraintViolation(
-                'Userinfo cannot be fetch from Identity provider',
-                $e->getCode(),
-                $e
+                'Userinfo cannot be fetch from Identity provider'
             );
         }
     }

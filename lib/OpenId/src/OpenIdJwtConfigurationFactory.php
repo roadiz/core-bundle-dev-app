@@ -37,7 +37,7 @@ final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
             new LooseValidAt(SystemClock::fromSystemTimezone()),
         ];
 
-        if (!empty($this->oauthClientId)) {
+        if (\is_string($this->oauthClientId) && !empty(trim($this->oauthClientId))) {
             $validators[] = new PermittedFor(trim($this->oauthClientId));
         }
 
@@ -59,9 +59,8 @@ final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
         return $validators;
     }
 
-    public function create(): Configuration
+    public function create(): ?Configuration
     {
-        $configuration = Configuration::forUnsecuredSigner();
         /*
          * Verify JWT signature if asymmetric crypto is used and if PHP gmp extension is loaded.
          */
@@ -84,10 +83,11 @@ final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
                     InMemory::plainText($pems[0]),
                     InMemory::plainText($pems[0])
                 );
+                $configuration->setValidationConstraints(...$this->getValidationConstraints());
+                return $configuration;
             }
         }
 
-        $configuration->setValidationConstraints(...$this->getValidationConstraints());
-        return $configuration;
+        return null;
     }
 }

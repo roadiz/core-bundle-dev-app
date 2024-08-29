@@ -73,6 +73,13 @@ class SecurityController extends AbstractController
         UserRepository $userRepository,
         Request $request
     ): Response {
+        $assignation = [
+            'themeServices' => $this->rozierServiceRegistry,
+            'head' => [
+                'siteTitle' => $this->settingsBag->get('site_name') . ' backstage',
+                'mainColor' => $this->settingsBag->get('main_color'),
+            ]
+        ];
         // check if form is submitted
         if ($request->isMethod('POST')) {
             // load the user in some way (e.g. using the form input)
@@ -92,7 +99,7 @@ class SecurityController extends AbstractController
         }
 
         // if it's not submitted, render the form to request the "login link"
-        return $this->render('@RoadizRozier/security/request_login_link.html.twig');
+        return $this->render('@RoadizRozier/security/request_login_link.html.twig', $assignation);
     }
 
     #[Route('/rz-admin/login_link_sent', name: 'roadiz_rozier_login_link_sent')]

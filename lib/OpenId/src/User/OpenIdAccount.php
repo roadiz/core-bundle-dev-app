@@ -8,6 +8,8 @@ use Lcobucci\JWT\Token;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\Ignore;
 
 /**
  * @see https://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
@@ -18,75 +20,49 @@ class OpenIdAccount implements UserInterface, EquatableInterface
      * @var array<string>
      * @SymfonySerializer\Groups({"user"})
      */
+    #[Groups(["user"])]
     protected array $roles;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $issuer = null;
-    /**
-     * @var string
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected string $email;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $name = null;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $nickname = null;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $website = null;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $locale = null;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $phoneNumber = null;
-    /**
-     * @var array|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?array $address = null;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $familyName = null;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $middleName = null;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $givenName = null;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $picture = null;
-    /**
-     * @var string|null
-     * @SymfonySerializer\Groups({"user"})
-     */
+
+    #[Groups(["user"])]
     protected ?string $profile = null;
-    /**
-     * @var Token
-     */
+
+    #[Ignore]
     protected Token $jwtToken;
 
     /**
@@ -126,14 +102,14 @@ class OpenIdAccount implements UserInterface, EquatableInterface
 
     private function getStringClaim(Token\DataSet $claims, string $claimName): ?string
     {
-        if ($claims->has($claimName) && is_string($claims->get($claimName))) {
+        if (!empty($claimName) && $claims->has($claimName) && is_string($claims->get($claimName))) {
             return $claims->get($claimName);
         }
         return null;
     }
     private function getArrayClaim(Token\DataSet $claims, string $claimName): ?array
     {
-        if ($claims->has($claimName) && is_array($claims->get($claimName))) {
+        if (!empty($claimName) && $claims->has($claimName) && is_array($claims->get($claimName))) {
             return $claims->get($claimName);
         }
         return null;
@@ -166,46 +142,31 @@ class OpenIdAccount implements UserInterface, EquatableInterface
      * @inheritDoc
      * @return void
      */
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         return;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getFamilyName(): ?string
     {
         return $this->familyName;
     }
 
-    /**
-     * @return string
-     */
     public function getGivenName(): ?string
     {
         return $this->givenName;
     }
 
-    /**
-     * @return string
-     */
     public function getPicture(): ?string
     {
         return $this->picture;

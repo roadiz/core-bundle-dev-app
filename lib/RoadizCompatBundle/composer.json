@@ -18,7 +18,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "roadiz/core-bundle": "2.4.x-dev",
         "roadiz/openid": "2.4.x-dev",
         "symfony/framework-bundle": "6.4.*"
