@@ -212,7 +212,6 @@ final class CustomFormController extends AbstractController
             'fields' => $customFormsEntity->getFields(),
             'head' => [
                 'siteTitle' => $this->settingsBag->get('site_name'),
-                'mainColor' => $this->settingsBag->get('main_color'),
             ]
         ];
         $helper = $this->customFormHelperFactory->createHelper($customFormsEntity);

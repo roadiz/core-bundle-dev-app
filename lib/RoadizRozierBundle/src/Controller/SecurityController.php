@@ -48,7 +48,6 @@ class SecurityController extends AbstractController
             'themeServices' => $this->rozierServiceRegistry,
             'head' => [
                 'siteTitle' => $this->settingsBag->get('site_name') . ' backstage',
-                'mainColor' => $this->settingsBag->get('main_color'),
             ]
         ];
 
@@ -77,7 +76,6 @@ class SecurityController extends AbstractController
             'themeServices' => $this->rozierServiceRegistry,
             'head' => [
                 'siteTitle' => $this->settingsBag->get('site_name') . ' backstage',
-                'mainColor' => $this->settingsBag->get('main_color'),
             ]
         ];
         // check if form is submitted

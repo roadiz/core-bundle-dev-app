@@ -41,6 +41,7 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
                 'nodeTypes' => $this->nodeTypesBag,
             ],
             'chroot_resolver' => $this->chrootResolver,
+            'main_color' => $this->settingsBag->get('main_color'),
             'meta' => [
                 'siteName' => $this->settingsBag->get('site_name'),
                 'siteCopyright' => $this->settingsBag->get('site_copyright'),

@@ -11,13 +11,13 @@
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicon-32x32.png', 'Rozier') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicon-16x16.png', 'Rozier') }}">
 {% endif %}
-{% if themeServices.adminImage and themeServices.adminImage.mimeType == 'image/svg+xml' and head.mainColor %}
-    <link rel="mask-icon" href="{{ themeServices.adminImage|url({absolute: true}) }}" color="{{ head.mainColor }}">
+{% if themeServices.adminImage and themeServices.adminImage.mimeType == 'image/svg+xml' and main_color %}
+    <link rel="mask-icon" href="{{ themeServices.adminImage|url({absolute: true}) }}" color="{{ main_color }}">
 {% endif %}
-{% if head.mainColor %}
-    <meta name="msapplication-TileColor" content="{{ head.mainColor }}">
-    <meta name="apple-mobile-web-app-status-bar-style" content="{{ head.mainColor }}">
-    <meta name="theme-color" content="{{ head.mainColor }}">
+{% if main_color %}
+    <meta name="msapplication-TileColor" content="{{ main_color }}">
+    <meta name="apple-mobile-web-app-status-bar-style" content="{{ main_color }}">
+    <meta name="theme-color" content="{{ main_color }}">
 {% else %}
     <meta name="msapplication-TileColor" content="#2d89ef">
     <meta name="apple-mobile-web-app-status-bar-style" content="#808080">

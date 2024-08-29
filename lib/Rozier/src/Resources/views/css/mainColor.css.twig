@@ -1,6 +1,6 @@
-{% if head.mainColor %}
+{% if main_color %}
 :root {
-    --rz-accent-color: {{ head.mainColor|raw }};
+    --rz-accent-color: {{ main_color|raw }};
     --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) 70%, white);
     --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) 90%, black);
     --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) 80%, black);

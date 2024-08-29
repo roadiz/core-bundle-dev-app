@@ -113,17 +113,12 @@ class EmailManager
     }
 
     /**
-     * Added mainColor and headerImageSrc assignation
-     * to display email header.
+     * Added headerImageSrc assignation to display email header.
      *
      * @return $this
      */
     public function appendWebsiteIcon(): static
     {
-        if (empty($this->assignation['mainColor']) && null !== $this->settingsBag) {
-            $this->assignation['mainColor'] = $this->settingsBag->get('main_color');
-        }
-
         if (empty($this->assignation['headerImageSrc']) && null !== $this->settingsBag) {
             $adminImage = $this->settingsBag->getDocument('admin_image');
             if ($adminImage instanceof DocumentInterface && null !== $this->documentUrlGenerator) {
