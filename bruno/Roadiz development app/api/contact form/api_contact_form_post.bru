@@ -1,0 +1,22 @@
+meta {
+  name: api_contact_form_post
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/contact_form/post
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  form[last_name]: Maupate
+  form[first_name]: Ambroise
+  form[email]: a@a.a
+  form[message]: sadasd
+  consent: 1
+  form[file]: @file(/home/ambroisemaupate/Pictures/mike-hindle-NUnAQqww6ww-unsplash.jpg)
+  ~g-recaptcha-response: 
+  ~form[g-recaptcha-response]: asdfasdf
+}

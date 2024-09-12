@@ -1,0 +1,36 @@
+meta {
+  name: -Auth- WebResponse resource by its path
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/web_response_by_path?path=/fr/articles/article-with-attributes
+  body: none
+  auth: bearer
+}
+
+params:query {
+  path: /fr/articles/article-with-attributes
+  ~properties[]: item
+  ~properties[item]: title
+  ~properties[]: blocks
+  ~properties[item]: url
+  ~password: test
+  ~path: /contact
+  ~path: /
+  ~_preview: 1
+}
+
+headers {
+  ~Accept: application/json
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Get a NodesSources resource by its path instead of its Id
+  
+}

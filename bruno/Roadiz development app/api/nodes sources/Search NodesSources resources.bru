@@ -1,0 +1,25 @@
+meta {
+  name: Search NodesSources resources
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/nodes_sources/search?search=test&page=1
+  body: none
+  auth: none
+}
+
+params:query {
+  search: test
+  page: 1
+  ~itemsPerPage: 30
+  ~properties[]: ex veniam cupidatat ut
+  ~properties[]: velit minim ad
+  ~_locale: en
+}
+
+docs {
+  Search NodesSources resources using **Solr** full-text search engine
+  
+}

@@ -1,0 +1,79 @@
+meta {
+  name: Retrieves the collection of NodesSources resources-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/nodes_sources?page=1&itemsPerPage=30&properties[node][]=updatedAt&noIndex=0&_locale=fr&node.nodeType.reachable=true
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 1
+  itemsPerPage: 30
+  properties[node][]: updatedAt
+  noIndex: 0
+  _locale: fr
+  node.nodeType.reachable: true
+  ~node.nodeName: dolor pariatur amet
+  ~node.nodeName[]: ex veniam cupidatat ut
+  ~node.nodeName[]: velit minim ad
+  ~node.parent: dolor pariatur amet
+  ~node.parent[]: ex veniam cupidatat ut
+  ~node.parent[]: velit minim ad
+  ~node.parent.nodeName: dolor pariatur amet
+  ~node.parent.nodeName[]: ex veniam cupidatat ut
+  ~node.parent.nodeName[]: velit minim ad
+  ~node.tags: dolor pariatur amet
+  ~node.tags[]: ex veniam cupidatat ut
+  ~node.tags[]: velit minim ad
+  ~intersect[node.tags.tagName]: categories-fr
+  ~node.nodesTags.tag.tagName: quis
+  ~node.tags.tagName[]: velit minim ad
+  ~node.nodeType: dolor pariatur amet
+  ~node.nodeType[]: ex veniam cupidatat ut
+  ~node.nodeType[]: velit minim ad
+  ~node.nodeType.name: dolor pariatur amet
+  ~node.nodeType.name[]: ex veniam cupidatat ut
+  ~node.nodeType.name[]: velit minim ad
+  ~translation.locale: dolor pariatur amet
+  ~translation.locale[]: ex veniam cupidatat ut
+  ~translation.locale[]: velit minim ad
+  ~title: dolor pariatur amet
+  ~metaTitle: dolor pariatur amet
+  ~metaDescription: dolor pariatur amet
+  ~order[node.position]: desc
+  ~order[node.createdAt]: desc
+  ~order[node.updatedAt]: desc
+  ~order[publishedAt]: desc
+  ~node.createdAt[before]: dolor pariatur amet
+  ~node.createdAt[strictly_before]: dolor pariatur amet
+  ~node.createdAt[after]: dolor pariatur amet
+  ~node.createdAt[strictly_after]: dolor pariatur amet
+  ~node.updatedAt[before]: dolor pariatur amet
+  ~node.updatedAt[strictly_before]: dolor pariatur amet
+  ~node.updatedAt[after]: dolor pariatur amet
+  ~node.updatedAt[strictly_after]: dolor pariatur amet
+  ~publishedAt[before]: dolor pariatur amet
+  ~publishedAt[strictly_before]: dolor pariatur amet
+  ~publishedAt[after]: dolor pariatur amet
+  ~publishedAt[strictly_after]: dolor pariatur amet
+  ~node.visible: true
+  ~node.home: true
+  ~node.nodeType.publishable: true
+  ~publishedAt[archive]: 2022-06
+  ~publishedAt[after]: 2020-01-01
+  ~not[node.nodeType.name]: Page
+  ~not[node.nodeType.name]: Offer
+  ~noIndex: 1
+}
+
+headers {
+  Accept: application/ld+json
+}
+
+docs {
+  Retrieves the collection of NodesSources resources.
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Retrieves a Tag resource-
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/tags/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: dolor pariatur amet
+}
+
+docs {
+  Retrieves a Tag resource.
+}

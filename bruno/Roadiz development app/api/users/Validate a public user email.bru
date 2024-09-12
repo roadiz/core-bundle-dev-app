@@ -1,0 +1,21 @@
+meta {
+  name: Validate a public user email
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/users/validate
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+body:json {
+  {
+      "token": "vJSMM5V5B5hPZlJBG214OJsJRO_yNsMBYczXZE_EJGI"
+  }
+}

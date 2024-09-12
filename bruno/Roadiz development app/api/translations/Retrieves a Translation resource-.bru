@@ -1,0 +1,19 @@
+meta {
+  name: Retrieves a Translation resource-
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/translations/:id
+  body: none
+  auth: none
+}
+
+params:path {
+  id: dolor pariatur amet
+}
+
+docs {
+  Retrieves a Translation resource.
+}

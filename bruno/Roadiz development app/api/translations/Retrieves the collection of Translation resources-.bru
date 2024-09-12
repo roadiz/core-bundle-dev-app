@@ -1,0 +1,20 @@
+meta {
+  name: Retrieves the collection of Translation resources-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/translations?page=1&itemsPerPage=30
+  body: none
+  auth: none
+}
+
+params:query {
+  page: 1
+  itemsPerPage: 30
+}
+
+docs {
+  Retrieves the collection of Translation resources.
+}

@@ -2,28 +2,40 @@
 
 [![Unit tests, static analysis and code style](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/run-test.yml/badge.svg?branch=develop)](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/run-test.yml) [![Packages Split](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/split.yaml/badge.svg?branch=develop)](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/split.yaml)
 
-This is development app for Roadiz v2. It aggregates all Roadiz bundle and main repositories in one place.
+This is development app for Roadiz v2. It aggregates all Roadiz bundle and main repositories in one place:
+
+- DocGenerator
+- Documents
+- DtsGenerator
+- EntityGenerator
+- Jwt
+- Markdown
+- Models
+- OpenId
+- Random
+- RoadizCompatBundle
+- RoadizCoreBundle
+- RoadizFontBundle
+- RoadizRozierBundle
+- RoadizTwoFactorBundle
+- RoadizUserBundle
+- Rozier
 
 ### Install
 
 - Clone this repository containing all monorepo packages in `lib` directory
-- Deploy bundles assets to public folder: `bin/console assets:install --relative --symlink`
-- Deploy legacy themes assets to public folder: `bin/console themes:assets:install Rozier --relative --symlink`
-
-### Generate JWT private and public keys
-
-```shell script
-# Generate a strong secret
-openssl rand --base64 16; 
-# Fill JWT_PASSPHRASE env var in .env.local.
-openssl genpkey -out config/jwt/private.pem -aes256 -algorithm rsa -pkeyopt rsa_keygen_bits:4096;
-openssl pkey -in config/jwt/private.pem -out config/jwt/public.pem -pubout;
-```
+- Checkout `develop` branch
+- Initialize `git flow init` to use GitFlow branching model
+- Create a `.env.local` file with mandatory `APP_SECRET` and `JWT_PASSPHRASE` vars minimum
+- Create a `compose.override.yaml` file to expose containers ports
+- Run `composer install` to install all dependencies and run scripts. Symfony packages may add some config files and alter your `compose.yml` file, you can safely rollback to the original one
 
 ### Run development server
 
-- Run docker-compose env to get a local database and Solr server
-- Run `symfony serve`
+- Run docker compose to get a local database and Solr server: `docker compose up -d`
+- Install Roadiz database fixture: `docker compose exec -u www-data app bin/console install`
+- Install development fixtures: `docker compose exec -u www-data app bin/console app:install`
+- Create a user: `docker compose exec -u www-data app bin/console users:create -s -b -m $EMAIL $EMAIL`
 
 ### Manual configuration
 

@@ -1,0 +1,31 @@
+meta {
+  name: -Auth- Retrieves the collection of Attribute Values resources-
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/attribute_values?_locale=en&node=/api/nodes/93&order[position]=asc
+  body: none
+  auth: bearer
+}
+
+params:query {
+  _locale: en
+  node: /api/nodes/93
+  order[position]: asc
+  ~page: 1
+  ~itemsPerPage: 30
+  ~attributeValueTranslations.value: Zeiss
+  ~attribute.code: livraison
+  ~attributeValueTranslations.value[lte]: 2022
+  ~exists[attributeValueTranslations.value]: true
+}
+
+auth:bearer {
+  token: {{access_token}}
+}
+
+docs {
+  Retrieves the collection of Document resources.
+}
