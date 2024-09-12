@@ -104,6 +104,37 @@ nelmio_cors:
         expose_headers: ['Link', 'Www-Authenticate']
 ```
 
+## Passwordless user creation and authentication
+
+
+```yaml
+# config/routes.yaml
+public_login_link_check:
+    path: /api/users/login_link_check
+    methods: [POST]
+```
+
+```yaml
+# config/packages/security.yaml
+# https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/8-jwt-user-provider.html#symfony-5-3-and-higher
+api:
+    pattern: ^/api
+    stateless: true
+    # We need to use all_users provider to be able to use Roadiz User provider 
+    # during the login_link authentication process
+    provider: all_users
+    jwt: ~
+    login_link:
+        check_route: public_login_link_check
+        check_post_only: true
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        signature_properties: [ 'email' ]
+        # lifetime in seconds
+        lifetime: 600
+        max_uses: 3
+```
+
 
 ## Maintenance commands
 

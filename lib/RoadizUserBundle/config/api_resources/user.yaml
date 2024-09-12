@@ -10,6 +10,12 @@ RZ\Roadiz\CoreBundle\Entity\User:
             output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
             validation_groups:
                 - no_empty_password
+            # For passwordless user creation, you can use this configuration
+            #processor: RZ\Roadiz\UserBundle\State\PasswordlessUserSignupProcessor
+            #input: RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput
+            #output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+            # Do not use no_empty_password for passwordless user creation
+            #validation_groups: ~
             openapiContext:
                 summary: Create a new public user
                 parameters:
