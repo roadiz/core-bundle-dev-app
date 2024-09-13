@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.27](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.26...v2.3.27) - 2024-09-13
+
+### Bug Fixes
+
+- Fixed usage view with fieldName - ([c0a3e07](https://github.com/roadiz/core-bundle-dev-app/commit/c0a3e0738c1aec1487bc5e171d446332c1a7be5f))
+
 ## [2.3.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.25...v2.3.26) - 2024-08-27
 
 ### Bug Fixes
