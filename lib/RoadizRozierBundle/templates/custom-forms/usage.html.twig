@@ -22,13 +22,12 @@
                         <tr>
                             <th>{% trans %}title{% endtrans %}</th>
                             <th>{% trans %}usage.fieldName{% endtrans %}</th>
-                            <th>{% trans %}nodeType.name{% endtrans %}</th>
                         </tr>
                         </thead>
                         <tbody>
                         {% for usage in usages %}
                             {% set source = usage.node.nodeSources.first %}
-                            {% set field = usage.field %}
+                            {% set field = usage.fieldName %}
                             <tr>
                                 <td>
                                     <a href="{{ path('nodesEditSourcePage', {
@@ -42,8 +41,7 @@
                                         {% endif %}
                                     </a>
                                 </td>
-                                <td>{{ field.name }}</td>
-                                <td>{{ field.nodeType.name }}</td>
+                                <td>{{ field }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>
