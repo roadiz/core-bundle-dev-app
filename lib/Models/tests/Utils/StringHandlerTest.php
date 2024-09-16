@@ -193,6 +193,7 @@ class StringHandlerTest extends TestCase
             ["J'aime les\n sushis!\t\n", "j_aime_les_sushis"],
             ["?header_image", "header_image"],
             ["JAime les_sushis", "j_aime_les_sushis"],
+            ["Répétitions publiques à la maison de l'Orchestre", "repetitions_publiques_a_la_maison_de_l_orchestre"],
             ["Ébène", "ebene"],
             ["ébène", "ebene"],
         ];
