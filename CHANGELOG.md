@@ -1,3 +1,11 @@
+## [v2.1.69](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.68...v2.1.69) (2024-09-16)
+
+
+### Bug Fixes
+
+* Fix variablize method with remaining apostrophe ([b81d523](https://github.com/roadiz/core-bundle-dev-app/commit/b81d52301e953d637cc81a54492e10f3a1c8292e)
+* Fix camelCase method with lowercase first letter ([f5a4c7c](https://github.com/roadiz/core-bundle-dev-app/commit/f5a4c7ca02a2c01daa1c2187d25ea93a5e962ba9)
+
 ## [v2.1.68](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.67...v2.1.68) (2024-07-05)
 
 
