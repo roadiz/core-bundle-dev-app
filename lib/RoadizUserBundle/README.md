@@ -211,8 +211,23 @@ services:
 
 ### Override login link URL
 
-Decorate `Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface` service if you need to generate a login-link
-with a different **base-uri**, for example if you are using a different domain for your frontend application.
+A service was enable for generate a login-link  with a different **base-uri**,
+for example if you are using a different domain for your frontend application.
+
+```yaml
+# config/services.yaml
+services:
+    App\Security\LoginLinkHandler:
+    decorates: Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface
+    arguments:
+        $decorated: '@App\Security\LoginLinkHandler.inner'
+        $frontendLoginCheckRoute: '%frontend_login_check_route%'
+        $frontendLoginLinkRequestRoutes :
+            - 'frontend_login_link_request_route'
+            - 'another_login_link_request_route'
+        $signatureHasher: '@security.authenticator.login_link_signature_hasher.api_login_link'
+```
+Now for each `$frontendLoginLinkRequestRoutes` login_link redirect to `$frontendLoginCheckRoute`
 
 ## Public users roles
 
