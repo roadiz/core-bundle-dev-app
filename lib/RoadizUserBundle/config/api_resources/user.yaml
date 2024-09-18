@@ -5,11 +5,24 @@ RZ\Roadiz\CoreBundle\Entity\User:
             class: ApiPlatform\Metadata\Post
             method: 'POST'
             uriTemplate: '/users/signup'
+            #
+            # For classic User with password, you can use this configuration
+            #
             processor: RZ\Roadiz\UserBundle\State\UserSignupProcessor
             input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
             output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
             validation_groups:
                 - no_empty_password
+            #
+            # For passwordless user creation, you can use this configuration
+            #
+            #processor: RZ\Roadiz\UserBundle\State\PasswordlessUserSignupProcessor
+            #input: RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput
+            #output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+            #
+            # Do not use no_empty_password for passwordless user creation
+            #
+            #validation_groups: ~
             openapiContext:
                 summary: Create a new public user
                 parameters:

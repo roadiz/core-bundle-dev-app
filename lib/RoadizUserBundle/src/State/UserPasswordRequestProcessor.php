@@ -29,23 +29,23 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 /**
  * Process a user identifier into a password request.
  */
-final class UserPasswordRequestProcessor implements ProcessorInterface
+final readonly class UserPasswordRequestProcessor implements ProcessorInterface
 {
     use RecaptchaProtectedTrait;
 
     public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly RateLimiterFactory $passwordRequestLimiter,
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly RequestStack $requestStack,
-        private readonly UserProvider $userProvider,
-        private readonly EmailManagerFactory $emailManagerFactory,
-        private readonly Settings $settingsBag,
-        private readonly TranslatorInterface $translator,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly RecaptchaServiceInterface $recaptchaService,
-        private readonly string $passwordResetUrl,
-        private readonly string $recaptchaHeaderName = 'x-g-recaptcha-response'
+        private LoggerInterface $logger,
+        private RateLimiterFactory $passwordRequestLimiter,
+        private ManagerRegistry $managerRegistry,
+        private RequestStack $requestStack,
+        private UserProvider $userProvider,
+        private EmailManagerFactory $emailManagerFactory,
+        private Settings $settingsBag,
+        private TranslatorInterface $translator,
+        private UrlGeneratorInterface $urlGenerator,
+        private RecaptchaServiceInterface $recaptchaService,
+        private string $passwordResetUrl,
+        private string $recaptchaHeaderName = 'x-g-recaptcha-response'
     ) {
     }
 

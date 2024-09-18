@@ -17,4 +17,5 @@ roadiz_user:
     # Define user validation token expiring time in seconds.
     user_validation_expires_in: '%env(int:USER_VALIDATION_EXPIRES_IN)%'
     public_user_role_name: ROLE_PUBLIC_USER
+    passwordless_user_role_name: ROLE_PASSWORDLESS_USER
     email_validated_role_name: ROLE_EMAIL_VALIDATED

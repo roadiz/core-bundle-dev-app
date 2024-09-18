@@ -11,16 +11,16 @@ use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\UserBundle\Api\Dto\UserOutput;
 use RZ\Roadiz\UserBundle\Manager\UserMetadataManagerInterface;
 use RZ\Roadiz\UserBundle\Manager\UserValidationTokenManagerInterface;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class UserTokenProvider implements ProviderInterface
+final readonly class UserTokenProvider implements ProviderInterface
 {
     public function __construct(
-        private readonly Security $security,
-        private readonly UserValidationTokenManagerInterface $userValidationTokenManager,
-        private readonly UserMetadataManagerInterface $userMetadataManager,
+        private Security $security,
+        private UserValidationTokenManagerInterface $userValidationTokenManager,
+        private UserMetadataManagerInterface $userMetadataManager,
     ) {
     }
 

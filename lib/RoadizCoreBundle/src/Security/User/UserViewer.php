@@ -8,6 +8,7 @@ use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory;
+use RZ\Roadiz\CoreBundle\Security\LoginLink\LoginLinkSenderInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -22,7 +23,8 @@ final class UserViewer
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly TranslatorInterface $translator,
         private readonly EmailManagerFactory $emailManagerFactory,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
+        private readonly LoginLinkSenderInterface $loginLinkSender
     ) {
     }
 
@@ -95,38 +97,16 @@ final class UserViewer
         }
     }
 
+    /**
+     * @deprecated Use LoginLinkSenderInterface::sendLoginLink instead
+     */
     public function sendLoginLink(
         UserInterface $user,
         LoginLinkDetails $loginLinkDetails,
         string $htmlTemplate = '@RoadizCore/email/users/login_link_email.html.twig',
         string $txtTemplate = '@RoadizCore/email/users/login_link_email.txt.twig'
     ): void {
-        if (!(($user instanceof User) && $user->isEnabled())) {
-            throw new \InvalidArgumentException('User must be enabled to send a login link.');
-        }
-
-        $emailManager = $this->emailManagerFactory->create();
-        $emailContact = $this->getContactEmail();
-        $siteName = $this->getSiteName();
-
-        $emailManager->setAssignation([
-            'loginLink' => $loginLinkDetails->getUrl(),
-            'expiresAt' => $loginLinkDetails->getExpiresAt(),
-            'user' => $user,
-            'site' => $siteName,
-            'mailContact' => $emailContact,
-        ]);
-        $emailManager->setEmailTemplate($htmlTemplate);
-        $emailManager->setEmailPlainTextTemplate($txtTemplate);
-        $emailManager->setSubject($this->translator->trans(
-            'login_link.request'
-        ));
-
-        $emailManager->setReceiver($user->getEmail());
-        $emailManager->setSender([$emailContact => $siteName]);
-
-        // Send the message
-        $emailManager->send();
+        $this->loginLinkSender->sendLoginLink($user, $loginLinkDetails);
     }
 
     /**

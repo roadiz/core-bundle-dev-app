@@ -7,7 +7,7 @@ namespace RZ\Roadiz\RozierBundle\Controller;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Repository\UserRepository;
-use RZ\Roadiz\CoreBundle\Security\User\UserViewer;
+use RZ\Roadiz\CoreBundle\Security\LoginLink\LoginLinkSenderInterface;
 use RZ\Roadiz\OpenId\Exception\DiscoveryNotAvailableException;
 use RZ\Roadiz\OpenId\OAuth2LinkGenerator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ class SecurityController extends AbstractController
         private readonly LoggerInterface $logger,
         private readonly Settings $settingsBag,
         private readonly RozierServiceRegistry $rozierServiceRegistry,
-        private readonly UserViewer $userViewer
+        private readonly LoginLinkSenderInterface $loginLinkSender
     ) {
     }
 
@@ -91,7 +91,7 @@ class SecurityController extends AbstractController
             // create a login link for $user this returns an instance
             // of LoginLinkDetails
             $loginLinkDetails = $loginLinkHandler->createLoginLink($user, $request);
-            $this->userViewer->sendLoginLink($user, $loginLinkDetails);
+            $this->loginLinkSender->sendLoginLink($user, $loginLinkDetails);
 
             return $this->redirectToRoute('roadiz_rozier_login_link_sent');
         }

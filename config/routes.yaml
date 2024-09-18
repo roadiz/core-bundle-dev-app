@@ -41,3 +41,7 @@ api_contact_form_post:
         _controller: App\Controller\ContactFormController::formAction
         _locale: fr
         _format: json
+
+public_login_link_check:
+    path: /api/users/login_link_check
+    methods: [POST]

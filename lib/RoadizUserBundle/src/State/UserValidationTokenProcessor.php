@@ -18,14 +18,14 @@ use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-final class UserValidationTokenProcessor implements ProcessorInterface
+final readonly class UserValidationTokenProcessor implements ProcessorInterface
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly Roles $rolesBag,
-        private readonly Security $security,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly string $emailValidatedRoleName
+        private ManagerRegistry $managerRegistry,
+        private Roles $rolesBag,
+        private Security $security,
+        private EventDispatcherInterface $eventDispatcher,
+        private string $emailValidatedRoleName
     ) {
     }
 

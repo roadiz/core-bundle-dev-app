@@ -468,9 +468,6 @@ services:
     Solarium\Core\Client\Client:
         factory: ['RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry', 'getClient']
 
-    RZ\Roadiz\CoreBundle\Security\Authentication\JwtAuthenticationSuccessHandler:
-        decorates: 'lexik_jwt_authentication.handler.authentication_success'
-
     RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver:
         alias: RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootChainResolver
 

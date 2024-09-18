@@ -104,6 +104,50 @@ nelmio_cors:
         expose_headers: ['Link', 'Www-Authenticate']
 ```
 
+## Passwordless user creation and authentication
+
+You can switch your public users to `PasswordlessUser` and set up a login link authentication process along with
+user creation process.
+
+First you need to configure a public login link route:
+
+```yaml
+# config/routes.yaml
+public_login_link_check:
+    path: /api/users/login_link_check
+    methods: [POST]
+```
+
+Then you need to configure your security.yaml file to use `login_link` authentication process in your API firewall.
+You **must** use `all_users` provider to be able to use Roadiz User provider during the login_link authentication process.
+
+```yaml
+# config/packages/security.yaml
+# https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/8-jwt-user-provider.html#symfony-5-3-and-higher
+api:
+    pattern: ^/api
+    stateless: true
+    # We need to use all_users provider to be able to use Roadiz User provider 
+    # during the login_link authentication process
+    provider: all_users
+    jwt: ~
+    login_link:
+        check_route: public_login_link_check
+        check_post_only: true
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        signature_properties: [ 'email' ]
+        # lifetime in seconds
+        lifetime: 600
+        max_uses: 3
+```
+
+## Public users roles
+
+- `ROLE_PUBLIC_USER`: Default role for public users
+- `ROLE_PASSWORDLESS_USER`: Role for public users authenticated with a login link
+- `ROLE_EMAIL_VALIDATED`: Role for public users added since they validated their email address, through a validation token or a login link
+
 
 ## Maintenance commands
 

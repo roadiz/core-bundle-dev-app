@@ -52,6 +52,9 @@ EOT
             ->scalarNode('public_user_role_name')
             ->defaultValue('ROLE_PUBLIC_USER')
             ->end()
+            ->scalarNode('passwordless_user_role_name')
+            ->defaultValue('ROLE_PASSWORDLESS_USER')
+            ->end()
             ->scalarNode('email_validated_role_name')
             ->defaultValue('ROLE_EMAIL_VALIDATED')
             ->end();

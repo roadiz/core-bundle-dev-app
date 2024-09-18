@@ -7,11 +7,17 @@ resources:
                 method: 'POST'
                 uriTemplate: '/users/signup'
                 itemUriTemplate: '/users/{id}'
-                processor: RZ\Roadiz\UserBundle\State\UserSignupProcessor
-                input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
+#                processor: RZ\Roadiz\UserBundle\State\UserSignupProcessor
+#                input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
+#                output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+#                validation_groups:
+#                    - no_empty_password
+                # For passwordless user creation, you can use this configuration
+                processor: RZ\Roadiz\UserBundle\State\PasswordlessUserSignupProcessor
+                input: RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput
                 output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-                validation_groups:
-                    - no_empty_password
+                # Do not use no_empty_password for passwordless user creation
+                #validation_groups: ~
                 openapiContext:
                     summary: Create a new public user
                     parameters:
