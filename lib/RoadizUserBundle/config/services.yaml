@@ -30,3 +30,6 @@ services:
 
     RZ\Roadiz\UserBundle\State\UserSignupProcessor:
         tags: [ 'api_platform.state_processor' ]
+
+    RZ\Roadiz\UserBundle\State\PasswordlessUserSignupProcessor:
+        tags: [ 'api_platform.state_processor' ]

@@ -30,9 +30,7 @@ final readonly class JwtAuthenticationSuccessEventSubscriber implements EventSub
     public function onAuthenticationSuccess(AuthenticationSuccessEvent $event): void
     {
         $user = $event->getUser();
-        /*
-         * Check if user is a passwordless user
-         */
+
         if (!($user instanceof User)) {
             return;
         }

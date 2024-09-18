@@ -17,9 +17,7 @@ use RZ\Roadiz\UserBundle\Event\PasswordlessUserSignedUp;
 use RZ\Roadiz\UserBundle\Manager\UserMetadataManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -27,6 +25,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 final readonly class PasswordlessUserSignupProcessor implements ProcessorInterface
 {
     use RecaptchaProtectedTrait;
+    use SignupProcessorTrait;
 
     public function __construct(
         private LoginLinkHandlerInterface $loginLinkHandler,
@@ -56,38 +55,31 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
         return $this->recaptchaHeaderName;
     }
 
+    protected function getSecurity(): Security
+    {
+        return $this->security;
+    }
+
+    protected function getUserSignupLimiter(): RateLimiterFactory
+    {
+        return $this->userSignupLimiter;
+    }
+
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): VoidOutput
     {
         if (!$data instanceof PasswordlessUserInput) {
             throw new BadRequestHttpException(sprintf('Cannot process %s', get_class($data)));
         }
-
-        if ($this->security->isGranted('ROLE_USER')) {
-            throw new AccessDeniedHttpException('Cannot sign-up: you\'re already authenticated.');
-        }
-
         $request = $this->requestStack->getCurrentRequest();
-        if (null !== $request) {
-            $limiter = $this->userSignupLimiter->create($request->getClientIp());
-            $limit = $limiter->consume();
-            if (false === $limit->isAccepted()) {
-                throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
-            }
-        }
-
+        $this->ValidateRequest($request);
         $this->validateRecaptchaHeader($request);
 
-        $user = new User();
-        $user->setEmail($data->email);
-        $user->setUsername($data->email);
-        $user->setFirstName($data->firstName);
-        $user->setLastName($data->lastName);
-        $user->setPhone($data->phone);
-        $user->setCompany($data->company);
-        $user->setJob($data->job);
-        $user->setBirthday($data->birthday);
+        $user = $this->createUser($data);
         $user->addRoleEntity($this->rolesBag->get($this->publicUserRoleName));
         $user->addRoleEntity($this->rolesBag->get($this->passwordlessUserRoleName));
+        /*
+         * We don't want to send an email right now, we will send a login link instead.
+         */
         $user->sendCreationConfirmationEmail(false);
         $user->setLocale($request->getLocale());
 
@@ -103,7 +95,9 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
             $this->persistProcessor->process($userMetadata, $operation, $uriVariables, $context);
         }
 
-        # Send user first login link
+        /*
+         * Send user first login link, this will also set user as EMAIL_VALIDATED
+         */
         $loginLinkDetails = $this->loginLinkHandler->createLoginLink($user, $request);
         $this->loginLinkSender->sendLoginLink($user, $loginLinkDetails);
 

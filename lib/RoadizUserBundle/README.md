@@ -106,6 +106,10 @@ nelmio_cors:
 
 ## Passwordless user creation and authentication
 
+You can switch your public users to `PasswordlessUser` and set up a login link authentication process along with
+user creation process.
+
+First you need to configure a public login link route:
 
 ```yaml
 # config/routes.yaml
@@ -113,6 +117,9 @@ public_login_link_check:
     path: /api/users/login_link_check
     methods: [POST]
 ```
+
+Then you need to configure your security.yaml file to use `login_link` authentication process in your API firewall.
+You **must** use `all_users` provider to be able to use Roadiz User provider during the login_link authentication process.
 
 ```yaml
 # config/packages/security.yaml
@@ -134,6 +141,12 @@ api:
         lifetime: 600
         max_uses: 3
 ```
+
+## Public users roles
+
+- `ROLE_PUBLIC_USER`: Default role for public users
+- `ROLE_PASSWORDLESS_USER`: Role for public users authenticated with a login link
+- `ROLE_EMAIL_VALIDATED`: Role for public users added since they validated their email address, through a validation token or a login link
 
 
 ## Maintenance commands
