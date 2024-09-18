@@ -16,3 +16,5 @@ RZ\Roadiz\UserBundle\Api\Dto\UserOutput:
                 summary: Get current user (JWT) information
                 description: |
                     Get current user (JWT) information
+                tags:
+                    - User
