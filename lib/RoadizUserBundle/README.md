@@ -47,7 +47,9 @@ return [
 
 ## Configuration
 
-- Copy *API Platform* resource configuration file: `./config/api_resources/user.yaml` to your Roadiz project `api_resource` folder.
+- Copy *API Platform* resource configuration files to your Roadiz project `api_resource` folder: 
+    - `./config/api_resources/user.yaml` 
+    - `./config/api_resources/me.yaml` 
 - Edit your `./config/packages/framework.yaml` file with:
 ```yaml
 framework:
@@ -81,10 +83,15 @@ framework:
 ```yaml
 security:
     access_control:
-        # Append user routes configuration
+        # Prepend user routes configuration before API Platform ones
+        # Public routes must be defined before protected ones
+        - { path: "^/api/users/login_link_check", methods: [ POST ], roles: PUBLIC_ACCESS }
+        - { path: "^/api/users/login_link", methods: [ POST ], roles: PUBLIC_ACCESS }
         - { path: "^/api/users/signup", methods: [ POST ], roles: PUBLIC_ACCESS }
         - { path: "^/api/users/password_request", methods: [ POST ], roles: PUBLIC_ACCESS }
         - { path: "^/api/users/password_reset", methods: [ PUT ], roles: PUBLIC_ACCESS }
+        # ...
+        - { path: "^/api", roles: ROLE_BACKEND_USER, methods: [ POST, PUT, PATCH, DELETE ] }
         - { path: "^/api/users", methods: [ GET, PUT, PATCH, POST ], roles: ROLE_USER }
 ```
 - Edit your `./.env` file with:
@@ -141,6 +148,71 @@ api:
         lifetime: 600
         max_uses: 3
 ```
+
+### Public login link creation
+
+Then you'll need a public route to request a login-link. In your project create a new `App\Controller\SecurityController`
+and add a new route `/api/users/login_link`:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controller;
+
+use RZ\Roadiz\CoreBundle\Repository\UserRepository;
+use RZ\Roadiz\CoreBundle\Security\LoginLink\LoginLinkSenderInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
+
+final readonly class SecurityController
+{
+    public function __construct(
+        private LoginLinkSenderInterface $loginLinkSender,
+    ) {
+    }
+    
+    #[Route('/api/users/login_link', name: 'public_user_login_link_request', methods: ['POST'])]
+    public function requestLoginLink(
+        LoginLinkHandlerInterface $loginLinkHandler,
+        UserRepository $userRepository,
+        Request $request
+    ): Response {
+        // load the user in some way (e.g. using the form input)
+        $email = $request->getPayload()->get('email');
+        $user = $userRepository->findOneBy(['email' => $email]);
+
+        if (null === $user) {
+            // Do not leak if a user exists or not
+            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        }
+
+        // create a login link for $user this returns an instance
+        // of LoginLinkDetails
+        $loginLinkDetails = $loginLinkHandler->createLoginLink($user, $request);
+        $this->loginLinkSender->sendLoginLink($user, $loginLinkDetails);
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+}
+```
+
+Register your controller:
+
+```yaml
+# config/services.yaml
+services:
+    App\Controller\SecurityController:
+        tags: [ 'controller.service_arguments' ]
+```
+
+### Override login link URL
+
+Decorate `Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface` service if you need to generate a login-link
+with a different **base-uri**, for example if you are using a different domain for your frontend application.
 
 ## Public users roles
 
