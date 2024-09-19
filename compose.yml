@@ -119,7 +119,6 @@ services:
         deploy:
             replicas: 1
         entrypoint: ["php", "/var/www/html/bin/console", "messenger:consume", "async", "--time-limit=60"]
-        restart: unless-stopped
 
     cron:
         <<: *app_template
