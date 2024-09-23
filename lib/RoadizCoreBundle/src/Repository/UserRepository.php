@@ -59,4 +59,27 @@ final class UserRepository extends EntityRepository
 
         return (bool) $qb->getQuery()->getSingleScalarResult();
     }
+
+    /**
+     * Find all users that did not logged-in since a number of days, including users that never logged-in using
+     * their creation date.
+     *
+     * @param int $days
+     * @return User[]
+     * @throws \Exception
+     */
+    public function findAllInactiveSinceDays(int $days): array
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->andWhere($qb->expr()->orX(
+            // If user never logged in, we compare with creation date
+            $qb->expr()->andX(
+                $qb->expr()->isNull('u.lastLogin'),
+                $qb->expr()->lt('u.createdAt', ':lastLogin')
+            ),
+            $qb->expr()->lt('u.lastLogin', ':lastLogin'),
+        ))->setParameter('lastLogin', new \DateTimeImmutable('-' . $days . ' days'));
+
+        return $qb->getQuery()->getResult();
+    }
 }

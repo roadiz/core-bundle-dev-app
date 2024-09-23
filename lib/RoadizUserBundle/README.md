@@ -220,10 +220,10 @@ with a different **base-uri**, for example if you are using a different domain f
 - `ROLE_PASSWORDLESS_USER`: Role for public users authenticated with a login link
 - `ROLE_EMAIL_VALIDATED`: Role for public users added since they validated their email address, through a validation token or a login link
 
-
 ## Maintenance commands
 
 - `bin/console users:purge-validation-tokens`: Delete all expired user validation tokens
+- `bin/console users:inactive -d 60 -r ROLE_PUBLIC_USER -m ROLE_EMAIL_VALIDATED -v`: Delete all inactive **public** users that did not logged-in for 60 days. Notice that this command example only displays users that do not have `ROLE_EMAIL_VALIDATED` role.
 
 ## Contributing
 
