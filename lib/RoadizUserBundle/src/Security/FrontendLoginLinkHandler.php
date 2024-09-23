@@ -10,7 +10,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkDetails;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
 
-final class FrontendLoginLinkHandler implements LoginLinkHandlerInterface
+final readonly class FrontendLoginLinkHandler implements LoginLinkHandlerInterface
 {
     /**
      * @var array|int[]
@@ -18,10 +18,10 @@ final class FrontendLoginLinkHandler implements LoginLinkHandlerInterface
     private array $options;
 
     public function __construct(
-        private readonly LoginLinkHandlerInterface $decorated,
-        private readonly string $frontendLoginCheckRoute,
-        private readonly SignatureHasher $signatureHasher,
-        private readonly array $frontendLoginLinkRequestRoutes,
+        private LoginLinkHandlerInterface $decorated,
+        private string $frontendLoginCheckRoute,
+        private SignatureHasher $signatureHasher,
+        private array $frontendLoginLinkRequestRoutes,
         array $options = []
     ) {
         $this->options = array_merge([
@@ -41,7 +41,7 @@ final class FrontendLoginLinkHandler implements LoginLinkHandlerInterface
             throw new \InvalidArgumentException('Request cannot be null.');
         }
         /*
-         * If user request a backend login link, we use the decorated handler
+         * If user does not request a login link from `$frontendLoginLinkRequestRoutes`, we fallback to the decorated handler
          */
         if (!\in_array($request->attributes->get('_route'), $this->frontendLoginLinkRequestRoutes, true)) {
             return $this->decorated->createLoginLink($user, $request);
