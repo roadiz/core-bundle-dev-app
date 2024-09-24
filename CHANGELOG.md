@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.28...v2.2.29) - 2024-09-24
+
+### Bug Fixes
+
+- **(Documents)** Do not throw `UnableToMoveFile` when document `filename` changes because we update the whole file - ([c760146](https://github.com/roadiz/core-bundle-dev-app/commit/c76014616260a568e2aea688e43bf16a707d3944))
+
 ## [2.2.28](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.27...v2.2.28) - 2024-07-05
 
 ### Bug Fixes
