@@ -1,3 +1,10 @@
+## [v2.1.70](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.69...v2.1.70) (2024-09-24)
+
+
+### Bug Fixes
+
+* **Documents:** Do not throw `UnableToMoveFile` when document `filename` changes because we update the whole file ([77b2761](https://github.com/roadiz/core-bundle-dev-app/commit/77b276191ddbd9b9d75236ad4b6514e442636929))
+
 ## [v2.1.69](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.68...v2.1.69) (2024-09-16)
 
 
