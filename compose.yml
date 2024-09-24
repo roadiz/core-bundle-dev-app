@@ -116,15 +116,17 @@ services:
 
     worker:
         <<: *app_template
-        deploy:
-            replicas: 1
-        entrypoint: ["php", "/var/www/html/bin/console", "messenger:consume", "async", "--time-limit=60"]
+        # Need to restart worker every 10 minutes
+        restart: unless-stopped
+        entrypoint: ["php", "/var/www/html/bin/console", "messenger:consume", "async", "--time-limit=600"]
 
     cron:
         <<: *app_template
         # https://github.com/dubiousjim/dcron/issues/13#issuecomment-1406937781
         init: true
-        entrypoint: ["crond", "-f", "-L", "15"]
+        restart: unless-stopped
+        user: root
+        entrypoint: ["docker-cron-entrypoint"]
 
     nginx:
         image: roadiz/nginx-alpine:latest
