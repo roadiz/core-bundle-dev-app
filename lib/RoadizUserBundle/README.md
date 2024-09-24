@@ -211,8 +211,23 @@ services:
 
 ### Override login link URL
 
-Decorate `Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface` service if you need to generate a login-link
-with a different **base-uri**, for example if you are using a different domain for your frontend application.
+Roadiz User Bundle provides a custom `Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface` service to generate a login-link  with a different **base-uri**,
+all you need is to register `RZ\Roadiz\UserBundle\Security\Security\FrontendLoginLinkHandler` service in your project with its mandatory arguments:
+
+```yaml
+# config/services.yaml
+services:
+    RZ\Roadiz\UserBundle\Security\Security\FrontendLoginLinkHandler:
+    $decorated: '@RZ\Roadiz\UserBundle\Security\Security\FrontendLoginLinkHandler.inner'
+    arguments:
+        $decorated: '@App\Security\LoginLinkHandler.inner'
+        $frontendLoginCheckRoute: '%frontend_login_check_route%'
+        $frontendLoginLinkRequestRoutes:
+            - 'frontend_login_link_request_route'
+            - 'another_login_link_request_route'
+        $signatureHasher: '@security.authenticator.login_link_signature_hasher.api_login_link'
+```
+Now for each `$frontendLoginLinkRequestRoutes` login_link will be generated using `$frontendLoginCheckRoute` base URL
 
 ## Public users roles
 
