@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\EntityGenerator\Field;
 
-use RZ\Roadiz\EntityGenerator\Attribute\AttributeGenerator;
-use RZ\Roadiz\EntityGenerator\Attribute\AttributeListGenerator;
+use Nette\PhpGenerator\ClassType;
+use Nette\PhpGenerator\Literal;
+use Nette\PhpGenerator\Method;
+use Nette\PhpGenerator\Property;
 
-class CustomFormsFieldGenerator extends AbstractFieldGenerator
+final class CustomFormsFieldGenerator extends AbstractFieldGenerator
 {
-    protected function getSerializationAttributes(): array
+    protected function addSerializationAttributes(Property|Method $property): self
     {
-        $attributes = parent::getSerializationAttributes();
-        $attributes[] = new AttributeGenerator('Serializer\VirtualProperty');
-        $attributes[] = new AttributeGenerator('Serializer\SerializedName', [
-            AttributeGenerator::wrapString($this->field->getVarName())
+        parent::addSerializationAttributes($property);
+        $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
+        $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
+            $this->field->getVarName()
         ]);
 
-        return $attributes;
+        return $this;
     }
 
     protected function getDefaultSerializationGroups(): array
@@ -32,65 +34,64 @@ class CustomFormsFieldGenerator extends AbstractFieldGenerator
         return '?array';
     }
 
-    protected function getFieldDefaultValueDeclaration(): string
+    protected function getFieldDefaultValueDeclaration(): Literal|string|null
     {
-        return 'null';
+        return new Literal('null');
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getFieldGetter(): string
+    public function addFieldGetter(ClassType $classType): self
     {
-        return '
-    /**
-     * @return ' . $this->options['custom_form_class'] . '[] CustomForm array
-     */
-' . (new AttributeListGenerator($this->getSerializationAttributes()))->generate(4) . '
-    public function ' . $this->field->getGetterName() . '(): array
-    {
-        if (null === $this->' . $this->field->getVarName() . ') {
-            if (null !== $this->objectManager) {
-                $this->' . $this->field->getVarName() . ' = $this->objectManager
-                    ->getRepository(' . $this->options['custom_form_class'] . '::class)
-                    ->findByNodeAndFieldName(
-                        $this->getNode(),
-                        \'' . $this->field->getName() . '\'
-                    );
-            } else {
-                $this->' . $this->field->getVarName() . ' = [];
-            }
-        }
-        return $this->' . $this->field->getVarName() . ';
-    }' . PHP_EOL;
-    }
+        $method = $classType
+            ->addMethod($this->field->getGetterName())
+            ->setReturnType('array')
+            ->setVisibility('public')
+            ->addComment('@return ' . $this->options['custom_form_class'] . '[] CustomForm array')
+        ;
+        $this->addSerializationAttributes($method);
 
-    /**
-     * Generate PHP setter method block.
-     *
-     * @return string
-     */
-    protected function getFieldSetter(): string
-    {
-        return '
-    /**
-     * @param ' . $this->options['custom_form_class'] . ' $customForm
-     *
-     * @return $this
-     */
-    public function add' . ucfirst($this->field->getVarName()) . '(' . $this->options['custom_form_class'] . ' $customForm): static
-    {
-        if (null !== $this->objectManager) {
-            $nodeCustomForm = new ' . $this->options['custom_form_proxy_class'] . '(
-                $this->getNode(),
-                $customForm
+        $method->setBody(<<<EOF
+if (null === \$this->{$this->field->getVarName()}) {
+    if (null !== \$this->objectManager) {
+        \$this->{$this->field->getVarName()} = \$this->objectManager
+            ->getRepository({$this->options['custom_form_class']}::class)
+            ->findByNodeAndFieldName(
+                \$this->getNode(),
+                '{$this->field->getName()}'
             );
-            $nodeCustomForm->setFieldName(\'' . $this->field->getName() . '\');
-            $this->objectManager->persist($nodeCustomForm);
-            $this->getNode()->addCustomForm($nodeCustomForm);
-            $this->' . $this->field->getVarName() . ' = null;
-        }
+    } else {
+        \$this->{$this->field->getVarName()} = [];
+    }
+}
+return \$this->{$this->field->getVarName()};
+EOF
+        );
+
         return $this;
-    }' . PHP_EOL;
+    }
+
+    protected function addFieldSetter(ClassType $classType): self
+    {
+        $method = $classType
+            ->addMethod('add' . ucfirst($this->field->getVarName()))
+            ->setReturnType('static')
+            ->setVisibility('public')
+            ->addComment('@return $this')
+        ;
+        $method->addParameter('customForm')->setType($this->options['custom_form_class']);
+        $method->setBody(<<<EOF
+if (null !== \$this->objectManager) {
+    \$nodeCustomForm = new {$this->options['custom_form_proxy_class']}(
+        \$this->getNode(),
+        \$customForm
+    );
+    \$nodeCustomForm->setFieldName('{$this->field->getName()}');
+    \$this->objectManager->persist(\$nodeCustomForm);
+    \$this->getNode()->addCustomForm(\$nodeCustomForm);
+    \$this->{$this->field->getVarName()} = null;
+}
+return \$this;
+EOF
+        );
+        return $this;
     }
 }

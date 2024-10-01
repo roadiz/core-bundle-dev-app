@@ -22,14 +22,14 @@ use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 #[AsMessageHandler]
-final class CustomFormAnswerNotifyMessageHandler
+final readonly class CustomFormAnswerNotifyMessageHandler
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly EmailManagerFactory $emailManagerFactory,
-        private readonly Settings $settingsBag,
-        private readonly FilesystemOperator $documentsStorage,
-        private readonly LoggerInterface $messengerLogger,
+        private ManagerRegistry $managerRegistry,
+        private EmailManagerFactory $emailManagerFactory,
+        private Settings $settingsBag,
+        private FilesystemOperator $documentsStorage,
+        private LoggerInterface $messengerLogger,
     ) {
     }
 
