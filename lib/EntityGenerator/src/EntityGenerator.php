@@ -7,6 +7,7 @@ namespace RZ\Roadiz\EntityGenerator;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\PhpFile;
+use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\PsrPrinter;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
@@ -161,15 +162,19 @@ final class EntityGenerator implements EntityGeneratorInterface
 
         $namespace = $file
             ->addNamespace(trim($this->options['namespace'], '\\'))
-            ->addUse('Doctrine\ORM\Mapping', 'ORM')
-            ->addUse('JMS\Serializer\Annotation', 'JMS')
-            ->addUse('Symfony\Component\Serializer\Attribute', 'Serializer')
-            ->addUse('Gedmo\Mapping\Annotation', 'Gedmo')
             ->addUse('ApiPlatform\Metadata\ApiFilter')
+            ->addUse('ApiPlatform\Metadata\ApiProperty')
+            ->addUse('ApiPlatform\Serializer\Filter\PropertyFilter')
+            ->addUse('ApiPlatform\Doctrine\Orm\Filter', 'Filter')
+            ->addUse('Doctrine\Common\Collections\Collection')
+            ->addUse($this->options['parent_class'])
+            ->addUse('Doctrine\ORM\Mapping', 'ORM')
+            ->addUse('Gedmo\Mapping\Annotation', 'Gedmo')
+            ->addUse('JMS\Serializer\Annotation', 'JMS')
             ->addUse('RZ\Roadiz\CoreBundle\Entity\Node')
             ->addUse('RZ\Roadiz\CoreBundle\Entity\Translation')
-            ->addUse('ApiPlatform\Metadata\ApiProperty')
-            ->addUse('Doctrine\Common\Collections\Collection')
+            ->addUse('RZ\Roadiz\CoreBundle\Entity\UserLogEntry')
+            ->addUse('Symfony\Component\Serializer\Attribute', 'Serializer')
         ;
 
         $classType = $namespace->addClass($this->nodeType->getSourceEntityClassName())
@@ -178,8 +183,8 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->addComment($this->nodeType->getDescription() ?? '');
 
         $this
-            ->addClassAttributes($classType)
-            ->addClassFields($classType)
+            ->addClassAttributes($classType, $namespace)
+            ->addClassFields($classType, $namespace)
             ->addClassConstructor($classType)
             ->addClassCloneMethod($classType)
             ->addClassMethods($classType)
@@ -187,16 +192,16 @@ final class EntityGenerator implements EntityGeneratorInterface
         return (new PsrPrinter())->printFile($file);
     }
 
-    private function addClassAttributes(ClassType $classType): self
+    private function addClassAttributes(ClassType $classType, PhpNamespace $namespace): self
     {
         $classType
             ->addAttribute(
                 'Gedmo\Mapping\Annotation\Loggable',
-                ['logEntryClass' => new Literal('\RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class')]
+                ['logEntryClass' => new Literal('UserLogEntry::class')]
             )
             ->addAttribute(
                 'Doctrine\ORM\Mapping\Entity',
-                ['repositoryClass' => new Literal($this->options['repository_class'] . '::class')]
+                ['repositoryClass' => new Literal($namespace->simplifyName($this->options['repository_class']) . '::class')]
             )
             ->addAttribute(
                 'Doctrine\ORM\Mapping\Table',
@@ -211,7 +216,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         if ($this->options['use_api_platform_filters'] === true) {
             $classType->addAttribute(
                 'ApiPlatform\Metadata\ApiFilter',
-                [new Literal('\ApiPlatform\Serializer\Filter\PropertyFilter::class')]
+                [new Literal($namespace->simplifyName('\ApiPlatform\Serializer\Filter\PropertyFilter') . '::class')]
             );
         }
 
@@ -219,10 +224,10 @@ final class EntityGenerator implements EntityGeneratorInterface
     }
 
 
-    private function addClassFields(ClassType $classType): self
+    private function addClassFields(ClassType $classType, PhpNamespace $namespace): self
     {
         foreach ($this->fieldGenerators as $fieldGenerator) {
-            $fieldGenerator->addField($classType);
+            $fieldGenerator->addField($classType, $namespace);
         }
         return $this;
     }

@@ -7,6 +7,7 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\Method;
+use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 use Symfony\Component\String\UnicodeString;
 
@@ -45,7 +46,7 @@ final class DocumentsFieldGenerator extends AbstractFieldGenerator
         return new Literal('null');
     }
 
-    public function addFieldGetter(ClassType $classType): self
+    public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $getter = $classType->addMethod($this->field->getGetterName())
             ->setReturnType('array')
@@ -55,7 +56,7 @@ final class DocumentsFieldGenerator extends AbstractFieldGenerator
 if (null === \$this->{$this->field->getVarName()}) {
     if (null !== \$this->objectManager) {
         \$this->{$this->field->getVarName()} = \$this->objectManager
-            ->getRepository({$this->options['document_class']}::class)
+            ->getRepository({$namespace->simplifyName($this->options['document_class'])}::class)
             ->findByNodeSourceAndFieldName(
                 \$this,
                 '{$this->field->getName()}'

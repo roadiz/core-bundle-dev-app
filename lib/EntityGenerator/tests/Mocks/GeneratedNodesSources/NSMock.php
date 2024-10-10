@@ -9,20 +9,24 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\EntityGenerator\Tests\Mocks\GeneratedNodesSources;
 
+use ApiPlatform\Doctrine\Orm\Filter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
+use mock\Entity\NodesSources;
 
 /**
  * Mock node-source entity.
  */
-#[Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class)]
+#[Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
 #[ORM\Entity(repositoryClass: \mock\Entity\Repository\NodesSourcesRepository::class)]
 #[ORM\Table(name: 'ns_mock')]
 #[ORM\Index(columns: ['foo_datetime'])]
@@ -30,16 +34,16 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 #[ORM\Index(columns: ['boolIndexed'])]
 #[ORM\Index(columns: ['foo_decimal_excluded'])]
 #[ORM\Index(columns: ['layout'])]
-#[ApiFilter(\ApiPlatform\Serializer\Filter\PropertyFilter::class)]
-class NSMock extends \mock\Entity\NodesSources
+#[ApiFilter(PropertyFilter::class)]
+class NSMock extends NodesSources
 {
     /** Foo DateTime field. */
     #[Serializer\SerializedName(serializedName: 'fooDatetime')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'foo_datetime'])]
     #[ApiProperty(description: 'Foo DateTime field')]
     #[Serializer\MaxDepth(2)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\OrderFilter::class)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\DateFilter::class)]
+    #[ApiFilter(Filter\OrderFilter::class)]
+    #[ApiFilter(Filter\DateFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'foo_datetime', type: 'datetime', nullable: true)]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default', 'foo_datetime'])]
@@ -70,7 +74,7 @@ class NSMock extends \mock\Entity\NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Foo indexed field: Maecenas sed diam eget risus varius blandit sit amet non magna')]
     #[Serializer\MaxDepth(1)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class, strategy: 'partial')]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'partial')]
     #[ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'fooIndexed', type: 'string', nullable: true, length: 250)]
@@ -87,8 +91,8 @@ class NSMock extends \mock\Entity\NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Bool indexed field: Maecenas sed diam eget risus varius blandit sit amet non magna')]
     #[Serializer\MaxDepth(1)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\OrderFilter::class)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\BooleanFilter::class)]
+    #[ApiFilter(Filter\OrderFilter::class)]
+    #[ApiFilter(Filter\BooleanFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'boolIndexed', type: 'boolean', nullable: false, options: ['default' => false])]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -163,9 +167,9 @@ class NSMock extends \mock\Entity\NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Foo expression excluded decimal: Maecenas sed diam eget risus varius blandit sit amet non magna')]
     #[Serializer\MaxDepth(2)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\OrderFilter::class)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\NumericFilter::class)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\RangeFilter::class)]
+    #[ApiFilter(Filter\OrderFilter::class)]
+    #[ApiFilter(Filter\NumericFilter::class)]
+    #[ApiFilter(Filter\RangeFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'foo_decimal_excluded', type: 'decimal', nullable: true, precision: 18, scale: 3)]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -201,7 +205,7 @@ class NSMock extends \mock\Entity\NodesSources
     #[Serializer\MaxDepth(2)]
     #[ORM\ManyToOne(targetEntity: \App\Entity\Base\Event::class)]
     #[ORM\JoinColumn(name: 'single_event_reference_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[JMS\MaxDepth(2)]
     private ?\App\Entity\Base\Event $singleEventReference = null;
@@ -237,7 +241,7 @@ class NSMock extends \mock\Entity\NodesSources
     #[ORM\JoinColumn(name: 'node_type_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'event_references_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['sortingLastDateTime' => 'DESC'])]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[JMS\MaxDepth(2)]
     private Collection $eventReferences;
@@ -285,7 +289,7 @@ class NSMock extends \mock\Entity\NodesSources
     #[ORM\JoinColumn(name: 'node_type_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'event_references_excluded_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['sortingLastDateTime' => 'DESC'])]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[JMS\Exclude]
     #[Serializer\Ignore]
     private Collection $eventReferencesExcluded;
@@ -361,7 +365,7 @@ class NSMock extends \mock\Entity\NodesSources
         schema: ['type' => 'string', 'enum' => ['light', 'dark', 'transparent'], 'example' => 'light'],
     )]
     #[Serializer\MaxDepth(2)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'layout', type: 'string', nullable: true, length: 11)]
@@ -382,7 +386,7 @@ class NSMock extends \mock\Entity\NodesSources
     #[Serializer\MaxDepth(2)]
     #[ORM\ManyToOne(targetEntity: \MyCustomEntity::class)]
     #[ORM\JoinColumn(name: 'foo_many_to_one_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[JMS\MaxDepth(2)]
     private ?\MyCustomEntity $fooManyToOne = null;
@@ -406,7 +410,7 @@ class NSMock extends \mock\Entity\NodesSources
     #[ORM\JoinColumn(name: 'node_type_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'foo_many_to_many_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['name' => 'asc'])]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[JMS\MaxDepth(2)]
     private Collection $fooManyToMany;
@@ -569,7 +573,7 @@ class NSMock extends \mock\Entity\NodesSources
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Base\Event>
+     * @return Collection<int, \App\Entity\Base\Event>
      */
     public function getEventReferences(): Collection
     {
@@ -591,7 +595,7 @@ class NSMock extends \mock\Entity\NodesSources
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\PositionedCity>
+     * @return Collection<int, \App\Entity\PositionedCity>
      */
     public function getEventReferencesProxiedProxy(): Collection
     {
@@ -649,7 +653,7 @@ class NSMock extends \mock\Entity\NodesSources
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\Base\Event>
+     * @return Collection<int, \App\Entity\Base\Event>
      */
     public function getEventReferencesExcluded(): Collection
     {
@@ -897,7 +901,7 @@ class NSMock extends \mock\Entity\NodesSources
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, \MyCustomEntity>
+     * @return Collection<int, \MyCustomEntity>
      */
     public function getFooManyToMany(): Collection
     {
@@ -919,7 +923,7 @@ class NSMock extends \mock\Entity\NodesSources
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, \Themes\MyTheme\Entities\PositionedCity>
+     * @return Collection<int, \Themes\MyTheme\Entities\PositionedCity>
      */
     public function getFooManyToManyProxiedProxy(): Collection
     {

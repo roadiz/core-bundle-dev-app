@@ -6,6 +6,7 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
+use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 
 class NonVirtualFieldGenerator extends AbstractFieldGenerator
@@ -62,9 +63,9 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         return false;
     }
 
-    protected function addFieldAttributes(Property $property, bool $exclude = false): self
+    protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
-        parent::addFieldAttributes($property, $exclude);
+        parent::addFieldAttributes($property, $namespace, $exclude);
 
         /*
          * ?string $name = null,
@@ -147,7 +148,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         };
     }
 
-    public function addFieldGetter(ClassType $classType): self
+    public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $type = $this->getFieldTypeDeclaration();
         $method = $classType->addMethod($this->field->getGetterName())

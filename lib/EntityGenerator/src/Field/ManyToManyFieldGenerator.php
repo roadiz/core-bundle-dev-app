@@ -6,6 +6,7 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
+use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 use Symfony\Component\String\UnicodeString;
 
@@ -20,9 +21,9 @@ final class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
     }
 
 
-    protected function addFieldAttributes(Property $property, bool $exclude = false): self
+    protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
-        parent::addFieldAttributes($property, $exclude);
+        parent::addFieldAttributes($property, $namespace, $exclude);
 
         /*
          * Many Users have Many Groups.
@@ -73,7 +74,7 @@ final class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
 
         if ($this->options['use_api_platform_filters'] === true) {
             $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                0 => new Literal('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class'),
+                0 => new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter') . '::class'),
                 'strategy' => 'exact'
             ]);
         }
@@ -97,13 +98,18 @@ final class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
         return '\Doctrine\Common\Collections\Collection';
     }
 
-    public function addFieldGetter(ClassType $classType): self
+    public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $classType->addMethod($this->field->getGetterName())
             ->setReturnType('\Doctrine\Common\Collections\Collection')
             ->setPublic()
             ->setBody('return $this->' . $this->field->getVarName() . ';')
-            ->addComment('@return \Doctrine\Common\Collections\Collection<int, ' . $this->getFullyQualifiedClassName() . '>');
+            ->addComment(
+                '@return ' .
+                $namespace->simplifyName('\Doctrine\Common\Collections\Collection') .
+                '<int, ' . $this->getFullyQualifiedClassName() .
+                '>'
+            );
         return $this;
     }
 

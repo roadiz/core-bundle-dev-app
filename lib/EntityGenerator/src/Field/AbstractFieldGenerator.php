@@ -7,6 +7,7 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\Method;
+use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\SerializableInterface;
@@ -24,14 +25,14 @@ abstract class AbstractFieldGenerator
     /**
      * Generate PHP code for current doctrine field.
      */
-    public function addField(ClassType $classType): void
+    public function addField(ClassType $classType, PhpNamespace $namespace): void
     {
         $property = $this->getFieldProperty($classType);
 
         $this
             ->addFieldAnnotation($property)
-            ->addFieldAttributes($property, $this->isExcludingFieldFromJmsSerialization())
-            ->addFieldGetter($classType)
+            ->addFieldAttributes($property, $namespace, $this->isExcludingFieldFromJmsSerialization())
+            ->addFieldGetter($classType, $namespace)
             ->addFieldAlternativeGetter($classType)
             ->addFieldSetter($classType)
         ;
@@ -89,7 +90,7 @@ abstract class AbstractFieldGenerator
         return null;
     }
 
-    protected function addFieldAttributes(Property $property, bool $exclude = false): self
+    protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
         if ($exclude) {
             $property->addAttribute('JMS\Serializer\Annotation\Exclude');
@@ -139,56 +140,56 @@ abstract class AbstractFieldGenerator
             switch (true) {
                 case $this->field->isString():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        0 => new Literal('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class'),
+                        0 => new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter') . '::class'),
                         'strategy' => 'partial'
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal('\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class')
+                        new Literal($namespace->simplifyName('\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter') . '::class')
                     ]);
                     break;
                 case $this->field->isMultiple():
                 case $this->field->isEnum():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        0 => new Literal('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class'),
+                        0 => new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter') . '::class'),
                         'strategy' => 'exact'
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal('\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class')
+                        new Literal($namespace->simplifyName('\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter') . '::class')
                     ]);
                     break;
                 case $this->field->isBool():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter') . '::class'),
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal('\ApiPlatform\Doctrine\Orm\Filter\BooleanFilter::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\BooleanFilter') . '::class'),
                     ]);
                     break;
                 case $this->field->isManyToOne():
                 case $this->field->isManyToMany():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal('\ApiPlatform\Doctrine\Orm\Filter\ExistsFilter::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\ExistsFilter') . '::class'),
                     ]);
                     break;
                 case $this->field->isInteger():
                 case $this->field->isDecimal():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter') . '::class'),
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal('\ApiPlatform\Doctrine\Orm\Filter\NumericFilter::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\NumericFilter') . '::class'),
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal('\ApiPlatform\Doctrine\Orm\Filter\RangeFilter::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\RangeFilter') . '::class'),
                     ]);
                     break;
                 case $this->field->isDate():
                 case $this->field->isDateTime():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter') . '::class'),
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal('\ApiPlatform\Doctrine\Orm\Filter\DateFilter::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\DateFilter') . '::class'),
                     ]);
                     break;
             }
@@ -200,7 +201,7 @@ abstract class AbstractFieldGenerator
     /**
      * Generate PHP alternative getter method block.
      */
-    abstract protected function addFieldGetter(ClassType $classType): self;
+    abstract protected function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self;
 
     /**
      * Generate PHP alternative getter method block.

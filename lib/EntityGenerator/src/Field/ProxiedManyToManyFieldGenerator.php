@@ -7,6 +7,7 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\Method;
+use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 use Symfony\Component\String\UnicodeString;
 
@@ -49,7 +50,7 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
             ->setType('\Doctrine\Common\Collections\Collection');
     }
 
-    protected function addFieldAttributes(Property $property, bool $exclude = false): self
+    protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
         $property->addAttribute('JMS\Serializer\Annotation\Exclude');
         $property->addAttribute('Symfony\Component\Serializer\Attribute\Ignore');
@@ -91,13 +92,19 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
         return $this;
     }
 
-    public function addFieldGetter(ClassType $classType): self
+    public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $classType->addMethod($this->getProxiedGetterName())
             ->setReturnType('\Doctrine\Common\Collections\Collection')
             ->setPublic()
             ->setBody('return $this->' . $this->getProxiedVarName() . ';')
-            ->addComment('@return \Doctrine\Common\Collections\Collection<int, ' . $this->getProxyClassname() . '>');
+            ->addComment(
+                '@return ' .
+                $namespace->simplifyName('\Doctrine\Common\Collections\Collection') .
+                '<int, ' .
+                $this->getProxyClassname() .
+                '>'
+            );
 
         // Real getter
         $getter = $classType->addMethod($this->field->getGetterName())

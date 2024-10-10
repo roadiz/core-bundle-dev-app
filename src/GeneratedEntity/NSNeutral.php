@@ -9,35 +9,39 @@ declare(strict_types=1);
 
 namespace App\GeneratedEntity;
 
+use ApiPlatform\Doctrine\Orm\Filter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * Neutral node-source entity.
  * Neutral
  */
-#[Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class)]
-#[ORM\Entity(repositoryClass: \App\GeneratedEntity\Repository\NSNeutralRepository::class)]
+#[Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
+#[ORM\Entity(repositoryClass: Repository\NSNeutralRepository::class)]
 #[ORM\Table(name: 'ns_neutral')]
 #[ORM\Index(columns: ['number'])]
-#[ApiFilter(\ApiPlatform\Serializer\Filter\PropertyFilter::class)]
-class NSNeutral extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
+#[ApiFilter(PropertyFilter::class)]
+class NSNeutral extends NodesSources
 {
     /** Number. */
     #[Serializer\SerializedName(serializedName: 'number')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Number')]
     #[Serializer\MaxDepth(2)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\OrderFilter::class)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\NumericFilter::class)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\RangeFilter::class)]
+    #[ApiFilter(Filter\OrderFilter::class)]
+    #[ApiFilter(Filter\NumericFilter::class)]
+    #[ApiFilter(Filter\RangeFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'number', type: 'integer', nullable: true)]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]

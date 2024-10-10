@@ -9,26 +9,30 @@ declare(strict_types=1);
 
 namespace App\GeneratedEntity;
 
+use ApiPlatform\Doctrine\Orm\Filter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * Article node-source entity.
  * Article
  */
-#[Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class)]
-#[ORM\Entity(repositoryClass: \App\GeneratedEntity\Repository\NSArticleRepository::class)]
+#[Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
+#[ORM\Entity(repositoryClass: Repository\NSArticleRepository::class)]
 #[ORM\Table(name: 'ns_article')]
 #[ORM\Index(columns: ['unpublished_at'])]
-#[ApiFilter(\ApiPlatform\Serializer\Filter\PropertyFilter::class)]
-class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
+#[ApiFilter(PropertyFilter::class)]
+class NSArticle extends NodesSources
 {
     /** Your content. */
     #[Serializer\SerializedName(serializedName: 'content')]
@@ -71,8 +75,8 @@ class NSArticle extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Date de dépublication')]
     #[Serializer\MaxDepth(2)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\OrderFilter::class)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\DateFilter::class)]
+    #[ApiFilter(Filter\OrderFilter::class)]
+    #[ApiFilter(Filter\DateFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'unpublished_at', type: 'datetime', nullable: true)]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]

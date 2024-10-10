@@ -9,28 +9,32 @@ declare(strict_types=1);
 
 namespace App\GeneratedEntity;
 
+use ApiPlatform\Doctrine\Orm\Filter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * Page node-source entity.
  * Page
  */
-#[Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class)]
-#[ORM\Entity(repositoryClass: \App\GeneratedEntity\Repository\NSPageRepository::class)]
+#[Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
+#[ORM\Entity(repositoryClass: Repository\NSPageRepository::class)]
 #[ORM\Table(name: 'ns_page')]
 #[ORM\Index(columns: ['sticky'])]
 #[ORM\Index(columns: ['stickytest'])]
 #[ORM\Index(columns: ['layout'])]
-#[ApiFilter(\ApiPlatform\Serializer\Filter\PropertyFilter::class)]
-class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
+#[ApiFilter(PropertyFilter::class)]
+class NSPage extends NodesSources
 {
     /**
      * Content.
@@ -141,8 +145,8 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_boolean'])]
     #[ApiProperty(description: 'Sticky')]
     #[Serializer\MaxDepth(2)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\OrderFilter::class)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\BooleanFilter::class)]
+    #[ApiFilter(Filter\OrderFilter::class)]
+    #[ApiFilter(Filter\BooleanFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'sticky', type: 'boolean', nullable: false, options: ['default' => false])]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_boolean'])]
@@ -158,8 +162,8 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_boolean'])]
     #[ApiProperty(description: 'Sticky test')]
     #[Serializer\MaxDepth(2)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\OrderFilter::class)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\BooleanFilter::class)]
+    #[ApiFilter(Filter\OrderFilter::class)]
+    #[ApiFilter(Filter\BooleanFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'stickytest', type: 'boolean', nullable: false, options: ['default' => false])]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_boolean'])]
@@ -229,7 +233,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'folder_references_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\OrderBy(['position' => 'ASC'])]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[JMS\MaxDepth(2)]
     private Collection $folderReferences;
@@ -338,7 +342,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
         schema: ['type' => 'string', 'enum' => ['dark', 'transparent'], 'example' => 'dark'],
     )]
     #[Serializer\MaxDepth(2)]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'layout', type: 'string', nullable: true, length: 11)]
@@ -373,7 +377,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     #[Serializer\MaxDepth(2)]
     #[ORM\ManyToOne(targetEntity: \RZ\Roadiz\CoreBundle\Entity\User::class)]
     #[ORM\JoinColumn(name: 'main_user_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
-    #[ApiFilter(\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[JMS\MaxDepth(2)]
     private ?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null;
@@ -704,7 +708,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, \App\Entity\PositionedPageUser>
+     * @return Collection<int, \App\Entity\PositionedPageUser>
      */
     public function getUsersProxy(): Collection
     {
@@ -762,7 +766,7 @@ class NSPage extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>
+     * @return Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>
      */
     public function getFolderReferences(): Collection
     {

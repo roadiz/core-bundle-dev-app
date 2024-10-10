@@ -7,6 +7,7 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\Method;
+use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 
 final class CustomFormsFieldGenerator extends AbstractFieldGenerator
@@ -39,7 +40,7 @@ final class CustomFormsFieldGenerator extends AbstractFieldGenerator
         return new Literal('null');
     }
 
-    public function addFieldGetter(ClassType $classType): self
+    public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $method = $classType
             ->addMethod($this->field->getGetterName())
@@ -53,7 +54,7 @@ final class CustomFormsFieldGenerator extends AbstractFieldGenerator
 if (null === \$this->{$this->field->getVarName()}) {
     if (null !== \$this->objectManager) {
         \$this->{$this->field->getVarName()} = \$this->objectManager
-            ->getRepository({$this->options['custom_form_class']}::class)
+            ->getRepository({$namespace->simplifyName($this->options['custom_form_class'])}::class)
             ->findByNodeAndFieldName(
                 \$this->getNode(),
                 '{$this->field->getName()}'

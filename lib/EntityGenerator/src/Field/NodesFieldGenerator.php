@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\EntityGenerator\Field;
 
 use Nette\PhpGenerator\ClassType;
-use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\Method;
+use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
@@ -23,9 +23,9 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
         parent::__construct($field, $defaultValuesResolver, $options);
     }
 
-    public function addField(ClassType $classType): void
+    public function addField(ClassType $classType, PhpNamespace $namespace): void
     {
-        $this->addFieldGetter($classType);
+        $this->addFieldGetter($classType, $namespace);
         $this->addFieldSetter($classType);
     }
 
@@ -89,7 +89,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
         return $this->options['parent_class'];
     }
 
-    public function addFieldGetter(ClassType $classType): self
+    public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $property = $classType->addProperty($this->getFieldSourcesName())
             ->setType('?array')
@@ -99,7 +99,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
             ->addComment('@var ' . $this->getRepositoryClass() . '[]|null');
 
         $this->addFieldAutodoc($property);
-        $this->addFieldAttributes($property, $this->isExcludingFieldFromJmsSerialization());
+        $this->addFieldAttributes($property, $namespace, $this->isExcludingFieldFromJmsSerialization());
 
 
         $getter = $classType->addMethod($this->field->getGetterName() . 'Sources')

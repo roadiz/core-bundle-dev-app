@@ -6,13 +6,14 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
+use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 
 final class ManyToOneFieldGenerator extends AbstractConfigurableFieldGenerator
 {
-    protected function addFieldAttributes(Property $property, bool $exclude = false): self
+    protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
-        parent::addFieldAttributes($property, $exclude);
+        parent::addFieldAttributes($property, $namespace, $exclude);
 
         /*
          * Many Users have One Address.
@@ -31,7 +32,7 @@ final class ManyToOneFieldGenerator extends AbstractConfigurableFieldGenerator
 
         if ($this->options['use_api_platform_filters'] === true) {
             $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                0 => new Literal('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter::class'),
+                0 => new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter') . '::class'),
                 'strategy' => 'exact'
             ]);
         }
@@ -61,7 +62,7 @@ final class ManyToOneFieldGenerator extends AbstractConfigurableFieldGenerator
         return new Literal('null');
     }
 
-    public function addFieldGetter(ClassType $classType): self
+    public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $classType->addMethod($this->field->getGetterName())
             ->setReturnType($this->getFieldTypeDeclaration())
