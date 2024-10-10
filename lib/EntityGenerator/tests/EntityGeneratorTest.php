@@ -43,8 +43,8 @@ class EntityGeneratorTest extends TestCase
          * Uncomment for generating a mock file from tests
          */
 //        file_put_contents(
-//            dirname(__DIR__) . '/../test/mocks/GeneratedNodesSources/NSMock.php',
-//            $dumpInstance->getClassContent()
+//            dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSources/NSMock.php',
+//            $generator->getClassContent()
 //        );
 
         $this->assertEquals(

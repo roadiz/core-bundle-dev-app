@@ -62,7 +62,7 @@ class EntityGeneratorFactoryTest extends TestCase
          * Uncomment for generating a mock file from tests
          */
 //        file_put_contents(
-//            dirname(__DIR__) . '/../test/mocks/GeneratedNodesSourcesWithRepository/NSMock.php',
+//            dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSourcesWithRepository/NSMock.php',
 //            $generator->createWithCustomRepository($this->getMockNodeType())->getClassContent()
 //        );
 
@@ -92,7 +92,7 @@ class EntityGeneratorFactoryTest extends TestCase
          * Uncomment for generating a mock file from tests
          */
 //        file_put_contents(
-//            dirname(__DIR__) . '/../test/mocks/GeneratedNodesSourcesWithRepository/NSMockRepository.php',
+//            dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSourcesWithRepository/Repository/NSMockRepository.php',
 //            $generator->createCustomRepository($this->getMockNodeType())->getClassContent()
 //        );
 

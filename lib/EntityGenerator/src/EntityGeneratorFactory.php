@@ -8,12 +8,12 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface;
 
-final class EntityGeneratorFactory
+final readonly class EntityGeneratorFactory
 {
     public function __construct(
-        private readonly NodeTypeResolverInterface $nodeTypeResolverBag,
-        private readonly DefaultValuesResolverInterface $defaultValuesResolver,
-        private readonly array $options
+        private NodeTypeResolverInterface $nodeTypeResolverBag,
+        private DefaultValuesResolverInterface $defaultValuesResolver,
+        private array $options
     ) {
     }
 
