@@ -153,4 +153,9 @@ abstract class AbstractSpotifyEmbedFinder extends AbstractEmbedFinder
 
         return $this->embedId;
     }
+
+    protected function areDuplicatesAllowed(): bool
+    {
+        return true;
+    }
 }
