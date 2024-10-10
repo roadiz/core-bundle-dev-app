@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.28...v2.3.29) - 2024-10-10
+
+### Bug Fixes
+
+- Allow duplicated documents when embedding audio embed covers, fix #19 - ([e61e2ee](https://github.com/roadiz/core-bundle-dev-app/commit/e61e2ee7f6caf12275a86519085e50d41917003b))
+- Do not throw exception on bad page and itemPerPage argument, just use defaults fix #20 - ([e051822](https://github.com/roadiz/core-bundle-dev-app/commit/e05182222564e2a4dd59048cbac5d7771fc99d82))
+
 ## [2.3.28](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.27...v2.3.28) - 2024-09-24
 
 ### Bug Fixes
