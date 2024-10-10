@@ -107,7 +107,7 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
 
                     if (null !== $file) {
                         $documentFactory->setFile($file);
-                        $document = $documentFactory->getDocument();
+                        $document = $documentFactory->getDocument(false, $this->areDuplicatesAllowed());
                         if (null !== $document) {
                             /*
                              * Create document metas
@@ -238,5 +238,10 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
             return (string) ($feed->channel->image->url ?? null);
         }
         return null;
+    }
+
+    protected function areDuplicatesAllowed(): bool
+    {
+        return true;
     }
 }
