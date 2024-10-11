@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.29...v2.2.30) - 2024-10-11
+
+### Bug Fixes
+
+- Do not throw exception on bad page and itemPerPage argument, just use defaults fix #20 - ([23ddead](https://github.com/roadiz/core-bundle-dev-app/commit/23ddead2705adf453c60963442cdfe9efe3fbc11))
+
 ## [2.2.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.28...v2.2.29) - 2024-09-24
 
 ### Bug Fixes
