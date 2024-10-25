@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.29...v2.3.30) - 2024-10-25
+
+### Bug Fixes
+
+- Updated MySQL reserved words list - ([277fd69](https://github.com/roadiz/core-bundle-dev-app/commit/277fd6979e648f526c9c7391faba6bc8cd37e7ff))
+
 ## [2.3.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.28...v2.3.29) - 2024-10-10
 
 ### Bug Fixes
