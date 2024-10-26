@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.30...v2.3.31) - 2024-10-26
+
+### Bug Fixes
+
+- **(DtsGenerator)** Fixed `.d.ts` file header generation with latest @roadiz/types package - ([49aca37](https://github.com/roadiz/core-bundle-dev-app/commit/49aca375f0e51ec81bfa4a044c8924740067218a))
+
 ## [2.3.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.29...v2.3.30) - 2024-10-25
 
 ### Bug Fixes
