@@ -10,7 +10,7 @@ final class NodeNamePolicyFactory
 {
     public function __construct(
         private readonly ManagerRegistry $registry,
-        private readonly bool $useTypedNodeNames
+        private readonly bool $useTypedNodeNames,
     ) {
     }
 

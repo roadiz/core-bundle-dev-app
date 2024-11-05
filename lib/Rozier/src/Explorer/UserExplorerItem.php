@@ -12,45 +12,34 @@ final class UserExplorerItem extends AbstractExplorerItem
 {
     public function __construct(
         private readonly User $user,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getId(): int|string
     {
         return $this->user->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAlternativeDisplayable(): ?string
     {
         return $this->user->getEmail();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDisplayable(): string
     {
         $fullName = trim(
-            ($this->user->getFirstName() ?? '') .
-            ' ' .
+            ($this->user->getFirstName() ?? '').
+            ' '.
             ($this->user->getLastName() ?? '')
         );
-        if ($fullName !== '') {
+        if ('' !== $fullName) {
             return $fullName;
         }
+
         return $this->user->getUsername();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getOriginal(): User
     {
         return $this->user;
@@ -59,7 +48,7 @@ final class UserExplorerItem extends AbstractExplorerItem
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('usersEditPage', [
-            'id' => $this->user->getId()
+            'id' => $this->user->getId(),
         ]);
     }
 }

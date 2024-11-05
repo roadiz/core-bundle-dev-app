@@ -20,7 +20,7 @@ final class VersionsPurgeCommand extends Command
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -54,7 +54,7 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->hasOption('before') && $input->getOption('before') != '') {
+        if ($input->hasOption('before') && '' != $input->getOption('before')) {
             $this->purgeByDate($input, $output);
         } elseif ($input->hasOption('count')) {
             if ((int) $input->getOption('count') < 2) {
@@ -64,6 +64,7 @@ EOT
         } else {
             throw new \InvalidArgumentException('Choose an option between --before or --count');
         }
+
         return 0;
     }
 

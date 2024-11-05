@@ -21,7 +21,7 @@ final class ThemeAssetsCommand extends Command
     public function __construct(
         #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
-        private readonly ThemeGenerator $themeGenerator
+        private readonly ThemeGenerator $themeGenerator,
     ) {
         parent::__construct();
     }
@@ -61,18 +61,19 @@ final class ThemeAssetsCommand extends Command
         $themeInfo = new ThemeInfo($name, $this->projectDir);
 
         if (!$themeInfo->exists()) {
-            throw new InvalidArgumentException($themeInfo->getThemePath() . ' does not exist.');
+            throw new InvalidArgumentException($themeInfo->getThemePath().' does not exist.');
         }
 
         $io->table([
-            'Description', 'Value'
+            'Description', 'Value',
         ], [
             ['Given name', $themeInfo->getName()],
             ['Theme path', $themeInfo->getThemePath()],
-            ['Assets path', $themeInfo->getThemePath() . '/static'],
+            ['Assets path', $themeInfo->getThemePath().'/static'],
         ]);
 
         $this->themeGenerator->installThemeAssets($themeInfo, $expectedMethod);
+
         return 0;
     }
 }

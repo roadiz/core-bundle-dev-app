@@ -22,9 +22,6 @@ class TagMultiCreationController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     * @param int $parentTagId
-     * @return Response
      * @throws \Twig\Error\RuntimeError
      */
     public function addChildAction(Request $request, int $parentTagId): Response

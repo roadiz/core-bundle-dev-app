@@ -17,7 +17,7 @@ final class JwtExtension extends AbstractExtension
     public function __construct(
         private readonly JWTTokenManagerInterface $tokenManager,
         private readonly LoggerInterface $logger,
-        private readonly PreviewUserProviderInterface $previewUserProvider
+        private readonly PreviewUserProviderInterface $previewUserProvider,
     ) {
     }
 
@@ -34,9 +34,11 @@ final class JwtExtension extends AbstractExtension
             return $this->tokenManager->create($this->previewUserProvider->createFromSecurity());
         } catch (AccessDeniedException $exception) {
             $this->logger->warning($exception->getMessage());
+
             return null;
         } catch (JWTFailureException $exception) {
             $this->logger->warning($exception->getMessage());
+
             return null;
         }
     }

@@ -24,18 +24,11 @@ class AddNodeType extends AbstractType
 {
     protected ManagerRegistry $managerRegistry;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
     public function __construct(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('title', TextType::class, [
@@ -46,12 +39,12 @@ class AddNodeType extends AbstractType
                 new NotNull(),
                 new NotBlank(),
                 new Length([
-                    'max' => 255
-                ])
+                    'max' => 255,
+                ]),
             ],
         ]);
 
-        if ($options['showNodeType'] === true) {
+        if (true === $options['showNodeType']) {
             $builder->add('nodeType', NodeTypesType::class, [
                 'label' => 'nodeType',
                 'constraints' => [
@@ -112,17 +105,11 @@ class AddNodeType extends AbstractType
         });
     }
 
-    /**
-     * @return string
-     */
     public function getBlockPrefix(): string
     {
         return 'childnode';
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

@@ -16,7 +16,7 @@ final class GitlabPipelineTriggerMessage implements AsyncMessage, HttpRequestMes
         private readonly string $uri,
         private readonly string $token,
         private readonly string $ref = 'main',
-        private readonly ?array $variables = null
+        private readonly ?array $variables = null,
     ) {
     }
 
@@ -35,30 +35,27 @@ final class GitlabPipelineTriggerMessage implements AsyncMessage, HttpRequestMes
             $this->uri,
             [
                 'Content-Type' => 'application/x-www-form-urlencoded',
-                'Accept'     => 'application/json'
+                'Accept' => 'application/json',
             ],
             http_build_query($postBody)
         );
     }
 
-    /**
-     * @return array
-     */
     public function getOptions(): array
     {
         return [
             'debug' => false,
-            'timeout' => 3
+            'timeout' => 3,
         ];
     }
 
     /**
-     * @param WebhookInterface $webhook
      * @return static
      */
     public static function fromWebhook(WebhookInterface $webhook): self
     {
         $payload = $webhook->getPayload();
+
         return new self(
             $webhook->getUri(),
             $payload['token'] ?? '',

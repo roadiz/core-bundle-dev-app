@@ -18,28 +18,22 @@ use Symfony\Component\HttpFoundation\Request;
 #[Exclude]
 class TagListManager extends EntityListManager
 {
-    /**
-     * @param Request|null  $request
-     * @param ObjectManager $entityManager
-     * @param array         $preFilters
-     * @param array         $preOrdering
-     */
     public function __construct(
         ?Request $request,
         ObjectManager $entityManager,
         array $preFilters = [],
-        array $preOrdering = []
+        array $preOrdering = [],
     ) {
         parent::__construct($request, $entityManager, Tag::class, $preFilters, $preOrdering);
     }
 
     /**
-     * @return array
+     * @return array<TagTranslation>|array<Tag>
      */
     public function getEntities(): array
     {
         try {
-            if ($this->searchPattern != '') {
+            if ('' != $this->searchPattern) {
                 return $this->entityManager
                     ->getRepository(TagTranslation::class)
                     ->searchBy($this->searchPattern, $this->filteringArray, $this->orderingArray);

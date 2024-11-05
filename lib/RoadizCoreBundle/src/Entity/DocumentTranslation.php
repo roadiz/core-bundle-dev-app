@@ -17,8 +17,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: DocumentTranslationRepository::class),
-    ORM\Table(name: "documents_translations"),
-    ORM\UniqueConstraint(columns: ["document_id", "translation_id"]),
+    ORM\Table(name: 'documents_translations'),
+    ORM\UniqueConstraint(columns: ['document_id', 'translation_id']),
     Gedmo\Loggable(logEntryClass: UserLogEntry::class)
 ]
 class DocumentTranslation extends AbstractEntity implements Loggable
@@ -60,22 +60,18 @@ class DocumentTranslation extends AbstractEntity implements Loggable
     #[Gedmo\Versioned]
     private ?string $copyright = null;
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
     /**
-     * @param string|null $name
-     *
      * @return $this
      */
     public function setName(?string $name): DocumentTranslation
     {
         $this->name = $name;
+
         return $this;
     }
 
@@ -87,20 +83,16 @@ class DocumentTranslation extends AbstractEntity implements Loggable
     public function setDescription(?string $description): DocumentTranslation
     {
         $this->description = $description;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCopyright(): ?string
     {
         return $this->copyright;
     }
 
     /**
-     * @param string|null $copyright
-     *
      * @return $this
      */
     public function setCopyright(?string $copyright): DocumentTranslation
@@ -110,34 +102,24 @@ class DocumentTranslation extends AbstractEntity implements Loggable
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getExternalUrl(): ?string
     {
         return $this->externalUrl;
     }
 
-    /**
-     * @param string|null $externalUrl
-     * @return DocumentTranslation
-     */
     public function setExternalUrl(?string $externalUrl): DocumentTranslation
     {
         $this->externalUrl = $externalUrl;
+
         return $this;
     }
 
-    /**
-     * @return TranslationInterface
-     */
     public function getTranslation(): TranslationInterface
     {
         return $this->translation;
     }
 
     /**
-     * @param TranslationInterface $translation
      * @return $this
      */
     public function setTranslation(TranslationInterface $translation): DocumentTranslation
@@ -147,21 +129,18 @@ class DocumentTranslation extends AbstractEntity implements Loggable
         return $this;
     }
 
-    /**
-     * @return DocumentInterface
-     */
     public function getDocument(): DocumentInterface
     {
         return $this->document;
     }
 
     /**
-     * @param DocumentInterface $document
      * @return $this
      */
     public function setDocument(DocumentInterface $document): DocumentTranslation
     {
         $this->document = $document;
+
         return $this;
     }
 }

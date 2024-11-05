@@ -17,16 +17,14 @@ final class ThemeAwareNodeUrlMatcher implements UrlMatcherInterface, RequestMatc
 {
     public function __construct(
         private readonly ThemeResolverInterface $themeResolver,
-        private readonly NodeUrlMatcher $innerMatcher
+        private readonly NodeUrlMatcher $innerMatcher,
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function match(string $pathinfo): array
     {
         $decodedUrl = rawurldecode($pathinfo);
+
         /*
          * Try nodes routes
          */

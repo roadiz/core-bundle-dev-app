@@ -21,9 +21,6 @@ final class DeclarationGeneratorFactory
     {
     }
 
-    /**
-     * @return ParameterBag
-     */
     public function getNodeTypesBag(): ParameterBag
     {
         return $this->nodeTypesBag;
@@ -34,11 +31,6 @@ final class DeclarationGeneratorFactory
         return $bool ? 'true' : 'false';
     }
 
-    /**
-     * @param NodeTypeInterface $nodeType
-     *
-     * @return NodeTypeGenerator
-     */
     public function createForNodeType(NodeTypeInterface $nodeType): NodeTypeGenerator
     {
         return new NodeTypeGenerator(
@@ -47,11 +39,6 @@ final class DeclarationGeneratorFactory
         );
     }
 
-    /**
-     * @param NodeTypeFieldInterface $field
-     *
-     * @return AbstractFieldGenerator
-     */
     public function createForNodeTypeField(NodeTypeFieldInterface $field): AbstractFieldGenerator
     {
         return match (true) {

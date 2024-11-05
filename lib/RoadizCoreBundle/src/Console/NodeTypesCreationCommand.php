@@ -27,7 +27,7 @@ class NodeTypesCreationCommand extends Command
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly HandlerFactory $handlerFactory,
         protected readonly SchemaUpdater $schemaUpdater,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -57,12 +57,14 @@ class NodeTypesCreationCommand extends Command
             ->getRepository(NodeType::class)
             ->findOneBy(['name' => $name]);
 
-        if ($nodeType !== null) {
-            $io->error('Node-type "' . $name . '" already exists.');
+        if (null !== $nodeType) {
+            $io->error('Node-type "'.$name.'" already exists.');
+
             return 1;
         } else {
             $this->executeCreation($input, $output);
         }
+
         return 0;
     }
 
@@ -73,7 +75,7 @@ class NodeTypesCreationCommand extends Command
         $nt = new NodeType();
         $nt->setName($name);
 
-        $io->note('OK! Let’s create that "' . $nt->getName() . '" node-type together!');
+        $io->note('OK! Let’s create that "'.$nt->getName().'" node-type together!');
 
         $question0 = new Question('<question>Enter your node-type display name</question>', ucwords($name));
         $displayName = $io->askQuestion($question0);
@@ -94,7 +96,7 @@ class NodeTypesCreationCommand extends Command
         $handler->regenerateEntityClass();
         $this->schemaUpdater->updateNodeTypesSchema();
 
-        $io->success('Node type ' . $nt->getName() . ' has been created.');
+        $io->success('Node type '.$nt->getName().' has been created.');
     }
 
     protected function addNodeTypeField(NodeType $nodeType, int|float|string $position, SymfonyStyle $io): void
@@ -103,15 +105,15 @@ class NodeTypesCreationCommand extends Command
         $position = floatval($position);
         $field->setPosition($position);
 
-        $questionfName = new Question('[Field ' . $position . '] <question>Enter field name</question>', 'content');
+        $questionfName = new Question('[Field '.$position.'] <question>Enter field name</question>', 'content');
         $fName = $io->askQuestion($questionfName);
         $field->setName($fName);
 
-        $questionfLabel = new Question('[Field ' . $position . '] <question>Enter field label</question>', 'Your content');
+        $questionfLabel = new Question('[Field '.$position.'] <question>Enter field label</question>', 'Your content');
         $fLabel = $io->askQuestion($questionfLabel);
         $field->setLabel($fLabel);
 
-        $questionfType = new Question('[Field ' . $position . '] <question>Enter field type</question>', 'STRING_T');
+        $questionfType = new Question('[Field '.$position.'] <question>Enter field type</question>', 'STRING_T');
         $questionfType->setAutocompleterValues([
             'STRING_T',
             'DATETIME_T',
@@ -136,10 +138,10 @@ class NodeTypesCreationCommand extends Command
         ]);
 
         $fType = $io->askQuestion($questionfType);
-        $fType = constant(NodeTypeField::class . '::' . $fType);
+        $fType = constant(NodeTypeField::class.'::'.$fType);
         $field->setType($fType);
 
-        $questionIndexed = new ConfirmationQuestion('[Field ' . $position . '] <question>Must this field be indexed?</question>', false);
+        $questionIndexed = new ConfirmationQuestion('[Field '.$position.'] <question>Must this field be indexed?</question>', false);
         if ($io->askQuestion($questionIndexed)) {
             $field->setIndexed(true);
         }

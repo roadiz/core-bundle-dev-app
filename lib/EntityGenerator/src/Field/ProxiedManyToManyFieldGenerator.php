@@ -22,19 +22,20 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
 
         $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
         $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
-            $this->field->getVarName()
+            $this->field->getVarName(),
         ]);
         $property->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
-            'serializedName' => $this->field->getVarName()
+            'serializedName' => $this->field->getVarName(),
         ]);
         $property->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [
-            $this->getSerializationGroups()
+            $this->getSerializationGroups(),
         ]);
         if ($this->getSerializationMaxDepth() > 0) {
             $property->addAttribute('Symfony\Component\Serializer\Attribute\MaxDepth', [
-                $this->getSerializationMaxDepth()
+                $this->getSerializationMaxDepth(),
             ]);
         }
+
         return $this;
     }
 
@@ -63,10 +64,10 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
          *      inverseJoinColumns={@JoinColumn(name="group_id", referencedColumnName="id")}
          */
         $ormParams = [
-            'targetEntity' => new Literal('\\' . trim($this->getProxyClassname(), '\\') . '::class'),
+            'targetEntity' => new Literal('\\'.trim($this->getProxyClassname(), '\\').'::class'),
             'mappedBy' => $this->configuration['proxy']['self'],
             'orphanRemoval' => true,
-            'cascade' => ['persist', 'remove']
+            'cascade' => ['persist', 'remove'],
         ];
 
         $property->addAttribute('Doctrine\ORM\Mapping\OneToMany', $ormParams);
@@ -78,7 +79,7 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
                 $orderBy[$order['field']] = $order['direction'];
             }
             $property->addAttribute('Doctrine\ORM\Mapping\OrderBy', [
-                $orderBy
+                $orderBy,
             ]);
         }
 
@@ -87,8 +88,9 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
 
     public function addFieldAnnotation(Property $property): self
     {
-        $property->addComment($this->field->getLabel() . '.');
-        $property->addComment('@var \Doctrine\Common\Collections\Collection<int, ' . $this->getProxyClassname() . '>');
+        $property->addComment($this->field->getLabel().'.');
+        $property->addComment('@var \Doctrine\Common\Collections\Collection<int, '.$this->getProxyClassname().'>');
+
         return $this;
     }
 
@@ -97,12 +99,12 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
         $classType->addMethod($this->getProxiedGetterName())
             ->setReturnType('\Doctrine\Common\Collections\Collection')
             ->setPublic()
-            ->setBody('return $this->' . $this->getProxiedVarName() . ';')
+            ->setBody('return $this->'.$this->getProxiedVarName().';')
             ->addComment(
-                '@return ' .
-                $namespace->simplifyName('\Doctrine\Common\Collections\Collection') .
-                '<int, ' .
-                $this->getProxyClassname() .
+                '@return '.
+                $namespace->simplifyName('\Doctrine\Common\Collections\Collection').
+                '<int, '.
+                $this->getProxyClassname().
                 '>'
             );
 
@@ -126,7 +128,7 @@ EOF
         $proxySetter = $classType->addMethod($this->getProxiedSetterName())
             ->setReturnType('static')
             ->setPublic()
-            ->addComment('@param \Doctrine\Common\Collections\Collection<int, ' . $this->getProxyClassname() . '> $' . $this->getProxiedVarName())
+            ->addComment('@param \Doctrine\Common\Collections\Collection<int, '.$this->getProxyClassname().'> $'.$this->getProxiedVarName())
             ->addComment('@return $this')
         ;
         $proxySetter->addParameter($this->getProxiedVarName())
@@ -174,70 +176,48 @@ EOF
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getFieldConstructorInitialization(): string
     {
-        return '$this->' . $this->getProxiedVarName() . ' = new \Doctrine\Common\Collections\ArrayCollection();';
+        return '$this->'.$this->getProxiedVarName().' = new \Doctrine\Common\Collections\ArrayCollection();';
     }
 
-    /**
-     * @return string
-     */
     protected function getProxiedVarName(): string
     {
-        return $this->field->getVarName() . 'Proxy';
-    }
-    /**
-     * @return string
-     */
-    protected function getProxiedSetterName(): string
-    {
-        return $this->field->getSetterName() . 'Proxy';
-    }
-    /**
-     * @return string
-     */
-    protected function getProxiedGetterName(): string
-    {
-        return $this->field->getGetterName() . 'Proxy';
-    }
-    /**
-     * @return string
-     */
-    protected function getProxySelfSetterName(): string
-    {
-        return 'set' . ucwords($this->configuration['proxy']['self']);
-    }
-    /**
-     * @return string
-     */
-    protected function getProxyRelationSetterName(): string
-    {
-        return 'set' . ucwords($this->configuration['proxy']['relation']);
-    }
-    /**
-     * @return string
-     */
-    protected function getProxyRelationGetterName(): string
-    {
-        return 'get' . ucwords($this->configuration['proxy']['relation']);
+        return $this->field->getVarName().'Proxy';
     }
 
-    /**
-     * @return string
-     */
+    protected function getProxiedSetterName(): string
+    {
+        return $this->field->getSetterName().'Proxy';
+    }
+
+    protected function getProxiedGetterName(): string
+    {
+        return $this->field->getGetterName().'Proxy';
+    }
+
+    protected function getProxySelfSetterName(): string
+    {
+        return 'set'.ucwords($this->configuration['proxy']['self']);
+    }
+
+    protected function getProxyRelationSetterName(): string
+    {
+        return 'set'.ucwords($this->configuration['proxy']['relation']);
+    }
+
+    protected function getProxyRelationGetterName(): string
+    {
+        return 'get'.ucwords($this->configuration['proxy']['relation']);
+    }
+
     protected function getProxyClassname(): string
     {
         return (new UnicodeString($this->configuration['proxy']['classname']))->startsWith('\\') ?
             $this->configuration['proxy']['classname'] :
-            '\\' . $this->configuration['proxy']['classname'];
+            '\\'.$this->configuration['proxy']['classname'];
     }
 
-    /**
-     * @return string
-     */
     public function getCloneStatements(): string
     {
         return <<<PHP

@@ -32,17 +32,11 @@ class NodeTreeType extends AbstractType
     protected ManagerRegistry $managerRegistry;
     protected TreeWidgetFactory $treeWidgetFactory;
 
-    /**
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     * @param RequestStack $requestStack
-     * @param ManagerRegistry $managerRegistry
-     * @param TreeWidgetFactory $treeWidgetFactory
-     */
     public function __construct(
         AuthorizationCheckerInterface $authorizationChecker,
         RequestStack $requestStack,
         ManagerRegistry $managerRegistry,
-        TreeWidgetFactory $treeWidgetFactory
+        TreeWidgetFactory $treeWidgetFactory,
     ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->requestStack = $requestStack;
@@ -50,19 +44,12 @@ class NodeTreeType extends AbstractType
         $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param FormView      $view
-     * @param FormInterface $form
-     * @param array         $options
-     */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         parent::finishView($view, $form, $options);
 
-        if ($options['nodeTypeField']->getType() !== AbstractField::CHILDREN_T) {
-            throw new \RuntimeException("Given field is not a NodeTypeField::CHILDREN_T field.", 1);
+        if (AbstractField::CHILDREN_T !== $options['nodeTypeField']->getType()) {
+            throw new \RuntimeException('Given field is not a NodeTypeField::CHILDREN_T field.', 1);
         }
 
         $view->vars['authorizationChecker'] = $this->authorizationChecker;
@@ -97,7 +84,7 @@ class NodeTreeType extends AbstractType
          */
         if (is_array($nodeTypes) && count($nodeTypes) > 0) {
             $nodeTree->setAdditionalCriteria([
-                'nodeType' => $nodeTypes
+                'nodeType' => $nodeTypes,
             ]);
         }
 
@@ -110,24 +97,17 @@ class NodeTreeType extends AbstractType
             Node::getStatusLabel(Node::DELETED) => Node::DELETED,
         ];
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getParent(): ?string
     {
         return HiddenType::class;
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getBlockPrefix(): string
     {
         return 'childrennodes';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired([

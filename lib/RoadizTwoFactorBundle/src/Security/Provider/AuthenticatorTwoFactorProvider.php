@@ -37,16 +37,12 @@ final class AuthenticatorTwoFactorProvider implements TwoFactorProviderInterface
 
         $totpConfiguration = $twoFactorUser->getTotpAuthenticationConfiguration();
         if (null === $totpConfiguration) {
-            throw new TwoFactorProviderLogicException(
-                'User has to provide a TotpAuthenticationConfiguration for TOTP authentication.'
-            );
+            throw new TwoFactorProviderLogicException('User has to provide a TotpAuthenticationConfiguration for TOTP authentication.');
         }
 
         $secret = $totpConfiguration->getSecret();
         if (0 === \mb_strlen($secret)) {
-            throw new TwoFactorProviderLogicException(
-                'User has to provide a secret code for TOTP authentication.'
-            );
+            throw new TwoFactorProviderLogicException('User has to provide a secret code for TOTP authentication.');
         }
 
         return true;

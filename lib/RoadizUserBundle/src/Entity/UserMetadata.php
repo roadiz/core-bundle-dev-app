@@ -23,57 +23,39 @@ class UserMetadata
     #[ORM\Column(name: 'metadata', type: 'json', nullable: true)]
     private ?array $metadata = [];
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return UserMetadata
-     */
     public function setId(int $id): UserMetadata
     {
         $this->id = $id;
+
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
     public function getUser(): ?User
     {
         return $this->user;
     }
 
-    /**
-     * @param  User|null $user
-     * @return UserMetadata
-     */
     public function setUser(?User $user): UserMetadata
     {
         $this->user = $user;
+
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
     public function getMetadata(): ?array
     {
         return $this->metadata;
     }
 
-    /**
-     * @param  array|null $metadata
-     * @return UserMetadata
-     */
     public function setMetadata(?array $metadata): UserMetadata
     {
         $this->metadata = $metadata;
+
         return $this;
     }
 }

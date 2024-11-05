@@ -14,38 +14,26 @@ class QueryBuilderListManager extends AbstractEntityListManager
 {
     protected ?Paginator $paginator = null;
     /**
-     * @var null|callable
+     * @var callable|null
      */
-    protected $searchingCallable = null;
+    protected $searchingCallable;
 
-    /**
-     * @param Request|null $request
-     * @param QueryBuilder $queryBuilder
-     * @param string $identifier
-     * @param bool $debug
-     */
     public function __construct(
         ?Request $request,
         protected readonly QueryBuilder $queryBuilder,
         protected readonly string $identifier = 'obj',
-        protected readonly bool $debug = false
+        protected readonly bool $debug = false,
     ) {
         parent::__construct($request);
     }
 
-    /**
-     * @param callable|null $searchingCallable
-     * @return QueryBuilderListManager
-     */
     public function setSearchingCallable(?callable $searchingCallable): QueryBuilderListManager
     {
         $this->searchingCallable = $searchingCallable;
+
         return $this;
     }
 
-    /**
-     * @param string $search
-     */
     protected function handleSearchParam(string $search): void
     {
         parent::handleSearchParam($search);
@@ -69,64 +57,49 @@ class QueryBuilderListManager extends AbstractEntityListManager
         );
     }
 
-    /**
-     * @return Paginator
-     */
     protected function getPaginator(): Paginator
     {
         if (null === $this->paginator) {
             $this->paginator = new Paginator($this->queryBuilder);
         }
+
         return $this->paginator;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setPage(int $page): self
     {
         parent::setPage($page);
         $this->queryBuilder->setFirstResult($this->getItemPerPage() * ($page - 1));
+
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function setItemPerPage(int $itemPerPage): self
     {
         parent::setItemPerPage($itemPerPage);
         $this->queryBuilder->setMaxResults((int) $itemPerPage);
+
         return $this;
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function getItemCount(): int
     {
         return $this->getPaginator()->count();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getEntities(): array
     {
         return $this->getPaginator()->getIterator()->getArrayCopy();
     }
 
-    /**
-     * @return array
-     */
     public function getAssignation(): array
     {
         if ($this->debug) {
             return array_merge(parent::getAssignation(), [
-                'dql_query' => $this->queryBuilder->getDQL()
+                'dql_query' => $this->queryBuilder->getDQL(),
             ]);
         }
+
         return parent::getAssignation();
     }
 }

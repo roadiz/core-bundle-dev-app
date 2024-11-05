@@ -17,21 +17,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AttributeType extends AbstractType
 {
-    /**
-     * @inheritDoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('code', TextType::class, [
-                'label' => 'attributes.form.code',
-                'required' => true,
-                'help' => 'attributes.form_help.code',
-            ])
+            'label' => 'attributes.form.code',
+            'required' => true,
+            'help' => 'attributes.form_help.code',
+        ])
             ->add('group', AttributeGroupsType::class, [
                 'label' => 'attributes.form.group',
                 'required' => false,
                 'help' => 'attributes.form_help.group',
-                'placeholder' => 'attributes.form.group.placeholder'
+                'placeholder' => 'attributes.form.group.placeholder',
             ])
             ->add('color', ColorType::class, [
                 'label' => 'attributes.form.color',
@@ -58,13 +55,13 @@ class AttributeType extends AbstractType
             ->add('searchable', CheckboxType::class, [
                 'label' => 'attributes.form.searchable',
                 'required' => false,
-                'help' => 'attributes.form_help.searchable'
+                'help' => 'attributes.form_help.searchable',
             ])
             ->add('weight', NumberType::class, [
                 'label' => 'attributes.weight',
                 'required' => false,
                 'scale' => 1,
-                'help' => 'attributes.form_help.weight'
+                'help' => 'attributes.form_help.weight',
             ])
             ->add('defaultRealm', RealmChoiceType::class, [
                 'label' => 'attributes.defaultRealm',
@@ -82,34 +79,28 @@ class AttributeType extends AbstractType
                 'entry_options' => [
                     'label' => false,
                     'attr' => [
-                        'class' => 'uk-form uk-form-horizontal'
-                    ]
+                        'class' => 'uk-form uk-form-horizontal',
+                    ],
                 ],
                 'attr' => [
-                    'class' => 'rz-collection-form-type'
-                ]
+                    'class' => 'rz-collection-form-type',
+                ],
             ])
             ->add('attributeDocuments', AttributeDocumentType::class, [
                 'label' => 'attributes.form.documents',
                 'help' => 'attributes.form_help.documents',
                 'required' => false,
-                'attribute' => $builder->getForm()->getData()
+                'attribute' => $builder->getForm()->getData(),
             ])
         ;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
         $resolver->setDefault('data_class', Attribute::class);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getBlockPrefix(): string
     {
         return 'attribute';

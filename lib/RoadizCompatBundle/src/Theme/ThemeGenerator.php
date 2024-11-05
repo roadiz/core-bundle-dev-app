@@ -26,17 +26,11 @@ class ThemeGenerator
     protected string $cacheDir;
     protected LoggerInterface $logger;
 
-    /**
-     * @param string $projectDir
-     * @param string $publicDir
-     * @param string $cacheDir
-     * @param LoggerInterface $logger
-     */
     public function __construct(
         string $projectDir,
         string $publicDir,
         string $cacheDir,
-        LoggerInterface $logger
+        LoggerInterface $logger,
     ) {
         $this->filesystem = new Filesystem();
         $this->projectDir = $projectDir;
@@ -46,9 +40,6 @@ class ThemeGenerator
     }
 
     /**
-     * @param ThemeInfo $themeInfo
-     * @param string    $branch
-     *
      * @return $this
      */
     public function downloadTheme(ThemeInfo $themeInfo, string $branch = 'master'): ThemeGenerator
@@ -61,42 +52,38 @@ class ThemeGenerator
                 ['git', 'clone', '-b', $branch, static::REPOSITORY, $themeInfo->getThemePath()]
             );
             $process->run();
-            $this->logger->info('BaseTheme cloned into ' . $themeInfo->getThemePath());
+            $this->logger->info('BaseTheme cloned into '.$themeInfo->getThemePath());
         } else {
-            $this->logger->info($themeInfo->getClassname() . ' already exists.');
+            $this->logger->info($themeInfo->getClassname().' already exists.');
         }
 
         return $this;
     }
 
     /**
-     * @param ThemeInfo $themeInfo
-     *
      * @return $this
      */
     public function renameTheme(ThemeInfo $themeInfo): ThemeGenerator
     {
         if (!$themeInfo->exists()) {
-            throw new FileException($themeInfo->getThemePath() . ' theme does not exist.');
+            throw new FileException($themeInfo->getThemePath().' theme does not exist.');
         }
         if ($themeInfo->isProtected()) {
-            throw new \InvalidArgumentException(
-                $themeInfo->getThemeName() . ' is protected and cannot renamed.'
-            );
+            throw new \InvalidArgumentException($themeInfo->getThemeName().' is protected and cannot renamed.');
         }
         /*
          * Remove existing Git history.
          */
-        $this->filesystem->remove($themeInfo->getThemePath() . '/.git');
+        $this->filesystem->remove($themeInfo->getThemePath().'/.git');
         $this->logger->info('Remove Git history.');
 
         /*
          * Rename main theme class.
          */
-        $mainClassFile = $themeInfo->getThemePath() . '/' . $themeInfo->getThemeName() . 'App.php';
+        $mainClassFile = $themeInfo->getThemePath().'/'.$themeInfo->getThemeName().'App.php';
         if (!$this->filesystem->exists($mainClassFile)) {
             $this->filesystem->rename(
-                $themeInfo->getThemePath() . '/BaseThemeApp.php',
+                $themeInfo->getThemePath().'/BaseThemeApp.php',
                 $mainClassFile
             );
             /*
@@ -111,11 +98,11 @@ class ThemeGenerator
             $this->logger->info('Rename main theme class.');
         }
 
-        $serviceProviderFile = $themeInfo->getThemePath() .
-            '/Services/' . $themeInfo->getThemeName() . 'ServiceProvider.php';
+        $serviceProviderFile = $themeInfo->getThemePath().
+            '/Services/'.$themeInfo->getThemeName().'ServiceProvider.php';
         if (!$this->filesystem->exists($serviceProviderFile)) {
             $this->filesystem->rename(
-                $themeInfo->getThemePath() . '/Services/BaseThemeServiceProvider.php',
+                $themeInfo->getThemePath().'/Services/BaseThemeServiceProvider.php',
                 $serviceProviderFile
             );
             /*
@@ -137,7 +124,7 @@ class ThemeGenerator
         $processes->add(new Process(
             [
                 'find', $themeInfo->getThemePath(), '-type', 'f', '-exec', 'sed', '-i.bak',
-                '-e', 's/BaseTheme/' . $themeInfo->getThemeName() . '/g', '{}', ';',
+                '-e', 's/BaseTheme/'.$themeInfo->getThemeName().'/g', '{}', ';',
             ],
             null,
             ['LC_ALL' => 'C']
@@ -145,22 +132,22 @@ class ThemeGenerator
         $processes->add(new Process(
             [
                 'find', $themeInfo->getThemePath(), '-type', 'f', '-exec', 'sed', '-i.bak',
-                '-e', 's/Base theme/' . $themeInfo->getName() . ' theme/g', '{}', ';',
+                '-e', 's/Base theme/'.$themeInfo->getName().' theme/g', '{}', ';',
             ],
             null,
             ['LC_ALL' => 'C']
         ));
         $processes->add(new Process(
             [
-                'find', $themeInfo->getThemePath() . '/static', '-type', 'f', '-exec', 'sed', '-i.bak',
-                '-e', 's/Base/' . $themeInfo->getName() . '/g', '{}', ';',
+                'find', $themeInfo->getThemePath().'/static', '-type', 'f', '-exec', 'sed', '-i.bak',
+                '-e', 's/Base/'.$themeInfo->getName().'/g', '{}', ';',
             ],
             null,
             ['LC_ALL' => 'C']
         ));
         $processes->add(new Process(
             [
-                'find', $themeInfo->getThemePath() , '-type', 'f', '-name', '*.bak', '-exec', 'rm', '-f', '{}', ';',
+                'find', $themeInfo->getThemePath(), '-type', 'f', '-name', '*.bak', '-exec', 'rm', '-f', '{}', ';',
             ],
             null,
             ['LC_ALL' => 'C']
@@ -177,19 +164,13 @@ class ThemeGenerator
         return $this;
     }
 
-    /**
-     * @param ThemeInfo $themeInfo
-     * @param string    $expectedMethod
-     *
-     * @return string|null
-     */
     public function installThemeAssets(ThemeInfo $themeInfo, string $expectedMethod): ?string
     {
         if ($themeInfo->exists()) {
-            $publicThemeDir = $this->publicDir . '/themes/' . $themeInfo->getThemeName();
+            $publicThemeDir = $this->publicDir.'/themes/'.$themeInfo->getThemeName();
             if ($publicThemeDir !== $themeInfo->getThemePath()) {
-                $targetDir = $publicThemeDir . '/static';
-                $originDir = $themeInfo->getThemePath() . '/static';
+                $targetDir = $publicThemeDir.'/static';
+                $originDir = $themeInfo->getThemePath().'/static';
 
                 $this->filesystem->remove($publicThemeDir);
                 $this->filesystem->mkdir($publicThemeDir);
@@ -202,9 +183,10 @@ class ThemeGenerator
                     return $this->hardCopy($originDir, $targetDir);
                 }
             } else {
-                $this->logger->info($themeInfo->getThemeName() . ' assets are already public.');
+                $this->logger->info($themeInfo->getThemeName().' assets are already public.');
             }
         }
+
         return null;
     }
 
@@ -212,10 +194,6 @@ class ThemeGenerator
      * Try to create relative symlink.
      *
      * Falling back to absolute symlink and finally hard copy.
-     *
-     * @param string $originDir
-     * @param string $targetDir
-     * @return string
      */
     private function relativeSymlinkWithFallback(string $originDir, string $targetDir): string
     {
@@ -225,6 +203,7 @@ class ThemeGenerator
         } catch (IOException $e) {
             $method = $this->absoluteSymlinkWithFallback($originDir, $targetDir);
         }
+
         return $method;
     }
 
@@ -232,10 +211,6 @@ class ThemeGenerator
      * Try to create absolute symlink.
      *
      * Falling back to hard copy.
-     *
-     * @param string $originDir
-     * @param string $targetDir
-     * @return string
      */
     private function absoluteSymlinkWithFallback(string $originDir, string $targetDir): string
     {
@@ -246,15 +221,12 @@ class ThemeGenerator
             // fall back to copy
             $method = $this->hardCopy($originDir, $targetDir);
         }
+
         return $method;
     }
 
     /**
      * Creates symbolic link.
-     *
-     * @param string $originDir
-     * @param string $targetDir
-     * @param bool $relative
      */
     private function symlink(string $originDir, string $targetDir, bool $relative = false): void
     {
@@ -262,29 +234,18 @@ class ThemeGenerator
             $this->filesystem->mkdir(dirname($targetDir));
             $realTargetParentDir = realpath(dirname($targetDir));
             if (false === $realTargetParentDir) {
-                throw new IOException(
-                    sprintf('Cannot resolve realpath for "%s" dirname.', $targetDir),
-                );
+                throw new IOException(sprintf('Cannot resolve realpath for "%s" dirname.', $targetDir));
             }
             $originDir = $this->filesystem->makePathRelative($originDir, $realTargetParentDir);
         }
         $this->filesystem->symlink($originDir, $targetDir);
         if (!file_exists($targetDir)) {
-            throw new IOException(
-                sprintf('Symbolic link "%s" was created but appears to be broken.', $targetDir),
-                0,
-                null,
-                $targetDir
-            );
+            throw new IOException(sprintf('Symbolic link "%s" was created but appears to be broken.', $targetDir), 0, null, $targetDir);
         }
     }
 
     /**
      * Copies origin to target.
-     *
-     * @param string $originDir
-     * @param string $targetDir
-     * @return string
      */
     private function hardCopy(string $originDir, string $targetDir): string
     {

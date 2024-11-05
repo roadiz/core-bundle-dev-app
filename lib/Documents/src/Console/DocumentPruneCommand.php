@@ -36,6 +36,7 @@ class DocumentPruneCommand extends AbstractDocumentCommand
 
         if ($count <= 0) {
             $this->io->warning('All documents are used.');
+
             return 0;
         }
 
@@ -44,6 +45,7 @@ class DocumentPruneCommand extends AbstractDocumentCommand
                 '%d documents are not used by a node-source, a tag, a setting, a custom-form answer or an attribute.',
                 $count
             ));
+
             return 0;
         }
 

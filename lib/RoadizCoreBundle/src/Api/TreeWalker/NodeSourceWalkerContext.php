@@ -28,28 +28,21 @@ class NodeSourceWalkerContext implements WalkerContextInterface
         private readonly ManagerRegistry $managerRegistry,
         private readonly CacheItemPoolInterface $cacheAdapter,
         private readonly NodeTypeResolver $nodeTypeResolver,
-        private readonly PreviewResolverInterface $previewResolver
+        private readonly PreviewResolverInterface $previewResolver,
     ) {
     }
 
-    /**
-     * @return Stopwatch
-     */
     public function getStopwatch(): Stopwatch
     {
         return $this->stopwatch;
     }
 
-    /**
-     * @return NodeTypes
-     */
     public function getNodeTypesBag(): NodeTypes
     {
         return $this->nodeTypesBag;
     }
 
     /**
-     * @return NodeSourceApi
      * @deprecated Use getManagerRegistry
      */
     public function getNodeSourceApi(): NodeSourceApi
@@ -57,16 +50,12 @@ class NodeSourceWalkerContext implements WalkerContextInterface
         return $this->nodeSourceApi;
     }
 
-    /**
-     * @return RequestStack
-     */
     public function getRequestStack(): RequestStack
     {
         return $this->requestStack;
     }
 
     /**
-     * @return Request|null
      * @deprecated Use getMainRequest
      */
     public function getMasterRequest(): ?Request
@@ -74,49 +63,31 @@ class NodeSourceWalkerContext implements WalkerContextInterface
         return $this->requestStack->getMainRequest();
     }
 
-    /**
-     * @return Request|null
-     */
     public function getMainRequest(): ?Request
     {
         return $this->requestStack->getMainRequest();
     }
 
-    /**
-     * @return ManagerRegistry
-     */
     public function getManagerRegistry(): ManagerRegistry
     {
         return $this->managerRegistry;
     }
 
-    /**
-     * @return ObjectManager
-     */
     public function getEntityManager(): ObjectManager
     {
         return $this->getManagerRegistry()->getManager();
     }
 
-    /**
-     * @return CacheItemPoolInterface
-     */
     public function getCacheAdapter(): CacheItemPoolInterface
     {
         return $this->cacheAdapter;
     }
 
-    /**
-     * @return NodeTypeResolver
-     */
     public function getNodeTypeResolver(): NodeTypeResolver
     {
         return $this->nodeTypeResolver;
     }
 
-    /**
-     * @return PreviewResolverInterface
-     */
     public function getPreviewResolver(): PreviewResolverInterface
     {
         return $this->previewResolver;

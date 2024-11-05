@@ -23,13 +23,10 @@ class InlineSvgRenderer implements RendererInterface
 
     public function supports(DocumentInterface $document, array $options): bool
     {
-        return $document->isLocal() && $document->isSvg() && (isset($options['inline']) && $options['inline'] === true);
+        return $document->isLocal() && $document->isSvg() && (isset($options['inline']) && true === $options['inline']);
     }
 
     /**
-     * @param DocumentInterface $document
-     * @param array $options
-     * @return string
      * @throws FilesystemException
      */
     public function render(DocumentInterface $document, array $options): string
@@ -43,9 +40,10 @@ class InlineSvgRenderer implements RendererInterface
                 $document,
                 $assignation
             );
+
             return trim($this->htmlTidy($viewer->getContent()));
         } catch (\Exception $e) {
-            return '<p>' . $e->getMessage() . '</p>';
+            return '<p>'.$e->getMessage().'</p>';
         }
     }
 

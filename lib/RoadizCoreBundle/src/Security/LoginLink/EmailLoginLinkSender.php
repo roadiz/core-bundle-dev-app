@@ -18,11 +18,11 @@ final readonly class EmailLoginLinkSender implements LoginLinkSenderInterface
         private EmailManagerFactory $emailManagerFactory,
         private TranslatorInterface $translator,
         private string $htmlTemplate = '@RoadizCore/email/users/login_link_email.html.twig',
-        private string $txtTemplate = '@RoadizCore/email/users/login_link_email.txt.twig'
+        private string $txtTemplate = '@RoadizCore/email/users/login_link_email.txt.twig',
     ) {
     }
 
-    public function sendLoginLink(UserInterface $user, LoginLinkDetails $loginLinkDetails,): void
+    public function sendLoginLink(UserInterface $user, LoginLinkDetails $loginLinkDetails): void
     {
         if ($user instanceof User && !$user->isEnabled()) {
             throw new \InvalidArgumentException('User must be enabled to send a login link.');

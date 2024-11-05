@@ -12,22 +12,17 @@ use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
- * @package RZ\Roadiz\CoreBundle\Repository
  * @extends EntityRepository<NodeTypeField>
  */
 final class NodeTypeFieldRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, NodeTypeField::class, $dispatcher);
     }
 
-    /**
-     * @param NodeTypeInterface|null $nodeType
-     * @return array
-     */
     public function findAvailableGroupsForNodeType(?NodeTypeInterface $nodeType): array
     {
         if (null === $nodeType) {
@@ -44,10 +39,6 @@ final class NodeTypeFieldRepository extends EntityRepository
         return $query->getScalarResult();
     }
 
-    /**
-     * @param NodeTypeInterface|null $nodeType
-     * @return array
-     */
     public function findAllNotUniversal(?NodeTypeInterface $nodeType): array
     {
         if (null === $nodeType) {
@@ -63,10 +54,6 @@ final class NodeTypeFieldRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    /**
-     * @param NodeTypeInterface|null $nodeType
-     * @return array
-     */
     public function findAllUniversal(?NodeTypeInterface $nodeType): array
     {
         if (null === $nodeType) {
@@ -87,9 +74,6 @@ final class NodeTypeFieldRepository extends EntityRepository
      *
      * Parent can be null for tag root
      *
-     * @param NodeTypeInterface|null $nodeType
-     *
-     * @return int
      * @throws NoResultException
      * @throws NonUniqueResultException
      */

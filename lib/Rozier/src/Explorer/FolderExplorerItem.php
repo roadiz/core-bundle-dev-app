@@ -12,21 +12,15 @@ final class FolderExplorerItem extends AbstractExplorerItem
 {
     public function __construct(
         private readonly Folder $folder,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getId(): int|string
     {
         return $this->folder->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAlternativeDisplayable(): ?string
     {
         /** @var Folder|null $parent */
@@ -36,12 +30,10 @@ final class FolderExplorerItem extends AbstractExplorerItem
                 $parent->getTranslatedFolders()->first()->getName() :
                 $parent->getName();
         }
+
         return '';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDisplayable(): string
     {
         return $this->folder->getTranslatedFolders()->first() ?
@@ -49,9 +41,6 @@ final class FolderExplorerItem extends AbstractExplorerItem
             $this->folder->getName();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getOriginal(): Folder
     {
         return $this->folder;
@@ -60,7 +49,7 @@ final class FolderExplorerItem extends AbstractExplorerItem
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('foldersEditPage', [
-            'folderId' => $this->folder->getId()
+            'folderId' => $this->folder->getId(),
         ]);
     }
 }

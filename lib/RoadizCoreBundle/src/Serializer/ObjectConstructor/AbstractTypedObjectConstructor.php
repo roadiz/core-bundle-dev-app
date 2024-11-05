@@ -15,48 +15,33 @@ abstract class AbstractTypedObjectConstructor implements TypedObjectConstructorI
 {
     public function __construct(
         protected readonly ObjectManager $entityManager,
-        protected readonly ObjectConstructorInterface $fallbackConstructor
+        protected readonly ObjectConstructorInterface $fallbackConstructor,
     ) {
     }
 
-    /**
-     * @param mixed $data
-     * @param DeserializationContext $context
-     *
-     * @return object|null
-     */
     abstract protected function findObject(mixed $data, DeserializationContext $context): ?object;
 
-    /**
-     * @param object $object
-     * @param array  $data
-     */
     abstract protected function fillIdentifier(object $object, array $data): void;
 
-    /**
-     * @return bool
-     */
     protected function canBeFlushed(): bool
     {
         return true;
     }
-    /**
-     * @inheritDoc
-     */
+
     public function construct(
         DeserializationVisitorInterface $visitor,
         ClassMetadata $metadata,
         $data,
         array $type,
-        DeserializationContext $context
+        DeserializationContext $context,
     ): ?object {
         // Entity update, load it from database
         $object = $this->findObject($data, $context);
 
         if (
-            null !== $object &&
-            $context->hasAttribute(static::EXCEPTION_ON_EXISTING) &&
-            true === $context->getAttribute(static::EXCEPTION_ON_EXISTING)
+            null !== $object
+            && $context->hasAttribute(static::EXCEPTION_ON_EXISTING)
+            && true === $context->getAttribute(static::EXCEPTION_ON_EXISTING)
         ) {
             throw new EntityAlreadyExistsException('Object already exists in database.');
         }
@@ -64,8 +49,8 @@ abstract class AbstractTypedObjectConstructor implements TypedObjectConstructorI
         if (null === $object) {
             $object = $this->fallbackConstructor->construct($visitor, $metadata, $data, $type, $context);
             if (
-                $context->hasAttribute(static::PERSIST_NEW_OBJECTS) &&
-                true === $context->getAttribute(static::PERSIST_NEW_OBJECTS)
+                $context->hasAttribute(static::PERSIST_NEW_OBJECTS)
+                && true === $context->getAttribute(static::PERSIST_NEW_OBJECTS)
             ) {
                 $this->entityManager->persist($object);
             }
@@ -78,8 +63,8 @@ abstract class AbstractTypedObjectConstructor implements TypedObjectConstructorI
                 $this->fillIdentifier($object, $data);
 
                 if (
-                    $context->hasAttribute(static::FLUSH_NEW_OBJECTS) &&
-                    true === $context->getAttribute(static::FLUSH_NEW_OBJECTS)
+                    $context->hasAttribute(static::FLUSH_NEW_OBJECTS)
+                    && true === $context->getAttribute(static::FLUSH_NEW_OBJECTS)
                 ) {
                     $this->entityManager->flush();
                 }

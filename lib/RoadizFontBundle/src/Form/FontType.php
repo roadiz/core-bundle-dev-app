@@ -17,17 +17,13 @@ use Symfony\Component\Validator\Constraints\File;
  */
 class FontType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class, [
-                'label' => 'font.name',
-                'empty_data' => '',
-                'help' => 'font_name_should_be_the_same_for_all_variants',
-            ])
+            'label' => 'font.name',
+            'empty_data' => '',
+            'help' => 'font_name_should_be_the_same_for_all_variants',
+        ])
             ->add('hash', TextType::class, [
                 'label' => 'font.cssfamily',
                 'empty_data' => '',

@@ -24,7 +24,7 @@ final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
         private readonly HttpClientInterface $client,
         private readonly ?string $openIdHostedDomain,
         private readonly ?string $oauthClientId,
-        private readonly bool $verifyUserInfo
+        private readonly bool $verifyUserInfo,
     ) {
     }
 
@@ -65,9 +65,9 @@ final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
          * Verify JWT signature if asymmetric crypto is used and if PHP gmp extension is loaded.
          */
         if (
-            null !== $this->discovery &&
-            $this->discovery->canVerifySignature() &&
-            null !== $pems = $this->discovery->getPems()
+            null !== $this->discovery
+            && $this->discovery->canVerifySignature()
+            && null !== $pems = $this->discovery->getPems()
         ) {
             /** @var array $signingAlgValuesSupported */
             $signingAlgValuesSupported = $this->discovery->get('id_token_signing_alg_values_supported', []);
@@ -75,8 +75,8 @@ final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
                 in_array(
                     'RS256',
                     $signingAlgValuesSupported
-                ) &&
-                !empty($pems[0])
+                )
+                && !empty($pems[0])
             ) {
                 $configuration = Configuration::forAsymmetricSigner(
                     new Sha256(),
@@ -84,6 +84,7 @@ final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
                     InMemory::plainText($pems[0])
                 );
                 $configuration->setValidationConstraints(...$this->getValidationConstraints());
+
                 return $configuration;
             }
         }

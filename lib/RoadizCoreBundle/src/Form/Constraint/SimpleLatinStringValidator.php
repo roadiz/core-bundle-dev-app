@@ -12,7 +12,7 @@ class SimpleLatinStringValidator extends ConstraintValidator
     public function validate(mixed $value, Constraint $constraint): void
     {
         if ($constraint instanceof SimpleLatinString) {
-            if (null !== $value && preg_match('#[^a-z_\s\-]#', \mb_strtolower($value)) === 1) {
+            if (null !== $value && 1 === preg_match('#[^a-z_\s\-]#', \mb_strtolower($value))) {
                 $this->context->addViolation($constraint->message);
             }
         }

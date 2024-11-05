@@ -15,20 +15,23 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method TagTranslationDocuments|null findOneBy(array $criteria, array $orderBy = null)
  * @method TagTranslationDocuments[]    findAll()
  * @method TagTranslationDocuments[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
  * @extends EntityRepository<TagTranslationDocuments>
  */
 final class TagTranslationDocumentsRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, TagTranslationDocuments::class, $dispatcher);
     }
+
     /**
      * @param TagTranslation $tagTranslation
      *
-     * @return integer
+     * @return int
+     *
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

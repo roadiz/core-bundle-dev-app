@@ -13,7 +13,7 @@ final class ChainJwtRoleStrategy implements JwtRoleStrategy
     {
         foreach ($this->strategies as $strategy) {
             if (!($strategy instanceof JwtRoleStrategy)) {
-                throw new \InvalidArgumentException('Strategy must implement ' . JwtRoleStrategy::class);
+                throw new \InvalidArgumentException('Strategy must implement '.JwtRoleStrategy::class);
             }
         }
     }
@@ -25,6 +25,7 @@ final class ChainJwtRoleStrategy implements JwtRoleStrategy
                 return true;
             }
         }
+
         return false;
     }
 
@@ -36,6 +37,7 @@ final class ChainJwtRoleStrategy implements JwtRoleStrategy
                 $roles = array_merge($roles, $strategy->getRoles() ?? []);
             }
         }
+
         return !empty($roles) ? array_unique($roles) : null;
     }
 }

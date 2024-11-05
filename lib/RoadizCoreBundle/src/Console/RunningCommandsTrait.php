@@ -16,11 +16,11 @@ trait RunningCommandsTrait
         string $args = '',
         ?string $environment = null,
         bool $interactive = true,
-        bool $quiet = false
+        bool $quiet = false,
     ): int {
         $args .= $interactive ? '' : ' --no-interaction ';
         $args .= $quiet ? ' --quiet ' : ' -v ';
-        $args .= is_string($environment) ? (' --env ' . $environment) : '';
+        $args .= is_string($environment) ? (' --env '.$environment) : '';
 
         $process = new PhpSubprocess([
             'bin/console',
@@ -30,33 +30,34 @@ trait RunningCommandsTrait
         $process->setWorkingDirectory($this->getProjectDir());
         $process->setTty($interactive);
         $process->run();
+
         return $process->wait();
     }
 
     protected function clearCaches(SymfonyStyle $io): void
     {
-        $this->runCommand(
+        0 === $this->runCommand(
             'doctrine:cache:clear-metadata',
             '',
             null,
             false,
             true
-        ) === 0 ? $io->success('doctrine:cache:clear-metadata') : $io->error('doctrine:cache:clear-metadata');
+        ) ? $io->success('doctrine:cache:clear-metadata') : $io->error('doctrine:cache:clear-metadata');
 
-        $this->runCommand(
+        0 === $this->runCommand(
             'cache:clear',
             '',
             null,
             false,
             true
-        ) === 0 ? $io->success('cache:clear') : $io->error('cache:clear');
+        ) ? $io->success('cache:clear') : $io->error('cache:clear');
 
-        $this->runCommand(
+        0 === $this->runCommand(
             'cache:pool:clear',
             'cache.global_clearer',
             null,
             false,
             true
-        ) === 0 ? $io->success('cache:pool:clear') : $io->error('cache:pool:clear');
+        ) ? $io->success('cache:pool:clear') : $io->error('cache:pool:clear');
     }
 }

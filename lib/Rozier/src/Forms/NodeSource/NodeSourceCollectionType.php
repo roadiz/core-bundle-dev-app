@@ -11,9 +11,6 @@ use Symfony\Component\Form\FormEvents;
 
 final class NodeSourceCollectionType extends CollectionType
 {
-    /**
-     * @inheritDoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);

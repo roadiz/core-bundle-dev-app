@@ -21,7 +21,7 @@ abstract class DynamicUrlMatcher extends UrlMatcher
         RequestContext $context,
         protected readonly PreviewResolverInterface $previewResolver,
         protected readonly Stopwatch $stopwatch,
-        protected readonly LoggerInterface $logger
+        protected readonly LoggerInterface $logger,
     ) {
         parent::__construct(new RouteCollection(), $context);
     }

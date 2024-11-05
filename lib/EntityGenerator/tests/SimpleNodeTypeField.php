@@ -32,309 +32,207 @@ final class SimpleNodeTypeField implements NodeTypeFieldInterface, SerializableI
     private string $nodeTypeName = 'NodeType';
     private string $doctrineType = 'string';
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     * @return SimpleNodeTypeField
-     */
     public function setDescription(?string $description): SimpleNodeTypeField
     {
         $this->description = $description;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getLabel(): string
     {
         return $this->label ?? '';
     }
 
-    /**
-     * @param string|null $label
-     * @return SimpleNodeTypeField
-     */
     public function setLabel(?string $label): SimpleNodeTypeField
     {
         $this->label = $label;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name ?? '';
     }
 
-    /**
-     * @param string|null $name
-     * @return SimpleNodeTypeField
-     */
     public function setName(?string $name): SimpleNodeTypeField
     {
         $this->name = $name;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPlaceholder(): ?string
     {
         return $this->placeholder;
     }
 
-    /**
-     * @param string|null $placeholder
-     * @return SimpleNodeTypeField
-     */
     public function setPlaceholder(?string $placeholder): SimpleNodeTypeField
     {
         $this->placeholder = $placeholder;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDefaultValues(): ?string
     {
         return $this->defaultValues;
     }
 
-    /**
-     * @param string|null $defaultValues
-     * @return SimpleNodeTypeField
-     */
     public function setDefaultValues(?string $defaultValues): SimpleNodeTypeField
     {
         $this->defaultValues = $defaultValues;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getGroupName(): ?string
     {
         return $this->groupName;
     }
 
-    /**
-     * @param string|null $groupName
-     * @return SimpleNodeTypeField
-     */
     public function setGroupName(?string $groupName): SimpleNodeTypeField
     {
         $this->groupName = $groupName;
+
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getMinLength(): ?int
     {
         return $this->minLength;
     }
 
-    /**
-     * @param int|null $minLength
-     * @return SimpleNodeTypeField
-     */
     public function setMinLength(?int $minLength): SimpleNodeTypeField
     {
         $this->minLength = $minLength;
+
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getMaxLength(): ?int
     {
         return $this->maxLength;
     }
 
-    /**
-     * @param int|null $maxLength
-     * @return SimpleNodeTypeField
-     */
     public function setMaxLength(?int $maxLength): SimpleNodeTypeField
     {
         $this->maxLength = $maxLength;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isVisible(): bool
     {
         return $this->visible;
     }
 
-    /**
-     * @param bool $visible
-     * @return SimpleNodeTypeField
-     */
     public function setVisible(bool $visible): SimpleNodeTypeField
     {
         $this->visible = $visible;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isUniversal(): bool
     {
         return $this->universal;
     }
 
-    /**
-     * @param bool $universal
-     * @return SimpleNodeTypeField
-     */
     public function setUniversal(bool $universal): SimpleNodeTypeField
     {
         $this->universal = $universal;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isSearchable(): bool
     {
         return $this->searchable;
     }
 
-    /**
-     * @param bool $searchable
-     * @return SimpleNodeTypeField
-     */
     public function setSearchable(bool $searchable): SimpleNodeTypeField
     {
         $this->searchable = $searchable;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isVirtual(): bool
     {
         return $this->virtual;
     }
 
-    /**
-     * @param bool $virtual
-     * @return SimpleNodeTypeField
-     */
     public function setVirtual(bool $virtual): SimpleNodeTypeField
     {
         $this->virtual = $virtual;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isIndexed(): bool
     {
         return $this->indexed;
     }
 
-    /**
-     * @param bool $indexed
-     * @return SimpleNodeTypeField
-     */
     public function setIndexed(bool $indexed): SimpleNodeTypeField
     {
         $this->indexed = $indexed;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isExpanded(): bool
     {
         return $this->expanded;
     }
 
-    /**
-     * @param bool $expanded
-     * @return SimpleNodeTypeField
-     */
     public function setExpanded(bool $expanded): SimpleNodeTypeField
     {
         $this->expanded = $expanded;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTypeName(): string
     {
         return $this->typeName;
     }
 
-    /**
-     * @param string $typeName
-     * @return SimpleNodeTypeField
-     */
     public function setTypeName(string $typeName): SimpleNodeTypeField
     {
         $this->typeName = $typeName;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getNodeTypeName(): string
     {
         return $this->nodeTypeName;
     }
 
-    /**
-     * @param string $nodeTypeName
-     * @return SimpleNodeTypeField
-     */
     public function setNodeTypeName(string $nodeTypeName): SimpleNodeTypeField
     {
         $this->nodeTypeName = $nodeTypeName;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDoctrineType(): string
     {
         return $this->doctrineType;
     }
 
-    /**
-     * @param string $doctrineType
-     * @return SimpleNodeTypeField
-     */
     public function setDoctrineType(string $doctrineType): SimpleNodeTypeField
     {
         $this->doctrineType = $doctrineType;
+
         return $this;
     }
 
@@ -345,12 +243,12 @@ final class SimpleNodeTypeField implements NodeTypeFieldInterface, SerializableI
 
     public function getGetterName(): string
     {
-        return (new UnicodeString('get ' . $this->getName()))->camel()->toString();
+        return (new UnicodeString('get '.$this->getName()))->camel()->toString();
     }
 
     public function getSetterName(): string
     {
-        return (new UnicodeString('set ' . $this->getName()))->camel()->toString();
+        return (new UnicodeString('set '.$this->getName()))->camel()->toString();
     }
 
     public function getGroupNameCanonical(): ?string
@@ -365,223 +263,199 @@ final class SimpleNodeTypeField implements NodeTypeFieldInterface, SerializableI
 
     public function isString(): bool
     {
-        return $this->typeName === 'string';
+        return 'string' === $this->typeName;
     }
 
     public function isText(): bool
     {
-        return $this->typeName === 'text';
+        return 'text' === $this->typeName;
     }
 
     public function isDate(): bool
     {
-        return $this->typeName === 'date';
+        return 'date' === $this->typeName;
     }
 
     public function isDateTime(): bool
     {
-        return $this->typeName === 'datetime';
+        return 'datetime' === $this->typeName;
     }
 
     public function isRichText(): bool
     {
-        return $this->typeName === 'richtext';
+        return 'richtext' === $this->typeName;
     }
 
     public function isMarkdown(): bool
     {
-        return $this->typeName === 'markdown';
+        return 'markdown' === $this->typeName;
     }
 
     public function isBool(): bool
     {
-        return $this->typeName === 'bool';
+        return 'bool' === $this->typeName;
     }
 
     public function isInteger(): bool
     {
-        return $this->typeName === 'integer';
+        return 'integer' === $this->typeName;
     }
 
     public function isDecimal(): bool
     {
-        return $this->typeName === 'decimal';
+        return 'decimal' === $this->typeName;
     }
 
     public function isEmail(): bool
     {
-        return $this->typeName === 'email';
+        return 'email' === $this->typeName;
     }
 
     public function isDocuments(): bool
     {
-        return $this->typeName === 'documents';
+        return 'documents' === $this->typeName;
     }
 
     public function isPassword(): bool
     {
-        return $this->typeName === 'password';
+        return 'password' === $this->typeName;
     }
 
     public function isColor(): bool
     {
-        return $this->typeName === 'color';
+        return 'color' === $this->typeName;
     }
 
     public function isGeoTag(): bool
     {
-        return $this->typeName === 'geotag';
+        return 'geotag' === $this->typeName;
     }
 
     public function isNodes(): bool
     {
-        return $this->typeName === 'nodes';
+        return 'nodes' === $this->typeName;
     }
 
     public function isUser(): bool
     {
-        return $this->typeName === 'user';
+        return 'user' === $this->typeName;
     }
 
     public function isEnum(): bool
     {
-        return $this->typeName === 'enum';
+        return 'enum' === $this->typeName;
     }
 
     public function isChildrenNodes(): bool
     {
-        return $this->typeName === 'children';
+        return 'children' === $this->typeName;
     }
 
     public function isCustomForms(): bool
     {
-        return $this->typeName === 'custom_forms';
+        return 'custom_forms' === $this->typeName;
     }
 
     public function isMultiple(): bool
     {
-        return $this->typeName === 'multiple';
+        return 'multiple' === $this->typeName;
     }
 
     public function isMultiGeoTag(): bool
     {
-        return $this->typeName === 'multi_geotag';
+        return 'multi_geotag' === $this->typeName;
     }
 
     public function isJson(): bool
     {
-        return $this->typeName === 'json';
+        return 'json' === $this->typeName;
     }
 
     public function isYaml(): bool
     {
-        return $this->typeName === 'yaml';
+        return 'yaml' === $this->typeName;
     }
 
     public function isCss(): bool
     {
-        return $this->typeName === 'css';
+        return 'css' === $this->typeName;
     }
 
     public function isManyToMany(): bool
     {
-        return $this->typeName === 'many_to_many';
+        return 'many_to_many' === $this->typeName;
     }
 
     public function isManyToOne(): bool
     {
-        return $this->typeName === 'many_to_one';
+        return 'many_to_one' === $this->typeName;
     }
 
     public function isCountry(): bool
     {
-        return $this->typeName === 'country';
+        return 'country' === $this->typeName;
     }
 
     public function isSingleProvider(): bool
     {
-        return $this->typeName === 'single_provider';
+        return 'single_provider' === $this->typeName;
     }
 
     public function isMultiProvider(): bool
     {
-        return $this->typeName === 'multi_provider';
+        return 'multi_provider' === $this->typeName;
     }
 
     public function isCollection(): bool
     {
-        return $this->typeName === 'collection';
+        return 'collection' === $this->typeName;
     }
 
-    /**
-     * @return array
-     */
     public function getSerializationGroups(): array
     {
         return $this->serializationGroups;
     }
 
-    /**
-     * @param array $serializationGroups
-     * @return SimpleNodeTypeField
-     */
     public function setSerializationGroups(array $serializationGroups): SimpleNodeTypeField
     {
         $this->serializationGroups = $serializationGroups;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isExcludedFromSerialization(): bool
     {
         return $this->excludedFromSerialization;
     }
 
-    /**
-     * @param bool $excludedFromSerialization
-     * @return SimpleNodeTypeField
-     */
     public function setExcludedFromSerialization(bool $excludedFromSerialization): SimpleNodeTypeField
     {
         $this->excludedFromSerialization = $excludedFromSerialization;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSerializationExclusionExpression(): ?string
     {
         return $this->serializationExclusionExpression;
     }
 
-    /**
-     * @param string|null $serializationExclusionExpression
-     * @return SimpleNodeTypeField
-     */
     public function setSerializationExclusionExpression(?string $serializationExclusionExpression): SimpleNodeTypeField
     {
         $this->serializationExclusionExpression = $serializationExclusionExpression;
+
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getSerializationMaxDepth(): ?int
     {
         return $this->serializationMaxDepth;
     }
 
-    /**
-     * @param int|null $serializationMaxDepth
-     * @return SimpleNodeTypeField
-     */
     public function setSerializationMaxDepth(?int $serializationMaxDepth): SimpleNodeTypeField
     {
         $this->serializationMaxDepth = $serializationMaxDepth;
+
         return $this;
     }
 }

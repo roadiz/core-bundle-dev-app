@@ -24,9 +24,8 @@ class RecaptchaValidator extends ConstraintValidator implements RecaptchaService
     }
 
     /**
-     * @param mixed $data
-     * @param Constraint $constraint
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
      * @see \Symfony\Component\Validator\ConstraintValidator::validate()
      */
     public function validate(mixed $data, Constraint $constraint): void
@@ -70,14 +69,13 @@ class RecaptchaValidator extends ConstraintValidator implements RecaptchaService
      * Makes a request to recaptcha service and checks if recaptcha field is valid.
      * Returns Google error-codes if recaptcha fails.
      *
-     * @param string $responseValue
-     * @param string $verifyUrl
      * @return true|mixed
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function check(
         string $responseValue,
-        string $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify'
+        string $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify',
     ): mixed {
         if (empty($this->recaptchaPrivateKey)) {
             return true;
@@ -94,12 +92,12 @@ class RecaptchaValidator extends ConstraintValidator implements RecaptchaService
             'connect_timeout' => 10,
             'timeout' => 10,
             'headers' => [
-                'Accept'     => 'application/json',
-            ]
+                'Accept' => 'application/json',
+            ],
         ]);
         $jsonResponse = json_decode($response->getBody()->getContents(), true);
 
-        return (isset($jsonResponse['success']) && $jsonResponse['success'] === true) ?
+        return (isset($jsonResponse['success']) && true === $jsonResponse['success']) ?
             (true) :
             ($jsonResponse['error-codes']);
     }

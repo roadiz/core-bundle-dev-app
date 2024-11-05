@@ -21,14 +21,12 @@ final class NodeDuplicator
     public function __construct(
         private readonly Node $originalNode,
         private readonly ObjectManager $objectManager,
-        private readonly NodeNamePolicyInterface $nodeNamePolicy
+        private readonly NodeNamePolicyInterface $nodeNamePolicy,
     ) {
     }
 
     /**
      * Warning this method flush entityManager at its end.
-     *
-     * @return Node
      */
     public function duplicate(): Node
     {
@@ -45,7 +43,7 @@ final class NodeDuplicator
             $this->objectManager->clear();
         }
 
-        if ($parent !== null) {
+        if (null !== $parent) {
             /** @var Node $parent */
             $parent = $this->objectManager->find(Node::class, $parent->getId());
             $node->setParent($parent);
@@ -62,9 +60,6 @@ final class NodeDuplicator
 
     /**
      * Warning, do not do any FLUSH here to preserve transactional integrity.
-     *
-     * @param  Node $node
-     * @return Node
      */
     private function doDuplicate(Node &$node): Node
     {
@@ -123,8 +118,6 @@ final class NodeDuplicator
      * Duplicate Node to Node relationship.
      *
      * Warning, do not do any FLUSH here to preserve transactional integrity.
-     *
-     * @param Node $node
      */
     private function doDuplicateNodeRelations(Node $node): void
     {

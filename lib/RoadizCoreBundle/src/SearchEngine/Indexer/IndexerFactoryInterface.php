@@ -8,7 +8,6 @@ interface IndexerFactoryInterface
 {
     /**
      * @param class-string $classname
-     * @return Indexer
      */
     public function getIndexerFor(string $classname): Indexer;
 }

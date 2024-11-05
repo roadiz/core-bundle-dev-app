@@ -21,7 +21,7 @@ final class AppMigrateCommand extends Command
         private readonly SchemaUpdater $schemaUpdater,
         #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -51,8 +51,9 @@ final class AppMigrateCommand extends Command
             '<question>Are you sure to migrate against app config.yml file?</question> This will generate new Doctrine Migrations and execute them. If you just want to import node-types run `bin/console app:install` instead',
             !$input->isInteractive()
         );
-        if ($io->askQuestion($question) === false) {
+        if (false === $io->askQuestion($question)) {
             $io->note('Nothing was done…');
+
             return 0;
         }
 
@@ -65,21 +66,21 @@ final class AppMigrateCommand extends Command
                 $output->isQuiet(),
             );
         } else {
-            $this->runCommand(
+            0 === $this->runCommand(
                 'app:install',
                 '',
                 null,
                 $input->isInteractive(),
                 $output->isQuiet()
-            ) === 0 ? $io->success('app:install') : $io->error('app:install');
+            ) ? $io->success('app:install') : $io->error('app:install');
 
-            $this->runCommand(
+            0 === $this->runCommand(
                 'generate:nsentities',
                 '',
                 null,
                 $input->isInteractive(),
                 $output->isQuiet()
-            ) === 0 ? $io->success('generate:nsentities') : $io->error('generate:nsentities');
+            ) ? $io->success('generate:nsentities') : $io->error('generate:nsentities');
 
             $this->schemaUpdater->updateNodeTypesSchema();
             $this->schemaUpdater->updateSchema();
@@ -87,6 +88,7 @@ final class AppMigrateCommand extends Command
 
             $this->clearCaches($io);
         }
+
         return 0;
     }
 }

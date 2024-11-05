@@ -26,22 +26,17 @@ final class AjaxTagsController extends AbstractAjaxController
     public function __construct(
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly HandlerFactoryInterface $handlerFactory,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
 
-    /**
-     * @return TagRepository
-     */
     protected function getRepository(): TagRepository
     {
         return $this->em()->getRepository(Tag::class);
     }
 
     /**
-     * @param Request $request
-     *
      * @return Response JSON response
      */
     public function indexAction(Request $request): Response
@@ -50,8 +45,8 @@ final class AjaxTagsController extends AbstractAjaxController
         $onlyParents = false;
 
         if (
-            $request->query->has('onlyParents') &&
-            $request->query->get('onlyParents')
+            $request->query->has('onlyParents')
+            && $request->query->get('onlyParents')
         ) {
             $onlyParents = true;
         }
@@ -71,9 +66,6 @@ final class AjaxTagsController extends AbstractAjaxController
 
     /**
      * Get a Tag list from an array of node id.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function listArrayAction(Request $request): JsonResponse
     {
@@ -84,7 +76,7 @@ final class AjaxTagsController extends AbstractAjaxController
         }
 
         $cleanTagIds = array_filter($request->query->filter('ids', [], \FILTER_DEFAULT, [
-            'flags' => \FILTER_FORCE_ARRAY
+            'flags' => \FILTER_FORCE_ARRAY,
         ]));
         $normalizedTags = [];
 
@@ -101,13 +93,11 @@ final class AjaxTagsController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
-            'tags' => $normalizedTags
+            'tags' => $normalizedTags,
         ]);
     }
 
     /**
-     * @param Request $request
-     *
      * @return Response JSON response
      */
     public function explorerListAction(Request $request): Response
@@ -115,10 +105,10 @@ final class AjaxTagsController extends AbstractAjaxController
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
         $arrayFilter = [
-            'translation' => $this->em()->getRepository(Translation::class)->findDefault()
+            'translation' => $this->em()->getRepository(Translation::class)->findDefault(),
         ];
         $defaultOrder = [
-            'createdAt' => 'DESC'
+            'createdAt' => 'DESC',
         ];
 
         if ($request->get('tagId') > 0) {
@@ -159,12 +149,13 @@ final class AjaxTagsController extends AbstractAjaxController
 
     /**
      * @param array<Tag>|\Traversable<Tag>|null $tags
+     *
      * @return array<int, array>
      */
     protected function normalizeTags($tags): array
     {
         $tagsArray = [];
-        if ($tags !== null) {
+        if (null !== $tags) {
             foreach ($tags as $tag) {
                 $tagModel = $this->explorerItemFactory->createForEntity($tag);
                 $tagsArray[] = $tagModel->toArray();
@@ -176,14 +167,11 @@ final class AjaxTagsController extends AbstractAjaxController
 
     /**
      * @param Tag[]|null $tags
-     * @param bool $onlyParents
-     *
-     * @return array
      */
-    protected function recurseTags(array $tags = null, bool $onlyParents = false): array
+    protected function recurseTags(?array $tags = null, bool $onlyParents = false): array
     {
         $tagsArray = [];
-        if ($tags !== null) {
+        if (null !== $tags) {
             foreach ($tags as $tag) {
                 if ($onlyParents) {
                     $children = $this->getRepository()->findByParentWithChildrenAndDefaultTranslation($tag);
@@ -205,11 +193,6 @@ final class AjaxTagsController extends AbstractAjaxController
     /**
      * Handle AJAX edition requests for Tag
      * such as coming from tag-tree widgets.
-     *
-     * @param Request $request
-     * @param int     $tagId
-     *
-     * @return JsonResponse
      */
     public function editAction(Request $request, int $tagId): JsonResponse
     {
@@ -217,13 +200,13 @@ final class AjaxTagsController extends AbstractAjaxController
 
         $tag = $this->em()->find(Tag::class, (int) $tagId);
 
-        if ($tag === null) {
-            throw $this->createNotFoundException('Tag ' . $tagId . ' does not exists');
+        if (null === $tag) {
+            throw $this->createNotFoundException('Tag '.$tagId.' does not exists');
         }
         /*
          * Get the right update method against "_action" parameter
          */
-        if ($request->get('_action') !== 'updatePosition') {
+        if ('updatePosition' !== $request->get('_action')) {
             throw new BadRequestHttpException('Action does not exist');
         }
 
@@ -233,16 +216,13 @@ final class AjaxTagsController extends AbstractAjaxController
             [
                 'statusCode' => '200',
                 'status' => 'success',
-                'responseText' => ('Tag ' . $tagId . ' edited '),
+                'responseText' => ('Tag '.$tagId.' edited '),
             ],
             Response::HTTP_PARTIAL_CONTENT
         );
     }
 
     /**
-     * @param Request $request
-     *
-     * @return JsonResponse
      * @throws \Exception
      */
     public function searchAction(Request $request): JsonResponse
@@ -257,7 +237,7 @@ final class AjaxTagsController extends AbstractAjaxController
         $pattern = strip_tags($request->get('search'));
         $tags = $this->getRepository()->searchBy($pattern, [], [], 10);
 
-        if (count($tags) === 0) {
+        if (0 === count($tags)) {
             /*
              * Try again using tag slug
              */
@@ -265,7 +245,7 @@ final class AjaxTagsController extends AbstractAjaxController
             $tags = $this->getRepository()->searchBy($pattern, [], [], 10);
         }
 
-        if (count($tags) === 0) {
+        if (0 === count($tags)) {
             throw $this->createNotFoundException('No tags found.');
         }
 
@@ -279,22 +259,18 @@ final class AjaxTagsController extends AbstractAjaxController
         );
     }
 
-    /**
-     * @param array $parameters
-     * @param Tag   $tag
-     */
     protected function updatePosition(array $parameters, Tag $tag): void
     {
         /*
          * First, we set the new parent
          */
         if (
-            !empty($parameters['newParent']) &&
-            is_numeric($parameters['newParent']) &&
-            $parameters['newParent'] > 0
+            !empty($parameters['newParent'])
+            && is_numeric($parameters['newParent'])
+            && $parameters['newParent'] > 0
         ) {
             $parent = $this->em()->find(Tag::class, (int) $parameters['newParent']);
-            if ($parent !== null) {
+            if (null !== $parent) {
                 $tag->setParent($parent);
             }
         } else {
@@ -305,19 +281,19 @@ final class AjaxTagsController extends AbstractAjaxController
          * Then compute new position
          */
         if (
-            !empty($parameters['nextTagId']) &&
-            $parameters['nextTagId'] > 0
+            !empty($parameters['nextTagId'])
+            && $parameters['nextTagId'] > 0
         ) {
             $nextTag = $this->em()->find(Tag::class, (int) $parameters['nextTagId']);
-            if ($nextTag !== null) {
+            if (null !== $nextTag) {
                 $tag->setPosition($nextTag->getPosition() - 0.5);
             }
         } elseif (
-            !empty($parameters['prevTagId']) &&
-            $parameters['prevTagId'] > 0
+            !empty($parameters['prevTagId'])
+            && $parameters['prevTagId'] > 0
         ) {
             $prevTag = $this->em()->find(Tag::class, (int) $parameters['prevTagId']);
-            if ($prevTag !== null) {
+            if (null !== $prevTag) {
                 $tag->setPosition($prevTag->getPosition() + 0.5);
             }
         }
@@ -339,8 +315,6 @@ final class AjaxTagsController extends AbstractAjaxController
     /**
      * Create a new Tag.
      *
-     * @param Request $request
-     * @return JsonResponse
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -352,7 +326,7 @@ final class AjaxTagsController extends AbstractAjaxController
             throw new InvalidParameterException('tagName should be provided to create a new Tag');
         }
 
-        if ($request->getMethod() != Request::METHOD_POST) {
+        if (Request::METHOD_POST != $request->getMethod()) {
             throw new BadRequestHttpException();
         }
 
@@ -362,7 +336,7 @@ final class AjaxTagsController extends AbstractAjaxController
 
         return new JsonResponse(
             [
-                'tag' => $tagModel->toArray()
+                'tag' => $tagModel->toArray(),
             ],
             Response::HTTP_CREATED
         );

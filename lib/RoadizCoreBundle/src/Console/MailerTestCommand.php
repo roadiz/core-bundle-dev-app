@@ -17,7 +17,7 @@ final class MailerTestCommand extends Command
 {
     public function __construct(
         private readonly EmailManagerFactory $emailManagerFactory,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -46,11 +46,12 @@ final class MailerTestCommand extends Command
             ->setEmailTemplate('@RoadizCore/email/base_email.html.twig')
             ->setAssignation([
                 'title' => $title,
-                'content' => 'This is a test email send to *' . $to->getAddress() . '* from `mailer:send:test` CLI command.',
-                'mailContact' => $from->getAddress()
+                'content' => 'This is a test email send to *'.$to->getAddress().'* from `mailer:send:test` CLI command.',
+                'mailContact' => $from->getAddress(),
             ])
             ->send();
         (new SymfonyStyle($input, $output))->success('Email sent.');
+
         return 0;
     }
 }

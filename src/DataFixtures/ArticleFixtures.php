@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -37,7 +39,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
         $articleContainer->setPublishedAt(new \DateTime());
         $manager->flush();
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 50; ++$i) {
             $article = $this->uniqueNodeGenerator->generate(
                 // @phpstan-ignore-next-line
                 nodeType: $this->getReference(NodeTypeFixtures::NS_ARTICLE),

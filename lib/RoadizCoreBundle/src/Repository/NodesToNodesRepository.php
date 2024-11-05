@@ -13,24 +13,21 @@ use RZ\Roadiz\CoreBundle\Entity\NodesToNodes;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
- * @package RZ\Roadiz\CoreBundle\Repository
  * @extends EntityRepository<NodesToNodes>
  */
 final class NodesToNodesRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, NodesToNodes::class, $dispatcher);
     }
 
     /**
-     * @param Node $node
-     * @param NodeTypeFieldInterface $field
-     * @return int
      * @throws NoResultException
      * @throws NonUniqueResultException
+     *
      * @deprecated Use getLatestPositionForFieldName instead
      */
     public function getLatestPosition(Node $node, NodeTypeFieldInterface $field): int

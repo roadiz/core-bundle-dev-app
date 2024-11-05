@@ -27,7 +27,7 @@ final readonly class UserPasswordResetProcessor implements ProcessorInterface
         private ValidatorInterface $validator,
         private RateLimiterFactory $passwordResetLimiter,
         private RequestStack $requestStack,
-        private int $passwordResetExpiresIn
+        private int $passwordResetExpiresIn,
     ) {
     }
 

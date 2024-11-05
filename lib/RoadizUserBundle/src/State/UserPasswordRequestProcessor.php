@@ -45,7 +45,7 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
         private UrlGeneratorInterface $urlGenerator,
         private RecaptchaServiceInterface $recaptchaService,
         private string $passwordResetUrl,
-        private string $recaptchaHeaderName = 'x-g-recaptcha-response'
+        private string $recaptchaHeaderName = 'x-g-recaptcha-response',
     ) {
     }
 
@@ -118,6 +118,7 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
             }
         } catch (AuthenticationException $exception) {
         }
+
         return null;
     }
 
@@ -140,11 +141,11 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
         } catch (RouteNotFoundException $exception) {
-            $resetLink = $this->passwordResetUrl . '?' . http_build_query(
+            $resetLink = $this->passwordResetUrl.'?'.http_build_query(
                 [
-                        'token' => $user->getConfirmationToken(),
-                        '_locale' => $request->getLocale(),
-                    ]
+                    'token' => $user->getConfirmationToken(),
+                    '_locale' => $request->getLocale(),
+                ]
             );
         }
 

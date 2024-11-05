@@ -28,7 +28,7 @@ final class InstallCommand extends Command
         private readonly SettingsImporter $settingsImporter,
         #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -55,61 +55,65 @@ final class InstallCommand extends Command
         );
 
         if (
-            $input->getOption('no-interaction') ||
-            $io->askQuestion($question)
+            $input->getOption('no-interaction')
+            || $io->askQuestion($question)
         ) {
-            $this->runCommand(
+            0 === $this->runCommand(
                 'doctrine:migrations:migrate',
                 '',
                 null,
                 false,
                 true
-            ) === 0 ? $io->success('doctrine:migrations:migrate') : $io->error('doctrine:migrations:migrate');
+            ) ? $io->success('doctrine:migrations:migrate') : $io->error('doctrine:migrations:migrate');
 
-            $fixturesRoot = dirname(__DIR__) . '/../config';
-            $fixtureFile = file_get_contents($fixturesRoot . "/fixtures.yaml");
+            $fixturesRoot = dirname(__DIR__).'/../config';
+            $fixtureFile = file_get_contents($fixturesRoot.'/fixtures.yaml');
 
             if (false === $fixtureFile) {
-                $io->error('No fixtures.yaml file found in ' . $fixturesRoot);
+                $io->error('No fixtures.yaml file found in '.$fixturesRoot);
+
                 return 1;
             }
 
             $data = Yaml::parse($fixtureFile);
 
-            if (isset($data["importFiles"]['roles'])) {
-                foreach ($data["importFiles"]['roles'] as $filename) {
-                    $filePath = $fixturesRoot . "/" . $filename;
+            if (isset($data['importFiles']['roles'])) {
+                foreach ($data['importFiles']['roles'] as $filename) {
+                    $filePath = $fixturesRoot.'/'.$filename;
                     $fileContents = file_get_contents($filePath);
                     if (false === $fileContents) {
-                        $io->error('No file found in ' . $filePath);
+                        $io->error('No file found in '.$filePath);
+
                         return 1;
                     }
                     $this->rolesImporter->import($fileContents);
-                    $io->success('Theme file “' . $filePath . '” has been imported.');
+                    $io->success('Theme file “'.$filePath.'” has been imported.');
                 }
             }
-            if (isset($data["importFiles"]['groups'])) {
-                foreach ($data["importFiles"]['groups'] as $filename) {
-                    $filePath = $fixturesRoot . "/" . $filename;
+            if (isset($data['importFiles']['groups'])) {
+                foreach ($data['importFiles']['groups'] as $filename) {
+                    $filePath = $fixturesRoot.'/'.$filename;
                     $fileContents = file_get_contents($filePath);
                     if (false === $fileContents) {
-                        $io->error('No file found in ' . $filePath);
+                        $io->error('No file found in '.$filePath);
+
                         return 1;
                     }
                     $this->groupsImporter->import($fileContents);
-                    $io->success('Theme file “' . $filePath . '” has been imported.');
+                    $io->success('Theme file “'.$filePath.'” has been imported.');
                 }
             }
-            if (isset($data["importFiles"]['settings'])) {
-                foreach ($data["importFiles"]['settings'] as $filename) {
-                    $filePath = $fixturesRoot . "/" . $filename;
+            if (isset($data['importFiles']['settings'])) {
+                foreach ($data['importFiles']['settings'] as $filename) {
+                    $filePath = $fixturesRoot.'/'.$filename;
                     $fileContents = file_get_contents($filePath);
                     if (false === $fileContents) {
-                        $io->error('No file found in ' . $filePath);
+                        $io->error('No file found in '.$filePath);
+
                         return 1;
                     }
                     $this->settingsImporter->import($fileContents);
-                    $io->success('Theme files “' . $filePath . '” has been imported.');
+                    $io->success('Theme files “'.$filePath.'” has been imported.');
                 }
             }
             $manager = $this->managerRegistry->getManagerForClass(Translation::class);
@@ -120,8 +124,8 @@ final class InstallCommand extends Command
                 $defaultTrans = new Translation();
                 $defaultTrans
                     ->setDefaultTranslation(true)
-                    ->setLocale("en")
-                    ->setName("Default translation");
+                    ->setLocale('en')
+                    ->setName('Default translation');
 
                 $manager->persist($defaultTrans);
 
@@ -133,13 +137,12 @@ final class InstallCommand extends Command
 
             $this->clearCaches($io);
         }
+
         return 0;
     }
 
     /**
      * Tell if there is any translation.
-     *
-     * @return bool
      */
     public function hasDefaultTranslation(): bool
     {

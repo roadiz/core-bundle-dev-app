@@ -13,9 +13,9 @@ use RZ\Roadiz\UserBundle\Api\Dto\UserValidationTokenInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
 use RZ\Roadiz\UserBundle\Entity\UserValidationToken;
 use RZ\Roadiz\UserBundle\Event\UserEmailValidated;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\UnprocessableEntityHttpException;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final readonly class UserValidationTokenProcessor implements ProcessorInterface
@@ -25,7 +25,7 @@ final readonly class UserValidationTokenProcessor implements ProcessorInterface
         private Roles $rolesBag,
         private Security $security,
         private EventDispatcherInterface $eventDispatcher,
-        private string $emailValidatedRoleName
+        private string $emailValidatedRoleName,
     ) {
     }
 

@@ -26,7 +26,7 @@ final class RealmNodeController extends RozierApp
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -58,13 +58,13 @@ final class RealmNodeController extends RozierApp
                 'node.%node%.joined.%realm%',
                 [
                     '%node%' => $nodeSource->getTitle(),
-                    '%realm%' => $realmNode->getRealm()->getName()
+                    '%realm%' => $realmNode->getRealm()->getName(),
                 ]
             );
             $this->publishConfirmMessage($request, $msg);
 
             return $this->redirectToRoute('nodesRealmsPage', [
-                'id' => $node->getId()
+                'id' => $node->getId(),
             ]);
         }
 
@@ -109,13 +109,13 @@ final class RealmNodeController extends RozierApp
                 'node.%node%.left.%realm%',
                 [
                     '%node%' => $nodeSource->getTitle(),
-                    '%realm%' => $realmNode->getRealm()->getName()
+                    '%realm%' => $realmNode->getRealm()->getName(),
                 ]
             );
             $this->publishConfirmMessage($request, $msg);
 
             return $this->redirectToRoute('nodesRealmsPage', [
-                'id' => $node->getId()
+                'id' => $node->getId(),
             ]);
         }
 

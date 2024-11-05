@@ -58,6 +58,7 @@ final class TranslateController extends RozierApp
                         $msg,
                         $nodeSource ?: null
                     );
+
                     return $this->redirectToRoute(
                         'nodesEditSourcePage',
                         ['nodeId' => $node->getId(), 'translationId' => $destinationTranslation->getId()]

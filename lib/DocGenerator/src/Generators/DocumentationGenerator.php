@@ -16,10 +16,6 @@ class DocumentationGenerator
     private ?array $reachableTypeGenerators = null;
     private ?array $nonReachableTypeGenerators = null;
 
-    /**
-     * @param ParameterBag $nodeTypesBag
-     * @param TranslatorInterface $translator
-     */
     public function __construct(ParameterBag $nodeTypesBag, TranslatorInterface $translator)
     {
         $this->nodeTypesBag = $nodeTypesBag;
@@ -65,6 +61,7 @@ class DocumentationGenerator
                 return $this->markdownGeneratorFactory->createForNodeType($nodeType);
             }, $this->getReachableTypes());
         }
+
         return $this->reachableTypeGenerators;
     }
 
@@ -78,6 +75,7 @@ class DocumentationGenerator
                 return $this->markdownGeneratorFactory->createForNodeType($nodeType);
             }, $this->getNonReachableTypes());
         }
+
         return $this->nonReachableTypeGenerators;
     }
 
@@ -103,10 +101,10 @@ class DocumentationGenerator
         }
 
         return implode("\n", [
-            '* ' . $this->translator->trans('docs.pages'),
-            "    * " . implode("\n    * ", $pages),
-            '* ' . $this->translator->trans('docs.blocks'),
-            "    * " . implode("\n    * ", $blocks)
+            '* '.$this->translator->trans('docs.pages'),
+            '    * '.implode("\n    * ", $pages),
+            '* '.$this->translator->trans('docs.blocks'),
+            '    * '.implode("\n    * ", $blocks),
         ]);
     }
 }

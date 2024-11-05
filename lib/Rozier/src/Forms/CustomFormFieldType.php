@@ -19,12 +19,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CustomFormFieldType extends AbstractType
 {
     public function __construct(
-        private readonly CustomFormFieldRepository $customFormFieldRepository
+        private readonly CustomFormFieldRepository $customFormFieldRepository,
     ) {
     }
 
     /**
-     * @param CustomFormField $field
      * @return string[]
      */
     protected function getAllGroupsNames(CustomFormField $field): array
@@ -35,9 +34,9 @@ class CustomFormFieldType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('label', TextType::class, [
-                'label' => 'label',
-                'empty_data' => '',
-            ])
+            'label' => 'label',
+            'empty_data' => '',
+        ])
             ->add('description', MarkdownType::class, [
                 'label' => 'description',
                 'required' => false,
@@ -115,7 +114,7 @@ class CustomFormFieldType extends AbstractType
                 ],
                 'placeholder' => 'autocomplete.no_autocomplete',
                 'choice_label' => function ($choice, $key, $value) {
-                    return 'autocomplete.' . $value;
+                    return 'autocomplete.'.$value;
                 },
                 'required' => false,
             ]);

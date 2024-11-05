@@ -11,9 +11,6 @@ use Rollerworks\Component\PasswordStrength\Blacklist\ArrayProvider;
  */
 final class Top500Provider extends ArrayProvider
 {
-    /**
-     * @inheritDoc
-     */
     public function __construct()
     {
         parent::__construct([

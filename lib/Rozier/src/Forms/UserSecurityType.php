@@ -19,9 +19,9 @@ class UserSecurityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('enabled', CheckboxType::class, [
-                'label' => 'user.enabled',
-                'required' => false,
-            ])
+            'label' => 'user.enabled',
+            'required' => false,
+        ])
             ->add('locked', CheckboxType::class, [
                 'label' => 'user.locked',
                 'required' => false,
@@ -55,7 +55,7 @@ class UserSecurityType extends AbstractType
                 ],
             ]);
 
-        if ($options['canChroot'] === true) {
+        if (true === $options['canChroot']) {
             $builder->add('chroot', NodesType::class, [
                 'label' => 'chroot',
                 'required' => false,
@@ -65,12 +65,14 @@ class UserSecurityType extends AbstractType
                     if ($mixedEntities instanceof Node) {
                         return [$mixedEntities];
                     }
+
                     return [];
                 },
                 function (mixed $mixedIds) {
-                    if (\is_array($mixedIds) && count($mixedIds) === 1) {
+                    if (\is_array($mixedIds) && 1 === count($mixedIds)) {
                         return $mixedIds[0];
                     }
+
                     return null;
                 }
             ));

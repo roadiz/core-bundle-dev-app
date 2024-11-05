@@ -20,13 +20,10 @@ final class TreeWalkerIndexingEventSubscriber extends AbstractIndexingSubscriber
         private readonly WalkerContextInterface $walkerContext,
         private readonly SolariumFactoryInterface $solariumFactory,
         private readonly int $maxLevel = 5,
-        private readonly string $defaultLocale = 'en'
+        private readonly string $defaultLocale = 'en',
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -64,9 +61,6 @@ final class TreeWalkerIndexingEventSubscriber extends AbstractIndexingSubscriber
     }
 
     /**
-     * @param WalkerInterface $walker
-     * @param array $assoc
-     * @param string $locale
      * @throws \Exception
      */
     protected function walkAndIndex(WalkerInterface $walker, array &$assoc, string $locale): void
@@ -80,7 +74,7 @@ final class TreeWalkerIndexingEventSubscriber extends AbstractIndexingSubscriber
                 $assoc['collection_txt'],
                 $childAssoc['collection_txt']
             ));
-            $assoc['collection_txt_' . $locale] = $this->flattenTextCollection($assoc['collection_txt']);
+            $assoc['collection_txt_'.$locale] = $this->flattenTextCollection($assoc['collection_txt']);
         }
         if ($walker->count() > 0) {
             foreach ($walker->getChildren() as $subWalker) {

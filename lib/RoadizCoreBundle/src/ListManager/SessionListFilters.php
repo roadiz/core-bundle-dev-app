@@ -12,15 +12,12 @@ class SessionListFilters
 {
     public function __construct(
         private readonly string $sessionIdentifier,
-        private readonly int $defaultItemsParPage = 20
+        private readonly int $defaultItemsParPage = 20,
     ) {
     }
 
     /**
      * Handle item_per_page filter form session or from request query.
-     *
-     * @param Request $request
-     * @param EntityListManagerInterface $listManager
      */
     public function handleItemPerPage(Request $request, EntityListManagerInterface $listManager): void
     {
@@ -28,11 +25,11 @@ class SessionListFilters
          * Check if item_per_page is available from session
          */
         if (
-            $request->hasSession() &&
-            $request->getSession()->has($this->sessionIdentifier) &&
-            $request->getSession()->get($this->sessionIdentifier) > 0 &&
-            (!$request->query->has('item_per_page') ||
-                $request->query->get('item_per_page') < 1)
+            $request->hasSession()
+            && $request->getSession()->has($this->sessionIdentifier)
+            && $request->getSession()->get($this->sessionIdentifier) > 0
+            && (!$request->query->has('item_per_page')
+                || $request->query->get('item_per_page') < 1)
         ) {
             /*
              * Item count is in session
@@ -40,8 +37,8 @@ class SessionListFilters
             $request->query->set('item_per_page', intval($request->getSession()->get($this->sessionIdentifier)));
             $listManager->setItemPerPage(intval($request->getSession()->get($this->sessionIdentifier)));
         } elseif (
-            $request->query->has('item_per_page') &&
-            $request->query->get('item_per_page') > 0
+            $request->query->has('item_per_page')
+            && $request->query->get('item_per_page') > 0
         ) {
             /*
              * Item count is in query, save it in session

@@ -16,21 +16,20 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method UrlAlias|null findOneBy(array $criteria, array $orderBy = null)
  * @method UrlAlias[]    findAll()
  * @method UrlAlias[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
  * @extends EntityRepository<UrlAlias>
  */
 final class UrlAliasRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, UrlAlias::class, $dispatcher);
     }
 
     /**
      * Get all url aliases linked to given node.
-     *
-     * @param int|string|null $nodeId
      *
      * @return iterable<UrlAlias>
      */
@@ -50,9 +49,6 @@ final class UrlAliasRepository extends EntityRepository
     }
 
     /**
-     * @param string $alias
-     *
-     * @return boolean
      * @throws NoResultException
      * @throws NonUniqueResultException
      */

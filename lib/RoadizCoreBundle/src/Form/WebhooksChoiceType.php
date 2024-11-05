@@ -17,15 +17,10 @@ class WebhooksChoiceType extends ChoiceType
 {
     private ManagerRegistry $managerRegistry;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param ChoiceListFactoryInterface|null $choiceListFactory
-     * @param TranslatorInterface|null $translator
-     */
     public function __construct(
         ManagerRegistry $managerRegistry,
-        ChoiceListFactoryInterface $choiceListFactory = null,
-        ?TranslatorInterface $translator = null
+        ?ChoiceListFactoryInterface $choiceListFactory = null,
+        ?TranslatorInterface $translator = null,
     ) {
         parent::__construct($choiceListFactory, $translator);
         $this->managerRegistry = $managerRegistry;
@@ -38,11 +33,13 @@ class WebhooksChoiceType extends ChoiceType
             if (null === $webhook) {
                 return null;
             }
+
             return $webhook->getId();
         }, function (?string $id) {
             if (null === $id) {
                 return null;
             }
+
             return $this->managerRegistry->getRepository(Webhook::class)->find($id);
         }));
     }

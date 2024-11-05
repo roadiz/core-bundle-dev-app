@@ -17,12 +17,12 @@ use Symfony\Component\Serializer\Attribute\Groups;
 final class SolrSearchResultItem
 {
     /**
-     * @param T $item
+     * @param T                            $item
      * @param array<string, array<string>> $highlighting
      */
     public function __construct(
         private readonly object $item,
-        private readonly array $highlighting = []
+        private readonly array $highlighting = [],
     ) {
     }
 

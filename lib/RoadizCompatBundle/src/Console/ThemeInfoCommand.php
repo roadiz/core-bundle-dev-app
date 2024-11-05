@@ -45,20 +45,21 @@ final class ThemeInfoCommand extends Command
         $themeInfo = new ThemeInfo($name, $this->projectDir);
 
         if (!$themeInfo->exists()) {
-            throw new InvalidArgumentException($themeInfo->getClassname() . ' does not exist.');
+            throw new InvalidArgumentException($themeInfo->getClassname().' does not exist.');
         }
 
         if (!$themeInfo->isValid()) {
-            throw new InvalidArgumentException($themeInfo->getClassname() . ' is not a valid theme.');
+            throw new InvalidArgumentException($themeInfo->getClassname().' is not a valid theme.');
         }
         $io->table([
-            'Description', 'Value'
+            'Description', 'Value',
         ], [
             ['Given name', $themeInfo->getName()],
             ['Theme classname', $themeInfo->getClassname()],
             ['Theme path', $themeInfo->getThemePath()],
-            ['Assets path', $themeInfo->getThemePath() . '/static'],
+            ['Assets path', $themeInfo->getThemePath().'/static'],
         ]);
+
         return 0;
     }
 }

@@ -31,7 +31,7 @@ class TranslationType extends AbstractType
         ])
         ->add('overrideLocale', TextType::class, [
             'label' => 'overrideLocale',
-            'required' => false
+            'required' => false,
         ]);
     }
 

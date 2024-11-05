@@ -26,9 +26,6 @@ class DocumentPublicListController extends RozierApp
 {
     private array $documentPlatforms;
 
-    /**
-     * @param array $documentPlatforms
-     */
     public function __construct(array $documentPlatforms)
     {
         $this->documentPlatforms = $documentPlatforms;
@@ -39,6 +36,7 @@ class DocumentPublicListController extends RozierApp
         if (null === $folderId || $folderId <= 0) {
             return null;
         }
+
         return $this->em()->find(Folder::class, $folderId);
     }
 
@@ -62,9 +60,6 @@ class DocumentPublicListController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     * @param int|null $folderId
-     * @return Response
      * @throws RuntimeError
      */
     public function indexAction(Request $request, ?int $folderId = null): Response
@@ -87,12 +82,12 @@ class DocumentPublicListController extends RozierApp
         $type = $request->query->get('type');
         $embedPlatform = $request->query->get('embedPlatform');
 
-        if (\is_string($type) && $type !== '') {
+        if (\is_string($type) && '' !== $type) {
             $prefilters['mimeType'] = trim($type);
             $this->assignation['mimeType'] = trim($type);
         }
 
-        if (\is_string($embedPlatform) && $embedPlatform !== '') {
+        if (\is_string($embedPlatform) && '' !== $embedPlatform) {
             $prefilters['embedPlatform'] = trim($embedPlatform);
             $this->assignation['embedPlatform'] = trim($embedPlatform);
         }
@@ -157,15 +152,13 @@ class DocumentPublicListController extends RozierApp
 
     protected function getListingTemplate(Request $request): string
     {
-        if ($request->query->get('list') === '1') {
+        if ('1' === $request->query->get('list')) {
             return '@RoadizRozier/documents/list-table.html.twig';
         }
+
         return '@RoadizRozier/documents/list.html.twig';
     }
 
-    /**
-     * @return FormInterface
-     */
     private function buildLinkFoldersForm(): FormInterface
     {
         $builder = $this->createNamedFormBuilder('folderForm')
@@ -192,7 +185,7 @@ class DocumentPublicListController extends RozierApp
                 'attr' => [
                     'class' => 'uk-button uk-button-primary',
                     'title' => 'link.folders',
-                    'data-uk-tooltip' => "{animation:true}",
+                    'data-uk-tooltip' => '{animation:true}',
                 ],
             ])
             ->add('submitUnfolder', SubmitType::class, [
@@ -200,7 +193,7 @@ class DocumentPublicListController extends RozierApp
                 'attr' => [
                     'class' => 'uk-button',
                     'title' => 'unlink.folders',
-                    'data-uk-tooltip' => "{animation:true}",
+                    'data-uk-tooltip' => '{animation:true}',
                 ],
             ]);
 
@@ -208,7 +201,6 @@ class DocumentPublicListController extends RozierApp
     }
 
     /**
-     * @param array $data
      * @return string Status message
      */
     private function joinFolder(array $data): string
@@ -216,8 +208,8 @@ class DocumentPublicListController extends RozierApp
         $msg = $this->getTranslator()->trans('no_documents.linked_to.folders');
 
         if (
-            !empty($data['documentsId']) &&
-            !empty($data['folderPaths'])
+            !empty($data['documentsId'])
+            && !empty($data['folderPaths'])
         ) {
             $documentsIds = explode(',', $data['documentsId']);
 
@@ -261,7 +253,6 @@ class DocumentPublicListController extends RozierApp
     }
 
     /**
-     * @param array $data
      * @return string Status message
      */
     private function leaveFolder(array $data): string
@@ -269,8 +260,8 @@ class DocumentPublicListController extends RozierApp
         $msg = $this->getTranslator()->trans('no_documents.removed_from.folders');
 
         if (
-            !empty($data['documentsId']) &&
-            !empty($data['folderPaths'])
+            !empty($data['documentsId'])
+            && !empty($data['folderPaths'])
         ) {
             $documentsIds = explode(',', $data['documentsId']);
 

@@ -18,7 +18,7 @@ class PodcastFinder extends AbstractPodcastFinder
     protected function injectMetaFromPodcastItem(
         ObjectManager $objectManager,
         DocumentInterface $document,
-        \SimpleXMLElement $item
+        \SimpleXMLElement $item,
     ): void {
         $translations = $objectManager->getRepository(Translation::class)->findAll();
 

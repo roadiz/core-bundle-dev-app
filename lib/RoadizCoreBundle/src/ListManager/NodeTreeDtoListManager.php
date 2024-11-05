@@ -30,8 +30,9 @@ final class NodeTreeDtoListManager extends EntityListManager
      */
     public function getEntities(): array
     {
-        if ($this->pagination === true && null !== $this->paginator) {
+        if (true === $this->pagination && null !== $this->paginator) {
             $this->paginator->setItemsPerPage($this->getItemPerPage());
+
             // @phpstan-ignore-next-line
             return $this->paginator->findByAtPage($this->orderingArray, $this->currentPage);
         } else {
@@ -40,6 +41,7 @@ final class NodeTreeDtoListManager extends EntityListManager
                 $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
                 $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
             }
+
             return $repository->findByAsNodeTreeDto(
                 $this->filteringArray,
                 $this->orderingArray,

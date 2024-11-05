@@ -15,7 +15,7 @@ final class AjaxTagTreeController extends AbstractAjaxController
 {
     public function __construct(
         private readonly TreeWidgetFactory $treeWidgetFactory,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
@@ -28,7 +28,7 @@ final class AjaxTagTreeController extends AbstractAjaxController
         /** @var TagTreeWidget|null $tagTree */
         $tagTree = null;
 
-        switch ($request->get("_action")) {
+        switch ($request->get('_action')) {
             /*
              * Inner tag edit for tagTree
              */
@@ -48,9 +48,9 @@ final class AjaxTagTreeController extends AbstractAjaxController
                 $this->assignation['mainTagTree'] = false;
 
                 break;
-            /*
-             * Main panel tree tagTree
-             */
+                /*
+                 * Main panel tree tagTree
+                 */
             case 'requestMainTagTree':
                 $parent = null;
                 $tagTree = $this->treeWidgetFactory->createTagTree($parent, $translation);

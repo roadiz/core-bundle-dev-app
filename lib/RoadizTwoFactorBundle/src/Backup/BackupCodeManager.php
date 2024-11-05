@@ -14,7 +14,7 @@ final class BackupCodeManager implements BackupCodeManagerInterface
 {
     public function __construct(
         private readonly TwoFactorUserProviderInterface $twoFactorUserProvider,
-        private readonly PersisterInterface $persister
+        private readonly PersisterInterface $persister,
     ) {
     }
 

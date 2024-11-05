@@ -20,12 +20,9 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 class RoadizCompatExtension extends Extension
 {
-    /**
-     * @inheritDoc
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__) . '/../config'));
+        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/../config'));
         $loader->load('services.yaml');
 
         $configuration = new Configuration();
@@ -51,7 +48,7 @@ class RoadizCompatExtension extends Extension
 
         foreach ($config['themes'] as $index => $themeConfig) {
             $themeSlug = (new AsciiSlugger())->slug($themeConfig['classname'], '_');
-            $serviceId = 'roadiz_compat.themes.' . $themeSlug;
+            $serviceId = 'roadiz_compat.themes.'.$themeSlug;
             /** @var class-string<AppController> $className */
             $className = $themeConfig['classname'];
             $themeDir = $className::getThemeDir();
@@ -73,26 +70,26 @@ class RoadizCompatExtension extends Extension
 
             // Register asset packages
             $container->setDefinition(
-                'roadiz_compat.assets._package.' . $themeSlug,
+                'roadiz_compat.assets._package.'.$themeSlug,
                 (new Definition())
                     ->setClass(PathPackage::class)
                     ->setArguments([
-                        'themes/' . $themeDir . '/static',
+                        'themes/'.$themeDir.'/static',
                         new Reference('assets.empty_version_strategy'),
-                        new Reference('assets.context')
+                        new Reference('assets.context'),
                     ])
                     ->addTag('assets.package', [
-                        'package' => $themeDir
+                        'package' => $themeDir,
                     ])
             );
 
             // Add Twig paths
             $container->getDefinition('roadiz_compat.twig_loader')
                 ->addMethodCall('prependPath', [
-                    $className::getViewsFolder()
+                    $className::getViewsFolder(),
                 ])
                 ->addMethodCall('prependPath', [
-                    $className::getViewsFolder(), $themeDir
+                    $className::getViewsFolder(), $themeDir,
                 ]);
         }
 

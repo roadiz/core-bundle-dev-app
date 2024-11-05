@@ -12,29 +12,18 @@ interface SerializerInterface
 {
     /**
      * Serializes data.
-     *
-     * @param mixed $obj
-     *
-     * @return mixed
      */
-    public function serialize($obj);
-
+    public function serialize(mixed $obj): string;
 
     /**
      * Create a simple associative array with an entity.
-     *
-     * @param mixed $obj
-     *
-     * @return array
      */
-    public function toArray($obj);
+    public function toArray(mixed $obj): array;
 
     /**
-     * Deserializes a json file into a readable array of datas.
+     * Deserializes a json file into a readable array of data.
      *
      * @param string $string Input to deserialize
-     *
-     * @return mixed
      */
-    public function deserialize($string);
+    public function deserialize(string $string): mixed;
 }

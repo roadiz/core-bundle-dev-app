@@ -30,18 +30,16 @@ final class DocumentNormalizer extends AbstractPathNormalizer
     }
 
     /**
-     * @param mixed $object
-     * @param string|null $format
-     * @param array $context
      * @return array|\ArrayObject|bool|float|int|string|null
+     *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $data = $this->decorated->normalize($object, $format, $context);
         if (
-            $object instanceof Document &&
-            is_array($data)
+            $object instanceof Document
+            && is_array($data)
         ) {
             $this->stopwatch->start('normalizeDocument', 'serializer');
             /** @var array<string> $serializationGroups */
@@ -49,8 +47,8 @@ final class DocumentNormalizer extends AbstractPathNormalizer
             $data['type'] = $object->getShortType();
 
             if (
-                !$object->isPrivate() &&
-                !$object->isProcessable()
+                !$object->isPrivate()
+                && !$object->isProcessable()
             ) {
                 $mountPath = $object->getMountPath();
                 if (null !== $mountPath) {
@@ -59,9 +57,9 @@ final class DocumentNormalizer extends AbstractPathNormalizer
             }
 
             if (
-                !$object->isPrivate() &&
-                $object->isProcessable() &&
-                null !== $alignment = $object->getImageCropAlignment()
+                !$object->isPrivate()
+                && $object->isProcessable()
+                && null !== $alignment = $object->getImageCropAlignment()
             ) {
                 $data['imageCropAlignment'] = $alignment;
             }
@@ -86,8 +84,8 @@ final class DocumentNormalizer extends AbstractPathNormalizer
             }
 
             if (
-                $object->getEmbedPlatform() &&
-                $object->getEmbedId()
+                $object->getEmbedPlatform()
+                && $object->getEmbedId()
             ) {
                 $embedFinder = $this->embedFinderFactory->createForPlatform(
                     $object->getEmbedPlatform(),
@@ -115,6 +113,7 @@ final class DocumentNormalizer extends AbstractPathNormalizer
 
             $this->stopwatch->stop('normalizeDocument');
         }
+
         return $data;
     }
 }

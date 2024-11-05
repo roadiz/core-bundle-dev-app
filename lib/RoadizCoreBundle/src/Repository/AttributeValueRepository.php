@@ -17,19 +17,17 @@ final class AttributeValueRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, AttributeValue::class, $dispatcher);
     }
 
     /**
-     * @param AttributableInterface $attributable
-     * @param bool $orderByWeight
      * @return array<AttributeValue>
      */
     public function findByAttributable(
         AttributableInterface $attributable,
-        bool $orderByWeight = false
+        bool $orderByWeight = false,
     ): array {
         $qb = $this->createQueryBuilder('av');
         $qb = $qb->addSelect('avt')
@@ -61,17 +59,12 @@ final class AttributeValueRepository extends EntityRepository
             ->getResult();
     }
 
-    /**
-     * @param AttributableInterface $attributable
-     * @param TranslationInterface  $translation
-     *
-     * @return array
-     */
     public function findByAttributableAndTranslation(
         AttributableInterface $attributable,
-        TranslationInterface $translation
+        TranslationInterface $translation,
     ): array {
         $qb = $this->createQueryBuilder('av');
+
         return $qb->addSelect('avt')
             ->addSelect('a')
             ->addSelect('at')
@@ -90,7 +83,7 @@ final class AttributeValueRepository extends EntityRepository
             ->addOrderBy('av.position', 'ASC')
             ->setParameters([
                 'attributable' => $attributable,
-                'translation' => $translation
+                'translation' => $translation,
             ])
             ->setCacheable(true)
             ->getQuery()

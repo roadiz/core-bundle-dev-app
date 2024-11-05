@@ -14,49 +14,34 @@ final class DocumentTranslationIndexingEvent extends Event
         private readonly DocumentTranslation $documentTranslation,
         private array $associations,
         private readonly AbstractSolarium $solariumDocument,
-        private readonly bool $subResource = false
+        private readonly bool $subResource = false,
     ) {
     }
 
-    /**
-     * @return DocumentTranslation
-     */
     public function getDocumentTranslation(): DocumentTranslation
     {
         return $this->documentTranslation;
     }
 
-    /**
-     * @return array
-     */
     public function getAssociations(): array
     {
         return $this->associations;
     }
 
-    /**
-     * @return AbstractSolarium
-     */
     public function getSolariumDocument(): AbstractSolarium
     {
         return $this->solariumDocument;
     }
 
-    /**
-     * @return bool
-     */
     public function isSubResource(): bool
     {
         return $this->subResource;
     }
 
-    /**
-     * @param array $associations
-     * @return DocumentTranslationIndexingEvent
-     */
     public function setAssociations(array $associations): DocumentTranslationIndexingEvent
     {
         $this->associations = $associations;
+
         return $this;
     }
 }

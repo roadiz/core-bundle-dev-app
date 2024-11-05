@@ -35,12 +35,13 @@ final class DisableTwoFactorUserCommand extends UsersCommand
         $twoFactorUser = $this->twoFactorUserProvider->getFromUser($user);
 
         if (!$twoFactorUser instanceof TwoFactorUser) {
-            $io->warning('User “' . $name . '” does not have two-factor authentication enabled.');
+            $io->warning('User “'.$name.'” does not have two-factor authentication enabled.');
+
             return 1;
         }
 
         $this->twoFactorUserProvider->disable($twoFactorUser);
-        $io->success('Two-factor authentication disabled for user “' . $name . '”.');
+        $io->success('Two-factor authentication disabled for user “'.$name.'”.');
 
         return 0;
     }

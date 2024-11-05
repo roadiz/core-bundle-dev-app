@@ -36,7 +36,7 @@ abstract class RoadizAuthenticator extends AbstractLoginFormAuthenticator
         private readonly ManagerRegistry $managerRegistry,
         private readonly LoggerInterface $logger,
         private readonly string $usernamePath = 'username',
-        private readonly string $passwordPath = 'password'
+        private readonly string $passwordPath = 'password',
     ) {
     }
 
@@ -78,12 +78,11 @@ abstract class RoadizAuthenticator extends AbstractLoginFormAuthenticator
         $ipAddress = $request->getClientIp();
         $this->logger->error($exception->getMessage(), [
             'username' => $credentials['username'],
-            'ipAddress' => $ipAddress
+            'ipAddress' => $ipAddress,
         ]);
 
         return parent::onAuthenticationFailure($request, $exception);
     }
-
 
     protected function getLoginUrl(Request $request): string
     {
@@ -91,7 +90,6 @@ abstract class RoadizAuthenticator extends AbstractLoginFormAuthenticator
     }
 
     /**
-     * @param Request $request
      * @return array<'username'|'password', string>
      */
     private function getCredentials(Request $request): array

@@ -17,14 +17,14 @@ final class NodesSourcesAddHeadersSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly PreviewResolverInterface $previewResolver,
-        private readonly Security $security
+        private readonly Security $security,
     ) {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::RESPONSE => ['onKernelResponse', 0]
+            KernelEvents::RESPONSE => ['onKernelResponse', 0],
         ];
     }
 

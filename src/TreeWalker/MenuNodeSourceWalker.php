@@ -11,9 +11,6 @@ use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
 use RZ\TreeWalker\AbstractCycleAwareWalker;
 use RZ\TreeWalker\Definition\ZeroChildrenDefinition;
 
-/**
- * @package App\TreeWalker
- */
 final class MenuNodeSourceWalker extends AbstractCycleAwareWalker
 {
     /**
@@ -36,18 +33,13 @@ final class MenuNodeSourceWalker extends AbstractCycleAwareWalker
     }
 
     /**
-     * @param NodeTypeInterface $nodeType
-     * @return callable
      * @throws InvalidArgumentException
      */
     protected function createDefinitionForNodeType(NodeTypeInterface $nodeType): callable
     {
         $context = $this->getContext();
         if (!$context instanceof NodeSourceWalkerContext) {
-            throw new \InvalidArgumentException(
-                'TreeWalker context must be instance of ' .
-                NodeSourceWalkerContext::class
-            );
+            throw new \InvalidArgumentException('TreeWalker context must be instance of '.NodeSourceWalkerContext::class);
         }
         $childrenNodeTypes = $context->getNodeTypeResolver()->getChildrenNodeTypeList($nodeType);
         if (count($childrenNodeTypes) > 0) {

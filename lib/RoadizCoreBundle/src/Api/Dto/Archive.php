@@ -8,9 +8,9 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 final class Archive
 {
-    #[Groups(["archives"])]
+    #[Groups(['archives'])]
     public int $year;
 
-    #[Groups(["archives"])]
+    #[Groups(['archives'])]
     public array $months;
 }

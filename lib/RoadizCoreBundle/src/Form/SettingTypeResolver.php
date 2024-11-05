@@ -41,7 +41,6 @@ class SettingTypeResolver
     ];
 
     /**
-     * @param Setting $setting
      * @return class-string<AbstractType>
      */
     public function getSettingType(Setting $setting): string

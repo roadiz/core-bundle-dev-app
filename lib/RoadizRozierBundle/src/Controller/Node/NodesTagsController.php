@@ -37,10 +37,6 @@ class NodesTagsController extends RozierApp
     /**
      * Return tags form for requested node.
      *
-     * @param Request $request
-     * @param Node $nodeId
-     *
-     * @return Response
      * @throws \Twig\Error\RuntimeError
      */
     public function editTagsAction(Request $request, Node $nodeId): Response

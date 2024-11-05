@@ -23,14 +23,11 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
     public function __construct(
         private readonly Security $security,
         private readonly RealmResolver $realmResolver,
-        private readonly Stopwatch $stopwatch
+        private readonly Stopwatch $stopwatch,
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if (!($data instanceof NodesSources)) {
             return false;
@@ -51,7 +48,6 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
     }
 
     /**
-     * @inheritDoc
      * @return array|string|int|float|bool|\ArrayObject|null
      */
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed

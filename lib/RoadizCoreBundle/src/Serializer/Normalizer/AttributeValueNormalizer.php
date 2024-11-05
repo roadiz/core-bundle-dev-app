@@ -15,10 +15,8 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 final class AttributeValueNormalizer extends AbstractPathNormalizer
 {
     /**
-     * @param mixed $object
-     * @param string|null $format
-     * @param array $context
      * @return array|\ArrayObject|bool|float|int|mixed|string|null
+     *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
@@ -38,8 +36,8 @@ final class AttributeValueNormalizer extends AbstractPathNormalizer
                 $translatedData = $object->getAttributeValueTranslation($context['translation']);
                 $data['label'] = $object->getAttribute()->getLabelOrCode($context['translation']);
                 if (
-                    $translatedData instanceof AttributeValueTranslationInterface &&
-                    $translatedData->getValue() !== null
+                    $translatedData instanceof AttributeValueTranslationInterface
+                    && null !== $translatedData->getValue()
                 ) {
                     $data['value'] = $translatedData->getValue();
                 } else {
@@ -60,6 +58,7 @@ final class AttributeValueNormalizer extends AbstractPathNormalizer
             }
             $this->stopwatch->stop('normalizeAttributeValue');
         }
+
         return $data;
     }
 }

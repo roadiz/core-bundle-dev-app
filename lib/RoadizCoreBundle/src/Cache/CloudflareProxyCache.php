@@ -13,61 +13,40 @@ final class CloudflareProxyCache
         private readonly string $bearer,
         private readonly string $email,
         private readonly string $key,
-        private readonly int $timeout
+        private readonly int $timeout,
     ) {
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getZone(): string
     {
         return $this->zone;
     }
 
-    /**
-     * @return string
-     */
     public function getVersion(): string
     {
         return $this->version;
     }
 
-    /**
-     * @return string
-     */
     public function getBearer(): string
     {
         return $this->bearer;
     }
 
-    /**
-     * @return string
-     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @return string
-     */
     public function getKey(): string
     {
         return $this->key;
     }
 
-    /**
-     * @return int
-     */
     public function getTimeout(): int
     {
         return $this->timeout;

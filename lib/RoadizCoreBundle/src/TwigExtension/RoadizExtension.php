@@ -21,13 +21,10 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
         private readonly string $cmsVersion,
         private readonly string $cmsVersionPrefix,
         private readonly bool $hideRoadizVersion,
-        private readonly int $maxVersionsShowed
+        private readonly int $maxVersionsShowed,
     ) {
     }
 
-    /**
-     * @return array
-     */
     public function getGlobals(): array
     {
         return [
@@ -46,7 +43,7 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
                 'siteName' => $this->settingsBag->get('site_name'),
                 'siteCopyright' => $this->settingsBag->get('site_copyright'),
                 'siteDescription' => $this->settingsBag->get('seo_description'),
-            ]
+            ],
         ];
     }
 }

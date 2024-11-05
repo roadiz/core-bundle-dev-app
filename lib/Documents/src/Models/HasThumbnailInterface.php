@@ -8,13 +8,9 @@ use Doctrine\Common\Collections\Collection;
 
 interface HasThumbnailInterface
 {
-    /**
-     * @return HasThumbnailInterface|null
-     */
     public function getOriginal(): ?HasThumbnailInterface;
 
     /**
-     * @param HasThumbnailInterface|null $original
      * @return $this
      */
     public function setOriginal(?HasThumbnailInterface $original): static;
@@ -26,22 +22,14 @@ interface HasThumbnailInterface
 
     /**
      * @param Collection<int, DocumentInterface> $thumbnails
+     *
      * @return $this
      */
     public function setThumbnails(Collection $thumbnails): static;
 
-    /**
-     * @return bool
-     */
     public function isThumbnail(): bool;
 
-    /**
-     * @return bool
-     */
     public function hasThumbnails(): bool;
 
-    /**
-     * @return bool
-     */
     public function needsThumbnail(): bool;
 }

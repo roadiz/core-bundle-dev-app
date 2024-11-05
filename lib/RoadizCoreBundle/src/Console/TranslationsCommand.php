@@ -15,7 +15,7 @@ class TranslationsCommand extends Command
 {
     public function __construct(
         protected readonly ManagerRegistry $managerRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -33,8 +33,9 @@ class TranslationsCommand extends Command
             ->getRepository(Translation::class)
             ->findAll();
 
-        if (count($translations) === 0) {
+        if (0 === count($translations)) {
             $io->error('No available translations.');
+
             return 1;
         }
 
@@ -45,11 +46,12 @@ class TranslationsCommand extends Command
                 $trans->getId(),
                 $trans->getName(),
                 $trans->getLocale(),
-                (!$trans->isAvailable() ? 'X' : ''),
-                ($trans->isDefaultTranslation() ? 'X' : ''),
+                !$trans->isAvailable() ? 'X' : '',
+                $trans->isDefaultTranslation() ? 'X' : '',
             ];
         }
         $io->table(['Id', 'Name', 'Locale', 'Disabled', 'Default'], $tableContent);
+
         return 0;
     }
 }

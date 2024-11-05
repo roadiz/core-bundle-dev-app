@@ -25,7 +25,7 @@ use Symfony\Component\Stopwatch\Stopwatch;
  */
 #[AutoconfigureTag('data_collector', [
     'template' => '@RoadizCore/DataCollector/solarium.html.twig',
-    # must match the value returned by the getName() method
+    // must match the value returned by the getName() method
     'id' => 'solarium',
 ])]
 #[AutoconfigureTag('monolog.logger', [
@@ -41,7 +41,7 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
 
     public function __construct(
         private readonly LoggerInterface $searchEngineLogger,
-        private readonly Stopwatch $stopwatch
+        private readonly Stopwatch $stopwatch,
     ) {
         parent::__construct();
     }
@@ -58,17 +58,17 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
         SolariumRequest $request,
         ?SolariumResponse $response,
         SolariumEndpoint $endpoint,
-        float $duration
+        float $duration,
     ): void {
-        $this->queries[] = array(
+        $this->queries[] = [
             'request' => $request,
             'response' => $response,
             'duration' => $duration,
             'base_uri' => $this->getEndpointBaseUrl($endpoint),
-        );
+        ];
     }
 
-    public function collect(HttpRequest $request, HttpResponse $response, \Throwable $exception = null): void
+    public function collect(HttpRequest $request, HttpResponse $response, ?\Throwable $exception = null): void
     {
         if (isset($this->currentRequest)) {
             $this->failCurrentRequest();
@@ -78,10 +78,10 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
         foreach ($this->queries as $queryStruct) {
             $time += $queryStruct['duration'];
         }
-        $this->data = array(
-            'queries'     => $this->queries,
-            'total_time'  => $time,
-        );
+        $this->data = [
+            'queries' => $this->queries,
+            'total_time' => $time,
+        ];
     }
 
     public function getName(): string
@@ -114,7 +114,7 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
 
         $this->currentRequest = $event->getRequest();
         $this->currentEndpoint = $event->getEndpoint();
-        $this->searchEngineLogger->debug($this->getEndpointBaseUrl($this->currentEndpoint) . $this->currentRequest->getUri());
+        $this->searchEngineLogger->debug($this->getEndpointBaseUrl($this->currentEndpoint).$this->currentRequest->getUri());
         $this->currentStartTime = microtime(true);
     }
 

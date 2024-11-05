@@ -13,14 +13,14 @@ final class AssetsCacheEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly AssetsFileClearer $assetsClearer,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            CachePurgeAssetsRequestEvent::class => ['onPurgeAssetsRequest', 0]
+            CachePurgeAssetsRequestEvent::class => ['onPurgeAssetsRequest', 0],
         ];
     }
 

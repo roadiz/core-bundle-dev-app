@@ -13,9 +13,6 @@ final class UpdateNodeTypeSchemaMessage
     {
     }
 
-    /**
-     * @return int|string|null
-     */
     public function getNodeTypeId(): int|string|null
     {
         return $this->nodeTypeId;

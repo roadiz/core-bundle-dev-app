@@ -21,7 +21,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
         private readonly NodeChrootResolver $nodeChrootResolver,
         private readonly TreeWidgetFactory $treeWidgetFactory,
         private readonly NodeTypes $nodeTypesBag,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
@@ -35,7 +35,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
         $nodeTree = null;
         $linkedTypes = [];
 
-        switch ($request->get("_action")) {
+        switch ($request->get('_action')) {
             /*
              * Inner node edit for nodeTree
              */
@@ -55,8 +55,8 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                 $nodeTree = $this->treeWidgetFactory->createNodeTree($node, $translation);
 
                 if (
-                    $request->get('tagId') &&
-                    $request->get('tagId') > 0
+                    $request->get('tagId')
+                    && $request->get('tagId') > 0
                 ) {
                     $filterTag = $this->em()
                                         ->find(
@@ -77,7 +77,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                     }, $linkedTypes));
 
                     $nodeTree->setAdditionalCriteria([
-                        'nodeType' => $linkedTypes
+                        'nodeType' => $linkedTypes,
                     ]);
                 }
 
@@ -87,9 +87,9 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                     $nodeTree->setStackTree(true);
                 }
                 break;
-            /*
-             * Main panel tree nodeTree
-             */
+                /*
+                 * Main panel tree nodeTree
+                 */
             case 'requestMainNodeTree':
                 $parent = null;
                 if (null !== $this->getUser()) {

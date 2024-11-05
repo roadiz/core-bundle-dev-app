@@ -18,7 +18,7 @@ abstract class AbstractDoctrineExplorerProvider extends AbstractExplorerProvider
         protected ExplorerItemFactoryInterface $explorerItemFactory,
         protected ManagerRegistry $managerRegistry,
         protected RequestStack $requestStack,
-        protected UrlGeneratorInterface $urlGenerator
+        protected UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -27,20 +27,11 @@ abstract class AbstractDoctrineExplorerProvider extends AbstractExplorerProvider
      */
     abstract protected function getProvidedClassname(): string;
 
-    /**
-     * @return array
-     */
     abstract protected function getDefaultCriteria(): array;
 
-    /**
-     * @return array
-     */
     abstract protected function getDefaultOrdering(): array;
 
     /**
-     * @param array $options
-     *
-     * @return EntityListManagerInterface
      * @throws \ReflectionException
      */
     protected function doFetchItems(array $options = []): EntityListManagerInterface
@@ -64,9 +55,7 @@ abstract class AbstractDoctrineExplorerProvider extends AbstractExplorerProvider
 
         return $listManager;
     }
-    /**
-     * @inheritDoc
-     */
+
     public function getItems($options = []): array
     {
         $listManager = $this->doFetchItems($options);
@@ -79,9 +68,6 @@ abstract class AbstractDoctrineExplorerProvider extends AbstractExplorerProvider
         return $items;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getFilters($options = []): array
     {
         $listManager = $this->doFetchItems($options);
@@ -89,14 +75,11 @@ abstract class AbstractDoctrineExplorerProvider extends AbstractExplorerProvider
         return $listManager->getAssignation();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getItemsById(array $ids = []): array
     {
         if (is_array($ids) && count($ids) > 0) {
             $entities = $this->managerRegistry->getRepository($this->getProvidedClassname())->findBy([
-                'id' => $ids
+                'id' => $ids,
             ]);
 
             /*

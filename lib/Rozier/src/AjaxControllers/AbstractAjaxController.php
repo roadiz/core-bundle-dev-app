@@ -20,7 +20,7 @@ use Themes\Rozier\RozierApp;
 abstract class AbstractAjaxController extends RozierApp
 {
     public function __construct(
-        protected readonly SerializerInterface $serializer
+        protected readonly SerializerInterface $serializer,
     ) {
     }
 
@@ -46,11 +46,7 @@ abstract class AbstractAjaxController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     * @param string  $method
-     * @param bool    $requestCsrfToken
-     *
-     * @return bool  Return true if request is valid, else throw exception
+     * @return bool Return true if request is valid, else throw exception
      */
     protected function validateRequest(Request $request, string $method = 'POST', bool $requestCsrfToken = true): bool
     {
@@ -59,15 +55,15 @@ abstract class AbstractAjaxController extends RozierApp
         }
 
         if (
-            $requestCsrfToken === true &&
-            !$this->isCsrfTokenValid(static::AJAX_TOKEN_INTENTION, $request->get('_token'))
+            true === $requestCsrfToken
+            && !$this->isCsrfTokenValid(static::AJAX_TOKEN_INTENTION, $request->get('_token'))
         ) {
             throw new BadRequestHttpException('Bad CSRF token');
         }
 
         if (
-            in_array(\mb_strtolower($method), static::$validMethods) &&
-            \mb_strtolower($request->getMethod()) != \mb_strtolower($method)
+            in_array(\mb_strtolower($method), static::$validMethods)
+            && \mb_strtolower($request->getMethod()) != \mb_strtolower($method)
         ) {
             throw new BadRequestHttpException('Bad method');
         }
@@ -84,7 +80,7 @@ abstract class AbstractAjaxController extends RozierApp
                 if ($element == $value->getId()) {
                     $return[] = $value;
                     unset($arr[$key]);
-                    break 1;
+                    break;
                 }
             }
         }
@@ -92,10 +88,6 @@ abstract class AbstractAjaxController extends RozierApp
         return $return;
     }
 
-    /**
-     * @param array $data
-     * @return JsonResponse
-     */
     protected function createSerializedResponse(array $data): JsonResponse
     {
         return new JsonResponse(
@@ -105,7 +97,7 @@ abstract class AbstractAjaxController extends RozierApp
                 SerializationContext::create()->setGroups([
                     'document_display',
                     'explorer_thumbnail',
-                    'model'
+                    'model',
                 ])
             ),
             200,

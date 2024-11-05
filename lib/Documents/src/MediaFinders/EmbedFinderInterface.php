@@ -6,18 +6,8 @@ namespace RZ\Roadiz\Documents\MediaFinders;
 
 interface EmbedFinderInterface
 {
-    /**
-     * @param array $options
-     *
-     * @return string
-     */
     public function getIFrame(array &$options = []): string;
 
-    /**
-     * @param array $options
-     *
-     * @return string
-     */
     public function getSource(array &$options = []): string;
 
     public static function supportEmbedUrl(string $embedUrl): bool;

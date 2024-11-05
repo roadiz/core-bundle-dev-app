@@ -21,24 +21,16 @@ class SettingDocumentType extends AbstractType
     protected AbstractDocumentFactory $documentFactory;
     protected FilesystemOperator $documentsStorage;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param AbstractDocumentFactory $documentFactory
-     * @param FilesystemOperator $documentsStorage
-     */
     public function __construct(
         ManagerRegistry $managerRegistry,
         AbstractDocumentFactory $documentFactory,
-        FilesystemOperator $documentsStorage
+        FilesystemOperator $documentsStorage,
     ) {
         $this->documentFactory = $documentFactory;
         $this->managerRegistry = $managerRegistry;
         $this->documentsStorage = $documentsStorage;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new CallbackTransformer(
@@ -52,6 +44,7 @@ class SettingDocumentType extends AbstractType
                         return new File($this->documentsStorage->publicUrl($document->getMountPath()), false);
                     }
                 }
+
                 return null;
             },
             function ($file) {
@@ -67,14 +60,12 @@ class SettingDocumentType extends AbstractType
                         return $document->getId();
                     }
                 }
+
                 return null;
             }
         ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FileType::class;

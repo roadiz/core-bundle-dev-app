@@ -12,14 +12,14 @@ final class TagExplorerItem extends AbstractExplorerItem
 {
     public function __construct(
         private readonly Tag $tag,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('tagsEditPage', [
-            'tagId' => $this->tag->getId()
+            'tagId' => $this->tag->getId(),
         ]);
     }
 
@@ -55,11 +55,6 @@ final class TagExplorerItem extends AbstractExplorerItem
         return $this->tag;
     }
 
-    /**
-     * @param Tag $tag
-     * @param bool $slash
-     * @return string
-     */
     private function getTagParents(Tag $tag, bool $slash = false): string
     {
         $result = '';
@@ -74,7 +69,7 @@ final class TagExplorerItem extends AbstractExplorerItem
                 $name = $firstTrans->getName();
             }
 
-            $result = $superParent . $name;
+            $result = $superParent.$name;
 
             if ($slash) {
                 $result .= ' / ';

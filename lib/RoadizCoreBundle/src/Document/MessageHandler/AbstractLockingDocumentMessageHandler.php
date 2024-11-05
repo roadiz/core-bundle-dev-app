@@ -30,10 +30,7 @@ abstract class AbstractLockingDocumentMessageHandler extends AbstractDocumentMes
                         $this->managerRegistry->getManager()->flush();
                         @\flock($resource, \LOCK_UN);
                     } else {
-                        throw new RecoverableMessageHandlingException(sprintf(
-                            '%s file is currently locked',
-                            $documentPath
-                        ));
+                        throw new RecoverableMessageHandlingException(sprintf('%s file is currently locked', $documentPath));
                     }
                 } else {
                     $this->processMessage($message, $document);
@@ -48,7 +45,7 @@ abstract class AbstractLockingDocumentMessageHandler extends AbstractDocumentMes
     protected function isFileLocal(DocumentInterface $document): bool
     {
         return
-            $document->isPrivate() ||
-            str_starts_with($this->documentsStorage->publicUrl($document->getMountPath()), '/');
+            $document->isPrivate()
+            || str_starts_with($this->documentsStorage->publicUrl($document->getMountPath()), '/');
     }
 }

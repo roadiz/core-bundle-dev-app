@@ -23,29 +23,26 @@ final class AccessDeniedHandler implements AccessDeniedHandlerInterface
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly ?LoggerInterface $logger,
         private readonly string $redirectRoute = '',
-        private readonly array $redirectParameters = []
+        private readonly array $redirectParameters = [],
     ) {
     }
 
     /**
-     * Handles access denied failure redirecting to home page
-     *
-     * @param Request $request
-     * @param AccessDeniedException $accessDeniedException
+     * Handles access denied failure redirecting to home page.
      *
      * @return Response|null may return null
      */
     public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
     {
-        $this->logger->error('User tried to access: ' . $request->getUri());
+        $this->logger->error('User tried to access: '.$request->getUri());
 
-        $returnJson = $request->isXmlHttpRequest() ||
-            $request->getRequestFormat() === 'json' ||
-            (
-                count($request->getAcceptableContentTypes()) === 1 &&
-                $request->getAcceptableContentTypes()[0] === 'application/json'
-            ) ||
-            ($request->attributes->has('_format') && $request->attributes->get('_format') === 'json');
+        $returnJson = $request->isXmlHttpRequest()
+            || 'json' === $request->getRequestFormat()
+            || (
+                1 === count($request->getAcceptableContentTypes())
+                && 'application/json' === $request->getAcceptableContentTypes()[0]
+            )
+            || ($request->attributes->has('_format') && 'json' === $request->attributes->get('_format'));
 
         if ($returnJson) {
             return new JsonResponse(
@@ -62,6 +59,7 @@ final class AccessDeniedHandler implements AccessDeniedHandlerInterface
             } else {
                 $redirectUrl = $request->getBaseUrl();
             }
+
             // Forbidden code should be set on final response, not the redirection!
             return new RedirectResponse($redirectUrl, Response::HTTP_FOUND);
         }

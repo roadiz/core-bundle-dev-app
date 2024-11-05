@@ -14,7 +14,7 @@ final class CustomFormExplorerItem extends AbstractExplorerItem
     public function __construct(
         private readonly CustomForm $customForm,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly TranslatorInterface $translator
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -28,7 +28,7 @@ final class CustomFormExplorerItem extends AbstractExplorerItem
         return strip_tags($this->translator->trans(
             '{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields',
             [
-                '%count%' => $this->customForm->getFields()->count()
+                '%count%' => $this->customForm->getFields()->count(),
             ]
         ));
     }
@@ -46,7 +46,7 @@ final class CustomFormExplorerItem extends AbstractExplorerItem
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('customFormsEditPage', [
-            'id' => $this->customForm->getId()
+            'id' => $this->customForm->getId(),
         ]);
     }
 

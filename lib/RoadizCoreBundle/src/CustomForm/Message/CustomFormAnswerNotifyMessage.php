@@ -12,7 +12,7 @@ final class CustomFormAnswerNotifyMessage implements AsyncMessage
         private readonly int $customFormAnswerId,
         private readonly string $title,
         private readonly string $senderAddress,
-        private readonly string $locale
+        private readonly string $locale,
     ) {
     }
 

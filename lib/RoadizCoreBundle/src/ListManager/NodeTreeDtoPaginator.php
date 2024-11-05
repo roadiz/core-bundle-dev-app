@@ -14,7 +14,6 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
  * A paginator class to filter node entities with limit and search.
  *
  * This class add some translation and security filters
- *
  */
 #[Exclude]
 class NodeTreeDtoPaginator extends Paginator
@@ -26,15 +25,14 @@ class NodeTreeDtoPaginator extends Paginator
         return $this->translation;
     }
 
-    public function setTranslation(TranslationInterface $translation = null): self
+    public function setTranslation(?TranslationInterface $translation = null): self
     {
         $this->translation = $translation;
+
         return $this;
     }
 
     /**
-     * @param array $order
-     * @param int $page
      * @return array<NodeTreeDto>
      */
     public function findByAtPage(array $order = [], int $page = 1): array
@@ -82,6 +80,7 @@ class NodeTreeDtoPaginator extends Paginator
         $repository = $this->em->getRepository(Node::class);
         $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
         $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
+
         return $repository;
     }
 }

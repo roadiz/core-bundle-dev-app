@@ -16,21 +16,21 @@ use RZ\Roadiz\CoreBundle\Repository\CustomFormFieldAttributeRepository;
  */
 #[
     ORM\Entity(repositoryClass: CustomFormFieldAttributeRepository::class),
-    ORM\Table(name: "custom_form_field_attributes"),
-    ORM\Index(columns: ["custom_form_answer_id", "custom_form_field_id"], name: "cffattribute_answer_field"),
+    ORM\Table(name: 'custom_form_field_attributes'),
+    ORM\Index(columns: ['custom_form_answer_id', 'custom_form_field_id'], name: 'cffattribute_answer_field'),
     ORM\HasLifecycleCallbacks
 ]
 class CustomFormFieldAttribute extends AbstractEntity
 {
     #[
-        ORM\ManyToOne(targetEntity: CustomFormAnswer::class, inversedBy: "answerFields"),
-        ORM\JoinColumn(name: "custom_form_answer_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")
+        ORM\ManyToOne(targetEntity: CustomFormAnswer::class, inversedBy: 'answerFields'),
+        ORM\JoinColumn(name: 'custom_form_answer_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')
     ]
     protected CustomFormAnswer $customFormAnswer;
 
     #[
-        ORM\ManyToOne(targetEntity: CustomFormField::class, inversedBy: "customFormFieldAttributes"),
-        ORM\JoinColumn(name: "custom_form_field_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")
+        ORM\ManyToOne(targetEntity: CustomFormField::class, inversedBy: 'customFormFieldAttributes'),
+        ORM\JoinColumn(name: 'custom_form_field_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')
     ]
     protected CustomFormField $customFormField;
 
@@ -38,14 +38,14 @@ class CustomFormFieldAttribute extends AbstractEntity
      * @var Collection<int, Document>
      */
     #[
-        ORM\ManyToMany(targetEntity: Document::class, inversedBy: "customFormFieldAttributes"),
-        ORM\JoinTable(name: "custom_form_answers_documents"),
-        ORM\JoinColumn(name: "customformfieldattribute_id", onDelete: "CASCADE"),
-        ORM\InverseJoinColumn(name: "document_id", onDelete: "CASCADE")
+        ORM\ManyToMany(targetEntity: Document::class, inversedBy: 'customFormFieldAttributes'),
+        ORM\JoinTable(name: 'custom_form_answers_documents'),
+        ORM\JoinColumn(name: 'customformfieldattribute_id', onDelete: 'CASCADE'),
+        ORM\InverseJoinColumn(name: 'document_id', onDelete: 'CASCADE')
     ]
     protected Collection $documents;
 
-    #[ORM\Column(type: "text", nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     protected ?string $value = null;
 
     public function __construct()
@@ -55,6 +55,7 @@ class CustomFormFieldAttribute extends AbstractEntity
 
     /**
      * @return string|null $value
+     *
      * @throws \Exception
      */
     public function getValue(): ?string
@@ -70,16 +71,17 @@ class CustomFormFieldAttribute extends AbstractEntity
         if ($this->getCustomFormField()->isDateTime()) {
             return (new \DateTime($this->value))->format('Y-m-d H:i:s');
         }
+
         return $this->value;
     }
 
     /**
-     * @param string|null $value
      * @return $this
      */
     public function setValue(?string $value): CustomFormFieldAttribute
     {
         $this->value = $value;
+
         return $this;
     }
 
@@ -96,7 +98,6 @@ class CustomFormFieldAttribute extends AbstractEntity
     }
 
     /**
-     * @return string
      * @throws \Exception
      */
     public function __toString(): string
@@ -116,22 +117,15 @@ class CustomFormFieldAttribute extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getDocuments(): Collection
     {
         return $this->documents;
     }
 
-    /**
-     * @param Collection $documents
-     *
-     * @return CustomFormFieldAttribute
-     */
     public function setDocuments(Collection $documents): CustomFormFieldAttribute
     {
         $this->documents = $documents;
+
         return $this;
     }
 }

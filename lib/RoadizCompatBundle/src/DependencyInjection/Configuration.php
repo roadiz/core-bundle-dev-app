@@ -16,6 +16,7 @@ class Configuration implements ConfigurationInterface
         $builder = new TreeBuilder('roadiz_compat');
         $root = $builder->getRootNode();
         $root->append($this->addThemesNode());
+
         return $builder;
     }
 
@@ -36,7 +37,7 @@ class Configuration implements ConfigurationInterface
                     ->isRequired()
                     ->validate()
                         ->ifTrue(function (string $s) {
-                            return preg_match('/^\\\[a-zA-Z\\\]+App$/', trim($s)) !== 1 || !class_exists($s);
+                            return 1 !== preg_match('/^\\\[a-zA-Z\\\]+App$/', trim($s)) || !class_exists($s);
                         })
                         ->thenInvalid('Theme class does not exist or classname is invalid: must start with \ character and ends with App suffix.')
                     ->end()

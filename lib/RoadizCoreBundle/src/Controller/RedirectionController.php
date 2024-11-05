@@ -31,8 +31,8 @@ final class RedirectionController
         }
 
         if (
-            null !== $redirection->getRedirectUri() &&
-            \mb_strlen($redirection->getRedirectUri()) > 0
+            null !== $redirection->getRedirectUri()
+            && \mb_strlen($redirection->getRedirectUri()) > 0
         ) {
             return new RedirectResponse($redirection->getRedirectUri(), $redirection->getType());
         }
@@ -62,7 +62,7 @@ final class RedirectionController
         Request $request,
         string $route,
         bool $permanent = false,
-        $ignoreAttributes = false
+        $ignoreAttributes = false,
     ): RedirectResponse {
         if ('' == $route) {
             throw new HttpException($permanent ? 410 : 404);
@@ -75,6 +75,7 @@ final class RedirectionController
                 $attributes = array_diff_key($attributes, array_flip($ignoreAttributes));
             }
         }
+
         return new RedirectResponse(
             $this->urlGenerator->generate(
                 $route,

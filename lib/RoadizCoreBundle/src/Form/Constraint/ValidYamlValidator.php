@@ -12,13 +12,11 @@ use Symfony\Component\Yaml\Yaml;
 class ValidYamlValidator extends ConstraintValidator
 {
     /**
-     * @param mixed $value
      * @param ValidYaml $constraint
-     * @return void
      */
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if ($value != "") {
+        if ('' != $value) {
             try {
                 if (is_array($value)) {
                     // value already has been parsed into array
@@ -27,7 +25,7 @@ class ValidYamlValidator extends ConstraintValidator
                 Yaml::parse($value);
             } catch (ParseException $e) {
                 $this->context->addViolation($constraint->message, [
-                    '{{ error }}' => $e->getMessage()
+                    '{{ error }}' => $e->getMessage(),
                 ]);
             }
         }

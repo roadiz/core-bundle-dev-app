@@ -20,9 +20,6 @@ class GeoJsonType extends AbstractType
         }));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix(): string
     {
         return 'geojson';

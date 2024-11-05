@@ -16,15 +16,12 @@ final class AttributeDocumentsRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, AttributeDocuments::class, $dispatcher);
     }
 
     /**
-     * @param AttributeInterface $attribute
-     *
-     * @return int
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

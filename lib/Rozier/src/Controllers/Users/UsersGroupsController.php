@@ -27,7 +27,7 @@ class UsersGroupsController extends RozierApp
 
         /** @var User|null $user */
         $user = $this->em()->find(User::class, $userId);
-        if ($user === null) {
+        if (null === $user) {
             throw new ResourceNotFoundException();
         }
 
@@ -47,7 +47,7 @@ class UsersGroupsController extends RozierApp
                     $group = null;
                 }
 
-                if ($group !== null) {
+                if (null !== $group) {
                     $user->addGroup($group);
                     $this->em()->flush();
 
@@ -84,10 +84,10 @@ class UsersGroupsController extends RozierApp
         /** @var Group|null $group */
         $group = $this->em()->find(Group::class, $groupId);
 
-        if ($user === null) {
+        if (null === $user) {
             throw new ResourceNotFoundException();
         }
-        if ($group === null) {
+        if (null === $group) {
             throw new ResourceNotFoundException();
         }
 
@@ -127,11 +127,6 @@ class UsersGroupsController extends RozierApp
         return $this->render('@RoadizRozier/users/removeGroup.html.twig', $this->assignation);
     }
 
-    /**
-     * @param User $user
-     *
-     * @return FormInterface
-     */
     private function buildEditGroupsForm(User $user): FormInterface
     {
         $defaults = [
@@ -153,7 +148,7 @@ class UsersGroupsController extends RozierApp
                 'group',
                 GroupsType::class,
                 [
-                    'label' => 'Group'
+                    'label' => 'Group',
                 ]
             )
         ;

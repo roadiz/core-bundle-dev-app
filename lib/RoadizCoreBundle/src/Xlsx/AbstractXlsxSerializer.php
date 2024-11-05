@@ -19,13 +19,10 @@ abstract class AbstractXlsxSerializer implements SerializerInterface
     /**
      * Serializes data.
      *
-     * @param mixed $obj
-     *
-     * @return string
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
-    public function serialize($obj): string
+    public function serialize(mixed $obj): string
     {
         $data = $this->toArray($obj);
         $exporter = new XlsxExporter($this->translator);
@@ -33,9 +30,6 @@ abstract class AbstractXlsxSerializer implements SerializerInterface
         return $exporter->exportXlsx($data);
     }
 
-    /**
-     * @return TranslatorInterface
-     */
     public function getTranslator(): TranslatorInterface
     {
         return $this->translator;

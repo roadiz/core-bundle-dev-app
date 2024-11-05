@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 #[AutoconfigureTag('data_collector', [
     'template' => '@RoadizCore/DataCollector/request.html.twig',
-    # must match the value returned by the getName() method
+    // must match the value returned by the getName() method
     'id' => 'roadiz.data_collector.request',
     'priority' => 400,
 ])]
@@ -22,17 +22,14 @@ final class RequestDataCollector extends AbstractDataCollector
         #[Autowire('%roadiz_core.cms_version%')]
         private readonly string $cmsVersion,
         #[Autowire('%roadiz_core.cms_version_prefix%')]
-        private readonly string $cmsVersionPrefix
+        private readonly string $cmsVersionPrefix,
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function collect(Request $request, Response $response, \Throwable $exception = null): void
+    public function collect(Request $request, Response $response, ?\Throwable $exception = null): void
     {
         $this->data = [
-            'version' => implode(' - ', [$this->cmsVersionPrefix, $this->cmsVersion])
+            'version' => implode(' - ', [$this->cmsVersionPrefix, $this->cmsVersion]),
         ];
     }
 
@@ -41,9 +38,6 @@ final class RequestDataCollector extends AbstractDataCollector
         return $this->data['version'] ?? '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return 'roadiz.data_collector.request';

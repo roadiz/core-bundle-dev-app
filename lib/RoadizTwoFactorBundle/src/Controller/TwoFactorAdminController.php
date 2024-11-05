@@ -48,6 +48,7 @@ final class TwoFactorAdminController extends RozierApp
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->twoFactorUserProvider->createForUser($user);
+
                 return $this->redirectToRoute('2fa_admin_two_factor');
             }
             $this->assignation['form'] = $form->createView();
@@ -67,6 +68,7 @@ final class TwoFactorAdminController extends RozierApp
                     )
                 ) {
                     $this->twoFactorUserProvider->activate($twoFactorUser);
+
                     return $this->redirectToRoute('2fa_admin_two_factor');
                 }
 
@@ -96,6 +98,7 @@ final class TwoFactorAdminController extends RozierApp
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->twoFactorUserProvider->disable($twoFactorUser);
+
             return $this->redirectToRoute('2fa_admin_two_factor');
         }
         $this->assignation['form'] = $form->createView();

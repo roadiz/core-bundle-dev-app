@@ -21,7 +21,7 @@ final class UpdateNodeTypeSchemaMessageHandler
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly HandlerFactoryInterface $handlerFactory,
-        private readonly MessageBusInterface $messageBus
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 
@@ -39,7 +39,7 @@ final class UpdateNodeTypeSchemaMessageHandler
 
         $this->managerRegistry->getManager()->clear();
         $this->messageBus->dispatch(
-            (new Envelope(new UpdateDoctrineSchemaMessage()))
+            new Envelope(new UpdateDoctrineSchemaMessage())
         );
     }
 }

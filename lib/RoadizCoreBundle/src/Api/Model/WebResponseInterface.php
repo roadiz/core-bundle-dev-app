@@ -13,18 +13,22 @@ use RZ\Roadiz\CoreBundle\Api\Breadcrumbs\BreadcrumbsInterface;
 interface WebResponseInterface
 {
     public function setHead(?NodesSourcesHeadInterface $head): self;
+
     public function setBreadcrumbs(?BreadcrumbsInterface $breadcrumbs): self;
 
     /**
      * @param T|null $item
-     * @return self
      */
     public function setItem(?PersistableInterface $item): self;
+
     public function setPath(?string $path): self;
+
     /**
      * @return T|null
      */
     public function getItem(): ?PersistableInterface;
+
     public function getMaxAge(): ?int;
+
     public function setMaxAge(?int $maxAge): self;
 }

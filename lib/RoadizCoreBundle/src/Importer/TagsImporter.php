@@ -14,25 +14,16 @@ class TagsImporter implements EntityImporterInterface
 {
     protected SerializerInterface $serializer;
 
-    /**
-     * @param SerializerInterface $serializer
-     */
     public function __construct(SerializerInterface $serializer)
     {
         $this->serializer = $serializer;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function supports(string $entityClass): bool
     {
-        return $entityClass === Tag::class;
+        return Tag::class === $entityClass;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function import(string $serializedData): bool
     {
         $this->serializer->deserialize(

@@ -12,9 +12,6 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 final class AttributeValueIndexingSubscriber extends AbstractIndexingSubscriber
 {
-    /**
-     * {@inheritdoc}
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -33,7 +30,7 @@ final class AttributeValueIndexingSubscriber extends AbstractIndexingSubscriber
                                 ->getNode()
                                 ->getAttributesValuesForTranslation($event->getNodeSource()->getTranslation());
 
-        if ($attributeValues->count() === 0) {
+        if (0 === $attributeValues->count()) {
             return;
         }
 
@@ -80,7 +77,7 @@ final class AttributeValueIndexingSubscriber extends AbstractIndexingSubscriber
                             $associations['collection_txt'][] = $content;
                             if (null !== $lang) {
                                 // Compile all text content into a single localized text field.
-                                $associations['collection_txt_' . $lang] = $this->flattenTextCollection($associations['collection_txt']);
+                                $associations['collection_txt_'.$lang] = $this->flattenTextCollection($associations['collection_txt']);
                             }
                             break;
                         case AttributeInterface::DATETIME_T:
@@ -96,7 +93,7 @@ final class AttributeValueIndexingSubscriber extends AbstractIndexingSubscriber
                             * with right language
                             */
                             if (null !== $lang) {
-                                $fieldName .= '_txt_' . $lang;
+                                $fieldName .= '_txt_'.$lang;
                             } else {
                                 $lang = null;
                                 $fieldName .= '_t';
@@ -111,7 +108,7 @@ final class AttributeValueIndexingSubscriber extends AbstractIndexingSubscriber
                                 $associations['collection_txt'][] = $content;
                                 if (null !== $lang) {
                                     // Compile all text content into a single localized text field.
-                                    $associations['collection_txt_' . $lang] = $this->flattenTextCollection($associations['collection_txt']);
+                                    $associations['collection_txt_'.$lang] = $this->flattenTextCollection($associations['collection_txt']);
                                 }
                             }
                             break;

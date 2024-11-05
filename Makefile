@@ -6,7 +6,7 @@ test:
 	vendor/bin/monorepo-builder validate
 	make phpstan
 	XDEBUG_MODE=coverage vendor/bin/phpunit -v
-	php -d "memory_limit=-1" vendor/bin/phpcs -p
+	php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
@@ -19,7 +19,10 @@ phpunit:
 	APP_ENV=test docker compose exec -u www-data app php vendor/bin/phpunit -v
 
 fix:
-	php -d "memory_limit=-1" vendor/bin/phpcbf -p
+	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
+
+check:
+	php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
 
 requirements:
 	vendor/bin/requirements-checker

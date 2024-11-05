@@ -23,7 +23,7 @@ class NodeWorkflow extends Workflow
                 $this->toPlace(Node::PENDING),
                 $this->toPlace(Node::PUBLISHED),
                 $this->toPlace(Node::ARCHIVED),
-                $this->toPlace(Node::DELETED)
+                $this->toPlace(Node::DELETED),
             ])
             ->addTransition(new Transition('review', $this->toPlace(Node::DRAFT), $this->toPlace(Node::PENDING)))
             ->addTransition(new Transition('review', $this->toPlace(Node::PUBLISHED), $this->toPlace(Node::PENDING)))

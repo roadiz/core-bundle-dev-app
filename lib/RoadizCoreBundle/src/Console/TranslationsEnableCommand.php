@@ -36,13 +36,14 @@ final class TranslationsEnableCommand extends TranslationsCommand
             ->getRepository(Translation::class)
             ->findOneByLocale($locale);
 
-        if ($translation === null) {
-            $io->error('Translation for locale ' . $locale . ' does not exist.');
+        if (null === $translation) {
+            $io->error('Translation for locale '.$locale.' does not exist.');
+
             return 1;
         }
 
         $confirmation = new ConfirmationQuestion(
-            '<question>Are you sure to enable ' . $translation->getName() . ' (' . $translation->getLocale() . ') translation?</question>',
+            '<question>Are you sure to enable '.$translation->getName().' ('.$translation->getLocale().') translation?</question>',
             false
         );
         if (
@@ -54,6 +55,7 @@ final class TranslationsEnableCommand extends TranslationsCommand
             $this->managerRegistry->getManagerForClass(Translation::class)->flush();
             $io->success('Translation enabled.');
         }
+
         return 0;
     }
 }

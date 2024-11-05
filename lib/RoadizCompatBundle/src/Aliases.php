@@ -12,9 +12,9 @@ final class Aliases
     public static function getAliases(): array
     {
         return [
-            \RZ\Roadiz\CompatBundle\Controller\AppController::class => \RZ\Roadiz\CMS\Controllers\AppController::class,
-            \RZ\Roadiz\CompatBundle\Controller\Controller::class => \RZ\Roadiz\CMS\Controllers\Controller::class,
-            \RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface::class => \RZ\Roadiz\Utils\Theme\ThemeResolverInterface::class,
+            Controller\AppController::class => \RZ\Roadiz\CMS\Controllers\AppController::class,
+            Controller\Controller::class => \RZ\Roadiz\CMS\Controllers\Controller::class,
+            Theme\ThemeResolverInterface::class => \RZ\Roadiz\Utils\Theme\ThemeResolverInterface::class,
             \RZ\Roadiz\CoreBundle\Bag\NodeTypes::class => \RZ\Roadiz\Core\Bags\NodeTypes::class,
             \RZ\Roadiz\CoreBundle\Bag\Roles::class => \RZ\Roadiz\Core\Bags\Roles::class,
             \RZ\Roadiz\CoreBundle\Bag\Settings::class => \RZ\Roadiz\Core\Bags\Settings::class,

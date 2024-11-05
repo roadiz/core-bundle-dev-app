@@ -54,6 +54,7 @@ final readonly class UserTokenProvider implements ProviderInterface
         }
 
         $userOutput->emailValidated = $this->userValidationTokenManager->isUserEmailValidated($user);
+
         return $userOutput;
     }
 }

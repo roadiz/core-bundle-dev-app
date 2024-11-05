@@ -41,21 +41,23 @@ final class TranslationsDeleteCommand extends TranslationsCommand
 
         if ($translationCount < 2) {
             $io->error('You cannot delete the only one available translation!');
+
             return 1;
         }
 
-        if ($translation === null) {
-            $io->error('Translation for locale ' . $locale . ' does not exist.');
+        if (null === $translation) {
+            $io->error('Translation for locale '.$locale.' does not exist.');
+
             return 1;
         }
 
-        $io->note('///////////////////////////////' . PHP_EOL .
-            '/////////// WARNING ///////////' . PHP_EOL .
-            '///////////////////////////////' . PHP_EOL .
-            'This operation cannot be undone.' . PHP_EOL .
+        $io->note('///////////////////////////////'.PHP_EOL.
+            '/////////// WARNING ///////////'.PHP_EOL.
+            '///////////////////////////////'.PHP_EOL.
+            'This operation cannot be undone.'.PHP_EOL.
             'Deleting a translation, you will automatically delete every translated tags, node-sources, url-aliases and documents.');
         $confirmation = new ConfirmationQuestion(
-            '<question>Are you sure to delete ' . $translation->getName() . ' (' . $translation->getLocale() . ') translation?</question>',
+            '<question>Are you sure to delete '.$translation->getName().' ('.$translation->getLocale().') translation?</question>',
             false
         );
         if (
@@ -67,6 +69,7 @@ final class TranslationsDeleteCommand extends TranslationsCommand
             $this->managerRegistry->getManagerForClass(Translation::class)->flush();
             $io->success('Translation deleted.');
         }
+
         return 0;
     }
 }

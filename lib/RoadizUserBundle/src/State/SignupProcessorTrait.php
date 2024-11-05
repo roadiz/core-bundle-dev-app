@@ -15,6 +15,7 @@ use Symfony\Component\RateLimiter\RateLimiterFactory;
 trait SignupProcessorTrait
 {
     abstract protected function getSecurity(): Security;
+
     abstract protected function getUserSignupLimiter(): RateLimiterFactory;
 
     protected function validateRequest(?Request $request): void

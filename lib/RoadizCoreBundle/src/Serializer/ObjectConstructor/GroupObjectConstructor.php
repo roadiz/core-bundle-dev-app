@@ -10,22 +10,17 @@ use RZ\Roadiz\CoreBundle\Entity\Group;
 
 final class GroupObjectConstructor extends AbstractTypedObjectConstructor
 {
-    /**
-     * @inheritDoc
-     */
     public function supports(string $className, array $data): bool
     {
-        return $className === Group::class && array_key_exists('name', $data);
+        return Group::class === $className && array_key_exists('name', $data);
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function findObject(mixed $data, DeserializationContext $context): ?object
     {
-        if (null === $data['name'] || $data['name'] === '') {
+        if (null === $data['name'] || '' === $data['name']) {
             throw new ObjectConstructionException('Group name can not be empty');
         }
+
         return $this->entityManager->getRepository(Group::class)->findOneByName($data['name']);
     }
 
@@ -34,9 +29,6 @@ final class GroupObjectConstructor extends AbstractTypedObjectConstructor
         trigger_error('Cannot call fillIdentifier on Group', E_USER_WARNING);
     }
 
-    /**
-     * @return bool
-     */
     protected function canBeFlushed(): bool
     {
         return false;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -22,19 +24,19 @@ class NodeTypeFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $this->nodeTypesImporter->import(
-            file_get_contents(__DIR__ . '/../Resources/node-types/ArticleContainer.json') ?:
+            file_get_contents(__DIR__.'/../Resources/node-types/ArticleContainer.json') ?:
                 throw new \RuntimeException('Node type JSON file does not exist.')
         );
         $this->nodeTypesImporter->import(
-            file_get_contents(__DIR__ . '/../Resources/node-types/Article.json') ?:
+            file_get_contents(__DIR__.'/../Resources/node-types/Article.json') ?:
                 throw new \RuntimeException('Node type JSON file does not exist.')
         );
         $this->nodeTypesImporter->import(
-            file_get_contents(__DIR__ . '/../Resources/node-types/Offer.json') ?:
+            file_get_contents(__DIR__.'/../Resources/node-types/Offer.json') ?:
                 throw new \RuntimeException('Node type JSON file does not exist.')
         );
         $this->nodeTypesImporter->import(
-            file_get_contents(__DIR__ . '/../Resources/node-types/Neutral.json') ?:
+            file_get_contents(__DIR__.'/../Resources/node-types/Neutral.json') ?:
                 throw new \RuntimeException('Node type JSON file does not exist.')
         );
 

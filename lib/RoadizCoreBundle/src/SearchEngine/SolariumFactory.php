@@ -25,7 +25,7 @@ class SolariumFactory implements SolariumFactoryInterface
         LoggerInterface $searchEngineLogger,
         MarkdownInterface $markdown,
         EventDispatcherInterface $dispatcher,
-        HandlerFactoryInterface $handlerFactory
+        HandlerFactoryInterface $handlerFactory,
     ) {
         $this->clientRegistry = $clientRegistry;
         $this->logger = $searchEngineLogger;

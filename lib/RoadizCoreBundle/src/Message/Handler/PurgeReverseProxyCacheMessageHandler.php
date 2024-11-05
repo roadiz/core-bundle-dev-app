@@ -25,7 +25,7 @@ final class PurgeReverseProxyCacheMessageHandler
         private readonly MessageBusInterface $bus,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly ReverseProxyCacheLocator $reverseProxyCacheLocator,
-        private readonly ManagerRegistry $managerRegistry
+        private readonly ManagerRegistry $managerRegistry,
     ) {
     }
 
@@ -57,35 +57,30 @@ final class PurgeReverseProxyCacheMessageHandler
     }
 
     /**
-     * @param string $path
-     *
      * @return \GuzzleHttp\Psr7\Request[]
      */
-    protected function createPurgeRequests(string $path = "/"): array
+    protected function createPurgeRequests(string $path = '/'): array
     {
         $requests = [];
         foreach ($this->reverseProxyCacheLocator->getFrontends() as $frontend) {
             $requests[$frontend->getName()] = new \GuzzleHttp\Psr7\Request(
                 Request::METHOD_PURGE,
-                'http://' . $frontend->getHost() . $path,
+                'http://'.$frontend->getHost().$path,
                 [
-                    'Host' => $frontend->getDomainName()
+                    'Host' => $frontend->getDomainName(),
                 ]
             );
         }
+
         return $requests;
     }
 
-    /**
-     * @param \GuzzleHttp\Psr7\Request $request
-     * @return void
-     */
     protected function sendRequest(\GuzzleHttp\Psr7\Request $request): void
     {
         try {
             $this->bus->dispatch(new Envelope(new GuzzleRequestMessage($request, [
                 'debug' => false,
-                'timeout' => 3
+                'timeout' => 3,
             ])));
         } catch (NoHandlerForMessageException $exception) {
             throw new UnrecoverableMessageHandlingException($exception->getMessage(), 0, $exception);

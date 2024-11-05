@@ -10,8 +10,6 @@ final class OpenIdAuthenticationException extends AuthenticationException
 {
     /**
      * Message key to be used by the translation component.
-     *
-     * @return string
      */
     public function getMessageKey(): string
     {

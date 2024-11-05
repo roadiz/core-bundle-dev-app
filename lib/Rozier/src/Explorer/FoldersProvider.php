@@ -24,10 +24,7 @@ final class FoldersProvider extends AbstractDoctrineExplorerProvider
         return ['folderName' => 'ASC'];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function supports($item): bool
+    public function supports(mixed $item): bool
     {
         if ($item instanceof Folder) {
             return true;

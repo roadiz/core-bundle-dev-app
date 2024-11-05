@@ -10,13 +10,10 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class DocumentTimestampSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [
-            DocumentTranslationUpdatedEvent::class => 'onDocumentTranslationUpdatedEvent'
+            DocumentTranslationUpdatedEvent::class => 'onDocumentTranslationUpdatedEvent',
         ];
     }
 

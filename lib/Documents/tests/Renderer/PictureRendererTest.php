@@ -133,7 +133,7 @@ EOT
             ,
             $renderer->render($mockDocument, [
                 'noProcess' => true,
-                'picture' => true
+                'picture' => true,
             ])
         );
 
@@ -163,7 +163,7 @@ EOT
             ,
             $renderer->render($mockWebpDocument, [
                 'noProcess' => true,
-                'picture' => true
+                'picture' => true,
             ])
         );
 
@@ -179,7 +179,7 @@ EOT
             $renderer->render($mockDocument, [
                 'absolute' => true,
                 'noProcess' => true,
-                'picture' => true
+                'picture' => true,
             ])
         );
 
@@ -187,7 +187,7 @@ EOT
             $renderer->render($mockDocument, [
                 'width' => 300,
                 'absolute' => true,
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -203,7 +203,7 @@ EOT
                 'width' => 300,
                 'class' => 'awesome-image responsive',
                 'absolute' => true,
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -218,7 +218,7 @@ EOT
             $renderer->render($mockDocument, [
                 'width' => 300,
                 'lazyload' => true,
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -253,7 +253,7 @@ EOT
                 'width' => 300,
                 'lazyload' => true,
                 'picture' => true,
-                'fallback' => 'https://test.test/fallback.png'
+                'fallback' => 'https://test.test/fallback.png',
             ]),
             <<<EOT
 <picture>
@@ -280,7 +280,7 @@ EOT
             $renderer->render($mockDocument, [
                 'width' => 300,
                 'fallback' => 'https://test.test/fallback.png',
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -297,7 +297,7 @@ EOT
                 'width' => 300,
                 'lazyload' => true,
                 'class' => 'awesome-image responsive',
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -332,16 +332,16 @@ EOT
                 'width' => 300,
                 'srcset' => [[
                     'format' => [
-                        'width' => 300
+                        'width' => 300,
                     ],
-                    'rule' => '1x'
+                    'rule' => '1x',
                 ], [
                     'format' => [
-                        'width' => 600
+                        'width' => 600,
                     ],
-                    'rule' => '2x'
+                    'rule' => '2x',
                 ]],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -361,20 +361,20 @@ EOT
                 'width' => 300,
                 'srcset' => [[
                     'format' => [
-                        'width' => 300
+                        'width' => 300,
                     ],
-                    'rule' => '1x'
+                    'rule' => '1x',
                 ], [
                     'format' => [
-                        'width' => 600
+                        'width' => 600,
                     ],
-                    'rule' => '2x'
+                    'rule' => '2x',
                 ]],
                 'sizes' => [
                     '(max-width: 767px) 300px',
-                    '(min-width: 768px) 400px'
+                    '(min-width: 768px) 400px',
                 ],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -398,18 +398,18 @@ EOT
                     'format' => [
                         'fit' => '600x400',
                     ],
-                    'rule' => '1x'
+                    'rule' => '1x',
                 ], [
                     'format' => [
                         'fit' => '1200x800',
                     ],
-                    'rule' => '2x'
+                    'rule' => '2x',
                 ]],
                 'sizes' => [
                     '(max-width: 767px) 300px',
-                    '(min-width: 768px) 400px'
+                    '(min-width: 768px) 400px',
                 ],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -436,18 +436,18 @@ EOT
                     'format' => [
                         'fit' => '600x400',
                     ],
-                    'rule' => '1x'
+                    'rule' => '1x',
                 ], [
                     'format' => [
                         'fit' => '1200x800',
                     ],
-                    'rule' => '2x'
+                    'rule' => '2x',
                 ]],
                 'sizes' => [
                     '(max-width: 767px) 300px',
-                    '(min-width: 768px) 400px'
+                    '(min-width: 768px) 400px',
                 ],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -474,14 +474,14 @@ EOT
                     'format' => [
                         'fit' => '600x400',
                     ],
-                    'rule' => '1x'
+                    'rule' => '1x',
                 ], [
                     'format' => [
                         'fit' => '1200x800',
                     ],
-                    'rule' => '2x'
+                    'rule' => '2x',
                 ]],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -525,14 +525,14 @@ EOT
                     'format' => [
                         'fit' => '600x400',
                     ],
-                    'rule' => '1x'
+                    'rule' => '1x',
                 ], [
                     'format' => [
                         'fit' => '1200x800',
                     ],
-                    'rule' => '2x'
+                    'rule' => '2x',
                 ]],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -576,16 +576,16 @@ EOT
                         'format' => [
                             'fit' => '600x400',
                         ],
-                        'rule' => '1x'
+                        'rule' => '1x',
                     ], [
                         'format' => [
                             'fit' => '1200x800',
                         ],
-                        'rule' => '2x'
+                        'rule' => '2x',
                     ]],
-                    'rule' => '(min-width: 600px)'
+                    'rule' => '(min-width: 600px)',
                 ]],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -612,29 +612,29 @@ EOT
                         'format' => [
                             'fit' => '600x400',
                         ],
-                        'rule' => '1x'
+                        'rule' => '1x',
                     ], [
                         'format' => [
                             'fit' => '1200x800',
                         ],
-                        'rule' => '2x'
+                        'rule' => '2x',
                     ]],
-                    'rule' => '(min-width: 600px)'
+                    'rule' => '(min-width: 600px)',
                 ], [
                     'srcset' => [[
                         'format' => [
                             'fit' => '1200x800',
                         ],
-                        'rule' => '1x'
+                        'rule' => '1x',
                     ], [
                         'format' => [
                             'fit' => '2400x1600',
                         ],
-                        'rule' => '2x'
+                        'rule' => '2x',
                     ]],
-                    'rule' => '(min-width: 1200px)'
+                    'rule' => '(min-width: 1200px)',
                 ]],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -670,29 +670,29 @@ EOT
                         'format' => [
                             'fit' => '600x400',
                         ],
-                        'rule' => '1x'
+                        'rule' => '1x',
                     ], [
                         'format' => [
                             'fit' => '1200x800',
                         ],
-                        'rule' => '2x'
+                        'rule' => '2x',
                     ]],
-                    'rule' => '(min-width: 600px)'
+                    'rule' => '(min-width: 600px)',
                 ], [
                     'srcset' => [[
                         'format' => [
                             'fit' => '1200x800',
                         ],
-                        'rule' => '1x'
+                        'rule' => '1x',
                     ], [
                         'format' => [
                             'fit' => '2400x1600',
                         ],
-                        'rule' => '2x'
+                        'rule' => '2x',
                     ]],
-                    'rule' => '(min-width: 1200px)'
+                    'rule' => '(min-width: 1200px)',
                 ]],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -729,29 +729,29 @@ EOT
                         'format' => [
                             'fit' => '600x400',
                         ],
-                        'rule' => '1x'
+                        'rule' => '1x',
                     ], [
                         'format' => [
                             'fit' => '1200x800',
                         ],
-                        'rule' => '2x'
+                        'rule' => '2x',
                     ]],
-                    'rule' => '(min-width: 600px)'
+                    'rule' => '(min-width: 600px)',
                 ], [
                     'srcset' => [[
                         'format' => [
                             'fit' => '1200x800',
                         ],
-                        'rule' => '1x'
+                        'rule' => '1x',
                     ], [
                         'format' => [
                             'fit' => '2400x1600',
                         ],
-                        'rule' => '2x'
+                        'rule' => '2x',
                     ]],
-                    'rule' => '(min-width: 1200px)'
+                    'rule' => '(min-width: 1200px)',
                 ]],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>
@@ -803,29 +803,29 @@ EOT
                         'format' => [
                             'fit' => '600x400',
                         ],
-                        'rule' => '1x'
+                        'rule' => '1x',
                     ], [
                         'format' => [
                             'fit' => '1200x800',
                         ],
-                        'rule' => '2x'
+                        'rule' => '2x',
                     ]],
-                    'rule' => '(min-width: 600px)'
+                    'rule' => '(min-width: 600px)',
                 ], [
                     'srcset' => [[
                         'format' => [
                             'fit' => '1200x800',
                         ],
-                        'rule' => '1x'
+                        'rule' => '1x',
                     ], [
                         'format' => [
                             'fit' => '2400x1600',
                         ],
-                        'rule' => '2x'
+                        'rule' => '2x',
                     ]],
-                    'rule' => '(min-width: 1200px)'
+                    'rule' => '(min-width: 1200px)',
                 ]],
-                'picture' => true
+                'picture' => true,
             ]),
             <<<EOT
 <picture>

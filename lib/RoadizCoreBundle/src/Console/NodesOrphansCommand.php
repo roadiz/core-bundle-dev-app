@@ -17,7 +17,7 @@ final class NodesOrphansCommand extends Command
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -35,10 +35,6 @@ final class NodesOrphansCommand extends Command
     }
 
     /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -59,8 +55,9 @@ final class NodesOrphansCommand extends Command
         } catch (NoResultException $e) {
         }
 
-        if (count($orphans) === 0) {
+        if (0 === count($orphans)) {
             $io->success('That’s OK, you don’t have any orphan node.');
+
             return 0;
         }
 
@@ -73,8 +70,8 @@ final class NodesOrphansCommand extends Command
                 $node->getId(),
                 $node->getNodeName(),
                 null !== $node->getNodeType() ? $node->getNodeType()->getName() : '',
-                (!$node->isVisible() ? 'X' : ''),
-                ($node->isPublished() ? 'X' : ''),
+                !$node->isVisible() ? 'X' : '',
+                $node->isPublished() ? 'X' : '',
             ];
         }
 
@@ -91,6 +88,7 @@ final class NodesOrphansCommand extends Command
         } else {
             $io->note('Use --delete option to actually remove these nodes.');
         }
+
         return 0;
     }
 }

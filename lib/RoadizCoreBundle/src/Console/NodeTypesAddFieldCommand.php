@@ -38,8 +38,9 @@ final class NodeTypesAddFieldCommand extends NodeTypesCreationCommand
             ->getRepository(NodeType::class)
             ->findOneBy(['name' => $name]);
 
-        if ($nodeType === null) {
-            $io->error('Node-type "' . $name . '" does not exist.');
+        if (null === $nodeType) {
+            $io->error('Node-type "'.$name.'" does not exist.');
+
             return 1;
         }
 
@@ -54,7 +55,8 @@ final class NodeTypesAddFieldCommand extends NodeTypesCreationCommand
         $handler->regenerateEntityClass();
         $this->schemaUpdater->updateNodeTypesSchema();
 
-        $io->success('Node type ' . $nodeType->getName() . ' has been updated.');
+        $io->success('Node type '.$nodeType->getName().' has been updated.');
+
         return 0;
     }
 }

@@ -20,10 +20,10 @@ class TwoFactorCodeActivationType extends AbstractType
                 'label' => 'twoFactorCode',
                 'help' => 'twoFactorCode.help',
                 'attr' => [
-                    'autocomplete' => "one-time-code",
+                    'autocomplete' => 'one-time-code',
                     'autofocus' => true,
-                    'inputmode' => "numeric",
-                    'pattern' => "[0-9]*",
+                    'inputmode' => 'numeric',
+                    'pattern' => '[0-9]*',
                 ],
                 'constraints' => [
                     new NotBlank(),

@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class UsersInactiveCommand extends Command
 {
-    public function __construct(private readonly ManagerRegistry $managerRegistry, string $name = null)
+    public function __construct(private readonly ManagerRegistry $managerRegistry, ?string $name = null)
     {
         parent::__construct($name);
     }
@@ -61,6 +61,7 @@ final class UsersInactiveCommand extends Command
         $daysCount = $input->getOption('days');
         if (!\is_numeric($daysCount) || $daysCount < 1) {
             $io->error('Days option must be a positive number.');
+
             return 1;
         }
 
@@ -108,7 +109,7 @@ final class UsersInactiveCommand extends Command
         }
 
         $purge = $input->getOption('purge');
-        if (!$purge || count($inactiveUsers) === 0) {
+        if (!$purge || 0 === count($inactiveUsers)) {
             return 0;
         }
 
@@ -117,11 +118,13 @@ final class UsersInactiveCommand extends Command
                 'You cannot purge inactive users since %s without filtering them by a ROLE name.',
                 $sinceDate->format('Y-m-d')
             ));
+
             return 1;
         }
 
         if ($input->isInteractive() && !$io->confirm('Do you want to delete these users?')) {
             $io->comment('No user has been deleted.');
+
             return 0;
         }
 
@@ -133,6 +136,7 @@ final class UsersInactiveCommand extends Command
             '%d inactive users have been deleted.',
             count($inactiveUsers)
         ));
+
         return 0;
     }
 }

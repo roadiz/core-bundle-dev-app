@@ -15,7 +15,7 @@ class NodesTagsRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, NodesTags::class, $dispatcher);
     }

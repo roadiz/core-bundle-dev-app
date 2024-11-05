@@ -17,7 +17,7 @@ class SolrCommand extends Command
 
     public function __construct(
         protected readonly ClientRegistry $clientRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -34,12 +34,14 @@ class SolrCommand extends Command
 
         if (null === $client) {
             $this->displayBasicConfig();
+
             return null;
         }
 
         if (true !== $this->clientRegistry->isClientReady($client)) {
             $io->error('Solr search engine server does not respond…');
             $io->note('See your `config/packages/roadiz_core.yaml` file to correct your Solr connection settings.');
+
             return null;
         }
 
@@ -54,6 +56,7 @@ class SolrCommand extends Command
         }
 
         $this->io->success('Solr search engine server is running.');
+
         return 0;
     }
 

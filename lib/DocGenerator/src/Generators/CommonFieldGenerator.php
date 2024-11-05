@@ -9,7 +9,7 @@ final class CommonFieldGenerator extends AbstractFieldGenerator
     public function getContents(): string
     {
         return implode("\n\n", [
-            $this->getIntroduction()
+            $this->getIntroduction(),
         ]);
     }
 }

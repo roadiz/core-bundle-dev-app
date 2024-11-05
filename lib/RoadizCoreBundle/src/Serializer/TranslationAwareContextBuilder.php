@@ -16,13 +16,11 @@ final class TranslationAwareContextBuilder implements SerializerContextBuilderIn
     public function __construct(
         private readonly SerializerContextBuilderInterface $decorated,
         private readonly ManagerRegistry $managerRegistry,
-        private readonly PreviewResolverInterface $previewResolver
+        private readonly PreviewResolverInterface $previewResolver,
     ) {
     }
-    /**
-     * @inheritDoc
-     */
-    public function createFromRequest(Request $request, bool $normalization, array $extractedAttributes = null): array
+
+    public function createFromRequest(Request $request, bool $normalization, ?array $extractedAttributes = null): array
     {
         $context = $this->decorated->createFromRequest($request, $normalization, $extractedAttributes);
 
@@ -37,6 +35,7 @@ final class TranslationAwareContextBuilder implements SerializerContextBuilderIn
         $requestTranslation = $request->attributes->get('_translation');
         if ($requestTranslation instanceof TranslationInterface) {
             $context['translation'] = $requestTranslation;
+
             return $context;
         }
 
