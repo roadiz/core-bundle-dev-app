@@ -43,7 +43,6 @@
         "roadiz/entity-generator": "2.4.x-dev",
         "roadiz/jwt": "2.4.x-dev",
         "roadiz/random": "2.4.x-dev",
-        "squizlabs/php_codesniffer": "^3.5",
         "symfony/stopwatch": "6.4.*"
     },
     "config": {

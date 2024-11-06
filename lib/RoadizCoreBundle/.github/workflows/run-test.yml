@@ -35,8 +35,6 @@ jobs:
                       ${{ runner.os }}-php-${{ matrix.php-version }}-
             - name: Install Dependencies
               run: composer install --no-ansi --no-interaction --no-progress
-            - name: Run PHP Code Sniffer
-              run: vendor/bin/phpcs -p ./src
             - name: Run PHPStan
               run: vendor/bin/phpstan analyse --no-progress -c phpstan.neon
             - name: Run PHP Unit
