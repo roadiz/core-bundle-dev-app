@@ -49,7 +49,7 @@ final class TransChoiceExtension extends AbstractExtension
         int $count,
         array $arguments = [],
         ?string $domain = null,
-        ?string $locale = null
+        ?string $locale = null,
     ): string {
         return $this->translator->trans($message, array_merge(['%count%' => $count], $arguments), $domain, $locale);
     }

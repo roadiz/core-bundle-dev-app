@@ -56,9 +56,7 @@ class NodesSourcesIndexer extends AbstractIndexer implements BatchIndexer
     }
 
     /**
-     * Overridable
-     *
-     * @return QueryBuilder
+     * Overridable.
      */
     protected function getAllQueryBuilder(): QueryBuilder
     {
@@ -71,8 +69,9 @@ class NodesSourcesIndexer extends AbstractIndexer implements BatchIndexer
     /**
      * Loop over every NodesSources to index them again.
      *
-     * @param int $batchCount Split reindex span to several batches.
-     * @param int $batchNumber Execute reindex on a specific batch.
+     * @param int $batchCount  split reindex span to several batches
+     * @param int $batchNumber execute reindex on a specific batch
+     *
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */

@@ -16,24 +16,19 @@ final class ChainDoctrineObjectConstructor implements ObjectConstructorInterface
     public function __construct(
         private readonly ?ObjectManager $entityManager,
         private readonly ObjectConstructorInterface $fallbackConstructor,
-        private readonly array $typedObjectConstructors
+        private readonly array $typedObjectConstructors,
     ) {
     }
 
     /**
-     * @param DeserializationVisitorInterface $visitor
-     * @param ClassMetadata $metadata
      * @param PersistableInterface|array<PersistableInterface> $data
-     * @param array $type
-     * @param DeserializationContext $context
-     * @return object|null
      */
     public function construct(
         DeserializationVisitorInterface $visitor,
         ClassMetadata $metadata,
         $data,
         array $type,
-        DeserializationContext $context
+        DeserializationContext $context,
     ): ?object {
         if (null === $this->entityManager) {
             // No ObjectManager found, proceed with normal deserialization

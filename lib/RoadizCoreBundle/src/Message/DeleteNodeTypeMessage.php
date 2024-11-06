@@ -10,9 +10,6 @@ final class DeleteNodeTypeMessage implements AsyncMessage
     {
     }
 
-    /**
-     * @return int|string|null
-     */
     public function getNodeTypeId(): int|string|null
     {
         return $this->nodeTypeId;

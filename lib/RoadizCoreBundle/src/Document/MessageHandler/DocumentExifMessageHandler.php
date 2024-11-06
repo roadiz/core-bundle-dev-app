@@ -12,21 +12,17 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 
 final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHandler
 {
-    /**
-     * @param  DocumentInterface $document
-     * @return bool
-     */
     protected function supports(DocumentInterface $document): bool
     {
         if (!$document->isLocal()) {
             return false;
         }
 
-        if ($document->getEmbedPlatform() !== "") {
+        if ('' !== $document->getEmbedPlatform()) {
             return false;
         }
 
-        if ($document->getMimeType() == 'image/jpeg' || $document->getMimeType() == 'image/tiff') {
+        if ('image/jpeg' == $document->getMimeType() || 'image/tiff' == $document->getMimeType()) {
             return true;
         }
 
@@ -39,8 +35,8 @@ final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHan
             return;
         }
         if (
-            function_exists('exif_read_data') &&
-            $document->getDocumentTranslations()->count() === 0
+            function_exists('exif_read_data')
+            && 0 === $document->getDocumentTranslations()->count()
         ) {
             $fileStream = $this->documentsStorage->readStream($document->getMountPath());
             $exif = @\exif_read_data($fileStream, 'FILE,COMPUTED,ANY_TAG,EXIF,COMMENT');
@@ -53,7 +49,7 @@ final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHan
                     $this->messengerLogger->debug(
                         'EXIF information available for document.',
                         [
-                            'document' => (string)$document
+                            'document' => (string) $document,
                         ]
                     );
                     $manager = $this->managerRegistry->getManagerForClass(DocumentTranslation::class);
@@ -73,16 +69,12 @@ final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHan
         }
     }
 
-    /**
-     * @param  array $exif
-     * @return string|null
-     */
     private function getCopyright(array $exif): ?string
     {
         foreach ($exif as $key => $section) {
             if (is_array($section)) {
                 foreach ($section as $skey => $value) {
-                    if (\mb_strtolower($skey) === 'copyright') {
+                    if ('copyright' === \mb_strtolower($skey)) {
                         return $value;
                     }
                 }
@@ -92,25 +84,22 @@ final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHan
         return null;
     }
 
-    /**
-     * @param  array $exif
-     * @return string|null
-     */
     private function getDescription(array $exif): ?string
     {
         foreach ($exif as $key => $section) {
-            if (is_string($section) && \mb_strtolower($key) === 'imagedescription') {
+            if (is_string($section) && 'imagedescription' === \mb_strtolower($key)) {
                 return $section;
             } elseif (is_array($section)) {
-                if (\mb_strtolower($key) == 'comment') {
+                if ('comment' == \mb_strtolower($key)) {
                     $comment = '';
                     foreach ($section as $value) {
-                        $comment .= $value . PHP_EOL;
+                        $comment .= $value.PHP_EOL;
                     }
+
                     return $comment;
                 } else {
                     foreach ($section as $skey => $value) {
-                        if (\mb_strtolower($skey) == 'comment') {
+                        if ('comment' == \mb_strtolower($skey)) {
                             return $value;
                         }
                     }

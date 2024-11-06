@@ -542,6 +542,7 @@ services:
         tags: [ 'roadiz_core.document_renderer' ]
     RZ\Roadiz\Documents\Renderer\RendererInterface:
         alias: RZ\Roadiz\Documents\Renderer\ChainRenderer
+    RZ\Roadiz\Documents\MediaFinders\FacebookPictureFinder:
 
     # Default AbstractDocumentFactory is the public one.
     RZ\Roadiz\Documents\AbstractDocumentFactory:

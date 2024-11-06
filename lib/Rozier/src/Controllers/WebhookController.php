@@ -23,7 +23,7 @@ final class WebhookController extends AbstractAdminWithBulkController
         private readonly WebhookDispatcher $webhookDispatcher,
         FormFactoryInterface $formFactory,
         SerializerInterface $serializer,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
     ) {
         parent::__construct($formFactory, $serializer, $urlGenerator);
     }
@@ -64,7 +64,7 @@ final class WebhookController extends AbstractAdminWithBulkController
                 ));
             } catch (TooManyWebhookTriggeredException $e) {
                 $form->addError(new FormError('webhook.too_many_triggered_in_period', null, [
-                    '%time%' => $e->getDoNotTriggerBefore()->format('H:i:s')
+                    '%time%' => $e->getDoNotTriggerBefore()->format('H:i:s'),
                 ], null, $e));
             }
         }
@@ -73,7 +73,7 @@ final class WebhookController extends AbstractAdminWithBulkController
         $this->assignation['item'] = $item;
 
         return $this->render(
-            $this->getTemplateFolder() . '/trigger.html.twig',
+            $this->getTemplateFolder().'/trigger.html.twig',
             $this->assignation,
             null,
             $this->getTemplateNamespace()
@@ -130,8 +130,10 @@ final class WebhookController extends AbstractAdminWithBulkController
         if ($item instanceof Webhook) {
             return (string) $item;
         }
+
         return '';
     }
+
     protected function getBulkDeleteRouteName(): ?string
     {
         return 'webhooksBulkDeletePage';

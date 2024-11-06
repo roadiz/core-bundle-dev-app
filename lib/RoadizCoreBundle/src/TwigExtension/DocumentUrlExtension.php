@@ -13,19 +13,16 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 /**
- * Extension that allow render documents Url
+ * Extension that allow render documents Url.
  */
 final class DocumentUrlExtension extends AbstractExtension
 {
     public function __construct(
         private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
-        private readonly bool $throwExceptions = false
+        private readonly bool $throwExceptions = false,
     ) {
     }
 
-    /**
-     * @return array
-     */
     public function getFilters(): array
     {
         return [
@@ -40,18 +37,15 @@ final class DocumentUrlExtension extends AbstractExtension
      *
      * - Document
      *
-     * @param PersistableInterface|null $mixed
-     * @param array $criteria
-     * @return string
      * @throws RuntimeError
      */
-    public function getUrl(PersistableInterface $mixed = null, array $criteria = []): string
+    public function getUrl(?PersistableInterface $mixed = null, array $criteria = []): string
     {
         if (null === $mixed) {
             if ($this->throwExceptions) {
-                throw new RuntimeError("Twig “url” filter must be used with a not null object");
+                throw new RuntimeError('Twig “url” filter must be used with a not null object');
             } else {
-                return "";
+                return '';
             }
         }
 
@@ -64,12 +58,13 @@ final class DocumentUrlExtension extends AbstractExtension
 
                 $this->documentUrlGenerator->setOptions($criteria);
                 $this->documentUrlGenerator->setDocument($mixed);
+
                 return $this->documentUrlGenerator->getUrl($absolute);
             } catch (InvalidArgumentException $e) {
                 throw new RuntimeError($e->getMessage(), -1, null, $e);
             }
         }
 
-        throw new RuntimeError("Twig “url” filter can be only used with a Document");
+        throw new RuntimeError('Twig “url” filter can be only used with a Document');
     }
 }

@@ -29,8 +29,7 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
         $file->addComment('THIS IS A GENERATED FILE, DO NOT EDIT IT.');
         $file->addComment('IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE.');
 
-
-        $fqcn = $this->options['entity_namespace'] . '\\' . $this->nodeType->getSourceEntityClassName();
+        $fqcn = $this->options['entity_namespace'].'\\'.$this->nodeType->getSourceEntityClassName();
         $namespace = $file
             ->addNamespace(trim($this->options['namespace'], '\\'))
             ->addUse('\Doctrine\Persistence\ManagerRegistry')
@@ -50,16 +49,16 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
 
         $simplifiedFqcn = $namespace->simplifyName($fqcn);
         $class
-            ->addComment('@extends ' . $namespace->simplifyName($this->options['parent_class']) . '<' . $simplifiedFqcn . '>')
-            ->addComment('@method ' . $simplifiedFqcn . '|null find($id, $lockMode = null, $lockVersion = null)')
-            ->addComment('@method ' . $simplifiedFqcn . '|null findOneBy(array $criteria, array $orderBy = null)')
-            ->addComment('@method ' . $simplifiedFqcn . '[]    findAll()')
-            ->addComment('@method ' . $simplifiedFqcn . '[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)')
+            ->addComment('@extends '.$namespace->simplifyName($this->options['parent_class']).'<'.$simplifiedFqcn.'>')
+            ->addComment('@method '.$simplifiedFqcn.'|null find($id, $lockMode = null, $lockVersion = null)')
+            ->addComment('@method '.$simplifiedFqcn.'|null findOneBy(array $criteria, array $orderBy = null)')
+            ->addComment('@method '.$simplifiedFqcn.'[]    findAll()')
+            ->addComment('@method '.$simplifiedFqcn.'[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)')
         ;
 
         $constructor = $class->addMethod('__construct')
             ->setBody(
-                'parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, ' . $simplifiedFqcn . '::class);'
+                'parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, '.$simplifiedFqcn.'::class);'
             );
 
         $constructor->addParameter('registry')
@@ -92,7 +91,7 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
         $normalizeClassName = function (OptionsResolver $resolver, string $className) {
             return (new UnicodeString($className))->startsWith('\\') ?
                 $className :
-                '\\' . $className;
+                '\\'.$className;
         };
 
         $resolver->setNormalizer('parent_class', $normalizeClassName);

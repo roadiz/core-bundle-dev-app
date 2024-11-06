@@ -21,9 +21,6 @@ class RedirectionCacheSubscriber implements EventSubscriberInterface
         $this->cacheAdapter = $cacheAdapter;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [

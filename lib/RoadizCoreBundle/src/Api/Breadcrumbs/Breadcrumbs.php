@@ -13,9 +13,9 @@ final class Breadcrumbs implements BreadcrumbsInterface
      * @param PersistableInterface[] $items
      */
     public function __construct(
-        #[Serializer\Groups(["breadcrumbs", "web_response"])]
+        #[Serializer\Groups(['breadcrumbs', 'web_response'])]
         #[Serializer\MaxDepth(1)]
-        private readonly array $items
+        private readonly array $items,
     ) {
     }
 

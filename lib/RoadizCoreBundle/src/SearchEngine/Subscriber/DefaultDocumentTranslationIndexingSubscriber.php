@@ -13,9 +13,6 @@ use RZ\Roadiz\Documents\Models\FolderInterface;
 
 final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexingSubscriber
 {
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -56,23 +53,23 @@ final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexin
          */
         $suffix = '_t';
         if (in_array($lang, SolariumDocumentTranslation::$availableLocalizedTextFields)) {
-            $suffix = '_txt_' . $lang;
+            $suffix = '_txt_'.$lang;
         }
 
         $assoc['title'] = $documentTranslation->getName();
-        $assoc['title' . $suffix] = $documentTranslation->getName();
+        $assoc['title'.$suffix] = $documentTranslation->getName();
 
         /*
          * Remove ctrl characters
          */
         $description = $event->getSolariumDocument()->cleanTextContent($documentTranslation->getDescription());
-        $assoc['description' . $suffix] = $description;
+        $assoc['description'.$suffix] = $description;
 
-        $assoc['copyright' . $suffix] = $documentTranslation->getCopyright();
+        $assoc['copyright'.$suffix] = $documentTranslation->getCopyright();
 
         $collection[] = $assoc['title'];
-        $collection[] = $assoc['description' . $suffix];
-        $collection[] = $assoc['copyright' . $suffix];
+        $collection[] = $assoc['description'.$suffix];
+        $collection[] = $assoc['copyright'.$suffix];
 
         /*
          * `tags_txt` Must store only public, visible and user-searchable content.
@@ -92,7 +89,7 @@ final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexin
         // Use tags_txt to be compatible with other data types
         $assoc['tags_txt'] = $visibleFolderNames;
         // Compile all tags names into a single localized text field.
-        $assoc['tags_txt_' . $lang] = implode(' ', $visibleFolderNames);
+        $assoc['tags_txt_'.$lang] = implode(' ', $visibleFolderNames);
 
         /*
          * `all_tags_slugs_ss` can store all folders, even technical one, this fields should not user searchable.
@@ -112,7 +109,7 @@ final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexin
          */
         $assoc['collection_txt'] = $collection;
         // Compile all text content into a single localized text field.
-        $assoc['collection_txt_' . $lang] = $this->flattenTextCollection($collection);
+        $assoc['collection_txt_'.$lang] = $this->flattenTextCollection($collection);
         $event->setAssociations($assoc);
     }
 }

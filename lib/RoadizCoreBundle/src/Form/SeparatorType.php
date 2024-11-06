@@ -12,18 +12,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class SeparatorType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'required' => false
+            'required' => false,
         ]);
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getBlockPrefix(): string
     {
         return 'separator';

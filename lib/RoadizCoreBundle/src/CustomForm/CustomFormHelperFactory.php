@@ -16,7 +16,7 @@ final class CustomFormHelperFactory
         private readonly PrivateDocumentFactory $privateDocumentFactory,
         private readonly ObjectManager $em,
         private readonly FormFactoryInterface $formFactory,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 

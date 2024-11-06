@@ -18,7 +18,7 @@ abstract class AbstractFieldGenerator
     public function __construct(
         protected readonly NodeTypeFieldInterface $field,
         protected readonly DefaultValuesResolverInterface $defaultValuesResolver,
-        protected array $options = []
+        protected array $options = [],
     ) {
     }
 
@@ -49,18 +49,19 @@ abstract class AbstractFieldGenerator
 
     protected function addFieldAutodoc(Property $property): self
     {
-        $property->addComment($this->field->getLabel() . '.');
+        $property->addComment($this->field->getLabel().'.');
 
         if (!empty($this->field->getDescription())) {
-            $property->addComment($this->field->getDescription() . '.');
+            $property->addComment($this->field->getDescription().'.');
         }
         if (!empty($this->field->getDefaultValues())) {
             $property->addComment('Default values:');
             $property->addComment($this->field->getDefaultValues());
         }
         if (!empty($this->field->getGroupName())) {
-            $property->addComment('Group: ' . $this->field->getGroupName() . '.');
+            $property->addComment('Group: '.$this->field->getGroupName().'.');
         }
+
         return $this;
     }
 
@@ -69,6 +70,7 @@ abstract class AbstractFieldGenerator
         $this->addFieldAutodoc($property);
 
         $property->addComment('(Virtual field, this var is a buffer)');
+
         return $this;
     }
 
@@ -80,6 +82,7 @@ abstract class AbstractFieldGenerator
     protected function toPhpDocType(string $typeHint): string
     {
         $unicode = new UnicodeString($typeHint);
+
         return $unicode->startsWith('?') ?
             $unicode->trimStart('?')->append('|null')->toString() :
             $typeHint;
@@ -100,15 +103,15 @@ abstract class AbstractFieldGenerator
          */
         if (!$this->excludeFromSerialization()) {
             $property->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
-                'serializedName' => $this->field->getVarName()
+                'serializedName' => $this->field->getVarName(),
             ]);
             $property->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [
-                $this->getSerializationGroups()
+                $this->getSerializationGroups(),
             ]);
 
             $description = $this->field->getLabel();
             if (!empty($this->field->getDescription())) {
-                $description .= ': ' . $this->field->getDescription();
+                $description .= ': '.$this->field->getDescription();
             }
             if ($this->field->isEnum() && null !== $defaultValues = $this->field->getDefaultValues()) {
                 $enumValues = explode(',', $defaultValues);
@@ -128,68 +131,68 @@ abstract class AbstractFieldGenerator
 
             if ($this->getSerializationMaxDepth() > 0) {
                 $property->addAttribute('Symfony\Component\Serializer\Attribute\MaxDepth', [
-                    $this->getSerializationMaxDepth()
+                    $this->getSerializationMaxDepth(),
                 ]);
             }
         }
 
         if (
-            $this->field->isIndexed() &&
-            $this->options['use_api_platform_filters'] === true
+            $this->field->isIndexed()
+            && true === $this->options['use_api_platform_filters']
         ) {
             switch (true) {
                 case $this->field->isString():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        0 => new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter') . '::class'),
-                        'strategy' => 'partial'
+                        0 => new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter').'::class'),
+                        'strategy' => 'partial',
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal($namespace->simplifyName('\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter') . '::class')
+                        new Literal($namespace->simplifyName('\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter').'::class'),
                     ]);
                     break;
                 case $this->field->isMultiple():
                 case $this->field->isEnum():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        0 => new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter') . '::class'),
-                        'strategy' => 'exact'
+                        0 => new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter').'::class'),
+                        'strategy' => 'exact',
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal($namespace->simplifyName('\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter') . '::class')
+                        new Literal($namespace->simplifyName('\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter').'::class'),
                     ]);
                     break;
                 case $this->field->isBool():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter') . '::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter').'::class'),
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\BooleanFilter') . '::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\BooleanFilter').'::class'),
                     ]);
                     break;
                 case $this->field->isManyToOne():
                 case $this->field->isManyToMany():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\ExistsFilter') . '::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\ExistsFilter').'::class'),
                     ]);
                     break;
                 case $this->field->isInteger():
                 case $this->field->isDecimal():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter') . '::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter').'::class'),
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\NumericFilter') . '::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\NumericFilter').'::class'),
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\RangeFilter') . '::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\RangeFilter').'::class'),
                     ]);
                     break;
                 case $this->field->isDate():
                 case $this->field->isDateTime():
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter') . '::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\OrderFilter').'::class'),
                     ]);
                     $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\DateFilter') . '::class'),
+                        new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\DateFilter').'::class'),
                     ]);
                     break;
             }
@@ -219,9 +222,6 @@ abstract class AbstractFieldGenerator
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getCloneStatements(): string
     {
         return '';
@@ -237,30 +237,26 @@ abstract class AbstractFieldGenerator
 
     /**
      * Generate PHP property initialization for class constructor.
-     *
-     * @return string
      */
     public function getFieldConstructorInitialization(): string
     {
         return '';
     }
 
-    /**
-     * @return bool
-     */
     protected function excludeFromSerialization(): bool
     {
         if ($this->field instanceof SerializableInterface) {
             return $this->field->isExcludedFromSerialization();
         }
+
         return false;
     }
 
     protected function getSerializationExclusionExpression(): ?string
     {
         if (
-            $this->field instanceof SerializableInterface &&
-            null !== $this->field->getSerializationExclusionExpression()
+            $this->field instanceof SerializableInterface
+            && null !== $this->field->getSerializationExclusionExpression()
         ) {
             return (new UnicodeString($this->field->getSerializationExclusionExpression()))
                 ->replace('"', '')
@@ -268,6 +264,7 @@ abstract class AbstractFieldGenerator
                 ->trim()
                 ->toString();
         }
+
         return null;
     }
 
@@ -276,6 +273,7 @@ abstract class AbstractFieldGenerator
         if ($this->field instanceof SerializableInterface && $this->field->getSerializationMaxDepth() > 0) {
             return $this->field->getSerializationMaxDepth();
         }
+
         return 2;
     }
 
@@ -283,7 +281,7 @@ abstract class AbstractFieldGenerator
     {
         return [
             'nodes_sources',
-            'nodes_sources_' . ($this->field->getGroupNameCanonical() ?: 'default')
+            'nodes_sources_'.($this->field->getGroupNameCanonical() ?: 'default'),
         ];
     }
 
@@ -294,6 +292,7 @@ abstract class AbstractFieldGenerator
         } else {
             $groups = $this->getDefaultSerializationGroups();
         }
+
         return array_map(function (string $group): string {
             return (new UnicodeString($group))
                     ->replaceMatches('/[^A-Za-z0-9]++/', '_')
@@ -306,39 +305,40 @@ abstract class AbstractFieldGenerator
         if ($this->excludeFromSerialization()) {
             $property->addAttribute('JMS\Serializer\Annotation\Exclude');
             $property->addAttribute('Symfony\Component\Serializer\Attribute\Ignore');
+
             return $this;
         }
 
         $property->addAttribute('JMS\Serializer\Annotation\Groups', [
-            $this->getSerializationGroups()
+            $this->getSerializationGroups(),
         ]);
 
         if ($this->getSerializationMaxDepth() > 0) {
             $property->addAttribute('JMS\Serializer\Annotation\MaxDepth', [
-                $this->getSerializationMaxDepth()
+                $this->getSerializationMaxDepth(),
             ]);
         }
 
         if (null !== $this->getSerializationExclusionExpression()) {
             $property->addAttribute('JMS\Serializer\Annotation\Exclude', [
-                'if' => $this->getSerializationExclusionExpression()
+                'if' => $this->getSerializationExclusionExpression(),
             ]);
         }
 
         switch (true) {
             case $this->field->isBool():
                 $property->addAttribute('JMS\Serializer\Annotation\Type', [
-                    'bool'
+                    'bool',
                 ]);
                 break;
             case $this->field->isInteger():
                 $property->addAttribute('JMS\Serializer\Annotation\Type', [
-                    'int'
+                    'int',
                 ]);
                 break;
             case $this->field->isDecimal():
                 $property->addAttribute('JMS\Serializer\Annotation\Type', [
-                    'double'
+                    'double',
                 ]);
                 break;
             case $this->field->isColor():
@@ -350,13 +350,13 @@ abstract class AbstractFieldGenerator
             case $this->field->isRichText():
             case $this->field->isEnum():
                 $property->addAttribute('JMS\Serializer\Annotation\Type', [
-                    'string'
+                    'string',
                 ]);
                 break;
             case $this->field->isDateTime():
             case $this->field->isDate():
                 $property->addAttribute('JMS\Serializer\Annotation\Type', [
-                    'DateTime'
+                    'DateTime',
                 ]);
                 break;
         }

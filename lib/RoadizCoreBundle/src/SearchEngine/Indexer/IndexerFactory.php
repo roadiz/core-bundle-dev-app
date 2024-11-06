@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\SearchEngine\Indexer;
 
-use LogicException;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -25,7 +24,7 @@ class IndexerFactory implements IndexerFactoryInterface
 
     /**
      * @param class-string $classname
-     * @return Indexer
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -37,7 +36,7 @@ class IndexerFactory implements IndexerFactoryInterface
             Document::class => $this->serviceLocator->get(DocumentIndexer::class),
             Tag::class => $this->serviceLocator->get(TagIndexer::class),
             Folder::class => $this->serviceLocator->get(FolderIndexer::class),
-            default => throw new LogicException(sprintf('No indexer found for "%s"', $classname)),
+            default => throw new \LogicException(sprintf('No indexer found for "%s"', $classname)),
         };
     }
 }

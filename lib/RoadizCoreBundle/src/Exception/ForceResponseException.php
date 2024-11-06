@@ -21,8 +21,6 @@ class ForceResponseException extends \Exception
 
     /**
      * Gets the value of response.
-     *
-     * @return Response
      */
     public function getResponse(): Response
     {

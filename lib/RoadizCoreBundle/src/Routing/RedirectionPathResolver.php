@@ -25,7 +25,7 @@ final class RedirectionPathResolver implements PathResolverInterface
         string $path,
         array $supportedFormatExtensions = ['html'],
         bool $allowRootPaths = false,
-        bool $allowNonReachableNodes = true
+        bool $allowNonReachableNodes = true,
     ): ResourceInfo {
         $this->stopwatch->start('lookForRedirection', 'routing');
         $cacheItem = $this->cacheAdapter->getItem(self::CACHE_KEY);

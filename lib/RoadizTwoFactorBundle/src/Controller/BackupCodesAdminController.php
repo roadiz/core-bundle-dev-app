@@ -16,7 +16,7 @@ use Themes\Rozier\RozierApp;
 final class BackupCodesAdminController extends RozierApp
 {
     public function __construct(
-        private readonly TwoFactorUserProviderInterface $twoFactorUserProvider
+        private readonly TwoFactorUserProviderInterface $twoFactorUserProvider,
     ) {
     }
 

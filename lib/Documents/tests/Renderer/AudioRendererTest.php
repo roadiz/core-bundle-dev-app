@@ -61,56 +61,49 @@ class AudioRendererTest extends AbstractRendererTestCase
         $mockDocument2->setFolder('folder');
         $mockDocument2->setMimeType('audio/mpeg');
 
-
         $renderer = $this->getRenderer();
-        $this->assertHtmlTidyEquals((<<<EOT
+        $this->assertHtmlTidyEquals(<<<EOT
 <audio controls>
     <source type="audio/ogg" src="/files/folder/file.ogg">
     <source type="audio/mpeg" src="/files/folder/file.mp3">
     <p>Your browser does not support native audio.</p>
 </audio>
 EOT
-        ), ($renderer->render($mockDocument, [])));
+            , $renderer->render($mockDocument, []));
 
-
-        $this->assertHtmlTidyEquals((<<<EOT
+        $this->assertHtmlTidyEquals(<<<EOT
 <audio controls>
     <source type="audio/mpeg" src="/files/folder/file2.mp3">
     <p>Your browser does not support native audio.</p>
 </audio>
 EOT
-        ), ($renderer->render($mockDocument2, [])));
+            , $renderer->render($mockDocument2, []));
 
-
-        $this->assertHtmlTidyEquals((<<<EOT
+        $this->assertHtmlTidyEquals(<<<EOT
 <audio controls autoplay loop>
     <source type="audio/ogg" src="/files/folder/file.ogg">
     <source type="audio/mpeg" src="/files/folder/file.mp3">
     <p>Your browser does not support native audio.</p>
 </audio>
 EOT
-        ), ($renderer->render($mockDocument, [
-            'controls' => true,
-            'loop' => true,
-            'autoplay' => true,
-        ])));
+            , $renderer->render($mockDocument, [
+                'controls' => true,
+                'loop' => true,
+                'autoplay' => true,
+            ]));
 
-
-        $this->assertHtmlTidyEquals((<<<EOT
+        $this->assertHtmlTidyEquals(<<<EOT
 <audio>
     <source type="audio/ogg" src="/files/folder/file.ogg">
     <source type="audio/mpeg" src="/files/folder/file.mp3">
     <p>Your browser does not support native audio.</p>
 </audio>
 EOT
-        ), ($renderer->render($mockDocument, [
-            'controls' => false
-        ])));
+            , $renderer->render($mockDocument, [
+                'controls' => false,
+            ]));
     }
 
-    /**
-     * @return DocumentFinderInterface
-     */
     private function getDocumentFinder(): DocumentFinderInterface
     {
         $finder = new ArrayDocumentFinder();

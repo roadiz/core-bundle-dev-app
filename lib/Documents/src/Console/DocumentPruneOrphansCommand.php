@@ -39,21 +39,18 @@ final class DocumentPruneOrphansCommand extends AbstractDocumentCommand
         }, new SymfonyStyle($input, $output));
 
         $this->io->success(sprintf('%d documents were deleted.', $deleteCount));
+
         return 0;
     }
 
     /**
-     * @param DocumentInterface $document
-     * @param ObjectManager $entityManager
-     * @param int $deleteCount
-     * @param bool $dryRun
      * @throws FilesystemException
      */
     private function checkDocumentFilesystem(
         DocumentInterface $document,
         ObjectManager $entityManager,
         int &$deleteCount,
-        bool $dryRun = false
+        bool $dryRun = false,
     ): void {
         /*
          * Do not prune embed documents which may not have any file
@@ -75,7 +72,7 @@ final class DocumentPruneOrphansCommand extends AbstractDocumentCommand
         }
         if (!$dryRun) {
             $entityManager->remove($document);
-            $deleteCount++;
+            ++$deleteCount;
         }
     }
 }

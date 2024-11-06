@@ -30,7 +30,7 @@ final readonly class UserValidationTokenManager implements UserValidationTokenMa
         private RoleHierarchyInterface $roleHierarchy,
         private string $emailValidatedRoleName,
         private int $userValidationExpiresIn,
-        private string $userValidationUrl
+        private string $userValidationUrl,
     ) {
     }
 
@@ -54,17 +54,18 @@ final readonly class UserValidationTokenManager implements UserValidationTokenMa
         if ($sendEmail) {
             $this->sendUserValidationEmail($existingValidationToken);
         }
+
         return $existingValidationToken;
     }
 
     public function isUserEmailValidated(UserInterface $user): bool
     {
         $reachableRoles = $this->roleHierarchy->getReachableRoleNames($user->getRoles());
-        return \in_array($this->emailValidatedRoleName, $reachableRoles) ||
-            \in_array('ROLE_SUPER_ADMIN', $reachableRoles) ||
-            \in_array('ROLE_SUPERADMIN', $reachableRoles);
-    }
 
+        return \in_array($this->emailValidatedRoleName, $reachableRoles)
+            || \in_array('ROLE_SUPER_ADMIN', $reachableRoles)
+            || \in_array('ROLE_SUPERADMIN', $reachableRoles);
+    }
 
     private function sendUserValidationEmail(UserValidationToken $userValidationToken): void
     {
@@ -92,7 +93,7 @@ final readonly class UserValidationTokenManager implements UserValidationTokenMa
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
         } catch (RouteNotFoundException $exception) {
-            $validationLink = $this->userValidationUrl . '?' . http_build_query(
+            $validationLink = $this->userValidationUrl.'?'.http_build_query(
                 [
                     'token' => $userValidationToken->getToken(),
                     '_locale' => $user->getLocale(),

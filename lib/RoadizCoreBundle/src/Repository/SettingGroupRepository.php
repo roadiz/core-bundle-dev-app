@@ -14,21 +14,19 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method SettingGroup|null findOneBy(array $criteria, array $orderBy = null)
  * @method SettingGroup[]    findAll()
  * @method SettingGroup[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
  * @extends EntityRepository<SettingGroup>
  */
 final class SettingGroupRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, SettingGroup::class, $dispatcher);
     }
 
     /**
-     * @param string $name
-     *
-     * @return bool
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -42,12 +40,10 @@ final class SettingGroupRepository extends EntityRepository
         return (bool) $query->getSingleScalarResult();
     }
 
-    /**
-     * @return array
-     */
     public function findAllNames(): array
     {
         $query = $this->_em->createQuery('SELECT s.name FROM RZ\Roadiz\CoreBundle\Entity\SettingGroup s');
+
         return array_map('current', $query->getScalarResult());
     }
 }

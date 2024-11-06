@@ -21,8 +21,8 @@ class RedirectionRouter extends Router implements VersatileGeneratorInterface
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly Stopwatch $stopwatch,
         array $options = [],
-        RequestContext $context = null,
-        LoggerInterface $logger = null,
+        ?RequestContext $context = null,
+        ?LoggerInterface $logger = null,
     ) {
         parent::__construct(
             new NullLoader(),
@@ -34,20 +34,14 @@ class RedirectionRouter extends Router implements VersatileGeneratorInterface
         $this->matcher = $matcher;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getRouteCollection(): RouteCollection
     {
         return new RouteCollection();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
-        throw new RouteNotFoundException(get_class($this) . ' does not support path generation.');
+        throw new RouteNotFoundException(get_class($this).' does not support path generation.');
     }
 
     /**
@@ -55,7 +49,7 @@ class RedirectionRouter extends Router implements VersatileGeneratorInterface
      */
     public function getGenerator(): UrlGeneratorInterface
     {
-        throw new \BadMethodCallException(get_class($this) . ' does not support path generation.');
+        throw new \BadMethodCallException(get_class($this).' does not support path generation.');
     }
 
     public function getRouteDebugMessage(mixed $name, array $parameters = []): string

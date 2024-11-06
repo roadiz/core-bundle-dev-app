@@ -16,9 +16,6 @@ final readonly class JwtAuthenticationSuccessEventSubscriber implements EventSub
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [

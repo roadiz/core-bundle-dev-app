@@ -17,9 +17,6 @@ use Symfony\Component\Validator\Constraints\GreaterThan;
 
 final class NodeTypeFieldSerializationType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('excludedFromSerialization', CheckboxType::class, [
@@ -35,8 +32,8 @@ final class NodeTypeFieldSerializationType extends AbstractType
             ],
             'constraints' => [
                 new GreaterThan([
-                    'value' => 0
-                ])
+                    'value' => 0,
+                ]),
             ],
         ])
         ->add('serializationExclusionExpression', TextareaType::class, [
@@ -45,7 +42,7 @@ final class NodeTypeFieldSerializationType extends AbstractType
             'help' => 'exclude_this_field_from_api_serialization_if_expression_result_is_true',
             'attr' => [
                 'placeholder' => 'enter_symfony_expression_language_with_object_as_var_name',
-            ]
+            ],
         ])
         ->add('serializationGroups', CollectionType::class, [
             'label' => 'nodeTypeField.serializationGroups',
@@ -53,12 +50,12 @@ final class NodeTypeFieldSerializationType extends AbstractType
             'allow_add' => true,
             'allow_delete' => true,
             'attr' => [
-                'class' => 'rz-collection-form-type'
+                'class' => 'rz-collection-form-type',
             ],
             'entry_options' => [
                 'label' => false,
             ],
-            'entry_type' => TextType::class
+            'entry_type' => TextType::class,
         ]);
     }
 
@@ -70,17 +67,11 @@ final class NodeTypeFieldSerializationType extends AbstractType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix(): string
     {
         return '';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return FormType::class;

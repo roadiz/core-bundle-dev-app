@@ -24,6 +24,7 @@ class UserMetadataManager implements UserMetadataManagerInterface
         $userMetadata = new UserMetadata();
         $userMetadata->setUser($user);
         $this->managerRegistry->getManager()->persist($userMetadata);
+
         return $userMetadata;
     }
 }

@@ -14,36 +14,36 @@ interface RealmResolverInterface
      * @return bool Does current application has realms?
      */
     public function hasRealms(): bool;
+
     /**
      * @return bool Does current application has realms with serialization groups?
      */
     public function hasRealmsWithSerializationGroup(): bool;
+
     /**
-     * @param Node|null $node
      * @return RealmInterface[]
      */
     public function getRealms(?Node $node): array;
+
     /**
-     * @param Node|null $node
      * @return RealmInterface[]
      */
     public function getRealmsWithSerializationGroup(?Node $node): array;
+
     public function isGranted(RealmInterface $realm): bool;
 
     /**
-     * @param RealmInterface $realm
-     * @return void
      * @throws UnauthorizedHttpException
      */
     public function denyUnlessGranted(RealmInterface $realm): void;
 
     /**
-     * @return RealmInterface[] Return all realms granted to current user.
+     * @return RealmInterface[] return all realms granted to current user
      */
     public function getGrantedRealms(): array;
 
     /**
-     * @return RealmInterface[] Return all realms denied from current user.
+     * @return RealmInterface[] return all realms denied from current user
      */
     public function getDeniedRealms(): array;
 }

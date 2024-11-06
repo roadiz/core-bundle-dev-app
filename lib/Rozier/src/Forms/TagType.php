@@ -48,8 +48,8 @@ class TagType extends AbstractType
         ->add('childrenOrderDirection', ChoiceType::class, [
             'label' => 'tag.childrenOrderDirection',
             'choices' => [
-                 'ascendant' => 'ASC',
-                 'descendant' => 'DESC',
+                'ascendant' => 'ASC',
+                'descendant' => 'DESC',
             ],
         ]);
     }

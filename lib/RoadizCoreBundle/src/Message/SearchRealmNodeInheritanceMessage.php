@@ -10,9 +10,6 @@ final class SearchRealmNodeInheritanceMessage implements AsyncMessage
     {
     }
 
-    /**
-     * @return int|string|null
-     */
     public function getNodeId(): int|string|null
     {
         return $this->nodeId;

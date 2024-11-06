@@ -15,24 +15,16 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CssType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return TextareaType::class;
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getBlockPrefix(): string
     {
         return 'css';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);

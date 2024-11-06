@@ -10,5 +10,6 @@ interface CachedNodeOffspringResolverInterface extends NodeOffspringResolverInte
 {
     public const CACHE_PREFIX = 'node_offspring_ids_';
     public const CACHE_TAG_PREFIX = 'node_';
+
     public function purgeOffspringCache(NodeInterface $node): void;
 }

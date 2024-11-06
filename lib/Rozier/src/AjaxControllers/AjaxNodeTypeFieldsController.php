@@ -14,9 +14,6 @@ final class AjaxNodeTypeFieldsController extends AjaxAbstractFieldsController
      * Handle AJAX edition requests for NodeTypeFields
      * such as coming from widgets.
      *
-     * @param Request $request
-     * @param int     $nodeTypeFieldId
-     *
      * @return Response JSON response
      */
     public function editAction(Request $request, int $nodeTypeFieldId): Response
@@ -30,12 +27,7 @@ final class AjaxNodeTypeFieldsController extends AjaxAbstractFieldsController
             return $response;
         }
 
-        throw $this->createNotFoundException($this->getTranslator()->trans(
-            'field.%nodeTypeFieldId%.not_exists',
-            [
-                '%nodeTypeFieldId%' => $nodeTypeFieldId
-            ]
-        ));
+        throw $this->createNotFoundException($this->getTranslator()->trans('field.%nodeTypeFieldId%.not_exists', ['%nodeTypeFieldId%' => $nodeTypeFieldId]));
     }
 
     protected function getEntityClass(): string

@@ -19,19 +19,11 @@ trait NodesTrait
 {
     abstract protected function getNodeFactory(): NodeFactory;
 
-    /**
-     * @param string        $title
-     * @param TranslationInterface   $translation
-     * @param Node|null     $node
-     * @param NodeTypeInterface|null $type
-     *
-     * @return Node
-     */
     protected function createNode(
         string $title,
         TranslationInterface $translation,
-        Node $node = null,
-        NodeTypeInterface $type = null
+        ?Node $node = null,
+        ?NodeTypeInterface $type = null,
     ): Node {
         $factory = $this->getNodeFactory();
         $node = $factory->create($title, $type, $translation, $node);
@@ -44,15 +36,12 @@ trait NodesTrait
 
     /**
      * @param array $data
-     * @param Node  $node
-     *
-     * @return NodeType|null
      */
     public function addStackType($data, Node $node): ?NodeType
     {
         if (
-            $data['nodeId'] == $node->getId() &&
-            !empty($data['nodeTypeId'])
+            $data['nodeId'] == $node->getId()
+            && !empty($data['nodeTypeId'])
         ) {
             $nodeType = $this->em()->find(NodeType::class, (int) $data['nodeTypeId']);
 
@@ -67,11 +56,6 @@ trait NodesTrait
         return null;
     }
 
-    /**
-     * @param Node $node
-     *
-     * @return FormInterface|null
-     */
     public function buildStackTypesForm(Node $node): ?FormInterface
     {
         if ($node->isHidingChildren()) {
@@ -95,14 +79,9 @@ trait NodesTrait
         }
     }
 
-    /**
-     * @param Node $node
-     *
-     * @return FormInterface
-     */
     protected function buildDeleteForm(Node $node): FormInterface
     {
-        $builder = $this->createNamedFormBuilder('delete_node_' . $node->getId())
+        $builder = $this->createNamedFormBuilder('delete_node_'.$node->getId())
                         ->add('nodeId', HiddenType::class, [
                             'data' => $node->getId(),
                             'constraints' => [
@@ -114,12 +93,10 @@ trait NodesTrait
         return $builder->getForm();
     }
 
-    /**
-     * @return FormInterface
-     */
     protected function buildEmptyTrashForm(): FormInterface
     {
         $builder = $this->createFormBuilder();
+
         return $builder->getForm();
     }
 }

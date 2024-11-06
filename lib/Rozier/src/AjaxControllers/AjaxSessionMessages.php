@@ -17,7 +17,7 @@ final class AjaxSessionMessages extends AbstractAjaxController
 
         $responseArray = [
             'statusCode' => Response::HTTP_OK,
-            'status'    => 'success'
+            'status' => 'success',
         ];
 
         if ($request->hasPreviousSession()) {
@@ -26,6 +26,7 @@ final class AjaxSessionMessages extends AbstractAjaxController
                 $responseArray['messages'] = $session->getFlashBag()->all();
             }
         }
+
         return new JsonResponse(
             $responseArray
         );

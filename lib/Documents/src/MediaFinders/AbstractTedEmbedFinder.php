@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\MediaFinders;
 
+use Psr\Http\Message\StreamInterface;
 use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 
 abstract class AbstractTedEmbedFinder extends AbstractEmbedFinder
 {
     /**
-     * @var string
      * @internal Use getPlatform() instead
      */
     protected static string $platform = 'ted';
@@ -25,7 +25,7 @@ abstract class AbstractTedEmbedFinder extends AbstractEmbedFinder
         return static::$platform;
     }
 
-    protected function validateEmbedId(string $embedId = ""): string
+    protected function validateEmbedId(string $embedId = ''): string
     {
         if (preg_match(static::$idPattern, $embedId, $matches)) {
             return $embedId;
@@ -33,14 +33,14 @@ abstract class AbstractTedEmbedFinder extends AbstractEmbedFinder
         throw new InvalidEmbedId($embedId, static::$platform);
     }
 
-    public function getMediaFeed($search = null)
+    public function getMediaFeed(?string $search = null): StreamInterface
     {
-        $endpoint = "https://www.ted.com/services/v1/oembed.json";
+        $endpoint = 'https://www.ted.com/services/v1/oembed.json';
         $query = [
             'url' => $this->embedId,
         ];
 
-        return $this->downloadFeedFromAPI($endpoint . '?' . http_build_query($query));
+        return $this->downloadFeedFromAPI($endpoint.'?'.http_build_query($query));
     }
 
     public function getMediaTitle(): string
@@ -55,7 +55,7 @@ abstract class AbstractTedEmbedFinder extends AbstractEmbedFinder
 
     public function getMediaCopyright(): string
     {
-        return ($this->getFeed()['author_name'] ?? '') . ' - ' . ($this->getFeed()['provider_name'] ?? '') . ' (' . ($this->getFeed()['author_url'] ?? '') . ')';
+        return ($this->getFeed()['author_name'] ?? '').' - '.($this->getFeed()['provider_name'] ?? '').' ('.($this->getFeed()['author_url'] ?? '').')';
     }
 
     public function getThumbnailURL(): string
@@ -65,30 +65,26 @@ abstract class AbstractTedEmbedFinder extends AbstractEmbedFinder
 
     public function getThumbnailName(string $pathinfo): string
     {
-        if (preg_match('#\.(?<extension>[jpe?g|png|gif])$#', $pathinfo, $ext) === 1) {
-            $pathinfo = '.' . $ext['extension'];
+        if (1 === preg_match('#\.(?<extension>[jpe?g|png|gif])$#', $pathinfo, $ext)) {
+            $pathinfo = '.'.$ext['extension'];
         } else {
             $pathinfo = '.jpg';
         }
-        if (preg_match(static::$idPattern, $this->embedId, $matches) === 1) {
-            return 'ted_talk_' . $matches['id'] . $pathinfo;
+        if (1 === preg_match(static::$idPattern, $this->embedId, $matches)) {
+            return 'ted_talk_'.$matches['id'].$pathinfo;
         }
         throw new InvalidEmbedId($this->embedId, static::$platform);
     }
 
     /**
      * Get embed media source URL.
-     *
-     * @param array $options
-     *
-     * @return string
      */
     public function getSource(array &$options = []): string
     {
         parent::getSource($options);
 
         if (preg_match(static::$idPattern, $this->embedId, $matches)) {
-            return 'https://embed.ted.com/talks/' . $matches['id'];
+            return 'https://embed.ted.com/talks/'.$matches['id'];
         }
 
         return $this->embedId;

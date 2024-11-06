@@ -24,6 +24,7 @@ final class ArrayDocumentFinder extends AbstractDocumentFinder
 
     /**
      * @param array<string> $fileNames
+     *
      * @return ArrayCollection<int, DocumentInterface>
      */
     public function findAllByFilenames(array $fileNames): ArrayCollection
@@ -49,9 +50,7 @@ final class ArrayDocumentFinder extends AbstractDocumentFinder
         return null;
     }
 
-
     /**
-     * @param DocumentInterface $document
      * @return $this
      */
     public function addDocument(DocumentInterface $document): self
@@ -59,6 +58,7 @@ final class ArrayDocumentFinder extends AbstractDocumentFinder
         if (!$this->documents->contains($document)) {
             $this->documents->add($document);
         }
+
         return $this;
     }
 }

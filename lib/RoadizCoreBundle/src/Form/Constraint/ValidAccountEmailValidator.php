@@ -13,18 +13,13 @@ class ValidAccountEmailValidator extends ConstraintValidator
 {
     protected ManagerRegistry $managerRegistry;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
     public function __construct(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
     }
 
     /**
-     * @param mixed $value
      * @param ValidAccountEmail $constraint
-     * @return void
      */
     public function validate(mixed $value, Constraint $constraint): void
     {

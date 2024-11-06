@@ -28,9 +28,6 @@ class GroupVoter extends RoleVoter
         return $this->roleHierarchy->getReachableRoleNames($token->getRoleNames());
     }
 
-    /**
-     * @inheritDoc
-     */
     public function vote(TokenInterface $token, $subject, array $attributes): int
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
@@ -54,8 +51,8 @@ class GroupVoter extends RoleVoter
              * If user is part of current tested group, grant it.
              */
             if (
-                $user instanceof User &&
-                $user->getGroups()->exists(function ($key, Group $group) use ($attribute) {
+                $user instanceof User
+                && $user->getGroups()->exists(function ($key, Group $group) use ($attribute) {
                     return $attribute->getId() === $group->getId();
                 })
             ) {
@@ -76,8 +73,6 @@ class GroupVoter extends RoleVoter
     }
 
     /**
-     * @param Group $group
-     *
      * @return string[]
      */
     protected function extractGroupRoles(Group $group): array
@@ -86,10 +81,7 @@ class GroupVoter extends RoleVoter
     }
 
     /**
-     * @param string $role
      * @param string[] $roles
-     *
-     * @return bool
      */
     protected function isRoleContained(string $role, array $roles): bool
     {

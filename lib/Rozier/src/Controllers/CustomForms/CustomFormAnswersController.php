@@ -21,10 +21,6 @@ class CustomFormAnswersController extends RozierApp
     /**
      * List every node-types.
      *
-     * @param Request $request
-     * @param int $customFormId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function listAction(Request $request, int $customFormId): Response
@@ -41,8 +37,8 @@ class CustomFormAnswersController extends RozierApp
 
         $listManager = $this->createEntityListManager(
             CustomFormAnswer::class,
-            ["customForm" => $customForm],
-            ["submittedAt" => "DESC"]
+            ['customForm' => $customForm],
+            ['submittedAt' => 'DESC']
         );
         $listManager->setDisplayingNotPublishedNodes(true);
         $listManager->handle();
@@ -56,10 +52,6 @@ class CustomFormAnswersController extends RozierApp
     /**
      * Return a deletion form for requested node-type.
      *
-     * @param Request $request
-     * @param int $customFormAnswerId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function deleteAction(Request $request, int $customFormAnswerId): Response
@@ -77,20 +69,21 @@ class CustomFormAnswersController extends RozierApp
         $form->handleRequest($request);
 
         if (
-            $form->isSubmitted() &&
-            $form->isValid()
+            $form->isSubmitted()
+            && $form->isValid()
         ) {
             $this->em()->remove($customFormAnswer);
             $this->em()->flush();
 
             $msg = $this->getTranslator()->trans('customFormAnswer.%id%.deleted', ['%id%' => $customFormAnswer->getId()]);
             $this->publishConfirmMessage($request, $msg, $customFormAnswer);
+
             /*
              * Redirect to update schema page
              */
             return $this->redirectToRoute(
                 'customFormAnswersHomePage',
-                ["customFormId" => $customFormAnswer->getCustomForm()->getId()]
+                ['customFormId' => $customFormAnswer->getCustomForm()->getId()]
             );
         }
 
@@ -99,11 +92,6 @@ class CustomFormAnswersController extends RozierApp
         return $this->render('@RoadizRozier/custom-form-answers/delete.html.twig', $this->assignation);
     }
 
-    /**
-     * @param CustomFormAnswer $customFormAnswer
-     *
-     * @return FormInterface
-     */
     private function buildDeleteForm(CustomFormAnswer $customFormAnswer): FormInterface
     {
         $builder = $this->createFormBuilder()

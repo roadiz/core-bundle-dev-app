@@ -16,10 +16,11 @@ final class OPCacheClearer implements ClearerInterface
             \apcu_clear_cache();
         }
         if (
-            \function_exists('opcache_reset') &&
-            true === \opcache_reset()
+            \function_exists('opcache_reset')
+            && true === \opcache_reset()
         ) {
             $this->output = 'PHP OPCache has been reset.';
+
             return true;
         } else {
             $this->output = 'PHP OPCache is disabled.';

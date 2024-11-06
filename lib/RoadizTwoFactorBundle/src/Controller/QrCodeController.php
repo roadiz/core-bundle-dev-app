@@ -24,7 +24,7 @@ final class QrCodeController extends AbstractController
     public function __construct(
         private readonly TwoFactorUserProviderInterface $twoFactorUserProvider,
         private readonly TotpAuthenticatorInterface $totpAuthenticator,
-        private readonly GoogleAuthenticatorInterface $googleAuthenticator
+        private readonly GoogleAuthenticatorInterface $googleAuthenticator,
     ) {
     }
 

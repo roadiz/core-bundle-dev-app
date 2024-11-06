@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\TreeWalker\Definition;
 
-use Exception;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\TreeWalker\Definition\ContextualDefinitionTrait;
@@ -16,17 +15,17 @@ final class ReachableNodeSourceDefinition
 
     public function __construct(
         private readonly WalkerContextInterface $context,
-        private readonly bool $onlyVisible = true
+        private readonly bool $onlyVisible = true,
     ) {
     }
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function __invoke(NodesSources $source): array
     {
         if (!($this->context instanceof NodeSourceWalkerContext)) {
-            throw new \InvalidArgumentException('Context should be instance of ' . NodeSourceWalkerContext::class);
+            throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
         }
 
         $this->context->getStopwatch()->start(self::class);

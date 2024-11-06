@@ -23,7 +23,7 @@ final class DeleteNodeTypeMessageHandler
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly HandlerFactoryInterface $handlerFactory,
-        private readonly MessageBusInterface $messageBus
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 
@@ -44,7 +44,7 @@ final class DeleteNodeTypeMessageHandler
         $handler->deleteWithAssociations();
 
         $this->messageBus->dispatch(
-            (new Envelope(new UpdateDoctrineSchemaMessage()))
+            new Envelope(new UpdateDoctrineSchemaMessage())
         );
         $this->managerRegistry->getManager()->clear();
     }

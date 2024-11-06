@@ -23,9 +23,6 @@ class NodesType extends AbstractType
 {
     protected ManagerRegistry $managerRegistry;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
     public function __construct(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
@@ -40,20 +37,22 @@ class NodesType extends AbstractType
             if (!is_array($mixedEntities)) {
                 return [$mixedEntities];
             }
+
             return $mixedEntities;
         }, function ($mixedIds) use ($options) {
             /** @var NodeRepository $repository */
             $repository = $this->managerRegistry
                 ->getRepository(Node::class)
                 ->setDisplayingAllNodesStatuses(true);
-            if (\is_array($mixedIds) && count($mixedIds) === 0) {
+            if (\is_array($mixedIds) && 0 === count($mixedIds)) {
                 return [];
             } elseif (\is_array($mixedIds)) {
-                if ($options['multiple'] === false) {
+                if (false === $options['multiple']) {
                     return $repository->findOneBy(['id' => $mixedIds]);
                 }
+
                 return $repository->findBy(['id' => $mixedIds]);
-            } elseif ($options['multiple'] === true) {
+            } elseif (true === $options['multiple']) {
                 return [];
             } else {
                 return $repository->findOneById($mixedIds);
@@ -61,11 +60,6 @@ class NodesType extends AbstractType
         }));
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -76,13 +70,6 @@ class NodesType extends AbstractType
         $resolver->setAllowedTypes('multiple', ['boolean']);
     }
 
-    /**
-     * {@inheritdoc}
-     *
-     * @param FormView      $view
-     * @param FormInterface $form
-     * @param array         $options
-     */
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         parent::finishView($view, $form, $options);
@@ -94,17 +81,12 @@ class NodesType extends AbstractType
             $view->vars['data'] = $options['nodes'];
         }
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getParent(): ?string
     {
         return HiddenType::class;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getBlockPrefix(): string
     {
         return 'nodes';

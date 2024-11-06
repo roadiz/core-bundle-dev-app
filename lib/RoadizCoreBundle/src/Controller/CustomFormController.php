@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Controller;
 
 use Doctrine\Persistence\ManagerRegistry;
-use Exception;
 use League\Flysystem\FilesystemException;
 use Limenius\Liform\LiformInterface;
 use Psr\Log\LoggerInterface;
@@ -56,11 +55,6 @@ final class CustomFormController extends AbstractController
         }
     }
 
-    /**
-     * @param Request $request
-     * @param int $id
-     * @return JsonResponse
-     */
     public function definitionAction(Request $request, int $id): JsonResponse
     {
         /** @var CustomForm|null $customForm */
@@ -79,10 +73,7 @@ final class CustomFormController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     * @throws Exception|FilesystemException
+     * @throws \Exception|FilesystemException
      */
     public function postAction(Request $request, int $id): Response
     {
@@ -114,6 +105,7 @@ final class CustomFormController extends AbstractController
 
         if ($mixed instanceof Response) {
             $mixed->prepare($request);
+
             return $mixed;
         }
 
@@ -121,8 +113,9 @@ final class CustomFormController extends AbstractController
             if ($mixed['formObject']->isSubmitted()) {
                 $errorPayload = [
                     'status' => Response::HTTP_BAD_REQUEST,
-                    'errorsPerForm' => $this->formErrorSerializer->getErrorsAsArray($mixed['formObject'])
+                    'errorsPerForm' => $this->formErrorSerializer->getErrorsAsArray($mixed['formObject']),
                 ];
+
                 return new JsonResponse(
                     $this->serializer->serialize($errorPayload, 'json'),
                     Response::HTTP_BAD_REQUEST,
@@ -136,9 +129,6 @@ final class CustomFormController extends AbstractController
     }
 
     /**
-     * @param Request $request
-     * @param int $customFormId
-     * @return Response
      * @throws FilesystemException
      */
     public function addAction(Request $request, int $customFormId): Response
@@ -153,7 +143,7 @@ final class CustomFormController extends AbstractController
             new RedirectResponse(
                 $this->generateUrl(
                     'customFormSentAction',
-                    ["customFormId" => $customFormId]
+                    ['customFormId' => $customFormId]
                 )
             )
         );
@@ -165,11 +155,6 @@ final class CustomFormController extends AbstractController
         }
     }
 
-    /**
-     * @param Request $request
-     * @param int $customFormId
-     * @return Response
-     */
     public function sentAction(Request $request, int $customFormId): Response
     {
         $assignation = [];
@@ -178,6 +163,7 @@ final class CustomFormController extends AbstractController
         $this->validateCustomForm($customForm);
 
         $assignation['customForm'] = $customForm;
+
         return $this->render('@RoadizCore/customForm/customFormSent.html.twig', $assignation);
     }
 
@@ -190,13 +176,8 @@ final class CustomFormController extends AbstractController
      *     * form
      * * If form is validated, **RedirectResponse** will be returned.
      *
-     * @param Request $request
-     * @param CustomForm $customFormsEntity
-     * @param Response $response
-     * @param bool $forceExpanded
-     * @param string|null $emailSender
-     * @param bool $prefix
      * @return array|Response
+     *
      * @throws FilesystemException
      */
     private function prepareAndHandleCustomFormAssignation(
@@ -205,14 +186,14 @@ final class CustomFormController extends AbstractController
         Response $response,
         bool $forceExpanded = false,
         ?string $emailSender = null,
-        bool $prefix = true
+        bool $prefix = true,
     ) {
         $assignation = [
             'customForm' => $customFormsEntity,
             'fields' => $customFormsEntity->getFields(),
             'head' => [
                 'siteTitle' => $this->settingsBag->get('site_name'),
-            ]
+            ],
         ];
         $helper = $this->customFormHelperFactory->createHelper($customFormsEntity);
         $form = $helper->getForm(
@@ -266,6 +247,7 @@ final class CustomFormController extends AbstractController
 
         $assignation['form'] = $form->createView();
         $assignation['formObject'] = $form;
+
         return $assignation;
     }
 }

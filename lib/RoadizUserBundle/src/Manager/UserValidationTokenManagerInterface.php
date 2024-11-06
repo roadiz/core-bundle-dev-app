@@ -10,5 +10,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 interface UserValidationTokenManagerInterface
 {
     public function createForUser(UserInterface $user, bool $sendEmail = true): UserValidationToken;
+
     public function isUserEmailValidated(UserInterface $user): bool;
 }

@@ -106,36 +106,24 @@ final class NodeTreeDto implements NodeInterface
         return $this->locked;
     }
 
-    /**
-     * @return bool
-     */
     public function isPublished(): bool
     {
-        return ($this->status === Node::PUBLISHED);
+        return Node::PUBLISHED === $this->status;
     }
 
-    /**
-     * @return bool
-     */
     public function isPending(): bool
     {
-        return ($this->status === Node::PENDING);
+        return Node::PENDING === $this->status;
     }
 
-    /**
-     * @return bool
-     */
     public function isDraft(): bool
     {
-        return ($this->status === Node::DRAFT);
+        return Node::DRAFT === $this->status;
     }
 
-    /**
-     * @return bool
-     */
     public function isDeleted(): bool
     {
-        return ($this->status === Node::DELETED);
+        return Node::DELETED === $this->status;
     }
 
     public function getNodeType(): NodeTypeInterface

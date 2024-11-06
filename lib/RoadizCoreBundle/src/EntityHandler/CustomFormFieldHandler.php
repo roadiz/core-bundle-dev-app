@@ -15,31 +15,26 @@ final class CustomFormFieldHandler extends AbstractHandler
 {
     private ?CustomFormField $customFormField = null;
 
-    /**
-     * @param ObjectManager $objectManager
-     * @param CustomFormHandler $customFormHandler
-     */
     public function __construct(
         ObjectManager $objectManager,
-        private readonly CustomFormHandler $customFormHandler
+        private readonly CustomFormHandler $customFormHandler,
     ) {
         parent::__construct($objectManager);
     }
 
     /**
-     * @param CustomFormField $customFormField
      * @return $this
      */
     public function setCustomFormField(CustomFormField $customFormField): self
     {
         $this->customFormField = $customFormField;
+
         return $this;
     }
 
     /**
      * Clean position for current customForm siblings.
      *
-     * @param bool $setPositions
      * @return float Return the next position after the **last** customFormField
      */
     public function cleanPositions(bool $setPositions = true): float
@@ -49,6 +44,7 @@ final class CustomFormFieldHandler extends AbstractHandler
         }
 
         $this->customFormHandler->setCustomForm($this->customFormField->getCustomForm());
+
         return $this->customFormHandler->cleanFieldsPositions($setPositions);
     }
 }

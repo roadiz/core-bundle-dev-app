@@ -16,23 +16,23 @@ final class NodeTypeResolver
     }
 
     /**
-     * @param NodeTypeFieldInterface $field
      * @return array<string>
      */
     protected function getNodeTypeList(NodeTypeFieldInterface $field): array
     {
         $nodeTypesNames = array_map('trim', explode(',', $field->getDefaultValues() ?? ''));
+
         return array_filter($nodeTypesNames);
     }
 
     /**
-     * @param NodeTypeInterface $nodeType
      * @return array<string>
+     *
      * @throws InvalidArgumentException
      */
     public function getChildrenNodeTypeList(NodeTypeInterface $nodeType): array
     {
-        $cacheKey = 'children_' . $nodeType->getName();
+        $cacheKey = 'children_'.$nodeType->getName();
 
         $cacheItem = $this->cacheAdapter->getItem($cacheKey);
         if ($cacheItem->isHit()) {

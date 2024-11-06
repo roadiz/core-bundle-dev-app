@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\TwoFactorBundle\EventSubscriber;
 
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\SecurityBundle\Security;
 use Themes\Rozier\Event\UserActionsMenuEvent;
 
 final class UserActionsMenuEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly Security $security
+        private readonly Security $security,
     ) {
     }
 

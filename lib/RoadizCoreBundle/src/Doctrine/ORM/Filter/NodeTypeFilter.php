@@ -6,14 +6,12 @@ namespace RZ\Roadiz\CoreBundle\Doctrine\ORM\Filter;
 
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderBuildEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesBuildEvent;
-use RZ\Roadiz\CoreBundle\Repository\EntityRepository;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
+use RZ\Roadiz\CoreBundle\Repository\EntityRepository;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Filter on nodeType fields when criteria contains nodeType. prefix.
- *
- * @package RZ\Roadiz\CoreBundle\Doctrine\ORM\Filter
  */
 class NodeTypeFilter implements EventSubscriberInterface
 {
@@ -23,7 +21,7 @@ class NodeTypeFilter implements EventSubscriberInterface
             QueryBuilderNodesSourcesBuildEvent::class => [['onNodesSourcesQueryBuilderBuild', 40]],
             QueryBuilderBuildEvent::class => [
                 ['onNodeQueryBuilderBuild', 30],
-            ]
+            ],
         ];
     }
 
@@ -32,9 +30,6 @@ class NodeTypeFilter implements EventSubscriberInterface
         return $event->supports() && str_contains($event->getProperty(), 'nodeType.');
     }
 
-    /**
-     * @param QueryBuilderBuildEvent $event
-     */
     public function onNodeQueryBuilderBuild(QueryBuilderBuildEvent $event): void
     {
         if ($this->supports($event)) {
@@ -52,20 +47,17 @@ class NodeTypeFilter implements EventSubscriberInterface
             ) {
                 $qb->addSelect(EntityRepository::NODETYPE_ALIAS);
                 $qb->innerJoin(
-                    $simpleQB->getRootAlias() . '.nodeType',
+                    $simpleQB->getRootAlias().'.nodeType',
                     EntityRepository::NODETYPE_ALIAS
                 );
             }
 
-            $prefix = EntityRepository::NODETYPE_ALIAS . '.';
+            $prefix = EntityRepository::NODETYPE_ALIAS.'.';
             $key = str_replace('nodeType.', '', $event->getProperty());
             $qb->andWhere($simpleQB->buildExpressionWithoutBinding($event->getValue(), $prefix, $key, $baseKey));
         }
     }
 
-    /**
-     * @param QueryBuilderNodesSourcesBuildEvent $event
-     */
     public function onNodesSourcesQueryBuilderBuild(QueryBuilderNodesSourcesBuildEvent $event): void
     {
         if ($this->supports($event)) {
@@ -83,7 +75,7 @@ class NodeTypeFilter implements EventSubscriberInterface
                     )
                 ) {
                     $qb->innerJoin(
-                        $simpleQB->getRootAlias() . '.node',
+                        $simpleQB->getRootAlias().'.node',
                         EntityRepository::NODE_ALIAS
                     );
                 }
@@ -95,12 +87,12 @@ class NodeTypeFilter implements EventSubscriberInterface
                 ) {
                     $qb->addSelect(EntityRepository::NODETYPE_ALIAS);
                     $qb->innerJoin(
-                        EntityRepository::NODE_ALIAS . '.nodeType',
+                        EntityRepository::NODE_ALIAS.'.nodeType',
                         EntityRepository::NODETYPE_ALIAS
                     );
                 }
 
-                $prefix = EntityRepository::NODETYPE_ALIAS . '.';
+                $prefix = EntityRepository::NODETYPE_ALIAS.'.';
                 $key = str_replace('node.nodeType.', '', $event->getProperty());
                 $qb->andWhere($simpleQB->buildExpressionWithoutBinding($event->getValue(), $prefix, $key, $baseKey));
             }

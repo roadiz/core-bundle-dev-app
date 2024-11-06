@@ -20,17 +20,11 @@ class UsersType extends AbstractType
 {
     private ManagerRegistry $managerRegistry;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
     public function __construct(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -50,19 +44,16 @@ class UsersType extends AbstractType
                     $choices[$user->getUserName()] = $user->getId();
                 }
             }
+
             return $choices;
         });
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getBlockPrefix(): string
     {
         return 'users';

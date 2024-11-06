@@ -19,7 +19,7 @@ final class NodesSourcesQueryExtension implements QueryItemExtensionInterface, Q
 {
     public function __construct(
         private readonly PreviewResolverInterface $previewResolver,
-        private readonly string $generatedEntityNamespacePattern = '#^App\\\GeneratedEntity\\\NS(?:[a-zA-Z]+)$#'
+        private readonly string $generatedEntityNamespacePattern = '#^App\\\GeneratedEntity\\\NS(?:[a-zA-Z]+)$#',
     ) {
     }
 
@@ -29,7 +29,7 @@ final class NodesSourcesQueryExtension implements QueryItemExtensionInterface, Q
         string $resourceClass,
         array $identifiers,
         ?Operation $operation = null,
-        array $context = []
+        array $context = [],
     ): void {
         $this->apply($queryBuilder, $queryNameGenerator, $resourceClass);
     }
@@ -39,7 +39,7 @@ final class NodesSourcesQueryExtension implements QueryItemExtensionInterface, Q
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         ?Operation $operation = null,
-        array $context = []
+        array $context = [],
     ): void {
         $this->apply($queryBuilder, $queryNameGenerator, $resourceClass);
     }
@@ -47,11 +47,11 @@ final class NodesSourcesQueryExtension implements QueryItemExtensionInterface, Q
     private function apply(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
-        string $resourceClass
+        string $resourceClass,
     ): void {
         if (
-            $resourceClass !== NodesSources::class &&
-            preg_match($this->generatedEntityNamespacePattern, $resourceClass) === 0
+            NodesSources::class !== $resourceClass
+            && 0 === preg_match($this->generatedEntityNamespacePattern, $resourceClass)
         ) {
             return;
         }
@@ -70,8 +70,9 @@ final class NodesSourcesQueryExtension implements QueryItemExtensionInterface, Q
                 Join::INNER_JOIN
             );
             $queryBuilder
-                ->andWhere($queryBuilder->expr()->lte($alias . '.status', ':status'))
+                ->andWhere($queryBuilder->expr()->lte($alias.'.status', ':status'))
                 ->setParameter(':status', Node::PUBLISHED);
+
             return;
         }
 
@@ -84,9 +85,10 @@ final class NodesSourcesQueryExtension implements QueryItemExtensionInterface, Q
         );
         $queryBuilder
             ->andWhere($queryBuilder->expr()->lte('o.publishedAt', ':lte_published_at'))
-            ->andWhere($queryBuilder->expr()->eq($alias . '.status', ':status'))
+            ->andWhere($queryBuilder->expr()->eq($alias.'.status', ':status'))
             ->setParameter(':lte_published_at', new \DateTime())
             ->setParameter(':status', Node::PUBLISHED);
+
         return;
     }
 }

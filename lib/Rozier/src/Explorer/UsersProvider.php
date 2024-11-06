@@ -24,10 +24,7 @@ final class UsersProvider extends AbstractDoctrineExplorerProvider
         return ['username' => 'ASC'];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function supports($item): bool
+    public function supports(mixed $item): bool
     {
         if ($item instanceof User) {
             return true;

@@ -25,19 +25,12 @@ final class DocumentAverageColorMessageHandler extends AbstractLockingDocumentMe
         parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
     }
 
-    /**
-     * @param  DocumentInterface $document
-     * @return bool
-     */
     protected function supports(DocumentInterface $document): bool
     {
         return $document->isLocal() && $document->isProcessable();
     }
 
     /**
-     * @param AbstractDocumentMessage $message
-     * @param DocumentInterface $document
-     * @return void
      * @throws \League\Flysystem\FilesystemException
      */
     protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
@@ -54,7 +47,7 @@ final class DocumentAverageColorMessageHandler extends AbstractLockingDocumentMe
                 'Document file is not a readable image.',
                 [
                     'path' => $document->getMountPath(),
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
                 ]
             );
         }

@@ -18,13 +18,13 @@ final class CustomFormHandler extends AbstractHandler
     public function setCustomForm(CustomForm $customForm): self
     {
         $this->customForm = $customForm;
+
         return $this;
     }
 
     /**
      * Reset current node-type fields positions.
      *
-     * @param bool $setPositions
      * @return float Return the next position after the **last** field
      */
     public function cleanFieldsPositions(bool $setPositions = true): float
@@ -41,7 +41,7 @@ final class CustomFormHandler extends AbstractHandler
             if ($setPositions) {
                 $field->setPosition($i);
             }
-            $i++;
+            ++$i;
         }
 
         if ($setPositions) {

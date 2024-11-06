@@ -25,7 +25,7 @@ final class NodesSourcesInheritanceSubscriber
         private readonly NodeTypes $nodeTypes,
         private readonly string $inheritanceType,
         private readonly LoggerInterface $logger,
-        private readonly Stopwatch $stopwatch
+        private readonly Stopwatch $stopwatch,
     ) {
     }
 
@@ -46,7 +46,7 @@ final class NodesSourcesInheritanceSubscriber
         // obtained from the $metadata
         $class = $metadata->getReflectionClass();
 
-        if ($class->getName() === NodesSources::class) {
+        if (NodesSources::class === $class->getName()) {
             $this->stopwatch->start('NodesSources loadClassMetadata');
             try {
                 /** @var NodeType[] $nodeTypes */
@@ -85,13 +85,13 @@ final class NodesSourcesInheritanceSubscriber
                         'ns_title_translation_published' => ['columns' => ['title', 'translation_id', 'published_at']],
                     ],
                     'uniqueConstraints' => [
-                        ['columns' => ["node_id", "translation_id"]]
-                    ]
+                        ['columns' => ['node_id', 'translation_id']],
+                    ],
                 ];
 
-                if ($this->inheritanceType === Configuration::INHERITANCE_TYPE_JOINED) {
+                if (Configuration::INHERITANCE_TYPE_JOINED === $this->inheritanceType) {
                     $metadata->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_JOINED);
-                } elseif ($this->inheritanceType === Configuration::INHERITANCE_TYPE_SINGLE_TABLE) {
+                } elseif (Configuration::INHERITANCE_TYPE_SINGLE_TABLE === $this->inheritanceType) {
                     $metadata->setInheritanceType(ClassMetadataInfo::INHERITANCE_TYPE_SINGLE_TABLE);
                     /*
                      * If inheritance type is single table, we need to set indexes on parent class: NodesSources
@@ -102,13 +102,13 @@ final class NodesSourcesInheritanceSubscriber
                         });
                         /** @var NodeTypeFieldInterface $indexedField */
                         foreach ($indexedFields as $indexedField) {
-                            $nodeSourceTableAnnotation['indexes']['nsapp_' . $indexedField->getName()] = [
+                            $nodeSourceTableAnnotation['indexes']['nsapp_'.$indexedField->getName()] = [
                                 'columns' => [$indexedField->getName()],
                             ];
                         }
                     }
                 } else {
-                    throw new \RuntimeException('Inheritance type not supported: ' . $this->inheritanceType);
+                    throw new \RuntimeException('Inheritance type not supported: '.$this->inheritanceType);
                 }
                 $metadata->setPrimaryTable($nodeSourceTableAnnotation);
             } catch (\Exception $e) {

@@ -20,7 +20,6 @@ final class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
             ->setType($this->getFieldTypeDeclaration());
     }
 
-
     protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
         parent::addFieldAttributes($property, $namespace, $exclude);
@@ -43,21 +42,21 @@ final class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
         ;
         $entityB = $this->field->getName();
         $joinColumnParams = [
-            'name' => $entityA . '_id',
+            'name' => $entityA.'_id',
             'referencedColumnName' => 'id',
-            'onDelete' => 'CASCADE'
+            'onDelete' => 'CASCADE',
         ];
         $inverseJoinColumns = [
-            'name' => $entityB . '_id',
+            'name' => $entityB.'_id',
             'referencedColumnName' => 'id',
-            'onDelete' => 'CASCADE'
+            'onDelete' => 'CASCADE',
         ];
 
         $property->addAttribute('Doctrine\ORM\Mapping\ManyToMany', [
-            'targetEntity' => new Literal($this->getFullyQualifiedClassName() . '::class')
+            'targetEntity' => new Literal($this->getFullyQualifiedClassName().'::class'),
         ]);
         $property->addAttribute('Doctrine\ORM\Mapping\JoinTable', [
-            'name' => $entityA . '_' . $entityB
+            'name' => $entityA.'_'.$entityB,
         ]);
         $property->addAttribute('Doctrine\ORM\Mapping\JoinColumn', $joinColumnParams);
         $property->addAttribute('Doctrine\ORM\Mapping\InverseJoinColumn', $inverseJoinColumns);
@@ -68,14 +67,14 @@ final class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
                 $orderBy[$order['field']] = $order['direction'];
             }
             $property->addAttribute('Doctrine\ORM\Mapping\OrderBy', [
-                $orderBy
+                $orderBy,
             ]);
         }
 
-        if ($this->options['use_api_platform_filters'] === true) {
+        if (true === $this->options['use_api_platform_filters']) {
             $property->addAttribute('ApiPlatform\Metadata\ApiFilter', [
-                0 => new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter') . '::class'),
-                'strategy' => 'exact'
+                0 => new Literal($namespace->simplifyName('\ApiPlatform\Doctrine\Orm\Filter\SearchFilter').'::class'),
+                'strategy' => 'exact',
             ]);
         }
 
@@ -88,8 +87,9 @@ final class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
     {
         $this->addFieldAutodoc($property);
         $property->addComment(
-            '@var \Doctrine\Common\Collections\Collection<int, ' . $this->getFullyQualifiedClassName() . '>'
+            '@var \Doctrine\Common\Collections\Collection<int, '.$this->getFullyQualifiedClassName().'>'
         );
+
         return $this;
     }
 
@@ -103,13 +103,14 @@ final class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
         $classType->addMethod($this->field->getGetterName())
             ->setReturnType('\Doctrine\Common\Collections\Collection')
             ->setPublic()
-            ->setBody('return $this->' . $this->field->getVarName() . ';')
+            ->setBody('return $this->'.$this->field->getVarName().';')
             ->addComment(
-                '@return ' .
-                $namespace->simplifyName('\Doctrine\Common\Collections\Collection') .
-                '<int, ' . $this->getFullyQualifiedClassName() .
+                '@return '.
+                $namespace->simplifyName('\Doctrine\Common\Collections\Collection').
+                '<int, '.$this->getFullyQualifiedClassName().
                 '>'
             );
+
         return $this;
     }
 
@@ -118,8 +119,8 @@ final class ManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
         $setter = $classType->addMethod($this->field->getSetterName())
             ->setReturnType('static')
             ->addComment(
-                '@param \Doctrine\Common\Collections\Collection<int, ' . $this->getFullyQualifiedClassName() .
-                '>|array<' . $this->getFullyQualifiedClassName() . '> $' . $this->field->getVarName()
+                '@param \Doctrine\Common\Collections\Collection<int, '.$this->getFullyQualifiedClassName().
+                '>|array<'.$this->getFullyQualifiedClassName().'> $'.$this->field->getVarName()
             )
             ->addComment('@return $this')
             ->setPublic();
@@ -145,11 +146,8 @@ PHP
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getFieldConstructorInitialization(): string
     {
-        return '$this->' . $this->field->getVarName() . ' = new \Doctrine\Common\Collections\ArrayCollection();';
+        return '$this->'.$this->field->getVarName().' = new \Doctrine\Common\Collections\ArrayCollection();';
     }
 }

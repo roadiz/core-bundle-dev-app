@@ -16,12 +16,12 @@ final class TagHandler extends AbstractHandler
     private ?Tag $tag = null;
 
     /**
-     * @param Tag $tag
      * @return $this
      */
     public function setTag(Tag $tag): self
     {
         $this->tag = $tag;
+
         return $this;
     }
 
@@ -41,6 +41,7 @@ final class TagHandler extends AbstractHandler
 
         return $this;
     }
+
     /**
      * Remove only current tag associations.
      *
@@ -54,6 +55,7 @@ final class TagHandler extends AbstractHandler
 
         return $this;
     }
+
     /**
      * Remove current tag with its children recursively and
      * its associations.
@@ -78,16 +80,16 @@ final class TagHandler extends AbstractHandler
     /**
      * Clean position for current tag siblings.
      *
-     * @param bool $setPositions
      * @return float Return the next position after the **last** tag
      */
     public function cleanPositions(bool $setPositions = true): float
     {
-        if ($this->tag->getParent() !== null) {
+        if (null !== $this->tag->getParent()) {
             $tagHandler = new TagHandler($this->objectManager);
             /** @var Tag|null $parent */
             $parent = $this->tag->getParent();
             $tagHandler->setTag($parent);
+
             return $tagHandler->cleanChildrenPositions($setPositions);
         } else {
             return $this->cleanRootTagsPositions($setPositions);
@@ -99,7 +101,6 @@ final class TagHandler extends AbstractHandler
      *
      * Warning, this method does not flush.
      *
-     * @param bool $setPositions
      * @return float Return the next position after the **last** tag
      */
     public function cleanChildrenPositions(bool $setPositions = true): float
@@ -109,7 +110,7 @@ final class TagHandler extends AbstractHandler
          */
         $sort = Criteria::create();
         $sort->orderBy([
-            'position' => Criteria::ASC
+            'position' => Criteria::ASC,
         ]);
 
         $children = $this->tag->getChildren()->matching($sort);
@@ -119,7 +120,7 @@ final class TagHandler extends AbstractHandler
             if ($setPositions) {
                 $child->setPosition($i);
             }
-            $i++;
+            ++$i;
         }
 
         return $i;
@@ -130,7 +131,6 @@ final class TagHandler extends AbstractHandler
      *
      * Warning, this method does not flush.
      *
-     * @param bool $setPositions
      * @return float Return the next position after the **last** tag
      */
     public function cleanRootTagsPositions(bool $setPositions = true): float
@@ -145,7 +145,7 @@ final class TagHandler extends AbstractHandler
             if ($setPositions) {
                 $child->setPosition($i);
             }
-            $i++;
+            ++$i;
         }
 
         return $i;

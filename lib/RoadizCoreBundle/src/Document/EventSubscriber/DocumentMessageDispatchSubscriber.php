@@ -26,15 +26,12 @@ final class DocumentMessageDispatchSubscriber implements EventSubscriberInterfac
     {
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [
             // Only dispatch async message when document files are updated or created
-             DocumentCreatedEvent::class => ['onFilterDocumentEvent', 0],
-             DocumentFileUpdatedEvent::class => ['onFilterDocumentEvent', 0],
+            DocumentCreatedEvent::class => ['onFilterDocumentEvent', 0],
+            DocumentFileUpdatedEvent::class => ['onFilterDocumentEvent', 0],
         ];
     }
 
@@ -42,10 +39,10 @@ final class DocumentMessageDispatchSubscriber implements EventSubscriberInterfac
     {
         $document = $event->getDocument();
         if (
-            $document instanceof Document &&
-            \is_numeric($document->getId()) &&
-            $document->isLocal() &&
-            null !== $document->getRelativePath()
+            $document instanceof Document
+            && \is_numeric($document->getId())
+            && $document->isLocal()
+            && null !== $document->getRelativePath()
         ) {
             $id = (int) $document->getId();
             $this->bus->dispatch(new Envelope(new DocumentRawMessage($id)));

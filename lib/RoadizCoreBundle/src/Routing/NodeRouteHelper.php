@@ -19,12 +19,7 @@ final class NodeRouteHelper
     private ?string $controller = null;
 
     /**
-     * @param NodeInterface $node
-     * @param Theme|null $theme
-     * @param PreviewResolverInterface $previewResolver
-     * @param LoggerInterface $logger
      * @param class-string<AbstractController> $defaultControllerClass
-     * @param string $defaultControllerNamespace
      */
     public function __construct(
         private readonly NodeInterface $node,
@@ -32,7 +27,7 @@ final class NodeRouteHelper
         private readonly PreviewResolverInterface $previewResolver,
         private readonly LoggerInterface $logger,
         private readonly string $defaultControllerClass,
-        private readonly string $defaultControllerNamespace = '\\App\\Controller'
+        private readonly string $defaultControllerNamespace = '\\App\\Controller',
     ) {
     }
 
@@ -47,16 +42,14 @@ final class NodeRouteHelper
             if (!$this->node->getNodeType()->isReachable()) {
                 return null;
             }
-            $controllerClassName = $this->getControllerNamespace() . '\\' .
-                StringHandler::classify($this->node->getNodeType()->getName()) .
+            $controllerClassName = $this->getControllerNamespace().'\\'.
+                StringHandler::classify($this->node->getNodeType()->getName()).
                 'Controller';
 
             if (\class_exists($controllerClassName)) {
                 $reflection = new \ReflectionClass($controllerClassName);
                 if (!$reflection->isSubclassOf(AbstractController::class)) {
-                    throw new \InvalidArgumentException(
-                        'Controller class ' . $controllerClassName . ' must extends ' . AbstractController::class
-                    );
+                    throw new \InvalidArgumentException('Controller class '.$controllerClassName.' must extends '.AbstractController::class);
                 }
                 // @phpstan-ignore-next-line
                 $this->controller = $controllerClassName;
@@ -67,6 +60,7 @@ final class NodeRouteHelper
                 $this->controller = $this->defaultControllerClass;
             }
         }
+
         // @phpstan-ignore-next-line
         return $this->controller;
     }
@@ -76,8 +70,9 @@ final class NodeRouteHelper
         $namespace = $this->defaultControllerNamespace;
         if (null !== $this->theme) {
             $reflection = new \ReflectionClass($this->theme->getClassName());
-            $namespace = $reflection->getNamespaceName() . '\\Controllers';
+            $namespace = $reflection->getNamespaceName().'\\Controllers';
         }
+
         return $namespace;
     }
 
@@ -88,20 +83,20 @@ final class NodeRouteHelper
 
     /**
      * Return FALSE or TRUE if node is viewable.
-     *
-     * @return bool
      */
     public function isViewable(): bool
     {
         if (!class_exists($this->getController())) {
-            $this->logger->debug($this->getController() . ' controller does not exist.');
+            $this->logger->debug($this->getController().' controller does not exist.');
+
             return false;
         }
         if (!method_exists($this->getController(), $this->getMethod())) {
             $this->logger->debug(
-                $this->getController() . ':' .
-                $this->getMethod() . ' controller method does not exist.'
+                $this->getController().':'.
+                $this->getMethod().' controller method does not exist.'
             );
+
             return false;
         }
 

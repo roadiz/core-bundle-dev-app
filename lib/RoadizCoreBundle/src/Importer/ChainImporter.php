@@ -16,20 +16,13 @@ class ChainImporter implements EntityImporterInterface
         $this->importers = $importers;
     }
 
-    /**
-     * @param EntityImporterInterface $entityImporter
-     *
-     * @return ChainImporter
-     */
     public function addImporter(EntityImporterInterface $entityImporter): self
     {
         $this->importers[] = $entityImporter;
+
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function supports(string $entityClass): bool
     {
         foreach ($this->importers as $importer) {
@@ -41,18 +34,11 @@ class ChainImporter implements EntityImporterInterface
         return false;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function import(string $serializedData): bool
     {
         throw new \RuntimeException('You cannot call import method on ChainImporter, but importWithType method');
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function importWithType(string $serializedData, string $entityClass): bool
     {
         foreach ($this->importers as $importer) {
@@ -60,6 +46,7 @@ class ChainImporter implements EntityImporterInterface
                 return $importer->import($serializedData);
             }
         }
+
         return false;
     }
 }

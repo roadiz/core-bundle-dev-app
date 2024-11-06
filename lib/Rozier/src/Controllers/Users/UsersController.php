@@ -24,11 +24,10 @@ class UsersController extends AbstractAdminWithBulkController
         FormFactoryInterface $formFactory,
         SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator,
-        private readonly bool $useGravatar
+        private readonly bool $useGravatar,
     ) {
         parent::__construct($formFactory, $serializer, $urlGenerator);
     }
-
 
     protected function supports(PersistableInterface $item): bool
     {
@@ -44,6 +43,7 @@ class UsersController extends AbstractAdminWithBulkController
     {
         $user = new User();
         $user->sendCreationConfirmationEmail(true);
+
         return $user;
     }
 
@@ -104,14 +104,14 @@ class UsersController extends AbstractAdminWithBulkController
         $requestUser = $this->getUser();
         if (
             !(
-                $this->isGranted('ROLE_ACCESS_USERS') ||
-                ($requestUser instanceof User && $requestUser->getId() === $item->getId())
+                $this->isGranted('ROLE_ACCESS_USERS')
+                || ($requestUser instanceof User && $requestUser->getId() === $item->getId())
             )
         ) {
             throw $this->createAccessDeniedException("You don't have access to this page: ROLE_ACCESS_USERS");
         }
         if (!$this->isGranted(Role::ROLE_SUPERADMIN) && $item->isSuperAdmin()) {
-            throw $this->createAccessDeniedException("You cannot edit a super admin.");
+            throw $this->createAccessDeniedException('You cannot edit a super admin.');
         }
     }
 
@@ -120,6 +120,7 @@ class UsersController extends AbstractAdminWithBulkController
         if (!$item instanceof User) {
             throw new \RuntimeException('Invalid item type.');
         }
+
         return $item->getUsername();
     }
 
@@ -136,7 +137,7 @@ class UsersController extends AbstractAdminWithBulkController
         /*
          * If pictureUrl is empty, use default Gravatar image.
          */
-        if ($item->getPictureUrl() == '' && $this->useGravatar) {
+        if ('' == $item->getPictureUrl() && $this->useGravatar) {
             $item->setPictureUrl($item->getGravatarUrl());
         }
 
@@ -144,10 +145,6 @@ class UsersController extends AbstractAdminWithBulkController
     }
 
     /**
-     * @param Request $request
-     * @param int $id
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function editDetailsAction(Request $request, int $id): Response
@@ -186,7 +183,7 @@ class UsersController extends AbstractAdminWithBulkController
                 '%namespace%.%item%.was_updated',
                 [
                     '%item%' => $this->getEntityName($item),
-                    '%namespace%' => $this->getTranslator()->trans($this->getNamespace())
+                    '%namespace%' => $this->getTranslator()->trans($this->getNamespace()),
                 ]
             );
             $this->publishConfirmMessage($request, $msg, $item);
@@ -204,14 +201,12 @@ class UsersController extends AbstractAdminWithBulkController
         $this->assignation['item'] = $item;
 
         return $this->render(
-            $this->getTemplateFolder() . '/editDetails.html.twig',
+            $this->getTemplateFolder().'/editDetails.html.twig',
             $this->assignation,
             null,
             $this->getTemplateNamespace()
         );
     }
-
-
 
     protected function additionalAssignation(Request $request): void
     {
@@ -276,7 +271,7 @@ class UsersController extends AbstractAdminWithBulkController
                     'id' => $ids,
                 ]);
             },
-            $this->getTemplateFolder() . '/bulk_enable.html.twig',
+            $this->getTemplateFolder().'/bulk_enable.html.twig',
             '%namespace%.%item%.was_enabled',
             function (PersistableInterface $item) {
                 if (!$item instanceof User) {
@@ -300,7 +295,7 @@ class UsersController extends AbstractAdminWithBulkController
                     'id' => $ids,
                 ]);
             },
-            $this->getTemplateFolder() . '/bulk_disable.html.twig',
+            $this->getTemplateFolder().'/bulk_disable.html.twig',
             '%namespace%.%item%.was_disabled',
             function (PersistableInterface $item) {
                 if (!$item instanceof User) {

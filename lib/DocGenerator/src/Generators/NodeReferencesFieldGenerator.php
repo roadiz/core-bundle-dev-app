@@ -10,8 +10,8 @@ final class NodeReferencesFieldGenerator extends ChildrenNodeFieldGenerator
     {
         return implode("\n\n", [
             $this->getIntroduction(),
-            '#### ' . $this->translator->trans('docs.available_referenced_nodes'),
-            $this->getAvailableChildren()
+            '#### '.$this->translator->trans('docs.available_referenced_nodes'),
+            $this->getAvailableChildren(),
         ]);
     }
 }

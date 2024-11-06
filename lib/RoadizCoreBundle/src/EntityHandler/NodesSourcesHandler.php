@@ -40,24 +40,22 @@ final class NodesSourcesHandler extends AbstractHandler
         return $this->objectManager->getRepository(NodesSources::class);
     }
 
-    /**
-     * @return NodesSources
-     */
     public function getNodeSource(): NodesSources
     {
         if (null === $this->nodeSource) {
             throw new \BadMethodCallException('NodesSources is null');
         }
+
         return $this->nodeSource;
     }
 
     /**
-     * @param NodesSources $nodeSource
      * @return $this
      */
     public function setNodeSource(NodesSources $nodeSource): self
     {
         $this->nodeSource = $nodeSource;
+
         return $this;
     }
 
@@ -65,7 +63,7 @@ final class NodesSourcesHandler extends AbstractHandler
      * Remove every node-source documents associations for a given field.
      *
      * @param NodeTypeField $field
-     * @param bool $flush
+     *
      * @return $this
      */
     public function cleanDocumentsFromField(NodeTypeFieldInterface $field, bool $flush = true): self
@@ -82,17 +80,15 @@ final class NodesSourcesHandler extends AbstractHandler
     /**
      * Add a document to current node-source for a given node-type field.
      *
-     * @param Document $document
      * @param NodeTypeField $field
-     * @param bool $flush
-     * @param null|float $position
+     *
      * @return $this
      */
     public function addDocumentForField(
         Document $document,
         NodeTypeFieldInterface $field,
         bool $flush = true,
-        ?float $position = null
+        ?float $position = null,
     ): self {
         $nsDoc = new NodesSourcesDocuments($this->nodeSource, $document, $field);
 
@@ -120,7 +116,9 @@ final class NodesSourcesHandler extends AbstractHandler
      * Get documents linked to current node-source for a given field name.
      *
      * @param string $fieldName Name of the node-type field
+     *
      * @return array<Document>
+     *
      * @deprecated Use directly NodesSources::getDocumentsByFieldsWithName
      */
     public function getDocumentsFromFieldName(string $fieldName): array
@@ -137,8 +135,8 @@ final class NodesSourcesHandler extends AbstractHandler
      * Get a string describing uniquely the current nodeSource.
      *
      * Can be the urlAlias or the nodeName
+     *
      * @deprecated Use directly NodesSources::getIdentifier
-     * @return string
      */
     public function getIdentifier(): string
     {
@@ -154,7 +152,6 @@ final class NodesSourcesHandler extends AbstractHandler
      * Get parent node-source to get the current translation.
      *
      * @deprecated Use directly NodesSources::getParent
-     * @return NodesSources|null
      */
     public function getParent(): ?NodesSources
     {
@@ -164,12 +161,12 @@ final class NodesSourcesHandler extends AbstractHandler
     /**
      * Get every nodeSources parents from direct parent to farest ancestor.
      *
-     * @param array|null $criteria
      * @return array<NodesSources>
+     *
      * @deprecated Use NodesSourcesRepository::findParents
      */
     public function getParents(
-        array $criteria = null
+        ?array $criteria = null,
     ): array {
         if (null === $this->parentsNodeSources) {
             $this->parentsNodeSources = [];
@@ -208,14 +205,15 @@ final class NodesSourcesHandler extends AbstractHandler
      * Get children nodes sources to lock with current translation.
      *
      * @param array|null $criteria Additional criteria
-     * @param array|null $order Non default ordering
+     * @param array|null $order    Non default ordering
      *
      * @return array<object|NodesSources>
+     *
      * @deprecated Use TreeWalker or NodesSourcesRepository::findChildren
      */
     public function getChildren(
-        array $criteria = null,
-        array $order = null
+        ?array $criteria = null,
+        ?array $order = null,
     ): array {
         $defaultCrit = [
             'node.parent' => $this->nodeSource->getNode(),
@@ -243,19 +241,15 @@ final class NodesSourcesHandler extends AbstractHandler
     /**
      * Get first node-source among current node-source children.
      *
-     * @param array|null $criteria
-     * @param array|null $order
-     *
-     * @return NodesSources|null
      * @deprecated Use NodesSourcesRepository::findFirstChild
      */
     public function getFirstChild(
-        array $criteria = null,
-        array $order = null
+        ?array $criteria = null,
+        ?array $order = null,
     ): ?NodesSources {
         $defaultCrit = [
             'node.parent' => $this->nodeSource->getNode(),
-            'translation' => $this->nodeSource->getTranslation()
+            'translation' => $this->nodeSource->getTranslation(),
         ];
 
         if (null !== $order) {
@@ -275,18 +269,15 @@ final class NodesSourcesHandler extends AbstractHandler
             $defaultOrder
         );
     }
+
     /**
      * Get last node-source among current node-source children.
      *
-     * @param  array|null $criteria
-     * @param  array|null $order
-     *
-     * @return NodesSources|null
      * @deprecated Use NodesSourcesRepository::findLastChild
      */
     public function getLastChild(
-        array $criteria = null,
-        array $order = null
+        ?array $criteria = null,
+        ?array $order = null,
     ): ?NodesSources {
         $defaultCrit = [
             'node.parent' => $this->nodeSource->getNode(),
@@ -314,22 +305,20 @@ final class NodesSourcesHandler extends AbstractHandler
     /**
      * Get first node-source in the same parent as current node-source.
      *
-     * @param  array|null $criteria
-     * @param  array|null $order
-     *
-     * @return NodesSources|null
      * @deprecated Use NodesSourcesRepository::findFirstSibling
      */
     public function getFirstSibling(
-        array $criteria = null,
-        array $order = null
+        ?array $criteria = null,
+        ?array $order = null,
     ): ?NodesSources {
         if (null !== $this->nodeSource->getParent()) {
             $parentHandler = new NodesSourcesHandler($this->objectManager, $this->settingsBag);
             $parentHandler->setNodeSource($this->nodeSource->getParent());
+
             return $parentHandler->getFirstChild($criteria, $order);
         } else {
             $criteria['node.parent'] = null;
+
             return $this->getFirstChild($criteria, $order);
         }
     }
@@ -337,22 +326,20 @@ final class NodesSourcesHandler extends AbstractHandler
     /**
      * Get last node-source in the same parent as current node-source.
      *
-     * @param array|null $criteria
-     * @param array|null $order
-     *
-     * @return NodesSources|null
      * @deprecated Use NodesSourcesRepository::findLastSibling
      */
     public function getLastSibling(
-        array $criteria = null,
-        array $order = null
+        ?array $criteria = null,
+        ?array $order = null,
     ): ?NodesSources {
         if (null !== $this->nodeSource->getParent()) {
             $parentHandler = new NodesSourcesHandler($this->objectManager, $this->settingsBag);
             $parentHandler->setNodeSource($this->nodeSource->getParent());
+
             return $parentHandler->getLastChild($criteria, $order);
         } else {
             $criteria['node.parent'] = null;
+
             return $this->getLastChild($criteria, $order);
         }
     }
@@ -360,15 +347,11 @@ final class NodesSourcesHandler extends AbstractHandler
     /**
      * Get previous node-source from hierarchy.
      *
-     * @param array|null $criteria
-     * @param array|null $order
-     *
-     * @return NodesSources|null
      * @deprecated Use NodesSourcesRepository::findPrevious
      */
     public function getPrevious(
-        array $criteria = null,
-        array $order = null
+        ?array $criteria = null,
+        ?array $order = null,
     ): ?NodesSources {
         if ($this->nodeSource->getNode()->getPosition() <= 1) {
             return null;
@@ -407,15 +390,11 @@ final class NodesSourcesHandler extends AbstractHandler
     /**
      * Get next node-source from hierarchy.
      *
-     * @param array|null $criteria
-     * @param array|null $order
-     *
-     * @return NodesSources|null
      * @deprecated Use NodesSourcesRepository::findNext
      */
     public function getNext(
-        array $criteria = null,
-        array $order = null
+        ?array $criteria = null,
+        ?array $order = null,
     ): ?NodesSources {
         $defaultCrit = [
             /*
@@ -451,16 +430,17 @@ final class NodesSourcesHandler extends AbstractHandler
      * Get node tags with current source translation.
      *
      * @return iterable<Tag>
+     *
      * @deprecated Use TagRepository::findByNodesSources
      */
     public function getTags(): iterable
     {
-        /**
+        /*
          * @phpstan-ignore-next-line
          */
         return $this->objectManager->getRepository(Tag::class)->findBy([
-            "nodes" => $this->nodeSource->getNode(),
-            "translation" => $this->nodeSource->getTranslation(),
+            'nodes' => $this->nodeSource->getNode(),
+            'translation' => $this->nodeSource->getTranslation(),
         ], [
             'position' => 'ASC',
         ]);
@@ -480,12 +460,12 @@ final class NodesSourcesHandler extends AbstractHandler
     public function getSEO(): array
     {
         return [
-            'title' => ($this->nodeSource->getMetaTitle() != "") ?
+            'title' => ('' != $this->nodeSource->getMetaTitle()) ?
             $this->nodeSource->getMetaTitle() :
-            $this->nodeSource->getTitle() . ' – ' . $this->settingsBag->get('site_name'),
-            'description' => ($this->nodeSource->getMetaDescription() != "") ?
+            $this->nodeSource->getTitle().' – '.$this->settingsBag->get('site_name'),
+            'description' => ('' != $this->nodeSource->getMetaDescription()) ?
             $this->nodeSource->getMetaDescription() :
-            $this->nodeSource->getTitle() . ', ' . $this->settingsBag->get('seo_description'),
+            $this->nodeSource->getTitle().', '.$this->settingsBag->get('seo_description'),
         ];
     }
 
@@ -493,7 +473,9 @@ final class NodesSourcesHandler extends AbstractHandler
      * Get nodes linked to current node for a given fieldname.
      *
      * @param string $fieldName Name of the node-type field
+     *
      * @return array<Node> Collection of nodes
+     *
      * @deprecated
      */
     public function getNodesFromFieldName(string $fieldName): array
@@ -508,6 +490,7 @@ final class NodesSourcesHandler extends AbstractHandler
                     $this->nodeSource->getTranslation()
                 );
         }
+
         return [];
     }
 
@@ -515,7 +498,9 @@ final class NodesSourcesHandler extends AbstractHandler
      * Get nodes which own a reference to current node for a given fieldname.
      *
      * @param string $fieldName Name of the node-type field
+     *
      * @return array<Node> Collection of nodes
+     *
      * @deprecated
      */
     public function getReverseNodesFromFieldName(string $fieldName): array
@@ -530,6 +515,7 @@ final class NodesSourcesHandler extends AbstractHandler
                     $this->nodeSource->getTranslation()
                 );
         }
+
         return [];
     }
 }

@@ -15,7 +15,7 @@ final class NodeTypeFieldVoter extends Voter
     public const VIEW = 'VIEW';
 
     public function __construct(
-        private readonly Security $security
+        private readonly Security $security,
     ) {
     }
 
@@ -24,6 +24,7 @@ final class NodeTypeFieldVoter extends Voter
         if (!\in_array($attribute, [self::VIEW])) {
             return false;
         }
+
         return $subject instanceof NodeTypeField;
     }
 
@@ -38,7 +39,7 @@ final class NodeTypeFieldVoter extends Voter
 
         return match ($attribute) {
             self::VIEW => $this->canView($subject, $user),
-            default => throw new \LogicException('This code should not be reached!')
+            default => throw new \LogicException('This code should not be reached!'),
         };
     }
 

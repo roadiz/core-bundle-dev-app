@@ -13,9 +13,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SettingGroupType extends AbstractType
 {
-    /**
-     * @inheritDoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
@@ -36,9 +33,6 @@ class SettingGroupType extends AbstractType
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', SettingGroup::class);

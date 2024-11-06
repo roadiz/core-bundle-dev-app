@@ -9,17 +9,13 @@ declare(strict_types=1);
 
 namespace App\GeneratedEntity;
 
-use ApiPlatform\Doctrine\Orm\Filter;
 use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
@@ -44,6 +40,7 @@ class NSMenu extends NodesSources
 
     /**
      * $this->nodeType->isReachable() proxy.
+     *
      * @return bool Does this nodeSource is reachable over network?
      */
     #[JMS\VirtualProperty]
@@ -54,6 +51,7 @@ class NSMenu extends NodesSources
 
     /**
      * $this->nodeType->isPublishable() proxy.
+     *
      * @return bool Does this nodeSource is publishable with date and time?
      */
     #[JMS\VirtualProperty]
@@ -64,6 +62,6 @@ class NSMenu extends NodesSources
 
     public function __toString(): string
     {
-        return '[NSMenu] ' . parent::__toString();
+        return '[NSMenu] '.parent::__toString();
     }
 }

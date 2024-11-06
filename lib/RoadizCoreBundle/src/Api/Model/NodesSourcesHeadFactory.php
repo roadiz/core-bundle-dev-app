@@ -17,7 +17,7 @@ final class NodesSourcesHeadFactory implements NodesSourcesHeadFactoryInterface
         private readonly Settings $settingsBag,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly NodeSourceApi $nodeSourceApi,
-        private readonly HandlerFactoryInterface $handlerFactory
+        private readonly HandlerFactoryInterface $handlerFactory,
     ) {
     }
 

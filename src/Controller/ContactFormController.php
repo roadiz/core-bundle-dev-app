@@ -20,7 +20,7 @@ final class ContactFormController
     public function __construct(
         private readonly ContactFormManagerFactory $contactFormManagerFactory,
         private readonly RateLimiterFactory $contactFormLimiter,
-        private readonly LiformInterface $liform
+        private readonly LiformInterface $liform,
     ) {
     }
 
@@ -81,6 +81,7 @@ final class ContactFormController
 
         if (null !== $response = $contactFormManager->handle()) {
             $response->headers->add($headers);
+
             return $response;
         }
         throw new BadRequestHttpException('Form has not been submitted.');

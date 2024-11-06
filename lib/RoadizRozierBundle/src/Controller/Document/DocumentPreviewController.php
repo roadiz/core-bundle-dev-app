@@ -14,19 +14,12 @@ class DocumentPreviewController extends RozierApp
 {
     private DocumentFinderInterface $documentFinder;
 
-    /**
-     * @param DocumentFinderInterface $documentFinder
-     */
     public function __construct(DocumentFinderInterface $documentFinder)
     {
         $this->documentFinder = $documentFinder;
     }
 
     /**
-     * @param Request $request
-     * @param Document $documentId
-     *
-     * @return Response
      * @throws \Twig\Error\RuntimeError
      */
     public function previewAction(Request $request, Document $documentId): Response
@@ -79,11 +72,11 @@ class DocumentPreviewController extends RozierApp
         $this->assignation['thumbnailFormat']['picture'] = true;
         $this->assignation['infos'] = [];
         if ($document->isProcessable() || $document->isSvg()) {
-            $this->assignation['infos']['width'] = $document->getImageWidth() . 'px';
-            $this->assignation['infos']['height'] = $document->getImageHeight() . 'px';
+            $this->assignation['infos']['width'] = $document->getImageWidth().'px';
+            $this->assignation['infos']['height'] = $document->getImageHeight().'px';
         }
         if ($document->getMediaDuration() > 0) {
-            $this->assignation['infos']['duration'] = $document->getMediaDuration() . ' sec';
+            $this->assignation['infos']['duration'] = $document->getMediaDuration().' sec';
         }
 
         return $this->render('@RoadizRozier/documents/preview.html.twig', $this->assignation);

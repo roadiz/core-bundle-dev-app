@@ -18,12 +18,12 @@ final class DocumentsFieldGenerator extends AbstractFieldGenerator
         parent::addSerializationAttributes($property);
         $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
         $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
-            $this->field->getVarName()
+            $this->field->getVarName(),
         ]);
         $property->addAttribute('JMS\Serializer\Annotation\Type', [
-            'array<' .
-            (new UnicodeString($this->options['document_class']))->trimStart('\\')->toString() .
-            '>'
+            'array<'.
+            (new UnicodeString($this->options['document_class']))->trimStart('\\')->toString().
+            '>',
         ]);
 
         return $this;
@@ -33,6 +33,7 @@ final class DocumentsFieldGenerator extends AbstractFieldGenerator
     {
         $groups = parent::getDefaultSerializationGroups();
         $groups[] = 'nodes_sources_documents';
+
         return $groups;
     }
 
@@ -50,7 +51,7 @@ final class DocumentsFieldGenerator extends AbstractFieldGenerator
     {
         $getter = $classType->addMethod($this->field->getGetterName())
             ->setReturnType('array')
-            ->addComment('@return ' . $this->options['document_class'] . '[]');
+            ->addComment('@return '.$this->options['document_class'].'[]');
         $this->addSerializationAttributes($getter);
         $getter->setBody(<<<EOF
 if (null === \$this->{$this->field->getVarName()}) {
@@ -74,7 +75,7 @@ EOF
 
     protected function addFieldSetter(ClassType $classType): self
     {
-        $setter = $classType->addMethod('add' . ucfirst($this->field->getVarName()))
+        $setter = $classType->addMethod('add'.ucfirst($this->field->getVarName()))
             ->setReturnType('static')
             ->addComment('@return $this')
             ->setPublic();
@@ -98,6 +99,7 @@ if (!\$this->hasNodesSourcesDocuments(\$nodeSourceDocument)) {
 return \$this;
 PHP
         );
+
         return $this;
     }
 }

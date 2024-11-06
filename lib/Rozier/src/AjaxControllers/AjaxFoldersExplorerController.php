@@ -35,7 +35,7 @@ final class AjaxFoldersExplorerController extends AbstractAjaxController
     protected function recurseFolders(?iterable $folders = null): array
     {
         $foldersArray = [];
-        if ($folders !== null) {
+        if (null !== $folders) {
             /** @var Folder $folder */
             foreach ($folders as $folder) {
                 $children = $this->recurseFolders($folder->getChildren());

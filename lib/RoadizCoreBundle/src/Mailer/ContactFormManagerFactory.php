@@ -25,7 +25,7 @@ final class ContactFormManagerFactory
         private readonly FormFactoryInterface $formFactory,
         private readonly FormErrorSerializerInterface $formErrorSerializer,
         private readonly ?string $recaptchaPrivateKey,
-        private readonly ?string $recaptchaPublicKey
+        private readonly ?string $recaptchaPublicKey,
     ) {
     }
 

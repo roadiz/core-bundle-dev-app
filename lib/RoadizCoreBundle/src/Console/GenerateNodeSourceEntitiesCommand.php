@@ -20,7 +20,7 @@ final class GenerateNodeSourceEntitiesCommand extends Command
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly HandlerFactory $handlerFactory,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -43,8 +43,9 @@ final class GenerateNodeSourceEntitiesCommand extends Command
             ->getRepository(NodeType::class)
             ->findAll();
 
-        if (count($nodeTypes) === 0) {
+        if (0 === count($nodeTypes)) {
             $io->error('No available node-types…');
+
             return 1;
         }
 
@@ -54,12 +55,13 @@ final class GenerateNodeSourceEntitiesCommand extends Command
             $handler = $this->handlerFactory->getHandler($nt);
             $handler->removeSourceEntityClass();
             $handler->generateSourceEntityClass();
-            $io->writeln("* Source class <info>" . $nt->getSourceEntityClassName() . "</info> has been generated.");
+            $io->writeln('* Source class <info>'.$nt->getSourceEntityClassName().'</info> has been generated.');
 
             if ($output->isVeryVerbose()) {
-                $io->writeln("\t<info>" . $handler->getSourceClassPath() . "</info>");
+                $io->writeln("\t<info>".$handler->getSourceClassPath().'</info>');
             }
         }
+
         return 0;
     }
 }

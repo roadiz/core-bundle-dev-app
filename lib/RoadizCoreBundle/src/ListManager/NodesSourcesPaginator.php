@@ -18,9 +18,6 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 class NodesSourcesPaginator extends Paginator
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getTotalCount(): int
     {
         if (null === $this->totalCount) {
@@ -54,6 +51,7 @@ class NodesSourcesPaginator extends Paginator
         $repository = $this->em->getRepository($this->entityName);
         $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
         $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
+
         return $repository;
     }
 }

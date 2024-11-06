@@ -28,6 +28,7 @@ class DocumentClearFolderCommand extends AbstractDocumentCommand
     protected function getDocumentQueryBuilder(FolderInterface $folder): QueryBuilder
     {
         $qb = $this->getDocumentRepository()->createQueryBuilder('d');
+
         return $qb->innerJoin('d.folders', 'f')
             ->andWhere($qb->expr()->eq('f.id', ':folderId'))
             ->setParameter(':folderId', $folder);
@@ -44,7 +45,7 @@ class DocumentClearFolderCommand extends AbstractDocumentCommand
         $em = $this->getManager();
         /** @var FolderInterface|null $folder */
         $folder = $em->find(FolderInterface::class, $folderId);
-        if ($folder === null) {
+        if (null === $folder) {
             throw new \InvalidArgumentException(sprintf('Folder #%d does not exist.', $folderId));
         }
 
@@ -58,6 +59,7 @@ class DocumentClearFolderCommand extends AbstractDocumentCommand
 
         if ($count <= 0) {
             $this->io->warning('No documents were found in this folder.');
+
             return 0;
         }
 

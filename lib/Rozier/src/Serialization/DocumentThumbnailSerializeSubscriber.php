@@ -32,12 +32,12 @@ final class DocumentThumbnailSerializeSubscriber implements EventSubscriberInter
         $context = $event->getContext();
 
         if (
-            $visitor instanceof SerializationVisitorInterface &&
-            $document instanceof Document &&
-            !$document->isPrivate() &&
-            $context->hasAttribute('groups') &&
-            \is_array($context->getAttribute('groups')) &&
-            in_array('explorer_thumbnail', $context->getAttribute('groups'))
+            $visitor instanceof SerializationVisitorInterface
+            && $document instanceof Document
+            && !$document->isPrivate()
+            && $context->hasAttribute('groups')
+            && \is_array($context->getAttribute('groups'))
+            && in_array('explorer_thumbnail', $context->getAttribute('groups'))
         ) {
             $visitor->visitProperty(
                 new StaticPropertyMetadata('boolean', 'processable', []),

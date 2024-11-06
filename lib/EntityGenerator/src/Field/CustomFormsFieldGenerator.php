@@ -17,7 +17,7 @@ final class CustomFormsFieldGenerator extends AbstractFieldGenerator
         parent::addSerializationAttributes($property);
         $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
         $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
-            $this->field->getVarName()
+            $this->field->getVarName(),
         ]);
 
         return $this;
@@ -27,6 +27,7 @@ final class CustomFormsFieldGenerator extends AbstractFieldGenerator
     {
         $groups = parent::getDefaultSerializationGroups();
         $groups[] = 'nodes_sources_custom_forms';
+
         return $groups;
     }
 
@@ -46,7 +47,7 @@ final class CustomFormsFieldGenerator extends AbstractFieldGenerator
             ->addMethod($this->field->getGetterName())
             ->setReturnType('array')
             ->setVisibility('public')
-            ->addComment('@return ' . $this->options['custom_form_class'] . '[] CustomForm array')
+            ->addComment('@return '.$this->options['custom_form_class'].'[] CustomForm array')
         ;
         $this->addSerializationAttributes($method);
 
@@ -73,7 +74,7 @@ EOF
     protected function addFieldSetter(ClassType $classType): self
     {
         $method = $classType
-            ->addMethod('add' . ucfirst($this->field->getVarName()))
+            ->addMethod('add'.ucfirst($this->field->getVarName()))
             ->setReturnType('static')
             ->setVisibility('public')
             ->addComment('@return $this')
@@ -93,6 +94,7 @@ if (null !== \$this->objectManager) {
 return \$this;
 EOF
         );
+
         return $this;
     }
 }

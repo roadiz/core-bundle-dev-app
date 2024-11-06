@@ -53,27 +53,17 @@ interface AttributeInterface extends PersistableInterface
      */
     public const DATE_T = 22;
     /**
-     * ISO Country
+     * ISO Country.
      */
     public const COUNTRY_T = 25;
 
-    /**
-     * @return string
-     */
     public function getCode(): string;
 
     /**
-     * @param string $code
-     *
      * @return $this
      */
     public function setCode(string $code): self;
 
-    /**
-     * @param TranslationInterface|null $translation
-     *
-     * @return string
-     */
     public function getLabelOrCode(?TranslationInterface $translation = null): string;
 
     /**
@@ -89,135 +79,68 @@ interface AttributeInterface extends PersistableInterface
     public function setAttributeTranslations(Collection $attributeTranslations): self;
 
     /**
-     * @param AttributeTranslationInterface $attributeTranslation
-     *
      * @return $this
      */
     public function addAttributeTranslation(AttributeTranslationInterface $attributeTranslation): self;
 
     /**
-     * @param AttributeTranslationInterface $attributeTranslation
-     *
      * @return $this
      */
     public function removeAttributeTranslation(AttributeTranslationInterface $attributeTranslation): self;
 
-    /**
-     * @return bool
-     */
     public function isSearchable(): bool;
 
-     /**
-     * @param bool $searchable
-     */
     public function setSearchable(bool $searchable): self;
 
-    /**
-     * @param TranslationInterface $translation
-     *
-     * @return array|null
-     */
     public function getOptions(TranslationInterface $translation): ?array;
 
-    /**
-     * @return int
-     */
     public function getType(): int;
 
-    /**
-     * @return string|null
-     */
     public function getColor(): ?string;
 
     public function getWeight(): int;
 
-    /**
-     * @param string|null $color
-     */
     public function setColor(?string $color): self;
 
-    /**
-     * @return AttributeGroupInterface|null
-     */
     public function getGroup(): ?AttributeGroupInterface;
 
     /**
-     * @param AttributeGroupInterface|null $group
      * @return $this
      */
     public function setGroup(?AttributeGroupInterface $group): self;
 
-    /**
-     * @return Collection
-     */
     public function getDocuments(): Collection;
 
     /**
-     * @param int $type
      * @return $this
      */
     public function setType(int $type): self;
 
-    /**
-     * @return bool
-     */
     public function isString(): bool;
 
-    /**
-     * @return bool
-     */
     public function isDate(): bool;
 
-    /**
-     * @return bool
-     */
     public function isDateTime(): bool;
 
-    /**
-     * @return bool
-     */
     public function isBoolean(): bool;
 
-    /**
-     * @return bool
-     */
     public function isInteger(): bool;
 
-    /**
-     * @return bool
-     */
     public function isDecimal(): bool;
 
-    /**
-     * @return bool
-     */
     public function isPercent(): bool;
 
-    /**
-     * @return bool
-     */
     public function isEmail(): bool;
 
-    /**
-     * @return bool
-     */
     public function isColor(): bool;
 
-    /**
-     * @return bool
-     */
     public function isColour(): bool;
 
-    /**
-     * @return bool
-     */
     public function isEnum(): bool;
 
-    /**
-     * @return bool
-     */
     public function isCountry(): bool;
 
     public function getDefaultRealm(): ?RealmInterface;
+
     public function setDefaultRealm(?RealmInterface $defaultRealm): self;
 }

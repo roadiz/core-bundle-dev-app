@@ -11,11 +11,11 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\SearchEngine\GlobalNodeSourceSearchHandler;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Bundle\SecurityBundle\Security;
 
 final class AjaxSearchNodesSourcesController extends AbstractAjaxController
 {
@@ -24,7 +24,7 @@ final class AjaxSearchNodesSourcesController extends AbstractAjaxController
     public function __construct(
         private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
         private readonly Security $security,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
@@ -33,15 +33,13 @@ final class AjaxSearchNodesSourcesController extends AbstractAjaxController
      * Handle AJAX edition requests for Node
      * such as coming from node-tree widgets.
      *
-     * @param Request $request
-     *
      * @return Response JSON response
      */
     public function searchAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted(NodeVoter::SEARCH);
 
-        if (!$request->query->has('searchTerms') || $request->query->get('searchTerms') == '') {
+        if (!$request->query->has('searchTerms') || '' == $request->query->get('searchTerms')) {
             throw new BadRequestHttpException('searchTerms parameter is missing.');
         }
 
@@ -54,7 +52,7 @@ final class AjaxSearchNodesSourcesController extends AbstractAjaxController
             self::RESULT_COUNT
         );
 
-        if (count($nodesSources) === 0) {
+        if (0 === count($nodesSources)) {
             return new JsonResponse([
                 'statusCode' => Response::HTTP_OK,
                 'status' => 'success',
@@ -67,14 +65,14 @@ final class AjaxSearchNodesSourcesController extends AbstractAjaxController
             'statusCode' => Response::HTTP_OK,
             'status' => 'success',
             'data' => [],
-            'responseText' => count($nodesSources) . ' results found.',
+            'responseText' => count($nodesSources).' results found.',
         ];
 
         foreach ($nodesSources as $source) {
             if (
-                $source instanceof NodesSources &&
-                $this->security->isGranted(NodeVoter::READ, $source) &&
-                !key_exists($source->getNode()->getId(), $responseArray['data'])
+                $source instanceof NodesSources
+                && $this->security->isGranted(NodeVoter::READ, $source)
+                && !key_exists($source->getNode()->getId(), $responseArray['data'])
             ) {
                 $responseArray['data'][$source->getNode()->getId()] = $this->getNodeSourceData($source);
             }
@@ -96,16 +94,18 @@ final class AjaxSearchNodesSourcesController extends AbstractAjaxController
         $translation = $source->getTranslation();
         $displayableNSDoc = $source->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsDoc) {
             $doc = $nsDoc->getDocument();
+
             return !$doc->isPrivate() && ($doc->isImage() || $doc->isSvg());
         })->first();
         if (false !== $displayableNSDoc) {
             $thumbnail = $displayableNSDoc->getDocument();
             $this->documentUrlGenerator->setDocument($thumbnail);
             $this->documentUrlGenerator->setOptions([
-                "fit" => "60x60",
-                "quality" => 80
+                'fit' => '60x60',
+                'quality' => 80,
             ]);
         }
+
         return [
             'title' => $source->getTitle() ?? $source->getNode()->getNodeName(),
             'parent' => $source->getParent() ?

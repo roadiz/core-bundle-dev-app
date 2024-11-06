@@ -11,10 +11,7 @@ class RandomGenerator
     protected ?LoggerInterface $logger;
     protected bool $useOpenSsl;
 
-    /**
-     * @param LoggerInterface|null $logger
-     */
-    public function __construct(LoggerInterface $logger = null)
+    public function __construct(?LoggerInterface $logger = null)
     {
         $this->logger = $logger;
         // determine whether to use OpenSSL
@@ -30,10 +27,6 @@ class RandomGenerator
         }
     }
 
-    /**
-     * @param int $nbBytes
-     * @return string
-     */
     public function getRandomNumber(int $nbBytes = 32): string
     {
         // try OpenSSL

@@ -29,7 +29,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         private readonly ClientRegistry $clientRegistry,
         private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         private readonly NodeTypeApi $nodeTypeApi,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
@@ -41,12 +41,10 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
 
     protected function isSearchEngineAvailable(Request $request): bool
     {
-        return $request->get('search') !== '' && null !== $this->clientRegistry->getClient();
+        return '' !== $request->get('search') && null !== $this->clientRegistry->getClient();
     }
 
     /**
-     * @param Request $request
-     *
      * @return Response JSON response
      */
     public function indexAction(Request $request): Response
@@ -64,17 +62,13 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
 
         if ($request->query->has('tagId') && $request->get('tagId') > 0) {
             $responseArray['filters'] = array_merge($responseArray['filters'], [
-                'tagId' => $request->get('tagId')
+                'tagId' => $request->get('tagId'),
             ]);
         }
 
         return $this->createSerializedResponse($responseArray);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     */
     protected function parseFilterFromRequest(Request $request): array
     {
         $arrayFilter = [
@@ -102,13 +96,10 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
                 $arrayFilter['nodeType'] = $nodeTypes;
             }
         }
+
         return $arrayFilter;
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     */
     protected function parseSortingFromRequest(Request $request): array
     {
         if ($request->query->has('sort-alpha')) {
@@ -122,12 +113,6 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         ];
     }
 
-    /**
-     * @param Request $request
-     * @param array $criteria
-     * @param array $sorting
-     * @return array
-     */
     protected function getNodeSearchResults(Request $request, array $criteria, array $sorting = []): array
     {
         /*
@@ -144,6 +129,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
 
         $nodes = $listManager->getEntities();
         $nodesArray = $this->normalizeNodes($nodes);
+
         return [
             'status' => 'confirm',
             'statusCode' => 200,
@@ -153,15 +139,9 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         ];
     }
 
-    /**
-     * @param Request                 $request
-     * @param array                   $arrayFilter
-     *
-     * @return array
-     */
     protected function getSolrSearchResults(
         Request $request,
-        array $arrayFilter
+        array $arrayFilter,
     ): array {
         $this->nodeSourceSearchHandler->boostByUpdateDate();
         $currentPage = $request->get('page', 1);
@@ -205,8 +185,6 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
     /**
      * Get a Node list from an array of id.
      *
-     * @param Request $request
-     * @return JsonResponse
      * @throws NotSupported
      */
     public function listAction(Request $request): JsonResponse
@@ -219,7 +197,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         }
 
         $cleanNodeIds = array_filter($request->query->filter('ids', [], \FILTER_DEFAULT, [
-            'flags' => \FILTER_FORCE_ARRAY
+            'flags' => \FILTER_FORCE_ARRAY,
         ]));
         $nodesArray = [];
 
@@ -240,7 +218,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
-            'items' => $nodesArray
+            'items' => $nodesArray,
         ]);
     }
 
@@ -248,6 +226,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
      * Normalize response Node list result.
      *
      * @param iterable<Node|NodesSources|SolrSearchResultItem> $nodes
+     *
      * @return array<AbstractExplorerItem>
      */
     private function normalizeNodes(iterable $nodes): array

@@ -28,12 +28,10 @@ final class CloudflareCacheEventSubscriber implements EventSubscriberInterface
         private readonly MessageBusInterface $bus,
         private readonly ReverseProxyCacheLocator $reverseProxyCacheLocator,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
-    /**
-     * @inheritDoc
-     */
+
     public static function getSubscribedEvents(): array
     {
         return [
@@ -118,12 +116,11 @@ final class CloudflareCacheEventSubscriber implements EventSubscriberInterface
         if (null === $proxy) {
             throw new \RuntimeException('Cloudflare cache proxy is not configured');
         }
+
         return $proxy;
     }
 
     /**
-     * @param array $body
-     * @return Request
      * @throws \JsonException
      */
     protected function createRequest(array $body): Request
@@ -131,7 +128,7 @@ final class CloudflareCacheEventSubscriber implements EventSubscriberInterface
         $headers = [
             'Content-type' => 'application/json',
         ];
-        $headers['Authorization'] = 'Bearer ' . trim($this->getCloudflareCacheProxy()->getBearer());
+        $headers['Authorization'] = 'Bearer '.trim($this->getCloudflareCacheProxy()->getBearer());
         $headers['X-Auth-Email'] = $this->getCloudflareCacheProxy()->getEmail();
         $headers['X-Auth-Key'] = $this->getCloudflareCacheProxy()->getKey();
 
@@ -141,6 +138,7 @@ final class CloudflareCacheEventSubscriber implements EventSubscriberInterface
             $this->getCloudflareCacheProxy()->getZone()
         );
         $body = \json_encode($body, JSON_THROW_ON_ERROR);
+
         return new Request(
             'POST',
             $uri,
@@ -150,7 +148,6 @@ final class CloudflareCacheEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @return Request
      * @throws \JsonException
      */
     protected function createBanRequest(): Request
@@ -162,26 +159,22 @@ final class CloudflareCacheEventSubscriber implements EventSubscriberInterface
 
     /**
      * @param string[] $uris
-     * @return Request
+     *
      * @throws \JsonException
      */
     protected function createPurgeRequest(array $uris = []): Request
     {
         return $this->createRequest([
-            'files' => $uris
+            'files' => $uris,
         ]);
     }
 
-    /**
-     * @param RequestInterface $request
-     * @return void
-     */
     protected function sendRequest(RequestInterface $request): void
     {
         try {
             $this->bus->dispatch(new Envelope(new GuzzleRequestMessage($request, [
                 'debug' => false,
-                'timeout' => $this->getCloudflareCacheProxy()->getTimeout()
+                'timeout' => $this->getCloudflareCacheProxy()->getTimeout(),
             ])));
         } catch (ExceptionInterface $exception) {
             $this->logger->error($exception->getMessage());

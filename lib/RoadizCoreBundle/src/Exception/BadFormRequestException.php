@@ -12,12 +12,6 @@ class BadFormRequestException extends \Exception
     protected string $statusText;
     protected ?string $fieldErrored;
 
-    /**
-     * @param string|null $message
-     * @param int $code
-     * @param string $statusText
-     * @param string|null $fieldErrored
-     */
     public function __construct(?string $message = null, int $code = 403, string $statusText = 'danger', ?string $fieldErrored = null)
     {
         parent::__construct($message, $code);

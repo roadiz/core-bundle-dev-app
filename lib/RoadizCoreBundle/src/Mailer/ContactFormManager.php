@@ -38,7 +38,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 
 /**
- * @internal Use ContactFormManagerFactory to create a new instance.
+ * @internal use ContactFormManagerFactory to create a new instance
  */
 final class ContactFormManager extends EmailManager
 {
@@ -74,7 +74,7 @@ final class ContactFormManager extends EmailManager
         private readonly FormFactoryInterface $formFactory,
         private readonly FormErrorSerializerInterface $formErrorSerializer,
         private readonly ?string $recaptchaPrivateKey,
-        private readonly ?string $recaptchaPublicKey
+        private readonly ?string $recaptchaPublicKey,
     ) {
         parent::__construct($requestStack, $translator, $templating, $mailer, $settingsBag, $documentUrlGenerator);
 
@@ -100,40 +100,33 @@ final class ContactFormManager extends EmailManager
         ));
     }
 
-    /**
-     * @return string
-     */
     public function getFormName(): string
     {
         return $this->formName;
     }
 
     /**
-     * Use this method BEFORE withDefaultFields()
-     *
-     * @param string $formName
-     * @return ContactFormManager
+     * Use this method BEFORE withDefaultFields().
      */
     public function setFormName(string $formName): ContactFormManager
     {
         $this->formName = $formName;
+
         return $this;
     }
 
     /**
-     * Use this method BEFORE withDefaultFields()
+     * Use this method BEFORE withDefaultFields().
      *
      * @return $this
      */
     public function disableCsrfProtection(): self
     {
         $this->options['csrf_protection'] = false;
+
         return $this;
     }
 
-    /**
-     * @return FormInterface
-     */
     public function getForm(): FormInterface
     {
         return $this->form;
@@ -144,8 +137,8 @@ final class ContactFormManager extends EmailManager
      *
      * Use this method BEFORE withDefaultFields()
      *
-     * @param bool $emailStrictMode
      * @see https://symfony.com/doc/4.4/reference/constraints/Email.html#strict
+     *
      * @return $this
      */
     public function setEmailStrictMode(bool $emailStrictMode = true): self
@@ -154,9 +147,7 @@ final class ContactFormManager extends EmailManager
 
         return $this;
     }
-    /**
-     * @return bool
-     */
+
     public function isEmailStrictMode(): bool
     {
         return $this->emailStrictMode;
@@ -165,7 +156,6 @@ final class ContactFormManager extends EmailManager
     /**
      * Adds email, name and message fields with their constraints.
      *
-     * @param bool $useHoneypot
      * @return $this
      */
     public function withDefaultFields(bool $useHoneypot = true): self
@@ -179,7 +169,7 @@ final class ContactFormManager extends EmailManager
                     'message' => 'email.not.valid',
                     'mode' => $this->isEmailStrictMode() ?
                         Email::VALIDATION_MODE_STRICT :
-                        Email::VALIDATION_MODE_HTML5
+                        Email::VALIDATION_MODE_HTML5,
                 ]),
             ],
         ])
@@ -207,21 +197,20 @@ final class ContactFormManager extends EmailManager
     }
 
     /**
-     * Use this method AFTER withDefaultFields()
+     * Use this method AFTER withDefaultFields().
      *
-     * @param string $honeypotName
      * @return $this
      */
     public function withHoneypot(string $honeypotName = 'eml'): self
     {
         $this->getFormBuilder()->add($honeypotName, HoneypotType::class);
+
         return $this;
     }
 
     /**
-     * Use this method AFTER withDefaultFields()
+     * Use this method AFTER withDefaultFields().
      *
-     * @param string $consentDescription
      * @return $this
      */
     public function withUserConsent(string $consentDescription = 'contact_form.user_consent'): self
@@ -235,12 +224,10 @@ final class ContactFormManager extends EmailManager
                 ]),
             ],
         ]);
+
         return $this;
     }
 
-    /**
-     * @return FormBuilderInterface
-     */
     public function getFormBuilder(): FormBuilderInterface
     {
         if (null === $this->formBuilder) {
@@ -248,6 +235,7 @@ final class ContactFormManager extends EmailManager
                 ->createNamedBuilder($this->getFormName(), FormType::class, null, $this->options)
                 ->setMethod($this->method);
         }
+
         return $this->formBuilder;
     }
 
@@ -265,16 +253,14 @@ final class ContactFormManager extends EmailManager
      *
      * If you are using API REST POST form, use 'g-recaptcha-response' name
      * to enable Validator to get challenge value.
-     *
-     * @return ContactFormManager
      */
     public function withGoogleRecaptcha(
         string $name = 'recaptcha',
-        string $validatorFieldName = Recaptcha::FORM_NAME
+        string $validatorFieldName = Recaptcha::FORM_NAME,
     ): self {
         if (
-            !empty($this->recaptchaPublicKey) &&
-            !empty($this->recaptchaPrivateKey)
+            !empty($this->recaptchaPublicKey)
+            && !empty($this->recaptchaPrivateKey)
         ) {
             $this->getFormBuilder()->add($name, RecaptchaType::class, [
                 'label' => false,
@@ -296,8 +282,6 @@ final class ContactFormManager extends EmailManager
     /**
      * Handle custom form validation and send it as an email.
      *
-     * @param callable|null $onValid
-     * @return Response|null
      * @throws \Exception
      */
     public function handle(?callable $onValid = null): ?Response
@@ -308,10 +292,10 @@ final class ContactFormManager extends EmailManager
         }
         $this->form = $this->getFormBuilder()->getForm();
         $this->form->handleRequest($request);
-        $returnJson = $request->isXmlHttpRequest() ||
-            $request->getRequestFormat() === 'json' ||
-            (count($request->getAcceptableContentTypes()) === 1 && $request->getAcceptableContentTypes()[0] === 'application/json') ||
-            ($request->attributes->has('_format') && $request->attributes->get('_format') === 'json');
+        $returnJson = $request->isXmlHttpRequest()
+            || 'json' === $request->getRequestFormat()
+            || (1 === count($request->getAcceptableContentTypes()) && 'application/json' === $request->getAcceptableContentTypes()[0])
+            || ($request->attributes->has('_format') && 'json' === $request->attributes->get('_format'));
 
         if ($this->form->isSubmitted()) {
             if ($this->form->isValid()) {
@@ -333,7 +317,8 @@ final class ContactFormManager extends EmailManager
                                 ->add('confirm', $this->translator->trans($this->successMessage));
                         }
 
-                        $this->redirectUrl = $this->redirectUrl !== null ? $this->redirectUrl : $request->getUri();
+                        $this->redirectUrl = null !== $this->redirectUrl ? $this->redirectUrl : $request->getUri();
+
                         return new RedirectResponse($this->redirectUrl);
                     }
                 } catch (BadFormRequestException $e) {
@@ -358,6 +343,7 @@ final class ContactFormManager extends EmailManager
                     'errors' => (string) $this->form->getErrors(),
                     'errorsPerForm' => $errorPerForm,
                 ];
+
                 /*
                  * BC: Still return 200 if form is not valid for Ajax forms
                  */
@@ -367,6 +353,7 @@ final class ContactFormManager extends EmailManager
                 );
             }
         }
+
         return null;
     }
 
@@ -382,20 +369,20 @@ final class ContactFormManager extends EmailManager
          */
         foreach ($request->files as $files) {
             /**
-             * @var string $name
+             * @var string             $name
              * @var UploadedFile|array $uploadedFile
              */
             foreach ($files as $name => $uploadedFile) {
                 if (null !== $uploadedFile) {
                     if (is_array($uploadedFile)) {
                         /**
-                         * @var string $singleName
+                         * @var string             $singleName
                          * @var UploadedFile|array $singleUploadedFile
                          */
                         foreach ($uploadedFile as $singleName => $singleUploadedFile) {
                             if (is_array($singleUploadedFile)) {
                                 /**
-                                 * @var string $singleName2
+                                 * @var string       $singleName2
                                  * @var UploadedFile $singleUploadedFile2
                                  */
                                 foreach ($singleUploadedFile as $singleName2 => $singleUploadedFile2) {
@@ -414,24 +401,18 @@ final class ContactFormManager extends EmailManager
     }
 
     /**
-     * @param string $name
-     * @param UploadedFile $uploadedFile
      * @return $this
+     *
      * @throws BadFormRequestException
      */
     protected function addUploadedFile(string $name, UploadedFile $uploadedFile): ContactFormManager
     {
         if (
-            !$uploadedFile->isValid() ||
-            !in_array($uploadedFile->getMimeType(), $this->allowedMimeTypes) ||
-            $uploadedFile->getSize() > $this->maxFileSize
+            !$uploadedFile->isValid()
+            || !in_array($uploadedFile->getMimeType(), $this->allowedMimeTypes)
+            || $uploadedFile->getSize() > $this->maxFileSize
         ) {
-            throw new BadFormRequestException(
-                $this->translator->trans('file.not.accepted'),
-                Response::HTTP_FORBIDDEN,
-                'danger',
-                $name
-            );
+            throw new BadFormRequestException($this->translator->trans('file.not.accepted'), Response::HTTP_FORBIDDEN, 'danger', $name);
         } else {
             $this->uploadedFiles[$name] = $uploadedFile;
         }
@@ -439,29 +420,24 @@ final class ContactFormManager extends EmailManager
         return $this;
     }
 
-    /**
-     * @param array $formData
-     * @return string|null
-     */
     protected function findEmailData(array $formData): ?string
     {
         foreach ($formData as $key => $value) {
             if (
-                (new UnicodeString($key))->containsAny('email') &&
-                is_string($value) &&
-                filter_var($value, FILTER_VALIDATE_EMAIL)
+                (new UnicodeString($key))->containsAny('email')
+                && is_string($value)
+                && filter_var($value, FILTER_VALIDATE_EMAIL)
             ) {
                 return $value;
             } elseif (is_array($value) && null !== $email = $this->findEmailData($value)) {
                 return $email;
             }
         }
+
         return null;
     }
 
     /**
-     * @param FormInterface $form
-     *
      * @throws \Exception
      */
     protected function handleFormData(FormInterface $form): void
@@ -478,14 +454,14 @@ final class ContactFormManager extends EmailManager
         }
 
         /**
-         * @var string $key
+         * @var string       $key
          * @var UploadedFile $uploadedFile
          */
         foreach ($this->uploadedFiles as $key => $uploadedFile) {
             $fields[] = [
                 'name' => strip_tags((string) $key),
-                'value' => (strip_tags($uploadedFile->getClientOriginalName()) .
-                    ' [' . $uploadedFile->guessExtension() . ']'),
+                'value' => (strip_tags($uploadedFile->getClientOriginalName()).
+                    ' ['.$uploadedFile->guessExtension().']'),
             ];
         }
         /*
@@ -517,26 +493,22 @@ final class ContactFormManager extends EmailManager
         $key = $form->getName();
         $privateFieldNames = [
             Recaptcha::FORM_NAME,
-            'recaptcha'
+            'recaptcha',
         ];
+
         return
-            is_string($key) &&
-            (\mb_substr($key, 0, 1) === '_' || \in_array($key, $privateFieldNames))
+            is_string($key)
+            && ('_' === \mb_substr($key, 0, 1) || \in_array($key, $privateFieldNames))
         ;
     }
 
-    /**
-     * @param FormInterface $form
-     * @param array $fields
-     * @return array
-     */
     protected function flattenFormData(FormInterface $form, array $fields): array
     {
         /** @var FormInterface $formItem */
         foreach ($form as $formItem) {
             $key = $formItem->getName();
             $value = $formItem->getData();
-            $displayName = $formItem->getConfig()->getOption("label") ??
+            $displayName = $formItem->getConfig()->getOption('label') ??
                 (is_numeric($key) ? null : strip_tags(trim((string) $key)));
 
             if ($this->isFieldPrivate($formItem) || $value instanceof UploadedFile) {
@@ -566,17 +538,15 @@ final class ContactFormManager extends EmailManager
         return $fields;
     }
 
-
     /**
      * Send contact form data by email.
      *
-     * @return void
      * @throws \RuntimeException
      */
     public function send(): void
     {
         if (empty($this->assignation)) {
-            throw new \RuntimeException("Can’t send a contact form without data.");
+            throw new \RuntimeException('Can’t send a contact form without data.');
         }
 
         $this->message = $this->createMessage();
@@ -601,7 +571,7 @@ final class ContactFormManager extends EmailManager
     }
 
     /**
-     * @return null|array<Address>
+     * @return array<Address>|null
      */
     public function getReceiver(): ?array
     {
@@ -609,13 +579,12 @@ final class ContactFormManager extends EmailManager
             throw new \InvalidArgumentException('Main "email_sender" is not configured for this website.');
         }
         $defaultReceivers = [new Address($this->settingsBag->get('email_sender'))];
+
         return parent::getReceiver() ?? $defaultReceivers;
     }
 
     /**
      * Gets the value of redirectUrl.
-     *
-     * @return string|null
      */
     public function getRedirectUrl(): ?string
     {
@@ -626,8 +595,6 @@ final class ContactFormManager extends EmailManager
      * Sets the value of redirectUrl.
      *
      * @param string|null $redirectUrl Redirect url
-     *
-     * @return self
      */
     public function setRedirectUrl(?string $redirectUrl): self
     {
@@ -638,8 +605,6 @@ final class ContactFormManager extends EmailManager
 
     /**
      * Gets the value of maxFileSize.
-     *
-     * @return int
      */
     public function getMaxFileSize(): int
     {
@@ -650,8 +615,6 @@ final class ContactFormManager extends EmailManager
      * Sets the value of maxFileSize.
      *
      * @param int $maxFileSize the max file size
-     *
-     * @return self
      */
     public function setMaxFileSize($maxFileSize): self
     {
@@ -662,8 +625,6 @@ final class ContactFormManager extends EmailManager
 
     /**
      * Gets the value of allowedMimeTypes.
-     *
-     * @return array
      */
     public function getAllowedMimeTypes(): array
     {
@@ -674,8 +635,6 @@ final class ContactFormManager extends EmailManager
      * Sets the value of allowedMimeTypes.
      *
      * @param array $allowedMimeTypes the allowed mime types
-     *
-     * @return self
      */
     public function setAllowedMimeTypes(array $allowedMimeTypes): self
     {
@@ -684,17 +643,12 @@ final class ContactFormManager extends EmailManager
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getOptions(): array
     {
         return $this->options;
     }
 
     /**
-     * @param array $options
-     *
      * @return $this
      */
     public function setOptions(array $options): self
@@ -704,21 +658,18 @@ final class ContactFormManager extends EmailManager
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function useRealResponseCode(): bool
     {
         return $this->useRealResponseCode;
     }
 
     /**
-     * @param bool $useRealResponseCode Return a real 400 response if form is not valid.
-     * @return ContactFormManager
+     * @param bool $useRealResponseCode return a real 400 response if form is not valid
      */
     public function setUseRealResponseCode(bool $useRealResponseCode): ContactFormManager
     {
         $this->useRealResponseCode = $useRealResponseCode;
+
         return $this;
     }
 }

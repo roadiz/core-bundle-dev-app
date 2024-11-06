@@ -15,7 +15,7 @@ final class SolrReindexMessageHandler
 {
     public function __construct(
         private readonly IndexerFactoryInterface $indexerFactory,
-        private readonly LoggerInterface $searchEngineLogger
+        private readonly LoggerInterface $searchEngineLogger,
     ) {
     }
 

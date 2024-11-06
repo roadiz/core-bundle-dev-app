@@ -12,9 +12,14 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 interface NodeInterface extends PersistableInterface
 {
     public function getChildrenOrder(): string;
+
     public function getChildrenOrderDirection(): string;
+
     public function isDraft(): bool;
+
     public function isPending(): bool;
+
     public function isPublished(): bool;
+
     public function getNodeType(): NodeTypeInterface;
 }

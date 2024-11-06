@@ -63,9 +63,6 @@ final class SolariumSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @param Event $event
-     */
     public function onSolariumNodeWorkflowComplete(Event $event): void
     {
         $node = $event->getSubject();
@@ -77,8 +74,6 @@ final class SolariumSubscriber implements EventSubscriberInterface
     /**
      * Update or create Solr document for current Node-source.
      *
-     * @param NodesSourcesUpdatedEvent $event
-     *
      * @throws \Exception
      */
     public function onSolariumSingleUpdate(NodesSourcesUpdatedEvent $event): void
@@ -88,8 +83,6 @@ final class SolariumSubscriber implements EventSubscriberInterface
 
     /**
      * Delete solr document for current Node-source.
-     *
-     * @param NodesSourcesDeletedEvent $event
      */
     public function onSolariumSingleDelete(NodesSourcesDeletedEvent $event): void
     {
@@ -98,8 +91,6 @@ final class SolariumSubscriber implements EventSubscriberInterface
 
     /**
      * Delete solr documents for each Node sources.
-     *
-     * @param NodeDeletedEvent $event
      */
     public function onSolariumNodeDelete(NodeDeletedEvent $event): void
     {
@@ -109,8 +100,6 @@ final class SolariumSubscriber implements EventSubscriberInterface
     /**
      * Update or create solr documents for each Node sources.
      *
-     * @param FilterNodeEvent $event
-     *
      * @throws \Exception
      */
     public function onSolariumNodeUpdate(FilterNodeEvent $event): void
@@ -118,11 +107,8 @@ final class SolariumSubscriber implements EventSubscriberInterface
         $this->messageBus->dispatch(new Envelope(new SolrReindexMessage(Node::class, $event->getNode()->getId())));
     }
 
-
     /**
      * Delete solr documents for each Document translation.
-     *
-     * @param FilterDocumentEvent $event
      */
     public function onSolariumDocumentDelete(FilterDocumentEvent $event): void
     {
@@ -134,8 +120,6 @@ final class SolariumSubscriber implements EventSubscriberInterface
 
     /**
      * Update or create solr documents for each Document translation.
-     *
-     * @param FilterDocumentEvent $event
      *
      * @throws \Exception
      */
@@ -150,9 +134,8 @@ final class SolariumSubscriber implements EventSubscriberInterface
     /**
      * Update solr documents linked to current event Tag.
      *
-     * @param TagUpdatedEvent $event
-     *
      * @throws \Exception
+     *
      * @deprecated This can lead to a timeout if more than 500 nodes use that tag!
      */
     public function onSolariumTagUpdate(TagUpdatedEvent $event): void
@@ -163,9 +146,8 @@ final class SolariumSubscriber implements EventSubscriberInterface
     /**
      * Update solr documents linked to current event Folder.
      *
-     * @param FolderUpdatedEvent $event
-     *
      * @throws \Exception
+     *
      * @deprecated This can lead to a timeout if more than 500 documents use that folder!
      */
     public function onSolariumFolderUpdate(FolderUpdatedEvent $event): void

@@ -19,17 +19,14 @@ final class NodesSourcesLinkHeaderEventSubscriber implements EventSubscriberInte
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [
-            ViewEvent::class => ['onKernelView', 15]
+            ViewEvent::class => ['onKernelView', 15],
         ];
     }
 
@@ -61,7 +58,7 @@ final class NodesSourcesLinkHeaderEventSubscriber implements EventSubscriberInte
                 (new Link(
                     'alternate',
                     $this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                        RouteObjectInterface::ROUTE_OBJECT => $singleSource
+                        RouteObjectInterface::ROUTE_OBJECT => $singleSource,
                     ])
                 ))
                     ->withAttribute('hreflang', $singleSource->getTranslation()->getLocale())

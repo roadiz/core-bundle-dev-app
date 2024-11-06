@@ -41,16 +41,16 @@ class UrlOptionsResolver extends OptionsResolver
         $this->setAllowedValues(
             'align',
             [
-            null,
-            'top-left',
-            'top',
-            'top-right',
-            'left',
-            'center',
-            'right',
-            'bottom-left',
-            'bottom',
-            'bottom-right',
+                null,
+                'top-left',
+                'top',
+                'top-right',
+                'left',
+                'center',
+                'right',
+                'bottom-left',
+                'bottom',
+                'bottom-right',
             ]
         );
         $this->setAllowedTypes('background', ['null', 'string']);
@@ -73,6 +73,7 @@ class UrlOptionsResolver extends OptionsResolver
                 if (1 === preg_match('#(?<width>[0-9]+)[x:\.](?<height>[0-9]+)#', $compositing, $matches)) {
                     return ((float) $matches['width']) / ((float) $matches['height']);
                 }
+
                 return null;
             }
         );
@@ -86,9 +87,10 @@ class UrlOptionsResolver extends OptionsResolver
                 $compositing = $options['fit'] ?? '';
                 if (1 === preg_match('#(?<width>[0-9]+)[x:\.](?<height>[0-9]+)#', $compositing, $matches)) {
                     return (int) $matches['width'];
-                } elseif (null !== $options['ratio'] && $options['height'] !== 0 && $options['ratio'] !== 0) {
+                } elseif (null !== $options['ratio'] && 0 !== $options['height'] && 0 !== $options['ratio']) {
                     return (int) (intval($options['height']) * floatval($options['ratio']));
                 }
+
                 return 0;
             }
         );
@@ -99,9 +101,10 @@ class UrlOptionsResolver extends OptionsResolver
                 $compositing = $options['fit'] ?? '';
                 if (1 === preg_match('#(?<width>[0-9]+)[x:\.](?<height>[0-9]+)#', $compositing, $matches)) {
                     return (int) $matches['height'];
-                } elseif (null !== $options['ratio'] && $options['width'] !== 0 && $options['ratio'] !== 0) {
+                } elseif (null !== $options['ratio'] && 0 !== $options['width'] && 0 !== $options['ratio']) {
                     return (int) (intval($options['width']) / floatval($options['ratio']));
                 }
+
                 return 0;
             }
         );

@@ -11,30 +11,18 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\SearchEngine\Event\NodeSourceSearchQueryEvent;
 
-/**
- * @package RZ\Roadiz\CoreBundle\SearchEngine
- */
 class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourceSearchHandlerInterface
 {
     protected bool $boostByPublicationDate = false;
     protected bool $boostByUpdateDate = false;
     protected bool $boostByCreationDate = false;
 
-    /**
-     * @param string  $q
-     * @param array   $args
-     * @param integer $rows
-     * @param bool $searchTags
-     * @param int $page
-     *
-     * @return array|null
-     */
     protected function nativeSearch(
         string $q,
         array $args = [],
         int $rows = 20,
         bool $searchTags = false,
-        int $page = 1
+        int $page = 1,
     ): ?array {
         if (empty($q)) {
             return null;
@@ -44,15 +32,15 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
 
         if ($this->boostByPublicationDate) {
             $boost = '{!boost b=recip(ms(NOW,published_at_dt),3.16e-11,1,1)}';
-            $queryTxt = $boost . $queryTxt;
+            $queryTxt = $boost.$queryTxt;
         }
         if ($this->boostByUpdateDate) {
             $boost = '{!boost b=recip(ms(NOW,updated_at_dt),3.16e-11,1,1)}';
-            $queryTxt = $boost . $queryTxt;
+            $queryTxt = $boost.$queryTxt;
         }
         if ($this->boostByCreationDate) {
             $boost = '{!boost b=recip(ms(NOW,created_at_dt),3.16e-11,1,1)}';
-            $queryTxt = $boost . $queryTxt;
+            $queryTxt = $boost.$queryTxt;
         }
 
         $query->setQuery($queryTxt);
@@ -72,7 +60,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
 
         $this->logger->debug('[Solr] Request node-sources search…', [
             'query' => $queryTxt,
-            'fq' => $args["fq"] ?? [],
+            'fq' => $args['fq'] ?? [],
             'params' => $query->getParams(),
         ]);
 
@@ -83,25 +71,22 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         $query = $event->getQuery();
 
         $solrRequest = $this->getSolr()->execute($query);
+
         return $solrRequest->getData();
     }
 
-    /**
-     * @param array $args
-     * @return array
-     */
     protected function argFqProcess(array &$args): array
     {
-        if (!isset($args["fq"])) {
-            $args["fq"] = [];
+        if (!isset($args['fq'])) {
+            $args['fq'] = [];
         }
 
         $visible = $args['visible'] ?? $args['node.visible'] ?? null;
         if (isset($visible)) {
-            $tmp = "node_visible_b:" . (($visible) ? 'true' : 'false');
+            $tmp = 'node_visible_b:'.(($visible) ? 'true' : 'false');
             unset($args['visible']);
             unset($args['node.visible']);
-            $args["fq"][] = $tmp;
+            $args['fq'][] = $tmp;
         }
 
         /*
@@ -110,11 +95,11 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
          */
         if (!empty($args['tags'])) {
             if ($args['tags'] instanceof Tag) {
-                $args["fq"][] = sprintf('all_tags_slugs_ss:"%s"', $args['tags']->getTagName());
+                $args['fq'][] = sprintf('all_tags_slugs_ss:"%s"', $args['tags']->getTagName());
             } elseif (is_array($args['tags'])) {
                 foreach ($args['tags'] as $tag) {
                     if ($tag instanceof Tag) {
-                        $args["fq"][] = sprintf('all_tags_slugs_ss:"%s"', $tag->getTagName());
+                        $args['fq'][] = sprintf('all_tags_slugs_ss:"%s"', $tag->getTagName());
                     }
                 }
             }
@@ -135,11 +120,11 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
                         $orQuery[] = $singleNodeType;
                     }
                 }
-                $args["fq"][] = "node_type_s:(" . implode(' OR ', $orQuery) . ')';
+                $args['fq'][] = 'node_type_s:('.implode(' OR ', $orQuery).')';
             } elseif ($nodeType instanceof NodeTypeInterface) {
-                $args["fq"][] = "node_type_s:" . $nodeType->getName();
+                $args['fq'][] = 'node_type_s:'.$nodeType->getName();
             } else {
-                $args["fq"][] = "node_type_s:" . $nodeType;
+                $args['fq'][] = 'node_type_s:'.$nodeType;
             }
             unset($args['nodeType']);
             unset($args['node.nodeType']);
@@ -151,11 +136,11 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         $parent = $args['parent'] ?? $args['node.parent'] ?? null;
         if (!empty($parent)) {
             if ($parent instanceof Node) {
-                $args["fq"][] = "node_parent_i:" . $parent->getId();
+                $args['fq'][] = 'node_parent_i:'.$parent->getId();
             } elseif (is_string($parent)) {
-                $args["fq"][] = "node_parent_s:" . trim($parent);
+                $args['fq'][] = 'node_parent_s:'.trim($parent);
             } elseif (is_numeric($parent)) {
-                $args["fq"][] = "node_parent_i:" . (int) $parent;
+                $args['fq'][] = 'node_parent_i:'.(int) $parent;
             }
             unset($args['parent']);
             unset($args['node.parent']);
@@ -165,81 +150,75 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
          * Handle publication date-time filtering
          */
         if (isset($args['publishedAt'])) {
-            $tmp = "published_at_dt:";
+            $tmp = 'published_at_dt:';
             if (!is_array($args['publishedAt']) && $args['publishedAt'] instanceof \DateTimeInterface) {
                 $tmp .= $this->formatDateTimeToUTC($args['publishedAt']);
             } elseif (
-                isset($args['publishedAt'][0]) &&
-                $args['publishedAt'][0] === "BETWEEN" &&
-                isset($args['publishedAt'][1]) &&
-                $args['publishedAt'][1] instanceof \DateTimeInterface &&
-                isset($args['publishedAt'][2]) &&
-                $args['publishedAt'][2] instanceof \DateTimeInterface
+                isset($args['publishedAt'][0])
+                && 'BETWEEN' === $args['publishedAt'][0]
+                && isset($args['publishedAt'][1])
+                && $args['publishedAt'][1] instanceof \DateTimeInterface
+                && isset($args['publishedAt'][2])
+                && $args['publishedAt'][2] instanceof \DateTimeInterface
             ) {
-                $tmp .= "[" .
-                    $this->formatDateTimeToUTC($args['publishedAt'][1]) .
-                    " TO " .
-                    $this->formatDateTimeToUTC($args['publishedAt'][2]) . "]";
+                $tmp .= '['.
+                    $this->formatDateTimeToUTC($args['publishedAt'][1]).
+                    ' TO '.
+                    $this->formatDateTimeToUTC($args['publishedAt'][2]).']';
             } elseif (
-                isset($args['publishedAt'][0]) &&
-                $args['publishedAt'][0] === "<=" &&
-                isset($args['publishedAt'][1]) &&
-                $args['publishedAt'][1] instanceof \DateTimeInterface
+                isset($args['publishedAt'][0])
+                && '<=' === $args['publishedAt'][0]
+                && isset($args['publishedAt'][1])
+                && $args['publishedAt'][1] instanceof \DateTimeInterface
             ) {
-                $tmp .= "[* TO " . $this->formatDateTimeToUTC($args['publishedAt'][1]) . "]";
+                $tmp .= '[* TO '.$this->formatDateTimeToUTC($args['publishedAt'][1]).']';
             } elseif (
-                isset($args['publishedAt'][0]) &&
-                $args['publishedAt'][0] === ">=" &&
-                isset($args['publishedAt'][1]) &&
-                $args['publishedAt'][1] instanceof \DateTimeInterface
+                isset($args['publishedAt'][0])
+                && '>=' === $args['publishedAt'][0]
+                && isset($args['publishedAt'][1])
+                && $args['publishedAt'][1] instanceof \DateTimeInterface
             ) {
-                $tmp .= "[" . $this->formatDateTimeToUTC($args['publishedAt'][1]) . " TO *]";
+                $tmp .= '['.$this->formatDateTimeToUTC($args['publishedAt'][1]).' TO *]';
             }
             unset($args['publishedAt']);
-            $args["fq"][] = $tmp;
+            $args['fq'][] = $tmp;
         }
 
         $status = $args['status'] ?? $args['node.status'] ?? null;
         if (isset($status)) {
-            $tmp = "node_status_i:";
+            $tmp = 'node_status_i:';
             if (!is_array($status)) {
                 $tmp .= (string) $status;
-            } elseif ($status[0] == "<=") {
-                $tmp .= "[* TO " . (string) $status[1] . "]";
-            } elseif ($status[0] == ">=") {
-                $tmp .= "[" . (string) $status[1] . " TO *]";
+            } elseif ('<=' == $status[0]) {
+                $tmp .= '[* TO '.(string) $status[1].']';
+            } elseif ('>=' == $status[0]) {
+                $tmp .= '['.(string) $status[1].' TO *]';
             }
             unset($args['status']);
             unset($args['node.status']);
-            $args["fq"][] = $tmp;
+            $args['fq'][] = $tmp;
         } else {
-            $args["fq"][] = "node_status_i:" . (string) (Node::PUBLISHED);
+            $args['fq'][] = 'node_status_i:'.(string) Node::PUBLISHED;
         }
 
         /*
          * Filter by translation or locale
          */
         if (isset($args['translation']) && $args['translation'] instanceof TranslationInterface) {
-            $args["fq"][] = "locale_s:" . $args['translation']->getLocale();
+            $args['fq'][] = 'locale_s:'.$args['translation']->getLocale();
         }
         if (isset($args['locale']) && is_string($args['locale'])) {
-            $args["fq"][] = "locale_s:" . $args['locale'];
+            $args['fq'][] = 'locale_s:'.$args['locale'];
         }
 
         return $args;
     }
 
-    /**
-     * @return string
-     */
     protected function getDocumentType(): string
     {
         return 'NodesSources';
     }
 
-    /**
-     * @return NodeSourceSearchHandler
-     */
     public function boostByPublicationDate(): NodeSourceSearchHandler
     {
         $this->boostByPublicationDate = true;
@@ -249,9 +228,6 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         return $this;
     }
 
-    /**
-     * @return NodeSourceSearchHandler
-     */
     public function boostByUpdateDate(): NodeSourceSearchHandler
     {
         $this->boostByPublicationDate = false;
@@ -261,9 +237,6 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         return $this;
     }
 
-    /**
-     * @return NodeSourceSearchHandler
-     */
     public function boostByCreationDate(): NodeSourceSearchHandler
     {
         $this->boostByPublicationDate = false;

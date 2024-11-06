@@ -24,10 +24,6 @@ final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHan
         parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
     }
 
-    /**
-     * @param  DocumentInterface $document
-     * @return bool
-     */
     protected function supports(DocumentInterface $document): bool
     {
         return $document->isLocal() && $document->isImage();
@@ -47,7 +43,7 @@ final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHan
                 'Document file is not a readable image.',
                 [
                     'path' => $document->getMountPath(),
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
                 ]
             );
         }

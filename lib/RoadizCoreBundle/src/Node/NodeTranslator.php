@@ -15,7 +15,7 @@ final class NodeTranslator
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private readonly EventDispatcherInterface $dispatcher
+        private readonly EventDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -23,7 +23,7 @@ final class NodeTranslator
         ?Translation $sourceTranslation,
         Translation $destinationTranslation,
         Node $node,
-        bool $translateChildren = false
+        bool $translateChildren = false,
     ): Node {
         $this->translateSingleNode($sourceTranslation, $destinationTranslation, $node);
 
@@ -40,7 +40,7 @@ final class NodeTranslator
     private function translateSingleNode(
         ?Translation $sourceTranslation,
         Translation $destinationTranslation,
-        Node $node
+        Node $node,
     ): NodesSources {
         /** @var NodesSources|null $existing */
         $existing = $this->managerRegistry

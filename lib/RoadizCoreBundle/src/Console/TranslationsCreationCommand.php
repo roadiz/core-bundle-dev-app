@@ -12,7 +12,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Command line utils for managing translations
+ * Command line utils for managing translations.
  */
 final class TranslationsCreationCommand extends TranslationsCommand
 {
@@ -50,15 +50,17 @@ final class TranslationsCreationCommand extends TranslationsCommand
             ->findOneByLocale($locale);
 
         $confirmation = new ConfirmationQuestion(
-            '<question>Are you sure to create ' . $name . ' (' . $locale . ') translation?</question>',
+            '<question>Are you sure to create '.$name.' ('.$locale.') translation?</question>',
             false
         );
 
         if (null !== $translationByName) {
-            $io->error('Translation ' . $name . ' already exists.');
+            $io->error('Translation '.$name.' already exists.');
+
             return 1;
         } elseif (null !== $translationByLocale) {
-            $io->error('Translation locale ' . $locale . ' is already used.');
+            $io->error('Translation locale '.$locale.' is already used.');
+
             return 1;
         }
 
@@ -74,8 +76,9 @@ final class TranslationsCreationCommand extends TranslationsCommand
             $this->managerRegistry->getManagerForClass(Translation::class)->persist($newTrans);
             $this->managerRegistry->getManagerForClass(Translation::class)->flush();
 
-            $io->success('New ' . $newTrans->getName() . ' translation for ' . $newTrans->getLocale() . ' locale.');
+            $io->success('New '.$newTrans->getName().' translation for '.$newTrans->getLocale().' locale.');
         }
+
         return 0;
     }
 }

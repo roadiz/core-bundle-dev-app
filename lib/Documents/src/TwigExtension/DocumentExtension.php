@@ -23,22 +23,16 @@ use Twig\TwigFilter;
 final class DocumentExtension extends AbstractExtension
 {
     /**
-     * @param RendererInterface $renderer
-     * @param EmbedFinderFactory $embedFinderFactory
-     * @param FilesystemOperator $documentsStorage
      * @param bool $throwExceptions Trigger exception if using filter on NULL values (default: false)
      */
     public function __construct(
         private readonly RendererInterface $renderer,
         private readonly EmbedFinderFactory $embedFinderFactory,
         private readonly FilesystemOperator $documentsStorage,
-        private readonly bool $throwExceptions = false
+        private readonly bool $throwExceptions = false,
     ) {
     }
 
-    /**
-     * @return array
-     */
     public function getFilters(): array
     {
         return [
@@ -49,28 +43,25 @@ final class DocumentExtension extends AbstractExtension
             new TwigFilter('path', [$this, 'getPath']),
             new TwigFilter('exists', [$this, 'exists']),
             new TwigFilter('embedFinder', [$this, 'getEmbedFinder']),
-            new TwigFilter('formatBytes', array($this, 'formatBytes')),
+            new TwigFilter('formatBytes', [$this, 'formatBytes']),
         ];
     }
 
     /**
-     * @param  string|int $bytes
-     * @param  int        $precision
-     * @return string
+     * @param string|int $bytes
      */
     public function formatBytes($bytes, int $precision = 2): string
     {
-        $size = ['B','kB','MB','GB','TB','PB','EB','ZB','YB'];
+        $size = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         $factor = floor((\mb_strlen((string) $bytes) - 1) / 3);
-        return sprintf("%.{$precision}f", (int) $bytes / pow(1024, $factor)) . @$size[$factor];
+
+        return sprintf("%.{$precision}f", (int) $bytes / pow(1024, $factor)).@$size[$factor];
     }
 
     /**
-     * @param DocumentInterface|null $document
-     * @return null|EmbedFinderInterface
      * @throws RuntimeError
      */
-    public function getEmbedFinder(DocumentInterface $document = null): ?EmbedFinderInterface
+    public function getEmbedFinder(?DocumentInterface $document = null): ?EmbedFinderInterface
     {
         if (null === $document) {
             if ($this->throwExceptions) {
@@ -102,19 +93,15 @@ final class DocumentExtension extends AbstractExtension
     }
 
     /**
-     * @param DocumentInterface|null $document
-     * @param array|null             $options
-     *
-     * @return string
      * @throws RuntimeError
      */
-    public function display(DocumentInterface $document = null, ?array $options = []): string
+    public function display(?DocumentInterface $document = null, ?array $options = []): string
     {
         if (null === $document) {
             if ($this->throwExceptions) {
                 throw new RuntimeError('Document can’t be null to be displayed.');
             } else {
-                return "";
+                return '';
             }
         }
         if (null === $options) {
@@ -126,7 +113,7 @@ final class DocumentExtension extends AbstractExtension
             if ($this->throwExceptions) {
                 throw new RuntimeError($embedException->getMessage());
             } else {
-                return '<p>' . $embedException->getMessage() . '</p>';
+                return '<p>'.$embedException->getMessage().'</p>';
             }
         } catch (InvalidArgumentException $e) {
             throw new RuntimeError($e->getMessage(), -1, null, $e);
@@ -140,11 +127,9 @@ final class DocumentExtension extends AbstractExtension
      * - Return `'landscape'` if width is higher or equal to height
      * - Return `'portrait'` if height is strictly lower to width
      *
-     * @param  SizeableInterface |null $document
-     * @return null|string
      * @throws RuntimeError
      */
-    public function getImageOrientation(SizeableInterface $document = null): ?string
+    public function getImageOrientation(?SizeableInterface $document = null): ?string
     {
         if (null === $document) {
             if ($this->throwExceptions) {
@@ -154,15 +139,16 @@ final class DocumentExtension extends AbstractExtension
             }
         }
         $size = $this->getImageSize($document);
+
         return $size['width'] >= $size['height'] ? 'landscape' : 'portrait';
     }
 
     /**
-     * @param SizeableInterface |null $document
      * @return array<string, int>
+     *
      * @throws RuntimeError
      */
-    public function getImageSize(SizeableInterface $document = null): array
+    public function getImageSize(?SizeableInterface $document = null): array
     {
         if (null === $document) {
             if ($this->throwExceptions) {
@@ -174,6 +160,7 @@ final class DocumentExtension extends AbstractExtension
                 ];
             }
         }
+
         return [
             'width' => $document->getImageWidth(),
             'height' => $document->getImageHeight(),
@@ -181,11 +168,9 @@ final class DocumentExtension extends AbstractExtension
     }
 
     /**
-     * @param  SizeableInterface|null $document
-     * @return float
      * @throws RuntimeError
      */
-    public function getImageRatio(SizeableInterface $document = null): float
+    public function getImageRatio(?SizeableInterface $document = null): float
     {
         if (null === $document) {
             if ($this->throwExceptions) {
@@ -202,17 +187,13 @@ final class DocumentExtension extends AbstractExtension
         return 0.0;
     }
 
-    /**
-     * @param DocumentInterface|null $document
-     * @return null|string
-     */
-    public function getPath(DocumentInterface $document = null): ?string
+    public function getPath(?DocumentInterface $document = null): ?string
     {
         if (
-            null !== $document &&
-            $document->isLocal() &&
-            !$document->isPrivate() &&
-            null !== $mountPath = $document->getMountPath()
+            null !== $document
+            && $document->isLocal()
+            && !$document->isPrivate()
+            && null !== $mountPath = $document->getMountPath()
         ) {
             return $this->documentsStorage->publicUrl($mountPath);
         }
@@ -221,11 +202,9 @@ final class DocumentExtension extends AbstractExtension
     }
 
     /**
-     * @param DocumentInterface|null $document
-     * @return bool
      * @throws FilesystemException
      */
-    public function exists(DocumentInterface $document = null): bool
+    public function exists(?DocumentInterface $document = null): bool
     {
         if (null !== $document && $document->isLocal() && null !== $mountPath = $document->getMountPath()) {
             return $this->documentsStorage->fileExists($mountPath);

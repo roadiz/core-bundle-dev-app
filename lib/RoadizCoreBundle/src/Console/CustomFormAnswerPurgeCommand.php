@@ -23,7 +23,7 @@ final class CustomFormAnswerPurgeCommand extends Command
         private readonly ManagerRegistry $managerRegistry,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LoggerInterface $logger,
-        string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -90,8 +90,8 @@ final class CustomFormAnswerPurgeCommand extends Command
         ));
 
         if (
-            !$input->getOption('dry-run') &&
-            (!$input->isInteractive() || $io->confirm(\sprintf(
+            !$input->getOption('dry-run')
+            && (!$input->isInteractive() || $io->confirm(\sprintf(
                 'Are you sure you want to delete %d custom-form answer(s) and %d document(s) from “%s” before %s',
                 $count,
                 $documentsCount,

@@ -15,15 +15,15 @@ final class HealthCheckController
         private readonly ?string $healthCheckToken,
         private readonly ?string $appVersion,
         private readonly ?string $cmsVersion,
-        private readonly ?string $cmsVersionPrefix
+        private readonly ?string $cmsVersionPrefix,
     ) {
     }
 
     public function __invoke(Request $request): JsonResponse
     {
         if (
-            !empty($this->healthCheckToken) &&
-            $request->headers->get('x-health-check') !== $this->healthCheckToken
+            !empty($this->healthCheckToken)
+            && $request->headers->get('x-health-check') !== $this->healthCheckToken
         ) {
             throw new NotFoundHttpException();
         }
@@ -34,10 +34,10 @@ final class HealthCheckController
             'notes' => [
                 'roadiz_version' => $this->cmsVersion ?? '',
                 'roadiz_channel' => $this->cmsVersionPrefix ?? '',
-            ]
+            ],
         ], Response::HTTP_OK, [
             'Content-type' => 'application/health+json',
-            'Cache-Control' => 'public, max-age=10'
+            'Cache-Control' => 'public, max-age=10',
         ]);
     }
 }

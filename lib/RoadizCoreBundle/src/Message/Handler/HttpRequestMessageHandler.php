@@ -15,7 +15,7 @@ use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 final class HttpRequestMessageHandler
 {
     public function __construct(
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
 

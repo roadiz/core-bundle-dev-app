@@ -9,39 +9,24 @@ interface EntityListManagerInterface
     public const ITEM_PER_PAGE = 20;
 
     /**
-     * @param bool $allowRequestSorting
      * @return $this
      */
     public function setAllowRequestSorting(bool $allowRequestSorting): self;
 
     /**
-     * @param bool $allowRequestSearching
      * @return $this
      */
     public function setAllowRequestSearching(bool $allowRequestSearching): self;
 
-    /**
-     * @return bool
-     */
     public function isDisplayingNotPublishedNodes(): bool;
 
-    /**
-     * @param bool $displayNotPublishedNodes
-     * @return EntityListManagerInterface
-     */
     public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes): self;
 
-    /**
-     * @return bool
-     */
     public function isDisplayingAllNodesStatuses(): bool;
 
     /**
      * Switch repository to disable any security on Node status. To use ONLY in order to
      * view deleted and archived nodes.
-     *
-     * @param bool $displayAllNodesStatuses
-     * @return EntityListManagerInterface
      */
     public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses): self;
 
@@ -49,22 +34,14 @@ interface EntityListManagerInterface
      * Handle request to find filter to apply to entity listing.
      *
      * @param bool $disabled Disable pagination and filtering over GET params
-     * @return void
      */
     public function handle(bool $disabled = false): void;
 
     /**
      * Configure a custom current page.
-     *
-     * @param int $page
-     *
-     * @return EntityListManagerInterface
      */
     public function setPage(int $page): self;
 
-    /**
-     * @return EntityListManagerInterface
-     */
     public function disablePagination(): self;
 
     /**
@@ -84,34 +61,20 @@ interface EntityListManagerInterface
      * * previousPageQuery [string]
      * * previousQueryArray [array]
      * * nextQueryArray [array]
-     *
-     * @return array
      */
     public function getAssignation(): array;
 
-    /**
-     * @return int
-     */
     public function getItemCount(): int;
 
-    /**
-     * @return int
-     */
     public function getPageCount(): int;
 
     /**
      * Return filtered entities.
-     *
-     * @return array
      */
     public function getEntities(): array;
 
     /**
      * Configure a custom item count per page.
-     *
-     * @param int $itemPerPage
-     *
-     * @return EntityListManagerInterface
      */
     public function setItemPerPage(int $itemPerPage): self;
 }

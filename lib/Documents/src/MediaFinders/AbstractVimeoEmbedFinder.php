@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\MediaFinders;
 
+use Psr\Http\Message\StreamInterface;
 use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 
 /**
@@ -13,7 +14,6 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
 {
     protected static string $realIdPattern = '#(?<id>[0-9]+)$#';
     /**
-     * @var string
      * @internal Use getPlatform() instead
      */
     protected static string $platform = 'vimeo';
@@ -25,13 +25,13 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
 
     public static function supportEmbedUrl(string $embedUrl): bool
     {
-        return str_starts_with($embedUrl, 'https://vimeo.com/') ||
-            str_starts_with($embedUrl, 'https://www.vimeo.com/');
+        return str_starts_with($embedUrl, 'https://vimeo.com/')
+            || str_starts_with($embedUrl, 'https://www.vimeo.com/');
     }
 
-    protected function validateEmbedId(string $embedId = ""): string
+    protected function validateEmbedId(string $embedId = ''): string
     {
-        if (preg_match('#(?<id>[0-9]+)$#', $embedId, $matches) === 1) {
+        if (1 === preg_match('#(?<id>[0-9]+)$#', $embedId, $matches)) {
             return $matches['id'];
         }
         throw new InvalidEmbedId($embedId, static::$platform);
@@ -47,12 +47,11 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
 
     /**
      * Tell if embed media exists after its API feed.
-     *
-     * @return bool
      */
     public function exists(): bool
     {
         $feed = $this->getFeed();
+
         return is_array($feed) && isset($feed['video_id']);
     }
 
@@ -91,18 +90,15 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
         return $this->getFeed()['duration'] ?? null;
     }
 
-    public function getSearchFeed(string $searchTerm, ?string $author = null, int $maxResults = 15)
+    public function getSearchFeed(string $searchTerm, ?string $author = null, int $maxResults = 15): ?StreamInterface
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getMediaFeed($search = null)
+    public function getMediaFeed(?string $search = null): StreamInterface
     {
         if (preg_match(static::$realIdPattern, $this->embedId, $matches)) {
-            $url = 'https://vimeo.com/video/' . $this->embedId;
+            $url = 'https://vimeo.com/video/'.$this->embedId;
         } else {
             $url = $this->embedId;
         }
@@ -112,7 +108,7 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
             'format' => 'json',
         ];
 
-        return $this->downloadFeedFromAPI($endpoint . '?' . http_build_query($query));
+        return $this->downloadFeedFromAPI($endpoint.'?'.http_build_query($query));
     }
 
     /**
@@ -128,10 +124,6 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
      * * muted
      * * autopause
      * * automute
-     *
-     * @param array $options
-     *
-     * @return string
      */
     public function getSource(array &$options = []): string
     {
@@ -169,6 +161,6 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
             $queryString['muted'] = (int) $options['muted'];
         }
 
-        return 'https://player.vimeo.com/video/' . $this->embedId . '?' . http_build_query($queryString);
+        return 'https://player.vimeo.com/video/'.$this->embedId.'?'.http_build_query($queryString);
     }
 }

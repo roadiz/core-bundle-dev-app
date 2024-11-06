@@ -18,17 +18,11 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getId(): int|string
     {
         return $this->entity->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAlternativeDisplayable(): ?string
     {
         $alt = $this->configuration['classname'];
@@ -41,12 +35,10 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
                 }
             }
         }
+
         return (new UnicodeString($alt ?? ''))->truncate(30, '…')->toString();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDisplayable(): string
     {
         $displayableCallable = [$this->entity, $this->configuration['displayable']];
@@ -56,12 +48,10 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
                 $displayable = $displayable->format('c');
             }
         }
+
         return (new UnicodeString($displayable ?? ''))->truncate(30, '…')->toString();
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getOriginal(): PersistableInterface
     {
         return $this->entity;

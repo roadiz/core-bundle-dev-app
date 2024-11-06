@@ -31,7 +31,7 @@ final class UsersUnlockCommand extends UsersCommand
         $user = $this->getUserForInput($input);
 
         $confirmation = new ConfirmationQuestion(
-            '<question>Do you really want to unlock user “' . $user->getUsername() . '”?</question>',
+            '<question>Do you really want to unlock user “'.$user->getUsername().'”?</question>',
             false
         );
         if (
@@ -41,10 +41,12 @@ final class UsersUnlockCommand extends UsersCommand
         ) {
             $user->setLocked(false);
             $this->managerRegistry->getManagerForClass(User::class)->flush();
-            $io->success('User “' . $name . '” unlocked.');
+            $io->success('User “'.$name.'” unlocked.');
+
             return 0;
         } else {
-            $io->warning('User “' . $name . '” was not unlocked.');
+            $io->warning('User “'.$name.'” was not unlocked.');
+
             return 1;
         }
     }

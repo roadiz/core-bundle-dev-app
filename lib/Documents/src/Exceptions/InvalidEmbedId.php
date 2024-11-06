@@ -18,17 +18,11 @@ class InvalidEmbedId extends \InvalidArgumentException
         $this->platform = $platform;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEmbedId(): ?string
     {
         return $this->embedId;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPlatform(): ?string
     {
         return $this->platform;

@@ -104,12 +104,11 @@ abstract class Controller extends AbstractController
             TokenStorageInterface::class => TokenStorageInterface::class,
             TranslatorInterface::class => TranslatorInterface::class,
             FormFactoryInterface::class => FormFactoryInterface::class,
-            \RZ\Roadiz\Core\Handlers\HandlerFactoryInterface::class => HandlerFactoryInterface::class,
+            HandlerFactoryInterface::class => HandlerFactoryInterface::class,
         ]);
     }
 
     /**
-     * @return Request
      * @deprecated
      */
     protected function getRequest(): Request
@@ -120,26 +119,26 @@ abstract class Controller extends AbstractController
         if (null === $request) {
             throw new BadRequestHttpException('Request is not available in this context');
         }
+
         return $request;
     }
 
     /**
      * Alias for `$this->container['securityTokenStorage']`.
      *
-     * @return TokenStorageInterface
      * @deprecated
      */
     protected function getTokenStorage(): TokenStorageInterface
     {
-        /** @var TokenStorageInterface $tokenStorage */ # php-stan hint
+        /** @var TokenStorageInterface $tokenStorage */ // php-stan hint
         $tokenStorage = $this->container->get(TokenStorageInterface::class);
+
         return $tokenStorage;
     }
 
     /**
      * Alias for `$this->container['em']`.
      *
-     * @return ObjectManager
      * @deprecated
      */
     protected function em(): ObjectManager
@@ -148,35 +147,35 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @return TranslatorInterface
      * @deprecated
      */
     protected function getTranslator(): TranslatorInterface
     {
-        /** @var TranslatorInterface $translator */ # php-stan hint
+        /** @var TranslatorInterface $translator */ // php-stan hint
         $translator = $this->container->get(TranslatorInterface::class);
+
         return $translator;
     }
 
     /**
-     * @return Environment
      * @deprecated
      */
     protected function getTwig(): Environment
     {
-        /** @var Environment $twig */ # php-stan hint
+        /** @var Environment $twig */ // php-stan hint
         $twig = $this->container->get(Environment::class);
+
         return $twig;
     }
 
     /**
-     * @return Stopwatch
      * @deprecated
      */
     protected function getStopwatch(): Stopwatch
     {
         /** @var Stopwatch $stopwatch */
         $stopwatch = $this->container->get(Stopwatch::class);
+
         return $stopwatch;
     }
 
@@ -187,13 +186,14 @@ abstract class Controller extends AbstractController
     {
         /** @var PreviewResolverInterface $previewResolver */
         $previewResolver = $this->container->get(PreviewResolverInterface::class);
+
         return $previewResolver;
     }
 
     /**
-     * @return ManagerRegistry
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     *
      * @deprecated
      */
     protected function getDoctrine(): ManagerRegistry
@@ -202,70 +202,69 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @param object $event
-     * @param string|null $eventName
      * @return object The passed $event MUST be returned
+     *
      * @deprecated
      */
-    protected function dispatchEvent(object $event, string $eventName = null): object
+    protected function dispatchEvent(object $event, ?string $eventName = null): object
     {
-        /** @var EventDispatcherInterface $eventDispatcher */ # php-stan hint
+        /** @var EventDispatcherInterface $eventDispatcher */ // php-stan hint
         $eventDispatcher = $this->container->get(EventDispatcherInterface::class);
+
         return $eventDispatcher->dispatch($event, $eventName);
     }
 
     /**
-     * @return Settings
      * @deprecated
      */
     protected function getSettingsBag(): Settings
     {
-        /** @var Settings $settingsBag */ # php-stan hint
+        /** @var Settings $settingsBag */ // php-stan hint
         $settingsBag = $this->container->get(Settings::class);
+
         return $settingsBag;
     }
 
     /**
-     * @return HandlerFactoryInterface
      * @deprecated
      */
     protected function getHandlerFactory(): HandlerFactoryInterface
     {
-        /** @var HandlerFactoryInterface $handlerFactory */ # php-stan hint
+        /** @var HandlerFactoryInterface $handlerFactory */ // php-stan hint
         $handlerFactory = $this->container->get(HandlerFactoryInterface::class);
+
         return $handlerFactory;
     }
 
     /**
-     * @return LoggerInterface
      * @deprecated
      */
     protected function getLogger(): LoggerInterface
     {
-        /** @var LoggerInterface $logger */ # php-stan hint
+        /** @var LoggerInterface $logger */ // php-stan hint
         $logger = $this->container->get(LoggerInterface::class);
+
         return $logger;
     }
 
     /**
-     * Wrap `$this->get('urlGenerator')->generate`
+     * Wrap `$this->get('urlGenerator')->generate`.
      *
      * @param string|NodesSources $route
-     * @param array $parameters
-     * @param int $referenceType
-     * @return string
      */
     protected function generateUrl($route, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         if ($route instanceof NodesSources) {
             /** @var UrlGeneratorInterface $urlGenerator */
             $urlGenerator = $this->container->get(UrlGeneratorInterface::class);
+
             return $urlGenerator->generate(
                 RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
                 array_merge($parameters, [RouteObjectInterface::ROUTE_OBJECT => $route]),
                 $referenceType
             );
         }
+
         return parent::generateUrl($route, $parameters, $referenceType);
     }
 
@@ -275,19 +274,16 @@ abstract class Controller extends AbstractController
     public static function getCalledClass(): string
     {
         $className = get_called_class();
-        if (!str_starts_with($className, "\\")) {
-            $className = "\\" . $className;
+        if (!str_starts_with($className, '\\')) {
+            $className = '\\'.$className;
         }
+
         // @phpstan-ignore-next-line
         return $className;
     }
 
     /**
      * Custom route for redirecting routes with a trailing slash.
-     *
-     * @param Request $request
-     *
-     * @return RedirectResponse
      */
     public function removeTrailingSlashAction(Request $request): RedirectResponse
     {
@@ -300,18 +296,16 @@ abstract class Controller extends AbstractController
     }
 
     /**
-     * @param string|null $_locale
-     *
-     * @return TranslationInterface
      * @throws NonUniqueResultException
      */
-    protected function findTranslationForLocale(string $_locale = null): TranslationInterface
+    protected function findTranslationForLocale(?string $_locale = null): TranslationInterface
     {
         if (null === $_locale) {
             $defaultTranslation = $this->getDoctrine()->getRepository(Translation::class)->findDefault();
             if (null === $defaultTranslation) {
                 throw new NoTranslationAvailableException();
             }
+
             return $defaultTranslation;
         }
         /** @var TranslationRepository $repository */
@@ -335,15 +329,14 @@ abstract class Controller extends AbstractController
      *
      * @see http://api.symfony.com/2.6/Symfony/Bundle/FrameworkBundle/Controller/Controller.html#method_render
      *
-     * @param string        $view Template file path
+     * @param string        $view       Template file path
      * @param array         $parameters Twig assignation array
-     * @param Response|null $response Optional Response object to customize response parameters
-     * @param string        $namespace Twig loader namespace
+     * @param Response|null $response   Optional Response object to customize response parameters
+     * @param string        $namespace  Twig loader namespace
      *
-     * @return Response
      * @throws RuntimeError
      */
-    public function render(string $view, array $parameters = [], Response $response = null, string $namespace = ''): Response
+    public function render(string $view, array $parameters = [], ?Response $response = null, string $namespace = ''): Response
     {
         try {
             return parent::render($view, $parameters, $response);
@@ -356,25 +349,15 @@ abstract class Controller extends AbstractController
         }
     }
 
-    /**
-     * @param string $view
-     * @param string $namespace
-     * @return string
-     */
     protected function getNamespacedView(string $view, string $namespace = ''): string
     {
-        if ($namespace !== "" && $namespace !== "/") {
-            return '@' . $namespace . '/' . $view;
+        if ('' !== $namespace && '/' !== $namespace) {
+            return '@'.$namespace.'/'.$view;
         }
 
         return $view;
     }
 
-    /**
-     * @param array $data
-     * @param int $httpStatus
-     * @return JsonResponse
-     */
     public function renderJson(array $data = [], int $httpStatus = Response::HTTP_OK): JsonResponse
     {
         return $this->json($data, $httpStatus);
@@ -383,34 +366,31 @@ abstract class Controller extends AbstractController
     /**
      * Throw a NotFoundException if request format is not accepted.
      *
-     * @param Request $request
-     * @param array $acceptableFormats
      * @return void
      */
     protected function denyResourceExceptForFormats(Request $request, array $acceptableFormats = ['html'])
     {
         if (!in_array($request->get('_format', 'html'), $acceptableFormats)) {
-            throw $this->createNotFoundException(sprintf(
-                'Resource not found for %s format',
-                $request->get('_format', 'html')
-            ));
+            throw $this->createNotFoundException(sprintf('Resource not found for %s format', $request->get('_format', 'html')));
         }
     }
 
     /**
      * Creates and returns a form builder instance.
      *
-     * @param string $name Form name
-     * @param mixed $data The initial data for the form
-     * @param array $options Options for the form
+     * @param string $name    Form name
+     * @param mixed  $data    The initial data for the form
+     * @param array  $options Options for the form
      *
      * @return FormBuilderInterface
+     *
      * @deprecated Use constructor service injection
      */
     protected function createNamedFormBuilder(string $name = 'form', $data = null, array $options = [])
     {
         /** @var FormFactoryInterface $formFactory */
         $formFactory = $this->container->get(FormFactoryInterface::class);
+
         return $formFactory->createNamedBuilder($name, FormType::class, $data, $options);
     }
 
@@ -418,10 +398,6 @@ abstract class Controller extends AbstractController
      * Creates and returns an EntityListManager instance.
      *
      * @param class-string<PersistableInterface> $entity Entity class path
-     * @param array $criteria
-     * @param array $ordering
-     *
-     * @return EntityListManagerInterface
      */
     public function createEntityListManager(string $entity, array $criteria = [], array $ordering = []): EntityListManagerInterface
     {
@@ -437,8 +413,6 @@ abstract class Controller extends AbstractController
     /**
      * Get a user from the tokenStorage.
      *
-     * @return UserInterface|null
-     *
      * @throws \LogicException If tokenStorage is not available
      *
      * @see TokenInterface::getUser()
@@ -447,6 +421,7 @@ abstract class Controller extends AbstractController
     {
         /** @var TokenInterface|null $token */
         $token = $this->getTokenStorage()->getToken();
+
         return $token?->getUser();
     }
 }

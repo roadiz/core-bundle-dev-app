@@ -18,7 +18,7 @@ final class UsersPasswordCommand extends UsersCommand
     public function __construct(
         private readonly PasswordGenerator $passwordGenerator,
         ManagerRegistry $managerRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($managerRegistry, $name);
     }
@@ -41,7 +41,7 @@ final class UsersPasswordCommand extends UsersCommand
         $user = $this->getUserForInput($input);
 
         $confirmation = new ConfirmationQuestion(
-            '<question>Do you really want to regenerate user “' . $user->getUsername() . '” password?</question>',
+            '<question>Do you really want to regenerate user “'.$user->getUsername().'” password?</question>',
             false
         );
         if (
@@ -51,10 +51,12 @@ final class UsersPasswordCommand extends UsersCommand
         ) {
             $user->setPlainPassword($this->passwordGenerator->generatePassword(12));
             $this->managerRegistry->getManagerForClass(User::class)->flush();
-            $io->success('A new password was regenerated for ' . $name . ': ' . $user->getPlainPassword());
+            $io->success('A new password was regenerated for '.$name.': '.$user->getPlainPassword());
+
             return 0;
         } else {
             $io->warning('User password was not changed.');
+
             return 1;
         }
     }

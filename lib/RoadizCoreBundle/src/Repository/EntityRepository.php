@@ -27,19 +27,18 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @template TEntityClass of object
+ *
  * @extends ServiceEntityRepository<TEntityClass>
  */
 abstract class EntityRepository extends ServiceEntityRepository
 {
     /**
-     * @param ManagerRegistry $registry
      * @param class-string<TEntityClass> $entityClass
-     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
         ManagerRegistry $registry,
         string $entityClass,
-        protected readonly EventDispatcherInterface $dispatcher
+        protected readonly EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, $entityClass);
     }
@@ -75,7 +74,6 @@ abstract class EntityRepository extends ServiceEntityRepository
     public const NODETYPE_ALIAS = 'nt';
 
     /**
-     * @param QueryBuilder $qb
      * @param class-string $entityClass
      */
     protected function dispatchQueryBuilderEvent(QueryBuilder $qb, string $entityClass): void
@@ -85,10 +83,6 @@ abstract class EntityRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param QueryBuilder $qb
-     * @param string $property
-     * @param mixed $value
-     *
      * @return Event
      */
     protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
@@ -104,8 +98,6 @@ abstract class EntityRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Query $query
-     *
      * @return Event
      */
     protected function dispatchQueryEvent(Query $query): object
@@ -118,10 +110,6 @@ abstract class EntityRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param QueryBuilder $qb
-     * @param string $property
-     * @param mixed $value
-     *
      * @return Event
      */
     protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
@@ -136,13 +124,6 @@ abstract class EntityRepository extends ServiceEntityRepository
         ));
     }
 
-    /**
-     *
-     * @param  array        $criteria
-     * @param  QueryBuilder $qb
-     * @param  string       $alias
-     * @return QueryBuilder
-     */
     protected function prepareComparisons(array &$criteria, QueryBuilder $qb, string $alias): QueryBuilder
     {
         $simpleQB = new SimpleQueryBuilder($qb);
@@ -154,17 +135,13 @@ abstract class EntityRepository extends ServiceEntityRepository
             $event = $this->dispatchQueryBuilderBuildEvent($qb, $key, $value);
 
             if (!$event->isPropagationStopped()) {
-                $qb->andWhere($simpleQB->buildExpressionWithoutBinding($value, $alias . '.', $key));
+                $qb->andWhere($simpleQB->buildExpressionWithoutBinding($value, $alias.'.', $key));
             }
         }
 
         return $qb;
     }
 
-    /**
-     * @param array  $criteria
-     * @param QueryBuilder $qb
-     */
     protected function applyFilterByCriteria(array &$criteria, QueryBuilder $qb): void
     {
         $simpleQB = new SimpleQueryBuilder($qb);
@@ -176,14 +153,6 @@ abstract class EntityRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @param string $name
-     * @param string $key
-     * @param mixed $value
-     *
-     * @return Query\Expr\Func
-     */
     protected function directExprIn(QueryBuilder $qb, string $name, string $key, mixed $value): Query\Expr\Func
     {
         $newValue = [];
@@ -205,34 +174,30 @@ abstract class EntityRepository extends ServiceEntityRepository
      * Count entities using a Criteria object or a simple filter array.
      *
      * @param Criteria|mixed|array $criteria or array
-     *
-     * @return int
      */
     public function countBy(mixed $criteria): int
     {
         if ($criteria instanceof Criteria) {
             $collection = $this->matching($criteria);
+
             return $collection->count();
         } elseif (is_array($criteria)) {
             $qb = $this->createQueryBuilder(static::DEFAULT_ALIAS);
-            $qb->select($qb->expr()->countDistinct(static::DEFAULT_ALIAS . '.id'));
+            $qb->select($qb->expr()->countDistinct(static::DEFAULT_ALIAS.'.id'));
             $qb = $this->prepareComparisons($criteria, $qb, static::DEFAULT_ALIAS);
             $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
             $this->applyFilterByCriteria($criteria, $qb);
 
             try {
                 return (int) $qb->getQuery()->getSingleScalarResult();
-            } catch (NoResultException | NonUniqueResultException $e) {
+            } catch (NoResultException|NonUniqueResultException $e) {
                 return 0;
             }
         }
+
         return 0;
     }
 
-    /**
-     * @param ClassMetadataInfo $metadata
-     * @return array
-     */
     public static function getSearchableColumnsNames(ClassMetadataInfo $metadata): array
     {
         /*
@@ -244,15 +209,15 @@ abstract class EntityRepository extends ServiceEntityRepository
             $field = $metadata->getFieldName($col);
             $type = $metadata->getTypeOfField($field);
             if (
-                in_array($type, ['string', 'text']) &&
-                !in_array($field, [
+                in_array($type, ['string', 'text'])
+                && !in_array($field, [
                     'color',
                     'folder',
                     'childrenOrder',
                     'childrenOrderDirection',
                     'password',
                     'token',
-                    'confirmationToken'
+                    'confirmationToken',
                 ])
             ) {
                 $criteriaFields[] = $field;
@@ -264,24 +229,19 @@ abstract class EntityRepository extends ServiceEntityRepository
 
     /**
      * Create a LIKE comparison with entity texts colunms.
-     *
-     * @param string $pattern
-     * @param QueryBuilder $qb
-     * @param string $alias
-     * @return QueryBuilder
      */
     protected function classicLikeComparison(
         string $pattern,
         QueryBuilder $qb,
-        string $alias = EntityRepository::DEFAULT_ALIAS
+        string $alias = EntityRepository::DEFAULT_ALIAS,
     ): QueryBuilder {
         $criteriaFields = [];
         foreach (static::getSearchableColumnsNames($this->getClassMetadata()) as $field) {
-            $criteriaFields[$field] = '%' . strip_tags(\mb_strtolower($pattern)) . '%';
+            $criteriaFields[$field] = '%'.strip_tags(\mb_strtolower($pattern)).'%';
         }
 
         foreach ($criteriaFields as $key => $value) {
-            $fullKey = sprintf('LOWER(%s)', $alias . '.' . $key);
+            $fullKey = sprintf('LOWER(%s)', $alias.'.'.$key);
             $qb->orWhere($qb->expr()->like($fullKey, $qb->expr()->literal($value)));
         }
 
@@ -291,17 +251,16 @@ abstract class EntityRepository extends ServiceEntityRepository
     /**
      * Create a Criteria object from a search pattern and additional fields.
      *
-     * @param string $pattern Search pattern
-     * @param QueryBuilder $qb QueryBuilder to pass
-     * @param array $criteria Additional criteria
-     * @param string $alias SQL query table alias
-     * @return QueryBuilder
+     * @param string       $pattern  Search pattern
+     * @param QueryBuilder $qb       QueryBuilder to pass
+     * @param array        $criteria Additional criteria
+     * @param string       $alias    SQL query table alias
      */
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
         array &$criteria = [],
-        string $alias = EntityRepository::DEFAULT_ALIAS
+        string $alias = EntityRepository::DEFAULT_ALIAS,
     ): QueryBuilder {
         $this->classicLikeComparison($pattern, $qb, $alias);
         $this->prepareComparisons($criteria, $qb, $alias);
@@ -310,14 +269,11 @@ abstract class EntityRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $pattern Search pattern
-     * @param array $criteria Additional criteria
-     * @param array $orders
-     * @param int|null $limit
-     * @param int|null $offset
-     * @param string $alias
+     * @param string $pattern  Search pattern
+     * @param array  $criteria Additional criteria
      *
      * @return array<TEntityClass>
+     *
      * @throws \Exception
      */
     public function searchBy(
@@ -326,7 +282,7 @@ abstract class EntityRepository extends ServiceEntityRepository
         array $orders = [],
         ?int $limit = null,
         ?int $offset = null,
-        string $alias = EntityRepository::DEFAULT_ALIAS
+        string $alias = EntityRepository::DEFAULT_ALIAS,
     ): array {
         $qb = $this->createQueryBuilder($alias);
         $qb = $this->createSearchBy($pattern, $qb, $criteria, $alias);
@@ -334,18 +290,18 @@ abstract class EntityRepository extends ServiceEntityRepository
         // Add ordering
         foreach ($orders as $key => $value) {
             if (
-                (\str_starts_with($key, 'node.') || \str_starts_with($key, static::NODE_ALIAS . '.')) &&
-                $this->hasJoinedNode($qb, $alias)
+                (\str_starts_with($key, 'node.') || \str_starts_with($key, static::NODE_ALIAS.'.'))
+                && $this->hasJoinedNode($qb, $alias)
             ) {
-                $key = preg_replace('#^node\.#', static::NODE_ALIAS . '.', $key);
+                $key = preg_replace('#^node\.#', static::NODE_ALIAS.'.', $key);
                 $qb->addOrderBy($key, $value);
             } elseif (
-                \str_starts_with($key, static::NODESSOURCES_ALIAS . '.') &&
-                $this->hasJoinedNodesSources($qb, $alias)
+                \str_starts_with($key, static::NODESSOURCES_ALIAS.'.')
+                && $this->hasJoinedNodesSources($qb, $alias)
             ) {
                 $qb->addOrderBy($key, $value);
             } else {
-                $qb->addOrderBy($alias . '.' . $key, $value);
+                $qb->addOrderBy($alias.'.'.$key, $value);
             }
         }
         if (null !== $offset) {
@@ -361,8 +317,8 @@ abstract class EntityRepository extends ServiceEntityRepository
         $this->dispatchQueryEvent($query);
 
         if (
-            null !== $limit &&
-            null !== $offset
+            null !== $limit
+            && null !== $offset
         ) {
             /*
              * We need to use Doctrine paginator
@@ -375,14 +331,13 @@ abstract class EntityRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $pattern Search pattern
-     * @param array $criteria Additional criteria
-     * @return int
+     * @param string $pattern  Search pattern
+     * @param array  $criteria Additional criteria
      */
     public function countSearchBy(string $pattern, array $criteria = []): int
     {
         $qb = $this->createQueryBuilder(static::DEFAULT_ALIAS);
-        $qb->select($qb->expr()->countDistinct(static::DEFAULT_ALIAS . '.id'));
+        $qb->select($qb->expr()->countDistinct(static::DEFAULT_ALIAS.'.id'));
         $qb = $this->createSearchBy($pattern, $qb, $criteria);
 
         $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
@@ -390,16 +345,11 @@ abstract class EntityRepository extends ServiceEntityRepository
 
         try {
             return (int) $qb->getQuery()->getSingleScalarResult();
-        } catch (NoResultException | NonUniqueResultException $e) {
+        } catch (NoResultException|NonUniqueResultException $e) {
             return 0;
         }
     }
 
-    /**
-     * @param array $criteria
-     * @param QueryBuilder $qb
-     * @param string $nodeAlias
-     */
     protected function buildTagFiltering(array &$criteria, QueryBuilder $qb, string $nodeAlias = 'n'): void
     {
         if (key_exists('tags', $criteria)) {
@@ -414,33 +364,33 @@ abstract class EntityRepository extends ServiceEntityRepository
                 /*
                  * Do not filter if tag array is empty.
                  */
-                if (count($criteria['tags']) === 0) {
+                if (0 === count($criteria['tags'])) {
                     return;
                 }
                 if (
-                    in_array("tagExclusive", array_keys($criteria))
-                    && $criteria["tagExclusive"] === true
+                    in_array('tagExclusive', array_keys($criteria))
+                    && true === $criteria['tagExclusive']
                 ) {
                     // To get an exclusive tag filter
                     // we need to filter against each tag id
                     // and to inner join with a different alias for each tag
                     // with AND operator
                     /**
-                     * @var int $index
+                     * @var int      $index
                      * @var Tag|null $tag Tag can be null if not found
                      */
                     foreach ($criteria['tags'] as $index => $tag) {
                         if ($tag instanceof Tag) {
-                            $alias = 'ntg_' . $index;
-                            $qb->innerJoin($nodeAlias . '.nodesTags', $alias);
-                            $qb->andWhere($qb->expr()->eq($alias . '.tag', $tag->getId()));
+                            $alias = 'ntg_'.$index;
+                            $qb->innerJoin($nodeAlias.'.nodesTags', $alias);
+                            $qb->andWhere($qb->expr()->eq($alias.'.tag', $tag->getId()));
                         }
                     }
-                    unset($criteria["tagExclusive"]);
+                    unset($criteria['tagExclusive']);
                     unset($criteria['tags']);
                 } else {
                     $qb->innerJoin(
-                        $nodeAlias . '.nodesTags',
+                        $nodeAlias.'.nodesTags',
                         'ntg_0',
                         'WITH',
                         'ntg_0.tag IN (:tags)'
@@ -448,7 +398,7 @@ abstract class EntityRepository extends ServiceEntityRepository
                 }
             } else {
                 $qb->innerJoin(
-                    $nodeAlias . '.nodesTags',
+                    $nodeAlias.'.nodesTags',
                     'ntg_0',
                     'WITH',
                     'ntg_0.tag = :tags'
@@ -458,10 +408,7 @@ abstract class EntityRepository extends ServiceEntityRepository
     }
 
     /**
-     * Bind tag parameters to final query
-     *
-     * @param array $criteria
-     * @param QueryBuilder $qb
+     * Bind tag parameters to final query.
      */
     protected function applyFilterByTag(array &$criteria, QueryBuilder $qb): void
     {
@@ -481,10 +428,6 @@ abstract class EntityRepository extends ServiceEntityRepository
 
     /**
      * Ensure that node table is joined only once.
-     *
-     * @param  QueryBuilder $qb
-     * @param  string  $alias
-     * @return bool
      */
     protected function hasJoinedNode(QueryBuilder $qb, string $alias): bool
     {
@@ -493,10 +436,6 @@ abstract class EntityRepository extends ServiceEntityRepository
 
     /**
      * Ensure that nodes_sources table is joined only once.
-     *
-     * @param  QueryBuilder $qb
-     * @param  string  $alias
-     * @return bool
      */
     protected function hasJoinedNodesSources(QueryBuilder $qb, string $alias): bool
     {
@@ -505,29 +444,19 @@ abstract class EntityRepository extends ServiceEntityRepository
 
     /**
      * Ensure that nodes_sources table is joined only once.
-     *
-     * @param  QueryBuilder $qb
-     * @param  string  $alias
-     * @return bool
      */
     protected function hasJoinedNodeType(QueryBuilder $qb, string $alias): bool
     {
         return $this->joinExists($qb, $alias, static::NODETYPE_ALIAS);
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @param string $rootAlias
-     * @param string $joinAlias
-     * @return bool
-     */
     protected function joinExists(QueryBuilder $qb, string $rootAlias, string $joinAlias): bool
     {
         if (isset($qb->getDQLPart('join')[$rootAlias])) {
             foreach ($qb->getDQLPart('join')[$rootAlias] as $join) {
                 if (
-                    $join instanceof Join &&
-                    $join->getAlias() === $joinAlias
+                    $join instanceof Join
+                    && $join->getAlias() === $joinAlias
                 ) {
                     return true;
                 }

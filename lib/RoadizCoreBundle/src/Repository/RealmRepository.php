@@ -15,6 +15,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method Realm|null findOneBy(array $criteria, array $orderBy = null)
  * @method Realm[]    findAll()
  * @method Realm[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
  * @extends EntityRepository<Realm>
  */
 final class RealmRepository extends EntityRepository

@@ -19,8 +19,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[
     ORM\Entity(repositoryClass: SettingGroupRepository::class),
-    ORM\Table(name: "settings_groups"),
-    UniqueEntity(fields: ["name"])
+    ORM\Table(name: 'settings_groups'),
+    UniqueEntity(fields: ['name'])
 ]
 class SettingGroup extends AbstractEntity
 {
@@ -50,35 +50,27 @@ class SettingGroup extends AbstractEntity
         $this->settings = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string $name
-     *
      * @return SettingGroup
      */
     public function setName(string $name)
     {
         $this->name = $name;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isInMenu(): bool
     {
         return $this->inMenu;
     }
 
     /**
-     * @param bool $newinMenu
      * @return SettingGroup
      */
     public function setInMenu(bool $newinMenu)
@@ -89,7 +81,6 @@ class SettingGroup extends AbstractEntity
     }
 
     /**
-     * @param Setting $setting
      * @return SettingGroup
      */
     public function addSetting(Setting $setting)
@@ -97,6 +88,7 @@ class SettingGroup extends AbstractEntity
         if (!$this->getSettings()->contains($setting)) {
             $this->settings->add($setting);
         }
+
         return $this;
     }
 
@@ -110,6 +102,7 @@ class SettingGroup extends AbstractEntity
 
     /**
      * @param Collection<int, Setting> $settings
+     *
      * @return SettingGroup
      */
     public function addSettings(Collection $settings)
@@ -119,6 +112,7 @@ class SettingGroup extends AbstractEntity
                 $this->settings->add($setting);
             }
         }
+
         return $this;
     }
 }

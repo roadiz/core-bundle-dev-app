@@ -12,7 +12,7 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
 {
     public function __construct(
         private readonly NodeType $nodeType,
-        private readonly UrlGeneratorInterface $urlGenerator
+        private readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
 
@@ -39,7 +39,7 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('nodeTypesEditPage', [
-            'nodeTypeId' => $this->nodeType->getId()
+            'nodeTypeId' => $this->nodeType->getId(),
         ]);
     }
 

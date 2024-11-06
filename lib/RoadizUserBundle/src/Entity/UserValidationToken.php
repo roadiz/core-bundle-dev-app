@@ -33,76 +33,51 @@ class UserValidationToken
     #[ORM\Column(name: 'token_valid_until', type: 'datetime', unique: false, nullable: true)]
     private ?\DateTime $tokenValidUntil = null;
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param int $id
-     * @return UserValidationToken
-     */
     public function setId(int $id): UserValidationToken
     {
         $this->id = $id;
+
         return $this;
     }
 
-
-    /**
-     * @return UserInterface|null
-     */
     public function getUser(): ?UserInterface
     {
         return $this->user;
     }
 
-    /**
-     * @param  UserInterface|null $user
-     * @return UserValidationToken
-     */
     public function setUser(?UserInterface $user): UserValidationToken
     {
         $this->user = $user;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getToken(): string
     {
         return $this->token;
     }
 
-    /**
-     * @param  string $token
-     * @return UserValidationToken
-     */
     public function setToken(string $token): UserValidationToken
     {
         $this->token = $token;
+
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
     public function getTokenValidUntil(): ?\DateTime
     {
         return $this->tokenValidUntil;
     }
 
-    /**
-     * @param  \DateTime|null $tokenValidUntil
-     * @return UserValidationToken
-     */
     public function setTokenValidUntil(?\DateTime $tokenValidUntil): UserValidationToken
     {
         $this->tokenValidUntil = $tokenValidUntil;
+
         return $this;
     }
 }

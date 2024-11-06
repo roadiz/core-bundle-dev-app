@@ -11,6 +11,8 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 interface SolariumFactoryInterface
 {
     public function createWithDocument(Document $document): SolariumDocument;
+
     public function createWithDocumentTranslation(DocumentTranslation $documentTranslation): SolariumDocumentTranslation;
+
     public function createWithNodesSources(NodesSources $nodeSource): SolariumNodeSource;
 }

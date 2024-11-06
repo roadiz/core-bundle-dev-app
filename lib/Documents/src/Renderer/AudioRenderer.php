@@ -19,7 +19,7 @@ class AudioRenderer extends AbstractRenderer
         DocumentFinderInterface $documentFinder,
         Environment $templating,
         DocumentUrlGeneratorInterface $documentUrlGenerator,
-        string $templateBasePath = 'documents'
+        string $templateBasePath = 'documents',
     ) {
         parent::__construct($documentsStorage, $templating, $documentUrlGenerator, $templateBasePath);
         $this->documentFinder = $documentFinder;
@@ -31,10 +31,6 @@ class AudioRenderer extends AbstractRenderer
     }
 
     /**
-     * @param DocumentInterface $document
-     * @param array $options
-     *
-     * @return string
      * @throws \Twig\Error\LoaderError
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
@@ -53,10 +49,6 @@ class AudioRenderer extends AbstractRenderer
      *
      * This method will search for document which filename is the same
      * except the extension. If you choose an MP4 file, it will look for a OGV and WEBM file.
-     *
-     * @param DocumentInterface $document
-     *
-     * @return array
      */
     protected function getSourcesFiles(DocumentInterface $document): array
     {

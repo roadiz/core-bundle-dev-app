@@ -17,6 +17,7 @@ class NonSqlReservedWord extends Constraint
      * List of forbidden field names. These are SQL reserved words.
      *
      * @see https://dev.mysql.com/doc/refman/8.0/en/keywords.html
+     *
      * @var array<string>
      */
     public static array $forbiddenNames = [

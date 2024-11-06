@@ -22,17 +22,13 @@ class CustomFormsUtilsController extends RozierApp
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
         private readonly CustomFormAnswerSerializer $customFormAnswerSerializer,
-        private readonly SerializerInterface $serializer
+        private readonly SerializerInterface $serializer,
     ) {
     }
 
     /**
      * Export all custom form's answers in a CSV file.
      *
-     * @param Request $request
-     * @param int $id
-     *
-     * @return Response
      * @throws Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
@@ -53,12 +49,12 @@ class CustomFormsUtilsController extends RozierApp
         $keys = [
             'ip',
             'submitted.date',
-            ...$fields
+            ...$fields,
         ];
 
         $response = new StreamedResponse(function () use ($answersArray, $keys) {
             echo $this->serializer->serialize($answersArray, 'csv', [
-                'csv_headers' => $keys
+                'csv_headers' => $keys,
             ]);
         });
         $response->headers->set('Content-Type', 'text/csv');
@@ -66,7 +62,7 @@ class CustomFormsUtilsController extends RozierApp
             'Content-Disposition',
             $response->headers->makeDisposition(
                 ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-                $customForm->getName() . '.csv'
+                $customForm->getName().'.csv'
             )
         );
 
@@ -76,11 +72,7 @@ class CustomFormsUtilsController extends RozierApp
     }
 
     /**
-     * Duplicate custom form by ID
-     *
-     * @param Request $request
-     * @param int $id
-     * @return Response
+     * Duplicate custom form by ID.
      */
     public function duplicateAction(Request $request, int $id): Response
     {
@@ -103,7 +95,7 @@ class CustomFormsUtilsController extends RozierApp
             $em->persist($newCustomForm);
             $em->flush();
 
-            $msg = $this->translator->trans("duplicated.custom.form.%name%", [
+            $msg = $this->translator->trans('duplicated.custom.form.%name%', [
                 '%name%' => $existingCustomForm->getDisplayName(),
             ]);
 
@@ -111,12 +103,12 @@ class CustomFormsUtilsController extends RozierApp
 
             return $this->redirectToRoute(
                 'customFormsEditPage',
-                ["id" => $newCustomForm->getId()]
+                ['id' => $newCustomForm->getId()]
             );
         } catch (\Exception $e) {
             $this->publishErrorMessage(
                 $request,
-                $this->translator->trans("impossible.duplicate.custom.form.%name%", [
+                $this->translator->trans('impossible.duplicate.custom.form.%name%', [
                     '%name%' => $existingCustomForm->getDisplayName(),
                 ]),
                 $newCustomForm
@@ -125,7 +117,7 @@ class CustomFormsUtilsController extends RozierApp
 
             return $this->redirectToRoute(
                 'customFormsEditPage',
-                ["id" => $existingCustomForm->getId()]
+                ['id' => $existingCustomForm->getId()]
             );
         }
     }

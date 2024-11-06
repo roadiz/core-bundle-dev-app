@@ -44,16 +44,12 @@ class TagsController extends RozierApp
         private readonly FormFactoryInterface $formFactory,
         private readonly FormErrorSerializer $formErrorSerializer,
         private readonly HandlerFactoryInterface $handlerFactory,
-        private readonly TreeWidgetFactory $treeWidgetFactory
+        private readonly TreeWidgetFactory $treeWidgetFactory,
     ) {
     }
 
     /**
      * List every tags.
-     *
-     * @param Request $request
-     *
-     * @return Response
      */
     public function indexAction(Request $request): Response
     {
@@ -85,11 +81,6 @@ class TagsController extends RozierApp
     /**
      * Return an edition form for current translated tag.
      *
-     * @param Request $request
-     * @param int $tagId
-     * @param int|null $translationId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function editTranslatedAction(Request $request, int $tagId, ?int $translationId = null): Response
@@ -133,13 +124,13 @@ class TagsController extends RozierApp
             if (false !== $baseTranslation) {
                 $tagTranslation->setName($baseTranslation->getName());
             } else {
-                $tagTranslation->setName('tag_' . $tag->getId());
+                $tagTranslation->setName('tag_'.$tag->getId());
             }
             $this->em()->persist($tagTranslation);
             $this->em()->flush();
         }
 
-        /**
+        /*
          * Versioning
          */
         if ($this->isGranted('ROLE_ACCESS_VERSIONS')) {
@@ -154,8 +145,8 @@ class TagsController extends RozierApp
         ]);
         $form->handleRequest($request);
         $isJsonRequest =
-            $request->isXmlHttpRequest() ||
-            \in_array('application/json', $request->getAcceptableContentTypes())
+            $request->isXmlHttpRequest()
+            || \in_array('application/json', $request->getAcceptableContentTypes())
         ;
 
         if ($form->isSubmitted()) {
@@ -167,9 +158,9 @@ class TagsController extends RozierApp
                 $newTagName = StringHandler::slugify($tagTranslation->getName());
                 if ($tag->getTagName() !== $newTagName) {
                     if (
-                        !$tag->isLocked() &&
-                        $translation->isDefaultTranslation() &&
-                        !$this->tagNameExists($newTagName)
+                        !$tag->isLocked()
+                        && $translation->isDefaultTranslation()
+                        && !$this->tagNameExists($newTagName)
                     ) {
                         $tag->setTagName($tagTranslation->getName());
                     }
@@ -205,6 +196,7 @@ class TagsController extends RozierApp
              */
             if ($isJsonRequest) {
                 $errors = $this->formErrorSerializer->getErrorsAsArray($form);
+
                 return new JsonResponse([
                     'status' => 'fail',
                     'errors' => $errors,
@@ -226,22 +218,14 @@ class TagsController extends RozierApp
         return $this->render('@RoadizRozier/tags/edit.html.twig', $this->assignation);
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
     protected function tagNameExists(string $name): bool
     {
         $entity = $this->em()->getRepository(Tag::class)->findOneByTagName($name);
 
-        return (null !== $entity);
+        return null !== $entity;
     }
 
     /**
-     * @param Request $request
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function bulkDeleteAction(Request $request): Response
@@ -293,8 +277,6 @@ class TagsController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     * @return Response
      * @throws RuntimeError
      */
     public function addAction(Request $request): Response
@@ -304,7 +286,7 @@ class TagsController extends RozierApp
         $tag = new Tag();
         $translation = $this->em()->getRepository(Translation::class)->findDefault();
 
-        if ($translation !== null) {
+        if (null !== $translation) {
             $this->assignation['tag'] = $tag;
             $form = $this->createForm(TagType::class, $tag);
             $form->handleRequest($request);
@@ -332,6 +314,7 @@ class TagsController extends RozierApp
 
                 $msg = $this->getTranslator()->trans('tag.%name%.created', ['%name%' => $tag->getTagName()]);
                 $this->publishConfirmMessage($request, $msg, $tag);
+
                 /*
                  * Force redirect to avoid resending form when refreshing page
                  */
@@ -347,10 +330,6 @@ class TagsController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     * @param int $tagId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function editSettingsAction(Request $request, int $tagId): Response
@@ -362,7 +341,7 @@ class TagsController extends RozierApp
         /** @var Tag|null $tag */
         $tag = $this->em()->find(Tag::class, $tagId);
 
-        if ($tag === null) {
+        if (null === $tag) {
             throw new ResourceNotFoundException();
         }
 
@@ -372,8 +351,8 @@ class TagsController extends RozierApp
 
         $form->handleRequest($request);
         $isJsonRequest =
-            $request->isXmlHttpRequest() ||
-            \in_array('application/json', $request->getAcceptableContentTypes())
+            $request->isXmlHttpRequest()
+            || \in_array('application/json', $request->getAcceptableContentTypes())
         ;
 
         if ($form->isSubmitted()) {
@@ -400,6 +379,7 @@ class TagsController extends RozierApp
              */
             if ($isJsonRequest) {
                 $errors = $this->formErrorSerializer->getErrorsAsArray($form);
+
                 return new JsonResponse([
                     'status' => 'fail',
                     'errors' => $errors,
@@ -416,11 +396,6 @@ class TagsController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     * @param int $tagId
-     * @param int|null $translationId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function treeAction(Request $request, int $tagId, ?int $translationId = null): Response
@@ -452,10 +427,6 @@ class TagsController extends RozierApp
     /**
      * Return a deletion form for requested tag.
      *
-     * @param Request $request
-     * @param int $tagId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function deleteAction(Request $request, int $tagId): Response
@@ -466,8 +437,8 @@ class TagsController extends RozierApp
         $tag = $this->em()->find(Tag::class, $tagId);
 
         if (
-            $tag !== null &&
-            !$tag->isLocked()
+            null !== $tag
+            && !$tag->isLocked()
         ) {
             $this->assignation['tag'] = $tag;
 
@@ -475,9 +446,9 @@ class TagsController extends RozierApp
             $form->handleRequest($request);
 
             if (
-                $form->isSubmitted() &&
-                $form->isValid() &&
-                $form->getData()['tagId'] == $tag->getId()
+                $form->isSubmitted()
+                && $form->isValid()
+                && $form->getData()['tagId'] == $tag->getId()
             ) {
                 /*
                  * Dispatch event
@@ -511,11 +482,6 @@ class TagsController extends RozierApp
     /**
      * Handle tag creation pages.
      *
-     * @param Request $request
-     * @param int $tagId
-     * @param int|null $translationId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function addChildAction(Request $request, int $tagId, ?int $translationId = null): Response
@@ -524,7 +490,7 @@ class TagsController extends RozierApp
 
         $translation = $this->em()->getRepository(Translation::class)->findDefault();
 
-        if ($translationId !== null) {
+        if (null !== $translationId) {
             $translation = $this->em()->find(Translation::class, $translationId);
         }
         $parentTag = $this->em()->find(Tag::class, $tagId);
@@ -532,8 +498,8 @@ class TagsController extends RozierApp
         $tag->setParent($parentTag);
 
         if (
-            $translation !== null &&
-            $parentTag !== null
+            null !== $translation
+            && null !== $parentTag
         ) {
             $form = $this->createForm(TagType::class, $tag);
             $form->handleRequest($request);
@@ -584,10 +550,6 @@ class TagsController extends RozierApp
     /**
      * Handle tag nodes page.
      *
-     * @param Request $request
-     * @param int $tagId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function editNodesAction(Request $request, int $tagId): Response
@@ -623,11 +585,6 @@ class TagsController extends RozierApp
         throw new ResourceNotFoundException();
     }
 
-    /**
-     * @param Tag $tag
-     *
-     * @return FormInterface
-     */
     private function buildDeleteForm(Tag $tag): FormInterface
     {
         $builder = $this->createFormBuilder()
@@ -642,15 +599,9 @@ class TagsController extends RozierApp
         return $builder->getForm();
     }
 
-    /**
-     * @param null|string $referer
-     * @param array $tagsIds
-     *
-     * @return FormInterface
-     */
     private function buildBulkDeleteForm(
         ?string $referer = null,
-        array $tagsIds = []
+        array $tagsIds = [],
     ): FormInterface {
         $builder = $this->formFactory
             ->createNamedBuilder('deleteForm')
@@ -672,11 +623,6 @@ class TagsController extends RozierApp
         return $builder->getForm();
     }
 
-    /**
-     * @param array $data
-     *
-     * @return string
-     */
     private function bulkDeleteTags(array $data): string
     {
         if (!empty($data['tagsIds'])) {
@@ -730,14 +676,16 @@ class TagsController extends RozierApp
         if ($entity instanceof TagTranslation) {
             /** @var Translation $translation */
             $translation = $entity->getTranslation();
+
             return $this->redirectToRoute(
                 'tagsEditTranslatedPage',
                 [
                     'tagId' => $entity->getTag()->getId(),
-                    'translationId' => $translation->getId()
+                    'translationId' => $translation->getId(),
                 ]
             );
         }
+
         return null;
     }
 }

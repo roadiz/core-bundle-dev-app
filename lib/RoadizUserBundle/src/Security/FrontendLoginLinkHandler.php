@@ -22,20 +22,17 @@ final readonly class FrontendLoginLinkHandler implements LoginLinkHandlerInterfa
         private string $frontendLoginCheckRoute,
         private SignatureHasher $signatureHasher,
         private array $frontendLoginLinkRequestRoutes,
-        array $options = []
+        array $options = [],
     ) {
         $this->options = array_merge([
             'lifetime' => 600,
         ], $options);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function createLoginLink(
         UserInterface $user,
         ?Request $request = null,
-        int $lifetime = null
+        ?int $lifetime = null,
     ): LoginLinkDetails {
         if (null === $request) {
             throw new \InvalidArgumentException('Request cannot be null.');
@@ -48,7 +45,7 @@ final readonly class FrontendLoginLinkHandler implements LoginLinkHandlerInterfa
         }
 
         $expires = time() + ($lifetime ?: $this->options['lifetime']);
-        $expiresAt = new \DateTimeImmutable('@' . $expires);
+        $expiresAt = new \DateTimeImmutable('@'.$expires);
 
         $parameters = [
             'user' => $user->getUserIdentifier(),
@@ -60,18 +57,15 @@ final readonly class FrontendLoginLinkHandler implements LoginLinkHandlerInterfa
             $parameters['redirect'] = $redirect;
         }
 
-        $url = $this->frontendLoginCheckRoute . '?' . http_build_query($parameters);
+        $url = $this->frontendLoginCheckRoute.'?'.http_build_query($parameters);
 
-        if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+        if (false === filter_var($url, FILTER_VALIDATE_URL)) {
             throw new \InvalidArgumentException(sprintf('The URL "%s" is not valid.', $url));
         }
 
         return new LoginLinkDetails($url, $expiresAt);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function consumeLoginLink(Request $request): UserInterface
     {
         return $this->decorated->consumeLoginLink($request);

@@ -7,9 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Event;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use Symfony\Contracts\EventDispatcher\Event;
 
-/**
- * @package RZ\Roadiz\CoreBundle\Event
- */
 abstract class FilterTranslationEvent extends Event
 {
     protected Translation $translation;

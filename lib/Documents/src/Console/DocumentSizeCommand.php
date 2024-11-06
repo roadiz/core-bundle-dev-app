@@ -61,7 +61,7 @@ class DocumentSizeCommand extends AbstractDocumentCommand
                  * Do nothing
                  * just return 0 width and height
                  */
-                $this->io->error($document->getMountPath() . ' is not a readable image.');
+                $this->io->error($document->getMountPath().' is not a readable image.');
             }
         }
     }

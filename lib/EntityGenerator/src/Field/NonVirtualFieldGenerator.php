@@ -21,8 +21,8 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
                 'Doctrine\ORM\Mapping\Index',
                 [
                     'columns' => [
-                        $this->field->getName()
-                    ]
+                        $this->field->getName(),
+                    ],
                 ]
             );
         }
@@ -30,25 +30,23 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         return $this;
     }
 
-    /**
-     * @return string
-     */
     protected function getDoctrineType(): string
     {
         return $this->field->getDoctrineType();
     }
 
     /**
-     * @return int|null String field length, returns NULL if length is irrelevant.
+     * @return int|null string field length, returns NULL if length is irrelevant
      */
     protected function getFieldLength(): ?int
     {
         /*
          * Only set length for string (VARCHAR) type
          */
-        if ($this->getDoctrineType() !== 'string') {
+        if ('string' !== $this->getDoctrineType()) {
             return null;
         }
+
         return match (true) {
             $this->field->isColor() => 10,
             $this->field->isCountry() => 5,
@@ -99,7 +97,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         } elseif ($this->field->isBool()) {
             $ormParams['nullable'] = false;
             $ormParams['options'] = [
-                'default' => false
+                'default' => false,
             ];
         }
 
@@ -116,6 +114,7 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
     public function addFieldAnnotation(Property $property): self
     {
         $this->addFieldAutodoc($property);
+
         return $this;
     }
 
@@ -154,26 +153,23 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         $method = $classType->addMethod($this->field->getGetterName())
             ->setPublic()
             ->setReturnType($type)
-            ->addComment('@return ' . $this->toPhpDocType($type));
+            ->addComment('@return '.$this->toPhpDocType($type));
 
         if ($this->field->isMultiple()) {
             $method->setBody(
-                'return null !== $this->' .
-                $this->field->getVarName() . ' ? array_values($this->' . $this->field->getVarName() . ') : null;'
+                'return null !== $this->'.
+                $this->field->getVarName().' ? array_values($this->'.$this->field->getVarName().') : null;'
             );
         } else {
-            $method->setBody('return $this->' . $this->field->getVarName() . ';');
+            $method->setBody('return $this->'.$this->field->getVarName().';');
         }
 
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function addFieldSetter(ClassType $classType): self
     {
-        $assignation = '$' . $this->field->getVarName();
+        $assignation = '$'.$this->field->getVarName();
         $nullable = true;
         $casting = '';
 
@@ -200,11 +196,11 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         $type = $this->getFieldTypeDeclaration();
 
         if ($nullable && !empty($casting)) {
-            $assignation = '$this->' . $this->field->getVarName() . ' = null !== $' . $this->field->getVarName() . ' ?
-            ' . $casting . $assignation . ' :
+            $assignation = '$this->'.$this->field->getVarName().' = null !== $'.$this->field->getVarName().' ?
+            '.$casting.$assignation.' :
             null;';
         } else {
-            $assignation = '$this->' . $this->field->getVarName() . ' = ' . $assignation . ';';
+            $assignation = '$this->'.$this->field->getVarName().' = '.$assignation.';';
         }
 
         $method = $classType->addMethod($this->field->getSetterName())->setPublic();

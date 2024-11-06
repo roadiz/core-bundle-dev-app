@@ -19,17 +19,12 @@ class ExportController extends RozierApp
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private readonly SerializerInterface $serializer
+        private readonly SerializerInterface $serializer,
     ) {
     }
 
     /**
      * Export all Node in a CSV file.
-     *
-     * @param int $translationId
-     * @param int|null $parentNodeId
-     *
-     * @return Response
      */
     public function exportAllAction(int $translationId, ?int $parentNodeId = null): Response
     {
@@ -42,9 +37,9 @@ class ExportController extends RozierApp
                 ->getRepository(Translation::class)
                 ->findDefault();
         }
-        $criteria = ["translation" => $translation];
+        $criteria = ['translation' => $translation];
         $order = ['node.nodeType' => 'ASC'];
-        $filename = 'nodes-' . date("YmdHis") . '.' . $translation->getLocale() . '.csv';
+        $filename = 'nodes-'.date('YmdHis').'.'.$translation->getLocale().'.csv';
 
         if (null !== $parentNodeId) {
             /** @var Node|null $parentNode */
@@ -56,7 +51,7 @@ class ExportController extends RozierApp
             }
             $this->denyAccessUnlessGranted(NodeVoter::READ, $parentNode);
             $criteria['node.parent'] = $parentNode;
-            $filename = $parentNode->getNodeName() . '-' . date("YmdHis") . '.' . $translation->getLocale() . '.csv';
+            $filename = $parentNode->getNodeName().'-'.date('YmdHis').'.'.$translation->getLocale().'.csv';
         } else {
             $this->denyAccessUnlessGranted(NodeVoter::READ_AT_ROOT);
         }

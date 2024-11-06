@@ -13,7 +13,7 @@ final class DefaultNodeSourceController extends AbstractController
     public function indexAction(NodesSources $nodeSource): Response
     {
         return $this->render('@RoadizCore/nodeSource/default.html.twig', [
-            'nodeSource' => $nodeSource
+            'nodeSource' => $nodeSource,
         ]);
     }
 }

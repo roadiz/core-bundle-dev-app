@@ -11,7 +11,7 @@ use ApiPlatform\OpenApi\OpenApi;
 final class WebResponseDecorator implements OpenApiFactoryInterface
 {
     public function __construct(
-        private readonly OpenApiFactoryInterface $decorated
+        private readonly OpenApiFactoryInterface $decorated,
     ) {
     }
 
@@ -39,7 +39,7 @@ final class WebResponseDecorator implements OpenApiFactoryInterface
                     'query',
                     'Enables preview mode (requires a valid bearer JWT token)',
                     false
-                ))->withSchema(['type' => 'boolean'])->withExample('1')
+                ))->withSchema(['type' => 'boolean'])->withExample('1'),
             ])
         ));
 

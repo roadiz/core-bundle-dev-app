@@ -27,7 +27,7 @@ class SecurityController extends AbstractController
         private readonly LoggerInterface $logger,
         private readonly Settings $settingsBag,
         private readonly RozierServiceRegistry $rozierServiceRegistry,
-        private readonly LoginLinkSenderInterface $loginLinkSender
+        private readonly LoginLinkSenderInterface $loginLinkSender,
     ) {
     }
 
@@ -47,8 +47,8 @@ class SecurityController extends AbstractController
             'error' => $error,
             'themeServices' => $this->rozierServiceRegistry,
             'head' => [
-                'siteTitle' => $this->settingsBag->get('site_name') . ' backstage',
-            ]
+                'siteTitle' => $this->settingsBag->get('site_name').' backstage',
+            ],
         ];
 
         try {
@@ -70,13 +70,13 @@ class SecurityController extends AbstractController
     public function requestLoginLink(
         LoginLinkHandlerInterface $loginLinkHandler,
         UserRepository $userRepository,
-        Request $request
+        Request $request,
     ): Response {
         $assignation = [
             'themeServices' => $this->rozierServiceRegistry,
             'head' => [
-                'siteTitle' => $this->settingsBag->get('site_name') . ' backstage',
-            ]
+                'siteTitle' => $this->settingsBag->get('site_name').' backstage',
+            ],
         ];
         // check if form is submitted
         if ($request->isMethod('POST')) {

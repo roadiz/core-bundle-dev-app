@@ -17,7 +17,7 @@ final class NodeTypesCommand extends Command
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -43,8 +43,9 @@ final class NodeTypesCommand extends Command
                 ->getRepository(NodeType::class)
                 ->findOneByName($name);
 
-            if ($nodetype === null) {
-                $io->note($name . ' node type does not exist.');
+            if (null === $nodetype) {
+                $io->note($name.' node type does not exist.');
+
                 return 0;
             }
             /** @var array<NodeTypeField> $fields */
@@ -60,8 +61,8 @@ final class NodeTypesCommand extends Command
                     $field->getLabel(),
                     $field->getName(),
                     str_replace('.type', '', $field->getTypeName()),
-                    ($field->isVisible() ? 'X' : ''),
-                    ($field->isIndexed() ? 'X' : ''),
+                    $field->isVisible() ? 'X' : '',
+                    $field->isIndexed() ? 'X' : '',
                 ];
             }
             $io->table(['Id', 'Label', 'Name', 'Type', 'Visible', 'Index'], $tableContent);
@@ -71,7 +72,7 @@ final class NodeTypesCommand extends Command
                 ->getRepository(NodeType::class)
                 ->findBy([], ['name' => 'ASC']);
 
-            if (count($nodetypes) === 0) {
+            if (0 === count($nodetypes)) {
                 $io->note('No available node-types…');
             }
 
@@ -81,12 +82,13 @@ final class NodeTypesCommand extends Command
                 $tableContent[] = [
                     $nt->getId(),
                     $nt->getName(),
-                    ($nt->isVisible() ? 'X' : ''),
+                    $nt->isVisible() ? 'X' : '',
                 ];
             }
 
             $io->table(['Id', 'Title', 'Visible'], $tableContent);
         }
+
         return 0;
     }
 }

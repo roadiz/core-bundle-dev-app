@@ -14,10 +14,7 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 
 trait EmbedFinderTrait
 {
-    /**
-     * @inheritDoc
-     */
-    protected function documentExists(ObjectManager $objectManager, $embedId, $embedPlatform): bool
+    protected function documentExists(ObjectManager $objectManager, string $embedId, ?string $embedPlatform): bool
     {
         $existingDocument = $objectManager->getRepository(Document::class)
             ->findOneBy([
@@ -28,9 +25,6 @@ trait EmbedFinderTrait
         return null !== $existingDocument;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function injectMetaInDocument(ObjectManager $objectManager, DocumentInterface $document): DocumentInterface
     {
         $translations = $objectManager->getRepository(Translation::class)->findAll();
@@ -58,7 +52,7 @@ trait EmbedFinderTrait
         } catch (APINeedsAuthentificationException $exception) {
             // do no prevent from creating document if credentials are not provided.
         } catch (ClientException $exception) {
-            // do no prevent from creating document if platform has errors, such as
+            // do not prevent from creating document if platform has errors, such as
             // too much API usage.
         }
 

@@ -5,18 +5,18 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Core\AbstractEntities;
 
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Utils\StringHandler;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\MappedSuperclass,
     ORM\Table,
-    ORM\Index(columns: ["position"]),
-    ORM\Index(columns: ["group_name"]),
-    ORM\Index(columns: ["group_name_canonical"]),
-    Serializer\ExclusionPolicy("all")
+    ORM\Index(columns: ['position']),
+    ORM\Index(columns: ['group_name']),
+    ORM\Index(columns: ['group_name_canonical']),
+    Serializer\ExclusionPolicy('all')
 ]
 abstract class AbstractField extends AbstractPositioned
 {
@@ -109,12 +109,14 @@ abstract class AbstractField extends AbstractPositioned
     /**
      * Radio group field is like ENUM_T but rendered as a radio
      * button group.
+     *
      * @deprecated This option does not mean any data type, just presentation
      */
     public const RADIO_GROUP_T = 19;
     /**
      * Check group field is like MULTIPLE_T but rendered as
      * a checkbox group.
+     *
      * @deprecated This option does not mean any data type, just presentation
      */
     public const CHECK_GROUP_T = 20;
@@ -128,19 +130,19 @@ abstract class AbstractField extends AbstractPositioned
      */
     public const DATE_T = 22;
     /**
-     * Textarea to write Json syntax code
+     * Textarea to write Json syntax code.
      */
     public const JSON_T = 23;
     /**
-     * Textarea to write CSS syntax code
+     * Textarea to write CSS syntax code.
      */
     public const CSS_T = 24;
     /**
-     * Select-box to choose ISO Country
+     * Select-box to choose ISO Country.
      */
     public const COUNTRY_T = 25;
     /**
-     * Textarea to write YAML syntax text
+     * Textarea to write YAML syntax text.
      */
     public const YAML_T = 26;
     /**
@@ -160,7 +162,7 @@ abstract class AbstractField extends AbstractPositioned
      */
     public const SINGLE_PROVIDER_T = 30;
     /**
-     * Collection field
+     * Collection field.
      */
     public const COLLECTION_T = 31;
 
@@ -170,6 +172,7 @@ abstract class AbstractField extends AbstractPositioned
      * These string will be used as translation key.
      *
      * @var array<string>
+     *
      * @internal
      */
     #[SymfonySerializer\Ignore]
@@ -206,6 +209,7 @@ abstract class AbstractField extends AbstractPositioned
      * Associates abstract field type to a Doctrine type.
      *
      * @var array<string|null>
+     *
      * @internal
      */
     #[SymfonySerializer\Ignore]
@@ -244,6 +248,7 @@ abstract class AbstractField extends AbstractPositioned
      * List searchable fields types in a searchEngine such as Solr.
      *
      * @var array<int>
+     *
      * @internal
      */
     #[SymfonySerializer\Ignore]
@@ -255,43 +260,43 @@ abstract class AbstractField extends AbstractPositioned
     ];
 
     #[
-        ORM\Column(name: "group_name", type: "string", length: 250, nullable: true),
+        ORM\Column(name: 'group_name', type: 'string', length: 250, nullable: true),
         Assert\Length(max: 250),
-        SymfonySerializer\Groups(["node_type", "setting"]),
-        Serializer\Groups(["node_type", "setting"]),
-        Serializer\Type("string"),
+        SymfonySerializer\Groups(['node_type', 'setting']),
+        Serializer\Groups(['node_type', 'setting']),
+        Serializer\Type('string'),
         Serializer\Expose
     ]
     protected ?string $groupName = null;
 
     #[
-        ORM\Column(name: "group_name_canonical", type: "string", length: 250, nullable: true),
-        Serializer\Groups(["node_type", "setting"]),
-        SymfonySerializer\Groups(["node_type", "setting"]),
+        ORM\Column(name: 'group_name_canonical', type: 'string', length: 250, nullable: true),
+        Serializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'setting']),
         Assert\Length(max: 250),
-        Serializer\Type("string"),
+        Serializer\Type('string'),
         Serializer\Expose
     ]
     protected ?string $groupNameCanonical = null;
 
     #[
-        ORM\Column(type: "string", length: 250),
+        ORM\Column(type: 'string', length: 250),
         Serializer\Expose,
-        Serializer\Groups(["node_type", "setting"]),
-        SymfonySerializer\Groups(["node_type", "setting"]),
+        Serializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'setting']),
         Assert\Length(max: 250),
-        Serializer\Type("string"),
+        Serializer\Type('string'),
         Assert\NotBlank(),
         Assert\NotNull()
     ]
     protected string $name;
 
     #[
-        ORM\Column(type: "string", length: 250),
+        ORM\Column(type: 'string', length: 250),
         Serializer\Expose,
-        Serializer\Groups(["node_type", "setting"]),
-        Serializer\Type("string"),
-        SymfonySerializer\Groups(["node_type", "setting"]),
+        Serializer\Groups(['node_type', 'setting']),
+        Serializer\Type('string'),
+        SymfonySerializer\Groups(['node_type', 'setting']),
         Assert\Length(max: 250),
         Assert\NotBlank(),
         Assert\NotNull()
@@ -299,38 +304,38 @@ abstract class AbstractField extends AbstractPositioned
     protected ?string $label;
 
     #[
-        ORM\Column(type: "string", length: 250, nullable: true),
+        ORM\Column(type: 'string', length: 250, nullable: true),
         Serializer\Expose,
-        Serializer\Groups(["node_type", "setting"]),
-        SymfonySerializer\Groups(["node_type", "setting"]),
+        Serializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'setting']),
         Assert\Length(max: 250),
-        Serializer\Type("string")
+        Serializer\Type('string')
     ]
     protected ?string $placeholder = null;
 
     #[
-        ORM\Column(type: "text", nullable: true),
+        ORM\Column(type: 'text', nullable: true),
         Serializer\Expose,
-        Serializer\Groups(["node_type", "setting"]),
-        SymfonySerializer\Groups(["node_type", "setting"]),
-        Serializer\Type("string")
+        Serializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'setting']),
+        Serializer\Type('string')
     ]
     protected ?string $description = null;
 
     #[
-        ORM\Column(name: "default_values", type: "text", nullable: true),
-        Serializer\Groups(["node_type", "setting"]),
-        SymfonySerializer\Groups(["node_type", "setting"]),
-        Serializer\Type("string"),
+        ORM\Column(name: 'default_values', type: 'text', nullable: true),
+        Serializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'setting']),
+        Serializer\Type('string'),
         Serializer\Expose
     ]
     protected ?string $defaultValues = null;
 
     #[
-        ORM\Column(type: "integer"),
-        Serializer\Groups(["node_type", "setting"]),
-        SymfonySerializer\Groups(["node_type", "setting"]),
-        Serializer\Type("int"),
+        ORM\Column(type: 'integer'),
+        Serializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'setting']),
+        Serializer\Type('int'),
         Serializer\Expose
     ]
     protected int $type = AbstractField::STRING_T;
@@ -339,10 +344,10 @@ abstract class AbstractField extends AbstractPositioned
      * If current field data should be expanded (for choices and country types).
      */
     #[
-        ORM\Column(name: "expanded", type: "boolean", nullable: false, options: ["default" => false]),
-        Serializer\Groups(["node_type", "setting"]),
-        SymfonySerializer\Groups(["node_type", "setting"]),
-        Serializer\Type("bool"),
+        ORM\Column(name: 'expanded', type: 'boolean', nullable: false, options: ['default' => false]),
+        Serializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'setting']),
+        Serializer\Type('bool'),
         Serializer\Expose
     ]
     protected bool $expanded = false;
@@ -370,13 +375,12 @@ abstract class AbstractField extends AbstractPositioned
     }
 
     /**
-     * @param string|null $name
-     *
      * @return $this
      */
     public function setName(?string $name)
     {
         $this->name = StringHandler::variablize($name ?? '');
+
         return $this;
     }
 
@@ -385,7 +389,7 @@ abstract class AbstractField extends AbstractPositioned
      */
     public function getGetterName(): string
     {
-        return StringHandler::camelCase('get ' . $this->getName());
+        return StringHandler::camelCase('get '.$this->getName());
     }
 
     /**
@@ -393,122 +397,99 @@ abstract class AbstractField extends AbstractPositioned
      */
     public function getSetterName(): string
     {
-        return StringHandler::camelCase('set ' . $this->getName());
+        return StringHandler::camelCase('set '.$this->getName());
     }
 
-    /**
-     * @return string
-     */
     public function getLabel(): string
     {
         return $this->label ?? '';
     }
 
     /**
-     * @param string|null $label
-     *
      * @return self
      */
     public function setLabel(?string $label)
     {
         $this->label = $label ?? '';
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPlaceholder(): ?string
     {
         return $this->placeholder;
     }
 
     /**
-     * @param string|null $placeholder
      * @return AbstractField
      */
     public function setPlaceholder(?string $placeholder)
     {
         $this->placeholder = $placeholder;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string|null $description
-     *
      * @return $this
      */
     public function setDescription(?string $description)
     {
         $this->description = $description;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDefaultValues(): ?string
     {
         return $this->defaultValues;
     }
 
     /**
-     * @param string|null $defaultValues
-     *
      * @return $this
      */
     public function setDefaultValues(?string $defaultValues)
     {
         $this->defaultValues = $defaultValues;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTypeName(): string
     {
         if (!key_exists($this->getType(), static::$typeToHuman)) {
-            throw new \InvalidArgumentException($this->getType() . ' cannot be mapped to human label.');
+            throw new \InvalidArgumentException($this->getType().' cannot be mapped to human label.');
         }
+
         return static::$typeToHuman[$this->type];
     }
 
-    /**
-     * @return int
-     */
     public function getType(): int
     {
         return $this->type;
     }
 
     /**
-     * @param int $type
-     *
      * @return $this
      */
     public function setType(int $type)
     {
         $this->type = $type;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDoctrineType(): string
     {
         if (!key_exists($this->getType(), static::$typeToDoctrine)) {
-            throw new \InvalidArgumentException($this->getType() . ' cannot be mapped to Doctrine.');
+            throw new \InvalidArgumentException($this->getType().' cannot be mapped to Doctrine.');
         }
+
         return static::$typeToDoctrine[$this->getType()] ?? '';
     }
 
@@ -517,7 +498,7 @@ abstract class AbstractField extends AbstractPositioned
      */
     public function isVirtual(): bool
     {
-        return static::$typeToDoctrine[$this->getType()] === null;
+        return null === static::$typeToDoctrine[$this->getType()];
     }
 
     /**
@@ -530,8 +511,6 @@ abstract class AbstractField extends AbstractPositioned
 
     /**
      * Gets the value of groupName.
-     *
-     * @return string|null
      */
     public function getGroupName(): ?string
     {
@@ -542,6 +521,7 @@ abstract class AbstractField extends AbstractPositioned
      * Sets the value of groupName.
      *
      * @param string|null $groupName the group name
+     *
      * @return static
      */
     public function setGroupName(?string $groupName)
@@ -553,294 +533,190 @@ abstract class AbstractField extends AbstractPositioned
             $this->groupName = trim(strip_tags($groupName));
             $this->groupNameCanonical = StringHandler::slugify($this->getGroupName());
         }
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getGroupNameCanonical(): ?string
     {
         return $this->groupNameCanonical;
     }
 
-    /**
-     * @return bool
-     */
     public function isExpanded(): bool
     {
         return $this->expanded;
     }
 
     /**
-     * @param bool $expanded
      * @return AbstractField
      */
     public function setExpanded(bool $expanded)
     {
         $this->expanded = $expanded;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isString(): bool
     {
         return $this->getType() === static::STRING_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isText(): bool
     {
         return $this->getType() === static::TEXT_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isDate(): bool
     {
         return $this->getType() === static::DATE_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isDateTime(): bool
     {
         return $this->getType() === static::DATETIME_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isRichText(): bool
     {
         return $this->getType() === static::RICHTEXT_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isMarkdown(): bool
     {
         return $this->getType() === static::MARKDOWN_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isBool(): bool
     {
         return $this->isBoolean();
     }
 
-    /**
-     * @return bool
-     */
     public function isBoolean(): bool
     {
         return $this->getType() === static::BOOLEAN_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isInteger(): bool
     {
         return $this->getType() === static::INTEGER_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isDecimal(): bool
     {
         return $this->getType() === static::DECIMAL_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isEmail(): bool
     {
         return $this->getType() === static::EMAIL_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isDocuments(): bool
     {
         return $this->getType() === static::DOCUMENTS_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isPassword(): bool
     {
         return $this->getType() === static::PASSWORD_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isColor(): bool
     {
         return $this->isColour();
     }
 
-    /**
-     * @return bool
-     */
     public function isColour(): bool
     {
         return $this->getType() === static::COLOUR_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isGeoTag(): bool
     {
         return $this->getType() === static::GEOTAG_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isNodes(): bool
     {
         return $this->getType() === static::NODES_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isUser(): bool
     {
         return $this->getType() === static::USER_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isEnum(): bool
     {
         return $this->getType() === static::ENUM_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isChildrenNodes(): bool
     {
         return $this->getType() === static::CHILDREN_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isCustomForms(): bool
     {
         return $this->getType() === static::CUSTOM_FORMS_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isMultiple(): bool
     {
         return $this->getType() === static::MULTIPLE_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isMultiGeoTag(): bool
     {
         return $this->getType() === static::MULTI_GEOTAG_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isJson(): bool
     {
         return $this->getType() === static::JSON_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isYaml(): bool
     {
         return $this->getType() === static::YAML_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isCss(): bool
     {
         return $this->getType() === static::CSS_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isManyToMany(): bool
     {
         return $this->getType() === static::MANY_TO_MANY_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isManyToOne(): bool
     {
         return $this->getType() === static::MANY_TO_ONE_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isCountry(): bool
     {
         return $this->getType() === static::COUNTRY_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isSingleProvider(): bool
     {
         return $this->getType() === static::SINGLE_PROVIDER_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isMultipleProvider(): bool
     {
         return $this->isMultiProvider();
     }
 
-    /**
-     * @return bool
-     */
     public function isMultiProvider(): bool
     {
         return $this->getType() === static::MULTI_PROVIDER_T;
     }
 
-    /**
-     * @return bool
-     */
     public function isCollection(): bool
     {
         return $this->getType() === static::COLLECTION_T;

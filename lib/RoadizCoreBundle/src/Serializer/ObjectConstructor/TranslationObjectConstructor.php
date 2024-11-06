@@ -10,21 +10,15 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 
 final class TranslationObjectConstructor extends AbstractTypedObjectConstructor
 {
-    /**
-     * @inheritDoc
-     */
     public function supports(string $className, array $data): bool
     {
-        return \is_subclass_of($className, TranslationInterface::class) &&
-            array_key_exists('locale', $data);
+        return \is_subclass_of($className, TranslationInterface::class)
+            && array_key_exists('locale', $data);
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function findObject($data, DeserializationContext $context): ?object
+    protected function findObject(mixed $data, DeserializationContext $context): ?object
     {
-        if (null === $data['locale'] || $data['locale'] === '') {
+        if (null === $data['locale'] || '' === $data['locale']) {
             throw new ObjectConstructionException('Translation locale can not be empty');
         }
 

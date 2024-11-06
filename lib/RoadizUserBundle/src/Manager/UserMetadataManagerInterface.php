@@ -10,5 +10,6 @@ use RZ\Roadiz\UserBundle\Entity\UserMetadata;
 interface UserMetadataManagerInterface
 {
     public function getMetadataForUser(User $user): ?UserMetadata;
+
     public function createMetadataForUser(User $user): UserMetadata;
 }

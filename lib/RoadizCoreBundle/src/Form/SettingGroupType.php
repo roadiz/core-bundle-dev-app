@@ -20,40 +20,34 @@ class SettingGroupType extends AbstractType
 {
     protected ManagerRegistry $managerRegistry;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
     public function __construct(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new CallbackTransformer(
-            function (SettingGroup $settingGroup = null) {
+            function (?SettingGroup $settingGroup = null) {
                 if (null !== $settingGroup) {
                     // transform the array to a string
                     return $settingGroup->getId();
                 }
+
                 return null;
             },
             function ($id) {
                 if (null !== $id) {
                     $manager = $this->managerRegistry->getManagerForClass(SettingGroup::class);
+
                     return $manager->find(SettingGroup::class, $id);
                 }
+
                 return null;
             }
         ));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -70,19 +64,16 @@ class SettingGroupType extends AbstractType
             foreach ($groups as $group) {
                 $choices[$group->getName()] = $group->getId();
             }
+
             return $choices;
         });
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getBlockPrefix(): string
     {
         return 'setting_groups';

@@ -9,17 +9,14 @@ declare(strict_types=1);
 
 namespace App\GeneratedEntity;
 
-use ApiPlatform\Doctrine\Orm\Filter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
@@ -46,10 +43,11 @@ class NSMenuLink extends NodesSources
 
     /**
      * linkInternalReferenceSources NodesSources direct field buffer.
+     *
      * @var \RZ\Roadiz\CoreBundle\Entity\NodesSources[]|null
-     * Référence au nœud (Page ou Bloc de page).
-     * Default values:
-     * Page, Article, ArticleContainer, Offer
+     *                                                       Référence au nœud (Page ou Bloc de page).
+     *                                                       Default values:
+     *                                                       Page, Article, ArticleContainer, Offer
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'linkInternalReference')]
@@ -60,7 +58,7 @@ class NSMenuLink extends NodesSources
 
     /**
      * Image.
-     * (Virtual field, this var is a buffer)
+     * (Virtual field, this var is a buffer).
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'image')]
@@ -69,9 +67,6 @@ class NSMenuLink extends NodesSources
     #[Serializer\MaxDepth(2)]
     private ?array $image = null;
 
-    /**
-     * @return string|null
-     */
     public function getLinkExternalUrl(): ?string
     {
         return $this->linkExternalUrl;
@@ -85,6 +80,7 @@ class NSMenuLink extends NodesSources
         $this->linkExternalUrl = null !== $linkExternalUrl ?
                     (string) $linkExternalUrl :
                     null;
+
         return $this;
     }
 
@@ -101,7 +97,7 @@ class NSMenuLink extends NodesSources
         if (null === $this->linkInternalReferenceSources) {
             if (null !== $this->objectManager) {
                 $this->linkInternalReferenceSources = $this->objectManager
-                    ->getRepository(\RZ\Roadiz\CoreBundle\Entity\NodesSources::class)
+                    ->getRepository(NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
                         'link_internal_reference'
@@ -110,16 +106,19 @@ class NSMenuLink extends NodesSources
                 $this->linkInternalReferenceSources = [];
             }
         }
+
         return $this->linkInternalReferenceSources;
     }
 
     /**
      * @param \RZ\Roadiz\CoreBundle\Entity\NodesSources[]|null $linkInternalReferenceSources
+     *
      * @return $this
      */
     public function setLinkInternalReferenceSources(?array $linkInternalReferenceSources): static
     {
         $this->linkInternalReferenceSources = $linkInternalReferenceSources;
+
         return $this;
     }
 
@@ -145,6 +144,7 @@ class NSMenuLink extends NodesSources
                 $this->image = [];
             }
         }
+
         return $this->image;
     }
 
@@ -166,6 +166,7 @@ class NSMenuLink extends NodesSources
             $this->addDocumentsByFields($nodeSourceDocument);
             $this->image = null;
         }
+
         return $this;
     }
 
@@ -181,6 +182,7 @@ class NSMenuLink extends NodesSources
 
     /**
      * $this->nodeType->isReachable() proxy.
+     *
      * @return bool Does this nodeSource is reachable over network?
      */
     #[JMS\VirtualProperty]
@@ -191,6 +193,7 @@ class NSMenuLink extends NodesSources
 
     /**
      * $this->nodeType->isPublishable() proxy.
+     *
      * @return bool Does this nodeSource is publishable with date and time?
      */
     #[JMS\VirtualProperty]
@@ -201,6 +204,6 @@ class NSMenuLink extends NodesSources
 
     public function __toString(): string
     {
-        return '[NSMenuLink] ' . parent::__toString();
+        return '[NSMenuLink] '.parent::__toString();
     }
 }

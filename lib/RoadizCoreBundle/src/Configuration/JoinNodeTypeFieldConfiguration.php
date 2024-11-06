@@ -9,9 +9,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class JoinNodeTypeFieldConfiguration implements ConfigurationInterface
 {
-    /**
-     * @return TreeBuilder
-     */
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $builder = new TreeBuilder('join');

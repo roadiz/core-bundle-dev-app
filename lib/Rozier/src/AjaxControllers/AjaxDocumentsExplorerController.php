@@ -16,7 +16,7 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
 {
     public function __construct(
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
@@ -47,7 +47,7 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
             Document::class,
             $arrayFilter,
             [
-                'createdAt' => 'DESC'
+                'createdAt' => 'DESC',
             ]
         );
         $listManager->setDisplayingNotPublishedNodes(true);
@@ -69,7 +69,7 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
 
         if ($request->query->has('folderId') && $request->get('folderId') > 0) {
             $responseArray['filters'] = array_merge($responseArray['filters'], [
-                'folderId' => $request->get('folderId')
+                'folderId' => $request->get('folderId'),
             ]);
         }
 
@@ -80,9 +80,6 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
 
     /**
      * Get a Document list from an array of id.
-     *
-     * @param Request $request
-     * @return JsonResponse
      */
     public function listAction(Request $request): JsonResponse
     {
@@ -92,7 +89,7 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
             throw new InvalidParameterException('Ids should be provided within an array');
         }
         $cleanDocumentIds = array_filter($request->query->filter('ids', [], \FILTER_DEFAULT, [
-            'flags' => \FILTER_FORCE_ARRAY
+            'flags' => \FILTER_FORCE_ARRAY,
         ]));
         $documentsArray = [];
 
@@ -111,7 +108,7 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
             'status' => 'confirm',
             'statusCode' => 200,
             'documents' => $documentsArray,
-            'trans' => $this->getTrans()
+            'trans' => $this->getTrans(),
         ]);
     }
 
@@ -119,7 +116,6 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
      * Normalize response Document list result.
      *
      * @param iterable<Document> $documents
-     * @return array
      */
     private function normalizeDocuments(iterable $documents): array
     {
@@ -135,8 +131,6 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
 
     /**
      * Get an array of translations.
-     *
-     * @return array
      */
     private function getTrans(): array
     {
@@ -144,7 +138,7 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxController
             'editDocument' => $this->getTranslator()->trans('edit.document'),
             'unlinkDocument' => $this->getTranslator()->trans('unlink.document'),
             'linkDocument' => $this->getTranslator()->trans('link.document'),
-            'moreItems' => $this->getTranslator()->trans('more.documents')
+            'moreItems' => $this->getTranslator()->trans('more.documents'),
         ];
     }
 }

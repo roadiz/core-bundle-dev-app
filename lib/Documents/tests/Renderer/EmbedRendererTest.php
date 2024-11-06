@@ -65,91 +65,90 @@ class EmbedRendererTest extends AbstractRendererTestCase
         $this->assertTrue($mockDocumentYoutube->isEmbed());
 
         $this->assertHtmlTidyEquals(
-            (<<<EOT
+            <<<EOT
 <iframe src="https://www.youtube-nocookie.com/embed/xxxxxxx?rel=0&html5=1&wmode=transparent&loop=0&controls=1&fs=1&modestbranding=1&showinfo=0&enablejsapi=1&mute=0"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         allowFullScreen></iframe>
 EOT
-            ),
+            ,
             $renderer->render($mockDocumentYoutube, ['embed' => true])
         );
 
         $this->assertHtmlTidyEquals(
-            (<<<EOT
+            <<<EOT
 <iframe src="https://www.youtube-nocookie.com/embed/xxxxxxx?rel=0&html5=1&wmode=transparent&loop=0&controls=1&fs=1&modestbranding=1&showinfo=0&enablejsapi=1&mute=0"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         allowFullScreen
         loading="lazy"></iframe>
 EOT
-            ),
+            ,
             $renderer->render($mockDocumentYoutube, [
                 'embed' => true,
-                'loading' => 'lazy'
+                'loading' => 'lazy',
             ])
         );
 
         $this->assertHtmlTidyEquals(
-            (<<<EOT
+            <<<EOT
 <iframe src="https://www.youtube-nocookie.com/embed/xxxxxxx?rel=0&html5=1&wmode=transparent&loop=0&controls=1&fs=1&modestbranding=1&showinfo=0&enablejsapi=1&mute=0"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         width="500" height="312" allowFullScreen></iframe>
 EOT
-            ),
+            ,
             $renderer->render($mockDocumentYoutube, [
                 'embed' => true,
-                'width' => 500
+                'width' => 500,
                 // height is auto calculated based on 16/10 ratio
             ])
         );
 
         $this->assertHtmlTidyEquals(
-            (<<<EOT
+            <<<EOT
 <iframe src="https://www.youtube-nocookie.com/embed/xxxxxxx?rel=0&html5=1&wmode=transparent&loop=0&controls=1&fs=1&modestbranding=1&showinfo=0&enablejsapi=1&mute=0"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         width="500" height="500" allowFullScreen></iframe>
 EOT
-            ),
+            ,
             $renderer->render($mockDocumentYoutube, [
                 'embed' => true,
                 'width' => 500,
-                'height' => 500
+                'height' => 500,
             ])
         );
 
         $this->assertHtmlTidyEquals(
-            (<<<EOT
+            <<<EOT
 <iframe src="https://www.youtube-nocookie.com/embed/xxxxxxx?rel=0&html5=1&wmode=transparent&autoplay=1&playsinline=1&loop=0&controls=1&fs=1&modestbranding=1&showinfo=0&enablejsapi=1&mute=0"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; autoplay; fullscreen"
         allowFullScreen></iframe>
 EOT
-            ),
+            ,
             $renderer->render($mockDocumentYoutube, [
                 'embed' => true,
                 'autoplay' => true,
             ])
         );
 
-
         $this->assertIsBool($mockDocumentVimeo->isEmbed());
         $this->assertTrue($mockDocumentVimeo->isEmbed());
 
         $this->assertHtmlTidyEquals(
-            (<<<EOT
+            <<<EOT
 <iframe src="https://player.vimeo.com/video/0000000?title=0&byline=0&portrait=0&api=1&loop=0&fullscreen=1&controls=1&autopause=0&automute=0"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
         allowFullScreen></iframe>
 EOT
-            ),
+            ,
             $renderer->render($mockDocumentVimeo, ['embed' => true])
         );
 
         $this->assertHtmlTidyEquals(
-            (<<<EOT
+            <<<EOT
 <iframe src="https://player.vimeo.com/video/0000000?title=0&byline=0&portrait=0&api=1&loop=0&fullscreen=1&controls=1&autopause=0&automute=1&autoplay=1&playsinline=1"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; autoplay; fullscreen"
         allowFullScreen></iframe>
 EOT
-            ),
+            ,
             $renderer->render($mockDocumentVimeo, [
                 'embed' => true,
                 'autoplay' => true,
@@ -158,16 +157,16 @@ EOT
         );
 
         $this->assertHtmlTidyEquals(
-            (<<<EOT
+            <<<EOT
 <iframe src="https://player.vimeo.com/video/0000000?title=0&byline=0&portrait=0&api=1&loop=0&fullscreen=1&controls=1&autopause=0&automute=0&autoplay=1&playsinline=1&background=1"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; autoplay; fullscreen"
         allowFullScreen></iframe>
 EOT
-            ),
+            ,
             $renderer->render($mockDocumentVimeo, [
                 'embed' => true,
                 'autoplay' => true,
-                'background' => "1", // Hack background conflict option with background color
+                'background' => '1', // Hack background conflict option with background color
             ])
         );
     }

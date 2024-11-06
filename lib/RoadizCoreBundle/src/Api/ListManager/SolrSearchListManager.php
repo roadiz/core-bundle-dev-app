@@ -20,14 +20,14 @@ final class SolrSearchListManager extends AbstractEntityListManager
         ?Request $request,
         private readonly SearchHandlerInterface $searchHandler,
         private readonly array $criteria = [],
-        private readonly bool $searchInTags = true
+        private readonly bool $searchInTags = true,
     ) {
         parent::__construct($request);
     }
 
     public function handle(bool $disabled = false): void
     {
-        if ($this->request === null) {
+        if (null === $this->request) {
             throw new \InvalidArgumentException('Cannot handle a NULL request.');
         }
 
@@ -42,18 +42,18 @@ final class SolrSearchListManager extends AbstractEntityListManager
          */
         if (\mb_strlen($this->query) > 3) {
             $this->searchResults = $this->searchHandler->searchWithHighlight(
-                $this->query, # Use ?q query parameter to search with
-                $this->criteria, # a simple criteria array to filter search results
-                $this->getItemPerPage(), # result count
-                $this->searchInTags, # Search in tags too,
+                $this->query, // Use ?q query parameter to search with
+                $this->criteria, // a simple criteria array to filter search results
+                $this->getItemPerPage(), // result count
+                $this->searchInTags, // Search in tags too,
                 $this->getPage()
             );
         } else {
             $this->searchResults = $this->searchHandler->search(
-                $this->query, # Use ?q query parameter to search with
-                $this->criteria, # a simple criteria array to filter search results
-                $this->getItemPerPage(), # result count
-                $this->searchInTags, # Search in tags too,
+                $this->query, // Use ?q query parameter to search with
+                $this->criteria, // a simple criteria array to filter search results
+                $this->getItemPerPage(), // result count
+                $this->searchInTags, // Search in tags too,
                 $this->getPage()
             );
         }
@@ -65,9 +65,6 @@ final class SolrSearchListManager extends AbstractEntityListManager
         $this->query = trim($search);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getItemCount(): int
     {
         if (null !== $this->searchResults) {
@@ -76,9 +73,6 @@ final class SolrSearchListManager extends AbstractEntityListManager
         throw new \InvalidArgumentException('Call EntityListManagerInterface::handle before counting entities.');
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getEntities(): array
     {
         if (null !== $this->searchResults) {
