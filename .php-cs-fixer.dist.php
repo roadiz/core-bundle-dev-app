@@ -2,7 +2,7 @@
 
 $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
-    ->exclude(['var', 'vendor', 'docker', 'lib/EntityGenerator/tests/Mocks'])
+    ->exclude(['var', 'vendor', 'docker', 'lib/EntityGenerator/tests/Mocks', 'config/bundles.php'])
 ;
 
 return (new PhpCsFixer\Config())
