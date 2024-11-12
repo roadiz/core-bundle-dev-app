@@ -8,6 +8,7 @@ use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\PhpFile;
 use Nette\PhpGenerator\PhpNamespace;
+use Nette\PhpGenerator\Printer;
 use Nette\PhpGenerator\PsrPrinter;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
@@ -34,6 +35,7 @@ final class EntityGenerator implements EntityGeneratorInterface
      */
     private array $fieldGenerators;
     private array $options;
+    private Printer $printer;
 
     public function __construct(
         private readonly NodeTypeInterface $nodeType,
@@ -51,6 +53,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             $this->fieldGenerators[] = $this->getFieldGenerator($field);
         }
         $this->fieldGenerators = array_filter($this->fieldGenerators);
+        $this->printer = new PsrPrinter();
     }
 
     /**
@@ -189,7 +192,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->addClassCloneMethod($classType)
             ->addClassMethods($classType)
         ;
-        return (new PsrPrinter())->printFile($file);
+        return $this->printer->printFile($file);
     }
 
     private function addClassAttributes(ClassType $classType, PhpNamespace $namespace): self

@@ -356,19 +356,23 @@ class NSMock extends NodesSources
     /**
      * ForBar layout enum.
      * Default values:
-     * light, dark, transparent
+     * layout_odd, layout_odd_big_title, layout_even, layout_even_big_title, layout_media_grid
      */
     #[Serializer\SerializedName(serializedName: 'layout')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(
         description: 'ForBar layout enum',
-        schema: ['type' => 'string', 'enum' => ['light', 'dark', 'transparent'], 'example' => 'light'],
+        schema: [
+        'type' => 'string',
+        'enum' => ['layout_odd', 'layout_odd_big_title', 'layout_even', 'layout_even_big_title', 'layout_media_grid'],
+        'example' => 'layout_odd',
+    ],
     )]
     #[Serializer\MaxDepth(2)]
     #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class)]
     #[Gedmo\Versioned]
-    #[ORM\Column(name: 'layout', type: 'string', nullable: true, length: 11)]
+    #[ORM\Column(name: 'layout', type: 'string', nullable: true, length: 21)]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[JMS\MaxDepth(2)]
     #[JMS\Type('string')]

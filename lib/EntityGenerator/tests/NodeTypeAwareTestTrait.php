@@ -157,7 +157,7 @@ trait NodeTypeAwareTestTrait
                     ->setTypeName('enum')
                     ->setLabel('ForBar layout enum')
                     ->setIndexed(true)
-                    ->setDefaultValues('light, dark, transparent'),
+                    ->setDefaultValues('layout_odd, layout_odd_big_title, layout_even, layout_even_big_title, layout_media_grid'),
                 (new SimpleNodeTypeField())
                     ->setName('foo_many_to_one')
                     ->setTypeName('many_to_one')
