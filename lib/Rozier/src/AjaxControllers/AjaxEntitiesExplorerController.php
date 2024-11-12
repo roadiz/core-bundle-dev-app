@@ -21,20 +21,16 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxController
 {
     public function __construct(
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
 
-    /**
-     * @param NodeTypeField $nodeTypeField
-     * @return array
-     */
     protected function getFieldConfiguration(NodeTypeField $nodeTypeField): array
     {
         if (
-            $nodeTypeField->getType() !== AbstractField::MANY_TO_MANY_T &&
-            $nodeTypeField->getType() !== AbstractField::MANY_TO_ONE_T
+            AbstractField::MANY_TO_MANY_T !== $nodeTypeField->getType()
+            && AbstractField::MANY_TO_ONE_T !== $nodeTypeField->getType()
         ) {
             throw new BadRequestHttpException('nodeTypeField is not a valid entity join.');
         }
@@ -127,7 +123,7 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxController
         $className = $configuration['classname'];
 
         $cleanNodeIds = array_filter($request->query->filter('ids', [], \FILTER_DEFAULT, [
-            'flags' => \FILTER_FORCE_ARRAY
+            'flags' => \FILTER_FORCE_ARRAY,
         ]));
         $entitiesArray = [];
 
@@ -144,7 +140,7 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
-            'items' => $entitiesArray
+            'items' => $entitiesArray,
         ]);
     }
 
@@ -152,7 +148,7 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxController
      * Normalize response Node list result.
      *
      * @param iterable<PersistableInterface> $entities
-     * @param array $configuration
+     *
      * @return array<array>
      */
     private function normalizeEntities(iterable $entities, array $configuration): array

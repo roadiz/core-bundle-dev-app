@@ -25,8 +25,6 @@ final class UniversalDataDuplicator
      *
      * **Be careful, this method does not flush.**
      *
-     * @param NodesSources $source
-     * @return bool
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\ORMException
@@ -72,6 +70,7 @@ final class UniversalDataDuplicator
                         }
                     }
                 }
+
                 return true;
             }
         }
@@ -80,9 +79,6 @@ final class UniversalDataDuplicator
     }
 
     /**
-     * @param NodesSources $source
-     *
-     * @return bool
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -102,13 +98,13 @@ final class UniversalDataDuplicator
                 'translation' => $defaultTranslation,
             ]);
 
-        return $sourceCount === 1;
+        return 1 === $sourceCount;
     }
 
     protected function duplicateNonVirtualField(
         NodesSources $universalSource,
         NodesSources $destSource,
-        NodeTypeFieldInterface $field
+        NodeTypeFieldInterface $field,
     ): void {
         $getter = $field->getGetterName();
         $setter = $field->getSetterName();
@@ -119,7 +115,7 @@ final class UniversalDataDuplicator
     protected function duplicateDocumentsField(
         NodesSources $universalSource,
         NodesSources $destSource,
-        NodeTypeFieldInterface $field
+        NodeTypeFieldInterface $field,
     ): void {
         $newDocuments = $this->managerRegistry
             ->getRepository(NodesSourcesDocuments::class)
@@ -147,7 +143,7 @@ final class UniversalDataDuplicator
             foreach ($newDocuments as $newDocument) {
                 $nsDoc = new NodesSourcesDocuments($destSource, $newDocument->getDocument(), $field);
                 $nsDoc->setPosition($position);
-                $position++;
+                ++$position;
 
                 $manager->persist($nsDoc);
             }

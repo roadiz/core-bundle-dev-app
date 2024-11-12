@@ -25,7 +25,7 @@ use Themes\Rozier\Explorer\UsersProvider;
 use Twig\Error\RuntimeError;
 
 /**
- * Rozier main theme application
+ * Rozier main theme application.
  */
 class RozierApp extends AppController
 {
@@ -68,9 +68,6 @@ class RozierApp extends AppController
         ]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function createEntityListManager(string $entity, array $criteria = [], array $ordering = []): EntityListManagerInterface
     {
         return parent::createEntityListManager($entity, $criteria, $ordering)
@@ -79,19 +76,15 @@ class RozierApp extends AppController
 
     /**
      * Returns a fully qualified view path for Twig rendering.
-     *
-     * @param string $view
-     * @param string $namespace
-     * @return string
      */
     protected function getNamespacedView(string $view, string $namespace = ''): string
     {
-        if ($namespace !== "" && $namespace !== "/") {
-            $view = '@' . $namespace . '/' . $view;
-        } elseif ($namespace !== "/") {
+        if ('' !== $namespace && '/' !== $namespace) {
+            $view = '@'.$namespace.'/'.$view;
+        } elseif ('/' !== $namespace) {
             // when no namespace is used
             // use current theme directory
-            $view = '@RoadizRozier/' . $view;
+            $view = '@RoadizRozier/'.$view;
         }
 
         return $view;
@@ -111,9 +104,9 @@ class RozierApp extends AppController
          * Switch this to true to use uncompressed JS and CSS files
          */
         $this->assignation['head']['backDevMode'] = false;
-        $this->assignation['head']['siteTitle'] = $this->getSettingsBag()->get('site_name') . ' backstage';
+        $this->assignation['head']['siteTitle'] = $this->getSettingsBag()->get('site_name').' backstage';
         $this->assignation['head']['mapsLocation'] = $this->getSettingsBag()->get('maps_default_location') ? $this->getSettingsBag()->get('maps_default_location') : null;
-        $this->assignation['head']['googleClientId'] = $this->getSettingsBag()->get('google_client_id', "");
+        $this->assignation['head']['googleClientId'] = $this->getSettingsBag()->get('google_client_id', '');
         $this->assignation['head']['themeName'] = static::$themeName;
         $this->assignation['head']['ajaxToken'] = $tokenManager->getToken(static::AJAX_TOKEN_INTENTION);
         /** @var UserActionsMenuEvent $userActionsMenuEvent */
@@ -132,8 +125,8 @@ class RozierApp extends AppController
     }
 
     /**
-     * @param Request $request
      * @return Response $response
+     *
      * @throws RuntimeError
      */
     public function indexAction(Request $request): Response

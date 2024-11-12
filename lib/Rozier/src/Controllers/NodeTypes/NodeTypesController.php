@@ -23,7 +23,7 @@ class NodeTypesController extends RozierApp
 {
     public function __construct(
         private readonly bool $allowNodeTypeEdition,
-        private readonly MessageBusInterface $messageBus
+        private readonly MessageBusInterface $messageBus,
     ) {
     }
 
@@ -55,9 +55,6 @@ class NodeTypesController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     * @param int $nodeTypeId
-     * @return Response
      * @throws RuntimeError
      */
     public function editAction(Request $request, int $nodeTypeId): Response
@@ -83,7 +80,7 @@ class NodeTypesController extends RozierApp
                 $this->publishConfirmMessage($request, $msg, $nodeType);
 
                 return $this->redirectToRoute('nodeTypesEditPage', [
-                    'nodeTypeId' => $nodeTypeId
+                    'nodeTypeId' => $nodeTypeId,
                 ]);
             } catch (EntityAlreadyExistsException $e) {
                 $form->addError(new FormError($e->getMessage()));
@@ -97,9 +94,6 @@ class NodeTypesController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function addAction(Request $request): Response
@@ -108,7 +102,7 @@ class NodeTypesController extends RozierApp
         $nodeType = new NodeType();
 
         $form = $this->createForm(NodeTypeType::class, $nodeType, [
-            'disabled' => !$this->allowNodeTypeEdition
+            'disabled' => !$this->allowNodeTypeEdition,
         ]);
         $form->handleRequest($request);
 
@@ -126,7 +120,7 @@ class NodeTypesController extends RozierApp
                     $this->publishConfirmMessage($request, $msg, $nodeType);
 
                     return $this->redirectToRoute('nodeTypesEditPage', [
-                        'nodeTypeId' => $nodeType->getId()
+                        'nodeTypeId' => $nodeType->getId(),
                     ]);
                 } catch (EntityAlreadyExistsException $e) {
                     $form->addError(new FormError($e->getMessage()));
@@ -141,10 +135,6 @@ class NodeTypesController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     * @param int $nodeTypeId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function deleteAction(Request $request, int $nodeTypeId): Response

@@ -10,9 +10,6 @@ final class PurgeReverseProxyCacheMessage implements AsyncMessage
     {
     }
 
-    /**
-     * @return int|string|null
-     */
     public function getNodeSourceId(): int|string|null
     {
         return $this->nodeSourceId;

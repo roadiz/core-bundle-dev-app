@@ -20,7 +20,7 @@ final class NodesEmptyTrashCommand extends Command
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly HandlerFactory $handlerFactory,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -43,8 +43,9 @@ final class NodesEmptyTrashCommand extends Command
             ->andWhere($countQb->expr()->eq('n.status', Node::DELETED))
             ->getQuery();
         $emptiedCount = $countQuery->getSingleScalarResult();
-        if ($emptiedCount == 0) {
+        if (0 == $emptiedCount) {
             $io->success('Nodes trashcan is already empty.');
+
             return 0;
         }
 

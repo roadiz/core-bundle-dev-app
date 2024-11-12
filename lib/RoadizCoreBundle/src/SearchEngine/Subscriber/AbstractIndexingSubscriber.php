@@ -31,12 +31,13 @@ abstract class AbstractIndexingSubscriber implements EventSubscriberInterface
         }
 
         if (
-            isset($geoJson['type']) &&
-            $geoJson['type'] === 'Feature' &&
-            isset($geoJson['geometry']['coordinates'])
+            isset($geoJson['type'])
+            && 'Feature' === $geoJson['type']
+            && isset($geoJson['geometry']['coordinates'])
         ) {
-            return $geoJson['geometry']['coordinates'][1] . ',' . $geoJson['geometry']['coordinates'][0];
+            return $geoJson['geometry']['coordinates'][1].','.$geoJson['geometry']['coordinates'][0];
         }
+
         return null;
     }
 
@@ -52,15 +53,16 @@ abstract class AbstractIndexingSubscriber implements EventSubscriberInterface
             return null;
         }
         if (
-            isset($geoJson['type']) &&
-            $geoJson['type'] === 'FeatureCollection' &&
-            isset($geoJson['features']) &&
-            \count($geoJson['features']) > 0
+            isset($geoJson['type'])
+            && 'FeatureCollection' === $geoJson['type']
+            && isset($geoJson['features'])
+            && \count($geoJson['features']) > 0
         ) {
             return array_filter(array_map(function ($feature) {
                 return $this->formatGeoJsonFeature($feature);
             }, $geoJson['features']));
         }
+
         return null;
     }
 }

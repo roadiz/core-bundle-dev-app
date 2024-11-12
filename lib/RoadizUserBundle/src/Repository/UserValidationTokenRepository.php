@@ -22,6 +22,7 @@ class UserValidationTokenRepository extends EntityRepository
     public function findOneByValidToken(string $token): ?UserValidationToken
     {
         $qb = $this->createQueryBuilder('t');
+
         return $qb->andWhere($qb->expr()->eq('t.token', ':token'))
             ->andWhere($qb->expr()->gte('t.tokenValidUntil', ':now'))
             ->setParameter('token', $token)

@@ -24,12 +24,10 @@ final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly ReverseProxyCacheLocator $reverseProxyCacheLocator,
         private readonly MessageBusInterface $bus,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
-    /**
-     * @inheritDoc
-     */
+
     public static function getSubscribedEvents(): array
     {
         return [
@@ -39,17 +37,11 @@ final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @return bool
-     */
     protected function supportConfig(): bool
     {
         return count($this->reverseProxyCacheLocator->getFrontends()) > 0;
     }
 
-    /**
-     * @param Event $event
-     */
     public function onNodeWorkflowCompleted(Event $event): void
     {
         $node = $event->getSubject();
@@ -63,9 +55,6 @@ final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param CachePurgeRequestEvent $event
-     */
     public function onBanRequest(CachePurgeRequestEvent $event): void
     {
         if (!$this->supportConfig()) {
@@ -77,14 +66,11 @@ final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
             $event->addMessage(
                 'Reverse proxy cache cleared.',
                 self::class,
-                'Reverse proxy cache [' . $name . ']'
+                'Reverse proxy cache ['.$name.']'
             );
         }
     }
 
-    /**
-     * @param NodesSourcesUpdatedEvent $event
-     */
     public function onPurgeRequest(NodesSourcesUpdatedEvent $event): void
     {
         if (!$this->supportConfig()) {
@@ -104,7 +90,7 @@ final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
             // Add protocol if host does not start with it
             if (!\str_starts_with($frontend->getHost(), 'http')) {
                 // Use HTTP to be able to call Varnish from a Docker network
-                $uri = 'http://' . $frontend->getHost();
+                $uri = 'http://'.$frontend->getHost();
             } else {
                 $uri = $frontend->getHost();
             }
@@ -112,16 +98,14 @@ final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
                 'BAN',
                 $uri,
                 [
-                    'Host' => $frontend->getDomainName()
+                    'Host' => $frontend->getDomainName(),
                 ]
             );
         }
+
         return $requests;
     }
 
-    /**
-     * @param NodesSources $nodeSource
-     */
     protected function purgeNodesSources(NodesSources $nodeSource): void
     {
         try {
@@ -131,16 +115,12 @@ final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param Request $request
-     * @return void
-     */
     protected function sendRequest(Request $request): void
     {
         try {
             $this->bus->dispatch(new Envelope(new GuzzleRequestMessage($request, [
                 'debug' => false,
-                'timeout' => 3
+                'timeout' => 3,
             ])));
         } catch (ExceptionInterface $exception) {
             $this->logger->error($exception->getMessage());

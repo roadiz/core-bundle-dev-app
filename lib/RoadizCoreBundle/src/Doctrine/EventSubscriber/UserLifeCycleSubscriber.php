@@ -27,20 +27,19 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 #[AsDoctrineListener(event: Events::postPersist)]
 #[AsDoctrineListener(event: Events::postUpdate)]
 #[AsDoctrineListener(event: Events::postRemove)]
-final class UserLifeCycleSubscriber
+final readonly class UserLifeCycleSubscriber
 {
     public function __construct(
-        private readonly UserViewer $userViewer,
-        private readonly EventDispatcherInterface $dispatcher,
-        private readonly PasswordHasherFactoryInterface $passwordHasherFactory,
-        private readonly LoggerInterface $logger,
-        private readonly bool $useGravatar
+        private UserViewer $userViewer,
+        private EventDispatcherInterface $dispatcher,
+        private PasswordHasherFactoryInterface $passwordHasherFactory,
+        private FacebookPictureFinder $facebookPictureFinder,
+        private LoggerInterface $logger,
+        private bool $useGravatar,
     ) {
     }
 
     /**
-     * @param PreUpdateEventArgs $event
-     * @return void
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function preUpdate(PreUpdateEventArgs $event): void
@@ -48,16 +47,16 @@ final class UserLifeCycleSubscriber
         $user = $event->getObject();
         if ($user instanceof User) {
             if (
-                $event->hasChangedField('enabled') &&
-                true === $event->getNewValue('enabled')
+                $event->hasChangedField('enabled')
+                && true === $event->getNewValue('enabled')
             ) {
                 $userEvent = new UserEnabledEvent($user);
                 $this->dispatcher->dispatch($userEvent);
             }
 
             if (
-                $event->hasChangedField('enabled') &&
-                false === $event->getNewValue('enabled')
+                $event->hasChangedField('enabled')
+                && false === $event->getNewValue('enabled')
             ) {
                 $userEvent = new UserDisabledEvent($user);
                 $this->dispatcher->dispatch($userEvent);
@@ -66,8 +65,7 @@ final class UserLifeCycleSubscriber
             if ($event->hasChangedField('facebookName')) {
                 if ('' != $event->getNewValue('facebookName')) {
                     try {
-                        $facebook = new FacebookPictureFinder($user->getFacebookName());
-                        $url = $facebook->getPictureUrl();
+                        $url = $this->facebookPictureFinder->getPictureUrl($user->getFacebookName());
                         $user->setPictureUrl($url);
                     } catch (\Exception $e) {
                         $user->setFacebookName('');
@@ -83,9 +81,9 @@ final class UserLifeCycleSubscriber
              * Encode user password
              */
             if (
-                $event->hasChangedField('password') &&
-                null !== $user->getPlainPassword() &&
-                '' !== $user->getPlainPassword()
+                $event->hasChangedField('password')
+                && null !== $user->getPlainPassword()
+                && '' !== $user->getPlainPassword()
             ) {
                 $this->setPassword($user, $user->getPlainPassword());
                 $userEvent = new UserPasswordChangedEvent($user);
@@ -94,10 +92,6 @@ final class UserLifeCycleSubscriber
         }
     }
 
-    /**
-     * @param User $user
-     * @param string|null $plainPassword
-     */
     protected function setPassword(User $user, ?string $plainPassword): void
     {
         if (null !== $plainPassword) {
@@ -107,9 +101,6 @@ final class UserLifeCycleSubscriber
         }
     }
 
-    /**
-     * @param LifecycleEventArgs $event
-     */
     public function postUpdate(LifecycleEventArgs $event): void
     {
         $user = $event->getObject();
@@ -119,9 +110,6 @@ final class UserLifeCycleSubscriber
         }
     }
 
-    /**
-     * @param LifecycleEventArgs $event
-     */
     public function postRemove(LifecycleEventArgs $event): void
     {
         $user = $event->getObject();
@@ -132,8 +120,6 @@ final class UserLifeCycleSubscriber
     }
 
     /**
-     * @param LifecycleEventArgs $event
-     *
      * @throws \Exception
      */
     public function postPersist(LifecycleEventArgs $event): void
@@ -146,7 +132,6 @@ final class UserLifeCycleSubscriber
     }
 
     /**
-     * @param LifecycleEventArgs $event
      * @throws \Throwable
      */
     public function prePersist(LifecycleEventArgs $event): void
@@ -154,9 +139,9 @@ final class UserLifeCycleSubscriber
         $user = $event->getObject();
         if ($user instanceof User) {
             if (
-                $user->willSendCreationConfirmationEmail() &&
-                (null === $user->getPlainPassword() ||
-                $user->getPlainPassword() === '')
+                $user->willSendCreationConfirmationEmail()
+                && (null === $user->getPlainPassword()
+                || '' === $user->getPlainPassword())
             ) {
                 /*
                  * Do not generate password for new users

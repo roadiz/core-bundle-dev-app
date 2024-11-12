@@ -31,7 +31,7 @@ final class UsersLockCommand extends UsersCommand
         $user = $this->getUserForInput($input);
 
         $confirmation = new ConfirmationQuestion(
-            '<question>Do you really want to lock user “' . $user->getUsername() . '”?</question>',
+            '<question>Do you really want to lock user “'.$user->getUsername().'”?</question>',
             false
         );
         if (
@@ -41,10 +41,12 @@ final class UsersLockCommand extends UsersCommand
         ) {
             $user->setLocked(true);
             $this->managerRegistry->getManagerForClass(User::class)->flush();
-            $io->success('User “' . $name . '” locked.');
+            $io->success('User “'.$name.'” locked.');
+
             return 0;
         } else {
-            $io->warning('User “' . $name . '” was not locked.');
+            $io->warning('User “'.$name.'” was not locked.');
+
             return 1;
         }
     }

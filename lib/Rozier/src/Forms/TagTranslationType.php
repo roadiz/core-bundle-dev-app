@@ -20,17 +20,17 @@ class TagTranslationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class, [
-                'label' => 'name',
-                'empty_data' => '',
-                'constraints' => [
-                    new NotNull(),
-                    new NotBlank(),
-                    // Allow users to rename Tag the same, but tag slug must be different!
-                    new Length([
-                        'max' => 255,
-                    ])
-                ],
-            ])
+            'label' => 'name',
+            'empty_data' => '',
+            'constraints' => [
+                new NotNull(),
+                new NotBlank(),
+                // Allow users to rename Tag the same, but tag slug must be different!
+                new Length([
+                    'max' => 255,
+                ]),
+            ],
+        ])
             ->add('description', MarkdownType::class, [
                 'label' => 'description',
                 'required' => false,

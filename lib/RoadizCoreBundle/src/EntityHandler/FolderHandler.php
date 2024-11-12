@@ -20,16 +20,17 @@ final class FolderHandler extends AbstractHandler
         if (null === $this->folder) {
             throw new \BadMethodCallException('Folder is null');
         }
+
         return $this->folder;
     }
 
     /**
-     * @param Folder $folder
      * @return $this
      */
     public function setFolder(Folder $folder): self
     {
         $this->folder = $folder;
+
         return $this;
     }
 
@@ -65,22 +66,23 @@ final class FolderHandler extends AbstractHandler
          * Final flush
          */
         $this->objectManager->flush();
+
         return $this;
     }
 
     /**
      * Clean position for current folder siblings.
      *
-     * @param bool $setPositions
      * @return float Return the next position after the **last** folder
      */
     public function cleanPositions(bool $setPositions = true): float
     {
-        if ($this->getFolder()->getParent() !== null) {
+        if (null !== $this->getFolder()->getParent()) {
             $parentHandler = new FolderHandler($this->objectManager);
             /** @var Folder|null $parent */
             $parent = $this->getFolder()->getParent();
             $parentHandler->setFolder($parent);
+
             return $parentHandler->cleanChildrenPositions($setPositions);
         } else {
             return $this->cleanRootFoldersPositions($setPositions);
@@ -92,7 +94,6 @@ final class FolderHandler extends AbstractHandler
      *
      * Warning, this method does not flush.
      *
-     * @param bool $setPositions
      * @return float Return the next position after the **last** folder
      */
     public function cleanChildrenPositions(bool $setPositions = true): float
@@ -102,7 +103,7 @@ final class FolderHandler extends AbstractHandler
          */
         $sort = Criteria::create();
         $sort->orderBy([
-            'position' => Criteria::ASC
+            'position' => Criteria::ASC,
         ]);
 
         $children = $this->getFolder()->getChildren()->matching($sort);
@@ -112,7 +113,7 @@ final class FolderHandler extends AbstractHandler
             if ($setPositions) {
                 $child->setPosition($i);
             }
-            $i++;
+            ++$i;
         }
 
         return $i;
@@ -123,7 +124,6 @@ final class FolderHandler extends AbstractHandler
      *
      * Warning, this method does not flush.
      *
-     * @param bool $setPositions
      * @return float Return the next position after the **last** folder
      */
     public function cleanRootFoldersPositions(bool $setPositions = true): float
@@ -138,7 +138,7 @@ final class FolderHandler extends AbstractHandler
             if ($setPositions) {
                 $child->setPosition($i);
             }
-            $i++;
+            ++$i;
         }
 
         return $i;

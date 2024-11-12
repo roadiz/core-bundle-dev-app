@@ -23,7 +23,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
     public function __construct(
         protected readonly IndexerFactoryInterface $indexerFactory,
         ClientRegistry $clientRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($clientRegistry, $name);
     }
@@ -65,6 +65,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
                 $this->executeForAll($stopwatch);
             }
         }
+
         return 0;
     }
 
@@ -109,7 +110,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
             $nodesSourcesIndexer->setIo($this->io);
         }
         // Empty first ONLY if one batch or first batch.
-        if ($batchNumber === 0) {
+        if (0 === $batchNumber) {
             $nodesSourcesIndexer->emptySolr(SolariumNodeSource::DOCUMENT_TYPE);
         }
 

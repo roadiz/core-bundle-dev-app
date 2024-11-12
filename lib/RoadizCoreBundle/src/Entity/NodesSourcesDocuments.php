@@ -16,18 +16,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[
     ORM\Entity(repositoryClass: NodesSourcesDocumentsRepository::class),
-    ORM\Table(name: "nodes_sources_documents"),
-    ORM\Index(columns: ["position"]),
-    ORM\Index(columns: ["ns_id", "field_name"], name: "nsdoc_field"),
-    ORM\Index(columns: ["ns_id", "field_name", "position"], name: "nsdoc_field_position")
+    ORM\Table(name: 'nodes_sources_documents'),
+    ORM\Index(columns: ['position']),
+    ORM\Index(columns: ['ns_id', 'field_name'], name: 'nsdoc_field'),
+    ORM\Index(columns: ['ns_id', 'field_name', 'position'], name: 'nsdoc_field_position')
 ]
 class NodesSourcesDocuments extends AbstractPositioned
 {
     use FieldAwareEntityTrait;
 
-    /**
-     * @var NodesSources
-     */
     #[ORM\ManyToOne(
         targetEntity: NodesSources::class,
         cascade: ['persist'],
@@ -38,9 +35,6 @@ class NodesSourcesDocuments extends AbstractPositioned
     #[ORM\JoinColumn(name: 'ns_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     protected NodesSources $nodeSource;
 
-    /**
-     * @var Document
-     */
     #[ORM\ManyToOne(
         targetEntity: Document::class,
         cascade: ['persist'],
@@ -54,9 +48,9 @@ class NodesSourcesDocuments extends AbstractPositioned
     /**
      * Create a new relation between NodeSource, a Document and a NodeTypeField.
      *
-     * @param NodesSources  $nodeSource NodesSources and inherited types
-     * @param Document $document Document to link
-     * @param NodeTypeFieldInterface|null $field  NodeTypeField
+     * @param NodesSources                $nodeSource NodesSources and inherited types
+     * @param Document                    $document   Document to link
+     * @param NodeTypeFieldInterface|null $field      NodeTypeField
      */
     public function __construct(NodesSources $nodeSource, Document $document, ?NodeTypeFieldInterface $field = null)
     {
@@ -77,8 +71,6 @@ class NodesSourcesDocuments extends AbstractPositioned
 
     /**
      * Gets the value of nodeSource.
-     *
-     * @return NodesSources
      */
     public function getNodeSource(): NodesSources
     {
@@ -89,8 +81,6 @@ class NodesSourcesDocuments extends AbstractPositioned
      * Sets the value of nodeSource.
      *
      * @param NodesSources $nodeSource the node source
-     *
-     * @return self
      */
     public function setNodeSource(NodesSources $nodeSource): NodesSourcesDocuments
     {
@@ -101,8 +91,6 @@ class NodesSourcesDocuments extends AbstractPositioned
 
     /**
      * Gets the value of document.
-     *
-     * @return Document
      */
     public function getDocument(): Document
     {
@@ -113,8 +101,6 @@ class NodesSourcesDocuments extends AbstractPositioned
      * Sets the value of document.
      *
      * @param Document $document the document
-     *
-     * @return self
      */
     public function setDocument(Document $document): NodesSourcesDocuments
     {

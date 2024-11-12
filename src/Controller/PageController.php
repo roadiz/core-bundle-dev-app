@@ -13,7 +13,7 @@ class PageController extends AbstractController
     public function indexAction(NodesSources $nodeSource): Response
     {
         return $this->render('nodeSource/page.html.twig', [
-            'nodeSource' => $nodeSource
+            'nodeSource' => $nodeSource,
         ]);
     }
 }

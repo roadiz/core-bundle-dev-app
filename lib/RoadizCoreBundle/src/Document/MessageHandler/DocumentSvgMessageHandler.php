@@ -12,10 +12,6 @@ use RZ\Roadiz\Documents\SvgSizeResolver;
 
 final class DocumentSvgMessageHandler extends AbstractLockingDocumentMessageHandler
 {
-    /**
-     * @param  DocumentInterface $document
-     * @return bool
-     */
     protected function supports(DocumentInterface $document): bool
     {
         return $document->isLocal() && null !== $document->getRelativePath() && $document->isSvg();

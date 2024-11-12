@@ -14,7 +14,7 @@ final class DefaultValuesResolver implements DefaultValuesResolverInterface
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private readonly string $inheritanceType
+        private readonly string $inheritanceType,
     ) {
     }
 
@@ -24,7 +24,7 @@ final class DefaultValuesResolver implements DefaultValuesResolverInterface
          * With joined inheritance, we can use current field default values because
          * SQL field won't be shared between all node types.
          */
-        if ($this->inheritanceType === Configuration::INHERITANCE_TYPE_JOINED) {
+        if (Configuration::INHERITANCE_TYPE_JOINED === $this->inheritanceType) {
             return array_map('trim', explode(',', $field->getDefaultValues() ?? ''));
         } else {
             /*
@@ -39,6 +39,7 @@ final class DefaultValuesResolver implements DefaultValuesResolverInterface
             foreach ($nodeTypeFields as $nodeTypeField) {
                 $defaultValues = array_merge($defaultValues, array_map('trim', explode(',', $nodeTypeField->getDefaultValues() ?? '')));
             }
+
             return $defaultValues;
         }
     }

@@ -27,7 +27,7 @@ final class ImageCropAlignmentType extends AbstractType
                 'image_crop_alignment.bottom-left' => 'bottom-left',
                 'image_crop_alignment.bottom' => 'bottom',
                 'image_crop_alignment.bottom-right' => 'bottom-right',
-            ]
+            ],
         ]);
     }
 
@@ -35,7 +35,6 @@ final class ImageCropAlignmentType extends AbstractType
     {
         return 'image_crop_alignment';
     }
-
 
     public function getParent(): string
     {

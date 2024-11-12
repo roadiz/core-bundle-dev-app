@@ -14,7 +14,6 @@ class PasswordGenerator extends RandomGenerator implements PasswordGeneratorInte
      * The available characters in each set are user friendly - there are no ambiguous
      * characters such as i, l, 1, o, 0, etc.
      *
-     * @param int $length
      * @return string
      *
      * @see https://gist.github.com/tylerhall/521810
@@ -35,7 +34,7 @@ class PasswordGenerator extends RandomGenerator implements PasswordGeneratorInte
         }
 
         $all = \mb_str_split($all);
-        for ($i = 0; $i < $length - count($sets); $i++) {
+        for ($i = 0; $i < $length - count($sets); ++$i) {
             $password .= $all[array_rand($all)];
         }
 

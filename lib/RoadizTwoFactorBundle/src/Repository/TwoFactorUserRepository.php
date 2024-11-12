@@ -16,7 +16,7 @@ class TwoFactorUserRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, TwoFactorUser::class, $dispatcher);
     }

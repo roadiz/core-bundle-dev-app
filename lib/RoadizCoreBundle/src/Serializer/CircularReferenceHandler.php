@@ -26,6 +26,7 @@ final class CircularReferenceHandler
             if (is_object($object) && method_exists($object, 'getId')) {
                 return (string) $object->getId();
             }
+
             return '';
         }
     }

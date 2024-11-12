@@ -18,17 +18,17 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 final class DocumentExplorerItem extends AbstractExplorerItem
 {
     public static array $thumbnail80Array = [
-        "fit" => "80x80",
-        "quality" => 50,
-        "sharpen" => 5,
-        "inline" => false,
+        'fit' => '80x80',
+        'quality' => 50,
+        'sharpen' => 5,
+        'inline' => false,
     ];
     public static array $previewArray = [
-        "width" => 1440,
-        "quality" => 80,
-        "inline" => false,
-        "picture" => true,
-        "embed" => true,
+        'width' => 1440,
+        'quality' => 80,
+        'inline' => false,
+        'picture' => true,
+        'embed' => true,
     ];
 
     public function __construct(
@@ -36,7 +36,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         private readonly RendererInterface $renderer,
         private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ?EmbedFinderFactory $embedFinderFactory = null
+        private readonly ?EmbedFinderFactory $embedFinderFactory = null,
     ) {
     }
 
@@ -45,6 +45,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         if ($this->document instanceof PersistableInterface) {
             return $this->document->getId();
         }
+
         return 0;
     }
 
@@ -56,12 +57,13 @@ final class DocumentExplorerItem extends AbstractExplorerItem
     public function getDisplayable(): string
     {
         if (
-            $this->document instanceof Document &&
-            $this->document->getDocumentTranslations()->first() &&
-            $this->document->getDocumentTranslations()->first()->getName()
+            $this->document instanceof Document
+            && $this->document->getDocumentTranslations()->first()
+            && $this->document->getDocumentTranslations()->first()->getName()
         ) {
             return $this->document->getDocumentTranslations()->first()->getName();
         }
+
         return (string) $this->document;
     }
 
@@ -75,8 +77,9 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         if (!($this->document instanceof PersistableInterface)) {
             return null;
         }
+
         return $this->urlGenerator->generate('documentsEditPage', [
-            'documentId' => $this->document->getId()
+            'documentId' => $this->document->getId(),
         ]);
     }
 
@@ -85,9 +88,9 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         if ($this->document instanceof AdvancedDocumentInterface) {
             return $this->document->getImageAverageColor();
         }
+
         return null;
     }
-
 
     public function toArray(): array
     {
@@ -97,10 +100,10 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         $hasThumbnail = false;
 
         if (
-            $this->document instanceof HasThumbnailInterface &&
-            $this->document->needsThumbnail() &&
-            $this->document->hasThumbnails() &&
-            false !== $thumbnail = $this->document->getThumbnails()->first()
+            $this->document instanceof HasThumbnailInterface
+            && $this->document->needsThumbnail()
+            && $this->document->hasThumbnails()
+            && false !== $thumbnail = $this->document->getThumbnails()->first()
         ) {
             $this->documentUrlGenerator->setDocument($thumbnail);
             $hasThumbnail = true;
@@ -121,7 +124,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
             ...parent::toArray(),
             'hasThumbnail' => $hasThumbnail,
             'isImage' => $this->document->isImage(),
-            'isWebp' => $this->document->getMimeType() === 'image/webp',
+            'isWebp' => 'image/webp' === $this->document->getMimeType(),
             'isVideo' => $this->document->isVideo(),
             'isSvg' => $this->document->isSvg(),
             'isEmbed' => $this->document->isEmbed(),

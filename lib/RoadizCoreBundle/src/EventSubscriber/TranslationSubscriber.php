@@ -34,15 +34,15 @@ final class TranslationSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Empty nodeSources Url cache
+     * Empty nodeSources Url cache.
      */
     public function purgeCache(Event $event, string $eventName, EventDispatcherInterface $dispatcher): void
     {
         $manager = $this->managerRegistry->getManager();
         // Clear result cache
         if (
-            $manager instanceof EntityManagerInterface &&
-            $manager->getConfiguration()->getResultCacheImpl() instanceof CacheProvider
+            $manager instanceof EntityManagerInterface
+            && $manager->getConfiguration()->getResultCacheImpl() instanceof CacheProvider
         ) {
             $manager->getConfiguration()->getResultCacheImpl()->deleteAll();
         }

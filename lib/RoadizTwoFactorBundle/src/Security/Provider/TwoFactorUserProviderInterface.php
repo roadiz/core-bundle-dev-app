@@ -6,7 +6,6 @@ namespace RZ\Roadiz\TwoFactorBundle\Security\Provider;
 
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\TwoFactorBundle\Entity\TwoFactorUser;
-use Scheb\TwoFactorBundle\Model\BackupCodeInterface;
 
 interface TwoFactorUserProviderInterface
 {

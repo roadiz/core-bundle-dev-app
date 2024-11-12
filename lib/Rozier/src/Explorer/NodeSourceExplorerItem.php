@@ -18,7 +18,7 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
     public function __construct(
         private readonly NodesSources $nodeSource,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly Security $security
+        private readonly Security $security,
     ) {
     }
 
@@ -67,6 +67,7 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
                 'translationId' => $translation->getId(),
             ]);
         }
+
         return null;
     }
 
@@ -74,6 +75,7 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
     {
         /** @var NodesSourcesDocuments|false $thumbnail */
         $thumbnail = $this->nodeSource->getDocumentsByFields()->first();
+
         return $thumbnail ? $thumbnail->getDocument() : null;
     }
 

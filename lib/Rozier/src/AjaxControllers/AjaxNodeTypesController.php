@@ -18,14 +18,12 @@ final class AjaxNodeTypesController extends AbstractAjaxController
 {
     public function __construct(
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
 
     /**
-     * @param Request $request
-     *
      * @return Response JSON response
      */
     public function indexAction(Request $request): Response
@@ -52,15 +50,15 @@ final class AjaxNodeTypesController extends AbstractAjaxController
             'statusCode' => 200,
             'nodeTypes' => $documentsArray,
             'nodeTypesCount' => count($nodeTypes),
-            'filters' => $listManager->getAssignation()
+            'filters' => $listManager->getAssignation(),
         ]);
     }
 
     /**
      * Get a NodeType list from an array of id.
      *
-     * @param Request $request
      * @return JsonResponse
+     *
      * @throws NotSupported
      */
     public function listAction(Request $request): Response
@@ -72,7 +70,7 @@ final class AjaxNodeTypesController extends AbstractAjaxController
         }
 
         $cleanNodeTypesName = array_filter($request->query->filter('names', [], \FILTER_DEFAULT, [
-            'flags' => \FILTER_FORCE_ARRAY
+            'flags' => \FILTER_FORCE_ARRAY,
         ]));
         $nodesArray = [];
 
@@ -80,7 +78,7 @@ final class AjaxNodeTypesController extends AbstractAjaxController
             /** @var EntityManager $em */
             $em = $this->em();
             $nodeTypes = $em->getRepository(NodeType::class)->findBy([
-                'name' => $cleanNodeTypesName
+                'name' => $cleanNodeTypesName,
             ]);
 
             // Sort array by ids given in request
@@ -90,7 +88,7 @@ final class AjaxNodeTypesController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
-            'items' => $nodesArray
+            'items' => $nodesArray,
         ]);
     }
 
@@ -98,7 +96,6 @@ final class AjaxNodeTypesController extends AbstractAjaxController
      * Normalize response NodeType list result.
      *
      * @param iterable<NodeType> $nodeTypes
-     * @return array
      */
     private function normalizeNodeType(iterable $nodeTypes): array
     {

@@ -12,18 +12,15 @@ use RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TypedObjectConstructorInte
 class NodeTypesImporter implements EntityImporterInterface
 {
     public function __construct(
-        protected SerializerInterface $serializer
+        protected SerializerInterface $serializer,
     ) {
     }
 
     public function supports(string $entityClass): bool
     {
-        return $entityClass === NodeType::class;
+        return NodeType::class === $entityClass;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function import(string $serializedData): bool
     {
         $this->serializer->deserialize(

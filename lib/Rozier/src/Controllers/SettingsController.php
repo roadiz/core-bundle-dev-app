@@ -30,16 +30,13 @@ class SettingsController extends RozierApp
 {
     public function __construct(
         private readonly FormFactoryInterface $formFactory,
-        private readonly FormErrorSerializer $formErrorSerializer
+        private readonly FormErrorSerializer $formErrorSerializer,
     ) {
     }
 
     /**
      * List every setting.
      *
-     * @param Request $request
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function indexAction(Request $request): Response
@@ -54,10 +51,6 @@ class SettingsController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     * @param int $settingGroupId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function byGroupAction(Request $request, int $settingGroupId): Response
@@ -67,7 +60,7 @@ class SettingsController extends RozierApp
         /** @var SettingGroup|null $settingGroup */
         $settingGroup = $this->em()->find(SettingGroup::class, $settingGroupId);
 
-        if ($settingGroup === null) {
+        if (null === $settingGroup) {
             throw new ResourceNotFoundException();
         }
 
@@ -80,13 +73,7 @@ class SettingsController extends RozierApp
         return $this->render('@RoadizRozier/settings/list.html.twig', $this->assignation);
     }
 
-    /**
-     * @param Request $request
-     * @param SettingGroup|null $settingGroup
-     *
-     * @return Response|null
-     */
-    protected function commonSettingList(Request $request, SettingGroup $settingGroup = null): ?Response
+    protected function commonSettingList(Request $request, ?SettingGroup $settingGroup = null): ?Response
     {
         $criteria = [];
         if (null !== $settingGroup) {
@@ -114,9 +101,9 @@ class SettingsController extends RozierApp
         $settings = $listManager->getEntities();
         $this->assignation['settings'] = [];
         $isJson =
-            $request->isXmlHttpRequest() ||
-            $request->getRequestFormat('html') === 'json' ||
-            \in_array(
+            $request->isXmlHttpRequest()
+            || 'json' === $request->getRequestFormat('html')
+            || \in_array(
                 'application/json',
                 $request->getAcceptableContentTypes()
             );
@@ -176,7 +163,7 @@ class SettingsController extends RozierApp
             }
 
             $document = null;
-            if ($setting->getType() == AbstractField::DOCUMENTS_T) {
+            if (AbstractField::DOCUMENTS_T == $setting->getType()) {
                 $document = $this->getSettingsBag()->getDocument($setting->getName());
             }
 
@@ -193,10 +180,6 @@ class SettingsController extends RozierApp
     /**
      * Return an edition form for requested setting.
      *
-     * @param Request $request
-     * @param int $settingId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function editAction(Request $request, int $settingId): Response
@@ -205,14 +188,14 @@ class SettingsController extends RozierApp
         /** @var Setting|null $setting */
         $setting = $this->em()->find(Setting::class, $settingId);
 
-        if ($setting === null) {
+        if (null === $setting) {
             throw $this->createNotFoundException();
         }
 
         $this->assignation['setting'] = $setting;
 
         $form = $this->createForm(SettingType::class, $setting, [
-            'shortEdit' => false
+            'shortEdit' => false,
         ]);
         $form->handleRequest($request);
 
@@ -223,6 +206,7 @@ class SettingsController extends RozierApp
                 $this->em()->flush();
                 $msg = $this->getTranslator()->trans('setting.%name%.updated', ['%name%' => $setting->getName()]);
                 $this->publishConfirmMessage($request, $msg, $setting);
+
                 /*
                  * Force redirect to avoid resending form when refreshing page
                  */
@@ -252,9 +236,6 @@ class SettingsController extends RozierApp
     /**
      * Return a creation form for requested setting.
      *
-     * @param Request $request
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function addAction(Request $request): Response
@@ -293,10 +274,6 @@ class SettingsController extends RozierApp
     /**
      * Return a deletion form for requested setting.
      *
-     * @param Request $request
-     * @param int $settingId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function deleteAction(Request $request, int $settingId): Response

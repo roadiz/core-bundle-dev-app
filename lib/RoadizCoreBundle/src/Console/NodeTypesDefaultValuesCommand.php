@@ -19,7 +19,7 @@ final class NodeTypesDefaultValuesCommand extends Command
     public function __construct(
         private readonly DefaultValuesResolverInterface $defaultValuesResolver,
         private readonly ManagerRegistry $managerRegistry,
-        string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -57,7 +57,7 @@ final class NodeTypesDefaultValuesCommand extends Command
             throw new \InvalidArgumentException('Field name must be a valid field name.');
         }
         if (!$oneField->isEnum()) {
-            throw new \InvalidArgumentException('Field name must be an enum field. Valid fields names are: ' . implode(', ', $enumFieldsNames));
+            throw new \InvalidArgumentException('Field name must be an enum field. Valid fields names are: '.implode(', ', $enumFieldsNames));
         }
 
         $defaultValues = $this->defaultValuesResolver->getDefaultValuesAmongAllFields($oneField);
@@ -70,9 +70,10 @@ final class NodeTypesDefaultValuesCommand extends Command
                 $oneField->getLabel(),
                 $oneField->getDescription(),
                 implode(', ', array_unique($defaultValues)),
-                $maxDefaultValuesLength
+                $maxDefaultValuesLength,
             ],
         ]);
+
         return 0;
     }
 }

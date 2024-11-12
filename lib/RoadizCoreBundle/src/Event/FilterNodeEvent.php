@@ -7,9 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Event;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use Symfony\Contracts\EventDispatcher\Event;
 
-/**
- * @package RZ\Roadiz\CoreBundle\Event
- */
 abstract class FilterNodeEvent extends Event
 {
     protected Node $node;

@@ -32,7 +32,7 @@ abstract class AbstractDocumentFactory
     public function __construct(
         FilesystemOperator $documentsStorage,
         DocumentFinderInterface $documentFinder,
-        ?LoggerInterface $logger = null
+        ?LoggerInterface $logger = null,
     ) {
         if (!$documentsStorage instanceof MountManager) {
             trigger_error('Document Storage must be a MountManager to address public and private files.', E_USER_WARNING);
@@ -42,69 +42,56 @@ abstract class AbstractDocumentFactory
         $this->logger = $logger ?? new NullLogger();
     }
 
-    /**
-     * @return File
-     */
     public function getFile(): File
     {
         if (null === $this->file) {
             throw new \BadMethodCallException('File should be defined before using it.');
         }
+
         return $this->file;
     }
 
     /**
-     * @param  File $file
      * @return $this
      */
     public function setFile(File $file): static
     {
         $this->file = $file;
+
         return $this;
     }
 
-    /**
-     * @return FolderInterface|null
-     */
     public function getFolder(): ?FolderInterface
     {
         return $this->folder;
     }
 
     /**
-     * @param FolderInterface|null $folder
      * @return $this
      */
     public function setFolder(?FolderInterface $folder = null): static
     {
         $this->folder = $folder;
+
         return $this;
     }
 
     /**
      * Special case for SVG without XML statement.
-     *
-     * @param DocumentInterface $document
      */
     protected function parseSvgMimeType(DocumentInterface $document): void
     {
         if (
-            ($document->getMimeType() === 'text/plain' || $document->getMimeType() === 'text/html') &&
-            preg_match('#\.svg$#', $document->getFilename())
+            ('text/plain' === $document->getMimeType() || 'text/html' === $document->getMimeType())
+            && preg_match('#\.svg$#', $document->getFilename())
         ) {
             $this->logger->debug('Uploaded a SVG without xml declaration. Presuming it’s a valid SVG file.');
             $document->setMimeType('image/svg+xml');
         }
     }
 
-    /**
-     * @return DocumentInterface
-     */
     abstract protected function createDocument(): DocumentInterface;
 
-    /**
-     * @param DocumentInterface $document
-     */
     abstract protected function persistDocument(DocumentInterface $document): void;
 
     protected function getHashAlgorithm(): string
@@ -116,14 +103,14 @@ abstract class AbstractDocumentFactory
      * Create a document from UploadedFile, Be careful, this method does not flush, only
      * persists current Document.
      *
-     * @param bool $allowEmpty Default false, requires a local file to create new document entity
+     * @param bool $allowEmpty      Default false, requires a local file to create new document entity
      * @param bool $allowDuplicates Default false, always import new document even if file already exists
-     * @return null|DocumentInterface
+     *
      * @throws FilesystemException
      */
     public function getDocument(bool $allowEmpty = false, bool $allowDuplicates = false): ?DocumentInterface
     {
-        if ($allowEmpty === false) {
+        if (false === $allowEmpty) {
             // Getter throw exception on null file
             $file = $this->getFile();
         } else {
@@ -147,8 +134,8 @@ abstract class AbstractDocumentFactory
             $existingDocument = $this->documentFinder->findOneByHashAndAlgorithm($fileHash, $this->getHashAlgorithm());
             if (null !== $existingDocument) {
                 if (
-                    $existingDocument->isRaw() &&
-                    null !== $existingDownscaledDocument = $existingDocument->getDownscaledDocument()
+                    $existingDocument->isRaw()
+                    && null !== $existingDownscaledDocument = $existingDocument->getDownscaledDocument()
                 ) {
                     $existingDocument = $existingDownscaledDocument;
                 }
@@ -160,6 +147,7 @@ abstract class AbstractDocumentFactory
                     'File %s already exists with same checksum, do not upload it twice.',
                     $existingDocument->getFilename()
                 ));
+
                 return $existingDocument;
             }
         }
@@ -175,8 +163,8 @@ abstract class AbstractDocumentFactory
         $this->parseSvgMimeType($document);
 
         if (
-            $document instanceof FileHashInterface &&
-            false !== $fileHash
+            $document instanceof FileHashInterface
+            && false !== $fileHash
         ) {
             $document->setFileHash($fileHash);
             $document->setFileHashAlgorithm($this->getHashAlgorithm());
@@ -196,8 +184,6 @@ abstract class AbstractDocumentFactory
     /**
      * Updates a document from UploadedFile, Be careful, this method does not flush.
      *
-     * @param DocumentInterface $document
-     * @return DocumentInterface
      * @throws FilesystemException
      */
     public function updateDocument(DocumentInterface $document): DocumentInterface
@@ -231,7 +217,7 @@ abstract class AbstractDocumentFactory
                 }
             }
 
-            $document->setFolder(\mb_substr(hash("crc32b", date('YmdHi')), 0, 12));
+            $document->setFolder(\mb_substr(hash('crc32b', date('YmdHi')), 0, 12));
         }
 
         $document->setFilename($this->getFileName());
@@ -247,9 +233,6 @@ abstract class AbstractDocumentFactory
     }
 
     /**
-     * @param File $localFile
-     * @param DocumentInterface $document
-     * @return void
      * @throws FilesystemException
      */
     public function moveFile(File $localFile, DocumentInterface $document): void
@@ -267,9 +250,6 @@ abstract class AbstractDocumentFactory
         }
     }
 
-    /**
-     * @return string
-     */
     protected function getFileName(): string
     {
         $file = $this->getFile();
@@ -278,8 +258,8 @@ abstract class AbstractDocumentFactory
             $fileName = $file->getClientOriginalName();
         } elseif (
             $file instanceof DownloadedFile
-            && $file->getOriginalFilename() !== null
-            && $file->getOriginalFilename() !== ''
+            && null !== $file->getOriginalFilename()
+            && '' !== $file->getOriginalFilename()
         ) {
             $fileName = $file->getOriginalFilename();
         } else {
@@ -292,9 +272,6 @@ abstract class AbstractDocumentFactory
     /**
      * Create a Document from an external URL.
      *
-     * @param string $downloadUrl
-     *
-     * @return DocumentInterface|null
      * @throws FilesystemException
      */
     public function getDocumentFromUrl(string $downloadUrl): ?DocumentInterface
@@ -303,6 +280,7 @@ abstract class AbstractDocumentFactory
         if (null !== $downloadedFile) {
             return $this->setFile($downloadedFile)->getDocument();
         }
+
         return null;
     }
 }

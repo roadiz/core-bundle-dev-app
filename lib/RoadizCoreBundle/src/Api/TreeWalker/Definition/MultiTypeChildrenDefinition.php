@@ -15,25 +15,22 @@ final class MultiTypeChildrenDefinition
     use ContextualDefinitionTrait;
 
     /**
-     * @param WalkerContextInterface $context
      * @param array<string> $types
-     * @param bool $onlyVisible
      */
     public function __construct(
         private readonly WalkerContextInterface $context,
         private readonly array $types,
-        private readonly bool $onlyVisible = true
+        private readonly bool $onlyVisible = true,
     ) {
     }
 
     /**
-     * @param NodesSources $source
      * @return array<NodesSources>
      */
     public function __invoke(NodesSources $source): array
     {
         if (!($this->context instanceof NodeSourceWalkerContext)) {
-            throw new \InvalidArgumentException('Context should be instance of ' . NodeSourceWalkerContext::class);
+            throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
         }
 
         $this->context->getStopwatch()->start(self::class);
@@ -50,7 +47,7 @@ final class MultiTypeChildrenDefinition
         if ($this->onlyVisible) {
             $criteria['node.visible'] = true;
         }
-        if (count($nodeTypes) === 1) {
+        if (1 === count($nodeTypes)) {
             $entityName = $nodeTypes[0]->getSourceEntityFullQualifiedClassName();
         } else {
             $entityName = NodesSources::class;

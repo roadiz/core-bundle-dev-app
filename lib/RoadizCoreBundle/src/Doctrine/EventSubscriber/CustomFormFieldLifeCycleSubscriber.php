@@ -16,9 +16,6 @@ final class CustomFormFieldLifeCycleSubscriber
     {
     }
 
-    /**
-     * @param LifecycleEventArgs $event
-     */
     public function prePersist(LifecycleEventArgs $event): void
     {
         $field = $event->getObject();
@@ -26,7 +23,7 @@ final class CustomFormFieldLifeCycleSubscriber
             /*
              * Automatically set position only if not manually set before.
              */
-            if ($field->getPosition() === 0.0) {
+            if (0.0 === $field->getPosition()) {
                 /*
                  * Get the last index after last node in parent
                  */

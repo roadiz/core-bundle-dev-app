@@ -16,7 +16,7 @@ abstract class AjaxAbstractFieldsController extends AbstractAjaxController
 {
     public function __construct(
         protected readonly HandlerFactoryInterface $handlerFactory,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
@@ -28,21 +28,16 @@ abstract class AjaxAbstractFieldsController extends AbstractAjaxController
 
     /**
      * Handle actions for any abstract fields.
-     *
-     * @param Request       $request
-     * @param AbstractField|null $field
-     *
-     * @return null|Response
      */
-    protected function handleFieldActions(Request $request, AbstractField $field = null): ?Response
+    protected function handleFieldActions(Request $request, ?AbstractField $field = null): ?Response
     {
         $this->validateRequest($request);
 
-        if ($field !== null) {
+        if (null !== $field) {
             /*
              * Get the right update method against "_action" parameter
              */
-            if ($request->get('_action') !== 'updatePosition') {
+            if ('updatePosition' !== $request->get('_action')) {
                 throw new BadRequestHttpException('Action does not exist');
             }
 
@@ -57,13 +52,7 @@ abstract class AjaxAbstractFieldsController extends AbstractAjaxController
         return null;
     }
 
-    /**
-     * @param array $parameters
-     * @param AbstractField|null $field
-     *
-     * @return array
-     */
-    protected function updatePosition(array $parameters, AbstractField $field = null): array
+    protected function updatePosition(array $parameters, ?AbstractField $field = null): array
     {
         if (!empty($parameters['afterFieldId']) && is_numeric($parameters['afterFieldId'])) {
             $afterField = $this->findEntity((int) $parameters['afterFieldId']);
@@ -76,6 +65,7 @@ abstract class AjaxAbstractFieldsController extends AbstractAjaxController
             $handler = $this->handlerFactory->getHandler($field);
             $handler->cleanPositions();
             $this->em()->flush();
+
             return [
                 'statusCode' => '200',
                 'status' => 'success',
@@ -95,6 +85,7 @@ abstract class AjaxAbstractFieldsController extends AbstractAjaxController
             $handler = $this->handlerFactory->getHandler($field);
             $handler->cleanPositions();
             $this->em()->flush();
+
             return [
                 'statusCode' => '200',
                 'status' => 'success',

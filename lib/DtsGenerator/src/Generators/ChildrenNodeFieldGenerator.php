@@ -12,14 +12,16 @@ final class ChildrenNodeFieldGenerator extends AbstractFieldGenerator
             $this->getIntroduction(),
         ]);
     }
+
     protected function getIntroductionLines(): array
     {
         $lines = [
-            'This node-type uses "blocks" which are available through parent RoadizNodesSources.blocks'
+            'This node-type uses "blocks" which are available through parent RoadizNodesSources.blocks',
         ];
         if (!empty($this->field->getDefaultValues())) {
-            $lines[] = 'Possible block node-types: ' . $this->field->getDefaultValues();
+            $lines[] = 'Possible block node-types: '.$this->field->getDefaultValues();
         }
+
         return $lines;
     }
 

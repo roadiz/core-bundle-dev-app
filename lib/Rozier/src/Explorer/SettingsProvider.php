@@ -24,10 +24,7 @@ final class SettingsProvider extends AbstractDoctrineExplorerProvider
         return ['name' => 'ASC'];
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function supports($item): bool
+    public function supports(mixed $item): bool
     {
         if ($item instanceof Setting) {
             return true;

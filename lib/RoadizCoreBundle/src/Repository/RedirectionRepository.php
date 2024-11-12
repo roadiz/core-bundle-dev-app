@@ -14,13 +14,14 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method Redirection|null findOneBy(array $criteria, array $orderBy = null)
  * @method Redirection[]    findAll()
  * @method Redirection[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
  * @extends EntityRepository<Redirection>
  */
 final class RedirectionRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, Redirection::class, $dispatcher);
     }

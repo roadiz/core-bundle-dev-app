@@ -21,25 +21,20 @@ abstract class AbstractWidget
 
     public function __construct(
         protected RequestStack $requestStack,
-        protected ManagerRegistry $managerRegistry
+        protected ManagerRegistry $managerRegistry,
     ) {
     }
 
-    /**
-     * @return Request
-     */
     protected function getRequest(): Request
     {
         $request = $this->requestStack->getCurrentRequest() ?? $this->requestStack->getMainRequest();
         if (null === $request) {
             throw new \RuntimeException('Request cannot be found.');
         }
+
         return $request;
     }
 
-    /**
-     * @return ManagerRegistry
-     */
     protected function getManagerRegistry(): ManagerRegistry
     {
         return $this->managerRegistry;

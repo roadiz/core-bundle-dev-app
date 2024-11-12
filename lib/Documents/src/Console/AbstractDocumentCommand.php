@@ -20,7 +20,7 @@ abstract class AbstractDocumentCommand extends Command
         protected ManagerRegistry $managerRegistry,
         protected ImageManager $imageManager,
         protected FilesystemOperator $documentsStorage,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -31,22 +31,19 @@ abstract class AbstractDocumentCommand extends Command
     }
 
     /**
-     * @return DocumentRepositoryInterface<DocumentInterface> & EntityRepository<DocumentInterface>
+     * @return DocumentRepositoryInterface<DocumentInterface>&EntityRepository<DocumentInterface>
      */
     protected function getDocumentRepository(): DocumentRepositoryInterface
     {
         $repository = $this->managerRegistry->getRepository(DocumentInterface::class);
         if (!$repository instanceof DocumentRepositoryInterface) {
-            throw new \InvalidArgumentException('Document repository must implement ' . DocumentRepositoryInterface::class);
+            throw new \InvalidArgumentException('Document repository must implement '.DocumentRepositoryInterface::class);
         }
+
         return $repository;
     }
 
     /**
-     * @param callable $method
-     * @param SymfonyStyle $io
-     * @param int $batchSize
-     * @return int
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -62,6 +59,7 @@ abstract class AbstractDocumentCommand extends Command
 
         if ($count < 1) {
             $io->success('No document found');
+
             return 0;
         }
 
@@ -82,6 +80,7 @@ abstract class AbstractDocumentCommand extends Command
         }
         $manager->flush();
         $io->progressFinish();
+
         return 0;
     }
 }

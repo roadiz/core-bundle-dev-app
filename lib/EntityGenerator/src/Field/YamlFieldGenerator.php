@@ -16,20 +16,21 @@ final class YamlFieldGenerator extends NonVirtualFieldGenerator
         if (!$this->excludeFromSerialization()) {
             $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
             $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
-                $this->field->getVarName()
+                $this->field->getVarName(),
             ]);
             $property->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
-                'serializedName' => $this->field->getVarName()
+                'serializedName' => $this->field->getVarName(),
             ]);
             $property->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [
-                $this->getSerializationGroups()
+                $this->getSerializationGroups(),
             ]);
             if ($this->getSerializationMaxDepth() > 0) {
                 $property->addAttribute('Symfony\Component\Serializer\Attribute\MaxDepth', [
-                    $this->getSerializationMaxDepth()
+                    $this->getSerializationMaxDepth(),
                 ]);
             }
         }
+
         return $this;
     }
 
@@ -37,6 +38,7 @@ final class YamlFieldGenerator extends NonVirtualFieldGenerator
     {
         $groups = parent::getDefaultSerializationGroups();
         $groups[] = 'nodes_sources_yaml';
+
         return $groups;
     }
 
@@ -52,9 +54,9 @@ final class YamlFieldGenerator extends NonVirtualFieldGenerator
 
     public function addFieldAlternativeGetter(ClassType $classType): self
     {
-        $assignation = '$this->' . $this->field->getVarName();
+        $assignation = '$this->'.$this->field->getVarName();
 
-        $method = $classType->addMethod($this->field->getGetterName() . 'AsObject')
+        $method = $classType->addMethod($this->field->getGetterName().'AsObject')
             ->setReturnType('object|array|null')
             ->setVisibility('public')
         ;

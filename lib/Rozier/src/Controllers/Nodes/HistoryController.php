@@ -20,9 +20,6 @@ use Twig\Error\RuntimeError;
 class HistoryController extends RozierApp
 {
     /**
-     * @param Request $request
-     * @param int $nodeId
-     * @return Response
      * @throws RuntimeError
      */
     public function historyAction(Request $request, int $nodeId): Response
@@ -45,7 +42,7 @@ class HistoryController extends RozierApp
                 $queryBuilder->expr()->like('obj.message', ':search'),
                 $queryBuilder->expr()->like('obj.channel', ':search')
             ));
-            $queryBuilder->setParameter('search', '%' . $search . '%');
+            $queryBuilder->setParameter('search', '%'.$search.'%');
         });
         $listManager->setDisplayingNotPublishedNodes(true);
         $listManager->setDisplayingAllNodesStatuses(true);

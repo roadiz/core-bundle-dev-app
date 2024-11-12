@@ -18,7 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class ThemesListCommand extends Command
 {
     public function __construct(
-        private readonly ThemeResolverInterface $themeResolver
+        private readonly ThemeResolverInterface $themeResolver,
     ) {
         parent::__construct();
     }
@@ -34,12 +34,6 @@ final class ThemesListCommand extends Command
             );
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     *
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -54,12 +48,12 @@ final class ThemesListCommand extends Command
             $name = str_replace('/', '\\', $name);
             $theme = $this->themeResolver->findThemeByClass($name);
             if (null === $theme) {
-                throw new InvalidArgumentException($name . ' theme cannot be found.');
+                throw new InvalidArgumentException($name.' theme cannot be found.');
             }
             $tableContent[] = [
                 str_replace('\\', '/', $theme->getClassName()),
-                ($theme->isAvailable() ? 'X' : ''),
-                ($theme->isBackendTheme() ? 'Backend' : 'Frontend'),
+                $theme->isAvailable() ? 'X' : '',
+                $theme->isBackendTheme() ? 'Backend' : 'Frontend',
             ];
         } else {
             $themes = $this->themeResolver->findAll();
@@ -67,8 +61,8 @@ final class ThemesListCommand extends Command
                 foreach ($themes as $theme) {
                     $tableContent[] = [
                         str_replace('\\', '/', $theme->getClassName()),
-                        ($theme->isAvailable() ? 'X' : ''),
-                        ($theme->isBackendTheme() ? 'Backend' : 'Frontend'),
+                        $theme->isAvailable() ? 'X' : '',
+                        $theme->isBackendTheme() ? 'Backend' : 'Frontend',
                     ];
                 }
             } else {
@@ -77,6 +71,7 @@ final class ThemesListCommand extends Command
         }
 
         $io->table(['Class (with / instead of \)', 'Enabled', 'Type'], $tableContent);
+
         return 0;
     }
 }

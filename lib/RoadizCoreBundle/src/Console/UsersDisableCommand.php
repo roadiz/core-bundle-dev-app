@@ -31,7 +31,7 @@ final class UsersDisableCommand extends UsersCommand
         $user = $this->getUserForInput($input);
 
         $confirmation = new ConfirmationQuestion(
-            '<question>Do you really want to disable user “' . $user->getUsername() . '”?</question>',
+            '<question>Do you really want to disable user “'.$user->getUsername().'”?</question>',
             false
         );
         if (
@@ -41,10 +41,12 @@ final class UsersDisableCommand extends UsersCommand
         ) {
             $user->setEnabled(false);
             $this->managerRegistry->getManagerForClass(User::class)->flush();
-            $io->success('User “' . $name . '” disabled.');
+            $io->success('User “'.$name.'” disabled.');
+
             return 0;
         } else {
-            $io->warning('User “' . $name . '” was not disabled.');
+            $io->warning('User “'.$name.'” was not disabled.');
+
             return 1;
         }
     }

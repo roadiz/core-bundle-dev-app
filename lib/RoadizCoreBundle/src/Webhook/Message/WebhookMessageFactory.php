@@ -22,7 +22,7 @@ final class WebhookMessageFactory implements WebhookMessageFactoryInterface
             throw new \LogicException('Webhook message type does not exist.');
         }
         if (!in_array(WebhookMessage::class, class_implements($messageType))) {
-            throw new \LogicException('Webhook message type does not implement ' . WebhookMessage::class);
+            throw new \LogicException('Webhook message type does not implement '.WebhookMessage::class);
         }
 
         return $messageType::fromWebhook($webhook);

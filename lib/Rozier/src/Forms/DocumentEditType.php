@@ -8,6 +8,7 @@ use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Form\ColorType;
 use RZ\Roadiz\CoreBundle\Form\Constraint\UniqueFilename;
 use RZ\Roadiz\CoreBundle\Form\DocumentCollectionType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -17,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -33,9 +33,6 @@ class DocumentEditType extends AbstractType
         $this->security = $security;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var Document $document */
@@ -54,8 +51,8 @@ class DocumentEditType extends AbstractType
                     new NotBlank(),
                     new Regex([
                         'pattern' => '/\.[a-z0-9]+$/i',
-                        'htmlPattern' => ".[a-z0-9]+$",
-                        'message' => 'value_is_not_a_valid_filename'
+                        'htmlPattern' => '.[a-z0-9]+$',
+                        'message' => 'value_is_not_a_valid_filename',
                     ]),
                     new UniqueFilename([
                         'document' => $document,
@@ -80,13 +77,13 @@ class DocumentEditType extends AbstractType
         }
 
         $builder->add('newDocument', FileType::class, [
-                'label' => 'overwrite.document',
-                'required' => false,
-                'mapped' => false,
-                'constraints' => [
-                    new File()
-                ],
-            ])
+            'label' => 'overwrite.document',
+            'required' => false,
+            'mapped' => false,
+            'constraints' => [
+                new File(),
+            ],
+        ])
             ->add('embed', DocumentEmbedType::class, [
                 'label' => 'document.embed',
                 'required' => false,
@@ -103,18 +100,18 @@ class DocumentEditType extends AbstractType
         if ($document->isImage() || $document->isVideo() || $document->isEmbed()) {
             $builder->add('imageWidth', IntegerType::class, [
                 'label' => 'document.width',
-                'required' => false
+                'required' => false,
             ]);
             $builder->add('imageHeight', IntegerType::class, [
                 'label' => 'document.height',
-                'required' => false
+                'required' => false,
             ]);
         }
 
         if ($document->isAudio() || $document->isVideo() || $document->isEmbed()) {
             $builder->add('mediaDuration', IntegerType::class, [
                 'label' => 'document.duration',
-                'required' => false
+                'required' => false,
             ]);
         }
 
@@ -133,14 +130,14 @@ class DocumentEditType extends AbstractType
             $builder->add('thumbnails', DocumentCollectionType::class, [
                 'label' => 'document.thumbnails',
                 'multiple' => true,
-                'required' => false
+                'required' => false,
             ]);
         }
 
         $builder->add('folders', FolderCollectionType::class, [
             'label' => 'folders',
             'multiple' => true,
-            'required' => false
+            'required' => false,
         ]);
 
         if ($this->security->isGranted('ROLE_ACCESS_DOCUMENTS_CREATION_DATE')) {
@@ -160,18 +157,15 @@ class DocumentEditType extends AbstractType
                 'constraints' => [
                     new LessThanOrEqual($builder->getData()->getUpdatedAt()),
                     new LessThanOrEqual('now'),
-                ]
+                ],
             ]);
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Document::class
+            'data_class' => Document::class,
         ]);
 
         $resolver->setRequired('referer');
@@ -181,10 +175,6 @@ class DocumentEditType extends AbstractType
         $resolver->setAllowedTypes('document_platforms', ['array']);
     }
 
-
-    /**
-     * @inheritDoc
-     */
     public function getBlockPrefix(): string
     {
         return 'document_edit';

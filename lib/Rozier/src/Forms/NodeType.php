@@ -18,10 +18,10 @@ class NodeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('nodeName', TextType::class, [
-                'label' => 'nodeName',
-                'empty_data' => '',
-                'help' => 'node.nodeName.help',
-            ])
+            'label' => 'nodeName',
+            'empty_data' => '',
+            'help' => 'node.nodeName.help',
+        ])
             ->add('dynamicNodeName', CheckboxType::class, [
                 'label' => 'node.dynamicNodeName',
                 'required' => false,
@@ -41,9 +41,9 @@ class NodeType extends AbstractType
         }
 
         $builder->add('childrenOrder', ChoiceType::class, [
-                'label' => 'node.childrenOrder',
-                'choices' => Node::$orderingFields,
-            ])
+            'label' => 'node.childrenOrder',
+            'choices' => Node::$orderingFields,
+        ])
             ->add('childrenOrderDirection', ChoiceType::class, [
                 'label' => 'node.childrenOrderDirection',
                 'choices' => [

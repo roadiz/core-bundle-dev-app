@@ -19,7 +19,7 @@ final class NodeExplorerItem extends AbstractExplorerItem
     public function __construct(
         private readonly Node $node,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly Security $security
+        private readonly Security $security,
     ) {
     }
 
@@ -55,6 +55,7 @@ final class NodeExplorerItem extends AbstractExplorerItem
     {
         /** @var NodesSources|false $nodeSource */
         $nodeSource = $this->node->getNodeSources()->first();
+
         return false !== $nodeSource ?
             ($nodeSource->getTitle() ?? $this->node->getNodeName()) :
             $this->node->getNodeName();
@@ -76,6 +77,7 @@ final class NodeExplorerItem extends AbstractExplorerItem
                     'nodeId' => $this->node->getId(),
                 ]);
             }
+
             return null;
         }
 
@@ -88,6 +90,7 @@ final class NodeExplorerItem extends AbstractExplorerItem
                 'translationId' => $translation->getId(),
             ]);
         }
+
         return null;
     }
 
@@ -97,6 +100,7 @@ final class NodeExplorerItem extends AbstractExplorerItem
         $nodeSource = $this->node->getNodeSources()->first();
         /** @var NodesSourcesDocuments|false $thumbnail */
         $thumbnail = false !== $nodeSource ? $nodeSource->getDocumentsByFields()->first() : false;
+
         return $thumbnail ? $thumbnail->getDocument() : null;
     }
 

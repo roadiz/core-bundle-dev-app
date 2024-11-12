@@ -17,7 +17,7 @@ use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 final class AttributeValueQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
     public function __construct(
-        private readonly PreviewResolverInterface $previewResolver
+        private readonly PreviewResolverInterface $previewResolver,
     ) {
     }
 
@@ -27,7 +27,7 @@ final class AttributeValueQueryExtension implements QueryItemExtensionInterface,
         string $resourceClass,
         array $identifiers,
         ?Operation $operation = null,
-        array $context = []
+        array $context = [],
     ): void {
         $this->apply($queryBuilder, $resourceClass);
     }
@@ -37,17 +37,17 @@ final class AttributeValueQueryExtension implements QueryItemExtensionInterface,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         ?Operation $operation = null,
-        array $context = []
+        array $context = [],
     ): void {
         $this->apply($queryBuilder, $resourceClass);
     }
 
     private function apply(
         QueryBuilder $queryBuilder,
-        string $resourceClass
+        string $resourceClass,
     ): void {
         if (
-            $resourceClass !== AttributeValue::class
+            AttributeValue::class !== $resourceClass
         ) {
             return;
         }
@@ -60,7 +60,7 @@ final class AttributeValueQueryExtension implements QueryItemExtensionInterface,
          */
         $existingNodeJoin = QueryBuilderHelper::getExistingJoin($queryBuilder, 'o', 'node');
         if (null === $existingNodeJoin || !$existingNodeJoin->getAlias()) {
-            $queryBuilder->leftJoin($rootAlias . '.node', 'node');
+            $queryBuilder->leftJoin($rootAlias.'.node', 'node');
             $joinAlias = 'node';
         } else {
             $joinAlias = $existingNodeJoin->getAlias();
@@ -68,14 +68,16 @@ final class AttributeValueQueryExtension implements QueryItemExtensionInterface,
 
         if ($this->previewResolver->isPreview()) {
             $queryBuilder
-                ->andWhere($queryBuilder->expr()->lte($joinAlias . '.status', ':status'))
+                ->andWhere($queryBuilder->expr()->lte($joinAlias.'.status', ':status'))
                 ->setParameter(':status', Node::PUBLISHED);
+
             return;
         }
 
         $queryBuilder
-            ->andWhere($queryBuilder->expr()->eq($joinAlias . '.status', ':status'))
+            ->andWhere($queryBuilder->expr()->eq($joinAlias.'.status', ':status'))
             ->setParameter(':status', Node::PUBLISHED);
+
         return;
     }
 }

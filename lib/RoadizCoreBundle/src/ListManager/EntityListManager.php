@@ -30,36 +30,28 @@ class EntityListManager extends AbstractEntityListManager
     protected ?TranslationInterface $translation = null;
 
     /**
-     * @param Request|null  $request
-     * @param ObjectManager $entityManager
      * @param class-string<T> $entityName
-     * @param array $filteringArray
-     * @param array $orderingArray
      */
     public function __construct(
         ?Request $request,
         protected readonly ObjectManager $entityManager,
         protected readonly string $entityName,
         protected array $filteringArray = [],
-        protected array $orderingArray = []
+        protected array $orderingArray = [],
     ) {
         parent::__construct($request);
         $this->assignation = [];
     }
 
-    /**
-     * @return TranslationInterface|null
-     */
     public function getTranslation(): ?TranslationInterface
     {
         return $this->translation;
     }
 
     /**
-     * @param TranslationInterface|null $translation
      * @return $this
      */
-    public function setTranslation(TranslationInterface $translation = null): self
+    public function setTranslation(?TranslationInterface $translation = null): self
     {
         $this->translation = $translation;
 
@@ -70,59 +62,59 @@ class EntityListManager extends AbstractEntityListManager
      * Handle request to find filter to apply to entity listing.
      *
      * @param bool $disabled Disable pagination and filtering over GET params
-     * @return void
+     *
      * @throws \ReflectionException
      */
     public function handle(bool $disabled = false): void
     {
         // transform the key chroot in parent
         if (array_key_exists('chroot', $this->filteringArray)) {
-            if ($this->filteringArray["chroot"] instanceof Node) {
+            if ($this->filteringArray['chroot'] instanceof Node) {
                 /** @var NodeRepository $nodeRepo */
                 $nodeRepo = $this->entityManager
                     ->getRepository(Node::class)
                     ->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes())
                     ->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
-                $ids = $nodeRepo->findAllOffspringIdByNode($this->filteringArray["chroot"]); // get all offspringId
+                $ids = $nodeRepo->findAllOffspringIdByNode($this->filteringArray['chroot']); // get all offspringId
                 if (array_key_exists('parent', $this->filteringArray)) {
                     // test if parent key exist
-                    if (is_array($this->filteringArray["parent"])) {
+                    if (is_array($this->filteringArray['parent'])) {
                         // test if multiple parent id
                         if (
-                            count(array_intersect($this->filteringArray["parent"], $ids))
-                            != count($this->filteringArray["parent"])
+                            count(array_intersect($this->filteringArray['parent'], $ids))
+                            != count($this->filteringArray['parent'])
                         ) {
                             // test if all parent are in the chroot
-                            $this->filteringArray["parent"] = -1; // -1 for make the search return []
+                            $this->filteringArray['parent'] = -1; // -1 for make the search return []
                         }
                     } else {
-                        if ($this->filteringArray["parent"] instanceof Node) {
+                        if ($this->filteringArray['parent'] instanceof Node) {
                             // make transform all id in int
-                            $parent = $this->filteringArray["parent"]->getId();
+                            $parent = $this->filteringArray['parent']->getId();
                         } else {
-                            $parent = (int) $this->filteringArray["parent"];
+                            $parent = (int) $this->filteringArray['parent'];
                         }
                         if (!in_array($parent, $ids, true)) {
-                            $this->filteringArray["parent"] = -1;
+                            $this->filteringArray['parent'] = -1;
                         }
                     }
                 } else {
-                    $this->filteringArray["parent"] = $ids;
+                    $this->filteringArray['parent'] = $ids;
                 }
             }
-            unset($this->filteringArray["chroot"]); // remove placeholder
+            unset($this->filteringArray['chroot']); // remove placeholder
         }
 
         $this->handleRequestQuery($disabled);
         $this->createPaginator();
 
         if (
-            $this->allowRequestSearching &&
-            false === $disabled &&
-            null !== $this->request
+            $this->allowRequestSearching
+            && false === $disabled
+            && null !== $this->request
         ) {
             $search = $this->request->query->get('search');
-            if (\is_string($search) && $search !== "") {
+            if (\is_string($search) && '' !== $search) {
                 $this->paginator->setSearchPattern($search);
             }
         }
@@ -132,10 +124,9 @@ class EntityListManager extends AbstractEntityListManager
     {
         $this->validateOrderingFieldName($field);
         $this->orderingArray = [
-            $field => $ordering
+            $field => $ordering,
         ];
     }
-
 
     /**
      * @throws \ReflectionException
@@ -144,7 +135,7 @@ class EntityListManager extends AbstractEntityListManager
     {
         $reflectionClass = new \ReflectionClass($this->entityName);
 
-        if ($this->entityName === Node::class) {
+        if (Node::class === $this->entityName) {
             // @phpstan-ignore-next-line
             $this->paginator = new NodePaginator(
                 $this->entityManager,
@@ -154,8 +145,8 @@ class EntityListManager extends AbstractEntityListManager
             );
             $this->paginator->setTranslation($this->translation);
         } elseif (
-            $this->entityName === NodesSources::class ||
-            $reflectionClass->isSubclassOf(NodesSources::class)
+            NodesSources::class === $this->entityName
+            || $reflectionClass->isSubclassOf(NodesSources::class)
         ) {
             // @phpstan-ignore-next-line
             $this->paginator = new NodesSourcesPaginator(
@@ -178,14 +169,11 @@ class EntityListManager extends AbstractEntityListManager
         $this->paginator->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
     }
 
-    /**
-     * @return int
-     */
     public function getItemCount(): int
     {
         if (
-            $this->pagination === true &&
-            null !== $this->paginator
+            true === $this->pagination
+            && null !== $this->paginator
         ) {
             return $this->paginator->getTotalCount();
         }
@@ -193,14 +181,11 @@ class EntityListManager extends AbstractEntityListManager
         return 0;
     }
 
-    /**
-     * @return int
-     */
     public function getPageCount(): int
     {
         if (
-            $this->pagination === true &&
-            null !== $this->paginator
+            true === $this->pagination
+            && null !== $this->paginator
         ) {
             return $this->paginator->getPageCount();
         }
@@ -215,8 +200,9 @@ class EntityListManager extends AbstractEntityListManager
      */
     public function getEntities(): array
     {
-        if ($this->pagination === true && null !== $this->paginator) {
+        if (true === $this->pagination && null !== $this->paginator) {
             $this->paginator->setItemsPerPage($this->getItemPerPage());
+
             return $this->paginator->findByAtPage($this->orderingArray, $this->currentPage);
         } else {
             $repository = $this->entityManager->getRepository($this->entityName);
@@ -224,6 +210,7 @@ class EntityListManager extends AbstractEntityListManager
                 $repository->setDisplayingNotPublishedNodes($this->isDisplayingNotPublishedNodes());
                 $repository->setDisplayingAllNodesStatuses($this->isDisplayingAllNodesStatuses());
             }
+
             return $repository->findBy(
                 $this->filteringArray,
                 $this->orderingArray,

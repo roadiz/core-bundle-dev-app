@@ -10,7 +10,7 @@ use RZ\TreeWalker\WalkerContextInterface;
 use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 
 #[AutoconfigureTag(
-    name:'roadiz_core.tree_walker_definition_factory',
+    name: 'roadiz_core.tree_walker_definition_factory',
     attributes: ['classname' => NSArticleFeedBlock::class]
 )]
 final class ArticleFeedBlockDefinitionFactory implements DefinitionFactoryInterface

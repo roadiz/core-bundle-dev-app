@@ -16,14 +16,12 @@ final class DocumentTranslationRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, DocumentTranslation::class, $dispatcher);
     }
 
     /**
-     * @param int $id
-     * @return DocumentTranslation|null
      * @throws NonUniqueResultException
      */
     public function findOneWithDocument(int $id): ?DocumentTranslation

@@ -26,7 +26,7 @@ final class SearchRealmNodeInheritanceMessageHandler
         private readonly ManagerRegistry $managerRegistry,
         private readonly HandlerFactoryInterface $handlerFactory,
         private readonly MessageBusInterface $bus,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -47,7 +47,7 @@ final class SearchRealmNodeInheritanceMessageHandler
         /** @var RealmNode[] $autoRealmNodes */
         $autoRealmNodes = $this->managerRegistry->getRepository(RealmNode::class)->findBy([
             'node' => $node,
-            'inheritanceType' => RealmInterface::INHERITANCE_AUTO
+            'inheritanceType' => RealmInterface::INHERITANCE_AUTO,
         ]);
 
         /*
@@ -68,7 +68,7 @@ final class SearchRealmNodeInheritanceMessageHandler
         $nodeHandler = $this->handlerFactory->getHandler($node);
         $parents = $nodeHandler->getParents();
 
-        if (count($parents) === 0) {
+        if (0 === count($parents)) {
             return;
         }
 

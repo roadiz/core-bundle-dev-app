@@ -25,15 +25,15 @@ class UserDetailsType extends AbstractType
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'firstName',
-                'required' => false
+                'required' => false,
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'lastName',
-                'required' => false
+                'required' => false,
             ])
             ->add('phone', TextType::class, [
                 'label' => 'phone',
-                'required' => false
+                'required' => false,
             ])
             ->add('facebookName', TextType::class, [
                 'label' => 'facebookName',
@@ -41,18 +41,18 @@ class UserDetailsType extends AbstractType
             ])
             ->add('company', TextType::class, [
                 'label' => 'company',
-                'required' => false
+                'required' => false,
             ])
             ->add('job', TextType::class, [
                 'label' => 'job',
-                'required' => false
+                'required' => false,
             ])
             ->add('birthday', DateType::class, [
                 'label' => 'birthday',
                 'placeholder' => [
                     'year' => 'year',
                     'month' => 'month',
-                    'day' => 'day'
+                    'day' => 'day',
                 ],
                 'required' => false,
                 'years' => range(1920, ((int) date('Y')) - 6),
@@ -64,13 +64,13 @@ class UserDetailsType extends AbstractType
             ])
             ->add('pictureUrl', TextType::class, [
                 'label' => 'pictureUrl',
-                'required' => false
+                'required' => false,
             ])
             ->add('locale', ChoiceType::class, [
                 'label' => 'user.backoffice.language',
                 'required' => false,
                 'choices' => RozierApp::$backendLanguages,
-                'placeholder' => 'use.website.default_language'
+                'placeholder' => 'use.website.default_language',
             ])
         ;
     }

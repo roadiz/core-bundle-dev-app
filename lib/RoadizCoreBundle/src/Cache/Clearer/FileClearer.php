@@ -24,8 +24,6 @@ abstract class FileClearer implements ClearerInterface
 
     /**
      * Get global cache directory.
-     *
-     * @return string
      */
     public function getCacheDir(): string
     {

@@ -8,9 +8,6 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-/**
- * @package RZ\Roadiz\Documentation\Generators
- */
 class NodeTypeGenerator
 {
     protected TranslatorInterface $translator;
@@ -18,15 +15,10 @@ class NodeTypeGenerator
     protected NodeTypeInterface $nodeType;
     protected array $fieldGenerators;
 
-    /**
-     * @param NodeTypeInterface $nodeType
-     * @param TranslatorInterface $translator
-     * @param MarkdownGeneratorFactory $markdownGeneratorFactory
-     */
     public function __construct(
         NodeTypeInterface $nodeType,
         TranslatorInterface $translator,
-        MarkdownGeneratorFactory $markdownGeneratorFactory
+        MarkdownGeneratorFactory $markdownGeneratorFactory,
     ) {
         $this->nodeType = $nodeType;
         $this->fieldGenerators = [];
@@ -41,7 +33,7 @@ class NodeTypeGenerator
 
     public function getMenuEntry(): string
     {
-        return '[' . $this->nodeType->getLabel() . '](' . $this->getPath() . ')';
+        return '['.$this->nodeType->getLabel().']('.$this->getPath().')';
     }
 
     public function getType(): string
@@ -51,22 +43,22 @@ class NodeTypeGenerator
 
     public function getPath(): string
     {
-        return $this->getType() . '/' . $this->nodeType->getName() . '.md';
+        return $this->getType().'/'.$this->nodeType->getName().'.md';
     }
 
     public function getContents(): string
     {
         return implode("\n\n", [
             $this->getIntroduction(),
-            '## ' . $this->translator->trans('docs.fields'),
-            $this->getFieldsContents()
+            '## '.$this->translator->trans('docs.fields'),
+            $this->getFieldsContents(),
         ]);
     }
 
     protected function getIntroduction(): string
     {
         $lines = [
-            '# ' . $this->nodeType->getLabel(),
+            '# '.$this->nodeType->getLabel(),
         ];
         if (!empty($this->nodeType->getDescription())) {
             $lines[] = $this->nodeType->getDescription();
@@ -75,14 +67,14 @@ class NodeTypeGenerator
             '',
             '|     |     |',
             '| --- | --- |',
-            '| **' . trim($this->translator->trans('docs.technical_name')) . '** | `' . $this->nodeType->getName() . '` |',
+            '| **'.trim($this->translator->trans('docs.technical_name')).'** | `'.$this->nodeType->getName().'` |',
         ]);
 
         if ($this->nodeType->isPublishable()) {
-            $lines[] = '| **' . trim($this->translator->trans('docs.publishable')) . '** | *' . $this->markdownGeneratorFactory->getHumanBool($this->nodeType->isPublishable()) . '* |';
+            $lines[] = '| **'.trim($this->translator->trans('docs.publishable')).'** | *'.$this->markdownGeneratorFactory->getHumanBool($this->nodeType->isPublishable()).'* |';
         }
         if (!$this->nodeType->isVisible()) {
-            $lines[] = '| **' . trim($this->translator->trans('docs.visible')) . '** | *' . $this->markdownGeneratorFactory->getHumanBool($this->nodeType->isVisible()) . '* |';
+            $lines[] = '| **'.trim($this->translator->trans('docs.visible')).'** | *'.$this->markdownGeneratorFactory->getHumanBool($this->nodeType->isVisible()).'* |';
         }
 
         return implode("\n", $lines);

@@ -18,12 +18,7 @@ final class TagFactory
     }
 
     /**
-     * @param string $name
-     * @param TranslationInterface|null $translation
-     * @param Tag|null $parent
      * @param int|float $latestPosition
-     *
-     * @return Tag
      */
     public function create(string $name, ?TranslationInterface $translation = null, ?Tag $parent = null, $latestPosition = 0): Tag
     {
@@ -43,7 +38,7 @@ final class TagFactory
             return $tag;
         }
 
-        if ($translation === null) {
+        if (null === $translation) {
             $translation = $this->managerRegistry->getRepository(TranslationInterface::class)->findDefault();
         }
 

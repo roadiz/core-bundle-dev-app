@@ -6,49 +6,40 @@ namespace RZ\Roadiz\Documents;
 
 abstract class AbstractDocumentFinder implements DocumentFinderInterface
 {
-    /**
-     * @inheritDoc
-     */
     public function findVideosWithFilename(string $fileName): iterable
     {
         $basename = pathinfo($fileName);
         $basename = $basename['filename'];
 
         $sourcesDocsName = [
-            $basename . '.ogg',
-            $basename . '.ogv',
-            $basename . '.mp4',
-            $basename . '.mov',
-            $basename . '.avi',
-            $basename . '.webm',
-            $basename . '.mkv',
+            $basename.'.ogg',
+            $basename.'.ogv',
+            $basename.'.mp4',
+            $basename.'.mov',
+            $basename.'.avi',
+            $basename.'.webm',
+            $basename.'.mkv',
         ];
 
         return $this->findAllByFilenames($sourcesDocsName);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function findAudiosWithFilename(string $fileName): iterable
     {
         $basename = pathinfo($fileName);
         $basename = $basename['filename'];
 
         $sourcesDocsName = [
-            $basename . '.mp3',
-            $basename . '.ogg',
-            $basename . '.wav',
-            $basename . '.m4a',
-            $basename . '.aac',
+            $basename.'.mp3',
+            $basename.'.ogg',
+            $basename.'.wav',
+            $basename.'.m4a',
+            $basename.'.aac',
         ];
 
         return $this->findAllByFilenames($sourcesDocsName);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function findPicturesWithFilename(string $fileName): iterable
     {
         $pathInfo = pathinfo($fileName);
@@ -70,7 +61,7 @@ abstract class AbstractDocumentFinder implements DocumentFinderInterface
         $extensionsList = array_diff($extensionsList, [$currentExtension]);
         // list sources paths for extensions
         $sourcesDocsName = array_values(array_map(function ($extension) use ($basename) {
-            return $basename . '.' . $extension;
+            return $basename.'.'.$extension;
         }, $extensionsList));
 
         return $this->findAllByFilenames($sourcesDocsName);

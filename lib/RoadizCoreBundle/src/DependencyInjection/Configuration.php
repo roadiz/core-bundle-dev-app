@@ -81,6 +81,7 @@ EOT)
             ->append($this->addReverseProxyCacheNode())
             ->append($this->addMediasNode())
         ;
+
         return $builder;
     }
 
@@ -105,12 +106,13 @@ EOD
                     ->validate()
                     ->ifNotInArray([
                         static::INHERITANCE_TYPE_JOINED,
-                        static::INHERITANCE_TYPE_SINGLE_TABLE
+                        static::INHERITANCE_TYPE_SINGLE_TABLE,
                     ])
                     ->thenInvalid('The %s inheritance type is not supported ("joined", "single_table" are accepted).')
                 ->end()
             ->end()
         ;
+
         return $node;
     }
 

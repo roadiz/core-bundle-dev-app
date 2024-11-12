@@ -24,26 +24,20 @@ final class UserViewer
         private readonly TranslatorInterface $translator,
         private readonly EmailManagerFactory $emailManagerFactory,
         private readonly LoggerInterface $logger,
-        private readonly LoginLinkSenderInterface $loginLinkSender
+        private readonly LoginLinkSenderInterface $loginLinkSender,
     ) {
     }
 
     /**
      * Send email to reset user password.
      *
-     * @param User $user
-     * @param object|string $route
-     * @param string $htmlTemplate
-     * @param string $txtTemplate
-     *
-     * @return bool
      * @throws TransportExceptionInterface
      */
     public function sendPasswordResetLink(
         User $user,
         object|string $route = 'loginResetPage',
         string $htmlTemplate = '@RoadizCore/email/users/reset_password_email.html.twig',
-        string $txtTemplate = '@RoadizCore/email/users/reset_password_email.txt.twig'
+        string $txtTemplate = '@RoadizCore/email/users/reset_password_email.txt.twig',
     ): bool {
         $emailManager = $this->emailManagerFactory->create();
         $emailContact = $this->getContactEmail();
@@ -85,6 +79,7 @@ final class UserViewer
 
             // Send the message
             $emailManager->send();
+
             return true;
         } catch (\Exception $e) {
             // Silent error not to prevent user creation if mailer is not configured
@@ -93,6 +88,7 @@ final class UserViewer
                 'message' => $e->getMessage(),
                 'entity' => $user,
             ]);
+
             return false;
         }
     }
@@ -104,32 +100,26 @@ final class UserViewer
         UserInterface $user,
         LoginLinkDetails $loginLinkDetails,
         string $htmlTemplate = '@RoadizCore/email/users/login_link_email.html.twig',
-        string $txtTemplate = '@RoadizCore/email/users/login_link_email.txt.twig'
+        string $txtTemplate = '@RoadizCore/email/users/login_link_email.txt.twig',
     ): void {
         $this->loginLinkSender->sendLoginLink($user, $loginLinkDetails);
     }
 
-    /**
-     * @return string
-     */
     protected function getContactEmail(): string
     {
         $emailContact = $this->settingsBag->get('email_sender') ?? '';
         if (empty($emailContact)) {
-            $emailContact = "noreply@roadiz.io";
+            $emailContact = 'noreply@roadiz.io';
         }
 
         return $emailContact;
     }
 
-    /**
-     * @return string
-     */
     protected function getSiteName(): string
     {
         $siteName = $this->settingsBag->get('site_name') ?? '';
         if (empty($siteName)) {
-            $siteName = "Unnamed site";
+            $siteName = 'Unnamed site';
         }
 
         return $siteName;

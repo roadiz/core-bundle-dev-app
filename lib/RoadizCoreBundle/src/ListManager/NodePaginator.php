@@ -26,9 +26,10 @@ class NodePaginator extends Paginator
         return $this->translation;
     }
 
-    public function setTranslation(TranslationInterface $translation = null): self
+    public function setTranslation(?TranslationInterface $translation = null): self
     {
         $this->translation = $translation;
+
         return $this;
     }
 
@@ -48,6 +49,7 @@ class NodePaginator extends Paginator
                     $this->getTranslation()
                 );
             }
+
             return $repository->findBy(
                 $this->criteria,
                 $order,

@@ -21,20 +21,14 @@ class SettingType extends AbstractType
 {
     protected SettingTypeResolver $settingTypeResolver;
 
-    /**
-     * @param SettingTypeResolver $settingTypeResolver
-     */
     public function __construct(SettingTypeResolver $settingTypeResolver)
     {
         $this->settingTypeResolver = $settingTypeResolver;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        if ($options['shortEdit'] === false) {
+        if (false === $options['shortEdit']) {
             $builder
                 ->add('name', TextType::class, [
                     'empty_data' => '',
@@ -73,7 +67,7 @@ class SettingType extends AbstractType
             $form = $event->getForm();
 
             if ($setting instanceof Setting) {
-                if ($setting->getType() === AbstractField::DOCUMENTS_T) {
+                if (AbstractField::DOCUMENTS_T === $setting->getType()) {
                     $form->add(
                         'value',
                         SettingDocumentType::class,
@@ -98,9 +92,6 @@ class SettingType extends AbstractType
         });
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', Setting::class);
@@ -119,12 +110,13 @@ class SettingType extends AbstractType
                 $values = array_map(function ($item) {
                     return trim($item);
                 }, $values);
+
                 return [
                     'label' => $label,
                     'placeholder' => 'choose.value',
                     'required' => false,
                     'choices' => array_combine($values, $values),
-                    'multiple' => $setting->getType() === AbstractField::MULTIPLE_T
+                    'multiple' => AbstractField::MULTIPLE_T === $setting->getType(),
                 ];
             case AbstractField::EMAIL_T:
                 return [
@@ -132,7 +124,7 @@ class SettingType extends AbstractType
                     'required' => false,
                     'constraints' => [
                         new Email(),
-                    ]
+                    ],
                 ];
             case AbstractField::DATETIME_T:
                 return [

@@ -58,6 +58,7 @@ EOT
             ->scalarNode('email_validated_role_name')
             ->defaultValue('ROLE_EMAIL_VALIDATED')
             ->end();
+
         return $builder;
     }
 }

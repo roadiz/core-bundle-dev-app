@@ -18,7 +18,7 @@ final class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInter
 {
     public function __construct(
         private readonly ThemeResolverInterface $themeResolver,
-        private readonly NodeRouter $innerRouter
+        private readonly NodeRouter $innerRouter,
     ) {
     }
 
@@ -43,12 +43,12 @@ final class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInter
     }
 
     /**
-     * @inheritDoc
      * @throws InvalidArgumentException
      */
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         $this->innerRouter->setTheme($this->themeResolver->findTheme($this->getContext()->getHost()));
+
         return $this->innerRouter->generate($name, $parameters, $referenceType);
     }
 
@@ -57,9 +57,6 @@ final class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInter
         return $this->innerRouter->match($pathinfo);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getRouteDebugMessage(mixed $name, array $parameters = []): string
     {
         return $this->innerRouter->getRouteDebugMessage($name, $parameters);

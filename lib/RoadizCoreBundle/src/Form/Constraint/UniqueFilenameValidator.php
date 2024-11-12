@@ -19,8 +19,6 @@ class UniqueFilenameValidator extends ConstraintValidator
     }
 
     /**
-     * @param mixed $value
-     * @param Constraint $constraint
      * @throws FilesystemException
      */
     public function validate(mixed $value, Constraint $constraint): void
@@ -32,15 +30,15 @@ class UniqueFilenameValidator extends ConstraintValidator
              * do nothing.
              */
             if (
-                null !== $document &&
-                $value == $document->getFilename()
+                null !== $document
+                && $value == $document->getFilename()
             ) {
                 return;
             }
 
             $folder = $document->getMountFolderPath();
 
-            if ($this->documentsStorage->fileExists($folder . '/' . $value)) {
+            if ($this->documentsStorage->fileExists($folder.'/'.$value)) {
                 $this->context->addViolation($constraint->message);
             }
         }

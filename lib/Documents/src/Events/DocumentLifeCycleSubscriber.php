@@ -40,14 +40,14 @@ final readonly class DocumentLifeCycleSubscriber
             $args->hasChangedField('filename')
             && is_string($args->getOldValue('filename'))
             && is_string($args->getNewValue('filename'))
-            && $args->getOldValue('filename') !== ''
+            && '' !== $args->getOldValue('filename')
         ) {
             // This method must not throw any exception
             // because filename WILL change if document file is updated too.
             $this->renameDocumentFilename($document, $args);
         }
         if ($args->hasChangedField('private')) {
-            if ($document->isPrivate() === true) {
+            if (true === $document->isPrivate()) {
                 $this->makePrivate($document);
             } else {
                 $this->makePublic($document);
@@ -113,7 +113,6 @@ final readonly class DocumentLifeCycleSubscriber
     /**
      * Unlink file after document has been deleted.
      *
-     * @param PostRemoveEventArgs $args
      * @throws FilesystemException
      */
     public function postRemove(PostRemoveEventArgs $args): void
@@ -141,8 +140,6 @@ final readonly class DocumentLifeCycleSubscriber
     /**
      * Remove document directory if there is no other file in it.
      *
-     * @param string $documentFolderPath
-     * @return void
      * @throws FilesystemException
      */
     private function cleanFileDirectory(string $documentFolderPath): void
@@ -155,37 +152,22 @@ final readonly class DocumentLifeCycleSubscriber
         }
     }
 
-    /**
-     * @param DocumentInterface $document
-     * @param string $filename
-     *
-     * @return string
-     */
     private function getDocumentRelativePathForFilename(DocumentInterface $document, string $filename): string
     {
         $this->validateDocument($document);
 
-        return $document->getFolder() . DIRECTORY_SEPARATOR . $filename;
+        return $document->getFolder().DIRECTORY_SEPARATOR.$filename;
     }
 
-    /**
-     * @param DocumentInterface $document
-     * @param string            $filename
-     *
-     * @return string
-     */
     private function getDocumentMountPathForFilename(DocumentInterface $document, string $filename): string
     {
         if ($document->isPrivate()) {
-            return 'private://' . $this->getDocumentRelativePathForFilename($document, $filename);
+            return 'private://'.$this->getDocumentRelativePathForFilename($document, $filename);
         }
-        return 'public://' . $this->getDocumentRelativePathForFilename($document, $filename);
+
+        return 'public://'.$this->getDocumentRelativePathForFilename($document, $filename);
     }
 
-    /**
-     * @param DocumentInterface $document
-     * @return string
-     */
     private function getDocumentPath(DocumentInterface $document): string
     {
         $this->validateDocument($document);
@@ -193,59 +175,40 @@ final readonly class DocumentLifeCycleSubscriber
         if ($document->isPrivate()) {
             return $this->getDocumentPrivatePath($document);
         }
+
         return $this->getDocumentPublicPath($document);
     }
 
-    /**
-     * @param  DocumentInterface $document
-     * @return string
-     */
     private function getDocumentPublicPath(DocumentInterface $document): string
     {
-        return 'public://' . $document->getRelativePath();
+        return 'public://'.$document->getRelativePath();
     }
 
-    /**
-     * @param  DocumentInterface $document
-     * @return string
-     */
     private function getDocumentPrivatePath(DocumentInterface $document): string
     {
-        return 'private://' . $document->getRelativePath();
+        return 'private://'.$document->getRelativePath();
     }
 
-    /**
-     * @param  DocumentInterface $document
-     * @return string
-     */
     private function getDocumentFolderPath(DocumentInterface $document): string
     {
         if ($document->isPrivate()) {
             return $this->getDocumentPrivateFolderPath($document);
         }
+
         return $this->getDocumentPublicFolderPath($document);
     }
 
-    /**
-     * @param DocumentInterface $document
-     * @return string
-     */
     private function getDocumentPublicFolderPath(DocumentInterface $document): string
     {
-        return 'public://' . $document->getFolder();
+        return 'public://'.$document->getFolder();
     }
 
-    /**
-     * @param DocumentInterface $document
-     * @return string
-     */
     private function getDocumentPrivateFolderPath(DocumentInterface $document): string
     {
-        return 'private://' . $document->getFolder();
+        return 'private://'.$document->getFolder();
     }
 
     /**
-     * @param DocumentInterface $document
      * @throws DocumentWithoutFileException
      */
     private function validateDocument(DocumentInterface $document): void

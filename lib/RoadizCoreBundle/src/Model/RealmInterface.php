@@ -33,20 +33,24 @@ interface RealmInterface extends PersistableInterface
     public function getType(): string;
 
     /**
-     * @return string
      * @see https://www.iana.org/assignments/http-authschemes/http-authschemes.xhtml
      */
     public function getAuthenticationScheme(): string;
 
     /**
-     * @return string
      * @see https://developer.mozilla.org/fr/docs/Web/HTTP/Headers/WWW-Authenticate
      */
     public function getChallenge(): string;
+
     public function getBehaviour(): string;
+
     public function getName(): string;
+
     public function getPlainPassword(): ?string;
+
     public function getRole(): ?string;
+
     public function getUsers(): Collection;
+
     public function getSerializationGroup(): ?string;
 }

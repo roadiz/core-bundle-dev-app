@@ -19,7 +19,7 @@ abstract class AbstractDocumentMessageHandler
     public function __construct(
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly LoggerInterface $messengerLogger,
-        protected readonly FilesystemOperator $documentsStorage
+        protected readonly FilesystemOperator $documentsStorage,
     ) {
     }
 

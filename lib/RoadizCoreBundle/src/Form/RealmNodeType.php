@@ -25,10 +25,10 @@ final class RealmNodeType extends AbstractType
             'help' => 'realm_node.inheritanceType.help',
             'required' => true,
             'choices' => [
-                'realm_node.' . RealmInterface::INHERITANCE_ROOT => RealmInterface::INHERITANCE_ROOT,
-                'realm_node.' . RealmInterface::INHERITANCE_AUTO => RealmInterface::INHERITANCE_AUTO,
-                'realm_node.' . RealmInterface::INHERITANCE_NONE => RealmInterface::INHERITANCE_NONE,
-            ]
+                'realm_node.'.RealmInterface::INHERITANCE_ROOT => RealmInterface::INHERITANCE_ROOT,
+                'realm_node.'.RealmInterface::INHERITANCE_AUTO => RealmInterface::INHERITANCE_AUTO,
+                'realm_node.'.RealmInterface::INHERITANCE_NONE => RealmInterface::INHERITANCE_NONE,
+            ],
         ]);
     }
 

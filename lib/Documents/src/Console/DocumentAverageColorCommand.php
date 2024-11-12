@@ -52,7 +52,7 @@ class DocumentAverageColorCommand extends AbstractDocumentCommand
              * Do nothing
              * just return 0 width and height
              */
-            $this->io->error($mountPath . ' is not a readable image.');
+            $this->io->error($mountPath.' is not a readable image.');
         }
     }
 }

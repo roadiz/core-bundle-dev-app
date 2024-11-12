@@ -22,6 +22,7 @@ trait FieldAwareEntityTrait
     public function setFieldName(string $fieldName): self
     {
         $this->fieldName = $fieldName;
+
         return $this;
     }
 
@@ -31,6 +32,7 @@ trait FieldAwareEntityTrait
     public function setField(NodeTypeFieldInterface $field): self
     {
         $this->fieldName = $field->getName();
+
         return $this;
     }
 

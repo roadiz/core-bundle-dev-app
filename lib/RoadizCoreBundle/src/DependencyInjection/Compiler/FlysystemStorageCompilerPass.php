@@ -19,11 +19,11 @@ class FlysystemStorageCompilerPass implements CompilerPassInterface
         ContainerBuilder $container,
         string $storageName,
         array $storageConfig,
-        ?string $publicUrl = null
+        ?string $publicUrl = null,
     ): Reference {
         if (!$container->hasDefinition($storageName)) {
             $definitionFactory = new AdapterDefinitionFactory();
-            $adapterName = 'flysystem.adapter.' . $storageName;
+            $adapterName = 'flysystem.adapter.'.$storageName;
             if ($adapter = $definitionFactory->createDefinition('local', $storageConfig['options'])) {
                 $container->setDefinition($adapterName, $adapter)->setPublic(false);
                 $container->setDefinition(
@@ -32,6 +32,7 @@ class FlysystemStorageCompilerPass implements CompilerPassInterface
                 );
             }
         }
+
         return new Reference($storageName);
     }
 
@@ -54,9 +55,6 @@ class FlysystemStorageCompilerPass implements CompilerPassInterface
         );
     }
 
-    /**
-     * @inheritDoc
-     */
     public function process(ContainerBuilder $container): void
     {
         $container->setDefinition(

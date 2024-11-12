@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Tests;
 
 use ApiPlatform\Symfony\Bundle\Test\ApiTestCase;
@@ -61,12 +63,12 @@ class ArticleTest extends ApiTestCase
 
             $this->assertInstanceOf(NSArticle::class, $article);
 
-            static::createClient()->request('GET', '/api/articles/' . $article->getId());
+            static::createClient()->request('GET', '/api/articles/'.$article->getId());
 
             $this->assertResponseIsSuccessful();
             $this->assertJsonContains([
                 '@context' => '/api/contexts/Article',
-                '@id' => '/api/articles/' . $article->getId(),
+                '@id' => '/api/articles/'.$article->getId(),
                 '@type' => 'Article',
                 'title' => $article->getTitle(),
                 'url' => $urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [

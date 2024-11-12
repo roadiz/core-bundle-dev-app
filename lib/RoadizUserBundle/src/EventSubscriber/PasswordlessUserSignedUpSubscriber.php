@@ -11,17 +11,14 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 final readonly class PasswordlessUserSignedUpSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private UserValidationTokenManagerInterface $userValidationTokenManager
+        private UserValidationTokenManagerInterface $userValidationTokenManager,
     ) {
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [
-            PasswordlessUserSignedUp::class => 'onUserSignedUp'
+            PasswordlessUserSignedUp::class => 'onUserSignedUp',
         ];
     }
 

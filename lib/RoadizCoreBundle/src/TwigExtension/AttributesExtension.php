@@ -90,23 +90,17 @@ final class AttributesExtension extends AbstractExtension
 
     public function isNumber(AttributeValueTranslationInterface $attributeValueTranslation): bool
     {
-        return $attributeValueTranslation->getAttributeValue()->getAttribute()->isInteger() ||
-            $attributeValueTranslation->getAttributeValue()->getAttribute()->isDecimal();
+        return $attributeValueTranslation->getAttributeValue()->getAttribute()->isInteger()
+            || $attributeValueTranslation->getAttributeValue()->getAttribute()->isDecimal();
     }
 
-
     /**
-     * @param AttributableInterface|null $attributable
-     * @param TranslationInterface $translation
-     * @param bool $hideNotTranslated
-     *
-     * @return array
      * @throws SyntaxError
      */
     public function getAttributeValues(
         ?AttributableInterface $attributable,
         TranslationInterface $translation,
-        bool $hideNotTranslated = false
+        bool $hideNotTranslated = false,
     ): array {
         if (null === $attributable) {
             throw new SyntaxError('Cannot call get_attributes on NULL');
@@ -150,10 +144,6 @@ final class AttributesExtension extends AbstractExtension
     }
 
     /**
-     * @param NodesSources|null $nodesSources
-     * @param bool $hideNotTranslated
-     *
-     * @return array
      * @throws SyntaxError
      */
     public function getNodeSourceAttributeValues(?NodesSources $nodesSources, bool $hideNotTranslated = false): array
@@ -161,14 +151,11 @@ final class AttributesExtension extends AbstractExtension
         if (null === $nodesSources) {
             throw new SyntaxError('Cannot call node_source_attributes on NULL');
         }
+
         return $this->getAttributeValues($nodesSources->getNode(), $nodesSources->getTranslation(), $hideNotTranslated);
     }
 
     /**
-     * @param NodesSources|null $nodesSources
-     * @param bool $hideNotTranslated
-     *
-     * @return array
      * @throws SyntaxError
      */
     public function getNodeSourceGroupedAttributeValues(?NodesSources $nodesSources, bool $hideNotTranslated = false): array
@@ -176,10 +163,10 @@ final class AttributesExtension extends AbstractExtension
         $groups = [
             INF => [
                 'group' => null,
-                'attributeValues' => []
-            ]
+                'attributeValues' => [],
+            ],
         ];
-        $attributeValueTranslations  = $this->getNodeSourceAttributeValues($nodesSources, $hideNotTranslated);
+        $attributeValueTranslations = $this->getNodeSourceAttributeValues($nodesSources, $hideNotTranslated);
         /** @var AttributeValueTranslationInterface $attributeValueTranslation */
         foreach ($attributeValueTranslations as $attributeValueTranslation) {
             $group = $attributeValueTranslation->getAttributeValue()->getAttribute()->getGroup();
@@ -187,7 +174,7 @@ final class AttributesExtension extends AbstractExtension
                 if (!isset($groups[$group->getCanonicalName()])) {
                     $groups[$group->getCanonicalName()] = [
                         'group' => $group,
-                        'attributeValues' => []
+                        'attributeValues' => [],
                     ];
                 }
                 $groups[$group->getCanonicalName()]['attributeValues'][] = $attributeValueTranslation;
@@ -201,13 +188,7 @@ final class AttributesExtension extends AbstractExtension
         });
     }
 
-    /**
-     * @param mixed $mixed
-     * @param TranslationInterface|null $translation
-     *
-     * @return string|null
-     */
-    public function getAttributeLabelOrCode(mixed $mixed, TranslationInterface $translation = null): ?string
+    public function getAttributeLabelOrCode(mixed $mixed, ?TranslationInterface $translation = null): ?string
     {
         if (null === $mixed) {
             return null;
@@ -223,18 +204,14 @@ final class AttributesExtension extends AbstractExtension
             if (null === $translation) {
                 $translation = $mixed->getTranslation();
             }
+
             return $mixed->getAttributeValue()->getAttribute()->getLabelOrCode($translation);
         }
 
         return null;
     }
 
-    /**
-     * @param mixed $mixed
-     * @param TranslationInterface|null $translation
-     * @return string|null
-     */
-    public function getAttributeGroupLabelOrCode(mixed $mixed, TranslationInterface $translation = null): ?string
+    public function getAttributeGroupLabelOrCode(mixed $mixed, ?TranslationInterface $translation = null): ?string
     {
         if (null === $mixed) {
             return null;
@@ -252,6 +229,7 @@ final class AttributesExtension extends AbstractExtension
             if (null === $translation) {
                 $translation = $mixed->getTranslation();
             }
+
             return $mixed->getAttribute()->getGroup()->getTranslatedName($translation);
         }
 

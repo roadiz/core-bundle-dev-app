@@ -20,16 +20,11 @@ class OAuth2LinkGenerator
         protected readonly ?string $openIdHostedDomain,
         protected readonly ?string $oauthClientId,
         ?array $openIdScopes,
-        protected readonly bool $forceSslOnRedirectUri
+        protected readonly bool $forceSslOnRedirectUri,
     ) {
         $this->openIdScopes = array_filter($openIdScopes ?? []);
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return bool
-     */
     public function isSupported(Request $request): bool
     {
         return null !== $this->discovery && $this->discovery->isValid();
@@ -39,19 +34,15 @@ class OAuth2LinkGenerator
         Request $request,
         string $redirectUri,
         array $state = [],
-        string $responseType = 'code'
+        string $responseType = 'code',
     ): string {
         if (null === $this->discovery) {
-            throw new DiscoveryNotAvailableException(
-                'OpenID discovery is not well configured'
-            );
+            throw new DiscoveryNotAvailableException('OpenID discovery is not well configured');
         }
         /** @var array $supportedResponseTypes */
         $supportedResponseTypes = $this->discovery->get('response_types_supported', []);
         if (!in_array($responseType, $supportedResponseTypes)) {
-            throw new DiscoveryNotAvailableException(
-                'OpenID response_type is not supported by your identity provider'
-            );
+            throw new DiscoveryNotAvailableException('OpenID response_type is not supported by your identity provider');
         }
 
         /*
@@ -73,11 +64,12 @@ class OAuth2LinkGenerator
             $customScopes = $supportedScopes;
         }
         $stateToken = $this->csrfTokenManager->getToken(static::OAUTH_STATE_TOKEN);
-        return $this->discovery->get('authorization_endpoint') . '?' . http_build_query([
+
+        return $this->discovery->get('authorization_endpoint').'?'.http_build_query([
             'response_type' => $responseType,
             'hd' => $this->openIdHostedDomain,
             'state' => http_build_query(array_merge($state, [
-                'token' => $stateToken->getValue()
+                'token' => $stateToken->getValue(),
             ])),
             'nonce' => (new TokenGenerator())->generateToken(),
             'login_hint' => $request->get('email', null),

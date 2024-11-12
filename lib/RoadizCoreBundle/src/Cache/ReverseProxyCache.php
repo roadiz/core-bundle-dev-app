@@ -10,29 +10,20 @@ final class ReverseProxyCache
         private readonly string $name,
         private readonly string $host,
         private readonly string $domainName,
-        private readonly int $timeout
+        private readonly int $timeout,
     ) {
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     public function getHost(): string
     {
         return $this->host;
     }
 
-    /**
-     * @return string
-     */
     public function getDomainName(): string
     {
         return $this->domainName;

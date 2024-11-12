@@ -22,15 +22,15 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class ExplorerItemFactory implements ExplorerItemFactoryInterface
+final readonly class ExplorerItemFactory implements ExplorerItemFactoryInterface
 {
     public function __construct(
-        private readonly RendererInterface $renderer,
-        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly EmbedFinderFactory $embedFinderFactory,
-        private readonly Security $security,
-        private readonly TranslatorInterface $translator
+        private RendererInterface $renderer,
+        private DocumentUrlGeneratorInterface $documentUrlGenerator,
+        private UrlGeneratorInterface $urlGenerator,
+        private EmbedFinderFactory $embedFinderFactory,
+        private Security $security,
+        private TranslatorInterface $translator,
     ) {
     }
 

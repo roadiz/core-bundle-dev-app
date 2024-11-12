@@ -23,7 +23,7 @@ final class LoginRequestController extends RozierApp
     public function __construct(
         private readonly LoggerInterface $logger,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly UserViewer $userViewer
+        private readonly UserViewer $userViewer,
     ) {
     }
 
@@ -33,9 +33,6 @@ final class LoginRequestController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     *
-     * @return Response
      * @throws RuntimeError
      * @throws ORMException
      * @throws OptimisticLockException
@@ -54,6 +51,7 @@ final class LoginRequestController extends RozierApp
                     $this->urlGenerator
                 );
             }
+
             /*
              * Always go to confirm even if email is not valid
              * for avoiding database sniffing.
@@ -69,7 +67,6 @@ final class LoginRequestController extends RozierApp
     }
 
     /**
-     * @return Response
      * @throws RuntimeError
      */
     public function confirmAction(): Response

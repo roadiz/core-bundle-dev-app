@@ -15,7 +15,7 @@ final class TreeWidgetFactory
 {
     public function __construct(
         private readonly RequestStack $requestStack,
-        private readonly ManagerRegistry $managerRegistry
+        private readonly ManagerRegistry $managerRegistry,
     ) {
     }
 

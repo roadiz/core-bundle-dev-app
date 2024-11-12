@@ -22,9 +22,8 @@ class MaintenanceModeException extends ServiceUnavailableHttpException
     protected $message = 'Website is currently under maintenance. We will be back shortly.';
 
     /**
-     * @param AbstractController|null $controller
      * @param string $message
-     * @param int $code
+     * @param int    $code
      */
     public function __construct(?AbstractController $controller = null, $message = null, $code = 0)
     {

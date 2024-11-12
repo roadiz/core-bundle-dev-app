@@ -17,9 +17,9 @@ class DocumentTranslationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('referer', HiddenType::class, [
-                'data' => $options['referer'],
-                'mapped' => false,
-            ])
+            'data' => $options['referer'],
+            'mapped' => false,
+        ])
             ->add('name', TextType::class, [
                 'label' => 'name',
                 'required' => false,
@@ -38,13 +38,10 @@ class DocumentTranslationType extends AbstractType
             ]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => DocumentTranslation::class
+            'data_class' => DocumentTranslation::class,
         ]);
 
         $resolver->setRequired('referer');

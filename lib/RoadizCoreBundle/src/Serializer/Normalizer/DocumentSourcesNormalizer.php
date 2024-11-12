@@ -22,10 +22,8 @@ final class DocumentSourcesNormalizer extends AbstractPathNormalizer
     }
 
     /**
-     * @param mixed $object
-     * @param string|null $format
-     * @param array $context
      * @return array|\ArrayObject|bool|float|int|mixed|string|null
+     *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
@@ -59,6 +57,7 @@ final class DocumentSourcesNormalizer extends AbstractPathNormalizer
                 }
             }
         }
+
         return $data;
     }
 }

@@ -28,7 +28,7 @@ class SolariumNodeSource extends AbstractSolarium
         ClientRegistry $clientRegistry,
         EventDispatcherInterface $dispatcher,
         LoggerInterface $searchEngineLogger,
-        MarkdownInterface $markdown
+        MarkdownInterface $markdown,
     ) {
         parent::__construct($clientRegistry, $searchEngineLogger, $markdown);
         $this->nodeSource = $nodeSource;
@@ -45,7 +45,6 @@ class SolariumNodeSource extends AbstractSolarium
      *
      * @param bool $subResource Tell when this field gathering is for a main resource indexation or a sub-resource
      *
-     * @return array
      * @throws \Exception
      */
     public function getFieldsAssoc(bool $subResource = false): array
@@ -53,21 +52,19 @@ class SolariumNodeSource extends AbstractSolarium
         $event = new NodesSourcesIndexingEvent($this->nodeSource, [], $this);
         /** @var NodesSourcesIndexingEvent $event */
         $event = $this->dispatcher->dispatch($event);
+
         return $event->getAssociations();
     }
 
     /**
      * Remove any document linked to current node-source.
-     *
-     * @param Query $update
-     * @return bool
      */
     public function clean(Query $update): bool
     {
         $update->addDeleteQuery(
-            static::IDENTIFIER_KEY . ':"' . $this->nodeSource->getId() . '"' .
-            '&' . static::TYPE_DISCRIMINATOR . ':"' . static::DOCUMENT_TYPE . '"' .
-            '&locale_s:"' . $this->nodeSource->getTranslation()->getLocale() . '"'
+            static::IDENTIFIER_KEY.':"'.$this->nodeSource->getId().'"'.
+            '&'.static::TYPE_DISCRIMINATOR.':"'.static::DOCUMENT_TYPE.'"'.
+            '&locale_s:"'.$this->nodeSource->getTranslation()->getLocale().'"'
         );
 
         return true;
@@ -78,6 +75,7 @@ class SolariumNodeSource extends AbstractSolarium
         $namespace = explode('\\', get_class($this->nodeSource));
         // get last 3 parts of namespace
         $namespace = array_slice($namespace, -3);
-        return (new AsciiSlugger())->slug(implode(' ', $namespace))->lower()->snake() . '.' . $this->nodeSource->getId();
+
+        return (new AsciiSlugger())->slug(implode(' ', $namespace))->lower()->snake().'.'.$this->nodeSource->getId();
     }
 }

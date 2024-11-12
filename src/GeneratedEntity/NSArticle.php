@@ -13,19 +13,17 @@ use ApiPlatform\Doctrine\Orm\Filter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * Article node-source entity.
- * Article
+ * Article.
  */
 #[Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
 #[ORM\Entity(repositoryClass: Repository\NSArticleRepository::class)]
@@ -96,9 +94,6 @@ class NSArticle extends NodesSources
     #[JMS\Type('string')]
     private ?string $onlyOnWebresponse = null;
 
-    /**
-     * @return string|null
-     */
     public function getContent(): ?string
     {
         return $this->content;
@@ -112,12 +107,10 @@ class NSArticle extends NodesSources
         $this->content = null !== $content ?
                     (string) $content :
                     null;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getRealmBSecret(): ?string
     {
         return $this->realmBSecret;
@@ -131,12 +124,10 @@ class NSArticle extends NodesSources
         $this->realmBSecret = null !== $realmBSecret ?
                     (string) $realmBSecret :
                     null;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getRealmASecret(): ?string
     {
         return $this->realmASecret;
@@ -150,12 +141,10 @@ class NSArticle extends NodesSources
         $this->realmASecret = null !== $realmASecret ?
                     (string) $realmASecret :
                     null;
+
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
     public function getUnpublishedAt(): ?\DateTime
     {
         return $this->unpublishedAt;
@@ -167,12 +156,10 @@ class NSArticle extends NodesSources
     public function setUnpublishedAt(?\DateTime $unpublishedAt): static
     {
         $this->unpublishedAt = $unpublishedAt;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getOnlyOnWebresponse(): ?string
     {
         return $this->onlyOnWebresponse;
@@ -186,6 +173,7 @@ class NSArticle extends NodesSources
         $this->onlyOnWebresponse = null !== $onlyOnWebresponse ?
                     (string) $onlyOnWebresponse :
                     null;
+
         return $this;
     }
 
@@ -201,6 +189,7 @@ class NSArticle extends NodesSources
 
     /**
      * $this->nodeType->isReachable() proxy.
+     *
      * @return bool Does this nodeSource is reachable over network?
      */
     #[JMS\VirtualProperty]
@@ -211,6 +200,7 @@ class NSArticle extends NodesSources
 
     /**
      * $this->nodeType->isPublishable() proxy.
+     *
      * @return bool Does this nodeSource is publishable with date and time?
      */
     #[JMS\VirtualProperty]
@@ -221,6 +211,6 @@ class NSArticle extends NodesSources
 
     public function __toString(): string
     {
-        return '[NSArticle] ' . parent::__toString();
+        return '[NSArticle] '.parent::__toString();
     }
 }

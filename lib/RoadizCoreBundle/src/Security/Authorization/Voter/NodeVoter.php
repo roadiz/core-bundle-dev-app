@@ -46,10 +46,10 @@ final class NodeVoter extends Voter
     {
         if (
             \in_array($attribute, [
-            self::CREATE_AT_ROOT,
-            self::READ_AT_ROOT,
-            self::SEARCH,
-            self::EMPTY_TRASH,
+                self::CREATE_AT_ROOT,
+                self::READ_AT_ROOT,
+                self::SEARCH,
+                self::EMPTY_TRASH,
             ])
         ) {
             return true;
@@ -57,17 +57,17 @@ final class NodeVoter extends Voter
 
         if (
             !\in_array($attribute, [
-            self::CREATE,
-            self::DUPLICATE,
-            self::READ,
-            self::READ_LOGS,
-            self::EDIT_CONTENT,
-            self::EDIT_SETTING,
-            self::EDIT_TAGS,
-            self::EDIT_REALMS,
-            self::EDIT_STATUS,
-            self::EDIT_ATTRIBUTE,
-            self::DELETE
+                self::CREATE,
+                self::DUPLICATE,
+                self::READ,
+                self::READ_LOGS,
+                self::EDIT_CONTENT,
+                self::EDIT_SETTING,
+                self::EDIT_TAGS,
+                self::EDIT_REALMS,
+                self::EDIT_STATUS,
+                self::EDIT_ATTRIBUTE,
+                self::DELETE,
             ])
         ) {
             return false;
@@ -109,7 +109,7 @@ final class NodeVoter extends Voter
             self::EDIT_ATTRIBUTE => $this->canEditAttribute($subject, $user),
             self::DELETE => $this->canDelete($subject, $user),
             self::EMPTY_TRASH => $this->canEmptyTrash($user),
-            default => throw new \LogicException('This code should not be reached!')
+            default => throw new \LogicException('This code should not be reached!'),
         };
     }
 
@@ -133,19 +133,21 @@ final class NodeVoter extends Voter
             return $this->security->isGranted($roles);
         }
 
-        return $this->security->isGranted($roles) &&
-            $this->isNodeInsideUserChroot($node, $chroot, $includeChroot);
+        return $this->security->isGranted($roles)
+            && $this->isNodeInsideUserChroot($node, $chroot, $includeChroot);
     }
 
     private function canCreateAtRoot(UserInterface $user): bool
     {
         $chroot = $this->chrootResolver->getChroot($user);
+
         return null === $chroot && $this->security->isGranted('ROLE_ACCESS_NODES');
     }
 
     private function canReadAtRoot(UserInterface $user): bool
     {
         $chroot = $this->chrootResolver->getChroot($user);
+
         return null === $chroot && $this->security->isGranted('ROLE_ACCESS_NODES');
     }
 
@@ -160,9 +162,9 @@ final class NodeVoter extends Voter
     private function canEmptyTrash(UserInterface $user): bool
     {
         $chroot = $this->chrootResolver->getChroot($user);
+
         return null === $chroot && $this->security->isGranted('ROLE_ACCESS_NODES_DELETE');
     }
-
 
     private function canCreate(NodeInterface $node, UserInterface $user): bool
     {

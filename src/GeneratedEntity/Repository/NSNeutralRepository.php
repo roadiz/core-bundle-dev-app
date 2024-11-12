@@ -19,6 +19,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends NodesSourcesRepository<NSNeutral>
+ *
  * @method NSNeutral|null find($id, $lockMode = null, $lockVersion = null)
  * @method NSNeutral|null findOneBy(array $criteria, array $orderBy = null)
  * @method NSNeutral[]    findAll()

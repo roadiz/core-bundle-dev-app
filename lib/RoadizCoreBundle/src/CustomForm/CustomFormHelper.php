@@ -28,25 +28,20 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 final class CustomFormHelper
 {
     public const ARRAY_SEPARATOR = ', ';
+
     public function __construct(
         private readonly ObjectManager $em,
         private readonly CustomForm $customForm,
         private readonly AbstractDocumentFactory $documentFactory,
         private readonly FormFactoryInterface $formFactory,
-        private readonly EventDispatcherInterface $eventDispatcher
+        private readonly EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
-    /**
-     * @param Request $request
-     * @param boolean $forceExpanded
-     * @param bool $prefix
-     * @return FormInterface
-     */
     public function getForm(
         Request $request,
         bool $forceExpanded = false,
-        bool $prefix = true
+        bool $prefix = true,
     ): FormInterface {
         $defaults = $request->query->all();
         if ($prefix) {
@@ -54,6 +49,7 @@ final class CustomFormHelper
         } else {
             $name = '';
         }
+
         return $this->formFactory->createNamed($name, CustomFormsType::class, $defaults, [
             'customForm' => $this->customForm,
             'forceExpanded' => $forceExpanded,
@@ -64,16 +60,12 @@ final class CustomFormHelper
      * Create or update custom-form answer and its attributes from
      * a submitted form data.
      *
-     * @param FormInterface $form
-     * @param CustomFormAnswer|null $answer
-     * @param string $ipAddress
-     * @return CustomFormAnswer
      * @throws FilesystemException
      */
     public function parseAnswerFormData(
         FormInterface $form,
-        CustomFormAnswer $answer = null,
-        string $ipAddress = ""
+        ?CustomFormAnswer $answer = null,
+        string $ipAddress = '',
     ): CustomFormAnswer {
         if (!$form->isSubmitted()) {
             throw new \InvalidArgumentException('Form must be submitted before begin parsing.');
@@ -102,7 +94,7 @@ final class CustomFormHelper
             /*
              * Get data in form groups
              */
-            if ($customFormField->getGroupName() != '') {
+            if ('' != $customFormField->getGroupName()) {
                 $groupCanonical = StringHandler::slugify($customFormField->getGroupName());
                 $formGroup = $form->get($groupCanonical);
                 if ($formGroup->has($customFormField->getName())) {
@@ -156,23 +148,21 @@ final class CustomFormHelper
     }
 
     /**
-     * @param UploadedFile $file
-     * @param CustomFormFieldAttribute $fieldAttr
-     * @return DocumentInterface|null
      * @throws FilesystemException
      * @throws \Exception
      */
     protected function handleUploadedFile(
         UploadedFile $file,
-        CustomFormFieldAttribute $fieldAttr
+        CustomFormFieldAttribute $fieldAttr,
     ): ?DocumentInterface {
         $this->documentFactory->setFile($file);
         $this->documentFactory->setFolder($this->getDocumentFolderForCustomForm());
         $document = $this->documentFactory->getDocument();
         if (null !== $document) {
             $fieldAttr->getDocuments()->add($document);
-            $fieldAttr->setValue($fieldAttr->getValue() . ', ' . $file->getPathname());
+            $fieldAttr->setValue($fieldAttr->getValue().', '.$file->getPathname());
         }
+
         return $document;
     }
 
@@ -180,8 +170,8 @@ final class CustomFormHelper
     {
         return $this->em->getRepository(Folder::class)
             ->findOrCreateByPath(
-                'custom_forms/' .
-                $this->customForm->getCreatedAt()->format('Ymd') . '_' .
+                'custom_forms/'.
+                $this->customForm->getCreatedAt()->format('Ymd').'_'.
                 \mb_substr($this->customForm->getDisplayName(), 0, 30)
             );
     }
@@ -194,17 +184,13 @@ final class CustomFormHelper
             $values = $rawValue;
             $values = array_map('trim', $values);
             $values = array_map('strip_tags', $values);
+
             return implode(static::ARRAY_SEPARATOR, $values);
         } else {
             return strip_tags((string) $rawValue);
         }
     }
 
-    /**
-     * @param CustomFormAnswer $answer
-     * @param CustomFormField $field
-     * @return CustomFormFieldAttribute|null
-     */
     private function getAttribute(CustomFormAnswer $answer, CustomFormField $field): ?CustomFormFieldAttribute
     {
         return $this->em->getRepository(CustomFormFieldAttribute::class)->findOneBy([

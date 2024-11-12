@@ -27,7 +27,7 @@ final class RozierServiceRegistry
         private readonly ManagerRegistry $managerRegistry,
         private readonly TreeWidgetFactory $treeWidgetFactory,
         private readonly NodeChrootResolver $chrootResolver,
-        private readonly array $backofficeMenuEntries
+        private readonly array $backofficeMenuEntries,
     ) {
     }
 
@@ -50,6 +50,7 @@ final class RozierServiceRegistry
                     ['name' => 'ASC']
                 );
         }
+
         return $this->settingGroups;
     }
 
@@ -58,6 +59,7 @@ final class RozierServiceRegistry
         if (null === $this->tagTree) {
             $this->tagTree = $this->treeWidgetFactory->createTagTree();
         }
+
         return $this->tagTree;
     }
 
@@ -66,6 +68,7 @@ final class RozierServiceRegistry
         if (null === $this->folderTree) {
             $this->folderTree = $this->treeWidgetFactory->createFolderTree();
         }
+
         return $this->folderTree;
     }
 
@@ -76,6 +79,7 @@ final class RozierServiceRegistry
                 $this->chrootResolver->getChroot($user)
             );
         }
+
         return $this->nodeTree;
     }
 

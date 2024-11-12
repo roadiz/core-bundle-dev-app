@@ -17,12 +17,10 @@ final class BackofficeAuthenticationSuccessHandler implements AuthenticationSucc
 {
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ManagerRegistry $managerRegistry
+        private readonly ManagerRegistry $managerRegistry,
     ) {
     }
-    /**
-     * @inheritDoc
-     */
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): ?Response
     {
         $user = $token->getUser();

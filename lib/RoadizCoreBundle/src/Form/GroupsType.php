@@ -23,21 +23,14 @@ class GroupsType extends AbstractType
     protected AuthorizationCheckerInterface $authorizationChecker;
     protected ManagerRegistry $managerRegistry;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param AuthorizationCheckerInterface $authorizationChecker
-     */
     public function __construct(
         ManagerRegistry $managerRegistry,
-        AuthorizationCheckerInterface $authorizationChecker
+        AuthorizationCheckerInterface $authorizationChecker,
     ) {
         $this->authorizationChecker = $authorizationChecker;
         $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new CallbackTransformer(function ($modelToForm) {
@@ -45,25 +38,24 @@ class GroupsType extends AbstractType
                 if ($modelToForm instanceof Collection) {
                     $modelToForm = $modelToForm->toArray();
                 }
+
                 return array_map(function (Group $group) {
                     return $group->getId();
                 }, $modelToForm);
             }
+
             return null;
         }, function ($formToModels) {
-            if (null === $formToModels || (is_array($formToModels) && count($formToModels) === 0)) {
+            if (null === $formToModels || (is_array($formToModels) && 0 === count($formToModels))) {
                 return [];
             }
+
             return $this->managerRegistry->getRepository(Group::class)->findBy([
-                'id' => $formToModels
+                'id' => $formToModels,
             ]);
         }));
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([]);
@@ -80,19 +72,16 @@ class GroupsType extends AbstractType
                     $choices[$group->getName()] = $group->getId();
                 }
             }
+
             return $choices;
         });
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getBlockPrefix(): string
     {
         return 'groups';

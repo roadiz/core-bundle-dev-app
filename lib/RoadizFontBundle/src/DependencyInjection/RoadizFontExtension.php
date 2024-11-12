@@ -16,12 +16,9 @@ class RoadizFontExtension extends Extension
         return 'roadiz_font';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__) . '/../config'));
+        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/../config'));
         $loader->load('services.yaml');
     }
 }

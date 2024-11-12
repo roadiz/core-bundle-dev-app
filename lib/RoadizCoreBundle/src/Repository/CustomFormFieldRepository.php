@@ -16,7 +16,7 @@ final class CustomFormFieldRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, CustomFormField::class, $dispatcher);
     }
@@ -29,6 +29,7 @@ final class CustomFormFieldRepository extends EntityRepository
             ->setParameter('customForm', $customForm);
 
         $result = $qb->getQuery()->getResult();
+
         return array_map(fn (array $row) => $row['groupName'], $result);
     }
 }

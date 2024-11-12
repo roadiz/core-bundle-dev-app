@@ -18,7 +18,7 @@ final class SolrResetCommand extends SolrCommand
     public function __construct(
         private readonly IndexerFactoryInterface $indexerFactory,
         ClientRegistry $clientRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($clientRegistry, $name);
     }
@@ -41,13 +41,14 @@ final class SolrResetCommand extends SolrCommand
             false
         );
         if ($this->io->askQuestion($confirmation)) {
-            $indexer  = $this->indexerFactory->getIndexerFor(NodesSources::class);
+            $indexer = $this->indexerFactory->getIndexerFor(NodesSources::class);
             if ($indexer instanceof CliAwareIndexer) {
                 $indexer->setIo($this->io);
             }
             $indexer->emptySolr();
             $this->io->success('Solr index resetted.');
         }
+
         return 0;
     }
 }

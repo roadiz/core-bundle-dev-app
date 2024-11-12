@@ -31,7 +31,7 @@ class DocumentDownscaleCommand extends AbstractDocumentCommand
         private readonly ?int $maxPixelSize,
         private readonly DownscaleImageManager $downscaler,
         private readonly EventDispatcherInterface $dispatcher,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($managerRegistry, $imageManager, $documentsStorage, $name);
     }
@@ -52,11 +52,12 @@ class DocumentDownscaleCommand extends AbstractDocumentCommand
         if (null === $this->maxPixelSize || $this->maxPixelSize <= 0) {
             $io->warning('Your configuration is not set for downscaling documents.');
             $io->note('Add <info>assetsProcessing.maxPixelSize</info> parameter in your <info>config.yml</info> file.');
+
             return 1;
         }
 
         $confirmation = new ConfirmationQuestion(
-            '<question>Are you sure to downscale all your image documents to ' . $this->maxPixelSize . 'px?</question>',
+            '<question>Are you sure to downscale all your image documents to '.$this->maxPixelSize.'px?</question>',
             false
         );
         if ($input->isInteractive() && !$io->askQuestion($confirmation)) {
@@ -90,7 +91,7 @@ class DocumentDownscaleCommand extends AbstractDocumentCommand
             /** @var array<PhpSubprocess> $processes */
             $processes = [];
 
-            for ($i = 0; $i < $processCount; $i++) {
+            for ($i = 0; $i < $processCount; ++$i) {
                 $offset = $i * $documentsPerProcess;
                 $limit = $documentsPerProcess;
 
@@ -99,8 +100,8 @@ class DocumentDownscaleCommand extends AbstractDocumentCommand
                     'documents:downscale',
                     '-n',
                     '--process-count=1',
-                    '--limit=' . $limit,
-                    '--offset=' . $offset,
+                    '--limit='.$limit,
+                    '--offset='.$offset,
                 ];
 
                 $process = new PhpSubprocess($command);
@@ -116,6 +117,7 @@ class DocumentDownscaleCommand extends AbstractDocumentCommand
             }
 
             $io->success('All processes have finished.');
+
             return 0;
         }
 
@@ -132,7 +134,7 @@ class DocumentDownscaleCommand extends AbstractDocumentCommand
             try {
                 $this->downscaler->processDocumentFromExistingRaw($document);
             } catch (NotReadableException $exception) {
-                $io->error($exception->getMessage() . ' - ' . (string) $document);
+                $io->error($exception->getMessage().' - '.(string) $document);
             }
             $io->progressAdvance();
         }
@@ -141,6 +143,7 @@ class DocumentDownscaleCommand extends AbstractDocumentCommand
         $io->success('Every documents have been downscaled, a raw version has been kept.');
 
         $this->dispatcher->dispatch(new CachePurgeAssetsRequestEvent());
+
         return 0;
     }
 }

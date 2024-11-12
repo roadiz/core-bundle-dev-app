@@ -22,25 +22,18 @@ class LoginType extends AbstractType
     protected UrlGeneratorInterface $urlGenerator;
     protected RequestStack $requestStack;
 
-    /**
-     * @param UrlGeneratorInterface $urlGenerator
-     * @param RequestStack $requestStack
-     */
     public function __construct(UrlGeneratorInterface $urlGenerator, RequestStack $requestStack)
     {
         $this->urlGenerator = $urlGenerator;
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('_username', TextType::class, [
             'label' => 'username',
             'attr' => [
-                'autocomplete' => 'username'
+                'autocomplete' => 'username',
             ],
             'constraints' => [
                 new NotNull(),
@@ -50,7 +43,7 @@ class LoginType extends AbstractType
         ->add('_password', PasswordType::class, [
             'label' => 'password',
             'attr' => [
-                'autocomplete' => 'current-password'
+                'autocomplete' => 'current-password',
             ],
             'constraints' => [
                 new NotNull(),
@@ -61,20 +54,17 @@ class LoginType extends AbstractType
             'label' => 'keep_me_logged_in',
             'required' => false,
             'attr' => [
-                'checked' => true
+                'checked' => true,
             ],
         ]);
 
         if ($this->requestStack->getMainRequest()?->query->has('_home')) {
             $builder->add('_target_path', HiddenType::class, [
-                'data' => $this->urlGenerator->generate('adminHomePage')
+                'data' => $this->urlGenerator->generate('adminHomePage'),
             ]);
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setNormalizer('action', function (Options $options) {
@@ -82,9 +72,6 @@ class LoginType extends AbstractType
         });
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getBlockPrefix(): string
     {
         /*

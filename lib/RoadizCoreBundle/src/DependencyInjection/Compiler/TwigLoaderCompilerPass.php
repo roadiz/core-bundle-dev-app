@@ -12,16 +12,13 @@ class TwigLoaderCompilerPass implements CompilerPassInterface
 {
     use PriorityTaggedServiceTrait;
 
-    /**
-     * @inheritDoc
-     */
     public function process(ContainerBuilder $container): void
     {
         if ($container->has('twig.loader.native_filesystem')) {
             $definition = $container->findDefinition('twig.loader.native_filesystem');
             $definition->addMethodCall(
                 'prependPath',
-                [ realpath(dirname(__DIR__) . '/../../templates/ApiPlatformBundle'), 'ApiPlatform' ]
+                [realpath(dirname(__DIR__).'/../../templates/ApiPlatformBundle'), 'ApiPlatform']
             );
         }
     }

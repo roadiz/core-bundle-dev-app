@@ -15,7 +15,7 @@ final class AttributeGroupRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, AttributeGroup::class, $dispatcher);
     }

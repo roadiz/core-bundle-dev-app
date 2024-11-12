@@ -19,10 +19,6 @@ final class DocumentDuplicatesController extends RozierApp
     {
     }
 
-    /**
-     * @param  Request $request
-     * @return Response
-     */
     public function duplicatedAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');

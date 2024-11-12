@@ -11,9 +11,9 @@ class PictureRenderer extends AbstractImageRenderer
 {
     public function supports(DocumentInterface $document, array $options): bool
     {
-        return isset($options['picture']) &&
-            $options['picture'] === true &&
-            parent::supports($document, $options);
+        return isset($options['picture'])
+            && true === $options['picture']
+            && parent::supports($document, $options);
     }
 
     /**
@@ -29,9 +29,9 @@ class PictureRenderer extends AbstractImageRenderer
          * Override image by its first thumbnail if existing
          */
         if (
-            !$options['no_thumbnail'] &&
-            $document instanceof HasThumbnailInterface &&
-            $thumbnail = $document->getThumbnails()->first()
+            !$options['no_thumbnail']
+            && $document instanceof HasThumbnailInterface
+            && $thumbnail = $document->getThumbnails()->first()
         ) {
             if ($thumbnail instanceof DocumentInterface) {
                 $document = $thumbnail;
@@ -80,9 +80,10 @@ class PictureRenderer extends AbstractImageRenderer
             $mediaList[] = [
                 'srcset' => $this->parseSrcSetInner($document, $media['srcset'], false, $options['absolute']),
                 'webp_srcset' => !$document->isWebp() ? $this->parseSrcSetInner($document, $media['srcset'], true, $options['absolute']) : null,
-                'rule' => $media['rule']
+                'rule' => $media['rule'],
             ];
         }
+
         return $mediaList;
     }
 }

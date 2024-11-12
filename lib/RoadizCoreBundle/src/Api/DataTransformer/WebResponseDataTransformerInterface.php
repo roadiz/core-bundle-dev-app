@@ -11,9 +11,9 @@ interface WebResponseDataTransformerInterface
 {
     /**
      * @template T of PersistableInterface
+     *
      * @param T $object
-     * @param string $to
-     * @param array $context
+     *
      * @return WebResponseInterface<T>|null
      */
     public function transform(PersistableInterface $object, string $to, array $context = []): ?WebResponseInterface;

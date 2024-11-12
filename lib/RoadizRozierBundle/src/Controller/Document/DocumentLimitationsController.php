@@ -37,10 +37,11 @@ final class DocumentLimitationsController extends RozierApp
             );
 
             $this->managerRegistry->getManager()->flush();
+
             return $this->redirectToRoute(
                 'documentsLimitationsPage',
                 [
-                    'id' => $document->getId()
+                    'id' => $document->getId(),
                 ]
             );
         }

@@ -13,9 +13,6 @@ use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
  */
 class NodeApi extends AbstractApi
 {
-    /**
-     * @return NodeRepository
-     */
     public function getRepository(): NodeRepository
     {
         // phpstan cannot resolve repository type.
@@ -24,22 +21,19 @@ class NodeApi extends AbstractApi
                     ->getRepository(Node::class)
                     ->setDisplayingNotPublishedNodes(false)
                     ->setDisplayingAllNodesStatuses(false);
+
         return $repository;
     }
 
     /**
-     * @param array $criteria
-     * @param array|null $order
-     * @param int|null $limit
-     * @param int|null $offset
-     * @return array|Paginator
+     * @return array<Node>|Paginator<Node>
      */
     public function getBy(
         array $criteria,
-        array $order = null,
+        ?array $order = null,
         ?int $limit = null,
-        ?int $offset = null
-    ) {
+        ?int $offset = null,
+    ): array|Paginator {
         if (!in_array('translation.available', $criteria, true)) {
             $criteria['translation.available'] = true;
         }
@@ -53,10 +47,8 @@ class NodeApi extends AbstractApi
                         null
                     );
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function countBy(array $criteria)
+
+    public function countBy(array $criteria): int
     {
         if (!in_array('translation.available', $criteria, true)) {
             $criteria['translation.available'] = true;
@@ -68,10 +60,8 @@ class NodeApi extends AbstractApi
                         null
                     );
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function getOneBy(array $criteria, array $order = null)
+
+    public function getOneBy(array $criteria, ?array $order = null): ?Node
     {
         if (!in_array('translation.available', $criteria, true)) {
             $criteria['translation.available'] = true;

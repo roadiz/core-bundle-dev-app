@@ -15,7 +15,7 @@ final class AjaxFolderTreeController extends AbstractAjaxController
 {
     public function __construct(
         private readonly TreeWidgetFactory $treeWidgetFactory,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
@@ -28,7 +28,7 @@ final class AjaxFolderTreeController extends AbstractAjaxController
         /** @var FolderTreeWidget|null $folderTree */
         $folderTree = null;
 
-        switch ($request->get("_action")) {
+        switch ($request->get('_action')) {
             /*
              * Inner folder edit for folderTree
              */
@@ -48,9 +48,9 @@ final class AjaxFolderTreeController extends AbstractAjaxController
                 $this->assignation['mainFolderTree'] = false;
 
                 break;
-            /*
-             * Main panel tree folderTree
-             */
+                /*
+                 * Main panel tree folderTree
+                 */
             case 'requestMainFolderTree':
                 $parent = null;
                 $folderTree = $this->treeWidgetFactory->createFolderTree($parent, $translation);

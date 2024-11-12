@@ -13,9 +13,6 @@ use Symfony\Component\Finder\Finder;
 
 class RozierPathsCompilerPass implements CompilerPassInterface
 {
-    /**
-     * @inheritDoc
-     */
     public function process(ContainerBuilder $container): void
     {
         if ($container->hasDefinition('translator.default')) {
@@ -41,26 +38,26 @@ class RozierPathsCompilerPass implements CompilerPassInterface
         $name = 'Rozier';
         // Register asset packages
         $container->setDefinition(
-            'roadiz_rozier.assets._package.' . $name,
+            'roadiz_rozier.assets._package.'.$name,
             (new Definition())
                 ->setClass(PathPackage::class)
                 ->setArguments([
-                    'themes/' . $name . '/static',
+                    'themes/'.$name.'/static',
                     new Reference('assets.empty_version_strategy'),
-                    new Reference('assets.context')
+                    new Reference('assets.context'),
                 ])
                 ->addTag('assets.package', [
-                    'package' => $name
+                    'package' => $name,
                 ])
         );
 
         /*
          * add translations paths
          */
-        $translationFolder = realpath($themeDir . '/Resources/translations');
+        $translationFolder = realpath($themeDir.'/Resources/translations');
 
         if (false === $translationFolder || !file_exists($translationFolder)) {
-            throw new \RuntimeException($themeDir . '/Resources/translations' . ' is not a valid directory');
+            throw new \RuntimeException($themeDir.'/Resources/translations is not a valid directory');
         }
 
         if ($container->hasDefinition('translator.default')) {
@@ -70,8 +67,8 @@ class RozierPathsCompilerPass implements CompilerPassInterface
                 ->followLinks()
                 ->files()
                 ->filter(function (\SplFileInfo $file) {
-                    return 2 <= \mb_substr_count($file->getBasename(), '.') &&
-                        preg_match('/\.\w+$/', $file->getBasename());
+                    return 2 <= \mb_substr_count($file->getBasename(), '.')
+                        && preg_match('/\.\w+$/', $file->getBasename());
                 })
                 ->in($translationFolder)
                 ->sortByName()
@@ -95,7 +92,7 @@ class RozierPathsCompilerPass implements CompilerPassInterface
                     'scanned_directories' => $scannedDirectories = [$translationFolder],
                     'cache_vary' => [
                         'scanned_directories' => array_map(static function (string $dir) use ($projectDir): string {
-                            return str_starts_with($dir, $projectDir . '/') ? \mb_substr($dir, 1 + \mb_strlen($projectDir)) : $dir;
+                            return str_starts_with($dir, $projectDir.'/') ? \mb_substr($dir, 1 + \mb_strlen($projectDir)) : $dir;
                         }, $scannedDirectories),
                     ],
                 ]

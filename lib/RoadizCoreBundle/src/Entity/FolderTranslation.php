@@ -20,9 +20,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[
     ORM\Entity(repositoryClass: FolderTranslationRepository::class),
-    ORM\Table(name: "folders_translations"),
-    ORM\UniqueConstraint(columns: ["folder_id", "translation_id"]),
-    UniqueEntity(fields: ["folder", "translation"])
+    ORM\Table(name: 'folders_translations'),
+    ORM\UniqueConstraint(columns: ['folder_id', 'translation_id']),
+    UniqueEntity(fields: ['folder', 'translation'])
 ]
 class FolderTranslation extends AbstractEntity
 {
@@ -48,50 +48,38 @@ class FolderTranslation extends AbstractEntity
     {
         $this->setFolder($original);
         $this->setTranslation($translation);
-        $this->name = $original->getDirtyFolderName() != '' ? $original->getDirtyFolderName() : $original->getFolderName();
+        $this->name = '' != $original->getDirtyFolderName() ? $original->getDirtyFolderName() : $original->getFolderName();
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name ?? '';
     }
 
     /**
-     * @param string $name
      * @return $this
      */
     public function setName(string $name): FolderTranslation
     {
         $this->name = $name;
+
         return $this;
     }
 
-    /**
-     * @return Folder
-     */
     public function getFolder(): Folder
     {
         return $this->folder;
     }
 
-    /**
-     * @param Folder $folder
-     * @return FolderTranslation
-     */
     public function setFolder(Folder $folder): FolderTranslation
     {
         $this->folder = $folder;
+
         return $this;
     }
 
-
     /**
      * Gets the value of translation.
-     *
-     * @return TranslationInterface
      */
     public function getTranslation(): TranslationInterface
     {
@@ -102,11 +90,11 @@ class FolderTranslation extends AbstractEntity
      * Sets the value of translation.
      *
      * @param TranslationInterface $translation the translation
-     * @return self
      */
     public function setTranslation(TranslationInterface $translation): FolderTranslation
     {
         $this->translation = $translation;
+
         return $this;
     }
 }

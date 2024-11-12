@@ -22,27 +22,24 @@ final class ArticleFeedBlockDefinition implements StoppableDefinition
     }
 
     /**
-     * @param NodesSources $source
-     * @param WalkerInterface $walker
-     * @return array
      * @throws \Exception
      */
     public function __invoke(NodesSources $source, WalkerInterface $walker): array
     {
         if (!($this->context instanceof NodeSourceWalkerContext)) {
-            throw new \InvalidArgumentException('Context should be instance of ' . NodeSourceWalkerContext::class);
+            throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
         }
 
         $this->context->getStopwatch()->start(self::class);
         if (!$source instanceof NSArticleFeedBlock) {
-            throw new \InvalidArgumentException('Source must be instance of ' . NSArticleFeedBlock::class);
+            throw new \InvalidArgumentException('Source must be instance of '.NSArticleFeedBlock::class);
         }
 
         $criteria = [
             'node.visible' => true,
             'publishedAt' => ['<=', new \DateTime()],
             'translation' => $source->getTranslation(),
-            'node.nodeType' => $this->context->getNodeTypesBag()->get('Article')
+            'node.nodeType' => $this->context->getNodeTypesBag()->get('Article'),
         ];
 
         // Prevent Article feed to list root Article again
@@ -62,7 +59,7 @@ final class ArticleFeedBlockDefinition implements StoppableDefinition
         $children = $this->context->getManagerRegistry()
             ->getRepository(NSArticle::class)
             ->findBy($criteria, [
-                'publishedAt' => 'DESC'
+                'publishedAt' => 'DESC',
             ], $count);
 
         $this->context->getStopwatch()->stop(self::class);

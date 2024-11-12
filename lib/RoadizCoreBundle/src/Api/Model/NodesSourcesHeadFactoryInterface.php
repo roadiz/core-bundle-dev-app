@@ -10,5 +10,6 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 interface NodesSourcesHeadFactoryInterface
 {
     public function createForTranslation(TranslationInterface $translation): NodesSourcesHeadInterface;
+
     public function createForNodeSource(NodesSources $nodesSources): NodesSourcesHeadInterface;
 }

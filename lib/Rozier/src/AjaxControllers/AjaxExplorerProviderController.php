@@ -18,14 +18,14 @@ class AjaxExplorerProviderController extends AbstractAjaxController
 {
     public function __construct(
         private readonly ContainerInterface $psrContainer,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
 
     /**
      * @param class-string<ExplorerProviderInterface> $providerClass
-     * @return ExplorerProviderInterface
+     *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -34,6 +34,7 @@ class AjaxExplorerProviderController extends AbstractAjaxController
         if ($this->psrContainer->has($providerClass)) {
             return $this->psrContainer->get($providerClass);
         }
+
         return new $providerClass();
     }
 
@@ -62,8 +63,6 @@ class AjaxExplorerProviderController extends AbstractAjaxController
     }
 
     /**
-     * @param Request $request
-     * @return JsonResponse
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -80,7 +79,7 @@ class AjaxExplorerProviderController extends AbstractAjaxController
         if ($request->query->has('options')) {
             $options = array_merge(
                 array_filter($request->query->filter('options', [], \FILTER_DEFAULT, [
-                    'flags' => \FILTER_FORCE_ARRAY
+                    'flags' => \FILTER_FORCE_ARRAY,
                 ])),
                 $options
             );
@@ -105,8 +104,6 @@ class AjaxExplorerProviderController extends AbstractAjaxController
     /**
      * Get a Node list from an array of id.
      *
-     * @param Request $request
-     * @return JsonResponse
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -117,10 +114,11 @@ class AjaxExplorerProviderController extends AbstractAjaxController
         $provider = $this->getProviderFromRequest($request);
         $entitiesArray = [];
         $cleanNodeIds = array_filter($request->query->filter('ids', [], \FILTER_DEFAULT, [
-            'flags' => \FILTER_FORCE_ARRAY
+            'flags' => \FILTER_FORCE_ARRAY,
         ]));
         $cleanNodeIds = array_filter($cleanNodeIds, function ($value) {
             $nullValues = ['null', null, 0, '0', false, 'false'];
+
             return !in_array($value, $nullValues, true);
         });
 
@@ -137,7 +135,7 @@ class AjaxExplorerProviderController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
-            'items' => $entitiesArray
+            'items' => $entitiesArray,
         ]);
     }
 }

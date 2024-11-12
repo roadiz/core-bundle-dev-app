@@ -113,7 +113,7 @@ class NodeTypeFieldType extends AbstractType
             'data_class' => NodeTypeField::class,
             'attr' => [
                 'class' => 'uk-form node-type-field-form',
-            ]
+            ],
         ]);
     }
 }

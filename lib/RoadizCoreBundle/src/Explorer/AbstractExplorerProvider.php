@@ -22,18 +22,16 @@ abstract class AbstractExplorerProvider implements ExplorerProviderInterface
     public function setContainer(ContainerInterface $container): self
     {
         $this->container = $container;
+
         return $this;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'page'       => 1,
-            'search'   =>  null,
-            'itemPerPage'   => 30
+            'page' => 1,
+            'search' => null,
+            'itemPerPage' => 30,
         ]);
     }
 }

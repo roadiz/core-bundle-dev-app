@@ -16,7 +16,7 @@ final class CacheController extends RozierApp
 {
     public function __construct(
         private readonly CacheClearerInterface $cacheClearer,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -54,9 +54,6 @@ final class CacheController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     *
-     * @return Response
      * @throws \Twig\Error\RuntimeError
      */
     public function deleteAssetsCache(Request $request): Response

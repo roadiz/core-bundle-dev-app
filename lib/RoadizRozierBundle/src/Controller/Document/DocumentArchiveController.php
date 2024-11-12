@@ -24,16 +24,13 @@ final class DocumentArchiveController extends RozierApp
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
-        private readonly DocumentArchiver $documentArchiver
+        private readonly DocumentArchiver $documentArchiver,
     ) {
     }
 
     /**
      * Return an deletion form for multiple docs.
      *
-     * @param Request $request
-     *
-     * @return Response
      * @throws FilesystemException
      * @throws RuntimeError
      */
@@ -71,7 +68,7 @@ final class DocumentArchiveController extends RozierApp
             }
 
             $this->assignation['form'] = $form->createView();
-            $this->assignation['action'] = '?' . http_build_query(['documents' => $documentsIds]);
+            $this->assignation['action'] = '?'.http_build_query(['documents' => $documentsIds]);
             $this->assignation['thumbnailFormat'] = [
                 'quality' => 50,
                 'fit' => '128x128',
@@ -88,14 +85,13 @@ final class DocumentArchiveController extends RozierApp
         throw new ResourceNotFoundException();
     }
 
-
     private function buildBulkDownloadForm(array $documentsIds): FormInterface
     {
         $defaults = [
             'checksum' => md5(serialize($documentsIds)),
         ];
         $builder = $this->createFormBuilder($defaults, [
-            'action' => '?' . http_build_query(['documents' => $documentsIds]),
+            'action' => '?'.http_build_query(['documents' => $documentsIds]),
         ])
             ->add('checksum', HiddenType::class, [
                 'constraints' => [

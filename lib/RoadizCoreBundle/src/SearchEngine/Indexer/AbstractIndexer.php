@@ -21,37 +21,30 @@ abstract class AbstractIndexer implements CliAwareIndexer
         protected readonly ClientRegistry $clientRegistry,
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly SolariumFactoryInterface $solariumFactory,
-        readonly LoggerInterface $searchEngineLogger
+        readonly LoggerInterface $searchEngineLogger,
     ) {
         $this->logger = $searchEngineLogger;
     }
 
-    /**
-     * @return Client
-     */
     public function getSolr(): Client
     {
         $solr = $this->clientRegistry->getClient();
         if (null === $solr) {
             throw new SolrServerNotAvailableException();
         }
+
         return $solr;
     }
 
-    /**
-     * @param SymfonyStyle|null $io
-     * @return AbstractIndexer
-     */
     public function setIo(?SymfonyStyle $io): self
     {
         $this->io = $io;
+
         return $this;
     }
 
     /**
      * Empty Solr index.
-     *
-     * @param string|null $documentType
      */
     public function emptySolr(?string $documentType = null): void
     {

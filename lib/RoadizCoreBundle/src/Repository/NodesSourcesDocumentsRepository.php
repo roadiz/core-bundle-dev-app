@@ -19,17 +19,15 @@ final class NodesSourcesDocumentsRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, NodesSourcesDocuments::class, $dispatcher);
     }
 
     /**
-     * @param NodesSources $nodeSource
-     * @param NodeTypeFieldInterface $field
-     * @return int
      * @throws NoResultException
      * @throws NonUniqueResultException
+     *
      * @deprecated Use getLatestPositionForFieldName instead
      */
     public function getLatestPosition(NodesSources $nodeSource, NodeTypeFieldInterface $field): int

@@ -32,7 +32,7 @@ final class LeafEntityLifeCycleSubscriber
         try {
             $handler = $this->handlerFactory->getHandler($entity);
 
-            if ($entity->getPosition() === 0.0) {
+            if (0.0 === $entity->getPosition()) {
                 /*
                  * Get the last index after last tag in parent
                  */
@@ -46,7 +46,7 @@ final class LeafEntityLifeCycleSubscriber
                 } else {
                     $entity->setPosition($lastPosition);
                 }
-            } elseif ($entity->getPosition() === 0.5) {
+            } elseif (0.5 === $entity->getPosition()) {
                 /*
                  * Position is set to 0.5, so we need to
                  * shift all tags to the bottom.

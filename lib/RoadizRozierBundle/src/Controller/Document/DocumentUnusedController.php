@@ -23,8 +23,6 @@ final class DocumentUnusedController extends RozierApp
     /**
      * See unused documents.
      *
-     * @param Request $request
-     * @return Response
      * @throws RuntimeError
      */
     public function unusedAction(Request $request): Response

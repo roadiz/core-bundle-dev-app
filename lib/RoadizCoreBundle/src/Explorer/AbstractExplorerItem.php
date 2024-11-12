@@ -28,9 +28,6 @@ abstract class AbstractExplorerItem implements ExplorerItemInterface
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function toArray(): array
     {
         return [

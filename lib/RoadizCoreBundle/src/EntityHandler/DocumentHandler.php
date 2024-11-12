@@ -34,8 +34,6 @@ final class DocumentHandler extends AbstractHandler
      * Get a Response object to force download document.
      * This method works for both private and public documents.
      *
-     * @param bool $asAttachment
-     * @return StreamedResponse
      * @throws FilesystemException
      */
     public function getDownloadResponse(bool $asAttachment = true): StreamedResponse
@@ -45,12 +43,13 @@ final class DocumentHandler extends AbstractHandler
 
             if ($this->documentStorage->fileExists($documentPath)) {
                 $headers = [
-                    "Content-Type" => $this->documentStorage->mimeType($documentPath),
-                    "Content-Length" => $this->documentStorage->fileSize($documentPath),
+                    'Content-Type' => $this->documentStorage->mimeType($documentPath),
+                    'Content-Length' => $this->documentStorage->fileSize($documentPath),
                 ];
                 if ($asAttachment) {
-                    $headers["Content-disposition"] = "attachment; filename=\"" . basename($this->document->getFilename()) . "\"";
+                    $headers['Content-disposition'] = 'attachment; filename="'.basename($this->document->getFilename()).'"';
                 }
+
                 return new StreamedResponse(function () use ($documentPath) {
                     \fpassthru($this->documentStorage->readStream($documentPath));
                 }, Response::HTTP_OK, $headers);
@@ -63,11 +62,8 @@ final class DocumentHandler extends AbstractHandler
     /**
      * Return documents folders with the same translation as
      * current document.
-     *
-     * @param Translation|null $translation
-     * @return array
      */
-    public function getFolders(Translation $translation = null): array
+    public function getFolders(?Translation $translation = null): array
     {
         if (!$this->document instanceof Document) {
             return [];
@@ -92,12 +88,12 @@ final class DocumentHandler extends AbstractHandler
     }
 
     /**
-     * @param DocumentInterface $document
      * @return $this
      */
     public function setDocument(DocumentInterface $document): self
     {
         $this->document = $document;
+
         return $this;
     }
 }

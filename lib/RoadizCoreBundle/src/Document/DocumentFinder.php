@@ -16,42 +16,30 @@ final class DocumentFinder extends AbstractDocumentFinder
     {
     }
 
-    /**
-     * @inheritDoc
-     */
     public function findAllByFilenames(array $fileNames): iterable
     {
         return $this->getRepository()->findBy([
-            "filename" => $fileNames,
-            "raw" => false,
+            'filename' => $fileNames,
+            'raw' => false,
         ]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function findOneByFilenames(array $fileNames): ?DocumentInterface
     {
         return $this->getRepository()->findOneBy([
-            "filename" => $fileNames,
-            "raw" => false,
+            'filename' => $fileNames,
+            'raw' => false,
         ]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function findOneByHashAndAlgorithm(string $hash, string $algorithm): ?DocumentInterface
     {
         return $this->getRepository()->findOneBy([
-            "fileHash" => $hash,
-            "fileHashAlgorithm" => $algorithm,
+            'fileHash' => $hash,
+            'fileHashAlgorithm' => $algorithm,
         ]);
     }
 
-    /**
-     * @return DocumentRepository
-     */
     protected function getRepository(): DocumentRepository
     {
         return $this->managerRegistry->getRepository(Document::class);

@@ -23,17 +23,12 @@ class SettingsUtilsController extends RozierApp
 {
     public function __construct(
         private readonly SerializerInterface $serializer,
-        private readonly SettingsImporter $settingsImporter
+        private readonly SettingsImporter $settingsImporter,
     ) {
     }
 
     /**
      * Export all settings in a Json file.
-     *
-     * @param Request $request
-     * @param int|null $settingGroupId
-     *
-     * @return Response
      */
     public function exportAllAction(Request $request, ?int $settingGroupId = null): Response
     {
@@ -45,12 +40,12 @@ class SettingsUtilsController extends RozierApp
             if (null === $group) {
                 throw $this->createNotFoundException();
             }
-            $fileName = 'settings-' . \mb_strtolower(StringHandler::cleanForFilename($group->getName())) . '-' . date("YmdHis") . '.json';
+            $fileName = 'settings-'.\mb_strtolower(StringHandler::cleanForFilename($group->getName())).'-'.date('YmdHis').'.json';
             $settings = $this->em()
                 ->getRepository(Setting::class)
                 ->findBySettingGroup($group);
         } else {
-            $fileName = 'settings-' . date("YmdHis") . '.json';
+            $fileName = 'settings-'.date('YmdHis').'.json';
             $settings = $this->em()
                 ->getRepository(Setting::class)
                 ->findAll();
@@ -73,9 +68,6 @@ class SettingsUtilsController extends RozierApp
     /**
      * Import a Json file (.rzt) containing setting and setting group.
      *
-     * @param Request $request
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function importJsonFileAction(Request $request): Response
@@ -87,9 +79,9 @@ class SettingsUtilsController extends RozierApp
         $form->handleRequest($request);
 
         if (
-            $form->isSubmitted() &&
-            $form->isValid() &&
-            !empty($form['setting_file'])
+            $form->isSubmitted()
+            && $form->isValid()
+            && !empty($form['setting_file'])
         ) {
             $file = $form['setting_file']->getData();
 
@@ -123,9 +115,6 @@ class SettingsUtilsController extends RozierApp
         return $this->render('@RoadizRozier/settings/import.html.twig', $this->assignation);
     }
 
-    /**
-     * @return FormInterface
-     */
     private function buildImportJsonFileForm(): FormInterface
     {
         $builder = $this->createFormBuilder()

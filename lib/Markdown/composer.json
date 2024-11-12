@@ -10,8 +10,7 @@
         "twig/twig": "^3.1"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.5.3",
-        "squizlabs/php_codesniffer": "^3.5"
+        "phpstan/phpstan": "^1.5.3"
     },
     "license": "MIT",
     "authors": [

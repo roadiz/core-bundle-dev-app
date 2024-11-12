@@ -19,6 +19,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends NodesSourcesRepository<NSArticleFeedBlock>
+ *
  * @method NSArticleFeedBlock|null find($id, $lockMode = null, $lockVersion = null)
  * @method NSArticleFeedBlock|null findOneBy(array $criteria, array $orderBy = null)
  * @method NSArticleFeedBlock[]    findAll()

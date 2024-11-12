@@ -43,7 +43,7 @@ jobs:
                   XDEBUG_MODE=coverage vendor/bin/phpunit -v
             - name: Run PHP Code Sniffer
               run: |
-                  php -d "memory_limit=-1" vendor/bin/phpcs --report=full -p
+                  php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
             - name: Run PHP Stan
               run: |
                   php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon

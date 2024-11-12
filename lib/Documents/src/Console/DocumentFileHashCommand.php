@@ -39,11 +39,7 @@ class DocumentFileHashCommand extends AbstractDocumentCommand
             $defaultAlgorithm = 'sha256';
         }
         if (!\in_array($defaultAlgorithm, \hash_algos())) {
-            throw new \RuntimeException(sprintf(
-                '“%s” algorithm is not available. Choose one from \hash_algos() method (%s)',
-                $defaultAlgorithm,
-                implode(', ', \hash_algos())
-            ));
+            throw new \RuntimeException(sprintf('“%s” algorithm is not available. Choose one from \hash_algos() method (%s)', $defaultAlgorithm, implode(', ', \hash_algos())));
         }
 
         $em = $this->getManager();
@@ -52,6 +48,7 @@ class DocumentFileHashCommand extends AbstractDocumentCommand
 
         if ($count <= 0) {
             $this->io->success('All document files have hash.');
+
             return 0;
         }
 
@@ -65,7 +62,7 @@ class DocumentFileHashCommand extends AbstractDocumentCommand
             }
 
             $algorithm = $document->getFileHashAlgorithm() ?? $defaultAlgorithm;
-            # https://flysystem.thephpleague.com/docs/usage/checksums/
+            // https://flysystem.thephpleague.com/docs/usage/checksums/
             $this->documentsStorage->checksum($mountPath, ['checksum_algo' => $algorithm]);
             if ($this->documentsStorage->fileExists($mountPath)) {
                 $fileHash = $this->documentsStorage->checksum($mountPath, ['checksum_algo' => $algorithm]);

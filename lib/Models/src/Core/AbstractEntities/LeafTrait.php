@@ -11,7 +11,7 @@ trait LeafTrait
     use PositionedTrait;
 
     /**
-     * @return Collection<int, LeafInterface>
+     * @return Collection<int, self>
      */
     public function getChildren(): Collection
     {
@@ -25,11 +25,11 @@ trait LeafTrait
         foreach ($this->children as $child) {
             $child->setParent($this);
         }
+
         return $this;
     }
 
     /**
-     * @param LeafInterface $child
      * @return $this
      */
     public function addChild(LeafInterface $child): static
@@ -41,8 +41,8 @@ trait LeafTrait
 
         return $this;
     }
+
     /**
-     * @param LeafInterface $child
      * @return $this
      */
     public function removeChild(LeafInterface $child): static
@@ -63,7 +63,7 @@ trait LeafTrait
      */
     public function getParent(): ?LeafInterface
     {
-        /** @phpstan-ignore-next-line */
+        /* @phpstan-ignore-next-line */
         return $this->parent;
     }
 
@@ -77,24 +77,23 @@ trait LeafTrait
 
         do {
             $parent = $parent->getParent();
-            if ($parent !== null) {
+            if (null !== $parent) {
                 $parentsArray[] = $parent;
             }
-        } while ($parent !== null);
+        } while (null !== $parent);
 
         return array_reverse($parentsArray);
     }
 
     /**
      * Gets the nodes' depth.
-     *
-     * @return int
      */
     public function getDepth(): int
     {
-        if ($this->getParent() === null) {
+        if (null === $this->getParent()) {
             return 0;
         }
+
         return $this->getParent()->getDepth() + 1;
     }
 }

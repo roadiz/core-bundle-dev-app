@@ -24,7 +24,7 @@ final class NodeSourceWalkerContextFactory implements WalkerContextFactoryInterf
         private readonly ManagerRegistry $managerRegistry,
         private readonly CacheItemPoolInterface $cacheAdapter,
         private readonly NodeTypeResolver $nodeTypeResolver,
-        private readonly PreviewResolverInterface $previewResolver
+        private readonly PreviewResolverInterface $previewResolver,
     ) {
     }
 

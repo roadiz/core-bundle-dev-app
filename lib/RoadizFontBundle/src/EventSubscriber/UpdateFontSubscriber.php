@@ -11,8 +11,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Calls font life cycle methods when no data changed according to Doctrine.
- *
- * @package RZ\Roadiz\CoreBundle\Event
  */
 final class UpdateFontSubscriber implements EventSubscriberInterface
 {
@@ -20,9 +18,6 @@ final class UpdateFontSubscriber implements EventSubscriberInterface
     {
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [

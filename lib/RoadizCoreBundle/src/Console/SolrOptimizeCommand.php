@@ -17,7 +17,7 @@ final class SolrOptimizeCommand extends SolrCommand
     public function __construct(
         protected readonly IndexerFactoryInterface $indexerFactory,
         ClientRegistry $clientRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($clientRegistry, $name);
     }
@@ -42,6 +42,7 @@ final class SolrOptimizeCommand extends SolrCommand
         }
         $documentIndexer->optimizeSolr();
         $this->io->success('Solr core has been optimized.');
+
         return 0;
     }
 }

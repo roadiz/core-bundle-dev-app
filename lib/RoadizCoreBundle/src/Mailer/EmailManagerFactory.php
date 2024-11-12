@@ -19,7 +19,7 @@ final class EmailManagerFactory
         private readonly Environment $templating,
         private readonly MailerInterface $mailer,
         private readonly Settings $settingsBag,
-        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator
+        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
     ) {
     }
 

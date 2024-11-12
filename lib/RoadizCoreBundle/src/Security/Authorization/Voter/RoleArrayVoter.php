@@ -13,9 +13,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
  */
 class RoleArrayVoter extends RoleVoter
 {
-    /**
-     * {@inheritdoc}
-     */
     public function vote(TokenInterface $token, $subject, array $attributes): int
     {
         if (isset($attributes[0]) && !\is_array($attributes[0])) {

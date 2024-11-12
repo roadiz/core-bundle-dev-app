@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\DataFixtures;
 
 use App\GeneratedEntity\NSOffer;
@@ -37,7 +39,7 @@ class OfferFixtures extends Fixture implements DependentFixtureInterface
         $offerContainer->getNode()->setStatus(Node::PUBLISHED);
         $offerContainer->setPublishedAt(new \DateTime());
 
-        for ($i = 0; $i < 50; $i++) {
+        for ($i = 0; $i < 50; ++$i) {
             /** @var NSOffer $offer */
             $offer = $this->uniqueNodeGenerator->generate(
                 // @phpstan-ignore-next-line

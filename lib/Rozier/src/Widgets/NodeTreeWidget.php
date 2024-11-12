@@ -33,33 +33,25 @@ final class NodeTreeWidget extends AbstractWidget
     private array $additionalCriteria = [];
 
     /**
-     * @param RequestStack $requestStack
-     * @param ManagerRegistry $managerRegistry
-     * @param Node|null $parentNode Entry point of NodeTreeWidget, set null if it's root
+     * @param Node|null                 $parentNode  Entry point of NodeTreeWidget, set null if it's root
      * @param TranslationInterface|null $translation NodeTree translation
-     * @param bool $includeRootNode
      */
     public function __construct(
         RequestStack $requestStack,
         ManagerRegistry $managerRegistry,
         private readonly ?Node $parentNode = null,
         private readonly ?TranslationInterface $translation = null,
-        private readonly bool $includeRootNode = false
+        private readonly bool $includeRootNode = false,
     ) {
         parent::__construct($requestStack, $managerRegistry);
     }
 
-    /**
-     * @return Tag|null
-     */
     public function getTag(): ?Tag
     {
         return $this->tag;
     }
 
     /**
-     * @param Tag|null $tag
-     *
      * @return $this
      */
     public function setTag(?Tag $tag): NodeTreeWidget
@@ -69,17 +61,12 @@ final class NodeTreeWidget extends AbstractWidget
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isStackTree(): bool
     {
         return $this->stackTree;
     }
 
     /**
-     * @param bool $stackTree
-     *
      * @return $this
      */
     public function setStackTree(bool $stackTree): NodeTreeWidget
@@ -91,6 +78,7 @@ final class NodeTreeWidget extends AbstractWidget
 
     /**
      * Fill twig assignation array with NodeTree entities.
+     *
      * @throws \ReflectionException
      */
     protected function getRootListManager(): NodeTreeDtoListManager
@@ -101,31 +89,18 @@ final class NodeTreeWidget extends AbstractWidget
         return $this->getListManager($this->parentNode, false, $this->additionalCriteria);
     }
 
-    /**
-     * @return array
-     */
     public function getAdditionalCriteria(): array
     {
         return $this->additionalCriteria;
     }
 
-    /**
-     * @param array $additionalCriteria
-     *
-     * @return NodeTreeWidget
-     */
     public function setAdditionalCriteria(array $additionalCriteria): NodeTreeWidget
     {
         $this->additionalCriteria = $additionalCriteria;
+
         return $this;
     }
 
-    /**
-     * @param NodeInterface|null $parent
-     * @param bool $subRequest
-     *
-     * @return bool
-     */
     protected function canOrderByParent(?NodeInterface $parent = null, bool $subRequest = false): bool
     {
         if (true === $subRequest || null === $parent) {
@@ -133,9 +108,9 @@ final class NodeTreeWidget extends AbstractWidget
         }
 
         if (
-            $parent->getChildrenOrder() !== 'position' &&
-            in_array($parent->getChildrenOrder(), Node::$orderingFields) &&
-            in_array($parent->getChildrenOrderDirection(), ['ASC', 'DESC'])
+            'position' !== $parent->getChildrenOrder()
+            && in_array($parent->getChildrenOrder(), Node::$orderingFields)
+            && in_array($parent->getChildrenOrderDirection(), ['ASC', 'DESC'])
         ) {
             return true;
         }
@@ -144,16 +119,15 @@ final class NodeTreeWidget extends AbstractWidget
     }
 
     /**
-     * @param NodeInterface|null $parent
-     * @param bool $subRequest Default: false
+     * @param bool  $subRequest         Default: false
      * @param array $additionalCriteria Default: []
-     * @return NodeTreeDtoListManager
+     *
      * @throws \ReflectionException
      */
     protected function getListManager(
         ?NodeInterface $parent = null,
         bool $subRequest = false,
-        array $additionalCriteria = []
+        array $additionalCriteria = [],
     ): NodeTreeDtoListManager {
         $criteria = array_merge($additionalCriteria, [
             'parent' => $parent?->getId() ?? null,
@@ -206,20 +180,22 @@ final class NodeTreeWidget extends AbstractWidget
     }
 
     /**
-     * @param NodeInterface|null $parent
      * @param bool $subRequest Default: false
+     *
      * @return array<NodeTreeDto>
+     *
      * @throws \ReflectionException
      */
-    public function getChildrenNodes(NodeInterface|null $parent = null, bool $subRequest = false): array
+    public function getChildrenNodes(?NodeInterface $parent = null, bool $subRequest = false): array
     {
         return $this->getListManager($parent, $subRequest)->getEntities();
     }
 
     /**
-     * @param NodeInterface|null $parent
      * @param bool $subRequest Default: false
+     *
      * @return array<NodeTreeDto>
+     *
      * @throws \ReflectionException
      */
     public function getReachableChildrenNodes(?NodeInterface $parent = null, bool $subRequest = false): array
@@ -229,9 +205,6 @@ final class NodeTreeWidget extends AbstractWidget
         ])->getEntities();
     }
 
-    /**
-     * @return Node|null
-     */
     public function getRootNode(): ?Node
     {
         return $this->parentNode;
@@ -241,17 +214,12 @@ final class NodeTreeWidget extends AbstractWidget
      * Get entity list manager filters.
      *
      * Call getNodes() first to populate this.
-     *
-     * @return array|null
      */
     public function getFilters(): ?array
     {
         return $this->filters;
     }
 
-    /**
-     * @return TranslationInterface
-     */
     public function getTranslation(): TranslationInterface
     {
         return $this->translation ?? parent::getTranslation();
@@ -272,6 +240,7 @@ final class NodeTreeWidget extends AbstractWidget
 
     /**
      * @return array<NodeInterface>
+     *
      * @throws \ReflectionException
      */
     public function getNodes(): array
@@ -296,8 +265,9 @@ final class NodeTreeWidget extends AbstractWidget
         if (null === $node) {
             return [];
         }
+
         return $this->managerRegistry->getRepository(Tag::class)->findByAsTagTreeDto([
-            "nodes" => $node->getId(),
+            'nodes' => $node->getId(),
         ], [
             'position' => 'ASC',
         ], null, null, $this->getTranslation());
@@ -315,8 +285,6 @@ final class NodeTreeWidget extends AbstractWidget
 
     /**
      * Gets the value of canReorder.
-     *
-     * @return bool
      */
     public function getCanReorder(): bool
     {

@@ -67,7 +67,7 @@ class CustomFormsController extends AbstractAdminWithBulkController
         if ($item instanceof CustomForm) {
             return $item->getName();
         }
-        throw new \InvalidArgumentException('Item should be instance of ' . $this->getEntityClass());
+        throw new \InvalidArgumentException('Item should be instance of '.$this->getEntityClass());
     }
 
     protected function getBulkDeleteRouteName(): ?string

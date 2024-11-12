@@ -13,9 +13,10 @@ final class SignatureSubscriber implements EventSubscriberInterface
     public function __construct(
         private readonly string $cmsVersion,
         private readonly bool $hideRoadizVersion,
-        private readonly bool $debug = false
+        private readonly bool $debug = false,
     ) {
     }
+
     /**
      * Filters the Response.
      *

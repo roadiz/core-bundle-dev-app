@@ -28,7 +28,7 @@ class NodesSourcesSearchController extends AbstractController
         ManagerRegistry $managerRegistry,
         PreviewResolverInterface $previewResolver,
         ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
-        int $highlightingFragmentSize = 200
+        int $highlightingFragmentSize = 200,
     ) {
         $this->nodeSourceSearchHandler = $nodeSourceSearchHandler;
         $this->highlightingFragmentSize = $highlightingFragmentSize;
@@ -46,9 +46,6 @@ class NodesSourcesSearchController extends AbstractController
         return $this->previewResolver;
     }
 
-    /**
-     * @return SearchHandlerInterface
-     */
     protected function getSearchHandler(): SearchHandlerInterface
     {
         if (null === $this->nodeSourceSearchHandler) {
@@ -58,6 +55,7 @@ class NodesSourcesSearchController extends AbstractController
         if ($this->highlightingFragmentSize > 0) {
             $this->nodeSourceSearchHandler->setHighlightingFragmentSize($this->highlightingFragmentSize);
         }
+
         return $this->nodeSourceSearchHandler;
     }
 
@@ -65,7 +63,7 @@ class NodesSourcesSearchController extends AbstractController
     {
         return [
             'publishedAt' => ['<=', new \DateTime()],
-            'translation' => $this->getTranslation($request)
+            'translation' => $this->getTranslation($request),
         ];
     }
 
@@ -77,6 +75,7 @@ class NodesSourcesSearchController extends AbstractController
             $this->getCriteria($request),
             true
         );
+
         return new SolrPaginator($entityListManager);
     }
 }

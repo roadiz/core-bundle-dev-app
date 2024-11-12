@@ -14,7 +14,7 @@ final class NetlifyBuildHookMessage implements AsyncMessage, HttpRequestMessage,
 {
     public function __construct(
         private readonly string $uri,
-        private readonly ?array $payload = null
+        private readonly ?array $payload = null,
     ) {
     }
 
@@ -26,27 +26,24 @@ final class NetlifyBuildHookMessage implements AsyncMessage, HttpRequestMessage,
                 $this->uri,
                 [
                     'Content-Type' => 'application/x-www-form-urlencoded',
-                    'Accept'     => 'application/json'
+                    'Accept' => 'application/json',
                 ],
                 http_build_query($this->payload)
             );
         }
+
         return new Request('POST', $this->uri);
     }
 
-    /**
-     * @return array
-     */
     public function getOptions(): array
     {
         return [
             'debug' => false,
-            'timeout' => 3
+            'timeout' => 3,
         ];
     }
 
     /**
-     * @param WebhookInterface $webhook
      * @return static
      */
     public static function fromWebhook(WebhookInterface $webhook): self

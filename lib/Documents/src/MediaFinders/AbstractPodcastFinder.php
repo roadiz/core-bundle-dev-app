@@ -12,7 +12,6 @@ use RZ\Roadiz\Documents\AbstractDocumentFactory;
 use RZ\Roadiz\Documents\DownloadedFile;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\TimeableInterface;
-use SimpleXMLElement;
 use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractPodcastFinder extends AbstractEmbedFinder
@@ -27,18 +26,12 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
         return 'podcast';
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function validateEmbedId(string $embedId = ""): string
+    protected function validateEmbedId(string $embedId = ''): string
     {
         return $embedId;
     }
 
-    /**
-     * @return array|SimpleXMLElement|null
-     */
-    public function getFeed()
+    public function getFeed(): array|\SimpleXMLElement|null
     {
         if (null === $this->feed) {
             $rawFeed = $this->getMediaFeed();
@@ -47,22 +40,19 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
             }
             if (null !== $rawFeed) {
                 try {
-                    $this->feed = new SimpleXMLElement($rawFeed);
+                    $this->feed = new \SimpleXMLElement($rawFeed);
+
                     return $this->feed;
                 } catch (\Exception $errorException) {
                     throw new \RuntimeException('Feed content is not a valid Podcast XML');
                 }
             }
         }
+
         return $this->feed;
     }
 
-    /**
-     * @param SimpleXMLElement $item
-     *
-     * @return string
-     */
-    protected function getAudioName(SimpleXMLElement $item): string
+    protected function getAudioName(\SimpleXMLElement $item): string
     {
         if (null !== $item->enclosure->attributes()) {
             $url = (string) $item->enclosure->attributes()->url;
@@ -72,8 +62,10 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
 
         if (!empty((string) $item->title)) {
             $extension = pathinfo($url, PATHINFO_EXTENSION);
-            return ((string) $item->title) . '.' . $extension;
+
+            return ((string) $item->title).'.'.$extension;
         }
+
         return pathinfo($url, PATHINFO_BASENAME);
     }
 
@@ -82,18 +74,17 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
      *
      * Be careful, this method does not flush.
      *
-     * @param ObjectManager $objectManager
-     * @param AbstractDocumentFactory $documentFactory
      * @return array<DocumentInterface>
+     *
      * @throws FilesystemException
      */
     public function createDocumentFromFeed(
         ObjectManager $objectManager,
-        AbstractDocumentFactory $documentFactory
-    ) {
+        AbstractDocumentFactory $documentFactory,
+    ): array {
         $documents = [];
         $feed = $this->getFeed();
-        if ($feed instanceof SimpleXMLElement) {
+        if ($feed instanceof \SimpleXMLElement) {
             foreach ($feed->channel->item as $item) {
                 if (
                     !empty($item->enclosure->attributes()->url)
@@ -145,12 +136,12 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
     abstract protected function injectMetaFromPodcastItem(
         ObjectManager $objectManager,
         DocumentInterface $document,
-        \SimpleXMLElement $item
+        \SimpleXMLElement $item,
     ): void;
 
     protected function getPodcastItemTitle(\SimpleXMLElement $item): ?string
     {
-        return (string) $item->title . ' – ' . $this->getMediaTitle();
+        return (string) $item->title.' – '.$this->getMediaTitle();
     }
 
     protected function getPodcastItemDescription(\SimpleXMLElement $item): ?string
@@ -169,13 +160,11 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
         if (empty($copyright)) {
             return $this->getMediaCopyright();
         }
-        return $copyright . ' – ' . $this->getMediaCopyright();
+
+        return $copyright.' – '.$this->getMediaCopyright();
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getMediaFeed($search = null)
+    public function getMediaFeed(?string $search = null): StreamInterface
     {
         $url = $this->embedId;
         $client = new Client();
@@ -188,55 +177,47 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
         throw new \RuntimeException($response->getReasonPhrase());
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMediaTitle(): ?string
     {
         $feed = $this->getFeed();
-        if ($feed instanceof SimpleXMLElement && $feed->channel instanceof SimpleXMLElement) {
+        if ($feed instanceof \SimpleXMLElement && $feed->channel instanceof \SimpleXMLElement) {
             return (string) ($feed->channel->title ?? null);
         }
+
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMediaDescription(): ?string
     {
         $feed = $this->getFeed();
-        if ($feed instanceof SimpleXMLElement && $feed->channel instanceof SimpleXMLElement) {
+        if ($feed instanceof \SimpleXMLElement && $feed->channel instanceof \SimpleXMLElement) {
             return (string) ($feed->channel->description ?? null);
         }
+
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMediaCopyright(): ?string
     {
         $feed = $this->getFeed();
-        if ($feed instanceof SimpleXMLElement && $feed->channel instanceof SimpleXMLElement) {
+        if ($feed instanceof \SimpleXMLElement && $feed->channel instanceof \SimpleXMLElement) {
             return (string) ($feed->channel->copyright ?? null);
         }
+
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getThumbnailURL(): ?string
     {
         $feed = $this->getFeed();
         if (
-            $feed instanceof SimpleXMLElement
-            && $feed->channel instanceof SimpleXMLElement
-            && $feed->channel->image instanceof SimpleXMLElement
+            $feed instanceof \SimpleXMLElement
+            && $feed->channel instanceof \SimpleXMLElement
+            && $feed->channel->image instanceof \SimpleXMLElement
         ) {
             return (string) ($feed->channel->image->url ?? null);
         }
+
         return null;
     }
 

@@ -16,19 +16,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: LogRepository::class),
-    ORM\Table(name: "log"),
-    ORM\Index(columns: ["datetime"]),
-    ORM\Index(columns: ["entity_class"]),
-    ORM\Index(columns: ["entity_class", "entity_id"]),
-    ORM\Index(columns: ["entity_class", "datetime"], name: "log_entity_class_datetime"),
-    ORM\Index(columns: ["entity_class", "entity_id", "datetime"], name: "log_entity_class_id_datetime"),
-    ORM\Index(columns: ["username", "datetime"], name: "log_username_datetime"),
-    ORM\Index(columns: ["user_id", "datetime"], name: "log_user_datetime"),
-    ORM\Index(columns: ["level", "datetime"], name: "log_level_datetime"),
-    ORM\Index(columns: ["channel", "datetime"], name: "log_channel_datetime"),
-    ORM\Index(columns: ["level"]),
-    ORM\Index(columns: ["username"]),
-    ORM\Index(columns: ["channel"]),
+    ORM\Table(name: 'log'),
+    ORM\Index(columns: ['datetime']),
+    ORM\Index(columns: ['entity_class']),
+    ORM\Index(columns: ['entity_class', 'entity_id']),
+    ORM\Index(columns: ['entity_class', 'datetime'], name: 'log_entity_class_datetime'),
+    ORM\Index(columns: ['entity_class', 'entity_id', 'datetime'], name: 'log_entity_class_id_datetime'),
+    ORM\Index(columns: ['username', 'datetime'], name: 'log_username_datetime'),
+    ORM\Index(columns: ['user_id', 'datetime'], name: 'log_user_datetime'),
+    ORM\Index(columns: ['level', 'datetime'], name: 'log_level_datetime'),
+    ORM\Index(columns: ['channel', 'datetime'], name: 'log_channel_datetime'),
+    ORM\Index(columns: ['level']),
+    ORM\Index(columns: ['username']),
+    ORM\Index(columns: ['channel']),
     ORM\HasLifecycleCallbacks
 ]
 class Log extends AbstractEntity
@@ -82,9 +82,6 @@ class Log extends AbstractEntity
     // @phpstan-ignore-next-line
     protected ?string $entityClass = null;
 
-    /**
-     * @var string|int|null
-     */
     #[ORM\Column(name: 'entity_id', type: 'string', length: 36, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['log'])]
     #[Serializer\Groups(['log'])]
@@ -98,59 +95,41 @@ class Log extends AbstractEntity
     protected ?array $additionalData = null;
 
     /**
-     * @param int    $level
-     * @param string $message
-     *
      * @throws \Exception
      */
     public function __construct(int $level, string $message)
     {
         $this->level = $level;
         $this->message = $message;
-        $this->datetime = new \DateTime("now");
+        $this->datetime = new \DateTime('now');
     }
 
-    /**
-     * @return int|string|null
-     */
     public function getUserId(): int|string|null
     {
         return $this->userId;
     }
 
-    /**
-     * @param int|string|null $userId
-     * @return Log
-     */
     public function setUserId(int|string|null $userId): Log
     {
         $this->userId = $userId;
+
         return $this;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return Log
-     */
     public function setUser(User $user): Log
     {
         $this->userId = $user->getId();
         $this->username = $user->getUsername();
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
     /**
-     * @param string|null $username
-     *
      * @return Log
      */
     public function setUsername(?string $username)
@@ -160,25 +139,16 @@ class Log extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getMessage(): string
     {
         return $this->message;
     }
 
-    /**
-     * @return int
-     */
     public function getLevel(): int
     {
         return $this->level;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getDatetime(): \DateTime
     {
         return $this->datetime;
@@ -187,7 +157,6 @@ class Log extends AbstractEntity
     /**
      * BC setter.
      *
-     * @param NodesSources|null $nodeSource
      * @return $this
      */
     public function setNodeSource(?NodesSources $nodeSource): Log
@@ -196,40 +165,27 @@ class Log extends AbstractEntity
             $this->entityClass = NodesSources::class;
             $this->entityId = $nodeSource->getId();
         }
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getClientIp(): ?string
     {
         return $this->clientIp;
     }
 
-    /**
-     * @param string|null $clientIp
-     * @return Log
-     */
     public function setClientIp(?string $clientIp): Log
     {
         $this->clientIp = $clientIp;
+
         return $this;
     }
 
-    /**
-     * @return array|null
-     */
     public function getAdditionalData(): ?array
     {
         return $this->additionalData;
     }
 
-    /**
-     * @param array|null $additionalData
-     *
-     * @return Log
-     */
     public function setAdditionalData(?array $additionalData): Log
     {
         $this->additionalData = $additionalData;
@@ -237,19 +193,11 @@ class Log extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getChannel(): ?string
     {
         return $this->channel;
     }
 
-    /**
-     * @param string|null $channel
-     *
-     * @return Log
-     */
     public function setChannel(?string $channel): Log
     {
         $this->channel = $channel;
@@ -267,35 +215,29 @@ class Log extends AbstractEntity
 
     /**
      * @param class-string|null $entityClass
-     * @return Log
      */
     public function setEntityClass(?string $entityClass): Log
     {
         $this->entityClass = $entityClass;
+
         return $this;
     }
 
-    /**
-     * @return int|string|null
-     */
     public function getEntityId(): int|string|null
     {
         return $this->entityId;
     }
 
-    /**
-     * @param int|string|null $entityId
-     * @return Log
-     */
     public function setEntityId(int|string|null $entityId): Log
     {
         $this->entityId = $entityId;
+
         return $this;
     }
 
     #[ORM\PrePersist]
     public function prePersist(): void
     {
-        $this->datetime = new \DateTime("now");
+        $this->datetime = new \DateTime('now');
     }
 }

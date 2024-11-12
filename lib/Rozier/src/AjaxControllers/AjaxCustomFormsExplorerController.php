@@ -17,14 +17,12 @@ final class AjaxCustomFormsExplorerController extends AbstractAjaxController
 {
     public function __construct(
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
-        SerializerInterface $serializer
+        SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
     }
 
     /**
-     * @param Request $request
-     *
      * @return Response JSON response
      */
     public function indexAction(Request $request): Response
@@ -60,8 +58,6 @@ final class AjaxCustomFormsExplorerController extends AbstractAjaxController
     /**
      * Get a CustomForm list from an array of id.
      *
-     * @param Request $request
-     * @return Response
      * @throws NotSupported
      */
     public function listAction(Request $request): Response
@@ -73,7 +69,7 @@ final class AjaxCustomFormsExplorerController extends AbstractAjaxController
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
 
         $cleanCustomFormsIds = array_filter($request->query->filter('ids', [], \FILTER_DEFAULT, [
-            'flags' => \FILTER_FORCE_ARRAY
+            'flags' => \FILTER_FORCE_ARRAY,
         ]));
         $customFormsArray = [];
 
@@ -91,7 +87,7 @@ final class AjaxCustomFormsExplorerController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
-            'forms' => $customFormsArray
+            'forms' => $customFormsArray,
         ]);
     }
 
@@ -99,7 +95,6 @@ final class AjaxCustomFormsExplorerController extends AbstractAjaxController
      * Normalize response CustomForm list result.
      *
      * @param iterable<CustomForm> $customForms
-     * @return array
      */
     private function normalizeCustomForms(iterable $customForms): array
     {

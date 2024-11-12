@@ -23,15 +23,13 @@ final class UserInfoEndpoint implements Constraint
         try {
             $response = $this->client->request('GET', $this->userInfoEndpoint, [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $token->toString(),
+                    'Authorization' => 'Bearer '.$token->toString(),
                 ],
             ]);
             // Trigger lazy request
             $response->getContent();
         } catch (ExceptionInterface $e) {
-            throw new ConstraintViolation(
-                'Userinfo cannot be fetch from Identity provider'
-            );
+            throw new ConstraintViolation('Userinfo cannot be fetch from Identity provider');
         }
     }
 }

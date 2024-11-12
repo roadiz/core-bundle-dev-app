@@ -14,9 +14,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class NodeStatesType extends AbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $choices = [];
@@ -31,16 +28,12 @@ class NodeStatesType extends AbstractType
             'placeholder' => 'ignore',
         ]);
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getBlockPrefix(): string
     {
         return 'node_statuses';
