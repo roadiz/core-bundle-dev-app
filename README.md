@@ -33,9 +33,9 @@ This is development app for Roadiz v2. It aggregates all Roadiz bundle and main 
 ### Run development server
 
 - Run docker compose to get a local database and Solr server: `docker compose up -d`
-- Install Roadiz database fixture: `docker compose exec -u www-data app bin/console install`
-- Install development fixtures: `docker compose exec -u www-data app bin/console app:install`
-- Create a user: `docker compose exec -u www-data app bin/console users:create -s -b -m $EMAIL $EMAIL`
+- Install Roadiz database fixture: `docker compose exec app bin/console install`
+- Install development fixtures: `docker compose exec app bin/console app:install`
+- Create a user: `docker compose exec app bin/console users:create -s -b -m $EMAIL $EMAIL`
 
 ### Manual configuration
 

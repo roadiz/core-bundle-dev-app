@@ -1,0 +1,17 @@
+services:
+    db:
+        ports:
+            - ${PUBLIC_DB_PORT}:3306/tcp
+    pma:
+        ports:
+            - ${PUBLIC_PMA_PORT}:80/tcp
+    solr:
+        ports:
+            - "${PUBLIC_SOLR_PORT}:8983/tcp"
+    nginx:
+        ports:
+            - ${PUBLIC_APP_PORT}:80/tcp
+    mailer:
+        ports:
+            - ${PUBLIC_MAILER_PORT}:8025/tcp
+            - ${SMTP_MAILER_PORT}:1025/tcp

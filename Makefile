@@ -16,7 +16,7 @@ test:
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
 
 phpunit:
-	APP_ENV=test docker compose exec -u www-data app php vendor/bin/phpunit -v
+	APP_ENV=test docker compose exec app php vendor/bin/phpunit -v
 
 fix:
 	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
@@ -27,16 +27,19 @@ check:
 requirements:
 	vendor/bin/requirements-checker
 
+bash:
+	docker compose exec app bash --login
+
 cache :
-	docker compose exec -u www-data app php bin/console cache:clear
-	docker compose exec -u www-data app bin/console cache:pool:clear cache.global_clearer
+	docker compose exec app php bin/console cache:clear
+	docker compose exec app bin/console cache:pool:clear cache.global_clearer
 	# Force workers to restart
-	docker compose exec -u www-data app php bin/console messenger:stop-workers
+	docker compose exec app php bin/console messenger:stop-workers
 
 migrate:
-	docker compose exec -u www-data app php bin/console doctrine:migrations:migrate
-	docker compose exec -u www-data app php bin/console app:migrate
+	docker compose exec app php bin/console doctrine:migrations:migrate
+	docker compose exec app php bin/console app:migrate
 
 update:
-	docker compose exec -u www-data app php bin/console doctrine:migrations:migrate -n
-	docker compose exec -u www-data app php bin/console app:install
+	docker compose exec app php bin/console doctrine:migrations:migrate -n
+	docker compose exec app php bin/console app:install

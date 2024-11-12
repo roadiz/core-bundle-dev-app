@@ -166,3 +166,4 @@ fabric.properties
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
+/compose.override.yml
