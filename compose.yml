@@ -8,7 +8,7 @@ services:
         networks:
             - default
         volumes:
-            - "./.data/db:/var/lib/mysql:delegated"
+            - "./.data/db:/var/lib/mysql"
         environment:
             MYSQL_RANDOM_ROOT_PASSWORD: 1
             MYSQL_DATABASE: ${MYSQL_DATABASE:-db_name}
@@ -23,7 +23,7 @@ services:
         networks:
             - default
         volumes:
-            - "./.data/db_test:/var/lib/mysql:delegated"
+            - "./.data/db_test:/var/lib/mysql"
         environment:
             MYSQL_RANDOM_ROOT_PASSWORD: 1
             MYSQL_DATABASE: ${MYSQL_TEST_DATABASE:-db_name_test}
@@ -60,7 +60,7 @@ services:
             args:
                 UID: ${UID:-1000}
         volumes:
-            - "solr_data:/var/solr:delegated"
+            - "solr_data:/var/solr"
         command:
             - solr-precreate
             - ${SOLR_CORE_NAME}
@@ -129,7 +129,7 @@ services:
             - app
         volumes:
             # Need to share all app files for relative symlink to work in development
-            - ./:/app:cached
+            - ./:/app
         networks:
             - default
             - frontproxynet
