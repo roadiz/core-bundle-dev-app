@@ -26,14 +26,26 @@ trait WebResponseTrait
     public ?PersistableInterface $item = null;
 
     #[Serializer\Groups(['web_response'])]
+    #[ApiProperty(
+        identifier: false,
+        genId: false,
+    )]
     public ?BreadcrumbsInterface $breadcrumbs = null;
 
     #[Serializer\Groups(['web_response'])]
+    #[ApiProperty(
+        identifier: false,
+        genId: false,
+    )]
     public ?NodesSourcesHeadInterface $head = null;
     /**
      * @var Collection<int, WalkerInterface>|null
      */
     #[Serializer\Groups(['web_response'])]
+    #[ApiProperty(
+        identifier: false,
+        genId: false,
+    )]
     private ?Collection $blocks = null;
     /**
      * @var array<RealmInterface>|null
