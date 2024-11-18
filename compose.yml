@@ -79,6 +79,8 @@ services:
 
     redis:
         image: redis:7-alpine
+        volumes:
+            - "redis:/data"
         networks:
             - default
 
@@ -201,4 +203,5 @@ networks:
                 -   subnet: ${DEFAULT_GATEWAY}/24
 
 volumes:
+    redis:
     solr_data:
