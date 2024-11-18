@@ -52,10 +52,7 @@
     "autoload": {
         "psr-4": {
             "RZ\\Roadiz\\CompatBundle\\": "src/"
-        },
-        "files": [
-            "deprecated.php"
-        ]
+        }
     },
     "extra": {
         "branch-alias": {

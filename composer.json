@@ -172,10 +172,6 @@
         }
     },
     "autoload": {
-        "files": [
-            "lib/RoadizCompatBundle/deprecated.php",
-            "lib/RoadizRozierBundle/deprecated.php"
-        ],
         "psr-4": {
             "App\\": "src/",
             "RZ\\Roadiz\\": "lib/Models/src/",
