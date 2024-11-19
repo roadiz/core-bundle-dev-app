@@ -101,7 +101,6 @@ services:
         networks:
             - default
         environment:
-            APP_CACHE: ${APP_CACHE}
             TRUSTED_PROXIES: ${TRUSTED_PROXIES}
             UID: ${UID}
             DEFAULT_GATEWAY: ${DEFAULT_GATEWAY}

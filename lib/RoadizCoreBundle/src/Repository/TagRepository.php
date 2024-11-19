@@ -279,7 +279,7 @@ final class TagRepository extends EntityRepository
         return $query->getResult();
     }
 
-    protected function alterQueryBuilderAsTagTreeDto(QueryBuilder $qb): QueryBuilder
+    protected function alterQueryBuilderAsTagTreeDto(QueryBuilder $qb, string $alias = self::TAG_ALIAS): QueryBuilder
     {
         $qb->select(sprintf(
             <<<EOT
@@ -293,12 +293,12 @@ NEW %s(
 )
 EOT,
             TagTreeDto::class,
-            EntityRepository::TAG_ALIAS,
-            EntityRepository::TAG_ALIAS,
+            $alias,
+            $alias,
             'tt',
-            EntityRepository::TAG_ALIAS,
-            EntityRepository::TAG_ALIAS,
-            EntityRepository::TAG_ALIAS,
+            $alias,
+            $alias,
+            $alias,
         ));
 
         return $qb;

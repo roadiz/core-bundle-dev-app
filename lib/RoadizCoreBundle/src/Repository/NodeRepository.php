@@ -376,7 +376,7 @@ final class NodeRepository extends StatusAwareRepository
         $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
         $this->applyFilterByCriteria($criteria, $qb);
 
-        $this->alterQueryBuilderAsNodeTreeDto($qb);
+        $this->alterQueryBuilderAsNodeTreeDto($qb, $alias);
 
         $query = $qb->getQuery();
         $this->dispatchQueryEvent($query);
@@ -384,13 +384,13 @@ final class NodeRepository extends StatusAwareRepository
         return $query->getResult();
     }
 
-    protected function alterQueryBuilderAsNodeTreeDto(QueryBuilder $qb): QueryBuilder
+    protected function alterQueryBuilderAsNodeTreeDto(QueryBuilder $qb, string $alias = self::NODE_ALIAS): QueryBuilder
     {
-        if (!$this->hasJoinedNodeType($qb, self::NODE_ALIAS)) {
-            $qb->innerJoin(self::NODE_ALIAS.'.nodeType', self::NODETYPE_ALIAS);
+        if (!$this->hasJoinedNodeType($qb, $alias)) {
+            $qb->innerJoin($alias.'.nodeType', self::NODETYPE_ALIAS);
         }
-        if (!$this->hasJoinedNodesSources($qb, self::NODE_ALIAS)) {
-            $qb->innerJoin(self::NODE_ALIAS.'.nodeSources', self::NODESSOURCES_ALIAS);
+        if (!$this->hasJoinedNodesSources($qb, $alias)) {
+            $qb->innerJoin($alias.'.nodeSources', self::NODESSOURCES_ALIAS);
         }
 
         $qb->select(sprintf(
@@ -419,16 +419,16 @@ NEW %s(
 )
 EOT,
             NodeTreeDto::class,
-            self::NODE_ALIAS,
-            self::NODE_ALIAS,
-            self::NODE_ALIAS,
-            self::NODE_ALIAS,
-            self::NODE_ALIAS,
-            self::NODE_ALIAS,
-            self::NODE_ALIAS,
-            self::NODE_ALIAS,
-            self::NODE_ALIAS,
-            self::NODE_ALIAS,
+            $alias,
+            $alias,
+            $alias,
+            $alias,
+            $alias,
+            $alias,
+            $alias,
+            $alias,
+            $alias,
+            $alias,
             self::NODETYPE_ALIAS,
             self::NODETYPE_ALIAS,
             self::NODETYPE_ALIAS,
