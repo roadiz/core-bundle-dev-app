@@ -8,10 +8,10 @@ use RZ\Roadiz\UserBundle\Event\UserSignedUp;
 use RZ\Roadiz\UserBundle\Manager\UserValidationTokenManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class UserSignedUpSubscriber implements EventSubscriberInterface
+final readonly class UserSignedUpSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly UserValidationTokenManagerInterface $userValidationTokenManager,
+        private UserValidationTokenManagerInterface $userValidationTokenManager,
     ) {
     }
 
