@@ -79,9 +79,9 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
         return new ($this->webResponseClass)();
     }
 
-    public function transform(PersistableInterface $object, string $to, array $context = []): ?WebResponseInterface
+    public function transform(PersistableInterface $object, string $to, array $context = [], ?WebResponseInterface $output = null): ?WebResponseInterface
     {
-        $output = $this->createWebResponse();
+        $output = $output ?? $this->createWebResponse();
         $output->setItem($object);
         if ($object instanceof NodesSources) {
             if ($output instanceof RealmsAwareWebResponseInterface) {
