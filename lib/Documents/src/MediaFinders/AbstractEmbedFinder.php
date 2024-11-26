@@ -26,7 +26,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 abstract class AbstractEmbedFinder implements EmbedFinderInterface
 {
-    protected array|\SimpleXMLElement|null $feed;
+    protected array|\SimpleXMLElement|null $feed = null;
     protected string $embedId;
     protected ?string $key = null;
 
@@ -93,11 +93,8 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
     public function getFeed(): array|\SimpleXMLElement|null
     {
         if (null === $this->feed) {
-            $rawFeed = $this->getMediaFeed();
-            if ($rawFeed instanceof StreamInterface) {
-                $rawFeed = $rawFeed->getContents();
-            }
-            if (null !== $rawFeed) {
+            $rawFeed = $this->getMediaFeed()->getContents();
+            if (null !== $rawFeed && \json_validate($rawFeed)) {
                 $feed = json_decode($rawFeed, true);
                 if (is_array($feed)) {
                     $this->feed = $feed;
