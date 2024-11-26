@@ -1,7 +1,7 @@
 ARG UID=1000
 ARG GID=${UID}
 
-ARG PHP_VERSION=8.3.13
+ARG PHP_VERSION=8.3.14
 ARG VARNISH_VERSION=7.6.1
 ARG NGINX_VERSION=1.27.2
 ARG MYSQL_VERSION=8.0.40
@@ -128,6 +128,7 @@ install-php-extensions \
     @composer-${COMPOSER_VERSION} \
     fileinfo \
     gd \
+    imagick \
     iconv \
     intl \
     json \
