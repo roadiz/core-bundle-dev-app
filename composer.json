@@ -73,6 +73,7 @@
         "roadiz/nodetype-contracts": "~1.1.2",
         "rollerworks/password-common-list": "^0.2.0",
         "rollerworks/password-strength-bundle": "^2.2",
+        "runtime/frankenphp-symfony": "^0.2.0",
         "scheb/2fa-backup-code": "^7.5",
         "scheb/2fa-bundle": "^7.5",
         "scheb/2fa-google-authenticator": "^7.5",
