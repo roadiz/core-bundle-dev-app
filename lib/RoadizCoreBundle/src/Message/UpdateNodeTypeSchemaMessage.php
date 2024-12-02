@@ -7,9 +7,9 @@ namespace RZ\Roadiz\CoreBundle\Message;
 /*
  * UpdateNodeTypeSchemaMessage must be handled synchronous
  */
-final class UpdateNodeTypeSchemaMessage
+final readonly class UpdateNodeTypeSchemaMessage
 {
-    public function __construct(private readonly int|string|null $nodeTypeId)
+    public function __construct(private int|string|null $nodeTypeId)
     {
     }
 

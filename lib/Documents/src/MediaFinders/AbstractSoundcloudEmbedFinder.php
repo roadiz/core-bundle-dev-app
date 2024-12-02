@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\MediaFinders;
 
-use Psr\Http\Message\StreamInterface;
 use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 
 /**
@@ -43,7 +42,7 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
         throw new InvalidEmbedId($embedId, static::$platform);
     }
 
-    public function getMediaFeed(?string $search = null): StreamInterface
+    public function getMediaFeed(?string $search = null): string
     {
         $endpoint = 'https://soundcloud.com/oembed';
         $query = [

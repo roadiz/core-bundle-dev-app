@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\MediaFinders;
 
-use Psr\Http\Message\StreamInterface;
 use RZ\Roadiz\Documents\Exceptions\APINeedsAuthentificationException;
 use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 
@@ -45,7 +44,7 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
         throw new InvalidEmbedId($embedId, static::$platform);
     }
 
-    public function getMediaFeed(?string $search = null): StreamInterface
+    public function getMediaFeed(?string $search = null): string
     {
         if (preg_match(static::$realIdPattern, $this->embedId, $matches)) {
             $url = 'https://www.youtube.com/watch?v='.$this->embedId;
@@ -135,7 +134,7 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
     /**
      * @throws APINeedsAuthentificationException
      */
-    public function getSearchFeed(string $searchTerm, ?string $author = null, int $maxResults = 15): ?StreamInterface
+    public function getSearchFeed(string $searchTerm, ?string $author = null, int $maxResults = 15): ?string
     {
         if (null !== $this->getKey() && '' != $this->getKey()) {
             $url = 'https://www.googleapis.com/youtube/v3/search?q='.$searchTerm.'&part=snippet&key='.$this->getKey().'&maxResults='.$maxResults;

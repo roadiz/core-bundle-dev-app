@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\MediaFinders;
 
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+
 class EmbedFinderFactory
 {
     /**
@@ -21,7 +23,7 @@ class EmbedFinderFactory
     /**
      * @param array<string, class-string<EmbedFinderInterface>> $embedPlatforms
      */
-    public function __construct(array $embedPlatforms = [])
+    public function __construct(protected readonly HttpClientInterface $client, array $embedPlatforms = [])
     {
         $this->embedPlatforms = $embedPlatforms;
     }
@@ -29,9 +31,12 @@ class EmbedFinderFactory
     public function createForPlatform(?string $mediaPlatform, ?string $embedId): ?EmbedFinderInterface
     {
         if (null !== $embedId && $this->supports($mediaPlatform)) {
+            /**
+             * @var class-string<EmbedFinderInterface> $class
+             */
             $class = $this->embedPlatforms[$mediaPlatform];
 
-            return new $class($embedId);
+            return new $class($this->client, $embedId);
         }
 
         return null;

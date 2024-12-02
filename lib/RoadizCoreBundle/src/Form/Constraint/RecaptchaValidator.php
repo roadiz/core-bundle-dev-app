@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Form\Constraint;
 
-use GuzzleHttp\Client;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * @see https://github.com/thrace-project/form-bundle/blob/master/Validator/Constraint/RecaptchaValidator.php
  */
 class RecaptchaValidator extends ConstraintValidator implements RecaptchaServiceInterface
 {
-    protected RequestStack $requestStack;
-    protected ?string $recaptchaPrivateKey;
-
-    public function __construct(RequestStack $requestStack, ?string $recaptchaPrivateKey)
-    {
-        $this->requestStack = $requestStack;
-        $this->recaptchaPrivateKey = $recaptchaPrivateKey;
+    public function __construct(
+        protected HttpClientInterface $client,
+        protected RequestStack $requestStack,
+        protected ?string $recaptchaPrivateKey,
+    ) {
     }
 
     /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     *
      * @see \Symfony\Component\Validator\ConstraintValidator::validate()
      */
     public function validate(mixed $data, Constraint $constraint): void
@@ -71,7 +71,10 @@ class RecaptchaValidator extends ConstraintValidator implements RecaptchaService
      *
      * @return true|mixed
      *
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
+     * @throws TransportExceptionInterface
      */
     public function check(
         string $responseValue,
@@ -81,21 +84,17 @@ class RecaptchaValidator extends ConstraintValidator implements RecaptchaService
             return true;
         }
 
-        $data = [
-            'secret' => $this->recaptchaPrivateKey,
-            'response' => $responseValue,
-        ];
-
-        $client = new Client();
-        $response = $client->post($verifyUrl, [
-            'form_params' => $data,
-            'connect_timeout' => 10,
+        $response = $this->client->request('POST', $verifyUrl, [
+            'query' => [
+                'secret' => $this->recaptchaPrivateKey,
+                'response' => $responseValue,
+            ],
             'timeout' => 10,
             'headers' => [
                 'Accept' => 'application/json',
             ],
         ]);
-        $jsonResponse = json_decode($response->getBody()->getContents(), true);
+        $jsonResponse = json_decode($response->getContent(false), true);
 
         return (isset($jsonResponse['success']) && true === $jsonResponse['success']) ?
             (true) :

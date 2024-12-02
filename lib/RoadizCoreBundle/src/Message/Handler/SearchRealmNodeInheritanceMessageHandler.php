@@ -20,13 +20,13 @@ use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
-final class SearchRealmNodeInheritanceMessageHandler
+final readonly class SearchRealmNodeInheritanceMessageHandler
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly HandlerFactoryInterface $handlerFactory,
-        private readonly MessageBusInterface $bus,
-        private readonly LoggerInterface $logger,
+        private ManagerRegistry $managerRegistry,
+        private HandlerFactoryInterface $handlerFactory,
+        private MessageBusInterface $bus,
+        private LoggerInterface $logger,
     ) {
     }
 

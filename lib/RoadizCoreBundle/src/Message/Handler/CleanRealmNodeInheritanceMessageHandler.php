@@ -14,11 +14,11 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
 #[AsMessageHandler]
-final class CleanRealmNodeInheritanceMessageHandler
+final readonly class CleanRealmNodeInheritanceMessageHandler
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly NodeOffspringResolverInterface $nodeOffspringResolver,
+        private ManagerRegistry $managerRegistry,
+        private NodeOffspringResolverInterface $nodeOffspringResolver,
     ) {
     }
 

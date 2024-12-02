@@ -9,9 +9,9 @@ use RZ\Roadiz\CoreBundle\Message\UpdateDoctrineSchemaMessage;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class UpdateDoctrineSchemaMessageHandler
+final readonly class UpdateDoctrineSchemaMessageHandler
 {
-    public function __construct(private readonly SchemaUpdater $schemaUpdater)
+    public function __construct(private SchemaUpdater $schemaUpdater)
     {
     }
 

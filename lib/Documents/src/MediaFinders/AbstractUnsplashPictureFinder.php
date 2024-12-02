@@ -4,13 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\MediaFinders;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use Psr\Http\Message\StreamInterface;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder implements RandomImageFinder
 {
-    protected Client $client;
     /**
      * @internal Use getPlatform() instead
      */
@@ -31,21 +29,17 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
         return static::$platform;
     }
 
-    public function __construct(string $clientId, string $embedId = '')
+    public function __construct(HttpClientInterface $client, string $clientId, string $embedId = '')
     {
-        parent::__construct($embedId);
-
-        $this->client = new Client(
-            [
-                // Base URI is used with relative requests
-                'base_uri' => 'https://api.unsplash.com',
-                // You can set any number of default request options.
-                'timeout' => 3.0,
-                'headers' => [
-                    'Authorization' => 'Client-ID '.$clientId,
-                ],
-            ]
-        );
+        parent::__construct($client->withOptions([
+            // Base URI is used with relative requests
+            'base_uri' => 'https://api.unsplash.com',
+            // You can set any number of default request options.
+            'timeout' => 3.0,
+            'headers' => [
+                'Authorization' => 'Client-ID '.$clientId,
+            ],
+        ]), $embedId);
     }
 
     protected function validateEmbedId(string $embedId = ''): string
@@ -59,7 +53,8 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
     public function getRandom(array $options = []): ?array
     {
         try {
-            $response = $this->client->get(
+            $response = $this->client->request(
+                'GET',
                 '/photos/random',
                 [
                     'query' => array_merge(
@@ -71,7 +66,7 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
                     ),
                 ]
             );
-            $feed = json_decode($response->getBody()->getContents(), true) ?? null;
+            $feed = json_decode($response->getContent(), true) ?? null;
             if (!is_array($feed)) {
                 return null;
             }
@@ -86,7 +81,7 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
             }
 
             return null;
-        } catch (ClientException $e) {
+        } catch (ClientExceptionInterface) {
             return null;
         }
     }
@@ -100,7 +95,7 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
         );
     }
 
-    public function getMediaFeed(?string $search = null): StreamInterface
+    public function getMediaFeed(?string $search = null): string
     {
         throw new \LogicException('Unsplash API does not provide a feed.');
     }

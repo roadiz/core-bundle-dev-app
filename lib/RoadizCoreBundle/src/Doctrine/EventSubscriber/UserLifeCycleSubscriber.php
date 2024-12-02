@@ -39,9 +39,6 @@ final readonly class UserLifeCycleSubscriber
     ) {
     }
 
-    /**
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
     public function preUpdate(PreUpdateEventArgs $event): void
     {
         $user = $event->getObject();

@@ -16,8 +16,6 @@ class ValidFacebookNameValidator extends ConstraintValidator
 
     /**
      * @param ValidFacebookName $constraint
-     *
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function validate(mixed $value, Constraint $constraint): void
     {

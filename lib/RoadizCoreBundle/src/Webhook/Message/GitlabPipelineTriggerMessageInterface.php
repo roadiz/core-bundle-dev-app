@@ -4,23 +4,21 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Webhook\Message;
 
-use GuzzleHttp\Psr7\Request;
-use Psr\Http\Message\RequestInterface;
 use RZ\Roadiz\CoreBundle\Message\AsyncMessage;
-use RZ\Roadiz\CoreBundle\Message\HttpRequestMessage;
+use RZ\Roadiz\CoreBundle\Message\HttpRequestMessageInterface;
 use RZ\Roadiz\CoreBundle\Webhook\WebhookInterface;
 
-final class GitlabPipelineTriggerMessage implements AsyncMessage, HttpRequestMessage, WebhookMessage
+final readonly class GitlabPipelineTriggerMessageInterface implements AsyncMessage, HttpRequestMessageInterface, WebhookMessage
 {
     public function __construct(
-        private readonly string $uri,
-        private readonly string $token,
-        private readonly string $ref = 'main',
-        private readonly ?array $variables = null,
+        private string $uri,
+        private string $token,
+        private string $ref = 'main',
+        private ?array $variables = null,
     ) {
     }
 
-    public function getRequest(): RequestInterface
+    public function getOptions(): array
     {
         $postBody = [
             'token' => $this->token,
@@ -30,22 +28,13 @@ final class GitlabPipelineTriggerMessage implements AsyncMessage, HttpRequestMes
             $postBody['variables'] = $this->variables;
         }
 
-        return new Request(
-            'POST',
-            $this->uri,
-            [
+        return [
+            'timeout' => 3,
+            'headers' => [
                 'Content-Type' => 'application/x-www-form-urlencoded',
                 'Accept' => 'application/json',
             ],
-            http_build_query($postBody)
-        );
-    }
-
-    public function getOptions(): array
-    {
-        return [
-            'debug' => false,
-            'timeout' => 3,
+            'body' => http_build_query($postBody),
         ];
     }
 
@@ -62,5 +51,15 @@ final class GitlabPipelineTriggerMessage implements AsyncMessage, HttpRequestMes
             $payload['ref'] ?? 'main',
             $payload['variables'] ?? []
         );
+    }
+
+    public function getMethod(): string
+    {
+        return 'POST';
+    }
+
+    public function getUri(): string
+    {
+        return $this->uri;
     }
 }

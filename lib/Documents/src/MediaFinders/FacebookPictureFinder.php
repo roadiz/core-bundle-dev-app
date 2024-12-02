@@ -4,24 +4,33 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\MediaFinders;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Util to grab a facebook profile picture from userAlias.
  */
-final class FacebookPictureFinder
+final readonly class FacebookPictureFinder
 {
+    public function __construct(private HttpClientInterface $client)
+    {
+    }
+
     /**
      * @return string|null Facebook profile image URL
      *
-     * @throws GuzzleException
+     * @throws TransportExceptionInterface
+     * @throws ClientExceptionInterface
+     * @throws RedirectionExceptionInterface
+     * @throws ServerExceptionInterface
      */
     public function getPictureUrl(string $facebookUserAlias): ?string
     {
-        $client = new Client();
-        $response = $client->get('https://graph.facebook.com/'.$facebookUserAlias.'/picture?redirect=false&width=200&height=200');
-        $json = json_decode($response->getBody()->getContents(), true);
+        $response = $this->client->request('GET', 'https://graph.facebook.com/'.$facebookUserAlias.'/picture?redirect=false&width=200&height=200');
+        $json = json_decode($response->getContent(), true);
 
         if (is_array($json) && isset($json['data']) && !empty($json['data']['url'])) {
             return $json['data']['url'];
