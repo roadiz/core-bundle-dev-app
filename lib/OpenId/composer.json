@@ -21,7 +21,7 @@
         "roadiz/jwt": "2.4.x-dev",
         "roadiz/models": "2.4.x-dev",
         "roadiz/random": "2.4.x-dev",
-        "symfony/event-dispatcher-contracts": "^2.4.0",
+        "symfony/event-dispatcher-contracts": "^3.5.1",
         "symfony/http-client": "6.4.*",
         "symfony/http-foundation": "6.4.*",
         "symfony/routing": "6.4.*",
