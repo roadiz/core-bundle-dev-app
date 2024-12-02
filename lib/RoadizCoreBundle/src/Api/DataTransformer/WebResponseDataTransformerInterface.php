@@ -12,8 +12,8 @@ interface WebResponseDataTransformerInterface
     /**
      * @template T of PersistableInterface
      *
-     * @param T $object
-     * @param WebResponseInterface|null $output Pass an existing WebResponseInterface instance to avoid creating a new one.
+     * @param T                         $object
+     * @param WebResponseInterface|null $output pass an existing WebResponseInterface instance to avoid creating a new one
      *
      * @return WebResponseInterface<T>|null
      */
