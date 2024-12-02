@@ -98,8 +98,6 @@ services:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'ted' } ]
     RZ\Roadiz\CoreBundle\Document\MediaFinder\PodcastFinder:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'podcast' } ]
-    RZ\Roadiz\CoreBundle\Document\MediaFinder\TwitchEmbedFinder:
-        tags: [ { name: 'roadiz_core.media_finder', platform: 'twitch' } ]
 
     # Removed DataTransformers
     RZ\Roadiz\CoreBundle\Api\DataTransformer\:
