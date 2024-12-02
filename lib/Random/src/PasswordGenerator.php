@@ -11,20 +11,18 @@ class PasswordGenerator extends RandomGenerator implements PasswordGeneratorInte
      * one uppercase letter, one digit, and one special character. The remaining characters
      * in the password are chosen at random from those four sets.
      *
-     * The available characters in each set are user friendly - there are no ambiguous
+     * The available characters in each set are user-friendly - there are no ambiguous
      * characters such as i, l, 1, o, 0, etc.
-     *
-     * @return string
      *
      * @see https://gist.github.com/tylerhall/521810
      */
-    public function generatePassword(int $length = 12)
+    public function generatePassword(int $length = 16): string
     {
         $sets = [];
         $sets[] = 'abcdefghjkmnpqrstuvwxyz';
         $sets[] = 'ABCDEFGHJKMNPQRSTUVWXYZ';
         $sets[] = '23456789';
-        $sets[] = '!@#$%&*?';
+        $sets[] = '!@#$%&*?-';
 
         $all = '';
         $password = '';
@@ -38,8 +36,6 @@ class PasswordGenerator extends RandomGenerator implements PasswordGeneratorInte
             $password .= $all[array_rand($all)];
         }
 
-        $password = str_shuffle($password);
-
-        return $password;
+        return str_shuffle($password);
     }
 }
