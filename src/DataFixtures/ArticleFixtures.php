@@ -8,6 +8,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
 
 class ArticleFixtures extends Fixture implements DependentFixtureInterface
@@ -28,10 +30,8 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $articleContainer = $this->uniqueNodeGenerator->generate(
-            // @phpstan-ignore-next-line
-            nodeType: $this->getReference(NodeTypeFixtures::NS_ARTICLE_CONTAINER),
-            // @phpstan-ignore-next-line
-            translation: $this->getReference(AppFixtures::DEFAULT_TRANSLATION_REFERENCE),
+            nodeType: $this->getReference(NodeTypeFixtures::NS_ARTICLE_CONTAINER, NodeType::class),
+            translation: $this->getReference(AppFixtures::DEFAULT_TRANSLATION_REFERENCE, Translation::class),
             flush: false,
         );
         $articleContainer->setTitle('Articles container');
@@ -41,10 +41,8 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i = 0; $i < 50; ++$i) {
             $article = $this->uniqueNodeGenerator->generate(
-                // @phpstan-ignore-next-line
-                nodeType: $this->getReference(NodeTypeFixtures::NS_ARTICLE),
-                // @phpstan-ignore-next-line
-                translation: $this->getReference(AppFixtures::DEFAULT_TRANSLATION_REFERENCE),
+                nodeType: $this->getReference(NodeTypeFixtures::NS_ARTICLE, NodeType::class),
+                translation: $this->getReference(AppFixtures::DEFAULT_TRANSLATION_REFERENCE, Translation::class),
                 parent: $articleContainer->getNode(),
                 flush: false,
             );

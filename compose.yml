@@ -101,6 +101,7 @@ services:
         networks:
             - default
         environment:
+            PHP_CS_FIXER_IGNORE_ENV: 1
             TRUSTED_PROXIES: ${TRUSTED_PROXIES}
             UID: ${UID}
             DEFAULT_GATEWAY: ${DEFAULT_GATEWAY}

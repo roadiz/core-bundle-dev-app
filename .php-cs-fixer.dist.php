@@ -2,7 +2,15 @@
 
 $finder = (new PhpCsFixer\Finder())
     ->in(__DIR__)
-    ->exclude(['var', 'vendor', 'docker', 'lib/EntityGenerator/tests/Mocks', 'config', 'node_modules'])
+    ->exclude([
+        'var',
+        'vendor',
+        'docker',
+        'lib/EntityGenerator/tests/Mocks',
+        'config',
+        'node_modules',
+        'src/GeneratedEntity',
+    ])
 ;
 
 return (new PhpCsFixer\Config())

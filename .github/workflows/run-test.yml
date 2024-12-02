@@ -42,6 +42,8 @@ jobs:
               run: |
                   XDEBUG_MODE=coverage vendor/bin/phpunit -v
             - name: Run PHP Code Sniffer
+              env:
+                  PHP_CS_FIXER_IGNORE_ENV: 1
               run: |
                   php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
             - name: Run PHP Stan
