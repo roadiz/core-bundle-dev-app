@@ -81,6 +81,8 @@ LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 ARG UID
 ARG GID
 
+USER root
+
 ARG COMPOSER_VERSION=2.8.1
 ARG PHP_EXTENSION_INSTALLER_VERSION=2.6.0
 ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
@@ -129,8 +131,6 @@ install-php-extensions \
     zip \
     redis-${PHP_EXTENSION_REDIS_VERSION}
 
-setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp
-chown -R ${UID}:${GID} /data/caddy && chown -R ${UID}:${GID} /config/caddy
 EOF
 
 COPY --link docker/frankenphp/conf.d/app.ini ${PHP_INI_DIR}/conf.d/
@@ -148,12 +148,15 @@ WORKDIR /app
 FROM php AS php-dev
 
 ENV APP_ENV=dev XDEBUG_MODE=off
+USER root
+
+
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 COPY --link docker/frankenphp/conf.d/app.dev.ini ${PHP_INI_DIR}/conf.d/
 
 CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
 
-USER php
 
 ##############
 # Cron - Dev #

@@ -107,6 +107,8 @@ services:
             UID: ${UID}
             DEFAULT_GATEWAY: ${DEFAULT_GATEWAY}
             DATABASE_URL: ${DATABASE_URL}
+            MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+            MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
 
     worker:
         <<: *app_template
