@@ -10,11 +10,9 @@ use RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface;
 use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Exception\ThemeClassNotValidException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\String\UnicodeString;
 use Twig\Error\LoaderError;
@@ -27,7 +25,6 @@ use Twig\Error\SyntaxError;
 abstract class AppController extends Controller
 {
     public const AJAX_TOKEN_INTENTION = 'ajax';
-    public const SCHEMA_TOKEN_INTENTION = 'update_schema';
 
     /**
      * @var int theme priority to load templates and translation in the right order
@@ -157,7 +154,7 @@ abstract class AppController extends Controller
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws \ReflectionException|ThemeClassNotValidException
      */
     public static function getTranslationsFolder(): string
     {
@@ -173,7 +170,7 @@ abstract class AppController extends Controller
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws \ReflectionException|ThemeClassNotValidException
      */
     public static function getViewsFolder(): string
     {
@@ -307,7 +304,7 @@ abstract class AppController extends Controller
         string $level = 'confirm',
         ?object $source = null,
     ): void {
-        $session = $this->getSession();
+        $session = $this->getSession($request);
         if ($session instanceof Session) {
             $session->getFlashBag()->add($level, $msg);
         }
@@ -327,9 +324,9 @@ abstract class AppController extends Controller
     /**
      * Returns the current session.
      */
-    public function getSession(): ?SessionInterface
+    public function getSession(?Request $request = null): ?SessionInterface
     {
-        $request = $this->getRequest();
+        $request = $request ?? $this->getRequest();
 
         return $request->hasPreviousSession() ? $request->getSession() : null;
     }
@@ -359,67 +356,5 @@ abstract class AppController extends Controller
             Response::HTTP_SERVICE_UNAVAILABLE,
             ['content-type' => 'text/html']
         );
-    }
-
-    /**
-     * Make current response cacheable by reverse proxy and browsers.
-     *
-     * Pay attention that, some reverse proxies systems will need to remove your response
-     * cookies header to actually save your response.
-     *
-     * Do not cache, if
-     * - we are in preview mode
-     * - we are in debug mode
-     * - Request forbids cache
-     * - we are in maintenance mode
-     * - this is a sub-request
-     *
-     * @param int  $minutes          TTL in minutes
-     * @param bool $allowClientCache Allows browser level cache
-     *
-     * @deprecated Use stateless routes and cache-control headers in your controllers
-     */
-    public function makeResponseCachable(
-        Request $request,
-        Response $response,
-        int $minutes,
-        bool $allowClientCache = false,
-    ): Response {
-        /** @var Kernel $kernel */
-        $kernel = $this->container->get('kernel');
-        /** @var RequestStack $requestStack */
-        $requestStack = $this->container->get(RequestStack::class);
-        $settings = $this->getSettingsBag();
-
-        if (
-            !$this->getPreviewResolver()->isPreview()
-            && !$kernel->isDebug()
-            && $requestStack->getMainRequest() === $request
-            && $request->isMethodCacheable()
-            && $minutes > 0
-            && !$settings->get('maintenance_mode', false)
-        ) {
-            header_remove('Cache-Control');
-            header_remove('Vary');
-            $response->headers->remove('cache-control');
-            $response->headers->remove('vary');
-            $response->setPublic();
-            $response->setSharedMaxAge(60 * $minutes);
-            $response->headers->addCacheControlDirective('must-revalidate', true);
-
-            if ($allowClientCache) {
-                $response->setMaxAge(60 * $minutes);
-            }
-
-            $response->setVary('Accept-Encoding, X-Partial, x-requested-with');
-
-            if ($request->isXmlHttpRequest()) {
-                $response->headers->add([
-                    'X-Partial' => true,
-                ]);
-            }
-        }
-
-        return $response;
     }
 }
