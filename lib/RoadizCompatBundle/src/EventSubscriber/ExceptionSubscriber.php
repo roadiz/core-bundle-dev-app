@@ -25,12 +25,12 @@ use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-final class ExceptionSubscriber implements EventSubscriberInterface
+final readonly class ExceptionSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly ThemeResolverInterface $themeResolver,
-        private readonly ContainerInterface $serviceLocator,
-        private readonly bool $debug,
+        private ThemeResolverInterface $themeResolver,
+        private ContainerInterface $serviceLocator,
+        private bool $debug,
     ) {
     }
 
@@ -192,9 +192,7 @@ final class ExceptionSubscriber implements EventSubscriberInterface
             $controller = $this->serviceLocator->get($serviceId);
         }
         if ($controller instanceof AppController) {
-            return $controller
-                ->prepareBaseAssignation()
-                ->throw404($exception->getMessage());
+            return $controller->throw404($exception->getMessage());
         }
 
         throw $exception;

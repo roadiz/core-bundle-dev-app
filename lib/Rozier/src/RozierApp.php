@@ -9,7 +9,6 @@ use RZ\Roadiz\CompatBundle\Controller\AppController;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Bag\Roles;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
-use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
 use RZ\Roadiz\OpenId\OAuth2LinkGenerator;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,6 @@ use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use Themes\Rozier\Event\UserActionsMenuEvent;
 use Themes\Rozier\Explorer\FoldersProvider;
 use Themes\Rozier\Explorer\SettingsProvider;
 use Themes\Rozier\Explorer\UsersProvider;
@@ -88,40 +86,6 @@ class RozierApp extends AppController
         }
 
         return $view;
-    }
-
-    public function prepareBaseAssignation(): static
-    {
-        parent::prepareBaseAssignation();
-        /*
-         * Use kernel DI container to delay API requests
-         */
-        $this->assignation['themeServices'] = $this->container->get(RozierServiceRegistry::class);
-
-        /** @var CsrfTokenManagerInterface $tokenManager */
-        $tokenManager = $this->container->get('csrfTokenManager');
-        /*
-         * Switch this to true to use uncompressed JS and CSS files
-         */
-        $this->assignation['head']['backDevMode'] = false;
-        $this->assignation['head']['siteTitle'] = $this->getSettingsBag()->get('site_name').' backstage';
-        $this->assignation['head']['mapsLocation'] = $this->getSettingsBag()->get('maps_default_location') ? $this->getSettingsBag()->get('maps_default_location') : null;
-        $this->assignation['head']['googleClientId'] = $this->getSettingsBag()->get('google_client_id', '');
-        $this->assignation['head']['themeName'] = static::$themeName;
-        $this->assignation['head']['ajaxToken'] = $tokenManager->getToken(static::AJAX_TOKEN_INTENTION);
-        /** @var UserActionsMenuEvent $userActionsMenuEvent */
-        $userActionsMenuEvent = $this->dispatchEvent(new UserActionsMenuEvent());
-        $this->assignation['rozier_user_actions'] = $userActionsMenuEvent->getActions();
-
-        $this->assignation['nodeStatuses'] = [
-            Node::getStatusLabel(Node::DRAFT) => Node::DRAFT,
-            Node::getStatusLabel(Node::PENDING) => Node::PENDING,
-            Node::getStatusLabel(Node::PUBLISHED) => Node::PUBLISHED,
-            Node::getStatusLabel(Node::ARCHIVED) => Node::ARCHIVED,
-            Node::getStatusLabel(Node::DELETED) => Node::DELETED,
-        ];
-
-        return $this;
     }
 
     /**

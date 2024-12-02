@@ -1,6 +1,6 @@
 <div id="company">
-    {% if themeServices.adminImage %}
-        <a class="admin-image" href="{{ path('adminHomePage') }}">{{- themeServices.adminImage|display({ picture: true, width: 180, quality: 70 }) -}}</a>
+    {% if rozier.adminImage %}
+        <a class="admin-image" href="{{ path('adminHomePage') }}">{{- rozier.adminImage|display({ picture: true, width: 180, quality: 70 }) -}}</a>
     {% else %}
         <a class="uk-icon-rz-roadiz-icon" href="{{ path('adminHomePage') }}"></a>
     {% endif %}

@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\String\UnicodeString;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -185,51 +184,12 @@ abstract class AppController extends Controller
     /**
      * Prepare base information to be rendered in twig templates.
      *
-     * ## Available contents
-     *
-     * - request: Main request object
-     * - head
-     *     - ajax: `boolean`
-     *     - cmsVersion
-     *     - cmsVersionNumber
-     *     - cmsBuild
-     *     - devMode: `boolean`
-     *     - baseUrl
-     *     - filesUrl
-     *     - resourcesUrl
-     *     - absoluteResourcesUrl
-     *     - staticDomainName
-     *     - ajaxToken
-     *     - fontToken
-     *     - universalAnalyticsId
-     * - session
-     *     - messages
-     *     - id
-     *     - user
-     * - bags
-     *     - nodeTypes (ParametersBag)
-     *     - settings (ParametersBag)
-     *     - roles (ParametersBag)
-     * - securityAuthorizationChecker
-     *
      * @return $this
      *
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @deprecated Use direct assignation in your controller actions and Twig extensions
      */
     public function prepareBaseAssignation(): static
     {
-        /** @var KernelInterface $kernel */
-        $kernel = $this->container->get('kernel');
-        $this->assignation = [
-            'head' => [
-                'ajax' => $this->getRequest()->isXmlHttpRequest(),
-                'devMode' => $kernel->isDebug(),
-                'maintenanceMode' => (bool) $this->getSettingsBag()->get('maintenance_mode'),
-                'baseUrl' => $this->getRequest()->getSchemeAndHttpHost().$this->getRequest()->getBasePath(),
-            ],
-        ];
-
         return $this;
     }
 
@@ -343,14 +303,9 @@ abstract class AppController extends Controller
     /**
      * Generate a simple view to inform visitors that website is
      * currently unavailable.
-     *
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function maintenanceAction(Request $request): Response
     {
-        $this->prepareBaseAssignation();
-
         return new Response(
             $this->renderView('maintenance.html.twig', $this->assignation),
             Response::HTTP_SERVICE_UNAVAILABLE,

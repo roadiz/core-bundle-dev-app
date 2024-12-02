@@ -47,8 +47,6 @@ class DocumentPublicListController extends RozierApp
 
     public function prepareBaseAssignation(): static
     {
-        parent::prepareBaseAssignation();
-
         $this->assignation['pageTitle'] = 'documents';
         $this->assignation['availablePlatforms'] = $this->documentPlatforms;
         $this->assignation['displayPrivateDocuments'] = false;
@@ -62,6 +60,7 @@ class DocumentPublicListController extends RozierApp
     public function indexAction(Request $request, ?int $folderId = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
+        $this->prepareBaseAssignation();
 
         /** @var Translation $translation */
         $translation = $this->em()

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block title %}{% trans %}back_office{% endtrans %}: {{ head.siteTitle|default(meta.siteName) }}{% endblock %}</title>
+    <title>{% block title %}{% trans %}back_office{% endtrans %}: {{ meta.backofficeName }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
@@ -40,7 +40,7 @@
     };
     var RozierRoot = temp;
 </script>
-{% if head.devMode %}
+{% if app.debug %}
     <script src="{{ asset('vendor/jquery.js', 'Rozier') }}"></script>
 {% else %}
     <script src="{{ asset('vendor/jquery.min.js', 'Rozier') }}"></script>
