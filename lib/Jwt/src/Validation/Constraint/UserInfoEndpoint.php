@@ -10,11 +10,11 @@ use Lcobucci\JWT\Validation\ConstraintViolation;
 use Symfony\Contracts\HttpClient\Exception\ExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class UserInfoEndpoint implements Constraint
+final readonly class UserInfoEndpoint implements Constraint
 {
     public function __construct(
-        private readonly string $userInfoEndpoint,
-        private readonly HttpClientInterface $client,
+        private string $userInfoEndpoint,
+        private HttpClientInterface $client,
     ) {
     }
 

@@ -7,13 +7,13 @@ namespace RZ\Roadiz\Markdown;
 use League\CommonMark\MarkdownConverter;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-final class CommonMark implements MarkdownInterface
+final readonly class CommonMark implements MarkdownInterface
 {
     public function __construct(
-        private readonly MarkdownConverter $textConverter,
-        private readonly MarkdownConverter $textExtraConverter,
-        private readonly MarkdownConverter $lineConverter,
-        private readonly ?Stopwatch $stopwatch = null,
+        private MarkdownConverter $textConverter,
+        private MarkdownConverter $textExtraConverter,
+        private MarkdownConverter $lineConverter,
+        private ?Stopwatch $stopwatch = null,
     ) {
     }
 
