@@ -52,12 +52,9 @@ class Group extends AbstractEntity
     #[Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Entity\Role>")]
     private Collection $roleEntities;
 
-    /**
-     * @Serializer\Groups({"group", "user"})
-     *
-     * @Serializer\Type("array<string>")
-     */
     #[SymfonySerializer\Groups(['group', 'user'])]
+    #[Serializer\Groups(['group', 'user'])]
+    #[Serializer\Type('array<string>')]
     private ?array $roles = null;
 
     public function __construct()

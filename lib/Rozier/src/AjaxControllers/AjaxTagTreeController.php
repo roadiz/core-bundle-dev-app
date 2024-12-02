@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\SerializerInterface;
 use Themes\Rozier\Widgets\TagTreeWidget;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
 

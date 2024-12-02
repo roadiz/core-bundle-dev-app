@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 final class AjaxDocumentsExplorerController extends AbstractAjaxController
 {

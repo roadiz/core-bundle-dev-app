@@ -549,13 +549,10 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      * fr or en for example
      *
      * @see https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
-     *
-     * @Serializer\Groups({"translation", "document", "nodes_sources", "tag", "attribute", "folder", "log_sources"})
-     *
-     * @Serializer\Type("string")
      */
     #[ORM\Column(type: 'string', length: 10, unique: true, nullable: false)]
     #[SymfonySerializer\Ignore]
+    #[Serializer\Exclude]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Length(max: 10)]
@@ -565,13 +562,9 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     )]
     private string $locale = '';
 
-    /**
-     * @Serializer\Groups({"translation", "document", "nodes_sources", "tag", "attribute", "folder"})
-     *
-     * @Serializer\Type("string")
-     */
     #[ORM\Column(name: 'override_locale', type: 'string', length: 10, unique: true, nullable: true)]
     #[SymfonySerializer\Ignore]
+    #[Serializer\Exclude]
     #[Assert\Length(max: 10)]
     #[ApiProperty(
         description: 'Override standard locale with an other one (for example, `uk` instead of `en`)',
@@ -579,13 +572,10 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     )]
     private ?string $overrideLocale = null;
 
-    /**
-     * @Serializer\Groups({"translation", "translation_base"})
-     *
-     * @Serializer\Type("string")
-     */
     #[ORM\Column(type: 'string', length: 250, unique: true)]
     #[SymfonySerializer\Groups(['translation', 'translation_base'])]
+    #[Serializer\Groups(['translation', 'translation_base'])]
+    #[Serializer\Type('string')]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 250)]
@@ -595,26 +585,20 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     )]
     private string $name = '';
 
-    /**
-     * @Serializer\Groups({"translation", "translation_base"})
-     *
-     * @Serializer\Type("bool")
-     */
     #[ORM\Column(name: 'default_translation', type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['translation', 'translation_base'])]
+    #[Serializer\Groups(['translation', 'translation_base'])]
+    #[Serializer\Type('bool')]
     #[ApiProperty(
         description: 'Is translation default one?',
         example: 'true',
     )]
     private bool $defaultTranslation = false;
 
-    /**
-     * @Serializer\Groups({"translation", "translation_base"})
-     *
-     * @Serializer\Type("bool")
-     */
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
     #[SymfonySerializer\Groups(['translation', 'translation_base'])]
+    #[Serializer\Groups(['translation', 'translation_base'])]
+    #[Serializer\Type('bool')]
     #[ApiProperty(
         description: 'Is translation available publicly?',
         example: 'true',
@@ -778,6 +762,8 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      */
     #[SymfonySerializer\SerializedName('locale')]
     #[SymfonySerializer\Groups(['translation_base'])]
+    #[Serializer\SerializedName('locale')]
+    #[Serializer\Groups(['translation_base'])]
     #[ApiProperty(
         description: 'Translation ISO 639-1 locale. See https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes',
         example: 'fr',

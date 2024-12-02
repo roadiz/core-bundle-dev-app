@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\Models\FolderInterface;
+use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -25,6 +26,7 @@ final class DocumentNormalizer extends AbstractPathNormalizer
         Stopwatch $stopwatch,
         private readonly FilesystemOperator $documentsStorage,
         private readonly EmbedFinderFactory $embedFinderFactory,
+        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
     ) {
         parent::__construct($decorated, $urlGenerator, $stopwatch);
     }
@@ -109,6 +111,19 @@ final class DocumentNormalizer extends AbstractPathNormalizer
                     $data['alt'] = !empty($translatedData->getName()) ? $translatedData->getName() : $object->getFilename();
                     $data['externalUrl'] = $translatedData->getExternalUrl();
                 }
+            }
+
+            if (
+                !$object->isPrivate()
+                && \in_array('explorer_thumbnail', $serializationGroups, true)
+            ) {
+                $data['url'] = $this->documentUrlGenerator
+                    ->setDocument($object)
+                    ->setOptions([
+                        'fit' => '250x200',
+                        'quality' => 60,
+                    ])
+                    ->getUrl();
             }
 
             $this->stopwatch->stop('normalizeDocument');

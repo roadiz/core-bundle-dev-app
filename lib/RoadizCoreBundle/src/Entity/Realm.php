@@ -61,11 +61,9 @@ class Realm extends AbstractEntity implements RealmInterface
     #[Assert\Regex('#^[\w\s]+$#u')]
     private string $name = '';
 
-    /**
-     * @Serializer\Exclude()
-     */
     #[ORM\Column(name: 'plain_password', type: 'string', length: 255, unique: false, nullable: true)]
     #[SymfonySerializer\Ignore]
+    #[Serializer\Exclude]
     #[Assert\Length(max: 255)]
     private ?string $plainPassword = null;
 

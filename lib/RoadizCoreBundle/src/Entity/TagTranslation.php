@@ -58,8 +58,6 @@ class TagTranslation extends AbstractEntity
 
     /**
      * @var Collection<int, TagTranslationDocuments>
-     *
-     * @Serializer\Exclude
      */
     #[ORM\OneToMany(
         mappedBy: 'tagTranslation',
@@ -69,6 +67,7 @@ class TagTranslation extends AbstractEntity
     )]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[SymfonySerializer\Ignore]
+    #[Serializer\Exclude]
     protected Collection $tagTranslationDocuments;
 
     /**
@@ -151,14 +150,10 @@ class TagTranslation extends AbstractEntity
         }
     }
 
-    /**
-     * @Serializer\Groups({"tag"})
-     *
-     * @Serializer\VirtualProperty
-     *
-     * @Serializer\Type("array<RZ\Roadiz\CoreBundle\Entity\Document>")
-     */
     #[SymfonySerializer\Groups(['tag'])]
+    #[Serializer\Groups(['tag'])]
+    #[Serializer\VirtualProperty]
+    #[Serializer\Type('array<RZ\Roadiz\CoreBundle\Entity\Document>')]
     public function getDocuments(): array
     {
         return array_map(function (TagTranslationDocuments $tagTranslationDocument) {

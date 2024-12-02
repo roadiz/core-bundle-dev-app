@@ -25,7 +25,6 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
-use ZipArchive;
 
 class NodeTypesUtilsController extends RozierApp
 {

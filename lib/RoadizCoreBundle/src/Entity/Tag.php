@@ -393,14 +393,10 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         return (string) $this->getId();
     }
 
-    /**
-     * @Serializer\Groups({"tag", "tag_base", "node", "nodes_sources"})
-     *
-     * @Serializer\VirtualProperty
-     *
-     * @Serializer\Type("string|null")
-     */
     #[SymfonySerializer\Ignore]
+    #[Serializer\Groups(['tag', 'tag_base', 'node', 'nodes_sources'])]
+    #[Serializer\VirtualProperty]
+    #[Serializer\Type('string|null')]
     public function getName(): ?string
     {
         return $this->getTranslatedTags()->first() ?
@@ -432,14 +428,10 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         return $this;
     }
 
-    /**
-     * @Serializer\Groups({"tag", "node", "nodes_sources"})
-     *
-     * @Serializer\VirtualProperty
-     *
-     * @Serializer\Type("string|null")
-     */
     #[SymfonySerializer\Ignore]
+    #[Serializer\VirtualProperty]
+    #[Serializer\Groups(['tag', 'node', 'nodes_sources'])]
+    #[Serializer\Type('string|null')]
     public function getDescription(): ?string
     {
         return $this->getTranslatedTags()->first() ?
@@ -447,14 +439,10 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
             '';
     }
 
-    /**
-     * @Serializer\Groups({"tag", "node", "nodes_sources"})
-     *
-     * @Serializer\VirtualProperty
-     *
-     * @Serializer\Type("array<RZ\Roadiz\CoreBundle\Entity\Document>")
-     */
     #[SymfonySerializer\Ignore]
+    #[Serializer\VirtualProperty]
+    #[Serializer\Groups(['tag', 'node', 'nodes_sources'])]
+    #[Serializer\Type('array<RZ\Roadiz\CoreBundle\Entity\Document>')]
     public function getDocuments(): array
     {
         return $this->getTranslatedTags()->first() ?
