@@ -63,3 +63,13 @@ Roadiz development env uses: https://github.com/symplify/monorepo-builder
 - `vendor/bin/monorepo-builder merge`: Makes sure all your packages deps are in development repository and 
 - `vendor/bin/monorepo-builder validate`: Make sure all your packages use the same version
 - `vendor/bin/monorepo-builder release patch --dry-run`: List all steps to do when release a new tag (do not actually perform this when using GitFlow)
+
+
+### Use Frankenphp
+
+Roadiz can be run with frankenphp for use it you need to override services `app`, `nginx` and `varnish` in `compose.override.yml`
+
+You need to use the target `php-dev-franken` present in the `Dockerfile`.
+We use `dunglas/frankenphp` image with the tag of your version of php and the tag bookworm
+
+If you use frankenphp you can remove `docker/varnish` and `docker/nginx` folders

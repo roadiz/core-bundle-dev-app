@@ -86,6 +86,8 @@ services:
 
     app: &app_template
         hostname: app
+        # Need to pass all vars to docker env for Crontab and supervisor scripts
+        env_file: "./.env.local"
         build:
             target: php-dev
             args:
@@ -96,10 +98,6 @@ services:
             - redis
         volumes:
             - ./:/app:cached
-            - ./docker/frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
-            - ./docker/frankenphp/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
-            - caddy_data:/data
-            - caddy_config:/config
         networks:
             - default
         environment:
@@ -107,9 +105,6 @@ services:
             TRUSTED_PROXIES: ${TRUSTED_PROXIES}
             UID: ${UID}
             DEFAULT_GATEWAY: ${DEFAULT_GATEWAY}
-            DATABASE_URL: ${DATABASE_URL}
-            MERCURE_PUBLISHER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
-            MERCURE_SUBSCRIBER_JWT_KEY: ${CADDY_MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
 
     worker:
         <<: *app_template
@@ -126,6 +121,59 @@ services:
                 UID: ${UID:-1000}
         hostname: app-cron
         restart: unless-stopped
+
+    nginx:
+        build:
+            target: nginx-dev
+            args:
+                UID: ${UID:-1000}
+        depends_on:
+            - app
+        links:
+            - app:app
+        volumes:
+            # Need to share all app files for relative symlink to work in development
+            - ./:/app
+        networks:
+            - default
+            - frontproxynet
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.port=80"
+            - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${APP_NAMESPACE}.entrypoints=http"
+            - "traefik.http.routers.${APP_NAMESPACE}.rule=Host(${HOSTNAME})"
+            - "traefik.http.routers.${APP_NAMESPACE}.service=${APP_NAMESPACE}"
+            # Listen HTTPS
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.entrypoints=https"
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.rule=Host(${HOSTNAME})"
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.tls=true"
+            - "traefik.http.routers.${APP_NAMESPACE}_secure.service=${APP_NAMESPACE}"
+
+    varnish:
+        build:
+            target: varnish
+        networks:
+            - default
+            - frontproxynet
+        depends_on:
+            - nginx
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${APP_NAMESPACE}_varnish.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${APP_NAMESPACE}_varnish.loadbalancer.server.port=80"
+            - "traefik.http.services.${APP_NAMESPACE}_varnish.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${APP_NAMESPACE}_varnish.entrypoints=http"
+            - "traefik.http.routers.${APP_NAMESPACE}_varnish.rule=Host(${HOSTNAME_VARNISH})"
+            - "traefik.http.routers.${APP_NAMESPACE}_varnish.service=${APP_NAMESPACE}_varnish"
+            # Listen HTTPS
+            - "traefik.http.routers.${APP_NAMESPACE}_varnish_secure.entrypoints=https"
+            - "traefik.http.routers.${APP_NAMESPACE}_varnish_secure.rule=Host(${HOSTNAME_VARNISH})"
+            - "traefik.http.routers.${APP_NAMESPACE}_varnish_secure.tls=true"
+            - "traefik.http.routers.${APP_NAMESPACE}_varnish_secure.service=${APP_NAMESPACE}_varnish"
 
     mailer:
         hostname: mailer
@@ -157,5 +205,3 @@ networks:
 volumes:
     redis:
     solr_data:
-    caddy_data:
-    caddy_config:
