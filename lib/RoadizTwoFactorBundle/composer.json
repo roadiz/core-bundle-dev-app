@@ -31,7 +31,6 @@
         "scheb/2fa-google-authenticator": "^7.5",
         "scheb/2fa-totp": "^7.5",
         "scheb/2fa-trusted-device": "^7.5",
-        "sensio/framework-extra-bundle": "^6.1",
         "symfony/framework-bundle": "6.4.*"
     },
     "require-dev": {
