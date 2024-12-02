@@ -13,17 +13,19 @@ use ApiPlatform\Doctrine\Orm\Filter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * Neutral node-source entity.
- * Neutral.
+ * Neutral
  */
 #[Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
 #[ORM\Entity(repositoryClass: Repository\NSNeutralRepository::class)]
@@ -47,6 +49,9 @@ class NSNeutral extends NodesSources
     #[JMS\Type('int')]
     private int|float|null $number = null;
 
+    /**
+     * @return int|float|null
+     */
     public function getNumber(): int|float|null
     {
         return $this->number;
@@ -60,7 +65,6 @@ class NSNeutral extends NodesSources
         $this->number = null !== $number ?
                     (int) $number :
                     null;
-
         return $this;
     }
 
@@ -76,7 +80,6 @@ class NSNeutral extends NodesSources
 
     /**
      * $this->nodeType->isReachable() proxy.
-     *
      * @return bool Does this nodeSource is reachable over network?
      */
     #[JMS\VirtualProperty]
@@ -87,7 +90,6 @@ class NSNeutral extends NodesSources
 
     /**
      * $this->nodeType->isPublishable() proxy.
-     *
      * @return bool Does this nodeSource is publishable with date and time?
      */
     #[JMS\VirtualProperty]
@@ -98,6 +100,6 @@ class NSNeutral extends NodesSources
 
     public function __toString(): string
     {
-        return '[NSNeutral] '.parent::__toString();
+        return '[NSNeutral] ' . parent::__toString();
     }
 }
