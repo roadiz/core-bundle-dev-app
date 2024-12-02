@@ -19,9 +19,9 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
-use RZ\Roadiz\CoreBundle\Webhook\Message\GenericJsonPostMessage;
-use RZ\Roadiz\CoreBundle\Webhook\Message\GitlabPipelineTriggerMessage;
-use RZ\Roadiz\CoreBundle\Webhook\Message\NetlifyBuildHookMessage;
+use RZ\Roadiz\CoreBundle\Webhook\Message\GenericJsonPostMessageInterface;
+use RZ\Roadiz\CoreBundle\Webhook\Message\GitlabPipelineTriggerMessageInterface;
+use RZ\Roadiz\CoreBundle\Webhook\Message\NetlifyBuildHookMessageInterface;
 use RZ\Roadiz\Markdown\CommonMark;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\Core\Client\Adapter\Curl;
@@ -113,9 +113,9 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.medias.supported_platforms', []);
 
         $container->setParameter('roadiz_core.webhook.message_types', [
-            'webhook.type.generic_json_post' => GenericJsonPostMessage::class,
-            'webhook.type.gitlab_pipeline' => GitlabPipelineTriggerMessage::class,
-            'webhook.type.netlify_build_hook' => NetlifyBuildHookMessage::class,
+            'webhook.type.generic_json_post' => GenericJsonPostMessageInterface::class,
+            'webhook.type.gitlab_pipeline' => GitlabPipelineTriggerMessageInterface::class,
+            'webhook.type.netlify_build_hook' => NetlifyBuildHookMessageInterface::class,
         ]);
 
         $this->registerEntityGenerator($config, $container);

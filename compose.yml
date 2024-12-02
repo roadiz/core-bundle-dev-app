@@ -116,7 +116,7 @@ services:
         hostname: app-worker
         # Need to restart worker every 10 minutes
         restart: unless-stopped
-        entrypoint: ["php", "/app/bin/console", "messenger:consume", "async", "--time-limit=600"]
+        entrypoint: ["php", "/app/bin/console", "messenger:consume", "async", "--time-limit=600", "--profile"]
 
     cron:
         <<: *app_template

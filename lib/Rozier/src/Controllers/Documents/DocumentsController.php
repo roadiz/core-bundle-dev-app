@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Documents;
 
-use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
@@ -18,7 +17,6 @@ use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\TagTranslationDocuments;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\EntityHandler\DocumentHandler;
-use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
@@ -28,7 +26,8 @@ use RZ\Roadiz\Documents\Events\DocumentInFolderEvent;
 use RZ\Roadiz\Documents\Events\DocumentOutFolderEvent;
 use RZ\Roadiz\Documents\Events\DocumentUpdatedEvent;
 use RZ\Roadiz\Documents\Exceptions\APINeedsAuthentificationException;
-use RZ\Roadiz\Documents\MediaFinders\AbstractEmbedFinder;
+use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
+use RZ\Roadiz\Documents\MediaFinders\EmbedFinderInterface;
 use RZ\Roadiz\Documents\MediaFinders\RandomImageFinder;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\Form\ClickableInterface;
@@ -49,6 +48,7 @@ use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Themes\Rozier\Forms\DocumentEditType;
 use Themes\Rozier\Forms\DocumentEmbedType;
 use Themes\Rozier\RozierApp;
@@ -67,6 +67,7 @@ class DocumentsController extends RozierApp
     ];
 
     public function __construct(
+        private readonly EmbedFinderFactory $embedFinderFactory,
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly array $documentPlatforms,
         private readonly FilesystemOperator $documentsStorage,
@@ -493,8 +494,8 @@ class DocumentsController extends RozierApp
                  * Force redirect to avoid resending form when refreshing page
                  */
                 return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
-            } catch (RequestException $e) {
-                $this->logger->error($e->getRequest()->getUri().' failed.');
+            } catch (ClientExceptionInterface $e) {
+                $this->logger->error($e->getMessage());
                 if (null !== $e->getResponse() && in_array($e->getResponse()->getStatusCode(), [401, 403, 404])) {
                     $form->addError(new FormError(
                         $this->getTranslator()->trans('document.media_not_found_or_private')
@@ -593,9 +594,6 @@ class DocumentsController extends RozierApp
         throw new ResourceNotFoundException();
     }
 
-    /**
-     * @throws RuntimeError
-     */
     public function uploadAction(Request $request, ?int $folderId = null, string $_format = 'html'): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
@@ -826,11 +824,9 @@ class DocumentsController extends RozierApp
     }
 
     /**
-     * @param array $data
-     *
      * @return string Status message
      */
-    private function joinFolder($data): string
+    private function joinFolder(array $data): string
     {
         $msg = $this->getTranslator()->trans('no_documents.linked_to.folders');
 
@@ -880,11 +876,9 @@ class DocumentsController extends RozierApp
     }
 
     /**
-     * @param array $data
-     *
      * @return string Status message
      */
-    private function leaveFolder($data): string
+    private function leaveFolder(array $data): string
     {
         $msg = $this->getTranslator()->trans('no_documents.removed_from.folders');
 
@@ -935,14 +929,11 @@ class DocumentsController extends RozierApp
     }
 
     /**
-     * @param array $data
-     *
      * @return DocumentInterface|array<DocumentInterface>
      *
-     * @throws \Exception
-     * @throws EntityAlreadyExistsException
+     * @throws FilesystemException
      */
-    private function embedDocument($data, ?int $folderId = null)
+    private function embedDocument(array $data, ?int $folderId = null): DocumentInterface|array
     {
         $handlers = $this->documentPlatforms;
 
@@ -951,21 +942,16 @@ class DocumentsController extends RozierApp
             && isset($data['embedPlatform'])
             && in_array($data['embedPlatform'], array_keys($handlers))
         ) {
-            $class = $handlers[$data['embedPlatform']];
-
-            /*
-             * Use empty constructor.
-             */
-            /** @var AbstractEmbedFinder $finder */
-            $finder = new $class('', false);
-
+            $finder = $this->embedFinderFactory->createForPlatform($data['embedPlatform'], $data['embedId']);
+            if (null === $finder) {
+                throw new \RuntimeException('No embed finder found for platform '.$data['embedPlatform']);
+            }
             if ($finder instanceof YoutubeEmbedFinder) {
                 $finder->setKey($this->googleServerId);
             }
             if ($finder instanceof SoundcloudEmbedFinder) {
                 $finder->setKey($this->soundcloudClientId);
             }
-            $finder->setEmbedId($data['embedId']);
 
             return $this->createDocumentFromFinder($finder, $folderId);
         } else {
@@ -980,7 +966,7 @@ class DocumentsController extends RozierApp
      */
     private function randomDocument(?int $folderId = null): ?DocumentInterface
     {
-        if ($this->randomImageFinder instanceof AbstractEmbedFinder) {
+        if ($this->randomImageFinder instanceof EmbedFinderInterface) {
             $document = $this->createDocumentFromFinder($this->randomImageFinder, $folderId);
             if ($document instanceof DocumentInterface) {
                 return $document;
@@ -991,7 +977,7 @@ class DocumentsController extends RozierApp
 
             return null;
         }
-        throw new \RuntimeException('Random image finder must be instance of '.AbstractEmbedFinder::class);
+        throw new \RuntimeException('Random image finder must be instance of '.EmbedFinderInterface::class);
     }
 
     /**
@@ -999,11 +985,11 @@ class DocumentsController extends RozierApp
      *
      * @throws FilesystemException
      */
-    private function createDocumentFromFinder(AbstractEmbedFinder $finder, ?int $folderId = null): DocumentInterface|array
+    private function createDocumentFromFinder(EmbedFinderInterface $finder, ?int $folderId = null): DocumentInterface|array
     {
         $document = $finder->createDocumentFromFeed($this->em(), $this->documentFactory);
 
-        if (null !== $document && null !== $folderId && $folderId > 0) {
+        if (null !== $folderId && $folderId > 0) {
             /** @var Folder|null $folder */
             $folder = $this->em()->find(Folder::class, $folderId);
 

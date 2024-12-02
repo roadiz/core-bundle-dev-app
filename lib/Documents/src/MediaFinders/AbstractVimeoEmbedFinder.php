@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\MediaFinders;
 
-use Psr\Http\Message\StreamInterface;
 use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 
 /**
@@ -90,12 +89,12 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
         return $this->getFeed()['duration'] ?? null;
     }
 
-    public function getSearchFeed(string $searchTerm, ?string $author = null, int $maxResults = 15): ?StreamInterface
+    public function getSearchFeed(string $searchTerm, ?string $author = null, int $maxResults = 15): ?string
     {
         return null;
     }
 
-    public function getMediaFeed(?string $search = null): StreamInterface
+    public function getMediaFeed(?string $search = null): string
     {
         if (preg_match(static::$realIdPattern, $this->embedId, $matches)) {
             $url = 'https://vimeo.com/video/'.$this->embedId;

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents;
 
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Utils;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\String\UnicodeString;
 
@@ -55,19 +53,23 @@ class DownloadedFile extends File
     {
         try {
             $baseName = static::sanitizeFilename(pathinfo($url, PATHINFO_BASENAME));
-            $distantHandle = fopen($url, 'r');
-            if (false === $distantHandle) {
+            $distantResource = fopen($url, 'r');
+            if (false === $distantResource) {
                 return null;
             }
-            $original = Utils::streamFor($distantHandle);
+
             $tmpFile = tempnam(sys_get_temp_dir(), static::sanitizeFilename($baseName));
             if (false === $tmpFile) {
                 return null;
             }
-            $handle = fopen($tmpFile, 'w');
-            $local = Utils::streamFor($handle);
-            $local->write($original->getContents());
-            $local->close();
+            $localResource = fopen($tmpFile, 'w');
+            if (false === $localResource) {
+                throw new \RuntimeException('Unable to open local resource.');
+            }
+            $result = \stream_copy_to_stream($distantResource, $localResource);
+            if (false === $result) {
+                throw new \RuntimeException('Unable to copy distant stream to local resource.');
+            }
 
             $file = new static($tmpFile);
             if (!empty($originalName)) {
@@ -85,9 +87,7 @@ class DownloadedFile extends File
             if ($file->isReadable() && filesize($file->getPathname()) > 0) {
                 return $file;
             }
-        } catch (RequestException $e) {
-            return null;
-        } catch (\ErrorException $e) {
+        } catch (\RuntimeException $e) {
             return null;
         }
 

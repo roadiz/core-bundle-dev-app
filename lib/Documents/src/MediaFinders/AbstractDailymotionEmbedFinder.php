@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\MediaFinders;
 
-use Psr\Http\Message\StreamInterface;
 use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 
 /**
@@ -81,7 +80,7 @@ abstract class AbstractDailymotionEmbedFinder extends AbstractEmbedFinder
         return $feed;
     }
 
-    public function getMediaFeed(?string $search = null): StreamInterface
+    public function getMediaFeed(?string $search = null): string
     {
         if (preg_match(static::$realIdPattern, $this->embedId, $matches)) {
             $url = 'https://www.dailymotion.com/video/'.$this->embedId;

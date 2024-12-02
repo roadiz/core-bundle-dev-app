@@ -18,12 +18,12 @@ use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
 #[AsMessageHandler]
-final class DeleteNodeTypeMessageHandler
+final readonly class DeleteNodeTypeMessageHandler
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly HandlerFactoryInterface $handlerFactory,
-        private readonly MessageBusInterface $messageBus,
+        private ManagerRegistry $managerRegistry,
+        private HandlerFactoryInterface $handlerFactory,
+        private MessageBusInterface $messageBus,
     ) {
     }
 

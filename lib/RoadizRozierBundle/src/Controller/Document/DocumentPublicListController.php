@@ -24,11 +24,8 @@ use Twig\Error\RuntimeError;
 
 class DocumentPublicListController extends RozierApp
 {
-    private array $documentPlatforms;
-
-    public function __construct(array $documentPlatforms)
+    public function __construct(private readonly array $documentPlatforms)
     {
-        $this->documentPlatforms = $documentPlatforms;
     }
 
     protected function getFolder(?int $folderId): ?Folder

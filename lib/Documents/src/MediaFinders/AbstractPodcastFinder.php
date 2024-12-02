@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\MediaFinders;
 
 use Doctrine\Persistence\ObjectManager;
-use GuzzleHttp\Client;
 use League\Flysystem\FilesystemException;
-use Psr\Http\Message\StreamInterface;
 use RZ\Roadiz\Documents\AbstractDocumentFactory;
 use RZ\Roadiz\Documents\DownloadedFile;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\TimeableInterface;
-use Symfony\Component\HttpFoundation\Response;
 
 abstract class AbstractPodcastFinder extends AbstractEmbedFinder
 {
@@ -35,17 +32,12 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
     {
         if (null === $this->feed) {
             $rawFeed = $this->getMediaFeed();
-            if ($rawFeed instanceof StreamInterface) {
-                $rawFeed = $rawFeed->getContents();
-            }
-            if (null !== $rawFeed) {
-                try {
-                    $this->feed = new \SimpleXMLElement($rawFeed);
+            try {
+                $this->feed = new \SimpleXMLElement($rawFeed);
 
-                    return $this->feed;
-                } catch (\Exception $errorException) {
-                    throw new \RuntimeException('Feed content is not a valid Podcast XML');
-                }
+                return $this->feed;
+            } catch (\Exception $errorException) {
+                throw new \RuntimeException('Feed content is not a valid Podcast XML');
             }
         }
 
@@ -164,17 +156,12 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
         return $copyright.' – '.$this->getMediaCopyright();
     }
 
-    public function getMediaFeed(?string $search = null): StreamInterface
+    public function getMediaFeed(?string $search = null): string
     {
         $url = $this->embedId;
-        $client = new Client();
-        $response = $client->get($url);
+        $response = $this->client->request('GET', $url);
 
-        if (Response::HTTP_OK == $response->getStatusCode()) {
-            return $response->getBody();
-        }
-
-        throw new \RuntimeException($response->getReasonPhrase());
+        return $response->getContent();
     }
 
     public function getMediaTitle(): ?string

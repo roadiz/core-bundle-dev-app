@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
-use GuzzleHttp\Psr7\Request;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Cache\ReverseProxyCacheLocator;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Event\Cache\CachePurgeRequestEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
-use RZ\Roadiz\CoreBundle\Message\GuzzleRequestMessage;
+use RZ\Roadiz\CoreBundle\Message\HttpRequestMessage;
+use RZ\Roadiz\CoreBundle\Message\HttpRequestMessageInterface;
 use RZ\Roadiz\CoreBundle\Message\PurgeReverseProxyCacheMessage;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\Envelope;
@@ -19,12 +19,12 @@ use Symfony\Component\Messenger\Exception\ExceptionInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Workflow\Event\Event;
 
-final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
+final readonly class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly ReverseProxyCacheLocator $reverseProxyCacheLocator,
-        private readonly MessageBusInterface $bus,
-        private readonly LoggerInterface $logger,
+        private ReverseProxyCacheLocator $reverseProxyCacheLocator,
+        private MessageBusInterface $bus,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -81,7 +81,7 @@ final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @return Request[]
+     * @return HttpRequestMessageInterface[]
      */
     protected function createBanRequests(): array
     {
@@ -94,11 +94,14 @@ final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
             } else {
                 $uri = $frontend->getHost();
             }
-            $requests[$frontend->getName()] = new Request(
+            $requests[$frontend->getName()] = new HttpRequestMessage(
                 'BAN',
                 $uri,
                 [
-                    'Host' => $frontend->getDomainName(),
+                    'timeout' => 3,
+                    'headers' => [
+                        'Host' => $frontend->getDomainName(),
+                    ],
                 ]
             );
         }
@@ -115,13 +118,10 @@ final class ReverseProxyCacheEventSubscriber implements EventSubscriberInterface
         }
     }
 
-    protected function sendRequest(Request $request): void
+    protected function sendRequest(HttpRequestMessageInterface $requestMessage): void
     {
         try {
-            $this->bus->dispatch(new Envelope(new GuzzleRequestMessage($request, [
-                'debug' => false,
-                'timeout' => 3,
-            ])));
+            $this->bus->dispatch(new Envelope($requestMessage));
         } catch (ExceptionInterface $exception) {
             $this->logger->error($exception->getMessage());
         }

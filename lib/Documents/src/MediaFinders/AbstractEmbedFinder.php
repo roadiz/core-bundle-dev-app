@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\MediaFinders;
 
 use Doctrine\Persistence\ObjectManager;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FilesystemException;
-use Psr\Http\Message\StreamInterface;
 use RZ\Roadiz\Documents\AbstractDocumentFactory;
 use RZ\Roadiz\Documents\DownloadedFile;
 use RZ\Roadiz\Documents\Exceptions\APINeedsAuthentificationException;
@@ -19,7 +16,8 @@ use RZ\Roadiz\Documents\Models\SizeableInterface;
 use RZ\Roadiz\Documents\Models\TimeableInterface;
 use RZ\Roadiz\Documents\OptionsResolver\ViewOptionsResolver;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
  * Abstract class to handle external media via their Json API.
@@ -32,10 +30,8 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
 
     /**
      * @param bool $validate validate the embed id passed at the constructor [default: true]
-     *
-     * @throws InvalidEmbedId When embedId string is malformed
      */
-    public function __construct(string $embedId = '', bool $validate = true)
+    public function __construct(protected readonly HttpClientInterface $client, string $embedId = '', bool $validate = true)
     {
         if ($validate) {
             $this->embedId = $this->validateEmbedId($embedId);
@@ -67,7 +63,7 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
     }
 
     /**
-     * Validate extern Id against platform naming policy.
+     * Validate extern ID against platform naming policy.
      *
      * @throws InvalidEmbedId When embedId string is malformed
      */
@@ -93,8 +89,8 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
     public function getFeed(): array|\SimpleXMLElement|null
     {
         if (null === $this->feed) {
-            $rawFeed = $this->getMediaFeed()->getContents();
-            if (null !== $rawFeed && \json_validate($rawFeed)) {
+            $rawFeed = $this->getMediaFeed();
+            if (\json_validate($rawFeed)) {
                 $feed = json_decode($rawFeed, true);
                 if (is_array($feed)) {
                     $this->feed = $feed;
@@ -121,12 +117,12 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
     /**
      * Crawl an embed API to get a Json feed.
      */
-    abstract public function getMediaFeed(?string $search = null): StreamInterface;
+    abstract public function getMediaFeed(?string $search = null): string;
 
     /**
      * Crawl an embed API to get a Json feed against a search query.
      */
-    public function getSearchFeed(string $searchTerm, ?string $author = null, int $maxResults = 15): ?StreamInterface
+    public function getSearchFeed(string $searchTerm, ?string $author = null, int $maxResults = 15): ?string
     {
         return null;
     }
@@ -243,7 +239,7 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
         } catch (APINeedsAuthentificationException $exception) {
             $document = $documentFactory->getDocument(true, $this->areDuplicatesAllowed());
             $document?->setFilename($this->getPlatform().'_'.$this->embedId.'.jpg');
-        } catch (RequestException $exception) {
+        } catch (ClientExceptionInterface $exception) {
             $document = $documentFactory->getDocument(true, $this->areDuplicatesAllowed());
             $document?->setFilename($this->getPlatform().'_'.$this->embedId.'.jpg');
         }
@@ -315,19 +311,12 @@ abstract class AbstractEmbedFinder implements EmbedFinderInterface
 
     /**
      * Send a CURL request and get its string output.
-     *
-     * @throws \RuntimeException
      */
-    public function downloadFeedFromAPI(string $url): StreamInterface
+    public function downloadFeedFromAPI(string $url): string
     {
-        $client = new Client();
-        $response = $client->get($url);
+        $response = $this->client->request('GET', $url);
 
-        if (Response::HTTP_OK == $response->getStatusCode()) {
-            return $response->getBody();
-        }
-
-        throw new \RuntimeException($response->getReasonPhrase());
+        return $response->getContent();
     }
 
     public function getThumbnailName(string $pathinfo): string

@@ -519,6 +519,7 @@ services:
     #
     RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder:
         arguments:
+            - '@http_client'
             - '%roadiz_core.medias.unsplash_client_id%'
     RZ\Roadiz\Documents\MediaFinders\RandomImageFinder:
         alias: RZ\Roadiz\CoreBundle\Document\MediaFinder\UnsplashPictureFinder
@@ -641,6 +642,7 @@ services:
 
     RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory:
         arguments:
+            - '@http_client'
             - '%roadiz_core.medias.supported_platforms%'
 
     RZ\Roadiz\Documents\Renderer\ChainRenderer:

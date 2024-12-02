@@ -16,6 +16,7 @@ use RZ\Roadiz\Documents\Tests\MediaFinders\SimpleVimeoEmbedFinder;
 use RZ\Roadiz\Documents\Tests\MediaFinders\SimpleYoutubeEmbedFinder;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DummyDocumentUrlGenerator;
+use Symfony\Component\HttpClient\HttpClient;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -72,7 +73,7 @@ abstract class AbstractRendererTestCase extends TestCase
 
     protected function getEmbedFinderFactory(): EmbedFinderFactory
     {
-        return new EmbedFinderFactory([
+        return new EmbedFinderFactory(HttpClient::create(), [
             'youtube' => SimpleYoutubeEmbedFinder::class,
             'vimeo' => SimpleVimeoEmbedFinder::class,
         ]);
