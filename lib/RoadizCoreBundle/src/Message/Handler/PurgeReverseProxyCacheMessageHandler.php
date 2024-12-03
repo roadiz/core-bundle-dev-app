@@ -34,6 +34,7 @@ final readonly class PurgeReverseProxyCacheMessageHandler
     {
         $nodeSource = $this->managerRegistry
             ->getRepository(NodesSources::class)
+            ->setDisplayingAllNodesStatuses(true)
             ->find($message->getNodeSourceId());
         if (null === $nodeSource) {
             throw new UnrecoverableMessageHandlingException('NodesSources does not exist anymore.');
