@@ -67,9 +67,10 @@ Roadiz development env uses: https://github.com/symplify/monorepo-builder
 
 ### Use Frankenphp
 
-Roadiz can be run with frankenphp for use it you need to override services `app`, `nginx` and `varnish` in `compose.override.yml`
+Roadiz can be run with [*frankenphp*](https://frankenphp.dev) instead of PHP-FPM + Nginx. If you want to give it a try, override services `app`, `nginx` and `varnish` in your `compose.override.yml`
 
-You need to use the target `php-dev-franken` present in the `Dockerfile`.
-We use `dunglas/frankenphp` image with the tag of your version of php and the tag bookworm
+Use the target `php-dev-franken` instead of `php-dev`.
 
-If you use frankenphp you can remove `docker/varnish` and `docker/nginx` folders
+We use [`dunglas/frankenphp`](https://hub.docker.com/r/dunglas/frankenphp) image with the tag of your PHP version and Debian Bookworm.
+
+Using frankenphp allows you to remove `docker/varnish` and `docker/nginx` folders in your project.

@@ -149,7 +149,7 @@ WORKDIR /app
 
 FROM dunglas/frankenphp:php${PHP_VERSION}-bookworm AS php-franken
 
-LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
+LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com, eliot@rezo-zero.com"
 
 ARG UID
 ARG GID
