@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Repository;
 
-use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;

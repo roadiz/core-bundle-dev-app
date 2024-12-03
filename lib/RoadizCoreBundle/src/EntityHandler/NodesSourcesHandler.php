@@ -10,7 +10,6 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\Document;
-use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
@@ -467,55 +466,5 @@ final class NodesSourcesHandler extends AbstractHandler
             $this->nodeSource->getMetaDescription() :
             $this->nodeSource->getTitle().', '.$this->settingsBag->get('seo_description'),
         ];
-    }
-
-    /**
-     * Get nodes linked to current node for a given fieldname.
-     *
-     * @param string $fieldName Name of the node-type field
-     *
-     * @return array<Node> Collection of nodes
-     *
-     * @deprecated
-     */
-    public function getNodesFromFieldName(string $fieldName): array
-    {
-        $field = $this->nodeSource->getNode()->getNodeType()->getFieldByName($fieldName);
-        if (null !== $field) {
-            return $this->objectManager
-                ->getRepository(Node::class)
-                ->findByNodeAndFieldAndTranslation(
-                    $this->nodeSource->getNode(),
-                    $field,
-                    $this->nodeSource->getTranslation()
-                );
-        }
-
-        return [];
-    }
-
-    /**
-     * Get nodes which own a reference to current node for a given fieldname.
-     *
-     * @param string $fieldName Name of the node-type field
-     *
-     * @return array<Node> Collection of nodes
-     *
-     * @deprecated
-     */
-    public function getReverseNodesFromFieldName(string $fieldName): array
-    {
-        $field = $this->nodeSource->getNode()->getNodeType()->getFieldByName($fieldName);
-        if (null !== $field) {
-            return $this->objectManager
-                ->getRepository(Node::class)
-                ->findByReverseNodeAndFieldAndTranslation(
-                    $this->nodeSource->getNode(),
-                    $field,
-                    $this->nodeSource->getTranslation()
-                );
-        }
-
-        return [];
     }
 }

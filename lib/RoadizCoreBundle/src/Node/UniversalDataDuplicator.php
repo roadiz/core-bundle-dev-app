@@ -14,9 +14,9 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 
-final class UniversalDataDuplicator
+final readonly class UniversalDataDuplicator
 {
-    public function __construct(private readonly ManagerRegistry $managerRegistry)
+    public function __construct(private ManagerRegistry $managerRegistry)
     {
     }
 

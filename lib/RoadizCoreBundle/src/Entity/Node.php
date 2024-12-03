@@ -824,13 +824,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this->aNodes;
     }
 
-    #[SymfonySerializer\Ignore]
-    public function getOneLineSummary(): string
-    {
-        return $this->getId().' — '.$this->getNodeName().' — '.$this->getNodeType()->getName().
-        ' — Visible : '.($this->isVisible() ? 'true' : 'false').PHP_EOL;
-    }
-
     public function getNodeName(): string
     {
         return $this->nodeName;
@@ -871,27 +864,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         $this->visible = $visible;
 
         return $this;
-    }
-
-    #[SymfonySerializer\Ignore]
-    public function getOneLineSourceSummary(): string
-    {
-        $text = 'Source '.
-            (
-                $this->getNodeSources()->first() ?
-                $this->getNodeSources()->first()->getId() :
-                ''
-            ).
-            PHP_EOL;
-
-        foreach ($this->getNodeType()->getFields() as $field) {
-            $getterName = $field->getGetterName();
-            $text .= '['.$field->getLabel().']: '.
-                ($this->getNodeSources()->first() ? $this->getNodeSources()->first()->$getterName() : '').
-                PHP_EOL;
-        }
-
-        return $text;
     }
 
     /**
