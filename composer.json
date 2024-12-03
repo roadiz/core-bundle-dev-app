@@ -127,11 +127,11 @@
         "symfony/web-link": "6.4.*",
         "symfony/workflow": "6.4.*",
         "symfony/yaml": "6.4.*",
-        "twig/extra-bundle": "^3.0",
-        "twig/html-extra": "^3.3",
+        "twig/extra-bundle": "^3.16",
+        "twig/html-extra": "^3.16",
         "twig/intl-extra": "*",
         "twig/string-extra": "*",
-        "twig/twig": "^3.1",
+        "twig/twig": "^3.16",
         "webonyx/graphql-php": "^15.11"
     },
     "require-dev": {

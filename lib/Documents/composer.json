@@ -39,10 +39,10 @@
         "symfony/http-client-contracts": "^3.5",
         "symfony/options-resolver": "6.4.*",
         "symfony/serializer": "6.4.*",
-        "twig/twig": "^3.1"
+        "twig/twig": "^3.16"
     },
     "require-dev": {
-        "api-platform/metadata": "^3.2.12",
+        "api-platform/metadata": "~3.3.11",
         "doctrine/doctrine-bundle": "^2.8.1",
         "php-coveralls/php-coveralls": "^2.4",
         "phpstan/phpstan": "^1.5.3",
