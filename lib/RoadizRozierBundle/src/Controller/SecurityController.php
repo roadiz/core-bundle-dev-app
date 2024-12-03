@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
-use Themes\Rozier\RozierServiceRegistry;
 
 class SecurityController extends AbstractController
 {
@@ -26,7 +25,6 @@ class SecurityController extends AbstractController
         private readonly OAuth2LinkGenerator $oAuth2LinkGenerator,
         private readonly LoggerInterface $logger,
         private readonly Settings $settingsBag,
-        private readonly RozierServiceRegistry $rozierServiceRegistry,
         private readonly LoginLinkSenderInterface $loginLinkSender,
     ) {
     }
@@ -45,10 +43,6 @@ class SecurityController extends AbstractController
         $assignation = [
             'last_username' => $lastUsername,
             'error' => $error,
-            'themeServices' => $this->rozierServiceRegistry,
-            'head' => [
-                'siteTitle' => $this->settingsBag->get('site_name').' backstage',
-            ],
         ];
 
         try {
@@ -72,12 +66,6 @@ class SecurityController extends AbstractController
         UserRepository $userRepository,
         Request $request,
     ): Response {
-        $assignation = [
-            'themeServices' => $this->rozierServiceRegistry,
-            'head' => [
-                'siteTitle' => $this->settingsBag->get('site_name').' backstage',
-            ],
-        ];
         // check if form is submitted
         if ($request->isMethod('POST')) {
             // load the user in some way (e.g. using the form input)
@@ -97,7 +85,7 @@ class SecurityController extends AbstractController
         }
 
         // if it's not submitted, render the form to request the "login link"
-        return $this->render('@RoadizRozier/security/request_login_link.html.twig', $assignation);
+        return $this->render('@RoadizRozier/security/request_login_link.html.twig');
     }
 
     #[Route('/rz-admin/login_link_sent', name: 'roadiz_rozier_login_link_sent')]

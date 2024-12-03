@@ -9,11 +9,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Themes\Rozier\Event\UserActionsMenuEvent;
 
-final class UserActionsMenuEventSubscriber implements EventSubscriberInterface
+final readonly class UserActionsMenuEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly Security $security,
+        private UrlGeneratorInterface $urlGenerator,
+        private Security $security,
     ) {
     }
 

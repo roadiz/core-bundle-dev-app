@@ -14,11 +14,11 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
-final class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInterface, VersatileGeneratorInterface
+final readonly class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInterface, VersatileGeneratorInterface
 {
     public function __construct(
-        private readonly ThemeResolverInterface $themeResolver,
-        private readonly NodeRouter $innerRouter,
+        private ThemeResolverInterface $themeResolver,
+        private NodeRouter $innerRouter,
     ) {
     }
 

@@ -84,11 +84,6 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /** @phpstan-ignore-next-line */
     protected Collection $documents;
 
-    /**
-     * @Serializer\Groups({"folder", "folder_color"})
-     *
-     * @Serializer\Type("string")
-     */
     #[ORM\Column(
         name: 'color',
         type: 'string',
@@ -99,6 +94,8 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     )]
     #[Assert\Length(max: 7)]
     #[SymfonySerializer\Groups(['folder', 'folder_color'])]
+    #[Serializer\Groups(['folder', 'folder_color'])]
+    #[Serializer\Type('string')]
     protected string $color = '#000000';
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: 'partial')]
@@ -219,12 +216,9 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         });
     }
 
-    /**
-     * @Serializer\VirtualProperty
-     *
-     * @Serializer\Groups({"folder", "document_folders"})
-     */
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
+    #[Serializer\Groups(['folder', 'document_folders'])]
+    #[Serializer\VirtualProperty]
     public function getName(): ?string
     {
         return $this->getTranslatedFolders()->first() ?

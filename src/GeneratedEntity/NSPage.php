@@ -25,7 +25,7 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * Page node-source entity.
- * Page.
+ * Page
  */
 #[Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
 #[ORM\Entity(repositoryClass: Repository\NSPageRepository::class)]
@@ -77,7 +77,7 @@ class NSPage extends NodesSources
 
     /**
      * Images.
-     * (Virtual field, this var is a buffer).
+     * (Virtual field, this var is a buffer)
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'images')]
@@ -89,7 +89,7 @@ class NSPage extends NodesSources
     /**
      * Header image.
      * Group: Images.
-     * (Virtual field, this var is a buffer).
+     * (Virtual field, this var is a buffer)
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'headerImage')]
@@ -114,7 +114,7 @@ class NSPage extends NodesSources
      * Pictures.
      * Picture for website.
      * Group: Images.
-     * (Virtual field, this var is a buffer).
+     * (Virtual field, this var is a buffer)
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'pictures')]
@@ -125,11 +125,10 @@ class NSPage extends NodesSources
 
     /**
      * nodeReferencesSources NodesSources direct field buffer.
-     *
      * @var \App\GeneratedEntity\NSPage[]|null
-     *                                         References.
-     *                                         Default values:
-     *                                         Page
+     * References.
+     * Default values:
+     * Page
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'nodeReferences')]
@@ -174,7 +173,7 @@ class NSPage extends NodesSources
 
     /**
      * Custom form.
-     * (Virtual field, this var is a buffer).
+     * (Virtual field, this var is a buffer)
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'customForm')]
@@ -186,7 +185,6 @@ class NSPage extends NodesSources
     /**
      * Buffer var to get referenced entities (documents, nodes, cforms, doctrine entities)
      * Reference to users.
-     *
      * @var \Doctrine\Common\Collections\Collection<int, \App\Entity\PositionedPageUser>
      */
     #[JMS\Exclude]
@@ -223,8 +221,7 @@ class NSPage extends NodesSources
      * #     # This order will preserve position
      * #     orderBy:
      * #         - field: position
-     * #           direction: ASC.
-     *
+     * #           direction: ASC
      * @var \Doctrine\Common\Collections\Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>
      */
     #[Serializer\SerializedName(serializedName: 'folderReferences')]
@@ -268,7 +265,7 @@ class NSPage extends NodesSources
     /**
      * Settings.
      * Default values:
-     * classname: Themes\Rozier\Explorer\SettingsProvider.
+     * classname: Themes\Rozier\Explorer\SettingsProvider
      */
     #[Serializer\SerializedName(serializedName: 'settings')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -283,7 +280,7 @@ class NSPage extends NodesSources
     /**
      * Folder simple.
      * Default values:
-     * classname: Themes\Rozier\Explorer\FoldersProvider.
+     * classname: Themes\Rozier\Explorer\FoldersProvider
      */
     #[Serializer\SerializedName(serializedName: 'folder')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -335,7 +332,7 @@ class NSPage extends NodesSources
     /**
      * Layout.
      * Default values:
-     * dark, transparent.
+     * dark, transparent
      */
     #[Serializer\SerializedName(serializedName: 'layout')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -372,7 +369,7 @@ class NSPage extends NodesSources
      * # This order will only be used for explorer
      * orderBy:
      *     - field: email
-     *       direction: ASC.
+     *       direction: ASC
      */
     #[Serializer\SerializedName(serializedName: 'mainUser')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -385,6 +382,9 @@ class NSPage extends NodesSources
     #[JMS\MaxDepth(2)]
     private ?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null;
 
+    /**
+     * @return string|null
+     */
     public function getContent(): ?string
     {
         return $this->content;
@@ -398,10 +398,12 @@ class NSPage extends NodesSources
         $this->content = null !== $content ?
                     (string) $content :
                     null;
-
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSubTitle(): ?string
     {
         return $this->subTitle;
@@ -415,10 +417,12 @@ class NSPage extends NodesSources
         $this->subTitle = null !== $subTitle ?
                     (string) $subTitle :
                     null;
-
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getColor(): ?string
     {
         return $this->color;
@@ -432,7 +436,6 @@ class NSPage extends NodesSources
         $this->color = null !== $color ?
                     (string) $color :
                     null;
-
         return $this;
     }
 
@@ -458,7 +461,6 @@ class NSPage extends NodesSources
                 $this->images = [];
             }
         }
-
         return $this->images;
     }
 
@@ -480,7 +482,6 @@ class NSPage extends NodesSources
             $this->addDocumentsByFields($nodeSourceDocument);
             $this->images = null;
         }
-
         return $this;
     }
 
@@ -506,7 +507,6 @@ class NSPage extends NodesSources
                 $this->headerImage = [];
             }
         }
-
         return $this->headerImage;
     }
 
@@ -528,10 +528,12 @@ class NSPage extends NodesSources
             $this->addDocumentsByFields($nodeSourceDocument);
             $this->headerImage = null;
         }
-
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getOverTitle(): ?string
     {
         return $this->overTitle;
@@ -545,7 +547,6 @@ class NSPage extends NodesSources
         $this->overTitle = null !== $overTitle ?
                     (string) $overTitle :
                     null;
-
         return $this;
     }
 
@@ -571,7 +572,6 @@ class NSPage extends NodesSources
                 $this->pictures = [];
             }
         }
-
         return $this->pictures;
     }
 
@@ -593,7 +593,6 @@ class NSPage extends NodesSources
             $this->addDocumentsByFields($nodeSourceDocument);
             $this->pictures = null;
         }
-
         return $this;
     }
 
@@ -610,7 +609,7 @@ class NSPage extends NodesSources
         if (null === $this->nodeReferencesSources) {
             if (null !== $this->objectManager) {
                 $this->nodeReferencesSources = $this->objectManager
-                    ->getRepository(NSPage::class)
+                    ->getRepository(\App\GeneratedEntity\NSPage::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
                         'node_references'
@@ -619,22 +618,22 @@ class NSPage extends NodesSources
                 $this->nodeReferencesSources = [];
             }
         }
-
         return $this->nodeReferencesSources;
     }
 
     /**
      * @param \App\GeneratedEntity\NSPage[]|null $nodeReferencesSources
-     *
      * @return $this
      */
     public function setNodeReferencesSources(?array $nodeReferencesSources): static
     {
         $this->nodeReferencesSources = $nodeReferencesSources;
-
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getSticky(): bool
     {
         return $this->sticky;
@@ -646,10 +645,12 @@ class NSPage extends NodesSources
     public function setSticky(bool $sticky): static
     {
         $this->sticky = $sticky;
-
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getStickytest(): bool
     {
         return $this->stickytest;
@@ -661,7 +662,6 @@ class NSPage extends NodesSources
     public function setStickytest(bool $stickytest): static
     {
         $this->stickytest = $stickytest;
-
         return $this;
     }
 
@@ -686,7 +686,6 @@ class NSPage extends NodesSources
                 $this->customForm = [];
             }
         }
-
         return $this->customForm;
     }
 
@@ -705,7 +704,6 @@ class NSPage extends NodesSources
             $this->getNode()->addCustomForm($nodeCustomForm);
             $this->customForm = null;
         }
-
         return $this;
     }
 
@@ -733,13 +731,11 @@ class NSPage extends NodesSources
 
     /**
      * @param \Doctrine\Common\Collections\Collection<int, \App\Entity\PositionedPageUser> $usersProxy
-     *
      * @return $this
      */
     public function setUsersProxy(Collection $usersProxy): static
     {
         $this->usersProxy = $usersProxy;
-
         return $this;
     }
 
@@ -779,20 +775,21 @@ class NSPage extends NodesSources
 
     /**
      * @param \Doctrine\Common\Collections\Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>|array<\RZ\Roadiz\CoreBundle\Entity\Folder> $folderReferences
-     *
      * @return $this
      */
     public function setFolderReferences(Collection|array $folderReferences): static
     {
-        if ($folderReferences instanceof Collection) {
+        if ($folderReferences instanceof \Doctrine\Common\Collections\Collection) {
             $this->folderReferences = $folderReferences;
         } else {
             $this->folderReferences = new \Doctrine\Common\Collections\ArrayCollection($folderReferences);
         }
-
         return $this;
     }
 
+    /**
+     * @return int|float|null
+     */
     public function getAmount(): int|float|null
     {
         return $this->amount;
@@ -804,10 +801,12 @@ class NSPage extends NodesSources
     public function setAmount(int|float|null $amount): static
     {
         $this->amount = $amount;
-
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmailTest(): ?string
     {
         return $this->emailTest;
@@ -821,10 +820,12 @@ class NSPage extends NodesSources
         $this->emailTest = null !== $emailTest ?
                     (string) $emailTest :
                     null;
-
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getSettings(): mixed
     {
         return $this->settings;
@@ -836,10 +837,12 @@ class NSPage extends NodesSources
     public function setSettings(mixed $settings): static
     {
         $this->settings = $settings;
-
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getFolder(): mixed
     {
         return $this->folder;
@@ -851,10 +854,12 @@ class NSPage extends NodesSources
     public function setFolder(mixed $folder): static
     {
         $this->folder = $folder;
-
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getCountry(): ?string
     {
         return $this->country;
@@ -868,10 +873,12 @@ class NSPage extends NodesSources
         $this->country = null !== $country ?
                     (string) $country :
                     null;
-
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getGeolocation(): mixed
     {
         return $this->geolocation;
@@ -883,10 +890,12 @@ class NSPage extends NodesSources
     public function setGeolocation(mixed $geolocation): static
     {
         $this->geolocation = $geolocation;
-
         return $this;
     }
 
+    /**
+     * @return mixed
+     */
     public function getMultiGeolocation(): mixed
     {
         return $this->multiGeolocation;
@@ -898,10 +907,12 @@ class NSPage extends NodesSources
     public function setMultiGeolocation(mixed $multiGeolocation): static
     {
         $this->multiGeolocation = $multiGeolocation;
-
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLayout(): ?string
     {
         return $this->layout;
@@ -915,7 +926,6 @@ class NSPage extends NodesSources
         $this->layout = null !== $layout ?
                     (string) $layout :
                     null;
-
         return $this;
     }
 
@@ -930,7 +940,6 @@ class NSPage extends NodesSources
     public function setMainUser(?\RZ\Roadiz\CoreBundle\Entity\User $mainUser): static
     {
         $this->mainUser = $mainUser;
-
         return $this;
     }
 
@@ -967,7 +976,6 @@ class NSPage extends NodesSources
 
     /**
      * $this->nodeType->isReachable() proxy.
-     *
      * @return bool Does this nodeSource is reachable over network?
      */
     #[JMS\VirtualProperty]
@@ -978,7 +986,6 @@ class NSPage extends NodesSources
 
     /**
      * $this->nodeType->isPublishable() proxy.
-     *
      * @return bool Does this nodeSource is publishable with date and time?
      */
     #[JMS\VirtualProperty]
@@ -989,6 +996,6 @@ class NSPage extends NodesSources
 
     public function __toString(): string
     {
-        return '[NSPage] '.parent::__toString();
+        return '[NSPage] ' . parent::__toString();
     }
 }

@@ -1,18 +1,18 @@
-{% if themeServices.adminImage and themeServices.adminImage.mimeType == 'image/png' %}
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ themeServices.adminImage|url({absolute: true, fit:'180x180'}) }}">
-    <link rel="icon" type="{{ themeServices.adminImage.mimeType }}"
+{% if rozier.adminImage and rozier.adminImage.mimeType == 'image/png' %}
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ rozier.adminImage|url({absolute: true, fit:'180x180'}) }}">
+    <link rel="icon" type="{{ rozier.adminImage.mimeType }}"
           sizes="32x32"
-          href="{{ themeServices.adminImage|url({absolute: true, fit:'32x32'}) }}">
-    <link rel="icon" type="{{ themeServices.adminImage.mimeType }}"
+          href="{{ rozier.adminImage|url({absolute: true, fit:'32x32'}) }}">
+    <link rel="icon" type="{{ rozier.adminImage.mimeType }}"
           sizes="16x16"
-          href="{{ themeServices.adminImage|url({absolute: true, fit:'16x16'}) }}">
+          href="{{ rozier.adminImage|url({absolute: true, fit:'16x16'}) }}">
 {% else %}
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/apple-touch-icon.png', 'Rozier') }}">
     <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicon-32x32.png', 'Rozier') }}">
     <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicon-16x16.png', 'Rozier') }}">
 {% endif %}
-{% if themeServices.adminImage and themeServices.adminImage.mimeType == 'image/svg+xml' and main_color %}
-    <link rel="mask-icon" href="{{ themeServices.adminImage|url({absolute: true}) }}" color="{{ main_color }}">
+{% if rozier.adminImage and rozier.adminImage.mimeType == 'image/svg+xml' and main_color %}
+    <link rel="mask-icon" href="{{ rozier.adminImage|url({absolute: true}) }}" color="{{ main_color }}">
 {% endif %}
 {% if main_color %}
     <meta name="msapplication-TileColor" content="{{ main_color }}">

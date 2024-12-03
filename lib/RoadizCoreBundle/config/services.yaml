@@ -98,8 +98,6 @@ services:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'ted' } ]
     RZ\Roadiz\CoreBundle\Document\MediaFinder\PodcastFinder:
         tags: [ { name: 'roadiz_core.media_finder', platform: 'podcast' } ]
-    RZ\Roadiz\CoreBundle\Document\MediaFinder\TwitchEmbedFinder:
-        tags: [ { name: 'roadiz_core.media_finder', platform: 'twitch' } ]
 
     # Removed DataTransformers
     RZ\Roadiz\CoreBundle\Api\DataTransformer\:
@@ -443,7 +441,12 @@ services:
         arguments: ['%kernel.project_dir%']
         public: true
 
-    RZ\Roadiz\Random\PasswordGenerator: ~
+    RZ\Roadiz\Random\PasswordGeneratorInterface:
+        class: RZ\Roadiz\Random\PasswordGenerator
+    RZ\Roadiz\Random\SaltGeneratorInterface:
+        class: RZ\Roadiz\Random\SaltGenerator
+    RZ\Roadiz\Random\TokenGeneratorInterface:
+        class: RZ\Roadiz\Random\TokenGenerator
 
     JMS\Serializer\Construction\ObjectConstructorInterface:
         alias: RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor

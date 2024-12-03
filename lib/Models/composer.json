@@ -19,7 +19,7 @@
     ],
     "require": {
         "php": ">=8.2",
-        "doctrine/orm": "~2.19.0",
+        "doctrine/orm": "~2.20.0",
         "jms/serializer": "^3.9.0",
         "roadiz/nodetype-contracts": "~1.1.2",
         "symfony/string": "6.4.*",

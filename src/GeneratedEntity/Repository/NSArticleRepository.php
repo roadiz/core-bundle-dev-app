@@ -19,7 +19,6 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends NodesSourcesRepository<NSArticle>
- *
  * @method NSArticle|null find($id, $lockMode = null, $lockVersion = null)
  * @method NSArticle|null findOneBy(array $criteria, array $orderBy = null)
  * @method NSArticle[]    findAll()

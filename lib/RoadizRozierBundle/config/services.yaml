@@ -91,6 +91,7 @@ services:
         arguments:
             - '@?roadiz_rozier.open_id.discovery'
             - '@security.csrf.token_manager'
+            - '@RZ\Roadiz\Random\TokenGeneratorInterface'
             - '%roadiz_rozier.open_id.hosted_domain%'
             - '%roadiz_rozier.open_id.oauth_client_id%'
             - '%roadiz_rozier.open_id.scopes%'

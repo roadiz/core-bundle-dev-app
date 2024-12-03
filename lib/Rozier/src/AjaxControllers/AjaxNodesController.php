@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
-use JMS\Serializer\SerializerInterface;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
@@ -25,6 +24,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Workflow\Registry;
 
 final class AjaxNodesController extends AbstractAjaxController

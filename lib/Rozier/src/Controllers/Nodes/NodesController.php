@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -67,8 +65,6 @@ final class NodesController extends RozierApp
 
     /**
      * List every node.
-     *
-     * @throws RuntimeError
      */
     public function indexAction(Request $request, ?string $filter = null): Response
     {
@@ -281,8 +277,6 @@ final class NodesController extends RozierApp
      * Handle node creation pages.
      *
      * @throws RuntimeError
-     * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function addAction(Request $request, int $nodeTypeId, ?int $translationId = null): Response
     {
@@ -359,8 +353,6 @@ final class NodesController extends RozierApp
     /**
      * Handle node creation pages.
      *
-     * @throws ORMException
-     * @throws OptimisticLockException
      * @throws RuntimeError
      */
     public function addChildAction(Request $request, ?int $nodeId = null, ?int $translationId = null): Response
@@ -442,7 +434,7 @@ final class NodesController extends RozierApp
     }
 
     /**
-     * Return an deletion form for requested node.
+     * Return a deletion form for requested node.
      *
      * @throws RuntimeError
      */

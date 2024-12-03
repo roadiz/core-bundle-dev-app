@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\OpenId;
 
 use RZ\Roadiz\OpenId\Exception\DiscoveryNotAvailableException;
-use RZ\Roadiz\Random\TokenGenerator;
+use RZ\Roadiz\Random\TokenGeneratorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 
@@ -17,6 +17,7 @@ class OAuth2LinkGenerator
     public function __construct(
         protected readonly ?Discovery $discovery,
         protected readonly CsrfTokenManagerInterface $csrfTokenManager,
+        protected readonly TokenGeneratorInterface $tokenGenerator,
         protected readonly ?string $openIdHostedDomain,
         protected readonly ?string $oauthClientId,
         ?array $openIdScopes,
@@ -71,7 +72,7 @@ class OAuth2LinkGenerator
             'state' => http_build_query(array_merge($state, [
                 'token' => $stateToken->getValue(),
             ])),
-            'nonce' => (new TokenGenerator())->generateToken(),
+            'nonce' => $this->tokenGenerator->generateToken(),
             'login_hint' => $request->get('email', null),
             'scope' => implode(' ', $customScopes),
             'client_id' => $this->oauthClientId,

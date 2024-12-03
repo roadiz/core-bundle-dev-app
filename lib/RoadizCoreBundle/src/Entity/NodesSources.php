@@ -456,15 +456,11 @@ class NodesSources extends AbstractEntity implements Loggable
         return $this;
     }
 
-    /**
-     * @Serializer\VirtualProperty
-     *
-     * @Serializer\SerializedName("slug")
-     *
-     * @Serializer\Groups({"nodes_sources", "nodes_sources_base"})
-     */
     #[SymfonySerializer\SerializedName('slug')]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base'])]
+    #[Serializer\SerializedName('slug')]
+    #[Serializer\VirtualProperty]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_base'])]
     public function getIdentifier(): string
     {
         $urlAlias = $this->getUrlAliases()->first();
@@ -484,11 +480,10 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
-     * Get parent node’ source based on the same translation.
-     *
-     * @Serializer\Exclude
+     * Get parent node source based on the same translation.
      */
     #[SymfonySerializer\Ignore]
+    #[Serializer\Exclude]
     public function getParent(): ?NodesSources
     {
         /** @var Node|null $parent */
@@ -538,15 +533,11 @@ class NodesSources extends AbstractEntity implements Loggable
         return $this;
     }
 
-    /**
-     * @Serializer\VirtualProperty
-     *
-     * @Serializer\Groups({"nodes_sources", "nodes_sources_default"})
-     *
-     * @Serializer\SerializedName("@type")
-     */
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[SymfonySerializer\SerializedName('@type')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[Serializer\SerializedName('@type')]
+    #[Serializer\VirtualProperty]
     public function getNodeTypeName(): string
     {
         return 'NodesSources';

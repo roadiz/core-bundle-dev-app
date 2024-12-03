@@ -29,10 +29,8 @@ abstract class RoadizAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'loginPage';
-
     public function __construct(
-        private readonly UrlGeneratorInterface $urlGenerator,
+        protected readonly UrlGeneratorInterface $urlGenerator,
         private readonly ManagerRegistry $managerRegistry,
         private readonly LoggerInterface $logger,
         private readonly string $usernamePath = 'username',
@@ -69,7 +67,7 @@ abstract class RoadizAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('adminHomePage'));
+        return new RedirectResponse($this->getDefaultSuccessPath($request));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): Response
@@ -84,10 +82,9 @@ abstract class RoadizAuthenticator extends AbstractLoginFormAuthenticator
         return parent::onAuthenticationFailure($request, $exception);
     }
 
-    protected function getLoginUrl(Request $request): string
-    {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
-    }
+    abstract protected function getLoginUrl(Request $request): string;
+
+    abstract protected function getDefaultSuccessPath(Request $request): string;
 
     /**
      * @return array<'username'|'password', string>

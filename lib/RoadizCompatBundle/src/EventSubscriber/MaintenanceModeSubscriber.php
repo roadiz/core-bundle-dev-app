@@ -17,13 +17,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class MaintenanceModeSubscriber implements EventSubscriberInterface
+final readonly class MaintenanceModeSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly Settings $settings,
-        private readonly Security $security,
-        private readonly ThemeResolverInterface $themeResolver,
-        private readonly ContainerInterface $serviceLocator,
+        private Settings $settings,
+        private Security $security,
+        private ThemeResolverInterface $themeResolver,
+        private ContainerInterface $serviceLocator,
     ) {
     }
 
@@ -102,7 +102,6 @@ final class MaintenanceModeSubscriber implements EventSubscriberInterface
         }
 
         if ($controller instanceof AppController) {
-            $controller->prepareBaseAssignation();
             // No node controller matching in install mode
             $request->attributes->set('theme', $controller->getTheme());
         }

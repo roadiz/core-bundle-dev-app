@@ -41,6 +41,7 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
             'main_color' => $this->settingsBag->get('main_color'),
             'meta' => [
                 'siteName' => $this->settingsBag->get('site_name'),
+                'backofficeName' => $this->settingsBag->get('site_name').' backstage',
                 'siteCopyright' => $this->settingsBag->get('site_copyright'),
                 'siteDescription' => $this->settingsBag->get('seo_description'),
             ],

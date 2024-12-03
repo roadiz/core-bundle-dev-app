@@ -6,10 +6,7 @@ namespace RZ\Roadiz\Random;
 
 class TokenGenerator extends RandomGenerator implements TokenGeneratorInterface
 {
-    /**
-     * @return string
-     */
-    public function generateToken()
+    public function generateToken(): string
     {
         return rtrim(strtr(base64_encode($this->getRandomNumber()), '+/', '-_'), '=');
     }

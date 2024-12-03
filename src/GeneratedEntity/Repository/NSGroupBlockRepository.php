@@ -19,7 +19,6 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends NodesSourcesRepository<NSGroupBlock>
- *
  * @method NSGroupBlock|null find($id, $lockMode = null, $lockVersion = null)
  * @method NSGroupBlock|null findOneBy(array $criteria, array $orderBy = null)
  * @method NSGroupBlock[]    findAll()

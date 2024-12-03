@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class FontFaceController
+final readonly class FontFaceController
 {
     public function __construct(
-        private readonly FilesystemOperator $fontStorage,
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly Environment $templating,
+        private FilesystemOperator $fontStorage,
+        private ManagerRegistry $managerRegistry,
+        private Environment $templating,
     ) {
     }
 

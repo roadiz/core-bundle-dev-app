@@ -9,11 +9,11 @@ use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\TwoFactorBundle\Entity\TwoFactorUser;
 use Scheb\TwoFactorBundle\Security\TwoFactor\Provider\Totp\TotpAuthenticatorInterface;
 
-final class TwoFactorUserProvider implements TwoFactorUserProviderInterface
+final readonly class TwoFactorUserProvider implements TwoFactorUserProviderInterface
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly TotpAuthenticatorInterface $totpAuthenticator,
+        private ManagerRegistry $managerRegistry,
+        private TotpAuthenticatorInterface $totpAuthenticator,
     ) {
     }
 

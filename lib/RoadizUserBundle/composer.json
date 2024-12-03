@@ -22,7 +22,7 @@
     "require": {
         "php": ">=8.2",
         "api-platform/core": "~3.3.11",
-        "doctrine/orm": "~2.19.0",
+        "doctrine/orm": "~2.20.0",
         "roadiz/core-bundle": "2.4.x-dev",
         "symfony/framework-bundle": "6.4.*",
         "symfony/lock": "6.4.*",

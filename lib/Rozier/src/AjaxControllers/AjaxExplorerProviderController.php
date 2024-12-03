@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
-use JMS\Serializer\SerializerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -13,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Explorer\ExplorerProviderInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class AjaxExplorerProviderController extends AbstractAjaxController
 {

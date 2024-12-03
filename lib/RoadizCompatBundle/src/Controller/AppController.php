@@ -9,13 +9,10 @@ use Psr\Container\NotFoundExceptionInterface;
 use RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface;
 use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Exception\ThemeClassNotValidException;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\String\UnicodeString;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
@@ -27,7 +24,6 @@ use Twig\Error\SyntaxError;
 abstract class AppController extends Controller
 {
     public const AJAX_TOKEN_INTENTION = 'ajax';
-    public const SCHEMA_TOKEN_INTENTION = 'update_schema';
 
     /**
      * @var int theme priority to load templates and translation in the right order
@@ -157,7 +153,7 @@ abstract class AppController extends Controller
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws \ReflectionException|ThemeClassNotValidException
      */
     public static function getTranslationsFolder(): string
     {
@@ -173,7 +169,7 @@ abstract class AppController extends Controller
     }
 
     /**
-     * @throws \ReflectionException
+     * @throws \ReflectionException|ThemeClassNotValidException
      */
     public static function getViewsFolder(): string
     {
@@ -188,51 +184,12 @@ abstract class AppController extends Controller
     /**
      * Prepare base information to be rendered in twig templates.
      *
-     * ## Available contents
-     *
-     * - request: Main request object
-     * - head
-     *     - ajax: `boolean`
-     *     - cmsVersion
-     *     - cmsVersionNumber
-     *     - cmsBuild
-     *     - devMode: `boolean`
-     *     - baseUrl
-     *     - filesUrl
-     *     - resourcesUrl
-     *     - absoluteResourcesUrl
-     *     - staticDomainName
-     *     - ajaxToken
-     *     - fontToken
-     *     - universalAnalyticsId
-     * - session
-     *     - messages
-     *     - id
-     *     - user
-     * - bags
-     *     - nodeTypes (ParametersBag)
-     *     - settings (ParametersBag)
-     *     - roles (ParametersBag)
-     * - securityAuthorizationChecker
-     *
      * @return $this
      *
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
+     * @deprecated Use direct assignation in your controller actions and Twig extensions
      */
     public function prepareBaseAssignation(): static
     {
-        /** @var KernelInterface $kernel */
-        $kernel = $this->container->get('kernel');
-        $this->assignation = [
-            'head' => [
-                'ajax' => $this->getRequest()->isXmlHttpRequest(),
-                'devMode' => $kernel->isDebug(),
-                'maintenanceMode' => (bool) $this->getSettingsBag()->get('maintenance_mode'),
-                'baseUrl' => $this->getRequest()->getSchemeAndHttpHost().$this->getRequest()->getBasePath(),
-            ],
-        ];
-
         return $this;
     }
 
@@ -291,45 +248,20 @@ abstract class AppController extends Controller
     /**
      * Publish a confirmation message in Session flash bag and
      * logger interface.
+     *
+     * @deprecated Use LogTrail instead
      */
     public function publishConfirmMessage(Request $request, string $msg, ?object $source = null): void
     {
-        $this->publishMessage($request, $msg, 'confirm', $source);
-    }
-
-    /**
-     * Publish a message in Session flash bag and
-     * logger interface.
-     */
-    protected function publishMessage(
-        Request $request,
-        string $msg,
-        string $level = 'confirm',
-        ?object $source = null,
-    ): void {
-        $session = $this->getSession();
-        if ($session instanceof Session) {
-            $session->getFlashBag()->add($level, $msg);
-        }
-
-        switch ($level) {
-            case 'error':
-            case 'danger':
-            case 'fail':
-                $this->getLogger()->error($msg, ['entity' => $source]);
-                break;
-            default:
-                $this->getLogger()->info($msg, ['entity' => $source]);
-                break;
-        }
+        $this->container->get(LogTrail::class)->publishConfirmMessage($request, $msg, $source);
     }
 
     /**
      * Returns the current session.
      */
-    public function getSession(): ?SessionInterface
+    public function getSession(?Request $request = null): ?SessionInterface
     {
-        $request = $this->getRequest();
+        $request = $request ?? $this->getRequest();
 
         return $request->hasPreviousSession() ? $request->getSession() : null;
     }
@@ -337,89 +269,24 @@ abstract class AppController extends Controller
     /**
      * Publish an error message in Session flash bag and
      * logger interface.
+     *
+     * @deprecated Use LogTrail instead
      */
     public function publishErrorMessage(Request $request, string $msg, ?object $source = null): void
     {
-        $this->publishMessage($request, $msg, 'error', $source);
+        $this->container->get(LogTrail::class)->publishErrorMessage($request, $msg, $source);
     }
 
     /**
      * Generate a simple view to inform visitors that website is
      * currently unavailable.
-     *
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
      */
     public function maintenanceAction(Request $request): Response
     {
-        $this->prepareBaseAssignation();
-
         return new Response(
             $this->renderView('maintenance.html.twig', $this->assignation),
             Response::HTTP_SERVICE_UNAVAILABLE,
             ['content-type' => 'text/html']
         );
-    }
-
-    /**
-     * Make current response cacheable by reverse proxy and browsers.
-     *
-     * Pay attention that, some reverse proxies systems will need to remove your response
-     * cookies header to actually save your response.
-     *
-     * Do not cache, if
-     * - we are in preview mode
-     * - we are in debug mode
-     * - Request forbids cache
-     * - we are in maintenance mode
-     * - this is a sub-request
-     *
-     * @param int  $minutes          TTL in minutes
-     * @param bool $allowClientCache Allows browser level cache
-     *
-     * @deprecated Use stateless routes and cache-control headers in your controllers
-     */
-    public function makeResponseCachable(
-        Request $request,
-        Response $response,
-        int $minutes,
-        bool $allowClientCache = false,
-    ): Response {
-        /** @var Kernel $kernel */
-        $kernel = $this->container->get('kernel');
-        /** @var RequestStack $requestStack */
-        $requestStack = $this->container->get(RequestStack::class);
-        $settings = $this->getSettingsBag();
-
-        if (
-            !$this->getPreviewResolver()->isPreview()
-            && !$kernel->isDebug()
-            && $requestStack->getMainRequest() === $request
-            && $request->isMethodCacheable()
-            && $minutes > 0
-            && !$settings->get('maintenance_mode', false)
-        ) {
-            header_remove('Cache-Control');
-            header_remove('Vary');
-            $response->headers->remove('cache-control');
-            $response->headers->remove('vary');
-            $response->setPublic();
-            $response->setSharedMaxAge(60 * $minutes);
-            $response->headers->addCacheControlDirective('must-revalidate', true);
-
-            if ($allowClientCache) {
-                $response->setMaxAge(60 * $minutes);
-            }
-
-            $response->setVary('Accept-Encoding, X-Partial, x-requested-with');
-
-            if ($request->isXmlHttpRequest()) {
-                $response->headers->add([
-                    'X-Partial' => true,
-                ]);
-            }
-        }
-
-        return $response;
     }
 }

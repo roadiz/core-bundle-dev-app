@@ -163,10 +163,9 @@ class Role implements PersistableInterface
      * Get a classified version of current role name.
      *
      * It replaces underscores by dashes and lowercase.
-     *
-     * @Serializer\Groups({"role"})
      */
     #[SymfonySerializer\Groups(['role'])]
+    #[Serializer\Groups(['role'])]
     public function getClassName(): string
     {
         return str_replace('_', '-', \mb_strtolower($this->getRole()));

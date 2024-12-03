@@ -6,12 +6,12 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 final class AjaxCustomFormsExplorerController extends AbstractAjaxController
 {

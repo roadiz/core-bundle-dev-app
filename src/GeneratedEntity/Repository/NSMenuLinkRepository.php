@@ -19,7 +19,6 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @extends NodesSourcesRepository<NSMenuLink>
- *
  * @method NSMenuLink|null find($id, $lockMode = null, $lockVersion = null)
  * @method NSMenuLink|null findOneBy(array $criteria, array $orderBy = null)
  * @method NSMenuLink[]    findAll()

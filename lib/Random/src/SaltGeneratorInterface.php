@@ -6,8 +6,5 @@ namespace RZ\Roadiz\Random;
 
 interface SaltGeneratorInterface
 {
-    /**
-     * @return string
-     */
-    public function generateSalt();
+    public function generateSalt(): string;
 }
