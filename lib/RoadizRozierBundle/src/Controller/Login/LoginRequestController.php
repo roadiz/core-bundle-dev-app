@@ -6,17 +6,18 @@ namespace RZ\Roadiz\RozierBundle\Controller\Login;
 
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
+use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Form\LoginRequestForm;
 use RZ\Roadiz\CoreBundle\Security\User\UserViewer;
 use RZ\Roadiz\CoreBundle\Traits\LoginRequestTrait;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Themes\Rozier\RozierApp;
-use Twig\Error\RuntimeError;
 
-final class LoginRequestController extends RozierApp
+final class LoginRequestController extends AbstractController
 {
     use LoginRequestTrait;
 
@@ -24,6 +25,7 @@ final class LoginRequestController extends RozierApp
         private readonly LoggerInterface $logger,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly UserViewer $userViewer,
+        private readonly ManagerRegistry $managerRegistry,
     ) {
     }
 
@@ -33,7 +35,6 @@ final class LoginRequestController extends RozierApp
     }
 
     /**
-     * @throws RuntimeError
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -46,7 +47,7 @@ final class LoginRequestController extends RozierApp
             if ($form->isValid()) {
                 $this->sendConfirmationEmail(
                     $form,
-                    $this->em(),
+                    $this->managerRegistry->getManagerForClass(User::class),
                     $this->logger,
                     $this->urlGenerator
                 );
@@ -61,16 +62,13 @@ final class LoginRequestController extends RozierApp
             );
         }
 
-        $this->assignation['form'] = $form->createView();
-
-        return $this->render('@RoadizRozier/login/request.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/login/request.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
-    /**
-     * @throws RuntimeError
-     */
     public function confirmAction(): Response
     {
-        return $this->render('@RoadizRozier/login/requestConfirm.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/login/requestConfirm.html.twig');
     }
 }

@@ -27,6 +27,7 @@ use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\NodeIndexer;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\Documents\MediaFinders\RandomImageFinder;
 use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
@@ -67,6 +68,7 @@ abstract class Controller extends AbstractController
             'em' => EntityManagerInterface::class,
             'event_dispatcher' => 'event_dispatcher',
             EventDispatcherInterface::class => EventDispatcherInterface::class,
+            LogTrail::class => LogTrail::class,
             'kernel' => KernelInterface::class,
             'logger' => LoggerInterface::class,
             'nodeApi' => NodeApi::class,
@@ -313,7 +315,8 @@ abstract class Controller extends AbstractController
      * @param mixed  $data    The initial data for the form
      * @param array  $options Options for the form
      *
-     * @deprecated Use constructor service injection
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     protected function createNamedFormBuilder(string $name = 'form', mixed $data = null, array $options = []): FormBuilderInterface
     {
@@ -327,6 +330,9 @@ abstract class Controller extends AbstractController
      * Creates and returns an EntityListManager instance.
      *
      * @param class-string<PersistableInterface> $entity Entity class path
+     *
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function createEntityListManager(string $entity, array $criteria = [], array $ordering = []): EntityListManagerInterface
     {

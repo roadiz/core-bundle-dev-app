@@ -7,13 +7,13 @@ namespace RZ\Roadiz\TwoFactorBundle\Controller;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\TwoFactorBundle\Entity\TwoFactorUser;
 use RZ\Roadiz\TwoFactorBundle\Security\Provider\TwoFactorUserProviderInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Themes\Rozier\RozierApp;
 
-final class BackupCodesAdminController extends RozierApp
+final class BackupCodesAdminController extends AbstractController
 {
     public function __construct(
         private readonly TwoFactorUserProviderInterface $twoFactorUserProvider,
@@ -39,12 +39,13 @@ final class BackupCodesAdminController extends RozierApp
 
         $form = $this->createForm(FormType::class);
         $form->handleRequest($request);
+        $assignation = [];
         if ($form->isSubmitted() && $form->isValid()) {
             $backupCodes = $this->twoFactorUserProvider->generateBackupCodes($twoFactorUser);
-            $this->assignation['backupCodes'] = $backupCodes;
+            $assignation['backupCodes'] = $backupCodes;
         }
-        $this->assignation['form'] = $form->createView();
+        $assignation['form'] = $form->createView();
 
-        return $this->render('@RoadizTwoFactor/admin/backup_codes.html.twig', $this->assignation);
+        return $this->render('@RoadizTwoFactor/admin/backup_codes.html.twig', $assignation);
     }
 }

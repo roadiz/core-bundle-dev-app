@@ -6,11 +6,11 @@ namespace RZ\Roadiz\RozierBundle\Controller\Document;
 
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\Documents\DocumentFinderInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Themes\Rozier\RozierApp;
 
-class DocumentPreviewController extends RozierApp
+class DocumentPreviewController extends AbstractController
 {
     private DocumentFinderInterface $documentFinder;
 
@@ -19,17 +19,14 @@ class DocumentPreviewController extends RozierApp
         $this->documentFinder = $documentFinder;
     }
 
-    /**
-     * @throws \Twig\Error\RuntimeError
-     */
     public function previewAction(Request $request, Document $documentId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
         $document = $documentId;
-
-        $this->assignation['document'] = $document;
-        $this->assignation['thumbnailFormat'] = [
+        $assignation = [];
+        $assignation['document'] = $document;
+        $assignation['thumbnailFormat'] = [
             'width' => 750,
             'controls' => true,
             'srcset' => [
@@ -66,19 +63,19 @@ class DocumentPreviewController extends RozierApp
         $otherAudios = $this->documentFinder->findAudiosWithFilename($document->getFilename());
         $otherPictures = $this->documentFinder->findPicturesWithFilename($document->getFilename());
 
-        $this->assignation['otherVideos'] = $otherVideos;
-        $this->assignation['otherAudios'] = $otherAudios;
-        $this->assignation['otherPictures'] = $otherPictures;
-        $this->assignation['thumbnailFormat']['picture'] = true;
-        $this->assignation['infos'] = [];
+        $assignation['otherVideos'] = $otherVideos;
+        $assignation['otherAudios'] = $otherAudios;
+        $assignation['otherPictures'] = $otherPictures;
+        $assignation['thumbnailFormat']['picture'] = true;
+        $assignation['infos'] = [];
         if ($document->isProcessable() || $document->isSvg()) {
-            $this->assignation['infos']['width'] = $document->getImageWidth().'px';
-            $this->assignation['infos']['height'] = $document->getImageHeight().'px';
+            $assignation['infos']['width'] = $document->getImageWidth().'px';
+            $assignation['infos']['height'] = $document->getImageHeight().'px';
         }
         if ($document->getMediaDuration() > 0) {
-            $this->assignation['infos']['duration'] = $document->getMediaDuration().' sec';
+            $assignation['infos']['duration'] = $document->getMediaDuration().' sec';
         }
 
-        return $this->render('@RoadizRozier/documents/preview.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/documents/preview.html.twig', $assignation);
     }
 }

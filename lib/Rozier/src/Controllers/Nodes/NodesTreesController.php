@@ -41,9 +41,6 @@ class NodesTreesController extends RozierApp
     ) {
     }
 
-    /**
-     * @throws RuntimeError
-     */
     public function treeAction(Request $request, ?int $nodeId = null, ?int $translationId = null): Response
     {
         if (null !== $nodeId) {

@@ -42,8 +42,6 @@ class NodesSourcesController extends RozierApp
 
     /**
      * Return an edition form for requested node.
-     *
-     * @throws RuntimeError
      */
     public function editSourceAction(Request $request, int $nodeId, int $translationId): Response
     {

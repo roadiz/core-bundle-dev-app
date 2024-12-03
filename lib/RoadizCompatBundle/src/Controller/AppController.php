@@ -9,9 +9,9 @@ use Psr\Container\NotFoundExceptionInterface;
 use RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface;
 use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Exception\ThemeClassNotValidException;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\String\UnicodeString;
 use Twig\Error\LoaderError;
@@ -248,37 +248,12 @@ abstract class AppController extends Controller
     /**
      * Publish a confirmation message in Session flash bag and
      * logger interface.
+     *
+     * @deprecated Use LogTrail instead
      */
     public function publishConfirmMessage(Request $request, string $msg, ?object $source = null): void
     {
-        $this->publishMessage($request, $msg, 'confirm', $source);
-    }
-
-    /**
-     * Publish a message in Session flash bag and
-     * logger interface.
-     */
-    protected function publishMessage(
-        Request $request,
-        string $msg,
-        string $level = 'confirm',
-        ?object $source = null,
-    ): void {
-        $session = $this->getSession($request);
-        if ($session instanceof Session) {
-            $session->getFlashBag()->add($level, $msg);
-        }
-
-        switch ($level) {
-            case 'error':
-            case 'danger':
-            case 'fail':
-                $this->getLogger()->error($msg, ['entity' => $source]);
-                break;
-            default:
-                $this->getLogger()->info($msg, ['entity' => $source]);
-                break;
-        }
+        $this->container->get(LogTrail::class)->publishConfirmMessage($request, $msg, $source);
     }
 
     /**
@@ -294,10 +269,12 @@ abstract class AppController extends Controller
     /**
      * Publish an error message in Session flash bag and
      * logger interface.
+     *
+     * @deprecated Use LogTrail instead
      */
     public function publishErrorMessage(Request $request, string $msg, ?object $source = null): void
     {
-        $this->publishMessage($request, $msg, 'error', $source);
+        $this->container->get(LogTrail::class)->publishErrorMessage($request, $msg, $source);
     }
 
     /**

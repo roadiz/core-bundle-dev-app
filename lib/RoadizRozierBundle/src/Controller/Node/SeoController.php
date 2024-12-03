@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\Controller\Node;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Redirection;
@@ -19,20 +20,29 @@ use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Exception\NoTranslationAvailableException;
 use RZ\Roadiz\CoreBundle\Form\UrlAliasType;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Forms\NodeSource\NodeSourceSeoType;
 use Themes\Rozier\Forms\RedirectionType;
-use Themes\Rozier\RozierApp;
 
-final class SeoController extends RozierApp
+final class SeoController extends AbstractController
 {
-    public function __construct(private readonly FormFactoryInterface $formFactory)
-    {
+    public function __construct(
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly LogTrail $logTrail,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly FormFactoryInterface $formFactory,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     public function editAliasesAction(
@@ -41,7 +51,7 @@ final class SeoController extends RozierApp
         ?Translation $translationId = null,
     ): Response {
         if (null === $translationId) {
-            $translation = $this->em()->getRepository(Translation::class)->findDefault();
+            $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
         } else {
             $translation = $translationId;
         }
@@ -59,24 +69,25 @@ final class SeoController extends RozierApp
         }
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $source);
 
-        $redirections = $this->em()
+        $redirections = $this->managerRegistry
             ->getRepository(Redirection::class)
             ->findBy([
                 'redirectNodeSource' => $node->getNodeSources()->toArray(),
             ]);
-        $uas = $this->em()
+        $uas = $this->managerRegistry
                     ->getRepository(UrlAlias::class)
                     ->findAllFromNode($node->getId());
-        $availableTranslations = $this->em()
+        $availableTranslations = $this->managerRegistry
             ->getRepository(Translation::class)
             ->findAvailableTranslationsForNode($node);
 
-        $this->assignation['node'] = $node;
-        $this->assignation['source'] = $source;
-        $this->assignation['aliases'] = [];
-        $this->assignation['redirections'] = [];
-        $this->assignation['translation'] = $translation;
-        $this->assignation['available_translations'] = $availableTranslations;
+        $assignation = [];
+        $assignation['node'] = $node;
+        $assignation['source'] = $source;
+        $assignation['aliases'] = [];
+        $assignation['redirections'] = [];
+        $assignation['translation'] = $translation;
+        $assignation['available_translations'] = $availableTranslations;
 
         /*
          * SEO Form
@@ -84,13 +95,13 @@ final class SeoController extends RozierApp
         $seoForm = $this->createForm(NodeSourceSeoType::class, $source);
         $seoForm->handleRequest($request);
         if ($seoForm->isSubmitted() && $seoForm->isValid()) {
-            $this->em()->flush();
-            $msg = $this->getTranslator()->trans('node.seo.updated');
-            $this->publishConfirmMessage($request, $msg, $source);
+            $this->managerRegistry->getManagerForClass(NodesSources::class)->flush();
+            $msg = $this->translator->trans('node.seo.updated');
+            $this->logTrail->publishConfirmMessage($request, $msg, $source);
             /*
              * Dispatch event
              */
-            $this->dispatchEvent(new NodesSourcesUpdatedEvent($source));
+            $this->eventDispatcher->dispatch(new NodesSourcesUpdatedEvent($source));
 
             return $this->redirectToRoute(
                 'nodesEditSEOPage',
@@ -98,7 +109,7 @@ final class SeoController extends RozierApp
             );
         }
 
-        if (null !== $response = $this->handleAddRedirection($source, $request)) {
+        if (null !== $response = $this->handleAddRedirection($source, $request, $assignation)) {
             return $response;
         }
         /*
@@ -106,14 +117,14 @@ final class SeoController extends RozierApp
          */
         /** @var UrlAlias $alias */
         foreach ($uas as $alias) {
-            if (null !== $response = $this->handleSingleUrlAlias($alias, $request)) {
+            if (null !== $response = $this->handleSingleUrlAlias($alias, $request, $assignation)) {
                 return $response;
             }
         }
 
         /** @var Redirection $redirection */
         foreach ($redirections as $redirection) {
-            if (null !== $response = $this->handleSingleRedirection($redirection, $request)) {
+            if (null !== $response = $this->handleSingleRedirection($redirection, $request, $assignation)) {
                 return $response;
             }
         }
@@ -134,15 +145,15 @@ final class SeoController extends RozierApp
         if ($addAliasForm->isSubmitted() && $addAliasForm->isValid()) {
             try {
                 $alias = $this->addNodeUrlAlias($alias, $node, $addAliasForm->get('translation')->getData());
-                $msg = $this->getTranslator()->trans('url_alias.%alias%.created.%translation%', [
+                $msg = $this->translator->trans('url_alias.%alias%.created.%translation%', [
                     '%alias%' => $alias->getAlias(),
                     '%translation%' => $alias->getNodeSource()->getTranslation()->getName(),
                 ]);
-                $this->publishConfirmMessage($request, $msg, $source);
+                $this->logTrail->publishConfirmMessage($request, $msg, $source);
                 /*
                  * Dispatch event
                  */
-                $this->dispatchEvent(new UrlAliasCreatedEvent($alias));
+                $this->eventDispatcher->dispatch(new UrlAliasCreatedEvent($alias));
 
                 return $this->redirect($this->generateUrl(
                     'nodesEditSEOPage',
@@ -155,18 +166,19 @@ final class SeoController extends RozierApp
             }
         }
 
-        $this->assignation['form'] = $addAliasForm->createView();
+        $assignation['form'] = $addAliasForm->createView();
         if ($source->isReachable()) {
-            $this->assignation['seoForm'] = $seoForm->createView();
+            $assignation['seoForm'] = $seoForm->createView();
         }
 
-        return $this->render('@RoadizRozier/nodes/editAliases.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/nodes/editAliases.html.twig', $assignation);
     }
 
     private function addNodeUrlAlias(UrlAlias $alias, Node $node, Translation $translation): UrlAlias
     {
+        $entityManager = $this->managerRegistry->getManagerForClass(UrlAlias::class);
         /** @var NodesSources|null $nodeSource */
-        $nodeSource = $this->em()
+        $nodeSource = $this->managerRegistry
                            ->getRepository(NodesSources::class)
                            ->setDisplayingAllNodesStatuses(true)
                            ->setDisplayingNotPublishedNodes(true)
@@ -174,20 +186,24 @@ final class SeoController extends RozierApp
 
         if (null !== $nodeSource) {
             $alias->setNodeSource($nodeSource);
-            $this->em()->persist($alias);
-            $this->em()->flush();
+            $entityManager->persist($alias);
+            $entityManager->flush();
 
             return $alias;
         } else {
-            $msg = $this->getTranslator()->trans('url_alias.no_translation.%translation%', [
+            $msg = $this->translator->trans('url_alias.no_translation.%translation%', [
                 '%translation%' => $translation->getName(),
             ]);
             throw new NoTranslationAvailableException($msg);
         }
     }
 
-    private function handleSingleUrlAlias(UrlAlias $alias, Request $request): ?RedirectResponse
-    {
+    private function handleSingleUrlAlias(
+        UrlAlias $alias,
+        Request $request,
+        array &$assignation,
+    ): ?RedirectResponse {
+        $entityManager = $this->managerRegistry->getManagerForClass(UrlAlias::class);
         $editForm = $this->formFactory->createNamed(
             'edit_urlalias_'.$alias->getId(),
             UrlAliasType::class,
@@ -198,47 +214,45 @@ final class SeoController extends RozierApp
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             try {
-                try {
-                    $this->em()->flush();
-                    $msg = $this->getTranslator()->trans(
-                        'url_alias.%alias%.updated',
-                        ['%alias%' => $alias->getAlias()]
-                    );
-                    $this->publishConfirmMessage($request, $msg, $alias->getNodeSource());
-                    /*
-                     * Dispatch event
-                     */
-                    $this->dispatchEvent(new UrlAliasUpdatedEvent($alias));
-                    /** @var Translation $translation */
-                    $translation = $alias->getNodeSource()->getTranslation();
+                $entityManager->flush();
+                $msg = $this->translator->trans(
+                    'url_alias.%alias%.updated',
+                    ['%alias%' => $alias->getAlias()]
+                );
+                $this->logTrail->publishConfirmMessage($request, $msg, $alias->getNodeSource());
+                /*
+                 * Dispatch event
+                 */
+                $this->eventDispatcher->dispatch(new UrlAliasUpdatedEvent($alias));
+                /** @var Translation $translation */
+                $translation = $alias->getNodeSource()->getTranslation();
 
-                    return $this->redirect($this->generateUrl(
-                        'nodesEditSEOPage',
-                        [
-                            'nodeId' => $alias->getNodeSource()->getNode()->getId(),
-                            'translationId' => $translation->getId(),
-                        ]
-                    ).'#manage-aliases');
-                } catch (\RuntimeException $exception) {
-                    $editForm->addError(new FormError($exception->getMessage()));
-                }
+                return $this->redirect($this->generateUrl(
+                    'nodesEditSEOPage',
+                    [
+                        'nodeId' => $alias->getNodeSource()->getNode()->getId(),
+                        'translationId' => $translation->getId(),
+                    ]
+                ).'#manage-aliases');
             } catch (EntityAlreadyExistsException $e) {
                 $editForm->addError(new FormError($e->getMessage()));
+            } catch (\RuntimeException $exception) {
+                $editForm->addError(new FormError($exception->getMessage()));
             }
         }
 
         // Match delete
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-            $this->em()->remove($alias);
-            $this->em()->flush();
-            $msg = $this->getTranslator()->trans('url_alias.%alias%.deleted', ['%alias%' => $alias->getAlias()]);
-            $this->publishConfirmMessage($request, $msg, $alias->getNodeSource());
+            $entityManager->remove($alias);
+            $entityManager->flush();
+            $msg = $this->translator->trans('url_alias.%alias%.deleted', ['%alias%' => $alias->getAlias()]);
+            $this->logTrail->publishConfirmMessage($request, $msg, $alias->getNodeSource());
 
             /*
              * Dispatch event
              */
-            $this->dispatchEvent(new UrlAliasDeletedEvent($alias));
+            $this->eventDispatcher->dispatch(new UrlAliasDeletedEvent($alias));
 
             /** @var Translation $translation */
             $translation = $alias->getNodeSource()->getTranslation();
@@ -252,7 +266,7 @@ final class SeoController extends RozierApp
             ).'#manage-aliases');
         }
 
-        $this->assignation['aliases'][] = [
+        $assignation['aliases'][] = [
             'alias' => $alias,
             'editForm' => $editForm->createView(),
             'deleteForm' => $deleteForm->createView(),
@@ -261,8 +275,12 @@ final class SeoController extends RozierApp
         return null;
     }
 
-    private function handleAddRedirection(NodesSources $source, Request $request): ?RedirectResponse
-    {
+    private function handleAddRedirection(
+        NodesSources $source,
+        Request $request,
+        array &$assignation,
+    ): ?RedirectResponse {
+        $entityManager = $this->managerRegistry->getManagerForClass(Redirection::class);
         $redirection = new Redirection();
         $redirection->setRedirectNodeSource($source);
         $redirection->setType(Response::HTTP_MOVED_PERMANENTLY);
@@ -272,16 +290,19 @@ final class SeoController extends RozierApp
             RedirectionType::class,
             $redirection,
             [
-                'placeholder' => $this->generateUrl($source),
+                'placeholder' => $this->generateUrl(
+                    RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
+                    [RouteObjectInterface::ROUTE_OBJECT => $source]
+                ),
                 'only_query' => true,
             ]
         );
 
         $addForm->handleRequest($request);
         if ($addForm->isSubmitted() && $addForm->isValid()) {
-            $this->em()->persist($redirection);
-            $this->em()->flush();
-            $this->dispatchEvent(new PostCreatedRedirectionEvent($redirection));
+            $entityManager->persist($redirection);
+            $entityManager->flush();
+            $this->eventDispatcher->dispatch(new PostCreatedRedirectionEvent($redirection));
 
             /** @var Translation $translation */
             $translation = $redirection->getRedirectNodeSource()->getTranslation();
@@ -296,14 +317,18 @@ final class SeoController extends RozierApp
         }
 
         if ($source->isReachable()) {
-            $this->assignation['addRedirection'] = $addForm->createView();
+            $assignation['addRedirection'] = $addForm->createView();
         }
 
         return null;
     }
 
-    private function handleSingleRedirection(Redirection $redirection, Request $request): ?RedirectResponse
-    {
+    private function handleSingleRedirection(
+        Redirection $redirection,
+        Request $request,
+        array &$assignation,
+    ): ?RedirectResponse {
+        $entityManager = $this->managerRegistry->getManagerForClass(Redirection::class);
         $editForm = $this->formFactory->createNamed(
             'edit_redirection_'.$redirection->getId(),
             RedirectionType::class,
@@ -315,13 +340,12 @@ final class SeoController extends RozierApp
 
         /** @var Translation $translation */
         $translation = $redirection->getRedirectNodeSource()->getTranslation();
-
         $deleteForm = $this->formFactory->createNamed('delete_redirection_'.$redirection->getId());
 
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->em()->flush();
-            $this->dispatchEvent(new PostUpdatedRedirectionEvent($redirection));
+            $entityManager->flush();
+            $this->eventDispatcher->dispatch(new PostUpdatedRedirectionEvent($redirection));
 
             return $this->redirect($this->generateUrl(
                 'nodesEditSEOPage',
@@ -335,9 +359,9 @@ final class SeoController extends RozierApp
         // Match delete
         $deleteForm->handleRequest($request);
         if ($deleteForm->isSubmitted() && $deleteForm->isValid()) {
-            $this->em()->remove($redirection);
-            $this->em()->flush();
-            $this->dispatchEvent(new PostCreatedRedirectionEvent($redirection));
+            $entityManager->remove($redirection);
+            $entityManager->flush();
+            $this->eventDispatcher->dispatch(new PostCreatedRedirectionEvent($redirection));
 
             return $this->redirect($this->generateUrl(
                 'nodesEditSEOPage',
@@ -347,7 +371,7 @@ final class SeoController extends RozierApp
                 ]
             ).'#manage-redirections');
         }
-        $this->assignation['redirections'][] = [
+        $assignation['redirections'][] = [
             'redirection' => $redirection,
             'editForm' => $editForm->createView(),
             'deleteForm' => $deleteForm->createView(),
