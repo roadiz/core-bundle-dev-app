@@ -2530,7 +2530,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer" approved="yes">
         <source>are_you_sure.delete.customFormAnswer</source>
-        <target state="final">Are you sure you want to delete delete this answer</target>
+        <target state="final">Are you sure you want to delete this answer?</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%" approved="yes">
         <source>delete.customFormAnswer.%name%</source>
