@@ -71,7 +71,6 @@ usermod -u ${UID} mysql
 groupmod -g ${GID} mysql
 EOF
 
-
 ###########
 # Varnish #
 ###########
@@ -81,7 +80,6 @@ FROM varnish:${VARNISH_VERSION} AS varnish
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
 COPY --link docker/varnish/default.vcl /etc/varnish/
-
 
 #######
 # PHP #
@@ -145,6 +143,94 @@ EOF
 
 WORKDIR /app
 
+####################
+# PHP - FRANKENPHP #
+####################
+
+FROM dunglas/frankenphp:php${PHP_VERSION}-bookworm AS php-franken
+
+LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com, eliot@rezo-zero.com"
+
+ARG UID
+ARG GID
+
+ARG COMPOSER_VERSION=2.8.1
+ARG PHP_EXTENSION_INSTALLER_VERSION=2.6.0
+ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
+
+SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
+
+ENV APP_FFMPEG_PATH=/usr/bin/ffmpeg
+ENV APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime
+ENV FRANKENPHP_CONFIG="worker ./public/index.php"
+
+RUN <<EOF
+apt-get --quiet update
+apt-get --quiet --yes --purge --autoremove upgrade
+# Packages - System
+apt-get --quiet --yes --no-install-recommends --verbose-versions install \
+    acl \
+    less \
+    sudo \
+    ffmpeg
+rm -rf /var/lib/apt/lists/*
+
+# User
+addgroup --gid ${UID} php
+adduser --home /home/php --shell /bin/bash --uid ${GID} --gecos php --ingroup php --disabled-password php
+echo "php ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/php
+
+# App
+install --verbose --owner php --group php --mode 0755 --directory /app
+
+# Php extensions
+install-php-extensions \
+    @composer-${COMPOSER_VERSION} \
+    fileinfo \
+    gd \
+    imagick \
+    iconv \
+    intl \
+    json \
+    mbstring \
+    opcache \
+    openssl \
+    pcntl \
+    pdo_mysql \
+    simplexml \
+    xsl \
+    zip \
+    redis-${PHP_EXTENSION_REDIS_VERSION}
+
+setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp
+
+chown --recursive ${UID}:${GID} /data/caddy /config/caddy
+
+EOF
+
+COPY --link docker/frankenphp/conf.d/app.ini ${PHP_INI_DIR}/conf.d/
+COPY --link --chmod=755 docker/frankenphp/docker-entrypoint.dev /usr/local/bin/docker-entrypoint
+COPY --link docker/frankenphp/Caddyfile /etc/caddy/Caddyfile
+
+ENTRYPOINT ["docker-entrypoint"]
+
+WORKDIR /app
+
+#######################
+# Php - franken - Dev #
+#######################
+
+FROM php-franken AS php-dev-franken
+
+ENV XDEBUG_MODE=off
+
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
+COPY --link docker/frankenphp/conf.d/app.dev.ini ${PHP_INI_DIR}/conf.d/
+
+CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
+
+USER php
 
 #############
 # Php - Dev #
@@ -163,7 +249,6 @@ ENTRYPOINT ["docker-entrypoint"]
 CMD ["php-fpm"]
 
 USER php
-
 
 ##############
 # Cron - Dev #
@@ -189,7 +274,6 @@ COPY --link --chmod=755 docker/cron/docker-cron-entrypoint.dev /usr/local/bin/do
 ENTRYPOINT ["docker-entrypoint"]
 
 USER root
-
 
 #########
 # Nginx #

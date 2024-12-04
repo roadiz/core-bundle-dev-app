@@ -8,10 +8,50 @@ services:
     solr:
         ports:
             - "${PUBLIC_SOLR_PORT}:8983/tcp"
-    nginx:
-        ports:
-            - ${PUBLIC_APP_PORT}:80/tcp
+
+    # Override app service if you use frankenphp
+#    app:
+#        build:
+#             target: php-dev-franken
+#             args:
+#                UID: ${UID:-1000}
+#        ports:
+#            - ${PUBLIC_APP_PORT}:80/tcp
+#        tty: true
+#        volumes:
+#            - ./:/app
+#            - ./docker/frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro
+#            - ./docker/frankenphp/conf.d/app.dev.ini:/usr/local/etc/php/conf.d/app.dev.ini:ro
+#            - caddy_data:/data
+#            - caddy_config:/config
+#        environment:
+#            PHP_CS_FIXER_IGNORE_ENV: 1
+#            TRUSTED_PROXIES: ${TRUSTED_PROXIES}
+#            UID: ${UID}
+#            DEFAULT_GATEWAY: ${DEFAULT_GATEWAY}
+#            DATABASE_URL: ${DATABASE_URL}
+#            SERVER_NAME: :80
+
+    # Uncomment next line if you use Frankenphp
+#    varnish:
+#        entrypoint: ["echo", "Service varnish disabled"]
+
+#    nginx:
+        # Uncomment ports if you use nginx
+#        ports:
+#            - ${PUBLIC_APP_PORT}:80/tcp
+        # Comment ports and uncomment next line if you use Frankenphp
+#        entrypoint: ["echo", "Service nginx disabled"]
+
+
     mailer:
         ports:
             - ${PUBLIC_MAILER_PORT}:8025/tcp
             - ${SMTP_MAILER_PORT}:1025/tcp
+
+volumes:
+    redis:
+    solr_data:
+    # Declare caddy_data and caddy_config volumes if you use Frankenphp
+#    caddy_data:
+#    caddy_config:

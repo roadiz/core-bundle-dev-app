@@ -1,0 +1,27 @@
+{
+	{$CADDY_GLOBAL_OPTIONS}
+
+    servers {
+        trusted_proxies static 0.0.0.0/0
+    }
+
+	frankenphp {
+		{$FRANKENPHP_CONFIG}
+	}
+}
+
+{$SERVER_NAME:localhost} {
+	log {
+		# Redact the authorization query parameter that can be set by Mercure
+		format filter {
+			request>uri query {
+				replace authorization REDACTED
+			}
+		}
+	}
+
+	root * /app/public
+	encode zstd br gzip
+
+	php_server
+}
