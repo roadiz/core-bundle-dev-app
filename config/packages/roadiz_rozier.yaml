@@ -62,8 +62,7 @@ roadiz_rozier:
                     name: 'deleted.nodes'
                     route: nodesHomeDeletedPage
                     icon: uk-icon-rz-deleted-nodes
-                    roles:
-                        - EMPTY_TRASH
+                    roles: ~
                 search_nodes:
                     name: 'search.nodes'
                     route: searchNodePage

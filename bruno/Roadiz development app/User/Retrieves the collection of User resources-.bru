@@ -1,0 +1,21 @@
+meta {
+  name: Retrieves the collection of User resources-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/users
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~page: 
+  ~itemsPerPage: 
+  ~_preview: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

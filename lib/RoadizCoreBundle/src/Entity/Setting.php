@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
@@ -92,7 +93,7 @@ class Setting extends AbstractEntity
      * Value types.
      * Use NodeTypeField types constants.
      */
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::SMALLINT)]
     #[SymfonySerializer\Groups(['setting'])]
     #[Serializer\Groups(['setting'])]
     private int $type = AbstractField::STRING_T;

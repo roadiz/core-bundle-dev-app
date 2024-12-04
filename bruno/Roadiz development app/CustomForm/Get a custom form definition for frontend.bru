@@ -1,0 +1,23 @@
+meta {
+  name: Get a custom form definition for frontend
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/custom_forms/:id/definition
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

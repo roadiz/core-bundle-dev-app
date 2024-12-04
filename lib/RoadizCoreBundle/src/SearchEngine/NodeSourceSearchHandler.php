@@ -9,6 +9,7 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\SearchEngine\Event\NodeSourceSearchQueryEvent;
 
 class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourceSearchHandlerInterface
@@ -198,7 +199,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
             unset($args['node.status']);
             $args['fq'][] = $tmp;
         } else {
-            $args['fq'][] = 'node_status_i:'.(string) Node::PUBLISHED;
+            $args['fq'][] = 'node_status_i:'.(string) NodeStatus::PUBLISHED->value;
         }
 
         /*

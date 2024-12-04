@@ -1,0 +1,57 @@
+meta {
+  name: Retrieves the collection of AttributeValue resources-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/attribute_values
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~page: 
+  ~itemsPerPage: 
+  ~properties[]: 
+  ~order[position]: 
+  ~order[attribute.weight]: 
+  ~node: 
+  ~node[]: 
+  ~node.id: 
+  ~node.id[]: 
+  ~node.nodeName: 
+  ~node.nodeName[]: 
+  ~node.nodeType: 
+  ~node.nodeType[]: 
+  ~node.nodeType.name: 
+  ~node.nodeType.name[]: 
+  ~attribute.id: 
+  ~attribute.id[]: 
+  ~attribute.code: 
+  ~attribute.code[]: 
+  ~attribute.color: 
+  ~attribute.color[]: 
+  ~attribute.type: 
+  ~attribute.type[]: 
+  ~attribute.group: 
+  ~attribute.group[]: 
+  ~attribute.group.canonicalName: 
+  ~attribute.group.canonicalName[]: 
+  ~attributeValueTranslations.value: 
+  ~node.visible: 
+  ~attribute.searchable: 
+  ~exists[attribute.color]: 
+  ~exists[attribute.group]: 
+  ~exists[attributeValueTranslations.value]: 
+  ~attributeValueTranslations.value[between]: 
+  ~attributeValueTranslations.value[gt]: 
+  ~attributeValueTranslations.value[gte]: 
+  ~attributeValueTranslations.value[lt]: 
+  ~attributeValueTranslations.value[lte]: 
+  ~_preview: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

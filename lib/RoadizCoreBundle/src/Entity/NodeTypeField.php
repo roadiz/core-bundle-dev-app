@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
@@ -101,7 +102,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type']),
         Serializer\Type('int'),
-        ORM\Column(name: 'serialization_max_depth', type: 'integer', nullable: true)
+        ORM\Column(name: 'serialization_max_depth', type: Types::SMALLINT, nullable: true)
     ]
     private ?int $serializationMaxDepth = null;
 
@@ -114,7 +115,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
     private bool $excludedFromSerialization = false;
 
     #[
-        ORM\Column(name: 'min_length', type: 'integer', nullable: true),
+        ORM\Column(name: 'min_length', type: Types::SMALLINT, nullable: true),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type']),
         Serializer\Type('int')
@@ -122,7 +123,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
     private ?int $minLength = null;
 
     #[
-        ORM\Column(name: 'max_length', type: 'integer', nullable: true),
+        ORM\Column(name: 'max_length', type: Types::SMALLINT, nullable: true),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type']),
         Serializer\Type('int')

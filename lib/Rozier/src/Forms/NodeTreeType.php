@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormInterface;
@@ -89,13 +90,7 @@ class NodeTreeType extends AbstractType
         }
 
         $view->vars['nodeTree'] = $nodeTree;
-        $view->vars['nodeStatuses'] = [
-            Node::getStatusLabel(Node::DRAFT) => Node::DRAFT,
-            Node::getStatusLabel(Node::PENDING) => Node::PENDING,
-            Node::getStatusLabel(Node::PUBLISHED) => Node::PUBLISHED,
-            Node::getStatusLabel(Node::ARCHIVED) => Node::ARCHIVED,
-            Node::getStatusLabel(Node::DELETED) => Node::DELETED,
-        ];
+        $view->vars['nodeStatuses'] = NodeStatus::allLabelsAndValues();
     }
 
     public function getParent(): ?string

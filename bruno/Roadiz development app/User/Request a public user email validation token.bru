@@ -1,0 +1,16 @@
+meta {
+  name: Request a public user email validation token
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/users/validation_request
+  body: none
+  auth: none
+}
+
+script:post-response {
+  if (res.status === 201) {
+  }
+}

@@ -1,0 +1,90 @@
+meta {
+  name: Retrieve all Article ressources archives months and years
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/articles/archives
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~page: 
+  ~itemsPerPage: 
+  ~properties[]: 
+  ~order[unpublishedAt]: 
+  ~order[publishedAt]: 
+  ~unpublishedAt[before]: 
+  ~unpublishedAt[strictly_before]: 
+  ~unpublishedAt[after]: 
+  ~unpublishedAt[strictly_after]: 
+  ~publishedAt[before]: 
+  ~publishedAt[strictly_before]: 
+  ~publishedAt[after]: 
+  ~publishedAt[strictly_after]: 
+  ~title: 
+  ~metaTitle: 
+  ~metaDescription: 
+  ~publishedAt[archive]: 
+  ~noIndex: 
+  ~_locale: 
+  ~node.id: 
+  ~node.id[]: 
+  ~node.nodeName: 
+  ~node.nodeName[]: 
+  ~node.parent: 
+  ~node.parent[]: 
+  ~node.parent.nodeName: 
+  ~node.parent.nodeName[]: 
+  ~node.nodesTags.tag: 
+  ~node.nodesTags.tag[]: 
+  ~node.nodesTags.tag.tagName: 
+  ~node.nodesTags.tag.tagName[]: 
+  ~node.nodeType: 
+  ~node.nodeType[]: 
+  ~node.nodeType.name: 
+  ~node.nodeType.name[]: 
+  ~translation.id: 
+  ~translation.id[]: 
+  ~translation.locale: 
+  ~translation.locale[]: 
+  ~node.createdAt[before]: 
+  ~node.createdAt[strictly_before]: 
+  ~node.createdAt[after]: 
+  ~node.createdAt[strictly_after]: 
+  ~node.updatedAt[before]: 
+  ~node.updatedAt[strictly_before]: 
+  ~node.updatedAt[after]: 
+  ~node.updatedAt[strictly_after]: 
+  ~order[node.position]: 
+  ~order[node.createdAt]: 
+  ~order[node.updatedAt]: 
+  ~node.visible: 
+  ~node.home: 
+  ~node.nodeType.reachable: 
+  ~node.nodeType.publishable: 
+  ~node.position: 
+  ~node.position[]: 
+  ~node.position[between]: 
+  ~node.position[gt]: 
+  ~node.position[gte]: 
+  ~node.position[lt]: 
+  ~node.position[lte]: 
+  ~not[node.nodeType.name]: 
+  ~not[node.nodeType.name][]: 
+  ~not[node.id]: 
+  ~not[node.id][]: 
+  ~not[node.nodesTags.tag.tagName]: 
+  ~not[node.nodesTags.tag.tagName][]: 
+  ~intersect[node.nodesTags.tag]: 
+  ~intersect[node.nodesTags.tag][]: 
+  ~intersect[node.nodesTags.tag.tagName]: 
+  ~intersect[node.nodesTags.tag.tagName][]: 
+  ~_preview: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

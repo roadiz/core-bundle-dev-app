@@ -1,0 +1,23 @@
+meta {
+  name: Retrieves a Menu resource-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/menus/:id
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

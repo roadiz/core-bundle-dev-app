@@ -1,0 +1,53 @@
+meta {
+  name: Retrieves the collection of Document resources-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/documents
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~page: 
+  ~itemsPerPage: 
+  ~properties[]: 
+  ~order[createdAt]: 
+  ~order[updatedAt]: 
+  ~order[copyrightValidSince]: 
+  ~order[copyrightValidUntil]: 
+  ~order[filesize]: 
+  ~createdAt[before]: 
+  ~createdAt[strictly_before]: 
+  ~createdAt[after]: 
+  ~createdAt[strictly_after]: 
+  ~updatedAt[before]: 
+  ~updatedAt[strictly_before]: 
+  ~updatedAt[after]: 
+  ~updatedAt[strictly_after]: 
+  ~copyrightValidSince[before]: 
+  ~copyrightValidSince[strictly_before]: 
+  ~copyrightValidSince[after]: 
+  ~copyrightValidSince[strictly_after]: 
+  ~copyrightValidUntil[before]: 
+  ~copyrightValidUntil[strictly_before]: 
+  ~copyrightValidUntil[after]: 
+  ~copyrightValidUntil[strictly_after]: 
+  ~copyrightValid: 
+  ~embedPlatform: 
+  ~embedPlatform[]: 
+  ~filename: 
+  ~mimeType: 
+  ~mimeType[]: 
+  ~not[embedPlatform]: 
+  ~not[embedPlatform][]: 
+  ~not[mimeType]: 
+  ~not[mimeType][]: 
+  ~_preview: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

@@ -1,0 +1,23 @@
+meta {
+  name: Retrieves a CustomForm resource-
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/custom_forms/:id
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

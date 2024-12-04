@@ -1,0 +1,23 @@
+meta {
+  name: Retrieves a Document resource-
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/documents/:id
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

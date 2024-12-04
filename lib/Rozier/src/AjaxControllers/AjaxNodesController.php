@@ -312,7 +312,7 @@ final class AjaxNodesController extends AbstractAjaxController
         $this->em()->flush();
         $msg = $this->getTranslator()->trans('node.%name%.status_changed_to.%status%', [
             '%name%' => $node->getNodeName(),
-            '%status%' => $this->getTranslator()->trans(Node::getStatusLabel($node->getStatus())),
+            '%status%' => $node->getStatus()->trans($this->getTranslator()),
         ]);
         $this->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
 

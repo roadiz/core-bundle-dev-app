@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeTypeApi;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
@@ -72,7 +73,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
     protected function parseFilterFromRequest(Request $request): array
     {
         $arrayFilter = [
-            'status' => ['<=', Node::ARCHIVED],
+            'status' => ['<=', NodeStatus::ARCHIVED],
         ];
 
         if ($request->query->has('tagId') && $request->get('tagId') > 0) {

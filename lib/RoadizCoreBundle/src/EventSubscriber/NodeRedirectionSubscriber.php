@@ -14,12 +14,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Subscribe to Node, NodesSources and UrlAlias event to clear ns url cache.
  */
-class NodeRedirectionSubscriber implements EventSubscriberInterface
+readonly class NodeRedirectionSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        protected readonly NodeMover $nodeMover,
-        protected readonly string $kernelEnvironment,
-        protected readonly PreviewResolverInterface $previewResolver,
+        protected NodeMover $nodeMover,
+        protected string $kernelEnvironment,
+        protected PreviewResolverInterface $previewResolver,
     ) {
     }
 

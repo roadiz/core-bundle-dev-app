@@ -1,0 +1,86 @@
+meta {
+  name: Search NodesSources resources
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/nodes_sources/search
+  body: none
+  auth: bearer
+}
+
+params:query {
+  search: 
+  ~page: 
+  ~itemsPerPage: 
+  ~properties[]: 
+  ~_locale: 
+  ~title: 
+  ~metaTitle: 
+  ~metaDescription: 
+  ~node.id: 
+  ~node.id[]: 
+  ~node.nodeName: 
+  ~node.nodeName[]: 
+  ~node.parent: 
+  ~node.parent[]: 
+  ~node.parent.nodeName: 
+  ~node.parent.nodeName[]: 
+  ~node.nodesTags.tag: 
+  ~node.nodesTags.tag[]: 
+  ~node.nodesTags.tag.tagName: 
+  ~node.nodesTags.tag.tagName[]: 
+  ~node.nodeType: 
+  ~node.nodeType[]: 
+  ~node.nodeType.name: 
+  ~node.nodeType.name[]: 
+  ~translation.id: 
+  ~translation.id[]: 
+  ~translation.locale: 
+  ~translation.locale[]: 
+  ~publishedAt[before]: 
+  ~publishedAt[strictly_before]: 
+  ~publishedAt[after]: 
+  ~publishedAt[strictly_after]: 
+  ~node.createdAt[before]: 
+  ~node.createdAt[strictly_before]: 
+  ~node.createdAt[after]: 
+  ~node.createdAt[strictly_after]: 
+  ~node.updatedAt[before]: 
+  ~node.updatedAt[strictly_before]: 
+  ~node.updatedAt[after]: 
+  ~node.updatedAt[strictly_after]: 
+  ~order[publishedAt]: 
+  ~order[node.position]: 
+  ~order[node.createdAt]: 
+  ~order[node.updatedAt]: 
+  ~publishedAt[archive]: 
+  ~noIndex: 
+  ~node.visible: 
+  ~node.home: 
+  ~node.nodeType.reachable: 
+  ~node.nodeType.publishable: 
+  ~node.position: 
+  ~node.position[]: 
+  ~node.position[between]: 
+  ~node.position[gt]: 
+  ~node.position[gte]: 
+  ~node.position[lt]: 
+  ~node.position[lte]: 
+  ~not[node.nodeType.name]: 
+  ~not[node.nodeType.name][]: 
+  ~not[node.id]: 
+  ~not[node.id][]: 
+  ~not[node.nodesTags.tag.tagName]: 
+  ~not[node.nodesTags.tag.tagName][]: 
+  ~intersect[node.nodesTags.tag]: 
+  ~intersect[node.nodesTags.tag][]: 
+  ~intersect[node.nodesTags.tag.tagName]: 
+  ~intersect[node.nodesTags.tag.tagName][]: 
+  ~_preview: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

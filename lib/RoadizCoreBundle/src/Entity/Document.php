@@ -11,6 +11,7 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
@@ -267,7 +268,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[Serializer\Groups(['document', 'document_private', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('bool')]
     private bool $private = false;
-    #[ORM\Column(name: 'imageWidth', type: 'integer', nullable: false, options: ['default' => 0])]
+    #[ORM\Column(name: 'imageWidth', type: Types::SMALLINT, nullable: false, options: ['default' => 0])]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('int')]
@@ -276,7 +277,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         example: '1280',
     )]
     private int $imageWidth = 0;
-    #[ORM\Column(name: 'imageHeight', type: 'integer', nullable: false, options: ['default' => 0])]
+    #[ORM\Column(name: 'imageHeight', type: Types::SMALLINT, nullable: false, options: ['default' => 0])]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('int')]
@@ -285,7 +286,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         example: '800',
     )]
     private int $imageHeight = 0;
-    #[ORM\Column(name: 'duration', type: 'integer', nullable: false, options: ['default' => 0])]
+    #[ORM\Column(name: 'duration', type: Types::INTEGER, nullable: false, options: ['default' => 0])]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('int')]

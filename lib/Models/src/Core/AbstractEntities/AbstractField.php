@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Core\AbstractEntities;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Utils\StringHandler;
@@ -332,7 +333,11 @@ abstract class AbstractField extends AbstractPositioned
     protected ?string $defaultValues = null;
 
     #[
-        ORM\Column(type: 'integer'),
+        ORM\Column(
+            type: Types::SMALLINT,
+            nullable: false,
+            options: ['default' => AbstractField::STRING_T]
+        ),
         Serializer\Groups(['node_type', 'setting']),
         SymfonySerializer\Groups(['node_type', 'setting']),
         Serializer\Type('int'),

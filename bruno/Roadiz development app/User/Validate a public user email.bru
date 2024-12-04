@@ -1,0 +1,16 @@
+meta {
+  name: Validate a public user email
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/api/users/validate
+  body: none
+  auth: none
+}
+
+script:post-response {
+  if (res.status === 200) {
+  }
+}

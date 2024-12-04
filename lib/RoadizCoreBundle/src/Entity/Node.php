@@ -11,6 +11,7 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -22,6 +23,7 @@ use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Model\AttributableInterface;
 use RZ\Roadiz\CoreBundle\Model\AttributableTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
@@ -72,10 +74,15 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     use LeafTrait;
     use AttributableTrait;
 
+    /** @deprecated Use NodeStatus enum */
     public const DRAFT = 10;
+    /** @deprecated Use NodeStatus enum */
     public const PENDING = 20;
+    /** @deprecated Use NodeStatus enum */
     public const PUBLISHED = 30;
+    /** @deprecated Use NodeStatus enum */
     public const ARCHIVED = 40;
+    /** @deprecated Use NodeStatus enum */
     public const DELETED = 50;
 
     #[SymfonySerializer\Ignore]
@@ -123,12 +130,21 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     /**
      * @internal you should use node Workflow to perform change on status
      */
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(
+        name: 'status',
+        type: Types::SMALLINT,
+        enumType: NodeStatus::class,
+        options: ['default' => NodeStatus::DRAFT]
+    )]
     #[Serializer\Exclude]
     #[SymfonySerializer\Ignore]
-    private int $status = Node::DRAFT;
+    private NodeStatus $status = NodeStatus::DRAFT;
 
-    #[ORM\Column(type: 'integer', nullable: false, options: ['default' => 0])]
+    #[ORM\Column(
+        type: Types::INTEGER,
+        nullable: false,
+        options: ['default' => 0]
+    )]
     #[Assert\GreaterThanOrEqual(value: 0)]
     #[Assert\NotNull]
     #[SymfonySerializer\Ignore]
@@ -334,23 +350,13 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     }
 
     /**
-     * @param int $status
+     * @deprecated Use NodeStatus enum getLabel method
      */
-    public static function getStatusLabel($status): string
+    public static function getStatusLabel(int|string $status): string
     {
-        $nodeStatuses = [
-            static::DRAFT => 'draft',
-            static::PENDING => 'pending',
-            static::PUBLISHED => 'published',
-            static::ARCHIVED => 'archived',
-            static::DELETED => 'deleted',
-        ];
+        $status = NodeStatus::tryFrom((int) $status);
 
-        if (isset($nodeStatuses[$status])) {
-            return $nodeStatuses[$status];
-        }
-
-        throw new \InvalidArgumentException('Status does not exist.');
+        return $status->getLabel();
     }
 
     /**
@@ -390,23 +396,39 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
-    public function getStatus(): int
+    public function getStatus(): NodeStatus
     {
         return $this->status;
     }
 
     /**
-     * @param int|string $status Workflow only use <string> marking places
+     * @param int|string|NodeStatus $status Workflow only use <string> marking places
      *
      * @return $this
      *
      * @internal you should use node Workflow to perform change on status
      */
-    public function setStatus(int|string $status): Node
+    public function setStatus(int|string|NodeStatus $status): Node
     {
-        $this->status = (int) $status;
+        if ($status instanceof NodeStatus) {
+            $this->status = $status;
+        } else {
+            $this->status = NodeStatus::tryFrom((int) $status) ?? NodeStatus::DRAFT;
+        }
 
         return $this;
+    }
+
+    public function setStatusAsString(string $name): Node
+    {
+        $this->status = NodeStatus::fromName($name);
+
+        return $this;
+    }
+
+    public function getStatusAsString(): string
+    {
+        return $this->status->name;
     }
 
     public function getTtl(): int
@@ -423,22 +445,27 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     public function isPublished(): bool
     {
-        return Node::PUBLISHED === $this->status;
+        return $this->status->isPublished();
     }
 
     public function isPending(): bool
     {
-        return Node::PENDING === $this->status;
+        return $this->status->isPending();
     }
 
     public function isDraft(): bool
     {
-        return Node::DRAFT === $this->status;
+        return $this->status->isDraft();
     }
 
     public function isDeleted(): bool
     {
-        return Node::DELETED === $this->status;
+        return $this->status->isDeleted();
+    }
+
+    public function isArchived(): bool
+    {
+        return $this->status->isArchived();
     }
 
     public function isLocked(): bool
@@ -484,11 +511,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         $this->hideChildren = $hideChildren;
 
         return $this;
-    }
-
-    public function isArchived(): bool
-    {
-        return Node::ARCHIVED === $this->status;
     }
 
     public function isSterile(): bool
@@ -824,13 +846,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this->aNodes;
     }
 
-    #[SymfonySerializer\Ignore]
-    public function getOneLineSummary(): string
-    {
-        return $this->getId().' — '.$this->getNodeName().' — '.$this->getNodeType()->getName().
-        ' — Visible : '.($this->isVisible() ? 'true' : 'false').PHP_EOL;
-    }
-
     public function getNodeName(): string
     {
         return $this->nodeName;
@@ -871,27 +886,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         $this->visible = $visible;
 
         return $this;
-    }
-
-    #[SymfonySerializer\Ignore]
-    public function getOneLineSourceSummary(): string
-    {
-        $text = 'Source '.
-            (
-                $this->getNodeSources()->first() ?
-                $this->getNodeSources()->first()->getId() :
-                ''
-            ).
-            PHP_EOL;
-
-        foreach ($this->getNodeType()->getFields() as $field) {
-            $getterName = $field->getGetterName();
-            $text .= '['.$field->getLabel().']: '.
-                ($this->getNodeSources()->first() ? $this->getNodeSources()->first()->$getterName() : '').
-                PHP_EOL;
-        }
-
-        return $text;
     }
 
     /**

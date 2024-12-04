@@ -1,0 +1,33 @@
+meta {
+  name: Retrieves the collection of Translation resources-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/translations
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~page: 
+  ~itemsPerPage: 
+  ~properties[]: 
+  ~order[createdAt]: 
+  ~order[updatedAt]: 
+  ~order[locale]: 
+  ~order[available]: 
+  ~order[defaultTranslation]: 
+  ~available: 
+  ~defaultTranslation: 
+  ~locale: 
+  ~locale[]: 
+  ~name: 
+  ~name[]: 
+  ~_preview: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

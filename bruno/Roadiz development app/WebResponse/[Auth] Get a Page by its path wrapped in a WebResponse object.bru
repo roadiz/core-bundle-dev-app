@@ -1,0 +1,32 @@
+meta {
+  name: [Auth] Get a Page by its path wrapped in a WebResponse object
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/web_response_by_path?path=/&_preview=1
+  body: none
+  auth: bearer
+}
+
+params:query {
+  path: /
+  _preview: 1
+  ~path: /articles/article-with-attributes
+  ~properties[]: item
+  ~properties[item]: title
+  ~properties[]: blocks
+  ~properties[item]: url
+  ~path: /contact
+  ~path: /fr/articles/article-with-attributes
+  ~testsd: sd
+  ~path: /fr/articles
+  ~properties[item][]: nodeReferences
+  ~path: /data:image/svg-xml
+  ~_locale: zh
+}
+
+auth:bearer {
+  token: {{token}}
+}

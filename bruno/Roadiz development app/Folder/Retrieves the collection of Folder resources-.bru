@@ -1,0 +1,39 @@
+meta {
+  name: Retrieves the collection of Folder resources-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/folders
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~page: 
+  ~itemsPerPage: 
+  ~properties[]: 
+  ~order[position]: 
+  ~order[createdAt]: 
+  ~order[updatedAt]: 
+  ~parent.id: 
+  ~parent.id[]: 
+  ~parent.folderName: 
+  ~parent.folderName[]: 
+  ~folderName: 
+  ~visible: 
+  ~locked: 
+  ~position[between]: 
+  ~position[gt]: 
+  ~position[gte]: 
+  ~position[lt]: 
+  ~position[lte]: 
+  ~position: 
+  ~position[]: 
+  ~_preview: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

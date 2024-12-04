@@ -1,0 +1,20 @@
+meta {
+  name: Create a new public user
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/users/signup
+  body: none
+  auth: none
+}
+
+headers {
+  x-g-recaptcha-response: 
+}
+
+script:post-response {
+  if (res.status === 201) {
+  }
+}

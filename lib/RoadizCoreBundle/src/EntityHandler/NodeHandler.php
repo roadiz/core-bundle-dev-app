@@ -15,7 +15,6 @@ use RZ\Roadiz\CoreBundle\Entity\NodesCustomForms;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesToNodes;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
-use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
@@ -187,66 +186,6 @@ final class NodeHandler extends AbstractHandler
         }
 
         return $this;
-    }
-
-    /**
-     * Get nodes linked to current node for a given field name.
-     *
-     * @param string $fieldName Name of the node-type field
-     *
-     * @return Node[]
-     *
-     * @deprecated
-     */
-    public function getNodesFromFieldName(string $fieldName): array
-    {
-        $field = $this->getNode()->getNodeType()->getFieldByName($fieldName);
-        if (null !== $field) {
-            return $this->getRepository()
-                ->findByNodeAndField(
-                    $this->getNode(),
-                    $field
-                );
-        }
-
-        return [];
-    }
-
-    /**
-     * Get nodes reversed-linked to current node for a given field name.
-     *
-     * @param string $fieldName Name of the node-type field
-     *
-     * @return Node[]
-     *
-     * @deprecated
-     */
-    public function getReverseNodesFromFieldName(string $fieldName): array
-    {
-        $field = $this->getNode()->getNodeType()->getFieldByName($fieldName);
-        if (null !== $field) {
-            return $this->getRepository()
-                ->findByReverseNodeAndField(
-                    $this->getNode(),
-                    $field
-                );
-        }
-
-        return [];
-    }
-
-    /**
-     * Get node source by translation.
-     *
-     * @param Translation $translation
-     *
-     * @deprecated use Node::getNodeSourcesByTranslation() instead
-     */
-    public function getNodeSourceByTranslation($translation): ?NodesSources
-    {
-        return $this->objectManager
-            ->getRepository(NodesSources::class)
-            ->findOneBy(['node' => $this->getNode(), 'translation' => $translation]);
     }
 
     /**
@@ -517,37 +456,6 @@ final class NodeHandler extends AbstractHandler
         }
 
         return $i;
-    }
-
-    /**
-     * Return all node offspring id.
-     *
-     * @deprecated use NodeOffspringResolverInterface::getAllOffspringIds($chroot)
-     */
-    public function getAllOffspringId(): array
-    {
-        return $this->getRepository()->findAllOffspringIdByNode($this->getNode());
-    }
-
-    /**
-     * Set current node as the Home node.
-     *
-     * @return $this
-     */
-    public function makeHome(): self
-    {
-        $defaults = $this->getRepository()
-            ->setDisplayingNotPublishedNodes(true)
-            ->findBy(['home' => true]);
-
-        /** @var Node $default */
-        foreach ($defaults as $default) {
-            $default->setHome(false);
-        }
-        $this->getNode()->setHome(true);
-        $this->objectManager->flush();
-
-        return $this;
     }
 
     /**

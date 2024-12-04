@@ -15,11 +15,11 @@ use RZ\Roadiz\CoreBundle\Entity\UrlAlias;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\UrlAliasRepository;
 
-final class NodeFactory
+final readonly class NodeFactory
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly NodeNamePolicyInterface $nodeNamePolicy,
+        private ManagerRegistry $managerRegistry,
+        private NodeNamePolicyInterface $nodeNamePolicy,
     ) {
     }
 

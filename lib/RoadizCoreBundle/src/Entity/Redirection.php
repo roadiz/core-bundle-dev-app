@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
 use RZ\Roadiz\CoreBundle\Repository\RedirectionRepository;
@@ -42,7 +43,7 @@ class Redirection extends AbstractDateTimed
     #[ORM\JoinColumn(name: 'ns_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     private ?NodesSources $redirectNodeSource = null;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::SMALLINT)]
     private int $type = 301;
 
     public function getQuery(): string
