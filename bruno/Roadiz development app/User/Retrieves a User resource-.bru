@@ -1,0 +1,23 @@
+meta {
+  name: Retrieves a User resource-
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/api/users/:id
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

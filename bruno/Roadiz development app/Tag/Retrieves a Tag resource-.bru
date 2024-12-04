@@ -1,0 +1,23 @@
+meta {
+  name: Retrieves a Tag resource-
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/api/tags/:id
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

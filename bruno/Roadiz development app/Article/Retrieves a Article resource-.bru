@@ -1,0 +1,23 @@
+meta {
+  name: Retrieves a Article resource-
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/articles/:id
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

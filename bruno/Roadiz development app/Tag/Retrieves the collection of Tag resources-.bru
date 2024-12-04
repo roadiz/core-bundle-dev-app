@@ -1,0 +1,61 @@
+meta {
+  name: Retrieves the collection of Tag resources-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/tags
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~page: 
+  ~itemsPerPage: 
+  ~properties[]: 
+  ~order[position]: 
+  ~order[createdAt]: 
+  ~order[updatedAt]: 
+  ~parent.id: 
+  ~parent.id[]: 
+  ~parent.tagName: 
+  ~parent.tagName[]: 
+  ~tagName: 
+  ~nodesTags.node: 
+  ~nodesTags.node[]: 
+  ~nodesTags.node.nodeName: 
+  ~nodesTags.node.nodeName[]: 
+  ~nodesTags.node.parent: 
+  ~nodesTags.node.parent[]: 
+  ~nodesTags.node.parent.nodeName: 
+  ~nodesTags.node.parent.nodeName[]: 
+  ~nodesTags.node.nodeType: 
+  ~nodesTags.node.nodeType[]: 
+  ~nodesTags.node.nodeType.name: 
+  ~nodesTags.node.nodeType.name[]: 
+  ~nodesTags.node.nodesTags.tag: 
+  ~nodesTags.node.nodesTags.tag[]: 
+  ~nodesTags.node.nodesTags.tag.tagName: 
+  ~nodesTags.node.nodesTags.tag.tagName[]: 
+  ~not[parent.id]: 
+  ~not[parent.id][]: 
+  ~not[parent.tagName]: 
+  ~not[parent.tagName][]: 
+  ~visible: 
+  ~locked: 
+  ~nodesTags.node.visible: 
+  ~nodesTags.node.nodeType.reachable: 
+  ~position[between]: 
+  ~position[gt]: 
+  ~position[gte]: 
+  ~position[lt]: 
+  ~position[lte]: 
+  ~position: 
+  ~position[]: 
+  ~_preview: 
+}
+
+auth:bearer {
+  token: {{token}}
+}
