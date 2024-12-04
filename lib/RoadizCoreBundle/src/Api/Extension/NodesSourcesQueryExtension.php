@@ -11,15 +11,15 @@ use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
-use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 
-final class NodesSourcesQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
+final readonly class NodesSourcesQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
     public function __construct(
-        private readonly PreviewResolverInterface $previewResolver,
-        private readonly string $generatedEntityNamespacePattern = '#^App\\\GeneratedEntity\\\NS(?:[a-zA-Z]+)$#',
+        private PreviewResolverInterface $previewResolver,
+        private string $generatedEntityNamespacePattern = '#^App\\\GeneratedEntity\\\NS(?:[a-zA-Z]+)$#',
     ) {
     }
 
@@ -71,7 +71,7 @@ final class NodesSourcesQueryExtension implements QueryItemExtensionInterface, Q
             );
             $queryBuilder
                 ->andWhere($queryBuilder->expr()->lte($alias.'.status', ':status'))
-                ->setParameter(':status', Node::PUBLISHED);
+                ->setParameter(':status', NodeStatus::PUBLISHED);
 
             return;
         }
@@ -87,7 +87,7 @@ final class NodesSourcesQueryExtension implements QueryItemExtensionInterface, Q
             ->andWhere($queryBuilder->expr()->lte('o.publishedAt', ':lte_published_at'))
             ->andWhere($queryBuilder->expr()->eq($alias.'.status', ':status'))
             ->setParameter(':lte_published_at', new \DateTime())
-            ->setParameter(':status', Node::PUBLISHED);
+            ->setParameter(':status', NodeStatus::PUBLISHED);
 
         return;
     }

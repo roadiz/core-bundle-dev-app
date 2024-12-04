@@ -7,11 +7,11 @@ namespace Themes\Rozier\Forms\Node;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Form\DataTransformer\NodeTypeTransformer;
+use RZ\Roadiz\CoreBundle\Form\NodeStatesType;
 use RZ\Roadiz\CoreBundle\Form\NodeTypesType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Event\SubmitEvent;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvents;
@@ -74,15 +74,9 @@ class AddNodeType extends AbstractType
             'label' => 'hiding-children',
             'required' => false,
         ])
-        ->add('status', ChoiceType::class, [
+        ->add('status', NodeStatesType::class, [
             'label' => 'node.status',
             'required' => true,
-            'choices' => [
-                Node::getStatusLabel(Node::DRAFT) => Node::DRAFT,
-                Node::getStatusLabel(Node::PENDING) => Node::PENDING,
-                Node::getStatusLabel(Node::PUBLISHED) => Node::PUBLISHED,
-                Node::getStatusLabel(Node::ARCHIVED) => Node::ARCHIVED,
-            ],
         ]);
 
         $builder->addEventListener(FormEvents::SUBMIT, function (SubmitEvent $event) {

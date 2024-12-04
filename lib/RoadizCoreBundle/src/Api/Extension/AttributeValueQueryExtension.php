@@ -12,12 +12,13 @@ use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 
-final class AttributeValueQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
+final readonly class AttributeValueQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
     public function __construct(
-        private readonly PreviewResolverInterface $previewResolver,
+        private PreviewResolverInterface $previewResolver,
     ) {
     }
 
@@ -69,14 +70,14 @@ final class AttributeValueQueryExtension implements QueryItemExtensionInterface,
         if ($this->previewResolver->isPreview()) {
             $queryBuilder
                 ->andWhere($queryBuilder->expr()->lte($joinAlias.'.status', ':status'))
-                ->setParameter(':status', Node::PUBLISHED);
+                ->setParameter(':status', NodeStatus::PUBLISHED);
 
             return;
         }
 
         $queryBuilder
             ->andWhere($queryBuilder->expr()->eq($joinAlias.'.status', ':status'))
-            ->setParameter(':status', Node::PUBLISHED);
+            ->setParameter(':status', NodeStatus::PUBLISHED);
 
         return;
     }

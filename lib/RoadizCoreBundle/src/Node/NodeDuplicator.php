@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodesToNodes;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
 /**
@@ -49,7 +50,7 @@ final class NodeDuplicator
             $node->setParent($parent);
         }
         // Demote cloned node to draft
-        $node->setStatus(Node::DRAFT);
+        $node->setStatus(NodeStatus::DRAFT);
 
         $node = $this->doDuplicate($node);
         $this->objectManager->flush();

@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -83,10 +83,11 @@ abstract class StatusAwareRepository extends EntityRepository
          * and context.
          */
         if (true === $this->isDisplayingNotPublishedNodes() || $this->previewResolver->isPreview()) {
-            $qb->andWhere($qb->expr()->lte($prefix.'.status', Node::PUBLISHED));
+            $qb->andWhere($qb->expr()->lte($prefix.'.status', ':status'));
         } else {
-            $qb->andWhere($qb->expr()->eq($prefix.'.status', Node::PUBLISHED));
+            $qb->andWhere($qb->expr()->eq($prefix.'.status', ':status'));
         }
+        $qb->setParameter('status', NodeStatus::PUBLISHED);
 
         return $qb;
     }

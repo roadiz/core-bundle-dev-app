@@ -52,7 +52,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
             $assoc['node_type_s'] = $nodeSource->getNodeTypeName();
             $assoc['node_name_s'] = $node->getNodeName();
             $assoc['slug_s'] = $node->getNodeName();
-            $assoc['node_status_i'] = $node->getStatus();
+            $assoc['node_status_i'] = $node->getStatus()->value;
             $assoc['node_visible_b'] = $node->isVisible();
             $assoc['node_reachable_b'] = $nodeSource->isReachable();
             $assoc['created_at_dt'] = $this->formatDateTimeToUTC($node->getCreatedAt());

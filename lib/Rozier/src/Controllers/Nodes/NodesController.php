@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodePathChangedEvent;
@@ -78,25 +79,25 @@ final class NodesController extends RozierApp
             case 'draft':
                 $this->assignation['mainFilter'] = $filter;
                 $arrayFilter = [
-                    'status' => Node::DRAFT,
+                    'status' => NodeStatus::DRAFT,
                 ];
                 break;
             case 'pending':
                 $this->assignation['mainFilter'] = $filter;
                 $arrayFilter = [
-                    'status' => Node::PENDING,
+                    'status' => NodeStatus::PENDING,
                 ];
                 break;
             case 'archived':
                 $this->assignation['mainFilter'] = $filter;
                 $arrayFilter = [
-                    'status' => Node::ARCHIVED,
+                    'status' => NodeStatus::ARCHIVED,
                 ];
                 break;
             case 'deleted':
                 $this->assignation['mainFilter'] = $filter;
                 $arrayFilter = [
-                    'status' => Node::DELETED,
+                    'status' => NodeStatus::DELETED,
                 ];
                 break;
             default:
@@ -526,7 +527,7 @@ final class NodesController extends RozierApp
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $criteria = ['status' => Node::DELETED];
+            $criteria = ['status' => NodeStatus::DELETED];
             /** @var Node|null $chroot */
             $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
             if (null !== $chroot) {

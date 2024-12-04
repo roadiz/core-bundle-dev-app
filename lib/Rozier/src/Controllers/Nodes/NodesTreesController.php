@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\Form\ClickableInterface;
@@ -500,10 +501,10 @@ class NodesTreesController extends RozierApp
                 'label' => false,
                 'data' => $status,
                 'choices' => [
-                    Node::getStatusLabel(Node::DRAFT) => 'reject',
-                    Node::getStatusLabel(Node::PENDING) => 'review',
-                    Node::getStatusLabel(Node::PUBLISHED) => 'publish',
-                    Node::getStatusLabel(Node::ARCHIVED) => 'archive',
+                    NodeStatus::DRAFT->getLabel() => 'reject',
+                    NodeStatus::PENDING->getLabel() => 'review',
+                    NodeStatus::PUBLISHED->getLabel() => 'publish',
+                    NodeStatus::ARCHIVED->getLabel() => 'archive',
                 ],
                 'constraints' => [
                     new NotNull(),

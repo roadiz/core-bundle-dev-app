@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Model;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 
 /**
  * Doctrine Data transfer object to represent a Node in a tree.
@@ -22,7 +23,7 @@ final class NodeTreeDto implements NodeInterface
         private readonly bool $hideChildren,
         private readonly bool $home,
         private readonly bool $visible,
-        private readonly int $status,
+        private readonly NodeStatus $status,
         private readonly ?int $parentId,
         private readonly string $childrenOrder,
         private readonly string $childrenOrderDirection,
@@ -96,9 +97,14 @@ final class NodeTreeDto implements NodeInterface
         return $this->visible;
     }
 
-    public function getStatus(): int
+    public function getStatus(): NodeStatus
     {
         return $this->status;
+    }
+
+    public function getStatusAsString(): string
+    {
+        return $this->status->name;
     }
 
     public function isLocked(): bool
@@ -108,22 +114,22 @@ final class NodeTreeDto implements NodeInterface
 
     public function isPublished(): bool
     {
-        return Node::PUBLISHED === $this->status;
+        return $this->status->isPublished();
     }
 
     public function isPending(): bool
     {
-        return Node::PENDING === $this->status;
+        return $this->status->isPending();
     }
 
     public function isDraft(): bool
     {
-        return Node::DRAFT === $this->status;
+        return $this->status->isDraft();
     }
 
     public function isDeleted(): bool
     {
-        return Node::DELETED === $this->status;
+        return $this->status->isDeleted();
     }
 
     public function getNodeType(): NodeTypeInterface

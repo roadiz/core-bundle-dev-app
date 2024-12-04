@@ -17,6 +17,7 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryNodesSourcesEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
 use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
@@ -197,7 +198,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             if (!$this->hasJoinedNode($qb, $prefix)) {
                 $qb->innerJoin($prefix.'.node', static::NODE_ALIAS);
             }
-            $qb->andWhere($qb->expr()->lte(static::NODE_ALIAS.'.status', Node::PUBLISHED));
+            $qb->andWhere($qb->expr()->lte(static::NODE_ALIAS.'.status', ':node_status'));
         } else {
             /*
              * Forbid unpublished node for anonymous and not backend users.
@@ -205,8 +206,9 @@ class NodesSourcesRepository extends StatusAwareRepository
             if (!$this->hasJoinedNode($qb, $prefix)) {
                 $qb->innerJoin($prefix.'.node', static::NODE_ALIAS);
             }
-            $qb->andWhere($qb->expr()->eq(static::NODE_ALIAS.'.status', Node::PUBLISHED));
+            $qb->andWhere($qb->expr()->eq(static::NODE_ALIAS.'.status', ':node_status'));
         }
+        $qb->setParameter('node_status', NodeStatus::PUBLISHED);
 
         return $qb;
     }
@@ -410,10 +412,10 @@ class NodesSourcesRepository extends StatusAwareRepository
                 $this->nodeSourceSearchHandler->boostByUpdateDate();
                 $arguments = [];
                 if ($this->isDisplayingNotPublishedNodes()) {
-                    $arguments['status'] = ['<=', Node::PUBLISHED];
+                    $arguments['status'] = ['<=', NodeStatus::PUBLISHED];
                 }
                 if ($this->isDisplayingAllNodesStatuses()) {
-                    $arguments['status'] = ['<=', Node::DELETED];
+                    $arguments['status'] = ['<=', NodeStatus::DELETED];
                 }
 
                 if ($limit > 0) {
