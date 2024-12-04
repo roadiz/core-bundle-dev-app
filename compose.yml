@@ -97,7 +97,7 @@ services:
             - solr
             - redis
         volumes:
-            - ./:/app:cached
+            - ./:/app
         networks:
             - default
         environment:

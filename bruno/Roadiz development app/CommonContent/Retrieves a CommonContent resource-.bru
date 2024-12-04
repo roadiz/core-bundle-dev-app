@@ -7,13 +7,9 @@ meta {
 get {
   url: {{baseUrl}}/api/common_content
   body: none
-  auth: bearer
+  auth: none
 }
 
 params:query {
   ~_preview: 
-}
-
-auth:bearer {
-  token: {{token}}
 }
