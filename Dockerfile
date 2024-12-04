@@ -64,7 +64,7 @@ LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 ARG UID
 ARG GID
 
-COPY --link docker/mysql/performances.cnf /etc/mysql/conf.d/performances.cnf
+COPY --link docker/mariadb/performances.cnf /etc/mariadb/conf.d/performances.cnf
 
 RUN <<EOF
 usermod -u ${UID} mysql

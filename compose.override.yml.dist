@@ -1,5 +1,10 @@
 services:
     db:
+        # Uncomment next line if you want to use mariaDb instead of mysql
+#        build:
+#            target: mariadb
+#            args:
+#                UID: ${UID:-1000}
         ports:
             - ${PUBLIC_DB_PORT}:3306/tcp
     pma:

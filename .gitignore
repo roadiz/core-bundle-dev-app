@@ -139,6 +139,7 @@ fabric.properties
 /generated/*
 /.data/db/*
 /.data/db_test/*
+/.data/mariadb/*
 /.data/pgsql_test/*
 /.data/solr/*
 /themes/BaseTheme
