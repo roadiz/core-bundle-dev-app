@@ -1,6 +1,10 @@
 {
 	{$CADDY_GLOBAL_OPTIONS}
 
+    servers {
+        trusted_proxies static 0.0.0.0/0
+    }
+
 	frankenphp {
 		{$FRANKENPHP_CONFIG}
 	}
