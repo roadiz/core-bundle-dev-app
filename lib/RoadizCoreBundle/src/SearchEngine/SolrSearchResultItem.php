@@ -14,15 +14,15 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiResource(
     stateless: true,
 )]
-final class SolrSearchResultItem
+final readonly class SolrSearchResultItem
 {
     /**
      * @param T                            $item
      * @param array<string, array<string>> $highlighting
      */
     public function __construct(
-        private readonly object $item,
-        private readonly array $highlighting = [],
+        private object $item,
+        private array $highlighting = [],
     ) {
     }
 

@@ -9,11 +9,12 @@ use RZ\Roadiz\CoreBundle\SearchEngine\SearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 #[Exclude]
 final class SolrSearchListManager extends AbstractEntityListManager
 {
-    private ?SearchResultsInterface $searchResults;
+    private ?SearchResultsInterface $searchResults = null;
     private ?string $query = null;
 
     public function __construct(
@@ -34,7 +35,7 @@ final class SolrSearchListManager extends AbstractEntityListManager
         $this->handleRequestQuery($disabled);
 
         if (null === $this->query) {
-            throw new \InvalidArgumentException('Cannot handle a NULL query.');
+            throw new BadRequestHttpException('Search param is required.');
         }
         /*
          * Query must be longer than 3 chars or Solr might crash
