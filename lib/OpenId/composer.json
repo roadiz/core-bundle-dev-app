@@ -18,9 +18,9 @@
         "codercat/jwk-to-pem": "^1.0",
         "lcobucci/jwt": "^5.3",
         "psr/cache": ">=1.0.1",
-        "roadiz/jwt": "2.4.x-dev",
-        "roadiz/models": "2.4.x-dev",
-        "roadiz/random": "2.4.x-dev",
+        "roadiz/jwt": "2.4.*",
+        "roadiz/models": "2.4.*",
+        "roadiz/random": "2.4.*",
         "symfony/event-dispatcher-contracts": "^3.5.1",
         "symfony/http-client": "6.4.*",
         "symfony/http-foundation": "6.4.*",
@@ -44,8 +44,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.3.x-dev",
-            "dev-develop": "2.4.x-dev"
+            "dev-main": "2.4.x-dev",
+            "dev-develop": "2.5.x-dev"
         }
     }
 }
