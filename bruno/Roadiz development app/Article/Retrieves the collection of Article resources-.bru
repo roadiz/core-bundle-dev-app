@@ -7,7 +7,7 @@ meta {
 get {
   url: {{baseUrl}}/api/articles
   body: none
-  auth: bearer
+  auth: none
 }
 
 params:query {
@@ -83,8 +83,4 @@ params:query {
   ~intersect[node.nodesTags.tag.tagName]: 
   ~intersect[node.nodesTags.tag.tagName][]: 
   ~_preview: 
-}
-
-auth:bearer {
-  token: {{token}}
 }
