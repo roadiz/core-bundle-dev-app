@@ -15,9 +15,9 @@ use RZ\Roadiz\Typescript\Declaration\Generators\NodeTypeGenerator;
 use RZ\Roadiz\Typescript\Declaration\Generators\ScalarFieldGenerator;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-final class DeclarationGeneratorFactory
+final readonly class DeclarationGeneratorFactory
 {
-    public function __construct(private readonly ParameterBag $nodeTypesBag)
+    public function __construct(private ParameterBag $nodeTypesBag)
     {
     }
 

@@ -12,9 +12,9 @@ use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 
 #[AsDoctrineListener(event: Events::prePersist)]
-final class LeafEntityLifeCycleSubscriber
+final readonly class LeafEntityLifeCycleSubscriber
 {
-    public function __construct(private readonly HandlerFactoryInterface $handlerFactory)
+    public function __construct(private HandlerFactoryInterface $handlerFactory)
     {
     }
 

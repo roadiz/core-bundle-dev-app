@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\OpenId\Authentication\Provider;
 
-final class ChainJwtRoleStrategy implements JwtRoleStrategy
+final readonly class ChainJwtRoleStrategy implements JwtRoleStrategy
 {
     /**
      * @param array<JwtRoleStrategy> $strategies
      */
-    public function __construct(private readonly array $strategies)
+    public function __construct(private array $strategies)
     {
         foreach ($this->strategies as $strategy) {
             if (!($strategy instanceof JwtRoleStrategy)) {

@@ -10,21 +10,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractFieldGenerator
 {
-    protected NodeTypeFieldInterface $field;
-    protected TranslatorInterface $translator;
-    protected ParameterBag $nodeTypesBag;
-    protected MarkdownGeneratorFactory $markdownGeneratorFactory;
-
     public function __construct(
-        MarkdownGeneratorFactory $fieldGeneratorFactory,
-        NodeTypeFieldInterface $field,
-        ParameterBag $nodeTypesBag,
-        TranslatorInterface $translator,
+        protected readonly MarkdownGeneratorFactory $markdownGeneratorFactory,
+        protected readonly NodeTypeFieldInterface $field,
+        protected readonly ParameterBag $nodeTypesBag,
+        protected readonly TranslatorInterface $translator,
     ) {
-        $this->field = $field;
-        $this->nodeTypesBag = $nodeTypesBag;
-        $this->translator = $translator;
-        $this->markdownGeneratorFactory = $fieldGeneratorFactory;
     }
 
     abstract public function getContents(): string;

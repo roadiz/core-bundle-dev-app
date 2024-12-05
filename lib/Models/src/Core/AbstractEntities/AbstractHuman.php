@@ -98,7 +98,7 @@ abstract class AbstractHuman extends AbstractDateTimed
     /**
      * @return $this
      */
-    public function setEmail(?string $email)
+    public function setEmail(?string $email): AbstractHuman
     {
         if (false !== filter_var($email ?? '', FILTER_VALIDATE_EMAIL)) {
             $this->email = $email;
@@ -115,7 +115,7 @@ abstract class AbstractHuman extends AbstractDateTimed
     /**
      * @return $this
      */
-    public function setFirstName(?string $firstName)
+    public function setFirstName(?string $firstName): AbstractHuman
     {
         $this->firstName = $firstName;
 
@@ -130,7 +130,7 @@ abstract class AbstractHuman extends AbstractDateTimed
     /**
      * @return $this
      */
-    public function setLastName(?string $lastName)
+    public function setLastName(?string $lastName): AbstractHuman
     {
         $this->lastName = $lastName;
 
@@ -145,7 +145,7 @@ abstract class AbstractHuman extends AbstractDateTimed
     /**
      * @return $this
      */
-    public function setCompany(?string $company)
+    public function setCompany(?string $company): AbstractHuman
     {
         $this->company = $company;
 
@@ -160,7 +160,7 @@ abstract class AbstractHuman extends AbstractDateTimed
     /**
      * @return $this
      */
-    public function setJob(?string $job)
+    public function setJob(?string $job): AbstractHuman
     {
         $this->job = $job;
 
@@ -175,7 +175,7 @@ abstract class AbstractHuman extends AbstractDateTimed
     /**
      * @return $this
      */
-    public function setBirthday(?\DateTime $birthday = null)
+    public function setBirthday(?\DateTime $birthday = null): AbstractHuman
     {
         $this->birthday = $birthday;
 
@@ -188,9 +188,9 @@ abstract class AbstractHuman extends AbstractDateTimed
     }
 
     /**
-     * @return self
+     * @return $this
      */
-    public function setPhone(?string $phone)
+    public function setPhone(?string $phone): AbstractHuman
     {
         $this->phone = $phone;
 

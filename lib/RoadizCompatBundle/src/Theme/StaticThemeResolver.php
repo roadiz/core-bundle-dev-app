@@ -11,20 +11,13 @@ use Symfony\Component\Stopwatch\Stopwatch;
 class StaticThemeResolver implements ThemeResolverInterface
 {
     /**
-     * @var array<Theme>
-     */
-    protected array $themes;
-    protected Stopwatch $stopwatch;
-    protected bool $installMode = false;
-
-    /**
      * @param array<Theme> $themes
      */
-    public function __construct(array $themes, Stopwatch $stopwatch, bool $installMode = false)
-    {
-        $this->stopwatch = $stopwatch;
-        $this->installMode = $installMode;
-        $this->themes = $themes;
+    public function __construct(
+        protected array $themes,
+        protected readonly Stopwatch $stopwatch,
+        protected readonly bool $installMode = false,
+    ) {
         usort($this->themes, [static::class, 'compareThemePriority']);
     }
 
