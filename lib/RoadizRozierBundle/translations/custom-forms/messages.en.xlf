@@ -7,195 +7,195 @@
                 <target state="final">Usage</target>
                 <note>Custom form nav-bar item "Usage" label</note>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.retentionTime">
+      <trans-unit xml:space="preserve" id="customForm.retentionTime" approved="yes">
                 <source>customForm.retentionTime</source>
-                <target state="translated">Answers retention time</target>
+                <target state="final">Answers retention time</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.retentionTime.help">
+      <trans-unit xml:space="preserve" id="customForm.retentionTime.help" approved="yes">
                 <source>customForm.retentionTime.help</source>
-                <target state="translated">By setting a retention policy, responses will be automatically deleted along with their associated data. Make sure that attached documents are not used on your site.</target>
+                <target state="final">By setting a retention policy, responses will be automatically deleted along with their associated data. Make sure that attached documents are not used on your site.</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.retentionTime.always">
+      <trans-unit xml:space="preserve" id="customForm.retentionTime.always" approved="yes">
                 <source>customForm.retentionTime.always</source>
-                <target state="translated">-- Unlimited time --</target>
+                <target state="final">-- Unlimited time --</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.retentionTime.one_week">
+      <trans-unit xml:space="preserve" id="customForm.retentionTime.one_week" approved="yes">
                 <source>customForm.retentionTime.one_week</source>
-                <target state="translated">1 week</target>
+                <target state="final">1 week</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.retentionTime.two_weeks">
+      <trans-unit xml:space="preserve" id="customForm.retentionTime.two_weeks" approved="yes">
                 <source>customForm.retentionTime.two_weeks</source>
-                <target state="translated">2 weeks</target>
+                <target state="final">2 weeks</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.retentionTime.one_month">
+      <trans-unit xml:space="preserve" id="customForm.retentionTime.one_month" approved="yes">
                 <source>customForm.retentionTime.one_month</source>
-                <target state="translated">1 month</target>
+                <target state="final">1 month</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.retentionTime.three_months">
+      <trans-unit xml:space="preserve" id="customForm.retentionTime.three_months" approved="yes">
                 <source>customForm.retentionTime.three_months</source>
-                <target state="translated">3 months</target>
+                <target state="final">3 months</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.retentionTime.six_months">
+      <trans-unit xml:space="preserve" id="customForm.retentionTime.six_months" approved="yes">
                 <source>customForm.retentionTime.six_months</source>
-                <target state="translated">6 months</target>
+                <target state="final">6 months</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.retentionTime.one_year">
+      <trans-unit xml:space="preserve" id="customForm.retentionTime.one_year" approved="yes">
                 <source>customForm.retentionTime.one_year</source>
-                <target state="translated">1 year</target>
+                <target state="final">1 year</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.retentionTime.two_years">
+      <trans-unit xml:space="preserve" id="customForm.retentionTime.two_years" approved="yes">
                 <source>customForm.retentionTime.two_years</source>
-                <target state="translated">2 year</target>
+                <target state="final">2 year</target>
                 <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="customForm.autocomplete">
+      <trans-unit xml:space="preserve" id="customForm.autocomplete" approved="yes">
                 <source>customForm.autocomplete</source>
-            <target state="translated">Auto-complete hint</target>
-            <note></note>
+                <target state="final">Auto-complete hint</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="customForm.autocomplete.help">
+      <trans-unit xml:space="preserve" id="customForm.autocomplete.help" approved="yes">
                 <source>customForm.autocomplete.help</source>
-            <target state="translated">Provides a specific hint to browsers and input helpers on the value to auto-complete for this field.</target>
-            <note></note>
+                <target state="final">Provides a specific hint to browsers and input helpers on the value to auto-complete for this field.</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.no_autocomplete">
+      <trans-unit xml:space="preserve" id="autocomplete.no_autocomplete" approved="yes">
                 <source>autocomplete.no_autocomplete</source>
-            <target state="translated">-- Undefined --</target>
-            <note></note>
+                <target state="final">-- Undefined --</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.off">
+      <trans-unit xml:space="preserve" id="autocomplete.off" approved="yes">
                 <source>autocomplete.off</source>
-            <target state="translated">Do not auto-complete this field</target>
-            <note></note>
+                <target state="final">Do not auto-complete this field</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.name">
+      <trans-unit xml:space="preserve" id="autocomplete.name" approved="yes">
                 <source>autocomplete.name</source>
-            <target state="translated">Full name</target>
-            <note></note>
+                <target state="final">Full name</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.honorific-prefix">
+      <trans-unit xml:space="preserve" id="autocomplete.honorific-prefix" approved="yes">
                 <source>autocomplete.honorific-prefix</source>
-            <target state="translated">Prefix or title, such as "Mrs.", "Mr.", "Miss", "Ms.", "Dr.", etc</target>
-            <note></note>
+                <target state="final">Prefix or title, such as "Mrs.", "Mr.", "Miss", "Ms.", "Dr.", etc</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.honorific-suffix">
+      <trans-unit xml:space="preserve" id="autocomplete.honorific-suffix" approved="yes">
                 <source>autocomplete.honorific-suffix</source>
-            <target state="translated">Suffix, such as "Jr.", "B.Sc.", "PhD.", "MBASW", or "IV"</target>
-            <note></note>
+                <target state="final">Suffix, such as "Jr.", "B.Sc.", "PhD.", "MBASW", or "IV"</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.given-name">
+      <trans-unit xml:space="preserve" id="autocomplete.given-name" approved="yes">
                 <source>autocomplete.given-name</source>
-            <target state="translated">Given (or "first") name</target>
-            <note></note>
+                <target state="final">Given (or "first") name</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.additional-name">
+      <trans-unit xml:space="preserve" id="autocomplete.additional-name" approved="yes">
                 <source>autocomplete.additional-name</source>
-            <target state="translated">Middle name</target>
-            <note></note>
+                <target state="final">Middle name</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.family-name">
+      <trans-unit xml:space="preserve" id="autocomplete.family-name" approved="yes">
                 <source>autocomplete.family-name</source>
-            <target state="translated">Family (or "last") name</target>
-            <note></note>
+                <target state="final">Family (or "last") name</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.nickname">
+      <trans-unit xml:space="preserve" id="autocomplete.nickname" approved="yes">
                 <source>autocomplete.nickname</source>
-            <target state="translated">Nickname or handle</target>
-            <note></note>
+                <target state="final">Nickname or handle</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.email">
+      <trans-unit xml:space="preserve" id="autocomplete.email" approved="yes">
                 <source>autocomplete.email</source>
-            <target state="translated">Email address</target>
-            <note></note>
+                <target state="final">Email address</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.username">
+      <trans-unit xml:space="preserve" id="autocomplete.username" approved="yes">
                 <source>autocomplete.username</source>
-            <target state="translated">Username or account name</target>
-            <note></note>
+                <target state="final">Username or account name</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.organization-title">
+      <trans-unit xml:space="preserve" id="autocomplete.organization-title" approved="yes">
                 <source>autocomplete.organization-title</source>
-            <target state="translated">Job title</target>
-            <note></note>
+                <target state="final">Job title</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.organization">
+      <trans-unit xml:space="preserve" id="autocomplete.organization" approved="yes">
                 <source>autocomplete.organization</source>
-            <target state="translated">Company or organization name</target>
-            <note></note>
+                <target state="final">Company or organization name</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.street-address">
+      <trans-unit xml:space="preserve" id="autocomplete.street-address" approved="yes">
                 <source>autocomplete.street-address</source>
-            <target state="translated">Street address</target>
-            <note></note>
+                <target state="final">Street address</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.country">
+      <trans-unit xml:space="preserve" id="autocomplete.country" approved="yes">
                 <source>autocomplete.country</source>
-            <target state="translated">Country or territory code</target>
-            <note></note>
+                <target state="final">Country or territory code</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.country-name">
+      <trans-unit xml:space="preserve" id="autocomplete.country-name" approved="yes">
                 <source>autocomplete.country-name</source>
-            <target state="translated">Country or territory name</target>
-            <note></note>
+                <target state="final">Country or territory name</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.postal-code">
+      <trans-unit xml:space="preserve" id="autocomplete.postal-code" approved="yes">
                 <source>autocomplete.postal-code</source>
-            <target state="translated">Postal (or ZIP) code</target>
-            <note></note>
+                <target state="final">Postal (or ZIP) code</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.bday">
+      <trans-unit xml:space="preserve" id="autocomplete.bday" approved="yes">
                 <source>autocomplete.bday</source>
-            <target state="translated">Birth date, as a full date</target>
-            <note></note>
+                <target state="final">Birth date, as a full date</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.bday-day">
+      <trans-unit xml:space="preserve" id="autocomplete.bday-day" approved="yes">
                 <source>autocomplete.bday-day</source>
-            <target state="translated">Day of the month of a birth date</target>
-            <note></note>
+                <target state="final">Day of the month of a birth date</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.bday-month">
+      <trans-unit xml:space="preserve" id="autocomplete.bday-month" approved="yes">
                 <source>autocomplete.bday-month</source>
-            <target state="translated">Month of the year of a birth date</target>
-            <note></note>
+                <target state="final">Month of the year of a birth date</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.bday-year">
+      <trans-unit xml:space="preserve" id="autocomplete.bday-year" approved="yes">
                 <source>autocomplete.bday-year</source>
-            <target state="translated">Year of a birth date</target>
-            <note></note>
+                <target state="final">Year of a birth date</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.sex">
+      <trans-unit xml:space="preserve" id="autocomplete.sex" approved="yes">
                 <source>autocomplete.sex</source>
-            <target state="translated">Gender identity</target>
-            <note></note>
+                <target state="final">Gender identity</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.tel">
+      <trans-unit xml:space="preserve" id="autocomplete.tel" approved="yes">
                 <source>autocomplete.tel</source>
-            <target state="translated">Full phone number, including the country code</target>
-            <note></note>
+                <target state="final">Full phone number, including the country code</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.tel-national">
+      <trans-unit xml:space="preserve" id="autocomplete.tel-national" approved="yes">
                 <source>autocomplete.tel-national</source>
-            <target state="translated">Phone number without the country code component</target>
-            <note></note>
+                <target state="final">Phone number without the country code component</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.url">
+      <trans-unit xml:space="preserve" id="autocomplete.url" approved="yes">
                 <source>autocomplete.url</source>
-            <target state="translated">A URL, as appropriate given the context of the form</target>
-            <note></note>
+                <target state="final">A URL, as appropriate given the context of the form</target>
+                <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="autocomplete.photo">
+      <trans-unit xml:space="preserve" id="autocomplete.photo" approved="yes">
                 <source>autocomplete.photo</source>
-            <target state="translated">URL of an image representing the contact information given in the form.</target>
-            <note></note>
+                <target state="final">URL of an image representing the contact information given in the form.</target>
+                <note/>
             </trans-unit>
     </body>
   </file>
