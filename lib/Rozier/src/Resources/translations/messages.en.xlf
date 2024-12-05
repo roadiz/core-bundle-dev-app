@@ -2,6 +2,10 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="./themes/Rozier/Resources/translations/messages.po" source-language="en" datatype="plaintext" target-language="en">
     <body>
+      <trans-unit xml:space="preserve" id="%namespace%.imported">
+        <source>%namespace%.imported</source>
+        <target state="translated">Successful import for: %namespace%.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="2" approved="yes">
         <source>node.%name%.updated</source>
         <target state="final">Node "%name%" has been updated.</target>
@@ -4069,6 +4073,10 @@
         <source>export_format.excel.%language%</source>
         <target state="final">Excel file format (%language%)</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="export_format.csv.%language%">
+        <source>export_format.csv.%language%</source>
+        <target state="translated">CSV file (%language%)</target>
+      </trans-unit>
       <!-- Bulk tags -->
       <trans-unit xml:space="preserve" id="delete.tags" approved="yes">
         <source>delete.tags</source>
@@ -4215,6 +4223,11 @@
         <source>reachable</source>
         <target state="final">Reachable</target>
         <note>For node-types, defines if produced nodes will be reachable with an URL or not (eg. just content blocks).</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="You cannot delete a node-type in production mode." approved="yes">
+        <source>You cannot delete a node-type in production mode.</source>
+        <target state="final">You cannot delete a node type from a production environment.</target>
+        <note>For node-types, a notice when env is prod to prevent editing node-type schema in production.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="yaml.type" approved="yes">
         <source>yaml.type</source>
@@ -4867,6 +4880,18 @@
       <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type">
         <source>enables_node_attributes_for_this_type</source>
         <target state="translated">Allows nodes of this type to hold attributes in addition of their data fields.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="sortingAttributesByWeight" approved="yes">
+        <source>sortingAttributesByWeight</source>
+        <target state="final">Sort attributes by weight</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="sort_attributes_by_weight_for_this_type" approved="yes">
+        <source>sort_attributes_by_weight_for_this_type</source>
+        <target state="final">If enabled, attributes will be sorted by weight rather than manually for all nodes of this type.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ip_address" approved="yes">
+        <source>ip_address</source>
+        <target state="final">IP address</target>
       </trans-unit>
     </body>
   </file>
