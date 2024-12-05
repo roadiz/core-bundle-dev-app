@@ -7,7 +7,7 @@ meta {
 get {
   url: {{baseUrl}}/api/nodes_sources/search
   body: none
-  auth: bearer
+  auth: none
 }
 
 params:query {
@@ -79,8 +79,4 @@ params:query {
   ~intersect[node.nodesTags.tag.tagName]: 
   ~intersect[node.nodesTags.tag.tagName][]: 
   ~_preview: 
-}
-
-auth:bearer {
-  token: {{token}}
 }
