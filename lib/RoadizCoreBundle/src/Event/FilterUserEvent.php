@@ -9,11 +9,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class FilterUserEvent extends Event
 {
-    private User $user;
-
-    public function __construct(User $user)
+    public function __construct(protected readonly User $user)
     {
-        $this->user = $user;
     }
 
     public function getUser(): User

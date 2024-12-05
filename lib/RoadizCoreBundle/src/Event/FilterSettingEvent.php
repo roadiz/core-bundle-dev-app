@@ -9,11 +9,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class FilterSettingEvent extends Event
 {
-    protected Setting $setting;
-
-    public function __construct(Setting $setting)
+    public function __construct(protected readonly Setting $setting)
     {
-        $this->setting = $setting;
     }
 
     public function getSetting(): Setting

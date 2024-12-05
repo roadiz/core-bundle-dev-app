@@ -7,9 +7,9 @@ namespace RZ\Roadiz\CoreBundle\Serializer;
 use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\UrlGeneratorInterface;
 
-final class CircularReferenceHandler
+final readonly class CircularReferenceHandler
 {
-    public function __construct(private readonly IriConverterInterface $iriConverter)
+    public function __construct(private IriConverterInterface $iriConverter)
     {
     }
 

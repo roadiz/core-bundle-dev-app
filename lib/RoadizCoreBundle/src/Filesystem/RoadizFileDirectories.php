@@ -6,9 +6,9 @@ namespace RZ\Roadiz\CoreBundle\Filesystem;
 
 use RZ\Roadiz\Documents\Models\FileAwareInterface;
 
-final class RoadizFileDirectories implements FileAwareInterface
+final readonly class RoadizFileDirectories implements FileAwareInterface
 {
-    public function __construct(private readonly string $projectDir)
+    public function __construct(private string $projectDir)
     {
     }
 

@@ -6,12 +6,12 @@ namespace RZ\Roadiz\CoreBundle\Model;
 
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 
-final class NodesSourcesTreeDto implements PersistableInterface
+final readonly class NodesSourcesTreeDto implements PersistableInterface
 {
     public function __construct(
-        private readonly ?int $id,
-        private readonly ?string $title,
-        private readonly ?\DateTime $publishedAt,
+        private ?int $id,
+        private ?string $title,
+        private ?\DateTime $publishedAt,
     ) {
     }
 

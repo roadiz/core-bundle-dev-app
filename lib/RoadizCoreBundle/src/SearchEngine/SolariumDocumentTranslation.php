@@ -20,20 +20,14 @@ class SolariumDocumentTranslation extends AbstractSolarium
     public const DOCUMENT_TYPE = 'DocumentTranslation';
     public const IDENTIFIER_KEY = 'document_translation_id_i';
 
-    protected DocumentTranslation $documentTranslation;
-    protected EventDispatcherInterface $dispatcher;
-
     public function __construct(
-        DocumentTranslation $documentTranslation,
+        protected readonly DocumentTranslation $documentTranslation,
         ClientRegistry $clientRegistry,
-        EventDispatcherInterface $dispatcher,
+        protected readonly EventDispatcherInterface $dispatcher,
         LoggerInterface $searchEngineLogger,
         MarkdownInterface $markdown,
     ) {
         parent::__construct($clientRegistry, $searchEngineLogger, $markdown);
-
-        $this->documentTranslation = $documentTranslation;
-        $this->dispatcher = $dispatcher;
     }
 
     public function getDocumentId(): int|string

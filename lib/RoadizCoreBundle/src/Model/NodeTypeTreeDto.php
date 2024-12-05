@@ -8,16 +8,16 @@ use Doctrine\Common\Collections\Collection;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 
-final class NodeTypeTreeDto implements NodeTypeInterface
+final readonly class NodeTypeTreeDto implements NodeTypeInterface
 {
     public function __construct(
-        private readonly string $name,
-        private readonly bool $publishable,
-        private readonly bool $reachable,
-        private readonly string $displayName,
-        private readonly string $color,
-        private readonly bool $hidingNodes,
-        private readonly bool $hidingNonReachableNodes,
+        private string $name,
+        private bool $publishable,
+        private bool $reachable,
+        private string $displayName,
+        private string $color,
+        private bool $hidingNodes,
+        private bool $hidingNonReachableNodes,
     ) {
     }
 

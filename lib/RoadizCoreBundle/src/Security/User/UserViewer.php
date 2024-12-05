@@ -16,15 +16,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Http\LoginLink\LoginLinkDetails;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class UserViewer
+final readonly class UserViewer
 {
     public function __construct(
-        private readonly Settings $settingsBag,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly TranslatorInterface $translator,
-        private readonly EmailManagerFactory $emailManagerFactory,
-        private readonly LoggerInterface $logger,
-        private readonly LoginLinkSenderInterface $loginLinkSender,
+        private Settings $settingsBag,
+        private UrlGeneratorInterface $urlGenerator,
+        private TranslatorInterface $translator,
+        private EmailManagerFactory $emailManagerFactory,
+        private LoggerInterface $logger,
+        private LoginLinkSenderInterface $loginLinkSender,
     ) {
     }
 

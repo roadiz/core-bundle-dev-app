@@ -12,14 +12,14 @@ use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Update\Query\Query;
 
 /**
- * Wrap a Solarium and a Document’ translations together to ease indexing.
+ * Wrap a Solarium and a document translations together to ease indexing.
  */
 class SolariumDocument extends AbstractSolarium
 {
     protected array $documentTranslationItems;
 
     public function __construct(
-        Document $rzDocument,
+        readonly Document $rzDocument,
         SolariumFactoryInterface $solariumFactory,
         ClientRegistry $clientRegistry,
         LoggerInterface $searchEngineLogger,
@@ -44,7 +44,7 @@ class SolariumDocument extends AbstractSolarium
     /**
      * @return array<\Solarium\QueryType\Update\Query\Document|DocumentInterface> Each document translation Solr document
      */
-    public function getDocuments()
+    public function getDocuments(): array
     {
         $documents = [];
         /** @var SolariumDocumentTranslation $documentTranslationItem */

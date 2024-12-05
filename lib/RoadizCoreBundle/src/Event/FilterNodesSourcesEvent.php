@@ -9,11 +9,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class FilterNodesSourcesEvent extends Event
 {
-    protected NodesSources $nodeSource;
-
-    public function __construct(NodesSources $nodeSource)
+    public function __construct(protected readonly NodesSources $nodeSource)
     {
-        $this->nodeSource = $nodeSource;
     }
 
     public function getNodeSource(): NodesSources

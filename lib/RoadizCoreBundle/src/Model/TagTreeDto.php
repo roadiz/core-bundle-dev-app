@@ -9,15 +9,15 @@ use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 /**
  * Doctrine Data transfer object to represent a Tag in a tree.
  */
-final class TagTreeDto implements PersistableInterface
+final readonly class TagTreeDto implements PersistableInterface
 {
     public function __construct(
-        private readonly int $id,
-        private readonly string $tagName,
-        private readonly ?string $name,
-        private readonly string $color,
-        private readonly bool $visible,
-        private readonly ?int $parentId,
+        private int $id,
+        private string $tagName,
+        private ?string $name,
+        private string $color,
+        private bool $visible,
+        private ?int $parentId,
     ) {
     }
 

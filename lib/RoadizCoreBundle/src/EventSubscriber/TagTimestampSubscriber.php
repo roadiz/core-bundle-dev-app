@@ -7,7 +7,7 @@ namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class TagTimestampSubscriber implements EventSubscriberInterface
+final readonly class TagTimestampSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents(): array
     {

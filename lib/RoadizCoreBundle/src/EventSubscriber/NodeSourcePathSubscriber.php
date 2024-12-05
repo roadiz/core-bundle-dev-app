@@ -9,10 +9,10 @@ use RZ\Roadiz\CoreBundle\Routing\NodesSourcesPathAggregator;
 use RZ\Roadiz\CoreBundle\Routing\NodesSourcesUrlGenerator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class NodeSourcePathSubscriber implements EventSubscriberInterface
+final readonly class NodeSourcePathSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly NodesSourcesPathAggregator $pathAggregator,
+        private NodesSourcesPathAggregator $pathAggregator,
     ) {
     }
 

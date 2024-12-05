@@ -52,20 +52,16 @@ abstract class AbstractSolarium
         'tr',
     ];
 
-    protected ClientRegistry $clientRegistry;
     protected bool $indexed = false;
     protected ?DocumentInterface $document = null;
     protected LoggerInterface $logger;
-    protected MarkdownInterface $markdown;
 
     public function __construct(
-        ClientRegistry $clientRegistry,
-        LoggerInterface $searchEngineLogger,
-        MarkdownInterface $markdown,
+        protected readonly ClientRegistry $clientRegistry,
+        readonly LoggerInterface $searchEngineLogger,
+        protected readonly MarkdownInterface $markdown,
     ) {
         $this->logger = $searchEngineLogger;
-        $this->markdown = $markdown;
-        $this->clientRegistry = $clientRegistry;
     }
 
     public function getSolr(): Client

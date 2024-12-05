@@ -11,11 +11,11 @@ use Psr\Cache\InvalidArgumentException;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 
-final class OptimizedNodesSourcesGraphPathAggregator implements NodesSourcesPathAggregator
+final readonly class OptimizedNodesSourcesGraphPathAggregator implements NodesSourcesPathAggregator
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly CacheItemPoolInterface $cacheAdapter,
+        private ManagerRegistry $managerRegistry,
+        private CacheItemPoolInterface $cacheAdapter,
     ) {
     }
 

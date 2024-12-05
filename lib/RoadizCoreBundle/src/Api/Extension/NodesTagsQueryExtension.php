@@ -14,10 +14,10 @@ use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 
-final class NodesTagsQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
+final readonly class NodesTagsQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
     public function __construct(
-        private readonly PreviewResolverInterface $previewResolver,
+        private PreviewResolverInterface $previewResolver,
     ) {
     }
 

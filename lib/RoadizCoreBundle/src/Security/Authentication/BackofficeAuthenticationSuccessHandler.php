@@ -13,11 +13,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 
-final class BackofficeAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
+final readonly class BackofficeAuthenticationSuccessHandler implements AuthenticationSuccessHandlerInterface
 {
     public function __construct(
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ManagerRegistry $managerRegistry,
+        private UrlGeneratorInterface $urlGenerator,
+        private ManagerRegistry $managerRegistry,
     ) {
     }
 

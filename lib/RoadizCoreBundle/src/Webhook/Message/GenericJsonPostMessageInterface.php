@@ -31,8 +31,6 @@ final readonly class GenericJsonPostMessageInterface implements AsyncMessage, Ht
 
     /**
      * @param Webhook $webhook
-     *
-     * @return static
      */
     public static function fromWebhook(WebhookInterface $webhook): self
     {

@@ -11,12 +11,12 @@ use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use Symfony\Component\HttpFoundation\Request;
 
-final class TranslationAwareContextBuilder implements SerializerContextBuilderInterface
+final readonly class TranslationAwareContextBuilder implements SerializerContextBuilderInterface
 {
     public function __construct(
-        private readonly SerializerContextBuilderInterface $decorated,
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly PreviewResolverInterface $previewResolver,
+        private SerializerContextBuilderInterface $decorated,
+        private ManagerRegistry $managerRegistry,
+        private PreviewResolverInterface $previewResolver,
     ) {
     }
 

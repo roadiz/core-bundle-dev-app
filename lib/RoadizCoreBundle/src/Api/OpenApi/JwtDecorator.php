@@ -8,10 +8,10 @@ use ApiPlatform\OpenApi\Factory\OpenApiFactoryInterface;
 use ApiPlatform\OpenApi\Model;
 use ApiPlatform\OpenApi\OpenApi;
 
-final class JwtDecorator implements OpenApiFactoryInterface
+final readonly class JwtDecorator implements OpenApiFactoryInterface
 {
     public function __construct(
-        private readonly OpenApiFactoryInterface $decorated,
+        private OpenApiFactoryInterface $decorated,
     ) {
     }
 

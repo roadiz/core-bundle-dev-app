@@ -7,9 +7,9 @@ namespace RZ\Roadiz\CoreBundle\SearchEngine;
 use Solarium\Core\Client\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-final class ClientRegistry
+final readonly class ClientRegistry
 {
-    public function __construct(private readonly ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
     }
 

@@ -18,9 +18,9 @@ use RZ\Roadiz\CoreBundle\Event\UrlAlias\UrlAliasDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\UrlAlias\UrlAliasUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class NodesSourcesUrlsCacheEventSubscriber implements EventSubscriberInterface
+final readonly class NodesSourcesUrlsCacheEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly NodesSourcesUrlsCacheClearer $cacheClearer)
+    public function __construct(private NodesSourcesUrlsCacheClearer $cacheClearer)
     {
     }
 

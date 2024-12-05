@@ -8,12 +8,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class SignatureSubscriber implements EventSubscriberInterface
+final readonly class SignatureSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly string $cmsVersion,
-        private readonly bool $hideRoadizVersion,
-        private readonly bool $debug = false,
+        private string $cmsVersion,
+        private bool $hideRoadizVersion,
+        private bool $debug = false,
     ) {
     }
 

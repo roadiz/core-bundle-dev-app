@@ -9,9 +9,9 @@ use Psr\Cache\InvalidArgumentException;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 
-final class NodeTypeResolver
+final readonly class NodeTypeResolver
 {
-    public function __construct(private readonly CacheItemPoolInterface $cacheAdapter)
+    public function __construct(private CacheItemPoolInterface $cacheAdapter)
     {
     }
 

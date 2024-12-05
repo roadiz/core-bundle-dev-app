@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Cache;
 
-final class ReverseProxyCache
+final readonly class ReverseProxyCache
 {
     public function __construct(
-        private readonly string $name,
-        private readonly string $host,
-        private readonly string $domainName,
-        private readonly int $timeout,
+        private string $name,
+        private string $host,
+        private string $domainName,
+        private int $timeout,
     ) {
     }
 

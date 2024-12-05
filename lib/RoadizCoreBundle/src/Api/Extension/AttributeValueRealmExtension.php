@@ -14,11 +14,11 @@ use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Realm\RealmResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
-final class AttributeValueRealmExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
+final readonly class AttributeValueRealmExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
     public function __construct(
-        private readonly Security $security,
-        private readonly RealmResolverInterface $realmResolver,
+        private Security $security,
+        private RealmResolverInterface $realmResolver,
     ) {
     }
 

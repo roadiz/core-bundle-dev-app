@@ -9,10 +9,10 @@ use ApiPlatform\OpenApi\Model;
 use ApiPlatform\OpenApi\Model\PathItem;
 use ApiPlatform\OpenApi\OpenApi;
 
-final class PreviewDecorator implements OpenApiFactoryInterface
+final readonly class PreviewDecorator implements OpenApiFactoryInterface
 {
     public function __construct(
-        private readonly OpenApiFactoryInterface $decorated,
+        private OpenApiFactoryInterface $decorated,
     ) {
     }
 

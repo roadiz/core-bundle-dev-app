@@ -23,12 +23,12 @@ use RZ\Roadiz\Documents\Events\DocumentUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\Event;
 
-final class AutomaticWebhookSubscriber implements EventSubscriberInterface
+final readonly class AutomaticWebhookSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly WebhookDispatcher $webhookDispatcher,
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly HandlerFactoryInterface $handlerFactory,
+        private WebhookDispatcher $webhookDispatcher,
+        private ManagerRegistry $managerRegistry,
+        private HandlerFactoryInterface $handlerFactory,
     ) {
     }
 

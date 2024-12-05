@@ -8,7 +8,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -25,29 +24,16 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-class NodeMover
+final readonly class NodeMover
 {
-    protected ManagerRegistry $managerRegistry;
-    protected UrlGeneratorInterface $urlGenerator;
-    protected HandlerFactoryInterface $handlerFactory;
-    protected EventDispatcherInterface $dispatcher;
-    protected CacheItemPoolInterface $cacheAdapter;
-    protected LoggerInterface $logger;
-
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        UrlGeneratorInterface $urlGenerator,
-        HandlerFactoryInterface $handlerFactory,
-        EventDispatcherInterface $dispatcher,
-        CacheItemPoolInterface $cacheAdapter,
-        ?LoggerInterface $logger = null,
+        private ManagerRegistry $managerRegistry,
+        private UrlGeneratorInterface $urlGenerator,
+        private HandlerFactoryInterface $handlerFactory,
+        private EventDispatcherInterface $dispatcher,
+        private CacheItemPoolInterface $cacheAdapter,
+        private LoggerInterface $logger,
     ) {
-        $this->urlGenerator = $urlGenerator;
-        $this->logger = $logger ?? new NullLogger();
-        $this->dispatcher = $dispatcher;
-        $this->handlerFactory = $handlerFactory;
-        $this->managerRegistry = $managerRegistry;
-        $this->cacheAdapter = $cacheAdapter;
     }
 
     private function getManager(): ObjectManager

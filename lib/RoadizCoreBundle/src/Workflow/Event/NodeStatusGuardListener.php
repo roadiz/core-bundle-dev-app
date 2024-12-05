@@ -11,9 +11,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Workflow\Event\GuardEvent;
 use Symfony\Component\Workflow\TransitionBlocker;
 
-final class NodeStatusGuardListener implements EventSubscriberInterface
+final readonly class NodeStatusGuardListener implements EventSubscriberInterface
 {
-    public function __construct(private readonly Security $security)
+    public function __construct(private Security $security)
     {
     }
 

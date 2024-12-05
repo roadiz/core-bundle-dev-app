@@ -20,9 +20,9 @@ use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 
-final class HandlerFactory implements HandlerFactoryInterface
+final readonly class HandlerFactory implements HandlerFactoryInterface
 {
-    public function __construct(private readonly ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
     }
 

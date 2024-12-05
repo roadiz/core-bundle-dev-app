@@ -41,11 +41,11 @@ use Symfony\Component\HttpFoundation\RequestStack;
  *  ],
  * ```
  */
-final class ArchiveExtension implements QueryResultCollectionExtensionInterface
+final readonly class ArchiveExtension implements QueryResultCollectionExtensionInterface
 {
     public function __construct(
-        private readonly RequestStack $requestStack,
-        private readonly string $defaultPublicationFieldName = 'publishedAt',
+        private RequestStack $requestStack,
+        private string $defaultPublicationFieldName = 'publishedAt',
     ) {
     }
 

@@ -19,12 +19,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class UniqueNodeGenerator
+final readonly class UniqueNodeGenerator
 {
     public function __construct(
-        protected ManagerRegistry $managerRegistry,
-        protected NodeNamePolicyInterface $nodeNamePolicy,
-        protected Security $security,
+        private ManagerRegistry $managerRegistry,
+        private NodeNamePolicyInterface $nodeNamePolicy,
+        private Security $security,
     ) {
     }
 

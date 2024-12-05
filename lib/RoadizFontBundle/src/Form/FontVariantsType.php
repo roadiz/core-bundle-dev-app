@@ -14,9 +14,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FontVariantsType extends AbstractType
 {
-    /**
-     * @param OptionsResolver $resolver [description]
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

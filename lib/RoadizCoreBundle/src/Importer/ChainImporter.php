@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Importer;
 
-class ChainImporter implements EntityImporterInterface
+final class ChainImporter implements EntityImporterInterface
 {
-    private array $importers = [];
-
     /**
      * @param array<EntityImporterInterface> $importers
      */
-    public function __construct(array $importers = [])
+    public function __construct(private array $importers = [])
     {
-        $this->importers = $importers;
     }
 
     public function addImporter(EntityImporterInterface $entityImporter): self

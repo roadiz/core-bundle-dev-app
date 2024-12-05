@@ -15,15 +15,10 @@ use RZ\Roadiz\CoreBundle\Event\Role\PreUpdatedRoleEvent;
 use RZ\Roadiz\CoreBundle\Event\Role\RoleEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class RoleSubscriber implements EventSubscriberInterface
+final readonly class RoleSubscriber implements EventSubscriberInterface
 {
-    protected ?LazyParameterBag $roles;
-    private ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry, ?LazyParameterBag $roles)
+    public function __construct(private ManagerRegistry $managerRegistry, private ?LazyParameterBag $roles)
     {
-        $this->roles = $roles;
-        $this->managerRegistry = $managerRegistry;
     }
 
     public static function getSubscribedEvents(): array

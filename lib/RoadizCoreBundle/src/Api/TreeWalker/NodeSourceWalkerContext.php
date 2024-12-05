@@ -18,17 +18,17 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 #[Exclude]
-class NodeSourceWalkerContext implements WalkerContextInterface
+readonly class NodeSourceWalkerContext implements WalkerContextInterface
 {
     public function __construct(
-        private readonly Stopwatch $stopwatch,
-        private readonly NodeTypes $nodeTypesBag,
-        private readonly NodeSourceApi $nodeSourceApi,
-        private readonly RequestStack $requestStack,
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly CacheItemPoolInterface $cacheAdapter,
-        private readonly NodeTypeResolver $nodeTypeResolver,
-        private readonly PreviewResolverInterface $previewResolver,
+        private Stopwatch $stopwatch,
+        private NodeTypes $nodeTypesBag,
+        private NodeSourceApi $nodeSourceApi,
+        private RequestStack $requestStack,
+        private ManagerRegistry $managerRegistry,
+        private CacheItemPoolInterface $cacheAdapter,
+        private NodeTypeResolver $nodeTypeResolver,
+        private PreviewResolverInterface $previewResolver,
     ) {
     }
 
