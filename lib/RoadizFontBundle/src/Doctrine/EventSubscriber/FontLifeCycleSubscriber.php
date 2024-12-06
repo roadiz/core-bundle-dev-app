@@ -4,9 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\FontBundle\Doctrine\EventSubscriber;
 
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
+use Doctrine\ORM\Event\PostPersistEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
+use Doctrine\ORM\Event\PrePersistEventArgs;
+use Doctrine\ORM\Event\PreRemoveEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Events;
-use Doctrine\Persistence\Event\LifecycleEventArgs;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
@@ -16,34 +20,22 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 /**
  * Handle file management on Fonts lifecycle events.
  */
-final class FontLifeCycleSubscriber implements EventSubscriber
+#[AsDoctrineListener(event: Events::prePersist)]
+#[AsDoctrineListener(event: Events::preUpdate)]
+#[AsDoctrineListener(event: Events::preRemove)]
+#[AsDoctrineListener(event: Events::postPersist)]
+#[AsDoctrineListener(event: Events::postUpdate)]
+final class FontLifeCycleSubscriber
 {
     private static array $formats = ['svg', 'otf', 'eot', 'woff', 'woff2'];
 
     public function __construct(
         private readonly FilesystemOperator $fontStorage,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::prePersist,
-            Events::preUpdate,
-            Events::preRemove,
-            Events::postPersist,
-            Events::postUpdate,
-        ];
-    }
-
-    /**
-     * @param LifecycleEventArgs $args
-     */
-    public function prePersist(LifecycleEventArgs $args): void
+    public function prePersist(PrePersistEventArgs $args): void
     {
         $entity = $args->getObject();
         // perhaps you only want to act on some "Font" entity
@@ -52,10 +44,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
         }
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     */
-    public function preUpdate(LifecycleEventArgs $args): void
+    public function preUpdate(PreUpdateEventArgs $args): void
     {
         $entity = $args->getObject();
         // perhaps you only want to act on some "Font" entity
@@ -64,11 +53,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
         }
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     * @throws FilesystemException
-     */
-    public function postPersist(LifecycleEventArgs $args): void
+    public function postPersist(PostPersistEventArgs $args): void
     {
         $entity = $args->getObject();
         // perhaps you only want to act on some "Font" entity
@@ -77,11 +62,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
         }
     }
 
-    /**
-     * @param LifecycleEventArgs $args
-     * @throws FilesystemException
-     */
-    public function postUpdate(LifecycleEventArgs $args): void
+    public function postUpdate(PostUpdateEventArgs $args): void
     {
         $entity = $args->getObject();
         // perhaps you only want to act on some "Font" entity
@@ -90,7 +71,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
         }
     }
 
-    public function preRemove(LifecycleEventArgs $args): void
+    public function preRemove(PreRemoveEventArgs $args): void
     {
         $entity = $args->getObject();
         // perhaps you only want to act on some "Product" entity
@@ -98,8 +79,8 @@ final class FontLifeCycleSubscriber implements EventSubscriber
             try {
                 // factorize previous code with loop
                 foreach (self::$formats as $format) {
-                    $getter = 'get' . \mb_strtoupper($format) . 'Filename';
-                    $relativeUrlGetter = 'get' . \mb_strtoupper($format) . 'RelativeUrl';
+                    $getter = 'get'.\mb_strtoupper($format).'Filename';
+                    $relativeUrlGetter = 'get'.\mb_strtoupper($format).'RelativeUrl';
                     if (null !== $entity->$getter() && $this->fontStorage->fileExists($entity->$relativeUrlGetter())) {
                         $this->fontStorage->delete($entity->$relativeUrlGetter());
                         $this->logger->info('Font file deleted', ['file' => $entity->$relativeUrlGetter()]);
@@ -119,38 +100,36 @@ final class FontLifeCycleSubscriber implements EventSubscriber
                     }
                 }
             } catch (FilesystemException $e) {
-                //do nothing
+                // do nothing
             }
         }
     }
 
     public function setFontFilesNames(Font $font): void
     {
-        if ($font->getHash() == "") {
+        if ('' == $font->getHash()) {
             $font->generateHashWithSecret('default_roadiz_secret');
         }
 
         foreach (self::$formats as $format) {
             /** @var UploadedFile|null $file */
-            $file = $font->{'get' . ucfirst($format) . 'File'}();
+            $file = $font->{'get'.ucfirst($format).'File'}();
             if (null !== $file) {
-                $font->{'set' . \mb_strtoupper($format) . 'Filename'}($file->getClientOriginalName());
+                $font->{'set'.\mb_strtoupper($format).'Filename'}($file->getClientOriginalName());
             }
         }
     }
 
     /**
-     * @param Font $font
-     * @return void
      * @throws FilesystemException
      */
     public function upload(Font $font): void
     {
         foreach (self::$formats as $format) {
             /** @var UploadedFile|null $file */
-            $file = $font->{'get' . ucfirst($format) . 'File'}();
+            $file = $font->{'get'.ucfirst($format).'File'}();
             /** @var string|null $relativeUrl */
-            $relativeUrl =  $font->{'get' . \mb_strtoupper($format) . 'RelativeUrl'}();
+            $relativeUrl = $font->{'get'.\mb_strtoupper($format).'RelativeUrl'}();
             if (null !== $file && null !== $relativeUrl) {
                 $filename = $file->getPathname();
                 $fontResource = fopen($file->getPathname(), 'r');
@@ -159,7 +138,7 @@ final class FontLifeCycleSubscriber implements EventSubscriber
                         $relativeUrl,
                         $fontResource
                     );
-                    $font->{'set' . ucfirst($format) . 'File'}(null);
+                    $font->{'set'.ucfirst($format).'File'}(null);
                     fclose($fontResource);
                     $this->logger->info('Font file uploaded', ['file' => $relativeUrl]);
                 }

@@ -11,16 +11,24 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Process\Process;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final class AppMigrateCommand extends Command
 {
+    use RunningCommandsTrait;
+
     public function __construct(
         private readonly SchemaUpdater $schemaUpdater,
+        #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
+    }
+
+    public function getProjectDir(): string
+    {
+        return $this->projectDir;
     }
 
     protected function configure(): void
@@ -43,8 +51,9 @@ final class AppMigrateCommand extends Command
             '<question>Are you sure to migrate against app config.yml file?</question> This will generate new Doctrine Migrations and execute them. If you just want to import node-types run `bin/console app:install` instead',
             !$input->isInteractive()
         );
-        if ($io->askQuestion($question) === false) {
+        if (false === $io->askQuestion($question)) {
             $io->note('Nothing was done…');
+
             return 0;
         }
 
@@ -57,70 +66,37 @@ final class AppMigrateCommand extends Command
                 $output->isQuiet(),
             );
         } else {
-            $this->runCommand(
+            0 === $this->runCommand(
                 'app:install',
                 '',
                 null,
                 $input->isInteractive(),
                 $output->isQuiet()
-            ) === 0 ? $io->success('app:install') : $io->error('app:install');
+            ) ? $io->success('app:install') : $io->error('app:install');
 
-            $this->runCommand(
+            0 === $this->runCommand(
                 'generate:nsentities',
                 '',
                 null,
                 $input->isInteractive(),
                 $output->isQuiet()
-            ) === 0 ? $io->success('generate:nsentities') : $io->error('generate:nsentities');
+            ) ? $io->success('generate:nsentities') : $io->error('generate:nsentities');
+
+            0 === $this->runCommand(
+                'generate:api-resources',
+                '',
+                null,
+                $input->isInteractive(),
+                $output->isQuiet()
+            ) ? $io->success('generate:api-resources') : $io->error('generate:api-resources');
 
             $this->schemaUpdater->updateNodeTypesSchema();
             $this->schemaUpdater->updateSchema();
             $io->success('doctrine-migrations');
 
-            $this->runCommand(
-                'doctrine:cache:clear-metadata',
-                '',
-                null,
-                false,
-                true
-            ) === 0 ? $io->success('doctrine:cache:clear-metadata') : $io->error('doctrine:cache:clear-metadata');
-
-            $this->runCommand(
-                'cache:clear',
-                '',
-                null,
-                false,
-                true
-            ) === 0 ? $io->success('cache:clear') : $io->error('cache:clear');
-
-            $this->runCommand(
-                'cache:pool:clear',
-                'cache.global_clearer',
-                null,
-                false,
-                true
-            ) === 0 ? $io->success('cache:pool:clear') : $io->error('cache:pool:clear');
+            $this->clearCaches($io);
         }
+
         return 0;
-    }
-
-    protected function runCommand(
-        string $command,
-        string $args = '',
-        ?string $environment = null,
-        bool $interactive = true,
-        bool $quiet = false
-    ): int {
-        $args .= $interactive ? '' : ' --no-interaction ';
-        $args .= $quiet ? ' --quiet ' : ' -v ';
-        $args .= is_string($environment) ? (' --env ' . $environment) : '';
-
-        $process = Process::fromShellCommandline(
-            'php bin/console ' . $command  . ' ' . $args
-        );
-        $process->setWorkingDirectory($this->projectDir);
-        $process->setTty($interactive);
-        $process->run();
-        return $process->wait();
     }
 }

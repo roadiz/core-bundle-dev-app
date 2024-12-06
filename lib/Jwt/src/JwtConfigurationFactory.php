@@ -8,5 +8,5 @@ use Lcobucci\JWT\Configuration;
 
 interface JwtConfigurationFactory
 {
-    public function create(): Configuration;
+    public function create(): ?Configuration;
 }

@@ -2,13 +2,17 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="./themes/Rozier/Resources/translations/messages.po" source-language="en" datatype="plaintext" target-language="fr">
     <body>
+      <trans-unit xml:space="preserve" id="%namespace%.imported" approved="yes">
+        <source>%namespace%.imported</source>
+        <target state="final">Import réussi pour : %namespace%.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="2" approved="yes">
         <source>node.%name%.updated</source>
         <target state="final">Le nœud %name% a été mis à jour.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.was_moved">
+      <trans-unit xml:space="preserve" id="node.%name%.was_moved" approved="yes">
         <source>node.%name%.was_moved</source>
-        <target state="translated">Le nœud %name% a été déplacé.</target>
+        <target state="final">Le nœud %name% a été déplacé.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="3" approved="yes">
         <source>node.%nodeId%.not_exists</source>
@@ -346,13 +350,13 @@
         <source>translation</source>
         <target state="final">Traduction</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="source_translation">
+      <trans-unit xml:space="preserve" id="source_translation" approved="yes">
         <source>source_translation</source>
-        <target state="translated">Traduction source</target>
+        <target state="final">Traduction source</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="destination_translation">
+      <trans-unit xml:space="preserve" id="destination_translation" approved="yes">
         <source>destination_translation</source>
-        <target state="translated">Traduction de destination</target>
+        <target state="final">Traduction de destination</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="91" approved="yes">
         <source>metaTitle</source>
@@ -390,13 +394,13 @@
         <source>defaultValues</source>
         <target state="final">Valeur(s) par défaut</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.defaultValues">
+      <trans-unit xml:space="preserve" id="customFormField.defaultValues" approved="yes">
         <source>customFormField.defaultValues</source>
-        <target state="translated">Configuration avancée</target>
+        <target state="final">Configuration avancée</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.defaultValues">
+      <trans-unit xml:space="preserve" id="nodeTypeField.defaultValues" approved="yes">
         <source>nodeTypeField.defaultValues</source>
-        <target state="translated">Configuration avancée</target>
+        <target state="final">Configuration avancée</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="101" approved="yes">
         <source>enter_values_comma_separated</source>
@@ -474,9 +478,9 @@
         <source>nodeType.hidingNodes</source>
         <target state="final">Cache ses nœuds ?</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.hidingNonReachableNodes">
+      <trans-unit xml:space="preserve" id="nodeType.hidingNonReachableNodes" approved="yes">
         <source>nodeType.hidingNonReachableNodes</source>
-        <target state="translated">Cache ses nœuds non accessibles ?</target>
+        <target state="final">Cache ses nœuds non accessibles ?</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="125" approved="yes">
         <source>role.imported</source>
@@ -1170,9 +1174,9 @@
         <source>dev_mode.activated</source>
         <target state="final">Mode développement activé</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.activated">
+      <trans-unit xml:space="preserve" id="maintenance_mode.activated" approved="yes">
         <source>maintenance_mode.activated</source>
-        <target state="translated">Mode maintenance activé</target>
+        <target state="final">Mode maintenance activé</target>
         <note>Message to notify that site is under maintenance.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="300" approved="yes">
@@ -1479,9 +1483,9 @@
         <source>tag.color</source>
         <target state="final">Couleur</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.color">
+      <trans-unit xml:space="preserve" id="folder.color" approved="yes">
         <source>folder.color</source>
-        <target state="translated">Couleur</target>
+        <target state="final">Couleur</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="374" approved="yes">
         <source>tag.tree</source>
@@ -1521,7 +1525,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="383" approved="yes">
         <source>are_you_sure.delete.nodeType.and.nodes.newsletters</source>
-        <target state="final">Êtes-vous sûr(e) de vouloir supprimer ce type de nœud ? Cela supprimera la totalité des nœuds, contenus et des newsletters liés. Nous vous conseillons d’effectuer une sauvegarde avant de continuer.</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir supprimer ce type de nœud ? Cela supprimera la totalité des nœuds et des contenus liés. Nous vous conseillons d’effectuer une sauvegarde avant de continuer.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="384" approved="yes">
         <source>upload.document</source>
@@ -1785,9 +1789,9 @@
         <source>country.type</source>
         <target state="final">Pays (ISO 3166-1 alpha-2)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="collection.type">
+      <trans-unit xml:space="preserve" id="collection.type" approved="yes">
         <source>collection.type</source>
-        <target state="translated">Collection sur-mesure</target>
+        <target state="final">Collection sur-mesure</target>
       </trans-unit>
       <!-- Dynamic button in nodeTree add.a.%nodeType% -->
       <trans-unit xml:space="preserve" id="445" approved="yes">
@@ -1940,9 +1944,9 @@
         <source>maintenance_mode</source>
         <target state="final">Mode de maintenance</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="universal_analytics_id">
+      <trans-unit xml:space="preserve" id="universal_analytics_id" approved="yes">
         <source>universal_analytics_id</source>
-        <target state="translated">Identifiant de suivi Universal Analytics</target>
+        <target state="final">Identifiant de suivi Universal Analytics</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="facebook_url" approved="yes">
         <source>facebook_url</source>
@@ -1954,9 +1958,9 @@
         <target state="final">Instagram - Url</target>
         <note>Setting name for social page url.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="instagram_user_id">
+      <trans-unit xml:space="preserve" id="instagram_user_id" approved="yes">
         <source>instagram_user_id</source>
-        <target state="translated">Instagram - Id de l'utilisateur</target>
+        <target state="final">Instagram - Id de l'utilisateur</target>
         <note>Setting name for social page account name.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="twitter_url" approved="yes">
@@ -1964,19 +1968,19 @@
         <target state="final">Url Twitter</target>
         <note>Setting name for social page url.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="linkedin_url">
+      <trans-unit xml:space="preserve" id="linkedin_url" approved="yes">
         <source>linkedin_url</source>
-        <target state="translated">Url LinkedIn</target>
+        <target state="final">Url LinkedIn</target>
         <note>Setting name for social page url.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="youtube_url">
+      <trans-unit xml:space="preserve" id="youtube_url" approved="yes">
         <source>youtube_url</source>
-        <target state="translated">Url Youtube</target>
+        <target state="final">Url Youtube</target>
         <note>Setting name for social page url.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="googleplus_url">
+      <trans-unit xml:space="preserve" id="googleplus_url" approved="yes">
         <source>googleplus_url</source>
-        <target state="translated">Url Google +</target>
+        <target state="final">Url Google +</target>
         <note>Setting name for social page url.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="twitter_account" approved="yes">
@@ -2190,9 +2194,9 @@
         <source>embed.document.already_exists</source>
         <target state="final">Le document à intégrer existe déjà.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="embedId.is_not_valid">
+      <trans-unit xml:space="preserve" id="embedId.is_not_valid" approved="yes">
         <source>embedId.is_not_valid</source>
-        <target state="translated">L’identifiant du média n’est pas valide.</target>
+        <target state="final">L’identifiant du média n’est pas valide.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="document.metas" approved="yes">
         <source>document.metas</source>
@@ -2218,9 +2222,9 @@
         <source>document.translation.%name%.cannot_delete</source>
         <target state="final">Les méta-données du document «%name%» ne peuvent pas être supprimées.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folder">
+      <trans-unit xml:space="preserve" id="folder" approved="yes">
         <source>folder</source>
-        <target state="translated">Dossier</target>
+        <target state="final">Dossier</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folderTree" approved="yes">
         <source>folderTree</source>
@@ -2234,13 +2238,13 @@
         <source>add.child.folder</source>
         <target state="final">Ajouter le sous-dossier</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="add.folder.%name%.child">
+      <trans-unit xml:space="preserve" id="add.folder.%name%.child" approved="yes">
         <source>add.folder.%name%.child</source>
-        <target state="translated">Ajouter un sous-dossier à «%name%»</target>
+        <target state="final">Ajouter un sous-dossier à «%name%»</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.%name%.created">
+      <trans-unit xml:space="preserve" id="folder.%name%.created" approved="yes">
         <source>folder.%name%.created</source>
-        <target state="translated">Le dossier « %name% » a été créé.</target>
+        <target state="final">Le dossier « %name% » a été créé.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="edit.folder" approved="yes">
         <source>edit.folder</source>
@@ -2292,45 +2296,45 @@
         <source>nodeTypeField.maxLength</source>
         <target state="final">Longueur maximale</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="no_limit">
+      <trans-unit xml:space="preserve" id="no_limit" approved="yes">
         <source>no_limit</source>
-        <target state="translated">Aucune limite</target>
+        <target state="final">Aucune limite</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.serialization">
+      <trans-unit xml:space="preserve" id="nodeTypeField.serialization" approved="yes">
         <source>nodeTypeField.serialization</source>
-        <target state="translated">Sérialisation</target>
+        <target state="final">Sérialisation</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.excludedFromSerialization">
+      <trans-unit xml:space="preserve" id="nodeTypeField.excludedFromSerialization" approved="yes">
         <source>nodeTypeField.excludedFromSerialization</source>
-        <target state="translated">Exclure ce champ de la sérialisation de la source du nœud ?</target>
+        <target state="final">Exclure ce champ de la sérialisation de la source du nœud ?</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.serializationMaxDepth">
+      <trans-unit xml:space="preserve" id="nodeTypeField.serializationMaxDepth" approved="yes">
         <source>nodeTypeField.serializationMaxDepth</source>
-        <target state="translated">Profondeur maximale de sérialisation</target>
+        <target state="final">Profondeur maximale de sérialisation</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.serializationExclusionExpression">
+      <trans-unit xml:space="preserve" id="nodeTypeField.serializationExclusionExpression" approved="yes">
         <source>nodeTypeField.serializationExclusionExpression</source>
-        <target state="translated">Expression d'exclusion de la sérialisation</target>
+        <target state="final">Expression d'exclusion de la sérialisation</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.serializationGroups">
+      <trans-unit xml:space="preserve" id="nodeTypeField.serializationGroups" approved="yes">
         <source>nodeTypeField.serializationGroups</source>
-        <target state="translated">Groupes de sérialisation personnalisés</target>
+        <target state="final">Groupes de sérialisation personnalisés</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="exclude_this_field_from_api_serialization">
+      <trans-unit xml:space="preserve" id="exclude_this_field_from_api_serialization" approved="yes">
         <source>exclude_this_field_from_api_serialization</source>
-        <target state="translated">Empêche ce champ d'être sérialisé lors d'un appel API pour une source de nœud.</target>
+        <target state="final">Empêche ce champ d'être sérialisé lors d'un appel API pour une source de nœud.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="default_value">
+      <trans-unit xml:space="preserve" id="default_value" approved="yes">
         <source>default_value</source>
-        <target state="translated">Valeur par défaut</target>
+        <target state="final">Valeur par défaut</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="exclude_this_field_from_api_serialization_if_expression_result_is_true">
+      <trans-unit xml:space="preserve" id="exclude_this_field_from_api_serialization_if_expression_result_is_true" approved="yes">
         <source>exclude_this_field_from_api_serialization_if_expression_result_is_true</source>
-        <target state="translated">Empêche ce champ d'être sérialisé seulement si le résultat de l'expression est vrai. La syntaxe utilisée est le Symfony Expression Language.</target>
+        <target state="final">Empêche ce champ d'être sérialisé seulement si le résultat de l'expression est vrai. La syntaxe utilisée est le Symfony Expression Language.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="enter_symfony_expression_language_with_object_as_var_name">
+      <trans-unit xml:space="preserve" id="enter_symfony_expression_language_with_object_as_var_name" approved="yes">
         <source>enter_symfony_expression_language_with_object_as_var_name</source>
-        <target state="translated">Saisissez une expression Symfony Expression Language avec "object" comme nom de variable.</target>
+        <target state="final">Saisissez une expression Symfony Expression Language avec "object" comme nom de variable.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="export.all.nodes" approved="yes">
         <source>export.all.nodes</source>
@@ -2448,9 +2452,9 @@
         <source>non_breaking.space</source>
         <target state="final">Espace insécable</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="non_breaking.hyphen">
+      <trans-unit xml:space="preserve" id="non_breaking.hyphen" approved="yes">
         <source>non_breaking.hyphen</source>
-        <target state="translated">Trait d'union insécable</target>
+        <target state="final">Trait d'union insécable</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="forbidden.page" approved="yes">
         <source>forbidden.page</source>
@@ -2530,7 +2534,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer" approved="yes">
         <source>are_you_sure.delete.customFormAnswer</source>
-        <target state="final">Êtes-vous sûr(e) de vouloir supprimer cette réponse de formulaire personnalisé ?</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir supprimer ce formulaire personnalisé ?</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%" approved="yes">
         <source>delete.customFormAnswer.%name%</source>
@@ -2856,101 +2860,101 @@
         <source>bulk.actions</source>
         <target state="final">Actions groupées</target>
       </trans-unit>
-      <trans-unit id="bulk.delete" xml:space="preserve">
+      <trans-unit id="bulk.delete" xml:space="preserve" approved="yes">
         <source>bulk.delete</source>
-        <target state="translated">Supprimer les éléments sélectionnés</target>
+        <target state="final">Supprimer les éléments sélectionnés</target>
       </trans-unit>
-      <trans-unit id="bulk.publish" xml:space="preserve">
+      <trans-unit id="bulk.publish" xml:space="preserve" approved="yes">
         <source>bulk.publish</source>
-        <target state="translated">Publier les éléments sélectionnés</target>
+        <target state="final">Publier les éléments sélectionnés</target>
       </trans-unit>
-      <trans-unit id="bulk.unpublish" xml:space="preserve">
+      <trans-unit id="bulk.unpublish" xml:space="preserve" approved="yes">
         <source>bulk.unpublish</source>
-        <target state="translated">Dépublier les éléments sélectionnés</target>
+        <target state="final">Dépublier les éléments sélectionnés</target>
       </trans-unit>
-      <trans-unit id="no_attributes" xml:space="preserve">
+      <trans-unit id="no_attributes" xml:space="preserve" approved="yes">
         <source>no_attributes</source>
-        <target state="translated">Aucun attribut</target>
+        <target state="final">Aucun attribut</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve">
+      <trans-unit id="are_you_sure.bulk_delete.attributes" xml:space="preserve" approved="yes">
         <source>are_you_sure.bulk_delete.attributes</source>
-        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les attributs sélectionnés ?</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les attributs sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="attributes.bulk_delete.title" xml:space="preserve">
+      <trans-unit id="attributes.bulk_delete.title" xml:space="preserve" approved="yes">
         <source>attributes.bulk_delete.title</source>
-        <target state="translated">Supprimer des attributs</target>
+        <target state="final">Supprimer des attributs</target>
       </trans-unit>
-      <trans-unit id="no_webhooks" xml:space="preserve">
+      <trans-unit id="no_webhooks" xml:space="preserve" approved="yes">
         <source>no_webhooks</source>
-        <target state="translated">Aucun webhook</target>
+        <target state="final">Aucun webhook</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve">
+      <trans-unit id="are_you_sure.bulk_delete.webhooks" xml:space="preserve" approved="yes">
         <source>are_you_sure.bulk_delete.webhooks</source>
-        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les webhooks sélectionnés ?</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les webhooks sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve">
+      <trans-unit id="webhooks.bulk_delete.title" xml:space="preserve" approved="yes">
         <source>webhooks.bulk_delete.title</source>
-        <target state="translated">Supprimer des webhooks</target>
+        <target state="final">Supprimer des webhooks</target>
       </trans-unit>
-      <trans-unit id="no_redirections" xml:space="preserve">
+      <trans-unit id="no_redirections" xml:space="preserve" approved="yes">
         <source>no_redirections</source>
-        <target state="translated">Aucune redirection</target>
+        <target state="final">Aucune redirection</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve">
+      <trans-unit id="are_you_sure.bulk_delete.redirections" xml:space="preserve" approved="yes">
         <source>are_you_sure.bulk_delete.redirections</source>
-        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer toutes les redirections sélectionnées ?</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir supprimer toutes les redirections sélectionnées ?</target>
       </trans-unit>
-      <trans-unit id="redirections.bulk_delete.title" xml:space="preserve">
+      <trans-unit id="redirections.bulk_delete.title" xml:space="preserve" approved="yes">
         <source>redirections.bulk_delete.title</source>
-        <target state="translated">Supprimer des redirections</target>
+        <target state="final">Supprimer des redirections</target>
       </trans-unit>
-      <trans-unit id="no_custom_forms" xml:space="preserve">
+      <trans-unit id="no_custom_forms" xml:space="preserve" approved="yes">
         <source>no_custom_forms</source>
-        <target state="translated">Aucun formulaire personnalisé</target>
+        <target state="final">Aucun formulaire personnalisé</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve">
+      <trans-unit id="are_you_sure.bulk_delete.custom_forms" xml:space="preserve" approved="yes">
         <source>are_you_sure.bulk_delete.custom_forms</source>
-        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les formulaires personnalisés sélectionnés ?</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les formulaires personnalisés sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve">
+      <trans-unit id="custom_forms.bulk_delete.title" xml:space="preserve" approved="yes">
         <source>custom_forms.bulk_delete.title</source>
-        <target state="translated">Supprimer des formulaires personnalisés</target>
+        <target state="final">Supprimer des formulaires personnalisés</target>
       </trans-unit>
-      <trans-unit id="no_users" xml:space="preserve">
+      <trans-unit id="no_users" xml:space="preserve" approved="yes">
         <source>no_users</source>
-        <target state="translated">Aucun utilisateur</target>
+        <target state="final">Aucun utilisateur</target>
       </trans-unit>
-      <trans-unit id="bulk.enable" xml:space="preserve">
+      <trans-unit id="bulk.enable" xml:space="preserve" approved="yes">
         <source>bulk.enable</source>
-        <target state="translated">Tout activer</target>
+        <target state="final">Tout activer</target>
       </trans-unit>
-      <trans-unit id="bulk.disable" xml:space="preserve">
+      <trans-unit id="bulk.disable" xml:space="preserve" approved="yes">
         <source>bulk.disable</source>
-        <target state="translated">Tout désactiver</target>
+        <target state="final">Tout désactiver</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve">
+      <trans-unit id="are_you_sure.bulk_delete.users" xml:space="preserve" approved="yes">
         <source>are_you_sure.bulk_delete.users</source>
-        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer tous les comptes utilisateurs sélectionnés ?</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir supprimer tous les comptes utilisateurs sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="users.bulk_delete.title" xml:space="preserve">
+      <trans-unit id="users.bulk_delete.title" xml:space="preserve" approved="yes">
         <source>users.bulk_delete.title</source>
-        <target state="translated">Supprimer les utilisateurs sélectionnés</target>
+        <target state="final">Supprimer les utilisateurs sélectionnés</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve">
+      <trans-unit id="are_you_sure.bulk_enable.users" xml:space="preserve" approved="yes">
         <source>are_you_sure.bulk_enable.users</source>
-        <target state="translated">Êtes-vous sûr(e) de vouloir réactiver tous les comptes utilisateurs sélectionnés ?</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir réactiver tous les comptes utilisateurs sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="users.bulk_enable.title" xml:space="preserve">
+      <trans-unit id="users.bulk_enable.title" xml:space="preserve" approved="yes">
         <source>users.bulk_enable.title</source>
-        <target state="translated">Réactiver les utilisateurs sélectionnés</target>
+        <target state="final">Réactiver les utilisateurs sélectionnés</target>
       </trans-unit>
-      <trans-unit id="are_you_sure.bulk_disable.users" xml:space="preserve">
+      <trans-unit id="are_you_sure.bulk_disable.users" xml:space="preserve" approved="yes">
         <source>are_you_sure.bulk_disable.users</source>
-        <target state="translated">Êtes-vous sûr(e) de vouloir désactiver tous les comptes utilisateurs sélectionnés ?</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir désactiver tous les comptes utilisateurs sélectionnés ?</target>
       </trans-unit>
-      <trans-unit id="users.bulk_disable.title" xml:space="preserve">
+      <trans-unit id="users.bulk_disable.title" xml:space="preserve" approved="yes">
         <source>users.bulk_disable.title</source>
-        <target state="translated">Désactiver les utilisateurs sélectionnés</target>
+        <target state="final">Désactiver les utilisateurs sélectionnés</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="reset.marker" approved="yes">
         <source>reset.marker</source>
@@ -3112,9 +3116,9 @@
         <source>Bad credentials.</source>
         <target state="final">Identifiants non reconnus</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="Too many login attemps">
+      <trans-unit xml:space="preserve" id="Too many login attemps" approved="yes">
         <source>Too many login attemps, wait before trying again.</source>
-        <target state="translated">Trop de tentatives de connexion ont échoué. Veuillez patienter avant de réessayer. </target>
+        <target state="final">Trop de tentatives de connexion ont échoué. Veuillez patienter avant de réessayer. </target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="User account has expired." approved="yes">
         <source>User account has expired.</source>
@@ -3200,13 +3204,13 @@
         <source>nodeType.hiding_nodes</source>
         <target state="final">Type cachant son arborescence</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.searchable">
+      <trans-unit xml:space="preserve" id="nodeType.searchable" approved="yes">
         <source>nodeType.searchable</source>
-        <target state="translated">Visible lors de la recherche ?</target>
+        <target state="final">Visible lors de la recherche ?</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="allow_this_types_nodes_title_to_be_indexed_into_search_engine">
+      <trans-unit xml:space="preserve" id="allow_this_types_nodes_title_to_be_indexed_into_search_engine" approved="yes">
         <source>allow_this_types_nodes_title_to_be_indexed_into_search_engine</source>
-        <target state="translated">Permet aux titres des sources de nœud de ce type d'être indexé dans le moteur de recherche.</target>
+        <target state="final">Permet aux titres des sources de nœud de ce type d'être indexé dans le moteur de recherche.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="newsletter.%name%.created" approved="yes">
         <source>newsletter.%name%.created</source>
@@ -3584,9 +3588,9 @@
         <source>document.filepath</source>
         <target state="final">Chemin absolu du fichier</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.imageAverageColor">
+      <trans-unit xml:space="preserve" id="document.imageAverageColor" approved="yes">
         <source>document.imageAverageColor</source>
-        <target state="translated">Couleur moyenne</target>
+        <target state="final">Couleur moyenne</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="download.document" approved="yes">
         <source>download.document</source>
@@ -3671,53 +3675,53 @@
         <source>font_variant.light.italic</source>
         <target state="final">Light italique</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.thin">
+      <trans-unit xml:space="preserve" id="font_variant.thin" approved="yes">
         <source>font_variant.thin</source>
-        <target state="translated">Thin</target>
+        <target state="final">Thin</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.thin.italic">
+      <trans-unit xml:space="preserve" id="font_variant.thin.italic" approved="yes">
         <source>font_variant.thin.italic</source>
-        <target state="translated">Thin italique</target>
+        <target state="final">Thin italique</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.extra_light">
+      <trans-unit xml:space="preserve" id="font_variant.extra_light" approved="yes">
         <source>font_variant.extra_light</source>
-        <target state="translated">Extra light</target>
+        <target state="final">Extra light</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.extra_light.italic">
+      <trans-unit xml:space="preserve" id="font_variant.extra_light.italic" approved="yes">
         <source>font_variant.extra_light.italic</source>
-        <target state="translated">Extra light italique</target>
+        <target state="final">Extra light italique</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.extra_bold">
+      <trans-unit xml:space="preserve" id="font_variant.extra_bold" approved="yes">
         <source>font_variant.extra_bold</source>
-        <target state="translated">Extra bold</target>
+        <target state="final">Extra bold</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.extra_bold.italic">
+      <trans-unit xml:space="preserve" id="font_variant.extra_bold.italic" approved="yes">
         <source>font_variant.extra_bold.italic</source>
-        <target state="translated">Extra bold italique</target>
+        <target state="final">Extra bold italique</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.semi_bold">
+      <trans-unit xml:space="preserve" id="font_variant.semi_bold" approved="yes">
         <source>font_variant.semi_bold</source>
-        <target state="translated">Semi bold</target>
+        <target state="final">Semi bold</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.semi_bold.italic">
+      <trans-unit xml:space="preserve" id="font_variant.semi_bold.italic" approved="yes">
         <source>font_variant.semi_bold.italic</source>
-        <target state="translated">Semi bold italique</target>
+        <target state="final">Semi bold italique</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.medium">
+      <trans-unit xml:space="preserve" id="font_variant.medium" approved="yes">
         <source>font_variant.medium</source>
-        <target state="translated">Medium</target>
+        <target state="final">Medium</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.medium.italic">
+      <trans-unit xml:space="preserve" id="font_variant.medium.italic" approved="yes">
         <source>font_variant.medium.italic</source>
-        <target state="translated">Medium italique</target>
+        <target state="final">Medium italique</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.black">
+      <trans-unit xml:space="preserve" id="font_variant.black" approved="yes">
         <source>font_variant.black</source>
-        <target state="translated">Black</target>
+        <target state="final">Black</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.black.italic">
+      <trans-unit xml:space="preserve" id="font_variant.black.italic" approved="yes">
         <source>font_variant.black.italic</source>
-        <target state="translated">Black italique</target>
+        <target state="final">Black italique</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="update.roadiz" approved="yes">
         <source>update.roadiz</source>
@@ -3855,9 +3859,9 @@
         <source>tagName.alreadyExists</source>
         <target state="final">Ce nom d‘étiquette est déjà utilisé</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="tagName.%name%.alreadyExists">
+      <trans-unit xml:space="preserve" id="tagName.%name%.alreadyExists" approved="yes">
         <source>tagName.%name%.alreadyExists</source>
-        <target state="translated">L'étiquette «%name%» existe déjà.</target>
+        <target state="final">L'étiquette «%name%» existe déjà.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeField.name.alreadyExists" approved="yes">
         <source>nodeTypeField.name.alreadyExists</source>
@@ -4069,6 +4073,10 @@
         <source>export_format.excel.%language%</source>
         <target state="final">Format de fichier Excel (%language%)</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="export_format.csv.%language%" approved="yes">
+        <source>export_format.csv.%language%</source>
+        <target state="final">Format CSV (%language%)</target>
+      </trans-unit>
       <!-- Bulk tags -->
       <trans-unit xml:space="preserve" id="delete.tags" approved="yes">
         <source>delete.tags</source>
@@ -4196,19 +4204,19 @@
         <source>document.filesize</source>
         <target state="final">Taille du fichier</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.duration">
+      <trans-unit xml:space="preserve" id="document.duration" approved="yes">
         <source>document.duration</source>
-        <target state="translated">Durée (en secondes)</target>
+        <target state="final">Durée (en secondes)</target>
         <note>Label for timed documents duration (in seconds)</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.media_not_found_or_private">
+      <trans-unit xml:space="preserve" id="document.media_not_found_or_private" approved="yes">
         <source>document.media_not_found_or_private</source>
-        <target state="translated">Le média est introuvable ou défini comme privé</target>
+        <target state="final">Le média est introuvable ou défini comme privé</target>
         <note>Error message when external media request fails with NotFound response.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.is_only_external">
+      <trans-unit xml:space="preserve" id="document.is_only_external" approved="yes">
         <source>document.is_only_external</source>
-        <target state="translated">Le document ne possède pas de fichier local.</target>
+        <target state="final">Le document ne possède pas de fichier local.</target>
         <note>Warning message displayed when document does not have any file locally.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="reachable" approved="yes">
@@ -4216,223 +4224,228 @@
         <target state="final">Accessible</target>
         <note>For node-types, defines if produced nodes will be reachable with an URL or not (eg. just content blocks).</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="You cannot delete a node-type in production mode." approved="yes">
+        <source>You cannot delete a node-type in production mode.</source>
+        <target state="final">Vous ne pouvez pas supprimer un type de nœud depuis un environnement en production.</target>
+        <note>For node-types, a notice when env is prod to prevent editing node-type schema in production.</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="yaml.type" approved="yes">
         <source>yaml.type</source>
         <target state="final">Code YAML</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.redirections">
+      <trans-unit xml:space="preserve" id="manage.redirections" approved="yes">
         <source>manage.redirections</source>
-        <target state="translated">Redirections</target>
+        <target state="final">Redirections</target>
         <note>Redirection section button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.redirection">
+      <trans-unit xml:space="preserve" id="delete.redirection" approved="yes">
         <source>delete.redirection</source>
-        <target state="translated">Supprimer la redirection</target>
+        <target state="final">Supprimer la redirection</target>
         <note>Delete redirection page title</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.redirection">
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.redirection" approved="yes">
         <source>are_you_sure.delete.redirection</source>
-        <target state="translated">Êtes-vous sûr(e) de vouloir supprimer cette redirection ?</target>
+        <target state="final">Êtes-vous sûr(e) de vouloir supprimer cette redirection ?</target>
         <note>Delete redirection page confirmation message</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.redirection">
+      <trans-unit xml:space="preserve" id="add.a.redirection" approved="yes">
         <source>add.a.redirection</source>
-        <target state="translated">Créer une redirection</target>
+        <target state="final">Créer une redirection</target>
         <note>Add redirection page title</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.redirections">
+      <trans-unit xml:space="preserve" id="back_to.redirections" approved="yes">
         <source>back_to.redirections</source>
-        <target state="translated">Retour aux redirections</target>
+        <target state="final">Retour aux redirections</target>
         <note>Back button label for redirections</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.redirection">
+      <trans-unit xml:space="preserve" id="edit.redirection" approved="yes">
         <source>edit.redirection</source>
-        <target state="translated">Édition de la redirection</target>
+        <target state="final">Édition de la redirection</target>
         <note>Edit redirection page title</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="redirection.query">
+      <trans-unit xml:space="preserve" id="redirection.query" approved="yes">
         <source>redirection.query</source>
-        <target state="translated">Requête</target>
+        <target state="final">Requête</target>
         <note>Redirection field which stands for the query: the URL to listen for a redirection</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="redirection.redirect_uri">
+      <trans-unit xml:space="preserve" id="redirection.redirect_uri" approved="yes">
         <source>redirection.redirect_uri</source>
-        <target state="translated">URI de destination</target>
+        <target state="final">URI de destination</target>
         <note>Redirection field which stands for the redirect URI: the destination URI</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="redirection.type">
+      <trans-unit xml:space="preserve" id="redirection.type" approved="yes">
         <source>redirection.type</source>
-        <target state="translated">Type de redirection</target>
+        <target state="final">Type de redirection</target>
         <note>Redirection field which stands for HTTP code: 301 or 302</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="redirection.moved_permanently">
+      <trans-unit xml:space="preserve" id="redirection.moved_permanently" approved="yes">
         <source>redirection.moved_permanently</source>
-        <target state="translated">Redirection permanente</target>
+        <target state="final">Redirection permanente</target>
         <note>Redirection type description for 301 Moved Permanently</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="redirection.moved_temporarily">
+      <trans-unit xml:space="preserve" id="redirection.moved_temporarily" approved="yes">
         <source>redirection.moved_temporarily</source>
-        <target state="translated">Redirection temporaire</target>
+        <target state="final">Redirection temporaire</target>
         <note>Redirection type description for 302 Moved Temporarily</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="redirection.use_count">
+      <trans-unit xml:space="preserve" id="redirection.use_count" approved="yes">
         <source>redirection.use_count</source>
-        <target state="translated">Nombre d'utilisations</target>
+        <target state="final">Nombre d'utilisations</target>
         <note>Redirection usage count</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="login_image">
+      <trans-unit xml:space="preserve" id="login_image" approved="yes">
         <source>login_image</source>
-        <target state="translated">Fond d'écran de la page de connexion</target>
+        <target state="final">Fond d'écran de la page de connexion</target>
         <note>Global parameter to customize login screen background image</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="publishedAt">
+      <trans-unit xml:space="preserve" id="publishedAt" approved="yes">
         <source>publishedAt</source>
-        <target state="translated">Date et heure de publication</target>
+        <target state="final">Date et heure de publication</target>
         <note>Field label for node-source publication date and time.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="publishable">
+      <trans-unit xml:space="preserve" id="publishable" approved="yes">
         <source>publishable</source>
-        <target state="translated">Publiable par date et heure</target>
+        <target state="final">Publiable par date et heure</target>
         <note>Field label for node-type publishable status.</note>
       </trans-unit>
       <!-- Node form help messages -->
-      <trans-unit xml:space="preserve" id="this_node_type_will_be_available_for_creating_root_nodes">
+      <trans-unit xml:space="preserve" id="this_node_type_will_be_available_for_creating_root_nodes" approved="yes">
         <source>this_node_type_will_be_available_for_creating_root_nodes</source>
-        <target state="translated">Ce type de nœud sera disponible pour créer des nœuds à la racine de votre site.</target>
+        <target state="final">Ce type de nœud sera disponible pour créer des nœuds à la racine de votre site.</target>
         <note>Help message to explain node-type "visible" field.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="enables_published_at_field_for_time_based_publication">
+      <trans-unit xml:space="preserve" id="enables_published_at_field_for_time_based_publication" approved="yes">
         <source>enables_published_at_field_for_time_based_publication</source>
-        <target state="translated">Ce type de nœud affichera une date et heure de publication.</target>
+        <target state="final">Ce type de nœud affichera une date et heure de publication.</target>
         <note>Help message to explain node-type "publishedAt" field.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="mark_this_typed_nodes_as_reachable_with_an_url">
+      <trans-unit xml:space="preserve" id="mark_this_typed_nodes_as_reachable_with_an_url" approved="yes">
         <source>mark_this_typed_nodes_as_reachable_with_an_url</source>
-        <target state="translated">Ce type de nœud sera accessible avec une adresse URL publique.</target>
+        <target state="final">Ce type de nœud sera accessible avec une adresse URL publique.</target>
         <note>Help message to explain node-type "reachable" field.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="this_node_type_will_hide_all_children_nodes">
+      <trans-unit xml:space="preserve" id="this_node_type_will_hide_all_children_nodes" approved="yes">
         <source>this_node_type_will_hide_all_children_nodes</source>
-        <target state="translated">Ce type de nœud cachera tout ses nœuds enfant.</target>
+        <target state="final">Ce type de nœud cachera tout ses nœuds enfant.</target>
         <note>Help message to explain node-type "hiding_nodes" field.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="dynamic_node_name_will_follow_any_title_change_on_default_translation">
+      <trans-unit xml:space="preserve" id="dynamic_node_name_will_follow_any_title_change_on_default_translation" approved="yes">
         <source>dynamic_node_name_will_follow_any_title_change_on_default_translation</source>
-        <target state="translated">Un nom de nœud dynamique sera mis à jour à chaque changement du titre dans la traduction par défaut.</target>
+        <target state="final">Un nom de nœud dynamique sera mis à jour à chaque changement du titre dans la traduction par défaut.</target>
         <note>Help message to explain node dynamic-node-name field.</note>
       </trans-unit>
       <!-- Font form help messages -->
-      <trans-unit xml:space="preserve" id="font_name_should_be_the_same_for_all_variants">
+      <trans-unit xml:space="preserve" id="font_name_should_be_the_same_for_all_variants" approved="yes">
         <source>font_name_should_be_the_same_for_all_variants</source>
-        <target state="translated">Le nom de la fonte doit rester le même pour toutes les variantes d’une même police.</target>
+        <target state="final">Le nom de la fonte doit rester le même pour toutes les variantes d’une même police.</target>
         <note>Help message to explain font name field should be the same over all variants.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="css_font_family_hash_is_automatically_generated_from_font_name">
+      <trans-unit xml:space="preserve" id="css_font_family_hash_is_automatically_generated_from_font_name" approved="yes">
         <source>css_font_family_hash_is_automatically_generated_from_font_name</source>
-        <target state="translated">La famille de police CSS est automatiquement générée à partir du nom de la fonte.</target>
+        <target state="final">La famille de police CSS est automatiquement générée à partir du nom de la fonte.</target>
         <note>Help message to explain font css family field will be automatically generated from font name, it should be the same for all variants.</note>
       </trans-unit>
       <!-- Node type field form help messages -->
-      <trans-unit xml:space="preserve" id="technical_name_for_database_and_templating">
+      <trans-unit xml:space="preserve" id="technical_name_for_database_and_templating" approved="yes">
         <source>technical_name_for_database_and_templating</source>
-        <target state="translated">Nom technique pour la base de donnée et les templates.</target>
+        <target state="final">Nom technique pour la base de donnée et les templates.</target>
         <note>Help message to explain node-type-field name.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="human_readable_field_name">
+      <trans-unit xml:space="preserve" id="human_readable_field_name" approved="yes">
         <source>human_readable_field_name</source>
-        <target state="translated">Nom lisible et compréhensible pour les éditeurs de votre site.</target>
+        <target state="final">Nom lisible et compréhensible pour les éditeurs de votre site.</target>
         <note>Help message to explain node-type-field label.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="use_the_same_group_names_over_fields_to_gather_them_in_tabs">
+      <trans-unit xml:space="preserve" id="use_the_same_group_names_over_fields_to_gather_them_in_tabs" approved="yes">
         <source>use_the_same_group_names_over_fields_to_gather_them_in_tabs</source>
-        <target state="translated">Utilisez le même nom de groupe pour vos champs pour les rassembler au sein d’onglets.</target>
+        <target state="final">Utilisez le même nom de groupe pour vos champs pour les rassembler au sein d’onglets.</target>
         <note>Help message to explain node-type-field group name.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="disable_field_visibility_if_you_dont_want_it_to_be_editable_from_backoffice">
+      <trans-unit xml:space="preserve" id="disable_field_visibility_if_you_dont_want_it_to_be_editable_from_backoffice" approved="yes">
         <source>disable_field_visibility_if_you_dont_want_it_to_be_editable_from_backoffice</source>
-        <target state="translated">Désactiver la visibilité du champ si vous souhaitez empêcher son édition depuis le back-office de Roadiz.</target>
+        <target state="final">Désactiver la visibilité du champ si vous souhaitez empêcher son édition depuis le back-office de Roadiz.</target>
         <note>Help message to explain node-type-field visible switch.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="field_should_be_indexed_if_you_plan_to_query_or_order_by_it">
+      <trans-unit xml:space="preserve" id="field_should_be_indexed_if_you_plan_to_query_or_order_by_it" approved="yes">
         <source>field_should_be_indexed_if_you_plan_to_query_or_order_by_it</source>
-        <target state="translated">Le champ devrait être indexé si vous souhaitez effectuer des requêtes Doctrine avec, dans votre thème.</target>
+        <target state="final">Le champ devrait être indexé si vous souhaitez effectuer des requêtes Doctrine avec, dans votre thème.</target>
         <note>Help message to explain node-type-field indexed switch.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="universal_fields_will_be_only_editable_from_default_translation">
+      <trans-unit xml:space="preserve" id="universal_fields_will_be_only_editable_from_default_translation" approved="yes">
         <source>universal_fields_will_be_only_editable_from_default_translation</source>
-        <target state="translated">Les champs universels ne sont éditables seulement dans la traduction par défaut de votre site, les autres traductions utiliseront le même contenu.</target>
+        <target state="final">Les champs universels ne sont éditables seulement dans la traduction par défaut de votre site, les autres traductions utiliseront le même contenu.</target>
         <note>Help message to explain node-type-field universal switch.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="for_children_node_and_node_references_enter_node_type_names_comma_separated">
+      <trans-unit xml:space="preserve" id="for_children_node_and_node_references_enter_node_type_names_comma_separated" approved="yes">
         <source>for_children_node_and_node_references_enter_node_type_names_comma_separated</source>
-        <target state="translated">Pour les types “nœuds enfants” et “références de nœuds”, vous pouvez entrer les noms des types de nœud séparés par des virgules.</target>
+        <target state="final">Pour les types “nœuds enfants” et “références de nœuds”, vous pouvez entrer les noms des types de nœud séparés par des virgules.</target>
         <note>Help message to explain node-type-field default values.</note>
       </trans-unit>
       <!-- Explorer and Widget translation -->
-      <trans-unit xml:space="preserve" id="document">
+      <trans-unit xml:space="preserve" id="document" approved="yes">
         <source>document</source>
-        <target state="translated">Document</target>
+        <target state="final">Document</target>
         <note>Document label in explorer panel.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="item">
+      <trans-unit xml:space="preserve" id="item" approved="yes">
         <source>item</source>
-        <target state="translated">Élément</target>
+        <target state="final">Élément</target>
         <note>Item label in explorer panel.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="items">
+      <trans-unit xml:space="preserve" id="items" approved="yes">
         <source>items</source>
-        <target state="translated">Éléments</target>
+        <target state="final">Éléments</target>
         <note>Items label in explorer panel.</note>
       </trans-unit>
       <!-- New Join node-type-field type -->
-      <trans-unit xml:space="preserve" id="join.toggle-explorer">
+      <trans-unit xml:space="preserve" id="join.toggle-explorer" approved="yes">
         <source>join.toggle-explorer</source>
-        <target state="translated">Explorateur</target>
+        <target state="final">Explorateur</target>
         <note>Button label for join type explorer</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="many-to-many.type">
+      <trans-unit xml:space="preserve" id="many-to-many.type" approved="yes">
         <source>many-to-many.type</source>
-        <target state="translated">Jointure multiple (many-to-many)</target>
+        <target state="final">Jointure multiple (many-to-many)</target>
         <note>Node-type field type for Doctrine Many-to-many relationship</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="many-to-one.type">
+      <trans-unit xml:space="preserve" id="many-to-one.type" approved="yes">
         <source>many-to-one.type</source>
-        <target state="translated">Jointure simple (many-to-one)</target>
+        <target state="final">Jointure simple (many-to-one)</target>
         <note>Node-type field type for Doctrine Many-to-one relationship</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="default_values_do_not_match_field_type">
+      <trans-unit xml:space="preserve" id="default_values_do_not_match_field_type" approved="yes">
         <source>default_values_do_not_match_field_type</source>
-        <target state="translated">Les valeurs par défaut ne sont pas valides pour le type choisi.</target>
+        <target state="final">Les valeurs par défaut ne sont pas valides pour le type choisi.</target>
         <note>Validator message: when default value is not correct for choosen type</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="default_values_should_not_be_empty_for_this_type">
+      <trans-unit xml:space="preserve" id="default_values_should_not_be_empty_for_this_type" approved="yes">
         <source>default_values_should_not_be_empty_for_this_type</source>
-        <target state="translated">Les valeurs par défaut ne devraient pas être vides pour le type choisi.</target>
+        <target state="final">Les valeurs par défaut ne devraient pas être vides pour le type choisi.</target>
         <note>Validator message: when default value is empty and it should not</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="default_values_should_be_a_yaml_configuration_for_this_type">
+      <trans-unit xml:space="preserve" id="default_values_should_be_a_yaml_configuration_for_this_type" approved="yes">
         <source>default_values_should_be_a_yaml_configuration_for_this_type</source>
-        <target state="translated">Les valeurs par défaut doivent être représentées au format YAML pour le type choisi.</target>
+        <target state="final">Les valeurs par défaut doivent être représentées au format YAML pour le type choisi.</target>
         <note>Validator message: when default value is not a valid YAML text</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="classname_does_not_exist">
+      <trans-unit xml:space="preserve" id="classname_does_not_exist" approved="yes">
         <source>classname_%classname%_does_not_exist</source>
-        <target state="translated">La classe PHP « %classname% » n’existe pas.</target>
+        <target state="final">La classe PHP « %classname% » n’existe pas.</target>
         <note>Validator message: when provided classname does not exist.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="classname_must_extend_abstract_entity_class">
+      <trans-unit xml:space="preserve" id="classname_must_extend_abstract_entity_class" approved="yes">
         <source>classname_%classname%_must_extend_abstract_entity_class</source>
-        <target state="translated">La classe PHP « %classname% » doit hériter de AbstractEntity.</target>
+        <target state="final">La classe PHP « %classname% » doit hériter de AbstractEntity.</target>
         <note>Validator message: when provided classname does not extend AbstractEntity base class.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="classname_must_extend_abstract_type_class">
+      <trans-unit xml:space="preserve" id="classname_must_extend_abstract_type_class" approved="yes">
         <source>classname_%classname%_must_extend_abstract_type_class</source>
-        <target state="translated">La classe PHP « %classname% » doit hériter de la classe AbstractType.</target>
+        <target state="final">La classe PHP « %classname% » doit hériter de la classe AbstractType.</target>
         <note>Validator message: when provided classname does not extend Symfony Form AbstractType base class.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="classname_does_not_declare_method">
+      <trans-unit xml:space="preserve" id="classname_does_not_declare_method" approved="yes">
         <source>classname_%classname%_does_not_declare_%method%_method</source>
-        <target state="translated">La classe PHP « %classname% » n’implémente pas la méthode « %method% ».</target>
+        <target state="final">La classe PHP « %classname% » n’implémente pas la méthode « %method% ».</target>
         <note>Validator message: when provided classname does not declare provided method.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="more.entities" approved="yes">
@@ -4440,249 +4453,249 @@
         <target state="final">Plus d’éléments</target>
         <note>Explorer more button label for entities.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="drawer.sortable-not-enable">
+      <trans-unit xml:space="preserve" id="drawer.sortable-not-enable" approved="yes">
         <source>drawer.sortable-not-enable</source>
-        <target state="translated">L’ordre des éléments n’a pas d’importance.</target>
+        <target state="final">L’ordre des éléments n’a pas d’importance.</target>
         <note>Message info when the sortable drawer option is disable.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="explorer.create_tag">
+      <trans-unit xml:space="preserve" id="explorer.create_tag" approved="yes">
         <source>explorer.create_tag</source>
-        <target state="translated">Créer une étiquette</target>
+        <target state="final">Créer une étiquette</target>
         <note>Message info to create a tag when tag explorer is open and tag creation widget is available.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="min">
+      <trans-unit xml:space="preserve" id="min" approved="yes">
         <source>min</source>
-        <target state="translated">min.</target>
+        <target state="final">min.</target>
         <note>Drawer message: when a minimum length is provided.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.adjust">
+      <trans-unit xml:space="preserve" id="document.adjust" approved="yes">
         <source>document.adjust</source>
-        <target state="translated">Ajuster</target>
+        <target state="final">Ajuster</target>
         <note>Document navbar link text for document adjust page.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor">
+      <trans-unit xml:space="preserve" id="blanchetteEditor" approved="yes">
         <source>blanchetteEditor</source>
-        <target state="translated">Éditeur « Blanchet »</target>
+        <target state="final">Éditeur « Blanchet »</target>
         <note>Blanchette Editorpage title</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.free">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.free" approved="yes">
         <source>blanchetteEditor.free</source>
-        <target state="translated">Ratio libre</target>
+        <target state="final">Ratio libre</target>
         <note>Blanchette Editor message button label: free aspect ratio</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.move">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.move" approved="yes">
         <source>blanchetteEditor.move</source>
-        <target state="translated">Déplacer</target>
+        <target state="final">Déplacer</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.crop">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.crop" approved="yes">
         <source>blanchetteEditor.crop</source>
-        <target state="translated">Recadrer</target>
+        <target state="final">Recadrer</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.zoomIn">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.zoomIn" approved="yes">
         <source>blanchetteEditor.zoomIn</source>
-        <target state="translated">Agrandir</target>
+        <target state="final">Agrandir</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.zoomOut">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.zoomOut" approved="yes">
         <source>blanchetteEditor.zoomOut</source>
-        <target state="translated">Réduire</target>
+        <target state="final">Réduire</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.rotateLeft">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.rotateLeft" approved="yes">
         <source>blanchetteEditor.rotateLeft</source>
-        <target state="translated">Rotation à gauche</target>
+        <target state="final">Rotation à gauche</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.rotateRight">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.rotateRight" approved="yes">
         <source>blanchetteEditor.rotateRight</source>
-        <target state="translated">Rotation à droite</target>
+        <target state="final">Rotation à droite</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.flipHorizontal">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.flipHorizontal" approved="yes">
         <source>blanchetteEditor.flipHorizontal</source>
-        <target state="translated">Inverser horizontalement</target>
+        <target state="final">Inverser horizontalement</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.flipVertical">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.flipVertical" approved="yes">
         <source>blanchetteEditor.flipVertical</source>
-        <target state="translated">Inverser verticalement</target>
+        <target state="final">Inverser verticalement</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.applyChange">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.applyChange" approved="yes">
         <source>blanchetteEditor.applyChange</source>
-        <target state="translated">Appliquer les changements</target>
+        <target state="final">Appliquer les changements</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.undo">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.undo" approved="yes">
         <source>blanchetteEditor.undo</source>
-        <target state="translated">Annuler</target>
+        <target state="final">Annuler</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.aspectRatio">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.aspectRatio" approved="yes">
         <source>blanchetteEditor.aspectRatio</source>
-        <target state="translated">Ratio de la sélection</target>
+        <target state="final">Ratio de la sélection</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.saveAndOverwrite">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.saveAndOverwrite" approved="yes">
         <source>blanchetteEditor.saveAndOverwrite</source>
-        <target state="translated">Appliquer et écraser le fichier</target>
+        <target state="final">Appliquer et écraser le fichier</target>
         <note>Blanchette Editor message button label</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.other">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.other" approved="yes">
         <source>blanchetteEditor.other</source>
-        <target state="translated">Autres</target>
+        <target state="final">Autres</target>
         <note>Blanchette Editor aspect ratio group name</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.portrait">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.portrait" approved="yes">
         <source>blanchetteEditor.portrait</source>
-        <target state="translated">Portrait</target>
+        <target state="final">Portrait</target>
         <note>Blanchette Editor aspect ratio group name</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blanchetteEditor.landscape">
+      <trans-unit xml:space="preserve" id="blanchetteEditor.landscape" approved="yes">
         <source>blanchetteEditor.landscape</source>
-        <target state="translated">Paysage</target>
+        <target state="final">Paysage</target>
         <note>Blanchette Editor aspect ratio group name</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="make_this_field_mandatory_for_users">
+      <trans-unit xml:space="preserve" id="make_this_field_mandatory_for_users" approved="yes">
         <source>make_this_field_mandatory_for_users</source>
-        <target state="translated">Rend ce champ obligatoire pour les utilisateurs.</target>
+        <target state="final">Rend ce champ obligatoire pour les utilisateurs.</target>
         <note>Form field description for Required switch</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="expanded">
+      <trans-unit xml:space="preserve" id="expanded" approved="yes">
         <source>expanded</source>
-        <target state="translated">Étendu</target>
+        <target state="final">Étendu</target>
         <note>Form field label for "expanded" boolean (expanded tells if list should be rendered as select-boxes or radio-button list)</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="use_checkboxes_or_radio_buttons_instead_of_select_box">
+      <trans-unit xml:space="preserve" id="use_checkboxes_or_radio_buttons_instead_of_select_box" approved="yes">
         <source>use_checkboxes_or_radio_buttons_instead_of_select_box</source>
-        <target state="translated">Utilise des boîtes à cocher ou boutons radio à la place de la liste déroulante.</target>
+        <target state="final">Utilise des boîtes à cocher ou boutons radio à la place de la liste déroulante.</target>
         <note>Form field description for "expanded" boolean (expanded tells if list should be rendered as select-boxes or radio-button list)</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="placeholder">
+      <trans-unit xml:space="preserve" id="placeholder" approved="yes">
         <source>placeholder</source>
-        <target state="translated">Placeholder</target>
+        <target state="final">Placeholder</target>
         <note>Label for «placeholder» field for Custom form field and Node-Type field. Placeholder is the HTML placeholder attribute for inputs and select-boxes.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="label_for_field_with_empty_data">
+      <trans-unit xml:space="preserve" id="label_for_field_with_empty_data" approved="yes">
         <source>label_for_field_with_empty_data</source>
-        <target state="translated">Le placeholder s’affiche dans un champ ne contenant aucune donnée.</target>
+        <target state="final">Le placeholder s’affiche dans un champ ne contenant aucune donnée.</target>
         <note>Description for «placeholder» field for Custom form field and Node-Type field. Placeholder is the HTML placeholder attribute for inputs and select-boxes.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="session.expire.title">
+      <trans-unit xml:space="preserve" id="session.expire.title" approved="yes">
         <source>session.expire.title</source>
-        <target state="translated">Votre session a expiré !</target>
+        <target state="final">Votre session a expiré !</target>
         <note>Title for login check warning "modal".</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="session.expire.content">
+      <trans-unit xml:space="preserve" id="session.expire.content" approved="yes">
         <source>session.expire.content</source>
-        <target state="translated">Vous êtes déconnecté, veuillez vous reconnecter</target>
+        <target state="final">Vous êtes déconnecté, veuillez vous reconnecter</target>
         <note>Description for login check warning "modal".</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="health_check.failed.title">
+      <trans-unit xml:space="preserve" id="health_check.failed.title" approved="yes">
         <source>health_check.failed.title</source>
-        <target state="translated">Houston, on a un problème...</target>
+        <target state="final">Houston, on a un problème...</target>
         <note>Title for health check warning "modal".</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="health_check.failed.content">
+      <trans-unit xml:space="preserve" id="health_check.failed.content" approved="yes">
         <source>health_check.failed.content</source>
-        <target state="translated">Roadiz ne répond plus, une mise à jour ou une maintenance sur le serveur est surement en cours. Merci de patienter quelques instants.</target>
+        <target state="final">Roadiz ne répond plus, une mise à jour ou une maintenance sur le serveur est surement en cours. Merci de patienter quelques instants.</target>
         <note>Description for health check warning "modal".</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="single-provider.type">
+      <trans-unit xml:space="preserve" id="single-provider.type" approved="yes">
         <source>single-provider.type</source>
-        <target state="translated">Relation simple via un provider</target>
+        <target state="final">Relation simple via un provider</target>
         <note>Node-type field type for Provider manual many-to-one relationship.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="multiple-provider.type">
+      <trans-unit xml:space="preserve" id="multiple-provider.type" approved="yes">
         <source>multiple-provider.type</source>
-        <target state="translated">Relation multiple via un provider</target>
+        <target state="final">Relation multiple via un provider</target>
         <note>Node-type field type for Provider manual many-to-many relationship.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="pictureUrl">
+      <trans-unit xml:space="preserve" id="pictureUrl" approved="yes">
         <source>pictureUrl</source>
-        <target state="translated">Url de l’image d’avatar</target>
+        <target state="final">Url de l’image d’avatar</target>
         <note>User detail form field label for user portrait picture.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="user.backoffice.language">
+      <trans-unit xml:space="preserve" id="user.backoffice.language" approved="yes">
         <source>user.backoffice.language</source>
-        <target state="translated">Langue du back-office</target>
+        <target state="final">Langue du back-office</target>
         <note>User detail form field label for user backoffice language.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="use.website.default_language">
+      <trans-unit xml:space="preserve" id="use.website.default_language" approved="yes">
         <source>use.website.default_language</source>
-        <target state="translated">-- Utiliser la langue par défaut --</target>
+        <target state="final">-- Utiliser la langue par défaut --</target>
         <note>User detail form field choice for using website default language.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="sort_asc">
+      <trans-unit xml:space="preserve" id="sort_asc" approved="yes">
         <source>sort_asc</source>
-        <target state="translated">Tri ascendant</target>
+        <target state="final">Tri ascendant</target>
         <note>Table column link to sort data ascendently</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="sort_desc">
+      <trans-unit xml:space="preserve" id="sort_desc" approved="yes">
         <source>sort_desc</source>
-        <target state="translated">Tri descendant</target>
+        <target state="final">Tri descendant</target>
         <note>Table column link to sort data descendently</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="preview">
+      <trans-unit xml:space="preserve" id="preview" approved="yes">
         <source>preview</source>
-        <target state="translated">Prévisualisation</target>
+        <target state="final">Prévisualisation</target>
         <note>Preview mode label on warning sign.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="current.document.file.does.not.exist">
+      <trans-unit xml:space="preserve" id="current.document.file.does.not.exist" approved="yes">
         <source>current.document.file.does.not.exist</source>
-        <target state="translated">Le fichier de ce document n'existe pas sur le serveur.</target>
+        <target state="final">Le fichier de ce document n'existe pas sur le serveur.</target>
         <note>When a document does not have any file attached.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="google_tag_manager_id">
+      <trans-unit xml:space="preserve" id="google_tag_manager_id" approved="yes">
         <source>google_tag_manager_id</source>
-        <target state="translated">Google Tag Manager - ID de conteneur</target>
+        <target state="final">Google Tag Manager - ID de conteneur</target>
         <note>Google Tag Manager setting name.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="leaflet_map_tile_url">
+      <trans-unit xml:space="preserve" id="leaflet_map_tile_url" approved="yes">
         <source>leaflet_map_tile_url</source>
-        <target state="translated">Leaflet - URL des tuiles cartographiques</target>
+        <target state="final">Leaflet - URL des tuiles cartographiques</target>
         <note>Leaflet Map tile URL setting name.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="twitter_access_token">
+      <trans-unit xml:space="preserve" id="twitter_access_token" approved="yes">
         <source>twitter_access_token</source>
-        <target state="translated">Twitter API - Access token</target>
+        <target state="final">Twitter API - Access token</target>
         <note>Setting name.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="twitter_access_token_secret">
+      <trans-unit xml:space="preserve" id="twitter_access_token_secret" approved="yes">
         <source>twitter_access_token_secret</source>
-        <target state="translated">Twitter API - Access token secret</target>
+        <target state="final">Twitter API - Access token secret</target>
         <note>Setting name.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="instagram_access_token">
+      <trans-unit xml:space="preserve" id="instagram_access_token" approved="yes">
         <source>instagram_access_token</source>
-        <target state="translated">Instagram API - Access token</target>
+        <target state="final">Instagram API - Access token</target>
         <note>Setting name.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="twitter_consumer_key">
+      <trans-unit xml:space="preserve" id="twitter_consumer_key" approved="yes">
         <source>twitter_consumer_key</source>
-        <target state="translated">Twitter API - Consumer key</target>
+        <target state="final">Twitter API - Consumer key</target>
         <note>Setting name.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="twitter_consumer_secret">
+      <trans-unit xml:space="preserve" id="twitter_consumer_secret" approved="yes">
         <source>twitter_consumer_secret</source>
-        <target state="translated">Twitter API - Consumer secret</target>
+        <target state="final">Twitter API - Consumer secret</target>
         <note>Setting name.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.mimeType">
+      <trans-unit xml:space="preserve" id="document.mimeType" approved="yes">
         <source>document.mimeType</source>
-        <target state="translated">Mime-type du fichier</target>
+        <target state="final">Mime-type du fichier</target>
         <note>Document form</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.embed">
+      <trans-unit xml:space="preserve" id="document.embed" approved="yes">
         <source>document.embed</source>
-        <target state="translated">Média embarqué</target>
+        <target state="final">Média embarqué</target>
         <note>Document form</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.no_embed_platform">
+      <trans-unit xml:space="preserve" id="document.no_embed_platform" approved="yes">
         <source>document.no_embed_platform</source>
-        <target state="translated">Aucun média embarqué</target>
+        <target state="final">Aucun média embarqué</target>
         <note>Document form</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="versions" approved="yes">
@@ -4705,181 +4718,181 @@
         <target state="final">Restaurer cette version</target>
         <note>Version management : Button label to revert to current viewing version</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="max_versions_showed">
+      <trans-unit xml:space="preserve" id="max_versions_showed" approved="yes">
         <source>max_versions_showed</source>
-        <target state="translated">Nombre maximum de versions à afficher</target>
+        <target state="final">Nombre maximum de versions à afficher</target>
         <note>Version management : setting label to choose how many version to display in action-menu</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="versions.back_to_working_copy">
+      <trans-unit xml:space="preserve" id="versions.back_to_working_copy" approved="yes">
         <source>versions.back_to_working_copy</source>
-        <target state="translated">Retour à la version actuelle</target>
+        <target state="final">Retour à la version actuelle</target>
         <note>Version management : Button label to go back to working copy</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="original.document">
+      <trans-unit xml:space="preserve" id="original.document" approved="yes">
         <source>original.document</source>
-        <target state="translated">Document original</target>
+        <target state="final">Document original</target>
         <note>Document : Label to display original document when dealing with thumbnails.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="see.original.document">
+      <trans-unit xml:space="preserve" id="see.original.document" approved="yes">
         <source>see.original.document</source>
-        <target state="translated">Voir le document original</target>
+        <target state="final">Voir le document original</target>
         <note>Document : Button Label to display original document when dealing with thumbnails.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.thumbnails">
+      <trans-unit xml:space="preserve" id="document.thumbnails" approved="yes">
         <source>document.thumbnails</source>
-        <target state="translated">Vignettes</target>
+        <target state="final">Vignettes</target>
         <note>Document : Input Label to display thumbnail documents when dealing with original.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="excludeFromSearch">
+      <trans-unit xml:space="preserve" id="excludeFromSearch" approved="yes">
         <source>excludeFromSearch</source>
-        <target state="translated">Exclure de la recherche</target>
+        <target state="final">Exclure de la recherche</target>
         <note>Node type field : Input Label.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.documentation">
+      <trans-unit xml:space="preserve" id="export.documentation" approved="yes">
         <source>export.documentation</source>
-        <target state="translated">Exporter la documentation</target>
+        <target state="final">Exporter la documentation</target>
         <note>Button label, for exporting node-type Markdown documentation</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.typescript_declaration">
+      <trans-unit xml:space="preserve" id="export.typescript_declaration" approved="yes">
         <source>export.typescript_declaration</source>
-        <target state="translated">Exporter les déclarations Typescript</target>
+        <target state="final">Exporter les déclarations Typescript</target>
         <note>Button label, for exporting node-types into a TypeScript declaration file.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="hide_roadiz_version">
+      <trans-unit xml:space="preserve" id="hide_roadiz_version" approved="yes">
         <source>hide_roadiz_version</source>
-        <target state="translated">Cacher la version de Roadiz</target>
+        <target state="final">Cacher la version de Roadiz</target>
         <note>Setting</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="exact_search">
+      <trans-unit xml:space="preserve" id="exact_search" approved="yes">
         <source>exact_search</source>
-        <target state="translated">Recherche exacte</target>
+        <target state="final">Recherche exacte</target>
         <note>Node search page, search exact query</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="login_with_openid">
+      <trans-unit xml:space="preserve" id="login_with_openid" approved="yes">
         <source>login_with_openid</source>
-        <target state="translated">Se connecter avec OpenID</target>
+        <target state="final">Se connecter avec OpenID</target>
         <note>Default login button label for OpenID</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="filter">
+      <trans-unit xml:space="preserve" id="filter" approved="yes">
         <source>filter</source>
-        <target state="translated">Filtrer</target>
+        <target state="final">Filtrer</target>
         <note>Button label for a generic filtering action.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_created">
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_created" approved="yes">
         <source>%namespace%.%item%.was_created</source>
-        <target state="translated">%namespace% "%item%" a été créé.</target>
+        <target state="final">%namespace% "%item%" a été créé.</target>
         <note>Default controller addAction result message.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_updated">
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_updated" approved="yes">
         <source>%namespace%.%item%.was_updated</source>
-        <target state="translated">%namespace% "%item%" a été mis à jour.</target>
+        <target state="final">%namespace% "%item%" a été mis à jour.</target>
         <note>Default controller editAction result message.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_deleted">
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_deleted" approved="yes">
         <source>%namespace%.%item%.was_deleted</source>
-        <target state="translated">%namespace% "%item%" a été supprimé.</target>
+        <target state="final">%namespace% "%item%" a été supprimé.</target>
         <note>Default controller deleteAction result message.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_published">
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_published" approved="yes">
         <source>%namespace%.%item%.was_published</source>
-        <target state="translated">%namespace% "%item%" a été publié.</target>
+        <target state="final">%namespace% "%item%" a été publié.</target>
         <note>Default controller bulkPublishAction result message.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_unpublished">
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_unpublished" approved="yes">
         <source>%namespace%.%item%.was_unpublished</source>
-        <target state="translated">%namespace% "%item%" a été dépublié.</target>
+        <target state="final">%namespace% "%item%" a été dépublié.</target>
         <note>Default controller bulkUnpublishAction result message.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_enabled">
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_enabled" approved="yes">
         <source>%namespace%.%item%.was_enabled</source>
-        <target state="translated">%namespace% "%item%" a été activé.</target>
+        <target state="final">%namespace% "%item%" a été activé.</target>
         <note>Default controller bulkEnableAction result message.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_disabled">
+      <trans-unit xml:space="preserve" id="%namespace%.%item%.was_disabled" approved="yes">
         <source>%namespace%.%item%.was_disabled</source>
-        <target state="translated">%namespace% "%item%" a été désactivé.</target>
+        <target state="final">%namespace% "%item%" a été désactivé.</target>
         <note>Default controller bulkDisabledAction result message.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.document_display_gallery">
+      <trans-unit xml:space="preserve" id="document.document_display_gallery" approved="yes">
         <source>document.document_display_gallery</source>
-        <target state="translated">Galerie</target>
+        <target state="final">Galerie</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="documents.document_display_list">
+      <trans-unit xml:space="preserve" id="documents.document_display_list" approved="yes">
         <source>documents.document_display_list</source>
-        <target state="translated">Liste</target>
+        <target state="final">Liste</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.noIndex">
+      <trans-unit xml:space="preserve" id="nodeSource.noIndex" approved="yes">
         <source>nodeSource.noIndex</source>
-        <target state="translated">Interdire l'indexation</target>
+        <target state="final">Interdire l'indexation</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.imageCropAlignment">
+      <trans-unit xml:space="preserve" id="document.imageCropAlignment" approved="yes">
         <source>document.imageCropAlignment</source>
-        <target state="translated">Alignement pour le redimensionnement</target>
+        <target state="final">Alignement pour le redimensionnement</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.imageCropAlignment.help">
+      <trans-unit xml:space="preserve" id="document.imageCropAlignment.help" approved="yes">
         <source>document.imageCropAlignment.help</source>
-        <target state="translated">Définissez une zone d'intérêt pour permettre d'aligner le redimensionnement de votre image en fonction de la taille de votre écran.</target>
+        <target state="final">Définissez une zone d'intérêt pour permettre d'aligner le redimensionnement de votre image en fonction de la taille de votre écran.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.none">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.none" approved="yes">
         <source>image_crop_alignment.none</source>
-        <target state="translated">Aucun alignement</target>
+        <target state="final">Aucun alignement</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.top-left">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top-left" approved="yes">
         <source>image_crop_alignment.top-left</source>
-        <target state="translated">En haut à gauche</target>
+        <target state="final">En haut à gauche</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.top">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top" approved="yes">
         <source>image_crop_alignment.top</source>
-        <target state="translated">En haut</target>
+        <target state="final">En haut</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.top-right">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top-right" approved="yes">
         <source>image_crop_alignment.top-right</source>
-        <target state="translated">En haut à droite</target>
+        <target state="final">En haut à droite</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.left">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.left" approved="yes">
         <source>image_crop_alignment.left</source>
-        <target state="translated">À gauche</target>
+        <target state="final">À gauche</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.center">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.center" approved="yes">
         <source>image_crop_alignment.center</source>
-        <target state="translated">Centré</target>
+        <target state="final">Centré</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.right">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.right" approved="yes">
         <source>image_crop_alignment.right</source>
-        <target state="translated">À droite</target>
+        <target state="final">À droite</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left" approved="yes">
         <source>image_crop_alignment.bottom-left</source>
-        <target state="translated">En bas à gauche</target>
+        <target state="final">En bas à gauche</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom" approved="yes">
         <source>image_crop_alignment.bottom</source>
-        <target state="translated">En bas</target>
+        <target state="final">En bas</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right" approved="yes">
         <source>image_crop_alignment.bottom-right</source>
-        <target state="translated">En bas à droite</target>
+        <target state="final">En bas à droite</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="attributable">
+      <trans-unit xml:space="preserve" id="attributable" approved="yes">
         <source>attributable</source>
-        <target state="translated">Accepte des attributs</target>
+        <target state="final">Accepte des attributs</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type">
+      <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type" approved="yes">
         <source>enables_node_attributes_for_this_type</source>
-        <target state="translated">Permets aux nœuds de ce type d'avoir des attributs en plus de leurs données.</target>
+        <target state="final">Permets aux nœuds de ce type d'avoir des attributs en plus de leurs données.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="sortingAttributesByWeight">
+      <trans-unit xml:space="preserve" id="sortingAttributesByWeight" approved="yes">
         <source>sortingAttributesByWeight</source>
-        <target state="translated">Trier les attributs par poids</target>
+        <target state="final">Ordonner les attributs par poids</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="sort_attributes_by_weight_for_this_type">
+      <trans-unit xml:space="preserve" id="sort_attributes_by_weight_for_this_type" approved="yes">
         <source>sort_attributes_by_weight_for_this_type</source>
-        <target state="translated">Si le type de nœud accepte les attributs, cette option force le tri des attributs par poids plutôt que par position manuelle.</target>
+        <target state="final">Si l'option est activée, les attributs seront ordonnés par poids plutôt que manuellement pour tous les nœuds de ce type.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="ip_address">
+      <trans-unit xml:space="preserve" id="ip_address" approved="yes">
         <source>ip_address</source>
-        <target state="translated">Adresse IP</target>
+        <target state="final">Adresse IP</target>
       </trans-unit>
-      </body>
+    </body>
   </file>
 </xliff>

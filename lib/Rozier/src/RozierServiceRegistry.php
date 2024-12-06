@@ -10,6 +10,8 @@ use RZ\Roadiz\CoreBundle\Entity\SettingGroup;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Themes\Rozier\Event\UserActionsMenuEvent;
 use Themes\Rozier\Widgets\FolderTreeWidget;
 use Themes\Rozier\Widgets\NodeTreeWidget;
 use Themes\Rozier\Widgets\TagTreeWidget;
@@ -21,14 +23,26 @@ final class RozierServiceRegistry
     private ?TagTreeWidget $tagTree = null;
     private ?FolderTreeWidget $folderTree = null;
     private ?NodeTreeWidget $nodeTree = null;
+    private ?array $userActions = null;
 
     public function __construct(
         private readonly Settings $settingsBag,
         private readonly ManagerRegistry $managerRegistry,
         private readonly TreeWidgetFactory $treeWidgetFactory,
         private readonly NodeChrootResolver $chrootResolver,
-        private readonly array $backofficeMenuEntries
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly array $backofficeMenuEntries,
     ) {
+    }
+
+    public function getUserActions(): array
+    {
+        if (null === $this->userActions) {
+            $userActionsMenuEvent = $this->eventDispatcher->dispatch(new UserActionsMenuEvent());
+            $this->userActions = $userActionsMenuEvent->getActions();
+        }
+
+        return $this->userActions;
     }
 
     public function getMaxFilesize(): int|float
@@ -50,6 +64,7 @@ final class RozierServiceRegistry
                     ['name' => 'ASC']
                 );
         }
+
         return $this->settingGroups;
     }
 
@@ -58,6 +73,7 @@ final class RozierServiceRegistry
         if (null === $this->tagTree) {
             $this->tagTree = $this->treeWidgetFactory->createTagTree();
         }
+
         return $this->tagTree;
     }
 
@@ -66,6 +82,7 @@ final class RozierServiceRegistry
         if (null === $this->folderTree) {
             $this->folderTree = $this->treeWidgetFactory->createFolderTree();
         }
+
         return $this->folderTree;
     }
 
@@ -76,6 +93,7 @@ final class RozierServiceRegistry
                 $this->chrootResolver->getChroot($user)
             );
         }
+
         return $this->nodeTree;
     }
 

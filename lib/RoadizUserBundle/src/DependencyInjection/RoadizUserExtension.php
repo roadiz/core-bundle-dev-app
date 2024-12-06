@@ -11,12 +11,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 
 class RoadizUserExtension extends Extension
 {
-    /**
-     * @inheritDoc
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__) . '/../config'));
+        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/../config'));
         $loader->load('services.yaml');
 
         $configuration = new Configuration();
@@ -27,6 +24,7 @@ class RoadizUserExtension extends Extension
         $container->setParameter('roadiz_user.password_reset_expires_in', $config['password_reset_expires_in']);
         $container->setParameter('roadiz_user.user_validation_expires_in', $config['user_validation_expires_in']);
         $container->setParameter('roadiz_user.public_user_role_name', $config['public_user_role_name']);
+        $container->setParameter('roadiz_user.passwordless_user_role_name', $config['passwordless_user_role_name']);
         $container->setParameter('roadiz_user.email_validated_role_name', $config['email_validated_role_name']);
     }
 }

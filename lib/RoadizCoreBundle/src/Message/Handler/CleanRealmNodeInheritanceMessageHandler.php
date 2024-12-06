@@ -10,20 +10,21 @@ use RZ\Roadiz\CoreBundle\Entity\Realm;
 use RZ\Roadiz\CoreBundle\Entity\RealmNode;
 use RZ\Roadiz\CoreBundle\Message\CleanRealmNodeInheritanceMessage;
 use RZ\Roadiz\CoreBundle\Node\NodeOffspringResolverInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class CleanRealmNodeInheritanceMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final readonly class CleanRealmNodeInheritanceMessageHandler
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly NodeOffspringResolverInterface $nodeOffspringResolver
+        private ManagerRegistry $managerRegistry,
+        private NodeOffspringResolverInterface $nodeOffspringResolver,
     ) {
     }
 
     public function __invoke(CleanRealmNodeInheritanceMessage $message): void
     {
-        if ($message->getRealmId() === null) {
+        if (null === $message->getRealmId()) {
             return;
         }
         $node = $this->managerRegistry->getRepository(Node::class)->find($message->getNodeId());

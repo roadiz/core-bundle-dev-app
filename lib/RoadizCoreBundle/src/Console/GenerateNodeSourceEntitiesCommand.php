@@ -20,7 +20,7 @@ final class GenerateNodeSourceEntitiesCommand extends Command
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly HandlerFactory $handlerFactory,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -39,27 +39,29 @@ final class GenerateNodeSourceEntitiesCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $nodetypes = $this->managerRegistry
+        $nodeTypes = $this->managerRegistry
             ->getRepository(NodeType::class)
             ->findAll();
 
-        if (count($nodetypes) > 0) {
-            /** @var NodeType $nt */
-            foreach ($nodetypes as $nt) {
-                /** @var NodeTypeHandler $handler */
-                $handler = $this->handlerFactory->getHandler($nt);
-                $handler->removeSourceEntityClass();
-                $handler->generateSourceEntityClass();
-                $io->writeln("* Source class <info>" . $nt->getSourceEntityClassName() . "</info> has been generated.");
-
-                if ($output->isVeryVerbose()) {
-                    $io->writeln("\t<info>" . $handler->getSourceClassPath() . "</info>");
-                }
-            }
-            return 0;
-        } else {
+        if (0 === count($nodeTypes)) {
             $io->error('No available node-types…');
+
             return 1;
         }
+
+        /** @var NodeType $nt */
+        foreach ($nodeTypes as $nt) {
+            /** @var NodeTypeHandler $handler */
+            $handler = $this->handlerFactory->getHandler($nt);
+            $handler->removeSourceEntityClass();
+            $handler->generateSourceEntityClass();
+            $io->writeln('* Source class <info>'.$nt->getSourceEntityClassName().'</info> has been generated.');
+
+            if ($output->isVeryVerbose()) {
+                $io->writeln("\t<info>".$handler->getSourceClassPath().'</info>');
+            }
+        }
+
+        return 0;
     }
 }

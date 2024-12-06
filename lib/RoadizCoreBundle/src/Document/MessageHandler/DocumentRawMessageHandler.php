@@ -16,16 +16,12 @@ final class DocumentRawMessageHandler extends AbstractLockingDocumentMessageHand
     public function __construct(
         private readonly DownscaleImageManager $downscaleImageManager,
         ManagerRegistry $managerRegistry,
-        LoggerInterface $logger,
-        FilesystemOperator $documentsStorage
+        LoggerInterface $messengerLogger,
+        FilesystemOperator $documentsStorage,
     ) {
-        parent::__construct($managerRegistry, $logger, $documentsStorage);
+        parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
     }
 
-    /**
-     * @param  DocumentInterface $document
-     * @return bool
-     */
     protected function supports(DocumentInterface $document): bool
     {
         return $document->isLocal() && null !== $document->getRelativePath() && $document->isProcessable();

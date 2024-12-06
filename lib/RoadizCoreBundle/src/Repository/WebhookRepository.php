@@ -14,13 +14,14 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method Webhook|null findOneBy(array $criteria, array $orderBy = null)
  * @method Webhook[]    findAll()
  * @method Webhook[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
  * @extends EntityRepository<Webhook>
  */
 final class WebhookRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, Webhook::class, $dispatcher);
     }

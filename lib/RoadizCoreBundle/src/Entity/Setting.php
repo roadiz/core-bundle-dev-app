@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Repository\SettingRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -19,11 +20,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 #[
     ORM\Entity(repositoryClass: SettingRepository::class),
-    ORM\Table(name: "settings"),
-    ORM\Index(columns: ["type"]),
-    ORM\Index(columns: ["name"]),
-    ORM\Index(columns: ["visible"]),
-    UniqueEntity(fields: ["name"])
+    ORM\Table(name: 'settings'),
+    ORM\Index(columns: ['type']),
+    ORM\Index(columns: ['name']),
+    ORM\Index(columns: ['visible']),
+    UniqueEntity(fields: ['name'])
 ]
 class Setting extends AbstractEntity
 {
@@ -85,14 +86,14 @@ class Setting extends AbstractEntity
     #[SymfonySerializer\Groups(['setting'])]
     #[Serializer\Groups(['setting'])]
     #[Serializer\AccessType(type: 'public_method')]
-    #[Serializer\Accessor(getter: "getSettingGroup", setter: "setSettingGroup")]
+    #[Serializer\Accessor(getter: 'getSettingGroup', setter: 'setSettingGroup')]
     private ?SettingGroup $settingGroup;
 
     /**
      * Value types.
      * Use NodeTypeField types constants.
      */
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: Types::SMALLINT)]
     #[SymfonySerializer\Groups(['setting'])]
     #[Serializer\Groups(['setting'])]
     private int $type = AbstractField::STRING_T;
@@ -105,17 +106,12 @@ class Setting extends AbstractEntity
     #[Serializer\Groups(['setting'])]
     private ?string $defaultValues;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string|null $name
-     *
      * @return $this
      */
     public function setName(?string $name): self
@@ -129,19 +125,11 @@ class Setting extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string|null $description
-     *
-     * @return Setting
-     */
     public function setDescription(?string $description): Setting
     {
         $this->description = $description;
@@ -149,30 +137,26 @@ class Setting extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getRawValue(): ?string
     {
         return $this->value;
     }
 
     /**
-     * @return string|bool|\DateTime|int|null
      * @throws \Exception
      */
     #[SymfonySerializer\Ignore]
     public function getValue(): string|bool|\DateTime|int|null
     {
-        if ($this->getType() == AbstractField::BOOLEAN_T) {
+        if (AbstractField::BOOLEAN_T == $this->getType()) {
             return (bool) $this->value;
         }
 
         if (null !== $this->value) {
-            if ($this->getType() == AbstractField::DATETIME_T) {
+            if (AbstractField::DATETIME_T == $this->getType()) {
                 return new \DateTime($this->value);
             }
-            if ($this->getType() == AbstractField::DOCUMENTS_T) {
+            if (AbstractField::DOCUMENTS_T == $this->getType()) {
                 return (int) $this->value;
             }
         }
@@ -181,8 +165,6 @@ class Setting extends AbstractEntity
     }
 
     /**
-     * @param mixed $value
-     *
      * @return $this
      */
     public function setValue(mixed $value): self
@@ -198,17 +180,12 @@ class Setting extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getType(): int
     {
         return $this->type;
     }
 
     /**
-     * @param int $type
-     *
      * @return $this
      */
     public function setType(int $type): self
@@ -218,17 +195,12 @@ class Setting extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return boolean
-     */
     public function isVisible(): bool
     {
         return $this->visible;
     }
 
     /**
-     * @param bool $visible
-     *
      * @return $this
      */
     public function setVisible(bool $visible): self
@@ -238,17 +210,12 @@ class Setting extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return SettingGroup|null
-     */
     public function getSettingGroup(): ?SettingGroup
     {
         return $this->settingGroup;
     }
 
     /**
-     * @param SettingGroup|null $settingGroup
-     *
      * @return $this
      */
     public function setSettingGroup(?SettingGroup $settingGroup): self
@@ -258,19 +225,11 @@ class Setting extends AbstractEntity
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDefaultValues(): ?string
     {
         return $this->defaultValues;
     }
 
-    /**
-     * @param string|null $defaultValues
-     *
-     * @return Setting
-     */
     public function setDefaultValues(?string $defaultValues): self
     {
         $this->defaultValues = $defaultValues;

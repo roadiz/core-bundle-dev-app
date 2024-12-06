@@ -15,11 +15,11 @@ use RZ\Roadiz\CoreBundle\Entity\UrlAlias;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\UrlAliasRepository;
 
-final class NodeFactory
+final readonly class NodeFactory
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly NodeNamePolicyInterface $nodeNamePolicy
+        private ManagerRegistry $managerRegistry,
+        private NodeNamePolicyInterface $nodeNamePolicy,
     ) {
     }
 
@@ -28,21 +28,21 @@ final class NodeFactory
         ?NodeTypeInterface $type = null,
         ?TranslationInterface $translation = null,
         ?Node $node = null,
-        ?Node $parent = null
+        ?Node $parent = null,
     ): Node {
         /** @var NodeRepository $repository */
         $repository = $this->managerRegistry->getRepository(Node::class)
             ->setDisplayingAllNodesStatuses(true);
 
-        if ($node === null && $type === null) {
+        if (null === $node && null === $type) {
             throw new \RuntimeException('Cannot create node from null NodeType and null Node.');
         }
 
-        if ($translation === null) {
+        if (null === $translation) {
             $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
         }
 
-        if ($node === null) {
+        if (null === $node) {
             $node = new Node();
             $node->setNodeType($type);
         }
@@ -90,7 +90,7 @@ final class NodeFactory
         ?NodeTypeInterface $type = null,
         ?TranslationInterface $translation = null,
         ?Node $node = null,
-        ?Node $parent = null
+        ?Node $parent = null,
     ): Node {
         $node = $this->create($title, $type, $translation, $node, $parent);
         $nodeSource = $node->getNodeSources()->first();

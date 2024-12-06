@@ -12,8 +12,9 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "ext-json": "*",
+        "nette/php-generator": "^4.1",
         "roadiz/nodetype-contracts": "~1.1.2",
         "symfony/string": "6.4.*",
         "symfony/yaml": "6.4.*",
@@ -34,15 +35,14 @@
         }
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^3.5",
         "phpstan/phpstan": "^1.5.3",
         "phpunit/phpunit": "^9.5",
-        "api-platform/core": "~3.2.14"
+        "api-platform/core": "~3.3.11"
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.3.x-dev",
-            "dev-develop": "2.4.x-dev"
+            "dev-main": "2.4.x-dev",
+            "dev-develop": "2.5.x-dev"
         }
     }
 }

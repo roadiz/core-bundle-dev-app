@@ -15,24 +15,12 @@ use RZ\Roadiz\CoreBundle\Event\Role\PreUpdatedRoleEvent;
 use RZ\Roadiz\CoreBundle\Event\Role\RoleEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class RoleSubscriber implements EventSubscriberInterface
+final readonly class RoleSubscriber implements EventSubscriberInterface
 {
-    protected ?LazyParameterBag $roles;
-    private ManagerRegistry $managerRegistry;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param LazyParameterBag|null $roles
-     */
-    public function __construct(ManagerRegistry $managerRegistry, ?LazyParameterBag $roles)
+    public function __construct(private ManagerRegistry $managerRegistry, private ?LazyParameterBag $roles)
     {
-        $this->roles = $roles;
-        $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -47,8 +35,8 @@ class RoleSubscriber implements EventSubscriberInterface
         $manager = $this->managerRegistry->getManagerForClass(Role::class);
         // Clear result cache
         if (
-            $manager instanceof EntityManagerInterface &&
-            $manager->getConfiguration()->getResultCacheImpl() instanceof CacheProvider
+            $manager instanceof EntityManagerInterface
+            && $manager->getConfiguration()->getResultCacheImpl() instanceof CacheProvider
         ) {
             $manager->getConfiguration()->getResultCacheImpl()->deleteAll();
         }

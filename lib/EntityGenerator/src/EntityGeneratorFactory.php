@@ -8,12 +8,12 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface;
 
-final class EntityGeneratorFactory
+final readonly class EntityGeneratorFactory
 {
     public function __construct(
-        private readonly NodeTypeResolverInterface $nodeTypeResolverBag,
-        private readonly DefaultValuesResolverInterface $defaultValuesResolver,
-        private readonly array $options
+        private NodeTypeResolverInterface $nodeTypeResolverBag,
+        private DefaultValuesResolverInterface $defaultValuesResolver,
+        private array $options,
     ) {
     }
 
@@ -26,9 +26,9 @@ final class EntityGeneratorFactory
     {
         $options = $this->options;
         $options['repository_class'] =
-            $options['namespace'] .
-            '\\Repository\\' .
-            $nodeType->getSourceEntityClassName() . 'Repository';
+            $options['namespace'].
+            '\\Repository\\'.
+            $nodeType->getSourceEntityClassName().'Repository';
 
         return new EntityGenerator($nodeType, $this->nodeTypeResolverBag, $this->defaultValuesResolver, $options);
     }
@@ -39,8 +39,8 @@ final class EntityGeneratorFactory
             'entity_namespace' => $this->options['namespace'],
             'parent_class' => 'RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository',
         ];
-        $options['namespace'] = $this->options['namespace'] . '\\Repository';
-        $options['class_name'] = $nodeType->getSourceEntityClassName() . 'Repository';
+        $options['namespace'] = $this->options['namespace'].'\\Repository';
+        $options['class_name'] = $nodeType->getSourceEntityClassName().'Repository';
 
         return new RepositoryGenerator($nodeType, $options);
     }

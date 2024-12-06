@@ -9,11 +9,11 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class MarkdownGeneratorFactory
+final readonly class MarkdownGeneratorFactory
 {
     public function __construct(
-        private readonly ParameterBag $nodeTypesBag,
-        private readonly TranslatorInterface $translator
+        private ParameterBag $nodeTypesBag,
+        private TranslatorInterface $translator,
     ) {
     }
 
@@ -22,11 +22,6 @@ final class MarkdownGeneratorFactory
         return $bool ? $this->translator->trans('docs.yes') : $this->translator->trans('docs.no');
     }
 
-    /**
-     * @param NodeTypeInterface $nodeType
-     *
-     * @return NodeTypeGenerator
-     */
     public function createForNodeType(NodeTypeInterface $nodeType): NodeTypeGenerator
     {
         return new NodeTypeGenerator(
@@ -36,11 +31,6 @@ final class MarkdownGeneratorFactory
         );
     }
 
-    /**
-     * @param NodeTypeFieldInterface $field
-     *
-     * @return AbstractFieldGenerator
-     */
     public function createForNodeTypeField(NodeTypeFieldInterface $field): AbstractFieldGenerator
     {
         return match (true) {

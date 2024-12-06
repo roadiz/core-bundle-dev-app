@@ -18,9 +18,9 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 /**
  * Subscribe to Translation event to clear result cache.
  */
-final class TranslationSubscriber implements EventSubscriberInterface
+final readonly class TranslationSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly ManagerRegistry $managerRegistry)
+    public function __construct(private ManagerRegistry $managerRegistry)
     {
     }
 
@@ -34,15 +34,15 @@ final class TranslationSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Empty nodeSources Url cache
+     * Empty nodeSources Url cache.
      */
     public function purgeCache(Event $event, string $eventName, EventDispatcherInterface $dispatcher): void
     {
         $manager = $this->managerRegistry->getManager();
         // Clear result cache
         if (
-            $manager instanceof EntityManagerInterface &&
-            $manager->getConfiguration()->getResultCacheImpl() instanceof CacheProvider
+            $manager instanceof EntityManagerInterface
+            && $manager->getConfiguration()->getResultCacheImpl() instanceof CacheProvider
         ) {
             $manager->getConfiguration()->getResultCacheImpl()->deleteAll();
         }

@@ -23,15 +23,15 @@ final class ContactFormType extends AbstractType
                 'label' => 'contact_form.last_name',
                 'required' => true,
                 'constraints' => [
-                    new NotNull()
-                ]
+                    new NotNull(),
+                ],
             ])
             ->add('first_name', TextType::class, [
                 'label' => 'contact_form.first_name',
                 'required' => true,
                 'constraints' => [
-                    new NotNull()
-                ]
+                    new NotNull(),
+                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'contact_form.email',
@@ -39,18 +39,18 @@ final class ContactFormType extends AbstractType
                 'constraints' => [
                     new NotNull(),
                     new Email(),
-                ]
+                ],
             ])
             ->add('message', TextareaType::class, [
                 'label' => 'contact_form.message',
                 'required' => true,
                 'constraints' => [
-                    new NotNull()
-                ]
+                    new NotNull(),
+                ],
             ])
             ->add('file', FileType::class, [
                 'label' => 'contact_form.file',
-                'required' => false
+                'required' => false,
             ])
         ;
     }

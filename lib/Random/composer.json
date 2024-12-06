@@ -12,13 +12,12 @@
         }
     ],
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "psr/log": ">=1.1",
         "ext-openssl": "*"
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.5.3",
-        "squizlabs/php_codesniffer": "^3.5"
+        "phpstan/phpstan": "^1.5.3"
     },
     "autoload": {
         "psr-4": {
@@ -27,8 +26,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.3.x-dev",
-            "dev-develop": "2.4.x-dev"
+            "dev-main": "2.4.x-dev",
+            "dev-develop": "2.5.x-dev"
         }
     }
 }

@@ -18,23 +18,23 @@ use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class UserValidationTokenManager implements UserValidationTokenManagerInterface
+final readonly class UserValidationTokenManager implements UserValidationTokenManagerInterface
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly TranslatorInterface $translator,
-        private readonly LoggerInterface $logger,
-        private readonly EmailManagerFactory $emailManagerFactory,
-        private readonly Settings $settingsBag,
-        private readonly RoleHierarchyInterface $roleHierarchy,
-        private readonly string $emailValidatedRoleName,
-        private readonly int $userValidationExpiresIn,
-        private readonly string $userValidationUrl
+        private ManagerRegistry $managerRegistry,
+        private UrlGeneratorInterface $urlGenerator,
+        private TranslatorInterface $translator,
+        private LoggerInterface $logger,
+        private EmailManagerFactory $emailManagerFactory,
+        private Settings $settingsBag,
+        private RoleHierarchyInterface $roleHierarchy,
+        private string $emailValidatedRoleName,
+        private int $userValidationExpiresIn,
+        private string $userValidationUrl,
     ) {
     }
 
-    public function createForUser(UserInterface $user): UserValidationToken
+    public function createForUser(UserInterface $user, bool $sendEmail = true): UserValidationToken
     {
         $existingValidationToken = $this->managerRegistry
             ->getRepository(UserValidationToken::class)
@@ -51,18 +51,21 @@ final class UserValidationTokenManager implements UserValidationTokenManagerInte
         $existingValidationToken->setTokenValidUntil(
             (new \DateTime())->add(new \DateInterval(sprintf('PT%dS', $this->userValidationExpiresIn)))
         );
-        $this->sendUserValidationEmail($existingValidationToken);
+        if ($sendEmail) {
+            $this->sendUserValidationEmail($existingValidationToken);
+        }
+
         return $existingValidationToken;
     }
 
     public function isUserEmailValidated(UserInterface $user): bool
     {
         $reachableRoles = $this->roleHierarchy->getReachableRoleNames($user->getRoles());
-        return \in_array($this->emailValidatedRoleName, $reachableRoles) ||
-            \in_array('ROLE_SUPER_ADMIN', $reachableRoles) ||
-            \in_array('ROLE_SUPERADMIN', $reachableRoles);
-    }
 
+        return \in_array($this->emailValidatedRoleName, $reachableRoles)
+            || \in_array('ROLE_SUPER_ADMIN', $reachableRoles)
+            || \in_array('ROLE_SUPERADMIN', $reachableRoles);
+    }
 
     private function sendUserValidationEmail(UserValidationToken $userValidationToken): void
     {
@@ -90,7 +93,7 @@ final class UserValidationTokenManager implements UserValidationTokenManagerInte
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
         } catch (RouteNotFoundException $exception) {
-            $validationLink = $this->userValidationUrl . '?' . http_build_query(
+            $validationLink = $this->userValidationUrl.'?'.http_build_query(
                 [
                     'token' => $userValidationToken->getToken(),
                     '_locale' => $user->getLocale(),

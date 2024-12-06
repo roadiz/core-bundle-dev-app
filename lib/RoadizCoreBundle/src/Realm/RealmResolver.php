@@ -10,16 +10,16 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Realm;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\RealmVoter;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-final class RealmResolver implements RealmResolverInterface
+final readonly class RealmResolver implements RealmResolverInterface
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly Security $security,
-        private readonly CacheItemPoolInterface $cache
+        private ManagerRegistry $managerRegistry,
+        private Security $security,
+        private CacheItemPoolInterface $cache,
     ) {
     }
 
@@ -28,6 +28,7 @@ final class RealmResolver implements RealmResolverInterface
         if (null === $node) {
             return [];
         }
+
         return $this->managerRegistry->getRepository(Realm::class)->findByNode($node);
     }
 
@@ -36,6 +37,7 @@ final class RealmResolver implements RealmResolverInterface
         if (null === $node) {
             return [];
         }
+
         return $this->managerRegistry->getRepository(Realm::class)->findByNodeWithSerializationGroup($node);
     }
 
@@ -47,10 +49,7 @@ final class RealmResolver implements RealmResolverInterface
     public function denyUnlessGranted(RealmInterface $realm): void
     {
         if (!$this->isGranted($realm)) {
-            throw new UnauthorizedHttpException(
-                $realm->getChallenge(),
-                'WebResponse was denied by Realm authorization, check Www-Authenticate header'
-            );
+            throw new UnauthorizedHttpException($realm->getChallenge(), 'WebResponse was denied by Realm authorization, check Www-Authenticate header');
         }
     }
 
@@ -63,25 +62,27 @@ final class RealmResolver implements RealmResolverInterface
 
     public function getGrantedRealms(): array
     {
-        $cacheItem = $this->cache->getItem('granted_realms_' . $this->getUserCacheKey());
+        $cacheItem = $this->cache->getItem('granted_realms_'.$this->getUserCacheKey());
         if (!$cacheItem->isHit()) {
             $allRealms = $this->managerRegistry->getRepository(Realm::class)->findBy([]);
-            $cacheItem->set(array_filter($allRealms, fn(RealmInterface $realm) => $this->isGranted($realm)));
+            $cacheItem->set(array_filter($allRealms, fn (RealmInterface $realm) => $this->isGranted($realm)));
             $cacheItem->expiresAfter(new \DateInterval('PT1H'));
             $this->cache->save($cacheItem);
         }
+
         return $cacheItem->get();
     }
 
     public function getDeniedRealms(): array
     {
-        $cacheItem = $this->cache->getItem('denied_realms_' . $this->getUserCacheKey());
+        $cacheItem = $this->cache->getItem('denied_realms_'.$this->getUserCacheKey());
         if (!$cacheItem->isHit()) {
             $allRealms = $this->managerRegistry->getRepository(Realm::class)->findBy([]);
-            $cacheItem->set(array_filter($allRealms, fn(RealmInterface $realm) => !$this->isGranted($realm)));
+            $cacheItem->set(array_filter($allRealms, fn (RealmInterface $realm) => !$this->isGranted($realm)));
             $cacheItem->expiresAfter(new \DateInterval('PT1H'));
             $this->cache->save($cacheItem);
         }
+
         return $cacheItem->get();
     }
 
@@ -94,6 +95,7 @@ final class RealmResolver implements RealmResolverInterface
             $cacheItem->expiresAfter(new \DateInterval('PT2H'));
             $this->cache->save($cacheItem);
         }
+
         return $cacheItem->get();
     }
 
@@ -106,6 +108,7 @@ final class RealmResolver implements RealmResolverInterface
             $cacheItem->expiresAfter(new \DateInterval('PT2H'));
             $this->cache->save($cacheItem);
         }
+
         return $cacheItem->get();
     }
 }

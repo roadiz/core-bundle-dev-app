@@ -20,7 +20,7 @@ final class VersionsPurgeCommand extends Command
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -54,7 +54,7 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->hasOption('before') && $input->getOption('before') != '') {
+        if ($input->hasOption('before') && '' != $input->getOption('before')) {
             $this->purgeByDate($input, $output);
         } elseif ($input->hasOption('count')) {
             if ((int) $input->getOption('count') < 2) {
@@ -64,6 +64,7 @@ EOT
         } else {
             throw new \InvalidArgumentException('Choose an option between --before or --count');
         }
+
         return 0;
     }
 
@@ -79,7 +80,6 @@ EOT
     private function purgeByDate(InputInterface $input, OutputInterface $output): void
     {
         $io = new SymfonyStyle($input, $output);
-        $em = $this->managerRegistry->getManagerForClass(UserLogEntry::class);
         $dateTime = new \DateTime($input->getOption('before'));
 
         if ($dateTime >= new \DateTime()) {
@@ -105,7 +105,6 @@ EOT
     {
         $io = new SymfonyStyle($input, $output);
         $count = (int) $input->getOption('count');
-        $em = $this->managerRegistry->getManagerForClass(UserLogEntry::class);
 
         $question = new ConfirmationQuestion(sprintf(
             'Do you want to purge all entities versions and to keep only the <info>latest %s</info>?',

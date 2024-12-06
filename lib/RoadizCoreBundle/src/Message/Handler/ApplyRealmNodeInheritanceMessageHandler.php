@@ -11,20 +11,21 @@ use RZ\Roadiz\CoreBundle\Entity\RealmNode;
 use RZ\Roadiz\CoreBundle\Message\ApplyRealmNodeInheritanceMessage;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Node\NodeOffspringResolverInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-final class ApplyRealmNodeInheritanceMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final readonly class ApplyRealmNodeInheritanceMessageHandler
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly NodeOffspringResolverInterface $nodeOffspringResolver
+        private ManagerRegistry $managerRegistry,
+        private NodeOffspringResolverInterface $nodeOffspringResolver,
     ) {
     }
 
     public function __invoke(ApplyRealmNodeInheritanceMessage $message): void
     {
-        if ($message->getRealmId() === null) {
+        if (null === $message->getRealmId()) {
             return;
         }
         $node = $this->managerRegistry->getRepository(Node::class)->find($message->getNodeId());
@@ -45,7 +46,7 @@ final class ApplyRealmNodeInheritanceMessageHandler implements MessageHandlerInt
         /*
          * Do not propagate if realm node inheritance type is not ROOT
          */
-        if (null === $realmNode || $realmNode->getInheritanceType() !== RealmInterface::INHERITANCE_ROOT) {
+        if (null === $realmNode || RealmInterface::INHERITANCE_ROOT !== $realmNode->getInheritanceType()) {
             return;
         }
 

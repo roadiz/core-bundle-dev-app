@@ -6,9 +6,9 @@ namespace RZ\Roadiz\CoreBundle\Form\DataTransformer;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Persistence\ObjectManager;
-use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Attribute;
 use RZ\Roadiz\CoreBundle\Entity\AttributeDocuments;
+use RZ\Roadiz\CoreBundle\Entity\Document;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
@@ -23,6 +23,7 @@ final class AttributeDocumentsTransformer implements DataTransformerInterface
      * to Document entities for displaying in document VueJS component.
      *
      * @param AttributeDocuments[]|null $value
+     *
      * @return Document[]
      */
     public function transform(mixed $value): array
@@ -40,7 +41,6 @@ final class AttributeDocumentsTransformer implements DataTransformerInterface
 
     /**
      * @param array $value
-     * @return ArrayCollection
      */
     public function reverseTransform(mixed $value): ArrayCollection
     {
@@ -56,10 +56,7 @@ final class AttributeDocumentsTransformer implements DataTransformerInterface
                 ->find($documentId)
             ;
             if (null === $document) {
-                throw new TransformationFailedException(sprintf(
-                    'A document with id "%s" does not exist!',
-                    $documentId
-                ));
+                throw new TransformationFailedException(sprintf('A document with id "%s" does not exist!', $documentId));
             }
 
             $ttd = new AttributeDocuments($this->attribute, $document);
@@ -67,7 +64,7 @@ final class AttributeDocumentsTransformer implements DataTransformerInterface
             $this->manager->persist($ttd);
             $documents->add($ttd);
 
-            $position++;
+            ++$position;
         }
 
         return $documents;

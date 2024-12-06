@@ -13,9 +13,6 @@ class ChainRenderer implements RendererInterface
      */
     private array $renderers;
 
-    /**
-     * @param array $renderers
-     */
     public function __construct(array $renderers)
     {
         /**
@@ -30,13 +27,12 @@ class ChainRenderer implements RendererInterface
     }
 
     /**
-     * @param RendererInterface $renderer
-     *
      * @return $this
      */
     public function addRenderer(RendererInterface $renderer): ChainRenderer
     {
         $this->renderers[] = $renderer;
+
         return $this;
     }
 

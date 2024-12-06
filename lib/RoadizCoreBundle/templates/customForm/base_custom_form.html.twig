@@ -4,16 +4,16 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>{% block title %}{{ head.siteTitle }}{% endblock %}</title>
+    <title>{% block title %}{{ meta.siteName }}{% endblock %}</title>
     <meta name="description" content="{% block description %}{% trans %}back_office{% endtrans %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
     {# CSS scripts inclusions / Using webpack #}
     {% include '@RoadizRozier/partials/css-inject.html.twig' %}
-    {% if head.mainColor %}
+    {% if main_color %}
         <style>
             :root {
-                --rz-accent-color: {{ head.mainColor|raw }};
+                --rz-accent-color: {{ main_color|raw }};
                 --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
                 --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
                 --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);

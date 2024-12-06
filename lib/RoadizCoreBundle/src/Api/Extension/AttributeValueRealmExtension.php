@@ -14,27 +14,27 @@ use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Realm\RealmResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 
-final class AttributeValueRealmExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
+final readonly class AttributeValueRealmExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
     public function __construct(
-        private readonly Security $security,
-        private readonly RealmResolverInterface $realmResolver
+        private Security $security,
+        private RealmResolverInterface $realmResolver,
     ) {
     }
 
-    public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, Operation $operation = null, array $context = []): void
+    public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?Operation $operation = null, array $context = []): void
     {
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
-    public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, Operation $operation = null, array $context = []): void
+    public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, ?Operation $operation = null, array $context = []): void
     {
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
-        if ($resourceClass !== AttributeValue::class || $this->security->isGranted('ROLE_ACCESS_NODE_ATTRIBUTES')) {
+        if (AttributeValue::class !== $resourceClass || $this->security->isGranted('ROLE_ACCESS_NODE_ATTRIBUTES')) {
             return;
         }
 
@@ -44,6 +44,7 @@ final class AttributeValueRealmExtension implements QueryCollectionExtensionInte
         $rootAlias = $queryBuilder->getRootAliases()[0];
         if ($this->security->isGranted('IS_ANONYMOUS')) {
             $queryBuilder->andWhere($queryBuilder->expr()->isNull(sprintf('%s.realm', $rootAlias)));
+
             return;
         }
 

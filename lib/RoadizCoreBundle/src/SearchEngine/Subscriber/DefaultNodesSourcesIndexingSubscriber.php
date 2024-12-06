@@ -13,9 +13,6 @@ use RZ\Roadiz\CoreBundle\SearchEngine\SolariumNodeSource;
 
 final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscriber
 {
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -46,7 +43,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
          */
         $title = $event->getSolariumDocument()->cleanTextContent($nodeSource->getTitle(), false);
         $assoc['title'] = $title;
-        $assoc['title_txt_' . $lang] = $title;
+        $assoc['title_txt_'.$lang] = $title;
 
         /*
          * Do not index locale and tags if this is a sub-resource
@@ -55,14 +52,14 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
             $assoc['node_type_s'] = $nodeSource->getNodeTypeName();
             $assoc['node_name_s'] = $node->getNodeName();
             $assoc['slug_s'] = $node->getNodeName();
-            $assoc['node_status_i'] = $node->getStatus();
+            $assoc['node_status_i'] = $node->getStatus()->value;
             $assoc['node_visible_b'] = $node->isVisible();
             $assoc['node_reachable_b'] = $nodeSource->isReachable();
             $assoc['created_at_dt'] = $this->formatDateTimeToUTC($node->getCreatedAt());
             $assoc['updated_at_dt'] = $this->formatDateTimeToUTC($node->getUpdatedAt());
 
             if (null !== $nodeSource->getPublishedAt()) {
-                $assoc['published_at_dt'] =  $this->formatDateTimeToUTC($nodeSource->getPublishedAt());
+                $assoc['published_at_dt'] = $this->formatDateTimeToUTC($nodeSource->getPublishedAt());
             }
 
             if ($this->canIndexTitleInCollection($nodeSource)) {
@@ -86,6 +83,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
                     $tagName = $translatedTag ?
                         $translatedTag->getName() :
                         $tag->getTagName();
+
                     return $event->getSolariumDocument()->cleanTextContent($tagName, false);
                 },
                 $nodeSource->getNode()->getTags()->filter(function (Tag $tag) {
@@ -96,7 +94,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
             // Use tags_txt to be compatible with other data types
             $assoc['tags_txt'] = $out;
             // Compile all tags names into a single localized text field.
-            $assoc['tags_txt_' . $lang] = implode(' ', $out);
+            $assoc['tags_txt_'.$lang] = implode(' ', $out);
 
             /*
              * `all_tags_slugs_ss` can store all tags, even technical one, this fields should not user searchable.
@@ -182,7 +180,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
              * with right language
              */
             if (in_array($lang, SolariumNodeSource::$availableLocalizedTextFields)) {
-                $name .= '_txt_' . $lang;
+                $name .= '_txt_'.$lang;
             } else {
                 $name .= '_t';
             }
@@ -196,16 +194,12 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
          */
         $assoc['collection_txt'] = $collection;
         // Compile all text content into a single localized text field.
-        $assoc['collection_txt_' . $lang] = $this->flattenTextCollection($collection);
+        $assoc['collection_txt_'.$lang] = $this->flattenTextCollection($collection);
         $event->setAssociations($assoc);
     }
 
     /**
      * @param iterable<NodeTypeField> $fields
-     * @param string $suffix
-     * @param NodesSources $nodeSource
-     * @param array $assoc
-     * @return void
      */
     protected function indexSuffixedFields(iterable $fields, string $suffix, NodesSources $nodeSource, array &$assoc): void
     {
@@ -222,17 +216,13 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
         }
     }
 
-    /**
-     * @param NodesSources $source
-     * @return bool
-     */
     protected function canIndexTitleInCollection(NodesSources $source): bool
     {
         if (method_exists($source, 'getHideTitle')) {
             return !((bool) $source->getHideTitle());
         }
         if (method_exists($source, 'getShowTitle')) {
-            return ((bool) $source->getShowTitle());
+            return (bool) $source->getShowTitle();
         }
 
         return $source->getNode()->getNodeType()->isSearchable();

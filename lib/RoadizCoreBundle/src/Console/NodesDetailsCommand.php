@@ -18,7 +18,7 @@ final class NodesDetailsCommand extends Command
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -41,6 +41,7 @@ final class NodesDetailsCommand extends Command
 
         /**
          * @var NodesSources|null $source
+         *
          * @phpstan-ignore-next-line
          */
         $source = $this->managerRegistry->getRepository(NodesSources::class)
@@ -78,8 +79,10 @@ final class NodesDetailsCommand extends Command
             }
         } else {
             $io->error('No node found.');
+
             return 1;
         }
+
         return 0;
     }
 }

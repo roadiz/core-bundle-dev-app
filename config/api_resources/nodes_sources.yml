@@ -10,6 +10,7 @@ resources:
                     groups:
                         - nodes_sources_base
                         - nodes_sources_default
+                        - timestamps
                         - user
                         - urls
                         - tag_base

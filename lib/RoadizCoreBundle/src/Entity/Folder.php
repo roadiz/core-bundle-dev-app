@@ -29,34 +29,31 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ORM\Entity(repositoryClass: FolderRepository::class),
     ORM\HasLifecycleCallbacks,
-    ORM\Table(name: "folders"),
-    ORM\Index(columns: ["visible"]),
-    ORM\Index(columns: ["locked"]),
-    ORM\Index(columns: ["position"]),
-    ORM\Index(columns: ["created_at"]),
-    ORM\Index(columns: ["updated_at"]),
-    ORM\Index(columns: ["parent_id", "position"], name: "folder_parent_position"),
-    ORM\Index(columns: ["visible", "position"], name: "folder_visible_position"),
-    ORM\Index(columns: ["parent_id", "visible"], name: "folder_parent_visible"),
-    ORM\Index(columns: ["parent_id", "visible", "position"], name: "folder_parent_visible_position"),
-    UniqueEntity(fields: ["folderName"]),
+    ORM\Table(name: 'folders'),
+    ORM\Index(columns: ['visible']),
+    ORM\Index(columns: ['locked']),
+    ORM\Index(columns: ['position']),
+    ORM\Index(columns: ['created_at']),
+    ORM\Index(columns: ['updated_at']),
+    ORM\Index(columns: ['parent_id', 'position'], name: 'folder_parent_position'),
+    ORM\Index(columns: ['visible', 'position'], name: 'folder_visible_position'),
+    ORM\Index(columns: ['parent_id', 'visible'], name: 'folder_parent_visible'),
+    ORM\Index(columns: ['parent_id', 'visible', 'position'], name: 'folder_parent_visible_position'),
+    UniqueEntity(fields: ['folderName']),
     ApiFilter(PropertyFilter::class),
     ApiFilter(BaseFilter\OrderFilter::class, properties: [
-        "position",
-        "createdAt",
-        "updatedAt"
+        'position',
+        'createdAt',
+        'updatedAt',
     ])
 ]
 class Folder extends AbstractDateTimedPositioned implements FolderInterface, LeafInterface
 {
     use LeafTrait;
 
-    /**
-     * @var Folder|null
-     */
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
-        "parent.id" => "exact",
-        "parent.folderName" => "exact"
+        'parent.id' => 'exact',
+        'parent.folderName' => 'exact',
     ])]
     #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
@@ -87,11 +84,6 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /** @phpstan-ignore-next-line */
     protected Collection $documents;
 
-    /**
-     * @var string
-     * @Serializer\Groups({"folder", "folder_color"})
-     * @Serializer\Type("string")
-     */
     #[ORM\Column(
         name: 'color',
         type: 'string',
@@ -102,9 +94,11 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     )]
     #[Assert\Length(max: 7)]
     #[SymfonySerializer\Groups(['folder', 'folder_color'])]
+    #[Serializer\Groups(['folder', 'folder_color'])]
+    #[Serializer\Type('string')]
     protected string $color = '#000000';
 
-    #[ApiFilter(BaseFilter\SearchFilter::class, strategy: "partial")]
+    #[ApiFilter(BaseFilter\SearchFilter::class, strategy: 'partial')]
     #[ORM\Column(name: 'folder_name', type: 'string', length: 250, unique: true, nullable: false)]
     #[Serializer\Groups(['folder', 'document_folders'])]
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
@@ -151,7 +145,6 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     }
 
     /**
-     * @param DocumentInterface $document
      * @return $this
      */
     public function addDocument(DocumentInterface $document): static
@@ -172,7 +165,6 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     }
 
     /**
-     * @param DocumentInterface $document
      * @return $this
      */
     public function removeDocument(DocumentInterface $document): static
@@ -184,34 +176,27 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this;
     }
 
-    /**
-     * @return boolean
-     */
     public function getVisible(): bool
     {
         return $this->isVisible();
     }
 
-    /**
-     * @return boolean
-     */
     public function isVisible(): bool
     {
         return $this->visible;
     }
 
     /**
-     * @param bool $visible
      * @return $this
      */
     public function setVisible(bool $visible): static
     {
         $this->visible = $visible;
+
         return $this;
     }
 
     /**
-     * @param TranslationInterface $translation
      * @return Collection<int, FolderTranslation>
      */
     #[SymfonySerializer\Ignore]
@@ -231,12 +216,9 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         });
     }
 
-    /**
-     * @return string|null
-     * @Serializer\VirtualProperty
-     * @Serializer\Groups({"folder", "document_folders"})
-     */
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
+    #[Serializer\Groups(['folder', 'document_folders'])]
+    #[Serializer\VirtualProperty]
     public function getName(): ?string
     {
         return $this->getTranslatedFolders()->first() ?
@@ -254,91 +236,73 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
 
     /**
      * @param Collection<int, FolderTranslation> $translatedFolders
+     *
      * @return $this
      */
     public function setTranslatedFolders(Collection $translatedFolders): static
     {
         $this->translatedFolders = $translatedFolders;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getFolderName(): string
     {
         return $this->folderName ?? '';
     }
 
     /**
-     * @param string $folderName
      * @return $this
      */
     public function setFolderName(string $folderName): static
     {
         $this->dirtyFolderName = $folderName;
         $this->folderName = StringHandler::slugify($folderName);
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDirtyFolderName(): string
     {
         return $this->dirtyFolderName;
     }
 
     /**
-     * @param string $dirtyFolderName
      * @return $this
      */
     public function setDirtyFolderName(string $dirtyFolderName): static
     {
         $this->dirtyFolderName = $dirtyFolderName;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isLocked(): bool
     {
         return $this->locked;
     }
 
-    /**
-     * @param bool $locked
-     * @return Folder
-     */
     public function setLocked(bool $locked): Folder
     {
         $this->locked = $locked;
+
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getColor(): string
     {
         return $this->color;
     }
 
-    /**
-     * @param string $color
-     * @return Folder
-     */
     public function setColor(string $color): Folder
     {
         $this->color = $color;
+
         return $this;
     }
 
     /**
      * Get folder full path using folder names.
-     *
-     * @return string
      */
     #[SymfonySerializer\Ignore]
     public function getFullPath(): string

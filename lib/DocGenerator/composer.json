@@ -3,7 +3,7 @@
     "description": "Roadiz sub-package which generates Markdown documentation skeleton based on your schema",
     "type": "library",
     "require": {
-        "php": ">=8.1",
+        "php": ">=8.2",
         "roadiz/nodetype-contracts": "~1.1.2",
         "symfony/translation": "6.4.*",
         "symfony/http-foundation": "6.4.*"
@@ -23,13 +23,12 @@
         }
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.5.3",
-        "squizlabs/php_codesniffer": "^3.5"
+        "phpstan/phpstan": "^1.5.3"
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.3.x-dev",
-            "dev-develop": "2.4.x-dev"
+            "dev-main": "2.4.x-dev",
+            "dev-develop": "2.5.x-dev"
         }
     }
 }

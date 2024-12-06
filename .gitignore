@@ -1,4 +1,3 @@
-
 # Created by https://www.toptal.com/developers/gitignore/api/phpstorm
 # Edit at https://www.toptal.com/developers/gitignore?templates=phpstorm
 
@@ -140,6 +139,7 @@ fabric.properties
 /generated/*
 /.data/db/*
 /.data/db_test/*
+/.data/mariadb/*
 /.data/pgsql_test/*
 /.data/solr/*
 /themes/BaseTheme
@@ -155,11 +155,6 @@ fabric.properties
 !/.data/db_test/.gitkeep
 !/.data/pgsql_test/.gitkeep
 !/.data/solr/.gitkeep
-
-###> squizlabs/php_codesniffer ###
-/.phpcs-cache
-/phpcs.xml
-###< squizlabs/php_codesniffer ###
 /report.txt
 /composer.lock
 /symfony.lock
@@ -167,3 +162,10 @@ fabric.properties
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+###> friendsofphp/php-cs-fixer ###
+/.php-cs-fixer.php
+/.php-cs-fixer.cache
+###< friendsofphp/php-cs-fixer ###
+/compose.override.yml
+/siege.txt

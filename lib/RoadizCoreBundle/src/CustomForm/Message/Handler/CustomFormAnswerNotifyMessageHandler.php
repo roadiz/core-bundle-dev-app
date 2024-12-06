@@ -14,21 +14,22 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Mime\Address;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
-final class CustomFormAnswerNotifyMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final readonly class CustomFormAnswerNotifyMessageHandler
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly EmailManagerFactory $emailManagerFactory,
-        private readonly Settings $settingsBag,
-        private readonly FilesystemOperator $documentsStorage,
-        private readonly LoggerInterface $messengerLogger,
+        private ManagerRegistry $managerRegistry,
+        private EmailManagerFactory $emailManagerFactory,
+        private Settings $settingsBag,
+        private FilesystemOperator $documentsStorage,
+        private LoggerInterface $messengerLogger,
     ) {
     }
 
@@ -43,8 +44,8 @@ final class CustomFormAnswerNotifyMessageHandler implements MessageHandlerInterf
         }
 
         $emailFields = [
-            ["name" => "ip.address", "value" => $answer->getIp()],
-            ["name" => "submittedAt", "value" => $answer->getSubmittedAt()->format('Y-m-d H:i:s')],
+            ['name' => 'ip.address', 'value' => $answer->getIp()],
+            ['name' => 'submittedAt', 'value' => $answer->getSubmittedAt()->format('Y-m-d H:i:s')],
         ];
         $emailFields = array_merge(
             $emailFields,
@@ -71,6 +72,7 @@ final class CustomFormAnswerNotifyMessageHandler implements MessageHandlerInterf
         $receiver = array_filter(
             array_map('trim', explode(',', $answer->getCustomForm()->getEmail() ?? ''))
         );
+
         return array_map(function (string $email) {
             return new Address($email);
         }, $receiver);
@@ -79,8 +81,6 @@ final class CustomFormAnswerNotifyMessageHandler implements MessageHandlerInterf
     /**
      * Send an answer form by Email.
      *
-     * @param CustomFormAnswer $answer
-     * @param array $assignation
      * @throws TransportExceptionInterface
      * @throws LoaderError
      * @throws RuntimeError
@@ -88,7 +88,7 @@ final class CustomFormAnswerNotifyMessageHandler implements MessageHandlerInterf
      */
     private function sendAnswer(
         CustomFormAnswer $answer,
-        array $assignation
+        array $assignation,
     ): void {
         $defaultSender = $this->settingsBag->get('email_sender');
         $defaultSender = filter_var($defaultSender, FILTER_VALIDATE_EMAIL) ? $defaultSender : 'sender@roadiz.io';
@@ -120,7 +120,7 @@ final class CustomFormAnswerNotifyMessageHandler implements MessageHandlerInterf
             }
         } catch (FilesystemException $exception) {
             $this->messengerLogger->error($exception->getMessage(), [
-                'entity' => $answer
+                'entity' => $answer,
             ]);
         }
 

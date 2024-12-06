@@ -13,53 +13,50 @@ trait AttributeGroupTranslationTrait
 {
     #[
         ORM\ManyToOne(targetEntity: "RZ\Roadiz\Core\AbstractEntities\TranslationInterface"),
-        ORM\JoinColumn(name: "translation_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
-        Serializer\Groups(["attribute_group", "attribute", "node", "nodes_sources"]),
+        ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
+        Serializer\Groups(['attribute_group', 'attribute', 'node', 'nodes_sources']),
         Serializer\Type("RZ\Roadiz\Core\AbstractEntities\TranslationInterface"),
-        Serializer\Accessor(getter: "getTranslation", setter: "setTranslation")
+        Serializer\Accessor(getter: 'getTranslation', setter: 'setTranslation')
     ]
     protected TranslationInterface $translation;
 
     #[
-        ORM\Column(type: "string", length: 255, unique: false, nullable: false),
-        Serializer\Groups(["attribute_group", "attribute", "node", "nodes_sources"]),
-        Serializer\Type("string"),
+        ORM\Column(type: 'string', length: 255, unique: false, nullable: false),
+        Serializer\Groups(['attribute_group', 'attribute', 'node', 'nodes_sources']),
+        Serializer\Type('string'),
         Assert\Length(max: 255)
     ]
     protected string $name = '';
 
     #[
-        ORM\ManyToOne(targetEntity: AttributeGroupInterface::class, cascade: ["persist"], inversedBy: "attributeGroupTranslations"),
-        ORM\JoinColumn(name: "attribute_group_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE"),
+        ORM\ManyToOne(targetEntity: AttributeGroupInterface::class, cascade: ['persist'], inversedBy: 'attributeGroupTranslations'),
+        ORM\JoinColumn(name: 'attribute_group_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
         Serializer\Exclude
     ]
     protected AttributeGroupInterface $attributeGroup;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param string $value
-     * @return self
+     * @return $this
      */
-    public function setName(string $value)
+    public function setName(string $value): self
     {
         $this->name = $value;
+
         return $this;
     }
 
     /**
-     * @param TranslationInterface $translation
-     * @return self
+     * @return $this
      */
-    public function setTranslation(TranslationInterface $translation)
+    public function setTranslation(TranslationInterface $translation): self
     {
         $this->translation = $translation;
+
         return $this;
     }
 
@@ -68,21 +65,18 @@ trait AttributeGroupTranslationTrait
         return $this->translation;
     }
 
-    /**
-     * @return AttributeGroupInterface
-     */
     public function getAttributeGroup(): AttributeGroupInterface
     {
         return $this->attributeGroup;
     }
 
     /**
-     * @param AttributeGroupInterface $attributeGroup
-     * @return self
+     * @return $this
      */
-    public function setAttributeGroup(AttributeGroupInterface $attributeGroup)
+    public function setAttributeGroup(AttributeGroupInterface $attributeGroup): self
     {
         $this->attributeGroup = $attributeGroup;
+
         return $this;
     }
 }

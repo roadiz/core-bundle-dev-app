@@ -11,21 +11,13 @@ use RZ\Roadiz\CoreBundle\Entity\TagTranslation;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use RZ\Roadiz\Utils\StringHandler;
 
-final class TagFactory
+final readonly class TagFactory
 {
-    public function __construct(private readonly ManagerRegistry $managerRegistry)
+    public function __construct(private ManagerRegistry $managerRegistry)
     {
     }
 
-    /**
-     * @param string $name
-     * @param TranslationInterface|null $translation
-     * @param Tag|null $parent
-     * @param int|float $latestPosition
-     *
-     * @return Tag
-     */
-    public function create(string $name, ?TranslationInterface $translation = null, ?Tag $parent = null, $latestPosition = 0): Tag
+    public function create(string $name, ?TranslationInterface $translation = null, ?Tag $parent = null, int|float $latestPosition = 0): Tag
     {
         $name = strip_tags(trim($name));
         $tagName = StringHandler::slugify($name);
@@ -43,7 +35,7 @@ final class TagFactory
             return $tag;
         }
 
-        if ($translation === null) {
+        if (null === $translation) {
             $translation = $this->managerRegistry->getRepository(TranslationInterface::class)->findDefault();
         }
 

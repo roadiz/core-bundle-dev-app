@@ -18,7 +18,7 @@ class LoginController extends RozierApp
     public function __construct(
         private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
         private readonly RandomImageFinder $randomImageFinder,
-        private readonly Settings $settingsBag
+        private readonly Settings $settingsBag,
     ) {
     }
 
@@ -30,9 +30,9 @@ class LoginController extends RozierApp
 
         if (null !== $document = $this->settingsBag->getDocument('login_image')) {
             if (
-                $document instanceof Document &&
-                !$document->isPrivate() &&
-                $document->isProcessable()
+                $document instanceof Document
+                && !$document->isPrivate()
+                && $document->isProcessable()
             ) {
                 $this->documentUrlGenerator->setDocument($document);
                 $this->documentUrlGenerator->setOptions([
@@ -41,8 +41,9 @@ class LoginController extends RozierApp
                     'quality' => 80,
                     'sharpen' => 5,
                 ]);
+
                 return $response->setData([
-                    'url' => $this->documentUrlGenerator->getUrl()
+                    'url' => $this->documentUrlGenerator->getUrl(),
                 ]);
             }
         }
@@ -53,8 +54,9 @@ class LoginController extends RozierApp
         if (null !== $feed) {
             $url = $feed['url'] ?? $feed['urls']['regular'] ?? $feed['urls']['full'] ?? $feed['urls']['raw'] ?? null;
         }
+
         return $response->setData([
-            'url' => $url ?? '/themes/Rozier/static/assets/img/default_login.jpg'
+            'url' => $url ?? '/themes/Rozier/static/assets/img/default_login.jpg',
         ]);
     }
 }

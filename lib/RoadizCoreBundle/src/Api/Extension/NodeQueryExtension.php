@@ -12,12 +12,13 @@ use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 
-final class NodeQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
+final readonly class NodeQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
     public function __construct(
-        private readonly PreviewResolverInterface $previewResolver
+        private PreviewResolverInterface $previewResolver,
     ) {
     }
 
@@ -26,8 +27,8 @@ final class NodeQueryExtension implements QueryItemExtensionInterface, QueryColl
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
         array $identifiers,
-        Operation $operation = null,
-        array $context = []
+        ?Operation $operation = null,
+        array $context = [],
     ): void {
         $this->apply($queryBuilder, $queryNameGenerator, $resourceClass);
     }
@@ -35,16 +36,17 @@ final class NodeQueryExtension implements QueryItemExtensionInterface, QueryColl
     private function apply(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
-        string $resourceClass
+        string $resourceClass,
     ): void {
-        if ($resourceClass !== Node::class) {
+        if (Node::class !== $resourceClass) {
             return;
         }
 
         if ($this->previewResolver->isPreview()) {
             $queryBuilder
                 ->andWhere($queryBuilder->expr()->lte('o.status', ':status'))
-                ->setParameter(':status', Node::PUBLISHED);
+                ->setParameter(':status', NodeStatus::PUBLISHED);
+
             return;
         }
 
@@ -56,10 +58,11 @@ final class NodeQueryExtension implements QueryItemExtensionInterface, QueryColl
             Join::INNER_JOIN
         );
         $queryBuilder
-            ->andWhere($queryBuilder->expr()->lte($alias . '.publishedAt', ':lte_published_at'))
+            ->andWhere($queryBuilder->expr()->lte($alias.'.publishedAt', ':lte_published_at'))
             ->andWhere($queryBuilder->expr()->eq('o.status', ':status'))
             ->setParameter(':lte_published_at', new \DateTime())
-            ->setParameter(':status', Node::PUBLISHED);
+            ->setParameter(':status', NodeStatus::PUBLISHED);
+
         return;
     }
 
@@ -67,8 +70,8 @@ final class NodeQueryExtension implements QueryItemExtensionInterface, QueryColl
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
-        Operation $operation = null,
-        array $context = []
+        ?Operation $operation = null,
+        array $context = [],
     ): void {
         $this->apply($queryBuilder, $queryNameGenerator, $resourceClass);
     }

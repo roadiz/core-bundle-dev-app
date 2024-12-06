@@ -10,23 +10,28 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class AbstractExplorerProvider implements ExplorerProviderInterface
 {
     protected array $options;
+
+    /**
+     * @deprecated
+     */
     protected ContainerInterface $container;
 
+    /**
+     * @deprecated
+     */
     public function setContainer(ContainerInterface $container): self
     {
         $this->container = $container;
+
         return $this;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'page'       => 1,
-            'search'   =>  null,
-            'itemPerPage'   => 30
+            'page' => 1,
+            'search' => null,
+            'itemPerPage' => 30,
         ]);
     }
 }

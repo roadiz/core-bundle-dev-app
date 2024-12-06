@@ -8,14 +8,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
+use Symfony\Component\Routing\Attribute\Route;
 
-final class PingController extends AbstractController
+class PingController extends AbstractController
 {
     public function __construct(private readonly ?Profiler $profiler)
     {
     }
 
-    public function indexAction(): JsonResponse
+    #[Route('/rz-admin/ping', name: 'ping', methods: ['GET'])]
+    public function pingAction(): JsonResponse
     {
         // $profiler won't be set if your environment doesn't have the profiler (like prod, by default)
         $this->profiler?->disable();

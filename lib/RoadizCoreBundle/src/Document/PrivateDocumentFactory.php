@@ -25,7 +25,7 @@ class PrivateDocumentFactory extends AbstractDocumentFactory
         ManagerRegistry $managerRegistry,
         FilesystemOperator $documentsStorage,
         DocumentFinderInterface $documentFinder,
-        ?LoggerInterface $logger = null
+        ?LoggerInterface $logger = null,
     ) {
         parent::__construct($documentsStorage, $documentFinder, $logger);
         $this->managerRegistry = $managerRegistry;
@@ -36,13 +36,11 @@ class PrivateDocumentFactory extends AbstractDocumentFactory
         $this->managerRegistry->getManagerForClass(Document::class)->persist($document);
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function createDocument(): DocumentInterface
     {
         $document = new Document();
         $document->setPrivate(true);
+
         return $document;
     }
 }

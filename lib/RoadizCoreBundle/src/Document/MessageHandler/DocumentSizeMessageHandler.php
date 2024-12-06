@@ -16,18 +16,14 @@ use RZ\Roadiz\Documents\Models\SizeableInterface;
 final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHandler
 {
     public function __construct(
+        private readonly ImageManager $imageManager,
         ManagerRegistry $managerRegistry,
         LoggerInterface $messengerLogger,
         FilesystemOperator $documentsStorage,
-        private readonly ImageManager $imageManager
     ) {
         parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
     }
 
-    /**
-     * @param  DocumentInterface $document
-     * @return bool
-     */
     protected function supports(DocumentInterface $document): bool
     {
         return $document->isLocal() && $document->isImage();
@@ -47,7 +43,7 @@ final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHan
                 'Document file is not a readable image.',
                 [
                     'path' => $document->getMountPath(),
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
                 ]
             );
         }

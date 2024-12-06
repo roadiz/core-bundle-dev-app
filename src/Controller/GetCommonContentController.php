@@ -31,7 +31,7 @@ final class GetCommonContentController extends AbstractController
         ManagerRegistry $managerRegistry,
         NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
         PreviewResolverInterface $previewResolver,
-        TreeWalkerGenerator $treeWalkerGenerator
+        TreeWalkerGenerator $treeWalkerGenerator,
     ) {
         $this->requestStack = $requestStack;
         $this->managerRegistry = $managerRegistry;
@@ -57,6 +57,7 @@ final class GetCommonContentController extends AbstractController
                 $translation,
                 3
             );
+
             return $resource;
         } catch (ResourceNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage(), $exception);
@@ -90,8 +91,9 @@ final class GetCommonContentController extends AbstractController
                 ->findOneAvailableByLocaleOrOverrideLocale((string) $locale);
         }
         if (null === $translation) {
-            throw new NotFoundHttpException('No translation for locale ' . $locale);
+            throw new NotFoundHttpException('No translation for locale '.$locale);
         }
+
         return $translation;
     }
 
@@ -99,11 +101,9 @@ final class GetCommonContentController extends AbstractController
     {
         $repository = $this->managerRegistry->getRepository(TranslationInterface::class);
         if (!$repository instanceof TranslationRepository) {
-            throw new \RuntimeException(
-                'Translation repository must be instance of ' .
-                TranslationRepository::class
-            );
+            throw new \RuntimeException('Translation repository must be instance of '.TranslationRepository::class);
         }
+
         return $repository;
     }
 }

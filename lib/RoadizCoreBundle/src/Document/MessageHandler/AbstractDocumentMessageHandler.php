@@ -10,15 +10,16 @@ use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\RecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
-abstract class AbstractDocumentMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+abstract class AbstractDocumentMessageHandler
 {
     public function __construct(
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly LoggerInterface $messengerLogger,
-        protected readonly FilesystemOperator $documentsStorage
+        protected readonly FilesystemOperator $documentsStorage,
     ) {
     }
 

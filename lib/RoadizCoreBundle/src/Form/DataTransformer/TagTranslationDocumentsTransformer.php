@@ -13,18 +13,13 @@ use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 /**
- * Class TagTranslationDocumentsTransformer
- * @package RZ\Roadiz\CoreBundle\Form\DataTransformer
+ * Class TagTranslationDocumentsTransformer.
  */
 class TagTranslationDocumentsTransformer implements DataTransformerInterface
 {
     private ObjectManager $manager;
     private TagTranslation $tagTranslation;
 
-    /**
-     * @param ObjectManager $manager
-     * @param TagTranslation $tagTranslation
-     */
     public function __construct(ObjectManager $manager, TagTranslation $tagTranslation)
     {
         $this->manager = $manager;
@@ -36,6 +31,7 @@ class TagTranslationDocumentsTransformer implements DataTransformerInterface
      * to Document entities for displaying in document VueJS component.
      *
      * @param TagTranslationDocuments[]|null $value
+     *
      * @return Document[]
      */
     public function transform(mixed $value): array
@@ -53,7 +49,6 @@ class TagTranslationDocumentsTransformer implements DataTransformerInterface
 
     /**
      * @param array<int> $value
-     * @return ArrayCollection
      */
     public function reverseTransform(mixed $value): ArrayCollection
     {
@@ -69,10 +64,7 @@ class TagTranslationDocumentsTransformer implements DataTransformerInterface
                 ->find($documentId)
             ;
             if (null === $document) {
-                throw new TransformationFailedException(sprintf(
-                    'A document with id "%s" does not exist!',
-                    $documentId
-                ));
+                throw new TransformationFailedException(sprintf('A document with id "%s" does not exist!', $documentId));
             }
 
             $ttd = new TagTranslationDocuments($this->tagTranslation, $document);
@@ -80,7 +72,7 @@ class TagTranslationDocumentsTransformer implements DataTransformerInterface
             $this->manager->persist($ttd);
             $documents->add($ttd);
 
-            $position++;
+            ++$position;
         }
 
         return $documents;

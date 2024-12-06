@@ -8,14 +8,11 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
+final class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
 {
     /**
      * Handle AJAX edition requests for CustomFormFields
      * such as coming from widgets.
-     *
-     * @param Request $request
-     * @param int $customFormFieldId
      *
      * @return Response JSON response
      */
@@ -30,12 +27,7 @@ class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
             return $response;
         }
 
-        throw $this->createNotFoundException($this->getTranslator()->trans(
-            'field.%customFormFieldId%.not_exists',
-            [
-                '%customFormFieldId%' => $customFormFieldId
-            ]
-        ));
+        throw $this->createNotFoundException($this->getTranslator()->trans('field.%customFormFieldId%.not_exists', ['%customFormFieldId%' => $customFormFieldId]));
     }
 
     protected function getEntityClass(): string

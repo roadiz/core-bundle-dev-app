@@ -8,7 +8,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Container\ContainerInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
-use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerProvider;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerProviderInterface;
 use RZ\Roadiz\CoreBundle\Form\DataTransformer\ProviderDataTransformer;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,9 +23,6 @@ final class NodeSourceProviderType extends AbstractConfigurableNodeSourceFieldTy
         parent::__construct($managerRegistry);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -41,14 +37,11 @@ final class NodeSourceProviderType extends AbstractConfigurableNodeSourceFieldTy
             if ($nodeTypeField->isMultipleProvider()) {
                 return true;
             }
+
             return false;
         });
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $configuration = $this->getFieldConfiguration($options);
@@ -70,19 +63,11 @@ final class NodeSourceProviderType extends AbstractConfigurableNodeSourceFieldTy
             $provider = new $configuration['classname']();
         }
 
-        if ($provider instanceof AbstractExplorerProvider) {
-            $provider->setContainer($this->container);
-        }
-
         return $provider;
     }
 
     /**
      * Pass data to form twig template.
-     *
-     * @param FormView $view
-     * @param FormInterface $form
-     * @param array $options
      */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
@@ -131,9 +116,6 @@ final class NodeSourceProviderType extends AbstractConfigurableNodeSourceFieldTy
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix(): string
     {
         return 'provider';

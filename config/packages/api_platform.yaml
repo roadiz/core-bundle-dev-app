@@ -1,15 +1,33 @@
+parameters:
+    env(HTTP_CACHE_STALE_WHILE_REVALIDATE): 3600
+    env(HTTP_CACHE_MAX_AGE): 60
+    env(HTTP_CACHE_SHARED_MAX_AGE): 600
+
 api_platform:
     title:       "%env(string:APP_TITLE)%"
     description: "%env(string:APP_DESCRIPTION)%"
     version:     '%env(string:APP_VERSION)%'
     enable_swagger_ui: true
     enable_re_doc: true
+    # Symfony inflector wrongly pluralizes "nodes_sources" to "nodes_sourcess"
+    keep_legacy_inflector: true
+    use_symfony_listeners: true
+    formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
+        x-www-form-urlencoded: ['application/x-www-form-urlencoded']
+    docs_formats:
+        jsonld: ['application/ld+json']
+        jsonopenapi: ['application/vnd.openapi+json']
+        html: ['text/html']
+    patch_formats:
+        json: [ 'application/merge-patch+json' ]
     graphql:
         introspection: '%kernel.debug%'
         graphiql:
             enabled: false
         graphql_playground:
-            enabled: true
+            enabled: false
     show_webby: false
     mapping:
         paths:
@@ -19,15 +37,8 @@ api_platform:
             - '%kernel.project_dir%/lib/RoadizUserBundle/src/Api/Dto'
             - '%kernel.project_dir%/vendor/rezozero/tree-walker/src'
             - '%kernel.project_dir%/config/api_resources'
-    patch_formats:
-        json: ['application/merge-patch+json']
     swagger:
         versions: [3]
-    collection:
-        pagination:
-            page_parameter_name: page
-            items_per_page_parameter_name: itemsPerPage
-
     defaults:
         stateless: true
         extra_properties:
@@ -40,11 +51,19 @@ api_platform:
         pagination_items_per_page: 15
         pagination_maximum_items_per_page: 50
         cache_headers:
+            # Automatically generate etags for API responses.
             etag: true
             public: true
+            # Default value for the response max age.
             max_age: '%env(int:HTTP_CACHE_MAX_AGE)%'
+            # Default value for the response shared (proxy) max age.
             shared_max_age: '%env(int:HTTP_CACHE_SHARED_MAX_AGE)%'
-            vary: [ 'Accept', 'Authorization', 'Origin', 'Accept-Encoding', 'Content-Type' ]
+            stale_while_revalidate: '%env(int:HTTP_CACHE_STALE_WHILE_REVALIDATE)%'
+            # Default values of the "Vary" HTTP header.
+            vary: ['Accept', 'Authorization', 'Origin', 'Accept-Encoding', 'Content-Type']
+    collection:
+        pagination:
+            items_per_page_parameter_name: itemsPerPage
 
 when@prod:
     api_platform:

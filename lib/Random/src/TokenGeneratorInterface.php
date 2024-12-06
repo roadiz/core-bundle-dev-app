@@ -6,8 +6,5 @@ namespace RZ\Roadiz\Random;
 
 interface TokenGeneratorInterface
 {
-    /**
-     * @return string
-     */
-    public function generateToken();
+    public function generateToken(): string;
 }

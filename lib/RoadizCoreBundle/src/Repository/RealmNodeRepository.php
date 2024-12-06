@@ -13,6 +13,7 @@ use RZ\Roadiz\CoreBundle\Entity\RealmNode;
  * @method RealmNode|null findOneBy(array $criteria, array $orderBy = null)
  * @method RealmNode[]    findAll()
  * @method RealmNode[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
  * @extends EntityRepository<RealmNode>
  */
 final class RealmNodeRepository extends EntityRepository

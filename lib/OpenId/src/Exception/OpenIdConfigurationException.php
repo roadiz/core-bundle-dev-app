@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\OpenId\Exception;
 
-use Throwable;
-
 final class OpenIdConfigurationException extends \RuntimeException
 {
     public function __construct(
         string $message = 'OpenID configuration is not valid',
         int $code = 0,
-        Throwable $previous = null
+        ?\Throwable $previous = null,
     ) {
         parent::__construct($message, $code, $previous);
     }

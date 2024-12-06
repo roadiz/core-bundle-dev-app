@@ -27,32 +27,32 @@ class DocumentAverageColorCommand extends AbstractDocumentCommand
     {
         $this->io = new SymfonyStyle($input, $output);
 
-        $this->onEachDocument(function (DocumentInterface $document) {
+        return $this->onEachDocument(function (DocumentInterface $document) {
             $this->updateDocumentColor($document);
         }, new SymfonyStyle($input, $output));
-
-        return 0;
     }
 
     private function updateDocumentColor(DocumentInterface $document): void
     {
-        if ($document->isImage() && $document instanceof AdvancedDocumentInterface) {
-            $mountPath = $document->getMountPath();
-            if (null === $mountPath) {
-                return;
-            }
-            try {
-                $mediumColor = (new AverageColorResolver())->getAverageColor($this->imageManager->make(
-                    $this->documentsStorage->readStream($mountPath)
-                ));
-                $document->setImageAverageColor($mediumColor);
-            } catch (NotReadableException $exception) {
-                /*
-                 * Do nothing
-                 * just return 0 width and height
-                 */
-                $this->io->error($mountPath . ' is not a readable image.');
-            }
+        if (!$document->isImage() || !($document instanceof AdvancedDocumentInterface)) {
+            return;
+        }
+
+        $mountPath = $document->getMountPath();
+        if (null === $mountPath) {
+            return;
+        }
+        try {
+            $mediumColor = (new AverageColorResolver())->getAverageColor($this->imageManager->make(
+                $this->documentsStorage->readStream($mountPath)
+            ));
+            $document->setImageAverageColor($mediumColor);
+        } catch (NotReadableException $exception) {
+            /*
+             * Do nothing
+             * just return 0 width and height
+             */
+            $this->io->error($mountPath.' is not a readable image.');
         }
     }
 }

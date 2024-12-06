@@ -21,3 +21,16 @@ loginPage:
 logoutPage:
     path: /logout
     controller: RZ\Roadiz\RozierBundle\Controller\SecurityController::logout
+
+roadiz_rozier_login_link:
+    path: /login_link
+    controller: RZ\Roadiz\RozierBundle\Controller\SecurityController::requestLoginLink
+
+roadiz_rozier_login_link_sent:
+    methods: [GET]
+    path: /login_link_sent
+    controller: RZ\Roadiz\RozierBundle\Controller\SecurityController::loginLinkSent
+
+login_link_check:
+    path: /login_link_check
+    controller: RZ\Roadiz\RozierBundle\Controller\SecurityController::check

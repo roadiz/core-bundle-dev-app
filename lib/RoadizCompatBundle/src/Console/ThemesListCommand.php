@@ -11,28 +11,22 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Command line utils for managing themes from terminal.
  */
-class ThemesListCommand extends Command
+final class ThemesListCommand extends Command
 {
-    protected Filesystem $filesystem;
-    protected ThemeResolverInterface $themeResolver;
-
-    public function __construct(ThemeResolverInterface $themeResolver)
-    {
+    public function __construct(
+        private readonly ThemeResolverInterface $themeResolver,
+    ) {
         parent::__construct();
-        $this->themeResolver = $themeResolver;
-        $this->filesystem = new Filesystem();
     }
-
 
     protected function configure(): void
     {
         $this->setName('themes:list')
-            ->setDescription('Installed themes')
+            ->setDescription('List installed themes')
             ->addArgument(
                 'classname',
                 InputArgument::OPTIONAL,
@@ -40,12 +34,6 @@ class ThemesListCommand extends Command
             );
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     *
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -60,12 +48,12 @@ class ThemesListCommand extends Command
             $name = str_replace('/', '\\', $name);
             $theme = $this->themeResolver->findThemeByClass($name);
             if (null === $theme) {
-                throw new InvalidArgumentException($name . ' theme cannot be found.');
+                throw new InvalidArgumentException($name.' theme cannot be found.');
             }
             $tableContent[] = [
                 str_replace('\\', '/', $theme->getClassName()),
-                ($theme->isAvailable() ? 'X' : ''),
-                ($theme->isBackendTheme() ? 'Backend' : 'Frontend'),
+                $theme->isAvailable() ? 'X' : '',
+                $theme->isBackendTheme() ? 'Backend' : 'Frontend',
             ];
         } else {
             $themes = $this->themeResolver->findAll();
@@ -73,8 +61,8 @@ class ThemesListCommand extends Command
                 foreach ($themes as $theme) {
                     $tableContent[] = [
                         str_replace('\\', '/', $theme->getClassName()),
-                        ($theme->isAvailable() ? 'X' : ''),
-                        ($theme->isBackendTheme() ? 'Backend' : 'Frontend'),
+                        $theme->isAvailable() ? 'X' : '',
+                        $theme->isBackendTheme() ? 'Backend' : 'Frontend',
                     ];
                 }
             } else {
@@ -83,6 +71,7 @@ class ThemesListCommand extends Command
         }
 
         $io->table(['Class (with / instead of \)', 'Enabled', 'Type'], $tableContent);
+
         return 0;
     }
 }

@@ -12,7 +12,6 @@ use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
 {
     /**
-     * @var string
      * @internal Use getPlatform() instead
      */
     protected static string $platform = 'soundcloud';
@@ -22,9 +21,9 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
 
     public static function supportEmbedUrl(string $embedUrl): bool
     {
-        return str_starts_with($embedUrl, 'https://api.soundcloud.com') ||
-            str_starts_with($embedUrl, 'https://www.soundcloud.com') ||
-            str_starts_with($embedUrl, 'https://soundcloud.com');
+        return str_starts_with($embedUrl, 'https://api.soundcloud.com')
+            || str_starts_with($embedUrl, 'https://www.soundcloud.com')
+            || str_starts_with($embedUrl, 'https://soundcloud.com');
     }
 
     public static function getPlatform(): string
@@ -32,38 +31,29 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
         return static::$platform;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function validateEmbedId(string $embedId = ""): string
+    protected function validateEmbedId(string $embedId = ''): string
     {
-        if (preg_match(static::$idPattern, $embedId, $matches) === 1) {
+        if (1 === preg_match(static::$idPattern, $embedId, $matches)) {
             return $embedId;
         }
-        if (preg_match(static::$realIdPattern, $embedId, $matches) === 1) {
+        if (1 === preg_match(static::$realIdPattern, $embedId, $matches)) {
             return $embedId;
         }
         throw new InvalidEmbedId($embedId, static::$platform);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getMediaFeed($search = null)
+    public function getMediaFeed(?string $search = null): string
     {
-        $endpoint = "https://soundcloud.com/oembed";
+        $endpoint = 'https://soundcloud.com/oembed';
         $query = [
             'url' => $this->embedId,
             'format' => 'json',
         ];
 
-        return $this->downloadFeedFromAPI($endpoint . '?' . http_build_query($query));
+        return $this->downloadFeedFromAPI($endpoint.'?'.http_build_query($query));
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getFeed()
+    public function getFeed(): array|\SimpleXMLElement|null
     {
         $feed = parent::getFeed();
         /*
@@ -89,7 +79,7 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
 
     public function getMediaCopyright(): string
     {
-        return ($this->getFeed()['author_name'] ?? '') . ' (' . ($this->getFeed()['author_url'] ?? '') . ')';
+        return ($this->getFeed()['author_name'] ?? '').' ('.($this->getFeed()['author_url'] ?? '').')';
     }
 
     public function getThumbnailURL(): string
@@ -97,9 +87,6 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
         return $this->getFeed()['thumbnail_url'] ?? '';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getThumbnailName(string $pathinfo): string
     {
         if (null === $this->embedUrl) {
@@ -107,13 +94,13 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
         } else {
             $embed = $this->embedUrl;
         }
-        if (preg_match('#\.(?<extension>[jpe?g|png|gif])$#', $pathinfo, $ext) === 1) {
-            $pathinfo = '.' . $ext['extension'];
+        if (1 === preg_match('#\.(?<extension>[jpe?g|png|gif])$#', $pathinfo, $ext)) {
+            $pathinfo = '.'.$ext['extension'];
         } else {
             $pathinfo = '.jpg';
         }
-        if (preg_match(static::$idPattern, $embed, $matches) === 1) {
-            return 'soundcloud_' . $matches['user'] . $pathinfo;
+        if (1 === preg_match(static::$idPattern, $embed, $matches)) {
+            return 'soundcloud_'.$matches['user'].$pathinfo;
         }
         throw new InvalidEmbedId($embed, static::$platform);
     }
@@ -128,10 +115,6 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
      * * show_user
      * * show_reposts
      * * visual
-     *
-     * @param array $options
-     *
-     * @return string
      */
     public function getSource(array &$options = []): string
     {
@@ -152,7 +135,7 @@ abstract class AbstractSoundcloudEmbedFinder extends AbstractEmbedFinder
         }
         $queryString['controls'] = (int) $options['controls'];
 
-        return 'https://w.soundcloud.com/player/?' . http_build_query($queryString);
+        return 'https://w.soundcloud.com/player/?'.http_build_query($queryString);
     }
 
     protected function areDuplicatesAllowed(): bool

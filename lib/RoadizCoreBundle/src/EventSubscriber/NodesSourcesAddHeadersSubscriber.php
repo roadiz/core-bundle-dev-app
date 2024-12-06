@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
-use ApiPlatform\Util\RequestAttributesExtractor;
+use ApiPlatform\State\Util\RequestAttributesExtractor;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
@@ -13,18 +13,18 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class NodesSourcesAddHeadersSubscriber implements EventSubscriberInterface
+final readonly class NodesSourcesAddHeadersSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly PreviewResolverInterface $previewResolver,
-        private readonly Security $security
+        private PreviewResolverInterface $previewResolver,
+        private Security $security,
     ) {
     }
 
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::RESPONSE => ['onKernelResponse', 0]
+            KernelEvents::RESPONSE => ['onKernelResponse', 0],
         ];
     }
 

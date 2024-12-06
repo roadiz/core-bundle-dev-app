@@ -15,15 +15,12 @@ use RZ\Roadiz\Typescript\Declaration\Generators\NodeTypeGenerator;
 use RZ\Roadiz\Typescript\Declaration\Generators\ScalarFieldGenerator;
 use Symfony\Component\HttpFoundation\ParameterBag;
 
-final class DeclarationGeneratorFactory
+final readonly class DeclarationGeneratorFactory
 {
-    public function __construct(private readonly ParameterBag $nodeTypesBag)
+    public function __construct(private ParameterBag $nodeTypesBag)
     {
     }
 
-    /**
-     * @return ParameterBag
-     */
     public function getNodeTypesBag(): ParameterBag
     {
         return $this->nodeTypesBag;
@@ -34,11 +31,6 @@ final class DeclarationGeneratorFactory
         return $bool ? 'true' : 'false';
     }
 
-    /**
-     * @param NodeTypeInterface $nodeType
-     *
-     * @return NodeTypeGenerator
-     */
     public function createForNodeType(NodeTypeInterface $nodeType): NodeTypeGenerator
     {
         return new NodeTypeGenerator(
@@ -47,11 +39,6 @@ final class DeclarationGeneratorFactory
         );
     }
 
-    /**
-     * @param NodeTypeFieldInterface $field
-     *
-     * @return AbstractFieldGenerator
-     */
     public function createForNodeTypeField(NodeTypeFieldInterface $field): AbstractFieldGenerator
     {
         return match (true) {

@@ -12,12 +12,12 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20210423161606 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return 'Additional table indexes on documents, folders, logs and tags';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         $this->addSql('CREATE INDEX document_created_at ON documents (created_at)');
         $this->addSql('CREATE INDEX document_updated_at ON documents (updated_at)');
@@ -33,9 +33,9 @@ final class Version20210423161606 extends AbstractMigration
         $this->addSql('CREATE INDEX tag_parent_position ON tags (parent_tag_id, position)');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
-        if ($this->connection->getDatabasePlatform()->getName() === 'postgresql') {
+        if ('postgresql' === $this->connection->getDatabasePlatform()->getName()) {
             $this->addSql('DROP INDEX IF EXISTS document_created_at');
             $this->addSql('DROP INDEX IF EXISTS document_updated_at');
             $this->addSql('DROP INDEX IF EXISTS document_raw_created_at');

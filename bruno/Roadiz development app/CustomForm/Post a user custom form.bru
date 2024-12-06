@@ -1,0 +1,17 @@
+meta {
+  name: Post a user custom form
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/api/custom_forms/:id/post
+  body: multipartForm
+  auth: none
+}
+
+body:multipart-form {
+  custom_form_slug[email]: 
+  custom_form_slug[first_name]: 
+  custom_form_slug[last_name]: 
+}

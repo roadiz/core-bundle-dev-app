@@ -20,30 +20,33 @@ class DummyDocumentUrlGenerator implements DocumentUrlGeneratorInterface
             throw new \BadMethodCallException('noProcess option is not set');
         }
 
-        if ($this->options['noProcess'] === true || !$this->document->isProcessable()) {
-            $path = '/files/' . $this->document->getRelativePath();
+        if (true === $this->options['noProcess'] || !$this->document->isProcessable()) {
+            $path = '/files/'.$this->document->getRelativePath();
 
-            return ($absolute) ? ('http://dummy.test' . $path) : ($path);
+            return ($absolute) ? ('http://dummy.test'.$path) : ($path);
         }
 
         $compiler = new OptionsCompiler();
         $compiledOptions = $compiler->compile($this->options);
 
         if ($absolute) {
-            return 'http://dummy.test/assets/' . $compiledOptions . '/' . $this->document->getRelativePath();
+            return 'http://dummy.test/assets/'.$compiledOptions.'/'.$this->document->getRelativePath();
         }
-        return '/assets/' . $compiledOptions . '/' . $this->document->getRelativePath();
+
+        return '/assets/'.$compiledOptions.'/'.$this->document->getRelativePath();
     }
 
     public function setDocument(DocumentInterface $document): static
     {
         $this->document = $document;
+
         return $this;
     }
 
     public function setOptions(array $options = []): static
     {
         $this->options = $options;
+
         return $this;
     }
 }

@@ -1,99 +1,106 @@
 <?php
 
+/**
+ * THIS IS A GENERATED FILE, DO NOT EDIT IT.
+ * IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE.
+ */
+
 declare(strict_types=1);
 
-/*
- * THIS IS A GENERATED FILE, DO NOT EDIT IT
- * IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE
- */
 namespace App\GeneratedEntity;
 
-use Doctrine\Common\Collections\Collection;
-use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Doctrine\Orm\Filter;
 use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as JMS;
+use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
+use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * Offer node-source entity.
  * Offer
  */
-#[
-    Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
-    ORM\Entity(repositoryClass: \App\GeneratedEntity\Repository\NSOfferRepository::class),
-    ORM\Table(name: "ns_offer"),
-    ORM\Index(columns: ["price"]),
-    ORM\Index(columns: ["layout"]),
-    ApiFilter(PropertyFilter::class)
-]
-class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
+#[Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
+#[ORM\Entity(repositoryClass: Repository\NSOfferRepository::class)]
+#[ORM\Table(name: 'ns_offer')]
+#[ORM\Index(columns: ['price'])]
+#[ORM\Index(columns: ['layout'])]
+#[ApiFilter(PropertyFilter::class)]
+class NSOffer extends NodesSources
 {
-    /**
-     * Price.
-     */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "price"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        \ApiPlatform\Metadata\ApiProperty(description: "Price"),
-        SymfonySerializer\MaxDepth(2),
-        ApiFilter(OrmFilter\OrderFilter::class),
-        ApiFilter(OrmFilter\NumericFilter::class),
-        ApiFilter(OrmFilter\RangeFilter::class),
-        Gedmo\Versioned,
-        ORM\Column(name: "price", type: "integer", nullable: true),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2),
-        Serializer\Type("int")
-    ]
+    /** VAT. */
+    #[Serializer\SerializedName(serializedName: 'vat')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'VAT')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'vat', type: 'decimal', nullable: true, precision: 18, scale: 3)]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\MaxDepth(2)]
+    #[JMS\Type('double')]
+    private int|float|null $vat = null;
+
+    /** Price. */
+    #[Serializer\SerializedName(serializedName: 'price')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Price')]
+    #[Serializer\MaxDepth(2)]
+    #[ApiFilter(Filter\OrderFilter::class)]
+    #[ApiFilter(Filter\NumericFilter::class)]
+    #[ApiFilter(Filter\RangeFilter::class)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'price', type: 'integer', nullable: true)]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\MaxDepth(2)]
+    #[JMS\Type('int')]
     private int|float|null $price = null;
 
-    /**
-     * @return int|float|null
-     */
-    public function getPrice(): int|float|null
-    {
-        return $this->price;
-    }
+    /** Geolocation. */
+    #[Serializer\SerializedName(serializedName: 'geolocation')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Geolocation')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'geolocation', type: 'json', nullable: true)]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\MaxDepth(2)]
+    private mixed $geolocation = null;
+
+    /** Multi geolocations. */
+    #[Serializer\SerializedName(serializedName: 'multiGeolocation')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Multi geolocations')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'multi_geolocation', type: 'json', nullable: true)]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\MaxDepth(2)]
+    private mixed $multiGeolocation = null;
 
     /**
-     * @param int|float|null $price
-     *
-     * @return $this
+     * Layout.
+     * Default values:
+     * dark
      */
-    public function setPrice(int|float|null $price): static
-    {
-        $this->price = null !== $price ?
-            (int) $price :
-            null;
-
-        return $this;
-    }
-
-
-    /**
-     * VAT.
-     */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "vat"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        \ApiPlatform\Metadata\ApiProperty(description: "VAT"),
-        SymfonySerializer\MaxDepth(2),
-        Gedmo\Versioned,
-        ORM\Column(
-            name: "vat",
-            type: "decimal",
-            nullable: true,
-            precision: 18,
-            scale: 3
-        ),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2),
-        Serializer\Type("double")
-    ]
-    private int|float|null $vat = null;
+    #[Serializer\SerializedName(serializedName: 'layout')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Layout', example: 'light', schema: ['type' => 'string', 'enum' => ['dark'], 'example' => 'dark'])]
+    #[Serializer\MaxDepth(2)]
+    #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
+    #[ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'layout', type: 'string', nullable: true, length: 11)]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\MaxDepth(2)]
+    #[JMS\Type('string')]
+    private ?string $layout = null;
 
     /**
      * @return int|float|null
@@ -104,113 +111,66 @@ class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @param int|float|null $vat
-     *
      * @return $this
      */
     public function setVat(int|float|null $vat): static
     {
         $this->vat = $vat;
-
         return $this;
     }
 
+    /**
+     * @return int|float|null
+     */
+    public function getPrice(): int|float|null
+    {
+        return $this->price;
+    }
 
     /**
-     * Geolocation.
+     * @return $this
      */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "geolocation"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        \ApiPlatform\Metadata\ApiProperty(description: "Geolocation"),
-        SymfonySerializer\MaxDepth(2),
-        Gedmo\Versioned,
-        ORM\Column(name: "geolocation", type: "json", nullable: true),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2)
-    ]
-    private $geolocation = null;
+    public function setPrice(int|float|null $price): static
+    {
+        $this->price = null !== $price ?
+                    (int) $price :
+                    null;
+        return $this;
+    }
 
     /**
      * @return mixed
      */
-    public function getGeolocation()
+    public function getGeolocation(): mixed
     {
         return $this->geolocation;
     }
 
     /**
-     * @param mixed $geolocation
-     *
      * @return $this
      */
-    public function setGeolocation($geolocation): static
+    public function setGeolocation(mixed $geolocation): static
     {
         $this->geolocation = $geolocation;
-
         return $this;
     }
-
-
-    /**
-     * Multi geolocations.
-     */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "multiGeolocation"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        \ApiPlatform\Metadata\ApiProperty(description: "Multi geolocations"),
-        SymfonySerializer\MaxDepth(2),
-        Gedmo\Versioned,
-        ORM\Column(name: "multi_geolocation", type: "json", nullable: true),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2)
-    ]
-    private $multiGeolocation = null;
 
     /**
      * @return mixed
      */
-    public function getMultiGeolocation()
+    public function getMultiGeolocation(): mixed
     {
         return $this->multiGeolocation;
     }
 
     /**
-     * @param mixed $multiGeolocation
-     *
      * @return $this
      */
-    public function setMultiGeolocation($multiGeolocation): static
+    public function setMultiGeolocation(mixed $multiGeolocation): static
     {
         $this->multiGeolocation = $multiGeolocation;
-
         return $this;
     }
-
-
-    /**
-     * Layout.
-     * Default values: dark
-     */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "layout"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        \ApiPlatform\Metadata\ApiProperty(description: "Layout", schema: ["type" => "string", "enum" => ["dark"], "example" => "dark"], example: "light"),
-        SymfonySerializer\MaxDepth(2),
-        ApiFilter(OrmFilter\SearchFilter::class, strategy: "exact"),
-        ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class),
-        Gedmo\Versioned,
-        ORM\Column(
-            name: "layout",
-            type: "string",
-            nullable: true,
-            length: 11
-        ),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2),
-        Serializer\Type("string")
-    ]
-    private ?string $layout = null;
 
     /**
      * @return string|null
@@ -221,27 +181,21 @@ class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @param string|null $layout
-     *
      * @return $this
      */
     public function setLayout(?string $layout): static
     {
         $this->layout = null !== $layout ?
-            (string) $layout :
-            null;
-
+                    (string) $layout :
+                    null;
         return $this;
     }
 
-
-    #[
-        Serializer\VirtualProperty,
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\SerializedName("@type"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        SymfonySerializer\SerializedName(serializedName: "@type")
-    ]
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\SerializedName('@type')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[Serializer\SerializedName(serializedName: '@type')]
     public function getNodeTypeName(): string
     {
         return 'Offer';
@@ -249,9 +203,9 @@ class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
     /**
      * $this->nodeType->isReachable() proxy.
-     *
      * @return bool Does this nodeSource is reachable over network?
      */
+    #[JMS\VirtualProperty]
     public function isReachable(): bool
     {
         return true;
@@ -259,9 +213,9 @@ class NSOffer extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
     /**
      * $this->nodeType->isPublishable() proxy.
-     *
      * @return bool Does this nodeSource is publishable with date and time?
      */
+    #[JMS\VirtualProperty]
     public function isPublishable(): bool
     {
         return false;

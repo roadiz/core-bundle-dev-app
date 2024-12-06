@@ -1,1 +1,7 @@
 # see api_resources/user.yaml for API Platform auto routing
+#
+# Use Passwordless users with login link
+#
+#public_login_link_check:
+#    path: /api/users/login_link_check
+#    methods: [POST]

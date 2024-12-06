@@ -14,17 +14,17 @@ use RZ\TreeWalker\WalkerContextInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-final class NodeSourceWalkerContextFactory implements WalkerContextFactoryInterface
+final readonly class NodeSourceWalkerContextFactory implements WalkerContextFactoryInterface
 {
     public function __construct(
-        private readonly Stopwatch $stopwatch,
-        private readonly NodeTypes $nodeTypesBag,
-        private readonly NodeSourceApi $nodeSourceApi,
-        private readonly RequestStack $requestStack,
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly CacheItemPoolInterface $cacheAdapter,
-        private readonly NodeTypeResolver $nodeTypeResolver,
-        private readonly PreviewResolverInterface $previewResolver
+        private Stopwatch $stopwatch,
+        private NodeTypes $nodeTypesBag,
+        private NodeSourceApi $nodeSourceApi,
+        private RequestStack $requestStack,
+        private ManagerRegistry $managerRegistry,
+        private CacheItemPoolInterface $cacheAdapter,
+        private NodeTypeResolver $nodeTypeResolver,
+        private PreviewResolverInterface $previewResolver,
     ) {
     }
 

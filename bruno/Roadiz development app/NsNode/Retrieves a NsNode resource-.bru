@@ -1,0 +1,23 @@
+meta {
+  name: Retrieves a NsNode resource-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/ns_nodes/:id
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

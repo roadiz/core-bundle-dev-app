@@ -10,20 +10,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DocumentationGenerator
 {
-    private ParameterBag $nodeTypesBag;
-    private TranslatorInterface $translator;
     private MarkdownGeneratorFactory $markdownGeneratorFactory;
     private ?array $reachableTypeGenerators = null;
     private ?array $nonReachableTypeGenerators = null;
 
-    /**
-     * @param ParameterBag $nodeTypesBag
-     * @param TranslatorInterface $translator
-     */
-    public function __construct(ParameterBag $nodeTypesBag, TranslatorInterface $translator)
-    {
-        $this->nodeTypesBag = $nodeTypesBag;
-        $this->translator = $translator;
+    public function __construct(
+        private readonly ParameterBag $nodeTypesBag,
+        private readonly TranslatorInterface $translator,
+    ) {
         $this->markdownGeneratorFactory = new MarkdownGeneratorFactory($nodeTypesBag, $translator);
     }
 
@@ -65,6 +59,7 @@ class DocumentationGenerator
                 return $this->markdownGeneratorFactory->createForNodeType($nodeType);
             }, $this->getReachableTypes());
         }
+
         return $this->reachableTypeGenerators;
     }
 
@@ -78,6 +73,7 @@ class DocumentationGenerator
                 return $this->markdownGeneratorFactory->createForNodeType($nodeType);
             }, $this->getNonReachableTypes());
         }
+
         return $this->nonReachableTypeGenerators;
     }
 
@@ -103,10 +99,10 @@ class DocumentationGenerator
         }
 
         return implode("\n", [
-            '* ' . $this->translator->trans('docs.pages'),
-            "    * " . implode("\n    * ", $pages),
-            '* ' . $this->translator->trans('docs.blocks'),
-            "    * " . implode("\n    * ", $blocks)
+            '* '.$this->translator->trans('docs.pages'),
+            '    * '.implode("\n    * ", $pages),
+            '* '.$this->translator->trans('docs.blocks'),
+            '    * '.implode("\n    * ", $blocks),
         ]);
     }
 }

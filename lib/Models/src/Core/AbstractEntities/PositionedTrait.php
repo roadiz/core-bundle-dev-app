@@ -5,26 +5,16 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Core\AbstractEntities;
 
 /**
- * Trait which describe a positioned entity
+ * Trait which describe a positioned entity.
  */
 trait PositionedTrait
 {
-    /**
-     * @return float
-     */
     public function getPosition(): float
     {
         return $this->position;
     }
 
-    /**
-     * Set position as a float to enable increment and decrement by O.5
-     * to insert a node between two others.
-     *
-     * @param float $newPosition
-     * @return $this
-     */
-    public function setPosition(float $newPosition)
+    public function setPosition(float $newPosition): PositionedInterface
     {
         if ($newPosition > -1) {
             $this->position = $newPosition;
@@ -33,15 +23,11 @@ trait PositionedTrait
         return $this;
     }
 
-    /**
-     * @param mixed $other
-     * @return int
-     */
     public function compareTo($other): int
     {
         if ($other instanceof PositionedInterface) {
             return $this->getPosition() <=> $other->getPosition();
         }
-        throw new \LogicException('Cannot compare object which does not implement ' . PositionedInterface::class);
+        throw new \LogicException('Cannot compare object which does not implement '.PositionedInterface::class);
     }
 }

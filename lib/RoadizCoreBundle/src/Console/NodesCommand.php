@@ -17,7 +17,7 @@ final class NodesCommand extends Command
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -63,12 +63,13 @@ final class NodesCommand extends Command
                 $node->getId(),
                 $node->getNodeName(),
                 $node->getNodeType()->getName(),
-                (!$node->isVisible() ? 'X' : ''),
-                ($node->isPublished() ? 'X' : ''),
+                !$node->isVisible() ? 'X' : '',
+                $node->isPublished() ? 'X' : '',
             ];
         }
 
         $io->table(['Id', 'Name', 'Type', 'Hidden', 'Published'], $tableContent);
+
         return 0;
     }
 }

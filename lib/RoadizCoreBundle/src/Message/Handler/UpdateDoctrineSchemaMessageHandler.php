@@ -6,11 +6,12 @@ namespace RZ\Roadiz\CoreBundle\Message\Handler;
 
 use RZ\Roadiz\CoreBundle\Doctrine\SchemaUpdater;
 use RZ\Roadiz\CoreBundle\Message\UpdateDoctrineSchemaMessage;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-final class UpdateDoctrineSchemaMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final readonly class UpdateDoctrineSchemaMessageHandler
 {
-    public function __construct(private readonly SchemaUpdater $schemaUpdater)
+    public function __construct(private SchemaUpdater $schemaUpdater)
     {
     }
 

@@ -22,126 +22,84 @@ use Themes\Rozier\Controllers\AbstractAdminController;
 
 class FontsController extends AbstractAdminController
 {
-    private FilesystemOperator $fontStorage;
-
     public function __construct(
-        FilesystemOperator $fontStorage,
+        private readonly FilesystemOperator $fontStorage,
         SerializerInterface $serializer,
-        UrlGeneratorInterface $urlGenerator
+        UrlGeneratorInterface $urlGenerator,
     ) {
         parent::__construct($serializer, $urlGenerator);
-        $this->fontStorage = $fontStorage;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function supports(PersistableInterface $item): bool
     {
         return $item instanceof Font;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getNamespace(): string
     {
         return 'font';
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function createEmptyItem(Request $request): PersistableInterface
     {
         return new Font();
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getTemplateFolder(): string
     {
         return '@RoadizFont/admin';
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getRequiredRole(): string
     {
         return 'ROLE_ACCESS_FONTS';
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getEntityClass(): string
     {
         return Font::class;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getFormType(): string
     {
         return FontType::class;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getDefaultOrder(Request $request): array
     {
         return ['name' => 'ASC'];
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getDefaultRouteName(): string
     {
         return 'fontsHomePage';
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getEditRouteName(): string
     {
         return 'fontsEditPage';
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function createUpdateEvent(PersistableInterface $item): ?Event
     {
         if ($item instanceof Font) {
             return new PreUpdatedFontEvent($item);
         }
+
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function getEntityName(PersistableInterface $item): string
     {
         if ($item instanceof Font) {
             return $item->getName();
         }
-        throw new \InvalidArgumentException('Item should be instance of ' . $this->getEntityClass());
+        throw new \InvalidArgumentException('Item should be instance of '.$this->getEntityClass());
     }
 
     /**
      * Return a ZipArchive of requested font.
      *
-     * @param Request $request
-     * @param int $id
-     *
-     * @return BinaryFileResponse
      * @throws FilesystemException
      */
     public function downloadAction(Request $request, int $id): BinaryFileResponse
@@ -151,37 +109,37 @@ class FontsController extends AbstractAdminController
         /** @var Font|null $font */
         $font = $this->em()->find(Font::class, $id);
 
-        if ($font !== null) {
+        if (null !== $font) {
             // Prepare File
-            $file = tempnam(sys_get_temp_dir(), "font_" . $font->getId());
+            $file = tempnam(sys_get_temp_dir(), 'font_'.$font->getId());
             if (false === $file) {
                 throw new \RuntimeException('Cannot create temporary file.');
             }
             $zip = new \ZipArchive();
             $zip->open($file, \ZipArchive::CREATE);
 
-            if ("" != $font->getEOTFilename()) {
+            if ('' != $font->getEOTFilename()) {
                 $zip->addFromString($font->getEOTFilename(), $this->fontStorage->read($font->getEOTRelativeUrl()));
             }
-            if ("" != $font->getSVGFilename()) {
+            if ('' != $font->getSVGFilename()) {
                 $zip->addFromString($font->getSVGFilename(), $this->fontStorage->read($font->getSVGRelativeUrl()));
             }
-            if ("" != $font->getWOFFFilename()) {
+            if ('' != $font->getWOFFFilename()) {
                 $zip->addFromString($font->getWOFFFilename(), $this->fontStorage->read($font->getWOFFRelativeUrl()));
             }
-            if ("" != $font->getWOFF2Filename()) {
+            if ('' != $font->getWOFF2Filename()) {
                 $zip->addFromString($font->getWOFF2Filename(), $this->fontStorage->read($font->getWOFF2RelativeUrl()));
             }
-            if ("" != $font->getOTFFilename()) {
+            if ('' != $font->getOTFFilename()) {
                 $zip->addFromString($font->getOTFFilename(), $this->fontStorage->read($font->getOTFRelativeUrl()));
             }
             // Close and send to users
             $zip->close();
-            $filename = StringHandler::slugify($font->getName() . ' ' . $font->getReadableVariant()) . '.zip';
+            $filename = StringHandler::slugify($font->getName().' '.$font->getReadableVariant()).'.zip';
 
             return (new BinaryFileResponse($file, Response::HTTP_OK, [
                 'content-type' => 'application/zip',
-                'content-disposition' => 'attachment; filename=' . $filename,
+                'content-disposition' => 'attachment; filename='.$filename,
             ], false))->deleteFileAfterSend(true);
         }
 

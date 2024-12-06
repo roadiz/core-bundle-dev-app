@@ -13,18 +13,11 @@ abstract class GeneratedEntityFilter extends AbstractFilter
 {
     private string $generatedEntityNamespacePattern;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param LoggerInterface|null $logger
-     * @param array|null $properties
-     * @param NameConverterInterface|null $nameConverter
-     * @param string $generatedEntityNamespacePattern
-     */
     public function __construct(
         ManagerRegistry $managerRegistry,
-        LoggerInterface $logger = null,
-        array $properties = null,
-        NameConverterInterface $nameConverter = null,
+        ?LoggerInterface $logger = null,
+        ?array $properties = null,
+        ?NameConverterInterface $nameConverter = null,
         string $generatedEntityNamespacePattern = '#^App\\\GeneratedEntity\\\NS(?:[a-zA-Z]+)$#',
     ) {
         parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
@@ -32,17 +25,11 @@ abstract class GeneratedEntityFilter extends AbstractFilter
         $this->generatedEntityNamespacePattern = $generatedEntityNamespacePattern;
     }
 
-    /**
-     * @return string
-     */
     public function getGeneratedEntityNamespacePattern(): string
     {
         return $this->generatedEntityNamespacePattern;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getDescription(string $resourceClass): array
     {
         return [];

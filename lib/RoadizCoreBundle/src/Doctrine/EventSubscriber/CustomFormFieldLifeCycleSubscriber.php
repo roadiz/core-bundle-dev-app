@@ -4,31 +4,18 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Doctrine\EventSubscriber;
 
-use Doctrine\Common\EventSubscriber;
+use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\Persistence\Event\LifecycleEventArgs;
-use Doctrine\ORM\Events;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 use RZ\Roadiz\CoreBundle\EntityHandler\CustomFormFieldHandler;
 
-final class CustomFormFieldLifeCycleSubscriber implements EventSubscriber
+#[AsDoctrineListener('prePersist')]
+final class CustomFormFieldLifeCycleSubscriber
 {
     public function __construct(private readonly CustomFormFieldHandler $customFormFieldHandler)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getSubscribedEvents(): array
-    {
-        return [
-            Events::prePersist,
-        ];
-    }
-
-    /**
-     * @param LifecycleEventArgs $event
-     */
     public function prePersist(LifecycleEventArgs $event): void
     {
         $field = $event->getObject();
@@ -36,7 +23,7 @@ final class CustomFormFieldLifeCycleSubscriber implements EventSubscriber
             /*
              * Automatically set position only if not manually set before.
              */
-            if ($field->getPosition() === 0.0) {
+            if (0.0 === $field->getPosition()) {
                 /*
                  * Get the last index after last node in parent
                  */

@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrength;
 use RZ\Roadiz\Core\AbstractEntities\AbstractHuman;
 use RZ\Roadiz\CoreBundle\Form\Constraint\ValidFacebookName;
@@ -17,26 +16,26 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
     ORM\Entity(repositoryClass: UserRepository::class),
-    ORM\Table(name: "users"),
-    ORM\Index(columns: ["username"], name: "idx_users_username"),
-    ORM\Index(columns: ["email"], name: "idx_users_email"),
-    ORM\Index(columns: ["enabled"], name: "idx_users_enabled"),
-    ORM\Index(columns: ["credentials_expires_at"], name: "idx_users_credentials_expires_at"),
-    ORM\Index(columns: ["password_requested_at"], name: "idx_users_password_requested_at"),
-    ORM\Index(columns: ["expires_at"], name: "idx_users_expires_at"),
-    ORM\Index(columns: ["last_login"], name: "idx_users_last_login"),
-    ORM\Index(columns: ["locked"], name: "idx_users_locked"),
-    ORM\Index(columns: ["locale"], name: "idx_users_locale"),
-    ORM\Index(columns: ["created_at"], name: "idx_user_created_at"),
-    ORM\Index(columns: ["updated_at"], name: "idx_user_updated_at"),
+    ORM\Table(name: 'users'),
+    ORM\Index(columns: ['username'], name: 'idx_users_username'),
+    ORM\Index(columns: ['email'], name: 'idx_users_email'),
+    ORM\Index(columns: ['enabled'], name: 'idx_users_enabled'),
+    ORM\Index(columns: ['credentials_expires_at'], name: 'idx_users_credentials_expires_at'),
+    ORM\Index(columns: ['password_requested_at'], name: 'idx_users_password_requested_at'),
+    ORM\Index(columns: ['expires_at'], name: 'idx_users_expires_at'),
+    ORM\Index(columns: ['last_login'], name: 'idx_users_last_login'),
+    ORM\Index(columns: ['locked'], name: 'idx_users_locked'),
+    ORM\Index(columns: ['locale'], name: 'idx_users_locale'),
+    ORM\Index(columns: ['created_at'], name: 'idx_user_created_at'),
+    ORM\Index(columns: ['updated_at'], name: 'idx_user_updated_at'),
     ORM\HasLifecycleCallbacks,
-    UniqueEntity("email"),
-    UniqueEntity("username")
+    UniqueEntity('email'),
+    UniqueEntity('username')
 ]
 class User extends AbstractHuman implements UserInterface, AdvancedUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface
 {
@@ -48,12 +47,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      */
     public const CONFIRMATION_TTL = 900;
 
-    /**
-     * @Serializer\Groups({"user_personal", "human"})
-     * @var string|null
-     */
     #[ORM\Column(type: 'string', length: 200, unique: true, nullable: false)]
-    #[SymfonySerializer\Groups(['user_personal', 'human'])]
+    #[Serializer\Groups(['user_personal', 'human'])]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 200)]
@@ -61,60 +56,35 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /** @phpstan-ignore-next-line */
     protected ?string $email = null;
 
-    /**
-     * @var bool
-     * @Serializer\Exclude()
-     */
-    #[SymfonySerializer\Ignore]
+    #[Serializer\Ignore]
     protected bool $sendCreationConfirmationEmail = false;
 
     #[ORM\Column(name: 'facebook_name', type: 'string', length: 128, unique: false, nullable: true)]
-    #[SymfonySerializer\Groups(['user_social'])]
     #[Serializer\Groups(['user_social'])]
     #[Assert\Length(max: 128)]
     #[ValidFacebookName]
     protected ?string $facebookName = null;
 
-    /**
-     * @var string|null
-     * @Serializer\Groups({"user"})
-     */
     #[ORM\Column(name: 'picture_url', type: 'text', nullable: true)]
-    #[SymfonySerializer\Groups(['user'])]
+    #[Serializer\Groups(['user'])]
     #[Assert\Length(max: 250)]
     protected ?string $pictureUrl = null;
 
-    /**
-     * @var boolean
-     * @Serializer\Groups({"user_security"})
-     */
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
-    #[SymfonySerializer\Groups(['user_security'])]
+    #[Serializer\Groups(['user_security'])]
     protected bool $enabled = true;
 
-    /**
-     * @Serializer\Groups({"user_security"})
-     * @var string|null
-     */
     #[ORM\Column(name: 'confirmation_token', type: 'string', length: 128, unique: true, nullable: true)]
-    #[SymfonySerializer\Groups(['user_security'])]
+    #[Serializer\Groups(['user_security'])]
     #[Assert\Length(max: 128)]
     protected ?string $confirmationToken = null;
 
-    /**
-     * @Serializer\Groups({"user_security"})
-     * @var \DateTime|null
-     */
     #[ORM\Column(name: 'password_requested_at', type: 'datetime', nullable: true)]
-    #[SymfonySerializer\Groups(['user_security'])]
+    #[Serializer\Groups(['user_security'])]
     protected ?\DateTime $passwordRequestedAt = null;
 
-    /**
-     * @Serializer\Groups({"user_personal", "log_user"})
-     * @var string
-     */
     #[ORM\Column(type: 'string', length: 200, unique: true)]
-    #[SymfonySerializer\Groups(['user_personal', 'log_user'])]
+    #[Serializer\Groups(['user_personal', 'log_user'])]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 200)]
@@ -124,29 +94,21 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * Encrypted password.
      */
     #[ORM\Column(type: 'string', length: 128, nullable: false)]
-    #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
+    #[Serializer\Ignore]
     #[Assert\Length(max: 128)]
     private string $password = '';
 
     /**
      * Plain password. Used for model validation.
-     * **Must not be persisted.**
-     *
-     * @var string|null
-     * @Serializer\Groups({"user:write"})
-     * @PasswordStrength(minLength=8, minStrength=3)
+     * **Must not be persisted.**.
      */
-    #[SymfonySerializer\Groups(['user:write'])]
+    #[PasswordStrength(minStrength: 3, minLength: 8)]
+    #[Serializer\Groups(['user:write'])]
     #[Assert\NotBlank(groups: ['no_empty_password'])]
     private ?string $plainPassword = null;
 
-    /**
-     * @var \DateTime|null
-     * @Serializer\Groups({"user_security"})
-     */
     #[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
-    #[SymfonySerializer\Groups(['user_security'])]
+    #[Serializer\Groups(['user_security'])]
     private ?\DateTime $lastLogin = null;
 
     /**
@@ -156,70 +118,47 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: Role::class)]
-    #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
+    #[Serializer\Ignore]
     private Collection $roleEntities;
 
     /**
      * Names of current User roles
-     * to be compatible with symfony security scheme
+     * to be compatible with symfony security scheme.
      *
      * @var array<string>|null
      */
-    #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
+    #[Serializer\Ignore]
     private ?array $roles = null;
 
     /**
      * @var Collection<int, Group>
-     * @Serializer\Groups({"user_group"})
      */
     #[ORM\JoinTable(name: 'users_groups')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'group_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Group::class, inversedBy: 'users')]
-    #[SymfonySerializer\Groups(['user_group'])]
+    #[Serializer\Groups(['user_group'])]
     private Collection $groups;
 
-    /**
-     * @var boolean
-     * @Serializer\Groups({"user_security"})
-     */
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
-    #[SymfonySerializer\Groups(['user_security'])]
+    #[Serializer\Groups(['user_security'])]
     private bool $locked = false;
 
-    /**
-     * @Serializer\Groups({"user_security"})
-     * @var \DateTime|null
-     */
     #[ORM\Column(name: 'credentials_expires_at', type: 'datetime', nullable: true)]
-    #[SymfonySerializer\Groups(['user_security'])]
+    #[Serializer\Groups(['user_security'])]
     private ?\DateTime $credentialsExpiresAt = null;
 
-    /**
-     * @Serializer\Groups({"user_security"})
-     * @var \DateTime|null
-     */
     #[ORM\Column(name: 'expires_at', type: 'datetime', nullable: true)]
-    #[SymfonySerializer\Groups(['user_security'])]
+    #[Serializer\Groups(['user_security'])]
     private ?\DateTime $expiresAt = null;
 
-    /**
-     * @Serializer\Groups({"user_chroot"})
-     * @var Node|null
-     */
     #[ORM\ManyToOne(targetEntity: Node::class)]
     #[ORM\JoinColumn(name: 'chroot_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
-    #[SymfonySerializer\Groups(['user_chroot'])]
+    #[Serializer\Groups(['user_chroot'])]
     private ?Node $chroot = null;
 
-    /**
-     * @var null|string
-     * @Serializer\Groups({"user"})
-     */
     #[ORM\Column(name: 'locale', type: 'string', length: 7, nullable: true)]
-    #[SymfonySerializer\Groups(['user'])]
+    #[Serializer\Groups(['user'])]
     #[Assert\Length(max: 7)]
     private ?string $locale = null;
 
@@ -234,21 +173,17 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Set if we need Roadiz to send a default email
      * when User will be persisted.
-     *
-     * @param bool $sendCreationConfirmationEmail
-     * @return User
      */
     public function sendCreationConfirmationEmail(bool $sendCreationConfirmationEmail): User
     {
         $this->sendCreationConfirmationEmail = $sendCreationConfirmationEmail;
+
         return $this;
     }
 
     /**
      * Tells if we need Roadiz to send a default email
      * when User will be persisted. Default: false.
-     *
-     * @return bool
      */
     public function willSendCreationConfirmationEmail(): bool
     {
@@ -258,29 +193,21 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Get available username data, first name and last name
      * or username as a last try.
-     *
-     * @return string
-     * @Serializer\Exclude()
      */
-    #[SymfonySerializer\Ignore]
+    #[Serializer\Ignore]
     public function getIdentifier(): string
     {
-        if ($this->getFirstName() != "" && $this->getLastName() != "") {
-            return $this->getFirstName() . " " . $this->getLastName();
-        } elseif ($this->getFirstName() != "") {
+        if ('' != $this->getFirstName() && '' != $this->getLastName()) {
+            return $this->getFirstName().' '.$this->getLastName();
+        } elseif ('' != $this->getFirstName()) {
             return $this->getFirstName();
         } else {
             return $this->getUsername();
         }
     }
 
-    /**
-     * @return string
-     * @Serializer\Groups({"user_identifier", "user_personal"})
-     * @Serializer\VirtualProperty()
-     */
-    #[SymfonySerializer\SerializedName('identifier')]
-    #[SymfonySerializer\Groups(['user_identifier', 'user_personal'])]
+    #[Serializer\SerializedName('identifier')]
+    #[Serializer\Groups(['user_identifier', 'user_personal'])]
     public function getUserIdentifier(): string
     {
         return $this->username;
@@ -295,20 +222,17 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     }
 
     /**
-     * @param string $username
-     *
      * @return $this
      */
     public function setUsername(string $username): User
     {
         $this->username = $username;
+
         return $this;
     }
 
     /**
-     * Get facebook profile name to grab public infos such as picture
-     *
-     * @return string|null
+     * Get facebook profile name to grab public infos such as picture.
      */
     public function getFacebookName(): ?string
     {
@@ -316,36 +240,30 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     }
 
     /**
-     * @param string|null $facebookName
      * @return $this
      */
     public function setFacebookName(?string $facebookName): User
     {
         $this->facebookName = $facebookName;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPictureUrl(): ?string
     {
         return $this->pictureUrl;
     }
 
     /**
-     * @param string|null $pictureUrl
      * @return $this
      */
     public function setPictureUrl(?string $pictureUrl): User
     {
         $this->pictureUrl = $pictureUrl;
+
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSalt(): ?string
     {
         return null;
@@ -360,12 +278,12 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     }
 
     /**
-     * @param string $password
      * @return $this
      */
     public function setPassword(string $password): User
     {
         $this->password = $password;
+
         return $this;
     }
 
@@ -377,19 +295,16 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         return $this->plainPassword;
     }
 
-    /**
-     * @param string|null $plainPassword
-     * @return User
-     */
     public function setPlainPassword(?string $plainPassword): User
     {
         $this->plainPassword = $plainPassword;
-        if (null !== $plainPassword && $plainPassword != '') {
+        if (null !== $plainPassword && '' != $plainPassword) {
             /*
              * We MUST change password to trigger preUpdate lifeCycle event.
              */
-            $this->password = '--password-changed--' . uniqid();
+            $this->password = '--password-changed--'.uniqid();
         }
+
         return $this;
     }
 
@@ -401,20 +316,15 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         return $this->lastLogin;
     }
 
-    /**
-     * @param \DateTime|null $lastLogin
-     * @return User
-     */
     public function setLastLogin(?\DateTime $lastLogin): User
     {
         $this->lastLogin = $lastLogin;
+
         return $this;
     }
 
     /**
      * Get random string sent to the user email address in order to verify it.
-     *
-     * @return string|null
      */
     public function getConfirmationToken(): ?string
     {
@@ -424,7 +334,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Set random string sent to the user email address in order to verify it.
      *
-     * @param string|null $confirmationToken
      * @return $this
      */
     public function setConfirmationToken(?string $confirmationToken): User
@@ -437,20 +346,16 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Check if password reset request has expired.
      *
-     * @param int $ttl Password request time to live.
-     *
-     * @return boolean
+     * @param int $ttl password request time to live
      */
     public function isPasswordRequestNonExpired(int $ttl): bool
     {
-        return $this->getPasswordRequestedAt() instanceof \DateTime &&
-            $this->getPasswordRequestedAt()->getTimestamp() + $ttl > time();
+        return $this->getPasswordRequestedAt() instanceof \DateTime
+            && $this->getPasswordRequestedAt()->getTimestamp() + $ttl > time();
     }
 
     /**
      * Gets the timestamp that the user requested a password reset.
-     *
-     * @return null|\DateTime
      */
     public function getPasswordRequestedAt(): ?\DateTime
     {
@@ -460,18 +365,18 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Sets the timestamp that the user requested a password reset.
      *
-     * @param \DateTime|null $date
      * @return $this
      */
-    public function setPasswordRequestedAt(\DateTime $date = null): User
+    public function setPasswordRequestedAt(?\DateTime $date = null): User
     {
         $this->passwordRequestedAt = $date;
+
         return $this;
     }
 
     /**
-     * @param Role $role
      * @return $this
+     *
      * @deprecated Use addRoleEntity
      */
     public function addRole(Role $role): User
@@ -481,8 +386,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     /**
      * Add a role object to current user.
-     *
-     * @param Role $role
      *
      * @return $this
      */
@@ -496,28 +399,23 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     }
 
     /**
-     * Get roles entities
-     *
-     * @return Collection|null
+     * Get roles entities.
      */
     public function getRolesEntities(): ?Collection
     {
         return $this->roleEntities;
     }
 
-    /**
-     * @param ArrayCollection $roles
-     * @return User
-     */
     public function setRolesEntities(ArrayCollection $roles): User
     {
         $this->roleEntities = $roles;
+
         return $this;
     }
 
     /**
-     * @param Role $role
      * @return $this
+     *
      * @deprecated Use removeRoleEntity
      */
     public function removeRole(Role $role): User
@@ -528,8 +426,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Remove role from current user.
      *
-     * @param Role $role
-     *
      * @return $this
      */
     public function removeRoleEntity(Role $role): User
@@ -537,13 +433,12 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         if ($this->getRolesEntities()->contains($role)) {
             $this->getRolesEntities()->removeElement($role);
         }
+
         return $this;
     }
 
     /**
      * Removes sensitive data from the user.
-     *
-     * @return User
      */
     public function eraseCredentials(): User
     {
@@ -552,8 +447,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     /**
      * Insert user into group.
-     *
-     * @param Group $group
      *
      * @return $this
      */
@@ -566,18 +459,13 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getGroups(): ?Collection
     {
         return $this->groups;
     }
 
     /**
-     * Remove user from group
-     *
-     * @param Group $group
+     * Remove user from group.
      *
      * @return $this
      */
@@ -594,10 +482,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * Get current user groups name.
      *
      * @return array Array of strings
-     * @Serializer\Groups({"user"})
-     * @Serializer\VirtualProperty()
      */
-    #[SymfonySerializer\Groups(['user'])]
+    #[Serializer\Groups(['user'])]
     public function getGroupNames(): array
     {
         $names = [];
@@ -616,16 +502,14 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * Internally, if this method returns false, the authentication system
      * will throw an AccountExpiredException and prevent login.
      *
-     * @return bool    true if the user's account is non expired, false otherwise
+     * @return bool true if the user's account is non expired, false otherwise
      *
      * @see AccountExpiredException
-     * @Serializer\Groups({"user_security"})
-     * @Serializer\VirtualProperty()
      */
-    #[SymfonySerializer\Groups(['user_security'])]
+    #[Serializer\Groups(['user_security'])]
     public function isAccountNonExpired(): bool
     {
-        return $this->expiresAt === null || $this->expiresAt->getTimestamp() > time();
+        return null === $this->expiresAt || $this->expiresAt->getTimestamp() > time();
     }
 
     /**
@@ -637,10 +521,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * @return bool true if the user is not locked, false otherwise
      *
      * @see LockedException
-     * @Serializer\Groups({"user_security"})
-     * @Serializer\VirtualProperty()
      */
-    #[SymfonySerializer\Groups(['user_security'])]
+    #[Serializer\Groups(['user_security'])]
     public function isAccountNonLocked(): bool
     {
         return !$this->locked;
@@ -649,43 +531,28 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     public function setLocked(bool $locked): self
     {
         $this->locked = $locked;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isLocked(): bool
     {
         return $this->locked;
     }
 
-    /**
-     * @param User $user
-     *
-     * @return boolean
-     */
     public function equals(User $user): bool
     {
-        return (
-            $this->username == $user->getUsername() ||
-            $this->email == $user->getEmail()
-        );
+        return
+            $this->username == $user->getUsername()
+            || $this->email == $user->getEmail()
+        ;
     }
 
-    /**
-     * @return \DateTime|null
-     */
     public function getCredentialsExpiresAt(): ?\DateTime
     {
         return $this->credentialsExpiresAt;
     }
 
-    /**
-     * @param \DateTime|null $date
-     *
-     * @return User
-     */
     public function setCredentialsExpiresAt(?\DateTime $date = null): User
     {
         $this->credentialsExpiresAt = $date;
@@ -694,7 +561,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     }
 
     /**
-     * @return Node|null
      * @internal Do use directly, use NodeChrootResolver class to support external users (SSO, oauth2, …)
      */
     public function getChroot(): ?Node
@@ -702,11 +568,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         return $this->chroot;
     }
 
-    /**
-     * @param Node|null $chroot
-     * @return User
-     */
-    public function setChroot(Node $chroot = null): User
+    public function setChroot(?Node $chroot = null): User
     {
         $this->chroot = $chroot;
 
@@ -716,17 +578,16 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Get prototype abstract Gravatar url.
      *
-     * @Serializer\Exclude()
      * @param string $type Default: "identicon"
      * @param string $size Default: "200"
-     * @return string
      */
-    #[SymfonySerializer\Ignore]
-    public function getGravatarUrl(string $type = "identicon", string $size = "200"): string
+    #[Serializer\Ignore]
+    public function getGravatarUrl(string $type = 'identicon', string $size = '200'): string
     {
         if (null !== $this->getEmail()) {
-            return "https://www.gravatar.com/avatar/" . md5(\mb_strtolower(trim($this->getEmail()))) . "?d=" . $type . "&s=" . $size;
+            return 'https://www.gravatar.com/avatar/'.md5(\mb_strtolower(trim($this->getEmail()))).'?d='.$type.'&s='.$size;
         }
+
         return '';
     }
 
@@ -753,11 +614,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         return $this->enabled;
     }
 
-    /**
-     * @param boolean $enabled
-     *
-     * @return User
-     */
     public function setEnabled(bool $enabled): User
     {
         $this->enabled = $enabled;
@@ -773,31 +629,25 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * Internally, if this method returns false, the authentication system
      * will throw a CredentialsExpiredException and prevent login.
      *
-     * @return bool    true if the user's credentials are non expired, false otherwise
+     * @return bool true if the user's credentials are non expired, false otherwise
      *
      * @see CredentialsExpiredException
      */
-    #[SymfonySerializer\Ignore]
+    #[Serializer\Ignore]
     public function isCredentialsNonExpired(): bool
     {
-        return $this->credentialsExpiresAt === null || $this->credentialsExpiresAt->getTimestamp() > time();
+        return null === $this->credentialsExpiresAt || $this->credentialsExpiresAt->getTimestamp() > time();
     }
 
-    /**
-     * @return \DateTime|null
-     */
     public function getExpiresAt(): ?\DateTime
     {
         return $this->expiresAt;
     }
 
-    /**
-     * @param \DateTime|null $expiresAt
-     * @return User
-     */
     public function setExpiresAt(?\DateTime $expiresAt): User
     {
         $this->expiresAt = $expiresAt;
+
         return $this;
     }
 
@@ -806,8 +656,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      *
      * @return array<string>
      */
-    #[SymfonySerializer\SerializedName('roles')]
-    #[SymfonySerializer\Groups(['user_role'])]
+    #[Serializer\SerializedName('roles')]
+    #[Serializer\Groups(['user_role'])]
     public function getRoles(): array
     {
         if (null === $this->roles) {
@@ -836,21 +686,15 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         return $this->roles;
     }
 
-    /**
-     * @return null|string
-     */
     public function getLocale(): ?string
     {
         return $this->locale;
     }
 
-    /**
-     * @param null|string $locale
-     * @return User
-     */
     public function setLocale(?string $locale): User
     {
         $this->locale = $locale;
+
         return $this;
     }
 
@@ -891,30 +735,17 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         ] = $data;
     }
 
-    /**
-     * @Serializer\Groups({"user_security"})
-     */
-    #[SymfonySerializer\Groups(['user_security'])]
+    #[Serializer\Groups(['user_security'])]
     public function isSuperAdmin(): bool
     {
         return $this->hasRole(Role::ROLE_SUPERADMIN);
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
     public function hasGroup(string $name): bool
     {
         return in_array((string) $name, $this->getGroupNames());
     }
 
-    /**
-     * @param string $role
-     *
-     * @return bool
-     */
     public function hasRole(string $role): bool
     {
         return in_array(\mb_strtoupper((string) $role), $this->getRoles(), true);
@@ -922,12 +753,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     /**
      * Every field tested in this methods must be serialized in token.
-     *
-     * @param UserInterface $user
-     *
-     * @return bool
      */
-    #[SymfonySerializer\Ignore]
+    #[Serializer\Ignore]
     public function isEqualTo(UserInterface $user): bool
     {
         if (!$user instanceof User) {

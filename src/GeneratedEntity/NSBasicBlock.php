@@ -1,48 +1,71 @@
 <?php
 
+/**
+ * THIS IS A GENERATED FILE, DO NOT EDIT IT.
+ * IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE.
+ */
+
 declare(strict_types=1);
 
-/*
- * THIS IS A GENERATED FILE, DO NOT EDIT IT
- * IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE
- */
 namespace App\GeneratedEntity;
 
-use Doctrine\Common\Collections\Collection;
-use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Doctrine\Orm\Filter;
 use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Doctrine\Orm\Filter as OrmFilter;
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use JMS\Serializer\Annotation as JMS;
+use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
+use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * BasicBlock node-source entity.
  */
-#[
-    Gedmo\Loggable(logEntryClass: \RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class),
-    ORM\Entity(repositoryClass: \App\GeneratedEntity\Repository\NSBasicBlockRepository::class),
-    ORM\Table(name: "ns_basicblock"),
-    ApiFilter(PropertyFilter::class)
-]
-class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
+#[Gedmo\Loggable(logEntryClass: UserLogEntry::class)]
+#[ORM\Entity(repositoryClass: Repository\NSBasicBlockRepository::class)]
+#[ORM\Table(name: 'ns_basicblock')]
+#[ApiFilter(PropertyFilter::class)]
+class NSBasicBlock extends NodesSources
 {
-    /**
-     * Content.
-     */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "content"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        \ApiPlatform\Metadata\ApiProperty(description: "Content"),
-        SymfonySerializer\MaxDepth(2),
-        Gedmo\Versioned,
-        ORM\Column(name: "content", type: "text", nullable: true),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2),
-        Serializer\Type("string")
-    ]
+    /** Content. */
+    #[Serializer\SerializedName(serializedName: 'content')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Content')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'content', type: 'text', nullable: true)]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\MaxDepth(2)]
+    #[JMS\Type('string')]
     private ?string $content = null;
+
+    /** Boolean field. */
+    #[Serializer\SerializedName(serializedName: 'booleanField')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Boolean field')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'boolean_field', type: 'boolean', nullable: false, options: ['default' => false])]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\MaxDepth(2)]
+    #[JMS\Type('bool')]
+    private bool $booleanField = false;
+
+    /**
+     * Image.
+     * (Virtual field, this var is a buffer)
+     */
+    #[JMS\Exclude]
+    #[Serializer\SerializedName(serializedName: 'image')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_documents'])]
+    #[ApiProperty(description: 'Image')]
+    #[Serializer\MaxDepth(2)]
+    private ?array $image = null;
 
     /**
      * @return string|null
@@ -53,40 +76,15 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @param string|null $content
-     *
      * @return $this
      */
     public function setContent(?string $content): static
     {
         $this->content = null !== $content ?
-            (string) $content :
-            null;
-
+                    (string) $content :
+                    null;
         return $this;
     }
-
-
-    /**
-     * Boolean field.
-     */
-    #[
-        SymfonySerializer\SerializedName(serializedName: "booleanField"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        \ApiPlatform\Metadata\ApiProperty(description: "Boolean field"),
-        SymfonySerializer\MaxDepth(2),
-        Gedmo\Versioned,
-        ORM\Column(
-            name: "boolean_field",
-            type: "boolean",
-            nullable: false,
-            options: ["default" => false]
-        ),
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\MaxDepth(2),
-        Serializer\Type("bool")
-    ]
-    private bool $booleanField = false;
 
     /**
      * @return bool
@@ -97,42 +95,22 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @param bool $booleanField
-     *
      * @return $this
      */
     public function setBooleanField(bool $booleanField): static
     {
         $this->booleanField = $booleanField;
-
         return $this;
     }
 
-
     /**
-     * Image.
-     *
-     * (Virtual field, this var is a buffer)
+     * @return \RZ\Roadiz\CoreBundle\Entity\Document[]
      */
-    #[
-        Serializer\Exclude,
-        SymfonySerializer\SerializedName(serializedName: "image"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default", "nodes_sources_documents"]),
-        \ApiPlatform\Metadata\ApiProperty(description: "Image"),
-        SymfonySerializer\MaxDepth(2)
-    ]
-    private ?array $image = null;
-
-    /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[] Documents array
-     */
-    #[
-        Serializer\Groups(["nodes_sources", "nodes_sources_default", "nodes_sources_documents"]),
-        Serializer\MaxDepth(2),
-        Serializer\VirtualProperty,
-        Serializer\SerializedName("image"),
-        Serializer\Type("array<RZ\Roadiz\CoreBundle\Entity\Document>")
-    ]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_documents'])]
+    #[JMS\MaxDepth(2)]
+    #[JMS\VirtualProperty]
+    #[JMS\SerializedName('image')]
+    #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\Document>')]
     public function getImage(): array
     {
         if (null === $this->image) {
@@ -151,35 +129,31 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
     }
 
     /**
-     * @param \RZ\Roadiz\CoreBundle\Entity\Document $document
-     *
      * @return $this
      */
     public function addImage(\RZ\Roadiz\CoreBundle\Entity\Document $document): static
     {
-        if (null !== $this->objectManager) {
-            $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
-                $this,
-                $document
-            );
-            $nodeSourceDocument->setFieldName('image');
-            if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
-                $this->objectManager->persist($nodeSourceDocument);
-                $this->addDocumentsByFields($nodeSourceDocument);
-                $this->image = null;
-            }
+        if (null === $this->objectManager) {
+            return $this;
+        }
+        $nodeSourceDocument = new \RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments(
+            $this,
+            $document
+        );
+        $nodeSourceDocument->setFieldName('image');
+        if (!$this->hasNodesSourcesDocuments($nodeSourceDocument)) {
+            $this->objectManager->persist($nodeSourceDocument);
+            $this->addDocumentsByFields($nodeSourceDocument);
+            $this->image = null;
         }
         return $this;
     }
 
-
-    #[
-        Serializer\VirtualProperty,
-        Serializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        Serializer\SerializedName("@type"),
-        SymfonySerializer\Groups(["nodes_sources", "nodes_sources_default"]),
-        SymfonySerializer\SerializedName(serializedName: "@type")
-    ]
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\SerializedName('@type')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[Serializer\SerializedName(serializedName: '@type')]
     public function getNodeTypeName(): string
     {
         return 'BasicBlock';
@@ -187,9 +161,9 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
     /**
      * $this->nodeType->isReachable() proxy.
-     *
      * @return bool Does this nodeSource is reachable over network?
      */
+    #[JMS\VirtualProperty]
     public function isReachable(): bool
     {
         return false;
@@ -197,9 +171,9 @@ class NSBasicBlock extends \RZ\Roadiz\CoreBundle\Entity\NodesSources
 
     /**
      * $this->nodeType->isPublishable() proxy.
-     *
      * @return bool Does this nodeSource is publishable with date and time?
      */
+    #[JMS\VirtualProperty]
     public function isPublishable(): bool
     {
         return false;

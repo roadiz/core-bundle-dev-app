@@ -8,12 +8,12 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 
+/**
+ * @deprecated Use TagRepository directly
+ */
 class TagApi extends AbstractApi
 {
-    /**
-     * @return TagRepository
-     */
-    public function getRepository()
+    public function getRepository(): TagRepository
     {
         return $this->managerRegistry->getRepository(Tag::class);
     }
@@ -23,19 +23,14 @@ class TagApi extends AbstractApi
      *
      * When no order is defined, tags are ordered by position.
      *
-     * @param array      $criteria
-     * @param array|null $order
-     * @param int|null   $limit
-     * @param int|null   $offset
-     *
-     * @return array|Paginator
+     * @return array<Tag>|Paginator<Tag>
      */
     public function getBy(
         array $criteria,
-        array $order = null,
+        ?array $order = null,
         ?int $limit = null,
-        ?int $offset = null
-    ) {
+        ?int $offset = null,
+    ): array|Paginator {
         if (null === $order) {
             $order = [
                 'position' => 'ASC',
@@ -51,10 +46,8 @@ class TagApi extends AbstractApi
                         null
                     );
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function countBy(array $criteria)
+
+    public function countBy(array $criteria): int
     {
         return $this->getRepository()
                     ->countBy(
@@ -62,10 +55,8 @@ class TagApi extends AbstractApi
                         null
                     );
     }
-    /**
-     * {@inheritdoc}
-     */
-    public function getOneBy(array $criteria, array $order = null)
+
+    public function getOneBy(array $criteria, ?array $order = null): ?Tag
     {
         return $this->getRepository()
                     ->findOneBy(

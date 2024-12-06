@@ -9,20 +9,17 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 interface NodeNamePolicyInterface
 {
     /**
-     * @param NodesSources $nodeSource
-     * @return string Return a canonical node name built against a NS title and node-type.
+     * @return string return a canonical node name built against a NS title and node-type
      */
     public function getCanonicalNodeName(NodesSources $nodeSource): string;
 
     /**
-     * @param NodesSources $nodeSource
-     * @return string Return a canonical node' name built against a NS title, node-type and a unique suffix.
+     * @return string return a canonical node' name built against a NS title, node-type and a unique suffix
      */
     public function getSafeNodeName(NodesSources $nodeSource): string;
 
     /**
-     * @param NodesSources $nodeSource
-     * @return string Return a canonical node' name built against a NS title, node-type and a date suffix.
+     * @return string return a canonical node' name built against a NS title, node-type and a date suffix
      */
     public function getDatestampedNodeName(NodesSources $nodeSource): string;
 

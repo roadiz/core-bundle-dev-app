@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Api\Controller;
 
-use ApiPlatform\Api\IriConverterInterface;
-use ApiPlatform\Exception\InvalidArgumentException;
-use ApiPlatform\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Exception\OperationNotFoundException;
+use ApiPlatform\Metadata\Exception\ResourceClassNotFoundException;
+use ApiPlatform\Metadata\IriConverterInterface;
 use ApiPlatform\Metadata\Resource\Factory\ResourceMetadataCollectionFactoryInterface;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
@@ -32,7 +32,7 @@ final class GetWebResponseByPathController extends AbstractController
         private readonly IriConverterInterface $iriConverter,
         private readonly PreviewResolverInterface $previewResolver,
         private readonly ApiResourceOperationNameGenerator $apiResourceOperationNameGenerator,
-        private readonly LoggerInterface $logger
+        private readonly LoggerInterface $logger,
     ) {
     }
 
@@ -40,8 +40,8 @@ final class GetWebResponseByPathController extends AbstractController
     {
         try {
             if (
-                null === $request ||
-                empty($request->query->get('path'))
+                null === $request
+                || empty($request->query->get('path'))
             ) {
                 throw new InvalidArgumentException('path query parameter is mandatory');
             }
@@ -88,7 +88,7 @@ final class GetWebResponseByPathController extends AbstractController
             $request->attributes->set('data', $data);
 
             return $data;
-        } catch (ResourceNotFoundException | ResourceClassNotFoundException $exception) {
+        } catch (ResourceNotFoundException|ResourceClassNotFoundException $exception) {
             throw $this->createNotFoundException($exception->getMessage(), $exception);
         }
     }
@@ -121,8 +121,8 @@ final class GetWebResponseByPathController extends AbstractController
                 }
                 $resource = $nodeSource;
             } elseif (
-                null !== $resource->getRedirectUri() &&
-                (new UnicodeString($resource->getRedirectUri()))->startsWith('/')
+                null !== $resource->getRedirectUri()
+                && (new UnicodeString($resource->getRedirectUri()))->startsWith('/')
             ) {
                 /*
                  * Recursive call to normalize path coming from Redirection if redirected path
@@ -153,7 +153,7 @@ final class GetWebResponseByPathController extends AbstractController
     {
         if (null !== $request) {
             $iri = $this->iriConverter->getIriFromResource($resource);
-            $request->attributes->set('_resources', $request->attributes->get('_resources', []) + [ $iri => $iri ]);
+            $request->attributes->set('_resources', $request->attributes->get('_resources', []) + [$iri => $iri]);
         }
     }
 }

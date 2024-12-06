@@ -134,14 +134,11 @@ EOT
 EOT
             ,
             $renderer->render($mockDocument, [
-                'controls' => false
+                'controls' => false,
             ])
         );
     }
 
-    /**
-     * @return DocumentFinderInterface
-     */
     private function getDocumentFinder(): DocumentFinderInterface
     {
         $finder = new ArrayDocumentFinder();

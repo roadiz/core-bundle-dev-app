@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
 use RZ\Roadiz\CoreBundle\Repository\TagTranslationDocumentsRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 
@@ -16,9 +16,9 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
  */
 #[
     ORM\Entity(repositoryClass: TagTranslationDocumentsRepository::class),
-    ORM\Table(name: "tags_translations_documents"),
-    ORM\Index(columns: ["position"]),
-    ORM\Index(columns: ["tag_translation_id", "position"], name: "tagtranslation_position")
+    ORM\Table(name: 'tags_translations_documents'),
+    ORM\Index(columns: ['position']),
+    ORM\Index(columns: ['tag_translation_id', 'position'], name: 'tagtranslation_position')
 ]
 class TagTranslationDocuments extends AbstractPositioned
 {
@@ -46,9 +46,6 @@ class TagTranslationDocuments extends AbstractPositioned
 
     /**
      * Create a new relation between NodeSource, a Document and a NodeTypeField.
-     *
-     * @param TagTranslation $tagTranslation
-     * @param Document $document
      */
     public function __construct(TagTranslation $tagTranslation, Document $document)
     {
@@ -71,6 +68,7 @@ class TagTranslationDocuments extends AbstractPositioned
     public function setDocument(Document $document): TagTranslationDocuments
     {
         $this->document = $document;
+
         return $this;
     }
 
@@ -82,6 +80,7 @@ class TagTranslationDocuments extends AbstractPositioned
     public function setTagTranslation(TagTranslation $tagTranslation): TagTranslationDocuments
     {
         $this->tagTranslation = $tagTranslation;
+
         return $this;
     }
 }

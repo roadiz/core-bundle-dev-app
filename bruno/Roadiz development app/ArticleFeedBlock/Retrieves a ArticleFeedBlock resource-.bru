@@ -1,0 +1,23 @@
+meta {
+  name: Retrieves a ArticleFeedBlock resource-
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/article_feed_blocks/:id
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

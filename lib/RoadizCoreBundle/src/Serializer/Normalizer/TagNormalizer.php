@@ -14,22 +14,21 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
  */
 final class TagNormalizer extends AbstractPathNormalizer
 {
-     /**
-     * @param mixed $object
-     * @param string|null $format
-     * @param array $context
+    /**
      * @return array|\ArrayObject|bool|float|int|mixed|string|null
+     *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $data = $this->decorated->normalize($object, $format, $context);
         if (
-            $object instanceof Tag &&
-            is_array($data) &&
-            isset($context['translation']) &&
-            $context['translation'] instanceof TranslationInterface
+            $object instanceof Tag
+            && is_array($data)
+            && isset($context['translation'])
+            && $context['translation'] instanceof TranslationInterface
         ) {
+            $this->stopwatch->start('normalizeTag', 'serializer');
             /** @var array<string> $serializationGroups */
             $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
             /*
@@ -49,7 +48,9 @@ final class TagNormalizer extends AbstractPathNormalizer
                     }, $translatedData->getDocuments());
                 }
             }
+            $this->stopwatch->stop('normalizeTag');
         }
+
         return $data;
     }
 }

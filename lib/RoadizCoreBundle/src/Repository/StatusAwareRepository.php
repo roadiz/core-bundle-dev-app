@@ -6,66 +6,52 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @template TEntityClass of object
+ *
  * @extends EntityRepository<TEntityClass>
  */
 abstract class StatusAwareRepository extends EntityRepository
 {
     private bool $displayNotPublishedNodes;
     private bool $displayAllNodesStatuses;
-    protected Security $security;
-    protected PreviewResolverInterface $previewResolver;
 
     /**
-     * @param ManagerRegistry $registry
      * @param class-string<TEntityClass> $entityClass
-     * @param PreviewResolverInterface $previewResolver
-     * @param EventDispatcherInterface $dispatcher
-     * @param Security $security
      */
     public function __construct(
         ManagerRegistry $registry,
         string $entityClass,
-        PreviewResolverInterface $previewResolver,
+        protected readonly PreviewResolverInterface $previewResolver,
         EventDispatcherInterface $dispatcher,
-        Security $security
+        protected readonly Security $security,
     ) {
         parent::__construct($registry, $entityClass, $dispatcher);
 
         $this->displayNotPublishedNodes = false;
         $this->displayAllNodesStatuses = false;
-        $this->security = $security;
-        $this->previewResolver = $previewResolver;
     }
 
-
-    /**
-     * @return bool
-     */
     public function isDisplayingNotPublishedNodes(): bool
     {
         return $this->displayNotPublishedNodes;
     }
 
     /**
-     * @param bool $displayNotPublishedNodes
-     * @return static
+     * @return $this
      */
-    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes)
+    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes): self
     {
         $this->displayNotPublishedNodes = $displayNotPublishedNodes;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isDisplayingAllNodesStatuses(): bool
     {
         return $this->displayAllNodesStatuses;
@@ -75,24 +61,18 @@ abstract class StatusAwareRepository extends EntityRepository
      * Switch repository to disable any security on Node status. To use ONLY in order to
      * view deleted and archived nodes.
      *
-     * @param bool $displayAllNodesStatuses
-     *
-     * @return static
+     * @return $this
      */
-    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses)
+    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses): self
     {
         $this->displayAllNodesStatuses = $displayAllNodesStatuses;
+
         return $this;
     }
 
-    /**
-     * @param QueryBuilder $qb
-     * @param string $prefix
-     * @return QueryBuilder
-     */
     public function alterQueryBuilderWithAuthorizationChecker(
         QueryBuilder $qb,
-        string $prefix = EntityRepository::NODE_ALIAS
+        string $prefix = EntityRepository::NODE_ALIAS,
     ): QueryBuilder {
         if (true === $this->isDisplayingAllNodesStatuses()) {
             // do not filter on status
@@ -103,10 +83,11 @@ abstract class StatusAwareRepository extends EntityRepository
          * and context.
          */
         if (true === $this->isDisplayingNotPublishedNodes() || $this->previewResolver->isPreview()) {
-            $qb->andWhere($qb->expr()->lte($prefix . '.status', Node::PUBLISHED));
+            $qb->andWhere($qb->expr()->lte($prefix.'.status', ':status'));
         } else {
-            $qb->andWhere($qb->expr()->eq($prefix . '.status', Node::PUBLISHED));
+            $qb->andWhere($qb->expr()->eq($prefix.'.status', ':status'));
         }
+        $qb->setParameter('status', NodeStatus::PUBLISHED);
 
         return $qb;
     }

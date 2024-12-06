@@ -25,19 +25,13 @@ final class FolderTreeWidget extends AbstractWidget
         parent::__construct($requestStack, $managerRegistry);
     }
 
-    /**
-     * @param Folder $parent
-     * @return array
-     */
     public function getChildrenFolders(Folder $parent): array
     {
         return $this->folders = $this->getManagerRegistry()
                     ->getRepository(Folder::class)
                     ->findByParentAndTranslation($parent, $this->getTranslation());
     }
-    /**
-     * @return Folder|null
-     */
+
     public function getRootFolder(): ?Folder
     {
         return $this->parentFolder;
@@ -53,12 +47,10 @@ final class FolderTreeWidget extends AbstractWidget
                 ->getRepository(Folder::class)
                 ->findByParentAndTranslation($this->getRootFolder(), $this->getTranslation());
         }
+
         return $this->folders;
     }
 
-    /**
-     * @return TranslationInterface
-     */
     public function getTranslation(): TranslationInterface
     {
         return $this->translation ?? parent::getTranslation();

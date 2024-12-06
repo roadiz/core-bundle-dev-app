@@ -19,7 +19,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-version: ['8.1', '8.2', '8.3']
+                php-version: ['8.2', '8.3', '8.4']
         steps:
             - uses: shivammathur/setup-php@v2
               with:
@@ -42,17 +42,19 @@ jobs:
               run: |
                   XDEBUG_MODE=coverage vendor/bin/phpunit -v
             - name: Run PHP Code Sniffer
+              env:
+                  PHP_CS_FIXER_IGNORE_ENV: 1
               run: |
-                  php -d "memory_limit=-1" vendor/bin/phpcs --report=full -p
+                  php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
             - name: Run PHP Stan
               run: |
                   php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
             - name: Run Twig lint
               run: |
-                  php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
                   php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
-                  php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
-                  php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
-                  php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
                   php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
+                  php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
+                  php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
                   php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
+                  php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
+                  php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views

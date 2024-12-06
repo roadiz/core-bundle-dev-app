@@ -11,24 +11,12 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Node\UniversalDataDuplicator;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class NodesSourcesUniversalSubscriber implements EventSubscriberInterface
+final readonly class NodesSourcesUniversalSubscriber implements EventSubscriberInterface
 {
-    private ManagerRegistry $managerRegistry;
-    private UniversalDataDuplicator $universalDataDuplicator;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     * @param UniversalDataDuplicator $universalDataDuplicator
-     */
-    public function __construct(ManagerRegistry $managerRegistry, UniversalDataDuplicator $universalDataDuplicator)
+    public function __construct(private ManagerRegistry $managerRegistry, private UniversalDataDuplicator $universalDataDuplicator)
     {
-        $this->universalDataDuplicator = $universalDataDuplicator;
-        $this->managerRegistry = $managerRegistry;
     }
 
-    /**
-     * @return array
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -37,8 +25,6 @@ class NodesSourcesUniversalSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param NodesSourcesUpdatedEvent $event
-     *
      * @throws ORMException
      * @throws OptimisticLockException
      */

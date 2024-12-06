@@ -129,17 +129,17 @@ nodesUndeletePage:
         _controller: Themes\Rozier\Controllers\Nodes\NodesController::undeleteAction
     requirements: { nodeId : "[0-9]+" }
 
-nodesExportAllXlsxPage:
-    path:     /export/xlsx/{translationId}
+nodesExportAllCsvPage:
+    path:     /export/all-{translationId}.csv
     defaults:
-        _controller: Themes\Rozier\Controllers\Nodes\ExportController::exportAllXlsxAction
+        _controller: Themes\Rozier\Controllers\Nodes\ExportController::exportAllAction
     requirements:
         translationId : "[0-9]+"
 
-nodesExportNodeXlsxPage:
-    path:     /export/{parentNodeId}/xlsx/{translationId}
+nodesExportNodeCsvPage:
+    path:     /export/node-{parentNodeId}-{translationId}.csv
     defaults:
-        _controller: Themes\Rozier\Controllers\Nodes\ExportController::exportAllXlsxAction
+        _controller: Themes\Rozier\Controllers\Nodes\ExportController::exportAllAction
     requirements:
         translationId: "[0-9]+"
         parentNodeId: "[0-9]+"

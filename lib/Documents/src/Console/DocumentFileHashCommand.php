@@ -39,11 +39,7 @@ class DocumentFileHashCommand extends AbstractDocumentCommand
             $defaultAlgorithm = 'sha256';
         }
         if (!\in_array($defaultAlgorithm, \hash_algos())) {
-            throw new \RuntimeException(sprintf(
-                '“%s” algorithm is not available. Choose one from \hash_algos() method (%s)',
-                $defaultAlgorithm,
-                implode(', ', \hash_algos())
-            ));
+            throw new \RuntimeException(sprintf('“%s” algorithm is not available. Choose one from \hash_algos() method (%s)', $defaultAlgorithm, implode(', ', \hash_algos())));
         }
 
         $em = $this->getManager();
@@ -52,6 +48,7 @@ class DocumentFileHashCommand extends AbstractDocumentCommand
 
         if ($count <= 0) {
             $this->io->success('All document files have hash.');
+
             return 0;
         }
 
@@ -59,22 +56,25 @@ class DocumentFileHashCommand extends AbstractDocumentCommand
         /** @var DocumentInterface $document */
         foreach ($documents as $document) {
             $mountPath = $document->getMountPath();
-            if (null !== $mountPath && $document instanceof FileHashInterface) {
-                $algorithm = $document->getFileHashAlgorithm() ?? $defaultAlgorithm;
-                # https://flysystem.thephpleague.com/docs/usage/checksums/
-                $this->documentsStorage->checksum($mountPath, ['checksum_algo' => $algorithm]);
-                if ($this->documentsStorage->fileExists($mountPath)) {
-                    $fileHash = $this->documentsStorage->checksum($mountPath, ['checksum_algo' => $algorithm]);
-                    $document->setFileHash($fileHash);
-                    $document->setFileHashAlgorithm($algorithm);
-                }
-
-                if (($i % $batchSize) === 0) {
-                    $em->flush(); // Executes all updates.
-                }
-                ++$i;
+            if (null === $mountPath || !($document instanceof FileHashInterface)) {
                 $this->io->progressAdvance();
+                continue;
             }
+
+            $algorithm = $document->getFileHashAlgorithm() ?? $defaultAlgorithm;
+            // https://flysystem.thephpleague.com/docs/usage/checksums/
+            $this->documentsStorage->checksum($mountPath, ['checksum_algo' => $algorithm]);
+            if ($this->documentsStorage->fileExists($mountPath)) {
+                $fileHash = $this->documentsStorage->checksum($mountPath, ['checksum_algo' => $algorithm]);
+                $document->setFileHash($fileHash);
+                $document->setFileHashAlgorithm($algorithm);
+            }
+
+            if (($i % $batchSize) === 0) {
+                $em->flush(); // Executes all updates.
+            }
+            ++$i;
+            $this->io->progressAdvance();
         }
         $em->flush();
         $this->io->progressFinish();

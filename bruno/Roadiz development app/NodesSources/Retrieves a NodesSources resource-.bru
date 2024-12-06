@@ -1,0 +1,23 @@
+meta {
+  name: Retrieves a NodesSources resource-
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/nodes_sources/:id
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+params:path {
+  id: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

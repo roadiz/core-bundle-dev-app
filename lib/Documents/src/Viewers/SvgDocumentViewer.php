@@ -29,18 +29,15 @@ class SvgDocumentViewer
     ];
 
     /**
-     * @param FilesystemOperator $documentsStorage
-     * @param DocumentInterface $document
-     * @param array $attributes
-     * @param bool $asObject Default false
-     * @param string $imageUrl Only needed if you set $asObject to true.
+     * @param bool   $asObject Default false
+     * @param string $imageUrl only needed if you set $asObject to true
      */
     public function __construct(
         FilesystemOperator $documentsStorage,
         DocumentInterface $document,
         array $attributes = [],
         bool $asObject = false,
-        string $imageUrl = ""
+        string $imageUrl = '',
     ) {
         $this->imageUrl = $imageUrl;
         $this->attributes = $attributes;
@@ -52,7 +49,6 @@ class SvgDocumentViewer
     /**
      * Get SVG string to be used inside HTML content.
      *
-     * @return string
      * @throws FilesystemException
      */
     public function getContent(): string
@@ -64,26 +60,23 @@ class SvgDocumentViewer
         }
     }
 
-    /**
-     * @return array
-     */
     protected function getAllowedAttributes(): array
     {
         $attributes = [];
         foreach ($this->attributes as $key => $value) {
             if (in_array($key, static::$allowedAttributes)) {
-                if ($key === 'identifier') {
+                if ('identifier' === $key) {
                     $attributes['id'] = $value;
                 } else {
                     $attributes[$key] = $value;
                 }
             }
         }
+
         return $attributes;
     }
 
     /**
-     * @return string
      * @throws FilesystemException
      */
     protected function getInlineSvg(): string
@@ -95,7 +88,7 @@ class SvgDocumentViewer
         }
 
         if (!$this->documentsStorage->fileExists($mountPath)) {
-            throw new FileNotFoundException('SVG file does not exist: ' . $mountPath);
+            throw new FileNotFoundException('SVG file does not exist: '.$mountPath);
         }
         // Create a new sanitizer instance
         $sanitizer = new Sanitizer();
@@ -111,12 +104,11 @@ class SvgDocumentViewer
             // Pass it to the sanitizer and get it back clean
             return $this->injectAttributes($cleanSVG);
         }
+
         return $dirtySVG;
     }
 
     /**
-     * @param string $svg
-     * @return string
      * @throws \Exception
      */
     protected function injectAttributes(string $svg): string
@@ -155,8 +147,7 @@ class SvgDocumentViewer
     }
 
     /**
-     * @return string
-     * @deprecated Use SvgRenderer to render HTML object.
+     * @deprecated use SvgRenderer to render HTML object
      */
     protected function getObjectSvg(): string
     {
@@ -176,9 +167,9 @@ class SvgDocumentViewer
 
         $attrs = [];
         foreach ($attributes as $key => $value) {
-            $attrs[] = $key . '="' . htmlspecialchars($value) . '"';
+            $attrs[] = $key.'="'.htmlspecialchars($value).'"';
         }
 
-        return '<object ' . implode(' ', $attrs) . '></object>';
+        return '<object '.implode(' ', $attrs).'></object>';
     }
 }

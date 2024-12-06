@@ -11,24 +11,21 @@ use RZ\Roadiz\CoreBundle\Entity\NodesCustomForms;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
- * @package RZ\Roadiz\CoreBundle\Repository
  * @extends EntityRepository<\RZ\Roadiz\CoreBundle\Entity\NodesCustomForms>
  */
 final class NodesCustomFormsRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, NodesCustomForms::class, $dispatcher);
     }
 
     /**
-     * @param Node $node
-     * @param NodeTypeFieldInterface $field
-     * @return int
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
+     *
      * @deprecated Use getLatestPositionForFieldName instead
      */
     public function getLatestPosition(Node $node, NodeTypeFieldInterface $field): int

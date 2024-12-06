@@ -14,11 +14,11 @@ use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RouterInterface;
 
-final class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInterface, VersatileGeneratorInterface
+final readonly class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInterface, VersatileGeneratorInterface
 {
     public function __construct(
-        private readonly ThemeResolverInterface $themeResolver,
-        private readonly NodeRouter $innerRouter
+        private ThemeResolverInterface $themeResolver,
+        private NodeRouter $innerRouter,
     ) {
     }
 
@@ -43,12 +43,12 @@ final class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInter
     }
 
     /**
-     * @inheritDoc
      * @throws InvalidArgumentException
      */
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         $this->innerRouter->setTheme($this->themeResolver->findTheme($this->getContext()->getHost()));
+
         return $this->innerRouter->generate($name, $parameters, $referenceType);
     }
 
@@ -57,9 +57,6 @@ final class ThemeAwareNodeRouter implements RouterInterface, RequestMatcherInter
         return $this->innerRouter->match($pathinfo);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getRouteDebugMessage(mixed $name, array $parameters = []): string
     {
         return $this->innerRouter->getRouteDebugMessage($name, $parameters);

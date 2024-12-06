@@ -6,17 +6,9 @@ namespace Themes\Rozier\Forms\NodeSource;
 
 use Symfony\Component\Yaml\Yaml;
 
-/**
- * @package RZ\Roadiz\CMS\Forms\NodeSource
- */
 abstract class AbstractConfigurableNodeSourceFieldType extends AbstractNodeSourceFieldType
 {
-    /**
-     * @param array $options
-     *
-     * @return mixed
-     */
-    protected function getFieldConfiguration(array $options)
+    protected function getFieldConfiguration(array $options): mixed
     {
         return Yaml::parse($options['nodeTypeField']->getDefaultValues() ?? '');
     }

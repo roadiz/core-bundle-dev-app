@@ -47,7 +47,9 @@ return [
 
 ## Configuration
 
-- Copy *API Platform* resource configuration file: `./config/api_resources/user.yaml` to your Roadiz project `api_resource` folder.
+- Copy *API Platform* resource configuration files to your Roadiz project `api_resource` folder: 
+    - `./config/api_resources/user.yaml` 
+    - `./config/api_resources/me.yaml` 
 - Edit your `./config/packages/framework.yaml` file with:
 ```yaml
 framework:
@@ -81,10 +83,15 @@ framework:
 ```yaml
 security:
     access_control:
-        # Append user routes configuration
+        # Prepend user routes configuration before API Platform ones
+        # Public routes must be defined before protected ones
+        - { path: "^/api/users/login_link_check", methods: [ POST ], roles: PUBLIC_ACCESS }
+        - { path: "^/api/users/login_link", methods: [ POST ], roles: PUBLIC_ACCESS }
         - { path: "^/api/users/signup", methods: [ POST ], roles: PUBLIC_ACCESS }
         - { path: "^/api/users/password_request", methods: [ POST ], roles: PUBLIC_ACCESS }
         - { path: "^/api/users/password_reset", methods: [ PUT ], roles: PUBLIC_ACCESS }
+        # ...
+        - { path: "^/api", roles: ROLE_BACKEND_USER, methods: [ POST, PUT, PATCH, DELETE ] }
         - { path: "^/api/users", methods: [ GET, PUT, PATCH, POST ], roles: ROLE_USER }
 ```
 - Edit your `./.env` file with:
@@ -104,10 +111,135 @@ nelmio_cors:
         expose_headers: ['Link', 'Www-Authenticate']
 ```
 
+## Passwordless user creation and authentication
+
+You can switch your public users to `PasswordlessUser` and set up a login link authentication process along with
+user creation process.
+
+First you need to configure a public login link route:
+
+```yaml
+# config/routes.yaml
+public_login_link_check:
+    path: /api/users/login_link_check
+    methods: [POST]
+```
+
+Then you need to configure your security.yaml file to use `login_link` authentication process in your API firewall.
+You **must** use `all_users` provider to be able to use Roadiz User provider during the login_link authentication process.
+
+```yaml
+# config/packages/security.yaml
+# https://symfony.com/bundles/LexikJWTAuthenticationBundle/current/8-jwt-user-provider.html#symfony-5-3-and-higher
+api:
+    pattern: ^/api
+    stateless: true
+    # We need to use all_users provider to be able to use Roadiz User provider 
+    # during the login_link authentication process
+    provider: all_users
+    jwt: ~
+    login_link:
+        check_route: public_login_link_check
+        check_post_only: true
+        success_handler: lexik_jwt_authentication.handler.authentication_success
+        failure_handler: lexik_jwt_authentication.handler.authentication_failure
+        signature_properties: [ 'email' ]
+        # lifetime in seconds
+        lifetime: 600
+        max_uses: 3
+```
+
+### Public login link creation
+
+Then you'll need a public route to request a login-link. In your project create a new `App\Controller\SecurityController`
+and add a new route `/api/users/login_link`:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controller;
+
+use RZ\Roadiz\CoreBundle\Repository\UserRepository;
+use RZ\Roadiz\CoreBundle\Security\LoginLink\LoginLinkSenderInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface;
+
+final readonly class SecurityController
+{
+    public function __construct(
+        private LoginLinkSenderInterface $loginLinkSender,
+    ) {
+    }
+    
+    #[Route('/api/users/login_link', name: 'public_user_login_link_request', methods: ['POST'])]
+    public function requestLoginLink(
+        LoginLinkHandlerInterface $loginLinkHandler,
+        UserRepository $userRepository,
+        Request $request
+    ): Response {
+        // load the user in some way (e.g. using the form input)
+        $email = $request->getPayload()->get('email');
+        $user = $userRepository->findOneBy(['email' => $email]);
+
+        if (null === $user) {
+            // Do not leak if a user exists or not
+            return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+        }
+
+        // create a login link for $user this returns an instance
+        // of LoginLinkDetails
+        $loginLinkDetails = $loginLinkHandler->createLoginLink($user, $request);
+        $this->loginLinkSender->sendLoginLink($user, $loginLinkDetails);
+        return new JsonResponse(null, Response::HTTP_NO_CONTENT);
+    }
+}
+```
+
+Register your controller:
+
+```yaml
+# config/services.yaml
+services:
+    App\Controller\SecurityController:
+        tags: [ 'controller.service_arguments' ]
+```
+
+### Override login link URL
+
+Roadiz User Bundle provides a custom `Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface` service to generate a login-link  with a different **base-uri**,
+all you need is to register `RZ\Roadiz\UserBundle\Security\FrontendLoginLinkHandler` service in your project with its mandatory arguments:
+
+```yaml
+# config/services.yaml
+services:
+    RZ\Roadiz\UserBundle\Security\FrontendLoginLinkHandler:
+        decorates: Symfony\Component\Security\Http\LoginLink\LoginLinkHandlerInterface
+        arguments:
+            $decorated: '@RZ\Roadiz\UserBundle\Security\FrontendLoginLinkHandler.inner'
+            $frontendLoginCheckRoute: '%frontend_login_check_route%'
+            $frontendLoginLinkRequestRoutes:
+                - 'frontend_user_login_link_request'
+                - 'public_user_login_link_request'
+                - 'api_user_signup'
+            $signatureHasher: '@security.authenticator.login_link_signature_hasher.api_login_link'
+```
+Now for each `$frontendLoginLinkRequestRoutes` login_link will be generated using `$frontendLoginCheckRoute` base URL
+
+## Public users roles
+
+- `ROLE_PUBLIC_USER`: Default role for public users
+- `ROLE_PASSWORDLESS_USER`: Role for public users authenticated with a login link
+- `ROLE_EMAIL_VALIDATED`: Role for public users added since they validated their email address, through a validation token or a login link
 
 ## Maintenance commands
 
 - `bin/console users:purge-validation-tokens`: Delete all expired user validation tokens
+- `bin/console users:inactive -d 60 -r ROLE_PUBLIC_USER -m ROLE_EMAIL_VALIDATED -v`: Delete all inactive **public** users that did not logged-in for 60 days. Notice that this command example only displays users that do not have `ROLE_EMAIL_VALIDATED` role.
 
 ## Contributing
 

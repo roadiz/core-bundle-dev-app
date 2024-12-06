@@ -18,8 +18,6 @@ parameters:
         - lib/RoadizTwoFactorBundle/src
         - lib/Rozier/src
         - src
-    bootstrapFiles:
-        - lib/RoadizCompatBundle/deprecated.php
     excludePaths:
         - */node_modules/*
         - */bower_components/*

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Form;
 
 use Doctrine\ORM\EntityManagerInterface;
-use RZ\Roadiz\CoreBundle\Form\DataTransformer\AttributeGroupTransformer;
 use RZ\Roadiz\CoreBundle\Entity\AttributeGroup;
+use RZ\Roadiz\CoreBundle\Form\DataTransformer\AttributeGroupTransformer;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -29,15 +29,12 @@ class AttributeGroupsType extends AbstractType
         $builder->addModelTransformer(new AttributeGroupTransformer($this->entityManager));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setNormalizer('choices', function (Options $options, $choices) {
             $criteria = [];
             $ordering = [
-                'canonicalName' => 'ASC'
+                'canonicalName' => 'ASC',
             ];
             $attributeGroups = $this->entityManager
                 ->getRepository(AttributeGroup::class)
@@ -51,16 +48,12 @@ class AttributeGroupsType extends AbstractType
             return $choices;
         });
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
-    /**
-     * {@inheritdoc}
-     */
+
     public function getBlockPrefix(): string
     {
         return 'attribute_groups';

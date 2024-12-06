@@ -8,15 +8,12 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
 use RZ\Roadiz\CoreBundle\Event\Document\DocumentTranslationUpdatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class DocumentTimestampSubscriber implements EventSubscriberInterface
+final readonly class DocumentTimestampSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [
-            DocumentTranslationUpdatedEvent::class => 'onDocumentTranslationUpdatedEvent'
+            DocumentTranslationUpdatedEvent::class => 'onDocumentTranslationUpdatedEvent',
         ];
     }
 

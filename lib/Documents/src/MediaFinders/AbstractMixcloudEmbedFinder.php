@@ -9,7 +9,6 @@ use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 abstract class AbstractMixcloudEmbedFinder extends AbstractEmbedFinder
 {
     /**
-     * @var string
      * @internal Use getPlatform() instead
      */
     protected static string $platform = 'mixcloud';
@@ -25,75 +24,54 @@ abstract class AbstractMixcloudEmbedFinder extends AbstractEmbedFinder
         return static::$platform;
     }
 
-    /**
-     * @inheritDoc
-     */
-    protected function validateEmbedId(string $embedId = ""): string
+    protected function validateEmbedId(string $embedId = ''): string
     {
-        if (preg_match(static::$idPattern, $embedId, $matches) === 1) {
+        if (1 === preg_match(static::$idPattern, $embedId, $matches)) {
             return $embedId;
         }
         throw new InvalidEmbedId($embedId, static::$platform);
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function getMediaFeed($search = null)
+    public function getMediaFeed(?string $search = null): string
     {
-        $endpoint = "https://www.mixcloud.com/oembed/";
+        $endpoint = 'https://www.mixcloud.com/oembed/';
         $query = [
             'url' => $this->embedId,
             'format' => 'json',
         ];
 
-        return $this->downloadFeedFromAPI($endpoint . '?' . http_build_query($query));
+        return $this->downloadFeedFromAPI($endpoint.'?'.http_build_query($query));
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMediaTitle(): string
     {
         return $this->getFeed()['title'] ?? '';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMediaDescription(): string
     {
         return $this->getFeed()['description'] ?? '';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getMediaCopyright(): string
     {
-        return ($this->getFeed()['author_name'] ?? '') . ' (' . ($this->getFeed()['author_url'] ?? '') . ')';
+        return ($this->getFeed()['author_name'] ?? '').' ('.($this->getFeed()['author_url'] ?? '').')';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getThumbnailURL(): string
     {
         return $this->getFeed()['image'] ?? '';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getThumbnailName(string $pathinfo): string
     {
-        if (preg_match('#\.(?<extension>[jpe?g|png|gif])$#', $pathinfo, $ext) === 1) {
-            $pathinfo = '.' . $ext['extension'];
+        if (1 === preg_match('#\.(?<extension>[jpe?g|png|gif])$#', $pathinfo, $ext)) {
+            $pathinfo = '.'.$ext['extension'];
         } else {
             $pathinfo = '.jpg';
         }
-        if (preg_match(static::$idPattern, $this->embedId, $matches) === 1) {
-            return $matches['author'] . '_' . $matches['id'] . $pathinfo;
+        if (1 === preg_match(static::$idPattern, $this->embedId, $matches)) {
+            return $matches['author'].'_'.$matches['id'].$pathinfo;
         }
         throw new InvalidEmbedId($this->embedId, static::$platform);
     }
@@ -107,10 +85,6 @@ abstract class AbstractMixcloudEmbedFinder extends AbstractEmbedFinder
      * * end
      * * mini
      * * hide_cover
-     *
-     * @param array $options
-     *
-     * @return string
      */
     public function getSource(array &$options = []): string
     {
@@ -130,20 +104,20 @@ abstract class AbstractMixcloudEmbedFinder extends AbstractEmbedFinder
         if ($options['end']) {
             $queryString['end'] = (int) $options['end'];
         }
-        if ($options['mini'] === true) {
+        if (true === $options['mini']) {
             $queryString['mini'] = 1;
         }
-        if ($options['hide_cover'] === true) {
+        if (true === $options['hide_cover']) {
             $queryString['hide_cover'] = 1;
         }
-        if ($options['hide_artwork'] === true) {
+        if (true === $options['hide_artwork']) {
             $queryString['hide_artwork'] = 1;
         }
-        if ($options['light'] === true) {
+        if (true === $options['light']) {
             $queryString['light'] = 1;
         }
 
-        return 'https://www.mixcloud.com/widget/iframe/?' . http_build_query($queryString);
+        return 'https://www.mixcloud.com/widget/iframe/?'.http_build_query($queryString);
     }
 
     protected function areDuplicatesAllowed(): bool

@@ -136,26 +136,26 @@
                 <source>yaml.is.not.valid.{{ error }}</source>
                 <target state="final">Le code YAML n’est pas valide ({{ error }}).</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="json.is.not.valid">
+      <trans-unit xml:space="preserve" id="json.is.not.valid" approved="yes">
                 <source>json.is.not.valid.{{ error }}</source>
-                <target state="translated">Le code JSON n’est pas valide ({{ error }}).</target>
+                <target state="final">Le code JSON n’est pas valide ({{ error }}).</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="value.is.already.used">
+      <trans-unit xml:space="preserve" id="value.is.already.used" approved="yes">
                 <source>value.is.already.used</source>
-                <target state="translated">Cette valeur est déjà utilisée.</target>
+                <target state="final">Cette valeur est déjà utilisée.</target>
                 <note>Error message meaning that user can’t use that value for this object (eg. Object name is already used).</note>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="password_should_contains_at_least_one_capital_one_digit">
+      <trans-unit xml:space="preserve" id="password_should_contains_at_least_one_capital_one_digit" approved="yes">
                 <source>password_should_contains_at_least_one_capital_one_digit</source>
-                <target state="translated">Le mot de passe doit contenir au minimum une majuscule et un chiffre</target>
+                <target state="final">Le mot de passe doit contenir au minimum une majuscule et un chiffre</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="password_blacklisted">
+      <trans-unit xml:space="preserve" id="password_blacklisted" approved="yes">
                 <source>password_blacklisted</source>
-                <target state="translated">Ce mot de passe est interdit car trop utilisé et non sécurisé</target>
+                <target state="final">Ce mot de passe est interdit car trop utilisé et non sécurisé</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="password_should_be_at_least_characters_long">
+      <trans-unit xml:space="preserve" id="password_should_be_at_least_characters_long" approved="yes">
                 <source>password_should_be_at_least_{{length}}_characters_long</source>
-                <target state="translated">Le mot de passe doit posséder au minimum {{length}} caractères</target>
+                <target state="final">Le mot de passe doit posséder au minimum {{length}} caractères</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="attributes.defaultRealm" approved="yes">
                 <source>attributes.defaultRealm</source>
@@ -175,6 +175,43 @@
                 
                 <target state="final">-- Aucun domaine sécurisé --</target>
             <note>Default text when no realm is attached to an attribute-value</note></trans-unit>
+      <trans-unit xml:space="preserve" id="login_link" approved="yes">
+                <source>login_link</source>
+                <target state="final">Lien de connexion</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="login_link_sent" approved="yes">
+                <source>login_link_sent</source>
+                <target state="final">Un lien de connexion vous a été envoyé</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="login_link_sent_if_email_exists.check_inbox" approved="yes">
+                <source>login_link_sent_if_email_exists.check_inbox</source>
+                <target state="final">Un lien de connexion vous a été envoyé par email si votre compte est valide, veuillez vérifier votre boîte de réception.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="request_login_link" approved="yes">
+                <source>request_login_link</source>
+                
+                <target state="final">Demander un lien de connexion</target>
+            <note>Button label to request a login link</note></trans-unit>
+      <trans-unit xml:space="preserve" id="login_link.request" approved="yes">
+                <source>login_link.request</source>
+                <target state="final">Votre lien de connexion</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="you.asked.for.a.login_link.on.site" approved="yes">
+                <source>you.asked.for.a.login_link.on.%site%</source>
+                <target state="final">Vous avez fait une demande de connexion sur le site : %site%</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="click_on_following_link_to_login" approved="yes">
+                <source>click_on_following_link_to_login</source>
+                <target state="final">Cliquez sur le lien suivant pour vous connecter automatiquement.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="login_link_will_expire_at.expiresAt" approved="yes">
+                <source>login_link_will_expire_at.%expiresAt%</source>
+                <target state="final">Ce lien expirera le %expiresAt%</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="classic.login_password" approved="yes">
+                <source>classic.login_password</source>
+                <target state="final">Se connecter avec mot de passe</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

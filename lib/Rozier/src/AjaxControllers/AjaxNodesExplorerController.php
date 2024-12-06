@@ -6,12 +6,13 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeTypeApi;
+use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
@@ -20,21 +21,18 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Bundle\SecurityBundle\Security;
-use Themes\Rozier\Models\NodeModel;
-use Themes\Rozier\Models\NodeSourceModel;
+use Symfony\Component\Serializer\SerializerInterface;
 
 final class AjaxNodesExplorerController extends AbstractAjaxController
 {
     public function __construct(
-        private readonly SerializerInterface $serializer,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly ClientRegistry $clientRegistry,
         private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         private readonly NodeTypeApi $nodeTypeApi,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly Security $security,
+        SerializerInterface $serializer,
     ) {
+        parent::__construct($serializer);
     }
 
     protected function getItemPerPage(): int
@@ -44,12 +42,10 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
 
     protected function isSearchEngineAvailable(Request $request): bool
     {
-        return $request->get('search') !== '' && null !== $this->clientRegistry->getClient();
+        return '' !== $request->get('search') && null !== $this->clientRegistry->getClient();
     }
 
     /**
-     * @param Request $request
-     *
      * @return Response JSON response
      */
     public function indexAction(Request $request): Response
@@ -67,21 +63,17 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
 
         if ($request->query->has('tagId') && $request->get('tagId') > 0) {
             $responseArray['filters'] = array_merge($responseArray['filters'], [
-                'tagId' => $request->get('tagId')
+                'tagId' => $request->get('tagId'),
             ]);
         }
 
         return $this->createSerializedResponse($responseArray);
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     */
     protected function parseFilterFromRequest(Request $request): array
     {
         $arrayFilter = [
-            'status' => ['<=', Node::ARCHIVED],
+            'status' => ['<=', NodeStatus::ARCHIVED],
         ];
 
         if ($request->query->has('tagId') && $request->get('tagId') > 0) {
@@ -105,13 +97,10 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
                 $arrayFilter['nodeType'] = $nodeTypes;
             }
         }
+
         return $arrayFilter;
     }
 
-    /**
-     * @param Request $request
-     * @return array
-     */
     protected function parseSortingFromRequest(Request $request): array
     {
         if ($request->query->has('sort-alpha')) {
@@ -125,12 +114,6 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         ];
     }
 
-    /**
-     * @param Request $request
-     * @param array $criteria
-     * @param array $sorting
-     * @return array
-     */
     protected function getNodeSearchResults(Request $request, array $criteria, array $sorting = []): array
     {
         /*
@@ -147,6 +130,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
 
         $nodes = $listManager->getEntities();
         $nodesArray = $this->normalizeNodes($nodes);
+
         return [
             'status' => 'confirm',
             'statusCode' => 200,
@@ -156,15 +140,9 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         ];
     }
 
-    /**
-     * @param Request                 $request
-     * @param array                   $arrayFilter
-     *
-     * @return array
-     */
     protected function getSolrSearchResults(
         Request $request,
-        array $arrayFilter
+        array $arrayFilter,
     ): array {
         $this->nodeSourceSearchHandler->boostByUpdateDate();
         $currentPage = $request->get('page', 1);
@@ -208,8 +186,6 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
     /**
      * Get a Node list from an array of id.
      *
-     * @param Request $request
-     * @return JsonResponse
      * @throws NotSupported
      */
     public function listAction(Request $request): JsonResponse
@@ -222,7 +198,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         }
 
         $cleanNodeIds = array_filter($request->query->filter('ids', [], \FILTER_DEFAULT, [
-            'flags' => \FILTER_FORCE_ARRAY
+            'flags' => \FILTER_FORCE_ARRAY,
         ]));
         $nodesArray = [];
 
@@ -243,7 +219,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         return $this->createSerializedResponse([
             'status' => 'confirm',
             'statusCode' => 200,
-            'items' => $nodesArray
+            'items' => $nodesArray,
         ]);
     }
 
@@ -251,7 +227,8 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
      * Normalize response Node list result.
      *
      * @param iterable<Node|NodesSources|SolrSearchResultItem> $nodes
-     * @return array
+     *
+     * @return array<AbstractExplorerItem>
      */
     private function normalizeNodes(iterable $nodes): array
     {
@@ -273,34 +250,9 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
 
     private function normalizeItem(NodesSources|Node $item, array &$nodesArray): void
     {
-        if ($item instanceof NodesSources && !key_exists($item->getNode()->getId(), $nodesArray)) {
-            $nodeSourceModel = new NodeSourceModel($item, $this->urlGenerator, $this->security);
-            $nodesArray[$item->getNode()->getId()] = $nodeSourceModel->toArray();
-        } elseif ($item instanceof Node && !key_exists($item->getId(), $nodesArray)) {
-            $nodeModel = new NodeModel($item, $this->urlGenerator, $this->security);
-            $nodesArray[$item->getId()] = $nodeModel->toArray();
+        $model = $this->explorerItemFactory->createForEntity($item);
+        if (!key_exists($model->getId(), $nodesArray)) {
+            $nodesArray[$model->getId()] = $model->toArray();
         }
-    }
-
-    /**
-     * @param array $data
-     * @return JsonResponse
-     */
-    protected function createSerializedResponse(array $data): JsonResponse
-    {
-        return new JsonResponse(
-            $this->serializer->serialize(
-                $data,
-                'json',
-                SerializationContext::create()->setGroups([
-                    'document_display',
-                    'explorer_thumbnail',
-                    'model'
-                ])
-            ),
-            200,
-            [],
-            true
-        );
     }
 }

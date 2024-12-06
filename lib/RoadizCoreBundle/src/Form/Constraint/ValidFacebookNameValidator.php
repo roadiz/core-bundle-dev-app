@@ -10,24 +10,24 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 class ValidFacebookNameValidator extends ConstraintValidator
 {
+    public function __construct(private readonly FacebookPictureFinder $facebookPictureFinder)
+    {
+    }
+
     /**
-     * @param mixed $value
      * @param ValidFacebookName $constraint
-     * @return void
-     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if ($value != "") {
-            if (0 === preg_match("#^[0-9]*$#", $value)) {
+        if ('' != $value) {
+            if (0 === preg_match('#^[0-9]*$#', $value)) {
                 $this->context->addViolation($constraint->message);
             } else {
                 /*
                  * Test if the username really exists.
                  */
-                $facebook = new FacebookPictureFinder($value);
                 try {
-                    $facebook->getPictureUrl();
+                    $this->facebookPictureFinder->getPictureUrl($value);
                 } catch (\Exception $e) {
                     $this->context->addViolation($constraint->message);
                 }

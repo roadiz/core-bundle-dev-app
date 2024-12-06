@@ -14,11 +14,11 @@ class AddUserType extends UserType
         parent::buildForm($builder, $options);
 
         $builder->add('groups', GroupsType::class, [
-                'label' => 'user.groups',
-                'required' => false,
-                'multiple' => true,
-                'expanded' => true,
-            ])
+            'label' => 'user.groups',
+            'required' => false,
+            'multiple' => true,
+            'expanded' => true,
+        ])
         ;
     }
 

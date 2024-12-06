@@ -12,12 +12,10 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class RoadizRozierExtension extends Extension
 {
-    /**
-     * @inheritDoc
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
@@ -32,10 +30,10 @@ class RoadizRozierExtension extends Extension
         $container->setParameter('roadiz_rozier.add_node_form.class', $config['add_node_form']);
         $container->setParameter(
             'roadiz_rozier.theme_dir',
-            $projectDir . DIRECTORY_SEPARATOR . trim($config['theme_dir'], "/ \t\n\r\0\x0B")
+            $projectDir.DIRECTORY_SEPARATOR.trim($config['theme_dir'], "/ \t\n\r\0\x0B")
         );
 
-        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__) . '/../config'));
+        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/../config'));
         $loader->load('services.yaml');
 
         $this->registerOpenId($config, $container);
@@ -67,8 +65,8 @@ class RoadizRozierExtension extends Extension
                     ->setArguments([
                         $config['open_id']['discovery_url'],
                         new Reference(\Psr\Cache\CacheItemPoolInterface::class),
-                        new Reference(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
-                        new Reference(\Psr\Log\LoggerInterface::class)
+                        new Reference(HttpClientInterface::class),
+                        new Reference(\Psr\Log\LoggerInterface::class),
                     ])
             );
         }
@@ -80,6 +78,7 @@ class RoadizRozierExtension extends Extension
                 ->setPublic(true)
                 ->setArguments([
                     new Reference('roadiz_rozier.open_id.discovery', ContainerInterface::NULL_ON_INVALID_REFERENCE),
+                    new Reference(HttpClientInterface::class),
                     $config['open_id']['hosted_domain'],
                     $config['open_id']['oauth_client_id'],
                     $config['open_id']['verify_user_info'],
@@ -100,7 +99,7 @@ class RoadizRozierExtension extends Extension
                     new Reference(\RZ\Roadiz\OpenId\Authentication\Provider\ChainJwtRoleStrategy::class),
                     new Reference('roadiz_rozier.open_id.jwt_configuration_factory'),
                     new Reference(\Symfony\Component\Routing\Generator\UrlGeneratorInterface::class),
-                    new Reference(\Symfony\Contracts\HttpClient\HttpClientInterface::class),
+                    new Reference(HttpClientInterface::class),
                     'loginPage',
                     'adminHomePage',
                     $config['open_id']['oauth_client_id'],

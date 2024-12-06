@@ -20,6 +20,7 @@ framework:
     serializer:
         circular_reference_handler: 'RZ\Roadiz\CoreBundle\Serializer\CircularReferenceHandler'
         max_depth_handler: 'RZ\Roadiz\CoreBundle\Serializer\CircularReferenceHandler'
+    handle_all_throwables: true
     csrf_protection:
         enabled: true
 

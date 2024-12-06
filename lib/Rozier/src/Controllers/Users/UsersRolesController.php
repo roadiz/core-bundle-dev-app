@@ -19,10 +19,6 @@ use Twig\Error\RuntimeError;
 class UsersRolesController extends RozierApp
 {
     /**
-     * @param Request $request
-     * @param int $userId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function editRolesAction(Request $request, int $userId): Response
@@ -32,7 +28,7 @@ class UsersRolesController extends RozierApp
         /** @var User|null $user */
         $user = $this->em()->find(User::class, $userId);
 
-        if ($user === null) {
+        if (null === $user) {
             throw new ResourceNotFoundException();
         }
 
@@ -74,11 +70,6 @@ class UsersRolesController extends RozierApp
     /**
      * Return a deletion form for requested role depending on the user.
      *
-     * @param Request $request
-     * @param int $userId
-     * @param int $roleId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function removeRoleAction(Request $request, int $userId, int $roleId): Response
@@ -87,13 +78,13 @@ class UsersRolesController extends RozierApp
 
         /** @var User|null $user */
         $user = $this->em()->find(User::class, $userId);
-        if ($user === null) {
+        if (null === $user) {
             throw new ResourceNotFoundException();
         }
 
         /** @var Role|null $role */
         $role = $this->em()->find(Role::class, $roleId);
-        if ($role === null) {
+        if (null === $role) {
             throw new ResourceNotFoundException();
         }
 
@@ -130,11 +121,6 @@ class UsersRolesController extends RozierApp
         return $this->render('@RoadizRozier/users/removeRole.html.twig', $this->assignation);
     }
 
-    /**
-     * @param User $user
-     *
-     * @return FormInterface
-     */
     private function buildEditRolesForm(User $user): FormInterface
     {
         $builder = $this->createFormBuilder()

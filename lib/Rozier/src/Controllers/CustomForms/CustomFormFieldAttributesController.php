@@ -16,10 +16,6 @@ class CustomFormFieldAttributesController extends RozierApp
     /**
      * List every node-types.
      *
-     * @param Request $request
-     * @param int $customFormAnswerId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function listAction(Request $request, int $customFormAnswerId): Response
@@ -40,10 +36,6 @@ class CustomFormFieldAttributesController extends RozierApp
         return $this->render('@RoadizRozier/custom-form-field-attributes/list.html.twig', $this->assignation);
     }
 
-    /**
-     * @param iterable $answers
-     * @return array
-     */
     protected function getAnswersByGroups(iterable $answers): array
     {
         $fieldsArray = [];
@@ -51,7 +43,7 @@ class CustomFormFieldAttributesController extends RozierApp
         /** @var CustomFormFieldAttribute $answer */
         foreach ($answers as $answer) {
             $groupName = $answer->getCustomFormField()->getGroupName();
-            if (\is_string($groupName) && $groupName !== '') {
+            if (\is_string($groupName) && '' !== $groupName) {
                 if (!isset($fieldsArray[$groupName]) || !\is_array($fieldsArray[$groupName])) {
                     $fieldsArray[$groupName] = [];
                 }

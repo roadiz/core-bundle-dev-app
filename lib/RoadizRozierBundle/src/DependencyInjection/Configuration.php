@@ -60,6 +60,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->append($this->addOpenIdNode())
         ;
+
         return $builder;
     }
 

@@ -27,13 +27,11 @@ class DocumentSizeCommand extends AbstractDocumentCommand
     {
         $this->io = new SymfonyStyle($input, $output);
 
-        $this->onEachDocument(function (DocumentInterface $document) {
+        return $this->onEachDocument(function (DocumentInterface $document) {
             if ($document instanceof SizeableInterface) {
                 $this->updateDocumentSize($document);
             }
         }, new SymfonyStyle($input, $output));
-
-        return 0;
     }
 
     private function updateDocumentSize(DocumentInterface $document): void
@@ -42,7 +40,18 @@ class DocumentSizeCommand extends AbstractDocumentCommand
             return;
         }
         $mountPath = $document->getMountPath();
-        if (null !== $mountPath && $document->isImage()) {
+        if (null === $mountPath) {
+            return;
+        }
+        if ($document->isSvg()) {
+            try {
+                $svgSizeResolver = new SvgSizeResolver($document, $this->documentsStorage);
+                $document->setImageWidth($svgSizeResolver->getWidth());
+                $document->setImageHeight($svgSizeResolver->getHeight());
+            } catch (\RuntimeException $exception) {
+                $this->io->error($exception->getMessage());
+            }
+        } elseif ($document->isImage()) {
             try {
                 $imageProcess = $this->imageManager->make($this->documentsStorage->readStream($mountPath));
                 $document->setImageWidth($imageProcess->width());
@@ -52,15 +61,7 @@ class DocumentSizeCommand extends AbstractDocumentCommand
                  * Do nothing
                  * just return 0 width and height
                  */
-                $this->io->error($document->getMountPath() . ' is not a readable image.');
-            }
-        } elseif ($document->isSvg()) {
-            try {
-                $svgSizeResolver = new SvgSizeResolver($document, $this->documentsStorage);
-                $document->setImageWidth($svgSizeResolver->getWidth());
-                $document->setImageHeight($svgSizeResolver->getHeight());
-            } catch (\RuntimeException $exception) {
-                $this->io->error($exception->getMessage());
+                $this->io->error($document->getMountPath().' is not a readable image.');
             }
         }
     }

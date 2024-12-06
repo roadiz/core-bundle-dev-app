@@ -8,13 +8,14 @@ use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactoryInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\Message\SolrReindexMessage;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
-final class SolrReindexMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final class SolrReindexMessageHandler
 {
     public function __construct(
         private readonly IndexerFactoryInterface $indexerFactory,
-        private readonly LoggerInterface $searchEngineLogger
+        private readonly LoggerInterface $searchEngineLogger,
     ) {
     }
 

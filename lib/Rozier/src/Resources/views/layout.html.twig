@@ -1,4 +1,4 @@
-{% if not head.ajax %}
+{% if not app.request.xmlHttpRequest %}
     {% set baseTemplate = '@RoadizRozier/base.html.twig' %}
 {% else %}
     {% set baseTemplate = '@RoadizRozier/ajaxBase.html.twig' %}

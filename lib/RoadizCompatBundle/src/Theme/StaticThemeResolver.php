@@ -11,34 +11,23 @@ use Symfony\Component\Stopwatch\Stopwatch;
 class StaticThemeResolver implements ThemeResolverInterface
 {
     /**
-     * @var array<Theme>
-     */
-    protected array $themes;
-    protected Stopwatch $stopwatch;
-    protected bool $installMode = false;
-
-    /**
      * @param array<Theme> $themes
-     * @param Stopwatch $stopwatch
-     * @param bool      $installMode
      */
-    public function __construct(array $themes, Stopwatch $stopwatch, bool $installMode = false)
-    {
-        $this->stopwatch = $stopwatch;
-        $this->installMode = $installMode;
-        $this->themes = $themes;
+    public function __construct(
+        protected array $themes,
+        protected readonly Stopwatch $stopwatch,
+        protected readonly bool $installMode = false,
+    ) {
         usort($this->themes, [static::class, 'compareThemePriority']);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getBackendTheme(): Theme
     {
         $theme = new Theme();
         $theme->setAvailable(true);
         $theme->setClassName($this->getBackendClassName());
         $theme->setBackendTheme(true);
+
         return $theme;
     }
 
@@ -47,15 +36,13 @@ class StaticThemeResolver implements ThemeResolverInterface
      */
     public function getBackendClassName(): string
     {
-        /** @var class-string $className */ # php-stan hint
+        /** @var class-string $className */ // php-stan hint
         $className = '\\Themes\\Rozier\\RozierApp';
+
         return $className;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function findTheme(string $host = null): ?Theme
+    public function findTheme(?string $host = null): ?Theme
     {
         $default = null;
         /*
@@ -67,17 +54,15 @@ class StaticThemeResolver implements ThemeResolverInterface
         foreach ($searchThemes as $theme) {
             if ($theme->getHostname() === $host) {
                 return $theme;
-            } elseif ($theme->getHostname() === '*') {
+            } elseif ('*' === $theme->getHostname()) {
                 // Getting high priority theme at last option
                 $default = $theme;
             }
         }
+
         return $default;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function findThemeByClass(string $classname): ?Theme
     {
         foreach ($this->getFrontendThemes() as $theme) {
@@ -85,12 +70,10 @@ class StaticThemeResolver implements ThemeResolverInterface
                 return $theme;
             }
         }
+
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function findAll(): array
     {
         $backendThemes = [];
@@ -99,34 +82,24 @@ class StaticThemeResolver implements ThemeResolverInterface
                 $this->getBackendTheme(),
             ];
         }
+
         return array_merge($backendThemes, $this->getFrontendThemes());
     }
 
-    /**
-     * @inheritDoc
-     */
     public function findById($id): ?Theme
     {
         if (isset($this->getFrontendThemes()[$id])) {
             return $this->getFrontendThemes()[$id];
         }
+
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getFrontendThemes(): array
     {
         return $this->themes;
     }
 
-    /**
-     * @param Theme $themeA
-     * @param Theme $themeB
-     *
-     * @return int
-     */
     public static function compareThemePriority(Theme $themeA, Theme $themeB): int
     {
         /** @var class-string<AppController> $classA */

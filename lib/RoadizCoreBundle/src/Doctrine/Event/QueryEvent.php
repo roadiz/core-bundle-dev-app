@@ -9,26 +9,13 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class QueryEvent extends Event
 {
-    protected Query $query;
-
     /**
-     * @var class-string
-     */
-    protected string $entityClass;
-
-    /**
-     * @param Query  $query
      * @param class-string $entityClass
      */
-    public function __construct(Query $query, string $entityClass)
+    public function __construct(protected Query $query, protected string $entityClass)
     {
-        $this->query = $query;
-        $this->entityClass = $entityClass;
     }
 
-    /**
-     * @return Query
-     */
     public function getQuery(): Query
     {
         return $this->query;

@@ -4,17 +4,22 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\EntityHandler\FolderHandler;
-use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Serializer\SerializerInterface;
 
-class AjaxFoldersController extends AbstractAjaxController
+final class AjaxFoldersController extends AbstractAjaxController
 {
-    public function __construct(private readonly HandlerFactoryInterface $handlerFactory)
-    {
+    public function __construct(
+        private readonly HandlerFactoryInterface $handlerFactory,
+        SerializerInterface $serializer,
+    ) {
+        parent::__construct($serializer);
     }
 
     /*
@@ -28,56 +33,33 @@ class AjaxFoldersController extends AbstractAjaxController
 
         $folder = $this->em()->find(Folder::class, (int) $folderId);
 
-        if ($folder !== null) {
-            $responseArray = null;
-
-            /*
-             * Get the right update method against "_action" parameter
-             */
-            switch ($request->get('_action')) {
-                case 'updatePosition':
-                    $this->updatePosition($request->request->all(), $folder);
-                    break;
-            }
-
-            if ($responseArray === null) {
-                $responseArray = [
-                    'statusCode' => '200',
-                    'status' => 'success',
-                    'responseText' => $this->getTranslator()->trans('folder.%name%.updated', [
-                        '%name%' => $folder->getName(),
-                    ])
-                ];
-            }
-
-            return new JsonResponse(
-                $responseArray,
-                Response::HTTP_PARTIAL_CONTENT
-            );
+        if (null === $folder) {
+            throw $this->createNotFoundException($this->getTranslator()->trans('folder.does_not_exist'));
         }
 
+        if ('updatePosition' !== $request->get('_action')) {
+            throw new BadRequestHttpException('Action does not exist');
+        }
 
-        $responseArray = [
-            'statusCode' => '403',
-            'status'    => 'danger',
-            'responseText' => $this->getTranslator()->trans('folder.does_not_exist')
-        ];
+        $this->updatePosition($request->request->all(), $folder);
 
         return new JsonResponse(
-            $responseArray,
-            Response::HTTP_OK
+            [
+                'statusCode' => '200',
+                'status' => 'success',
+                'responseText' => $this->getTranslator()->trans('folder.%name%.updated', [
+                    '%name%' => $folder->getName(),
+                ]),
+            ],
+            Response::HTTP_PARTIAL_CONTENT
         );
     }
 
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     */
     public function searchAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
-        if ($request->query->has('search') && $request->get('search') != "") {
+        if ($request->query->has('search') && '' != $request->get('search')) {
             $responseArray = [];
 
             $pattern = strip_tags($request->get('search'));
@@ -109,14 +91,14 @@ class AjaxFoldersController extends AbstractAjaxController
          * First, we set the new parent
          */
         if (
-            !empty($parameters['newParent']) &&
-            is_numeric($parameters['newParent']) &&
-            $parameters['newParent'] > 0
+            !empty($parameters['newParent'])
+            && is_numeric($parameters['newParent'])
+            && $parameters['newParent'] > 0
         ) {
             /** @var Folder $parent */
             $parent = $this->em()->find(Folder::class, (int) $parameters['newParent']);
 
-            if ($parent !== null) {
+            if (null !== $parent) {
                 $folder->setParent($parent);
             }
         } else {
@@ -127,22 +109,22 @@ class AjaxFoldersController extends AbstractAjaxController
          * Then compute new position
          */
         if (
-            !empty($parameters['nextFolderId']) &&
-            $parameters['nextFolderId'] > 0
+            !empty($parameters['nextFolderId'])
+            && $parameters['nextFolderId'] > 0
         ) {
             /** @var Folder $nextFolder */
             $nextFolder = $this->em()->find(Folder::class, (int) $parameters['nextFolderId']);
-            if ($nextFolder !== null) {
+            if (null !== $nextFolder) {
                 $folder->setPosition($nextFolder->getPosition() - 0.5);
             }
         } elseif (
-            !empty($parameters['prevFolderId']) &&
-            $parameters['prevFolderId'] > 0
+            !empty($parameters['prevFolderId'])
+            && $parameters['prevFolderId'] > 0
         ) {
             /** @var Folder $prevFolder */
             $prevFolder = $this->em()
                 ->find(Folder::class, (int) $parameters['prevFolderId']);
-            if ($prevFolder !== null) {
+            if (null !== $prevFolder) {
                 $folder->setPosition($prevFolder->getPosition() + 0.5);
             }
         }

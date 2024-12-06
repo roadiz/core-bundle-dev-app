@@ -20,45 +20,43 @@ use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 
-final class HandlerFactory implements HandlerFactoryInterface
+final readonly class HandlerFactory implements HandlerFactoryInterface
 {
-    public function __construct(private readonly ContainerInterface $container)
+    public function __construct(private ContainerInterface $container)
     {
     }
 
     /**
-     * @param AbstractEntity $entity
-     * @return AbstractHandler
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function getHandler(AbstractEntity $entity): AbstractHandler
     {
         switch (true) {
-            case ($entity instanceof Node):
+            case $entity instanceof Node:
                 return $this->container->get(NodeHandler::class)->setNode($entity);
-            case ($entity instanceof NodesSources):
+            case $entity instanceof NodesSources:
                 return $this->container->get(NodesSourcesHandler::class)->setNodeSource($entity);
-            case ($entity instanceof NodeType):
+            case $entity instanceof NodeType:
                 return $this->container->get(NodeTypeHandler::class)->setNodeType($entity);
-            case ($entity instanceof NodeTypeField):
+            case $entity instanceof NodeTypeField:
                 return $this->container->get(NodeTypeFieldHandler::class)->setNodeTypeField($entity);
-            case ($entity instanceof Document):
+            case $entity instanceof Document:
                 return $this->container->get(DocumentHandler::class)->setDocument($entity);
-            case ($entity instanceof CustomForm):
+            case $entity instanceof CustomForm:
                 return $this->container->get(CustomFormHandler::class)->setCustomForm($entity);
-            case ($entity instanceof CustomFormField):
+            case $entity instanceof CustomFormField:
                 return $this->container->get(CustomFormFieldHandler::class)->setCustomFormField($entity);
-            case ($entity instanceof Folder):
+            case $entity instanceof Folder:
                 return $this->container->get(FolderHandler::class)->setFolder($entity);
-            case ($entity instanceof Group):
+            case $entity instanceof Group:
                 return $this->container->get(GroupHandler::class)->setGroup($entity);
-            case ($entity instanceof Tag):
+            case $entity instanceof Tag:
                 return $this->container->get(TagHandler::class)->setTag($entity);
-            case ($entity instanceof Translation):
+            case $entity instanceof Translation:
                 return $this->container->get(TranslationHandler::class)->setTranslation($entity);
         }
 
-        throw new \InvalidArgumentException('HandlerFactory does not support ' . get_class($entity));
+        throw new \InvalidArgumentException('HandlerFactory does not support '.get_class($entity));
     }
 }

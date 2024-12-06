@@ -10,7 +10,7 @@ final class DefaultValuedFieldGenerator extends AbstractFieldGenerator
     {
         return implode("\n\n", [
             $this->getIntroduction(),
-            $this->getDefaultValues()
+            $this->getDefaultValues(),
         ]);
     }
 
@@ -18,8 +18,8 @@ final class DefaultValuedFieldGenerator extends AbstractFieldGenerator
     {
         return implode("\n", array_map(function (string $value) {
             return implode("\n", [
-                '* **' . trim($this->translator->trans(trim($value))) . '** `' . $value . '`',
+                '* **'.trim($this->translator->trans(trim($value))).'** `'.$value.'`',
             ]);
-        }, explode(',', $this->field->getDefaultValues() ?? ''))) . "\n";
+        }, explode(',', $this->field->getDefaultValues() ?? '')))."\n";
     }
 }

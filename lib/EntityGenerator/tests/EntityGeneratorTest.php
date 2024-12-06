@@ -42,18 +42,18 @@ class EntityGeneratorTest extends TestCase
         /*
          * Uncomment for generating a mock file from tests
          */
-//        file_put_contents(
-//            dirname(__DIR__) . '/../test/mocks/GeneratedNodesSources/NSMock.php',
-//            $dumpInstance->getClassContent()
-//        );
+        //        file_put_contents(
+        //            dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSources/NSMock.php',
+        //            $generator->getClassContent()
+        //        );
 
         $this->assertEquals(
-            file_get_contents(dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSources/NSMock.php'),
+            file_get_contents(dirname(__DIR__).'/tests/Mocks/GeneratedNodesSources/NSMock.php'),
             $generator->getClassContent()
         );
 
         /**
-         * TEST without leading slashs
+         * TEST without leading slashs.
          */
         $generatorWithoutLeadingSlashes = $this->getEntityGenerator($mockNodeType, [
             'parent_class' => 'mock\Entity\NodesSources',
@@ -69,7 +69,7 @@ class EntityGeneratorTest extends TestCase
             'use_api_platform_filters' => true,
         ]);
         $this->assertEquals(
-            file_get_contents(dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSources/NSMock.php'),
+            file_get_contents(dirname(__DIR__).'/tests/Mocks/GeneratedNodesSources/NSMock.php'),
             $generatorWithoutLeadingSlashes->getClassContent()
         );
     }

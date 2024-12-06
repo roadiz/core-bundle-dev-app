@@ -10,17 +10,18 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeTypeHandler;
 use RZ\Roadiz\CoreBundle\Message\UpdateDoctrineSchemaMessage;
 use RZ\Roadiz\CoreBundle\Message\UpdateNodeTypeSchemaMessage;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class UpdateNodeTypeSchemaMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final readonly class UpdateNodeTypeSchemaMessageHandler
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly HandlerFactoryInterface $handlerFactory,
-        private readonly MessageBusInterface $messageBus
+        private ManagerRegistry $managerRegistry,
+        private HandlerFactoryInterface $handlerFactory,
+        private MessageBusInterface $messageBus,
     ) {
     }
 
@@ -38,7 +39,7 @@ final class UpdateNodeTypeSchemaMessageHandler implements MessageHandlerInterfac
 
         $this->managerRegistry->getManager()->clear();
         $this->messageBus->dispatch(
-            (new Envelope(new UpdateDoctrineSchemaMessage()))
+            new Envelope(new UpdateDoctrineSchemaMessage())
         );
     }
 }

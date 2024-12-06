@@ -23,7 +23,7 @@ final class UsersRolesCommand extends UsersCommand
     public function __construct(
         private readonly Roles $rolesBag,
         ManagerRegistry $managerRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($managerRegistry, $name);
     }
@@ -68,12 +68,12 @@ final class UsersRolesCommand extends UsersCommand
 
             do {
                 $role = $io->askQuestion($question);
-                if ($role != "") {
+                if ('' != $role) {
                     $user->addRoleEntity($this->rolesBag->get($role));
                     $this->managerRegistry->getManagerForClass(User::class)->flush();
-                    $io->success('Role: ' . $role . ' added.');
+                    $io->success('Role: '.$role.' added.');
                 }
-            } while ($role != "");
+            } while ('' != $role);
         } elseif ($input->getOption('remove')) {
             do {
                 $roles = $user->getRoles();
@@ -86,9 +86,9 @@ final class UsersRolesCommand extends UsersCommand
                 if (in_array($role, $roles)) {
                     $user->removeRoleEntity($this->rolesBag->get($role));
                     $this->managerRegistry->getManagerForClass(User::class)->flush();
-                    $io->success('Role: ' . $role . ' removed.');
+                    $io->success('Role: '.$role.' removed.');
                 }
-            } while ($role != "");
+            } while ('' != $role);
         }
 
         return 0;

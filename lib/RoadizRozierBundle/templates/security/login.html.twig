@@ -19,7 +19,6 @@
         </p>
         <hr>
     {% endif %}
-
     <form id="login-form"
           class="uk-form uk-form-stacked {% if error %}uk-animation-shake{% endif %}"
           method="post">
@@ -30,7 +29,7 @@
                        value="{{ last_username }}"
                        name="username"
                        id="_username"
-                       autocomplete="username"
+                       autocomplete="username email"
                        placeholder="{% trans %}username{% endtrans %}"
                        class="form-control"
                        required
@@ -59,6 +58,8 @@
         <fieldset>
             <button class="uk-button uk-button-primary"
                     type="submit"><i class="uk-icon-sign-in"></i> {% trans %}login{% endtrans %}</button>
+            <a class="uk-button uk-button-secondary"
+               href="{{ path('roadiz_rozier_login_link') }}"><i class="uk-icon-chain"></i> {% trans %}request_login_link{% endtrans %}</a>
         </fieldset>
     </form>
 {% endblock %}

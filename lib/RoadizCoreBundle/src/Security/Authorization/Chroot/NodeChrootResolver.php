@@ -12,22 +12,10 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
  *
  * This enables third-party User from OAuth2 or SSO to be locked using their
  * own business logic, without need of a Roadiz User.
- *
- * @package RZ\Roadiz\CoreBundle\Security\Authorization\Chroot
  */
 interface NodeChrootResolver
 {
-    /**
-     * @param mixed $user
-     *
-     * @return bool
-     */
-    public function supports($user): bool;
+    public function supports(mixed $user): bool;
 
-    /**
-     * @param mixed $user
-     *
-     * @return Node|null
-     */
-    public function getChroot($user): ?Node;
+    public function getChroot(mixed $user): ?Node;
 }

@@ -23,6 +23,7 @@ final class Roles extends LazyParameterBag
         if (null === $this->repository) {
             $this->repository = $this->managerRegistry->getRepository(Role::class);
         }
+
         return $this->repository;
     }
 
@@ -44,10 +45,7 @@ final class Roles extends LazyParameterBag
     /**
      * Get role by name or create it if non-existent.
      *
-     * @param string $key
-     * @param null   $default
-     *
-     * @return Role
+     * @param null $default
      */
     public function get(string $key, $default = null): Role
     {

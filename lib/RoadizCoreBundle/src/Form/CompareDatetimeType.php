@@ -23,8 +23,8 @@ class CompareDatetimeType extends AbstractType
                 '>' => '>',
                 '<=' => '<=',
                 '>=' => '>=',
-                '=' => '='
-            ]
+                '=' => '=',
+            ],
         ])
         ->add('compareDatetime', DateTimeType::class, [
             'label' => false,
@@ -41,9 +41,6 @@ class CompareDatetimeType extends AbstractType
         ]);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
@@ -51,9 +48,6 @@ class CompareDatetimeType extends AbstractType
         $view->vars['attr']['class'] = 'rz-compare-datetype';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

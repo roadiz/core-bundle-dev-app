@@ -7,11 +7,17 @@ resources:
                 method: 'POST'
                 uriTemplate: '/users/signup'
                 itemUriTemplate: '/users/{id}'
-                processor: RZ\Roadiz\UserBundle\State\UserSignupProcessor
-                input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
+#                processor: RZ\Roadiz\UserBundle\State\UserSignupProcessor
+#                input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
+#                output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+#                validation_groups:
+#                    - no_empty_password
+                # For passwordless user creation, you can use this configuration
+                processor: RZ\Roadiz\UserBundle\State\PasswordlessUserSignupProcessor
+                input: RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput
                 output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-                validation_groups:
-                    - no_empty_password
+                # Do not use no_empty_password for passwordless user creation
+                #validation_groups: ~
                 openapiContext:
                     summary: Create a new public user
                     parameters:
@@ -102,20 +108,3 @@ resources:
                 normalizationContext:
                     groups: [ 'user', 'user_personal' ]
                     enable_max_depth: true
-
-            # Current user information operation MUST be declared AFTER ApiPlatform\Metadata\Get
-            # to avoid conflict with IRI generation.
-            api_user_information:
-                method: 'GET'
-                class: ApiPlatform\Metadata\Get
-                # Path must be different from item operation to avoid conflict
-                uriTemplate: '/me'
-                provider: RZ\Roadiz\UserBundle\State\UserTokenProvider
-                output: RZ\Roadiz\UserBundle\Api\Dto\UserOutput
-                normalizationContext:
-                    groups: ['user', 'user_personal', 'user_security']
-                    enable_max_depth: true
-                openapiContext:
-                    summary: Get current user (JWT) information
-                    description: |
-                        Get current user (JWT) information

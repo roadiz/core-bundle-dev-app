@@ -10,78 +10,46 @@ use Symfony\Contracts\EventDispatcher\Event;
 abstract class FilterQueryCriteriaEvent extends Event
 {
     /**
-     * @var string
-     */
-    protected string $property;
-    /**
-     * @var mixed
-     */
-    protected $value;
-    /**
-     * @var class-string
-     */
-    protected string $entityClass;
-    /**
-     * @var Query
-     */
-    protected Query $query;
-
-    /**
-     * @param Query $query
      * @param class-string $entityClass
-     * @param string $property
-     * @param mixed $value
      */
-    public function __construct(Query $query, string $entityClass, string $property, $value)
+    public function __construct(protected Query $query, protected string $entityClass, protected string $property, protected mixed $value)
     {
-        $this->entityClass = $entityClass;
-        $this->property = $property;
-        $this->value = $value;
-        $this->query = $query;
     }
 
-    /**
-     * @return Query
-     */
     public function getQuery(): Query
     {
         return $this->query;
     }
 
     /**
-     * @param Query $query
-     *
-     * @return FilterQueryCriteriaEvent
+     * @return $this
      */
-    public function setQuery(Query $query)
+    public function setQuery(Query $query): self
     {
         $this->query = $query;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getProperty()
+    public function getEntityClass(): string
+    {
+        return $this->entityClass;
+    }
+
+    public function getProperty(): string
     {
         return $this->property;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }
 
-
     /**
-     * @param string $entityClass
-     * @return bool
+     * @param class-string $entityClass
      */
-    public function supports($entityClass): bool
+    public function supports(string $entityClass): bool
     {
         return $this->entityClass === $entityClass;
     }

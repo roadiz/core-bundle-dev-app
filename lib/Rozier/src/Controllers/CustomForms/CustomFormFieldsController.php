@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\CustomForms;
 
-use Exception;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -23,9 +22,6 @@ class CustomFormFieldsController extends RozierApp
     /**
      * List every node-type-fields.
      *
-     * @param int $customFormId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function listAction(int $customFormId): Response
@@ -34,7 +30,7 @@ class CustomFormFieldsController extends RozierApp
 
         $customForm = $this->em()->find(CustomForm::class, $customFormId);
 
-        if ($customForm !== null) {
+        if (null !== $customForm) {
             $fields = $customForm->getFields();
 
             $this->assignation['customForm'] = $customForm;
@@ -49,10 +45,6 @@ class CustomFormFieldsController extends RozierApp
     /**
      * Return an edition form for requested node-type.
      *
-     * @param Request $request
-     * @param int $customFormFieldId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function editAction(Request $request, int $customFormFieldId): Response
@@ -62,7 +54,7 @@ class CustomFormFieldsController extends RozierApp
         /** @var CustomFormField|null $field */
         $field = $this->em()->find(CustomFormField::class, $customFormFieldId);
 
-        if ($field === null) {
+        if (null === $field) {
             throw new ResourceNotFoundException();
         }
 
@@ -96,10 +88,6 @@ class CustomFormFieldsController extends RozierApp
     /**
      * Return a creation form for requested node-type.
      *
-     * @param Request $request
-     * @param int $customFormId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function addAction(Request $request, int $customFormId): Response
@@ -107,7 +95,7 @@ class CustomFormFieldsController extends RozierApp
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
 
         $customForm = $this->em()->find(CustomForm::class, $customFormId);
-        if ($customForm === null) {
+        if (null === $customForm) {
             throw new ResourceNotFoundException();
         }
 
@@ -139,9 +127,10 @@ class CustomFormFieldsController extends RozierApp
                         'customFormId' => $customFormId,
                     ]
                 );
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $msg = $e->getMessage();
                 $this->publishErrorMessage($request, $msg, $field);
+
                 /*
                  * Redirect to add page
                  */
@@ -160,10 +149,6 @@ class CustomFormFieldsController extends RozierApp
     /**
      * Return a deletion form for requested node.
      *
-     * @param Request $request
-     * @param int $customFormFieldId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function deleteAction(Request $request, int $customFormFieldId): Response
@@ -172,7 +157,7 @@ class CustomFormFieldsController extends RozierApp
 
         $field = $this->em()->find(CustomFormField::class, $customFormFieldId);
 
-        if ($field === null) {
+        if (null === $field) {
             throw new ResourceNotFoundException();
         }
 
@@ -181,9 +166,9 @@ class CustomFormFieldsController extends RozierApp
         $form->handleRequest($request);
 
         if (
-            $form->isSubmitted() &&
-            $form->isValid() &&
-            $form->getData()['customFormFieldId'] == $field->getId()
+            $form->isSubmitted()
+            && $form->isValid()
+            && $form->getData()['customFormFieldId'] == $field->getId()
         ) {
             $customFormId = $field->getCustomForm()->getId();
 
@@ -215,11 +200,6 @@ class CustomFormFieldsController extends RozierApp
         return $this->render('@RoadizRozier/custom-form-fields/delete.html.twig', $this->assignation);
     }
 
-    /**
-     * @param CustomFormField $field
-     *
-     * @return FormInterface
-     */
     private function buildDeleteForm(CustomFormField $field): FormInterface
     {
         $builder = $this->createFormBuilder()

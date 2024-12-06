@@ -16,11 +16,13 @@ class ApiResourceGeneratorTest extends KernelTestCase
 {
     protected static function getGeneratedPath(): string
     {
-        return dirname(__DIR__) . '/generated_api_resources';
+        return dirname(__DIR__).'/generated_api_resources';
     }
 
     protected function getApiResourceGenerator(): ApiResourceGenerator
     {
+        $this->bootKernel();
+        $this->assertTrue($this->getContainer()->has(ApiResourceOperationNameGenerator::class));
         /** @var ApiResourceOperationNameGenerator $apiResourceOperationNameGenerator */
         $apiResourceOperationNameGenerator = $this->getContainer()->get(ApiResourceOperationNameGenerator::class);
 
@@ -43,7 +45,7 @@ class ApiResourceGeneratorTest extends KernelTestCase
         $resourcePath = $apiResourceGenerator->getResourcePath($nodeType);
         $this->assertFileExists($resourcePath);
         $this->assertFileEquals(
-            dirname(__DIR__) . '/expected_api_resources/nstest.yml',
+            dirname(__DIR__).'/expected_api_resources/nstest.yml',
             $resourcePath
         );
     }
@@ -59,14 +61,14 @@ class ApiResourceGeneratorTest extends KernelTestCase
         $apiResourceGenerator->generate($nodeType);
         $resourcePath = $apiResourceGenerator->getResourcePath($nodeType);
         $this->assertFileExists($resourcePath);
-        $this->assertFileExists(dirname(__DIR__) . '/generated_api_resources/web_response.yml');
+        $this->assertFileExists(dirname(__DIR__).'/generated_api_resources/web_response.yml');
         $this->assertFileEquals(
-            dirname(__DIR__) . '/expected_api_resources/nstest.yml',
+            dirname(__DIR__).'/expected_api_resources/nstest.yml',
             $resourcePath
         );
         $this->assertFileEquals(
-            dirname(__DIR__) . '/expected_api_resources/web_response.yml',
-            dirname(__DIR__) . '/generated_api_resources/web_response.yml',
+            dirname(__DIR__).'/expected_api_resources/web_response.yml',
+            dirname(__DIR__).'/generated_api_resources/web_response.yml',
         );
     }
 
@@ -86,7 +88,7 @@ class ApiResourceGeneratorTest extends KernelTestCase
         $resourcePath = $apiResourceGenerator->getResourcePath($nodeType);
         $this->assertFileExists($resourcePath);
         $this->assertFileEquals(
-            dirname(__DIR__) . '/expected_api_resources/nstest.yml',
+            dirname(__DIR__).'/expected_api_resources/nstest.yml',
             $resourcePath
         );
 
@@ -94,14 +96,14 @@ class ApiResourceGeneratorTest extends KernelTestCase
         $resourcePath2 = $apiResourceGenerator->getResourcePath($nodeType2);
         $this->assertFileExists($resourcePath2);
         $this->assertFileEquals(
-            dirname(__DIR__) . '/expected_api_resources/nssecondtest.yml',
+            dirname(__DIR__).'/expected_api_resources/nssecondtest.yml',
             $resourcePath2
         );
 
-        $this->assertFileExists(dirname(__DIR__) . '/generated_api_resources/web_response.yml');
+        $this->assertFileExists(dirname(__DIR__).'/generated_api_resources/web_response.yml');
         $this->assertFileEquals(
-            dirname(__DIR__) . '/expected_api_resources/web_response_multiple.yml',
-            dirname(__DIR__) . '/generated_api_resources/web_response.yml',
+            dirname(__DIR__).'/expected_api_resources/web_response_multiple.yml',
+            dirname(__DIR__).'/generated_api_resources/web_response.yml',
         );
     }
 
@@ -126,10 +128,10 @@ class ApiResourceGeneratorTest extends KernelTestCase
         $resourcePath2 = $apiResourceGenerator->getResourcePath($nodeType2);
         $this->assertFileDoesNotExist($resourcePath2);
 
-        $this->assertFileExists(dirname(__DIR__) . '/generated_api_resources/web_response.yml');
+        $this->assertFileExists(dirname(__DIR__).'/generated_api_resources/web_response.yml');
         $this->assertFileEquals(
-            dirname(__DIR__) . '/expected_api_resources/web_response.yml',
-            dirname(__DIR__) . '/generated_api_resources/web_response.yml',
+            dirname(__DIR__).'/expected_api_resources/web_response.yml',
+            dirname(__DIR__).'/generated_api_resources/web_response.yml',
         );
     }
 
@@ -140,7 +142,6 @@ class ApiResourceGeneratorTest extends KernelTestCase
         $filesystem = new Filesystem();
         $filesystem->mkdir(static::getGeneratedPath());
     }
-
 
     protected function tearDown(): void
     {

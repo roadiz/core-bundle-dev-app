@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Documents;
 
-use GuzzleHttp\Exception\RequestException;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
@@ -16,28 +15,19 @@ use RZ\Roadiz\CoreBundle\Entity\AttributeDocuments;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\TagTranslationDocuments;
-use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\EntityHandler\DocumentHandler;
-use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
-use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\Documents\Events\DocumentCreatedEvent;
 use RZ\Roadiz\Documents\Events\DocumentDeletedEvent;
 use RZ\Roadiz\Documents\Events\DocumentFileUpdatedEvent;
-use RZ\Roadiz\Documents\Events\DocumentInFolderEvent;
-use RZ\Roadiz\Documents\Events\DocumentOutFolderEvent;
 use RZ\Roadiz\Documents\Events\DocumentUpdatedEvent;
 use RZ\Roadiz\Documents\Exceptions\APINeedsAuthentificationException;
-use RZ\Roadiz\Documents\MediaFinders\AbstractEmbedFinder;
 use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
+use RZ\Roadiz\Documents\MediaFinders\EmbedFinderInterface;
 use RZ\Roadiz\Documents\MediaFinders\RandomImageFinder;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
-use RZ\Roadiz\Documents\Renderer\RendererInterface;
-use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
-use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
@@ -47,14 +37,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Themes\Rozier\Forms\DocumentEditType;
 use Themes\Rozier\Forms\DocumentEmbedType;
-use Themes\Rozier\Models\DocumentModel;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
@@ -71,131 +60,26 @@ class DocumentsController extends RozierApp
     ];
 
     public function __construct(
+        private readonly EmbedFinderFactory $embedFinderFactory,
+        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly array $documentPlatforms,
         private readonly FilesystemOperator $documentsStorage,
         private readonly HandlerFactoryInterface $handlerFactory,
         private readonly LoggerInterface $logger,
         private readonly RandomImageFinder $randomImageFinder,
         private readonly DocumentFactory $documentFactory,
-        private readonly RendererInterface $renderer,
-        private readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly EmbedFinderFactory $embedFinderFactory,
         private readonly ?string $googleServerId = null,
-        private readonly ?string $soundcloudClientId = null
+        private readonly ?string $soundcloudClientId = null,
     ) {
     }
 
-    /**
-     * @param Request $request
-     * @param int|null $folderId
-     * @return Response
-     * @throws RuntimeError
-     */
-    public function indexAction(Request $request, ?int $folderId = null): Response
-    {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
-
-        /** @var Translation $translation */
-        $translation = $this->em()
-            ->getRepository(Translation::class)
-            ->findDefault();
-
-        $prefilters = [
-            'raw' => false,
-        ];
-
-        if (
-            null !== $folderId &&
-            $folderId > 0
-        ) {
-            $folder = $this->em()
-                ->find(Folder::class, $folderId);
-
-            $prefilters['folders'] = [$folder];
-            $this->assignation['folder'] = $folder;
-        }
-
-        $type = $request->query->get('type', null);
-        if (\is_string($type) && trim($type) !== '') {
-            $prefilters['mimeType'] = trim($type);
-            $this->assignation['mimeType'] = trim($type);
-        }
-
-        $embedPlatform = $request->query->get('embedPlatform', null);
-        if (\is_string($embedPlatform) && trim($embedPlatform) !== '') {
-            $prefilters['embedPlatform'] = trim($embedPlatform);
-            $this->assignation['embedPlatform'] = trim($embedPlatform);
-        }
-        $this->assignation['availablePlatforms'] = $this->documentPlatforms;
-
-        /*
-         * Handle bulk folder form
-         */
-        $joinFolderForm = $this->buildLinkFoldersForm();
-        $joinFolderForm->handleRequest($request);
-        if ($joinFolderForm->isSubmitted() && $joinFolderForm->isValid()) {
-            $data = $joinFolderForm->getData();
-            $submitFolder = $joinFolderForm->get('submitFolder');
-            $submitUnfolder = $joinFolderForm->get('submitUnfolder');
-            if ($submitFolder instanceof ClickableInterface && $submitFolder->isClicked()) {
-                $msg = $this->joinFolder($data);
-            } elseif ($submitUnfolder instanceof ClickableInterface && $submitUnfolder->isClicked()) {
-                $msg = $this->leaveFolder($data);
-            } else {
-                $msg = $this->getTranslator()->trans('wrong.request');
-            }
-
-            $this->publishConfirmMessage($request, $msg);
-
-            return $this->redirectToRoute(
-                'documentsHomePage',
-                ['folderId' => $folderId]
-            );
-        }
-        $this->assignation['joinFolderForm'] = $joinFolderForm->createView();
-
-        /*
-         * Manage get request to filter list
-         */
-        $listManager = $this->createEntityListManager(
-            Document::class,
-            $prefilters,
-            ['createdAt' => 'DESC']
-        );
-        $listManager->setDisplayingNotPublishedNodes(true);
-        $listManager->setItemPerPage(static::DEFAULT_ITEM_PER_PAGE);
-
-        /*
-         * Stored in session
-         */
-        $sessionListFilter = new SessionListFilters('documents_item_per_page');
-        $sessionListFilter->handleItemPerPage($request, $listManager);
-
-        $listManager->handle();
-
-        $this->assignation['filters'] = $listManager->getAssignation();
-        $this->assignation['documents'] = $listManager->getEntities();
-        $this->assignation['translation'] = $translation;
-        $this->assignation['thumbnailFormat'] = $this->thumbnailFormat;
-
-        return $this->render($this->getListingTemplate($request), $this->assignation);
-    }
-
-    /**
-     * @param Request $request
-     * @param int $documentId
-     * @return Response
-     * @throws RuntimeError
-     * @throws FilesystemException
-     */
     public function adjustAction(Request $request, int $documentId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
         /** @var Document|null $document */
         $document = $this->em()->find(Document::class, $documentId);
-        if ($document === null) {
+        if (null === $document) {
             throw new ResourceNotFoundException();
         }
         if (!$document->isLocal()) {
@@ -229,7 +113,7 @@ class DocumentsController extends RozierApp
                  * Prefix document filename with unique id to avoid overriding original
                  * if already existing.
                  */
-                $cloneDocument->setFilename('original_' . uniqid() . '_' . $cloneDocument);
+                $cloneDocument->setFilename('original_'.uniqid().'_'.$cloneDocument);
                 $newPath = $cloneDocument->getMountPath();
 
                 $this->documentsStorage->move($oldPath, $newPath);
@@ -260,7 +144,7 @@ class DocumentsController extends RozierApp
 
             return new JsonResponse([
                 'message' => $msg,
-                'path' => $this->documentsStorage->publicUrl($document->getMountPath()) . '?' . \random_int(10, 999),
+                'path' => $this->documentsStorage->publicUrl($document->getMountPath()).'?'.\random_int(10, 999),
             ]);
         }
 
@@ -270,20 +154,13 @@ class DocumentsController extends RozierApp
         return $this->render('@RoadizRozier/documents/adjust.html.twig', $this->assignation);
     }
 
-    /**
-     * @param Request $request
-     * @param int $documentId
-     * @return Response
-     * @throws FilesystemException
-     * @throws RuntimeError
-     */
     public function editAction(Request $request, int $documentId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
         /** @var Document|null $document */
         $document = $this->em()->find(Document::class, $documentId);
-        if ($document === null) {
+        if (null === $document) {
             throw new ResourceNotFoundException();
         }
 
@@ -315,7 +192,7 @@ class DocumentsController extends RozierApp
                 }
 
                 $msg = $this->getTranslator()->trans('document.%name%.updated', [
-                   '%name%' => (string) $document,
+                    '%name%' => (string) $document,
                 ]);
                 $this->publishConfirmMessage($request, $msg, $document);
                 $this->em()->flush();
@@ -329,9 +206,10 @@ class DocumentsController extends RozierApp
 
                 if ($form->get('referer')->getData()) {
                     $routeParams = array_merge($routeParams, [
-                       'referer' => $form->get('referer')->getData(),
+                        'referer' => $form->get('referer')->getData(),
                     ]);
                 }
+
                 /*
                 * Force redirect to avoid resending form when refreshing page
                 */
@@ -353,14 +231,6 @@ class DocumentsController extends RozierApp
         return $this->render('@RoadizRozier/documents/edit.html.twig', $this->assignation);
     }
 
-    /**
-     * Return an deletion form for requested document.
-     *
-     * @param Request $request
-     * @param int $documentId
-     * @return Response
-     * @throws RuntimeError
-     */
     public function deleteAction(Request $request, int $documentId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS_DELETE');
@@ -368,7 +238,7 @@ class DocumentsController extends RozierApp
         /** @var Document|null $document */
         $document = $this->em()->find(Document::class, $documentId);
 
-        if ($document === null) {
+        if (null === $document) {
             throw new ResourceNotFoundException();
         }
 
@@ -377,9 +247,9 @@ class DocumentsController extends RozierApp
         $form->handleRequest($request);
 
         if (
-            $form->isSubmitted() &&
-            $form->isValid() &&
-            $form->getData()['documentId'] == $document->getId()
+            $form->isSubmitted()
+            && $form->isValid()
+            && $form->getData()['documentId'] == $document->getId()
         ) {
             try {
                 $this->dispatchEvent(
@@ -388,16 +258,17 @@ class DocumentsController extends RozierApp
                 $this->em()->remove($document);
                 $this->em()->flush();
                 $msg = $this->getTranslator()->trans('document.%name%.deleted', [
-                    '%name%' => (string) $document
+                    '%name%' => (string) $document,
                 ]);
                 $this->publishConfirmMessage($request, $msg, $document);
             } catch (\Exception $e) {
                 $msg = $this->getTranslator()->trans('document.%name%.cannot_delete', [
-                    '%name%' => (string) $document
+                    '%name%' => (string) $document,
                 ]);
                 $this->logger->error($e->getMessage());
                 $this->publishErrorMessage($request, $msg, $document);
             }
+
             /*
              * Force redirect to avoid resending form when refreshing page
              */
@@ -409,13 +280,6 @@ class DocumentsController extends RozierApp
         return $this->render('@RoadizRozier/documents/delete.html.twig', $this->assignation);
     }
 
-    /**
-     * Return an deletion form for multiple docs.
-     *
-     * @param Request $request
-     * @return Response
-     * @throws RuntimeError
-     */
     public function bulkDeleteAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS_DELETE');
@@ -455,7 +319,7 @@ class DocumentsController extends RozierApp
             return $this->redirectToRoute('documentsHomePage');
         }
         $this->assignation['form'] = $form->createView();
-        $this->assignation['action'] = '?' . http_build_query(['documents' => $documentsIds]);
+        $this->assignation['action'] = '?'.http_build_query(['documents' => $documentsIds]);
         $this->assignation['thumbnailFormat'] = $this->thumbnailFormat;
 
         return $this->render('@RoadizRozier/documents/bulkDelete.html.twig', $this->assignation);
@@ -463,11 +327,6 @@ class DocumentsController extends RozierApp
 
     /**
      * Embed external document page.
-     *
-     * @param Request $request
-     * @param int|null $folderId
-     * @return Response
-     * @throws RuntimeError
      */
     public function embedAction(Request $request, ?int $folderId = null): Response
     {
@@ -510,12 +369,13 @@ class DocumentsController extends RozierApp
                         new DocumentCreatedEvent($document)
                     );
                 }
+
                 /*
                  * Force redirect to avoid resending form when refreshing page
                  */
                 return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
-            } catch (RequestException $e) {
-                $this->logger->error($e->getRequest()->getUri() . ' failed.');
+            } catch (ClientExceptionInterface $e) {
+                $this->logger->error($e->getMessage());
                 if (null !== $e->getResponse() && in_array($e->getResponse()->getStatusCode(), [401, 403, 404])) {
                     $form->addError(new FormError(
                         $this->getTranslator()->trans('document.media_not_found_or_private')
@@ -540,9 +400,6 @@ class DocumentsController extends RozierApp
     /**
      * Get random external document page.
      *
-     * @param Request $request
-     * @param int|null $folderId
-     * @return Response
      * @throws FilesystemException
      */
     public function randomAction(Request $request, ?int $folderId = null): Response
@@ -566,6 +423,7 @@ class DocumentsController extends RozierApp
                 $this->getTranslator()->trans($e->getMessage())
             );
         }
+
         /*
          * Force redirect to avoid resending form when refreshing page
          */
@@ -575,9 +433,6 @@ class DocumentsController extends RozierApp
     /**
      * Download document file.
      *
-     * @param Request $request
-     * @param int $documentId
-     * @return Response
      * @throws FilesystemException
      */
     public function downloadAction(Request $request, int $documentId): Response
@@ -587,7 +442,7 @@ class DocumentsController extends RozierApp
         /** @var Document|null $document */
         $document = $this->em()->find(Document::class, $documentId);
 
-        if ($document !== null) {
+        if (null !== $document) {
             /** @var DocumentHandler $handler */
             $handler = $this->handlerFactory->getHandler($document);
 
@@ -600,9 +455,6 @@ class DocumentsController extends RozierApp
     /**
      * Download document file inline.
      *
-     * @param Request $request
-     * @param int $documentId
-     * @return Response
      * @throws FilesystemException
      */
     public function downloadInlineAction(Request $request, int $documentId): Response
@@ -612,7 +464,7 @@ class DocumentsController extends RozierApp
         /** @var Document|null $document */
         $document = $this->em()->find(Document::class, $documentId);
 
-        if ($document !== null) {
+        if (null !== $document) {
             /** @var DocumentHandler $handler */
             $handler = $this->handlerFactory->getHandler($document);
 
@@ -622,13 +474,6 @@ class DocumentsController extends RozierApp
         throw new ResourceNotFoundException();
     }
 
-    /**
-     * @param Request $request
-     * @param int|null $folderId
-     * @param string $_format
-     * @return Response
-     * @throws RuntimeError
-     */
     public function uploadAction(Request $request, ?int $folderId = null, string $_format = 'html'): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
@@ -660,14 +505,11 @@ class DocumentsController extends RozierApp
                         new DocumentCreatedEvent($document)
                     );
 
-                    if ($_format === 'json' || $request->isXmlHttpRequest()) {
-                        $documentModel = new DocumentModel(
-                            $document,
-                            $this->renderer,
-                            $this->documentUrlGenerator,
-                            $this->urlGenerator,
-                            $this->embedFinderFactory
+                    if ('json' === $_format || $request->isXmlHttpRequest()) {
+                        $documentModel = $this->explorerItemFactory->createForEntity(
+                            $document
                         );
+
                         return new JsonResponse([
                             'success' => true,
                             'document' => $documentModel->toArray(),
@@ -679,13 +521,13 @@ class DocumentsController extends RozierApp
                     $msg = $this->getTranslator()->trans('document.cannot_persist');
                     $this->publishErrorMessage($request, $msg, $document);
 
-                    if ($_format === 'json' || $request->isXmlHttpRequest()) {
+                    if ('json' === $_format || $request->isXmlHttpRequest()) {
                         throw $this->createNotFoundException($msg);
                     } else {
                         return $this->redirectToRoute('documentsHomePage', ['folderId' => $folderId]);
                     }
                 }
-            } elseif ($_format === 'json' || $request->isXmlHttpRequest()) {
+            } elseif ('json' === $_format || $request->isXmlHttpRequest()) {
                 /*
                  * Bad form submitted
                  */
@@ -699,9 +541,10 @@ class DocumentsController extends RozierApp
                         }
                     }
                 }
+
                 return new JsonResponse(
                     [
-                        "errors" => $errorPerForm,
+                        'errors' => $errorPerForm,
                     ],
                     Response::HTTP_BAD_REQUEST
                 );
@@ -716,9 +559,6 @@ class DocumentsController extends RozierApp
     /**
      * Return a node list using this document.
      *
-     * @param Request $request
-     * @param int $documentId
-     * @return Response
      * @throws RuntimeError
      */
     public function usageAction(Request $request, int $documentId): Response
@@ -727,7 +567,7 @@ class DocumentsController extends RozierApp
         /** @var Document|null $document */
         $document = $this->em()->find(Document::class, $documentId);
 
-        if ($document === null) {
+        if (null === $document) {
             throw new ResourceNotFoundException();
         }
 
@@ -745,10 +585,6 @@ class DocumentsController extends RozierApp
         return $this->render('@RoadizRozier/documents/usage.html.twig', $this->assignation);
     }
 
-    /**
-     * @param Document $doc
-     * @return FormInterface
-     */
     private function buildDeleteForm(Document $doc): FormInterface
     {
         $defaults = [
@@ -766,17 +602,13 @@ class DocumentsController extends RozierApp
         return $builder->getForm();
     }
 
-    /**
-     * @param array $documentsIds
-     * @return FormInterface
-     */
     private function buildBulkDeleteForm(array $documentsIds): FormInterface
     {
         $defaults = [
             'checksum' => md5(serialize($documentsIds)),
         ];
         $builder = $this->createFormBuilder($defaults, [
-            'action' => '?' . http_build_query(['documents' => $documentsIds]),
+            'action' => '?'.http_build_query(['documents' => $documentsIds]),
         ])
             ->add('checksum', HiddenType::class, [
                 'constraints' => [
@@ -788,9 +620,6 @@ class DocumentsController extends RozierApp
         return $builder->getForm();
     }
 
-    /**
-     * @return FormInterface
-     */
     private function buildFileForm(): FormInterface
     {
         $defaults = [
@@ -809,15 +638,11 @@ class DocumentsController extends RozierApp
         return $builder->getForm();
     }
 
-    /**
-     * @param int|null $folderId
-     * @return FormInterface
-     */
     private function buildUploadForm(?int $folderId = null): FormInterface
     {
         $builder = $this->createFormBuilder([], [
-                'csrf_protection' => false,
-            ])
+            'csrf_protection' => false,
+        ])
             ->add('attachment', FileType::class, [
                 'label' => 'choose.documents.to_upload',
                 'constraints' => [
@@ -826,8 +651,8 @@ class DocumentsController extends RozierApp
             ]);
 
         if (
-            null !== $folderId &&
-            $folderId > 0
+            null !== $folderId
+            && $folderId > 0
         ) {
             $builder->add('folderId', HiddenType::class, [
                 'data' => $folderId,
@@ -838,205 +663,44 @@ class DocumentsController extends RozierApp
     }
 
     /**
-     * @return FormInterface
-     */
-    private function buildLinkFoldersForm(): FormInterface
-    {
-        $builder = $this->createNamedFormBuilder('folderForm')
-            ->add('documentsId', HiddenType::class, [
-                'attr' => ['class' => 'document-id-bulk-folder'],
-                'constraints' => [
-                    new NotNull(),
-                    new NotBlank(),
-                ],
-            ])
-            ->add('folderPaths', TextType::class, [
-                'label' => false,
-                'attr' => [
-                    'class' => 'rz-folder-autocomplete',
-                    'placeholder' => 'list.folders.to_link',
-                ],
-                'constraints' => [
-                    new NotNull(),
-                    new NotBlank(),
-                ],
-            ])
-            ->add('submitFolder', SubmitType::class, [
-                'label' => false,
-                'attr' => [
-                    'class' => 'uk-button uk-button-primary',
-                    'title' => 'link.folders',
-                    'data-uk-tooltip' => "{animation:true}",
-                ],
-            ])
-            ->add('submitUnfolder', SubmitType::class, [
-                'label' => false,
-                'attr' => [
-                    'class' => 'uk-button',
-                    'title' => 'unlink.folders',
-                    'data-uk-tooltip' => "{animation:true}",
-                ],
-            ]);
-
-        return $builder->getForm();
-    }
-
-    /**
-     * @param array $data
-     * @return string Status message
-     */
-    private function joinFolder($data): string
-    {
-        $msg = $this->getTranslator()->trans('no_documents.linked_to.folders');
-
-        if (
-            !empty($data['documentsId']) &&
-            !empty($data['folderPaths'])
-        ) {
-            $documentsIds = explode(',', $data['documentsId']);
-
-            $documents = $this->em()
-                ->getRepository(Document::class)
-                ->findBy([
-                    'id' => $documentsIds,
-                ]);
-
-            $folderPaths = explode(',', $data['folderPaths']);
-            $folderPaths = array_filter($folderPaths);
-
-            foreach ($folderPaths as $path) {
-                /** @var Folder $folder */
-                $folder = $this->em()
-                    ->getRepository(Folder::class)
-                    ->findOrCreateByPath($path);
-
-                /*
-                 * Add each selected documents
-                 */
-                foreach ($documents as $document) {
-                    $folder->addDocument($document);
-                }
-            }
-
-            $this->em()->flush();
-            $msg = $this->getTranslator()->trans('documents.linked_to.folders');
-
-            /*
-             * Dispatch events
-             */
-            foreach ($documents as $document) {
-                $this->dispatchEvent(
-                    new DocumentInFolderEvent($document)
-                );
-            }
-        }
-
-        return $msg;
-    }
-
-    /**
-     * @param array $data
-     * @return string Status message
-     */
-    private function leaveFolder($data): string
-    {
-        $msg = $this->getTranslator()->trans('no_documents.removed_from.folders');
-
-        if (
-            !empty($data['documentsId']) &&
-            !empty($data['folderPaths'])
-        ) {
-            $documentsIds = explode(',', $data['documentsId']);
-
-            $documents = $this->em()
-                ->getRepository(Document::class)
-                ->findBy([
-                    'id' => $documentsIds,
-                ]);
-
-            $folderPaths = explode(',', $data['folderPaths']);
-            $folderPaths = array_filter($folderPaths);
-
-            foreach ($folderPaths as $path) {
-                /** @var Folder $folder */
-                $folder = $this->em()
-                    ->getRepository(Folder::class)
-                    ->findByPath($path);
-
-                if (null !== $folder) {
-                    /*
-                     * Add each selected documents
-                     */
-                    foreach ($documents as $document) {
-                        $folder->removeDocument($document);
-                    }
-                }
-            }
-            $this->em()->flush();
-            $msg = $this->getTranslator()->trans('documents.removed_from.folders');
-
-            /*
-             * Dispatch events
-             */
-            foreach ($documents as $document) {
-                $this->dispatchEvent(
-                    new DocumentOutFolderEvent($document)
-                );
-            }
-        }
-
-        return $msg;
-    }
-
-    /**
-     * @param array    $data
-     * @param int|null $folderId
-     *
      * @return DocumentInterface|array<DocumentInterface>
-     * @throws \Exception
-     * @throws EntityAlreadyExistsException
+     *
+     * @throws FilesystemException
      */
-    private function embedDocument($data, ?int $folderId = null)
+    private function embedDocument(array $data, ?int $folderId = null): DocumentInterface|array
     {
         $handlers = $this->documentPlatforms;
 
         if (
-            isset($data['embedId']) &&
-            isset($data['embedPlatform']) &&
-            in_array($data['embedPlatform'], array_keys($handlers))
+            isset($data['embedId'])
+            && isset($data['embedPlatform'])
+            && in_array($data['embedPlatform'], array_keys($handlers))
         ) {
-            $class = $handlers[$data['embedPlatform']];
-
-            /*
-             * Use empty constructor.
-             */
-            /** @var AbstractEmbedFinder $finder */
-            $finder = new $class('', false);
-
+            $finder = $this->embedFinderFactory->createForPlatform($data['embedPlatform'], $data['embedId']);
+            if (null === $finder) {
+                throw new \RuntimeException('No embed finder found for platform '.$data['embedPlatform']);
+            }
             if ($finder instanceof YoutubeEmbedFinder) {
                 $finder->setKey($this->googleServerId);
             }
             if ($finder instanceof SoundcloudEmbedFinder) {
                 $finder->setKey($this->soundcloudClientId);
             }
-            $finder->setEmbedId($data['embedId']);
+
             return $this->createDocumentFromFinder($finder, $folderId);
         } else {
-            throw new \RuntimeException("bad.request", 1);
+            throw new \RuntimeException('bad.request', 1);
         }
     }
 
     /**
      * Download a random document.
      *
-     * @param int|null $folderId
-     *
-     * @return DocumentInterface|null
      * @throws FilesystemException
      */
     private function randomDocument(?int $folderId = null): ?DocumentInterface
     {
-        if ($this->randomImageFinder instanceof AbstractEmbedFinder) {
+        if ($this->randomImageFinder instanceof EmbedFinderInterface) {
             $document = $this->createDocumentFromFinder($this->randomImageFinder, $folderId);
             if ($document instanceof DocumentInterface) {
                 return $document;
@@ -1044,22 +708,22 @@ class DocumentsController extends RozierApp
             if (is_array($document) && isset($document[0])) {
                 return $document[0];
             }
+
             return null;
         }
-        throw new \RuntimeException('Random image finder must be instance of ' . AbstractEmbedFinder::class);
+        throw new \RuntimeException('Random image finder must be instance of '.EmbedFinderInterface::class);
     }
 
     /**
-     * @param AbstractEmbedFinder $finder
-     * @param int|null $folderId
      * @return DocumentInterface|array<DocumentInterface>
+     *
      * @throws FilesystemException
      */
-    private function createDocumentFromFinder(AbstractEmbedFinder $finder, ?int $folderId = null): DocumentInterface|array
+    private function createDocumentFromFinder(EmbedFinderInterface $finder, ?int $folderId = null): DocumentInterface|array
     {
         $document = $finder->createDocumentFromFeed($this->em(), $this->documentFactory);
 
-        if (null !== $document && null !== $folderId && $folderId > 0) {
+        if (null !== $folderId && $folderId > 0) {
             /** @var Folder|null $folder */
             $folder = $this->em()->find(Folder::class, $folderId);
 
@@ -1082,9 +746,6 @@ class DocumentsController extends RozierApp
     /**
      * Handle upload form data to create a Document.
      *
-     * @param FormInterface $data
-     * @param int|null $folderId
-     * @return DocumentInterface|null
      * @throws FilesystemException
      */
     private function uploadDocument(FormInterface $data, ?int $folderId = null): ?DocumentInterface
@@ -1103,18 +764,11 @@ class DocumentsController extends RozierApp
 
             if (null !== $document = $this->documentFactory->getDocument()) {
                 $this->em()->flush();
+
                 return $document;
             }
         }
 
         return null;
-    }
-
-    private function getListingTemplate(Request $request): string
-    {
-        if ($request->query->get('list') === '1') {
-            return '@RoadizRozier/documents/list-table.html.twig';
-        }
-        return '@RoadizRozier/documents/list.html.twig';
     }
 }

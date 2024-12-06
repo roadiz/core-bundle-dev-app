@@ -19,7 +19,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                php-version: ['8.1', '8.2', '8.3']
+                php-version: ['8.2', '8.3']
         steps:
             - uses: shivammathur/setup-php@v2
               with:
@@ -34,9 +34,7 @@ jobs:
                   restore-keys: |
                       ${{ runner.os }}-php-${{ matrix.php-version }}-
             - name: Install Dependencies
-              run: composer install --no-scripts --no-ansi --no-interaction --no-progress
-            - name: Run PHP Code Sniffer
-              run: vendor/bin/phpcs -p ./src
+              run: composer install --no-ansi --no-interaction --no-progress
             - name: Run PHPStan
               run: vendor/bin/phpstan analyse --no-progress -c phpstan.neon
             - name: Run PHP Unit

@@ -7,7 +7,7 @@
 
 @login-H: 450px;
 @login-BarW: 128px;
-@login-FormW: 550px - @login-BarW;
+@login-FormW: 700px - @login-BarW;
 @login-W: @login-FormW + @login-BarW;
 
 /* -------- STYLES -------- */
@@ -62,7 +62,7 @@
 
 #purge-caches,
 #login {
-    width:100vw;
+    width: 100vw;
     height: auto;
     margin: 0;
     top: 0;
@@ -75,7 +75,7 @@
 
     @media (min-width: @screen-sm-min) {
         position: absolute;
-        width: @login-W;
+        max-width: @login-W;
         height: auto;
         transform: translate(-50%, -50%);
         left: 50%;
@@ -196,9 +196,7 @@
         #login-form {
             text-align: left;
 
-            .uk-icon-sign-in {
-                display: none;
-            }
+            input[type="email"],
             input[type="text"],
             input[type="password"] {
                 width: 100%;
@@ -207,7 +205,7 @@
             .data-uk-margin{
                 margin-bottom: 15px;
             }
-            .data-uk-margin>div {
+            .data-uk-margin > div {
                 margin-bottom: 11px;
                 margin-top: 11px;
             }

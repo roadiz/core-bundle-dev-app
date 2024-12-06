@@ -4,31 +4,37 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Message\Handler;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use Psr\Log\LoggerInterface;
-use RZ\Roadiz\CoreBundle\Message\HttpRequestMessage;
+use RZ\Roadiz\CoreBundle\Message\HttpRequestMessageInterface;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class HttpRequestMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final readonly class HttpRequestMessageHandler
 {
     public function __construct(
-        private readonly LoggerInterface $logger
+        private HttpClientInterface $client,
+        private LoggerInterface $logger,
     ) {
     }
 
-    public function __invoke(HttpRequestMessage $message): void
+    public function __invoke(HttpRequestMessageInterface $message): void
     {
         try {
             $this->logger->debug(sprintf(
                 'HTTP request executed: %s %s',
-                $message->getRequest()->getMethod(),
-                $message->getRequest()->getUri()
+                $message->getMethod(),
+                $message->getUri()
             ));
-            $client = new Client();
-            $client->send($message->getRequest(), $message->getOptions());
-        } catch (GuzzleException $exception) {
+            $response = $this->client->request(
+                $message->getMethod(),
+                $message->getUri(),
+                $message->getOptions(),
+            );
+            $response->getStatusCode();
+        } catch (ClientExceptionInterface $exception) {
             throw new UnrecoverableMessageHandlingException($exception->getMessage(), 0, $exception);
         }
     }

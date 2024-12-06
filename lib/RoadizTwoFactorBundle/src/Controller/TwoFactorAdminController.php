@@ -10,15 +10,14 @@ use RZ\Roadiz\TwoFactorBundle\Form\TwoFactorCodeActivationType;
 use RZ\Roadiz\TwoFactorBundle\Security\Provider\AuthenticatorTwoFactorProvider;
 use RZ\Roadiz\TwoFactorBundle\Security\Provider\TwoFactorUserProviderInterface;
 use Scheb\TwoFactorBundle\Model\Totp\TwoFactorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Themes\Rozier\RozierApp;
-use Twig\Error\RuntimeError;
 
-final class TwoFactorAdminController extends RozierApp
+final class TwoFactorAdminController extends AbstractController
 {
     public function __construct(
         private readonly TwoFactorUserProviderInterface $twoFactorUserProvider,
@@ -26,9 +25,6 @@ final class TwoFactorAdminController extends RozierApp
     ) {
     }
 
-    /**
-     * @throws RuntimeError
-     */
     public function twoFactorAdminAction(Request $request, TokenStorageInterface $tokenStorage): Response
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
@@ -41,6 +37,7 @@ final class TwoFactorAdminController extends RozierApp
         if (!($user instanceof User)) {
             throw $this->createAccessDeniedException('You must be logged in to access this page.');
         }
+        $assignation = [];
         $twoFactorUser = $this->twoFactorUserProvider->getFromUser($user);
 
         if (!$twoFactorUser instanceof TwoFactorUser) {
@@ -48,12 +45,13 @@ final class TwoFactorAdminController extends RozierApp
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->twoFactorUserProvider->createForUser($user);
+
                 return $this->redirectToRoute('2fa_admin_two_factor');
             }
-            $this->assignation['form'] = $form->createView();
+            $assignation['form'] = $form->createView();
         } elseif (!$twoFactorUser->isTotpAuthenticationEnabled()) {
             // Only display QR code if user has started 2FA activation
-            $this->assignation['displayQrCodeTotp'] = $twoFactorUser instanceof TwoFactorInterface;
+            $assignation['displayQrCodeTotp'] = $twoFactorUser instanceof TwoFactorInterface;
             $form = $this->createForm(TwoFactorCodeActivationType::class);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -67,15 +65,16 @@ final class TwoFactorAdminController extends RozierApp
                     )
                 ) {
                     $this->twoFactorUserProvider->activate($twoFactorUser);
+
                     return $this->redirectToRoute('2fa_admin_two_factor');
                 }
 
                 $form->get('code')->addError(new FormError('invalid_totp_code'));
             }
-            $this->assignation['totpForm'] = $form->createView();
+            $assignation['totpForm'] = $form->createView();
         }
 
-        return $this->render('@RoadizTwoFactor/admin/two_factor.html.twig', $this->assignation);
+        return $this->render('@RoadizTwoFactor/admin/two_factor.html.twig', $assignation);
     }
 
     public function twoFactorDisableAction(Request $request, TokenStorageInterface $tokenStorage): Response
@@ -96,10 +95,12 @@ final class TwoFactorAdminController extends RozierApp
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->twoFactorUserProvider->disable($twoFactorUser);
+
             return $this->redirectToRoute('2fa_admin_two_factor');
         }
-        $this->assignation['form'] = $form->createView();
 
-        return $this->render('@RoadizTwoFactor/admin/disable_two_factor.html.twig', $this->assignation);
+        return $this->render('@RoadizTwoFactor/admin/disable_two_factor.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

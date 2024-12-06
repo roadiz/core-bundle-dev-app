@@ -14,27 +14,25 @@ abstract class AbstractConfigurableFieldGenerator extends AbstractFieldGenerator
     public function __construct(
         NodeTypeFieldInterface $field,
         DefaultValuesResolverInterface $defaultValuesResolver,
-        array $options = []
+        array $options = [],
     ) {
         parent::__construct($field, $defaultValuesResolver, $options);
 
         if (empty($this->field->getDefaultValues())) {
-            throw new \LogicException('Default values must be a valid YAML for ' . static::class);
+            throw new \LogicException('Default values must be a valid YAML for '.static::class);
         }
         $conf = Yaml::parse($this->field->getDefaultValues());
         if (!is_array($conf)) {
-            throw new \LogicException('YAML for ' . static::class . ' must be an associative array');
+            throw new \LogicException('YAML for '.static::class.' must be an associative array');
         }
         $this->configuration = $conf;
     }
 
     /**
      * Ensure configured classname has a starting backslash.
-     *
-     * @return string
      */
     protected function getFullyQualifiedClassName(): string
     {
-        return '\\' . trim($this->configuration['classname'], '\\');
+        return '\\'.trim($this->configuration['classname'], '\\');
     }
 }

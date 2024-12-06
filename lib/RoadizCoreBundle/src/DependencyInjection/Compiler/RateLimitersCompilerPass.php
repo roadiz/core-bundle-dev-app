@@ -26,14 +26,14 @@ class RateLimitersCompilerPass implements CompilerPassInterface
             'cache_pool' => 'cache.rate_limiter',
             'policy' => 'token_bucket',
             'limit' => 1,
-            'rate' => [ 'interval' => '10 seconds'],
+            'rate' => ['interval' => '10 seconds'],
         ];
         $limiter = $container->setDefinition(
-            $limiterId = 'limiter.' . $name,
+            $limiterId = 'limiter.'.$name,
             new ChildDefinition('limiter')
         );
         $container->register(
-            $storageId = 'limiter.storage.' . $name,
+            $storageId = 'limiter.storage.'.$name,
             CacheStorage::class
         )->addArgument(new Reference($limiterConfig['cache_pool']));
 
@@ -41,6 +41,6 @@ class RateLimitersCompilerPass implements CompilerPassInterface
         unset($limiterConfig['cache_pool']);
         $limiterConfig['id'] = $name;
         $limiter->replaceArgument(0, $limiterConfig);
-        $container->registerAliasForArgument($limiterId, RateLimiterFactory::class, $name . '.limiter');
+        $container->registerAliasForArgument($limiterId, RateLimiterFactory::class, $name.'.limiter');
     }
 }

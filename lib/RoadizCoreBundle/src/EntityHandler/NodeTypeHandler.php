@@ -28,24 +28,22 @@ final class NodeTypeHandler extends AbstractHandler
 {
     private ?NodeType $nodeType = null;
 
-    /**
-     * @return NodeType
-     */
     public function getNodeType(): NodeType
     {
         if (null === $this->nodeType) {
             throw new \BadMethodCallException('NodeType is null');
         }
+
         return $this->nodeType;
     }
 
     /**
-     * @param NodeType $nodeType
      * @return $this
      */
     public function setNodeType(NodeType $nodeType): self
     {
         $this->nodeType = $nodeType;
+
         return $this;
     }
 
@@ -59,7 +57,7 @@ final class NodeTypeHandler extends AbstractHandler
         private readonly string $generatedEntitiesDir,
         private readonly string $serializedNodeTypesDir,
         private readonly string $importFilesConfigPath,
-        private readonly string $kernelProjectDir
+        private readonly string $kernelProjectDir,
     ) {
         parent::__construct($objectManager);
     }
@@ -71,7 +69,7 @@ final class NodeTypeHandler extends AbstractHandler
 
     public function getGeneratedRepositoriesFolder(): string
     {
-        return $this->getGeneratedEntitiesFolder() . DIRECTORY_SEPARATOR . 'Repository';
+        return $this->getGeneratedEntitiesFolder().DIRECTORY_SEPARATOR.'Repository';
     }
 
     /**
@@ -96,6 +94,7 @@ final class NodeTypeHandler extends AbstractHandler
                 'file' => $file,
                 'repositoryFile' => $repositoryFile,
             ]);
+
             return true;
         }
 
@@ -111,20 +110,21 @@ final class NodeTypeHandler extends AbstractHandler
                 'json',
                 SerializationContext::create()->setGroups(['node_type', 'position'])
             );
-            $file = $this->serializedNodeTypesDir . DIRECTORY_SEPARATOR . $this->nodeType->getName() . '.json';
+            $file = $this->serializedNodeTypesDir.DIRECTORY_SEPARATOR.$this->nodeType->getName().'.json';
             @file_put_contents($file, $content);
 
             $this->addNodeTypeToImportFilesConfiguration($fileSystem, $file);
 
             return $file;
         }
+
         return null;
     }
 
     protected function removeNodeTypeJsonFile(): void
     {
         $fileSystem = new Filesystem();
-        $file = $this->serializedNodeTypesDir . DIRECTORY_SEPARATOR . $this->nodeType->getName() . '.json';
+        $file = $this->serializedNodeTypesDir.DIRECTORY_SEPARATOR.$this->nodeType->getName().'.json';
         if ($fileSystem->exists($file)) {
             @unlink($file);
             $this->removeNodeTypeFromImportFilesConfiguration($fileSystem, $file);
@@ -140,7 +140,7 @@ final class NodeTypeHandler extends AbstractHandler
                     $config = Yaml::parseFile($this->importFilesConfigPath);
                     if (!isset($config['importFiles'])) {
                         $config['importFiles'] = [
-                            'nodetypes' => []
+                            'nodetypes' => [],
                         ];
                     }
                     if (!isset($config['importFiles']['nodetypes'])) {
@@ -148,7 +148,7 @@ final class NodeTypeHandler extends AbstractHandler
                     }
 
                     $relativePath = str_replace(
-                        $this->kernelProjectDir . DIRECTORY_SEPARATOR,
+                        $this->kernelProjectDir.DIRECTORY_SEPARATOR,
                         '',
                         $file
                     );
@@ -181,7 +181,7 @@ final class NodeTypeHandler extends AbstractHandler
                     }
 
                     $relativePath = str_replace(
-                        $this->kernelProjectDir . DIRECTORY_SEPARATOR,
+                        $this->kernelProjectDir.DIRECTORY_SEPARATOR,
                         '',
                         $file
                     );
@@ -201,8 +201,6 @@ final class NodeTypeHandler extends AbstractHandler
 
     /**
      * Generate Doctrine entity class for current node-type.
-     *
-     * @return bool
      */
     public function generateSourceEntityClass(): bool
     {
@@ -226,10 +224,10 @@ final class NodeTypeHandler extends AbstractHandler
             $repositoryContent = $repositoryGenerator->getClassContent();
 
             if (false === @file_put_contents($file, $content)) {
-                throw new IOException("Impossible to write entity class file (" . $file . ").", 1);
+                throw new IOException('Impossible to write entity class file ('.$file.').', 1);
             }
             if (false === @file_put_contents($repositoryFile, $repositoryContent)) {
-                throw new IOException("Impossible to write entity class file (" . $repositoryFile . ").", 1);
+                throw new IOException('Impossible to write entity class file ('.$repositoryFile.').', 1);
             }
             /*
              * Force Zend OPcache to reset file
@@ -252,19 +250,22 @@ final class NodeTypeHandler extends AbstractHandler
 
             return true;
         }
+
         return false;
     }
 
     public function getSourceClassPath(): string
     {
         $folder = $this->getGeneratedEntitiesFolder();
-        return $folder . DIRECTORY_SEPARATOR . $this->nodeType->getSourceEntityClassName() . '.php';
+
+        return $folder.DIRECTORY_SEPARATOR.$this->nodeType->getSourceEntityClassName().'.php';
     }
 
     public function getRepositoryClassPath(): string
     {
         $folder = $this->getGeneratedRepositoriesFolder();
-        return $folder . DIRECTORY_SEPARATOR . $this->nodeType->getSourceEntityClassName() . 'Repository.php';
+
+        return $folder.DIRECTORY_SEPARATOR.$this->nodeType->getSourceEntityClassName().'Repository.php';
     }
 
     /**
@@ -316,6 +317,7 @@ final class NodeTypeHandler extends AbstractHandler
      * before removing it from node-types table.
      *
      * @return $this
+     *
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
@@ -355,7 +357,6 @@ final class NodeTypeHandler extends AbstractHandler
     /**
      * Reset current node-type fields positions.
      *
-     * @param bool $setPositions
      * @return float Return the next position after the **last** field
      */
     public function cleanPositions(bool $setPositions = false): float
@@ -367,7 +368,7 @@ final class NodeTypeHandler extends AbstractHandler
         /** @var NodeTypeField $field */
         foreach ($fields as $field) {
             $field->setPosition($i);
-            $i++;
+            ++$i;
         }
 
         return $i;

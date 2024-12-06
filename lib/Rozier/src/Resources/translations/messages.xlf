@@ -1151,6 +1151,7 @@
 
             <trans-unit xml:space="preserve" id="export_format.rzn"><source>export_format.rzn</source></trans-unit>
             <trans-unit xml:space="preserve" id="export_format.excel.%language%"><source>export_format.excel.%language%</source></trans-unit>
+            <trans-unit xml:space="preserve" id="export_format.csv.%language%"><source>export_format.csv.%language%</source></trans-unit>
 
             <!-- Bulk tags -->
             <trans-unit xml:space="preserve" id="delete.tags"><source>delete.tags</source></trans-unit>
@@ -1197,6 +1198,7 @@
             <trans-unit xml:space="preserve" id="document.is_only_external"><source>document.is_only_external</source><note>Warning message displayed when document does not have any file locally.</note></trans-unit>
 
             <trans-unit xml:space="preserve" id="reachable"><source>reachable</source><note>For node-types, defines if produced nodes will be reachable with an URL or not (eg. just content blocks).</note></trans-unit>
+            <trans-unit xml:space="preserve" id="You cannot delete a node-type in production mode."><source>You cannot delete a node-type in production mode.</source><note>For node-types, a notice when env is prod to prevent editing node-type schema in production.</note></trans-unit>
             <trans-unit xml:space="preserve" id="yaml.type"><source>yaml.type</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="manage.redirections"><source>manage.redirections</source><note>Redirection section button label</note></trans-unit>

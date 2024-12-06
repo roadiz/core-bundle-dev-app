@@ -8,7 +8,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractEntityListManager implements EntityListManagerInterface
 {
-    protected ?Request $request = null;
     protected bool $pagination = true;
     protected ?array $queryArray = null;
     protected ?int $currentPage = null;
@@ -19,12 +18,8 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     protected bool $allowRequestSorting = true;
     protected bool $allowRequestSearching = true;
 
-    /**
-     * @param Request|null  $request
-     */
-    public function __construct(?Request $request)
+    public function __construct(protected readonly ?Request $request = null)
     {
-        $this->request = $request;
         $this->displayNotPublishedNodes = false;
         $this->displayAllNodesStatuses = false;
         if (null !== $request) {
@@ -35,39 +30,32 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
         $this->itemPerPage = static::ITEM_PER_PAGE;
     }
 
-    public function setAllowRequestSorting(bool $allowRequestSorting)
+    public function setAllowRequestSorting(bool $allowRequestSorting): self
     {
         $this->allowRequestSorting = $allowRequestSorting;
+
         return $this;
     }
 
-    public function setAllowRequestSearching(bool $allowRequestSearching)
+    public function setAllowRequestSearching(bool $allowRequestSearching): self
     {
         $this->allowRequestSearching = $allowRequestSearching;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isDisplayingNotPublishedNodes(): bool
     {
         return $this->displayNotPublishedNodes;
     }
 
-    /**
-     * @param bool $displayNotPublishedNodes
-     * @return EntityListManagerInterface
-     */
-    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes)
+    public function setDisplayingNotPublishedNodes(bool $displayNotPublishedNodes): self
     {
         $this->displayNotPublishedNodes = $displayNotPublishedNodes;
+
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isDisplayingAllNodesStatuses(): bool
     {
         return $this->displayAllNodesStatuses;
@@ -76,47 +64,34 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     /**
      * Switch repository to disable any security on Node status. To use ONLY in order to
      * view deleted and archived nodes.
-     *
-     * @param bool $displayAllNodesStatuses
-     * @return EntityListManagerInterface
      */
-    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses)
+    public function setDisplayingAllNodesStatuses(bool $displayAllNodesStatuses): self
     {
         $this->displayAllNodesStatuses = $displayAllNodesStatuses;
+
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function setPage(int $page)
+    public function setPage(int $page): self
     {
         $this->currentPage = $page > 0 ? $page : 1;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
     protected function getPage(): int
     {
         return $this->currentPage;
     }
 
-    /**
-     * @return EntityListManagerInterface
-     */
-    public function enablePagination()
+    public function enablePagination(): self
     {
         $this->pagination = true;
+
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function disablePagination()
+    public function disablePagination(): self
     {
         $this->setPage(1);
         $this->pagination = false;
@@ -124,9 +99,6 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
         return $this;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getAssignation(): array
     {
         $assign = [
@@ -179,9 +151,6 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
         return $this->queryArray ?? [];
     }
 
-    /**
-     * @return int
-     */
     protected function getItemPerPage(): int
     {
         return $this->itemPerPage;
@@ -189,21 +158,14 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
 
     /**
      * Configure a custom item count per page.
-     *
-     * @param int $itemPerPage
-     *
-     * @return EntityListManagerInterface
      */
-    public function setItemPerPage(int $itemPerPage)
+    public function setItemPerPage(int $itemPerPage): self
     {
         $this->itemPerPage = $itemPerPage > 0 ? $itemPerPage : 1;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getPageCount(): int
     {
         return (int) ceil($this->getItemCount() / $this->getItemPerPage());
@@ -216,6 +178,7 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
              * Disable pagination and paginator
              */
             $this->disablePagination();
+
             return;
         }
 
@@ -228,11 +191,11 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
         $page = $this->request->query->get('page');
 
         if (
-            $this->allowRequestSorting &&
-            \is_string($field) &&
-            $field !== "" &&
-            \is_string($ordering) &&
-            \in_array(strtolower($ordering), ['asc', 'desc'])
+            $this->allowRequestSorting
+            && \is_string($field)
+            && '' !== $field
+            && \is_string($ordering)
+            && \in_array(strtolower($ordering), ['asc', 'desc'])
         ) {
             $this->handleOrderingParam($field, $ordering);
             $this->queryArray['field'] = $field;
@@ -240,24 +203,24 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
         }
 
         if (
-            $this->allowRequestSearching &&
-            \is_string($search) &&
-            $search !== ""
+            $this->allowRequestSearching
+            && \is_string($search)
+            && '' !== $search
         ) {
             $this->handleSearchParam($search);
             $this->queryArray['search'] = $search;
         }
 
         if (
-            \is_numeric($itemPerPage) &&
-            ((int) $itemPerPage) > 0
+            \is_numeric($itemPerPage)
+            && ((int) $itemPerPage) > 0
         ) {
             $this->setItemPerPage((int) $itemPerPage);
         }
 
         if (
-            \is_numeric($page) &&
-            ((int) $page) > 1
+            \is_numeric($page)
+            && ((int) $page) > 1
         ) {
             $this->setPage((int) $page);
         } else {
@@ -278,7 +241,7 @@ abstract class AbstractEntityListManager implements EntityListManagerInterface
     protected function validateOrderingFieldName(string $field): void
     {
         // check if field is a valid name without any SQL injection
-        if (\preg_match('/^[a-zA-Z0-9_.]+$/', $field) !== 1) {
+        if (1 !== \preg_match('/^[a-zA-Z0-9_.]+$/', $field)) {
             throw new \InvalidArgumentException('Field name is not valid.');
         }
     }

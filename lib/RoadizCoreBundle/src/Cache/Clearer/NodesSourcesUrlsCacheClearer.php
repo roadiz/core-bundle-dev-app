@@ -19,8 +19,10 @@ final class NodesSourcesUrlsCacheClearer extends FileClearer
 
         if ($this->cacheProvider->clear()) {
             $this->output .= 'cleared';
+
             return true;
         }
+
         return false;
     }
 }

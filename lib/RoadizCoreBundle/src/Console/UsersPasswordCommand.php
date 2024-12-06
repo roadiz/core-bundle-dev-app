@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Console;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\User;
-use RZ\Roadiz\Random\PasswordGenerator;
+use RZ\Roadiz\Random\PasswordGeneratorInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,9 +16,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class UsersPasswordCommand extends UsersCommand
 {
     public function __construct(
-        private readonly PasswordGenerator $passwordGenerator,
+        private readonly PasswordGeneratorInterface $passwordGenerator,
         ManagerRegistry $managerRegistry,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($managerRegistry, $name);
     }
@@ -31,6 +31,11 @@ final class UsersPasswordCommand extends UsersCommand
                 'username',
                 InputArgument::REQUIRED,
                 'Username'
+            )->addOption(
+                'length',
+                'l',
+                InputArgument::OPTIONAL,
+                default: 16,
             );
     }
 
@@ -41,7 +46,7 @@ final class UsersPasswordCommand extends UsersCommand
         $user = $this->getUserForInput($input);
 
         $confirmation = new ConfirmationQuestion(
-            '<question>Do you really want to regenerate user “' . $user->getUsername() . '” password?</question>',
+            '<question>Do you really want to regenerate user “'.$user->getUsername().'” password?</question>',
             false
         );
         if (
@@ -49,12 +54,16 @@ final class UsersPasswordCommand extends UsersCommand
                 $confirmation
             )
         ) {
-            $user->setPlainPassword($this->passwordGenerator->generatePassword(12));
+            $user->setPlainPassword($this->passwordGenerator->generatePassword(
+                (int) $input->getOption('length')
+            ));
             $this->managerRegistry->getManagerForClass(User::class)->flush();
-            $io->success('A new password was regenerated for ' . $name . ': ' . $user->getPlainPassword());
+            $io->success('A new password was regenerated for '.$name.': '.$user->getPlainPassword());
+
             return 0;
         } else {
             $io->warning('User password was not changed.');
+
             return 1;
         }
     }

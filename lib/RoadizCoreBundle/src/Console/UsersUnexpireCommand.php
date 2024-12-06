@@ -31,7 +31,7 @@ final class UsersUnexpireCommand extends UsersCommand
         $user = $this->getUserForInput($input);
 
         $confirmation = new ConfirmationQuestion(
-            '<question>Do you really want to remove user “' . $user->getUsername() . '” expiration date?</question>',
+            '<question>Do you really want to remove user “'.$user->getUsername().'” expiration date?</question>',
             false
         );
         if (
@@ -41,10 +41,12 @@ final class UsersUnexpireCommand extends UsersCommand
         ) {
             $user->setExpiresAt(null);
             $this->managerRegistry->getManagerForClass(User::class)->flush();
-            $io->success('User “' . $name . '” unexpired.');
+            $io->success('User “'.$name.'” unexpired.');
+
             return 0;
         } else {
-            $io->warning('User “' . $name . '” was not updated.');
+            $io->warning('User “'.$name.'” was not updated.');
+
             return 1;
         }
     }

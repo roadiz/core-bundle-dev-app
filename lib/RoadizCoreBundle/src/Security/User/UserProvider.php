@@ -11,24 +11,13 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-/**
- * @package RZ\Roadiz\CoreBundle\EntityHandler
- */
-class UserProvider implements UserProviderInterface
+final readonly class UserProvider implements UserProviderInterface
 {
-    protected ManagerRegistry $managerRegistry;
-
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     /**
-     * @param string $username
-     * @return UserInterface
      * @deprecated since Symfony 5.3, use loadUserByIdentifier() instead
      */
     public function loadUserByUsername(string $username): UserInterface
@@ -43,14 +32,14 @@ class UserProvider implements UserProviderInterface
             ->getRepository(User::class)
             ->findOneBy(['username' => $identifier]);
 
-        if ($user === null) {
+        if (null === $user) {
             /** @var User|null $user */
             $user = $this->managerRegistry
                 ->getRepository(User::class)
                 ->findOneBy(['email' => $identifier]);
         }
 
-        if ($user !== null) {
+        if (null !== $user) {
             return $user;
         } else {
             throw new UserNotFoundException();
@@ -70,8 +59,8 @@ class UserProvider implements UserProviderInterface
      * object can just be merged into some internal array of users / identity
      * map.
      *
-     * @param UserInterface $user
      * @return User
+     *
      * @throws UnsupportedUserException
      */
     public function refreshUser(UserInterface $user): UserInterface
@@ -81,10 +70,10 @@ class UserProvider implements UserProviderInterface
             /** @var User|null $refreshUser */
             $refreshUser = $manager->find(User::class, (int) $user->getId());
             if (
-                $refreshUser !== null &&
-                $refreshUser->isEnabled() &&
-                $refreshUser->isAccountNonExpired() &&
-                $refreshUser->isAccountNonLocked()
+                null !== $refreshUser
+                && $refreshUser->isEnabled()
+                && $refreshUser->isAccountNonExpired()
+                && $refreshUser->isAccountNonLocked()
             ) {
                 // Always refresh User from database: too much related entities to rely only on token.
                 return $refreshUser;
@@ -96,13 +85,12 @@ class UserProvider implements UserProviderInterface
     }
 
     /**
-     * Whether this provider supports the given user class
+     * Whether this provider supports the given user class.
      *
      * @param class-string $class
-     * @return bool
      */
     public function supportsClass($class): bool
     {
-        return $class === User::class;
+        return User::class === $class;
     }
 }

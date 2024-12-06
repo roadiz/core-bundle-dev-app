@@ -38,23 +38,25 @@ final class NodeTypesAddFieldCommand extends NodeTypesCreationCommand
             ->getRepository(NodeType::class)
             ->findOneBy(['name' => $name]);
 
-        if ($nodeType !== null) {
-            $latestPosition = $this->managerRegistry
-                ->getRepository(NodeTypeField::class)
-                ->findLatestPositionInNodeType($nodeType);
-            $this->addNodeTypeField($nodeType, $latestPosition + 1, $io);
-            $this->managerRegistry->getManagerForClass(NodeTypeField::class)->flush();
+        if (null === $nodeType) {
+            $io->error('Node-type "'.$name.'" does not exist.');
 
-            /** @var NodeTypeHandler $handler */
-            $handler = $this->handlerFactory->getHandler($nodeType);
-            $handler->regenerateEntityClass();
-            $this->schemaUpdater->updateNodeTypesSchema();
-
-            $io->success('Node type ' . $nodeType->getName() . ' has been updated.');
-            return 0;
-        } else {
-            $io->error('Node-type "' . $name . '" does not exist.');
             return 1;
         }
+
+        $latestPosition = $this->managerRegistry
+            ->getRepository(NodeTypeField::class)
+            ->findLatestPositionInNodeType($nodeType);
+        $this->addNodeTypeField($nodeType, $latestPosition + 1, $io);
+        $this->managerRegistry->getManagerForClass(NodeTypeField::class)->flush();
+
+        /** @var NodeTypeHandler $handler */
+        $handler = $this->handlerFactory->getHandler($nodeType);
+        $handler->regenerateEntityClass();
+        $this->schemaUpdater->updateNodeTypesSchema();
+
+        $io->success('Node type '.$nodeType->getName().' has been updated.');
+
+        return 0;
     }
 }

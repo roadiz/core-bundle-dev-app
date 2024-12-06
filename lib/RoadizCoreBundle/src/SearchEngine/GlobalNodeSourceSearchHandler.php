@@ -10,16 +10,10 @@ use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 
-/**
- * @package RZ\Roadiz\CoreBundle\SearchEngine
- */
-class GlobalNodeSourceSearchHandler
+readonly class GlobalNodeSourceSearchHandler
 {
-    private ObjectManager $em;
-
-    public function __construct(ObjectManager $em)
+    public function __construct(private ObjectManager $em)
     {
-        $this->em = $em;
     }
 
     /**
@@ -31,26 +25,22 @@ class GlobalNodeSourceSearchHandler
     }
 
     /**
-     * @param bool $displayNonPublishedNodes
-     *
      * @return $this
      */
     public function setDisplayNonPublishedNodes(bool $displayNonPublishedNodes): self
     {
         $this->getRepository()->setDisplayingNotPublishedNodes($displayNonPublishedNodes);
+
         return $this;
     }
 
     /**
-     * @param string $searchTerm
-     * @param int $resultCount
-     * @param Translation|null $translation
      * @return NodesSources[]
      */
     public function getNodeSourcesBySearchTerm(
         string $searchTerm,
         int $resultCount,
-        ?Translation $translation = null
+        ?Translation $translation = null,
     ): array {
         $safeSearchTerms = strip_tags($searchTerm);
 
@@ -80,7 +70,7 @@ class GlobalNodeSourceSearchHandler
             $resultCount
         );
 
-        if (count($nodesSources) === 0) {
+        if (0 === count($nodesSources)) {
             /*
              * Then try with node name.
              */
@@ -93,7 +83,7 @@ class GlobalNodeSourceSearchHandler
                     $qb->expr()->like('ns.title', ':nodeName')
                 ))
                 ->setMaxResults($resultCount)
-                ->setParameter('nodeName', '%' . $safeSearchTerms . '%');
+                ->setParameter('nodeName', '%'.$safeSearchTerms.'%');
 
             if (null !== $translation) {
                 $qb->andWhere($qb->expr()->eq('ns.translation', ':translation'))

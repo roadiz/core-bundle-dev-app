@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 
-final class FontFaceController
+final readonly class FontFaceController
 {
     public function __construct(
-        private readonly FilesystemOperator $fontStorage,
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly Environment $templating,
+        private FilesystemOperator $fontStorage,
+        private ManagerRegistry $managerRegistry,
+        private Environment $templating,
     ) {
     }
 
@@ -28,27 +28,27 @@ final class FontFaceController
             return match ($extension) {
                 'eot' => [
                     $this->fontStorage->read($font->getEOTRelativeUrl()),
-                    Font::MIME_EOT
+                    Font::MIME_EOT,
                 ],
                 'woff' => [
                     $this->fontStorage->read($font->getWOFFRelativeUrl()),
-                    Font::MIME_WOFF
+                    Font::MIME_WOFF,
                 ],
                 'woff2' => [
                     $this->fontStorage->read($font->getWOFF2RelativeUrl()),
-                    Font::MIME_WOFF2
+                    Font::MIME_WOFF2,
                 ],
                 'svg' => [
                     $this->fontStorage->read($font->getSVGRelativeUrl()),
-                    Font::MIME_SVG
+                    Font::MIME_SVG,
                 ],
                 'otf' => [
                     $this->fontStorage->read($font->getOTFRelativeUrl()),
-                    Font::MIME_OTF
+                    Font::MIME_OTF,
                 ],
                 'ttf' => [
                     $this->fontStorage->read($font->getOTFRelativeUrl()),
-                    Font::MIME_TTF
+                    Font::MIME_TTF,
                 ],
                 default => null,
             };
@@ -60,12 +60,6 @@ final class FontFaceController
     /**
      * Request a single protected font file from Roadiz.
      *
-     * @param Request $request
-     * @param string  $filename
-     * @param int     $variant
-     * @param string  $extension
-     *
-     * @return Response
      * @throws \Exception
      */
     public function fontFileAction(Request $request, string $filename, int $variant, string $extension): Response
@@ -103,7 +97,7 @@ final class FontFaceController
                 return $response;
             }
         }
-        $msg = "Font doesn't exist " . $filename;
+        $msg = "Font doesn't exist ".$filename;
 
         return new Response(
             $msg,
@@ -115,9 +109,6 @@ final class FontFaceController
     /**
      * Request the font-face CSS file listing available fonts.
      *
-     * @param Request $request
-     *
-     * @return Response
      * @throws \Exception
      */
     public function fontFacesAction(Request $request): Response
@@ -151,7 +142,7 @@ final class FontFaceController
         ];
         /** @var Font $font */
         foreach ($fonts as $font) {
-            $variantHash = $font->getHash() . $font->getVariant();
+            $variantHash = $font->getHash().$font->getVariant();
             $assignation['fonts'][] = [
                 'font' => $font,
                 'variantHash' => $variantHash,

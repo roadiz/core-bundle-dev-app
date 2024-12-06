@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Documents;
 
-use Exception;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Document;
@@ -28,11 +27,6 @@ class DocumentTranslationsController extends RozierApp
     use VersionedControllerTrait;
 
     /**
-     * @param Request $request
-     * @param int $documentId
-     * @param int|null $translationId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function editAction(Request $request, int $documentId, ?int $translationId = null): Response
@@ -59,11 +53,11 @@ class DocumentTranslationsController extends RozierApp
                            ->getRepository(DocumentTranslation::class)
                            ->findOneBy(['document' => $documentId, 'translation' => $translationId]);
 
-        if ($documentTr === null && $document !== null && $translation !== null) {
+        if (null === $documentTr && null !== $document && null !== $translation) {
             $documentTr = $this->createDocumentTranslation($document, $translation);
         }
 
-        if ($documentTr === null || $document === null) {
+        if (null === $documentTr || null === $document) {
             throw new ResourceNotFoundException();
         }
 
@@ -71,7 +65,7 @@ class DocumentTranslationsController extends RozierApp
         $this->assignation['translation'] = $translation;
         $this->assignation['documentTr'] = $documentTr;
 
-        /**
+        /*
          * Versioning
          */
         if ($this->isGranted('ROLE_ACCESS_VERSIONS')) {
@@ -99,7 +93,7 @@ class DocumentTranslationsController extends RozierApp
 
             if ($form->get('referer')->getData()) {
                 $routeParams = array_merge($routeParams, [
-                    'referer' => $form->get('referer')->getData()
+                    'referer' => $form->get('referer')->getData(),
                 ]);
             }
 
@@ -120,7 +114,7 @@ class DocumentTranslationsController extends RozierApp
 
     protected function createDocumentTranslation(
         Document $document,
-        TranslationInterface $translation
+        TranslationInterface $translation,
     ): DocumentTranslation {
         $dt = new DocumentTranslation();
         $dt->setDocument($document);
@@ -134,11 +128,6 @@ class DocumentTranslationsController extends RozierApp
     /**
      * Return an deletion form for requested document.
      *
-     * @param Request $request
-     * @param int     $documentId
-     * @param int     $translationId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function deleteAction(Request $request, int $documentId, int $translationId): Response
@@ -152,8 +141,8 @@ class DocumentTranslationsController extends RozierApp
                          ->find(Document::class, $documentId);
 
         if (
-            $documentTr !== null &&
-            $document !== null
+            null !== $documentTr
+            && null !== $document
         ) {
             $this->assignation['documentTr'] = $documentTr;
             $this->assignation['document'] = $document;
@@ -161,9 +150,9 @@ class DocumentTranslationsController extends RozierApp
             $form->handleRequest($request);
 
             if (
-                $form->isSubmitted() &&
-                $form->isValid() &&
-                $form->getData()['documentId'] == $documentTr->getId()
+                $form->isSubmitted()
+                && $form->isValid()
+                && $form->getData()['documentId'] == $documentTr->getId()
             ) {
                 try {
                     $this->em()->remove($documentTr);
@@ -174,13 +163,14 @@ class DocumentTranslationsController extends RozierApp
                         ['%name%' => (string) $document]
                     );
                     $this->publishConfirmMessage($request, $msg, $document);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $msg = $this->getTranslator()->trans(
                         'document.translation.%name%.cannot_delete',
                         ['%name%' => (string) $document]
                     );
                     $this->publishErrorMessage($request, $msg, $document);
                 }
+
                 /*
                  * Force redirect to avoid resending form when refreshing page
                  */
@@ -235,14 +225,15 @@ class DocumentTranslationsController extends RozierApp
     protected function getPostUpdateRedirection(PersistableInterface $entity): ?Response
     {
         if (
-            $entity instanceof DocumentTranslation &&
-            $entity->getDocument() instanceof Document &&
-            $entity->getTranslation() instanceof Translation
+            $entity instanceof DocumentTranslation
+            && $entity->getDocument() instanceof Document
+            && $entity->getTranslation() instanceof Translation
         ) {
             $routeParams = [
                 'documentId' => $entity->getDocument()->getId(),
                 'translationId' => $entity->getTranslation()->getId(),
             ];
+
             /*
              * Force redirect to avoid resending form when refreshing page
              */
@@ -251,6 +242,7 @@ class DocumentTranslationsController extends RozierApp
                 $routeParams
             );
         }
+
         return null;
     }
 }

@@ -9,6 +9,7 @@ use League\CommonMark\MarkdownConverter;
 use RZ\Roadiz\CoreBundle\Cache\CloudflareProxyCache;
 use RZ\Roadiz\CoreBundle\Cache\ReverseProxyCache;
 use RZ\Roadiz\CoreBundle\Cache\ReverseProxyCacheLocator;
+use RZ\Roadiz\CoreBundle\DataCollector\SolariumLogger;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -18,10 +19,9 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
-use RZ\Roadiz\CoreBundle\SearchEngine\SolariumLogger;
-use RZ\Roadiz\CoreBundle\Webhook\Message\GenericJsonPostMessage;
-use RZ\Roadiz\CoreBundle\Webhook\Message\GitlabPipelineTriggerMessage;
-use RZ\Roadiz\CoreBundle\Webhook\Message\NetlifyBuildHookMessage;
+use RZ\Roadiz\CoreBundle\Webhook\Message\GenericJsonPostMessageInterface;
+use RZ\Roadiz\CoreBundle\Webhook\Message\GitlabPipelineTriggerMessageInterface;
+use RZ\Roadiz\CoreBundle\Webhook\Message\NetlifyBuildHookMessageInterface;
 use RZ\Roadiz\Markdown\CommonMark;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\Core\Client\Adapter\Curl;
@@ -44,12 +44,9 @@ class RoadizCoreExtension extends Extension
         return 'roadiz_core';
     }
 
-    /**
-     * @inheritDoc
-     */
     public function load(array $configs, ContainerBuilder $container): void
     {
-        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__) . '/../config'));
+        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/../config'));
         $loader->load('services.yaml');
 
         $configuration = new Configuration();
@@ -84,7 +81,7 @@ class RoadizCoreExtension extends Extension
         $projectDir = $container->getParameter('kernel.project_dir');
         $container->setParameter(
             'roadiz_core.documents_lib_dir',
-            $projectDir . DIRECTORY_SEPARATOR . trim($config['documentsLibDir'], "/ \t\n\r\0\x0B")
+            $projectDir.DIRECTORY_SEPARATOR.trim($config['documentsLibDir'], "/ \t\n\r\0\x0B")
         );
         /*
          * Media config
@@ -116,9 +113,9 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.medias.supported_platforms', []);
 
         $container->setParameter('roadiz_core.webhook.message_types', [
-            'webhook.type.generic_json_post' => GenericJsonPostMessage::class,
-            'webhook.type.gitlab_pipeline' => GitlabPipelineTriggerMessage::class,
-            'webhook.type.netlify_build_hook' => NetlifyBuildHookMessage::class,
+            'webhook.type.generic_json_post' => GenericJsonPostMessageInterface::class,
+            'webhook.type.gitlab_pipeline' => GitlabPipelineTriggerMessageInterface::class,
+            'webhook.type.netlify_build_hook' => NetlifyBuildHookMessageInterface::class,
         ]);
 
         $this->registerEntityGenerator($config, $container);
@@ -132,7 +129,7 @@ class RoadizCoreExtension extends Extension
         $reverseProxyCacheFrontendsReferences = [];
         if (isset($config['reverseProxyCache'])) {
             foreach ($config['reverseProxyCache']['frontend'] as $name => $frontend) {
-                $definitionName = 'roadiz_core.reverse_proxy_cache.frontends.' . $name;
+                $definitionName = 'roadiz_core.reverse_proxy_cache.frontends.'.$name;
                 $container->setDefinition(
                     $definitionName,
                     (new Definition())
@@ -149,8 +146,8 @@ class RoadizCoreExtension extends Extension
             }
 
             if (
-                isset($config['reverseProxyCache']['cloudflare']) &&
-                isset($config['reverseProxyCache']['cloudflare']['bearer'])
+                isset($config['reverseProxyCache']['cloudflare'])
+                && isset($config['reverseProxyCache']['cloudflare']['bearer'])
             ) {
                 $container->setDefinition(
                     'roadiz_core.reverse_proxy_cache.cloudflare',
@@ -180,7 +177,7 @@ class RoadizCoreExtension extends Extension
                     new Reference(
                         'roadiz_core.reverse_proxy_cache.cloudflare',
                         ContainerInterface::NULL_ON_INVALID_REFERENCE
-                    )
+                    ),
                 ])
         );
     }
@@ -217,16 +214,16 @@ class RoadizCoreExtension extends Extension
         if (isset($config['solr'])) {
             foreach ($config['solr']['endpoints'] as $name => $endpoint) {
                 $container->setDefinition(
-                    'roadiz_core.solr.endpoints.' . $name,
+                    'roadiz_core.solr.endpoints.'.$name,
                     (new Definition())
                         ->setClass(Endpoint::class)
                         ->setPublic(true)
                         ->setArguments([
-                            $endpoint
+                            $endpoint,
                         ])
                         ->addMethodCall('setKey', [$name])
                 );
-                $solrEndpoints[] = 'roadiz_core.solr.endpoints.' . $name;
+                $solrEndpoints[] = 'roadiz_core.solr.endpoints.'.$name;
             }
         }
         if (count($solrEndpoints) > 0) {
@@ -240,7 +237,7 @@ class RoadizCoreExtension extends Extension
                     ->setShared(true)
                     ->setArguments([
                         new Reference('roadiz_core.solr.adapter'),
-                        new Reference(EventDispatcherInterface::class)
+                        new Reference(EventDispatcherInterface::class),
                     ])
                     ->addMethodCall('registerPlugin', ['roadiz_core.solr.client.logger', $logger])
                     ->addMethodCall('setEndpoints', [array_map(function (string $endpointId) {
@@ -258,26 +255,26 @@ class RoadizCoreExtension extends Extension
                 'open_in_new_window' => true,
                 'noopener' => 'external',
                 'noreferrer' => 'external',
-            ]
+            ],
         ]);
         /** @var array $defaultConfig */
         $defaultConfig = $container->getParameter('roadiz_core.markdown_config_default');
         $container->setParameter(
             'roadiz_core.markdown_config_text_converter',
             array_merge($defaultConfig, [
-                'html_input' => 'allow'
+                'html_input' => 'allow',
             ])
         );
         $container->setParameter(
             'roadiz_core.markdown_config_text_extra_converter',
             array_merge($defaultConfig, [
-                'html_input' => 'allow'
+                'html_input' => 'allow',
             ])
         );
         $container->setParameter(
             'roadiz_core.markdown_config_line_converter',
             array_merge($defaultConfig, [
-                'html_input' => 'escape'
+                'html_input' => 'escape',
             ])
         );
 
@@ -299,7 +296,7 @@ class RoadizCoreExtension extends Extension
                 ->setShared(true)
                 ->setPublic(true)
                 ->setArguments([
-                    new Reference('roadiz_core.markdown.environments.text_converter')
+                    new Reference('roadiz_core.markdown.environments.text_converter'),
                 ])
         );
 
@@ -321,7 +318,7 @@ class RoadizCoreExtension extends Extension
                 ->setShared(true)
                 ->setPublic(true)
                 ->setArguments([
-                    new Reference('roadiz_core.markdown.environments.text_extra_converter')
+                    new Reference('roadiz_core.markdown.environments.text_extra_converter'),
                 ])
         );
 
@@ -343,7 +340,7 @@ class RoadizCoreExtension extends Extension
                 ->setShared(true)
                 ->setPublic(true)
                 ->setArguments([
-                    new Reference('roadiz_core.markdown.environments.line_converter')
+                    new Reference('roadiz_core.markdown.environments.line_converter'),
                 ])
         );
 

@@ -17,7 +17,7 @@ final class GenerateApiResourceCommand extends Command
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly ApiResourceGenerator $apiResourceGenerator,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -38,17 +38,19 @@ final class GenerateApiResourceCommand extends Command
             ->getRepository(NodeType::class)
             ->findAll();
 
-        if (count($nodeTypes) > 0) {
-            foreach ($nodeTypes as $nt) {
-                $resourcePath = $this->apiResourceGenerator->generate($nt);
-                if (null !== $resourcePath) {
-                    $io->writeln("* API resource <info>" . $resourcePath . "</info> has been generated.");
-                }
-            }
-            return 0;
-        } else {
+        if (0 === count($nodeTypes)) {
             $io->error('No available node-types…');
+
             return 1;
         }
+
+        foreach ($nodeTypes as $nt) {
+            $resourcePath = $this->apiResourceGenerator->generate($nt);
+            if (null !== $resourcePath) {
+                $io->writeln('* API resource <info>'.$resourcePath.'</info> has been generated.');
+            }
+        }
+
+        return 0;
     }
 }

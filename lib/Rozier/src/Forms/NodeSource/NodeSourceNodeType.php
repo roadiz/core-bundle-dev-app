@@ -15,9 +15,6 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * @package RZ\Roadiz\CMS\Forms\NodeSource
- */
 final class NodeSourceNodeType extends AbstractNodeSourceFieldType
 {
     public function __construct(ManagerRegistry $managerRegistry, private readonly NodeHandler $nodeHandler)
@@ -25,10 +22,6 @@ final class NodeSourceNodeType extends AbstractNodeSourceFieldType
         parent::__construct($managerRegistry);
     }
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(
@@ -42,9 +35,6 @@ final class NodeSourceNodeType extends AbstractNodeSourceFieldType
         ;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -58,17 +48,11 @@ final class NodeSourceNodeType extends AbstractNodeSourceFieldType
         ]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getBlockPrefix(): string
     {
         return 'nodes';
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function onPreSetData(FormEvent $event): void
     {
         /** @var NodesSources $nodeSource */
@@ -87,9 +71,6 @@ final class NodeSourceNodeType extends AbstractNodeSourceFieldType
         ));
     }
 
-    /**
-     * @param FormEvent $event
-     */
     public function onPostSubmit(FormEvent $event): void
     {
         /** @var NodesSources $nodeSource */
@@ -108,11 +89,11 @@ final class NodeSourceNodeType extends AbstractNodeSourceFieldType
                 /** @var Node|null $tempNode */
                 $tempNode = $manager->find(Node::class, (int) $nodeId);
 
-                if ($tempNode !== null) {
+                if (null !== $tempNode) {
                     $this->nodeHandler->addNodeForField($tempNode, $nodeTypeField, false, $position);
-                    $position++;
+                    ++$position;
                 } else {
-                    throw new \RuntimeException('Node #' . $nodeId . ' was not found during relationship creation.');
+                    throw new \RuntimeException('Node #'.$nodeId.' was not found during relationship creation.');
                 }
             }
         }

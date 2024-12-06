@@ -13,7 +13,6 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\String\Slugger\AsciiSlugger;
-use ZipArchive;
 
 final class FilesImportCommand extends Command
 {
@@ -22,7 +21,7 @@ final class FilesImportCommand extends Command
     public function __construct(
         private readonly FileAwareInterface $fileAware,
         private readonly string $appNamespace,
-        ?string $name = null
+        ?string $name = null,
     ) {
         parent::__construct($name);
     }
@@ -37,11 +36,6 @@ final class FilesImportCommand extends Command
             ]);
     }
 
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -52,7 +46,7 @@ final class FilesImportCommand extends Command
         );
 
         $appNamespace = (new AsciiSlugger())->slug($this->appNamespace, '_');
-        $tempDir = tempnam(sys_get_temp_dir(), $appNamespace . '_files');
+        $tempDir = tempnam(sys_get_temp_dir(), $appNamespace.'_files');
         if (false === $tempDir) {
             throw new \RuntimeException('Cannot create temporary directory.');
         }
@@ -62,35 +56,35 @@ final class FilesImportCommand extends Command
         mkdir($tempDir);
 
         $zipArchivePath = $input->getArgument('input');
-        $zip = new ZipArchive();
-        if (true === $zip->open($zipArchivePath)) {
-            if (
-                $io->askQuestion(
-                    $confirmation
-                )
-            ) {
-                $zip->extractTo($tempDir);
-
-                $fs = new Filesystem();
-                if ($fs->exists($tempDir . $this->getPublicFolderName())) {
-                    $fs->mirror($tempDir . $this->getPublicFolderName(), $this->fileAware->getPublicFilesPath());
-                    $io->success('Public files have been imported.');
-                }
-                if ($fs->exists($tempDir . $this->getPrivateFolderName())) {
-                    $fs->mirror($tempDir . $this->getPrivateFolderName(), $this->fileAware->getPrivateFilesPath());
-                    $io->success('Private files have been imported.');
-                }
-                if ($fs->exists($tempDir . $this->getFontsFolderName())) {
-                    $fs->mirror($tempDir . $this->getFontsFolderName(), $this->fileAware->getFontsFilesPath());
-                    $io->success('Font files have been imported.');
-                }
-
-                $fs->remove($tempDir);
-            }
-            return 0;
-        } else {
+        $zip = new \ZipArchive();
+        if (true !== $zip->open($zipArchivePath)) {
             $io->error('Zip archive does not exist or is invalid.');
+
             return 1;
         }
+
+        if (!$io->askQuestion($confirmation)) {
+            return 0;
+        }
+
+        $zip->extractTo($tempDir);
+
+        $fs = new Filesystem();
+        if ($fs->exists($tempDir.$this->getPublicFolderName())) {
+            $fs->mirror($tempDir.$this->getPublicFolderName(), $this->fileAware->getPublicFilesPath());
+            $io->success('Public files have been imported.');
+        }
+        if ($fs->exists($tempDir.$this->getPrivateFolderName())) {
+            $fs->mirror($tempDir.$this->getPrivateFolderName(), $this->fileAware->getPrivateFilesPath());
+            $io->success('Private files have been imported.');
+        }
+        if ($fs->exists($tempDir.$this->getFontsFolderName())) {
+            $fs->mirror($tempDir.$this->getFontsFolderName(), $this->fileAware->getFontsFilesPath());
+            $io->success('Font files have been imported.');
+        }
+
+        $fs->remove($tempDir);
+
+        return 0;
     }
 }

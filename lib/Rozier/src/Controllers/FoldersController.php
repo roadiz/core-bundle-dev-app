@@ -48,10 +48,6 @@ class FoldersController extends RozierApp
     /**
      * Return a creation form for requested folder.
      *
-     * @param Request $request
-     * @param int|null $parentFolderId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function addAction(Request $request, ?int $parentFolderId = null): Response
@@ -106,10 +102,6 @@ class FoldersController extends RozierApp
     /**
      * Return a deletion form for requested folder.
      *
-     * @param Request $request
-     * @param int $folderId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function deleteAction(Request $request, int $folderId): Response
@@ -158,10 +150,6 @@ class FoldersController extends RozierApp
     /**
      * Return an edition form for requested folder.
      *
-     * @param Request $request
-     * @param int $folderId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function editAction(Request $request, int $folderId): Response
@@ -171,7 +159,7 @@ class FoldersController extends RozierApp
         /** @var Folder|null $folder */
         $folder = $this->em()->find(Folder::class, $folderId);
 
-        if ($folder === null) {
+        if (null === $folder) {
             throw new ResourceNotFoundException();
         }
 
@@ -212,11 +200,6 @@ class FoldersController extends RozierApp
     }
 
     /**
-     * @param Request $request
-     * @param int $folderId
-     * @param int $translationId
-     *
-     * @return Response
      * @throws RuntimeError
      */
     public function editTranslationAction(Request $request, int $folderId, int $translationId): Response
@@ -261,9 +244,9 @@ class FoldersController extends RozierApp
                 $newFolderName = StringHandler::slugify($folderTranslation->getName());
                 if ($folder->getFolderName() !== $newFolderName) {
                     if (
-                        !$folder->isLocked() &&
-                        $translation->isDefaultTranslation() &&
-                        !$this->folderNameExists($newFolderName)
+                        !$folder->isLocked()
+                        && $translation->isDefaultTranslation()
+                        && !$this->folderNameExists($newFolderName)
                     ) {
                         $folder->setFolderName($folderTranslation->getName());
                     }
@@ -300,23 +283,15 @@ class FoldersController extends RozierApp
         return $this->render('@RoadizRozier/folders/edit.html.twig', $this->assignation);
     }
 
-    /**
-     * @param string $name
-     *
-     * @return bool
-     */
     protected function folderNameExists(string $name): bool
     {
         $entity = $this->em()->getRepository(Folder::class)->findOneByFolderName($name);
-        return (null !== $entity);
+
+        return null !== $entity;
     }
 
     /**
      * Return a ZipArchive of requested folder.
-     *
-     * @param int     $folderId
-     *
-     * @return Response
      */
     public function downloadAction(int $folderId): Response
     {
@@ -325,7 +300,7 @@ class FoldersController extends RozierApp
         /** @var Folder|null $folder */
         $folder = $this->em()->find(Folder::class, $folderId);
 
-        if ($folder === null) {
+        if (null === $folder) {
             throw new ResourceNotFoundException();
         }
 
@@ -337,7 +312,7 @@ class FoldersController extends RozierApp
 
         return $this->documentArchiver->archiveAndServe(
             $documents,
-            $folder->getFolderName() . '_' . date('YmdHi'),
+            $folder->getFolderName().'_'.date('YmdHi'),
             true
         );
     }

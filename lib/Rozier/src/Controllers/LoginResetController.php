@@ -16,10 +16,6 @@ class LoginResetController extends RozierApp
     use LoginResetTrait;
 
     /**
-     * @param Request $request
-     * @param string  $token
-     *
-     * @return Response
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

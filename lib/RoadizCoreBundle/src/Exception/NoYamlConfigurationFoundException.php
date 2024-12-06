@@ -12,5 +12,5 @@ class NoYamlConfigurationFoundException extends NoConfigurationFoundException
     /**
      * @var string
      */
-    protected $message = "No configuration file was found. Make sure that conf/config.yml exists.";
+    protected $message = 'No configuration file was found. Make sure that conf/config.yml exists.';
 }

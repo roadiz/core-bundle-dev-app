@@ -9,25 +9,23 @@ use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\ListManager\QueryBuilderListManager;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Themes\Rozier\RozierApp;
 
-final class DocumentDuplicatesController extends RozierApp
+final class DocumentDuplicatesController extends AbstractController
 {
     public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
     }
 
-    /**
-     * @param  Request $request
-     * @return Response
-     */
     public function duplicatedAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
-        $this->assignation['duplicates'] = true;
+        $assignation = [];
+        $assignation['duplicates'] = true;
         /** @var DocumentRepository $documentRepository */
         $documentRepository = $this->managerRegistry->getRepository(Document::class);
 
@@ -36,7 +34,7 @@ final class DocumentDuplicatesController extends RozierApp
             $documentRepository->getDuplicatesQueryBuilder(),
             'd'
         );
-        $listManager->setItemPerPage(static::DEFAULT_ITEM_PER_PAGE);
+        $listManager->setItemPerPage(RozierApp::DEFAULT_ITEM_PER_PAGE);
 
         /*
          * Stored in session
@@ -46,9 +44,9 @@ final class DocumentDuplicatesController extends RozierApp
 
         $listManager->handle();
 
-        $this->assignation['filters'] = $listManager->getAssignation();
-        $this->assignation['documents'] = $listManager->getEntities();
-        $this->assignation['thumbnailFormat'] = [
+        $assignation['filters'] = $listManager->getAssignation();
+        $assignation['documents'] = $listManager->getEntities();
+        $assignation['thumbnailFormat'] = [
             'quality' => 50,
             'fit' => '128x128',
             'sharpen' => 5,
@@ -58,6 +56,6 @@ final class DocumentDuplicatesController extends RozierApp
             'loading' => 'lazy',
         ];
 
-        return $this->render('@RoadizRozier/documents/duplicated.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/documents/duplicated.html.twig', $assignation);
     }
 }

@@ -1,38 +1,38 @@
 <?php
 
+/**
+ * THIS IS A GENERATED FILE, DO NOT EDIT IT.
+ * IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE.
+ */
+
 declare(strict_types=1);
 
-/*
- * THIS IS A GENERATED FILE, DO NOT EDIT IT
- * IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE
- */
 namespace App\GeneratedEntity\Repository;
 
+use App\GeneratedEntity\NSArticleContainer;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
+use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
- * @extends \RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository<\App\GeneratedEntity\NSArticleContainer>
- *
- * @method \App\GeneratedEntity\NSArticleContainer|null find($id, $lockMode = null, $lockVersion = null)
- * @method \App\GeneratedEntity\NSArticleContainer|null findOneBy(array $criteria, array $orderBy = null)
- * @method \App\GeneratedEntity\NSArticleContainer[]    findAll()
- * @method \App\GeneratedEntity\NSArticleContainer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends NodesSourcesRepository<NSArticleContainer>
+ * @method NSArticleContainer|null find($id, $lockMode = null, $lockVersion = null)
+ * @method NSArticleContainer|null findOneBy(array $criteria, array $orderBy = null)
+ * @method NSArticleContainer[]    findAll()
+ * @method NSArticleContainer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class NSArticleContainerRepository extends \RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository
+final class NSArticleContainerRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,
         PreviewResolverInterface $previewResolver,
         EventDispatcherInterface $dispatcher,
         Security $security,
-        ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler
+        ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
     ) {
-        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler);
-
-        $this->_entityName = \App\GeneratedEntity\NSArticleContainer::class;
+        parent::__construct($registry, $previewResolver, $dispatcher, $security, $nodeSourceSearchHandler, NSArticleContainer::class);
     }
 }

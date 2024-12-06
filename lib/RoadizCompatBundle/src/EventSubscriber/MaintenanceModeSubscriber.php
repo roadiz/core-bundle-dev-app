@@ -5,31 +5,28 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CompatBundle\EventSubscriber;
 
 use RZ\Roadiz\CompatBundle\Controller\AppController;
+use RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Exception\MaintenanceModeException;
-use RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Bundle\SecurityBundle\Security;
 
-final class MaintenanceModeSubscriber implements EventSubscriberInterface
+final readonly class MaintenanceModeSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly Settings $settings,
-        private readonly Security $security,
-        private readonly ThemeResolverInterface $themeResolver,
-        private readonly ContainerInterface $serviceLocator
+        private Settings $settings,
+        private Security $security,
+        private ThemeResolverInterface $themeResolver,
+        private ContainerInterface $serviceLocator,
     ) {
     }
 
-    /**
-     * @return array
-     */
     private function getAuthorizedRoutes(): array
     {
         return [
@@ -59,9 +56,6 @@ final class MaintenanceModeSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /**
-     * @return array
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -70,7 +64,6 @@ final class MaintenanceModeSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * @param RequestEvent $event
      * @throws MaintenanceModeException
      */
     public function onRequest(RequestEvent $event): void
@@ -82,8 +75,8 @@ final class MaintenanceModeSubscriber implements EventSubscriberInterface
 
             $maintenanceMode = (bool) $this->settings->get('maintenance_mode', false);
             if (
-                $maintenanceMode === true &&
-                !$this->security->isGranted('ROLE_BACKEND_USER')
+                true === $maintenanceMode
+                && !$this->security->isGranted('ROLE_BACKEND_USER')
             ) {
                 $theme = $this->themeResolver->findTheme(null);
                 if (null !== $theme) {
@@ -94,12 +87,6 @@ final class MaintenanceModeSubscriber implements EventSubscriberInterface
         }
     }
 
-    /**
-     * @param Theme   $theme
-     * @param Request $request
-     *
-     * @return AbstractController
-     */
     private function getControllerForTheme(Theme $theme, Request $request): AbstractController
     {
         $ctrlClass = $theme->getClassName();
@@ -111,15 +98,10 @@ final class MaintenanceModeSubscriber implements EventSubscriberInterface
         }
 
         if (!$controller instanceof AbstractController) {
-            throw new \RuntimeException(sprintf(
-                'Theme controller %s must extend %s class',
-                $ctrlClass,
-                AbstractController::class
-            ));
+            throw new \RuntimeException(sprintf('Theme controller %s must extend %s class', $ctrlClass, AbstractController::class));
         }
 
         if ($controller instanceof AppController) {
-            $controller->prepareBaseAssignation();
             // No node controller matching in install mode
             $request->attributes->set('theme', $controller->getTheme());
         }

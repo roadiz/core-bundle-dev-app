@@ -14,13 +14,14 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method User|null findOneBy(array $criteria, array $orderBy = null)
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ *
  * @extends EntityRepository<User>
  */
 final class UserRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ) {
         parent::__construct($registry, User::class, $dispatcher);
     }
@@ -28,7 +29,6 @@ final class UserRepository extends EntityRepository
     /**
      * @param string $username
      *
-     * @return bool
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -44,8 +44,6 @@ final class UserRepository extends EntityRepository
     }
 
     /**
-     * @param string $email
-     * @return bool
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
@@ -58,5 +56,28 @@ final class UserRepository extends EntityRepository
             ->setCacheable(true);
 
         return (bool) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    /**
+     * Find all users that did not logged-in since a number of days, including users that never logged-in using
+     * their creation date.
+     *
+     * @return User[]
+     *
+     * @throws \Exception
+     */
+    public function findAllInactiveSinceDays(int $days): array
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->andWhere($qb->expr()->orX(
+            // If user never logged in, we compare with creation date
+            $qb->expr()->andX(
+                $qb->expr()->isNull('u.lastLogin'),
+                $qb->expr()->lt('u.createdAt', ':lastLogin')
+            ),
+            $qb->expr()->lt('u.lastLogin', ':lastLogin'),
+        ))->setParameter('lastLogin', new \DateTimeImmutable('-'.$days.' days'));
+
+        return $qb->getQuery()->getResult();
     }
 }

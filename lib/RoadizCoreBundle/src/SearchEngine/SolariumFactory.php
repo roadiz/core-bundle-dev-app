@@ -14,24 +14,16 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SolariumFactory implements SolariumFactoryInterface
 {
-    protected ClientRegistry $clientRegistry;
     protected LoggerInterface $logger;
-    protected MarkdownInterface $markdown;
-    protected EventDispatcherInterface $dispatcher;
-    protected HandlerFactoryInterface $handlerFactory;
 
     public function __construct(
-        ClientRegistry $clientRegistry,
-        LoggerInterface $searchEngineLogger,
-        MarkdownInterface $markdown,
-        EventDispatcherInterface $dispatcher,
-        HandlerFactoryInterface $handlerFactory
+        protected readonly ClientRegistry $clientRegistry,
+        readonly LoggerInterface $searchEngineLogger,
+        protected readonly MarkdownInterface $markdown,
+        protected readonly EventDispatcherInterface $dispatcher,
+        protected readonly HandlerFactoryInterface $handlerFactory,
     ) {
-        $this->clientRegistry = $clientRegistry;
         $this->logger = $searchEngineLogger;
-        $this->markdown = $markdown;
-        $this->dispatcher = $dispatcher;
-        $this->handlerFactory = $handlerFactory;
     }
 
     public function createWithDocument(Document $document): SolariumDocument

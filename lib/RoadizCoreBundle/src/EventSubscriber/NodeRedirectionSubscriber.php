@@ -14,12 +14,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Subscribe to Node, NodesSources and UrlAlias event to clear ns url cache.
  */
-class NodeRedirectionSubscriber implements EventSubscriberInterface
+final readonly class NodeRedirectionSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        protected readonly NodeMover $nodeMover,
-        protected readonly string $kernelEnvironment,
-        protected readonly PreviewResolverInterface $previewResolver
+        private NodeMover $nodeMover,
+        private string $kernelEnvironment,
+        private PreviewResolverInterface $previewResolver,
     ) {
     }
 
@@ -31,24 +31,20 @@ class NodeRedirectionSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Empty nodeSources Url cache
-     *
-     * @param NodePathChangedEvent     $event
-     * @param string                   $eventName
-     * @param EventDispatcherInterface $dispatcher
+     * Empty nodeSources Url cache.
      */
     public function redirectOldPaths(
         NodePathChangedEvent $event,
         string $eventName,
-        EventDispatcherInterface $dispatcher
+        EventDispatcherInterface $dispatcher,
     ): void {
         if (
-            $this->kernelEnvironment === 'prod' &&
-            !$this->previewResolver->isPreview() &&
-            null !== $event->getNode() &&
-            $event->getNode()->isPublished() &&
-            $event->getNode()->getNodeType()->isReachable() &&
-            count($event->getPaths()) > 0
+            'prod' === $this->kernelEnvironment
+            && !$this->previewResolver->isPreview()
+            && null !== $event->getNode()
+            && $event->getNode()->isPublished()
+            && $event->getNode()->getNodeType()->isReachable()
+            && count($event->getPaths()) > 0
         ) {
             $this->nodeMover->redirectAll($event->getNode(), $event->getPaths());
             $dispatcher->dispatch(new CachePurgeRequestEvent());

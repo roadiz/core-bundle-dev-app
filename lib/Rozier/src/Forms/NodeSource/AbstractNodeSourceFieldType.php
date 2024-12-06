@@ -17,9 +17,6 @@ abstract class AbstractNodeSourceFieldType extends AbstractType
 {
     protected ManagerRegistry $managerRegistry;
 
-    /**
-     * @param ManagerRegistry $managerRegistry
-     */
     public function __construct(ManagerRegistry $managerRegistry)
     {
         $this->managerRegistry = $managerRegistry;
@@ -27,10 +24,6 @@ abstract class AbstractNodeSourceFieldType extends AbstractType
 
     /**
      * Pass nodeSource to form twig template.
-     *
-     * @param FormView $view
-     * @param FormInterface $form
-     * @param array $options
      */
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
@@ -40,9 +33,6 @@ abstract class AbstractNodeSourceFieldType extends AbstractType
         $view->vars['nodeTypeField'] = $options['nodeTypeField'];
     }
 
-    /**
-     * @inheritDoc
-     */
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -56,10 +46,6 @@ abstract class AbstractNodeSourceFieldType extends AbstractType
         $resolver->setAllowedTypes('nodeTypeField', [NodeTypeField::class]);
     }
 
-
-    /**
-     * {@inheritdoc}
-     */
     public function getParent(): ?string
     {
         return HiddenType::class;

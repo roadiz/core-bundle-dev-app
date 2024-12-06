@@ -7,24 +7,26 @@ namespace RZ\Roadiz\CoreBundle\Message\Handler;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Cache\ReverseProxyCacheLocator;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Message\GuzzleRequestMessage;
+use RZ\Roadiz\CoreBundle\Message\HttpRequestMessage;
+use RZ\Roadiz\CoreBundle\Message\HttpRequestMessageInterface;
 use RZ\Roadiz\CoreBundle\Message\PurgeReverseProxyCacheMessage;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\NoHandlerForMessageException;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class PurgeReverseProxyCacheMessageHandler implements MessageHandlerInterface
+#[AsMessageHandler]
+final readonly class PurgeReverseProxyCacheMessageHandler
 {
     public function __construct(
-        private readonly MessageBusInterface $bus,
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ReverseProxyCacheLocator $reverseProxyCacheLocator,
-        private readonly ManagerRegistry $managerRegistry
+        private MessageBusInterface $bus,
+        private UrlGeneratorInterface $urlGenerator,
+        private ReverseProxyCacheLocator $reverseProxyCacheLocator,
+        private ManagerRegistry $managerRegistry,
     ) {
     }
 
@@ -32,6 +34,7 @@ final class PurgeReverseProxyCacheMessageHandler implements MessageHandlerInterf
     {
         $nodeSource = $this->managerRegistry
             ->getRepository(NodesSources::class)
+            ->setDisplayingAllNodesStatuses(true)
             ->find($message->getNodeSourceId());
         if (null === $nodeSource) {
             throw new UnrecoverableMessageHandlingException('NodesSources does not exist anymore.');
@@ -56,36 +59,33 @@ final class PurgeReverseProxyCacheMessageHandler implements MessageHandlerInterf
     }
 
     /**
-     * @param string $path
-     *
-     * @return \GuzzleHttp\Psr7\Request[]
+     * @return HttpRequestMessageInterface[]
      */
-    protected function createPurgeRequests(string $path = "/"): array
+    protected function createPurgeRequests(string $path = '/'): array
     {
         $requests = [];
         foreach ($this->reverseProxyCacheLocator->getFrontends() as $frontend) {
-            $requests[$frontend->getName()] = new \GuzzleHttp\Psr7\Request(
+            $host = $frontend->getHost();
+            str_starts_with($host, 'http') || $host = 'http://'.$host;
+            $requests[$frontend->getName()] = new HttpRequestMessage(
                 Request::METHOD_PURGE,
-                'http://' . $frontend->getHost() . $path,
+                $host.$path,
                 [
-                    'Host' => $frontend->getDomainName()
+                    'timeout' => 3,
+                    'headers' => [
+                        'Host' => $frontend->getDomainName(),
+                    ],
                 ]
             );
         }
+
         return $requests;
     }
 
-    /**
-     * @param \GuzzleHttp\Psr7\Request $request
-     * @return void
-     */
-    protected function sendRequest(\GuzzleHttp\Psr7\Request $request): void
+    protected function sendRequest(HttpRequestMessageInterface $requestMessage): void
     {
         try {
-            $this->bus->dispatch(new Envelope(new GuzzleRequestMessage($request, [
-                'debug' => false,
-                'timeout' => 3
-            ])));
+            $this->bus->dispatch(new Envelope($requestMessage));
         } catch (NoHandlerForMessageException $exception) {
             throw new UnrecoverableMessageHandlingException($exception->getMessage(), 0, $exception);
         }

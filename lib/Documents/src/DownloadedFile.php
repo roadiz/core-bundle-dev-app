@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents;
 
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Utils;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\String\UnicodeString;
 
@@ -13,19 +11,11 @@ class DownloadedFile extends File
 {
     protected ?string $originalFilename;
 
-    /**
-     * @return string|null
-     */
     public function getOriginalFilename(): ?string
     {
         return $this->originalFilename;
     }
 
-    /**
-     * @param string|null $originalFilename
-     *
-     * @return DownloadedFile
-     */
     public function setOriginalFilename(?string $originalFilename): DownloadedFile
     {
         $this->originalFilename = $originalFilename;
@@ -34,10 +24,7 @@ class DownloadedFile extends File
     }
 
     /**
-     * Final constructor for safe usage in DownloadedFile::fromUrl
-     *
-     * @param string $path
-     * @param bool   $checkPath
+     * Final constructor for safe usage in DownloadedFile::fromUrl.
      */
     final public function __construct(string $path, bool $checkPath = true)
     {
@@ -46,10 +33,6 @@ class DownloadedFile extends File
 
     /**
      * Transform to lowercase and replace every non-alpha character with an underscore.
-     *
-     * @param string|null $string
-     *
-     * @return string
      */
     public static function sanitizeFilename(?string $string): string
     {
@@ -66,29 +49,27 @@ class DownloadedFile extends File
         ;
     }
 
-    /**
-     * @param string      $url
-     * @param string|null $originalName
-     *
-     * @return DownloadedFile|null
-     */
     public static function fromUrl(string $url, ?string $originalName = null): ?DownloadedFile
     {
         try {
             $baseName = static::sanitizeFilename(pathinfo($url, PATHINFO_BASENAME));
-            $distantHandle = fopen($url, 'r');
-            if (false === $distantHandle) {
+            $distantResource = fopen($url, 'r');
+            if (false === $distantResource) {
                 return null;
             }
-            $original = Utils::streamFor($distantHandle);
+
             $tmpFile = tempnam(sys_get_temp_dir(), static::sanitizeFilename($baseName));
             if (false === $tmpFile) {
                 return null;
             }
-            $handle = fopen($tmpFile, 'w');
-            $local = Utils::streamFor($handle);
-            $local->write($original->getContents());
-            $local->close();
+            $localResource = fopen($tmpFile, 'w');
+            if (false === $localResource) {
+                throw new \RuntimeException('Unable to open local resource.');
+            }
+            $result = \stream_copy_to_stream($distantResource, $localResource);
+            if (false === $result) {
+                throw new \RuntimeException('Unable to copy distant stream to local resource.');
+            }
 
             $file = new static($tmpFile);
             if (!empty($originalName)) {
@@ -99,18 +80,17 @@ class DownloadedFile extends File
             /*
              * Some OEmbed providers won't add any extension in original filename.
              */
-            if ($file->getExtension() === '' && null !== $guessedExtension = $file->guessExtension()) {
-                $file->setOriginalFilename($file->getOriginalFilename() . '.' . $guessedExtension);
+            if ('' === $file->getExtension() && null !== $guessedExtension = $file->guessExtension()) {
+                $file->setOriginalFilename($file->getOriginalFilename().'.'.$guessedExtension);
             }
 
             if ($file->isReadable() && filesize($file->getPathname()) > 0) {
                 return $file;
             }
-        } catch (RequestException $e) {
-            return null;
-        } catch (\ErrorException $e) {
+        } catch (\RuntimeException $e) {
             return null;
         }
+
         return null;
     }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Explorer;
 
+use RZ\Roadiz\Documents\Models\DocumentInterface;
+
 abstract class AbstractExplorerItem implements ExplorerItemInterface
 {
     protected function getEditItemPath(): ?string
@@ -11,14 +13,21 @@ abstract class AbstractExplorerItem implements ExplorerItemInterface
         return null;
     }
 
-    protected function getThumbnail(): ?array
+    protected function getThumbnail(): DocumentInterface|array|null
     {
         return null;
     }
 
-    /**
-     * @inheritDoc
-     */
+    protected function isPublished(): bool
+    {
+        return true;
+    }
+
+    protected function getColor(): ?string
+    {
+        return null;
+    }
+
     public function toArray(): array
     {
         return [
@@ -26,7 +35,9 @@ abstract class AbstractExplorerItem implements ExplorerItemInterface
             'classname' => $this->getAlternativeDisplayable() ?? '',
             'displayable' => $this->getDisplayable(),
             'editItem' => $this->getEditItemPath(),
-            'thumbnail' => $this->getThumbnail()
+            'thumbnail' => $this->getThumbnail(),
+            'published' => $this->isPublished(),
+            'color' => $this->getColor(),
         ];
     }
 }

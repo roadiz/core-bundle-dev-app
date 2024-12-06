@@ -12,18 +12,12 @@ use RZ\Roadiz\CoreBundle\Event\Redirection\RedirectionEvent;
 use RZ\Roadiz\CoreBundle\Routing\RedirectionPathResolver;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class RedirectionCacheSubscriber implements EventSubscriberInterface
+final readonly class RedirectionCacheSubscriber implements EventSubscriberInterface
 {
-    private CacheItemPoolInterface $cacheAdapter;
-
-    public function __construct(CacheItemPoolInterface $cacheAdapter)
+    public function __construct(private CacheItemPoolInterface $cacheAdapter)
     {
-        $this->cacheAdapter = $cacheAdapter;
     }
 
-    /**
-     * @inheritDoc
-     */
     public static function getSubscribedEvents(): array
     {
         return [

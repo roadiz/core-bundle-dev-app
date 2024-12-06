@@ -16,7 +16,7 @@ ajaxSessionMessages:
 ping:
     path:     /rz-admin/ping
     methods: [GET]
-    controller: RZ\Roadiz\RozierBundle\Controller\PingController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\PingController::pingAction
 
 # CACHES
 deleteDoctrineCache:

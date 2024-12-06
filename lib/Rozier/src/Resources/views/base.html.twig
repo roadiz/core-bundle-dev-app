@@ -12,10 +12,10 @@
         {# CSS scripts inclusions / Using webpack #}
         {% include '@RoadizRozier/partials/css-inject.html.twig' %}
 
-        {% if head.mainColor %}
+        {% if main_color %}
             <style>
                 :root {
-                    --rz-accent-color: {{ head.mainColor|raw }};
+                    --rz-accent-color: {{ main_color|raw }};
                     --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
                     --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
                     --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
@@ -41,13 +41,10 @@
                     {% include '@RoadizRozier/panels/user_panel.html.twig' with {
                         'session' : session,
                         'head' : head,
-                        'rozier_user_actions': rozier_user_actions,
-                        'themeServices':themeServices,
                     } only %}
                 </section>
                 <section class="main-container-section navigation-container-section" id="admin-menu">
                     {% include '@RoadizRozier/panels/admin_menu.html.twig' with {
-                        'themeServices' : themeServices,
                         'backofficeEntries':backofficeEntries,
                     } only %}
                 </section>
@@ -55,10 +52,7 @@
                 <section class="main-container-section navigation-container-section" id="main-trees">
                     <div id="main-trees-overlay"></div>
                     <div id="main-trees-container">
-                        {% include '@RoadizRozier/panels/tree_panel.html.twig' with {
-                            'themeServices': themeServices,
-                            "nodeStatuses":nodeStatuses,
-                        } only %}
+                        {% include '@RoadizRozier/panels/tree_panel.html.twig' %}
                     </div>
                 </section>
                 {% endif %}
@@ -88,17 +82,15 @@
             <document-preview-container></document-preview-container>
             <modal-container></modal-container>
         </div>
-
         <script>
             var temp = {
-                'baseUrl':           '{{ head.baseUrl }}',
+                'baseUrl':           '{{ app.request.schemeAndHttpHost }}{{ app.request.basePath }}',
                 'resourcesUrl':      '{{ asset('', 'Rozier') }}',
-                'ajaxToken':         '{{ head.ajaxToken }}',
-                'mainColor':         '{{ head.mainColor }}',
+                'ajaxToken':         '{{ csrf_token('ajax') }}',
+                'mainColor':         '{{ main_color }}',
                 'mapsStyle':         {% if head.mapsStyle %}{{ head.mapsStyle|raw }}{% else %}[]{% endif %},
                 'leafletMapTileUrl': '{{ bags.settings.get('leaflet_map_tile_url')|default('https://{s}.tile.osm.org/{z}/{x}/{y}.png') }}',
-                'googleClientId':    '{{ head.googleClientId }}',
-                'defaultMapLocation': {{ head.mapsLocation|default('null')|raw }},
+                'defaultMapLocation': {{ bags.settings.get('maps_default_location')|default('null')|raw }},
                 'messages': {
                     'login':                  '{{ 'login'|trans|trim|escape }}',
                     'sessionExpireTitle':     '{{ 'session.expire.title'|trans|trim|escape }}',
@@ -144,7 +136,7 @@
                         'portrait': '{{ 'blanchetteEditor.portrait'|trans|trim|escape }}',
                     },
                     'dropzone' : {
-                        'maxFilesize':                  {{ themeServices.maxFilesize ?? '0' }},
+                        'maxFilesize':                  {{ rozier.maxFilesize ?? '0' }},
                         'dictDefaultMessage':           "{{ 'drop.files.here.to.upload.or.click.to.open.your.explorer'|trans|trim|escape }}",
                         'dictFallbackMessage':          "{{ 'your.browser.does.not.support.dragndrop.file.uploads'|trans|trim|escape }}",
                         'dictFallbackText':             "{{ 'please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days'|trans|trim|escape }}",
@@ -226,7 +218,7 @@
 
             var RozierRoot = temp;
         </script>
-        {% if head.devMode %}
+        {% if app.debug %}
             <script src="{{ asset('vendor/vue.js', 'Rozier') }}"></script>
             <script src="{{ asset('vendor/vuex.js', 'Rozier') }}"></script>
             <script src="{{ asset('vendor/jquery.js', 'Rozier') }}"></script>

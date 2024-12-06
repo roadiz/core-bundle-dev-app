@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
 use RZ\Roadiz\CoreBundle\Repository\AttributeDocumentsRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 
@@ -16,24 +16,24 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
  */
 #[
     ORM\Entity(repositoryClass: AttributeDocumentsRepository::class),
-    ORM\Table(name: "attributes_documents"),
-    ORM\Index(columns: ["position"]),
-    ORM\Index(columns: ["attribute_id", "position"])
+    ORM\Table(name: 'attributes_documents'),
+    ORM\Index(columns: ['position']),
+    ORM\Index(columns: ['attribute_id', 'position'])
 ]
 class AttributeDocuments extends AbstractPositioned
 {
     #[
         ORM\ManyToOne(
             targetEntity: Attribute::class,
-            cascade: ["persist", "merge"],
-            fetch: "EAGER",
-            inversedBy: "attributeDocuments"
+            cascade: ['persist', 'merge'],
+            fetch: 'EAGER',
+            inversedBy: 'attributeDocuments'
         ),
         ORM\JoinColumn(
-            name: "attribute_id",
-            referencedColumnName: "id",
+            name: 'attribute_id',
+            referencedColumnName: 'id',
             nullable: false,
-            onDelete: "CASCADE"
+            onDelete: 'CASCADE'
         ),
         Serializer\Exclude(),
         SymfonySerializer\Ignore()
@@ -43,18 +43,18 @@ class AttributeDocuments extends AbstractPositioned
     #[
         ORM\ManyToOne(
             targetEntity: Document::class,
-            cascade: ["persist", "merge"],
-            fetch: "EAGER",
-            inversedBy: "attributeDocuments"
+            cascade: ['persist', 'merge'],
+            fetch: 'EAGER',
+            inversedBy: 'attributeDocuments'
         ),
         ORM\JoinColumn(
-            name: "document_id",
-            referencedColumnName: "id",
+            name: 'document_id',
+            referencedColumnName: 'id',
             nullable: false,
-            onDelete: "CASCADE"
+            onDelete: 'CASCADE'
         ),
-        Serializer\Groups(["attribute"]),
-        SymfonySerializer\Groups(["attribute"]),
+        Serializer\Groups(['attribute']),
+        SymfonySerializer\Groups(['attribute']),
         Serializer\Type(Document::class)
     ]
     protected Document $document;
@@ -80,6 +80,7 @@ class AttributeDocuments extends AbstractPositioned
     public function setDocument(Document $document): AttributeDocuments
     {
         $this->document = $document;
+
         return $this;
     }
 
@@ -91,6 +92,7 @@ class AttributeDocuments extends AbstractPositioned
     public function setAttribute(Attribute $attribute): AttributeDocuments
     {
         $this->attribute = $attribute;
+
         return $this;
     }
 }

@@ -14,12 +14,20 @@ final class CommonContent
     #[ApiProperty(identifier: true)]
     public string $id = 'unique';
 
-    #[Groups(["common_content"])]
+    #[Groups(['common_content'])]
     public ?NodesSources $home = null;
 
-    #[Groups(["common_content"])]
+    #[Groups(['common_content'])]
+    #[ApiProperty(
+        identifier: false,
+        genId: false,
+    )]
     public ?NodesSourcesHeadInterface $head = null;
 
-    #[Groups(["common_content"])]
+    #[Groups(['common_content'])]
+    #[ApiProperty(
+        identifier: false,
+        genId: false,
+    )]
     public ?array $menus = null;
 }
