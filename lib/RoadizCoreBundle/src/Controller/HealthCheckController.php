@@ -9,13 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-final class HealthCheckController
+final readonly class HealthCheckController
 {
     public function __construct(
-        private readonly ?string $healthCheckToken,
-        private readonly ?string $appVersion,
-        private readonly ?string $cmsVersion,
-        private readonly ?string $cmsVersionPrefix,
+        private ?string $healthCheckToken,
+        private ?string $appVersion,
+        private ?string $cmsVersion,
+        private ?string $cmsVersionPrefix,
     ) {
     }
 

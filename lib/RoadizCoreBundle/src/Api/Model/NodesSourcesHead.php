@@ -18,40 +18,22 @@ use Symfony\Component\Serializer\Annotation as Serializer;
 class NodesSourcesHead implements NodesSourcesHeadInterface
 {
     #[Serializer\Ignore]
-    protected HandlerFactoryInterface $handlerFactory;
-
-    #[Serializer\Ignore]
     protected ?array $seo = null;
 
-    #[Serializer\Ignore]
-    protected ?NodesSources $nodesSource;
-
-    #[Serializer\Ignore]
-    protected Settings $settingsBag;
-
-    #[Serializer\Ignore]
-    protected UrlGeneratorInterface $urlGenerator;
-
-    #[Serializer\Ignore]
-    protected NodeSourceApi $nodeSourceApi;
-
-    #[Serializer\Ignore]
-    protected TranslationInterface $defaultTranslation;
-
     public function __construct(
-        ?NodesSources $nodesSource,
-        Settings $settingsBag,
-        UrlGeneratorInterface $urlGenerator,
-        NodeSourceApi $nodeSourceApi,
-        HandlerFactoryInterface $handlerFactory,
-        TranslationInterface $defaultTranslation,
+        #[Serializer\Ignore]
+        protected readonly ?NodesSources $nodesSource,
+        #[Serializer\Ignore]
+        protected readonly Settings $settingsBag,
+        #[Serializer\Ignore]
+        protected readonly UrlGeneratorInterface $urlGenerator,
+        #[Serializer\Ignore]
+        protected readonly NodeSourceApi $nodeSourceApi,
+        #[Serializer\Ignore]
+        protected readonly HandlerFactoryInterface $handlerFactory,
+        #[Serializer\Ignore]
+        protected readonly TranslationInterface $defaultTranslation,
     ) {
-        $this->nodesSource = $nodesSource;
-        $this->settingsBag = $settingsBag;
-        $this->urlGenerator = $urlGenerator;
-        $this->nodeSourceApi = $nodeSourceApi;
-        $this->defaultTranslation = $defaultTranslation;
-        $this->handlerFactory = $handlerFactory;
     }
 
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]

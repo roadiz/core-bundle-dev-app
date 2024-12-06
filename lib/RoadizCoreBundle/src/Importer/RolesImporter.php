@@ -9,13 +9,10 @@ use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Role;
 use RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TypedObjectConstructorInterface;
 
-class RolesImporter implements EntityImporterInterface
+final readonly class RolesImporter implements EntityImporterInterface
 {
-    protected SerializerInterface $serializer;
-
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(private SerializerInterface $serializer)
     {
-        $this->serializer = $serializer;
     }
 
     public function supports(string $entityClass): bool

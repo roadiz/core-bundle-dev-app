@@ -9,9 +9,9 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormFieldAttribute;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class CustomFormAnswerSerializer
+final readonly class CustomFormAnswerSerializer
 {
-    public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
     }
 

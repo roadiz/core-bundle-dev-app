@@ -6,15 +6,12 @@ namespace RZ\Roadiz\CoreBundle\Preview\User;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class PreviewUser implements UserInterface
+final readonly class PreviewUser implements UserInterface
 {
-    protected string $username;
-    protected array $roles = [];
-
-    public function __construct(string $username, array $roles)
-    {
-        $this->username = $username;
-        $this->roles = $roles;
+    public function __construct(
+        private string $username,
+        private array $roles = [],
+    ) {
     }
 
     public function getRoles(): array

@@ -15,11 +15,11 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\WebLink\GenericLinkProvider;
 use Symfony\Component\WebLink\Link;
 
-final class NodesSourcesLinkHeaderEventSubscriber implements EventSubscriberInterface
+final readonly class NodesSourcesLinkHeaderEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly UrlGeneratorInterface $urlGenerator,
+        private ManagerRegistry $managerRegistry,
+        private UrlGeneratorInterface $urlGenerator,
     ) {
     }
 

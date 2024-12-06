@@ -12,7 +12,7 @@ interface PositionedInterface
      * Set position as a float to enable increment and decrement by O.5
      * to insert an entity between two others.
      *
-     * @return PositionedInterface
+     * @return $this
      */
-    public function setPosition(float $newPosition);
+    public function setPosition(float $newPosition): PositionedInterface;
 }

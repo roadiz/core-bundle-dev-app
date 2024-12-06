@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Cache;
 
-final class ReverseProxyCacheLocator
+final readonly class ReverseProxyCacheLocator
 {
     /**
      * @param ReverseProxyCache[] $frontends
      */
     public function __construct(
-        private readonly array $frontends,
-        private readonly ?CloudflareProxyCache $cloudflareProxyCache = null,
+        private array $frontends,
+        private ?CloudflareProxyCache $cloudflareProxyCache = null,
     ) {
     }
 

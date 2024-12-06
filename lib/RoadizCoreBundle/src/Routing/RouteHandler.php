@@ -7,10 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\String\UnicodeString;
 
-/**
- * Route handling methods.
- */
-class RouteHandler
+final class RouteHandler
 {
     public static function getBaseRoute(string $path): string
     {

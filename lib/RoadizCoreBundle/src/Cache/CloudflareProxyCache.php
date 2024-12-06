@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Cache;
 
-final class CloudflareProxyCache
+final readonly class CloudflareProxyCache
 {
     public function __construct(
-        private readonly string $name,
-        private readonly string $zone,
-        private readonly string $version,
-        private readonly string $bearer,
-        private readonly string $email,
-        private readonly string $key,
-        private readonly int $timeout,
+        private string $name,
+        private string $zone,
+        private string $version,
+        private string $bearer,
+        private string $email,
+        private string $key,
+        private int $timeout,
     ) {
     }
 

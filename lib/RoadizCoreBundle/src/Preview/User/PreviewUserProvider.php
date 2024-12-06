@@ -9,11 +9,11 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-final class PreviewUserProvider implements PreviewUserProviderInterface
+final readonly class PreviewUserProvider implements PreviewUserProviderInterface
 {
     public function __construct(
-        private readonly PreviewResolverInterface $previewResolver,
-        private readonly Security $security,
+        private PreviewResolverInterface $previewResolver,
+        private Security $security,
     ) {
     }
 

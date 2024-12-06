@@ -9,11 +9,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class FilterFolderEvent extends Event
 {
-    protected Folder $folder;
-
-    public function __construct(Folder $folder)
+    public function __construct(protected readonly Folder $folder)
     {
-        $this->folder = $folder;
     }
 
     public function getFolder(): Folder

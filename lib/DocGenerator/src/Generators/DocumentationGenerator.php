@@ -10,16 +10,14 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class DocumentationGenerator
 {
-    private ParameterBag $nodeTypesBag;
-    private TranslatorInterface $translator;
     private MarkdownGeneratorFactory $markdownGeneratorFactory;
     private ?array $reachableTypeGenerators = null;
     private ?array $nonReachableTypeGenerators = null;
 
-    public function __construct(ParameterBag $nodeTypesBag, TranslatorInterface $translator)
-    {
-        $this->nodeTypesBag = $nodeTypesBag;
-        $this->translator = $translator;
+    public function __construct(
+        private readonly ParameterBag $nodeTypesBag,
+        private readonly TranslatorInterface $translator,
+    ) {
         $this->markdownGeneratorFactory = new MarkdownGeneratorFactory($nodeTypesBag, $translator);
     }
 

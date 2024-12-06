@@ -11,9 +11,9 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Node\CachedNodeOffspringResolverInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class CachedNodeOffspringEventSubscriber implements EventSubscriberInterface
+final readonly class CachedNodeOffspringEventSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly CachedNodeOffspringResolverInterface $cachedNodeOffspringResolver)
+    public function __construct(private CachedNodeOffspringResolverInterface $cachedNodeOffspringResolver)
     {
     }
 

@@ -82,6 +82,14 @@ final class AppMigrateCommand extends Command
                 $output->isQuiet()
             ) ? $io->success('generate:nsentities') : $io->error('generate:nsentities');
 
+            0 === $this->runCommand(
+                'generate:api-resources',
+                '',
+                null,
+                $input->isInteractive(),
+                $output->isQuiet()
+            ) ? $io->success('generate:api-resources') : $io->error('generate:api-resources');
+
             $this->schemaUpdater->updateNodeTypesSchema();
             $this->schemaUpdater->updateSchema();
             $io->success('doctrine-migrations');

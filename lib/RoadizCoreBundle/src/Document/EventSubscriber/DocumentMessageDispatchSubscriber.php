@@ -20,9 +20,9 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 
-final class DocumentMessageDispatchSubscriber implements EventSubscriberInterface
+final readonly class DocumentMessageDispatchSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly MessageBusInterface $bus)
+    public function __construct(private MessageBusInterface $bus)
     {
     }
 

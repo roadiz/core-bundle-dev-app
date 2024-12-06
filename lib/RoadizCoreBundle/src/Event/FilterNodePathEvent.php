@@ -8,14 +8,12 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 
 abstract class FilterNodePathEvent extends FilterNodeEvent
 {
-    protected array $paths;
-    protected ?\DateTime $updatedAt;
-
-    public function __construct(Node $node, array $paths = [], ?\DateTime $updatedAt = null)
-    {
+    public function __construct(
+        Node $node,
+        protected readonly array $paths = [],
+        protected readonly ?\DateTime $updatedAt = null,
+    ) {
         parent::__construct($node);
-        $this->paths = $paths;
-        $this->updatedAt = $updatedAt;
     }
 
     public function getPaths(): array

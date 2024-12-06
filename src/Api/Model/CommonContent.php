@@ -18,8 +18,16 @@ final class CommonContent
     public ?NodesSources $home = null;
 
     #[Groups(['common_content'])]
+    #[ApiProperty(
+        identifier: false,
+        genId: false,
+    )]
     public ?NodesSourcesHeadInterface $head = null;
 
     #[Groups(['common_content'])]
+    #[ApiProperty(
+        identifier: false,
+        genId: false,
+    )]
     public ?array $menus = null;
 }

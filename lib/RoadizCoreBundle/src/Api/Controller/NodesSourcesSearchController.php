@@ -19,21 +19,12 @@ class NodesSourcesSearchController extends AbstractController
 {
     use TranslationAwareControllerTrait;
 
-    private ManagerRegistry $managerRegistry;
-    private PreviewResolverInterface $previewResolver;
-    private ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler;
-    private int $highlightingFragmentSize;
-
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        PreviewResolverInterface $previewResolver,
-        ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
-        int $highlightingFragmentSize = 200,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
+        private readonly int $highlightingFragmentSize = 200,
     ) {
-        $this->nodeSourceSearchHandler = $nodeSourceSearchHandler;
-        $this->highlightingFragmentSize = $highlightingFragmentSize;
-        $this->managerRegistry = $managerRegistry;
-        $this->previewResolver = $previewResolver;
     }
 
     protected function getManagerRegistry(): ManagerRegistry

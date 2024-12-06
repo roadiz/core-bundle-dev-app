@@ -10,11 +10,11 @@ use RZ\Roadiz\CoreBundle\DependencyInjection\Configuration;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface;
 
-final class DefaultValuesResolver implements DefaultValuesResolverInterface
+final readonly class DefaultValuesResolver implements DefaultValuesResolverInterface
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly string $inheritanceType,
+        private ManagerRegistry $managerRegistry,
+        private string $inheritanceType,
     ) {
     }
 

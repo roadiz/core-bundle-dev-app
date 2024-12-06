@@ -12,9 +12,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Loops over NodeChrootResolver implementations to find the right one supporting
  * a given UserInterface or string User representation (from a Token for example).
  */
-final class NodeChrootChainResolver implements NodeChrootResolver
+final readonly class NodeChrootChainResolver implements NodeChrootResolver
 {
-    public function __construct(private readonly array $resolvers)
+    public function __construct(private array $resolvers)
     {
         foreach ($this->resolvers as $resolver) {
             if (!($resolver instanceof NodeChrootResolver)) {

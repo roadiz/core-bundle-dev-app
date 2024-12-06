@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
 use RZ\Roadiz\CoreBundle\Bag\Roles;
-use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Security\LoginLink\LoginLinkSenderInterface;
 use RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput;

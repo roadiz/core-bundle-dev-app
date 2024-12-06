@@ -6,11 +6,11 @@ namespace RZ\Roadiz\CoreBundle\Node;
 
 use Doctrine\Persistence\ManagerRegistry;
 
-final class NodeNamePolicyFactory
+final readonly class NodeNamePolicyFactory
 {
     public function __construct(
-        private readonly ManagerRegistry $registry,
-        private readonly bool $useTypedNodeNames,
+        private ManagerRegistry $registry,
+        private bool $useTypedNodeNames,
     ) {
     }
 

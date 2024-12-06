@@ -13,11 +13,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class NodesSourcesAddHeadersSubscriber implements EventSubscriberInterface
+final readonly class NodesSourcesAddHeadersSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly PreviewResolverInterface $previewResolver,
-        private readonly Security $security,
+        private PreviewResolverInterface $previewResolver,
+        private Security $security,
     ) {
     }
 

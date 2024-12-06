@@ -18,6 +18,9 @@ trait LeafTrait
         return $this->children;
     }
 
+    /**
+     * @return $this
+     */
     public function setChildren(Collection $children): static
     {
         $this->children = $children;

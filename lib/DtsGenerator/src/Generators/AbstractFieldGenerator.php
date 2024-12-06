@@ -12,15 +12,10 @@ abstract class AbstractFieldGenerator
     // Four spaces
     public const INDENTATION_MARK = '    ';
 
-    protected NodeTypeFieldInterface $field;
-    protected ParameterBag $nodeTypesBag;
-
     public function __construct(
-        NodeTypeFieldInterface $field,
-        ParameterBag $nodeTypesBag,
+        protected readonly NodeTypeFieldInterface $field,
+        protected readonly ParameterBag $nodeTypesBag,
     ) {
-        $this->field = $field;
-        $this->nodeTypesBag = $nodeTypesBag;
     }
 
     protected function getNullableAssertion(): string

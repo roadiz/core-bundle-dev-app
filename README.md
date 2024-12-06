@@ -2,7 +2,7 @@
 
 [![Unit tests, static analysis and code style](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/run-test.yml/badge.svg?branch=develop)](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/run-test.yml) [![Packages Split](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/split.yaml/badge.svg?branch=develop)](https://github.com/roadiz/core-bundle-dev-app/actions/workflows/split.yaml)
 
-This is development app for Roadiz v2. It aggregates all Roadiz bundle and main repositories in one place:
+This is **development app** for Roadiz v2. It aggregates all Roadiz bundles and main repositories in one place:
 
 - DocGenerator
 - Documents
@@ -20,6 +20,8 @@ This is development app for Roadiz v2. It aggregates all Roadiz bundle and main 
 - RoadizTwoFactorBundle
 - RoadizUserBundle
 - Rozier
+
+If you want to start a new headless project with Roadiz, check https://github.com/roadiz/skeleton instead.
 
 ### Install
 

@@ -10,11 +10,11 @@ use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeDuplicatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class NodeDuplicationSubscriber implements EventSubscriberInterface
+final readonly class NodeDuplicationSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly HandlerFactoryInterface $handlerFactory,
+        private ManagerRegistry $managerRegistry,
+        private HandlerFactoryInterface $handlerFactory,
     ) {
     }
 

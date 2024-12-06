@@ -10,13 +10,13 @@ use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-final class CustomFormHelperFactory
+final readonly class CustomFormHelperFactory
 {
     public function __construct(
-        private readonly PrivateDocumentFactory $privateDocumentFactory,
-        private readonly ObjectManager $em,
-        private readonly FormFactoryInterface $formFactory,
-        private readonly EventDispatcherInterface $eventDispatcher,
+        private PrivateDocumentFactory $privateDocumentFactory,
+        private ObjectManager $em,
+        private FormFactoryInterface $formFactory,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 

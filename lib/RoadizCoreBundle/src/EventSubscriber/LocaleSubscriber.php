@@ -14,12 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\Routing\RequestContextAwareInterface;
 
-final class LocaleSubscriber implements EventSubscriberInterface
+final readonly class LocaleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly PreviewResolverInterface $previewResolver,
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly RequestContextAwareInterface $router,
+        private PreviewResolverInterface $previewResolver,
+        private ManagerRegistry $managerRegistry,
+        private RequestContextAwareInterface $router,
     ) {
     }
 

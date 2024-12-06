@@ -9,11 +9,11 @@ use RZ\Roadiz\CoreBundle\Cache\Clearer\AssetsFileClearer;
 use RZ\Roadiz\Documents\Events\CachePurgeAssetsRequestEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class AssetsCacheEventSubscriber implements EventSubscriberInterface
+final readonly class AssetsCacheEventSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly AssetsFileClearer $assetsClearer,
-        private readonly LoggerInterface $logger,
+        private AssetsFileClearer $assetsClearer,
+        private LoggerInterface $logger,
     ) {
     }
 

@@ -9,11 +9,11 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class MarkdownGeneratorFactory
+final readonly class MarkdownGeneratorFactory
 {
     public function __construct(
-        private readonly ParameterBag $nodeTypesBag,
-        private readonly TranslatorInterface $translator,
+        private ParameterBag $nodeTypesBag,
+        private TranslatorInterface $translator,
     ) {
     }
 

@@ -10,21 +10,13 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class NodeTypeGenerator
 {
-    protected TranslatorInterface $translator;
-    protected MarkdownGeneratorFactory $markdownGeneratorFactory;
-    protected NodeTypeInterface $nodeType;
-    protected array $fieldGenerators;
+    protected array $fieldGenerators = [];
 
     public function __construct(
-        NodeTypeInterface $nodeType,
-        TranslatorInterface $translator,
-        MarkdownGeneratorFactory $markdownGeneratorFactory,
+        protected NodeTypeInterface $nodeType,
+        protected TranslatorInterface $translator,
+        protected MarkdownGeneratorFactory $markdownGeneratorFactory,
     ) {
-        $this->nodeType = $nodeType;
-        $this->fieldGenerators = [];
-        $this->translator = $translator;
-        $this->markdownGeneratorFactory = $markdownGeneratorFactory;
-
         /** @var NodeTypeFieldInterface $field */
         foreach ($this->nodeType->getFields() as $field) {
             $this->fieldGenerators[] = $this->markdownGeneratorFactory->createForNodeTypeField($field);

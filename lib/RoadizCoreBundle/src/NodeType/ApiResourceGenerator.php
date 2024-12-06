@@ -15,16 +15,16 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Yaml\Yaml;
 
-final class ApiResourceGenerator
+final readonly class ApiResourceGenerator
 {
     /**
      * @param class-string<WebResponseInterface> $webResponseClass
      */
     public function __construct(
-        private readonly ApiResourceOperationNameGenerator $apiResourceOperationNameGenerator,
-        private readonly string $apiResourcesDir,
-        private readonly LoggerInterface $logger,
-        private readonly string $webResponseClass,
+        private ApiResourceOperationNameGenerator $apiResourceOperationNameGenerator,
+        private string $apiResourcesDir,
+        private LoggerInterface $logger,
+        private string $webResponseClass,
     ) {
     }
 

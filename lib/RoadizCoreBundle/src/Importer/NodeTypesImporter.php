@@ -9,10 +9,10 @@ use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TypedObjectConstructorInterface;
 
-class NodeTypesImporter implements EntityImporterInterface
+final readonly class NodeTypesImporter implements EntityImporterInterface
 {
     public function __construct(
-        protected SerializerInterface $serializer,
+        private SerializerInterface $serializer,
     ) {
     }
 

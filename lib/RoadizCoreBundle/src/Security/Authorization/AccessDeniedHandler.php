@@ -17,13 +17,13 @@ use Symfony\Component\Security\Http\Authorization\AccessDeniedHandlerInterface;
  * This is used by the ExceptionListener to translate an AccessDeniedException
  * to a Response object.
  */
-final class AccessDeniedHandler implements AccessDeniedHandlerInterface
+final readonly class AccessDeniedHandler implements AccessDeniedHandlerInterface
 {
     public function __construct(
-        private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly ?LoggerInterface $logger,
-        private readonly string $redirectRoute = '',
-        private readonly array $redirectParameters = [],
+        private UrlGeneratorInterface $urlGenerator,
+        private ?LoggerInterface $logger,
+        private string $redirectRoute = '',
+        private array $redirectParameters = [],
     ) {
     }
 

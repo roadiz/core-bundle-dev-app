@@ -12,15 +12,10 @@ use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
 use RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TypedObjectConstructorInterface;
 
-class SettingsImporter implements EntityImporterInterface
+final readonly class SettingsImporter implements EntityImporterInterface
 {
-    private ManagerRegistry $managerRegistry;
-    private SerializerInterface $serializer;
-
-    public function __construct(ManagerRegistry $managerRegistry, SerializerInterface $serializer)
+    public function __construct(private ManagerRegistry $managerRegistry, private SerializerInterface $serializer)
     {
-        $this->managerRegistry = $managerRegistry;
-        $this->serializer = $serializer;
     }
 
     public function supports(string $entityClass): bool

@@ -5,13 +5,14 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/nodes_sources/search
+  url: {{baseUrl}}/api/nodes_sources/search?search=cont&node.nodeType.name=Page
   body: none
-  auth: bearer
+  auth: none
 }
 
 params:query {
-  search: 
+  search: cont
+  node.nodeType.name: Page
   ~page: 
   ~itemsPerPage: 
   ~properties[]: 
@@ -33,7 +34,6 @@ params:query {
   ~node.nodesTags.tag.tagName[]: 
   ~node.nodeType: 
   ~node.nodeType[]: 
-  ~node.nodeType.name: 
   ~node.nodeType.name[]: 
   ~translation.id: 
   ~translation.id[]: 
@@ -79,8 +79,4 @@ params:query {
   ~intersect[node.nodesTags.tag.tagName]: 
   ~intersect[node.nodesTags.tag.tagName][]: 
   ~_preview: 
-}
-
-auth:bearer {
-  token: {{token}}
 }

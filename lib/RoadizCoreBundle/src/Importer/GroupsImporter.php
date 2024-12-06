@@ -9,13 +9,10 @@ use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Group;
 use RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TypedObjectConstructorInterface;
 
-class GroupsImporter implements EntityImporterInterface
+final readonly class GroupsImporter implements EntityImporterInterface
 {
-    protected SerializerInterface $serializer;
-
-    public function __construct(SerializerInterface $serializer)
+    public function __construct(private SerializerInterface $serializer)
     {
-        $this->serializer = $serializer;
     }
 
     public function supports(string $entityClass): bool

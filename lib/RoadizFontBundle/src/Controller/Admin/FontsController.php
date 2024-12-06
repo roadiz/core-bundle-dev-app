@@ -22,15 +22,12 @@ use Themes\Rozier\Controllers\AbstractAdminController;
 
 class FontsController extends AbstractAdminController
 {
-    private FilesystemOperator $fontStorage;
-
     public function __construct(
-        FilesystemOperator $fontStorage,
+        private readonly FilesystemOperator $fontStorage,
         SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator,
     ) {
         parent::__construct($serializer, $urlGenerator);
-        $this->fontStorage = $fontStorage;
     }
 
     protected function supports(PersistableInterface $item): bool

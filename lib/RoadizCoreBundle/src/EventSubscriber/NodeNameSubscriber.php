@@ -17,12 +17,12 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 /**
  * Updates node name against default node-source title is applicable.
  */
-final class NodeNameSubscriber implements EventSubscriberInterface
+final readonly class NodeNameSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly LoggerInterface $logger,
-        private readonly NodeNamePolicyInterface $nodeNamePolicy,
-        private readonly NodeMover $nodeMover,
+        private LoggerInterface $logger,
+        private NodeNamePolicyInterface $nodeNamePolicy,
+        private NodeMover $nodeMover,
     ) {
     }
 

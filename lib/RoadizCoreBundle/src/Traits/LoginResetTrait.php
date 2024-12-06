@@ -15,10 +15,7 @@ trait LoginResetTrait
         return $entityManager->getRepository(User::class)->findOneByConfirmationToken($token);
     }
 
-    /**
-     * @return bool
-     */
-    public function updateUserPassword(FormInterface $form, User $user, ObjectManager $entityManager)
+    public function updateUserPassword(FormInterface $form, User $user, ObjectManager $entityManager): bool
     {
         $user->setConfirmationToken(null);
         $user->setPasswordRequestedAt(null);

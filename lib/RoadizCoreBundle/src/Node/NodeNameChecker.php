@@ -12,16 +12,14 @@ use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\UrlAliasRepository;
 use RZ\Roadiz\Utils\StringHandler;
 
-class NodeNameChecker implements NodeNamePolicyInterface
+final readonly class NodeNameChecker implements NodeNamePolicyInterface
 {
     public const MAX_LENGTH = 250;
-    protected bool $useTypedSuffix;
-    private ManagerRegistry $managerRegistry;
 
-    public function __construct(ManagerRegistry $managerRegistry, bool $useTypedSuffix = false)
-    {
-        $this->useTypedSuffix = $useTypedSuffix;
-        $this->managerRegistry = $managerRegistry;
+    public function __construct(
+        private ManagerRegistry $managerRegistry,
+        private bool $useTypedSuffix = false,
+    ) {
     }
 
     public function getCanonicalNodeName(NodesSources $nodeSource): string

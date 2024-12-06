@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\Model;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
-use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 
 /**

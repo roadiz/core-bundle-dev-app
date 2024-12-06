@@ -10,13 +10,10 @@ use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 
-class GlobalNodeSourceSearchHandler
+readonly class GlobalNodeSourceSearchHandler
 {
-    private ObjectManager $em;
-
-    public function __construct(ObjectManager $em)
+    public function __construct(private ObjectManager $em)
     {
-        $this->em = $em;
     }
 
     /**

@@ -17,12 +17,12 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
  * Handles node duplication.
  */
 #[Exclude]
-final class NodeDuplicator
+final readonly class NodeDuplicator
 {
     public function __construct(
-        private readonly Node $originalNode,
-        private readonly ObjectManager $objectManager,
-        private readonly NodeNamePolicyInterface $nodeNamePolicy,
+        private Node $originalNode,
+        private ObjectManager $objectManager,
+        private NodeNamePolicyInterface $nodeNamePolicy,
     ) {
     }
 

@@ -15,22 +15,16 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractSearchHandler implements SearchHandlerInterface
 {
-    protected ClientRegistry $clientRegistry;
-    protected ObjectManager $em;
     protected LoggerInterface $logger;
-    protected EventDispatcherInterface $eventDispatcher;
     protected int $highlightingFragmentSize = 150;
 
     public function __construct(
-        ClientRegistry $clientRegistry,
-        ObjectManager $em,
-        LoggerInterface $searchEngineLogger,
-        EventDispatcherInterface $eventDispatcher,
+        protected readonly ClientRegistry $clientRegistry,
+        protected readonly ObjectManager $em,
+        readonly LoggerInterface $searchEngineLogger,
+        protected readonly EventDispatcherInterface $eventDispatcher,
     ) {
-        $this->clientRegistry = $clientRegistry;
-        $this->em = $em;
         $this->logger = $searchEngineLogger;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function getSolr(): Client

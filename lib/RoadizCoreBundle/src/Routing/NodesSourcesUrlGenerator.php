@@ -10,13 +10,13 @@ use RZ\Roadiz\CoreBundle\Entity\Theme;
 /**
  * Do not extend this class, use NodesSourcesPathGeneratingEvent::class event.
  */
-final class NodesSourcesUrlGenerator
+final readonly class NodesSourcesUrlGenerator
 {
     public function __construct(
-        private readonly NodesSourcesPathAggregator $pathAggregator,
-        private readonly ?NodesSources $nodeSource = null,
-        private readonly bool $forceLocale = false,
-        private readonly bool $forceLocaleWithUrlAlias = false,
+        private NodesSourcesPathAggregator $pathAggregator,
+        private ?NodesSources $nodeSource = null,
+        private bool $forceLocale = false,
+        private bool $forceLocaleWithUrlAlias = false,
     ) {
     }
 

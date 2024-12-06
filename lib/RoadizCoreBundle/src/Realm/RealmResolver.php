@@ -14,12 +14,12 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-final class RealmResolver implements RealmResolverInterface
+final readonly class RealmResolver implements RealmResolverInterface
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly Security $security,
-        private readonly CacheItemPoolInterface $cache,
+        private ManagerRegistry $managerRegistry,
+        private Security $security,
+        private CacheItemPoolInterface $cache,
     ) {
     }
 

@@ -11,9 +11,9 @@ use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-final class UserProvider implements UserProviderInterface
+final readonly class UserProvider implements UserProviderInterface
 {
-    public function __construct(private readonly ManagerRegistry $managerRegistry)
+    public function __construct(private ManagerRegistry $managerRegistry)
     {
     }
 

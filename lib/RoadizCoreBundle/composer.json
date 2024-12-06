@@ -43,15 +43,15 @@
         "rezozero/intervention-request-bundle": "~3.0.1",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
-        "roadiz/doc-generator": "2.4.x-dev",
-        "roadiz/documents": "2.4.x-dev",
-        "roadiz/dts-generator": "2.4.x-dev",
-        "roadiz/entity-generator": "2.4.x-dev",
-        "roadiz/jwt": "2.4.x-dev",
-        "roadiz/markdown": "2.4.x-dev",
-        "roadiz/models": "2.4.x-dev",
+        "roadiz/doc-generator": "2.4.*",
+        "roadiz/documents": "2.4.*",
+        "roadiz/dts-generator": "2.4.*",
+        "roadiz/entity-generator": "2.4.*",
+        "roadiz/jwt": "2.4.*",
+        "roadiz/markdown": "2.4.*",
+        "roadiz/models": "2.4.*",
         "roadiz/nodetype-contracts": "~1.1.2",
-        "roadiz/random": "2.4.x-dev",
+        "roadiz/random": "2.4.*",
         "rollerworks/password-common-list": "^0.3.0",
         "rollerworks/password-strength-bundle": "^3.0",
         "scienta/doctrine-json-functions": "^4.2",
@@ -136,8 +136,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.3.x-dev",
-            "dev-develop": "2.4.x-dev"
+            "dev-main": "2.4.x-dev",
+            "dev-develop": "2.5.x-dev"
         }
     }
 }

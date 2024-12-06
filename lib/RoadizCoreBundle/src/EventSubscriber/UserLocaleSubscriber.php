@@ -13,11 +13,11 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
 
-final class UserLocaleSubscriber implements EventSubscriberInterface
+final readonly class UserLocaleSubscriber implements EventSubscriberInterface
 {
     public function __construct(
-        private readonly RequestStack $requestStack,
-        private readonly TokenStorageInterface $tokenStorage,
+        private RequestStack $requestStack,
+        private TokenStorageInterface $tokenStorage,
     ) {
     }
 

@@ -7,7 +7,6 @@ namespace RZ\Roadiz\OpenId\User;
 use Lcobucci\JWT\Token;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Serializer\Attribute\Ignore;
 
@@ -18,8 +17,6 @@ class OpenIdAccount implements UserInterface, EquatableInterface
 {
     /**
      * @var array<string>
-     *
-     * @SymfonySerializer\Groups({"user"})
      */
     #[Groups(['user'])]
     protected array $roles;

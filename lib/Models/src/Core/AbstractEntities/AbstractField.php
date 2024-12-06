@@ -382,7 +382,7 @@ abstract class AbstractField extends AbstractPositioned
     /**
      * @return $this
      */
-    public function setName(?string $name)
+    public function setName(?string $name): AbstractField
     {
         $this->name = StringHandler::variablize($name ?? '');
 
@@ -411,9 +411,9 @@ abstract class AbstractField extends AbstractPositioned
     }
 
     /**
-     * @return self
+     * @return $this
      */
-    public function setLabel(?string $label)
+    public function setLabel(?string $label): AbstractField
     {
         $this->label = $label ?? '';
 
@@ -426,9 +426,9 @@ abstract class AbstractField extends AbstractPositioned
     }
 
     /**
-     * @return AbstractField
+     * @return $this
      */
-    public function setPlaceholder(?string $placeholder)
+    public function setPlaceholder(?string $placeholder): AbstractField
     {
         $this->placeholder = $placeholder;
 
@@ -443,7 +443,7 @@ abstract class AbstractField extends AbstractPositioned
     /**
      * @return $this
      */
-    public function setDescription(?string $description)
+    public function setDescription(?string $description): AbstractField
     {
         $this->description = $description;
 
@@ -458,7 +458,7 @@ abstract class AbstractField extends AbstractPositioned
     /**
      * @return $this
      */
-    public function setDefaultValues(?string $defaultValues)
+    public function setDefaultValues(?string $defaultValues): AbstractField
     {
         $this->defaultValues = $defaultValues;
 
@@ -482,7 +482,7 @@ abstract class AbstractField extends AbstractPositioned
     /**
      * @return $this
      */
-    public function setType(int $type)
+    public function setType(int $type): AbstractField
     {
         $this->type = $type;
 
@@ -527,9 +527,9 @@ abstract class AbstractField extends AbstractPositioned
      *
      * @param string|null $groupName the group name
      *
-     * @return static
+     * @return $this
      */
-    public function setGroupName(?string $groupName)
+    public function setGroupName(?string $groupName): AbstractField
     {
         if (null === $groupName) {
             $this->groupName = null;
@@ -553,9 +553,9 @@ abstract class AbstractField extends AbstractPositioned
     }
 
     /**
-     * @return AbstractField
+     * @return $this
      */
-    public function setExpanded(bool $expanded)
+    public function setExpanded(bool $expanded): AbstractField
     {
         $this->expanded = $expanded;
 

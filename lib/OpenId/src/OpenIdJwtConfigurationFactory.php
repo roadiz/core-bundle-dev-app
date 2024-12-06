@@ -17,14 +17,14 @@ use RZ\Roadiz\JWT\Validation\Constraint\HostedDomain;
 use RZ\Roadiz\JWT\Validation\Constraint\UserInfoEndpoint;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
-final class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
+final readonly class OpenIdJwtConfigurationFactory implements JwtConfigurationFactory
 {
     public function __construct(
-        private readonly ?Discovery $discovery,
-        private readonly HttpClientInterface $client,
-        private readonly ?string $openIdHostedDomain,
-        private readonly ?string $oauthClientId,
-        private readonly bool $verifyUserInfo,
+        private ?Discovery $discovery,
+        private HttpClientInterface $client,
+        private ?string $openIdHostedDomain,
+        private ?string $oauthClientId,
+        private bool $verifyUserInfo,
     ) {
     }
 

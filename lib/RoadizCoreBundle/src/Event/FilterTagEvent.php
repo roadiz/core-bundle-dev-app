@@ -9,11 +9,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class FilterTagEvent extends Event
 {
-    protected Tag $tag;
-
-    public function __construct(Tag $tag)
+    public function __construct(protected readonly Tag $tag)
     {
-        $this->tag = $tag;
     }
 
     public function getTag(): Tag

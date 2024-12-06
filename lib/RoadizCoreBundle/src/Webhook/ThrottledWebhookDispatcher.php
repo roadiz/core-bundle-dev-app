@@ -10,12 +10,12 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 
-final class ThrottledWebhookDispatcher implements WebhookDispatcher
+final readonly class ThrottledWebhookDispatcher implements WebhookDispatcher
 {
     public function __construct(
-        private readonly WebhookMessageFactoryInterface $messageFactory,
-        private readonly MessageBusInterface $messageBus,
-        private readonly RateLimiterFactory $throttledWebhooksLimiter,
+        private WebhookMessageFactoryInterface $messageFactory,
+        private MessageBusInterface $messageBus,
+        private RateLimiterFactory $throttledWebhooksLimiter,
     ) {
     }
 

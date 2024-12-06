@@ -20,19 +20,14 @@ class SolariumNodeSource extends AbstractSolarium
     public const DOCUMENT_TYPE = 'NodesSources';
     public const IDENTIFIER_KEY = 'node_source_id_i';
 
-    protected NodesSources $nodeSource;
-    protected EventDispatcherInterface $dispatcher;
-
     public function __construct(
-        NodesSources $nodeSource,
+        protected readonly NodesSources $nodeSource,
         ClientRegistry $clientRegistry,
-        EventDispatcherInterface $dispatcher,
+        protected readonly EventDispatcherInterface $dispatcher,
         LoggerInterface $searchEngineLogger,
         MarkdownInterface $markdown,
     ) {
         parent::__construct($clientRegistry, $searchEngineLogger, $markdown);
-        $this->nodeSource = $nodeSource;
-        $this->dispatcher = $dispatcher;
     }
 
     public function getDocumentId(): int|string
