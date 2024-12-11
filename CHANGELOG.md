@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.0...v2.4.1) - 2024-12-11
+
+### Bug Fixes
+
+- Fixed back-office quick search using ExplorerItemFactory to support other data than NodesSources - ([26f540c](https://github.com/roadiz/core-bundle-dev-app/commit/26f540cdeaef4578b5bd8df3d54c96fd52fae654))
+
 ## [2.4.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.31...v2.4.0) - 2024-12-05
 
 ### ⚠ Breaking changes
