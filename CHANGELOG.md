@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.1...v2.4.2) - 2024-12-11
+
+### Bug Fixes
+
+- Testing if BO search result item thumbnails have url - ([2268215](https://github.com/roadiz/core-bundle-dev-app/commit/22682151fd30d7553ffe2f6b1bdc9e016bc6d459))
+
 ## [2.4.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.0...v2.4.1) - 2024-12-11
 
 ### Bug Fixes
