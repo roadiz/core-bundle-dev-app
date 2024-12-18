@@ -125,16 +125,15 @@ class NSPage extends NodesSources
 
     /**
      * nodeReferencesSources NodesSources direct field buffer.
-     * @var \App\GeneratedEntity\NSPage[]|null
+     * @var \RZ\Roadiz\CoreBundle\Entity\NodesSources[]|null
      * References.
-     * Default values:
-     * Page
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'nodeReferences')]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_nodes'])]
+    #[Serializer\Groups(['page_get_by_path'])]
     #[ApiProperty(description: 'References')]
-    #[Serializer\MaxDepth(2)]
+    #[Serializer\MaxDepth(1)]
+    #[Serializer\Context(normalizationContext: ['groups' => ['page_get_by_path', 'urls', 'nodes_sources_base']], groups: ['page_get_by_path'])]
     private ?array $nodeReferencesSources = null;
 
     /**
@@ -603,10 +602,10 @@ class NSPage extends NodesSources
     }
 
     /**
-     * @return \App\GeneratedEntity\NSPage[]
+     * @return \RZ\Roadiz\CoreBundle\Entity\NodesSources[]
      */
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_nodes'])]
-    #[JMS\MaxDepth(2)]
+    #[JMS\Groups(['page_get_by_path'])]
+    #[JMS\MaxDepth(1)]
     #[JMS\VirtualProperty]
     #[JMS\SerializedName('nodeReferences')]
     #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\NodesSources>')]
@@ -615,7 +614,7 @@ class NSPage extends NodesSources
         if (null === $this->nodeReferencesSources) {
             if (null !== $this->objectManager) {
                 $this->nodeReferencesSources = $this->objectManager
-                    ->getRepository(\App\GeneratedEntity\NSPage::class)
+                    ->getRepository(\RZ\Roadiz\CoreBundle\Entity\NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
                         'node_references'
@@ -628,7 +627,7 @@ class NSPage extends NodesSources
     }
 
     /**
-     * @param \App\GeneratedEntity\NSPage[]|null $nodeReferencesSources
+     * @param \RZ\Roadiz\CoreBundle\Entity\NodesSources[]|null $nodeReferencesSources
      * @return $this
      */
     public function setNodeReferencesSources(?array $nodeReferencesSources): static

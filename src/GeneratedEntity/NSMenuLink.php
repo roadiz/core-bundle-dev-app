@@ -53,8 +53,8 @@ class NSMenuLink extends NodesSources
     #[Serializer\SerializedName(serializedName: 'linkInternalReference')]
     #[Serializer\Groups(['urls'])]
     #[ApiProperty(description: 'Référence au nœud (Page ou Bloc de page)')]
-    #[Serializer\MaxDepth(2)]
-    #[Serializer\Context(normalizationContext: ['groups' => ['urls', 'nodes_sources_default', 'nodes_sources_base']], groups: ['urls'])]
+    #[Serializer\MaxDepth(1)]
+    #[Serializer\Context(normalizationContext: ['groups' => ['urls', 'nodes_sources_base']], groups: ['urls'])]
     private ?array $linkInternalReferenceSources = null;
 
     /**
@@ -91,7 +91,7 @@ class NSMenuLink extends NodesSources
      * @return \RZ\Roadiz\CoreBundle\Entity\NodesSources[]
      */
     #[JMS\Groups(['urls'])]
-    #[JMS\MaxDepth(2)]
+    #[JMS\MaxDepth(1)]
     #[JMS\VirtualProperty]
     #[JMS\SerializedName('linkInternalReference')]
     #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\NodesSources>')]

@@ -36,10 +36,10 @@
             "normalization_context": {
                 "groups": [
                     "urls",
-                    "nodes_sources_default",
                     "nodes_sources_base"
                 ]
             },
+            "serialization_max_depth": 1,
             "excluded_from_serialization": false,
             "indexed": false,
             "visible": true
