@@ -347,6 +347,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
     public function setNormalizationContext(?array $normalizationContext): NodeTypeField
     {
         $this->normalizationContext = $normalizationContext;
+
         return $this;
     }
 
@@ -363,6 +364,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
             $this->normalizationContext = null;
         }
         $this->normalizationContext['groups'] = $normalizationContextGroups;
+
         return $this;
     }
 }

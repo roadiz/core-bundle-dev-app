@@ -104,6 +104,7 @@ abstract class AbstractFieldGenerator
                 return $normalizationContext;
             }
         }
+
         return null;
     }
 

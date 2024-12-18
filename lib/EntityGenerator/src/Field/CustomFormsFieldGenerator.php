@@ -33,7 +33,6 @@ final class CustomFormsFieldGenerator extends AbstractFieldGenerator
         return $this;
     }
 
-
     protected function getNormalizationContext(): array
     {
         return [
