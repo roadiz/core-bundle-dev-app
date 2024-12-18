@@ -60,6 +60,7 @@ final class NodeTypeFieldSerializationType extends AbstractType
         ])
         ->add('serializationGroups', CollectionType::class, [
             'label' => 'nodeTypeField.serializationGroups',
+            'help' => 'nodeTypeField.serializationGroups.help',
             'required' => false,
             'allow_add' => true,
             'allow_delete' => true,
