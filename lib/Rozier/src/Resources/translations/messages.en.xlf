@@ -413,7 +413,7 @@
       <trans-unit xml:space="preserve" id="nodeTypeField.serializationGroups.help">
         <source>nodeTypeField.serializationGroups.help</source>
         <target state="final">
-            Select the serialization groups for which this field will be serialized.
+            Select the [serialization groups](https://docs.roadiz.io/en/latest/developer/api/serialization.html#serialization-groups) for which this field will be serialized.
             By default, this field will be serialized for the *nodes_sources* and *nodes_sources_default* groups.
             If the field is part of a Field Group, it will use the *nodes_sources_{group name}* group instead of *nodes_sources_default*.
             which will hide the field from an API collection operation.
