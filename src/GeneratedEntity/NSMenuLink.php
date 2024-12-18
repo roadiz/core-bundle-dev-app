@@ -48,14 +48,13 @@ class NSMenuLink extends NodesSources
      * linkInternalReferenceSources NodesSources direct field buffer.
      * @var \RZ\Roadiz\CoreBundle\Entity\NodesSources[]|null
      * Référence au nœud (Page ou Bloc de page).
-     * Default values:
-     * Page, Article, ArticleContainer, Offer
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'linkInternalReference')]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_nodes'])]
+    #[Serializer\Groups(['urls'])]
     #[ApiProperty(description: 'Référence au nœud (Page ou Bloc de page)')]
     #[Serializer\MaxDepth(2)]
+    #[Serializer\Context(normalizationContext: ['groups' => ['urls', 'nodes_sources_default', 'nodes_sources_base']], groups: ['urls'])]
     private ?array $linkInternalReferenceSources = null;
 
     /**
@@ -91,7 +90,7 @@ class NSMenuLink extends NodesSources
     /**
      * @return \RZ\Roadiz\CoreBundle\Entity\NodesSources[]
      */
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_nodes'])]
+    #[JMS\Groups(['urls'])]
     #[JMS\MaxDepth(2)]
     #[JMS\VirtualProperty]
     #[JMS\SerializedName('linkInternalReference')]

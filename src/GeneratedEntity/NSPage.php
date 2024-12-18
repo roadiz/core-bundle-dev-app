@@ -174,12 +174,18 @@ class NSPage extends NodesSources
     /**
      * Custom form.
      * (Virtual field, this var is a buffer)
+     *
+     * @var \RZ\Roadiz\CoreBundle\Entity\CustomForm[]|null
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'customForm')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_custom_forms'])]
     #[ApiProperty(description: 'Custom form')]
     #[Serializer\MaxDepth(2)]
+    #[Serializer\Context(
+        normalizationContext: ['groups' => ['nodes_sources', 'urls']],
+        groups: ['nodes_sources', 'nodes_sources_default', 'nodes_sources_custom_forms'],
+    )]
     private ?array $customForm = null;
 
     /**

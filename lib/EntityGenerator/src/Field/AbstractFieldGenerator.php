@@ -93,6 +93,20 @@ abstract class AbstractFieldGenerator
         return null;
     }
 
+    /**
+     * @return array<string, mixed>|null
+     */
+    protected function getNormalizationContext(): ?array
+    {
+        if (\method_exists($this->field, 'getNormalizationContext')) {
+            $normalizationContext = $this->field->getNormalizationContext();
+            if (\is_array($normalizationContext) && !empty($normalizationContext['groups'])) {
+                return $normalizationContext;
+            }
+        }
+        return null;
+    }
+
     protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
         if ($exclude) {
@@ -132,6 +146,16 @@ abstract class AbstractFieldGenerator
             if ($this->getSerializationMaxDepth() > 0) {
                 $property->addAttribute('Symfony\Component\Serializer\Attribute\MaxDepth', [
                     $this->getSerializationMaxDepth(),
+                ]);
+            }
+
+            /*
+             * Enable different serialization context for this field.
+             */
+            if (null !== $this->getNormalizationContext()) {
+                $property->addAttribute('Symfony\Component\Serializer\Attribute\Context', [
+                    'normalizationContext' => $this->getNormalizationContext(),
+                    'groups' => $this->getSerializationGroups(),
                 ]);
             }
         }

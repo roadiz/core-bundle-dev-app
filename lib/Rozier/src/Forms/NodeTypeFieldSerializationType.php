@@ -44,6 +44,20 @@ final class NodeTypeFieldSerializationType extends AbstractType
                 'placeholder' => 'enter_symfony_expression_language_with_object_as_var_name',
             ],
         ])
+        ->add('normalizationContextGroups', CollectionType::class, [
+            'label' => 'nodeTypeField.normalizationContextGroups',
+            'help' => 'nodeTypeField.normalizationContextGroups.help',
+            'required' => false,
+            'allow_add' => true,
+            'allow_delete' => true,
+            'attr' => [
+                'class' => 'rz-collection-form-type',
+            ],
+            'entry_options' => [
+                'label' => false,
+            ],
+            'entry_type' => TextType::class,
+        ])
         ->add('serializationGroups', CollectionType::class, [
             'label' => 'nodeTypeField.serializationGroups',
             'required' => false,
