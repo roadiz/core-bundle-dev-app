@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.2...v2.4.3) - 2024-12-19
+
+### Bug Fixes
+
+- Keep only fully translated languages - ([b661641](https://github.com/roadiz/core-bundle-dev-app/commit/b661641a33a51dc9a1e56f29e7e39328356dcfce))
+
+### Features
+
+- Added new NodeTypeField.php `normalizationContext` to alter normalization groups per field basis ([#29](https://github.com/roadiz/core-bundle-dev-app/issues/29)) - ([39448bd](https://github.com/roadiz/core-bundle-dev-app/commit/39448bdc690aa6c46775c58e5da803fb06364d0b))
+
 ## [2.4.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.1...v2.4.2) - 2024-12-11
 
 ### Bug Fixes
