@@ -402,6 +402,23 @@
         <source>nodeTypeField.defaultValues</source>
         <target state="translated">Advanced field configuration</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.normalizationContextGroups">
+        <source>nodeTypeField.normalizationContextGroups</source>
+        <target state="final">Custom serialization context (groups)</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.normalizationContextGroups.help">
+        <source>nodeTypeField.normalizationContextGroups.help</source>
+        <target state="final">Changes the serialization context for the contents of this field.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.serializationGroups.help">
+        <source>nodeTypeField.serializationGroups.help</source>
+        <target state="final">
+            Select the [serialization groups](https://docs.roadiz.io/en/latest/developer/api/serialization.html#serialization-groups) for which this field will be serialized.
+            By default, this field will be serialized for the *nodes_sources* and *nodes_sources_default* groups.
+            If the field is part of a Field Group, it will use the *nodes_sources_{group name}* group instead of *nodes_sources_default*.
+            which will hide the field from an API collection operation.
+        </target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="101" approved="yes">
         <source>enter_values_comma_separated</source>
         <target state="final">Enter each values separated with commas.</target>

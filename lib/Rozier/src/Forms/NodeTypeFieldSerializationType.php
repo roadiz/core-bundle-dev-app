@@ -24,6 +24,34 @@ final class NodeTypeFieldSerializationType extends AbstractType
             'help' => 'exclude_this_field_from_api_serialization',
             'required' => false,
         ])
+        ->add('serializationGroups', CollectionType::class, [
+            'label' => 'nodeTypeField.serializationGroups',
+            'help' => 'nodeTypeField.serializationGroups.help',
+            'required' => false,
+            'allow_add' => true,
+            'allow_delete' => true,
+            'attr' => [
+                'class' => 'rz-collection-form-type',
+            ],
+            'entry_options' => [
+                'label' => false,
+            ],
+            'entry_type' => TextType::class,
+        ])
+        ->add('normalizationContextGroups', CollectionType::class, [
+            'label' => 'nodeTypeField.normalizationContextGroups',
+            'help' => 'nodeTypeField.normalizationContextGroups.help',
+            'required' => false,
+            'allow_add' => true,
+            'allow_delete' => true,
+            'attr' => [
+                'class' => 'rz-collection-form-type',
+            ],
+            'entry_options' => [
+                'label' => false,
+            ],
+            'entry_type' => TextType::class,
+        ])
         ->add('serializationMaxDepth', IntegerType::class, [
             'label' => 'nodeTypeField.serializationMaxDepth',
             'required' => false,
@@ -43,19 +71,6 @@ final class NodeTypeFieldSerializationType extends AbstractType
             'attr' => [
                 'placeholder' => 'enter_symfony_expression_language_with_object_as_var_name',
             ],
-        ])
-        ->add('serializationGroups', CollectionType::class, [
-            'label' => 'nodeTypeField.serializationGroups',
-            'required' => false,
-            'allow_add' => true,
-            'allow_delete' => true,
-            'attr' => [
-                'class' => 'rz-collection-form-type',
-            ],
-            'entry_options' => [
-                'label' => false,
-            ],
-            'entry_type' => TextType::class,
         ]);
     }
 

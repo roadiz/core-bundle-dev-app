@@ -23,6 +23,24 @@ final class CustomFormsFieldGenerator extends AbstractFieldGenerator
         return $this;
     }
 
+    protected function addFieldAnnotation(Property $property): AbstractFieldGenerator
+    {
+        parent::addFieldAnnotation($property);
+
+        $property->addComment('');
+        $property->addComment('@var '.$this->options['custom_form_class'].'[]|null');
+
+        return $this;
+    }
+
+    protected function getNormalizationContext(): array
+    {
+        return [
+            'groups' => ['nodes_sources', 'urls'],
+            ...(parent::getNormalizationContext() ?? []),
+        ];
+    }
+
     protected function getDefaultSerializationGroups(): array
     {
         $groups = parent::getDefaultSerializationGroups();

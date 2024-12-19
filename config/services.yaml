@@ -32,3 +32,10 @@ services:
     app.serializer.normalizer.menu_link_path.json:
         class: 'App\Serializer\Normalizer\MenuLinkPathNormalizer'
         decorates: 'api_platform.serializer.normalizer.item'
+
+    app.property_filter:
+        parent: 'api_platform.serializer.property_filter'
+        tags: [ 'api_platform.filter' ]
+        autowire: false
+        autoconfigure: false
+        public: false

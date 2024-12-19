@@ -35,16 +35,8 @@ class RozierApp extends AppController
     public const DEFAULT_ITEM_PER_PAGE = 50;
 
     public static array $backendLanguages = [
-        'Arabic' => 'ar',
         'English' => 'en',
-        'Español' => 'es',
         'Français' => 'fr',
-        'Indonesian' => 'id',
-        'Italiano' => 'it',
-        'Türkçe' => 'tr',
-        'Русский язык' => 'ru',
-        'српска ћирилица' => 'sr',
-        '中文' => 'zh',
     ];
 
     public static function getSubscribedServices(): array
