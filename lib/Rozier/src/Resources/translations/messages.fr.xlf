@@ -402,15 +402,15 @@
         <source>nodeTypeField.defaultValues</source>
         <target state="final">Configuration avancée</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.normalizationContextGroups">
+      <trans-unit xml:space="preserve" id="nodeTypeField.normalizationContextGroups" approved="yes">
         <source>nodeTypeField.normalizationContextGroups</source>
         <target state="final">Contexte personalisé de sérialisation (groupes)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.normalizationContextGroups.help">
+      <trans-unit xml:space="preserve" id="nodeTypeField.normalizationContextGroups.help" approved="yes">
         <source>nodeTypeField.normalizationContextGroups.help</source>
         <target state="final">Permet de modifier le contexte de sérialisation pour le contenu de ce champ.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.serializationGroups.help">
+      <trans-unit xml:space="preserve" id="nodeTypeField.serializationGroups.help" approved="yes">
         <source>nodeTypeField.serializationGroups.help</source>
         <target state="final">
             Permet de choisir des [groupes de sérialisation](https://docs.roadiz.io/en/latest/developer/api/serialization.html#serialization-groups) pour lesquels ce champ sera sérialisé.
