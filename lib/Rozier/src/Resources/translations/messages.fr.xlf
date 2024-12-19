@@ -402,6 +402,23 @@
         <source>nodeTypeField.defaultValues</source>
         <target state="final">Configuration avancée</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.normalizationContextGroups">
+        <source>nodeTypeField.normalizationContextGroups</source>
+        <target state="final">Contexte personalisé de sérialisation (groupes)</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.normalizationContextGroups.help">
+        <source>nodeTypeField.normalizationContextGroups.help</source>
+        <target state="final">Permet de modifier le contexte de sérialisation pour le contenu de ce champ.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.serializationGroups.help">
+        <source>nodeTypeField.serializationGroups.help</source>
+        <target state="final">
+            Permet de choisir des [groupes de sérialisation](https://docs.roadiz.io/en/latest/developer/api/serialization.html#serialization-groups) pour lesquels ce champ sera sérialisé.
+            Par défaut, ce champ sera sérialisé pour les groupes *nodes_sources* et *nodes_sources_default*.
+            Si le champ fait partie d'un Groupe de champ, il utilisera le groupe *nodes_sources_{nom du groupe}* à la place de *nodes_sources_default*
+            ce qui cachera le champ depuis une opération API de type Collection.
+        </target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="101" approved="yes">
         <source>enter_values_comma_separated</source>
         <target state="final">Entrez les valeurs séparées par des virgules…</target>

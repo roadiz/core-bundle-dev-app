@@ -101,6 +101,14 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
     #[
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type']),
+        Serializer\Type('array<string, array>'),
+        ORM\Column(name: 'normalization_context', type: 'json', nullable: true)
+    ]
+    private ?array $normalizationContext = null;
+
+    #[
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type']),
         Serializer\Type('int'),
         ORM\Column(name: 'serialization_max_depth', type: Types::SMALLINT, nullable: true)
     ]
@@ -327,6 +335,35 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
     public function setExcludedFromSerialization(bool $excludedFromSerialization): NodeTypeField
     {
         $this->excludedFromSerialization = $excludedFromSerialization;
+
+        return $this;
+    }
+
+    public function getNormalizationContext(): ?array
+    {
+        return $this->normalizationContext;
+    }
+
+    public function setNormalizationContext(?array $normalizationContext): NodeTypeField
+    {
+        $this->normalizationContext = $normalizationContext;
+
+        return $this;
+    }
+
+    #[SymfonySerializer\Ignore]
+    public function getNormalizationContextGroups(): ?array
+    {
+        return $this->normalizationContext['groups'] ?? [];
+    }
+
+    #[SymfonySerializer\Ignore]
+    public function setNormalizationContextGroups(?array $normalizationContextGroups): NodeTypeField
+    {
+        if (null === $normalizationContextGroups) {
+            $this->normalizationContext = null;
+        }
+        $this->normalizationContext['groups'] = $normalizationContextGroups;
 
         return $this;
     }

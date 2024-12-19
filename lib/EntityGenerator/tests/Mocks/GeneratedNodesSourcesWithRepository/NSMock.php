@@ -309,12 +309,18 @@ class NSMock extends NodesSources
     /**
      * Custom forms field.
      * (Virtual field, this var is a buffer)
+     *
+     * @var \mock\Entity\CustomForm[]|null
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'theForms')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_custom_forms'])]
     #[ApiProperty(description: 'Custom forms field')]
     #[Serializer\MaxDepth(2)]
+    #[Serializer\Context(
+        normalizationContext: ['groups' => ['nodes_sources', 'urls']],
+        groups: ['nodes_sources', 'nodes_sources_default', 'nodes_sources_custom_forms'],
+    )]
     private ?array $theForms = null;
 
     /**

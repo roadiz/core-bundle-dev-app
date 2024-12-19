@@ -65,12 +65,12 @@ final class AjaxSearchController extends AbstractAjaxController
         foreach ($nodesSources as $source) {
             $uniqueKey = null;
             if ($source instanceof NodesSources) {
-                $uniqueKey = 'n_' . $source->getNode()->getId();
+                $uniqueKey = 'n_'.$source->getNode()->getId();
                 if (!$this->security->isGranted(NodeVoter::READ, $source)) {
                     continue;
                 }
             } elseif ($source instanceof PersistableInterface) {
-                $uniqueKey = 'p_' . $source->getId();
+                $uniqueKey = 'p_'.$source->getId();
             }
             if (key_exists($uniqueKey, $data)) {
                 continue;
