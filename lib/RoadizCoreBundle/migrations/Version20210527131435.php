@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Migrations;
 
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -16,7 +17,7 @@ final class Version20210527131435 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ('postgresql' === $this->connection->getDatabasePlatform()->getName()) {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $this->addSql('ALTER TABLE redirections ALTER redirecturi TYPE TEXT');
             $this->addSql('ALTER TABLE redirections ALTER redirecturi DROP DEFAULT');
             $this->addSql('ALTER TABLE redirections ALTER redirecturi TYPE TEXT');
@@ -27,7 +28,7 @@ final class Version20210527131435 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ('postgresql' === $this->connection->getDatabasePlatform()->getName()) {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $this->addSql('ALTER TABLE redirections ALTER redirecturi TYPE VARCHAR(255)');
             $this->addSql('ALTER TABLE redirections ALTER redirecturi DROP DEFAULT');
             $this->addSql('ALTER TABLE redirections ALTER redirecturi TYPE VARCHAR(255)');
