@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Migrations;
 
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -16,7 +17,7 @@ final class Version20210701151713 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ('postgresql' === $this->connection->getDatabasePlatform()->getName()) {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $this->addSql('CREATE TABLE webhooks (id VARCHAR(36) NOT NULL, message_type VARCHAR(255) DEFAULT NULL, uri TEXT DEFAULT NULL, payload JSON DEFAULT NULL, throttleSeconds INT NOT NULL, last_triggered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, automatic BOOLEAN DEFAULT \'false\' NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
             $this->addSql('CREATE INDEX webhook_message_type ON webhooks (message_type)');
             $this->addSql('CREATE INDEX webhook_created_at ON webhooks (created_at)');

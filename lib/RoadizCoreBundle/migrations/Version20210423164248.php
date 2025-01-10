@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Migrations;
 
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -23,7 +24,7 @@ final class Version20210423164248 extends AbstractMigration
         $this->addSql('CREATE INDEX customform_node_position ON nodes_custom_forms (node_id, position)');
         $this->addSql('CREATE INDEX customform_node_field_position ON nodes_custom_forms (node_id, node_type_field_id, position)');
 
-        if ('postgresql' === $this->connection->getDatabasePlatform()->getName()) {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $this->addSql('DROP INDEX IF EXISTS IDX_7C7DED6DE0D4FDE19CAA2B25');
             $this->addSql('DROP INDEX IF EXISTS IDX_7C7DED6DE0D4FDE14AD260649CAA2B25');
             $this->addSql('DROP INDEX IF EXISTS IDX_7C7DED6D2B36786BE0D4FDE19CAA2B25');
@@ -38,7 +39,7 @@ final class Version20210423164248 extends AbstractMigration
         $this->addSql('CREATE INDEX ns_discr_translation_published ON nodes_sources (discr, translation_id, published_at)');
         $this->addSql('CREATE INDEX ns_title_translation_published ON nodes_sources (title, translation_id, published_at)');
 
-        if ('postgresql' === $this->connection->getDatabasePlatform()->getName()) {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $this->addSql('ALTER INDEX IF EXISTS ns_node_translation_discr RENAME TO ns_node_discr_translation');
             $this->addSql('ALTER INDEX IF EXISTS idx_7c7ded6d460d9fd79caa2b25e0d4fde1 RENAME TO ns_node_translation_published');
             $this->addSql('ALTER INDEX IF EXISTS idx_7c7ded6d4ad260649caa2b25 RENAME TO ns_discr_translation');
@@ -67,7 +68,7 @@ final class Version20210423164248 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ('postgresql' === $this->connection->getDatabasePlatform()->getName()) {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $this->addSql('DROP INDEX IF EXISTS answer_customform_submitted_at');
             $this->addSql('DROP INDEX IF EXISTS cffattribute_answer_field');
             $this->addSql('DROP INDEX IF EXISTS cfield_customform_positio');
@@ -95,7 +96,7 @@ final class Version20210423164248 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_7C7DED6DE0D4FDE14AD260649CAA2B25 ON nodes_sources (published_at, discr, translation_id)');
         $this->addSql('CREATE INDEX IDX_7C7DED6D2B36786BE0D4FDE19CAA2B25 ON nodes_sources (title, published_at, translation_id)');
 
-        if ('postgresql' === $this->connection->getDatabasePlatform()->getName()) {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $this->addSql('ALTER INDEX IF EXISTS ns_title_published RENAME TO IDX_7C7DED6D2B36786BE0D4FDE1');
             $this->addSql('ALTER INDEX IF EXISTS ns_node_discr_translation RENAME TO ns_node_translation_discr');
             $this->addSql('ALTER INDEX IF EXISTS ns_discr_translation RENAME TO IDX_7C7DED6D4AD260649CAA2B25');
