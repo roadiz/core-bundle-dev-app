@@ -53,7 +53,6 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
         Serializer\Type('string'),
         Assert\NotNull(),
         Assert\NotBlank(),
-        RoadizAssert\NonSqlReservedWord(),
         RoadizAssert\SimpleLatinString(),
         // Limit discriminator column to 30 characters for indexing optimization
         Assert\Length(max: 30)

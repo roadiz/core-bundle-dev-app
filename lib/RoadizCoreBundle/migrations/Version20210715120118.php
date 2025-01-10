@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Migrations;
 
+use Doctrine\DBAL\Platforms\PostgreSQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
@@ -19,7 +20,7 @@ final class Version20210715120118 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        if ('postgresql' === $this->connection->getDatabasePlatform()->getName()) {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $this->addSql('ALTER TABLE webhooks ADD root_node INT DEFAULT NULL');
             $this->addSql('ALTER TABLE webhooks ADD CONSTRAINT FK_998C4FDDC2A25172 FOREIGN KEY (root_node) REFERENCES nodes (id) ON DELETE SET NULL NOT DEFERRABLE INITIALLY IMMEDIATE');
         } else {
@@ -31,7 +32,7 @@ final class Version20210715120118 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        if ('postgresql' === $this->connection->getDatabasePlatform()->getName()) {
+        if ($this->connection->getDatabasePlatform() instanceof PostgreSQLPlatform) {
             $this->addSql('ALTER TABLE webhooks DROP CONSTRAINT FK_998C4FDDC2A25172');
             $this->addSql('DROP INDEX webhook_root_node');
         } else {
