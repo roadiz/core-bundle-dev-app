@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.3...v2.4.4) - 2025-01-10
+
+### Bug Fixes
+
+- Test Migrations database platform against their classnames - ([2590a4b](https://github.com/roadiz/core-bundle-dev-app/commit/2590a4bb2662e5ae962fb2d8e2f4722b56e83052))
+- Do not use NonSqlReservedWord constraint on NodeType names, it is too strict - ([efe08c1](https://github.com/roadiz/core-bundle-dev-app/commit/efe08c157e5509981e945ff3d0b6468cc1363fda))
+
 ## [2.4.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.2...v2.4.3) - 2024-12-19
 
 ### Bug Fixes
