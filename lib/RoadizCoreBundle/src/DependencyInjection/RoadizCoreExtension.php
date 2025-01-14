@@ -145,10 +145,7 @@ class RoadizCoreExtension extends Extension
                 $reverseProxyCacheFrontendsReferences[] = new Reference($definitionName);
             }
 
-            if (
-                isset($config['reverseProxyCache']['cloudflare'])
-                && isset($config['reverseProxyCache']['cloudflare']['bearer'])
-            ) {
+            if (isset($config['reverseProxyCache']['cloudflare'])) {
                 $container->setDefinition(
                     'roadiz_core.reverse_proxy_cache.cloudflare',
                     (new Definition())
@@ -158,9 +155,9 @@ class RoadizCoreExtension extends Extension
                             'cloudflare',
                             $config['reverseProxyCache']['cloudflare']['zone'],
                             $config['reverseProxyCache']['cloudflare']['version'],
-                            $config['reverseProxyCache']['cloudflare']['bearer'],
-                            $config['reverseProxyCache']['cloudflare']['email'],
-                            $config['reverseProxyCache']['cloudflare']['key'],
+                            $config['reverseProxyCache']['cloudflare']['bearer'] ?? null,
+                            $config['reverseProxyCache']['cloudflare']['email'] ?? null,
+                            $config['reverseProxyCache']['cloudflare']['key'] ?? null,
                             $config['reverseProxyCache']['cloudflare']['timeout'],
                         ])
                 );
@@ -202,6 +199,9 @@ class RoadizCoreExtension extends Extension
 
     private function registerSolr(array $config, ContainerBuilder $container): void
     {
+        if (!isset($config['solr'])) {
+            return;
+        }
         $solrEndpoints = [];
         $container->setDefinition(
             'roadiz_core.solr.adapter',
@@ -211,20 +211,18 @@ class RoadizCoreExtension extends Extension
                 ->addMethodCall('setTimeout', [$config['solr']['timeout']])
                 ->addMethodCall('setConnectionTimeout', [$config['solr']['timeout']])
         );
-        if (isset($config['solr'])) {
-            foreach ($config['solr']['endpoints'] as $name => $endpoint) {
-                $container->setDefinition(
-                    'roadiz_core.solr.endpoints.'.$name,
-                    (new Definition())
-                        ->setClass(Endpoint::class)
-                        ->setPublic(true)
-                        ->setArguments([
-                            $endpoint,
-                        ])
-                        ->addMethodCall('setKey', [$name])
-                );
-                $solrEndpoints[] = 'roadiz_core.solr.endpoints.'.$name;
-            }
+        foreach ($config['solr']['endpoints'] as $name => $endpoint) {
+            $container->setDefinition(
+                'roadiz_core.solr.endpoints.'.$name,
+                (new Definition())
+                    ->setClass(Endpoint::class)
+                    ->setPublic(true)
+                    ->setArguments([
+                        $endpoint,
+                    ])
+                    ->addMethodCall('setKey', [$name])
+            );
+            $solrEndpoints[] = 'roadiz_core.solr.endpoints.'.$name;
         }
         if (count($solrEndpoints) > 0) {
             $logger = new Reference(SolariumLogger::class);

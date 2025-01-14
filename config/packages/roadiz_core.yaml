@@ -16,18 +16,21 @@ roadiz_core:
     inheritance:
         type: single_table
 
-    solr:
-        timeout: 3
-        endpoints:
-            docker:
-                host: '%env(string:SOLR_HOST)%'
-                core: '%env(string:SOLR_CORE_NAME)%'
-                port: '%env(string:SOLR_PORT)%'
-                path: /
+#    solr:
+#        timeout: 3
+#        endpoints:
+#            docker:
+#                host: '%env(string:SOLR_HOST)%'
+#                core: '%env(string:SOLR_CORE_NAME)%'
+#                port: '%env(string:SOLR_PORT)%'
+#                path: /
 
-    # Always test Varnish invalidation
     reverseProxyCache:
+        # Test Varnish invalidation on dev too
         frontend:
             default:
                 host: '%env(VARNISH_URL)%'
                 domainName: '%env(VARNISH_DOMAIN)%'
+#        cloudflare:
+#            zone: '%env(string:APP_CLOUDFLARE_ZONE)%'
+#            bearer: '%env(string:APP_CLOUDFLARE_BEARER)%'
