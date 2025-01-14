@@ -40,7 +40,11 @@ final readonly class CloudflareCacheEventSubscriber implements EventSubscriberIn
 
     protected function supportConfig(): bool
     {
-        return null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache();
+        return null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache() &&
+           (
+               null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache()->getBearer() ||
+               null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache()->getEmail()
+           );
     }
 
     public function onBanRequest(CachePurgeRequestEvent $event): void
@@ -118,9 +122,12 @@ final readonly class CloudflareCacheEventSubscriber implements EventSubscriberIn
         $headers = [
             'Content-type' => 'application/json',
         ];
-        $headers['Authorization'] = 'Bearer '.trim($this->getCloudflareCacheProxy()->getBearer());
-        $headers['X-Auth-Email'] = $this->getCloudflareCacheProxy()->getEmail();
-        $headers['X-Auth-Key'] = $this->getCloudflareCacheProxy()->getKey();
+        if (null !== $this->getCloudflareCacheProxy()->getBearer()) {
+            $headers['Authorization'] = 'Bearer '.trim($this->getCloudflareCacheProxy()->getBearer());
+        } else {
+            $headers['X-Auth-Email'] = $this->getCloudflareCacheProxy()->getEmail();
+            $headers['X-Auth-Key'] = $this->getCloudflareCacheProxy()->getKey();
+        }
 
         $uri = sprintf(
             'https://api.cloudflare.com/client/%s/zones/%s/purge_cache',

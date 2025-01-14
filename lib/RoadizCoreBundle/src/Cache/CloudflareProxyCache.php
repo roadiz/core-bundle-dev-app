@@ -10,9 +10,9 @@ final readonly class CloudflareProxyCache
         private string $name,
         private string $zone,
         private string $version,
-        private string $bearer,
-        private string $email,
-        private string $key,
+        private ?string $bearer,
+        private ?string $email,
+        private ?string $key,
         private int $timeout,
     ) {
     }
@@ -32,17 +32,17 @@ final readonly class CloudflareProxyCache
         return $this->version;
     }
 
-    public function getBearer(): string
+    public function getBearer(): ?string
     {
         return $this->bearer;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    public function getKey(): string
+    public function getKey(): ?string
     {
         return $this->key;
     }

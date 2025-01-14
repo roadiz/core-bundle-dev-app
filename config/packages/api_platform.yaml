@@ -64,6 +64,11 @@ api_platform:
     collection:
         pagination:
             items_per_page_parameter_name: itemsPerPage
+    # Test Varnish invalidation on dev too
+    http_cache:
+        invalidation:
+            enabled: true
+            varnish_urls: [ '%env(VARNISH_URL)%' ]
 
 when@prod:
     api_platform:
@@ -73,7 +78,3 @@ when@prod:
                 enabled: false
             graphql_playground:
                 enabled: false
-        http_cache:
-            invalidation:
-                enabled: true
-                varnish_urls: [ '%env(VARNISH_URL)%' ]
