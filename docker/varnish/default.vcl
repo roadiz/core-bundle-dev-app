@@ -1,16 +1,9 @@
-#
-# This is an example VCL file for Varnish.
-#
-# It does not do anything by default, delegating control to the
-# builtin VCL. The builtin VCL is called when there is no explicit
-# return statement.
-#
-# See the VCL chapters in the Users Guide at https://www.varnish-cache.org/docs/
-# and https://www.varnish-cache.org/trac/wiki/VCLExamples for more examples.
-
 # Marker to tell the VCL compiler that this VCL has been adapted to the
 # new 4.0 format.
 vcl 4.0;
+
+# See the VCL chapters in the Users Guide at https://www.varnish-cache.org/docs/
+# and https://www.varnish-cache.org/trac/wiki/VCLExamples for more examples.
 
 # Default backend definition. Set this to point to your content server.
 backend default {
@@ -19,9 +12,10 @@ backend default {
 }
 
 acl local {
-    "nginx";
-    "varnish";
     "localhost";
+    "127.0.0.1";
+    "::1";
+    # Add here your $DEFAULT_GATEWAY CIDR to allow all containers in docker network to purge
     "172.58.0.0/16";
 }
 
@@ -48,12 +42,19 @@ sub vcl_recv {
     #
     # The following VCL code will normalize the ‘Accept-Language’ header
     # to either “fr”, “de”, … or “en”, in this order of precedence:
-    # @see https://varnish-cache.org/docs/4.0/users-guide/increasing-your-hitrate.html#http-vary
     if (req.http.Accept-Language) {
         if (req.http.Accept-Language ~ "fr") {
             set req.http.Accept-Language = "fr";
         } elsif (req.http.Accept-Language ~ "de") {
             set req.http.Accept-Language = "de";
+        } elsif (req.http.Accept-Language ~ "it") {
+            set req.http.Accept-Language = "it";
+        } elsif (req.http.Accept-Language ~ "zh") {
+            set req.http.Accept-Language = "zh";
+        } elsif (req.http.Accept-Language ~ "ja") {
+            set req.http.Accept-Language = "ja";
+        } elsif (req.http.Accept-Language ~ "es") {
+            set req.http.Accept-Language = "es";
         } elsif (req.http.Accept-Language ~ "en") {
             set req.http.Accept-Language = "en";
         } else {
@@ -63,10 +64,36 @@ sub vcl_recv {
         }
     }
 
+    # Some generic cookie manipulation, useful for all templates that follow
     # Remove has_js and Cloudflare/Google Analytics __* cookies.
     set req.http.Cookie = regsuball(req.http.Cookie, "(^|;\s*)(_[_a-z]+|has_js)=[^;]*", "");
-    # Remove a ";" prefix, if present.
-    set req.http.Cookie = regsub(req.http.Cookie, "^;\s*", "");
+    # Remove Axeptio cookies.
+    set req.http.Cookie = regsuball(req.http.Cookie, "(^|;\s*)(axeptio_[_a-z]+)=[^;]*", "");
+    # Remove the "has_js" cookie
+    set req.http.Cookie = regsuball(req.http.Cookie, "has_js=[^;]+(; )?", "");
+
+    # Remove any Google Analytics based cookies
+    set req.http.Cookie = regsuball(req.http.Cookie, "__utm[^=]+=[^;]+(; )?", "");
+    set req.http.Cookie = regsuball(req.http.Cookie, "_ga[^=]*=[^;]+(; )?", "");
+    set req.http.Cookie = regsuball(req.http.Cookie, "_gcl_[^=]+=[^;]+(; )?", "");
+    set req.http.Cookie = regsuball(req.http.Cookie, "_gid=[^;]+(; )?", "");
+
+    # Remove DoubleClick offensive cookies
+    set req.http.Cookie = regsuball(req.http.Cookie, "__gads=[^;]+(; )?", "");
+
+    # Remove the Quant Capital cookies (added by some plugin, all __qca)
+    set req.http.Cookie = regsuball(req.http.Cookie, "__qc.=[^;]+(; )?", "");
+
+    # Remove the AddThis cookies
+    set req.http.Cookie = regsuball(req.http.Cookie, "__atuv.=[^;]+(; )?", "");
+
+    # Remove a ";" prefix in the cookie if present
+    set req.http.Cookie = regsuball(req.http.Cookie, "^;\s*", "");
+
+    # Are there cookies left with only spaces or that are empty?
+    if (req.http.cookie ~ "^\s*$") {
+        unset req.http.cookie;
+    }
 
     # Happens before we check if we have this in cache already.
     #
@@ -101,7 +128,11 @@ sub vcl_recv {
     if (req.method == "BAN") {
         # Same ACL check as above:
         if (client.ip ~ local) {
-            if (req.http.X-Cache-Tags) {
+            if (req.http.ApiPlatform-Ban-Regex) {
+                ban("obj.http.Cache-Tags ~ " + req.http.ApiPlatform-Ban-Regex);
+                return (synth(200, "Ban using cache-tags"));
+            }
+            elseif (req.http.X-Cache-Tags) {
                 ban("obj.http.X-Cache-Tags ~ " + req.http.X-Cache-Tags);
                 return(synth(200, "Ban using cache-tags"));
             }
@@ -115,11 +146,29 @@ sub vcl_recv {
     }
 }
 
+# https://info.varnish-software.com/blog/varnish-cache-brotli-compression
+sub vcl_hash {
+    if (req.http.X-brotli == "true") {
+        hash_data("brotli");
+    }
+}
+
+# https://info.varnish-software.com/blog/varnish-cache-brotli-compression
+sub vcl_backend_fetch {
+    if (bereq.http.X-brotli == "true") {
+        set bereq.http.Accept-Encoding = "br";
+        unset bereq.http.X-brotli;
+    }
+}
+
 sub vcl_backend_response {
     # Happens after we have read the response headers from the backend.
     #
     # Here you clean the response headers, removing silly Set-Cookie headers
     # and other mistakes your backend does.
+
+    set beresp.grace = 2m;
+    set beresp.keep = 8m;
 
     # Cache 404 for short period
     if (beresp.status == 404) {
@@ -141,7 +190,9 @@ sub vcl_deliver {
     #
     # You can do accounting or modifying the final object here.
 
-    # Remove cache-tags, unless you want Cloudflare or other to see them
+    # Remove cache-tags, unless you want Cloudflare or Nuxt to see them (to use cache tags on Nuxt responses)
+    # Make sure to allow CORS on Cache-Tags header if you want to use it on Nuxt.
     unset resp.http.X-Cache-Tags;
+    unset resp.http.Cache-Tags;
 }
 

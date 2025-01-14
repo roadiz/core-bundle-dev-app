@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.4...v2.4.5) - 2025-01-14
+
+### Bug Fixes
+
+- **(CoreBundle)** Fixed Solr and Cloudflare invalidation configuration if not provided - ([4bc26fe](https://github.com/roadiz/core-bundle-dev-app/commit/4bc26feba0400bde0d171bd3500671bb2671bb08))
+
 ## [2.4.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.3...v2.4.4) - 2025-01-10
 
 ### Bug Fixes
