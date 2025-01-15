@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.5...v2.4.6) - 2025-01-15
+
+### Bug Fixes
+
+- **(Rozier)** Fixed NodeTypeExplorerItem and VueJs drawer-container logic - ([cc9dd19](https://github.com/roadiz/core-bundle-dev-app/commit/cc9dd19e450b3e6b052b9d5aa8209f03cb92f61b))
+- **(Rozier)** Fixed quick tag creation button in TagExplorer - ([e38b19a](https://github.com/roadiz/core-bundle-dev-app/commit/e38b19a60f5b8f53c631577038689851d27c2179))
+
 ## [2.4.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.4...v2.4.5) - 2025-01-14
 
 ### Bug Fixes
