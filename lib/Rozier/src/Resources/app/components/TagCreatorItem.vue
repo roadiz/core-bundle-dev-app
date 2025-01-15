@@ -44,6 +44,11 @@
         font-size: 12px;
     }
 
+    .new-tag-container {
+        display: flex;
+        flex-direction: row-reverse;
+    }
+
     .new-tag-container:hover {
         cursor: pointer;
 
@@ -67,7 +72,6 @@
         background-color: darken($bgColor, 10);
         color: $textColor;
         transition: all 0.25s ease-out;
-        float: right;
 
         i {
             position: relative;

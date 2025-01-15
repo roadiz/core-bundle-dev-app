@@ -26,6 +26,11 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
         return $this->nodeType->getName();
     }
 
+    public function getNodeTypeName(): ?string
+    {
+        return $this->nodeType->getName();
+    }
+
     public function getDisplayable(): string
     {
         return $this->nodeType->getDisplayName();
@@ -46,5 +51,15 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
     protected function getColor(): ?string
     {
         return $this->nodeType->getColor();
+    }
+
+
+
+    public function toArray(): array
+    {
+        return [
+            ...parent::toArray(),
+            'nodeTypeName' => $this->getNodeTypeName(),
+        ];
     }
 }
