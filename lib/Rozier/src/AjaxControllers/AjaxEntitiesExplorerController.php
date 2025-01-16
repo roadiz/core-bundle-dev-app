@@ -9,23 +9,14 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Configuration\JoinNodeTypeFieldConfiguration;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
-use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Yaml\Yaml;
 
-final class AjaxEntitiesExplorerController extends AbstractAjaxController
+final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerController
 {
-    public function __construct(
-        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
-        SerializerInterface $serializer,
-    ) {
-        parent::__construct($serializer);
-    }
-
     protected function getFieldConfiguration(NodeTypeField $nodeTypeField): array
     {
         if (

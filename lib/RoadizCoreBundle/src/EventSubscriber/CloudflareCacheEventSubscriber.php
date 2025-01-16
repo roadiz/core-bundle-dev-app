@@ -40,10 +40,10 @@ final readonly class CloudflareCacheEventSubscriber implements EventSubscriberIn
 
     protected function supportConfig(): bool
     {
-        return null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache() &&
-           (
-               null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache()->getBearer() ||
-               null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache()->getEmail()
+        return null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache()
+           && (
+               null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache()->getBearer()
+               || null !== $this->reverseProxyCacheLocator->getCloudflareProxyCache()->getEmail()
            );
     }
 

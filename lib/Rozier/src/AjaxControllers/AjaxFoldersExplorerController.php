@@ -8,6 +8,9 @@ use RZ\Roadiz\CoreBundle\Entity\Folder;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Only used to display folders list in document explorer filtering aside.
+ */
 final class AjaxFoldersExplorerController extends AbstractAjaxController
 {
     public function indexAction(Request $request): JsonResponse

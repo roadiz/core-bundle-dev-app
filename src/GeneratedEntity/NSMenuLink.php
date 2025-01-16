@@ -48,6 +48,8 @@ class NSMenuLink extends NodesSources
      * linkInternalReferenceSources NodesSources direct field buffer.
      * @var \RZ\Roadiz\CoreBundle\Entity\NodesSources[]|null
      * Référence au nœud (Page ou Bloc de page).
+     * Default values:
+     * Page, Article
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'linkInternalReference')]
