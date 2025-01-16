@@ -53,8 +53,6 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
         return $this->nodeType->getColor();
     }
 
-
-
     public function toArray(): array
     {
         return [
