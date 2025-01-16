@@ -26,6 +26,7 @@
             "position": 2.0,
             "name": "link_internal_reference",
             "label": "R\u00e9f\u00e9rence au n\u0153ud (Page ou Bloc de page)",
+            "default_values": "Page, Article",
             "type": 13,
             "expanded": false,
             "universal": true,

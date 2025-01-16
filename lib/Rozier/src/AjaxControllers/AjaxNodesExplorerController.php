@@ -6,10 +6,11 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
-use RZ\Roadiz\CoreBundle\EntityApi\NodeTypeApi;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
@@ -19,20 +20,21 @@ use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-final class AjaxNodesExplorerController extends AbstractAjaxController
+final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
 {
     public function __construct(
-        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly ClientRegistry $clientRegistry,
         private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
-        private readonly NodeTypeApi $nodeTypeApi,
+        private readonly NodeTypes $nodeTypesBag,
+        ExplorerItemFactoryInterface $explorerItemFactory,
+        EventDispatcherInterface $eventDispatcher,
         SerializerInterface $serializer,
     ) {
-        parent::__construct($serializer);
+        parent::__construct($explorerItemFactory, $eventDispatcher, $serializer);
     }
 
     protected function getItemPerPage(): int
@@ -45,10 +47,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         return '' !== $request->get('search') && null !== $this->clientRegistry->getClient();
     }
 
-    /**
-     * @return Response JSON response
-     */
-    public function indexAction(Request $request): Response
+    public function indexAction(Request $request): JsonResponse
     {
         // Only requires Search permission for nodes
         $this->denyAccessUnlessGranted(NodeVoter::SEARCH);
@@ -87,13 +86,12 @@ final class AjaxNodesExplorerController extends AbstractAjaxController
         }
 
         if ($request->query->has('nodeTypes') && count($request->get('nodeTypes')) > 0) {
-            $nodeTypeNames = array_map('trim', $request->get('nodeTypes'));
+            /** @var NodeType[] $nodeTypes */
+            $nodeTypes = array_filter(array_map(function ($nodeTypeName) {
+                return $this->nodeTypesBag->get(trim($nodeTypeName));
+            }, $request->get('nodeTypes')));
 
-            $nodeTypes = $this->nodeTypeApi->getBy([
-                'name' => $nodeTypeNames,
-            ]);
-
-            if (null !== $nodeTypes && count($nodeTypes) > 0) {
+            if (count($nodeTypes) > 0) {
                 $arrayFilter['nodeType'] = $nodeTypes;
             }
         }
