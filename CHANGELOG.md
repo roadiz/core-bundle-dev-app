@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.6...v2.4.7) - 2025-01-16
+
+### Features
+
+- Added new `ExplorerEntityListEvent` dispatched on all AjaxExplorer controllers when they use EntityListManager to allow overriding - ([d475cb6](https://github.com/roadiz/core-bundle-dev-app/commit/d475cb645489673192467542c78a7b1fd72239b1))
+
 ## [2.4.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.5...v2.4.6) - 2025-01-15
 
 ### Bug Fixes
