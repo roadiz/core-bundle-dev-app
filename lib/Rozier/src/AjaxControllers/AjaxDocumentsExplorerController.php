@@ -6,21 +6,12 @@ namespace Themes\Rozier\AjaxControllers;
 
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
-use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
-use Symfony\Component\Serializer\SerializerInterface;
 
-final class AjaxDocumentsExplorerController extends AbstractAjaxController
+final class AjaxDocumentsExplorerController extends AbstractAjaxExplorerController
 {
-    public function __construct(
-        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
-        SerializerInterface $serializer,
-    ) {
-        parent::__construct($serializer);
-    }
-
     public function indexAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
