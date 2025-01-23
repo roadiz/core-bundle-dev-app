@@ -102,20 +102,17 @@ final class NodeSourceType extends AbstractType
      */
     private function getFieldsForSource(NodesSources $source, NodeType $nodeType): array
     {
-        $criteria = [
-            'nodeType' => $nodeType,
-            'visible' => true,
-        ];
-
-        $position = [
-            'position' => 'ASC',
-        ];
+        $fields = $nodeType->getFields()->filter(function (NodeTypeField $field) {
+            return $field->isVisible();
+        });
 
         if (!$this->needsUniversalFields($source)) {
-            $criteria = array_merge($criteria, ['universal' => false]);
+            $fields = $fields->filter(function (NodeTypeField $field) {
+                return !$field->isUniversal();
+            });
         }
 
-        return $this->managerRegistry->getRepository(NodeTypeField::class)->findBy($criteria, $position);
+        return $fields->toArray();
     }
 
     private function needsUniversalFields(NodesSources $source): bool

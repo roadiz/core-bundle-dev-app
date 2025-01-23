@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\NodeType;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\DependencyInjection\Configuration;
-use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface;
 
 final readonly class DefaultValuesResolver implements DefaultValuesResolverInterface
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
+        private NodeTypes $nodeTypesBag,
         private string $inheritanceType,
     ) {
     }
@@ -32,10 +31,16 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
              * from all fields of all node types.
              */
             $defaultValues = [];
-            $nodeTypeFields = $this->managerRegistry->getRepository(NodeTypeField::class)->findBy([
-                'name' => $field->getName(),
-                'type' => $field->getType(),
-            ]);
+            $nodeTypeFields = [];
+            $nodeTypes = $this->nodeTypesBag->all();
+            foreach ($nodeTypes as $nodeType) {
+                $nodeTypeFields = [
+                    ...$nodeTypeFields,
+                    ...$nodeType->getFields()->filter(function (NodeTypeFieldInterface $nodeTypeField) use ($field) {
+                        return $nodeTypeField->getName() === $field->getName() && $nodeTypeField->getType() === $field->getType();
+                    })->toArray(),
+                ];
+            }
             foreach ($nodeTypeFields as $nodeTypeField) {
                 $defaultValues = array_merge($defaultValues, array_map('trim', explode(',', $nodeTypeField->getDefaultValues() ?? '')));
             }
