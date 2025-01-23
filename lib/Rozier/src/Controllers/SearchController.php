@@ -6,6 +6,7 @@ namespace Themes\Rozier\Controllers;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
@@ -45,6 +46,7 @@ class SearchController extends RozierApp
     protected ?int $itemPerPage = null;
 
     public function __construct(
+        protected readonly NodeTypes $nodeTypesBag,
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly FormFactoryInterface $formFactory,
         protected readonly SerializerInterface $serializer,
@@ -237,7 +239,7 @@ class SearchController extends RozierApp
     public function searchNodeSourceAction(Request $request, int $nodetypeId): Response
     {
         /** @var NodeType|null $nodetype */
-        $nodetype = $this->managerRegistry->getRepository(NodeType::class)->find($nodetypeId);
+        $nodetype = $this->nodeTypesBag->getById($nodetypeId);
 
         $builder = $this->buildSimpleForm('__node__');
         $this->extendForm($builder, $nodetype);

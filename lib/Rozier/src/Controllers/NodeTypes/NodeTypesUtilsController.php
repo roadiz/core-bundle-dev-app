@@ -37,6 +37,8 @@ class NodeTypesUtilsController extends RozierApp
     }
 
     /**
+     * @deprecated NodeTypes will be static in future Roadiz versions.
+     *
      * Export a Json file containing NodeType data and fields.
      */
     public function exportJsonFileAction(Request $request, int $nodeTypeId): JsonResponse
@@ -130,6 +132,9 @@ class NodeTypesUtilsController extends RozierApp
         return $response;
     }
 
+    /**
+     * @deprecated nodeTypes will be static in future Roadiz versions
+     */
     public function exportAllAction(Request $request): BinaryFileResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
@@ -171,6 +176,8 @@ class NodeTypesUtilsController extends RozierApp
 
     /**
      * Import a Json file (.json) containing NodeType datas and fields.
+     *
+     * @deprecated nodeTypes will be static in future Roadiz versions
      *
      * @throws RuntimeError
      */

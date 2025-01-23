@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms\Node;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Form\DataTransformer\NodeTypeTransformer;
 use RZ\Roadiz\CoreBundle\Form\NodeStatesType;
@@ -20,13 +19,10 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
-class AddNodeType extends AbstractType
+final class AddNodeType extends AbstractType
 {
-    protected ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private readonly NodeTypeTransformer $nodeTypeTransformer)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -52,9 +48,7 @@ class AddNodeType extends AbstractType
                     new NotBlank(),
                 ],
             ]);
-            $builder->get('nodeType')->addModelTransformer(new NodeTypeTransformer(
-                $this->managerRegistry->getManager()
-            ));
+            $builder->get('nodeType')->addModelTransformer($this->nodeTypeTransformer);
         }
 
         $builder->add('dynamicNodeName', CheckboxType::class, [
