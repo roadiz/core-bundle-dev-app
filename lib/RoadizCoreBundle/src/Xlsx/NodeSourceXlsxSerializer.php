@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Xlsx;
 
-use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -24,7 +23,6 @@ final class NodeSourceXlsxSerializer extends AbstractXlsxSerializer
 
     public function __construct(
         TranslatorInterface $translator,
-        private readonly ObjectManager $objectManager,
         private readonly UrlGeneratorInterface $urlGenerator,
     ) {
         parent::__construct($translator);
@@ -93,19 +91,15 @@ final class NodeSourceXlsxSerializer extends AbstractXlsxSerializer
      */
     protected function getFields(NodeTypeInterface $nodeType): array
     {
-        $criteria = [
-            'nodeType' => $nodeType,
-        ];
-
         if (true === $this->onlyTexts) {
-            $criteria['type'] = [
+            $types = [
                 AbstractField::STRING_T,
                 AbstractField::TEXT_T,
                 AbstractField::MARKDOWN_T,
                 AbstractField::RICHTEXT_T,
             ];
         } else {
-            $criteria['type'] = [
+            $types = [
                 AbstractField::STRING_T,
                 AbstractField::DATETIME_T,
                 AbstractField::DATE_T,
@@ -124,8 +118,9 @@ final class NodeSourceXlsxSerializer extends AbstractXlsxSerializer
             ];
         }
 
-        return $this->objectManager->getRepository(NodeTypeField::class)
-            ->findBy($criteria, ['position' => 'ASC']);
+        return $nodeType->getFields()->filter(function (NodeTypeField $field) use ($types) {
+            return in_array($field->getType(), $types);
+        })->toArray();
     }
 
     public function deserialize(string $string): null

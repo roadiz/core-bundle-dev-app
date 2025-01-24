@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers\Nodes;
 
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
-use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
@@ -54,6 +54,7 @@ final class NodesController extends RozierApp
         private readonly UniqueNodeGenerator $uniqueNodeGenerator,
         private readonly NodeFactory $nodeFactory,
         private readonly NodeOffspringResolverInterface $nodeOffspringResolver,
+        private readonly NodeTypes $nodeTypesBag,
         private readonly string $nodeFormTypeClass,
         private readonly string $addNodeFormTypeClass,
     ) {
@@ -133,11 +134,7 @@ final class NodesController extends RozierApp
             ->getRepository(Translation::class)
             ->findAll();
         $this->assignation['nodes'] = $listManager->getEntities();
-        $this->assignation['nodeTypes'] = $this->em()
-            ->getRepository(NodeType::class)
-            ->findBy([
-                'visible' => true,
-            ]);
+        $this->assignation['nodeTypes'] = $this->nodeTypesBag->allVisible();
 
         return $this->render('@RoadizRozier/nodes/list.html.twig', $this->assignation);
     }
@@ -253,8 +250,7 @@ final class NodesController extends RozierApp
         }
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
 
-        /** @var NodeType|null $type */
-        $type = $this->em()->find(NodeType::class, $typeId);
+        $type = $this->nodeTypesBag->getById($typeId);
         if (null === $type) {
             throw new ResourceNotFoundException(sprintf('NodeType #%s does not exist.', $typeId));
         }
@@ -283,8 +279,7 @@ final class NodesController extends RozierApp
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
-        /** @var NodeType|null $type */
-        $type = $this->em()->find(NodeType::class, $nodeTypeId);
+        $type = $this->nodeTypesBag->getById($nodeTypeId);
         if (null === $type) {
             throw new ResourceNotFoundException(sprintf('Node-type #%s does not exist.', $nodeTypeId));
         }
@@ -361,9 +356,7 @@ final class NodesController extends RozierApp
         /** @var Translation|null $translation */
         $translation = $this->em()->getRepository(Translation::class)->findDefault();
 
-        $nodeTypesCount = $this->em()
-            ->getRepository(NodeType::class)
-            ->countBy([]);
+        $nodeTypesCount = $this->nodeTypesBag->count();
 
         if (null !== $translationId) {
             /** @var Translation|null $translation */

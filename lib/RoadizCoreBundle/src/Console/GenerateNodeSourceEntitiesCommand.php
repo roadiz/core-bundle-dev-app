@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Console;
 
-use Doctrine\Persistence\ManagerRegistry;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\EntityHandler\HandlerFactory;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeTypeHandler;
 use Symfony\Component\Console\Command\Command;
@@ -18,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class GenerateNodeSourceEntitiesCommand extends Command
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
+        private readonly NodeTypes $nodeTypesBag,
         private readonly HandlerFactory $handlerFactory,
         ?string $name = null,
     ) {
@@ -38,10 +37,7 @@ final class GenerateNodeSourceEntitiesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
-        $nodeTypes = $this->managerRegistry
-            ->getRepository(NodeType::class)
-            ->findAll();
+        $nodeTypes = $this->nodeTypesBag->all();
 
         if (0 === count($nodeTypes)) {
             $io->error('No available node-types…');
@@ -49,7 +45,6 @@ final class GenerateNodeSourceEntitiesCommand extends Command
             return 1;
         }
 
-        /** @var NodeType $nt */
         foreach ($nodeTypes as $nt) {
             /** @var NodeTypeHandler $handler */
             $handler = $this->handlerFactory->getHandler($nt);

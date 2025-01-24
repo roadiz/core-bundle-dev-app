@@ -4,18 +4,16 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Form\DataTransformer;
 
-use Doctrine\Persistence\ObjectManager;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class NodeTypeTransformer implements DataTransformerInterface
+final readonly class NodeTypeTransformer implements DataTransformerInterface
 {
-    private ObjectManager $manager;
-
-    public function __construct(ObjectManager $manager)
-    {
-        $this->manager = $manager;
+    public function __construct(
+        private NodeTypes $nodeTypesBag,
+    ) {
     }
 
     /**
@@ -36,10 +34,11 @@ class NodeTypeTransformer implements DataTransformerInterface
             return null;
         }
 
-        $nodeType = $this->manager
-            ->getRepository(NodeType::class)
-            ->find($value)
-        ;
+        if (is_string($value)) {
+            $nodeType = $this->nodeTypesBag->get($value);
+        } else {
+            $nodeType = $this->nodeTypesBag->getById($value);
+        }
 
         if (null === $nodeType) {
             // causes a validation error

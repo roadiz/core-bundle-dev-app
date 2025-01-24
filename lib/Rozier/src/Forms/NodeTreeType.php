@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
-use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use Symfony\Component\Form\AbstractType;
@@ -26,23 +24,14 @@ use Themes\Rozier\Widgets\TreeWidgetFactory;
  * This form type is not published inside Roadiz CMS as it needs
  * NodeTreeWidget which is part of Rozier Theme.
  */
-class NodeTreeType extends AbstractType
+final class NodeTreeType extends AbstractType
 {
-    protected AuthorizationCheckerInterface $authorizationChecker;
-    protected RequestStack $requestStack;
-    protected ManagerRegistry $managerRegistry;
-    protected TreeWidgetFactory $treeWidgetFactory;
-
     public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
-        RequestStack $requestStack,
-        ManagerRegistry $managerRegistry,
-        TreeWidgetFactory $treeWidgetFactory,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly RequestStack $requestStack,
+        private readonly TreeWidgetFactory $treeWidgetFactory,
+        private readonly NodeTypes $nodeTypesBag,
     ) {
-        $this->authorizationChecker = $authorizationChecker;
-        $this->requestStack = $requestStack;
-        $this->treeWidgetFactory = $treeWidgetFactory;
-        $this->managerRegistry = $managerRegistry;
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options): void
@@ -67,11 +56,9 @@ class NodeTreeType extends AbstractType
             $defaultValues[$key] = trim($value);
         }
 
-        $nodeTypes = $this->managerRegistry->getRepository(NodeType::class)
-            ->findBy(
-                ['name' => $defaultValues],
-                ['displayName' => 'ASC']
-            );
+        $nodeTypes = array_map(function (string $nodeTypeName) {
+            return $this->nodeTypesBag->get($nodeTypeName);
+        }, $defaultValues);
 
         $view->vars['linkedTypes'] = $nodeTypes;
 

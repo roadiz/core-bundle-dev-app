@@ -9,7 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepository;
 
 /**
- * @deprecated Use NodeTypeRepository directly
+ * @deprecated nodeTypes will be static in future Roadiz versions
  */
 class NodeTypeApi extends AbstractApi
 {

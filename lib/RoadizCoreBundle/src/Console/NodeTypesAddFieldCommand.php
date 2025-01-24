@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Command line utils for managing node-types from terminal.
+ * @deprecated nodeTypes will be static in future Roadiz versions
  */
 final class NodeTypesAddFieldCommand extends NodeTypesCreationCommand
 {

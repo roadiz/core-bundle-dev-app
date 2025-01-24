@@ -36,8 +36,10 @@ final readonly class UniversalDataDuplicator
          * Non-default translation source should not contain universal fields.
          */
         if ($source->getTranslation()->isDefaultTranslation() || !$this->hasDefaultTranslation($source)) {
-            $nodeTypeFieldRepository = $this->managerRegistry->getRepository(NodeTypeField::class);
-            $universalFields = $nodeTypeFieldRepository->findAllUniversal($source->getNode()->getNodeType());
+            /** @var NodeTypeField[] $universalFields */
+            $universalFields = $source->getNode()->getNodeType()->getFields()->filter(function (NodeTypeField $field) {
+                return $field->isUniversal();
+            });
 
             if (count($universalFields) > 0) {
                 $repository = $this->managerRegistry->getRepository(NodesSources::class);
@@ -49,7 +51,6 @@ final readonly class UniversalDataDuplicator
                     'id' => ['!=', $source->getId()],
                 ]);
 
-                /** @var NodeTypeField $universalField */
                 foreach ($universalFields as $universalField) {
                     /** @var NodesSources $otherSource */
                     foreach ($otherSources as $otherSource) {

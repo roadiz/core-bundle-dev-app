@@ -96,6 +96,8 @@ class NodeTypeFieldsController extends RozierApp
     }
 
     /**
+     * @deprecated nodeTypes will be static in future Roadiz versions
+     *
      * @throws RuntimeError
      */
     public function addAction(Request $request, int $nodeTypeId): Response

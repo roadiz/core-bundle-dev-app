@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeTypeHandler;
 use RZ\Roadiz\CoreBundle\Message\DeleteNodeTypeMessage;
@@ -21,6 +22,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 final readonly class DeleteNodeTypeMessageHandler
 {
     public function __construct(
+        private NodeTypes $nodeTypesBag,
         private ManagerRegistry $managerRegistry,
         private HandlerFactoryInterface $handlerFactory,
         private MessageBusInterface $messageBus,
@@ -33,7 +35,17 @@ final readonly class DeleteNodeTypeMessageHandler
      */
     public function __invoke(DeleteNodeTypeMessage $message): void
     {
-        $nodeType = $this->managerRegistry->getRepository(NodeType::class)->find($message->getNodeTypeId());
+        $nodeTypeId = $message->getNodeTypeId();
+
+        if (null === $nodeTypeId) {
+            throw new UnrecoverableMessageHandlingException('NodeTypeId is required');
+        }
+
+        if (is_string($nodeTypeId)) {
+            $nodeType = $this->nodeTypesBag->get($nodeTypeId);
+        } else {
+            $nodeType = $this->nodeTypesBag->getById($nodeTypeId);
+        }
 
         if (!$nodeType instanceof NodeType) {
             throw new UnrecoverableMessageHandlingException('NodeType does not exist');

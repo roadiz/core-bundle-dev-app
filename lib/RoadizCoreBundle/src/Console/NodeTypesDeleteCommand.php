@@ -17,7 +17,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Command line utils for managing node-types from terminal.
+ * @deprecated nodeTypes will be static in future Roadiz versions
  */
 final class NodeTypesDeleteCommand extends Command
 {
