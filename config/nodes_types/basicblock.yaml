@@ -1,0 +1,77 @@
+color: '#69a5ff'
+name: BasicBlock
+displayName: 'Basic Block'
+description: null
+visible: false
+publishable: false
+attributable: false
+sortingAttributesByWeight: false
+reachable: false
+hidingNodes: false
+hidingNonReachableNodes: false
+fields:
+    -
+        name: content
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Content
+        placeholder: null
+        description: null
+        expanded: false
+        position: 1.0
+        nodeTypeName: BasicBlock
+        type: markdown
+    -
+        name: boolean_field
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Boolean field'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 2.0
+        nodeTypeName: BasicBlock
+        type: boolean
+    -
+        name: image
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Image
+        placeholder: null
+        description: null
+        expanded: false
+        position: 3.0
+        nodeTypeName: BasicBlock
+        type: documents
+defaultTtl: 0
+searchable: true

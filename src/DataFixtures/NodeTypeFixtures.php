@@ -9,6 +9,9 @@ use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Importer\NodeTypesImporter;
 
+/**
+ * @deprecated NodeTypes will be static in future Roadiz versions.
+ */
 class NodeTypeFixtures extends Fixture
 {
     public const NS_ARTICLE_CONTAINER = 'ns-article-container';

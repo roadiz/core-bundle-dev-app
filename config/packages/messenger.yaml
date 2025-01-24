@@ -19,6 +19,6 @@ when@dev:
     framework:
         messenger:
             transports:
-                async: 'sync://'
+#                async: 'sync://'
                 failed: 'sync://'
                 sync: 'sync://'

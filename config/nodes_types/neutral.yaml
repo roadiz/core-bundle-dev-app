@@ -1,0 +1,35 @@
+color: '#a8a8a8'
+name: Neutral
+displayName: Neutral
+description: Neutral
+visible: true
+publishable: false
+attributable: false
+sortingAttributesByWeight: false
+reachable: false
+hidingNodes: false
+hidingNonReachableNodes: false
+fields:
+    -
+        name: number
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: true
+        visible: true
+        groupName: null
+        label: Number
+        placeholder: null
+        description: null
+        expanded: false
+        position: 1.0
+        nodeTypeName: Neutral
+        type: integer
+defaultTtl: 0
+searchable: true

@@ -1,0 +1,35 @@
+color: '#a31d1d'
+name: ArticleFeedBlock
+displayName: 'Article feed block'
+description: null
+visible: true
+publishable: false
+attributable: false
+sortingAttributesByWeight: false
+reachable: false
+hidingNodes: true
+hidingNonReachableNodes: true
+fields:
+    -
+        name: listing_count
+        universal: true
+        excludeFromSearch: true
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Article count'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 1.0
+        nodeTypeName: ArticleFeedBlock
+        type: integer
+defaultTtl: 0
+searchable: true

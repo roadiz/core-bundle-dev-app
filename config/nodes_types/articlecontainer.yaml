@@ -1,0 +1,14 @@
+color: '#db2525'
+name: ArticleContainer
+displayName: 'Article container'
+description: null
+visible: true
+publishable: false
+attributable: true
+sortingAttributesByWeight: false
+reachable: true
+hidingNodes: true
+hidingNonReachableNodes: false
+fields: {  }
+defaultTtl: 0
+searchable: true

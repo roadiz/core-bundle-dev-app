@@ -1,0 +1,551 @@
+color: '#000000'
+name: Page
+displayName: Page
+description: Page
+visible: true
+publishable: true
+attributable: true
+sortingAttributesByWeight: false
+reachable: true
+hidingNodes: false
+hidingNonReachableNodes: true
+fields:
+    -
+        name: content
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Content
+        placeholder: null
+        description: Content
+        expanded: false
+        position: 1.0
+        nodeTypeName: Page
+        type: markdown
+    -
+        name: sub_title
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Sub-title
+        placeholder: null
+        description: null
+        expanded: false
+        position: 2.0
+        nodeTypeName: Page
+        type: string
+    -
+        name: children
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Nœuds enfants'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 3.0
+        nodeTypeName: Page
+        defaultValues: 'BasicBlock, GroupBlock, ArticleFeedBlock'
+        type: children-nodes
+    -
+        name: color
+        universal: true
+        excludeFromSearch: true
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Page color'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 4.0
+        nodeTypeName: Page
+        type: colour
+    -
+        name: images
+        universal: true
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups:
+            - realm_a
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Images
+        placeholder: null
+        description: null
+        expanded: false
+        position: 5.0
+        nodeTypeName: Page
+        type: documents
+    -
+        name: header_image
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: Images
+        label: 'Header image'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 6.0
+        nodeTypeName: Page
+        type: documents
+    -
+        name: over_title
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Overtitle
+        placeholder: null
+        description: null
+        expanded: false
+        position: 7.0
+        nodeTypeName: Page
+        type: string
+    -
+        name: pictures
+        universal: true
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: Images
+        label: Pictures
+        placeholder: null
+        description: 'Picture for website'
+        expanded: false
+        position: 8.0
+        nodeTypeName: Page
+        type: documents
+    -
+        name: node_references
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups:
+            - page_get_by_path
+        normalizationContext:
+            groups:
+                - page_get_by_path
+                - urls
+                - nodes_sources_base
+        serializationMaxDepth: 1
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: References
+        placeholder: null
+        description: null
+        expanded: false
+        position: 9.0
+        nodeTypeName: Page
+        type: nodes
+    -
+        name: sticky
+        universal: true
+        excludeFromSearch: true
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: true
+        visible: true
+        groupName: Boolean
+        label: Sticky
+        placeholder: null
+        description: null
+        expanded: false
+        position: 10.0
+        nodeTypeName: Page
+        type: boolean
+    -
+        name: stickytest
+        universal: true
+        excludeFromSearch: true
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: true
+        visible: true
+        groupName: Boolean
+        label: 'Sticky test'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 11.0
+        nodeTypeName: Page
+        type: boolean
+    -
+        name: custom_form
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: 1
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Custom form'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 12.0
+        nodeTypeName: Page
+        type: custom-forms
+    -
+        name: users
+        universal: true
+        excludeFromSearch: true
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Reference to users'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 13.0
+        nodeTypeName: Page
+        defaultValues:
+            classname: \RZ\Roadiz\CoreBundle\Entity\User
+            displayable: getUsername
+            alt_displayable: getEmail
+            thumbnail: null
+            searchable:
+                - username
+                - email
+            orderBy:
+                -
+                    field: email
+                    direction: ASC
+            proxy:
+                classname: App\Entity\PositionedPageUser
+                self: nodeSource
+                relation: user
+                orderBy:
+                    -
+                        field: position
+                        direction: ASC
+        type: many-to-many
+    -
+        name: folder_references
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Reference to folders'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 14.0
+        nodeTypeName: Page
+        defaultValues:
+            classname: RZ\Roadiz\CoreBundle\Entity\Folder
+            displayable: getName
+            alt_displayable: getFullPath
+            searchable:
+                - folderName
+            orderBy:
+                -
+                    field: position
+                    direction: ASC
+        type: many-to-many
+    -
+        name: amount
+        universal: true
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Amount
+        placeholder: null
+        description: null
+        expanded: false
+        position: 15.0
+        nodeTypeName: Page
+        type: decimal
+    -
+        name: email_test
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Test email'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 16.0
+        nodeTypeName: Page
+        type: email
+    -
+        name: settings
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Settings
+        placeholder: null
+        description: null
+        expanded: false
+        position: 17.0
+        nodeTypeName: Page
+        defaultValues:
+            classname: Themes\Rozier\Explorer\SettingsProvider
+        type: multiple-provider
+    -
+        name: folder
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Folder simple'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 18.0
+        nodeTypeName: Page
+        defaultValues:
+            classname: Themes\Rozier\Explorer\FoldersProvider
+        type: single-provider
+    -
+        name: country
+        universal: true
+        excludeFromSearch: true
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Country
+        placeholder: null
+        description: null
+        expanded: false
+        position: 19.0
+        nodeTypeName: Page
+        type: country
+    -
+        name: geolocation
+        universal: true
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Geolocation
+        placeholder: null
+        description: null
+        expanded: false
+        position: 20.0
+        nodeTypeName: Page
+        type: geographic.coordinates
+    -
+        name: multi_geolocation
+        universal: true
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: Geo
+        label: 'Multi geolocations'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 21.0
+        nodeTypeName: Page
+        type: multiple.geographic.coordinates
+    -
+        name: layout
+        universal: true
+        excludeFromSearch: true
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: true
+        visible: true
+        groupName: null
+        label: Layout
+        placeholder: light
+        description: null
+        expanded: false
+        position: 22.0
+        nodeTypeName: Page
+        defaultValues: 'dark, transparent'
+        type: single-choice
+    -
+        name: main_user
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Main user'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 23.0
+        nodeTypeName: Page
+        defaultValues:
+            classname: \RZ\Roadiz\CoreBundle\Entity\User
+            displayable: getUsername
+            alt_displayable: getEmail
+            thumbnail: null
+            searchable:
+                - username
+                - email
+            orderBy:
+                -
+                    field: email
+                    direction: ASC
+        type: many-to-one
+defaultTtl: 15
+searchable: true

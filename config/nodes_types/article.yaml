@@ -1,0 +1,144 @@
+color: '#00308a'
+name: Article
+displayName: Article
+description: Article
+visible: true
+publishable: true
+attributable: true
+sortingAttributesByWeight: false
+reachable: true
+hidingNodes: false
+hidingNonReachableNodes: true
+fields:
+    -
+        name: content
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Your content'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 2.0
+        nodeTypeName: Article
+        type: markdown
+    -
+        name: realm_b_secret
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups:
+            - realm_b
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Secret realm_b'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 3.0
+        nodeTypeName: Article
+        type: string
+    -
+        name: realm_a_secret
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups:
+            - realm_a
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Secret realm_a'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 4.0
+        nodeTypeName: Article
+        type: string
+    -
+        name: blocks
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Blocks
+        placeholder: null
+        description: null
+        expanded: false
+        position: 5.0
+        nodeTypeName: Article
+        defaultValues: 'BasicBlock, GroupBlock'
+        type: children-nodes
+    -
+        name: unpublished_at
+        universal: true
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: true
+        visible: true
+        groupName: null
+        label: 'Date de dépublication'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 6.0
+        nodeTypeName: Article
+        type: date-time
+    -
+        name: only_on_webresponse
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups:
+            - article_get_by_path
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Only on web response'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 7.0
+        nodeTypeName: Article
+        type: string
+defaultTtl: 15
+searchable: true

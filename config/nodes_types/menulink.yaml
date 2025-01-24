@@ -1,0 +1,81 @@
+color: '#6369c2'
+name: MenuLink
+displayName: 'Lien du menu'
+description: null
+visible: false
+publishable: false
+attributable: true
+sortingAttributesByWeight: false
+reachable: false
+hidingNodes: false
+hidingNonReachableNodes: false
+fields:
+    -
+        name: link_external_url
+        universal: false
+        excludeFromSearch: true
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'URL externe'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 1.0
+        nodeTypeName: MenuLink
+        type: string
+    -
+        name: link_internal_reference
+        universal: true
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups:
+            - urls
+        normalizationContext:
+            groups:
+                - urls
+                - nodes_sources_base
+        serializationMaxDepth: 1
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Référence au nœud (Page ou Bloc de page)'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 2.0
+        nodeTypeName: MenuLink
+        type: nodes
+    -
+        name: image
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Image
+        placeholder: null
+        description: null
+        expanded: false
+        position: 3.0
+        nodeTypeName: MenuLink
+        type: documents
+defaultTtl: 0
+searchable: true

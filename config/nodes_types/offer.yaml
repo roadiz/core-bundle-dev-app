@@ -1,0 +1,120 @@
+color: '#ff0000'
+name: Offer
+displayName: Offer
+description: Offer
+visible: true
+publishable: false
+attributable: true
+sortingAttributesByWeight: false
+reachable: true
+hidingNodes: false
+hidingNonReachableNodes: false
+fields:
+    -
+        name: vat
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: VAT
+        placeholder: null
+        description: null
+        expanded: false
+        position: 1.0
+        nodeTypeName: Offer
+        type: decimal
+    -
+        name: price
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: true
+        visible: true
+        groupName: null
+        label: Price
+        placeholder: null
+        description: null
+        expanded: false
+        position: 2.0
+        nodeTypeName: Offer
+        type: integer
+    -
+        name: geolocation
+        universal: true
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: Geolocation
+        placeholder: null
+        description: null
+        expanded: false
+        position: 3.0
+        nodeTypeName: Offer
+        type: geographic.coordinates
+    -
+        name: multi_geolocation
+        universal: true
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Multi geolocations'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 4.0
+        nodeTypeName: Offer
+        type: multiple.geographic.coordinates
+    -
+        name: layout
+        universal: true
+        excludeFromSearch: true
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext: null
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: true
+        visible: true
+        groupName: null
+        label: Layout
+        placeholder: light
+        description: null
+        expanded: false
+        position: 5.0
+        nodeTypeName: Offer
+        defaultValues: dark
+        type: single-choice
+defaultTtl: 0
+searchable: true
