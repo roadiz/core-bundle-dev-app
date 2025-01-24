@@ -218,10 +218,15 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\ManyToOne(targetEntity: NodeTypeInterface::class)]
     #[ORM\JoinColumn(name: 'nodeType_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Groups(['node'])]
     #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
     private NodeTypeInterface $nodeType;
+
+    #[ORM\ManyToOne(targetEntity: NodeTypeInterface::class)]
+    #[ORM\JoinColumn(name: 'nodetype_name', referencedColumnName: 'name', nullable: false, onDelete: 'CASCADE')]
+    #[Serializer\Groups(['node'])]
+    #[SymfonySerializer\Ignore]
+    private NodeTypeInterface $nodeTypeName;
 
     /**
      * @var Node|null
@@ -279,7 +284,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      * @var Collection<int, NodeType>
      */
     #[ORM\JoinTable(name: 'stack_types')]
-    #[ORM\InverseJoinColumn(name: 'nodetype_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'nodetype_name', referencedColumnName: 'name', onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: NodeType::class)]
     #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Groups(['node'])]
@@ -869,6 +874,18 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     public function setNodeType(NodeTypeInterface $nodeType): Node
     {
         $this->nodeType = $nodeType;
+
+        return $this;
+    }
+
+    public function getNodeTypeName(): NodeTypeInterface
+    {
+        return $this->nodeTypeName;
+    }
+
+    public function setNodeTypeName(NodeTypeInterface $nodeType): Node
+    {
+        $this->nodeTypeName = $nodeType;
 
         return $this;
     }

@@ -7,12 +7,15 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterface
 {
     public function __construct(
         private string $nodesTypesDir,
         private SerializerInterface $serializer,
+        private ValidatorInterface $validator,
     ) {
     }
 
@@ -33,12 +36,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
             if (null === $content) {
                 continue;
             }
-            $nodeTypes[] = $this->serializer->deserialize(
-                $content,
-                NodeType::class,
-                'yaml',
-                ['groups' => ['node_type:import', 'position']]
-            );
+            $nodeTypes[] = $this->deserialize($content);
         }
 
         return $nodeTypes;
@@ -68,12 +66,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
             return null;
         }
 
-        return $this->serializer->deserialize(
-            $content,
-            NodeType::class,
-            'yaml',
-            ['groups' => ['node_type:import', 'position']]
-        );
+        return $this->deserialize($content);
     }
 
     private function checkFile(?\SplFileInfo $file): ?string
@@ -106,5 +99,21 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
         ];
 
         return in_array($fileName, $supported);
+    }
+
+    private function deserialize(string $content): NodeType
+    {
+        $nodeType = $this->serializer->deserialize(
+            $content,
+            NodeType::class,
+            'yaml',
+            ['groups' => ['node_type:import', 'position']]
+        );
+
+        $violations = $this->validator->validate($nodeType);
+        if (count($violations) > 0) {
+            throw new ValidationFailedException($nodeType, $violations);
+        }
+        return $nodeType;
     }
 }
