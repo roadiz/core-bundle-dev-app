@@ -11,7 +11,6 @@ use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Form\Constraint as RoadizAssert;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepository;
 use RZ\Roadiz\Utils\StringHandler;
@@ -34,8 +33,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['hiding_non_reachable_nodes']),
     ORM\Index(columns: ['reachable']),
     ORM\Index(columns: ['searchable'], name: 'nt_searchable'),
-    UniqueEntity(fields: ['name']),
-    UniqueEntity(fields: ['displayName'])
+//    UniqueEntity(fields: ['name']),
+//    UniqueEntity(fields: ['displayName'])
 ]
 class NodeType extends AbstractEntity implements NodeTypeInterface
 {

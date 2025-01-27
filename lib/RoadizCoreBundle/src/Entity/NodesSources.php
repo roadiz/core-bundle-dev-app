@@ -548,7 +548,7 @@ class NodesSources extends AbstractEntity implements Loggable
      */
     public function isPublishable(): bool
     {
-        return $this->getNode()->getNodeType()->isPublishable();
+        throw new \RuntimeException('This method should only be called from children classes');
     }
 
     /**
@@ -556,7 +556,7 @@ class NodesSources extends AbstractEntity implements Loggable
      */
     public function isReachable(): bool
     {
-        return $this->getNode()->getNodeType()->isReachable();
+        throw new \RuntimeException('This method should only be called from children classes');
     }
 
     /**

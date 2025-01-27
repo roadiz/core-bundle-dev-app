@@ -9,6 +9,9 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepositoryInterface;
 
+/**
+ * @method NodeType|null get(string $key, $default = null)
+ */
 final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterface
 {
     public function __construct(private readonly NodeTypeRepositoryInterface $repository)

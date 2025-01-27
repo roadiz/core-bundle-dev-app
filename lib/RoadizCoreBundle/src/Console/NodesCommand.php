@@ -61,7 +61,7 @@ final class NodesCommand extends Command
             $tableContent[] = [
                 $node->getId(),
                 $node->getNodeName(),
-                $node->getNodeType()->getName(),
+                $node->getNodeTypeName(),
                 !$node->isVisible() ? 'X' : '',
                 $node->isPublished() ? 'X' : '',
             ];

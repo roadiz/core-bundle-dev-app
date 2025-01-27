@@ -191,7 +191,7 @@ final class NodesController extends RozierApp
             'nodeName' => $node->getNodeName(),
         ]);
         try {
-            if ($node->getNodeType()->isReachable() && !$node->isHome()) {
+            if ($this->nodeTypesBag->get($node->getNodeTypeName())->isReachable() && !$node->isHome()) {
                 $oldPaths = $this->nodeMover->getNodeSourcesUrls($node);
             }
         } catch (SameNodeUrlException $e) {

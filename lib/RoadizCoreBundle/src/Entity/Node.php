@@ -53,8 +53,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['visible', 'status']),
     ORM\Index(columns: ['visible', 'status', 'parent_node_id'], name: 'node_visible_status_parent'),
     ORM\Index(columns: ['status', 'parent_node_id'], name: 'node_status_parent'),
-    ORM\Index(columns: ['nodeType_id', 'status', 'parent_node_id'], name: 'node_nodetype_status_parent'),
-    ORM\Index(columns: ['nodeType_id', 'status', 'parent_node_id', 'position'], name: 'node_nodetype_status_parent_position'),
+    ORM\Index(columns: ['status', 'parent_node_id'], name: 'node_nodetype_status_parent'),
+    ORM\Index(columns: ['status', 'parent_node_id', 'position'], name: 'node_nodetype_status_parent_position'),
     ORM\Index(columns: ['visible', 'parent_node_id'], name: 'node_visible_parent'),
     ORM\Index(columns: ['parent_node_id', 'position'], name: 'node_parent_position'),
     ORM\Index(columns: ['visible', 'parent_node_id', 'position'], name: 'node_visible_parent_position'),
@@ -216,17 +216,18 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     )]
     private string $childrenOrderDirection = 'ASC';
 
-    #[ORM\ManyToOne(targetEntity: NodeTypeInterface::class)]
+    /*#[ORM\ManyToOne(targetEntity: NodeTypeInterface::class)]
     #[ORM\JoinColumn(name: 'nodeType_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
-    private NodeTypeInterface $nodeType;
+    private NodeTypeInterface $nodeType;*/
 
-    #[ORM\ManyToOne(targetEntity: NodeTypeInterface::class)]
-    #[ORM\JoinColumn(name: 'nodetype_name', referencedColumnName: 'name', nullable: false, onDelete: 'CASCADE')]
+    //    #[ORM\ManyToOne(targetEntity: NodeTypeInterface::class)]
+    //    #[ORM\JoinColumn(name: 'nodetype_name', referencedColumnName: 'name', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\Column(name: 'nodetype_name', type: 'string', length: 30)]
     #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
-    private NodeTypeInterface $nodeTypeName;
+    private string $nodeTypeName;
 
     /**
      * @var Node|null
@@ -866,24 +867,25 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
-    public function getNodeType(): NodeTypeInterface
-    {
-        return $this->nodeType;
-    }
+    /** @deprecated  */
+    //    public function getNodeType(): NodeTypeInterface
+    //    {
+    //        return $this->nodeTypeName;
+    //    }
+    //
+    //    public function setNodeType(NodeTypeInterface $nodeType): Node
+    //    {
+    //        $this->nodeTypeName = $nodeType;
+    //
+    //        return $this;
+    //    }
 
-    public function setNodeType(NodeTypeInterface $nodeType): Node
-    {
-        $this->nodeType = $nodeType;
-
-        return $this;
-    }
-
-    public function getNodeTypeName(): NodeTypeInterface
+    public function getNodeTypeName(): string
     {
         return $this->nodeTypeName;
     }
 
-    public function setNodeTypeName(NodeTypeInterface $nodeType): Node
+    public function setNodeTypeName(string $nodeType): Node
     {
         $this->nodeTypeName = $nodeType;
 

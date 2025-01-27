@@ -21,5 +21,6 @@ interface NodeInterface extends PersistableInterface
 
     public function isPublished(): bool;
 
-    public function getNodeType(): NodeTypeInterface;
+    //    public function getNodeType(): NodeTypeInterface;
+    public function getNodeTypeName(): string;
 }

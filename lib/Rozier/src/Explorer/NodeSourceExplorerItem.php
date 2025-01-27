@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Explorer;
 
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -19,6 +20,7 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
         private readonly NodesSources $nodeSource,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly Security $security,
+        private readonly NodeTypes $nodeTypesBag,
     ) {
     }
 
@@ -86,6 +88,6 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
 
     public function getColor(): string
     {
-        return $this->nodeSource->getNode()->getNodeType()->getColor() ?? '#000000';
+        return $this->nodeTypesBag->get($this->nodeSource->getNode()->getNodeTypeName())->getColor() ?? '#000000';
     }
 }

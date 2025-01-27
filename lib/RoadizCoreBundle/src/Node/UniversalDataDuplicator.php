@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Node;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
@@ -16,8 +17,10 @@ use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 
 final readonly class UniversalDataDuplicator
 {
-    public function __construct(private ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        private ManagerRegistry $managerRegistry,
+        private NodeTypes $nodeTypesBag,
+    ) {
     }
 
     /**
@@ -36,8 +39,9 @@ final readonly class UniversalDataDuplicator
          * Non-default translation source should not contain universal fields.
          */
         if ($source->getTranslation()->isDefaultTranslation() || !$this->hasDefaultTranslation($source)) {
+            $fields = $this->nodeTypesBag->get($source->getNodeTypeName())->getFields();
             /** @var NodeTypeField[] $universalFields */
-            $universalFields = $source->getNode()->getNodeType()->getFields()->filter(function (NodeTypeField $field) {
+            $universalFields = $fields->filter(function (NodeTypeField $field) {
                 return $field->isUniversal();
             });
 
