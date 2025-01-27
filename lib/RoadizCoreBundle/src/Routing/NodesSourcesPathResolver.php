@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -27,6 +28,7 @@ final class NodesSourcesPathResolver implements PathResolverInterface
         private readonly PreviewResolverInterface $previewResolver,
         private readonly Stopwatch $stopwatch,
         private readonly Settings $settingsBag,
+        private readonly NodeTypes $nodeTypesBag,
         private readonly RequestStack $requestStack,
         private readonly bool $useAcceptLanguageHeader,
     ) {
@@ -111,9 +113,8 @@ final class NodesSourcesPathResolver implements PathResolverInterface
     private function tokenizePath(string $path): array
     {
         $tokens = explode('/', $path);
-        $tokens = array_values(array_filter($tokens));
 
-        return $tokens;
+        return array_values(array_filter($tokens));
     }
 
     private function getHome(TranslationInterface $translation): ?NodesSources
@@ -199,20 +200,19 @@ final class NodesSourcesPathResolver implements PathResolverInterface
             if (count($tokens) > 1 || !in_array($tokens[0], Translation::getAvailableLocales())) {
                 $identifier = \mb_strtolower(strip_tags($tokens[(int) (count($tokens) - 1)]));
                 if (null !== $identifier && '' != $identifier) {
-                    $array = $this->managerRegistry
+                    $nodeSourceDto = $this->managerRegistry
                         ->getRepository(Node::class)
                         ->findNodeTypeNameAndSourceIdByIdentifier(
                             $identifier,
                             $translation,
-                            !$this->previewResolver->isPreview(),
-                            $allowNonReachableNodes
+                            !$this->previewResolver->isPreview()
                         );
-                    if (null !== $array) {
+                    if (null !== $nodeSourceDto) {
                         /** @var NodesSources|null $nodeSource */
                         $nodeSource = $this->managerRegistry
-                            ->getRepository($this->getNodeTypeClassname($array['name']))
+                            ->getRepository($this->getNodeTypeClassname($nodeSourceDto->getNodeTypeName(), $allowNonReachableNodes))
                             ->findOneBy([
-                                'id' => $array['id'],
+                                'id' => $nodeSourceDto->getNodesSourcesId(),
                             ]);
 
                         return $nodeSource;
@@ -231,15 +231,19 @@ final class NodesSourcesPathResolver implements PathResolverInterface
     }
 
     /**
-     * @return class-string
+     * @return class-string<NodesSources>
      */
-    private function getNodeTypeClassname(string $name): string
+    private function getNodeTypeClassname(string $name, bool $allowNonReachableNodes = true): string
     {
-        $fqcn = NodeType::getGeneratedEntitiesNamespace().'\\NS'.ucwords($name);
-        if (!class_exists($fqcn)) {
-            throw new ResourceNotFoundException($fqcn.' entity does not exist.');
+        /** @var NodeType|null $nodeType */
+        $nodeType = $this->nodeTypesBag->get($name);
+        if (null === $nodeType) {
+            throw new ResourceNotFoundException(sprintf('"%s" type does not exist.', $name));
+        }
+        if (false === $allowNonReachableNodes && !$nodeType->isReachable()) {
+            throw new ResourceNotFoundException(sprintf('"%s" type is not reachable.', $name));
         }
 
-        return $fqcn;
+        return $nodeType->getSourceEntityFullQualifiedClassName();
     }
 }

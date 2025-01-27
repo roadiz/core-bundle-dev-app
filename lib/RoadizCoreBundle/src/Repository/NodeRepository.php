@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\Expr;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -21,6 +20,7 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderBuildEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Model\NodesSourcesTypeDto;
 use RZ\Roadiz\CoreBundle\Model\NodeTreeDto;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -619,19 +619,18 @@ EOT,
 
     /**
      * Find one node using its nodeName and a translation, or a unique URL alias.
-     *
-     * @return array|null Array with node-type "name" and node-source "id"
-     *
-     * @throws NonUniqueResultException
      */
     public function findNodeTypeNameAndSourceIdByIdentifier(
         string $identifier,
         ?TranslationInterface $translation,
         bool $availableTranslation = false,
-        bool $allowNonReachableNodes = true,
-    ): ?array {
+    ): ?NodesSourcesTypeDto {
         $qb = $this->createQueryBuilder(self::NODE_ALIAS);
-        $qb->select('nt.name, ns.id')
+        $qb->select(sprintf(
+            'NEW %s(%s.name, ns.id)',
+            NodesSourcesTypeDto::class,
+            self::NODETYPE_ALIAS
+        ))
             ->innerJoin('n.nodeSources', self::NODESSOURCES_ALIAS)
             ->innerJoin('n.nodeType', self::NODETYPE_ALIAS)
             ->innerJoin('ns.translation', self::TRANSLATION_ALIAS)
@@ -648,11 +647,6 @@ EOT,
             ->setMaxResults(1)
             ->setCacheable(true);
 
-        if (!$allowNonReachableNodes) {
-            $qb->andWhere($qb->expr()->eq('nt.reachable', ':reachable'))
-                ->setParameter('reachable', true);
-        }
-
         if ($availableTranslation) {
             $qb->andWhere($qb->expr()->eq('t.available', ':available'))
                 ->setParameter('available', true);
@@ -660,8 +654,6 @@ EOT,
 
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
         $query = $qb->getQuery();
-        $query->setHint(Query::HINT_FORCE_PARTIAL_LOAD, true);
-        $query->setHydrationMode(Query::HYDRATE_ARRAY);
 
         return $query->getOneOrNullResult();
     }
