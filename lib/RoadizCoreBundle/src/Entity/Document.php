@@ -634,6 +634,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     }
 
     #[SymfonySerializer\Groups(['document'])]
+    #[SymfonySerializer\SerializedName('isThumbnail')] // to avoid conflict with thumbnail property
     #[Serializer\Groups(['document'])]
     #[Serializer\VirtualProperty]
     public function isThumbnail(): bool
