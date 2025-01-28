@@ -36,7 +36,7 @@
                 <div class="uk-dropdown uk-dropdown-flip uk-dropdown-small">
                     <ul class="uk-nav uk-nav-dropdown">
                         {% for type in nodeTypes %}
-                        <li><a href="{{ path('nodesAddPage', { nodeTypeId: type.getId, translationId:translation.getId }) }}">{{ type.getDisplayName }}</a></li>
+                        <li><a href="{{ path('nodesAddPage', { nodeTypeName: type.getName, translationId:translation.getId }) }}">{{ type.getDisplayName }}</a></li>
                         {% endfor %}
                     </ul>
                 </div>

@@ -292,6 +292,18 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->setBody('return \''.$this->nodeType->getName().'\';')
         ;
 
+        $classType->addMethod('getNodeTypeColor')
+            ->setReturnType('string')
+            ->addAttribute('JMS\Serializer\Annotation\VirtualProperty')
+            ->addAttribute('JMS\Serializer\Annotation\Groups', [['node_type']])
+            ->addAttribute('JMS\Serializer\Annotation\SerializedName', ['nodeTypeColor'])
+            ->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [['node_type']])
+            ->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
+                'serializedName' => 'nodeTypeColor',
+            ])
+            ->setBody('return \''.$this->nodeType->getColor().'\';')
+        ;
+
         $classType->addMethod('isReachable')
             ->addComment('$this->nodeType->isReachable() proxy.')
             ->addComment('@return bool Does this nodeSource is reachable over network?')

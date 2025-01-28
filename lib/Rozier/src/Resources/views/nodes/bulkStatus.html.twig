@@ -13,8 +13,8 @@
         {% for node in nodes %}
             {% set source = node.nodeSources.first %}
             {% if source.title %}{% set title = source.title %}{% else %}{% set title = node.nodeName %}{% endif %}
-            <li style="--rz-accent-color: {{ node.nodeType.color }};" class="node-item">
-                <span class="node-item-color" style="background-color:{{ node.nodeType.color }};"></span>
+            <li style="--rz-accent-color: {{ getNodeType(node).color }};" class="node-item">
+                <span class="node-item-color" style="background-color:{{ getNodeType(node).color }};"></span>
                 <div class="node-border"></div>
                 <div class="node-name">{{ title }}</div>
             </li>

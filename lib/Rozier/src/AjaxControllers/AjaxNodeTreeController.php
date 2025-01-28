@@ -72,12 +72,8 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                  */
                 $linkedTypes = $request->get('linkedTypes', []);
                 if (is_array($linkedTypes) && count($linkedTypes) > 0) {
-                    $linkedTypes = array_filter(array_map(function (string $typeName) {
-                        return $this->nodeTypesBag->get($typeName);
-                    }, $linkedTypes));
-
                     $nodeTree->setAdditionalCriteria([
-                        'nodeType' => $linkedTypes,
+                        'nodeTypeName' => $linkedTypes,
                     ]);
                 }
 

@@ -53,9 +53,9 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
      */
     public function getById(int $id): ?NodeType
     {
-        return array_filter($this->all(), function (NodeType $nodeType) use ($id) {
+        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($id) {
             return $nodeType->getId() === $id;
-        })[0] ?? null;
+        }))[0] ?? null;
     }
 
     /**
@@ -63,8 +63,18 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
      */
     public function allVisible(bool $visible = true): array
     {
-        return array_filter($this->all(), function (NodeType $nodeType) use ($visible) {
+        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($visible) {
             return $nodeType->isVisible() === $visible;
-        });
+        }));
+    }
+
+    /**
+     * @return array<int, NodeType>
+     */
+    public function allReachable(bool $reachable = true): array
+    {
+        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($reachable) {
+            return $nodeType->isReachable() === $reachable;
+        }));
     }
 }
