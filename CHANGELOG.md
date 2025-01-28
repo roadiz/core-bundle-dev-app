@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.7...v2.4.8) - 2025-01-28
+
+### Bug Fixes
+
+- Fixed serialized property conflict between `isThumbnail` and `thumbnail` - ([e9e4cc3](https://github.com/roadiz/core-bundle-dev-app/commit/e9e4cc3f210cbcaea624f27bb14be616f6b2070c))
+
 ## [2.4.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.6...v2.4.7) - 2025-01-16
 
 ### Features
