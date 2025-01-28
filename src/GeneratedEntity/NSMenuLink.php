@@ -48,8 +48,6 @@ class NSMenuLink extends NodesSources
      * linkInternalReferenceSources NodesSources direct field buffer.
      * @var \RZ\Roadiz\CoreBundle\Entity\NodesSources[]|null
      * Référence au nœud (Page ou Bloc de page).
-     * Default values:
-     * Page, Article
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'linkInternalReference')]
@@ -178,6 +176,16 @@ class NSMenuLink extends NodesSources
     public function getNodeTypeName(): string
     {
         return 'MenuLink';
+    }
+
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#6369c2';
     }
 
     /**

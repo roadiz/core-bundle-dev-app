@@ -84,19 +84,15 @@ class NSOffer extends NodesSources
     #[JMS\MaxDepth(2)]
     private mixed $multiGeolocation = null;
 
-    /**
-     * Layout.
-     * Default values:
-     * dark
-     */
+    /** Layout. */
     #[Serializer\SerializedName(serializedName: 'layout')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[ApiProperty(description: 'Layout', example: 'light', schema: ['type' => 'string', 'enum' => ['dark'], 'example' => 'dark'])]
+    #[ApiProperty(description: 'Layout', example: 'light')]
     #[Serializer\MaxDepth(2)]
     #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class)]
     #[Gedmo\Versioned]
-    #[ORM\Column(name: 'layout', type: 'string', nullable: true, length: 11)]
+    #[ORM\Column(name: 'layout', type: 'string', nullable: true, length: 250)]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[JMS\MaxDepth(2)]
     #[JMS\Type('string')]
@@ -199,6 +195,16 @@ class NSOffer extends NodesSources
     public function getNodeTypeName(): string
     {
         return 'Offer';
+    }
+
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#ff0000';
     }
 
     /**

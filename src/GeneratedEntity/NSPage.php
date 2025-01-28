@@ -206,27 +206,14 @@ class NSPage extends NodesSources
     /**
      * Reference to folders.
      * Default values:
-     * # Entity class name
      * classname: RZ\Roadiz\CoreBundle\Entity\Folder
-     * # Displayable is the method used to display entity name
      * displayable: getName
-     * # Same as Displayable but for a secondary information
      * alt_displayable: getFullPath
-     * # Searchable entity fields
      * searchable:
      *     - folderName
      * orderBy:
-     *     - field: position
-     *       direction: ASC
-     * # Use a proxy entity
-     * # proxy:
-     * #     classname: App\Entity\PositionedFolderGalleryBlock
-     * #     self: nodeSource
-     * #     relation: folder
-     * #     # This order will preserve position
-     * #     orderBy:
-     * #         - field: position
-     * #           direction: ASC
+     *     - { field: position, direction: ASC }
+     *
      * @var \Doctrine\Common\Collections\Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>
      */
     #[Serializer\SerializedName(serializedName: 'folderReferences')]
@@ -334,23 +321,15 @@ class NSPage extends NodesSources
     #[JMS\MaxDepth(2)]
     private mixed $multiGeolocation = null;
 
-    /**
-     * Layout.
-     * Default values:
-     * dark, transparent
-     */
+    /** Layout. */
     #[Serializer\SerializedName(serializedName: 'layout')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[ApiProperty(
-        description: 'Layout',
-        example: 'light',
-        schema: ['type' => 'string', 'enum' => ['dark', 'transparent'], 'example' => 'dark'],
-    )]
+    #[ApiProperty(description: 'Layout', example: 'light')]
     #[Serializer\MaxDepth(2)]
     #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class)]
     #[Gedmo\Versioned]
-    #[ORM\Column(name: 'layout', type: 'string', nullable: true, length: 11)]
+    #[ORM\Column(name: 'layout', type: 'string', nullable: true, length: 250)]
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[JMS\MaxDepth(2)]
     #[JMS\Type('string')]
@@ -359,22 +338,15 @@ class NSPage extends NodesSources
     /**
      * Main user.
      * Default values:
-     * # Entity class name
      * classname: \RZ\Roadiz\CoreBundle\Entity\User
-     * # Displayable is the method used to display entity name
      * displayable: getUsername
-     * # Same as Displayable but for a secondary information
      * alt_displayable: getEmail
-     * # Same as Displayable but for a secondary information
-     * thumbnail: ~
-     * # Searchable entity fields
+     * thumbnail: null
      * searchable:
      *     - username
      *     - email
-     * # This order will only be used for explorer
      * orderBy:
-     *     - field: email
-     *       direction: ASC
+     *     - { field: email, direction: ASC }
      */
     #[Serializer\SerializedName(serializedName: 'mainUser')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -977,6 +949,16 @@ class NSPage extends NodesSources
     public function getNodeTypeName(): string
     {
         return 'Page';
+    }
+
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#000000';
     }
 
     /**
