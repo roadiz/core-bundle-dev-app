@@ -385,9 +385,6 @@ final class NodeRepository extends StatusAwareRepository
 
     protected function alterQueryBuilderAsNodeTreeDto(QueryBuilder $qb, string $alias = self::NODE_ALIAS): QueryBuilder
     {
-        if (!$this->hasJoinedNodeType($qb, $alias)) {
-            $qb->innerJoin($alias.'.nodeType', self::NODETYPE_ALIAS);
-        }
         if (!$this->hasJoinedNodesSources($qb, $alias)) {
             $qb->innerJoin($alias.'.nodeSources', self::NODESSOURCES_ALIAS);
         }
@@ -405,13 +402,7 @@ NEW %s(
     %s.childrenOrder,
     %s.childrenOrderDirection,
     %s.locked,
-    %s.name,
-    %s.publishable,
-    %s.reachable,
-    %s.displayName,
-    %s.color,
-    %s.hidingNodes,
-    %s.hidingNonReachableNodes,
+    %s.nodeTypeName,
     %s.id,
     %s.title,
     %s.publishedAt
@@ -428,13 +419,7 @@ EOT,
             $alias,
             $alias,
             $alias,
-            self::NODETYPE_ALIAS,
-            self::NODETYPE_ALIAS,
-            self::NODETYPE_ALIAS,
-            self::NODETYPE_ALIAS,
-            self::NODETYPE_ALIAS,
-            self::NODETYPE_ALIAS,
-            self::NODETYPE_ALIAS,
+            $alias,
             self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,

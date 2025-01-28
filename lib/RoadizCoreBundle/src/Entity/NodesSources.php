@@ -543,6 +543,16 @@ class NodesSources extends AbstractEntity implements Loggable
         return 'NodesSources';
     }
 
+    #[Serializer\VirtualProperty]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName('nodeTypeColor')]
+    #[SymfonySerializer\Groups(['node_type'])]
+    #[SymfonySerializer\SerializedName('nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#000000';
+    }
+
     /**
      * Overridden in NS classes.
      */

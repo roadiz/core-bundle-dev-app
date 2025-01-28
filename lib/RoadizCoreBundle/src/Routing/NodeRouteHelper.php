@@ -28,8 +28,8 @@ final class NodeRouteHelper
         private readonly PreviewResolverInterface $previewResolver,
         private readonly LoggerInterface $logger,
         private readonly string $defaultControllerClass,
-        private readonly string $defaultControllerNamespace = '\\App\\Controller',
         private readonly NodeTypes $nodeTypesBag,
+        private readonly string $defaultControllerNamespace = '\\App\\Controller',
     ) {
     }
 
@@ -46,7 +46,7 @@ final class NodeRouteHelper
                 return null;
             }
             $controllerClassName = $this->getControllerNamespace().'\\'.
-                StringHandler::classify($nodeType).
+                StringHandler::classify($nodeType->getName()).
                 'Controller';
 
             if (\class_exists($controllerClassName)) {

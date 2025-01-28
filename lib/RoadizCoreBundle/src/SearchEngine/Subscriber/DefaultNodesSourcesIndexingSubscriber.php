@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\SearchEngine\Subscriber;
 
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesIndexingEvent;
@@ -35,7 +34,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
         $collection = [];
         $node = $nodeSource->getNode();
         $nodeType = $this->nodeTypesBag->get($node->getNodeTypeName());
-        if (!$nodeType instanceof NodeType) {
+        if (null == $nodeType) {
             throw new \RuntimeException('Cannot create node from invalid NodeType.');
         }
 

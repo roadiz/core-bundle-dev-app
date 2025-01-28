@@ -191,7 +191,7 @@ final class NodesController extends RozierApp
             'nodeName' => $node->getNodeName(),
         ]);
         try {
-            if ($this->nodeTypesBag->get($node->getNodeTypeName())->isReachable() && !$node->isHome()) {
+            if ($this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable() && !$node->isHome()) {
                 $oldPaths = $this->nodeMover->getNodeSourcesUrls($node);
             }
         } catch (SameNodeUrlException $e) {
@@ -295,7 +295,7 @@ final class NodesController extends RozierApp
         }
 
         $node = new Node();
-        $node->setNodeType($type);
+        $node->setNodeTypeName($type->getName());
         $node->setTtl($type->getDefaultTtl());
 
         $chroot = $this->nodeChrootResolver->getChroot($this->getUser());

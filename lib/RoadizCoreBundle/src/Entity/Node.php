@@ -53,8 +53,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['visible', 'status']),
     ORM\Index(columns: ['visible', 'status', 'parent_node_id'], name: 'node_visible_status_parent'),
     ORM\Index(columns: ['status', 'parent_node_id'], name: 'node_status_parent'),
-    ORM\Index(columns: ['status', 'parent_node_id'], name: 'node_nodetype_status_parent'),
-    ORM\Index(columns: ['status', 'parent_node_id', 'position'], name: 'node_nodetype_status_parent_position'),
+    ORM\Index(columns: ['nodetype_name', 'status', 'parent_node_id'], name: 'node_nodetype_status_parent'),
+    ORM\Index(columns: ['nodetype_name', 'status', 'parent_node_id', 'position'], name: 'node_nodetype_status_parent_position'),
     ORM\Index(columns: ['visible', 'parent_node_id'], name: 'node_visible_parent'),
     ORM\Index(columns: ['parent_node_id', 'position'], name: 'node_parent_position'),
     ORM\Index(columns: ['visible', 'parent_node_id', 'position'], name: 'node_visible_parent_position'),
@@ -867,7 +867,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
-    /** @deprecated  */
+    // TODO: DEPRECATED TO DELETE
     //    public function getNodeType(): NodeTypeInterface
     //    {
     //        return $this->nodeTypeName;

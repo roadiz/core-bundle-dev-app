@@ -90,6 +90,9 @@ class NodesSourcesController extends RozierApp
             }
         }
         $nodeType = $this->nodeTypesBag->get($node->getNodeTypeName());
+        if (null === $nodeType) {
+            throw new ResourceNotFoundException('Node type does not exist');
+        }
 
         $form = $this->createForm(
             NodeSourceType::class,

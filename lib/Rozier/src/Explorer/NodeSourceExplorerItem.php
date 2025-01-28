@@ -88,6 +88,6 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
 
     public function getColor(): string
     {
-        return $this->nodeTypesBag->get($this->nodeSource->getNode()->getNodeTypeName())->getColor() ?? '#000000';
+        return $this->nodeSource->getNodeTypeColor();
     }
 }

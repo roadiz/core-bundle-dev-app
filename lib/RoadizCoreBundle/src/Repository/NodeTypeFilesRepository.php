@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterface
 {
     public function __construct(
-        private string $nodesTypesDir,
+        private string $nodeTypesDir,
         private SerializerInterface $serializer,
         private ValidatorInterface $validator,
     ) {
@@ -25,9 +25,9 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
     public function findAll(): array
     {
         $finder = new Finder();
-        $finder->files()->in($this->nodesTypesDir);
+        $finder->files()->in($this->nodeTypesDir);
         if (!$finder->hasResults()) {
-            throw new \Exception('No files exist in this folder : '.$this->nodesTypesDir);
+            throw new \Exception('No files exist in this folder : '.$this->nodeTypesDir);
         }
         $nodeTypes = [];
 
@@ -48,9 +48,9 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
     public function findOneByName(string $name): ?NodeType
     {
         $finder = new Finder();
-        $finder->files()->in($this->nodesTypesDir);
+        $finder->files()->in($this->nodeTypesDir);
         if (!$finder->hasResults()) {
-            throw new \Exception('No files exist in this folder : '.$this->nodesTypesDir);
+            throw new \Exception('No files exist in this folder : '.$this->nodeTypesDir);
         }
 
         $finder->filter(function (\SplFileInfo $file) use ($name) {
@@ -88,14 +88,14 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
     private function supportName(string $fileName, string $name): bool
     {
         $supported = [
-            mb_strtolower($name),
-            mb_strtoupper($name),
+            ucfirst(mb_strtolower($name)),
+            ucfirst(mb_strtoupper($name)),
             $name.'.yml',
             $name.'.yaml',
-            mb_strtolower($name.'.yml'),
-            mb_strtolower($name.'.yaml'),
-            mb_strtoupper($name.'.yml'),
-            mb_strtoupper($name.'.yaml'),
+            ucfirst(mb_strtolower($name)).'.yml',
+            ucfirst(mb_strtolower($name)).'.yaml',
+            ucfirst(mb_strtoupper($name)).'.yml',
+            ucfirst(mb_strtoupper($name)).'.yaml',
         ];
 
         return in_array($fileName, $supported);

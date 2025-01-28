@@ -42,6 +42,7 @@ final class NodeTypeRepository extends EntityRepository implements NodeTypeRepos
         return $this->createQueryBuilder('nt')
             ->where('nt.name = :name')
             ->setParameter('name', $name)
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
     }

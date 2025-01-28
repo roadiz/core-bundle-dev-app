@@ -26,7 +26,7 @@ final class NodeTypesExportFilesCommand extends Command
     protected function configure(): void
     {
         $this->setName('nodetypes:export-files')
-            ->setDescription('Generate node-type YAML files.')
+            ->setDescription('Migrate database node-types to YAML files.')
             ->addArgument('node-type', InputArgument::OPTIONAL, 'Only export specified node type.')
         ;
     }

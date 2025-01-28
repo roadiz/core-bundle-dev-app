@@ -12,7 +12,7 @@ use Symfony\Component\String\UnicodeString;
 final readonly class NodesTypesFilesExporter
 {
     public function __construct(
-        private string $nodesTypesDir,
+        private string $nodeTypesDir,
         private SerializerInterface $serializer,
     ) {
     }
@@ -24,8 +24,8 @@ final readonly class NodesTypesFilesExporter
     {
         $filesystem = new Filesystem();
 
-        if (!$filesystem->exists($this->nodesTypesDir)) {
-            throw new \LogicException($this->nodesTypesDir.' folder does not exist.');
+        if (!$filesystem->exists($this->nodeTypesDir)) {
+            throw new \LogicException($this->nodeTypesDir.' folder does not exist.');
         }
 
         $nodeTypePath = $this->getResourcePath($nodeType);
@@ -49,7 +49,7 @@ final readonly class NodesTypesFilesExporter
 
     public function getResourcePath(NodeTypeInterface $nodeType): string
     {
-        return $this->nodesTypesDir.'/'.(new UnicodeString($nodeType->getName()))
+        return $this->nodeTypesDir.'/'.(new UnicodeString($nodeType->getName()))
                 ->lower()
                 ->append('.yaml')
                 ->toString();

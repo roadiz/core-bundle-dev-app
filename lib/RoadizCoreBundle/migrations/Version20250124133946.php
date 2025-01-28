@@ -19,14 +19,14 @@ final class Version20250124133946 extends AbstractMigration
         // UPDATE Table nodes with new column nodetype_name
         $this->addSql('ALTER TABLE nodes ADD nodetype_name VARCHAR(30) NOT NULL');
         // Migrate data for populate nodetype_name
-        $this->addSql('UPDATE nodes INNER JOIN node_types ON nodes.nodetype_id = node_types.id SET nodes.nodetype_name = node_types.name');
+        $this->addSql('UPDATE nodes INNER JOIN node_types ON nodes.nodeType_id = node_types.id SET nodes.nodetype_name = node_types.name');
         // Add constraint and Index
         $this->addSql('ALTER TABLE nodes ADD CONSTRAINT FK_1D3D05FC1941E63B FOREIGN KEY (nodetype_name) REFERENCES node_types (name) ON DELETE CASCADE');
         $this->addSql('CREATE INDEX IDX_1D3D05FC1941E63B ON nodes (nodetype_name)');
         // UPDATE stack_type with new column nodetype_name
         $this->addSql('ALTER TABLE stack_types ADD nodetype_name VARCHAR(30) NOT NULL');
         // Migrate data for populate nodetype_name
-        $this->addSql('UPDATE stack_types INNER JOIN node_types ON stack_types.nodetype_id = node_types.id SET stack_types.nodetype_name = node_types.name');
+        $this->addSql('UPDATE stack_types INNER JOIN node_types ON stack_types.nodeType_id = node_types.id SET stack_types.nodetype_name = node_types.name');
         // Drop and add constraint and Index
         $this->addSql('ALTER TABLE stack_types DROP FOREIGN KEY FK_DE24E53886D7EB5');
         $this->addSql('DROP INDEX IDX_DE24E53886D7EB5 ON stack_types');
@@ -45,8 +45,8 @@ final class Version20250124133946 extends AbstractMigration
         $this->addSql('DROP INDEX IDX_DE24E53886D7EB51941E63B ON stack_types');
         $this->addSql('DROP INDEX `PRIMARY` ON stack_types');
         $this->addSql('ALTER TABLE stack_types DROP nodetype_name');
-        $this->addSql('ALTER TABLE stack_types ADD CONSTRAINT FK_DE24E53886D7EB5 FOREIGN KEY (nodetype_id) REFERENCES node_types (id) ON UPDATE NO ACTION ON DELETE CASCADE');
-        $this->addSql('CREATE INDEX IDX_DE24E53886D7EB5 ON stack_types (nodetype_id)');
-        $this->addSql('ALTER TABLE stack_types ADD PRIMARY KEY (node_id, nodetype_id)');
+        $this->addSql('ALTER TABLE stack_types ADD CONSTRAINT FK_DE24E53886D7EB5 FOREIGN KEY (nodeType_id) REFERENCES node_types (id) ON UPDATE NO ACTION ON DELETE CASCADE');
+        $this->addSql('CREATE INDEX IDX_DE24E53886D7EB5 ON stack_types (nodeType_id)');
+        $this->addSql('ALTER TABLE stack_types ADD PRIMARY KEY (node_id, nodeType_id)');
     }
 }

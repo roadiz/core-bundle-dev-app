@@ -60,7 +60,7 @@ final class NodesDetailsCommand extends Command
             $io->title('Title');
             $io->text($source->getTitle());
 
-            $fields = $this->nodeTypesBag->get($source->getNodeTypeName());
+            $fields = $this->nodeTypesBag->get($source->getNodeTypeName())->getFields();
 
             /** @var NodeTypeField $field */
             foreach ($fields as $field) {
