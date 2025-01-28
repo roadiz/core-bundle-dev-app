@@ -9,7 +9,6 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesApplyEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesBuildEvent;
@@ -177,6 +176,40 @@ class NodesSourcesRepository extends StatusAwareRepository
                 $simpleQB->bindValue($key, $value);
             }
         }
+    }
+
+    public function findOneByIdentifierAndTranslation(
+        string $identifier,
+        ?TranslationInterface $translation,
+        bool $availableTranslation = false,
+    ): ?NodesSources {
+        $qb = $this->createQueryBuilder(self::NODESSOURCES_ALIAS);
+        $qb->select([self::NODESSOURCES_ALIAS, static::NODE_ALIAS, 'ua'])
+            ->innerJoin(self::NODESSOURCES_ALIAS.'.node', self::NODE_ALIAS)
+            ->innerJoin(self::NODESSOURCES_ALIAS.'.translation', self::TRANSLATION_ALIAS)
+            ->leftJoin(self::NODESSOURCES_ALIAS.'.urlAliases', 'ua')
+            ->andWhere($qb->expr()->orX(
+                $qb->expr()->eq('ua.alias', ':identifier'),
+                $qb->expr()->andX(
+                    $qb->expr()->eq(self::NODE_ALIAS.'.nodeName', ':identifier'),
+                    $qb->expr()->eq(self::TRANSLATION_ALIAS.'.id', ':translation')
+                )
+            ))
+            ->setParameter('identifier', $identifier)
+            ->setParameter('translation', $translation)
+            ->setMaxResults(1)
+            ->setCacheable(true);
+
+        if ($availableTranslation) {
+            $qb->andWhere($qb->expr()->eq(self::TRANSLATION_ALIAS.'.available', ':available'))
+                ->setParameter('available', true);
+        }
+
+        $this->alterQueryBuilderWithAuthorizationChecker($qb);
+        $query = $qb->getQuery();
+        $query->setCacheable(true);
+
+        return $query->getOneOrNullResult();
     }
 
     public function alterQueryBuilderWithAuthorizationChecker(
@@ -476,8 +509,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         array $additionalCriteria = [],
     ) {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $qb->addSelect(static::NODE_ALIAS)
-            ->addSelect('ua')
+        $qb->select([static::NODESSOURCES_ALIAS, static::NODE_ALIAS, 'ua'])
             ->leftJoin(static::NODESSOURCES_ALIAS.'.urlAliases', 'ua')
             ->andWhere($qb->expr()->orX(
                 $qb->expr()->like(static::NODESSOURCES_ALIAS.'.title', ':query'),
@@ -651,39 +683,12 @@ class NodesSourcesRepository extends StatusAwareRepository
         return parent::searchBy($pattern, $criteria, $orders, $limit, $offset, static::NODESSOURCES_ALIAS);
     }
 
-    /**
-     * @deprecated Use findByNodesSourcesAndFieldNameAndTranslation instead
-     */
-    public function findByNodesSourcesAndFieldAndTranslation(
-        NodesSources $nodesSources,
-        NodeTypeFieldInterface $field,
-    ): ?array {
-        $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $qb->select('ns, n, ua')
-            ->innerJoin('ns.node', static::NODE_ALIAS)
-            ->leftJoin('ns.urlAliases', 'ua')
-            ->innerJoin('n.aNodes', 'ntn')
-            ->andWhere($qb->expr()->eq('ntn.fieldName', ':fieldName'))
-            ->andWhere($qb->expr()->eq('ntn.nodeA', ':nodeA'))
-            ->andWhere($qb->expr()->eq('ns.translation', ':translation'))
-            ->addOrderBy('ntn.position', 'ASC')
-            ->setCacheable(true);
-
-        $this->alterQueryBuilderWithAuthorizationChecker($qb);
-
-        $qb->setParameter('fieldName', $field->getName())
-            ->setParameter('nodeA', $nodesSources->getNode())
-            ->setParameter('translation', $nodesSources->getTranslation());
-
-        return $qb->getQuery()->getResult();
-    }
-
     public function findByNodesSourcesAndFieldNameAndTranslation(
         NodesSources $nodesSources,
         string $fieldName,
     ): ?array {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $qb->select('ns, n, ua')
+        $qb->select([static::NODESSOURCES_ALIAS, static::NODE_ALIAS, 'ua'])
             ->innerJoin('ns.node', static::NODE_ALIAS)
             ->leftJoin('ns.urlAliases', 'ua')
             ->innerJoin('n.aNodes', 'ntn')
@@ -705,7 +710,7 @@ class NodesSourcesRepository extends StatusAwareRepository
     public function findByNode(Node $node): array
     {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $qb->select('ns, n, ua')
+        $qb->select([static::NODESSOURCES_ALIAS, static::NODE_ALIAS, 'ua'])
             ->innerJoin('ns.node', static::NODE_ALIAS)
             ->innerJoin('ns.translation', static::TRANSLATION_ALIAS)
             ->leftJoin('ns.urlAliases', 'ua')
