@@ -102,7 +102,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * Plain password. Used for model validation.
      * **Must not be persisted.**.
      */
-    #[PasswordStrength(minStrength: 3, minLength: 8)]
+    #[PasswordStrength(minStrength: 3, minLength: 12)]
     #[Serializer\Groups(['user:write'])]
     #[Assert\NotBlank(groups: ['no_empty_password'])]
     private ?string $plainPassword = null;
