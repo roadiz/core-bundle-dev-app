@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -64,12 +65,7 @@ final readonly class NodeTypeFieldNormalizer implements NormalizerInterface, Den
         $object = $this->denormalizer->denormalize($data, $type, $format, $context);
 
         if ($object instanceof NodeTypeField && is_string($data['type'])) {
-            if (!str_ends_with('.type', $data['type'])) {
-                $data['type'] = $data['type'].'.type';
-            }
-            if ($i = array_search($data['type'], NodeTypeField::$typeToHuman)) {
-                $object->setType((int) $i);
-            }
+            $object->setType(FieldType::fromHuman($data['type'])->value);
         }
         if (isset($data['defaultValues']) && is_array($data['defaultValues'])) {
             $object->setDefaultValues(Yaml::dump($data['defaultValues']));

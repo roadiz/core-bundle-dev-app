@@ -20,7 +20,6 @@ fields:
         label: 'URL externe'
         expanded: false
         position: 1.0
-        nodeTypeName: MenuLink
         type: string
     -
         name: link_internal_reference
@@ -39,7 +38,6 @@ fields:
         label: 'Référence au nœud (Page ou Bloc de page)'
         expanded: false
         position: 2.0
-        nodeTypeName: MenuLink
         defaultValues:
             - Page
             - Article
@@ -55,7 +53,6 @@ fields:
         label: Image
         expanded: false
         position: 3.0
-        nodeTypeName: MenuLink
         type: documents
 defaultTtl: 0
 searchable: true

@@ -20,7 +20,6 @@ fields:
         label: 'Éléments du menu'
         expanded: false
         position: 1.0
-        nodeTypeName: Menu
         defaultValues:
             - Menu
             - MenuLink

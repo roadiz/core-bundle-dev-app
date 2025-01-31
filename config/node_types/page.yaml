@@ -22,7 +22,6 @@ fields:
         description: Content
         expanded: false
         position: 1.0
-        nodeTypeName: Page
         type: markdown
     -
         name: sub_title
@@ -35,7 +34,6 @@ fields:
         label: Sub-title
         expanded: false
         position: 2.0
-        nodeTypeName: Page
         type: string
     -
         name: children
@@ -48,7 +46,6 @@ fields:
         label: 'Nœuds enfants'
         expanded: false
         position: 3.0
-        nodeTypeName: Page
         defaultValues:
             - BasicBlock
             - GroupBlock
@@ -65,7 +62,6 @@ fields:
         label: 'Page color'
         expanded: false
         position: 4.0
-        nodeTypeName: Page
         type: colour
     -
         name: images
@@ -79,7 +75,6 @@ fields:
         label: Images
         expanded: false
         position: 5.0
-        nodeTypeName: Page
         type: documents
     -
         name: header_image
@@ -93,7 +88,6 @@ fields:
         label: 'Header image'
         expanded: false
         position: 6.0
-        nodeTypeName: Page
         type: documents
     -
         name: over_title
@@ -106,7 +100,6 @@ fields:
         label: Overtitle
         expanded: false
         position: 7.0
-        nodeTypeName: Page
         type: string
     -
         name: pictures
@@ -121,7 +114,6 @@ fields:
         description: 'Picture for website'
         expanded: false
         position: 8.0
-        nodeTypeName: Page
         type: documents
     -
         name: node_references
@@ -141,7 +133,6 @@ fields:
         label: References
         expanded: false
         position: 9.0
-        nodeTypeName: Page
         type: nodes
     -
         name: sticky
@@ -155,7 +146,6 @@ fields:
         label: Sticky
         expanded: false
         position: 10.0
-        nodeTypeName: Page
         type: boolean
     -
         name: stickytest
@@ -169,7 +159,6 @@ fields:
         label: 'Sticky test'
         expanded: false
         position: 11.0
-        nodeTypeName: Page
         type: boolean
     -
         name: custom_form
@@ -183,7 +172,6 @@ fields:
         label: 'Custom form'
         expanded: false
         position: 12.0
-        nodeTypeName: Page
         type: custom-forms
     -
         name: users
@@ -196,7 +184,6 @@ fields:
         label: 'Reference to users'
         expanded: false
         position: 13.0
-        nodeTypeName: Page
         defaultValues:
             classname: \RZ\Roadiz\CoreBundle\Entity\User
             displayable: getUsername
@@ -229,7 +216,6 @@ fields:
         label: 'Reference to folders'
         expanded: false
         position: 14.0
-        nodeTypeName: Page
         defaultValues:
             classname: RZ\Roadiz\CoreBundle\Entity\Folder
             displayable: getName
@@ -252,7 +238,6 @@ fields:
         label: Amount
         expanded: false
         position: 15.0
-        nodeTypeName: Page
         type: decimal
     -
         name: email_test
@@ -265,7 +250,6 @@ fields:
         label: 'Test email'
         expanded: false
         position: 16.0
-        nodeTypeName: Page
         type: email
     -
         name: settings
@@ -278,7 +262,6 @@ fields:
         label: Settings
         expanded: false
         position: 17.0
-        nodeTypeName: Page
         defaultValues:
             classname: Themes\Rozier\Explorer\SettingsProvider
         type: multiple-provider
@@ -293,7 +276,6 @@ fields:
         label: 'Folder simple'
         expanded: false
         position: 18.0
-        nodeTypeName: Page
         defaultValues:
             classname: Themes\Rozier\Explorer\FoldersProvider
         type: single-provider
@@ -308,7 +290,6 @@ fields:
         label: Country
         expanded: false
         position: 19.0
-        nodeTypeName: Page
         type: country
     -
         name: geolocation
@@ -321,7 +302,6 @@ fields:
         label: Geolocation
         expanded: false
         position: 20.0
-        nodeTypeName: Page
         type: geographic.coordinates
     -
         name: multi_geolocation
@@ -335,7 +315,6 @@ fields:
         label: 'Multi geolocations'
         expanded: false
         position: 21.0
-        nodeTypeName: Page
         type: multiple.geographic.coordinates
     -
         name: layout
@@ -349,7 +328,6 @@ fields:
         placeholder: light
         expanded: false
         position: 22.0
-        nodeTypeName: Page
         defaultValues:
             - dark
             - transparent
@@ -365,7 +343,6 @@ fields:
         label: 'Main user'
         expanded: false
         position: 23.0
-        nodeTypeName: Page
         defaultValues:
             classname: \RZ\Roadiz\CoreBundle\Entity\User
             displayable: getUsername

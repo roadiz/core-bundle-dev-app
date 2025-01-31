@@ -155,7 +155,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
     private bool $visible = true;
 
     #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export'])
+        SymfonySerializer\Groups(['node_type'])
     ]
     public function getNodeTypeName(): string
     {

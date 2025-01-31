@@ -20,7 +20,6 @@ fields:
         label: 'Article count'
         expanded: false
         position: 1.0
-        nodeTypeName: ArticleFeedBlock
         type: integer
 defaultTtl: 0
 searchable: true

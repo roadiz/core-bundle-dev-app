@@ -20,7 +20,6 @@ fields:
         label: Blocks
         expanded: false
         position: 1.0
-        nodeTypeName: GroupBlock
         defaultValues:
             - BasicBlock
         type: children-nodes

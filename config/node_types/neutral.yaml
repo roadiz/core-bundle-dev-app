@@ -21,7 +21,6 @@ fields:
         label: Number
         expanded: false
         position: 1.0
-        nodeTypeName: Neutral
         type: integer
 defaultTtl: 0
 searchable: true

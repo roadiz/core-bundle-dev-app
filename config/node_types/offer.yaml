@@ -21,7 +21,6 @@ fields:
         label: VAT
         expanded: false
         position: 1.0
-        nodeTypeName: Offer
         type: decimal
     -
         name: price
@@ -34,7 +33,6 @@ fields:
         label: Price
         expanded: false
         position: 2.0
-        nodeTypeName: Offer
         type: integer
     -
         name: geolocation
@@ -47,7 +45,6 @@ fields:
         label: Geolocation
         expanded: false
         position: 3.0
-        nodeTypeName: Offer
         type: geographic.coordinates
     -
         name: multi_geolocation
@@ -60,7 +57,6 @@ fields:
         label: 'Multi geolocations'
         expanded: false
         position: 4.0
-        nodeTypeName: Offer
         type: multiple.geographic.coordinates
     -
         name: layout
@@ -74,7 +70,6 @@ fields:
         placeholder: light
         expanded: false
         position: 5.0
-        nodeTypeName: Offer
         defaultValues:
             - dark
         type: single-choice

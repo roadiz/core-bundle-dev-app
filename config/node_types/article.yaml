@@ -21,7 +21,6 @@ fields:
         label: 'Your content'
         expanded: false
         position: 2.0
-        nodeTypeName: Article
         type: markdown
     -
         name: realm_b_secret
@@ -35,7 +34,6 @@ fields:
         label: 'Secret realm_b'
         expanded: false
         position: 3.0
-        nodeTypeName: Article
         type: string
     -
         name: realm_a_secret
@@ -49,7 +47,6 @@ fields:
         label: 'Secret realm_a'
         expanded: false
         position: 4.0
-        nodeTypeName: Article
         type: string
     -
         name: blocks
@@ -62,7 +59,6 @@ fields:
         label: Blocks
         expanded: false
         position: 5.0
-        nodeTypeName: Article
         defaultValues:
             - BasicBlock
             - GroupBlock
@@ -78,7 +74,6 @@ fields:
         label: 'Date de dépublication'
         expanded: false
         position: 6.0
-        nodeTypeName: Article
         type: date-time
     -
         name: only_on_webresponse
@@ -92,7 +87,6 @@ fields:
         label: 'Only on web response'
         expanded: false
         position: 7.0
-        nodeTypeName: Article
         type: string
     -
         name: related_article
@@ -108,7 +102,6 @@ fields:
         label: 'Related article'
         expanded: false
         position: 8.0
-        nodeTypeName: Article
         defaultValues:
             - Article
         type: nodes
