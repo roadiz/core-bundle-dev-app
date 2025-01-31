@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * @deprecated NodeTypes will be static in future Roadiz versions.
+ * @deprecated nodeTypes will be static in future Roadiz versions
  */
 final class NodeTypesDefaultValuesCommand extends Command
 {

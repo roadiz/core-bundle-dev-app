@@ -16,6 +16,7 @@ class JoinedTableDefaultValuesResolver implements DefaultValuesResolverInterface
         if (!is_array($defaultValues)) {
             $defaultValues = [];
         }
+
         return $defaultValues;
     }
 

@@ -66,6 +66,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
             if (!is_array($defaultValuesParsed)) {
                 return false;
             }
+
             return 1 === count($defaultValuesParsed);
         }
 

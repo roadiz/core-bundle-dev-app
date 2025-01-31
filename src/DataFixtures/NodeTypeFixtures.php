@@ -10,7 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Importer\NodeTypesImporter;
 
 /**
- * @deprecated NodeTypes will be static in future Roadiz versions.
+ * @deprecated nodeTypes will be static in future Roadiz versions
  */
 class NodeTypeFixtures extends Fixture
 {

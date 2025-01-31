@@ -114,6 +114,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
         if (count($violations) > 0) {
             throw new ValidationFailedException($nodeType, $violations);
         }
+
         return $nodeType;
     }
 }
