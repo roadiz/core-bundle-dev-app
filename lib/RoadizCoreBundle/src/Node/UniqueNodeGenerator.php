@@ -45,7 +45,7 @@ final readonly class UniqueNodeGenerator
     ): NodesSources {
         $name = $nodeType->getDisplayName().' '.uniqid();
         $node = new Node();
-        $node->setNodeType($nodeType);
+        $node->setNodeTypeName($nodeType->getName());
         $node->setTtl($nodeType->getDefaultTtl());
 
         if (null !== $tag) {

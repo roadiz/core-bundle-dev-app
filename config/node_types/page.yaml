@@ -72,7 +72,10 @@ fields:
         expanded: false
         position: 3.0
         nodeTypeName: Page
-        defaultValues: 'BasicBlock, GroupBlock, ArticleFeedBlock'
+        defaultValues:
+            - BasicBlock
+            - GroupBlock
+            - ArticleFeedBlock
         type: children-nodes
     -
         name: color
@@ -512,7 +515,9 @@ fields:
         expanded: false
         position: 22.0
         nodeTypeName: Page
-        defaultValues: 'dark, transparent'
+        defaultValues:
+            - dark
+            - transparent
         type: single-choice
     -
         name: main_user

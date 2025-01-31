@@ -8,6 +8,7 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\DependencyInjection\Configuration;
 use RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface;
+use Symfony\Component\Yaml\Yaml;
 
 final readonly class DefaultValuesResolver implements DefaultValuesResolverInterface
 {
@@ -24,7 +25,7 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
          * SQL field won't be shared between all node types.
          */
         if (Configuration::INHERITANCE_TYPE_JOINED === $this->inheritanceType) {
-            return array_map('trim', explode(',', $field->getDefaultValues() ?? ''));
+            return Yaml::parse($field->getDefaultValues());
         } else {
             /*
              * With single table inheritance, we need to get all default values
@@ -42,7 +43,7 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
                 ];
             }
             foreach ($nodeTypeFields as $nodeTypeField) {
-                $defaultValues = array_merge($defaultValues, array_map('trim', explode(',', $nodeTypeField->getDefaultValues() ?? '')));
+                $defaultValues = array_merge($defaultValues, array_map('trim', Yaml::parse($nodeTypeField->getDefaultValues()) ?? []));
             }
 
             return $defaultValues;
@@ -54,6 +55,7 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
         // get max length of exploded default values
         $max = 0;
         foreach ($this->getDefaultValuesAmongAllFields($field) as $value) {
+            dump($value);
             $max = max($max, \mb_strlen($value));
         }
 

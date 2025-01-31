@@ -234,11 +234,9 @@ final class NodeSourceType extends AbstractType
      * Returns an option array for creating a Symfony Form
      * according to a node-type field.
      *
-     * @return array
-     *
      * @throws \ReflectionException
      */
-    public function getFormOptionsFromFieldType(NodesSources $nodeSource, NodeTypeField $field, array &$formOptions)
+    public function getFormOptionsFromFieldType(NodesSources $nodeSource, NodeTypeField $field, array &$formOptions): array
     {
         $options = $this->getDefaultOptions($nodeSource, $field, $formOptions);
 
@@ -353,7 +351,7 @@ final class NodeSourceType extends AbstractType
                     $options['placeholder'] = $field->getPlaceholder();
                 }
                 if ('' !== $field->getDefaultValues()) {
-                    $countries = explode(',', $field->getDefaultValues() ?? '');
+                    $countries = Yaml::parse($field->getDefaultValues() ?? '') ?? [];
                     $countries = array_map('trim', $countries);
                     $options = array_merge_recursive($options, [
                         'preferred_choices' => $countries,

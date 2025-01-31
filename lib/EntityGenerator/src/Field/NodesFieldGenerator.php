@@ -11,6 +11,7 @@ use Nette\PhpGenerator\Property;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use Symfony\Component\String\UnicodeString;
+use Symfony\Component\Yaml\Yaml;
 
 final class NodesFieldGenerator extends AbstractFieldGenerator
 {
@@ -61,7 +62,11 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
     protected function hasOnlyOneNodeType(): bool
     {
         if (!empty($this->field->getDefaultValues())) {
-            return 1 === count(explode(',', $this->field->getDefaultValues()));
+            $defaultValuesParsed = Yaml::parse($this->field->getDefaultValues()) ?? [];
+            if (!is_array($defaultValuesParsed)) {
+                return false;
+            }
+            return 1 === count($defaultValuesParsed);
         }
 
         return false;
@@ -70,7 +75,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
     protected function getRepositoryClass(): string
     {
         if (!empty($this->field->getDefaultValues()) && true === $this->hasOnlyOneNodeType()) {
-            $nodeTypeName = trim(explode(',', $this->field->getDefaultValues())[0]);
+            $nodeTypeName = trim(Yaml::parse($this->field->getDefaultValues())[0]);
 
             $nodeType = $this->nodeTypeResolver->get($nodeTypeName);
             if (null !== $nodeType) {

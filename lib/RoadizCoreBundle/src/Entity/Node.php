@@ -216,14 +216,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     )]
     private string $childrenOrderDirection = 'ASC';
 
-    /*#[ORM\ManyToOne(targetEntity: NodeTypeInterface::class)]
-    #[ORM\JoinColumn(name: 'nodeType_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[Serializer\Groups(['node'])]
-    #[SymfonySerializer\Ignore]
-    private NodeTypeInterface $nodeType;*/
-
-    //    #[ORM\ManyToOne(targetEntity: NodeTypeInterface::class)]
-    //    #[ORM\JoinColumn(name: 'nodetype_name', referencedColumnName: 'name', nullable: false, onDelete: 'CASCADE')]
     #[ORM\Column(name: 'nodetype_name', type: 'string', length: 30)]
     #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]

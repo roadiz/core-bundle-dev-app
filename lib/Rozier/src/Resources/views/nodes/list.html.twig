@@ -31,16 +31,7 @@
                 </div>
             </div>
 
-            <div class="uk-button-dropdown" data-uk-dropdown="{mode:'click'}">
-                <button class="uk-button"><i class="uk-icon-rz-plus"></i> {% trans %}create.a.node{% endtrans %} <i class="uk-icon-caret-down"></i></button>
-                <div class="uk-dropdown uk-dropdown-flip uk-dropdown-small">
-                    <ul class="uk-nav uk-nav-dropdown">
-                        {% for type in nodeTypes %}
-                        <li><a href="{{ path('nodesAddPage', { nodeTypeName: type.getName, translationId:translation.getId }) }}">{{ type.getDisplayName }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
+                <button class="uk-button"><i class="uk-icon-rz-plus"></i><a href="{{ path('nodesAddPage', { translationId:translation.getId }) }}"> {% trans %}create.a.node{% endtrans %} </a></button>
             {% endif %}
         </div>
         {% endif %}

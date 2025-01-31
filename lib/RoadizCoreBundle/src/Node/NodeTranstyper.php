@@ -29,7 +29,7 @@ final class NodeTranstyper
 
     public function __construct(
         ManagerRegistry $managerRegistry,
-        private NodeTypes $nodeTypesBag,
+        private readonly NodeTypes $nodeTypesBag,
         ?LoggerInterface $logger = null,
     ) {
         $this->logger = $logger ?? new NullLogger();
@@ -131,7 +131,7 @@ final class NodeTranstyper
             $this->logger->debug('Transtyped: '.$existingSource->getTranslation()->getLocale());
         }
 
-        $node->setNodeType($destinationNodeType);
+        $node->setNodeTypeName($destinationNodeType->getName());
 
         return $node;
     }
@@ -242,7 +242,7 @@ final class NodeTranstyper
          * transtype, not to get an orphan node.
          */
         $node = new Node();
-        $node->setNodeType($nodeType);
+        $node->setNodeTypeName($nodeType->getName());
         $node->setNodeName('testing_before_transtype'.$uniqueId);
         $this->getManager()->persist($node);
 

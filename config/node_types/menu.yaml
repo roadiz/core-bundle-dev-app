@@ -30,7 +30,11 @@ fields:
         expanded: false
         position: 1.0
         nodeTypeName: Menu
-        defaultValues: 'Menu, MenuLink, Page, ArticleContainer'
+        defaultValues:
+            - Menu
+            - MenuLink
+            - Page
+            - ArticleContainer
         type: children-nodes
 defaultTtl: 0
 searchable: true

@@ -8,6 +8,7 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
+use Symfony\Component\Yaml\Yaml;
 
 final readonly class NodeTypeResolver
 {
@@ -20,7 +21,7 @@ final readonly class NodeTypeResolver
      */
     protected function getNodeTypeList(NodeTypeFieldInterface $field): array
     {
-        $nodeTypesNames = array_map('trim', explode(',', $field->getDefaultValues() ?? ''));
+        $nodeTypesNames = Yaml::parse($field->getDefaultValues()) ?? [];
 
         return array_filter($nodeTypesNames);
     }

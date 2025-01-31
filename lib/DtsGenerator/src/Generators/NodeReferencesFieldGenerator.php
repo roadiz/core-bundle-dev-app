@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Typescript\Declaration\Generators;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
+use Symfony\Component\Yaml\Yaml;
 
 final class NodeReferencesFieldGenerator extends AbstractFieldGenerator
 {
@@ -26,7 +27,7 @@ final class NodeReferencesFieldGenerator extends AbstractFieldGenerator
         if (null === $this->field->getDefaultValues()) {
             return [];
         }
-        $nodeTypeNames = explode(',', $this->field->getDefaultValues());
+        $nodeTypeNames = Yaml::parse($this->field->getDefaultValues());
 
         return array_values(array_filter(array_map(function (string $name) {
             $nodeType = $this->nodeTypesBag->get(trim($name));

@@ -457,11 +457,6 @@ EOT,
             foreach ($orderBy as $key => $value) {
                 if (str_starts_with($key, self::NODESSOURCES_ALIAS.'.')) {
                     $qb->addOrderBy($key, $value);
-                } elseif (str_starts_with($key, self::NODETYPE_ALIAS.'.')) {
-                    if (!$this->hasJoinedNodeType($qb, self::NODE_ALIAS)) {
-                        $qb->innerJoin(self::NODE_ALIAS.'.nodeType', self::NODETYPE_ALIAS);
-                    }
-                    $qb->addOrderBy($key, $value);
                 } else {
                     $qb->addOrderBy(self::NODE_ALIAS.'.'.$key, $value);
                 }

@@ -28,6 +28,7 @@ use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Yaml\Yaml;
 
 class CustomFormsType extends AbstractType
 {
@@ -229,7 +230,7 @@ class CustomFormsType extends AbstractType
                     'image/gif',
                 ];
                 if (!empty($field->getDefaultValues())) {
-                    $mimeTypes = explode(',', $field->getDefaultValues());
+                    $mimeTypes = Yaml::parse($field->getDefaultValues());
                     $mimeTypes = array_map('trim', $mimeTypes);
                 }
                 $option['constraints'][] = new All([
@@ -247,7 +248,7 @@ class CustomFormsType extends AbstractType
                     $option['placeholder'] = $field->getPlaceholder();
                 }
                 if (!empty($field->getDefaultValues())) {
-                    $countries = explode(',', $field->getDefaultValues());
+                    $countries = Yaml::parse($field->getDefaultValues());
                     $countries = array_map('trim', $countries);
                     $option['preferred_choices'] = $countries;
                 }
@@ -267,8 +268,7 @@ class CustomFormsType extends AbstractType
 
     protected function getChoices(CustomFormField $field): array
     {
-        $choices = explode(',', $field->getDefaultValues() ?? '');
-        $choices = array_map('trim', $choices);
+        $choices = Yaml::parse($field->getDefaultValues());
 
         return array_combine(array_values($choices), array_values($choices));
     }

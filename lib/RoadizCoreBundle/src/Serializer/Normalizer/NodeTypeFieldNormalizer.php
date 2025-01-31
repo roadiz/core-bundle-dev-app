@@ -32,7 +32,11 @@ final readonly class NodeTypeFieldNormalizer implements NormalizerInterface, Den
 
         /** @var NodeTypeField $object */
         if (is_array($data) && null !== $object->getDefaultValues()) {
-            $data['defaultValues'] = Yaml::parse($object->getDefaultValues());
+            $defaultValueParsed = Yaml::parse($object->getDefaultValues());
+            if (is_string($defaultValueParsed)) {
+                $defaultValueParsed = array_map('trim', explode(',', $defaultValueParsed));
+            }
+            $data['defaultValues'] = $defaultValueParsed;
         }
 
         /** @var NodeTypeField $object */

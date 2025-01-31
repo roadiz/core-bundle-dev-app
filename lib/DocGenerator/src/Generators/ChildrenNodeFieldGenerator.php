@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documentation\Generators;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
+use Symfony\Component\Yaml\Yaml;
 
 class ChildrenNodeFieldGenerator extends AbstractFieldGenerator
 {
@@ -27,7 +28,7 @@ class ChildrenNodeFieldGenerator extends AbstractFieldGenerator
                 $nodeType = $this->nodeTypesBag->get(trim($nodeTypeName));
 
                 return $nodeType instanceof NodeTypeInterface ? $nodeType : null;
-            }, explode(',', $this->field->getDefaultValues())));
+            }, Yaml::parse($this->field->getDefaultValues())));
         }
 
         return [];

@@ -114,7 +114,8 @@ fields:
         expanded: false
         position: 5.0
         nodeTypeName: Offer
-        defaultValues: dark
+        defaultValues:
+            - dark
         type: single-choice
 defaultTtl: 0
 searchable: true

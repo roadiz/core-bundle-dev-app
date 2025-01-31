@@ -108,10 +108,10 @@ nodesBulkStatusPage:
     defaults:
         _controller: Themes\Rozier\Controllers\Nodes\NodesTreesController::bulkStatusAction
 nodesAddPage:
-    path:     /add/{nodeTypeName}/{translationId}
+    path:     /add/{translationId}
     defaults:
         _controller: Themes\Rozier\Controllers\Nodes\NodesController::addAction
-    requirements: { nodeTypeName, translationId : "[0-9]+" }
+    requirements: { translationId : "[0-9]+" }
 nodesAddChildPage:
     path:     /add-child/{nodeId}
     defaults:

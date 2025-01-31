@@ -330,7 +330,7 @@ final class NodeTypeHandler extends AbstractHandler
             ->getRepository(Node::class)
             ->setDisplayingNotPublishedNodes(true)
             ->findBy([
-                'nodeType' => $this->getNodeType(),
+                'nodeTypeName' => $this->getNodeType()->getName(),
             ]);
 
         /** @var Node $node */

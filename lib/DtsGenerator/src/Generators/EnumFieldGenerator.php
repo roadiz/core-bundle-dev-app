@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Typescript\Declaration\Generators;
 
+use Symfony\Component\Yaml\Yaml;
+
 final class EnumFieldGenerator extends AbstractFieldGenerator
 {
     protected function getType(): string
@@ -11,12 +13,7 @@ final class EnumFieldGenerator extends AbstractFieldGenerator
         switch (true) {
             case $this->field->isEnum():
                 if (!empty($this->field->getDefaultValues())) {
-                    $defaultValues = array_filter(
-                        array_map(
-                            'trim',
-                            explode(',', $this->field->getDefaultValues())
-                        )
-                    );
+                    $defaultValues = Yaml::parse($this->field->getDefaultValues());
                     if (count($defaultValues) > 0) {
                         $defaultValues = array_map(function (string $value) {
                             return '\''.$value.'\'';

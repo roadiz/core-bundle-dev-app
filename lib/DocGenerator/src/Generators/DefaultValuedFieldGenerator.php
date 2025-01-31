@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documentation\Generators;
 
+use Symfony\Component\Yaml\Yaml;
+
 final class DefaultValuedFieldGenerator extends AbstractFieldGenerator
 {
     public function getContents(): string
@@ -20,6 +22,6 @@ final class DefaultValuedFieldGenerator extends AbstractFieldGenerator
             return implode("\n", [
                 '* **'.trim($this->translator->trans(trim($value))).'** `'.$value.'`',
             ]);
-        }, explode(',', $this->field->getDefaultValues() ?? '')))."\n";
+        }, Yaml::parse($this->field->getDefaultValues())))."\n";
     }
 }

@@ -55,6 +55,9 @@ fields:
         expanded: false
         position: 2.0
         nodeTypeName: MenuLink
+        defaultValues:
+            - Page
+            - Article
         type: nodes
     -
         name: image

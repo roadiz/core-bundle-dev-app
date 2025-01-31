@@ -36,6 +36,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Yaml\Yaml;
 use Themes\Rozier\Forms\NodeSource\NodeSourceType;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
@@ -546,7 +547,7 @@ class SearchController extends RozierApp
             }
 
             if (AbstractField::ENUM_T === $field->getType()) {
-                $choices = explode(',', $field->getDefaultValues() ?? '');
+                $choices = Yaml::parse($field->getDefaultValues()) ?? [];
                 $choices = array_map('trim', $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
                 $type = ChoiceType::class;
@@ -558,7 +559,7 @@ class SearchController extends RozierApp
                 }
                 $option['choices'] = $choices;
             } elseif (AbstractField::MULTIPLE_T === $field->getType()) {
-                $choices = explode(',', $field->getDefaultValues() ?? '');
+                $choices = Yaml::parse($field->getDefaultValues()) ?? [];
                 $choices = array_map('trim', $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
                 $type = ChoiceType::class;

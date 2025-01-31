@@ -89,8 +89,8 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerControlle
 
     public function listAction(Request $request): JsonResponse
     {
-        if (!$request->query->has('nodeTypeFieldId')) {
-            throw new BadRequestHttpException('nodeTypeFieldId parameter is missing.');
+        if (!$request->query->has('nodeTypeFieldName')) {
+            throw new BadRequestHttpException('nodeTypeFieldName parameter is missing.');
         }
 
         if (!$request->query->has('ids')) {
@@ -103,7 +103,7 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerControlle
         $em = $this->em();
 
         /** @var NodeTypeField|null $nodeTypeField */
-        $nodeTypeField = $this->em()->find(NodeTypeField::class, $request->query->get('nodeTypeFieldId'));
+        $nodeTypeField = $this->em()->find(NodeTypeField::class, $request->query->get('nodeTypeFieldName'));
 
         if (null === $nodeTypeField) {
             throw new BadRequestHttpException('nodeTypeField does not exist.');

@@ -95,7 +95,9 @@ fields:
         expanded: false
         position: 5.0
         nodeTypeName: Article
-        defaultValues: 'BasicBlock, GroupBlock'
+        defaultValues:
+            - BasicBlock
+            - GroupBlock
         type: children-nodes
     -
         name: unpublished_at
@@ -140,5 +142,30 @@ fields:
         position: 7.0
         nodeTypeName: Article
         type: string
+    -
+        name: related_article
+        universal: false
+        excludeFromSearch: false
+        serializationExclusionExpression: null
+        serializationGroups: {  }
+        normalizationContext:
+            groups:
+                - related_articles
+        serializationMaxDepth: null
+        excludedFromSerialization: false
+        minLength: null
+        maxLength: null
+        indexed: false
+        visible: true
+        groupName: null
+        label: 'Related article'
+        placeholder: null
+        description: null
+        expanded: false
+        position: 8.0
+        nodeTypeName: Article
+        defaultValues:
+            - Article
+        type: nodes
 defaultTtl: 15
 searchable: true

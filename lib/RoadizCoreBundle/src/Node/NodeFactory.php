@@ -46,7 +46,7 @@ final readonly class NodeFactory
 
         if (null === $node) {
             $node = new Node();
-            $node->setNodeType($type);
+            $node->setNodeTypeName($type->getName());
         }
 
         $nodeType = $this->nodeTypesBag->get($node->getNodeTypeName());

@@ -20,7 +20,6 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
         private readonly NodesSources $nodeSource,
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly Security $security,
-        private readonly NodeTypes $nodeTypesBag,
     ) {
     }
 
