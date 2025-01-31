@@ -374,8 +374,8 @@ class NSMock extends NodesSources
         description: 'ForBar layout enum',
         schema: [
         'type' => 'string',
-        'enum' => ["- layout_odd\n- layout_odd_big_title\n- layout_even\n- layout_even_big_title\n- layout_media_grid"],
-        'example' => "- layout_odd\n- layout_odd_big_title\n- layout_even\n- layout_even_big_title\n- layout_media_grid",
+        'enum' => ['layout_odd', 'layout_odd_big_title', 'layout_even', 'layout_even_big_title', 'layout_media_grid'],
+        'example' => 'layout_odd',
     ],
     )]
     #[Serializer\MaxDepth(2)]

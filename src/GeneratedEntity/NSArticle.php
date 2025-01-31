@@ -97,6 +97,24 @@ class NSArticle extends NodesSources
     private ?string $onlyOnWebresponse = null;
 
     /**
+     * relatedArticleSources NodesSources direct field buffer.
+     * @var \App\GeneratedEntity\NSArticle[]|null
+     * Related article.
+     * Default values:
+     * - Article
+     */
+    #[JMS\Exclude]
+    #[Serializer\SerializedName(serializedName: 'relatedArticle')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_nodes'])]
+    #[ApiProperty(description: 'Related article')]
+    #[Serializer\MaxDepth(2)]
+    #[Serializer\Context(
+        normalizationContext: ['groups' => ['related_articles']],
+        groups: ['nodes_sources', 'nodes_sources_default', 'nodes_sources_nodes'],
+    )]
+    private ?array $relatedArticleSources = null;
+
+    /**
      * @return string|null
      */
     public function getContent(): ?string
@@ -186,6 +204,41 @@ class NSArticle extends NodesSources
         $this->onlyOnWebresponse = null !== $onlyOnWebresponse ?
                     (string) $onlyOnWebresponse :
                     null;
+        return $this;
+    }
+
+    /**
+     * @return \App\GeneratedEntity\NSArticle[]
+     */
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_nodes'])]
+    #[JMS\MaxDepth(2)]
+    #[JMS\VirtualProperty]
+    #[JMS\SerializedName('relatedArticle')]
+    #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\NodesSources>')]
+    public function getRelatedArticleSources(): array
+    {
+        if (null === $this->relatedArticleSources) {
+            if (null !== $this->objectManager) {
+                $this->relatedArticleSources = $this->objectManager
+                    ->getRepository(\App\GeneratedEntity\NSArticle::class)
+                    ->findByNodesSourcesAndFieldNameAndTranslation(
+                        $this,
+                        'related_article'
+                    );
+            } else {
+                $this->relatedArticleSources = [];
+            }
+        }
+        return $this->relatedArticleSources;
+    }
+
+    /**
+     * @param \App\GeneratedEntity\NSArticle[]|null $relatedArticleSources
+     * @return $this
+     */
+    public function setRelatedArticleSources(?array $relatedArticleSources): static
+    {
+        $this->relatedArticleSources = $relatedArticleSources;
         return $this;
     }
 

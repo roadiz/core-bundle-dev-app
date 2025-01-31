@@ -12,6 +12,7 @@ use Nette\PhpGenerator\Property;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\SerializableInterface;
 use Symfony\Component\String\UnicodeString;
+use Symfony\Component\Yaml\Yaml;
 
 abstract class AbstractFieldGenerator
 {
@@ -129,7 +130,7 @@ abstract class AbstractFieldGenerator
                 $description .= ': '.$this->field->getDescription();
             }
             if ($this->field->isEnum() && null !== $defaultValues = $this->field->getDefaultValues()) {
-                $enumValues = explode(',', $defaultValues);
+                $enumValues = Yaml::parse($defaultValues);
                 $enumValues = array_filter(array_map('trim', $enumValues));
                 $openapiContext = array_filter([
                     'type' => 'string',

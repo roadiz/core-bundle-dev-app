@@ -22,8 +22,7 @@ final class Version20250124133946 extends AbstractMigration
         $this->addSql('ALTER TABLE nodes DROP FOREIGN KEY FK_1D3D05FC47D04729');
         // Migrate data for populate nodetype_name
         $this->addSql('UPDATE nodes INNER JOIN node_types ON nodes.nodeType_id = node_types.id SET nodes.nodetype_name = node_types.name');
-        // Add constraint and Index
-        $this->addSql('ALTER TABLE nodes ADD CONSTRAINT FK_1D3D05FC1941E63B FOREIGN KEY (nodetype_name) REFERENCES node_types (name) ON DELETE CASCADE');
+        // Add Index
         $this->addSql('CREATE INDEX IDX_1D3D05FC1941E63B ON nodes (nodetype_name)');
         // UPDATE stack_type with new column nodetype_name
         $this->addSql('ALTER TABLE stack_types ADD nodetype_name VARCHAR(30) NOT NULL');
