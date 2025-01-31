@@ -34,7 +34,7 @@ class OfferTest extends ApiTestCase
     {
         try {
             $offerCount = $this->getManagerRegistry()->getRepository(NSOffer::class)->countBy([
-                'node.nodeType.name' => 'Offer',
+                'node.nodeTypeName' => 'Offer',
             ]);
 
             static::createClient()->request('GET', '/api/offers');
