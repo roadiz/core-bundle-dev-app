@@ -859,19 +859,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
-    // TODO: DEPRECATED TO DELETE
-    //    public function getNodeType(): NodeTypeInterface
-    //    {
-    //        return $this->nodeTypeName;
-    //    }
-    //
-    //    public function setNodeType(NodeTypeInterface $nodeType): Node
-    //    {
-    //        $this->nodeTypeName = $nodeType;
-    //
-    //        return $this;
-    //    }
-
     public function getNodeTypeName(): string
     {
         return $this->nodeTypeName;

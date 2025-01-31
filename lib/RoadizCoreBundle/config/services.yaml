@@ -663,7 +663,6 @@ services:
 
     RZ\Roadiz\CoreBundle\Repository\NodeTypeRepositoryInterface:
         class: 'RZ\Roadiz\CoreBundle\Repository\NodeTypeFilesRepository'
-#            class: 'RZ\Roadiz\CoreBundle\Repository\NodeTypeRepository'
 
     #
     # Workflows
