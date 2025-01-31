@@ -55,7 +55,6 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
         // get max length of exploded default values
         $max = 0;
         foreach ($this->getDefaultValuesAmongAllFields($field) as $value) {
-            dump($value);
             $max = max($max, \mb_strlen($value));
         }
 
