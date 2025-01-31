@@ -1,7 +1,6 @@
 color: '#947ccf'
 name: Menu
 displayName: Menu
-description: null
 visible: true
 publishable: false
 attributable: true
@@ -14,19 +13,11 @@ fields:
         name: menu_items
         universal: false
         excludeFromSearch: false
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: false
         visible: true
-        groupName: null
         label: 'Éléments du menu'
-        placeholder: null
-        description: null
         expanded: false
         position: 1.0
         nodeTypeName: Menu

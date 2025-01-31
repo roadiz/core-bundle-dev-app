@@ -1,7 +1,6 @@
 color: '#69a5ff'
 name: BasicBlock
 displayName: 'Basic Block'
-description: null
 visible: false
 publishable: false
 attributable: false
@@ -14,19 +13,11 @@ fields:
         name: content
         universal: false
         excludeFromSearch: false
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: false
         visible: true
-        groupName: null
         label: Content
-        placeholder: null
-        description: null
         expanded: false
         position: 1.0
         nodeTypeName: BasicBlock
@@ -35,19 +26,11 @@ fields:
         name: boolean_field
         universal: false
         excludeFromSearch: false
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: false
         visible: true
-        groupName: null
         label: 'Boolean field'
-        placeholder: null
-        description: null
         expanded: false
         position: 2.0
         nodeTypeName: BasicBlock
@@ -56,19 +39,11 @@ fields:
         name: image
         universal: false
         excludeFromSearch: false
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: false
         visible: true
-        groupName: null
         label: Image
-        placeholder: null
-        description: null
         expanded: false
         position: 3.0
         nodeTypeName: BasicBlock

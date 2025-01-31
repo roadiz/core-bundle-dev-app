@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\NodeType;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\String\UnicodeString;
 
@@ -39,6 +40,7 @@ final readonly class NodesTypesFilesExporter
                     'yaml_inline' => 7,
                     'yaml_indentation' => true,
                     'groups' => ['node_type:export', 'position'],
+                    AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
                 ]
             )
         );

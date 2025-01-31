@@ -31,7 +31,7 @@
                 </div>
             </div>
 
-                <button class="uk-button"><i class="uk-icon-rz-plus"></i><a href="{{ path('nodesAddPage', { translationId:translation.getId }) }}"> {% trans %}create.a.node{% endtrans %} </a></button>
+                <a class="uk-button rz-no-ajax-link" href="{{ path('nodesAddPage', { translationId:translation.getId }) }}"><i class="uk-icon-rz-plus"></i> {% trans %}create.a.node{% endtrans %} </a>
             {% endif %}
         </div>
         {% endif %}

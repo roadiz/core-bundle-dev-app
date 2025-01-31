@@ -1,7 +1,6 @@
 color: '#000000'
 name: GroupBlock
 displayName: 'Group block'
-description: null
 visible: true
 publishable: false
 attributable: false
@@ -14,19 +13,11 @@ fields:
         name: blocks
         universal: false
         excludeFromSearch: false
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: false
         visible: true
-        groupName: null
         label: Blocks
-        placeholder: null
-        description: null
         expanded: false
         position: 1.0
         nodeTypeName: GroupBlock

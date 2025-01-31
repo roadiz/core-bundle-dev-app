@@ -1,7 +1,6 @@
 color: '#db2525'
 name: ArticleContainer
 displayName: 'Article container'
-description: null
 visible: true
 publishable: false
 attributable: true

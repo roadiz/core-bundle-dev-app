@@ -14,19 +14,11 @@ fields:
         name: vat
         universal: false
         excludeFromSearch: false
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: false
         visible: true
-        groupName: null
         label: VAT
-        placeholder: null
-        description: null
         expanded: false
         position: 1.0
         nodeTypeName: Offer
@@ -35,19 +27,11 @@ fields:
         name: price
         universal: false
         excludeFromSearch: false
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: true
         visible: true
-        groupName: null
         label: Price
-        placeholder: null
-        description: null
         expanded: false
         position: 2.0
         nodeTypeName: Offer
@@ -56,19 +40,11 @@ fields:
         name: geolocation
         universal: true
         excludeFromSearch: false
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: false
         visible: true
-        groupName: null
         label: Geolocation
-        placeholder: null
-        description: null
         expanded: false
         position: 3.0
         nodeTypeName: Offer
@@ -77,19 +53,11 @@ fields:
         name: multi_geolocation
         universal: true
         excludeFromSearch: false
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: false
         visible: true
-        groupName: null
         label: 'Multi geolocations'
-        placeholder: null
-        description: null
         expanded: false
         position: 4.0
         nodeTypeName: Offer
@@ -98,19 +66,12 @@ fields:
         name: layout
         universal: true
         excludeFromSearch: true
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: true
         visible: true
-        groupName: null
         label: Layout
         placeholder: light
-        description: null
         expanded: false
         position: 5.0
         nodeTypeName: Offer

@@ -14,19 +14,11 @@ fields:
         name: number
         universal: false
         excludeFromSearch: false
-        serializationExclusionExpression: null
         serializationGroups: {  }
-        normalizationContext: null
-        serializationMaxDepth: null
         excludedFromSerialization: false
-        minLength: null
-        maxLength: null
         indexed: true
         visible: true
-        groupName: null
         label: Number
-        placeholder: null
-        description: null
         expanded: false
         position: 1.0
         nodeTypeName: Neutral
