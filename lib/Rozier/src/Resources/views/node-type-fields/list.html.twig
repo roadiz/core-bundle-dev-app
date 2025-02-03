@@ -24,8 +24,8 @@
                     </thead>
                     <tbody class="uk-sortable">
                     {% for field in fields %}
-                        <tr class="node-type-field-row" data-position="{{ field.position }}" data-field-id="{{ field.getId }}">
-                            <td class="node-type-field-col-1">{{- field.getName -}}</td>
+                        <tr class="node-type-field-row" data-position="{{ field.position }}">
+                            <td class="node-type-field-col-1">{{- field.name -}}</td>
                             <td class="mobile-hidden">{{ field.label }}</td>
                             <td class="mobile-hidden">{{ field.typeName|trans }}</td>
                             <td class="mobile-hidden">{{ field.groupName|trans }}</td>
