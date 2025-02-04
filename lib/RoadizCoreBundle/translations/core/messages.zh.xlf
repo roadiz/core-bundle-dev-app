@@ -153,6 +153,10 @@
                 <source>password_should_be_at_least_{{length}}_characters_long</source>
                 <target state="translated">密码长度应至少有 {{length}} 位</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="login_link">
+                <source>login_link</source>
+                <target state="translated">登录链接</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>
