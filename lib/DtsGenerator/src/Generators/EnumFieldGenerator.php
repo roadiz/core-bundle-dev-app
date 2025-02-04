@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Typescript\Declaration\Generators;
 
-use Symfony\Component\Yaml\Yaml;
-
 final class EnumFieldGenerator extends AbstractFieldGenerator
 {
     protected function getType(): string

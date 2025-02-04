@@ -8,7 +8,6 @@ use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
-use Symfony\Component\Yaml\Yaml;
 
 final readonly class NodeTypeResolver
 {

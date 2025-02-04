@@ -35,7 +35,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Type;
-use Symfony\Component\Yaml\Yaml;
 use Themes\Rozier\Forms\GeoJsonType;
 use Themes\Rozier\Forms\NodeTreeType;
 

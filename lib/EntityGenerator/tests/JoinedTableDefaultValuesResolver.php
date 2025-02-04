@@ -6,7 +6,6 @@ namespace RZ\Roadiz\EntityGenerator\Tests;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface;
-use Symfony\Component\Yaml\Yaml;
 
 class JoinedTableDefaultValuesResolver implements DefaultValuesResolverInterface
 {

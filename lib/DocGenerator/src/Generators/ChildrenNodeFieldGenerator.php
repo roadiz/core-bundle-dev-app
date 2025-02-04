@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documentation\Generators;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
-use Symfony\Component\Yaml\Yaml;
 
 class ChildrenNodeFieldGenerator extends AbstractFieldGenerator
 {

@@ -8,7 +8,6 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\DependencyInjection\Configuration;
 use RZ\Roadiz\EntityGenerator\Field\DefaultValuesResolverInterface;
-use Symfony\Component\Yaml\Yaml;
 
 final readonly class DefaultValuesResolver implements DefaultValuesResolverInterface
 {

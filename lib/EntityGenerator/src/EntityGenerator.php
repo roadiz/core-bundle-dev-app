@@ -26,7 +26,6 @@ use RZ\Roadiz\EntityGenerator\Field\ProxiedManyToManyFieldGenerator;
 use RZ\Roadiz\EntityGenerator\Field\YamlFieldGenerator;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\UnicodeString;
-use Symfony\Component\Yaml\Yaml;
 
 final class EntityGenerator implements EntityGeneratorInterface
 {

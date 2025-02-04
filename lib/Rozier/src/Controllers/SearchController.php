@@ -36,7 +36,6 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\GreaterThan;
-use Symfony\Component\Yaml\Yaml;
 use Themes\Rozier\Forms\NodeSource\NodeSourceType;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;

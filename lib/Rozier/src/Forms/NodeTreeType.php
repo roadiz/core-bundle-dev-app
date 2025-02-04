@@ -17,7 +17,6 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
-use Symfony\Component\Yaml\Yaml;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
 
 /**

@@ -533,6 +533,7 @@ abstract class AbstractField extends AbstractPositioned
     public function getDefaultValuesAsArray(): array
     {
         $defaultValues = Yaml::parse($this->defaultValues);
+
         return is_array($defaultValues) ? $defaultValues : [];
     }
 

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Themes\Rozier\Forms\NodeSource;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
-use Symfony\Component\Yaml\Yaml;
 
 abstract class AbstractConfigurableNodeSourceFieldType extends AbstractNodeSourceFieldType
 {
@@ -13,6 +12,7 @@ abstract class AbstractConfigurableNodeSourceFieldType extends AbstractNodeSourc
     {
         /** @var NodeTypeField $nodeTypeField */
         $nodeTypeField = $options['nodeTypeField'];
+
         return $nodeTypeField->getDefaultValuesAsArray();
     }
 }
