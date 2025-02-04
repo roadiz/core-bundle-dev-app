@@ -50,6 +50,7 @@ nodesAjaxExplorerPage:
     defaults:
         _controller: Themes\Rozier\AjaxControllers\AjaxNodesExplorerController::indexAction
         _format: json
+# @deprecated nodeTypes will be static in future Roadiz versions
 nodeTypesFieldAjaxEdit:
     path:     /node-types/fields/edit/{nodeTypeFieldId}
     defaults:
