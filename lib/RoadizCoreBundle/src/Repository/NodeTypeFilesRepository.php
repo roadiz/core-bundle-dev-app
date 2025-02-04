@@ -91,13 +91,13 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
     {
         $supported = [
             ucfirst(mb_strtolower($name)),
-            ucfirst(mb_strtoupper($name)),
+            lcfirst(mb_strtolower($name)),
             $name.'.yml',
             $name.'.yaml',
             ucfirst(mb_strtolower($name)).'.yml',
             ucfirst(mb_strtolower($name)).'.yaml',
-            ucfirst(mb_strtoupper($name)).'.yml',
-            ucfirst(mb_strtoupper($name)).'.yaml',
+            lcfirst(mb_strtolower($name)).'.yml',
+            lcfirst(mb_strtolower($name)).'.yaml',
         ];
 
         return in_array($fileName, $supported);

@@ -332,7 +332,7 @@ class NSPage extends NodesSources
     #[ApiProperty(
         description: 'Layout',
         example: 'light',
-        schema: ['type' => 'string', 'enum' => ["dark","transparent"], 'example' => "- dark\n- transparent"],
+        schema: ['type' => 'string', 'enum' => ['dark', 'transparent'], 'example' => 'dark'],
     )]
     #[Serializer\MaxDepth(2)]
     #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]

@@ -91,7 +91,7 @@ class NSOffer extends NodesSources
      */
     #[Serializer\SerializedName(serializedName: 'layout')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[ApiProperty(description: 'Layout', example: 'light', schema: ['type' => 'string', 'enum' => ['- dark'], 'example' => '- dark'])]
+    #[ApiProperty(description: 'Layout', example: 'light', schema: ['type' => 'string', 'enum' => ['dark'], 'example' => 'dark'])]
     #[Serializer\MaxDepth(2)]
     #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
     #[ApiFilter(\RZ\Roadiz\CoreBundle\Api\Filter\NotFilter::class)]
