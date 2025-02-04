@@ -230,7 +230,7 @@ class CustomFormsType extends AbstractType
                     'image/gif',
                 ];
                 if (!empty($field->getDefaultValues())) {
-                    $mimeTypes = Yaml::parse($field->getDefaultValues());
+                    $mimeTypes = $field->getDefaultValuesAsArray();
                     $mimeTypes = array_map('trim', $mimeTypes);
                 }
                 $option['constraints'][] = new All([
@@ -248,7 +248,7 @@ class CustomFormsType extends AbstractType
                     $option['placeholder'] = $field->getPlaceholder();
                 }
                 if (!empty($field->getDefaultValues())) {
-                    $countries = Yaml::parse($field->getDefaultValues());
+                    $countries = $field->getDefaultValuesAsArray();
                     $countries = array_map('trim', $countries);
                     $option['preferred_choices'] = $countries;
                 }
@@ -268,7 +268,7 @@ class CustomFormsType extends AbstractType
 
     protected function getChoices(CustomFormField $field): array
     {
-        $choices = Yaml::parse($field->getDefaultValues());
+        $choices = $field->getDefaultValuesAsArray();
 
         return array_combine(array_values($choices), array_values($choices));
     }

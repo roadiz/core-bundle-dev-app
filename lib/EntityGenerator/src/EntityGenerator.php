@@ -122,10 +122,9 @@ final class EntityGenerator implements EntityGeneratorInterface
             return new ManyToOneFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isManyToMany()) {
-            $configuration = Yaml::parse($field->getDefaultValues() ?? '');
+            $configuration = $field->getDefaultValuesAsArray();
             if (
-                is_array($configuration)
-                && isset($configuration['proxy'])
+                isset($configuration['proxy'])
                 && !empty($configuration['proxy']['classname'])
             ) {
                 /*

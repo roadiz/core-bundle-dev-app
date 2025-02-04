@@ -62,10 +62,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
     protected function hasOnlyOneNodeType(): bool
     {
         if (!empty($this->field->getDefaultValues())) {
-            $defaultValuesParsed = Yaml::parse($this->field->getDefaultValues()) ?? [];
-            if (!is_array($defaultValuesParsed)) {
-                return false;
-            }
+            $defaultValuesParsed = $this->field->getDefaultValuesAsArray();
 
             return 1 === count(array_unique($defaultValuesParsed));
         }
@@ -75,8 +72,9 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
 
     protected function getRepositoryClass(): string
     {
-        if (!empty($this->field->getDefaultValues()) && true === $this->hasOnlyOneNodeType()) {
-            $nodeTypeName = trim(array_values(Yaml::parse($this->field->getDefaultValues()))[0]);
+        $defaultValuesParsed = $this->field->getDefaultValuesAsArray();
+        if (count($defaultValuesParsed) > 0 && true === $this->hasOnlyOneNodeType()) {
+            $nodeTypeName = trim(array_values($defaultValuesParsed)[0]);
 
             $nodeType = $this->nodeTypeResolver->get($nodeTypeName);
             if (null !== $nodeType) {

@@ -10,6 +10,7 @@ use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Yaml\Yaml;
 
 #[
     ORM\MappedSuperclass,
@@ -527,6 +528,12 @@ abstract class AbstractField extends AbstractPositioned
         $this->defaultValues = $defaultValues;
 
         return $this;
+    }
+
+    public function getDefaultValuesAsArray(): array
+    {
+        $defaultValues = Yaml::parse($this->defaultValues);
+        return is_array($defaultValues) ? $defaultValues : [];
     }
 
     public function getTypeName(): string

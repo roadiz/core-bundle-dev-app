@@ -331,7 +331,7 @@ final class NodeSourceType extends AbstractType
                 ]);
                 break;
             case AbstractField::MARKDOWN_T:
-                $additionalOptions = Yaml::parse($field->getDefaultValues() ?? '[]');
+                $additionalOptions = $field->getDefaultValuesAsArray();
                 $options = array_merge_recursive($options, [
                     'attr' => [
                         'class' => 'markdown_textarea',
@@ -351,8 +351,9 @@ final class NodeSourceType extends AbstractType
                 if ('' !== $field->getPlaceholder()) {
                     $options['placeholder'] = $field->getPlaceholder();
                 }
-                if ('' !== $field->getDefaultValues()) {
-                    $countries = Yaml::parse($field->getDefaultValues() ?? '') ?? [];
+                $defaultValuesAsArray = $field->getDefaultValuesAsArray();
+                if (count($defaultValuesAsArray) > 0) {
+                    $countries = $defaultValuesAsArray;
                     $countries = array_map('trim', $countries);
                     $options = array_merge_recursive($options, [
                         'preferred_choices' => $countries,
@@ -360,7 +361,7 @@ final class NodeSourceType extends AbstractType
                 }
                 break;
             case AbstractField::COLLECTION_T:
-                $configuration = Yaml::parse($field->getDefaultValues() ?? '');
+                $configuration = $field->getDefaultValuesAsArray();
                 $collectionOptions = [
                     'allow_add' => true,
                     'allow_delete' => true,

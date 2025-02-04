@@ -12,12 +12,7 @@ class JoinedTableDefaultValuesResolver implements DefaultValuesResolverInterface
 {
     public function getDefaultValuesAmongAllFields(NodeTypeFieldInterface $field): array
     {
-        $defaultValues = Yaml::parse($field->getDefaultValues() ?? '') ?? [];
-        if (!is_array($defaultValues)) {
-            $defaultValues = [];
-        }
-
-        return $defaultValues;
+        return $field->getDefaultValuesAsArray();
     }
 
     public function getMaxDefaultValuesLengthAmongAllFields(NodeTypeFieldInterface $field): int

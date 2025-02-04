@@ -53,7 +53,9 @@ final class NodeTreeType extends AbstractType
         /*
          * Linked types to create quick add buttons
          */
-        $defaultValues = Yaml::parse($options['nodeTypeField']->getDefaultValues()) ?? [];
+        /** @var NodeTypeField $nodeTypeField */
+        $nodeTypeField = $options['nodeTypeField'];
+        $defaultValues = $nodeTypeField->getDefaultValuesAsArray();
         foreach ($defaultValues as $key => $value) {
             $defaultValues[$key] = trim($value);
         }

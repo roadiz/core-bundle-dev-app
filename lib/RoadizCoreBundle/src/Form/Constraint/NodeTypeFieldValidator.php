@@ -225,8 +225,8 @@ class NodeTypeFieldValidator extends ConstraintValidator
     protected function validateMarkdownOptions(NodeTypeFieldEntity $value): void
     {
         try {
-            $options = Yaml::parse($value->getDefaultValues() ?? '');
-            if (null !== $options && !is_array($options)) {
+            $options = $value->getDefaultValuesAsArray();
+            if (0 === count($options)) {
                 $this->context
                     ->buildViolation('Markdown options must be an array.')
                     ->atPath('defaultValues')
