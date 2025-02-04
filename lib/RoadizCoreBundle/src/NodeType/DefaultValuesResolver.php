@@ -26,6 +26,7 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
          */
         if (Configuration::INHERITANCE_TYPE_JOINED === $this->inheritanceType) {
             $values = Yaml::parse($field->getDefaultValues());
+
             return is_array($values) ? $values : [];
         } else {
             /*

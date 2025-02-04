@@ -20,9 +20,9 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
     }
 
     /**
-     * @throws \Exception
-     *
      * @return NodeType[]
+     *
+     * @throws \Exception
      */
     public function findAll(): array
     {
