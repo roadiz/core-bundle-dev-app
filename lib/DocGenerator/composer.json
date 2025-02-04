@@ -4,7 +4,7 @@
     "type": "library",
     "require": {
         "php": ">=8.2",
-        "roadiz/nodetype-contracts": "~1.1.2",
+        "roadiz/nodetype-contracts": "^1.1.6",
         "symfony/translation": "6.4.*",
         "symfony/http-foundation": "6.4.*"
     },
