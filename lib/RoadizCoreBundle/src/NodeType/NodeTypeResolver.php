@@ -21,7 +21,9 @@ final readonly class NodeTypeResolver
      */
     protected function getNodeTypeList(NodeTypeFieldInterface $field): array
     {
-        $nodeTypesNames = Yaml::parse($field->getDefaultValues()) ?? [];
+        $nodeTypesNames = Yaml::parse($field->getDefaultValues());
+
+        $nodeTypesNames = is_array($nodeTypesNames) ? $nodeTypesNames : [];
 
         return array_filter($nodeTypesNames);
     }

@@ -34,7 +34,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
         $collection = [];
         $node = $nodeSource->getNode();
         $nodeType = $this->nodeTypesBag->get($node->getNodeTypeName());
-        if (null == $nodeType) {
+        if (null === $nodeType) {
             throw new \RuntimeException('Cannot create node from invalid NodeType.');
         }
 

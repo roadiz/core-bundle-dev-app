@@ -3,18 +3,3 @@ nodeTypeFieldsListPage:
     path:     /{nodeTypeName}
     defaults:
         _controller: Themes\Rozier\Controllers\NodeTypeFieldsController::listAction
-nodeTypeFieldsEditPage:
-    path:     /edit/{nodeTypeFieldId}
-    defaults:
-        _controller: Themes\Rozier\Controllers\NodeTypeFieldsController::editAction
-    requirements: { nodeTypeFieldId : "[0-9]+" }
-nodeTypeFieldsAddPage:
-    path:     /add/{nodeTypeName}
-    defaults:
-        _controller: Themes\Rozier\Controllers\NodeTypeFieldsController::addAction
-nodeTypeFieldsDeletePage:
-    path:     /delete/{nodeTypeFieldId}
-    defaults:
-        _controller: Themes\Rozier\Controllers\NodeTypeFieldsController::deleteAction
-    requirements: { nodeTypeFieldId : "[0-9]+" }
-

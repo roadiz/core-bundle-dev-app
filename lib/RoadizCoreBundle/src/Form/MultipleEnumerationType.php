@@ -37,6 +37,10 @@ class MultipleEnumerationType extends AbstractType
         $resolver->setNormalizer('choices', function (Options $options, $choices) {
             $values = Yaml::parse($options['nodeTypeField']->getDefaultValues());
 
+            if (!is_array($values)) {
+                $values = [];
+            }
+
             foreach ($values as $value) {
                 $value = trim($value);
                 $choices[$value] = $value;
