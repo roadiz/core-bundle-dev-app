@@ -258,10 +258,7 @@ final class NodeSourceType extends AbstractType
             case AbstractField::NODES_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
-                        'data-nodetypes' => json_encode(explode(
-                            ',',
-                            $field->getDefaultValues() ?? ''
-                        )),
+                        'data-nodetypes' => json_encode(array_map('trim', $field->getDefaultValuesAsArray())),
                     ],
                 ]);
                 break;
