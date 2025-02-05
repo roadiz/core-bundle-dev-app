@@ -57,7 +57,15 @@ class NSMenuLink extends NodesSources
     #[Serializer\Groups(['urls'])]
     #[ApiProperty(description: 'Référence au nœud (Page ou Bloc de page)')]
     #[Serializer\MaxDepth(1)]
-    #[Serializer\Context(normalizationContext: ['groups' => ['urls', 'nodes_sources_base']], groups: ['urls'])]
+    #[Serializer\Context(
+        normalizationContext: [
+        'groups' => ['urls', 'nodes_sources_base'],
+        'skip_null_value' => true,
+        'jsonld_embed_context' => false,
+        'enable_max_depth' => true,
+    ],
+        groups: ['urls'],
+    )]
     private ?array $linkInternalReferenceSources = null;
 
     /**

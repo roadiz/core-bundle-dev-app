@@ -32,6 +32,7 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
             if ($cacheItem->isHit()) {
                 $this->parameters = $cacheItem->get();
                 $this->ready = true;
+
                 return;
             }
         }

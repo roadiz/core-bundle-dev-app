@@ -37,8 +37,32 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 class NSPage extends NodesSources
 {
     /**
+     * Sub-title.
+     * Sub-title description.
+     */
+    #[Serializer\SerializedName(serializedName: 'subTitle')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Sub-title: Sub-title description')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'sub_title', type: 'string', nullable: true, length: 250)]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\MaxDepth(2)]
+    #[JMS\Type('string')]
+    private ?string $subTitle = null;
+
+    /**
      * Content.
      * Content.
+     * Default values:
+     * allow_h1: false
+     * allow_h2: false
+     * allow_h3: false
+     * allow_h4: false
+     * allow_h5: false
+     * allow_h6: false
+     * allow_list: false
+     * allow_blockquote: false
      */
     #[Serializer\SerializedName(serializedName: 'content')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -50,18 +74,6 @@ class NSPage extends NodesSources
     #[JMS\MaxDepth(2)]
     #[JMS\Type('string')]
     private ?string $content = null;
-
-    /** Sub-title. */
-    #[Serializer\SerializedName(serializedName: 'subTitle')]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[ApiProperty(description: 'Sub-title')]
-    #[Serializer\MaxDepth(2)]
-    #[Gedmo\Versioned]
-    #[ORM\Column(name: 'sub_title', type: 'string', nullable: true, length: 250)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
-    private ?string $subTitle = null;
 
     /** Page color. */
     #[Serializer\SerializedName(serializedName: 'color')]
@@ -133,7 +145,15 @@ class NSPage extends NodesSources
     #[Serializer\Groups(['page_get_by_path'])]
     #[ApiProperty(description: 'References')]
     #[Serializer\MaxDepth(1)]
-    #[Serializer\Context(normalizationContext: ['groups' => ['page_get_by_path', 'urls', 'nodes_sources_base']], groups: ['page_get_by_path'])]
+    #[Serializer\Context(
+        normalizationContext: [
+        'groups' => ['page_get_by_path', 'urls', 'nodes_sources_base'],
+        'skip_null_value' => true,
+        'jsonld_embed_context' => false,
+        'enable_max_depth' => true,
+    ],
+        groups: ['page_get_by_path'],
+    )]
     private ?array $nodeReferencesSources = null;
 
     /**
@@ -371,25 +391,6 @@ class NSPage extends NodesSources
     /**
      * @return string|null
      */
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setContent(?string $content): static
-    {
-        $this->content = null !== $content ?
-                    (string) $content :
-                    null;
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
     public function getSubTitle(): ?string
     {
         return $this->subTitle;
@@ -402,6 +403,25 @@ class NSPage extends NodesSources
     {
         $this->subTitle = null !== $subTitle ?
                     (string) $subTitle :
+                    null;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setContent(?string $content): static
+    {
+        $this->content = null !== $content ?
+                    (string) $content :
                     null;
         return $this;
     }
