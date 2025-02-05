@@ -60,6 +60,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
             return $nodeTypes;
         } catch (DirectoryNotFoundException) {
             trigger_error('NodeTypes directory does not exist: '.$this->nodeTypesDir, E_USER_DEPRECATED);
+
             return [];
         }
     }
