@@ -27,8 +27,9 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
 
     protected function populateParameters(): void
     {
-        $cacheItem = $this->cacheItemPool->getItem('node_types_bag');
+        $cacheItem = null;
         if (!$this->debug) {
+            $cacheItem = $this->cacheItemPool->getItem('node_types_bag');
             if ($cacheItem->isHit()) {
                 $this->parameters = $cacheItem->get();
                 $this->ready = true;
@@ -44,7 +45,7 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
             $this->parameters[$nodeType->getSourceEntityFullQualifiedClassName()] = $nodeType;
         }
 
-        if (!$this->debug) {
+        if (!$this->debug && isset($cacheItem)) {
             $cacheItem->set($this->parameters);
             $this->cacheItemPool->save($cacheItem);
         }

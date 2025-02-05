@@ -25,7 +25,6 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
-
 final class NodeTypesUtilsController extends RozierApp
 {
     public function __construct(

@@ -368,6 +368,7 @@ final class NodeTypeHandler extends AbstractHandler
      * Reset current node-type fields positions.
      *
      * @return float Return the next position after the **last** field
+     *
      * @deprecated Node-types are static
      */
     public function cleanPositions(bool $setPositions = false): float
