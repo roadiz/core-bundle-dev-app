@@ -8,6 +8,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\NodeType\Configuration\NodeTypeConfiguration;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
@@ -33,29 +34,34 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
     public function findAll(): array
     {
         $this->stopwatch->start('NodeTypeFilesRepository::findAll');
-        $finder = new Finder();
-        $finder->files()->in($this->nodeTypesDir);
-        if (!$finder->hasResults()) {
-            throw new \Exception('No files exist in this folder : '.$this->nodeTypesDir);
-        }
-        $nodeTypes = [];
-
-        foreach ($finder as $file) {
-            try {
-                $content = $this->checkFile($file);
-                if (null === $content) {
-                    continue;
-                }
-                $nodeTypes[] = $this->deserialize($content);
-            } catch (InvalidConfigurationException $e) {
-                $e->addHint('File: '.$file->getRealPath());
-                throw $e;
+        try {
+            $finder = new Finder();
+            $finder->files()->in($this->nodeTypesDir);
+            if (!$finder->hasResults()) {
+                return [];
             }
+            $nodeTypes = [];
+
+            foreach ($finder as $file) {
+                try {
+                    $content = $this->checkFile($file);
+                    if (null === $content) {
+                        continue;
+                    }
+                    $nodeTypes[] = $this->deserialize($content);
+                } catch (InvalidConfigurationException $e) {
+                    $e->addHint('File: '.$file->getRealPath());
+                    throw $e;
+                }
+            }
+
+            $this->stopwatch->stop('NodeTypeFilesRepository::findAll');
+
+            return $nodeTypes;
+        } catch (DirectoryNotFoundException) {
+            trigger_error('NodeTypes directory does not exist: '.$this->nodeTypesDir, E_USER_DEPRECATED);
+            return [];
         }
-
-        $this->stopwatch->stop('NodeTypeFilesRepository::findAll');
-
-        return $nodeTypes;
     }
 
     /**
