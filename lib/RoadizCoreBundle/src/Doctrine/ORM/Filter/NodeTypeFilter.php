@@ -12,6 +12,8 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Filter on nodeType fields when criteria contains nodeType. prefix.
+ *
+ * @deprecated nodeTypes are now stored in a bag service
  */
 class NodeTypeFilter implements EventSubscriberInterface
 {

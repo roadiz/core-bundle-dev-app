@@ -38,7 +38,7 @@ class ExportController extends RozierApp
                 ->findDefault();
         }
         $criteria = ['translation' => $translation];
-        $order = ['node.nodeType' => 'ASC'];
+        $order = ['node.nodeTypeName' => 'ASC'];
         $filename = 'nodes-'.date('YmdHis').'.'.$translation->getLocale().'.csv';
 
         if (null !== $parentNodeId) {

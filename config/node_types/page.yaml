@@ -3,7 +3,7 @@ name: Page
 displayName: Page
 description: Page
 visible: true
-publishable: true
+publishable: false
 attributable: true
 sortingAttributesByWeight: false
 reachable: true

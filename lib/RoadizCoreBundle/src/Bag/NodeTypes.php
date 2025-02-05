@@ -96,4 +96,14 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
             return $nodeType->isReachable() === $reachable;
         }));
     }
+
+    /**
+     * @return array<int, NodeType>
+     */
+    public function allPublishable(bool $publishable = true): array
+    {
+        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($publishable) {
+            return $nodeType->isPublishable() === $publishable;
+        }));
+    }
 }

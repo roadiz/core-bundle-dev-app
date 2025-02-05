@@ -634,17 +634,7 @@ class NodesSourcesRepository extends StatusAwareRepository
 
             if (!$event->isPropagationStopped()) {
                 $baseKey = $simpleQB->getParameterKey($key);
-                if (\str_contains($key, 'node.nodeType.')) {
-                    if (!$this->hasJoinedNode($qb, $alias)) {
-                        $qb->innerJoin($alias.'.node', static::NODE_ALIAS);
-                    }
-                    if (!$this->hasJoinedNodeType($qb, $alias)) {
-                        $qb->innerJoin(static::NODE_ALIAS.'.nodeType', static::NODETYPE_ALIAS);
-                    }
-                    $prefix = static::NODETYPE_ALIAS.'.';
-                    $simpleKey = str_replace('node.nodeType.', '', $key);
-                    $qb->andWhere($simpleQB->buildExpressionWithoutBinding($value, $prefix, $simpleKey, $baseKey));
-                } elseif (\str_contains($key, 'node.')) {
+                if (\str_contains($key, 'node.')) {
                     if (!$this->hasJoinedNode($qb, $alias)) {
                         $qb->innerJoin($alias.'.node', static::NODE_ALIAS);
                     }

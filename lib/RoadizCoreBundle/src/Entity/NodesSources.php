@@ -20,6 +20,8 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
+use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypePublishableFilter;
+use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypeReachableFilter;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -52,6 +54,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     Gedmo\Loggable(logEntryClass: UserLogEntry::class),
     UniqueEntity(fields: ['node', 'translation']),
     ApiFilter(PropertyFilter::class),
+    ApiFilter(NodeTypeReachableFilter::class),
+    ApiFilter(NodeTypePublishableFilter::class),
     ApiFilter(RoadizFilter\LocaleFilter::class)
 ]
 class NodesSources extends AbstractEntity implements Loggable

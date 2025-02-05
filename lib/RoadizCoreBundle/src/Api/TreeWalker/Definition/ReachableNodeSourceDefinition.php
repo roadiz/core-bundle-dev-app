@@ -32,7 +32,9 @@ final class ReachableNodeSourceDefinition
         $criteria = [
             'node.parent' => $source->getNode(),
             'translation' => $source->getTranslation(),
-            'node.nodeType.reachable' => true,
+            // Use magic filter to get only reachable node-types
+            // RZ\Roadiz\CoreBundle\Doctrine\ORM\Filter\NodesSourcesReachableFilter
+            'reachable' => true,
         ];
         if ($this->onlyVisible) {
             $criteria['node.visible'] = true;
