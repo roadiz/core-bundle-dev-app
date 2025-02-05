@@ -21,16 +21,13 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
 
     protected function populateParameters(): void
     {
-        try {
-            $nodeTypes = $this->repository->findAll();
-            $this->parameters = [];
-            foreach ($nodeTypes as $nodeType) {
-                $this->parameters[$nodeType->getName()] = $nodeType;
-                $this->parameters[$nodeType->getSourceEntityFullQualifiedClassName()] = $nodeType;
-            }
-        } catch (\Exception $e) {
-            $this->parameters = [];
+        $nodeTypes = $this->repository->findAll();
+        $this->parameters = [];
+        foreach ($nodeTypes as $nodeType) {
+            $this->parameters[$nodeType->getName()] = $nodeType;
+            $this->parameters[$nodeType->getSourceEntityFullQualifiedClassName()] = $nodeType;
         }
+
         $this->ready = true;
     }
 

@@ -7,6 +7,7 @@ namespace RZ\Roadiz\Core\AbstractEntities;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -539,11 +540,11 @@ abstract class AbstractField extends AbstractPositioned
 
     public function getTypeName(): string
     {
-        if (!key_exists($this->getType(), static::$typeToHuman)) {
+        if (!key_exists($this->getType(), FieldType::humanValues())) {
             throw new \InvalidArgumentException($this->getType().' cannot be mapped to human label.');
         }
 
-        return static::$typeToHuman[$this->type];
+        return FieldType::humanValues()[$this->type];
     }
 
     public function getType(): int
@@ -563,11 +564,11 @@ abstract class AbstractField extends AbstractPositioned
 
     public function getDoctrineType(): string
     {
-        if (!key_exists($this->getType(), static::$typeToDoctrine)) {
+        if (!key_exists($this->getType(), FieldType::doctrineValues())) {
             throw new \InvalidArgumentException($this->getType().' cannot be mapped to Doctrine.');
         }
 
-        return static::$typeToDoctrine[$this->getType()] ?? '';
+        return FieldType::doctrineValues()[$this->getType()] ?? '';
     }
 
     /**
@@ -575,7 +576,7 @@ abstract class AbstractField extends AbstractPositioned
      */
     public function isVirtual(): bool
     {
-        return null === static::$typeToDoctrine[$this->getType()];
+        return null === FieldType::doctrineValues()[$this->getType()];
     }
 
     /**
@@ -583,7 +584,7 @@ abstract class AbstractField extends AbstractPositioned
      */
     public function isSearchable(): bool
     {
-        return in_array($this->getType(), static::$searchableTypes);
+        return in_array($this->getType(), FieldType::searchableTypes());
     }
 
     /**

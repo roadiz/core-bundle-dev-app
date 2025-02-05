@@ -19,7 +19,6 @@ fields:
         visible: true
         label: Blocks
         expanded: false
-        position: 1.0
         defaultValues:
             - BasicBlock
         type: children-nodes

@@ -20,7 +20,6 @@ fields:
         visible: true
         label: VAT
         expanded: false
-        position: 1.0
         type: decimal
     -
         name: price
@@ -32,7 +31,6 @@ fields:
         visible: true
         label: Price
         expanded: false
-        position: 2.0
         type: integer
     -
         name: geolocation
@@ -44,7 +42,6 @@ fields:
         visible: true
         label: Geolocation
         expanded: false
-        position: 3.0
         type: geographic.coordinates
     -
         name: multi_geolocation
@@ -56,7 +53,6 @@ fields:
         visible: true
         label: 'Multi geolocations'
         expanded: false
-        position: 4.0
         type: multiple.geographic.coordinates
     -
         name: layout
@@ -69,7 +65,6 @@ fields:
         label: Layout
         placeholder: light
         expanded: false
-        position: 5.0
         defaultValues:
             - dark
         type: single-choice

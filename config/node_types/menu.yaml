@@ -19,7 +19,6 @@ fields:
         visible: true
         label: 'Éléments du menu'
         expanded: false
-        position: 1.0
         defaultValues:
             - Menu
             - MenuLink
