@@ -12,7 +12,6 @@ use Nette\PhpGenerator\Property;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\SerializableInterface;
 use Symfony\Component\String\UnicodeString;
-use Symfony\Component\Yaml\Yaml;
 
 abstract class AbstractFieldGenerator
 {
