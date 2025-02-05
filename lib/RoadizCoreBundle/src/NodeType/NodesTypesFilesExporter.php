@@ -39,7 +39,7 @@ final readonly class NodesTypesFilesExporter
                 [
                     'yaml_inline' => 7,
                     'yaml_indentation' => true,
-                    'groups' => ['node_type:export', 'position'],
+                    'groups' => ['node_type:export'],
                     AbstractObjectNormalizer::SKIP_NULL_VALUES => true,
                 ]
             )

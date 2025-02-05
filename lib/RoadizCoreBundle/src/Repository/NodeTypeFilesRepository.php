@@ -5,10 +5,15 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Repository;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\CoreBundle\NodeType\Configuration\NodeTypeConfiguration;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Yaml\Yaml;
 
 final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterface
 {
@@ -16,6 +21,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
         private string $nodeTypesDir,
         private SerializerInterface $serializer,
         private ValidatorInterface $validator,
+        private Stopwatch $stopwatch,
     ) {
     }
 
@@ -26,6 +32,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
      */
     public function findAll(): array
     {
+        $this->stopwatch->start('NodeTypeFilesRepository::findAll');
         $finder = new Finder();
         $finder->files()->in($this->nodeTypesDir);
         if (!$finder->hasResults()) {
@@ -34,12 +41,19 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
         $nodeTypes = [];
 
         foreach ($finder as $file) {
-            $content = $this->checkFile($file);
-            if (null === $content) {
-                continue;
+            try {
+                $content = $this->checkFile($file);
+                if (null === $content) {
+                    continue;
+                }
+                $nodeTypes[] = $this->deserialize($content);
+            } catch (InvalidConfigurationException $e) {
+                $e->addHint('File: '.$file->getRealPath());
+                throw $e;
             }
-            $nodeTypes[] = $this->deserialize($content);
         }
+
+        $this->stopwatch->stop('NodeTypeFilesRepository::findAll');
 
         return $nodeTypes;
     }
@@ -63,12 +77,17 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
         $iterator->rewind();
         $firstFile = $iterator->current();
 
-        $content = $this->checkFile($firstFile);
-        if (null === $content) {
-            return null;
-        }
+        try {
+            $content = $this->checkFile($firstFile);
+            if (null === $content) {
+                return null;
+            }
 
-        return $this->deserialize($content);
+            return $this->deserialize($content);
+        } catch (InvalidConfigurationException $e) {
+            $e->addHint('File: '.$firstFile->getRealPath());
+            throw $e;
+        }
     }
 
     private function checkFile(?\SplFileInfo $file): ?string
@@ -105,13 +124,33 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
 
     private function deserialize(string $content): NodeType
     {
-        $nodeType = $this->serializer->deserialize(
-            $content,
-            NodeType::class,
-            'yaml',
-            ['groups' => ['node_type:import', 'position']]
+        /*
+         * Validate YAML configuration before deserializing it.
+         * Low-level validation
+         */
+        $nodeTypeConfig = Yaml::parse($content);
+        $processor = new Processor();
+        $processedNodeTypeConfig = $processor->processConfiguration(
+            new NodeTypeConfiguration(),
+            [
+                'node_type' => $nodeTypeConfig,
+            ]
         );
 
+        $nodeType = $this->serializer->deserialize(
+            Yaml::dump($processedNodeTypeConfig),
+            NodeType::class,
+            'yaml',
+            ['groups' => ['node_type:import']]
+        );
+
+        if (!$nodeType instanceof NodeType) {
+            throw new \RuntimeException('Deserialized NodeType is not an instance of NodeType');
+        }
+
+        /*
+         * High level validation once deserialized.
+         */
         $violations = $this->validator->validate($nodeType);
         if (count($violations) > 0) {
             throw new ValidationFailedException($nodeType, $violations);

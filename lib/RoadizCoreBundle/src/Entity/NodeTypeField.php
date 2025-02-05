@@ -11,6 +11,7 @@ use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Contracts\NodeType\SerializableInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Form\Constraint as RoadizAssert;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeFieldRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -203,7 +204,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
      */
     public function isSearchable(): bool
     {
-        return !$this->excludeFromSearch && in_array($this->getType(), static::$searchableTypes);
+        return !$this->excludeFromSearch && in_array($this->getType(), FieldType::searchableTypes());
     }
 
     #[SymfonySerializer\Ignore]

@@ -11,6 +11,18 @@ hidingNodes: false
 hidingNonReachableNodes: true
 fields:
     -
+        name: sub_title
+        description: Sub-title description
+        universal: false
+        excludeFromSearch: false
+        serializationGroups: {  }
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: Sub-title
+        expanded: false
+        type: string
+    -
         name: content
         universal: false
         excludeFromSearch: false
@@ -20,37 +32,17 @@ fields:
         visible: true
         label: Content
         description: Content
-        expanded: false
-        position: 1.0
-        type: markdown
-    -
-        name: sub_title
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
-        label: Sub-title
-        expanded: false
-        position: 2.0
-        type: string
-    -
-        name: children
-        universal: false
-        excludeFromSearch: false
-        serializationGroups: {  }
-        excludedFromSerialization: false
-        indexed: false
-        visible: true
-        label: 'Nœuds enfants'
-        expanded: false
-        position: 3.0
         defaultValues:
-            - BasicBlock
-            - GroupBlock
-            - ArticleFeedBlock
-        type: children-nodes
+            allow_h1: false
+            allow_h2: false
+            allow_h3: false
+            allow_h4: false
+            allow_h5: false
+            allow_h6: false
+            allow_list: false
+            allow_blockquote: false
+        expanded: false
+        type: markdown
     -
         name: color
         universal: true
@@ -61,8 +53,22 @@ fields:
         visible: true
         label: 'Page color'
         expanded: false
-        position: 4.0
         type: colour
+    -
+        name: children
+        universal: false
+        excludeFromSearch: false
+        serializationGroups: {  }
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: 'Nœuds enfants'
+        expanded: false
+        defaultValues:
+            - BasicBlock
+            - GroupBlock
+            - ArticleFeedBlock
+        type: children-nodes
     -
         name: images
         universal: true
@@ -74,7 +80,6 @@ fields:
         visible: true
         label: Images
         expanded: false
-        position: 5.0
         type: documents
     -
         name: header_image
@@ -87,7 +92,6 @@ fields:
         groupName: Images
         label: 'Header image'
         expanded: false
-        position: 6.0
         type: documents
     -
         name: over_title
@@ -99,7 +103,6 @@ fields:
         visible: true
         label: Overtitle
         expanded: false
-        position: 7.0
         type: string
     -
         name: pictures
@@ -113,7 +116,6 @@ fields:
         label: Pictures
         description: 'Picture for website'
         expanded: false
-        position: 8.0
         type: documents
     -
         name: node_references
@@ -132,7 +134,6 @@ fields:
         visible: true
         label: References
         expanded: false
-        position: 9.0
         type: nodes
     -
         name: sticky
@@ -145,7 +146,6 @@ fields:
         groupName: Boolean
         label: Sticky
         expanded: false
-        position: 10.0
         type: boolean
     -
         name: stickytest
@@ -158,7 +158,6 @@ fields:
         groupName: Boolean
         label: 'Sticky test'
         expanded: false
-        position: 11.0
         type: boolean
     -
         name: custom_form
@@ -171,7 +170,6 @@ fields:
         visible: true
         label: 'Custom form'
         expanded: false
-        position: 12.0
         type: custom-forms
     -
         name: users
@@ -183,7 +181,6 @@ fields:
         visible: true
         label: 'Reference to users'
         expanded: false
-        position: 13.0
         defaultValues:
             classname: \RZ\Roadiz\CoreBundle\Entity\User
             displayable: getUsername
@@ -195,7 +192,7 @@ fields:
             orderBy:
                 -
                     field: email
-                    direction: ASC
+                    direction: asc
             proxy:
                 classname: App\Entity\PositionedPageUser
                 self: nodeSource
@@ -215,7 +212,6 @@ fields:
         visible: true
         label: 'Reference to folders'
         expanded: false
-        position: 14.0
         defaultValues:
             classname: RZ\Roadiz\CoreBundle\Entity\Folder
             displayable: getName
@@ -237,7 +233,6 @@ fields:
         visible: true
         label: Amount
         expanded: false
-        position: 15.0
         type: decimal
     -
         name: email_test
@@ -249,7 +244,6 @@ fields:
         visible: true
         label: 'Test email'
         expanded: false
-        position: 16.0
         type: email
     -
         name: settings
@@ -261,7 +255,6 @@ fields:
         visible: true
         label: Settings
         expanded: false
-        position: 17.0
         defaultValues:
             classname: Themes\Rozier\Explorer\SettingsProvider
         type: multiple-provider
@@ -275,7 +268,6 @@ fields:
         visible: true
         label: 'Folder simple'
         expanded: false
-        position: 18.0
         defaultValues:
             classname: Themes\Rozier\Explorer\FoldersProvider
         type: single-provider
@@ -289,7 +281,6 @@ fields:
         visible: true
         label: Country
         expanded: false
-        position: 19.0
         type: country
     -
         name: geolocation
@@ -301,7 +292,6 @@ fields:
         visible: true
         label: Geolocation
         expanded: false
-        position: 20.0
         type: geographic.coordinates
     -
         name: multi_geolocation
@@ -314,7 +304,6 @@ fields:
         groupName: Geo
         label: 'Multi geolocations'
         expanded: false
-        position: 21.0
         type: multiple.geographic.coordinates
     -
         name: layout
@@ -327,7 +316,6 @@ fields:
         label: Layout
         placeholder: light
         expanded: false
-        position: 22.0
         defaultValues:
             - dark
             - transparent
@@ -342,7 +330,6 @@ fields:
         visible: true
         label: 'Main user'
         expanded: false
-        position: 23.0
         defaultValues:
             classname: \RZ\Roadiz\CoreBundle\Entity\User
             displayable: getUsername

@@ -9,8 +9,9 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class NodeTypesImportFilesCommand extends Command
+final class NodeTypesValidateFilesCommand extends Command
 {
     public function __construct(
         private readonly NodeTypeRepositoryInterface $repository,
@@ -21,26 +22,23 @@ final class NodeTypesImportFilesCommand extends Command
 
     protected function configure(): void
     {
-        $this->setName('nodetypes:import-files')
-            ->setDescription('Import from config all node-type YAML files.')
-            ->addArgument('file', InputArgument::OPTIONAL, 'Only file to import')
+        $this->setName('nodetypes:validate-files')
+            ->setDescription('Import all node-type YAML files and validate them.')
+            ->addArgument('file', InputArgument::OPTIONAL, 'Only file to validate')
         ;
     }
 
-    /**
-     * @throws \Exception
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($onlyFile = $input->getArgument('file')) {
-            $nodeTypes = $this->repository->findOneByName($onlyFile);
+            $this->repository->findOneByName($onlyFile);
         } else {
-            $nodeTypes = $this->repository->findAll();
-        }
-        if (empty($nodeTypes)) {
-            return 0;
+            $this->repository->findAll();
         }
 
-        return 1;
+        $io = new SymfonyStyle($input, $output);
+        $io->success('All node-type files are valid.');
+
+        return Command::SUCCESS;
     }
 }

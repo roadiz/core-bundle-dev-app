@@ -19,7 +19,6 @@ fields:
         visible: true
         label: Content
         expanded: false
-        position: 1.0
         type: markdown
     -
         name: boolean_field
@@ -31,7 +30,6 @@ fields:
         visible: true
         label: 'Boolean field'
         expanded: false
-        position: 2.0
         type: boolean
     -
         name: image
@@ -43,7 +41,6 @@ fields:
         visible: true
         label: Image
         expanded: false
-        position: 3.0
         type: documents
 defaultTtl: 0
 searchable: true

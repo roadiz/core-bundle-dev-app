@@ -19,7 +19,6 @@ fields:
         visible: true
         label: 'Article count'
         expanded: false
-        position: 1.0
         type: integer
 defaultTtl: 0
 searchable: true

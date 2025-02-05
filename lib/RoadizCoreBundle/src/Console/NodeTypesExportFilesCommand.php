@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Console;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\NodeType\NodesTypesFilesExporter;
@@ -35,31 +36,37 @@ final class NodeTypesExportFilesCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        if ($nodeType = $input->getArgument('node-type')) {
-            $nodeTypes = $this->managerRegistry
-                ->getRepository(NodeType::class)
-                ->findBy(['name' => $nodeType])
-            ;
-        } else {
-            /** @var NodeType[] $nodeTypes */
-            $nodeTypes = $this->managerRegistry
-                ->getRepository(NodeType::class)
-                ->findAll();
-        }
-
-        if (0 === count($nodeTypes)) {
-            $io->error('No available node-types…');
-
-            return 1;
-        }
-
-        foreach ($nodeTypes as $nt) {
-            $nodesTypesPath = $this->nodesTypesGenerator->generate($nt);
-            if (null !== $nodesTypesPath) {
-                $io->writeln('* Node Type <info>'.$nodesTypesPath.'</info> has been generated.');
+        try {
+            if ($nodeType = $input->getArgument('node-type')) {
+                $nodeTypes = $this->managerRegistry
+                    ->getRepository(NodeType::class)
+                    ->findBy(['name' => $nodeType])
+                ;
+            } else {
+                /** @var NodeType[] $nodeTypes */
+                $nodeTypes = $this->managerRegistry
+                    ->getRepository(NodeType::class)
+                    ->findAll();
             }
-        }
 
-        return 0;
+            if (0 === count($nodeTypes)) {
+                $io->error('No available node-types…');
+
+                return Command::SUCCESS;
+            }
+
+            foreach ($nodeTypes as $nt) {
+                $nodesTypesPath = $this->nodesTypesGenerator->generate($nt);
+                if (null !== $nodesTypesPath) {
+                    $io->writeln('* Node Type <info>'.$nodesTypesPath.'</info> has been generated.');
+                }
+            }
+
+            return Command::SUCCESS;
+        } catch (EntityNotFoundException) {
+            $io->warning('You already use YAML files for your node-types.');
+
+            return Command::SUCCESS;
+        }
     }
 }

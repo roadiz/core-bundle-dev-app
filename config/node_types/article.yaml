@@ -7,11 +7,10 @@ publishable: true
 attributable: true
 sortingAttributesByWeight: false
 reachable: true
-hidingNodes: false
-hidingNonReachableNodes: true
 fields:
     -
         name: content
+        description: 'Your content'
         universal: false
         excludeFromSearch: false
         serializationGroups: {  }
@@ -20,7 +19,6 @@ fields:
         visible: true
         label: 'Your content'
         expanded: false
-        position: 2.0
         type: markdown
     -
         name: realm_b_secret
@@ -33,7 +31,6 @@ fields:
         visible: true
         label: 'Secret realm_b'
         expanded: false
-        position: 3.0
         type: string
     -
         name: realm_a_secret
@@ -46,7 +43,6 @@ fields:
         visible: true
         label: 'Secret realm_a'
         expanded: false
-        position: 4.0
         type: string
     -
         name: blocks
@@ -58,7 +54,6 @@ fields:
         visible: true
         label: Blocks
         expanded: false
-        position: 5.0
         defaultValues:
             - BasicBlock
             - GroupBlock
@@ -73,7 +68,6 @@ fields:
         visible: true
         label: 'Date de dépublication'
         expanded: false
-        position: 6.0
         type: date-time
     -
         name: only_on_webresponse
@@ -86,7 +80,6 @@ fields:
         visible: true
         label: 'Only on web response'
         expanded: false
-        position: 7.0
         type: string
     -
         name: related_article
@@ -101,9 +94,7 @@ fields:
         visible: true
         label: 'Related article'
         expanded: false
-        position: 8.0
         defaultValues:
             - Article
         type: nodes
-defaultTtl: 15
-searchable: true
+

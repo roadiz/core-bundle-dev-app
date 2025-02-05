@@ -39,10 +39,15 @@ enum FieldType: int
     case USER_T = 14;
     case YAML_T = 26;
 
+    public function toHuman(): string
+    {
+        return self::humanValues()[$this->value];
+    }
+
     /**
      * @return array<int, string>
      */
-    protected static function toHuman(): array
+    public static function humanValues(): array
     {
         return [
             FieldType::BOOLEAN_T->value => 'boolean.type',
@@ -75,7 +80,7 @@ enum FieldType: int
         ];
     }
 
-    protected static function toDoctrine(): array
+    public static function doctrineValues(): array
     {
         return [
             FieldType::BOOLEAN_T->value => 'boolean',
@@ -109,12 +114,22 @@ enum FieldType: int
         ];
     }
 
+    public static function searchableTypes(): array
+    {
+        return [
+            FieldType::STRING_T->value,
+            FieldType::RICHTEXT_T->value,
+            FieldType::TEXT_T->value,
+            FieldType::MARKDOWN_T->value,
+        ];
+    }
+
     public static function fromHuman(string $type): FieldType
     {
         if (!str_ends_with('.type', $type)) {
             $type = $type.'.type';
         }
-        $results = array_search($type, self::toHuman(), true);
+        $results = array_search($type, self::humanValues(), true);
         if (false === $results) {
             throw new \InvalidArgumentException(sprintf('The type %s is not a valid field type.', $type));
         }

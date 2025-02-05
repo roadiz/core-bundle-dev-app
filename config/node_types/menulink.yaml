@@ -19,7 +19,6 @@ fields:
         visible: true
         label: 'URL externe'
         expanded: false
-        position: 1.0
         type: string
     -
         name: link_internal_reference
@@ -37,7 +36,6 @@ fields:
         visible: true
         label: 'Référence au nœud (Page ou Bloc de page)'
         expanded: false
-        position: 2.0
         defaultValues:
             - Page
             - Article
@@ -52,7 +50,6 @@ fields:
         visible: true
         label: Image
         expanded: false
-        position: 3.0
         type: documents
 defaultTtl: 0
 searchable: true
