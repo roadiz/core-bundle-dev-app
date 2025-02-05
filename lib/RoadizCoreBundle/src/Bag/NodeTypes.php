@@ -4,28 +4,48 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Bag;
 
+use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\Bag\LazyParameterBag;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepositoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * @method NodeType|null get(string $key, $default = null)
  */
 final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterface
 {
-    public function __construct(private readonly NodeTypeRepositoryInterface $repository)
-    {
+    public function __construct(
+        private readonly NodeTypeRepositoryInterface $repository,
+        private readonly CacheItemPoolInterface $cacheItemPool,
+        #[Autowire(param: 'kernel.debug')]
+        private readonly bool $debug,
+    ) {
         parent::__construct();
     }
 
     protected function populateParameters(): void
     {
+        $cacheItem = $this->cacheItemPool->getItem('node_types_bag');
+        if (!$this->debug) {
+            if ($cacheItem->isHit()) {
+                $this->parameters = $cacheItem->get();
+                $this->ready = true;
+                return;
+            }
+        }
+
         $nodeTypes = $this->repository->findAll();
         $this->parameters = [];
         foreach ($nodeTypes as $nodeType) {
             $this->parameters[$nodeType->getName()] = $nodeType;
             $this->parameters[$nodeType->getSourceEntityFullQualifiedClassName()] = $nodeType;
+        }
+
+        if (!$this->debug) {
+            $cacheItem->set($this->parameters);
+            $this->cacheItemPool->save($cacheItem);
         }
 
         $this->ready = true;
