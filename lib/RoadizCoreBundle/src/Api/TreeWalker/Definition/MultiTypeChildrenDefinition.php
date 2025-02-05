@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Api\TreeWalker\Definition;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\TreeWalker\Definition\ContextualDefinitionTrait;
 use RZ\TreeWalker\WalkerContextInterface;
 
@@ -39,29 +40,45 @@ final class MultiTypeChildrenDefinition
         $nodeTypes = array_map(function (string $singleType) use ($bag) {
             return $bag->get($singleType);
         }, $this->types);
-        $criteria = [
-            'node.parent' => $source->getNode(),
-            'translation' => $source->getTranslation(),
-            'node.nodeTypeName' => $this->types,
-        ];
-        if ($this->onlyVisible) {
-            $criteria['node.visible'] = true;
-        }
+
         if (1 === count($nodeTypes)) {
-            $entityName = $nodeTypes[0]->getSourceEntityFullQualifiedClassName();
+            $nodeType = array_shift($nodeTypes);
+            $entityName = $nodeType->getSourceEntityFullQualifiedClassName();
         } else {
             $entityName = NodesSources::class;
         }
-        // @phpstan-ignore-next-line
-        $children = $this->context
-            ->getManagerRegistry()
-            ->getRepository($entityName)
-            ->findBy($criteria, [
-                'node.position' => 'ASC',
-            ]);
+
+        /** @var NodesSourcesRepository $repository */
+        $repository = $this->context->getManagerRegistry()->getRepository($entityName);
+        $alias = 'o';
+        $qb = $repository->alterQueryBuilderWithAuthorizationChecker(
+            $repository->createQueryBuilder($alias),
+            $alias
+        );
+
+        $qb->select([$alias, 'node'])
+            ->innerJoin($alias.'.node', 'node')
+            ->andWhere('node.parent = :parent')
+            ->andWhere($alias.'.translation = :translation')
+            ->addOrderBy('node.position', 'ASC')
+            ->setParameter('parent', $source->getNode())
+            ->setParameter('translation', $source->getTranslation());
+
+        if ($this->onlyVisible) {
+            $qb->andWhere('node.visible = :visible')
+                ->setParameter('visible', true);
+        }
+        if (NodesSources::class === $entityName) {
+            $qb->andWhere($qb->expr()->orX(
+                ...array_map(
+                    fn (NodeType $nodeType) => $qb->expr()->isInstanceOf($alias, $nodeType->getSourceEntityFullQualifiedClassName()),
+                    $nodeTypes
+                )
+            ));
+        }
 
         $this->context->getStopwatch()->stop(self::class);
 
-        return $children;
+        return $qb->getQuery()->getResult();
     }
 }
