@@ -70,6 +70,9 @@ final class NodeTypeConfiguration implements ConfigurationInterface
                     ->scalarNode('description')
                         ->info('Field description for editors')
                     ->end()
+                    ->scalarNode('serializationExclusionExpression')
+                        ->info('Expression to exclude this field from serialization')
+                    ->end()
                     ->enumNode('type')
                         ->isRequired()
                         ->values(array_map(
