@@ -11,7 +11,7 @@ class JoinedTableDefaultValuesResolver implements DefaultValuesResolverInterface
 {
     public function getDefaultValuesAmongAllFields(NodeTypeFieldInterface $field): array
     {
-        return $field->getDefaultValuesAsArray();
+        return array_map('trim', $field->getDefaultValuesAsArray());
     }
 
     public function getMaxDefaultValuesLengthAmongAllFields(NodeTypeFieldInterface $field): int

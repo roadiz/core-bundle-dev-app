@@ -24,7 +24,7 @@ final readonly class DefaultValuesResolver implements DefaultValuesResolverInter
          * SQL field won't be shared between all node types.
          */
         if (Configuration::INHERITANCE_TYPE_JOINED === $this->inheritanceType) {
-            return $field->getDefaultValuesAsArray();
+            return array_map('trim', $field->getDefaultValuesAsArray());
         } else {
             /*
              * With single table inheritance, we need to get all default values
