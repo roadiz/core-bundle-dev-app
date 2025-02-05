@@ -52,8 +52,8 @@ final class NodeReferencesFieldGenerator extends AbstractFieldGenerator
     protected function getIntroductionLines(): array
     {
         $lines = parent::getIntroductionLines();
-        if (!empty($this->field->getDefaultValues())) {
-            $lines[] = 'Possible values: '.$this->field->getDefaultValues();
+        if (!empty($this->field->getDefaultValuesAsArray())) {
+            $lines[] = 'Possible values: '.json_encode($this->field->getDefaultValuesAsArray());
         }
 
         return $lines;

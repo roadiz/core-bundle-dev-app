@@ -2,14 +2,6 @@
 # Node-types admin pages
 # These routes are prefixed with /rz-admin/node-types
 #
-nodesTypesExportPage:
-    path:     /export/{nodeTypeName}
-    defaults:
-        _controller: Themes\Rozier\Controllers\NodeTypes\NodeTypesUtilsController::exportJsonFileAction
-nodesTypesExportAllPage:
-    path:     /export/all
-    defaults:
-        _controller: Themes\Rozier\Controllers\NodeTypes\NodeTypesUtilsController::exportAllAction
 nodesTypesExportDocumentationPage:
     path:     /export/documentation
     defaults:
