@@ -42,6 +42,16 @@ class NSMenu extends NodesSources
         return 'Menu';
     }
 
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#947ccf';
+    }
+
     /**
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?

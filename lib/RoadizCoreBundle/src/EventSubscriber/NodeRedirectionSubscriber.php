@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Event\Cache\CachePurgeRequestEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodePathChangedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
@@ -20,6 +21,7 @@ final readonly class NodeRedirectionSubscriber implements EventSubscriberInterfa
         private NodeMover $nodeMover,
         private string $kernelEnvironment,
         private PreviewResolverInterface $previewResolver,
+        private NodeTypes $nodeTypesBag,
     ) {
     }
 
@@ -43,7 +45,7 @@ final readonly class NodeRedirectionSubscriber implements EventSubscriberInterfa
             && !$this->previewResolver->isPreview()
             && null !== $event->getNode()
             && $event->getNode()->isPublished()
-            && $event->getNode()->getNodeType()->isReachable()
+            && $this->nodeTypesBag->get($event->getNode()->getNodeTypeName())?->isReachable()
             && count($event->getPaths()) > 0
         ) {
             $this->nodeMover->redirectAll($event->getNode(), $event->getPaths());

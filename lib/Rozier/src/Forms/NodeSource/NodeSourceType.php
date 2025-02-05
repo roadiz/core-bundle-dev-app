@@ -35,7 +35,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\Type;
-use Symfony\Component\Yaml\Yaml;
 use Themes\Rozier\Forms\GeoJsonType;
 use Themes\Rozier\Forms\NodeTreeType;
 
@@ -234,11 +233,9 @@ final class NodeSourceType extends AbstractType
      * Returns an option array for creating a Symfony Form
      * according to a node-type field.
      *
-     * @return array
-     *
      * @throws \ReflectionException
      */
-    public function getFormOptionsFromFieldType(NodesSources $nodeSource, NodeTypeField $field, array &$formOptions)
+    public function getFormOptionsFromFieldType(NodesSources $nodeSource, NodeTypeField $field, array &$formOptions): array
     {
         $options = $this->getDefaultOptions($nodeSource, $field, $formOptions);
 
@@ -253,17 +250,15 @@ final class NodeSourceType extends AbstractType
             case AbstractField::MANY_TO_MANY_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
-                        'data-nodetypefield' => $field->getId(),
+                        'data-nodetypefield' => $field->getName(),
+                        'data-nodetypename' => $field->getNodeTypeName(),
                     ],
                 ]);
                 break;
             case AbstractField::NODES_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
-                        'data-nodetypes' => json_encode(explode(
-                            ',',
-                            $field->getDefaultValues() ?? ''
-                        )),
+                        'data-nodetypes' => json_encode(array_map('trim', $field->getDefaultValuesAsArray())),
                     ],
                 ]);
                 break;
@@ -332,7 +327,7 @@ final class NodeSourceType extends AbstractType
                 ]);
                 break;
             case AbstractField::MARKDOWN_T:
-                $additionalOptions = Yaml::parse($field->getDefaultValues() ?? '[]');
+                $additionalOptions = $field->getDefaultValuesAsArray();
                 $options = array_merge_recursive($options, [
                     'attr' => [
                         'class' => 'markdown_textarea',
@@ -352,8 +347,9 @@ final class NodeSourceType extends AbstractType
                 if ('' !== $field->getPlaceholder()) {
                     $options['placeholder'] = $field->getPlaceholder();
                 }
-                if ('' !== $field->getDefaultValues()) {
-                    $countries = explode(',', $field->getDefaultValues() ?? '');
+                $defaultValuesAsArray = $field->getDefaultValuesAsArray();
+                if (count($defaultValuesAsArray) > 0) {
+                    $countries = $defaultValuesAsArray;
                     $countries = array_map('trim', $countries);
                     $options = array_merge_recursive($options, [
                         'preferred_choices' => $countries,
@@ -361,7 +357,7 @@ final class NodeSourceType extends AbstractType
                 }
                 break;
             case AbstractField::COLLECTION_T:
-                $configuration = Yaml::parse($field->getDefaultValues() ?? '');
+                $configuration = $field->getDefaultValuesAsArray();
                 $collectionOptions = [
                     'allow_add' => true,
                     'allow_delete' => true,

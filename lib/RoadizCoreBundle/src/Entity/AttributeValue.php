@@ -45,8 +45,7 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
             'node' => 'exact',
             'node.id' => 'exact',
             'node.nodeName' => 'exact',
-            'node.nodeType' => 'exact',
-            'node.nodeType.name' => 'exact',
+            'node.nodeTypeName' => 'exact',
         ]),
         ApiFilter(BaseFilter\BooleanFilter::class, properties: [
             'node.visible',

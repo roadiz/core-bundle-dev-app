@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use Psr\Log\LoggerInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
@@ -36,6 +37,7 @@ final class AjaxNodesController extends AbstractAjaxController
         private readonly NodeChrootResolver $nodeChrootResolver,
         private readonly Registry $workflowRegistry,
         private readonly UniqueNodeGenerator $uniqueNodeGenerator,
+        private readonly NodeTypes $nodeTypesBag,
         SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
@@ -143,7 +145,7 @@ final class AjaxNodesController extends AbstractAjaxController
         $position = $this->parsePosition($parameters, $node->getPosition());
 
         try {
-            if ($node->getNodeType()->isReachable()) {
+            if ($this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable()) {
                 $oldPaths = $this->nodeMover->getNodeSourcesUrls($node);
             }
         } catch (SameNodeUrlException $e) {

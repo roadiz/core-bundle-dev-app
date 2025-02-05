@@ -546,7 +546,7 @@ class SearchController extends RozierApp
             }
 
             if (AbstractField::ENUM_T === $field->getType()) {
-                $choices = explode(',', $field->getDefaultValues() ?? '');
+                $choices = $field->getDefaultValuesAsArray();
                 $choices = array_map('trim', $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
                 $type = ChoiceType::class;
@@ -558,7 +558,7 @@ class SearchController extends RozierApp
                 }
                 $option['choices'] = $choices;
             } elseif (AbstractField::MULTIPLE_T === $field->getType()) {
-                $choices = explode(',', $field->getDefaultValues() ?? '');
+                $choices = $field->getDefaultValuesAsArray();
                 $choices = array_map('trim', $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
                 $type = ChoiceType::class;

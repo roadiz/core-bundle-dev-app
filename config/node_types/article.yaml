@@ -1,0 +1,104 @@
+color: '#00308a'
+name: Article
+displayName: Article
+description: Article
+visible: true
+publishable: true
+attributable: true
+sortingAttributesByWeight: false
+reachable: true
+fields:
+    -
+        name: content
+        description: 'Your content'
+        universal: false
+        excludeFromSearch: false
+        serializationGroups: {  }
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: 'Your content'
+        expanded: false
+        type: markdown
+    -
+        name: realm_b_secret
+        universal: false
+        excludeFromSearch: false
+        serializationGroups:
+            - realm_b
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: 'Secret realm_b'
+        expanded: false
+        type: string
+    -
+        name: realm_a_secret
+        universal: false
+        excludeFromSearch: false
+        serializationGroups:
+            - realm_a
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: 'Secret realm_a'
+        expanded: false
+        type: string
+    -
+        name: blocks
+        universal: false
+        excludeFromSearch: false
+        serializationGroups: {  }
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: Blocks
+        expanded: false
+        defaultValues:
+            - BasicBlock
+            - GroupBlock
+        type: children-nodes
+    -
+        name: unpublished_at
+        universal: true
+        excludeFromSearch: false
+        serializationGroups: {  }
+        excludedFromSerialization: false
+        indexed: true
+        visible: true
+        label: 'Date de dépublication'
+        expanded: false
+        type: date-time
+    -
+        name: only_on_webresponse
+        universal: false
+        excludeFromSearch: false
+        serializationGroups:
+            - article_get_by_path
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: 'Only on web response'
+        expanded: false
+        type: string
+    -
+        name: related_article
+        universal: false
+        excludeFromSearch: false
+        serializationMaxDepth: 1
+        serializationGroups:
+            - related_articles
+            - nodes_sources_base
+        normalizationContext:
+            groups:
+                - related_articles
+                - nodes_sources_base
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: 'Related article'
+        expanded: false
+        defaultValues:
+            - Article
+        type: nodes
+

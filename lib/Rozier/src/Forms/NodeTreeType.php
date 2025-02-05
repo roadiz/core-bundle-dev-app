@@ -7,6 +7,7 @@ namespace Themes\Rozier\Forms;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use Symfony\Component\Form\AbstractType;
@@ -51,14 +52,16 @@ final class NodeTreeType extends AbstractType
         /*
          * Linked types to create quick add buttons
          */
-        $defaultValues = explode(',', $options['nodeTypeField']->getDefaultValues() ?? '');
+        /** @var NodeTypeField $nodeTypeField */
+        $nodeTypeField = $options['nodeTypeField'];
+        $defaultValues = $nodeTypeField->getDefaultValuesAsArray();
         foreach ($defaultValues as $key => $value) {
             $defaultValues[$key] = trim($value);
         }
 
-        $nodeTypes = array_map(function (string $nodeTypeName) {
+        $nodeTypes = array_values(array_filter(array_map(function (string $nodeTypeName) {
             return $this->nodeTypesBag->get($nodeTypeName);
-        }, $defaultValues);
+        }, $defaultValues)));
 
         $view->vars['linkedTypes'] = $nodeTypes;
 
@@ -70,9 +73,9 @@ final class NodeTreeType extends AbstractType
          * If node-type has been used as default values,
          * we need to restrict node-tree display too.
          */
-        if (is_array($nodeTypes) && count($nodeTypes) > 0) {
+        if (count($nodeTypes) > 0) {
             $nodeTree->setAdditionalCriteria([
-                'nodeType' => $nodeTypes,
+                'nodeTypeName' => array_map(fn (NodeType $nodeType) => $nodeType->getName(), $nodeTypes),
             ]);
         }
 

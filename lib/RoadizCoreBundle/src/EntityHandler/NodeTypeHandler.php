@@ -101,6 +101,9 @@ final class NodeTypeHandler extends AbstractHandler
         return false;
     }
 
+    /**
+     * @deprecated Node-types are static
+     */
     public function exportNodeTypeJsonFile(): ?string
     {
         $fileSystem = new Filesystem();
@@ -121,6 +124,9 @@ final class NodeTypeHandler extends AbstractHandler
         return null;
     }
 
+    /**
+     * @deprecated Node-types are static
+     */
     protected function removeNodeTypeJsonFile(): void
     {
         $fileSystem = new Filesystem();
@@ -131,6 +137,9 @@ final class NodeTypeHandler extends AbstractHandler
         }
     }
 
+    /**
+     * @deprecated Node-types are static
+     */
     protected function addNodeTypeToImportFilesConfiguration(Filesystem $fileSystem, string $file): void
     {
         if ($fileSystem->exists($this->importFilesConfigPath)) {
@@ -166,6 +175,9 @@ final class NodeTypeHandler extends AbstractHandler
         }
     }
 
+    /**
+     * @deprecated Node-types are static
+     */
     protected function removeNodeTypeFromImportFilesConfiguration(Filesystem $fileSystem, string $file): void
     {
         if ($fileSystem->exists($this->importFilesConfigPath)) {
@@ -277,7 +289,6 @@ final class NodeTypeHandler extends AbstractHandler
     public function updateSchema(): NodeTypeHandler
     {
         $this->regenerateEntityClass();
-        $this->exportNodeTypeJsonFile();
 
         return $this;
     }
@@ -307,7 +318,6 @@ final class NodeTypeHandler extends AbstractHandler
             $this->apiResourceGenerator->remove($this->nodeType);
         }
         $this->removeSourceEntityClass();
-        $this->removeNodeTypeJsonFile();
 
         return $this;
     }
@@ -330,7 +340,7 @@ final class NodeTypeHandler extends AbstractHandler
             ->getRepository(Node::class)
             ->setDisplayingNotPublishedNodes(true)
             ->findBy([
-                'nodeType' => $this->getNodeType(),
+                'nodeTypeName' => $this->getNodeType()->getName(),
             ]);
 
         /** @var Node $node */
@@ -358,6 +368,8 @@ final class NodeTypeHandler extends AbstractHandler
      * Reset current node-type fields positions.
      *
      * @return float Return the next position after the **last** field
+     *
+     * @deprecated Node-types are static
      */
     public function cleanPositions(bool $setPositions = false): float
     {

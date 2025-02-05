@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Node;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -20,6 +21,7 @@ final readonly class NodeFactory
     public function __construct(
         private ManagerRegistry $managerRegistry,
         private NodeNamePolicyInterface $nodeNamePolicy,
+        private NodeTypes $nodeTypesBag,
     ) {
     }
 
@@ -44,18 +46,20 @@ final readonly class NodeFactory
 
         if (null === $node) {
             $node = new Node();
-            $node->setNodeType($type);
+            $node->setNodeTypeName($type->getName());
         }
 
-        if ($node->getNodeType() instanceof NodeType) {
-            $node->setTtl($node->getNodeType()->getDefaultTtl());
+        $nodeType = $this->nodeTypesBag->get($node->getNodeTypeName());
+        if (!$nodeType instanceof NodeType) {
+            throw new \RuntimeException('Cannot create node from invalid NodeType.');
         }
+        $node->setTtl($nodeType->getDefaultTTL());
 
         if (null !== $parent) {
             $node->setParent($parent);
         }
 
-        $sourceClass = $node->getNodeType()->getSourceEntityFullQualifiedClassName();
+        $sourceClass = $nodeType->getSourceEntityFullQualifiedClassName();
         /** @var NodesSources $source */
         $source = new $sourceClass($node, $translation);
         $manager = $this->managerRegistry->getManagerForClass(NodesSources::class);

@@ -7,8 +7,10 @@ namespace Themes\Rozier\Widgets;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\ListManager\NodeTreeDtoListManager;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
@@ -39,6 +41,7 @@ final class NodeTreeWidget extends AbstractWidget
     public function __construct(
         RequestStack $requestStack,
         ManagerRegistry $managerRegistry,
+        private readonly NodeTypes $nodeTypesBag,
         private readonly ?Node $parentNode = null,
         private readonly ?TranslationInterface $translation = null,
         private readonly bool $includeRootNode = false,
@@ -201,7 +204,7 @@ final class NodeTreeWidget extends AbstractWidget
     public function getReachableChildrenNodes(?NodeInterface $parent = null, bool $subRequest = false): array
     {
         return $this->getListManager($parent, $subRequest, [
-            'nodeType.reachable' => true,
+            'nodeTypeName' => array_map(fn (NodeType $nodeType) => $nodeType->getName(), $this->nodeTypesBag->allReachable()),
         ])->getEntities();
     }
 

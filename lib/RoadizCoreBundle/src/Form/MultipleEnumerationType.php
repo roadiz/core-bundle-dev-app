@@ -34,7 +34,9 @@ class MultipleEnumerationType extends AbstractType
         });
 
         $resolver->setNormalizer('choices', function (Options $options, $choices) {
-            $values = explode(',', $options['nodeTypeField']->getDefaultValues() ?? '');
+            /** @var NodeTypeField $nodeTypeField */
+            $nodeTypeField = $options['nodeTypeField'];
+            $values = $nodeTypeField->getDefaultValuesAsArray();
 
             foreach ($values as $value) {
                 $value = trim($value);

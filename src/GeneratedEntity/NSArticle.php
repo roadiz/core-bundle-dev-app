@@ -34,10 +34,13 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 #[ApiFilter(PropertyFilter::class)]
 class NSArticle extends NodesSources
 {
-    /** Your content. */
+    /**
+     * Your content.
+     * Your content.
+     */
     #[Serializer\SerializedName(serializedName: 'content')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[ApiProperty(description: 'Your content')]
+    #[ApiProperty(description: 'Your content: Your content')]
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'content', type: 'text', nullable: true)]
@@ -101,16 +104,21 @@ class NSArticle extends NodesSources
      * @var \App\GeneratedEntity\NSArticle[]|null
      * Related article.
      * Default values:
-     * Article
+     * - Article
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'relatedArticle')]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_nodes'])]
+    #[Serializer\Groups(['related_articles', 'nodes_sources_base'])]
     #[ApiProperty(description: 'Related article')]
-    #[Serializer\MaxDepth(2)]
+    #[Serializer\MaxDepth(1)]
     #[Serializer\Context(
-        normalizationContext: ['groups' => ['related_articles']],
-        groups: ['nodes_sources', 'nodes_sources_default', 'nodes_sources_nodes'],
+        normalizationContext: [
+        'groups' => ['related_articles', 'nodes_sources_base'],
+        'skip_null_value' => true,
+        'jsonld_embed_context' => false,
+        'enable_max_depth' => true,
+    ],
+        groups: ['related_articles', 'nodes_sources_base'],
     )]
     private ?array $relatedArticleSources = null;
 
@@ -210,8 +218,8 @@ class NSArticle extends NodesSources
     /**
      * @return \App\GeneratedEntity\NSArticle[]
      */
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_nodes'])]
-    #[JMS\MaxDepth(2)]
+    #[JMS\Groups(['related_articles', 'nodes_sources_base'])]
+    #[JMS\MaxDepth(1)]
     #[JMS\VirtualProperty]
     #[JMS\SerializedName('relatedArticle')]
     #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\NodesSources>')]
@@ -250,6 +258,16 @@ class NSArticle extends NodesSources
     public function getNodeTypeName(): string
     {
         return 'Article';
+    }
+
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#00308a';
     }
 
     /**

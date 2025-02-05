@@ -7,6 +7,7 @@ namespace Themes\Rozier\Controllers\Nodes;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
@@ -191,7 +192,7 @@ final class NodesController extends RozierApp
             'nodeName' => $node->getNodeName(),
         ]);
         try {
-            if ($node->getNodeType()->isReachable() && !$node->isHome()) {
+            if ($this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable() && !$node->isHome()) {
                 $oldPaths = $this->nodeMover->getNodeSourcesUrls($node);
             }
         } catch (SameNodeUrlException $e) {
@@ -275,14 +276,9 @@ final class NodesController extends RozierApp
      *
      * @throws RuntimeError
      */
-    public function addAction(Request $request, int $nodeTypeId, ?int $translationId = null): Response
+    public function addAction(Request $request, ?int $translationId = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-
-        $type = $this->nodeTypesBag->getById($nodeTypeId);
-        if (null === $type) {
-            throw new ResourceNotFoundException(sprintf('Node-type #%s does not exist.', $nodeTypeId));
-        }
 
         /** @var Translation|null $translation */
         $translation = $this->em()->getRepository(Translation::class)->findDefault();
@@ -295,8 +291,6 @@ final class NodesController extends RozierApp
         }
 
         $node = new Node();
-        $node->setNodeType($type);
-        $node->setTtl($type->getDefaultTtl());
 
         $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
         if (null !== $chroot) {
@@ -317,6 +311,13 @@ final class NodesController extends RozierApp
                  * Dispatch event
                  */
                 $this->dispatchEvent(new NodeCreatedEvent($node));
+                /** @var NodeType $nodeType */
+                $nodeType = $form->get('nodeTypeName')->getData();
+                if (null === $nodeType) {
+                    throw new ResourceNotFoundException(sprintf('Node-type #%s does not exist.', $nodeType->getName()));
+                }
+                $node->setNodeTypeName($nodeType->getName());
+                $node->setTtl($nodeType->getDefaultTtl());
 
                 $msg = $this->getTranslator()->trans(
                     'node.%name%.created',
@@ -331,16 +332,13 @@ final class NodesController extends RozierApp
                         'translationId' => $translation->getId(),
                     ]
                 );
-            } catch (EntityAlreadyExistsException $e) {
-                $form->addError(new FormError($e->getMessage()));
-            } catch (\InvalidArgumentException $e) {
+            } catch (EntityAlreadyExistsException|\InvalidArgumentException $e) {
                 $form->addError(new FormError($e->getMessage()));
             }
         }
 
         $this->assignation['translation'] = $translation;
         $this->assignation['form'] = $form->createView();
-        $this->assignation['type'] = $type;
         $this->assignation['nodeTypesCount'] = true;
 
         return $this->render('@RoadizRozier/nodes/add.html.twig', $this->assignation);

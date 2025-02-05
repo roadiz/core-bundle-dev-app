@@ -47,7 +47,7 @@ final class NodesCommand extends Command
                 $nodes = $this->managerRegistry
                     ->getRepository(Node::class)
                     ->setDisplayingNotPublishedNodes(true)
-                    ->findBy(['nodeType' => $nodeType], ['nodeName' => 'ASC']);
+                    ->findBy(['nodeTypeName' => $nodeType->getName()], ['nodeName' => 'ASC']);
             }
         } else {
             $nodes = $this->managerRegistry
@@ -61,7 +61,7 @@ final class NodesCommand extends Command
             $tableContent[] = [
                 $node->getId(),
                 $node->getNodeName(),
-                $node->getNodeType()->getName(),
+                $node->getNodeTypeName(),
                 !$node->isVisible() ? 'X' : '',
                 $node->isPublished() ? 'X' : '',
             ];

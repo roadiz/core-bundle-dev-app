@@ -26,7 +26,6 @@ use RZ\Roadiz\EntityGenerator\Field\ProxiedManyToManyFieldGenerator;
 use RZ\Roadiz\EntityGenerator\Field\YamlFieldGenerator;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\String\UnicodeString;
-use Symfony\Component\Yaml\Yaml;
 
 final class EntityGenerator implements EntityGeneratorInterface
 {
@@ -122,10 +121,9 @@ final class EntityGenerator implements EntityGeneratorInterface
             return new ManyToOneFieldGenerator($field, $this->defaultValuesResolver, $this->options);
         }
         if ($field->isManyToMany()) {
-            $configuration = Yaml::parse($field->getDefaultValues() ?? '');
+            $configuration = $field->getDefaultValuesAsArray();
             if (
-                is_array($configuration)
-                && isset($configuration['proxy'])
+                isset($configuration['proxy'])
                 && !empty($configuration['proxy']['classname'])
             ) {
                 /*
@@ -290,6 +288,18 @@ final class EntityGenerator implements EntityGeneratorInterface
                 'serializedName' => '@type',
             ])
             ->setBody('return \''.$this->nodeType->getName().'\';')
+        ;
+
+        $classType->addMethod('getNodeTypeColor')
+            ->setReturnType('string')
+            ->addAttribute('JMS\Serializer\Annotation\VirtualProperty')
+            ->addAttribute('JMS\Serializer\Annotation\Groups', [['node_type']])
+            ->addAttribute('JMS\Serializer\Annotation\SerializedName', ['nodeTypeColor'])
+            ->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [['node_type']])
+            ->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
+                'serializedName' => 'nodeTypeColor',
+            ])
+            ->setBody('return \''.$this->nodeType->getColor().'\';')
         ;
 
         $classType->addMethod('isReachable')

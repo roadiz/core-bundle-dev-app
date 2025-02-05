@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
@@ -19,8 +20,10 @@ use Twig\Error\RuntimeError;
 
 class TranstypeController extends RozierApp
 {
-    public function __construct(private readonly NodeTranstyper $nodeTranstyper)
-    {
+    public function __construct(
+        private readonly NodeTranstyper $nodeTranstyper,
+        private readonly NodeTypes $nodeTypesBag,
+    ) {
     }
 
     /**
@@ -43,7 +46,7 @@ class TranstypeController extends RozierApp
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
 
         $form = $this->createForm(TranstypeType::class, null, [
-            'currentType' => $node->getNodeType(),
+            'currentType' => $this->nodeTypesBag->get($node->getNodeTypeName()),
         ]);
         $form->handleRequest($request);
 
@@ -97,7 +100,7 @@ class TranstypeController extends RozierApp
         $this->assignation['form'] = $form->createView();
         $this->assignation['node'] = $node;
         $this->assignation['parentNode'] = $node->getParent();
-        $this->assignation['type'] = $node->getNodeType();
+        $this->assignation['type'] = $node->getNodeTypeName();
 
         return $this->render('@RoadizRozier/nodes/transtype.html.twig', $this->assignation);
     }

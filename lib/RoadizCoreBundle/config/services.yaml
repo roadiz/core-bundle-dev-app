@@ -38,6 +38,7 @@ services:
             $importFilesConfigPath: '%roadiz_core.import_files_config_path%'
             $kernelProjectDir: '%kernel.project_dir%'
             $apiResourcesDir: '%kernel.project_dir%/config/api_resources'
+            $nodeTypesDir: '%kernel.project_dir%/config/node_types'
             $debug: '%kernel.debug%'
             $kernelEnvironment: '%kernel.environment%'
             $defaultControllerClass: '%roadiz_core.default_node_source_controller%'
@@ -241,6 +242,10 @@ services:
         # By default, .inner is passed as argument
         decorates: 'api_platform.jsonld.normalizer.item'
         decoration_priority: 5
+    # NodesTypes
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodeTypeFieldNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
     # Need a different name to avoid duplicate YAML key
     roadiz_core.serializer.normalizer.nodes_sources_path.json:
         class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer'
@@ -457,15 +462,15 @@ services:
             - '@doctrine.orm.default_entity_manager'
             - '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor'
             - [
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TranslationObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\AttributeObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TagObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingGroupObjectConstructor'
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TranslationObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\AttributeObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TagObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingGroupObjectConstructor'
             ]
 
     Solarium\Core\Client\Client:
@@ -655,6 +660,9 @@ services:
     RZ\Roadiz\CoreBundle\Node\NodeNamePolicyFactory: ~
     RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface:
         factory: ['@RZ\Roadiz\CoreBundle\Node\NodeNamePolicyFactory', 'create']
+
+    RZ\Roadiz\CoreBundle\Repository\NodeTypeRepositoryInterface:
+        class: 'RZ\Roadiz\CoreBundle\Repository\NodeTypeFilesRepository'
 
     #
     # Workflows

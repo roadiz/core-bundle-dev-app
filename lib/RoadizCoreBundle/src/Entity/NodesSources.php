@@ -133,8 +133,7 @@ class NodesSources extends AbstractEntity implements Loggable
         'node.parent.nodeName' => 'exact',
         'node.nodesTags.tag' => 'exact',
         'node.nodesTags.tag.tagName' => 'exact',
-        'node.nodeType' => 'exact',
-        'node.nodeType.name' => 'exact',
+        'node.nodeTypeName' => 'exact',
     ])]
     #[ApiFilter(BaseFilter\OrderFilter::class, properties: [
         'node.position',
@@ -154,11 +153,9 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ApiFilter(BaseFilter\BooleanFilter::class, properties: [
         'node.visible',
         'node.home',
-        'node.nodeType.reachable',
-        'node.nodeType.publishable',
     ])]
     #[ApiFilter(RoadizFilter\NotFilter::class, properties: [
-        'node.nodeType.name',
+        'node.nodeTypeName',
         'node.id',
         'node.nodesTags.tag.tagName',
     ])]
@@ -543,12 +540,22 @@ class NodesSources extends AbstractEntity implements Loggable
         return 'NodesSources';
     }
 
+    #[Serializer\VirtualProperty]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName('nodeTypeColor')]
+    #[SymfonySerializer\Groups(['node_type'])]
+    #[SymfonySerializer\SerializedName('nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#000000';
+    }
+
     /**
      * Overridden in NS classes.
      */
     public function isPublishable(): bool
     {
-        return $this->getNode()->getNodeType()->isPublishable();
+        throw new \RuntimeException('This method should only be called from children classes');
     }
 
     /**
@@ -556,7 +563,7 @@ class NodesSources extends AbstractEntity implements Loggable
      */
     public function isReachable(): bool
     {
-        return $this->getNode()->getNodeType()->isReachable();
+        throw new \RuntimeException('This method should only be called from children classes');
     }
 
     /**

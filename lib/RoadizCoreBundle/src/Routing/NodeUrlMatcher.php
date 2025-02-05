@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Routing;
 
 use Psr\Log\LoggerInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
@@ -28,6 +29,7 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
         PreviewResolverInterface $previewResolver,
         Stopwatch $stopwatch,
         LoggerInterface $logger,
+        private readonly NodeTypes $nodeTypesBag,
         private readonly string $defaultControllerClass,
     ) {
         parent::__construct($context, $previewResolver, $stopwatch, $logger);
@@ -60,7 +62,8 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
             $theme,
             $this->previewResolver,
             $this->logger,
-            $this->defaultControllerClass
+            $this->defaultControllerClass,
+            $this->nodeTypesBag
         );
     }
 

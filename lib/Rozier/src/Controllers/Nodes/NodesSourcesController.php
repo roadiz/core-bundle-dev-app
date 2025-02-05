@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers\Nodes;
 
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -37,6 +38,7 @@ class NodesSourcesController extends RozierApp
     public function __construct(
         private readonly JwtExtension $jwtExtension,
         private readonly FormErrorSerializer $formErrorSerializer,
+        private readonly NodeTypes $nodeTypesBag,
     ) {
     }
 
@@ -87,13 +89,17 @@ class NodesSourcesController extends RozierApp
                 return $response;
             }
         }
+        $nodeType = $this->nodeTypesBag->get($node->getNodeTypeName());
+        if (null === $nodeType) {
+            throw new ResourceNotFoundException('Node type does not exist');
+        }
 
         $form = $this->createForm(
             NodeSourceType::class,
             $source,
             [
-                'class' => $node->getNodeType()->getSourceEntityFullQualifiedClassName(),
-                'nodeType' => $node->getNodeType(),
+                'class' => $nodeType->getSourceEntityFullQualifiedClassName(),
+                'nodeType' => $nodeType,
                 'withVirtual' => true,
                 'withTitle' => true,
                 'disabled' => $this->isReadOnly,

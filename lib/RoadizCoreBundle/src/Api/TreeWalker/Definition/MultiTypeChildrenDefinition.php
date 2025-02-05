@@ -42,7 +42,7 @@ final class MultiTypeChildrenDefinition
         $criteria = [
             'node.parent' => $source->getNode(),
             'translation' => $source->getTranslation(),
-            'node.nodeType' => $nodeTypes,
+            'node.nodeTypeName' => $this->types,
         ];
         if ($this->onlyVisible) {
             $criteria['node.visible'] = true;

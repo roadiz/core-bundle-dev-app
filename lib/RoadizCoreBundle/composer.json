@@ -50,7 +50,7 @@
         "roadiz/jwt": "2.4.*",
         "roadiz/markdown": "2.4.*",
         "roadiz/models": "2.4.*",
-        "roadiz/nodetype-contracts": "~1.1.2",
+        "roadiz/nodetype-contracts": "^2.0.0",
         "roadiz/random": "2.4.*",
         "rollerworks/password-common-list": "^0.3.0",
         "rollerworks/password-strength-bundle": "^3.0",

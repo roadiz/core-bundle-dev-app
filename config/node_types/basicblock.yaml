@@ -1,0 +1,46 @@
+color: '#69a5ff'
+name: BasicBlock
+displayName: 'Basic Block'
+visible: false
+publishable: false
+attributable: false
+sortingAttributesByWeight: false
+reachable: false
+hidingNodes: false
+hidingNonReachableNodes: false
+fields:
+    -
+        name: content
+        universal: false
+        excludeFromSearch: false
+        serializationGroups: {  }
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: Content
+        expanded: false
+        type: markdown
+    -
+        name: boolean_field
+        universal: false
+        excludeFromSearch: false
+        serializationGroups: {  }
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: 'Boolean field'
+        expanded: false
+        type: boolean
+    -
+        name: image
+        universal: false
+        excludeFromSearch: false
+        serializationGroups: {  }
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: Image
+        expanded: false
+        type: documents
+defaultTtl: 0
+searchable: true

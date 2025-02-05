@@ -27,7 +27,7 @@ class ChildrenNodeFieldGenerator extends AbstractFieldGenerator
                 $nodeType = $this->nodeTypesBag->get(trim($nodeTypeName));
 
                 return $nodeType instanceof NodeTypeInterface ? $nodeType : null;
-            }, explode(',', $this->field->getDefaultValues())));
+            }, $this->field->getDefaultValuesAsArray()));
         }
 
         return [];

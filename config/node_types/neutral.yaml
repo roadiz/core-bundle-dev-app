@@ -1,0 +1,25 @@
+color: '#a8a8a8'
+name: Neutral
+displayName: Neutral
+description: Neutral
+visible: true
+publishable: false
+attributable: false
+sortingAttributesByWeight: false
+reachable: false
+hidingNodes: false
+hidingNonReachableNodes: false
+fields:
+    -
+        name: number
+        universal: false
+        excludeFromSearch: false
+        serializationGroups: {  }
+        excludedFromSerialization: false
+        indexed: true
+        visible: true
+        label: Number
+        expanded: false
+        type: integer
+defaultTtl: 0
+searchable: true

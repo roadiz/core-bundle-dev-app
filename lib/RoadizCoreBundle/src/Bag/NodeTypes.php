@@ -4,43 +4,52 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Bag;
 
-use Doctrine\Persistence\ManagerRegistry;
+use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\Bag\LazyParameterBag;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
-use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepository;
+use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepositoryInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
+/**
+ * @method NodeType|null get(string $key, $default = null)
+ */
 final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterface
 {
-    private ?NodeTypeRepository $repository = null;
-
-    public function __construct(private readonly ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        private readonly NodeTypeRepositoryInterface $repository,
+        private readonly CacheItemPoolInterface $cacheItemPool,
+        #[Autowire(param: 'kernel.debug')]
+        private readonly bool $debug,
+    ) {
         parent::__construct();
-    }
-
-    public function getRepository(): NodeTypeRepository
-    {
-        if (null === $this->repository) {
-            $this->repository = $this->managerRegistry->getRepository(NodeType::class);
-        }
-
-        return $this->repository;
     }
 
     protected function populateParameters(): void
     {
-        try {
-            $nodeTypes = $this->getRepository()->findAll();
-            $this->parameters = [];
-            /** @var NodeType $nodeType */
-            foreach ($nodeTypes as $nodeType) {
-                $this->parameters[$nodeType->getName()] = $nodeType;
-                $this->parameters[$nodeType->getSourceEntityFullQualifiedClassName()] = $nodeType;
+        $cacheItem = null;
+        if (!$this->debug) {
+            $cacheItem = $this->cacheItemPool->getItem('node_types_bag');
+            if ($cacheItem->isHit()) {
+                $this->parameters = $cacheItem->get();
+                $this->ready = true;
+
+                return;
             }
-        } catch (\Exception $e) {
-            $this->parameters = [];
         }
+
+        $nodeTypes = $this->repository->findAll();
+        $this->parameters = [];
+        foreach ($nodeTypes as $nodeType) {
+            $this->parameters[$nodeType->getName()] = $nodeType;
+            $this->parameters[$nodeType->getSourceEntityFullQualifiedClassName()] = $nodeType;
+        }
+
+        if (!$this->debug && isset($cacheItem)) {
+            $cacheItem->set($this->parameters);
+            $this->cacheItemPool->save($cacheItem);
+        }
+
         $this->ready = true;
     }
 
@@ -63,9 +72,9 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
      */
     public function getById(int $id): ?NodeType
     {
-        return array_filter($this->all(), function (NodeType $nodeType) use ($id) {
+        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($id) {
             return $nodeType->getId() === $id;
-        })[0] ?? null;
+        }))[0] ?? null;
     }
 
     /**
@@ -73,8 +82,18 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
      */
     public function allVisible(bool $visible = true): array
     {
-        return array_filter($this->all(), function (NodeType $nodeType) use ($visible) {
+        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($visible) {
             return $nodeType->isVisible() === $visible;
-        });
+        }));
+    }
+
+    /**
+     * @return array<int, NodeType>
+     */
+    public function allReachable(bool $reachable = true): array
+    {
+        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($reachable) {
+            return $nodeType->isReachable() === $reachable;
+        }));
     }
 }

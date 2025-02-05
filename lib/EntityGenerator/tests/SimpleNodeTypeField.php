@@ -7,6 +7,7 @@ namespace RZ\Roadiz\EntityGenerator\Tests;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\SerializableInterface;
 use Symfony\Component\String\UnicodeString;
+use Symfony\Component\Yaml\Yaml;
 
 final class SimpleNodeTypeField implements NodeTypeFieldInterface, SerializableInterface
 {
@@ -90,6 +91,13 @@ final class SimpleNodeTypeField implements NodeTypeFieldInterface, SerializableI
         $this->defaultValues = $defaultValues;
 
         return $this;
+    }
+
+    public function getDefaultValuesAsArray(): array
+    {
+        $defaultValues = Yaml::parse($this->defaultValues ?? '') ?? '';
+
+        return is_array($defaultValues) ? $defaultValues : [];
     }
 
     public function getGroupName(): ?string

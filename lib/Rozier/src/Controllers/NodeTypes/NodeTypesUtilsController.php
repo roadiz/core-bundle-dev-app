@@ -17,7 +17,6 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -26,7 +25,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
-class NodeTypesUtilsController extends RozierApp
+final class NodeTypesUtilsController extends RozierApp
 {
     public function __construct(
         private readonly SerializerInterface $serializer,
@@ -34,36 +33,6 @@ class NodeTypesUtilsController extends RozierApp
         private readonly NodeTypesImporter $nodeTypesImporter,
         private readonly MessageBusInterface $messageBus,
     ) {
-    }
-
-    /**
-     * @deprecated NodeTypes will be static in future Roadiz versions.
-     *
-     * Export a Json file containing NodeType data and fields.
-     */
-    public function exportJsonFileAction(Request $request, int $nodeTypeId): JsonResponse
-    {
-        $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
-
-        /** @var NodeType|null $nodeType */
-        $nodeType = $this->em()->find(NodeType::class, $nodeTypeId);
-
-        if (null === $nodeType) {
-            throw $this->createNotFoundException();
-        }
-
-        return new JsonResponse(
-            $this->serializer->serialize(
-                $nodeType,
-                'json',
-                SerializationContext::create()->setGroups(['node_type', 'position'])
-            ),
-            Response::HTTP_OK,
-            [
-                'Content-Disposition' => sprintf('attachment; filename="%s"', $nodeType->getName().'.json'),
-            ],
-            true
-        );
     }
 
     /**

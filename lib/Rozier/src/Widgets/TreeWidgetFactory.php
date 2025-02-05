@@ -6,6 +6,7 @@ namespace Themes\Rozier\Widgets;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
@@ -16,6 +17,7 @@ final class TreeWidgetFactory
     public function __construct(
         private readonly RequestStack $requestStack,
         private readonly ManagerRegistry $managerRegistry,
+        private readonly NodeTypes $nodeTypesBag,
     ) {
     }
 
@@ -24,6 +26,7 @@ final class TreeWidgetFactory
         return new NodeTreeWidget(
             $this->requestStack,
             $this->managerRegistry,
+            $this->nodeTypesBag,
             $root,
             $translation
         );
@@ -34,6 +37,7 @@ final class TreeWidgetFactory
         return new NodeTreeWidget(
             $this->requestStack,
             $this->managerRegistry,
+            $this->nodeTypesBag,
             $root,
             $translation,
             true

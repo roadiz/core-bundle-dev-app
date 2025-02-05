@@ -7,9 +7,11 @@ namespace RZ\Roadiz\Core\AbstractEntities;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Yaml\Yaml;
 
 #[
     ORM\MappedSuperclass,
@@ -23,88 +25,125 @@ abstract class AbstractField extends AbstractPositioned
 {
     /**
      * String field is a simple 255 characters long text.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const STRING_T = 0;
     /**
      * DateTime field is a combined Date and Time.
      *
      * @see \DateTime
+     * @deprecated Use FieldType enum instead
      */
     public const DATETIME_T = 1;
     /**
      * Text field is 65000 characters long text.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const TEXT_T = 2;
     /**
      * Rich-text field is an HTML text using a WYSIWYG editor.
      *
      * Use Markdown type instead. WYSIWYG is evil.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const RICHTEXT_T = 3;
     /**
      * Markdown field is a pseudo-coded text which is render
      * with a simple editor.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const MARKDOWN_T = 4;
     /**
      * Boolean field is a simple switch between 0 and 1.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const BOOLEAN_T = 5;
     /**
      * Integer field is a non-floating number.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const INTEGER_T = 6;
     /**
      * Decimal field is a floating number.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const DECIMAL_T = 7;
     /**
      * Email field is a short text which must
      * comply with email rules.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const EMAIL_T = 8;
     /**
      * Documents field helps to link NodesSources with Documents.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const DOCUMENTS_T = 9;
     /**
      * Password field is a simple text data rendered
      * as a password input with a confirmation.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const PASSWORD_T = 10;
     /**
      * Colour field is a hexadecimal string which is rendered
      * with a colour chooser.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const COLOUR_T = 11;
     /**
      * Geotag field is a Map widget which stores
      * a Latitude and Longitude as an array.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const GEOTAG_T = 12;
     /**
      * Nodes field helps to link Nodes with other Nodes entities.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const NODES_T = 13;
     /**
      * Nodes field helps to link NodesSources with Users entities.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const USER_T = 14;
     /**
      * Enum field is a simple select box with default values.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const ENUM_T = 15;
     /**
      * Children field is a virtual field, it will only display a
      * NodeTreeWidget to show current Node children.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const CHILDREN_T = 16;
     /**
      * Nodes field helps to link Nodes with CustomForms entities.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const CUSTOM_FORMS_T = 17;
     /**
      * Multiple field is a simple select box with multiple choices.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const MULTIPLE_T = 18;
     /**
@@ -124,46 +163,67 @@ abstract class AbstractField extends AbstractPositioned
     /**
      * Multi-Geotag field is a Map widget which stores
      * multiple Latitude and Longitude with names and icon options.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const MULTI_GEOTAG_T = 21;
     /**
      * @see \DateTime
+     * @deprecated Use FieldType enum instead
      */
     public const DATE_T = 22;
     /**
      * Textarea to write Json syntax code.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const JSON_T = 23;
     /**
      * Textarea to write CSS syntax code.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const CSS_T = 24;
     /**
      * Select-box to choose ISO Country.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const COUNTRY_T = 25;
     /**
      * Textarea to write YAML syntax text.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const YAML_T = 26;
     /**
      * «Many to many» join to a custom doctrine entity class.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const MANY_TO_MANY_T = 27;
     /**
      * «Many to one» join to a custom doctrine entity class.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const MANY_TO_ONE_T = 28;
     /**
      * Array field to reference external objects ID (eg. from an API).
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const MULTI_PROVIDER_T = 29;
     /**
      * String field to reference an external object ID (eg. from an API).
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const SINGLE_PROVIDER_T = 30;
     /**
      * Collection field.
+     *
+     * @deprecated Use FieldType enum instead
      */
     public const COLLECTION_T = 31;
 
@@ -175,6 +235,8 @@ abstract class AbstractField extends AbstractPositioned
      * @var array<string>
      *
      * @internal
+     *
+     * @deprecated Use FieldType enum instead
      */
     #[SymfonySerializer\Ignore]
     public static array $typeToHuman = [
@@ -212,6 +274,8 @@ abstract class AbstractField extends AbstractPositioned
      * @var array<string|null>
      *
      * @internal
+     *
+     * @deprecated Use FieldType enum instead
      */
     #[SymfonySerializer\Ignore]
     public static array $typeToDoctrine = [
@@ -251,6 +315,8 @@ abstract class AbstractField extends AbstractPositioned
      * @var array<int>
      *
      * @internal
+     *
+     * @deprecated Use FieldType enum instead
      */
     #[SymfonySerializer\Ignore]
     protected static array $searchableTypes = [
@@ -263,7 +329,7 @@ abstract class AbstractField extends AbstractPositioned
     #[
         ORM\Column(name: 'group_name', type: 'string', length: 250, nullable: true),
         Assert\Length(max: 250),
-        SymfonySerializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
         Serializer\Groups(['node_type', 'setting']),
         Serializer\Type('string'),
         Serializer\Expose
@@ -284,7 +350,7 @@ abstract class AbstractField extends AbstractPositioned
         ORM\Column(type: 'string', length: 250),
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
-        SymfonySerializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
         Assert\Length(max: 250),
         Serializer\Type('string'),
         Assert\NotBlank(),
@@ -297,7 +363,7 @@ abstract class AbstractField extends AbstractPositioned
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
         Serializer\Type('string'),
-        SymfonySerializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
         Assert\Length(max: 250),
         Assert\NotBlank(),
         Assert\NotNull()
@@ -308,7 +374,7 @@ abstract class AbstractField extends AbstractPositioned
         ORM\Column(type: 'string', length: 250, nullable: true),
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
-        SymfonySerializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
         Assert\Length(max: 250),
         Serializer\Type('string')
     ]
@@ -318,7 +384,7 @@ abstract class AbstractField extends AbstractPositioned
         ORM\Column(type: 'text', nullable: true),
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
-        SymfonySerializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
         Serializer\Type('string')
     ]
     protected ?string $description = null;
@@ -351,7 +417,7 @@ abstract class AbstractField extends AbstractPositioned
     #[
         ORM\Column(name: 'expanded', type: 'boolean', nullable: false, options: ['default' => false]),
         Serializer\Groups(['node_type', 'setting']),
-        SymfonySerializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
         Serializer\Type('bool'),
         Serializer\Expose
     ]
@@ -465,13 +531,20 @@ abstract class AbstractField extends AbstractPositioned
         return $this;
     }
 
+    public function getDefaultValuesAsArray(): array
+    {
+        $defaultValues = Yaml::parse($this->defaultValues ?? '') ?? '';
+
+        return is_array($defaultValues) ? $defaultValues : [];
+    }
+
     public function getTypeName(): string
     {
-        if (!key_exists($this->getType(), static::$typeToHuman)) {
+        if (!key_exists($this->getType(), FieldType::humanValues())) {
             throw new \InvalidArgumentException($this->getType().' cannot be mapped to human label.');
         }
 
-        return static::$typeToHuman[$this->type];
+        return FieldType::humanValues()[$this->type];
     }
 
     public function getType(): int
@@ -491,11 +564,11 @@ abstract class AbstractField extends AbstractPositioned
 
     public function getDoctrineType(): string
     {
-        if (!key_exists($this->getType(), static::$typeToDoctrine)) {
+        if (!key_exists($this->getType(), FieldType::doctrineValues())) {
             throw new \InvalidArgumentException($this->getType().' cannot be mapped to Doctrine.');
         }
 
-        return static::$typeToDoctrine[$this->getType()] ?? '';
+        return FieldType::doctrineValues()[$this->getType()] ?? '';
     }
 
     /**
@@ -503,7 +576,7 @@ abstract class AbstractField extends AbstractPositioned
      */
     public function isVirtual(): bool
     {
-        return null === static::$typeToDoctrine[$this->getType()];
+        return null === FieldType::doctrineValues()[$this->getType()];
     }
 
     /**
@@ -511,7 +584,7 @@ abstract class AbstractField extends AbstractPositioned
      */
     public function isSearchable(): bool
     {
-        return in_array($this->getType(), static::$searchableTypes);
+        return in_array($this->getType(), FieldType::searchableTypes());
     }
 
     /**

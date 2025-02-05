@@ -27,7 +27,7 @@ class EnumerationType extends AbstractType
         $resolver->setAllowedTypes('nodeTypeField', [NodeTypeField::class]);
 
         $resolver->setNormalizer('choices', function (Options $options, $choices) {
-            $values = explode(',', $options['nodeTypeField']->getDefaultValues() ?? '');
+            $values = $options['nodeTypeField']->getDefaultValuesAsArray();
 
             foreach ($values as $value) {
                 $value = trim($value);

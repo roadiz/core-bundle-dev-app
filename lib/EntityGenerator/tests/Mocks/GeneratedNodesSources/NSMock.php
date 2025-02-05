@@ -350,7 +350,7 @@ class NSMock extends NodesSources
      * @var \tests\mocks\GeneratedNodesSources\NSMockTwo[]|null
      * ForBar nodes typed field.
      * Default values:
-     * MockTwo
+     * - MockTwo
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'fooBarTyped')]
@@ -362,7 +362,11 @@ class NSMock extends NodesSources
     /**
      * ForBar layout enum.
      * Default values:
-     * layout_odd, layout_odd_big_title, layout_even, layout_even_big_title, layout_media_grid
+     * - layout_odd
+     * - layout_odd_big_title
+     * - layout_even
+     * - layout_even_big_title
+     * - layout_media_grid
      */
     #[Serializer\SerializedName(serializedName: 'layout')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -1031,6 +1035,16 @@ class NSMock extends NodesSources
     public function getNodeTypeName(): string
     {
         return 'Mock';
+    }
+
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '';
     }
 
     /**

@@ -69,7 +69,7 @@ final class NodesOrphansCommand extends Command
             $tableContent[] = [
                 $node->getId(),
                 $node->getNodeName(),
-                null !== $node->getNodeType() ? $node->getNodeType()->getName() : '',
+                null !== $node->getNodeTypeName() ? $node->getNodeTypeName() : '',
                 !$node->isVisible() ? 'X' : '',
                 $node->isPublished() ? 'X' : '',
             ];

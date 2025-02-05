@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Attribute;
 use RZ\Roadiz\CoreBundle\Entity\AttributeValue;
 use RZ\Roadiz\CoreBundle\Entity\AttributeValueTranslation;
@@ -30,6 +31,7 @@ class NodesAttributesController extends RozierApp
     public function __construct(
         private readonly FormFactoryInterface $formFactory,
         private readonly FormErrorSerializer $formErrorSerializer,
+        private readonly NodeTypes $nodeTypesBag,
     ) {
     }
 
@@ -77,11 +79,11 @@ class NodesAttributesController extends RozierApp
             );
 
         $this->assignation['attribute_value_translation_forms'] = [];
-        $nodeType = $node->getNodeType();
-        $orderByWeight = false;
-        if ($nodeType instanceof NodeType) {
-            $orderByWeight = $nodeType->isSortingAttributesByWeight();
+        $nodeType = $this->nodeTypesBag->get($node->getNodeTypeName());
+        if (!$nodeType instanceof NodeType) {
+            throw new \RuntimeException('Cannot create node from invalid NodeType.');
         }
+        $orderByWeight = $nodeType->isSortingAttributesByWeight();
         $attributeValues = $this->em()->getRepository(AttributeValue::class)->findByAttributable(
             $node,
             $orderByWeight
@@ -172,7 +174,7 @@ class NodesAttributesController extends RozierApp
 
     protected function isAttributable(Node $node): bool
     {
-        $nodeType = $node->getNodeType();
+        $nodeType = $this->nodeTypesBag->get($node->getNodeTypeName());
         if ($nodeType instanceof NodeType) {
             return $nodeType->isAttributable();
         }

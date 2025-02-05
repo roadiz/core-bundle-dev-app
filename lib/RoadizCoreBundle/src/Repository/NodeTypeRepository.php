@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Repository;
 
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -13,7 +14,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  *
  * @extends EntityRepository<NodeType>
  */
-final class NodeTypeRepository extends EntityRepository
+final class NodeTypeRepository extends EntityRepository implements NodeTypeRepositoryInterface
 {
     public function __construct(
         ManagerRegistry $registry,
@@ -31,5 +32,18 @@ final class NodeTypeRepository extends EntityRepository
             ->setCacheable(true);
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findOneByName(string $name): ?NodeType
+    {
+        return $this->createQueryBuilder('nt')
+            ->where('nt.name = :name')
+            ->setParameter('name', $name)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

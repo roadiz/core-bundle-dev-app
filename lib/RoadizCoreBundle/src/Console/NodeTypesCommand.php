@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Yaml\Yaml;
 
 final class NodeTypesCommand extends Command
 {
@@ -38,7 +39,7 @@ final class NodeTypesCommand extends Command
         $name = $input->getArgument('name');
 
         if ($name) {
-            $nodeType = $this->nodeTypesBag->get($name);
+            $nodeType = $this->nodeTypesBag->get(ucfirst($name));
 
             if (!$nodeType instanceof NodeType) {
                 $io->note($name.' node type does not exist.');
@@ -54,9 +55,12 @@ final class NodeTypesCommand extends Command
                     str_replace('.type', '', $field->getTypeName()),
                     $field->isVisible() ? 'X' : '',
                     $field->isIndexed() ? 'X' : '',
+                    $field->getSerializationGroups() ? Yaml::dump($field->getSerializationGroups(), 0) : '',
+                    $field->getNormalizationContext() ? Yaml::dump($field->getNormalizationContext(), inline: 1) : '',
+                    $field->getDefaultValues() ? Yaml::dump($field->getDefaultValuesAsArray(), inline: 1) : '',
                 ];
             }
-            $io->table(['Label', 'Name', 'Type', 'Visible', 'Index'], $tableContent);
+            $io->table(['Label', 'Name', 'Type', 'Visible', 'Index', 'Ser. groups', 'Context', 'Default values'], $tableContent);
         } else {
             $nodetypes = $this->nodeTypesBag->all();
 

@@ -78,6 +78,16 @@ class NSNeutral extends NodesSources
         return 'Neutral';
     }
 
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#a8a8a8';
+    }
+
     /**
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?

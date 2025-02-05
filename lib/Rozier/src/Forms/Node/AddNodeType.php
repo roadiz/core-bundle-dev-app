@@ -41,14 +41,14 @@ final class AddNodeType extends AbstractType
         ]);
 
         if (true === $options['showNodeType']) {
-            $builder->add('nodeType', NodeTypesType::class, [
+            $builder->add('nodeTypeName', NodeTypesType::class, [
                 'label' => 'nodeType',
                 'constraints' => [
                     new NotNull(),
                     new NotBlank(),
                 ],
             ]);
-            $builder->get('nodeType')->addModelTransformer($this->nodeTypeTransformer);
+            $builder->get('nodeTypeName')->addModelTransformer($this->nodeTypeTransformer);
         }
 
         $builder->add('dynamicNodeName', CheckboxType::class, [

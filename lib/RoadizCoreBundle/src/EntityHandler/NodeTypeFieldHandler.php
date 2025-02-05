@@ -47,6 +47,8 @@ final class NodeTypeFieldHandler extends AbstractHandler
      *
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
+     *
+     * @deprecated Node-type fields do not have positions anymore
      */
     public function cleanPositions(bool $setPositions = false): float
     {

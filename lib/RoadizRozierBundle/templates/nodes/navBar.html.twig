@@ -28,7 +28,7 @@
                        href="{{ path('nodesEditTagsPage', { nodeId: node.id}) }}">{% trans %}tags{% endtrans %}</a>
                 </li>
             {% endif %}
-            {% if is_granted('EDIT_ATTRIBUTE', node) and node.nodeType.attributable %}
+            {% if is_granted('EDIT_ATTRIBUTE', node) and getNodeType(node).attributable %}
                 <li class="uk-navbar-item{% if current == 'attributes' %} uk-active{% endif %}">
                     <a class="uk-navbar-link" href="{{ path('nodesEditAttributesPage', {
                         nodeId: node.id,

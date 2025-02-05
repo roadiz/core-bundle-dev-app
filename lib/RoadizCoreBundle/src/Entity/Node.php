@@ -17,7 +17,6 @@ use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
-use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
@@ -53,8 +52,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['visible', 'status']),
     ORM\Index(columns: ['visible', 'status', 'parent_node_id'], name: 'node_visible_status_parent'),
     ORM\Index(columns: ['status', 'parent_node_id'], name: 'node_status_parent'),
-    ORM\Index(columns: ['nodeType_id', 'status', 'parent_node_id'], name: 'node_nodetype_status_parent'),
-    ORM\Index(columns: ['nodeType_id', 'status', 'parent_node_id', 'position'], name: 'node_nodetype_status_parent_position'),
+    ORM\Index(columns: ['nodetype_name'], name: 'node_ntname'),
+    ORM\Index(columns: ['nodetype_name', 'status'], name: 'node_ntname_status'),
+    ORM\Index(columns: ['nodetype_name', 'status', 'parent_node_id'], name: 'node_ntname_status_parent'),
+    ORM\Index(columns: ['nodetype_name', 'status', 'parent_node_id', 'position'], name: 'node_ntname_status_parent_position'),
     ORM\Index(columns: ['visible', 'parent_node_id'], name: 'node_visible_parent'),
     ORM\Index(columns: ['parent_node_id', 'position'], name: 'node_parent_position'),
     ORM\Index(columns: ['visible', 'parent_node_id', 'position'], name: 'node_visible_parent_position'),
@@ -216,12 +217,10 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     )]
     private string $childrenOrderDirection = 'ASC';
 
-    #[ORM\ManyToOne(targetEntity: NodeTypeInterface::class)]
-    #[ORM\JoinColumn(name: 'nodeType_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Groups(['node'])]
+    #[ORM\Column(name: 'nodetype_name', type: 'string', length: 30)]
     #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
-    private NodeTypeInterface $nodeType;
+    private string $nodeTypeName;
 
     /**
      * @var Node|null
@@ -279,7 +278,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      * @var Collection<int, NodeType>
      */
     #[ORM\JoinTable(name: 'stack_types')]
-    #[ORM\InverseJoinColumn(name: 'nodetype_id', onDelete: 'CASCADE')]
+    #[ORM\InverseJoinColumn(name: 'nodetype_name', referencedColumnName: 'name', onDelete: 'CASCADE')]
     #[ORM\ManyToMany(targetEntity: NodeType::class)]
     #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Groups(['node'])]
@@ -861,14 +860,14 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         return $this;
     }
 
-    public function getNodeType(): NodeTypeInterface
+    public function getNodeTypeName(): string
     {
-        return $this->nodeType;
+        return $this->nodeTypeName;
     }
 
-    public function setNodeType(NodeTypeInterface $nodeType): Node
+    public function setNodeTypeName(string $nodeType): Node
     {
-        $this->nodeType = $nodeType;
+        $this->nodeTypeName = $nodeType;
 
         return $this;
     }
