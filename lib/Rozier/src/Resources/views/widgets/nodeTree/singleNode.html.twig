@@ -70,7 +70,11 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
                     {% set thumbnail = nodeTree.getOneDisplayableDocument(node) %}
                     {% if thumbnail %}
                         <figure class="nodetree-element-img">
-                            {{ thumbnail|display({"fit":"60x60", "quality": 70}) }}
+                            {{ thumbnail|display({
+                                "fit":"60x60",
+                                "align": thumbnail.imageCropAlignment,
+                                "quality": 70
+                            }) }}
                         </figure>
                     {% endif %}
                 {% endif %}

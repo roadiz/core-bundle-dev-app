@@ -32,6 +32,7 @@
     {% elseif document.isImage and not document.private %}
         {{- document|display({
             "fit":"80x80",
+            "align": document.imageCropAlignment,
             "quality":50,
             "picture": true,
             "class": "document-image"
