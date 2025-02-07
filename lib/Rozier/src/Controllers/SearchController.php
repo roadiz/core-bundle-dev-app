@@ -236,10 +236,9 @@ class SearchController extends RozierApp
     /**
      * @throws RuntimeError
      */
-    public function searchNodeSourceAction(Request $request, int $nodetypeId): Response
+    public function searchNodeSourceAction(Request $request, string $nodeTypeName): Response
     {
-        /** @var NodeType|null $nodetype */
-        $nodetype = $this->nodeTypesBag->getById($nodetypeId);
+        $nodetype = $this->nodeTypesBag->get($nodeTypeName);
 
         $builder = $this->buildSimpleForm('__node__');
         $this->extendForm($builder, $nodetype);
@@ -248,7 +247,7 @@ class SearchController extends RozierApp
         $form = $builder->getForm();
         $form->handleRequest($request);
 
-        $builderNodeType = $this->buildNodeTypeForm($nodetypeId);
+        $builderNodeType = $this->buildNodeTypeForm($nodeTypeName);
         $nodeTypeForm = $builderNodeType->getForm();
         $nodeTypeForm->handleRequest($request);
 
@@ -270,7 +269,7 @@ class SearchController extends RozierApp
     /**
      * Build node-type selection form.
      */
-    protected function buildNodeTypeForm(?int $nodetypeId = null): FormBuilderInterface
+    protected function buildNodeTypeForm(?string $nodetypeName = null): FormBuilderInterface
     {
         $builderNodeType = $this->formFactory->createNamedBuilder('nodeTypeForm', FormType::class, [], ['method' => 'get']);
         $builderNodeType->add(
@@ -280,7 +279,7 @@ class SearchController extends RozierApp
                 'label' => 'nodeType',
                 'placeholder' => 'ignore',
                 'required' => false,
-                'data' => $nodetypeId,
+                'data' => $nodetypeName,
                 'showInvisible' => true,
             ]
         );
@@ -318,7 +317,7 @@ class SearchController extends RozierApp
                 return $this->redirectToRoute(
                     'searchNodeSourcePage',
                     [
-                        'nodetypeId' => $nodeTypeForm->getData()['nodetype'],
+                        'nodeTypeName' => $nodeTypeForm->getData()['nodetype'],
                     ]
                 );
             }

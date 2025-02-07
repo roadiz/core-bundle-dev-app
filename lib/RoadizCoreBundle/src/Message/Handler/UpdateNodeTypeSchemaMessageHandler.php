@@ -16,6 +16,7 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 use Symfony\Component\Messenger\MessageBusInterface;
 
+/** @deprecated nodeTypes will be static in future Roadiz versions */
 #[AsMessageHandler]
 final readonly class UpdateNodeTypeSchemaMessageHandler
 {

@@ -117,10 +117,6 @@ final readonly class UniqueNodeGenerator
         }
 
         $nodeType = null;
-        $nodeTypeId = $request->get('nodeTypeId');
-        if (is_numeric($nodeTypeId) && $nodeTypeId > 0) {
-            $nodeType = $this->nodeTypesBag->getById((int) $nodeTypeId);
-        }
 
         $nodeTypeName = $request->get('nodeTypeName');
         if (is_string($nodeTypeName) && !empty($nodeTypeName)) {

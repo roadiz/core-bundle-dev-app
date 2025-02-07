@@ -198,9 +198,9 @@ searchNodePage:
     path:     /rz-admin/search
     controller: Themes\Rozier\Controllers\SearchController::searchNodeAction
 searchNodeSourcePage:
-    path:     /rz-admin/search/{nodetypeId}
+    path:     /rz-admin/search/{nodeTypeName}
     controller: Themes\Rozier\Controllers\SearchController::searchNodeSourceAction
-    requirements: { nodetypeId : "[0-9]+" }
+    requirements: { nodeTypeName : "[a-zA-Z]+" }
 
 webhooksHomePage:
     path:     /rz-admin/webhooks
