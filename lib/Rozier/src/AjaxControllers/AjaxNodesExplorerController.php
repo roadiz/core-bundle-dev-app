@@ -92,7 +92,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
             }, $request->get('nodeTypes')));
 
             if (count($nodeTypes) > 0) {
-                $arrayFilter['nodeType'] = $nodeTypes;
+                $arrayFilter['nodeTypeName'] = array_map(fn (NodeType $nodeType) => $nodeType->getName(), $nodeTypes);
             }
         }
 
