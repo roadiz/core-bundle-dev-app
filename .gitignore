@@ -135,7 +135,12 @@ fabric.properties
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
+/*.sql
+/siege.txt
+/compose.override.yml
+/.php-cs-fixer.cache
 /generated/*
+/.data/mariadb/*
 /.data/db/*
 /.data/db_test/*
 /.data/pgsql_test/*
@@ -149,6 +154,7 @@ fabric.properties
 
 !/generated/.gitkeep
 !/lib/.gitkeep
+!/.data/mariadb/.gitkeep
 !/.data/db/.gitkeep
 !/.data/db_test/.gitkeep
 !/.data/pgsql_test/.gitkeep
