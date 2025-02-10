@@ -16,7 +16,6 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -44,9 +43,6 @@ class NSArticle extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'content', type: 'text', nullable: true)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $content = null;
 
     /** Secret realm_b. */
@@ -56,9 +52,6 @@ class NSArticle extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'realm_b_secret', type: 'string', nullable: true, length: 250)]
-    #[JMS\Groups(['realm_b'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $realmBSecret = null;
 
     /** Secret realm_a. */
@@ -68,9 +61,6 @@ class NSArticle extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'realm_a_secret', type: 'string', nullable: true, length: 250)]
-    #[JMS\Groups(['realm_a'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $realmASecret = null;
 
     /** Date de dépublication. */
@@ -82,9 +72,6 @@ class NSArticle extends NodesSources
     #[ApiFilter(Filter\DateFilter::class)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'unpublished_at', type: 'datetime', nullable: true)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('DateTime')]
     private ?\DateTime $unpublishedAt = null;
 
     /** Only on web response. */
@@ -94,9 +81,6 @@ class NSArticle extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'only_on_webresponse', type: 'string', nullable: true, length: 250)]
-    #[JMS\Groups(['article_get_by_path'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $onlyOnWebresponse = null;
 
     /**
@@ -106,7 +90,6 @@ class NSArticle extends NodesSources
      * Default values:
      * - Article
      */
-    #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'relatedArticle')]
     #[Serializer\Groups(['related_articles', 'nodes_sources_base'])]
     #[ApiProperty(description: 'Related article')]
@@ -218,11 +201,6 @@ class NSArticle extends NodesSources
     /**
      * @return \App\GeneratedEntity\NSArticle[]
      */
-    #[JMS\Groups(['related_articles', 'nodes_sources_base'])]
-    #[JMS\MaxDepth(1)]
-    #[JMS\VirtualProperty]
-    #[JMS\SerializedName('relatedArticle')]
-    #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\NodesSources>')]
     public function getRelatedArticleSources(): array
     {
         if (null === $this->relatedArticleSources) {
@@ -231,7 +209,8 @@ class NSArticle extends NodesSources
                     ->getRepository(\App\GeneratedEntity\NSArticle::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'related_article'
+                        'related_article',
+                        []
                     );
             } else {
                 $this->relatedArticleSources = [];
@@ -250,9 +229,6 @@ class NSArticle extends NodesSources
         return $this;
     }
 
-    #[JMS\VirtualProperty]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\SerializedName('@type')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
     public function getNodeTypeName(): string
@@ -260,9 +236,6 @@ class NSArticle extends NodesSources
         return 'Article';
     }
 
-    #[JMS\VirtualProperty]
-    #[JMS\Groups(['node_type'])]
-    #[JMS\SerializedName('nodeTypeColor')]
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
     public function getNodeTypeColor(): string
@@ -274,7 +247,6 @@ class NSArticle extends NodesSources
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
      */
-    #[JMS\VirtualProperty]
     public function isReachable(): bool
     {
         return true;
@@ -284,7 +256,6 @@ class NSArticle extends NodesSources
      * $this->nodeType->isPublishable() proxy.
      * @return bool Does this nodeSource is publishable with date and time?
      */
-    #[JMS\VirtualProperty]
     public function isPublishable(): bool
     {
         return true;

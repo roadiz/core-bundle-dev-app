@@ -16,7 +16,6 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -39,9 +38,6 @@ class NSMenuLink extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'link_external_url', type: 'string', nullable: true, length: 250)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
     private ?string $linkExternalUrl = null;
 
     /**
@@ -52,7 +48,6 @@ class NSMenuLink extends NodesSources
      * - Page
      * - Article
      */
-    #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'linkInternalReference')]
     #[Serializer\Groups(['urls'])]
     #[ApiProperty(description: 'Référence au nœud (Page ou Bloc de page)')]
@@ -72,7 +67,6 @@ class NSMenuLink extends NodesSources
      * Image.
      * (Virtual field, this var is a buffer)
      */
-    #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'image')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_documents'])]
     #[ApiProperty(description: 'Image')]
@@ -101,11 +95,6 @@ class NSMenuLink extends NodesSources
     /**
      * @return \RZ\Roadiz\CoreBundle\Entity\NodesSources[]
      */
-    #[JMS\Groups(['urls'])]
-    #[JMS\MaxDepth(1)]
-    #[JMS\VirtualProperty]
-    #[JMS\SerializedName('linkInternalReference')]
-    #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\NodesSources>')]
     public function getLinkInternalReferenceSources(): array
     {
         if (null === $this->linkInternalReferenceSources) {
@@ -114,7 +103,8 @@ class NSMenuLink extends NodesSources
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'link_internal_reference'
+                        'link_internal_reference',
+                        [\App\GeneratedEntity\NSPage::class, \App\GeneratedEntity\NSArticle::class]
                     );
             } else {
                 $this->linkInternalReferenceSources = [];
@@ -136,11 +126,6 @@ class NSMenuLink extends NodesSources
     /**
      * @return \RZ\Roadiz\CoreBundle\Entity\Document[]
      */
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_documents'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\VirtualProperty]
-    #[JMS\SerializedName('image')]
-    #[JMS\Type('array<RZ\Roadiz\CoreBundle\Entity\Document>')]
     public function getImage(): array
     {
         if (null === $this->image) {
@@ -179,9 +164,6 @@ class NSMenuLink extends NodesSources
         return $this;
     }
 
-    #[JMS\VirtualProperty]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\SerializedName('@type')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
     public function getNodeTypeName(): string
@@ -189,9 +171,6 @@ class NSMenuLink extends NodesSources
         return 'MenuLink';
     }
 
-    #[JMS\VirtualProperty]
-    #[JMS\Groups(['node_type'])]
-    #[JMS\SerializedName('nodeTypeColor')]
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
     public function getNodeTypeColor(): string
@@ -203,7 +182,6 @@ class NSMenuLink extends NodesSources
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
      */
-    #[JMS\VirtualProperty]
     public function isReachable(): bool
     {
         return false;
@@ -213,7 +191,6 @@ class NSMenuLink extends NodesSources
      * $this->nodeType->isPublishable() proxy.
      * @return bool Does this nodeSource is publishable with date and time?
      */
-    #[JMS\VirtualProperty]
     public function isPublishable(): bool
     {
         return false;

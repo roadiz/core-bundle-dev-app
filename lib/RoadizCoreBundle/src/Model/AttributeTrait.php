@@ -6,12 +6,9 @@ namespace RZ\Roadiz\CoreBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Entity\AttributeGroup;
-use RZ\Roadiz\CoreBundle\Entity\AttributeTranslation;
 use RZ\Roadiz\Utils\StringHandler;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeTrait
@@ -19,8 +16,6 @@ trait AttributeTrait
     #[
         ORM\Column(type: 'string', length: 255, unique: true, nullable: false),
         Serializer\Groups(['attribute', 'node', 'nodes_sources']),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources']),
-        Serializer\Type('string'),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 255)
@@ -30,24 +25,18 @@ trait AttributeTrait
     #[
         ORM\Column(type: 'boolean', unique: false, nullable: false, options: ['default' => false]),
         Serializer\Groups(['attribute']),
-        SymfonySerializer\Groups(['attribute']),
-        Serializer\Type('boolean')
     ]
     protected bool $searchable = false;
 
     #[
         ORM\Column(type: 'integer', unique: false, nullable: false),
         Serializer\Groups(['attribute']),
-        SymfonySerializer\Groups(['attribute']),
-        Serializer\Type('integer')
     ]
     protected int $type = AttributeInterface::STRING_T;
 
     #[
         ORM\Column(type: 'string', length: 7, unique: false, nullable: true),
         Serializer\Groups(['attribute', 'node', 'nodes_sources']),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources']),
-        Serializer\Type('string'),
         Assert\Length(max: 7)
     ]
     protected ?string $color = null;
@@ -61,8 +50,6 @@ trait AttributeTrait
         ),
         ORM\JoinColumn(name: 'group_id', onDelete: 'SET NULL'),
         Serializer\Groups(['attribute', 'node', 'nodes_sources']),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources']),
-        Serializer\Type(AttributeGroup::class)
     ]
     protected ?AttributeGroupInterface $group = null;
 
@@ -77,10 +64,7 @@ trait AttributeTrait
             fetch: 'EAGER',
             orphanRemoval: true
         ),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources']),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources']),
-        Serializer\Type('ArrayCollection<'.AttributeTranslation::class.'>'),
-        Serializer\Accessor(getter: 'getAttributeTranslations', setter: 'setAttributeTranslations')
+        Serializer\Groups(['attribute_translation', 'node', 'nodes_sources']),
     ]
     protected Collection $attributeTranslations;
 
@@ -95,8 +79,7 @@ trait AttributeTrait
             fetch: 'EXTRA_LAZY',
             orphanRemoval: true
         ),
-        Serializer\Exclude,
-        SymfonySerializer\Ignore
+        Serializer\Ignore
     ]
     protected Collection $attributeValues;
 

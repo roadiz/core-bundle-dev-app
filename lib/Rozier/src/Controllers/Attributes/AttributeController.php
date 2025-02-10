@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Attributes;
 
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Attribute;
 use RZ\Roadiz\CoreBundle\Form\AttributeImportType;
@@ -13,21 +12,23 @@ use RZ\Roadiz\CoreBundle\Importer\AttributeImporter;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Themes\Rozier\Controllers\AbstractAdminWithBulkController;
 use Twig\Error\RuntimeError;
 
 class AttributeController extends AbstractAdminWithBulkController
 {
     public function __construct(
+        private readonly SerializerInterface $serializer,
         private readonly AttributeImporter $attributeImporter,
         FormFactoryInterface $formFactory,
-        SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator,
     ) {
-        parent::__construct($formFactory, $serializer, $urlGenerator);
+        parent::__construct($formFactory, $urlGenerator);
     }
 
     protected function supports(PersistableInterface $item): bool
@@ -102,6 +103,31 @@ class AttributeController extends AbstractAdminWithBulkController
             return $item->getCode();
         }
         throw new \InvalidArgumentException('Item should be instance of '.$this->getEntityClass());
+    }
+
+    public function exportAction(Request $request): JsonResponse
+    {
+        $this->denyAccessUnlessGranted($this->getRequiredRole());
+        $this->additionalAssignation($request);
+
+        $items = $this->getRepository()->findAll();
+
+        return new JsonResponse(
+            $this->serializer->serialize(
+                $items,
+                'json',
+                ['groups' => ['attribute', 'attribute_translation', 'translation_base']]
+            ),
+            Response::HTTP_OK,
+            [
+                'Content-Disposition' => sprintf(
+                    'attachment; filename="%s_%s.json"',
+                    $this->getNamespace(),
+                    (new \DateTime())->format('YmdHi')
+                ),
+            ],
+            true
+        );
     }
 
     /**
