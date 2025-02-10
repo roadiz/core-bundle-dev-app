@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Contracts\NodeType\SerializableInterface;
@@ -13,7 +14,7 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Form\Constraint as RoadizAssert;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeFieldRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -41,8 +42,11 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
 {
     #[
         ORM\Column(type: 'string', length: 50),
-        Serializer\Groups(['node_type', 'node_type:export', 'setting']),
+        Serializer\Expose,
+        Serializer\Groups(['node_type', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export', 'setting']),
         Assert\Length(max: 50),
+        Serializer\Type('string'),
         RoadizAssert\NonSqlReservedWord(),
         RoadizAssert\SimpleLatinString()
     ]
@@ -53,7 +57,9 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
      */
     #[
         ORM\Column(name: 'universal', type: 'boolean', nullable: false, options: ['default' => false]),
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('bool')
     ]
     private bool $universal = false;
 
@@ -62,73 +68,94 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
      */
     #[
         ORM\Column(name: 'exclude_from_search', type: 'boolean', nullable: false, options: ['default' => false]),
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('bool')
     ]
     private bool $excludeFromSearch = false;
 
     #[
         ORM\ManyToOne(targetEntity: NodeType::class, inversedBy: 'fields'),
         ORM\JoinColumn(name: 'node_type_id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Ignore
+        Serializer\Exclude(),
+        SymfonySerializer\Ignore
     ]
     private NodeTypeInterface $nodeType;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('string'),
         ORM\Column(name: 'serialization_exclusion_expression', type: 'text', nullable: true)
     ]
     private ?string $serializationExclusionExpression = null;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('array<string>'),
         ORM\Column(name: 'serialization_groups', type: 'json', nullable: true)
     ]
     private ?array $serializationGroups = null;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('array<string, array>'),
         ORM\Column(name: 'normalization_context', type: 'json', nullable: true)
     ]
     private ?array $normalizationContext = null;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('int'),
         ORM\Column(name: 'serialization_max_depth', type: Types::SMALLINT, nullable: true)
     ]
     private ?int $serializationMaxDepth = null;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('bool'),
         ORM\Column(name: 'excluded_from_serialization', type: 'boolean', nullable: false, options: ['default' => false])
     ]
     private bool $excludedFromSerialization = false;
 
     #[
         ORM\Column(name: 'min_length', type: Types::SMALLINT, nullable: true),
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('int')
     ]
     private ?int $minLength = null;
 
     #[
         ORM\Column(name: 'max_length', type: Types::SMALLINT, nullable: true),
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('int')
     ]
     private ?int $maxLength = null;
 
     #[
         ORM\Column(type: 'boolean', nullable: false, options: ['default' => false]),
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('bool')
     ]
     private bool $indexed = false;
 
     #[
         ORM\Column(type: 'boolean', nullable: false, options: ['default' => true]),
-        Serializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Groups(['node_type']),
+        SymfonySerializer\Groups(['node_type', 'node_type:export']),
+        Serializer\Type('bool')
     ]
     private bool $visible = true;
 
     #[
-        Serializer\Groups(['node_type'])
+        SymfonySerializer\Groups(['node_type'])
     ]
     public function getNodeTypeName(): string
     {
@@ -179,13 +206,13 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
         return !$this->excludeFromSearch && in_array($this->getType(), static::$searchableTypes);
     }
 
-    #[Serializer\Ignore]
+    #[SymfonySerializer\Ignore]
     public function getOneLineSummary(): string
     {
         return $this->getId().' — '.$this->getLabel().' ['.$this->getName().']'.
-        ' - '.$this->getTypeName().
-        ($this->isIndexed() ? ' - indexed' : '').
-        (!$this->isVisible() ? ' - hidden' : '').PHP_EOL;
+            ' - '.$this->getTypeName().
+            ($this->isIndexed() ? ' - indexed' : '').
+            (!$this->isVisible() ? ' - hidden' : '').PHP_EOL;
     }
 
     /**
@@ -324,13 +351,13 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
         return $this;
     }
 
-    #[Serializer\Ignore]
+    #[SymfonySerializer\Ignore]
     public function getNormalizationContextGroups(): ?array
     {
         return $this->normalizationContext['groups'] ?? [];
     }
 
-    #[Serializer\Ignore]
+    #[SymfonySerializer\Ignore]
     public function setNormalizationContextGroups(?array $normalizationContextGroups): NodeTypeField
     {
         if (null === $normalizationContextGroups) {
