@@ -8,6 +8,9 @@ use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @deprecated nodeTypes will be static in future Roadiz versions
+ */
 final class AjaxNodeTypeFieldsController extends AjaxAbstractFieldsController
 {
     /**

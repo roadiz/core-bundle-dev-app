@@ -9,6 +9,9 @@ use JMS\Serializer\Exception\ObjectConstructionException;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 
+/**
+ * @deprecated nodeTypes will be static in future Roadiz versions
+ */
 final class NodeTypeObjectConstructor extends AbstractTypedObjectConstructor
 {
     public function supports(string $className, array $data): bool
