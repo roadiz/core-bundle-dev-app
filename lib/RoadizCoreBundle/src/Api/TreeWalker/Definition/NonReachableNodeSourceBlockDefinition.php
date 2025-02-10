@@ -5,18 +5,31 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\TreeWalker\Definition;
 
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\TreeWalker\Definition\ContextualDefinitionTrait;
 use RZ\TreeWalker\WalkerContextInterface;
 
 final class NonReachableNodeSourceBlockDefinition
 {
     use ContextualDefinitionTrait;
+    use NodeSourceDefinitionTrait;
 
     public function __construct(
         private readonly WalkerContextInterface $context,
         private readonly bool $onlyVisible = true,
     ) {
+    }
+
+    /**
+     * @return array<NodeType> $nodeTypes
+     */
+    protected function getNodeTypes(NodeTypes $nodeTypesBag): array
+    {
+        return array_values(array_unique(array_filter($nodeTypesBag->all(), function (NodeType $nodeType) {
+            return !$nodeType->isReachable();
+        })));
     }
 
     /**
@@ -29,22 +42,9 @@ final class NonReachableNodeSourceBlockDefinition
         }
 
         $this->context->getStopwatch()->start(self::class);
-        $criteria = [
-            'node.parent' => $source->getNode(),
-            'translation' => $source->getTranslation(),
-            'node.nodeType.reachable' => false,
-        ];
-        if ($this->onlyVisible) {
-            $criteria['node.visible'] = true;
-        }
-        // @phpstan-ignore-next-line
-        $children = $this->context->getManagerRegistry()
-            ->getRepository(NodesSources::class)
-            ->findBy($criteria, [
-                'node.position' => 'ASC',
-            ]);
+        $queryBuilder = $this->getQueryBuilder($source);
         $this->context->getStopwatch()->stop(self::class);
 
-        return $children;
+        return $queryBuilder->getQuery()->getResult();
     }
 }

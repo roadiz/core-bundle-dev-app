@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\TreeWalker\Definition;
 
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\TreeWalker\Definition\ContextualDefinitionTrait;
@@ -13,6 +14,7 @@ use RZ\TreeWalker\WalkerContextInterface;
 final class MultiTypeChildrenDefinition
 {
     use ContextualDefinitionTrait;
+    use NodeSourceDefinitionTrait;
 
     /**
      * @param array<string> $types
@@ -25,6 +27,16 @@ final class MultiTypeChildrenDefinition
     }
 
     /**
+     * @return array<NodeType> $nodeTypes
+     */
+    protected function getNodeTypes(NodeTypes $nodeTypesBag): array
+    {
+        return array_values(array_filter(array_map(function (string $singleType) use ($nodeTypesBag) {
+            return $nodeTypesBag->get($singleType);
+        }, $this->types)));
+    }
+
+    /**
      * @return array<NodesSources>
      */
     public function __invoke(NodesSources $source): array
@@ -34,34 +46,9 @@ final class MultiTypeChildrenDefinition
         }
 
         $this->context->getStopwatch()->start(self::class);
-        $bag = $this->context->getNodeTypesBag();
-        /** @var NodeType[] $nodeTypes */
-        $nodeTypes = array_map(function (string $singleType) use ($bag) {
-            return $bag->get($singleType);
-        }, $this->types);
-        $criteria = [
-            'node.parent' => $source->getNode(),
-            'translation' => $source->getTranslation(),
-            'node.nodeType' => $nodeTypes,
-        ];
-        if ($this->onlyVisible) {
-            $criteria['node.visible'] = true;
-        }
-        if (1 === count($nodeTypes)) {
-            $entityName = $nodeTypes[0]->getSourceEntityFullQualifiedClassName();
-        } else {
-            $entityName = NodesSources::class;
-        }
-        // @phpstan-ignore-next-line
-        $children = $this->context
-            ->getManagerRegistry()
-            ->getRepository($entityName)
-            ->findBy($criteria, [
-                'node.position' => 'ASC',
-            ]);
-
+        $queryBuilder = $this->getQueryBuilder($source);
         $this->context->getStopwatch()->stop(self::class);
 
-        return $children;
+        return $queryBuilder->getQuery()->getResult();
     }
 }
