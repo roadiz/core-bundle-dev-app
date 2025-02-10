@@ -673,14 +673,17 @@ class NodesSourcesRepository extends StatusAwareRepository
         return parent::searchBy($pattern, $criteria, $orders, $limit, $offset, static::NODESSOURCES_ALIAS);
     }
 
+    /**
+     * @param array<class-string<NodesSources>> $nodeSourceClasses
+     */
     public function findByNodesSourcesAndFieldNameAndTranslation(
         NodesSources $nodesSources,
         string $fieldName,
+        array $nodeSourceClasses = [],
     ): ?array {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $qb->select([static::NODESSOURCES_ALIAS, static::NODE_ALIAS, 'ua'])
+        $qb->select([static::NODESSOURCES_ALIAS, static::NODE_ALIAS])
             ->innerJoin('ns.node', static::NODE_ALIAS)
-            ->leftJoin('ns.urlAliases', 'ua')
             ->innerJoin('n.aNodes', 'ntn')
             ->andWhere($qb->expr()->eq('ntn.fieldName', ':fieldName'))
             ->andWhere($qb->expr()->eq('ntn.nodeA', ':nodeA'))
@@ -689,6 +692,15 @@ class NodesSourcesRepository extends StatusAwareRepository
             ->setCacheable(true);
 
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
+
+        if (count($nodeSourceClasses) > 0) {
+            $qb->andWhere($qb->expr()->orX(
+                ...array_map(
+                    fn (string $nodeSourceClass) => $qb->expr()->isInstanceOf(static::NODESSOURCES_ALIAS, $nodeSourceClass),
+                    $nodeSourceClasses
+                )
+            ));
+        }
 
         $qb->setParameter('fieldName', $fieldName)
             ->setParameter('nodeA', $nodesSources->getNode())

@@ -792,7 +792,8 @@ class NSMock extends NodesSources
                     ->getRepository(\mock\Entity\NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'foo_bar'
+                        'foo_bar',
+                        []
                     );
             } else {
                 $this->fooBarSources = [];
@@ -827,7 +828,8 @@ class NSMock extends NodesSources
                     ->getRepository(\mock\Entity\NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'foo_bar_hidden'
+                        'foo_bar_hidden',
+                        []
                     );
             } else {
                 $this->fooBarHiddenSources = [];
@@ -862,7 +864,8 @@ class NSMock extends NodesSources
                     ->getRepository(\tests\mocks\GeneratedNodesSources\NSMockTwo::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'foo_bar_typed'
+                        'foo_bar_typed',
+                        []
                     );
             } else {
                 $this->fooBarTypedSources = [];
