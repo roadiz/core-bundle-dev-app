@@ -242,6 +242,10 @@ services:
         # By default, .inner is passed as argument
         decorates: 'api_platform.jsonld.normalizer.item'
         decoration_priority: 5
+    # NodesTypes
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodeTypeFieldNormalizer:
+        tags:
+              - { name: 'serializer.normalizer', priority: 5 }
     # Need a different name to avoid duplicate YAML key
     roadiz_core.serializer.normalizer.nodes_sources_path.json:
         class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer'
