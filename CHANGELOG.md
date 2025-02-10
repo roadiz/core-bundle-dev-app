@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.2.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.30...v2.2.31) - 2025-02-10
+
+### Bug Fixes
+
+- Migrate all Node-type related TreeWalker definition from NodeSourceApi to QueryBuilder and NodeTypes bag - ([6baefe2](https://github.com/roadiz/core-bundle-dev-app/commit/6baefe25a79f90b23ad8e102e057a62de9c32f62))
+
 ## [2.2.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.2.29...v2.2.30) - 2024-10-11
 
 ### Bug Fixes
