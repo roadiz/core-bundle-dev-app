@@ -44,7 +44,7 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('nodeTypesEditPage', [
-            'nodeTypeId' => $this->nodeType->getId(),
+            'nodeTypeName' => $this->nodeType->getName(),
         ]);
     }
 

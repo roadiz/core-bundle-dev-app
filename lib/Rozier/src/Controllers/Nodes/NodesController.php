@@ -164,7 +164,7 @@ final class NodesController extends RozierApp
             $stackTypesForm->handleRequest($request);
             if ($stackTypesForm->isSubmitted() && $stackTypesForm->isValid()) {
                 try {
-                    $type = $this->addStackType($stackTypesForm->getData(), $node);
+                    $type = $this->addStackType($stackTypesForm->getData(), $node, $this->nodeTypesBag);
                     $msg = $this->getTranslator()->trans(
                         'stack_node.%name%.has_new_type.%type%',
                         [
@@ -242,7 +242,7 @@ final class NodesController extends RozierApp
         return $this->render('@RoadizRozier/nodes/edit.html.twig', $this->assignation);
     }
 
-    public function removeStackTypeAction(Request $request, int $nodeId, int $typeId): Response
+    public function removeStackTypeAction(Request $request, int $nodeId, string $typeName): Response
     {
         /** @var Node|null $node */
         $node = $this->em()->find(Node::class, $nodeId);
@@ -251,9 +251,9 @@ final class NodesController extends RozierApp
         }
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_SETTING, $node);
 
-        $type = $this->nodeTypesBag->getById($typeId);
+        $type = $this->nodeTypesBag->get($typeName);
         if (null === $type) {
-            throw new ResourceNotFoundException(sprintf('NodeType #%s does not exist.', $typeId));
+            throw new ResourceNotFoundException(sprintf('NodeType #%s does not exist.', $typeName));
         }
 
         $node->removeStackType($type);

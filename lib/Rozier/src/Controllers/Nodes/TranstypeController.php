@@ -53,8 +53,7 @@ class TranstypeController extends RozierApp
         if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
-            /** @var NodeType $newNodeType */
-            $newNodeType = $this->em()->find(NodeType::class, (int) $data['nodeTypeId']);
+            $newNodeType = $this->nodeTypesBag->get($data['nodeTypeName']);
 
             /*
              * Trans-typing SHOULD be executed in one single transaction

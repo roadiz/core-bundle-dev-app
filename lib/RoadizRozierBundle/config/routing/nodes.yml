@@ -72,11 +72,11 @@ nodesEditTagsPage:
         _controller: RZ\Roadiz\RozierBundle\Controller\Node\NodesTagsController::editTagsAction
     requirements: { nodeId : "[0-9]+" }
 nodesRemoveStackTypePage:
-    path:     /edit/{nodeId}/stacktype/{typeId}/remove
+    path:     /edit/{nodeId}/stacktype/{typeName}/remove
     methods: [POST]
     defaults:
         _controller: Themes\Rozier\Controllers\Nodes\NodesController::removeStackTypeAction
-    requirements: { nodeId : "[0-9]+", typeId : "[0-9]+" }
+    requirements: { nodeId : "[0-9]+", typeName : "[a-zA-Z]+" }
 nodesEditSEOPage:
     path:     /edit/{nodeId}/seo/{translationId}
     defaults:

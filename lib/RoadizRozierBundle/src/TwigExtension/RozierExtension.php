@@ -8,6 +8,7 @@ use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\CoreBundle\Entity\StackType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use Themes\Rozier\RozierServiceRegistry;
 use Twig\Extension\AbstractExtension;
@@ -41,6 +42,14 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     {
         if (null === $object) {
             return null;
+        }
+
+        if (is_string($object)) {
+            return $this->nodeTypesBag->get($object);
+        }
+
+        if ($object instanceof StackType) {
+            return $this->nodeTypesBag->get($object->getNodeTypeName());
         }
 
         if ($object instanceof NodeInterface) {
