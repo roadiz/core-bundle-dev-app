@@ -9,6 +9,8 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
+ * @deprecated nodeTypes will be static in future Roadiz versions
+ *
  * @extends EntityRepository<NodeType>
  */
 final class NodeTypeRepository extends EntityRepository

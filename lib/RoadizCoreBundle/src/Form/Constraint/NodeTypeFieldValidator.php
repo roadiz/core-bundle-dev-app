@@ -18,6 +18,9 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
+/**
+ * @deprecated nodeTypes will be static in future Roadiz versions
+ */
 class NodeTypeFieldValidator extends ConstraintValidator
 {
     public function __construct(

@@ -12,6 +12,8 @@ use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
+ * @deprecated nodeTypes will be static in future Roadiz versions
+ *
  * @extends EntityRepository<NodeTypeField>
  */
 final class NodeTypeFieldRepository extends EntityRepository

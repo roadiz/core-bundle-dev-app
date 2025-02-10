@@ -130,6 +130,9 @@ class NodeTypesUtilsController extends RozierApp
         return $response;
     }
 
+    /**
+     * @deprecated nodeTypes will be static in future Roadiz versions
+     */
     public function exportAllAction(Request $request): BinaryFileResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
@@ -171,6 +174,8 @@ class NodeTypesUtilsController extends RozierApp
 
     /**
      * Import a Json file (.json) containing NodeType datas and fields.
+     *
+     * @deprecated nodeTypes will be static in future Roadiz versions
      *
      * @throws RuntimeError
      */
