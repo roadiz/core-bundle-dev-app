@@ -7,12 +7,9 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\CoreBundle\Form\Constraint as RoadizAssert;
-use RZ\Roadiz\CoreBundle\Repository\NodeTypeRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -21,22 +18,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * NodeType describes each node structure family,
  * They are mandatory before creating any Node.
  */
-#[
-    ORM\Entity(repositoryClass: NodeTypeRepository::class),
-    ORM\Table(name: 'node_types'),
-    ORM\Index(columns: ['name'], name: 'node_type_name'),
-    ORM\Index(columns: ['visible']),
-    ORM\Index(columns: ['publishable']),
-    ORM\Index(columns: ['attributable']),
-    ORM\Index(columns: ['hiding_nodes']),
-    ORM\Index(columns: ['hiding_non_reachable_nodes']),
-    ORM\Index(columns: ['reachable']),
-    ORM\Index(columns: ['searchable'], name: 'nt_searchable'),
-]
-class NodeType extends AbstractEntity implements NodeTypeInterface
+class NodeType implements NodeTypeInterface
 {
     #[
-        ORM\Column(name: 'color', type: 'string', length: 7, unique: false, nullable: true),
         Serializer\Groups(['node_type', 'color']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'color']),
         Serializer\Type('string'),
@@ -44,7 +28,6 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
     ]
     protected ?string $color = '#000000';
     #[
-        ORM\Column(type: 'string', length: 30, unique: true),
         Serializer\Groups(['node_type', 'node']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'node']),
         Serializer\Type('string'),
@@ -56,7 +39,6 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
     ]
     private string $name = '';
     #[
-        ORM\Column(name: 'display_name', type: 'string', length: 250),
         Serializer\Groups(['node_type', 'node']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'node']),
         Serializer\Type('string'),
@@ -66,21 +48,18 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
     ]
     private string $displayName = '';
     #[
-        ORM\Column(type: 'text', nullable: true),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type('string')
     ]
     private ?string $description = null;
     #[
-        ORM\Column(type: 'boolean', nullable: false, options: ['default' => true]),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type('boolean')
     ]
     private bool $visible = true;
     #[
-        ORM\Column(type: 'boolean', nullable: false, options: ['default' => false]),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type('boolean')
@@ -91,14 +70,12 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
      * @var bool define if this node-type produces nodes that will have attributes
      */
     #[
-        ORM\Column(type: 'boolean', nullable: false, options: ['default' => true]),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type('boolean')
     ]
     private bool $attributable = false;
     #[
-        ORM\Column(name: 'attributable_by_weight', type: 'boolean', nullable: false, options: ['default' => false]),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type('boolean')
@@ -111,21 +88,18 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
      * Typically, if a node has a URL.
      */
     #[
-        ORM\Column(name: 'reachable', type: 'boolean', nullable: false, options: ['default' => true]),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type('boolean')
     ]
     private bool $reachable = true;
     #[
-        ORM\Column(name: 'hiding_nodes', type: 'boolean', nullable: false, options: ['default' => false]),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type('boolean')
     ]
     private bool $hidingNodes = false;
     #[
-        ORM\Column(name: 'hiding_non_reachable_nodes', type: 'boolean', nullable: false, options: ['default' => false]),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type('boolean')
@@ -135,13 +109,6 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
      * @var Collection<int, NodeTypeField>
      */
     #[
-        ORM\OneToMany(
-            mappedBy: 'nodeType',
-            targetEntity: NodeTypeField::class,
-            cascade: ['all'],
-            orphanRemoval: true
-        ),
-        ORM\OrderBy(['position' => 'ASC']),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Entity\NodeTypeField>"),
@@ -149,7 +116,6 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
     ]
     private Collection $fields;
     #[
-        ORM\Column(name: 'default_ttl', type: 'integer', nullable: false, options: ['default' => 0]),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type('int'),
@@ -162,7 +128,6 @@ class NodeType extends AbstractEntity implements NodeTypeInterface
      * Define if this node-type title will be indexed during its parent indexation.
      */
     #[
-        ORM\Column(name: 'searchable', type: 'boolean', nullable: false, options: ['default' => true]),
         Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
         Serializer\Type('boolean')

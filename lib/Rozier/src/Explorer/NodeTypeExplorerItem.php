@@ -18,7 +18,7 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
 
     public function getId(): string|int
     {
-        return $this->nodeType->getId();
+        return $this->nodeType->getName();
     }
 
     public function getAlternativeDisplayable(): ?string

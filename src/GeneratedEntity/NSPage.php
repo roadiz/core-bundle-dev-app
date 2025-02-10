@@ -1007,7 +1007,7 @@ class NSPage extends NodesSources
     #[JMS\VirtualProperty]
     public function isPublishable(): bool
     {
-        return true;
+        return false;
     }
 
     public function __toString(): string
