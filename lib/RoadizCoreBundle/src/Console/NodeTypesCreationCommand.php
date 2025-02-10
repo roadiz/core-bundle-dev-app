@@ -21,7 +21,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * @deprecated nodeTypes will be static in future Roadiz versions
  *
- * Command line utils for managing node-types from terminal.
+ * Command line utils for managing node-types from terminal
  */
 class NodeTypesCreationCommand extends Command
 {
