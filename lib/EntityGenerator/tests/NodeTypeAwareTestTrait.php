@@ -145,6 +145,10 @@ trait NodeTypeAwareTestTrait
                         ->setExcludedFromSerialization(true)
                         ->setLabel('ForBar hidden nodes field')
                         ->setDescription('Maecenas sed diam eget risus varius blandit sit amet non magna')
+                        ->setDefaultValues(Yaml::dump([
+                            'Mock',
+                            'MockTwo',
+                        ]))
                         ->setIndexed(false),
                     (new SimpleNodeTypeField())
                         ->setName('foo_bar_typed')

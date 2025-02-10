@@ -341,6 +341,9 @@ class NSMock extends NodesSources
      * @var \mock\Entity\NodesSources[]|null
      * ForBar hidden nodes field.
      * Maecenas sed diam eget risus varius blandit sit amet non magna.
+     * Default values:
+     * - Mock
+     * - MockTwo
      */
     #[JMS\Exclude]
     private ?array $fooBarHiddenSources = null;
@@ -829,7 +832,7 @@ class NSMock extends NodesSources
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
                         'foo_bar_hidden',
-                        []
+                        [\tests\mocks\GeneratedNodesSources\NSMock::class, \tests\mocks\GeneratedNodesSources\NSMockTwo::class]
                     );
             } else {
                 $this->fooBarHiddenSources = [];
