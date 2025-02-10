@@ -1,3 +1,10 @@
+## [v2.1.72](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.71...v2.1.72) (2025-02-10)
+
+
+### Bug Fixes
+
+* Migrate all Node-type related TreeWalker definition from NodeSourceApi to QueryBuilder and NodeTypes bag ([cd8b4c1](https://github.com/roadiz/core-bundle-dev-app/commit/cd8b4c145bc748105ece7b50ddc554c26a03e756))
+
 ## [v2.1.71](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.70...v2.1.71) (2024-10-11)
 
 
