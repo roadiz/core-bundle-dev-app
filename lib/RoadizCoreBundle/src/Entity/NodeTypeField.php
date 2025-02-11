@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, SerializableInterface
 {
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
+        Serializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 50),
         RoadizAssert\NonSqlReservedWord(),
         RoadizAssert\SimpleLatinString()
@@ -31,7 +31,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
      * If current field data should be the same over translations or not.
      */
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private bool $universal = false;
 
@@ -39,7 +39,7 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
      * Exclude current field from full-text search engines.
      */
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private bool $excludeFromSearch = false;
 
@@ -49,47 +49,47 @@ class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, Ser
     private NodeTypeInterface $nodeType;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private ?string $serializationExclusionExpression = null;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private ?array $serializationGroups = null;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private ?array $normalizationContext = null;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private ?int $serializationMaxDepth = null;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private bool $excludedFromSerialization = false;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private ?int $minLength = null;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private ?int $maxLength = null;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private bool $indexed = false;
 
     #[
-        Serializer\Groups(['node_type', 'node_type:import', 'node_type:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     private bool $visible = true;
 

@@ -329,7 +329,7 @@ abstract class AbstractField extends AbstractPositioned
     #[
         ORM\Column(name: 'group_name', type: 'string', length: 250, nullable: true),
         Assert\Length(max: 250),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Serializer\Groups(['node_type', 'setting']),
         Serializer\Type('string'),
         Serializer\Expose
@@ -350,7 +350,7 @@ abstract class AbstractField extends AbstractPositioned
         ORM\Column(type: 'string', length: 250),
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 250),
         Serializer\Type('string'),
         Assert\NotBlank(),
@@ -363,7 +363,7 @@ abstract class AbstractField extends AbstractPositioned
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
         Serializer\Type('string'),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 250),
         Assert\NotBlank(),
         Assert\NotNull()
@@ -374,7 +374,7 @@ abstract class AbstractField extends AbstractPositioned
         ORM\Column(type: 'string', length: 250, nullable: true),
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Assert\Length(max: 250),
         Serializer\Type('string')
     ]
@@ -384,7 +384,7 @@ abstract class AbstractField extends AbstractPositioned
         ORM\Column(type: 'text', nullable: true),
         Serializer\Expose,
         Serializer\Groups(['node_type', 'setting']),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Serializer\Type('string')
     ]
     protected ?string $description = null;
@@ -417,7 +417,7 @@ abstract class AbstractField extends AbstractPositioned
     #[
         ORM\Column(name: 'expanded', type: 'boolean', nullable: false, options: ['default' => false]),
         Serializer\Groups(['node_type', 'setting']),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting']),
         Serializer\Type('bool'),
         Serializer\Expose
     ]
