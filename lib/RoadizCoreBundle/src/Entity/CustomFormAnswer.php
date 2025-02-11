@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\CoreBundle\Repository\CustomFormAnswerRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
@@ -24,7 +23,6 @@ class CustomFormAnswer extends AbstractEntity
 {
     #[
         ORM\Column(name: 'ip', type: 'string', length: 46, nullable: false),
-        Serializer\Groups(['custom_form_answer']),
         SymfonySerializer\Groups(['custom_form_answer']),
         Assert\Length(max: 46)
     ]
@@ -32,7 +30,6 @@ class CustomFormAnswer extends AbstractEntity
 
     #[
         ORM\Column(name: 'submitted_at', type: 'datetime', nullable: false),
-        Serializer\Groups(['custom_form_answer']),
         SymfonySerializer\Groups(['custom_form_answer'])
     ]
     private \DateTime $submittedAt;
@@ -47,7 +44,6 @@ class CustomFormAnswer extends AbstractEntity
             cascade: ['ALL'],
             orphanRemoval: true
         ),
-        Serializer\Groups(['custom_form_answer']),
         SymfonySerializer\Groups(['custom_form_answer'])
     ]
     private Collection $answerFields;
@@ -58,7 +54,6 @@ class CustomFormAnswer extends AbstractEntity
             inversedBy: 'customFormAnswers'
         ),
         ORM\JoinColumn(name: 'custom_form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Exclude,
         SymfonySerializer\Ignore
     ]
     private CustomForm $customForm;

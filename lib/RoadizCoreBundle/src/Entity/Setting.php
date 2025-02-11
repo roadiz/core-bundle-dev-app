@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Repository\SettingRepository;
@@ -36,7 +35,6 @@ class Setting extends AbstractEntity
      * @var array<int, string>
      */
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     public static array $typeToHuman = [
         AbstractField::STRING_T => 'string.type',
         AbstractField::DATETIME_T => 'date-time.type',
@@ -56,25 +54,21 @@ class Setting extends AbstractEntity
     ];
 
     #[ORM\Column(type: 'string', length: 250, unique: true)]
-    #[SymfonySerializer\Groups(['setting', 'nodes_sources'])]
-    #[Serializer\Groups(['setting', 'nodes_sources'])]
+    #[SymfonySerializer\Groups(['setting:export', 'nodes_sources'])]
     #[Assert\NotBlank]
     #[Assert\Length(max: 250)]
     private string $name = '';
 
     #[ORM\Column(type: 'text', unique: false, nullable: true)]
-    #[SymfonySerializer\Groups(['setting'])]
-    #[Serializer\Groups(['setting'])]
+    #[SymfonySerializer\Groups(['setting:export'])]
     private ?string $description = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    #[SymfonySerializer\Groups(['setting', 'nodes_sources'])]
-    #[Serializer\Groups(['setting', 'nodes_sources'])]
+    #[SymfonySerializer\Groups(['setting:export', 'nodes_sources'])]
     private ?string $value = null;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
-    #[SymfonySerializer\Groups(['setting'])]
-    #[Serializer\Groups(['setting'])]
+    #[SymfonySerializer\Groups(['setting:export'])]
     private bool $visible = true;
 
     #[ORM\ManyToOne(
@@ -83,10 +77,7 @@ class Setting extends AbstractEntity
         inversedBy: 'settings'
     )]
     #[ORM\JoinColumn(name: 'setting_group_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
-    #[SymfonySerializer\Groups(['setting'])]
-    #[Serializer\Groups(['setting'])]
-    #[Serializer\AccessType(type: 'public_method')]
-    #[Serializer\Accessor(getter: 'getSettingGroup', setter: 'setSettingGroup')]
+    #[SymfonySerializer\Groups(['setting:export'])]
     private ?SettingGroup $settingGroup;
 
     /**
@@ -94,16 +85,14 @@ class Setting extends AbstractEntity
      * Use NodeTypeField types constants.
      */
     #[ORM\Column(type: Types::SMALLINT)]
-    #[SymfonySerializer\Groups(['setting'])]
-    #[Serializer\Groups(['setting'])]
+    #[SymfonySerializer\Groups(['setting:export'])]
     private int $type = AbstractField::STRING_T;
 
     /**
      * Available values for ENUM and MULTIPLE setting types.
      */
     #[ORM\Column(name: 'defaultValues', type: 'text', nullable: true)]
-    #[SymfonySerializer\Groups(['setting'])]
-    #[Serializer\Groups(['setting'])]
+    #[SymfonySerializer\Groups(['setting:export'])]
     private ?string $defaultValues;
 
     public function getName(): string

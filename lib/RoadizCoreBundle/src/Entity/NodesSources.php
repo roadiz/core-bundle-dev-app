@@ -15,7 +15,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Persistence\ObjectManager;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
@@ -61,7 +60,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class NodesSources extends AbstractEntity implements Loggable
 {
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected ?ObjectManager $objectManager = null;
 
     /**
@@ -69,13 +67,11 @@ class NodesSources extends AbstractEntity implements Loggable
      */
     #[ORM\OneToMany(mappedBy: 'redirectNodeSource', targetEntity: Redirection::class)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected Collection $redirections;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: 'partial')]
     #[ORM\Column(name: 'title', type: 'string', length: 250, unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Gedmo\Versioned]
     #[Assert\Length(max: 250)]
     #[ApiProperty(
@@ -89,7 +85,6 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ApiFilter(RoadizFilter\ArchiveFilter::class)]
     #[ORM\Column(name: 'published_at', type: 'datetime', unique: false, nullable: true)]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base'])]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_base'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Content publication date and time',
@@ -99,7 +94,6 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: 'partial')]
     #[ORM\Column(name: 'meta_title', type: 'string', length: 150, unique: false)]
     #[SymfonySerializer\Groups(['nodes_sources'])]
-    #[Serializer\Groups(['nodes_sources'])]
     #[Gedmo\Versioned]
     #[Assert\Length(max: 150)]
     #[ApiProperty(
@@ -111,7 +105,6 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: 'partial')]
     #[ORM\Column(name: 'meta_description', type: 'text')]
     #[SymfonySerializer\Groups(['nodes_sources'])]
-    #[Serializer\Groups(['nodes_sources'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Description for search engine optimization, used in HTML meta description tag',
@@ -122,7 +115,6 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ApiFilter(BaseFilter\BooleanFilter::class)]
     #[ORM\Column(name: 'no_index', type: 'boolean', options: ['default' => false])]
     #[SymfonySerializer\Groups(['nodes_sources'])]
-    #[Serializer\Groups(['nodes_sources'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Do not allow robots to index this content, used in HTML meta robots tag',
@@ -171,7 +163,6 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'nodeSources')]
     #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
     #[Assert\Valid]
     #[Assert\NotNull]
     private Node $node;
@@ -183,7 +174,6 @@ class NodesSources extends AbstractEntity implements Loggable
     #[ORM\ManyToOne(targetEntity: Translation::class, inversedBy: 'nodeSources')]
     #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['translation_base'])]
-    #[Serializer\Groups(['translation_base'])]
     #[Assert\NotNull]
     private TranslationInterface $translation;
 
@@ -209,7 +199,6 @@ class NodesSources extends AbstractEntity implements Loggable
         orphanRemoval: true
     )]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $documentsByFields;
 
     /**
@@ -224,7 +213,6 @@ class NodesSources extends AbstractEntity implements Loggable
         $this->redirections = new ArrayCollection();
     }
 
-    #[Serializer\Exclude]
     public function injectObjectManager(ObjectManager $objectManager): void
     {
         $this->objectManager = $objectManager;
@@ -459,9 +447,6 @@ class NodesSources extends AbstractEntity implements Loggable
 
     #[SymfonySerializer\SerializedName('slug')]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base'])]
-    #[Serializer\SerializedName('slug')]
-    #[Serializer\VirtualProperty]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_base'])]
     public function getIdentifier(): string
     {
         $urlAlias = $this->getUrlAliases()->first();
@@ -484,7 +469,6 @@ class NodesSources extends AbstractEntity implements Loggable
      * Get parent node source based on the same translation.
      */
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     public function getParent(): ?NodesSources
     {
         /** @var Node|null $parent */
@@ -536,17 +520,11 @@ class NodesSources extends AbstractEntity implements Loggable
 
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[SymfonySerializer\SerializedName('@type')]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[Serializer\SerializedName('@type')]
-    #[Serializer\VirtualProperty]
     public function getNodeTypeName(): string
     {
         return 'NodesSources';
     }
 
-    #[Serializer\VirtualProperty]
-    #[Serializer\Groups(['node_type'])]
-    #[Serializer\SerializedName('nodeTypeColor')]
     #[SymfonySerializer\Groups(['node_type'])]
     #[SymfonySerializer\SerializedName('nodeTypeColor')]
     public function getNodeTypeColor(): string
@@ -573,7 +551,6 @@ class NodesSources extends AbstractEntity implements Loggable
     /**
      * Returns current listing sort options OR parent node's if parent node is hiding children.
      */
-    #[Serializer\Groups(['node_listing'])]
     #[SymfonySerializer\Groups(['node_listing'])]
     public function getListingSortOptions(): array
     {

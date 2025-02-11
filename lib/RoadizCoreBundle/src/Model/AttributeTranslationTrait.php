@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use Symfony\Component\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeTranslationTrait

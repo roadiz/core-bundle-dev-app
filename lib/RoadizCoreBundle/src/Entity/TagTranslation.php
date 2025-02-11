@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\TagTranslationRepository;
@@ -32,7 +31,6 @@ class TagTranslation extends AbstractEntity
 {
     #[ORM\Column(type: 'string', length: 250)]
     #[SymfonySerializer\Groups(['tag', 'node', 'nodes_sources'])]
-    #[Serializer\Groups(['tag', 'node', 'nodes_sources'])]
     #[Assert\NotBlank]
     #[Assert\Length(max: 250)]
     #[Gedmo\Versioned]
@@ -40,20 +38,17 @@ class TagTranslation extends AbstractEntity
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[SymfonySerializer\Groups(['tag', 'node', 'nodes_sources'])]
-    #[Serializer\Groups(['tag', 'node', 'nodes_sources'])]
     #[Gedmo\Versioned]
     protected ?string $description = null;
 
     #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'translatedTags')]
     #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected Tag $tag;
 
     #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'tagTranslations')]
     #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['tag', 'node', 'nodes_sources'])]
-    #[Serializer\Groups(['tag', 'node', 'nodes_sources'])]
     protected TranslationInterface $translation;
 
     /**
@@ -67,7 +62,6 @@ class TagTranslation extends AbstractEntity
     )]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected Collection $tagTranslationDocuments;
 
     /**
@@ -151,9 +145,6 @@ class TagTranslation extends AbstractEntity
     }
 
     #[SymfonySerializer\Groups(['tag'])]
-    #[Serializer\Groups(['tag'])]
-    #[Serializer\VirtualProperty]
-    #[Serializer\Type('array<RZ\Roadiz\CoreBundle\Entity\Document>')]
     public function getDocuments(): array
     {
         return array_map(function (TagTranslationDocuments $tagTranslationDocument) {

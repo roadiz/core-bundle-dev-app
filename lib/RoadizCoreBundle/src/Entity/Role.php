@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Repository\RoleRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -37,8 +36,7 @@ class Role implements PersistableInterface
     protected ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 250, unique: true)]
-    #[SymfonySerializer\Groups(['user', 'role', 'group'])]
-    #[Serializer\Groups(['user', 'role', 'group'])]
+    #[SymfonySerializer\Groups(['user', 'role:export', 'group:export'])]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '#^ROLE_([A-Z0-9\_]+)$#', message: 'role.name.must_comply_with_standard')]
@@ -49,10 +47,7 @@ class Role implements PersistableInterface
      * @var Collection<int, Group>
      */
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'roleEntities', cascade: ['persist', 'merge'])]
-    #[SymfonySerializer\Groups(['role'])]
-    #[Serializer\Groups(['role'])]
-    #[Serializer\Accessor(getter: 'getGroups', setter: 'setGroups')]
-    #[Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Entity\Group>")]
+    #[SymfonySerializer\Groups(['role:export'])]
     private Collection $groups;
 
     /**
@@ -164,8 +159,7 @@ class Role implements PersistableInterface
      *
      * It replaces underscores by dashes and lowercase.
      */
-    #[SymfonySerializer\Groups(['role'])]
-    #[Serializer\Groups(['role'])]
+    #[SymfonySerializer\Groups(['role:export', 'group:export'])]
     public function getClassName(): string
     {
         return str_replace('_', '-', \mb_strtolower($this->getRole()));
