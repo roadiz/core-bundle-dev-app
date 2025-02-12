@@ -44,6 +44,9 @@ final readonly class NodesSourcesQueryExtension implements QueryItemExtensionInt
         $this->apply($queryBuilder, $queryNameGenerator, $resourceClass);
     }
 
+    /**
+     * Should be identical to NodesSourcesRepository::alterQueryBuilderWithAuthorizationChecker().
+     */
     private function apply(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
@@ -57,23 +60,7 @@ final readonly class NodesSourcesQueryExtension implements QueryItemExtensionInt
         }
 
         if (preg_match($this->generatedEntityNamespacePattern, $resourceClass) > 0) {
-            $queryBuilder
-                ->andWhere($queryBuilder->expr()->isInstanceOf('o', $resourceClass));
-        }
-
-        if ($this->previewResolver->isPreview()) {
-            $alias = QueryBuilderHelper::addJoinOnce(
-                $queryBuilder,
-                $queryNameGenerator,
-                'o',
-                'node',
-                Join::INNER_JOIN
-            );
-            $queryBuilder
-                ->andWhere($queryBuilder->expr()->lte($alias.'.status', ':status'))
-                ->setParameter(':status', NodeStatus::PUBLISHED);
-
-            return;
+            $queryBuilder->andWhere($queryBuilder->expr()->isInstanceOf('o', $resourceClass));
         }
 
         $alias = QueryBuilderHelper::addJoinOnce(
@@ -83,12 +70,19 @@ final readonly class NodesSourcesQueryExtension implements QueryItemExtensionInt
             'node',
             Join::INNER_JOIN
         );
+
+        if ($this->previewResolver->isPreview()) {
+            $queryBuilder
+                ->andWhere($queryBuilder->expr()->lte($alias.'.status', ':status'))
+                ->setParameter(':status', NodeStatus::PUBLISHED);
+
+            return;
+        }
+
         $queryBuilder
             ->andWhere($queryBuilder->expr()->lte('o.publishedAt', ':lte_published_at'))
             ->andWhere($queryBuilder->expr()->eq($alias.'.status', ':status'))
             ->setParameter(':lte_published_at', new \DateTime())
             ->setParameter(':status', NodeStatus::PUBLISHED);
-
-        return;
     }
 }

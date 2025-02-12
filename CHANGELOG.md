@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.11...v2.4.12) - 2025-02-12
+
+### Bug Fixes
+
+- Enforce NodesSources are filtered out when their `publishedAt` is future and no preview - ([80160a6](https://github.com/roadiz/core-bundle-dev-app/commit/80160a62051db8cff9892ba347d975f07e97c7a3))
+
 ## [2.4.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.10...v2.4.11) - 2025-02-10
 
 This version introduces many deprecations over *node-types* and *node-type fields* management.
