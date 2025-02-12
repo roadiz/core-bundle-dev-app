@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.12...v2.4.13) - 2025-02-12
+
+### Bug Fixes
+
+- Fixed WebResponse API operation to respect Node user-defined TTL - ([943d502](https://github.com/roadiz/core-bundle-dev-app/commit/943d5024b0314210d7a794d0e59de8738ebfe66d))
+
 ## [2.4.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.11...v2.4.12) - 2025-02-12
 
 ### Bug Fixes
