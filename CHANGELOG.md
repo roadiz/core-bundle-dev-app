@@ -2,6 +2,30 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.11...v2.4.12) - 2025-02-12
+
+### Bug Fixes
+
+- Enforce NodesSources are filtered out when their `publishedAt` is future and no preview - ([80160a6](https://github.com/roadiz/core-bundle-dev-app/commit/80160a62051db8cff9892ba347d975f07e97c7a3))
+
+## [2.4.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.10...v2.4.11) - 2025-02-10
+
+This version introduces many deprecations over *node-types* and *node-type fields* management.
+**You should export all your node-types and node-type fields to YAML files before upgrading future Roadiz v2.5.** 
+
+```shell
+mkdir config/node_types
+bin/console nodetypes:export-files
+```
+
+Future Roadiz v2.5 will drop _node-types_ and _node-type fields_ from database and will only use YAML files to define them.
+
+Make sure to update to version v2.4.11+ **before upgrading to Roadiz v2.5**, if you are upgrade your project from a previous version.
+
+### Features
+
+- Backport command for exporting node types from the database to yaml files - ([2a5dfc0](https://github.com/roadiz/core-bundle-dev-app/commit/2a5dfc085202a306e1989a139d819d2a9cefeccb))
+
 ## [2.4.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.9...v2.4.10) - 2025-02-10
 
 ### Bug Fixes
