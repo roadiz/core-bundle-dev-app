@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * NodeTypeField entities are used to create NodeTypes with
  * custom data structure.
  */
+#[RoadizAssert\NodeTypeField]
 class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, SerializableInterface
 {
     #[

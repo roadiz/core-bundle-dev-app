@@ -14,7 +14,7 @@ final class Version20250210133022 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '⚠️Drop node_types and node_type_fields table ⚠️Make sure you have exported the node types to file before running this migration, it is irreversible.⚠️';
+        return '⚠️ Drop node_types and node_type_fields table. Make sure you have exported the node types to file before running this migration as it is irreversible.';
     }
 
     public function up(Schema $schema): void
@@ -34,6 +34,6 @@ final class Version20250210133022 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        $this->throwIrreversibleMigrationException('This migration delete nodeType and nodeTypeField table');
+        $this->throwIrreversibleMigrationException('Deleted node_types and node_type_fields tables cannot be recovered');
     }
 }

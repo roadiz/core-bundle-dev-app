@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\CoreBundle\Repository\StackTypesRepository;
+use RZ\Roadiz\CoreBundle\Repository\StackTypeRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[
-    ORM\Entity(repositoryClass: StackTypesRepository::class),
+    ORM\Entity(repositoryClass: StackTypeRepository::class),
     ORM\Table(name: 'stack_types'),
 ]
 class StackType
@@ -21,6 +22,7 @@ class StackType
 
         #[ORM\Id]
         #[ORM\Column(name: 'nodetype_name', type: 'string', length: 30, nullable: false)]
+        #[Assert\Length(max: 30)]
         private string $nodeTypeName,
     ) {
     }

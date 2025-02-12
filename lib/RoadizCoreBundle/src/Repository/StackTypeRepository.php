@@ -17,7 +17,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  *
  * @extends EntityRepository<StackType>
  */
-final class StackTypesRepository extends EntityRepository
+final class StackTypeRepository extends EntityRepository
 {
     public function __construct(
         ManagerRegistry $registry,

@@ -710,13 +710,15 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     /**
      * @return $this
      */
-    public function addStackType(NodeType $stackType): static
+    public function addStackType(NodeType $nodeType): static
     {
-        if (!$this->getStackTypes()->contains($stackType->getName())) {
+        if (!$this->getStackTypes()->exists(function (int $key, StackType $stackType) use ($nodeType) {
+            return $stackType->getNodeTypeName() === $nodeType->getName();
+        })) {
             $this->getStackTypes()->add(
                 new StackType(
                     $this,
-                    $stackType->getName()
+                    $nodeType->getName()
                 )
             );
         }
