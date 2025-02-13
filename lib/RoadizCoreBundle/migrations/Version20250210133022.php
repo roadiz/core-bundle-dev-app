@@ -19,7 +19,6 @@ final class Version20250210133022 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE nodes DROP FOREIGN KEY FK_1D3D05FC1941E63B');
         $this->addSql('ALTER TABLE stack_types DROP FOREIGN KEY FK_DE24E53886D7EB51941E63B');
         $this->addSql('ALTER TABLE node_type_fields DROP FOREIGN KEY FK_1D3923596344C9E1');
         $this->addSql('DROP TABLE node_type_fields');
