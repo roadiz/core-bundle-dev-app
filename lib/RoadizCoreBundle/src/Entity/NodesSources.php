@@ -571,6 +571,22 @@ class NodesSources extends AbstractEntity implements Loggable
     }
 
     /**
+     * Set base data from another node-source.
+     *
+     * @return $this
+     */
+    public function withNodesSources(NodesSources $nodesSources): self
+    {
+        $this->setTitle($nodesSources->getTitle());
+        $this->setPublishedAt($nodesSources->getPublishedAt());
+        $this->setMetaTitle($nodesSources->getMetaTitle());
+        $this->setMetaDescription($nodesSources->getMetaDescription());
+        $this->setNoIndex($nodesSources->isNoIndex());
+
+        return $this;
+    }
+
+    /**
      * Returns current listing sort options OR parent node's if parent node is hiding children.
      */
     #[Serializer\Groups(['node_listing'])]
