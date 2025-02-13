@@ -164,8 +164,8 @@ final class NodeTranstyper
     ): NodesSources {
         /** @var NodesSources $source */
         $source = new $sourceClass($node, $translation);
+        $source = $source->withNodesSources($existingSource);
         $this->getManager()->persist($source);
-        $source->setTitle($existingSource->getTitle());
 
         foreach ($fieldAssociations as $fields) {
             /** @var NodeTypeField $oldField */
