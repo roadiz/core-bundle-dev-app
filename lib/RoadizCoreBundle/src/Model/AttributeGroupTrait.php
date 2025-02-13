@@ -6,9 +6,9 @@ namespace RZ\Roadiz\CoreBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Utils\StringHandler;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeGroupTrait
@@ -16,7 +16,6 @@ trait AttributeGroupTrait
     #[
         ORM\Column(name: 'canonical_name', type: 'string', length: 255, unique: true, nullable: false),
         Serializer\Groups(['attribute_group', 'attribute', 'node', 'nodes_sources']),
-        Serializer\Type('string'),
         Assert\NotNull(),
         Assert\Length(max: 255),
         Assert\NotBlank()
@@ -29,7 +28,6 @@ trait AttributeGroupTrait
     #[
         ORM\OneToMany(mappedBy: 'group', targetEntity: AttributeInterface::class),
         Serializer\Groups(['attribute_group']),
-        Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Entity\Attribute>")
     ]
     protected Collection $attributes;
 
@@ -44,8 +42,6 @@ trait AttributeGroupTrait
             orphanRemoval: true
         ),
         Serializer\Groups(['attribute_group', 'attribute', 'node', 'nodes_sources']),
-        Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Entity\AttributeGroupTranslation>"),
-        Serializer\Accessor(getter: 'getAttributeGroupTranslations', setter: 'setAttributeGroupTranslations')
     ]
     protected Collection $attributeGroupTranslations;
 

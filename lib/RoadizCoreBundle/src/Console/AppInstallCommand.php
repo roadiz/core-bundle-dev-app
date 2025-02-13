@@ -11,7 +11,6 @@ use RZ\Roadiz\CoreBundle\Importer\EntityImporterInterface;
 use RZ\Roadiz\CoreBundle\Importer\GroupsImporter;
 use RZ\Roadiz\CoreBundle\Importer\RolesImporter;
 use RZ\Roadiz\CoreBundle\Importer\SettingsImporter;
-use RZ\Roadiz\CoreBundle\Importer\TagsImporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -30,7 +29,6 @@ final class AppInstallCommand extends Command
         #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
         private readonly ManagerRegistry $managerRegistry,
-        private readonly TagsImporter $tagsImporter,
         private readonly SettingsImporter $settingsImporter,
         private readonly RolesImporter $rolesImporter,
         private readonly GroupsImporter $groupsImporter,
@@ -101,11 +99,6 @@ final class AppInstallCommand extends Command
         if (isset($data['importFiles']['settings'])) {
             foreach ($data['importFiles']['settings'] as $filename) {
                 $this->importFile($filename, $this->settingsImporter);
-            }
-        }
-        if (isset($data['importFiles']['tags'])) {
-            foreach ($data['importFiles']['tags'] as $filename) {
-                $this->importFile($filename, $this->tagsImporter);
             }
         }
         if (isset($data['importFiles']['attributes'])) {

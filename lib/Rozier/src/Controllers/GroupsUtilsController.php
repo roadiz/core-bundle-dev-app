@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Group;
 use RZ\Roadiz\CoreBundle\Importer\GroupsImporter;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -15,6 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
@@ -41,7 +40,7 @@ class GroupsUtilsController extends RozierApp
             $this->serializer->serialize(
                 $existingGroup,
                 'json',
-                SerializationContext::create()->setGroups(['group'])
+                ['groups' => ['group:export']]
             ),
             Response::HTTP_OK,
             [
@@ -68,7 +67,7 @@ class GroupsUtilsController extends RozierApp
             $this->serializer->serialize(
                 [$existingGroup], // need to wrap in array
                 'json',
-                SerializationContext::create()->setGroups(['group'])
+                ['groups' => ['group:export']],
             ),
             Response::HTTP_OK,
             [

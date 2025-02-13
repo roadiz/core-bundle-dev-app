@@ -14,7 +14,7 @@ use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Form\Constraint as RoadizAssert;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeFieldRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

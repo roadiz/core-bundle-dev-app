@@ -13,7 +13,7 @@ use RZ\Roadiz\CoreBundle\EntityHandler\NodesSourcesHandler;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 
 class NodesSourcesHead implements NodesSourcesHeadInterface
 {

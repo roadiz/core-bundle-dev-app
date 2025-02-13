@@ -110,9 +110,6 @@ abstract class AbstractFieldGenerator
 
     protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
-        if ($exclude) {
-            $property->addAttribute('JMS\Serializer\Annotation\Exclude');
-        }
         /*
          * Symfony serializer is using getter / setter by default
          */
@@ -328,62 +325,9 @@ abstract class AbstractFieldGenerator
     protected function addSerializationAttributes(Property|Method $property): self
     {
         if ($this->excludeFromSerialization()) {
-            $property->addAttribute('JMS\Serializer\Annotation\Exclude');
             $property->addAttribute('Symfony\Component\Serializer\Attribute\Ignore');
 
             return $this;
-        }
-
-        $property->addAttribute('JMS\Serializer\Annotation\Groups', [
-            $this->getSerializationGroups(),
-        ]);
-
-        if ($this->getSerializationMaxDepth() > 0) {
-            $property->addAttribute('JMS\Serializer\Annotation\MaxDepth', [
-                $this->getSerializationMaxDepth(),
-            ]);
-        }
-
-        if (null !== $this->getSerializationExclusionExpression()) {
-            $property->addAttribute('JMS\Serializer\Annotation\Exclude', [
-                'if' => $this->getSerializationExclusionExpression(),
-            ]);
-        }
-
-        switch (true) {
-            case $this->field->isBool():
-                $property->addAttribute('JMS\Serializer\Annotation\Type', [
-                    'bool',
-                ]);
-                break;
-            case $this->field->isInteger():
-                $property->addAttribute('JMS\Serializer\Annotation\Type', [
-                    'int',
-                ]);
-                break;
-            case $this->field->isDecimal():
-                $property->addAttribute('JMS\Serializer\Annotation\Type', [
-                    'double',
-                ]);
-                break;
-            case $this->field->isColor():
-            case $this->field->isEmail():
-            case $this->field->isString():
-            case $this->field->isCountry():
-            case $this->field->isMarkdown():
-            case $this->field->isText():
-            case $this->field->isRichText():
-            case $this->field->isEnum():
-                $property->addAttribute('JMS\Serializer\Annotation\Type', [
-                    'string',
-                ]);
-                break;
-            case $this->field->isDateTime():
-            case $this->field->isDate():
-                $property->addAttribute('JMS\Serializer\Annotation\Type', [
-                    'DateTime',
-                ]);
-                break;
         }
 
         return $this;

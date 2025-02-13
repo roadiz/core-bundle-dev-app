@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\CoreBundle\Repository\SettingGroupRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -25,13 +24,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class SettingGroup extends AbstractEntity
 {
     #[ORM\Column(name: 'in_menu', type: 'boolean', nullable: false, options: ['default' => false])]
-    #[SymfonySerializer\Groups(['setting', 'setting_group'])]
-    #[Serializer\Groups(['setting', 'setting_group'])]
+    #[SymfonySerializer\Groups(['setting:export', 'setting_group'])]
     protected bool $inMenu = false;
 
     #[ORM\Column(type: 'string', length: 250, unique: true)]
-    #[SymfonySerializer\Groups(['setting', 'setting_group'])]
-    #[Serializer\Groups(['setting', 'setting_group'])]
+    #[SymfonySerializer\Groups(['setting:export', 'setting_group'])]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 250)]
@@ -42,7 +39,6 @@ class SettingGroup extends AbstractEntity
      */
     #[ORM\OneToMany(mappedBy: 'settingGroup', targetEntity: Setting::class)]
     #[SymfonySerializer\Groups(['setting_group'])]
-    #[Serializer\Groups(['setting_group'])]
     private Collection $settings;
 
     public function __construct()
