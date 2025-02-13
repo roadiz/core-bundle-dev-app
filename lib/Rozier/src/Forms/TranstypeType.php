@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms;
 
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,15 +18,17 @@ class TranstypeType extends AbstractType
 {
     protected ManagerRegistry $managerRegistry;
 
-    public function __construct(ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        private readonly NodeTypes $nodeTypesbag,
+    ) {
         $this->managerRegistry = $managerRegistry;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
-            'nodeTypeId',
+            'nodeTypeName',
             ChoiceType::class,
             [
                 'choices' => $this->getAvailableTypes($options['currentType']),
@@ -63,24 +65,12 @@ class TranstypeType extends AbstractType
 
     protected function getAvailableTypes(NodeType $currentType): array
     {
-        $qb = $this->managerRegistry->getManager()->createQueryBuilder();
-        $qb->select('n')
-           ->from(NodeType::class, 'n')
-           ->where($qb->expr()->neq('n.id', $currentType->getId()))
-           ->orderBy('n.displayName', 'ASC');
+        $nodeTypes = $this->nodeTypesbag->all();
 
-        try {
-            $types = $qb->getQuery()->getResult();
+        $result = array_values(array_filter(array_map(static function (NodeType $nodeType) use ($currentType) {
+            return ($nodeType->getName() !== $currentType->getName()) ? $nodeType->getName() : null;
+        }, $nodeTypes)));
 
-            $choices = [];
-            /** @var NodeType $type */
-            foreach ($types as $type) {
-                $choices[$type->getDisplayName()] = $type->getId();
-            }
-
-            return $choices;
-        } catch (NoResultException $e) {
-            return [];
-        }
+        return array_combine($result, $result);
     }
 }

@@ -79,14 +79,17 @@
                         </td>
                     </tr>
                     {% for type in node.stackTypes %}
-                    <tr>
-                        <td>{{ type.displayName }}</td>
-                        <td>
-                            <form action="{{ path('nodesRemoveStackTypePage', {nodeId:node.id, typeId:type.id}) }}" method="POST">
-                                <button type="submit" class="uk-button uk-button-danger"><i class="uk-icon-trash-o"></i> {% trans %}remove{% endtrans %}</button>
-                            </form>
-                        </td>
-                    </tr>
+                        {% set nodeType = getNodeType(type) %}
+                        {% if nodeType is not null %}
+                            <tr>
+                                <td>{{ nodeType.displayName }}</td>
+                                <td>
+                                    <form action="{{ path('nodesRemoveStackTypePage', {nodeId:node.id, typeName:nodeType.name}) }}" method="POST">
+                                        <button type="submit" class="uk-button uk-button-danger"><i class="uk-icon-trash-o"></i> {% trans %}remove{% endtrans %}</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endif %}
                     {% endfor %}
                 </tbody>
             </table>

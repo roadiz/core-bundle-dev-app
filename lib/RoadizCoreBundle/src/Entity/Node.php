@@ -279,11 +279,9 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private Collection $customForms;
 
     /**
-     * @var Collection<int, NodeType>
+     * @var Collection<int, StackType>
      */
-    #[ORM\JoinTable(name: 'stack_types')]
-    #[ORM\InverseJoinColumn(name: 'nodetype_name', referencedColumnName: 'name', onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: NodeType::class)]
+    #[ORM\OneToMany(mappedBy: 'node', targetEntity: StackType::class, cascade: ['persist'], orphanRemoval: true)]
     #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
@@ -688,17 +686,21 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     /**
      * @return $this
      */
-    public function removeStackType(NodeType $stackType): static
+    public function removeStackType(NodeType $nodeType): static
     {
-        if ($this->getStackTypes()->contains($stackType)) {
-            $this->getStackTypes()->removeElement($stackType);
-        }
+        $stackType = $this->stackTypes->findFirst(
+            function (int $key, StackType $stackType) use ($nodeType) {
+                return $stackType->getNodeTypeName() === $nodeType->getName();
+            }
+        );
+
+        $this->stackTypes->removeElement($stackType);
 
         return $this;
     }
 
     /**
-     * @return Collection<int, NodeType>
+     * @return Collection<int, StackType>
      */
     public function getStackTypes(): Collection
     {
@@ -708,10 +710,17 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     /**
      * @return $this
      */
-    public function addStackType(NodeType $stackType): static
+    public function addStackType(NodeType $nodeType): static
     {
-        if (!$this->getStackTypes()->contains($stackType)) {
-            $this->getStackTypes()->add($stackType);
+        if (!$this->getStackTypes()->exists(function (int $key, StackType $stackType) use ($nodeType) {
+            return $stackType->getNodeTypeName() === $nodeType->getName();
+        })) {
+            $this->getStackTypes()->add(
+                new StackType(
+                    $this,
+                    $nodeType->getName()
+                )
+            );
         }
 
         return $this;

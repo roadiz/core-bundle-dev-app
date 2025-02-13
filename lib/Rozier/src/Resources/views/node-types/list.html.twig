@@ -31,28 +31,14 @@
         </div>
     </header>
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
-
     <article class="content content-no-action-menu content-node-types-list">
         <div class="content-table-cont">
             {% apply spaceless %}
             <table class="node-types content-table uk-table">
                 <thead>
                     <tr>
-                        <th>
-                            {% trans %}name{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'name',
-                                'filters': filters,
-                            } only %}
-                        </th>
-                        <th class="mobile-hidden uk-hidden-small">
-                            {% trans %}nodeType.displayName{% endtrans %}
-                            {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
-                                'field': 'displayName',
-                                'filters': filters,
-                            } only %}
-                        </th>
+                        <th>{% trans %}name{% endtrans %}</th>
+                        <th class="mobile-hidden uk-hidden-small">{% trans %}nodeType.displayName{% endtrans %}</th>
                         <th class="mobile-hidden uk-hidden-small uk-visible-xlarge">{% trans %}nodeType.entityName{% endtrans %}</th>
                         <th class="mobile-hidden uk-hidden-small uk-visible-large">{% trans %}nodeType.numberFields{% endtrans %}</th>
                         <th class="mobile-hidden uk-hidden-small uk-visible-large">{% trans %}nodeType.status{% endtrans %}</th>
