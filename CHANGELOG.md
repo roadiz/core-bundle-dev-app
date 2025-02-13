@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.13...v2.4.14) - 2025-02-13
+
+### Bug Fixes
+
+- Fixes NodeTranstyper which do not copy all NodesSources data and fixed null publishedAt - ([c53d0ba](https://github.com/roadiz/core-bundle-dev-app/commit/c53d0ba94617dd6f295380c0c67337613d4f7eef))
+
 ## [2.4.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.12...v2.4.13) - 2025-02-12
 
 ### Bug Fixes
