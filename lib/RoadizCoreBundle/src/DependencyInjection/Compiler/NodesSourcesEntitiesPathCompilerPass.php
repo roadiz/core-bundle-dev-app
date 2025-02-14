@@ -16,7 +16,5 @@ class NodesSourcesEntitiesPathCompilerPass implements CompilerPassInterface
             throw new \RuntimeException('kernel.project_dir parameter must be a string.');
         }
         $container->setParameter('roadiz_core.generated_entities_dir', $projectDir.'/src/GeneratedEntity');
-        $container->setParameter('roadiz_core.serialized_node_types_dir', $projectDir.'/src/Resources/node-types');
-        $container->setParameter('roadiz_core.import_files_config_path', $projectDir.'/src/Resources/config.yml');
     }
 }
