@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Themes\Rozier\RozierApp;
 
-class NodeTypesController extends RozierApp
+final class NodeTypesController extends RozierApp
 {
     public function __construct(
         private readonly NodeTypes $nodeTypesBag,
