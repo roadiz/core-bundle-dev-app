@@ -8,7 +8,7 @@ use App\GeneratedEntity\NSOffer;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
-use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
@@ -17,6 +17,7 @@ class OfferFixtures extends Fixture implements DependentFixtureInterface
 {
     public function __construct(
         private readonly UniqueNodeGenerator $uniqueNodeGenerator,
+        private readonly NodeTypes $nodeTypesBag,
     ) {
     }
 
@@ -24,7 +25,6 @@ class OfferFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             AppFixtures::class,
-            NodeTypeFixtures::class,
         ];
     }
 
@@ -32,7 +32,7 @@ class OfferFixtures extends Fixture implements DependentFixtureInterface
     {
         $offerContainer = $this->uniqueNodeGenerator->generate(
             // @phpstan-ignore-next-line
-            nodeType: $this->getReference(NodeTypeFixtures::NS_NEUTRAL, NodeType::class),
+            nodeType: $this->nodeTypesBag->get('Offer'),
             // @phpstan-ignore-next-line
             translation: $this->getReference(AppFixtures::DEFAULT_TRANSLATION_REFERENCE, Translation::class),
             flush: false,
@@ -45,7 +45,7 @@ class OfferFixtures extends Fixture implements DependentFixtureInterface
             /** @var NSOffer $offer */
             $offer = $this->uniqueNodeGenerator->generate(
                 // @phpstan-ignore-next-line
-                nodeType: $this->getReference(NodeTypeFixtures::NS_OFFER, NodeType::class),
+                nodeType: $this->nodeTypesBag->get('Offer'),
                 // @phpstan-ignore-next-line
                 translation: $this->getReference(AppFixtures::DEFAULT_TRANSLATION_REFERENCE, Translation::class),
                 parent: $offerContainer->getNode(),
