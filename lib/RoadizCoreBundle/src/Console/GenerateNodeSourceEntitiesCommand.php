@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Console;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
-use RZ\Roadiz\CoreBundle\EntityHandler\HandlerFactory;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeTypeHandler;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +17,7 @@ final class GenerateNodeSourceEntitiesCommand extends Command
 {
     public function __construct(
         private readonly NodeTypes $nodeTypesBag,
-        private readonly HandlerFactory $handlerFactory,
+        private readonly NodeTypeHandler $nodeTypeHandler,
         ?string $name = null,
     ) {
         parent::__construct($name);
@@ -46,8 +45,7 @@ final class GenerateNodeSourceEntitiesCommand extends Command
         }
 
         foreach ($nodeTypes as $nt) {
-            /** @var NodeTypeHandler $handler */
-            $handler = $this->handlerFactory->getHandler($nt);
+            $handler = $this->nodeTypeHandler->setNodeType($nt);
             $handler->removeSourceEntityClass();
             $handler->generateSourceEntityClass();
             $io->writeln('* Source class <info>'.$nt->getSourceEntityClassName().'</info> has been generated.');

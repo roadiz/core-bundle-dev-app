@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContext;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\CoreBundle\Repository\EntityRepository;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
 trait NodeSourceDefinitionTrait
@@ -42,17 +43,16 @@ trait NodeSourceDefinitionTrait
             $repository->createQueryBuilder($alias),
             $alias
         );
-
-        $qb->select([$alias, 'node'])
-            ->innerJoin($alias.'.node', 'node')
-            ->andWhere('node.parent = :parent')
+        $repository->joinNodeOnce($qb, $alias);
+        $qb->select([$alias, EntityRepository::NODE_ALIAS])
+            ->andWhere(EntityRepository::NODE_ALIAS.'.parent = :parent')
             ->andWhere($alias.'.translation = :translation')
-            ->addOrderBy('node.position', 'ASC')
+            ->addOrderBy(EntityRepository::NODE_ALIAS.'.position', 'ASC')
             ->setParameter('parent', $parent->getNode())
             ->setParameter('translation', $parent->getTranslation());
 
         if ($onlyVisible) {
-            $qb->andWhere('node.visible = :visible')
+            $qb->andWhere(EntityRepository::NODE_ALIAS.'.visible = :visible')
                 ->setParameter('visible', true);
         }
         if (NodesSources::class === $entityName) {

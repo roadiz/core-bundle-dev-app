@@ -25,20 +25,16 @@ final readonly class NodeTypeTransformer implements DataTransformerInterface
             return '';
         }
 
-        return $value->getId();
+        return $value->getName();
     }
 
     public function reverseTransform(mixed $value): ?NodeType
     {
-        if (!$value) {
+        if (!$value || !is_string($value)) {
             return null;
         }
 
-        if (is_string($value)) {
-            $nodeType = $this->nodeTypesBag->get($value);
-        } else {
-            $nodeType = $this->nodeTypesBag->getById($value);
-        }
+        $nodeType = $this->nodeTypesBag->get($value);
 
         if (null === $nodeType) {
             // causes a validation error

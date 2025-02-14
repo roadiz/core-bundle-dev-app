@@ -68,16 +68,6 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
     }
 
     /**
-     * @internal this may change in future Roadiz versions when NodeTypes will be static
-     */
-    public function getById(int $id): ?NodeType
-    {
-        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($id) {
-            return $nodeType->getId() === $id;
-        }))[0] ?? null;
-    }
-
-    /**
      * @return array<int, NodeType>
      */
     public function allVisible(bool $visible = true): array

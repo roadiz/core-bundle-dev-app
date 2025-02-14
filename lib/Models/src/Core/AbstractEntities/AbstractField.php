@@ -327,7 +327,7 @@ abstract class AbstractField extends AbstractPositioned
     #[
         ORM\Column(name: 'group_name', type: 'string', length: 250, nullable: true),
         Assert\Length(max: 250),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting:export']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
     ]
     protected ?string $groupName = null;
 
@@ -340,7 +340,7 @@ abstract class AbstractField extends AbstractPositioned
 
     #[
         ORM\Column(type: 'string', length: 250),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting:export']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
         Assert\Length(max: 250),
         Assert\NotBlank(),
         Assert\NotNull()
@@ -349,7 +349,7 @@ abstract class AbstractField extends AbstractPositioned
 
     #[
         ORM\Column(type: 'string', length: 250),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting:export']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
         Assert\Length(max: 250),
         Assert\NotBlank(),
         Assert\NotNull()
@@ -358,14 +358,14 @@ abstract class AbstractField extends AbstractPositioned
 
     #[
         ORM\Column(type: 'string', length: 250, nullable: true),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting:export']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
         Assert\Length(max: 250),
     ]
     protected ?string $placeholder = null;
 
     #[
         ORM\Column(type: 'text', nullable: true),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting:export']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
     ]
     protected ?string $description = null;
 
@@ -390,7 +390,7 @@ abstract class AbstractField extends AbstractPositioned
      */
     #[
         ORM\Column(name: 'expanded', type: 'boolean', nullable: false, options: ['default' => false]),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node_type:export', 'setting:export']),
+        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
     ]
     protected bool $expanded = false;
 

@@ -464,7 +464,6 @@ services:
             - [
                 '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TranslationObjectConstructor',
                 '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\AttributeObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeObjectConstructor',
                 '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
                 '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
                 '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingObjectConstructor',
