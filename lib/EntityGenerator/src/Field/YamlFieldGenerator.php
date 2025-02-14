@@ -38,11 +38,6 @@ final class YamlFieldGenerator extends NonVirtualFieldGenerator
         return $groups;
     }
 
-    protected function isExcludingFieldFromJmsSerialization(): bool
-    {
-        return false;
-    }
-
     protected function hasFieldAlternativeGetter(): bool
     {
         return true;

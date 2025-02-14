@@ -100,7 +100,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
         }
 
         $this->addFieldAutodoc($property);
-        $this->addFieldAttributes($property, $namespace, $this->isExcludingFieldFromJmsSerialization());
+        $this->addFieldAttributes($property, $namespace);
 
         $getter = $classType->addMethod($this->field->getGetterName().'Sources')
             ->setReturnType('array')

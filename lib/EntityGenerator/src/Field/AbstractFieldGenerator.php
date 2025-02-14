@@ -31,7 +31,7 @@ abstract class AbstractFieldGenerator
 
         $this
             ->addFieldAnnotation($property)
-            ->addFieldAttributes($property, $namespace, $this->isExcludingFieldFromJmsSerialization())
+            ->addFieldAttributes($property, $namespace)
             ->addFieldGetter($classType, $namespace)
             ->addFieldAlternativeGetter($classType)
             ->addFieldSetter($classType)
@@ -339,11 +339,6 @@ abstract class AbstractFieldGenerator
     }
 
     protected function hasSerializationAttributes(): bool
-    {
-        return true;
-    }
-
-    protected function isExcludingFieldFromJmsSerialization(): bool
     {
         return true;
     }
