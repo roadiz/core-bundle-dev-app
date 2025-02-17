@@ -20,6 +20,7 @@ class ExportController extends RozierApp
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly SerializerInterface $serializer,
+        private readonly array $csvEncoderOptions,
     ) {
     }
 
@@ -64,6 +65,7 @@ class ExportController extends RozierApp
 
         $response = new StreamedResponse(function () use ($sources) {
             echo $this->serializer->serialize($sources, 'csv', [
+                ...$this->csvEncoderOptions,
                 'groups' => [
                     'nodes_sources',
                     'urls',

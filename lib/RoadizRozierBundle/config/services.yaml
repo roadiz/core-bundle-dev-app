@@ -14,6 +14,7 @@ services:
             $allowNodeTypeEdition: '%kernel.debug%'
             $forceSslOnRedirectUri: '%roadiz_rozier.open_id.force_ssl_on_redirect_uri%'
             $useGravatar: '%roadiz_core.use_gravatar%'
+            $csvEncoderOptions: '%roadiz_rozier.csv_encoder_options%'
 
     RZ\Roadiz\RozierBundle\:
         resource: '../src/'
