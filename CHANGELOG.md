@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.14...v2.4.15) - 2025-02-17
+
+### Bug Fixes
+
+- **(RozierBundle)** Added configurable csv_encoder_options - ([ebb7fab](https://github.com/roadiz/core-bundle-dev-app/commit/ebb7fab7d9c462a69a7b10769bed1ea3eb86308c))
+
 ## [2.4.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.13...v2.4.14) - 2025-02-13
 
 ### Bug Fixes
