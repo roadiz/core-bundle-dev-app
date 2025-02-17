@@ -399,7 +399,7 @@
 {# Children node tree field #}
 {% block childrennodes_widget %}
     {% apply spaceless %}
-        <div class="uk-form-row children-nodes-widget" data-children-nodes-widget {{ block('widget_attributes') }}>
+        <div class="uk-form-row children-nodes-widget" data-translation-id="{{ nodeTree.translation.id }}" data-children-nodes-widget {{ block('widget_attributes') }}>
             {% if label is empty -%}
                 {% set label = name|humanize %}
             {%- endif -%}
