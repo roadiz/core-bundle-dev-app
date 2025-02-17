@@ -22,14 +22,14 @@ class NodeType implements NodeTypeInterface
 {
     #[
         Serializer\Groups(['node_type', 'color']),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'color']),
+        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'color']),
         Serializer\Type('string'),
         Assert\Length(max: 7),
     ]
     protected ?string $color = '#000000';
     #[
         Serializer\Groups(['node_type', 'node']),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node']),
+        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
         Serializer\Type('string'),
         Assert\NotNull(),
         Assert\NotBlank(),
@@ -40,7 +40,7 @@ class NodeType implements NodeTypeInterface
     private string $name = '';
     #[
         Serializer\Groups(['node_type', 'node']),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node']),
+        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
         Serializer\Type('string'),
         Assert\NotNull(),
         Assert\NotBlank(),
@@ -55,7 +55,7 @@ class NodeType implements NodeTypeInterface
     private ?string $description = null;
     #[
         Serializer\Groups(['node_type']),
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
+        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import']),
         Serializer\Type('boolean')
     ]
     private bool $visible = true;
