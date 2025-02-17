@@ -41,7 +41,7 @@ final class UsersPasswordCommand extends UsersCommand
             ->addOption(
                 'plain-password',
                 'p',
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Set user password (typing plain password in command-line is insecure).'
             );
     }
@@ -63,8 +63,8 @@ final class UsersPasswordCommand extends UsersCommand
             )
         ) {
             if ($plainPassword = $input->getOption('plain-password')) {
-                if (\mb_strlen($plainPassword) < 5) {
-                    throw new \InvalidArgumentException('Password is too short.');
+                if (\mb_strlen($plainPassword) < 12) {
+                    throw new \InvalidArgumentException('Password should be at least 12 chars long.');
                 }
                 $password = $plainPassword;
             }

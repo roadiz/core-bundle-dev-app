@@ -42,6 +42,10 @@ final class UsersCreationCommand extends UsersCommand
             throw new \InvalidArgumentException('Username argument is required.');
         }
 
+        if (is_string($input->getOption('plain-password')) && \mb_strlen($input->getOption('plain-password')) < 12) {
+            throw new \InvalidArgumentException('Password should be at least 12 chars long.');
+        }
+
         /** @var User|null $user */
         $user = $this->managerRegistry
             ->getRepository(User::class)
