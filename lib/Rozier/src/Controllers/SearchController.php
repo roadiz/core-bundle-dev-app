@@ -50,6 +50,7 @@ class SearchController extends RozierApp
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly FormFactoryInterface $formFactory,
         protected readonly SerializerInterface $serializer,
+        protected readonly array $csvEncoderOptions,
     ) {
     }
 
@@ -377,6 +378,7 @@ class SearchController extends RozierApp
             $filename = 'search-'.$nodetype->getName().'-'.date('YmdHis').'.csv';
             $response = new StreamedResponse(function () use ($entities) {
                 echo $this->serializer->serialize($entities, 'csv', [
+                    ...$this->csvEncoderOptions,
                     'groups' => [
                         'nodes_sources',
                         'urls',
