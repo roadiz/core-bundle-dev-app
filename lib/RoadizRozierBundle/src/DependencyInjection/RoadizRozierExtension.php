@@ -33,6 +33,11 @@ class RoadizRozierExtension extends Extension
             $projectDir.DIRECTORY_SEPARATOR.trim($config['theme_dir'], "/ \t\n\r\0\x0B")
         );
 
+        $container->setParameter(
+            'roadiz_rozier.csv_encoder_options',
+            $config['csv_encoder_options'],
+        );
+
         $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/../config'));
         $loader->load('services.yaml');
 

@@ -23,6 +23,7 @@ class CustomFormsUtilsController extends RozierApp
         private readonly TranslatorInterface $translator,
         private readonly CustomFormAnswerSerializer $customFormAnswerSerializer,
         private readonly SerializerInterface $serializer,
+        private readonly array $csvEncoderOptions,
     ) {
     }
 
@@ -54,6 +55,7 @@ class CustomFormsUtilsController extends RozierApp
 
         $response = new StreamedResponse(function () use ($answersArray, $keys) {
             echo $this->serializer->serialize($answersArray, 'csv', [
+                ...$this->csvEncoderOptions,
                 'csv_headers' => $keys,
             ]);
         });
