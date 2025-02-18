@@ -1383,6 +1383,8 @@
 
             <trans-unit xml:space="preserve" id="add.a.nodeTypeDecorator"><source>add.a.nodeTypeDecorator</source><note>Button label, for add new node-type-decorators</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.path"><source>nodeTypeDecorator.path</source><note>Table column label for node-type-decorator path</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.entity"><source>nodeTypeDecorator.entity</source><note>Table column label for node-type-decorator entity based on path</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.field"><source>nodeTypeDecorator.field</source><note>Table column label for node-type-decorator field based on path</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property"><source>nodeTypeDecorator.property</source><note>Table column label for node-type-decorator property</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.value"><source>nodeTypeDecorator.value</source><note>Table column label for node-type-decorator value</note></trans-unit>
         </body>

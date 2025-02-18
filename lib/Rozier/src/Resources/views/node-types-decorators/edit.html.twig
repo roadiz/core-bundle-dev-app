@@ -1,8 +1,16 @@
 {% extends "@RoadizRozier/node-types-decorators/add.html.twig" %}
 
-{% block title %}{{ item.path|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+{% set path = item.path|split('.') %}
+{% set entity, field = path[0], path [1] %}
+{% if '' != field %}
+    {% set title = entity ~ ' - ' ~ field %}
+{% else %}
+    {% set title = entity  %}
+{% endif %}
 
-{%- block content_title -%}{{ item.path|u.truncate(25, '[…]', true) }}{%- endblock -%}
+{% block title %}{{ title|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+
+{%- block content_title -%}{{ title|u.truncate(25, '[…]', true) }}{%- endblock -%}
 
 {%- block content_header_nav -%}
     <a class="content-header-nav-back uk-navbar-content"

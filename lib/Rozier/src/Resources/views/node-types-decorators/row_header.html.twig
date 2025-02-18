@@ -1,9 +1,12 @@
 <th>
-    {% trans %}nodeTypeDecorator.path{% endtrans %}
+    {% trans %}nodeTypeDecorator.entity{% endtrans %}
     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
         'field': 'path',
         'filters': filters,
     } only %}
+</th>
+<th>
+    {% trans %}nodeTypeDecorator.field{% endtrans %}
 </th>
 <th>
     {% trans %}nodeTypeDecorator.property{% endtrans %}

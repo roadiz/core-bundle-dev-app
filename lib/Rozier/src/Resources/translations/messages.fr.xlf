@@ -4925,6 +4925,16 @@
             <target state="final">Chemin</target>
             <note>Table column label for node-type-decorator path</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.entity" approved="yes">
+        <source>nodeTypeDecorator.entity</source>
+            <target state="final">Entité</target>
+            <note>Table column label for node-type-decorator entity based on path</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.field" approved="yes">
+        <source>nodeTypeDecorator.field</source>
+            <target state="final">Champ</target>
+            <note>Table column label for node-type-decorator field based on path</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.property" approved="yes">
         <source>nodeTypeDecorator.property</source>
             <target state="final">Propriété</target>
