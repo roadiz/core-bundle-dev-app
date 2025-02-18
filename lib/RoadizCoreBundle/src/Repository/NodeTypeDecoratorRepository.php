@@ -29,6 +29,7 @@ final class NodeTypeDecoratorRepository extends EntityRepository
         $qb = $this->createQueryBuilder(self::NODETYPE_DECORATOR_ALIAS);
         $qb->where($qb->expr()->like(self::NODETYPE_DECORATOR_ALIAS.'.path', ':nodeTypeName'));
         $qb->setParameter('nodeTypeName', $nodeType->getName().'.%');
+
         return $qb->getQuery()->getResult();
     }
 }

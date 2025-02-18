@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Xlsx;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\AbstractField;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
@@ -25,7 +25,7 @@ final class NodeSourceXlsxSerializer extends AbstractXlsxSerializer
     public function __construct(
         TranslatorInterface $translator,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
     ) {
         parent::__construct($translator);
     }

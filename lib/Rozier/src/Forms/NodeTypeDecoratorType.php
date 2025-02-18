@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms;
 
-use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeDecorator;
 use RZ\Roadiz\CoreBundle\Enum\NodeTypeDecoratorProperty;
 use Symfony\Component\Form\AbstractType;

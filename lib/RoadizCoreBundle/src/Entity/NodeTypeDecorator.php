@@ -29,11 +29,6 @@ class NodeTypeDecorator extends AbstractEntity implements PersistableInterface
     ) {
     }
 
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
     public function getPath(): string
     {
         return $this->path;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Explorer;
 
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -32,7 +32,7 @@ final readonly class ExplorerItemFactory implements ExplorerItemFactoryInterface
         private EmbedFinderFactory $embedFinderFactory,
         private Security $security,
         private TranslatorInterface $translator,
-        private NodeTypes $nodeTypesBag,
+        private DecoratedNodeTypes $nodeTypesBag,
     ) {
     }
 
