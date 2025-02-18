@@ -96,6 +96,7 @@ abstract class AbstractAjaxController extends RozierApp
                 ['groups' => [
                     'document_display',
                     'explorer_thumbnail',
+                    'node_type:display',
                     'model',
                 ]]
             ),

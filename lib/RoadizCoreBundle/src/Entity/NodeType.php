@@ -21,12 +21,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class NodeType implements NodeTypeInterface
 {
     #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'color']),
+        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'color']),
         Assert\Length(max: 7),
     ]
     protected ?string $color = '#000000';
     #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node']),
+        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
         Assert\NotNull(),
         Assert\NotBlank(),
         RoadizAssert\SimpleLatinString(),
@@ -35,7 +35,7 @@ class NodeType implements NodeTypeInterface
     ]
     private string $name = '';
     #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'node']),
+        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 250)
@@ -46,7 +46,7 @@ class NodeType implements NodeTypeInterface
     ]
     private ?string $description = null;
     #[
-        SymfonySerializer\Groups(['node_type', 'node_type:import']),
+        SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import']),
     ]
     private bool $visible = true;
     #[

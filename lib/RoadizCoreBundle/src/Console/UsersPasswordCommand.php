@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\Random\PasswordGeneratorInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -34,8 +35,14 @@ final class UsersPasswordCommand extends UsersCommand
             )->addOption(
                 'length',
                 'l',
-                InputArgument::OPTIONAL,
+                InputOption::VALUE_OPTIONAL,
                 default: 16,
+            )
+            ->addOption(
+                'plain-password',
+                'p',
+                InputOption::VALUE_REQUIRED,
+                'Set user password (typing plain password in command-line is insecure).'
             );
     }
 
@@ -44,6 +51,7 @@ final class UsersPasswordCommand extends UsersCommand
         $io = new SymfonyStyle($input, $output);
         $name = $input->getArgument('username');
         $user = $this->getUserForInput($input);
+        $password = $this->passwordGenerator->generatePassword((int) $input->getOption('length'));
 
         $confirmation = new ConfirmationQuestion(
             '<question>Do you really want to regenerate user “'.$user->getUsername().'” password?</question>',
@@ -54,9 +62,13 @@ final class UsersPasswordCommand extends UsersCommand
                 $confirmation
             )
         ) {
-            $user->setPlainPassword($this->passwordGenerator->generatePassword(
-                (int) $input->getOption('length')
-            ));
+            if ($plainPassword = $input->getOption('plain-password')) {
+                if (\mb_strlen($plainPassword) < 12) {
+                    throw new \InvalidArgumentException('Password should be at least 12 chars long.');
+                }
+                $password = $plainPassword;
+            }
+            $user->setPlainPassword($password);
             $this->managerRegistry->getManagerForClass(User::class)->flush();
             $io->success('A new password was regenerated for '.$name.': '.$user->getPlainPassword());
 

@@ -6,6 +6,8 @@ parameters:
     env(OPEN_ID_CLIENT_SECRET): ''
 roadiz_rozier:
     theme_dir: 'lib/Rozier/src'
+    csv_encoder_options:
+        csv_delimiter: ';'
     open_id:
         # Verify User info in JWT at each login
         verify_user_info: false
