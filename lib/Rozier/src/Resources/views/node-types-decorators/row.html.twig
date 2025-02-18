@@ -1,0 +1,25 @@
+<td style="--rz-accent-color: {{ item.color }};" class="name">
+    <a href="{{ path('nodeTypeDecoratorsEditPage', { id: item.getId }) }}"><span class="color" style="background-color:{{ item.color|raw }};"></span>{{ item.path }}</a>
+</td>
+<td class="mobile-hidden">{{ item.property.value }}</td>
+<td class="mobile-hidden">{{ item.value }}</td>
+<td class="table-actions-row table-actions-row-6">
+    {% apply spaceless %}
+        {% if hasBulkActions %}
+            <div class="bulk-selection">
+                <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ item.id }}" />
+            </div>
+        {% endif %}
+        <a class="uk-button uk-button-content uk-button-small"
+           href="{{ path('nodeTypeDecoratorsEditPage', { id: item.getId }) }}"
+           title="{% trans %}edit{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+
+        <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+           href="{{ path('nodeTypeDecoratorsDeletePage', { id: item.getId }) }}"
+           title="{% trans %}delete{% endtrans %}"
+           data-uk-tooltip="{animation:true}">
+            <i class="uk-icon-rz-trash-o"></i>
+        </a>
+    {% endapply %}
+</td>

@@ -52,6 +52,11 @@ nodeTypeFieldsRoutes:
     resource: "routing/node-type-fields.yml"
     prefix: /rz-admin/node-types/fields
 
+# Node type DECORATORS
+nodeTypeDecoratorsRoutes:
+    resource: "routing/node-type-decorators.yml"
+    prefix: /rz-admin/node-types/decorators
+
 # SETTINGS
 settingsHomePage:
     path:     /rz-admin/settings
