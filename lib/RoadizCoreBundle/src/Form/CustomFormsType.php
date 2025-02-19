@@ -29,15 +29,12 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class CustomFormsType extends AbstractType
+final class CustomFormsType extends AbstractType
 {
-    protected ?string $recaptchaPrivateKey;
-    protected ?string $recaptchaPublicKey;
-
-    public function __construct(?string $recaptchaPrivateKey, ?string $recaptchaPublicKey)
-    {
-        $this->recaptchaPrivateKey = $recaptchaPrivateKey;
-        $this->recaptchaPublicKey = $recaptchaPublicKey;
+    public function __construct(
+        private ?string $recaptchaPrivateKey,
+        private ?string $recaptchaPublicKey,
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -230,7 +227,6 @@ class CustomFormsType extends AbstractType
                 ];
                 if (!empty($field->getDefaultValues())) {
                     $mimeTypes = $field->getDefaultValuesAsArray();
-                    $mimeTypes = array_map('trim', $mimeTypes);
                 }
                 $option['constraints'][] = new All([
                     'constraints' => [
@@ -248,7 +244,6 @@ class CustomFormsType extends AbstractType
                 }
                 if (!empty($field->getDefaultValues())) {
                     $countries = $field->getDefaultValuesAsArray();
-                    $countries = array_map('trim', $countries);
                     $option['preferred_choices'] = $countries;
                 }
                 break;
