@@ -110,7 +110,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         /*
          * Filter by Node type
          */
-        $nodeType = $args['nodeType'] ?? $args['node.nodeType'] ?? null;
+        $nodeType = $args['nodeType'] ?? $args['nodeTypeName'] ?? $args['node.nodeType'] ?? null;
         if (!empty($nodeType)) {
             if (is_array($nodeType) || $nodeType instanceof Collection) {
                 $orQuery = [];
@@ -129,6 +129,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
             }
             unset($args['nodeType']);
             unset($args['node.nodeType']);
+            unset($args['nodeTypeName']);
         }
 
         /*
