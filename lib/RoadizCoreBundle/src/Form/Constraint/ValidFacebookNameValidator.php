@@ -8,7 +8,10 @@ use RZ\Roadiz\Documents\MediaFinders\FacebookPictureFinder;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class ValidFacebookNameValidator extends ConstraintValidator
+/**
+ * @deprecated
+ */
+final class ValidFacebookNameValidator extends ConstraintValidator
 {
     public function __construct(private readonly FacebookPictureFinder $facebookPictureFinder)
     {

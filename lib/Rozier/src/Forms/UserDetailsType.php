@@ -35,10 +35,6 @@ class UserDetailsType extends AbstractType
                 'label' => 'phone',
                 'required' => false,
             ])
-            ->add('facebookName', TextType::class, [
-                'label' => 'facebookName',
-                'required' => false,
-            ])
             ->add('company', TextType::class, [
                 'label' => 'company',
                 'required' => false,
