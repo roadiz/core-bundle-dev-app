@@ -146,16 +146,15 @@ class AttributeController extends AbstractAdminWithBulkController
         return $this->render('@RoadizRozier/attributes/import.html.twig', $this->assignation);
     }
 
-    #[\Override]
     public function exportAction(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted($this->getRequiredExportRole());
+        $this->denyAccessUnlessGranted($this->getRequiredListingRole());
         $this->additionalAssignation($request);
 
         $items = $this->getRepository()->findAll();
 
         return new JsonResponse(
-            $this->symfonySerializer->serialize(
+            $this->serializer->serialize(
                 $items,
                 'json',
                 ['groups' => [$this->getNamespace().':export']]
