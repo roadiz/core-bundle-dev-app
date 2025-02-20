@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\CoreBundle\Entity\FieldTypeTrait;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\Utils\StringHandler;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Yaml\Yaml;
 
@@ -239,7 +239,7 @@ abstract class AbstractField extends AbstractPositioned
      *
      * @deprecated Use FieldType enum instead
      */
-    #[SymfonySerializer\Ignore]
+    #[Serializer\Ignore]
     public static array $typeToHuman = [
         AbstractField::STRING_T => 'string.type',
         AbstractField::DATETIME_T => 'date-time.type',
@@ -278,7 +278,7 @@ abstract class AbstractField extends AbstractPositioned
      *
      * @deprecated Use FieldType enum instead
      */
-    #[SymfonySerializer\Ignore]
+    #[Serializer\Ignore]
     public static array $typeToDoctrine = [
         AbstractField::STRING_T => 'string',
         AbstractField::DATETIME_T => 'datetime',
@@ -319,7 +319,7 @@ abstract class AbstractField extends AbstractPositioned
      *
      * @deprecated Use FieldType enum instead
      */
-    #[SymfonySerializer\Ignore]
+    #[Serializer\Ignore]
     protected static array $searchableTypes = [
         AbstractField::STRING_T,
         AbstractField::RICHTEXT_T,
@@ -330,20 +330,20 @@ abstract class AbstractField extends AbstractPositioned
     #[
         ORM\Column(name: 'group_name', type: 'string', length: 250, nullable: true),
         Assert\Length(max: 250),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     protected ?string $groupName = null;
 
     #[
         ORM\Column(name: 'group_name_canonical', type: 'string', length: 250, nullable: true),
-        SymfonySerializer\Groups(['node_type', 'setting:export']),
+        Serializer\Groups(['node_type']),
         Assert\Length(max: 250),
     ]
     protected ?string $groupNameCanonical = null;
 
     #[
         ORM\Column(type: 'string', length: 250),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
         Assert\Length(max: 250),
         Assert\NotBlank(),
         Assert\NotNull()
@@ -352,7 +352,7 @@ abstract class AbstractField extends AbstractPositioned
 
     #[
         ORM\Column(type: 'string', length: 250),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
         Assert\Length(max: 250),
         Assert\NotBlank(),
         Assert\NotNull()
@@ -361,20 +361,20 @@ abstract class AbstractField extends AbstractPositioned
 
     #[
         ORM\Column(type: 'string', length: 250, nullable: true),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
         Assert\Length(max: 250),
     ]
     protected ?string $placeholder = null;
 
     #[
         ORM\Column(type: 'text', nullable: true),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     protected ?string $description = null;
 
     #[
         ORM\Column(name: 'default_values', type: 'text', nullable: true),
-        SymfonySerializer\Groups(['node_type', 'setting:export']),
+        Serializer\Groups(['node_type']),
     ]
     protected ?string $defaultValues = null;
 
@@ -385,7 +385,7 @@ abstract class AbstractField extends AbstractPositioned
             enumType: FieldType::class,
             options: ['default' => FieldType::STRING_T]
         ),
-        SymfonySerializer\Groups(['node_type', 'setting:export']),
+        Serializer\Groups(['node_type']),
     ]
     protected FieldType $type = FieldType::STRING_T;
 
@@ -394,7 +394,7 @@ abstract class AbstractField extends AbstractPositioned
      */
     #[
         ORM\Column(name: 'expanded', type: 'boolean', nullable: false, options: ['default' => false]),
-        SymfonySerializer\Groups(['node_type', 'node_type:import', 'setting:export']),
+        Serializer\Groups(['node_type', 'node_type:import']),
     ]
     protected bool $expanded = false;
 
