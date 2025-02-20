@@ -17,7 +17,6 @@ return [
     RZ\Roadiz\RozierBundle\RoadizRozierBundle::class => ['all' => true],
     RZ\Roadiz\UserBundle\RoadizUserBundle::class => ['all' => true],
     RZ\Roadiz\TwoFactorBundle\RoadizTwoFactorBundle::class => ['all' => true],
-    JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
     Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle::class => ['all' => true],
     Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle::class => ['all' => true],
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],

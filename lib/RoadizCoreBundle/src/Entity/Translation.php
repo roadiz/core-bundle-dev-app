@@ -547,7 +547,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      */
     #[ORM\Column(type: 'string', length: 10, unique: true, nullable: false)]
     #[SymfonySerializer\Groups(['attribute:export'])]
-    #[Serializer\Exclude]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Length(max: 10)]
