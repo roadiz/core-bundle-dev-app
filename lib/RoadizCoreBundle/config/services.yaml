@@ -491,8 +491,6 @@ services:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\GroupsImporter:
         tags: ['roadiz_core.importer']
-    RZ\Roadiz\CoreBundle\Importer\NodeTypesImporter:
-        tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\RolesImporter:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\SettingsImporter:
