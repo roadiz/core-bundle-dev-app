@@ -475,10 +475,18 @@ services:
         class: RZ\Roadiz\Random\TokenGenerator
 
     JMS\Serializer\Construction\ObjectConstructorInterface:
+        deprecated:
+            package: roadiz/core-bundle
+            version: 2.5
+            message: 'The "%alias_id%" service is deprecated and will be removed in Roadiz 2.6.'
         alias: RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor
 
     RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ChainDoctrineObjectConstructor:
         decorates: jms_serializer.doctrine_object_constructor
+        deprecated:
+            package: roadiz/core-bundle
+            version: 2.5
+            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.6.'
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor'
@@ -512,8 +520,6 @@ services:
     RZ\Roadiz\CoreBundle\Importer\RolesImporter:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\SettingsImporter:
-        tags: ['roadiz_core.importer']
-    RZ\Roadiz\CoreBundle\Importer\TagsImporter:
         tags: ['roadiz_core.importer']
 
     #
