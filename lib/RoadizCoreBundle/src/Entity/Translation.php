@@ -551,7 +551,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      * @see https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes
      */
     #[ORM\Column(type: 'string', length: 10, unique: true, nullable: false)]
-    #[SymfonySerializer\Ignore]
+    #[SymfonySerializer\Groups(['attribute:export'])]
     #[Serializer\Exclude]
     #[Assert\NotBlank]
     #[Assert\NotNull]

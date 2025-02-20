@@ -255,6 +255,18 @@ services:
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\RoleNormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: 5 }
+    # Attribute
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
+    # AttributeGroup
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeGroupNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 4 }
+    # Translation
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\TranslationNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
     # Need a different name to avoid duplicate YAML key
     roadiz_core.serializer.normalizer.nodes_sources_path.json:
         class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer'

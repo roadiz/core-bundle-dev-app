@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Model;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeTranslationTrait
@@ -14,16 +14,13 @@ trait AttributeTranslationTrait
     #[
         ORM\ManyToOne(targetEntity: TranslationInterface::class),
         ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources']),
-        Serializer\Type("RZ\Roadiz\Core\AbstractEntities\TranslationInterface"),
-        Serializer\Accessor(getter: 'getTranslation', setter: 'setTranslation')
+        SymfonySerializer\Groups(['attribute', 'attribute:export', 'node', 'nodes_sources']),
     ]
     protected TranslationInterface $translation;
 
     #[
         ORM\Column(type: 'string', length: 250, unique: false, nullable: false),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources']),
-        Serializer\Type('string'),
+        SymfonySerializer\Groups(['attribute', 'attribute:export', 'node', 'nodes_sources']),
         Assert\Length(max: 250)
     ]
     protected string $label = '';
@@ -33,15 +30,14 @@ trait AttributeTranslationTrait
      */
     #[
         ORM\Column(type: 'simple_array', unique: false, nullable: true),
-        Serializer\Groups(['attribute']),
-        Serializer\Type('array')
+        SymfonySerializer\Groups(['attribute', 'attribute:export']),
     ]
     protected ?array $options = [];
 
     #[
         ORM\ManyToOne(targetEntity: AttributeInterface::class, cascade: ['persist'], inversedBy: 'attributeTranslations'),
         ORM\JoinColumn(name: 'attribute_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Exclude
+        SymfonySerializer\Ignore,
     ]
     protected AttributeInterface $attribute;
 
