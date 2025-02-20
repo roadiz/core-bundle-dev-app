@@ -25,7 +25,7 @@ final class NodesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new CallbackTransformer(
-            function (mixed $mixedEntities) use ($options): array {
+            function (mixed $mixedEntities): array {
                 if ($mixedEntities instanceof Collection) {
                     $mixedEntities = $mixedEntities->toArray();
                 }
