@@ -41,6 +41,7 @@ class NodeTypeFieldsType extends AbstractType
                         ...$nodeType->getFields()->toArray(),
                     ];
                 }
+
                 return $nodeTypeFields;
             }
         });

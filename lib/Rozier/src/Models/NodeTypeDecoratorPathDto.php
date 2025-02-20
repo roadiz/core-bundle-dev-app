@@ -1,12 +1,14 @@
 <?php
 
 declare(strict_types=1);
+
 namespace Themes\Rozier\Models;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 
-class NodeTypeDecoratorPathDto {
+class NodeTypeDecoratorPathDto
+{
     public function __construct(
         private NodeType $nodeType,
         private ?NodeTypeField $field,
@@ -21,6 +23,7 @@ class NodeTypeDecoratorPathDto {
     public function setNodeType(NodeType $nodeType): NodeTypeDecoratorPathDto
     {
         $this->nodeType = $nodeType;
+
         return $this;
     }
 
@@ -32,7 +35,7 @@ class NodeTypeDecoratorPathDto {
     public function setField(?NodeTypeField $field): NodeTypeDecoratorPathDto
     {
         $this->field = $field;
+
         return $this;
     }
-
 }
