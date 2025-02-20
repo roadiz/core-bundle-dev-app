@@ -48,7 +48,7 @@ final class WebhookType extends AbstractType
             'required' => false,
             'label' => 'webhooks.rootNode',
             'help' => 'webhooks.rootNode.help',
-            'multiple' => false,
+            'asMultiple' => false,
         ]);
 
         $builder->get('payload')->addModelTransformer(new CallbackTransformer(function (?array $model) {

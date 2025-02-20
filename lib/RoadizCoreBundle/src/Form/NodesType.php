@@ -24,44 +24,51 @@ final class NodesType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addModelTransformer(new CallbackTransformer(function ($mixedEntities) {
-            if ($mixedEntities instanceof Collection) {
-                return $mixedEntities->toArray();
-            }
-            if (!is_array($mixedEntities)) {
-                return [$mixedEntities];
-            }
-
-            return $mixedEntities;
-        }, function ($mixedIds) use ($options) {
-            /** @var NodeRepository $repository */
-            $repository = $this->managerRegistry
-                ->getRepository(Node::class)
-                ->setDisplayingAllNodesStatuses(true);
-            if (\is_array($mixedIds) && 0 === count($mixedIds)) {
-                return [];
-            } elseif (\is_array($mixedIds)) {
-                if (false === $options['multiple']) {
-                    return $repository->findOneBy(['id' => $mixedIds]);
+        $builder->addModelTransformer(new CallbackTransformer(
+            function (mixed $mixedEntities) use ($options): array {
+                if ($mixedEntities instanceof Collection) {
+                    $mixedEntities = $mixedEntities->toArray();
+                }
+                if (!\is_array($mixedEntities)) {
+                    $mixedEntities = [$mixedEntities];
                 }
 
-                return $repository->findBy(['id' => $mixedIds]);
-            } elseif (true === $options['multiple']) {
-                return [];
-            } else {
-                return $repository->findOneById($mixedIds);
+                $mixedIds = array_map(fn (mixed $node) => $node instanceof Node ? $node->getId() : $node, $mixedEntities);
+
+                return $mixedIds;
+            },
+            function (array|int|string|null $mixedIds) use ($options) {
+                if (null === $mixedIds || (\is_array($mixedIds) && 0 === count($mixedIds))) {
+                    return $options['asMultiple'] ? [] : null;
+                }
+
+                if (!\is_array($mixedIds)) {
+                    $mixedIds = [$mixedIds];
+                } else {
+                    $mixedIds = array_values($mixedIds);
+                }
+
+                /** @var NodeRepository $repository */
+                $repository = $this->managerRegistry
+                    ->getRepository(Node::class)
+                    ->setDisplayingAllNodesStatuses(true);
+
+                return $options['asMultiple'] ? $repository->findBy(['id' => $mixedIds]) : $repository->find($mixedIds[0]);
             }
-        }));
+        ));
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'multiple' => true,
+            // Need to use a different option name to avoid early transformation exceptions
+            'asMultiple' => true,
             'nodes' => [],
         ]);
 
         $resolver->setAllowedTypes('multiple', ['boolean']);
+        $resolver->setAllowedTypes('asMultiple', ['boolean']);
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options): void

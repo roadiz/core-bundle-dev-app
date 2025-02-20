@@ -58,24 +58,9 @@ class UserSecurityType extends AbstractType
         if (true === $options['canChroot']) {
             $builder->add('chroot', NodesType::class, [
                 'label' => 'chroot',
+                'asMultiple' => false,
                 'required' => false,
             ]);
-            $builder->get('chroot')->addModelTransformer(new CallbackTransformer(
-                function (mixed $mixedEntities) {
-                    if ($mixedEntities instanceof Node) {
-                        return [$mixedEntities];
-                    }
-
-                    return [];
-                },
-                function (mixed $mixedIds) {
-                    if (\is_array($mixedIds) && 1 === count($mixedIds)) {
-                        return $mixedIds[0];
-                    }
-
-                    return null;
-                }
-            ));
         }
     }
 

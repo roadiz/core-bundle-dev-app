@@ -11,7 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\Setting;
 use RZ\Roadiz\CoreBundle\Repository\SettingRepository;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-class Settings extends LazyParameterBag
+final class Settings extends LazyParameterBag
 {
     private ?SettingRepository $repository = null;
 
