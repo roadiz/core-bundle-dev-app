@@ -4915,6 +4915,11 @@
         <source>ip_address</source>
         <target state="final">IP address</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator" approved="yes">
+        <source>nodeTypeDecorator</source>
+            <target state="final">Decorate nodes types</target>
+            <note>Title, for list node-type-decorator</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="add.a.nodeTypeDecorator" approved="yes">
         <source>add.a.nodeTypeDecorator</source>
             <target state="final">Add a Decorator</target>

@@ -4920,6 +4920,11 @@
             <target state="final">Ajouter une personnalisation</target>
             <note>Button label, for add new node-type-decorators</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator" approved="yes">
+        <source>nodeTypeDecorator</source>
+            <target state="final">Décorer les types de noeuds</target>
+            <note>Title, for list node-type-decorator</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.path" approved="yes">
         <source>nodeTypeDecorator.path</source>
             <target state="final">Chemin</target>

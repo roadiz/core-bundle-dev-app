@@ -33,6 +33,35 @@ enum NodeTypeDecoratorProperty: string
             self::NODE_TYPE_DISPLAY_NAME->value,
             self::NODE_TYPE_DESCRIPTION->value,
             self::NODE_TYPE_COLOR->value,
+            self::NODE_TYPE_COLOR->value,
+        ], true);
+    }
+
+    public function isStringType(): bool
+    {
+        return in_array($this->value, [
+            self::NODE_TYPE_DISPLAY_NAME->value,
+            self::NODE_TYPE_DESCRIPTION->value,
+            self::NODE_TYPE_COLOR->value,
+            self::NODE_TYPE_FIELD_LABEL->value,
+            self::NODE_TYPE_FIELD_DESCRIPTION->value,
+            self::NODE_TYPE_FIELD_PLACEHOLDER->value,
+        ], true);
+    }
+
+    public function isIntegerType(): bool
+    {
+        return in_array($this->value, [
+            self::NODE_TYPE_FIELD_MIN_LENGTH->value,
+            self::NODE_TYPE_FIELD_MAX_LENGTH->value,
+        ], true);
+    }
+
+    public function isBooleanType(): bool
+    {
+        return in_array($this->value, [
+            self::NODE_TYPE_FIELD_UNIVERSAL->value,
+            self::NODE_TYPE_FIELD_VISIBLE->value,
         ], true);
     }
 }

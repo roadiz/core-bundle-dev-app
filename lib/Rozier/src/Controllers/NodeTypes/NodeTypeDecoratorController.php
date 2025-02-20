@@ -46,9 +46,9 @@ final class NodeTypeDecoratorController extends AbstractAdminController
             $nodeTypeField = $this->nodeTypesBag->get($nodeTypeName)->getFieldByName($nodeTypeFieldName);
         }
         if (null === $nodeTypeField) {
-            $property = NodeTypeDecoratorProperty::NODE_TYPE_DISPLAY_NAME;
+            $property = NodeTypeDecoratorProperty::NODE_TYPE_DESCRIPTION;
         } else {
-            $property = NodeTypeDecoratorProperty::NODE_TYPE_FIELD_LABEL;
+            $property = NodeTypeDecoratorProperty::NODE_TYPE_DESCRIPTION;
         }
 
         return NodeTypeDecorator::withNodeType(

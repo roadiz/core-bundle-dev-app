@@ -1381,6 +1381,7 @@
             <trans-unit xml:space="preserve" id="sort_attributes_by_weight_for_this_type"><source>sort_attributes_by_weight_for_this_type</source></trans-unit>
             <trans-unit xml:space="preserve" id="ip_address"><source>ip_address</source></trans-unit>
 
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator"><source>nodeTypeDecorator</source><note>Title, for list node-type-decorator</note></trans-unit>
             <trans-unit xml:space="preserve" id="add.a.nodeTypeDecorator"><source>add.a.nodeTypeDecorator</source><note>Button label, for add new node-type-decorators</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.path"><source>nodeTypeDecorator.path</source><note>Table column label for node-type-decorator path</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.entity"><source>nodeTypeDecorator.entity</source><note>Table column label for node-type-decorator entity based on path</note></trans-unit>
