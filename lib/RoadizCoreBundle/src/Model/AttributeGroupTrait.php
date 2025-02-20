@@ -15,7 +15,7 @@ trait AttributeGroupTrait
 {
     #[
         ORM\Column(name: 'canonical_name', type: 'string', length: 255, unique: true, nullable: false),
-        Serializer\Groups(['attribute_group', 'attribute', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute_group', 'attribute:export', 'attribute:import', 'attribute', 'node', 'nodes_sources']),
         Assert\NotNull(),
         Assert\Length(max: 255),
         Assert\NotBlank()
@@ -27,7 +27,7 @@ trait AttributeGroupTrait
      */
     #[
         ORM\OneToMany(mappedBy: 'group', targetEntity: AttributeInterface::class),
-        Serializer\Groups(['attribute_group']),
+        Serializer\Ignore(),
     ]
     protected Collection $attributes;
 
@@ -41,7 +41,7 @@ trait AttributeGroupTrait
             cascade: ['all'],
             orphanRemoval: true
         ),
-        Serializer\Groups(['attribute_group', 'attribute', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute_group', 'attribute:export', 'attribute', 'node', 'nodes_sources']),
     ]
     protected Collection $attributeGroupTranslations;
 

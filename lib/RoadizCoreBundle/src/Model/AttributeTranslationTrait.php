@@ -14,13 +14,13 @@ trait AttributeTranslationTrait
     #[
         ORM\ManyToOne(targetEntity: TranslationInterface::class),
         ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Groups(['attribute_translation', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute', 'attribute:export', 'node', 'nodes_sources']),
     ]
     protected TranslationInterface $translation;
 
     #[
         ORM\Column(type: 'string', length: 250, unique: false, nullable: false),
-        Serializer\Groups(['attribute_translation', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute', 'attribute:export', 'node', 'nodes_sources']),
         Assert\Length(max: 250)
     ]
     protected string $label = '';
@@ -30,7 +30,7 @@ trait AttributeTranslationTrait
      */
     #[
         ORM\Column(type: 'simple_array', unique: false, nullable: true),
-        Serializer\Groups(['attribute_translation']),
+        Serializer\Groups(['attribute', 'attribute:export']),
     ]
     protected ?array $options = [];
 

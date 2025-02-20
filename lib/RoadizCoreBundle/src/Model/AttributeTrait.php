@@ -15,7 +15,7 @@ trait AttributeTrait
 {
     #[
         ORM\Column(type: 'string', length: 255, unique: true, nullable: false),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute', 'attribute:export', 'attribute:import', 'node', 'nodes_sources']),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 255)
@@ -24,19 +24,19 @@ trait AttributeTrait
 
     #[
         ORM\Column(type: 'boolean', unique: false, nullable: false, options: ['default' => false]),
-        Serializer\Groups(['attribute']),
+        Serializer\Groups(['attribute', 'attribute:export', 'attribute:import']),
     ]
     protected bool $searchable = false;
 
     #[
         ORM\Column(type: 'integer', unique: false, nullable: false),
-        Serializer\Groups(['attribute']),
+        Serializer\Groups(['attribute', 'attribute:export', 'attribute:import']),
     ]
     protected int $type = AttributeInterface::STRING_T;
 
     #[
         ORM\Column(type: 'string', length: 7, unique: false, nullable: true),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),
         Assert\Length(max: 7)
     ]
     protected ?string $color = null;
@@ -49,7 +49,7 @@ trait AttributeTrait
             inversedBy: 'attributes'
         ),
         ORM\JoinColumn(name: 'group_id', onDelete: 'SET NULL'),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),
     ]
     protected ?AttributeGroupInterface $group = null;
 
@@ -64,7 +64,7 @@ trait AttributeTrait
             fetch: 'EAGER',
             orphanRemoval: true
         ),
-        Serializer\Groups(['attribute_translation', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export']),
     ]
     protected Collection $attributeTranslations;
 

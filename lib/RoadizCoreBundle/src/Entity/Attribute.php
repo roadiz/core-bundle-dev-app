@@ -66,7 +66,7 @@ class Attribute extends AbstractEntity implements AttributeInterface
      */
     #[
         ORM\Column(type: 'integer', nullable: false, options: ['default' => 0]),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources']),
+        SymfonySerializer\Groups(['attribute', 'attribute:export', 'attribute:import', 'node', 'nodes_sources']),
         ApiFilter(OrderFilter::class),
         Range(min: 0, max: 9999),
         NotNull,

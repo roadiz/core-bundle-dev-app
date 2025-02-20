@@ -105,31 +105,6 @@ class AttributeController extends AbstractAdminWithBulkController
         throw new \InvalidArgumentException('Item should be instance of '.$this->getEntityClass());
     }
 
-    public function exportAction(Request $request): JsonResponse
-    {
-        $this->denyAccessUnlessGranted($this->getRequiredRole());
-        $this->additionalAssignation($request);
-
-        $items = $this->getRepository()->findAll();
-
-        return new JsonResponse(
-            $this->serializer->serialize(
-                $items,
-                'json',
-                ['groups' => ['attribute', 'attribute_translation', 'translation_base']]
-            ),
-            Response::HTTP_OK,
-            [
-                'Content-Disposition' => sprintf(
-                    'attachment; filename="%s_%s.json"',
-                    $this->getNamespace(),
-                    (new \DateTime())->format('YmdHi')
-                ),
-            ],
-            true
-        );
-    }
-
     /**
      * @throws RuntimeError
      */
@@ -169,5 +144,31 @@ class AttributeController extends AbstractAdminWithBulkController
         $this->assignation['form'] = $form->createView();
 
         return $this->render('@RoadizRozier/attributes/import.html.twig', $this->assignation);
+    }
+
+    #[\Override]
+    public function exportAction(Request $request): JsonResponse
+    {
+        $this->denyAccessUnlessGranted($this->getRequiredExportRole());
+        $this->additionalAssignation($request);
+
+        $items = $this->getRepository()->findAll();
+
+        return new JsonResponse(
+            $this->symfonySerializer->serialize(
+                $items,
+                'json',
+                ['groups' => [$this->getNamespace().':export']]
+            ),
+            Response::HTTP_OK,
+            [
+                'Content-Disposition' => sprintf(
+                    'attachment; filename="%s_%s.json"',
+                    $this->getNamespace(),
+                    (new \DateTime())->format('YmdHi')
+                ),
+            ],
+            true
+        );
     }
 }

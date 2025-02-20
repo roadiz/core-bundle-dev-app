@@ -32,13 +32,13 @@ class GroupsUtilsController extends RozierApp
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_GROUPS');
 
-        $existingGroup = $this->em()
+        $groups = $this->em()
                               ->getRepository(Group::class)
                               ->findAll();
 
         return new JsonResponse(
             $this->serializer->serialize(
-                $existingGroup,
+                $groups,
                 'json',
                 ['groups' => ['group:export']]
             ),

@@ -12,7 +12,7 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 /**
  * Override Tag default normalization.
  */
-final class TagNormalizer extends AbstractPathNormalizer
+final class TagTranslationNormalizer extends AbstractPathNormalizer
 {
     /**
      * @return array|\ArrayObject|bool|float|int|mixed|string|null

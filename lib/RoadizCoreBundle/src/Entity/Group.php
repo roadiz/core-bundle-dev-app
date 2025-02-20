@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\CoreBundle\Repository\GroupRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Attribute as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Group extends AbstractEntity
 {
     #[ORM\Column(type: 'string', length: 250, unique: true)]
-    #[SymfonySerializer\Groups(['user', 'role:export', 'group:export'])]
+    #[Serializer\Groups(['user', 'role', 'role:export', 'role:import', 'group', 'group:export', 'group:import'])]
     #[Assert\NotBlank]
     #[Assert\Length(max: 250)]
     private string $name = '';
@@ -33,7 +33,7 @@ class Group extends AbstractEntity
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'groups')]
-    #[SymfonySerializer\Groups(['group_user'])]
+    #[Serializer\Groups(['group_user'])]
     private Collection $users;
 
     /**
@@ -43,10 +43,10 @@ class Group extends AbstractEntity
     #[ORM\JoinColumn(name: 'group_id', referencedColumnName: 'id')]
     #[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'id')]
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'groups', cascade: ['persist', 'merge'])]
-    #[SymfonySerializer\Groups(['group:export'])]
+    #[Serializer\Groups(['group'])]
     private Collection $roleEntities;
 
-    #[SymfonySerializer\Groups(['group:export', 'user'])]
+    #[Serializer\Groups(['group', 'user', 'group:export'])]
     private ?array $roles = null;
 
     public function __construct()

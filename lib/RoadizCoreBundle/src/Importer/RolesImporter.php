@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Importer;
 
-use JMS\Serializer\DeserializationContext;
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Role;
-use RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TypedObjectConstructorInterface;
+use RZ\Roadiz\CoreBundle\Serializer\Normalizer\RoleNormalizer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 final readonly class RolesImporter implements EntityImporterInterface
 {
@@ -24,11 +23,12 @@ final readonly class RolesImporter implements EntityImporterInterface
     {
         $this->serializer->deserialize(
             $serializedData,
-            'array<'.Role::class.'>',
+            Role::class.'[]',
             'json',
-            DeserializationContext::create()
-                ->setAttribute(TypedObjectConstructorInterface::PERSIST_NEW_OBJECTS, true)
-                ->setAttribute(TypedObjectConstructorInterface::FLUSH_NEW_OBJECTS, true)
+            [
+                'groups' => ['role:import'],
+                RoleNormalizer::PERSIST_NEW_ENTITIES => true,
+            ]
         );
 
         return true;

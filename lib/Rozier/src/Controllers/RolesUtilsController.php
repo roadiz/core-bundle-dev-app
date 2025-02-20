@@ -25,6 +25,29 @@ class RolesUtilsController extends RozierApp
     ) {
     }
 
+    public function exportAllAction(Request $request): JsonResponse
+    {
+        $this->denyAccessUnlessGranted('ROLE_ACCESS_ROLES');
+
+        $items = $this->em()->getRepository(Role::class)->findAll();
+
+        return new JsonResponse(
+            $this->serializer->serialize(
+                $items,
+                'json',
+                ['groups' => ['role:export']]
+            ),
+            Response::HTTP_OK,
+            [
+                'Content-Disposition' => sprintf(
+                    'attachment; filename="role_%s.json"',
+                    (new \DateTime())->format('YmdHi')
+                ),
+            ],
+            true
+        );
+    }
+
     /**
      * Export a Role in a Json file.
      */

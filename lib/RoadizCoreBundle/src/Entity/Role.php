@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Repository\RoleRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -36,7 +36,7 @@ class Role implements PersistableInterface
     protected ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 250, unique: true)]
-    #[SymfonySerializer\Groups(['user', 'role:export', 'group:export'])]
+    #[Serializer\Groups(['user', 'role', 'role:export', 'role:import', 'group'])]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Regex(pattern: '#^ROLE_([A-Z0-9\_]+)$#', message: 'role.name.must_comply_with_standard')]
@@ -47,7 +47,7 @@ class Role implements PersistableInterface
      * @var Collection<int, Group>
      */
     #[ORM\ManyToMany(targetEntity: Group::class, mappedBy: 'roleEntities', cascade: ['persist', 'merge'])]
-    #[SymfonySerializer\Groups(['role:export'])]
+    #[Serializer\Groups(['role', 'role:export', 'role:import'])]
     private Collection $groups;
 
     /**
@@ -159,7 +159,7 @@ class Role implements PersistableInterface
      *
      * It replaces underscores by dashes and lowercase.
      */
-    #[SymfonySerializer\Groups(['role:export', 'group:export'])]
+    #[Serializer\Groups(['role'])]
     public function getClassName(): string
     {
         return str_replace('_', '-', \mb_strtolower($this->getRole()));
