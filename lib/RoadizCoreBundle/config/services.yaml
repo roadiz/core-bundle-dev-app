@@ -200,13 +200,13 @@ services:
 
     # Tag
     # requires DocumentNormalizer
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagNormalizer:
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagTranslationNormalizer:
         # By default, .inner is passed as argument
         decorates: 'api_platform.jsonld.normalizer.item'
         decoration_priority: 18
     # Need a different name to avoid duplicate YAML key
     roadiz_core.serializer.normalizer.tag.json:
-        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagNormalizer'
+        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagTranslationNormalizer'
         decorates: 'api_platform.serializer.normalizer.item'
         decoration_priority: 18
 
@@ -245,6 +245,14 @@ services:
             - { name: 'serializer.normalizer', priority: 5 }
     # FieldType enum
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\FieldTypeNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
+    # Group
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\GroupNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
+    # Role
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\RoleNormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: 5 }
     # Need a different name to avoid duplicate YAML key
@@ -469,8 +477,6 @@ services:
                 '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
                 '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
                 '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingGroupObjectConstructor'
             ]
 
     Solarium\Core\Client\Client:
