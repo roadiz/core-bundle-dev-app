@@ -25,7 +25,7 @@
         "doctrine/doctrine-bundle": "^2.8.1",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "~2.20.0",
-        "jms/serializer": "^3.9.0",
+        "jms/serializer": "^3.32.3",
         "league/flysystem": "^3.0",
         "roadiz/models": "2.5.x-dev",
         "roadiz/rozier": "2.5.x-dev",

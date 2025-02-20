@@ -6,12 +6,11 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Repository\SettingRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Annotation as Serializer;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['type']),
     ORM\Index(columns: ['name']),
     ORM\Index(columns: ['visible']),
-    UniqueEntity(fields: ['name'])
+    UniqueEntity(fields: ['name']),
 ]
 class Setting extends AbstractEntity
 {
@@ -33,8 +32,7 @@ class Setting extends AbstractEntity
     /**
      * @var array<int, FieldType>
      */
-    #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
+    #[Serializer\Ignore]
     public static array $availableTypes = [
         FieldType::STRING_T,
         FieldType::DATETIME_T,
@@ -54,24 +52,20 @@ class Setting extends AbstractEntity
     ];
 
     #[ORM\Column(type: 'string', length: 250, unique: true)]
-    #[SymfonySerializer\Groups(['setting', 'nodes_sources'])]
     #[Serializer\Groups(['setting', 'nodes_sources'])]
     #[Assert\NotBlank]
     #[Assert\Length(max: 250)]
     private string $name = '';
 
     #[ORM\Column(type: 'text', unique: false, nullable: true)]
-    #[SymfonySerializer\Groups(['setting'])]
     #[Serializer\Groups(['setting'])]
     private ?string $description = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    #[SymfonySerializer\Groups(['setting', 'nodes_sources'])]
     #[Serializer\Groups(['setting', 'nodes_sources'])]
     private ?string $value = null;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
-    #[SymfonySerializer\Groups(['setting'])]
     #[Serializer\Groups(['setting'])]
     private bool $visible = true;
 
@@ -81,11 +75,8 @@ class Setting extends AbstractEntity
         inversedBy: 'settings'
     )]
     #[ORM\JoinColumn(name: 'setting_group_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
-    #[SymfonySerializer\Groups(['setting'])]
     #[Serializer\Groups(['setting'])]
-    #[Serializer\AccessType(type: 'public_method')]
-    #[Serializer\Accessor(getter: 'getSettingGroup', setter: 'setSettingGroup')]
-    private ?SettingGroup $settingGroup;
+    private ?SettingGroup $settingGroup = null;
 
     #[ORM\Column(
         type: Types::SMALLINT,
@@ -93,7 +84,6 @@ class Setting extends AbstractEntity
         enumType: FieldType::class,
         options: ['default' => FieldType::STRING_T]
     )]
-    #[SymfonySerializer\Groups(['setting'])]
     #[Serializer\Groups(['setting'])]
     private FieldType $type = FieldType::STRING_T;
 
@@ -101,9 +91,8 @@ class Setting extends AbstractEntity
      * Available values for ENUM and MULTIPLE setting types.
      */
     #[ORM\Column(name: 'defaultValues', type: 'text', nullable: true)]
-    #[SymfonySerializer\Groups(['setting'])]
     #[Serializer\Groups(['setting'])]
-    private ?string $defaultValues;
+    private ?string $defaultValues = null;
 
     public function getName(): string
     {
@@ -144,7 +133,7 @@ class Setting extends AbstractEntity
     /**
      * @throws \Exception
      */
-    #[SymfonySerializer\Ignore]
+    #[Serializer\Ignore]
     public function getValue(): string|bool|\DateTime|int|null
     {
         if (FieldType::BOOLEAN_T === $this->getType()) {

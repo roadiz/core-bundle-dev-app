@@ -243,6 +243,10 @@ services:
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodeTypeFieldNormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: 5 }
+    # FieldType enum
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\FieldTypeNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
     # Need a different name to avoid duplicate YAML key
     roadiz_core.serializer.normalizer.nodes_sources_path.json:
         class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer'
