@@ -69,7 +69,7 @@ final readonly class RoleNormalizer implements DenormalizerInterface
         return $role;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
     {
         return is_array($data) && array_key_exists('name', $data);
     }

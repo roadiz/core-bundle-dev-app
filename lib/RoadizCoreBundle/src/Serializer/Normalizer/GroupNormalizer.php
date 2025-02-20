@@ -56,7 +56,7 @@ final readonly class GroupNormalizer implements DenormalizerInterface
         return $group;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
     {
         return is_array($data) && array_key_exists('roles', $data) && array_key_exists('name', $data);
     }

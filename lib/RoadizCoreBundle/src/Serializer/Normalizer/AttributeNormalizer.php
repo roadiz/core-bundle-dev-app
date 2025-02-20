@@ -115,7 +115,7 @@ final readonly class AttributeNormalizer implements DenormalizerInterface
         $attributeTranslation->setLabel($data['label']);
     }
 
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
     {
         return is_array($data) && array_key_exists('type', $data) && array_key_exists('code', $data);
     }

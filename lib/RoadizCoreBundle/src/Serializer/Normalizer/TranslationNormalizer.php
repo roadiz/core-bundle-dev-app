@@ -41,7 +41,7 @@ final readonly class TranslationNormalizer implements DenormalizerInterface
         return $translation;
     }
 
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
     {
         return is_array($data) && array_key_exists('locale', $data);
     }

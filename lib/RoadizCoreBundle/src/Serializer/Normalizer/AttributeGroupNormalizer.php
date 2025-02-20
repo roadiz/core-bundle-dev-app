@@ -95,7 +95,7 @@ final readonly class AttributeGroupNormalizer implements DenormalizerInterface
         $attributeGroupTranslation->setName($data['name']);
     }
 
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null)
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
     {
         return is_array($data) && array_key_exists('canonicalName', $data);
     }
