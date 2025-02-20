@@ -6,12 +6,12 @@ namespace RZ\Roadiz\CoreBundle\Node;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 
@@ -62,13 +62,13 @@ final readonly class UniversalDataDuplicator
                             $this->duplicateNonVirtualField($source, $otherSource, $universalField);
                         } else {
                             switch ($universalField->getType()) {
-                                case AbstractField::DOCUMENTS_T:
+                                case FieldType::DOCUMENTS_T:
                                     $this->duplicateDocumentsField($source, $otherSource, $universalField);
                                     break;
-                                case AbstractField::MULTI_PROVIDER_T:
-                                case AbstractField::SINGLE_PROVIDER_T:
-                                case AbstractField::MANY_TO_ONE_T:
-                                case AbstractField::MANY_TO_MANY_T:
+                                case FieldType::MULTI_PROVIDER_T:
+                                case FieldType::SINGLE_PROVIDER_T:
+                                case FieldType::MANY_TO_ONE_T:
+                                case FieldType::MANY_TO_MANY_T:
                                     $this->duplicateNonVirtualField($source, $otherSource, $universalField);
                                     break;
                             }

@@ -7,6 +7,7 @@ namespace RZ\Roadiz\Core\AbstractEntities;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use RZ\Roadiz\CoreBundle\Entity\FieldTypeTrait;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
@@ -23,6 +24,8 @@ use Symfony\Component\Yaml\Yaml;
 ]
 abstract class AbstractField extends AbstractPositioned
 {
+    use FieldTypeTrait;
+
     /**
      * String field is a simple 255 characters long text.
      *
@@ -402,14 +405,15 @@ abstract class AbstractField extends AbstractPositioned
         ORM\Column(
             type: Types::SMALLINT,
             nullable: false,
-            options: ['default' => AbstractField::STRING_T]
+            enumType: FieldType::class,
+            options: ['default' => FieldType::STRING_T]
         ),
         Serializer\Groups(['node_type', 'setting']),
         SymfonySerializer\Groups(['node_type', 'setting']),
         Serializer\Type('int'),
         Serializer\Expose
     ]
-    protected int $type = AbstractField::STRING_T;
+    protected FieldType $type = FieldType::STRING_T;
 
     /**
      * If current field data should be expanded (for choices and country types).
@@ -538,55 +542,6 @@ abstract class AbstractField extends AbstractPositioned
         return is_array($defaultValues) ? $defaultValues : [];
     }
 
-    public function getTypeName(): string
-    {
-        if (!key_exists($this->getType(), FieldType::humanValues())) {
-            throw new \InvalidArgumentException($this->getType().' cannot be mapped to human label.');
-        }
-
-        return FieldType::humanValues()[$this->type];
-    }
-
-    public function getType(): int
-    {
-        return $this->type;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setType(int $type): AbstractField
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    public function getDoctrineType(): string
-    {
-        if (!key_exists($this->getType(), FieldType::doctrineValues())) {
-            throw new \InvalidArgumentException($this->getType().' cannot be mapped to Doctrine.');
-        }
-
-        return FieldType::doctrineValues()[$this->getType()] ?? '';
-    }
-
-    /**
-     * @return bool Is node type field virtual, it's just an association, no doctrine field created
-     */
-    public function isVirtual(): bool
-    {
-        return null === FieldType::doctrineValues()[$this->getType()];
-    }
-
-    /**
-     * @return bool Is node type field searchable
-     */
-    public function isSearchable(): bool
-    {
-        return in_array($this->getType(), FieldType::searchableTypes());
-    }
-
     /**
      * Gets the value of groupName.
      */
@@ -633,170 +588,5 @@ abstract class AbstractField extends AbstractPositioned
         $this->expanded = $expanded;
 
         return $this;
-    }
-
-    public function isString(): bool
-    {
-        return $this->getType() === static::STRING_T;
-    }
-
-    public function isText(): bool
-    {
-        return $this->getType() === static::TEXT_T;
-    }
-
-    public function isDate(): bool
-    {
-        return $this->getType() === static::DATE_T;
-    }
-
-    public function isDateTime(): bool
-    {
-        return $this->getType() === static::DATETIME_T;
-    }
-
-    public function isRichText(): bool
-    {
-        return $this->getType() === static::RICHTEXT_T;
-    }
-
-    public function isMarkdown(): bool
-    {
-        return $this->getType() === static::MARKDOWN_T;
-    }
-
-    public function isBool(): bool
-    {
-        return $this->isBoolean();
-    }
-
-    public function isBoolean(): bool
-    {
-        return $this->getType() === static::BOOLEAN_T;
-    }
-
-    public function isInteger(): bool
-    {
-        return $this->getType() === static::INTEGER_T;
-    }
-
-    public function isDecimal(): bool
-    {
-        return $this->getType() === static::DECIMAL_T;
-    }
-
-    public function isEmail(): bool
-    {
-        return $this->getType() === static::EMAIL_T;
-    }
-
-    public function isDocuments(): bool
-    {
-        return $this->getType() === static::DOCUMENTS_T;
-    }
-
-    public function isPassword(): bool
-    {
-        return $this->getType() === static::PASSWORD_T;
-    }
-
-    public function isColor(): bool
-    {
-        return $this->isColour();
-    }
-
-    public function isColour(): bool
-    {
-        return $this->getType() === static::COLOUR_T;
-    }
-
-    public function isGeoTag(): bool
-    {
-        return $this->getType() === static::GEOTAG_T;
-    }
-
-    public function isNodes(): bool
-    {
-        return $this->getType() === static::NODES_T;
-    }
-
-    public function isUser(): bool
-    {
-        return $this->getType() === static::USER_T;
-    }
-
-    public function isEnum(): bool
-    {
-        return $this->getType() === static::ENUM_T;
-    }
-
-    public function isChildrenNodes(): bool
-    {
-        return $this->getType() === static::CHILDREN_T;
-    }
-
-    public function isCustomForms(): bool
-    {
-        return $this->getType() === static::CUSTOM_FORMS_T;
-    }
-
-    public function isMultiple(): bool
-    {
-        return $this->getType() === static::MULTIPLE_T;
-    }
-
-    public function isMultiGeoTag(): bool
-    {
-        return $this->getType() === static::MULTI_GEOTAG_T;
-    }
-
-    public function isJson(): bool
-    {
-        return $this->getType() === static::JSON_T;
-    }
-
-    public function isYaml(): bool
-    {
-        return $this->getType() === static::YAML_T;
-    }
-
-    public function isCss(): bool
-    {
-        return $this->getType() === static::CSS_T;
-    }
-
-    public function isManyToMany(): bool
-    {
-        return $this->getType() === static::MANY_TO_MANY_T;
-    }
-
-    public function isManyToOne(): bool
-    {
-        return $this->getType() === static::MANY_TO_ONE_T;
-    }
-
-    public function isCountry(): bool
-    {
-        return $this->getType() === static::COUNTRY_T;
-    }
-
-    public function isSingleProvider(): bool
-    {
-        return $this->getType() === static::SINGLE_PROVIDER_T;
-    }
-
-    public function isMultipleProvider(): bool
-    {
-        return $this->isMultiProvider();
-    }
-
-    public function isMultiProvider(): bool
-    {
-        return $this->getType() === static::MULTI_PROVIDER_T;
-    }
-
-    public function isCollection(): bool
-    {
-        return $this->getType() === static::COLLECTION_T;
     }
 }

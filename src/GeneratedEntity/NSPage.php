@@ -618,7 +618,8 @@ class NSPage extends NodesSources
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'node_references'
+                        'node_references',
+                        []
                     );
             } else {
                 $this->nodeReferencesSources = [];

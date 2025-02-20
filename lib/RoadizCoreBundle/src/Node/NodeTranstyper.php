@@ -11,7 +11,6 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -180,7 +179,7 @@ final class NodeTranstyper
                 $setter = $oldField->getSetterName();
                 $getter = $oldField->getGetterName();
                 $source->$setter($existingSource->$getter());
-            } elseif (AbstractField::DOCUMENTS_T === $oldField->getType()) {
+            } elseif ($oldField->isDocuments()) {
                 /*
                  * Copy documents.
                  */

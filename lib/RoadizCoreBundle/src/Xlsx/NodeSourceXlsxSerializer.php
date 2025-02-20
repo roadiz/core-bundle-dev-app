@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Xlsx;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -95,28 +95,28 @@ final class NodeSourceXlsxSerializer extends AbstractXlsxSerializer
     {
         if (true === $this->onlyTexts) {
             $types = [
-                AbstractField::STRING_T,
-                AbstractField::TEXT_T,
-                AbstractField::MARKDOWN_T,
-                AbstractField::RICHTEXT_T,
+                FieldType::STRING_T,
+                FieldType::TEXT_T,
+                FieldType::MARKDOWN_T,
+                FieldType::RICHTEXT_T,
             ];
         } else {
             $types = [
-                AbstractField::STRING_T,
-                AbstractField::DATETIME_T,
-                AbstractField::DATE_T,
-                AbstractField::RICHTEXT_T,
-                AbstractField::TEXT_T,
-                AbstractField::MARKDOWN_T,
-                AbstractField::BOOLEAN_T,
-                AbstractField::INTEGER_T,
-                AbstractField::DECIMAL_T,
-                AbstractField::EMAIL_T,
-                AbstractField::ENUM_T,
-                AbstractField::MULTIPLE_T,
-                AbstractField::COLOUR_T,
-                AbstractField::GEOTAG_T,
-                AbstractField::MULTI_GEOTAG_T,
+                FieldType::STRING_T,
+                FieldType::DATETIME_T,
+                FieldType::DATE_T,
+                FieldType::RICHTEXT_T,
+                FieldType::TEXT_T,
+                FieldType::MARKDOWN_T,
+                FieldType::BOOLEAN_T,
+                FieldType::INTEGER_T,
+                FieldType::DECIMAL_T,
+                FieldType::EMAIL_T,
+                FieldType::ENUM_T,
+                FieldType::MULTIPLE_T,
+                FieldType::COLOUR_T,
+                FieldType::GEOTAG_T,
+                FieldType::MULTI_GEOTAG_T,
             ];
         }
 

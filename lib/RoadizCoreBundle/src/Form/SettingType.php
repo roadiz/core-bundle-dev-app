@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Form;
 
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -19,10 +19,6 @@ use Symfony\Component\Validator\Constraints\Type;
 
 final class SettingType extends AbstractType
 {
-    public function __construct(private readonly SettingTypeResolver $settingTypeResolver)
-    {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (false === $options['shortEdit']) {
@@ -39,10 +35,12 @@ final class SettingType extends AbstractType
                     'label' => 'visible',
                     'required' => false,
                 ])
-                ->add('type', ChoiceType::class, [
+                ->add('type', EnumType::class, [
                     'label' => 'type',
                     'required' => true,
-                    'choices' => array_flip(Setting::$typeToHuman),
+                    'class' => FieldType::class,
+                    'choice_label' => fn (FieldType $fieldType) => $fieldType->toHuman(),
+                    'choice_filter' => fn (FieldType $fieldType) => \in_array($fieldType, Setting::$availableTypes),
                 ])
                 ->add('settingGroup', SettingGroupType::class, [
                     'label' => 'setting.group',
@@ -64,7 +62,7 @@ final class SettingType extends AbstractType
             $form = $event->getForm();
 
             if ($setting instanceof Setting) {
-                if (AbstractField::DOCUMENTS_T === $setting->getType()) {
+                if ($setting->isDocuments()) {
                     $form->add(
                         'value',
                         SettingDocumentType::class,
@@ -76,7 +74,7 @@ final class SettingType extends AbstractType
                 } else {
                     $form->add(
                         'value',
-                        $this->settingTypeResolver->getSettingType($setting),
+                        $setting->getType()->toFormType(),
                         $this->getFormOptionsForSetting($setting, $options['shortEdit'])
                     );
                 }
@@ -101,8 +99,8 @@ final class SettingType extends AbstractType
         $label = (!$shortEdit) ? 'value' : false;
 
         switch ($setting->getType()) {
-            case AbstractField::ENUM_T:
-            case AbstractField::MULTIPLE_T:
+            case FieldType::ENUM_T:
+            case FieldType::MULTIPLE_T:
                 $values = explode(',', $setting->getDefaultValues() ?? '');
                 $values = array_map(function ($item) {
                     return trim($item);
@@ -113,9 +111,9 @@ final class SettingType extends AbstractType
                     'placeholder' => 'choose.value',
                     'required' => false,
                     'choices' => array_combine($values, $values),
-                    'multiple' => AbstractField::MULTIPLE_T === $setting->getType(),
+                    'multiple' => $setting->isMultiple(),
                 ];
-            case AbstractField::EMAIL_T:
+            case FieldType::EMAIL_T:
                 return [
                     'label' => $label,
                     'required' => false,
@@ -123,7 +121,7 @@ final class SettingType extends AbstractType
                         new Email(),
                     ],
                 ];
-            case AbstractField::DATETIME_T:
+            case FieldType::DATETIME_T:
                 return [
                     'placeholder' => [
                         'hour' => 'hour',
@@ -138,7 +136,7 @@ final class SettingType extends AbstractType
                     'years' => range((int) date('Y') - 10, (int) date('Y') + 10),
                     'required' => false,
                 ];
-            case AbstractField::INTEGER_T:
+            case FieldType::INTEGER_T:
                 return [
                     'label' => $label,
                     'required' => false,
@@ -146,7 +144,7 @@ final class SettingType extends AbstractType
                         new Type('integer'),
                     ],
                 ];
-            case AbstractField::DECIMAL_T:
+            case FieldType::DECIMAL_T:
                 return [
                     'label' => $label,
                     'required' => false,
