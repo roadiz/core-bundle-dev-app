@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -18,6 +20,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
     public function __construct(
         private readonly NodeChrootResolver $nodeChrootResolver,
         private readonly TreeWidgetFactory $treeWidgetFactory,
+        private readonly NodeTypes $nodeTypesBag,
         SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);
@@ -30,6 +33,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
 
         /** @var NodeTreeWidget|null $nodeTree */
         $nodeTree = null;
+        /** @var NodeType[] $linkedTypes */
         $linkedTypes = [];
 
         switch ($request->get('_action')) {
@@ -67,10 +71,18 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                 /*
                  * Filter view with only listed node-types
                  */
-                $linkedTypes = $request->get('linkedTypes', []);
-                if (is_array($linkedTypes) && count($linkedTypes) > 0) {
+                $linkedTypesNames = $request->get('linkedTypes', []);
+                if (is_array($linkedTypesNames) && count($linkedTypesNames) > 0) {
+                    /*
+                     * Linked types must be NodeType entities, not only string
+                     * to expose name and displayName to ajax responses.
+                     */
+                    $linkedTypes = array_filter(array_map(function (string $typeName) {
+                        return $this->nodeTypesBag->get($typeName);
+                    }, $linkedTypesNames));
+
                     $nodeTree->setAdditionalCriteria([
-                        'nodeTypeName' => $linkedTypes,
+                        'nodeTypeName' => $linkedTypesNames,
                     ]);
                 }
 

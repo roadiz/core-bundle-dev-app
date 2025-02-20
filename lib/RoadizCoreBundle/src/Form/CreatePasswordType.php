@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CreatePasswordType extends RepeatedType
+final class CreatePasswordType extends RepeatedType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

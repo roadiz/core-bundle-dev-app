@@ -10,10 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Group selector form field type.
- */
-class MultipleEnumerationType extends AbstractType
+final class MultipleEnumerationType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

@@ -186,6 +186,14 @@ class CustomFormField extends AbstractField
         return (string) $this->getId();
     }
 
+    /**
+     * CustomFormField should use a comma separated string to store default values. For simplicity.
+     */
+    public function getDefaultValuesAsArray(): array
+    {
+        return array_values(array_filter(array_map('trim', explode(',', $this->defaultValues ?? ''))));
+    }
+
     public function __clone()
     {
         if ($this->id) {

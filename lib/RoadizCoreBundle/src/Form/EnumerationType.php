@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Group selector form field type.
  */
-class EnumerationType extends AbstractType
+final class EnumerationType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

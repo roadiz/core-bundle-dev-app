@@ -14,20 +14,12 @@ use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-/**
- * Roles selector form field type.
- */
-class RolesType extends AbstractType
+final class RolesType extends AbstractType
 {
-    protected ManagerRegistry $managerRegistry;
-    protected AuthorizationCheckerInterface $authorizationChecker;
-
     public function __construct(
-        ManagerRegistry $managerRegistry,
-        AuthorizationCheckerInterface $authorizationChecker,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
     ) {
-        $this->authorizationChecker = $authorizationChecker;
-        $this->managerRegistry = $managerRegistry;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

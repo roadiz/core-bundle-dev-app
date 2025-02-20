@@ -7,7 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Form\Constraint;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class SimpleLatinStringValidator extends ConstraintValidator
+final class SimpleLatinStringValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {

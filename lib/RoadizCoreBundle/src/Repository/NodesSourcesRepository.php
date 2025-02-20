@@ -18,12 +18,9 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
-use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultsInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
-use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResults;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -340,7 +337,7 @@ class NodesSourcesRepository extends StatusAwareRepository
      * * key => array('>', $value)
      * * key => array('BETWEEN', $value, $value)
      * * key => array('LIKE', $value)
-     * * key => array('NOT IN', $array)
+     * * key => array('NOT IN', $array)
      * * key => 'NOT NULL'
      *
      * You even can filter with node fields, examples:
@@ -467,136 +464,6 @@ class NodesSourcesRepository extends StatusAwareRepository
     }
 
     /**
-     * Search nodes sources by using Solr search engine
-     * and a specific translation.
-     *
-     * @param string               $query       Solr query string (for example: `text:Lorem Ipsum`)
-     * @param TranslationInterface $translation Current translation
-     * @param int                  $limit
-     *
-     * @return SearchResultsInterface
-     */
-    public function findBySearchQueryAndTranslation($query, TranslationInterface $translation, $limit = 25)
-    {
-        if (null !== $this->nodeSourceSearchHandler) {
-            try {
-                $params = [
-                    'translation' => $translation,
-                ];
-
-                if ($limit > 0) {
-                    return $this->nodeSourceSearchHandler->search($query, $params, $limit);
-                } else {
-                    return $this->nodeSourceSearchHandler->search($query, $params, 999999);
-                }
-            } catch (SolrServerNotAvailableException $exception) {
-                return new SolrSearchResults([], $this->_em);
-            }
-        }
-
-        return new SolrSearchResults([], $this->_em);
-    }
-
-    /**
-     * Search Nodes-Sources using LIKE condition on title
-     * meta-title, meta-keywords, meta-description.
-     *
-     * @return array
-     */
-    public function findByTextQuery(
-        string $textQuery,
-        int $limit = 0,
-        array $nodeTypes = [],
-        bool $onlyVisible = false,
-        array $additionalCriteria = [],
-    ) {
-        $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $qb->select([static::NODESSOURCES_ALIAS, static::NODE_ALIAS, 'ua'])
-            ->leftJoin(static::NODESSOURCES_ALIAS.'.urlAliases', 'ua')
-            ->andWhere($qb->expr()->orX(
-                $qb->expr()->like(static::NODESSOURCES_ALIAS.'.title', ':query'),
-                $qb->expr()->like(static::NODESSOURCES_ALIAS.'.metaTitle', ':query'),
-                $qb->expr()->like(static::NODESSOURCES_ALIAS.'.metaDescription', ':query')
-            ))
-            ->orderBy(static::NODESSOURCES_ALIAS.'.title', 'ASC')
-            ->setParameter(':query', '%'.$textQuery.'%');
-
-        if ($limit > 0) {
-            $qb->setMaxResults($limit);
-        }
-
-        /*
-         * Alteration always join node table.
-         */
-        $this->alterQueryBuilderWithAuthorizationChecker($qb);
-
-        if (count($nodeTypes) > 0) {
-            $additionalCriteria['node.nodeType'] = $nodeTypes;
-        }
-
-        if (true === $onlyVisible) {
-            $additionalCriteria['node.visible'] = true;
-        }
-
-        $this->dispatchQueryBuilderEvent($qb, $this->getEntityName());
-
-        if (count($additionalCriteria) > 0) {
-            $this->prepareComparisons($additionalCriteria, $qb, static::NODESSOURCES_ALIAS);
-            $this->applyFilterByCriteria($additionalCriteria, $qb);
-        }
-
-        $query = $qb->getQuery();
-        $this->dispatchQueryEvent($query);
-
-        return $query->getResult();
-    }
-
-    /**
-     * Find latest updated NodesSources using Log table.
-     */
-    public function findByLatestUpdated(int $maxResult = 5): Paginator
-    {
-        $subQuery = $this->_em->createQueryBuilder();
-        $subQuery->select('slog.entityId')
-            ->from(Log::class, 'slog')
-            ->andWhere($subQuery->expr()->eq('slog.entityClass', ':entityClass'))
-            ->orderBy('slog.datetime', 'DESC');
-
-        $query = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $query
-            ->andWhere($query->expr()->in(static::NODESSOURCES_ALIAS.'.id', $subQuery->getQuery()->getDQL()))
-            ->setParameter(':entityClass', NodesSources::class)
-            ->setMaxResults($maxResult)
-        ;
-
-        return new Paginator($query->getQuery());
-    }
-
-    /**
-     * Get node-source parent according to its translation.
-     *
-     * @return NodesSources|null
-     *
-     * @throws NonUniqueResultException
-     */
-    public function findParent(NodesSources $nodeSource)
-    {
-        $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
-        $qb->select(static::NODESSOURCES_ALIAS.', n, ua')
-            ->innerJoin(static::NODESSOURCES_ALIAS.'.node', static::NODE_ALIAS)
-            ->innerJoin('n.children', 'cn')
-            ->leftJoin(static::NODESSOURCES_ALIAS.'.urlAliases', 'ua')
-            ->andWhere($qb->expr()->eq('cn.id', ':childNodeId'))
-            ->andWhere($qb->expr()->eq(static::NODESSOURCES_ALIAS.'.translation', ':translation'))
-            ->setParameter('childNodeId', $nodeSource->getNode()->getId())
-            ->setParameter('translation', $nodeSource->getTranslation())
-            ->setMaxResults(1)
-            ->setCacheable(true);
-
-        return $qb->getQuery()->getOneOrNullResult();
-    }
-
-    /**
      * @return mixed|null
      */
     public function findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
@@ -683,8 +550,7 @@ class NodesSourcesRepository extends StatusAwareRepository
     ): ?array {
         $qb = $this->createQueryBuilder(static::NODESSOURCES_ALIAS);
         $this->joinNodeOnce($qb);
-        $qb->select([static::NODESSOURCES_ALIAS, static::NODE_ALIAS])
-            ->innerJoin(static::NODE_ALIAS.'.aNodes', 'ntn')
+        $qb->innerJoin(static::NODE_ALIAS.'.aNodes', 'ntn')
             ->andWhere($qb->expr()->eq('ntn.fieldName', ':fieldName'))
             ->andWhere($qb->expr()->eq('ntn.nodeA', ':nodeA'))
             ->andWhere($qb->expr()->eq(static::NODESSOURCES_ALIAS.'.translation', ':translation'))

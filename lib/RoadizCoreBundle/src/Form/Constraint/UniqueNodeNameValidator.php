@@ -14,13 +14,10 @@ use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class UniqueNodeNameValidator extends ConstraintValidator
+final class UniqueNodeNameValidator extends ConstraintValidator
 {
-    protected ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     /**

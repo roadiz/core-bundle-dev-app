@@ -9,7 +9,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Yaml\Exception\ParseException;
 use Symfony\Component\Yaml\Yaml;
 
-class ValidYamlValidator extends ConstraintValidator
+final class ValidYamlValidator extends ConstraintValidator
 {
     /**
      * @param ValidYaml $constraint

@@ -191,16 +191,12 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
         // Only requires Search permission for nodes
         $this->denyAccessUnlessGranted(NodeVoter::SEARCH);
 
-        if (!$request->query->has('ids')) {
-            throw new InvalidParameterException('Ids should be provided within an array');
-        }
-
         $cleanNodeIds = array_filter($request->query->filter('ids', [], \FILTER_DEFAULT, [
             'flags' => \FILTER_FORCE_ARRAY,
         ]));
         $nodesArray = [];
 
-        if (count($cleanNodeIds)) {
+        if (count($cleanNodeIds) > 0) {
             /** @var EntityManager $em */
             $em = $this->em();
             $nodes = $em->getRepository(Node::class)
