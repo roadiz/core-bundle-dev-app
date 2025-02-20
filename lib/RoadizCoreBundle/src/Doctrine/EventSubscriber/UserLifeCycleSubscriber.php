@@ -17,7 +17,6 @@ use RZ\Roadiz\CoreBundle\Event\User\UserEnabledEvent;
 use RZ\Roadiz\CoreBundle\Event\User\UserPasswordChangedEvent;
 use RZ\Roadiz\CoreBundle\Event\User\UserUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Security\User\UserViewer;
-use RZ\Roadiz\Documents\MediaFinders\FacebookPictureFinder;
 use RZ\Roadiz\Random\TokenGenerator;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -33,7 +32,6 @@ final readonly class UserLifeCycleSubscriber
         private UserViewer $userViewer,
         private EventDispatcherInterface $dispatcher,
         private PasswordHasherFactoryInterface $passwordHasherFactory,
-        private FacebookPictureFinder $facebookPictureFinder,
         private LoggerInterface $logger,
         private bool $useGravatar,
     ) {
@@ -59,21 +57,6 @@ final readonly class UserLifeCycleSubscriber
                 $this->dispatcher->dispatch($userEvent);
             }
 
-            if ($event->hasChangedField('facebookName')) {
-                if ('' != $event->getNewValue('facebookName')) {
-                    try {
-                        $url = $this->facebookPictureFinder->getPictureUrl($user->getFacebookName());
-                        $user->setPictureUrl($url);
-                    } catch (\Exception $e) {
-                        $user->setFacebookName('');
-                        if ($this->useGravatar) {
-                            $user->setPictureUrl($user->getGravatarUrl());
-                        }
-                    }
-                } elseif ($this->useGravatar) {
-                    $user->setPictureUrl($user->getGravatarUrl());
-                }
-            }
             /*
              * Encode user password
              */

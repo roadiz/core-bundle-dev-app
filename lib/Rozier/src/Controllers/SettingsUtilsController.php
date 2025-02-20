@@ -54,7 +54,9 @@ class SettingsUtilsController extends RozierApp
             $this->serializer->serialize(
                 $settings,
                 'json',
-                ['groups' => ['setting:export']]
+                [
+                    'groups' => ['setting'],
+                ]
             ),
             Response::HTTP_OK,
             [

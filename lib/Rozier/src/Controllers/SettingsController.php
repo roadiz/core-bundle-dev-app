@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers;
 
 use Doctrine\Common\Cache\CacheProvider;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
 use RZ\Roadiz\CoreBundle\Entity\SettingGroup;
 use RZ\Roadiz\CoreBundle\Event\Cache\CachePurgeRequestEvent;
@@ -163,7 +162,7 @@ class SettingsController extends RozierApp
             }
 
             $document = null;
-            if (AbstractField::DOCUMENTS_T == $setting->getType()) {
+            if ($setting->isDocuments()) {
                 $document = $this->getSettingsBag()->getDocument($setting->getName());
             }
 

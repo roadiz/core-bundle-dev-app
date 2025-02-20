@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  * @Target({"PROPERTY", "METHOD", "ANNOTATION"})
  */
 #[\Attribute(\Attribute::TARGET_PROPERTY | \Attribute::TARGET_METHOD | \Attribute::IS_REPEATABLE)]
-class NonSqlReservedWord extends Constraint
+final class NonSqlReservedWord extends Constraint
 {
     /**
      * List of forbidden field names. These are SQL reserved words.

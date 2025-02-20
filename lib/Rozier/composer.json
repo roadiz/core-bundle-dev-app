@@ -34,7 +34,7 @@
         "php": ">=8.2",
         "ext-zip": "*",
         "doctrine/orm": "~2.20.0",
-        "jms/serializer": "^3.9.0",
+        "jms/serializer": "^3.32.3",
         "league/flysystem": "^3.0",
         "ramsey/uuid": "^4.7",
         "roadiz/compat-bundle": "2.5.x-dev",

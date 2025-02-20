@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Configuration\JoinNodeTypeFieldConfiguration;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -33,8 +33,8 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerControlle
     protected function getFieldConfiguration(NodeTypeField $nodeTypeField): array
     {
         if (
-            AbstractField::MANY_TO_MANY_T !== $nodeTypeField->getType()
-            && AbstractField::MANY_TO_ONE_T !== $nodeTypeField->getType()
+            FieldType::MANY_TO_MANY_T !== $nodeTypeField->getType()
+            && FieldType::MANY_TO_ONE_T !== $nodeTypeField->getType()
         ) {
             throw new BadRequestHttpException('nodeTypeField is not a valid entity join.');
         }

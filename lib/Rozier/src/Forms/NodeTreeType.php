@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms;
 
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -39,7 +39,7 @@ final class NodeTreeType extends AbstractType
     {
         parent::finishView($view, $form, $options);
 
-        if (AbstractField::CHILDREN_T !== $options['nodeTypeField']->getType()) {
+        if (FieldType::CHILDREN_T !== $options['nodeTypeField']->getType()) {
             throw new \RuntimeException('Given field is not a NodeTypeField::CHILDREN_T field.', 1);
         }
 

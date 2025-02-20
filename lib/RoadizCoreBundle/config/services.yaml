@@ -243,6 +243,10 @@ services:
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodeTypeFieldNormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: 5 }
+    # FieldType enum
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\FieldTypeNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
     # Need a different name to avoid duplicate YAML key
     roadiz_core.serializer.normalizer.nodes_sources_path.json:
         class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer'
@@ -484,8 +488,6 @@ services:
     RZ\Roadiz\CoreBundle\Importer\AttributeImporter:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\GroupsImporter:
-        tags: ['roadiz_core.importer']
-    RZ\Roadiz\CoreBundle\Importer\NodeTypesImporter:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\RolesImporter:
         tags: ['roadiz_core.importer']

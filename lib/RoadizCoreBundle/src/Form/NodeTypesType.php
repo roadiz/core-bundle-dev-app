@@ -10,10 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Node types selector form field type.
- */
-class NodeTypesType extends AbstractType
+final class NodeTypesType extends AbstractType
 {
     public function __construct(private readonly NodeTypes $nodeTypesBag)
     {

@@ -10,10 +10,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Markdown editor form field type.
- */
-class MarkdownType extends AbstractType
+final class MarkdownType extends AbstractType
 {
     public function getParent(): ?string
     {

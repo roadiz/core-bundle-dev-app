@@ -3,20 +3,31 @@
         "name": "force_locale",
         "visible": true,
         "description": "Force displaying translation locale in every node’ paths. This should be *ON* if you redirect users based on their language on homepage.",
-        "setting_group": {
+        "settingGroup": {
             "name": "Development",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 5,
-        "default_values": ""
+        "defaultValues": ""
+    },
+    {
+        "name": "cron_last_exec_date",
+        "visible": true,
+        "description": "Store last cronjob execution date and time.",
+        "settingGroup": {
+            "name": "Development",
+            "inMenu": true
+        },
+        "type": 1,
+        "defaultValues": ""
     },
     {
         "name": "force_locale_with_urlaliases",
         "description": "force_locale_with_urlaliases.help",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Development",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 5
     },
@@ -25,32 +36,32 @@
         "value": "https:\/\/{s}.tile.osm.org\/{z}\/{x}\/{y}.png",
         "description": "Default maps tiles layout when using *Leaflet*.",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Development",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "maps_default_location",
         "value": "{\"lat\":45.769785, \"lng\":4.833967, \"zoom\":14}",
         "description": "Default maps marker location.",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Development",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 23,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "openid_button_label",
         "description": "openid_button_label.help",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "OpenId",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0
     },
@@ -58,193 +69,193 @@
         "name": "support_email_address",
         "visible": true,
         "description": "Support email address, used in every system emails footer",
-        "setting_group": {
+        "settingGroup": {
             "name": "Emailings",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 8,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "email_sender",
         "visible": true,
         "description": "Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**",
-        "setting_group": {
+        "settingGroup": {
             "name": "Emailings",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 8,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "email_sender_name",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Emailings",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "universal_analytics_id",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "APIs",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "google_tag_manager_id",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "APIs",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "seo_description",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Site information",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 2,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "site_name",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Site information",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "maintenance_mode",
         "visible": true,
         "description": "Switch maintenance mode. Only login page will be available for public requests.",
-        "setting_group": {
+        "settingGroup": {
             "name": "Site information",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 5,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "site_copyright",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Site information",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "main_color",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Site information",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 11,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "admin_image",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Site information",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 9,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "login_image",
         "visible": true,
         "description": "Replace random *Splashbase* login images with your own.",
-        "setting_group": {
+        "settingGroup": {
             "name": "Site information",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 9,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "facebook_url",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Social networks",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "instagram_url",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Social networks",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "pinterest_url",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Social networks",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "twitter_url",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Social networks",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "linkedin_url",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Social networks",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "youtube_url",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Social networks",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0,
-        "default_values": ""
+        "defaultValues": ""
     },
     {
         "name": "custom_preview_scheme",
         "description": "custom_preview_scheme.help",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Site information",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0
     },
@@ -252,9 +263,9 @@
         "name": "custom_public_scheme",
         "description": "custom_public_scheme.help",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Site information",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 0
     },
@@ -262,9 +273,9 @@
         "name": "dashboard_iframe",
         "description": "dashboard_iframe.help",
         "visible": true,
-        "setting_group": {
+        "settingGroup": {
             "name": "Site information",
-            "in_menu": true
+            "inMenu": true
         },
         "type": 2
     }

@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms;
 
-use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Form\NodesType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -58,24 +56,9 @@ class UserSecurityType extends AbstractType
         if (true === $options['canChroot']) {
             $builder->add('chroot', NodesType::class, [
                 'label' => 'chroot',
+                'asMultiple' => false,
                 'required' => false,
             ]);
-            $builder->get('chroot')->addModelTransformer(new CallbackTransformer(
-                function (mixed $mixedEntities) {
-                    if ($mixedEntities instanceof Node) {
-                        return [$mixedEntities];
-                    }
-
-                    return [];
-                },
-                function (mixed $mixedIds) {
-                    if (\is_array($mixedIds) && 1 === count($mixedIds)) {
-                        return $mixedIds[0];
-                    }
-
-                    return null;
-                }
-            ));
         }
     }
 

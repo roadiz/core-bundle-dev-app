@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrength;
 use RZ\Roadiz\Core\AbstractEntities\AbstractHuman;
-use RZ\Roadiz\CoreBundle\Form\Constraint\ValidFacebookName;
 use RZ\Roadiz\CoreBundle\Repository\UserRepository;
 use RZ\Roadiz\CoreBundle\Security\User\AdvancedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -58,12 +57,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     #[Serializer\Ignore]
     protected bool $sendCreationConfirmationEmail = false;
-
-    #[ORM\Column(name: 'facebook_name', type: 'string', length: 128, unique: false, nullable: true)]
-    #[Serializer\Groups(['user_social'])]
-    #[Assert\Length(max: 128)]
-    #[ValidFacebookName]
-    protected ?string $facebookName = null;
 
     #[ORM\Column(name: 'picture_url', type: 'text', nullable: true)]
     #[Serializer\Groups(['user'])]
@@ -227,24 +220,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     public function setUsername(string $username): User
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    /**
-     * Get facebook profile name to grab public infos such as picture.
-     */
-    public function getFacebookName(): ?string
-    {
-        return $this->facebookName;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setFacebookName(?string $facebookName): User
-    {
-        $this->facebookName = $facebookName;
 
         return $this;
     }

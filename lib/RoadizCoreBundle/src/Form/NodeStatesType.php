@@ -9,10 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Node state selector form field type.
- */
-class NodeStatesType extends AbstractType
+final class NodeStatesType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

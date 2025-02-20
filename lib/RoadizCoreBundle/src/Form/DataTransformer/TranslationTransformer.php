@@ -10,22 +10,19 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-class TranslationTransformer implements DataTransformerInterface
+final readonly class TranslationTransformer implements DataTransformerInterface
 {
-    private ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     /**
      * @param Translation|null $value
      */
-    public function transform(mixed $value): int|string
+    public function transform(mixed $value): int|string|null
     {
         if (!($value instanceof PersistableInterface)) {
-            return '';
+            return null;
         }
 
         return $value->getId();

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers;
 
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Form\CompareDatetimeType;
 use RZ\Roadiz\CoreBundle\Form\CompareDateType;
 use RZ\Roadiz\CoreBundle\Form\ExtendedBooleanType;
@@ -146,25 +146,25 @@ class SearchController extends RozierApp
                 foreach ($fields as $field) {
                     if ($key == $field->getName()) {
                         if (
-                            AbstractField::MARKDOWN_T === $field->getType()
-                            || AbstractField::STRING_T === $field->getType()
-                            || AbstractField::YAML_T === $field->getType()
-                            || AbstractField::JSON_T === $field->getType()
-                            || AbstractField::TEXT_T === $field->getType()
-                            || AbstractField::EMAIL_T === $field->getType()
-                            || AbstractField::CSS_T === $field->getType()
+                            FieldType::MARKDOWN_T === $field->getType()
+                            || FieldType::STRING_T === $field->getType()
+                            || FieldType::YAML_T === $field->getType()
+                            || FieldType::JSON_T === $field->getType()
+                            || FieldType::TEXT_T === $field->getType()
+                            || FieldType::EMAIL_T === $field->getType()
+                            || FieldType::CSS_T === $field->getType()
                         ) {
                             $data[$field->getVarName()] = ['LIKE', '%'.$value.'%'];
                             if (isset($data[$key.'_exact']) && true === $data[$key.'_exact']) {
                                 $data[$field->getVarName()] = $value;
                             }
-                        } elseif (AbstractField::BOOLEAN_T === $field->getType()) {
+                        } elseif (FieldType::BOOLEAN_T === $field->getType()) {
                             $data[$field->getVarName()] = (bool) $value;
-                        } elseif (AbstractField::MULTIPLE_T === $field->getType()) {
+                        } elseif (FieldType::MULTIPLE_T === $field->getType()) {
                             $data[$field->getVarName()] = implode(',', $value);
-                        } elseif (AbstractField::DATETIME_T === $field->getType()) {
+                        } elseif (FieldType::DATETIME_T === $field->getType()) {
                             $this->appendDateTimeCriteria($data, $key);
-                        } elseif (AbstractField::DATE_T === $field->getType()) {
+                        } elseif (FieldType::DATE_T === $field->getType()) {
                             $this->appendDateTimeCriteria($data, $key);
                         }
                     }
@@ -546,7 +546,7 @@ class SearchController extends RozierApp
                 continue;
             }
 
-            if (AbstractField::ENUM_T === $field->getType()) {
+            if (FieldType::ENUM_T === $field->getType()) {
                 $choices = $field->getDefaultValuesAsArray();
                 $choices = array_map('trim', $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
@@ -558,7 +558,7 @@ class SearchController extends RozierApp
                     $option['expanded'] = true;
                 }
                 $option['choices'] = $choices;
-            } elseif (AbstractField::MULTIPLE_T === $field->getType()) {
+            } elseif (FieldType::MULTIPLE_T === $field->getType()) {
                 $choices = $field->getDefaultValuesAsArray();
                 $choices = array_map('trim', $choices);
                 $choices = array_combine(array_values($choices), array_values($choices));
@@ -571,22 +571,22 @@ class SearchController extends RozierApp
                 if (count($choices) < 4) {
                     $option['expanded'] = true;
                 }
-            } elseif (AbstractField::DATETIME_T === $field->getType()) {
+            } elseif (FieldType::DATETIME_T === $field->getType()) {
                 $type = CompareDatetimeType::class;
-            } elseif (AbstractField::DATE_T === $field->getType()) {
+            } elseif (FieldType::DATE_T === $field->getType()) {
                 $type = CompareDateType::class;
             } else {
                 $type = NodeSourceType::getFormTypeFromFieldType($field);
             }
 
             if (
-                AbstractField::MARKDOWN_T === $field->getType()
-                || AbstractField::STRING_T === $field->getType()
-                || AbstractField::TEXT_T === $field->getType()
-                || AbstractField::EMAIL_T === $field->getType()
-                || AbstractField::JSON_T === $field->getType()
-                || AbstractField::YAML_T === $field->getType()
-                || AbstractField::CSS_T === $field->getType()
+                FieldType::MARKDOWN_T === $field->getType()
+                || FieldType::STRING_T === $field->getType()
+                || FieldType::TEXT_T === $field->getType()
+                || FieldType::EMAIL_T === $field->getType()
+                || FieldType::JSON_T === $field->getType()
+                || FieldType::YAML_T === $field->getType()
+                || FieldType::CSS_T === $field->getType()
             ) {
                 $builder->add(
                     $this->createTextSearchForm($builder, $field->getVarName(), $field->getLabel())
