@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DataListTextType extends AbstractType
+final class DataListTextType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {

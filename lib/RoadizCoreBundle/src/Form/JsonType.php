@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Json editor form field type.
  */
-class JsonType extends AbstractType
+final class JsonType extends AbstractType
 {
     public function getParent(): ?string
     {

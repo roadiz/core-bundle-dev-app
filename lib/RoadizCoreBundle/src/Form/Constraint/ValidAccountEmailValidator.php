@@ -9,13 +9,10 @@ use RZ\Roadiz\CoreBundle\Entity\User;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class ValidAccountEmailValidator extends ConstraintValidator
+final class ValidAccountEmailValidator extends ConstraintValidator
 {
-    protected ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     /**

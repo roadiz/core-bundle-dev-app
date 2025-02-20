@@ -32,8 +32,8 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 final class CustomFormsType extends AbstractType
 {
     public function __construct(
-        private ?string $recaptchaPrivateKey,
-        private ?string $recaptchaPublicKey,
+        private readonly ?string $recaptchaPrivateKey,
+        private readonly ?string $recaptchaPublicKey,
     ) {
     }
 

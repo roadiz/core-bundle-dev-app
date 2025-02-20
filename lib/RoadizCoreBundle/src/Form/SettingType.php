@@ -17,13 +17,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Type;
 
-class SettingType extends AbstractType
+final class SettingType extends AbstractType
 {
-    protected SettingTypeResolver $settingTypeResolver;
-
-    public function __construct(SettingTypeResolver $settingTypeResolver)
+    public function __construct(private readonly SettingTypeResolver $settingTypeResolver)
     {
-        $this->settingTypeResolver = $settingTypeResolver;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void

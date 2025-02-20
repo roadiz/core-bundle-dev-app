@@ -11,21 +11,13 @@ use Symfony\Component\Form\DataTransformerInterface;
 /**
  * Transform Doctrine entities to their unique identifier.
  */
-class PersistableTransformer implements DataTransformerInterface
+final readonly class PersistableTransformer implements DataTransformerInterface
 {
-    /**
-     * @var class-string<PersistableInterface>
-     */
-    protected string $doctrineEntity;
-    private EntityManagerInterface $entityManager;
-
     /**
      * @param class-string<PersistableInterface> $doctrineEntity
      */
-    public function __construct(EntityManagerInterface $entityManager, string $doctrineEntity)
+    public function __construct(private EntityManagerInterface $entityManager, private string $doctrineEntity)
     {
-        $this->entityManager = $entityManager;
-        $this->doctrineEntity = $doctrineEntity;
     }
 
     public function transform(mixed $value): mixed

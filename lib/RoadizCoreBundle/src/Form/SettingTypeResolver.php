@@ -17,7 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
-class SettingTypeResolver
+final class SettingTypeResolver
 {
     /**
      * Associates node-type field type to a Symfony Form type.

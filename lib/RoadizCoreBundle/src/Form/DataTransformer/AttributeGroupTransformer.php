@@ -4,21 +4,15 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Form\DataTransformer;
 
-use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\AttributeGroup;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-/**
- * Class AttributeGroupTransformer.
- */
-class AttributeGroupTransformer implements DataTransformerInterface
+final readonly class AttributeGroupTransformer implements DataTransformerInterface
 {
-    private ObjectManager $manager;
-
-    public function __construct(ObjectManager $manager)
+    public function __construct(private ManagerRegistry $managerRegistry)
     {
-        $this->manager = $manager;
     }
 
     /**
@@ -39,7 +33,7 @@ class AttributeGroupTransformer implements DataTransformerInterface
             return null;
         }
 
-        $attributeGroup = $this->manager
+        $attributeGroup = $this->managerRegistry
             ->getRepository(AttributeGroup::class)
             ->find($value)
         ;
