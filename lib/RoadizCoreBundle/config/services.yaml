@@ -50,6 +50,7 @@ services:
             $recaptchaPrivateKey: '%roadiz_core.medias.recaptcha_private_key%'
             $webResponseClass: '%roadiz_core.web_response_class%'
             $useGravatar: '%roadiz_core.use_gravatar%'
+            $useReplyTo: '%roadiz_core.use_email_reply_to%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'
@@ -477,7 +478,7 @@ services:
     JMS\Serializer\Construction\ObjectConstructorInterface:
         deprecated:
             package: roadiz/core-bundle
-            version: 2.5
+            version: 2.5.0
             message: 'The "%alias_id%" service is deprecated and will be removed in Roadiz 2.6.'
         alias: RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor
 
@@ -485,7 +486,7 @@ services:
         decorates: jms_serializer.doctrine_object_constructor
         deprecated:
             package: roadiz/core-bundle
-            version: 2.5
+            version: 2.5.0
             message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.6.'
         arguments:
             - '@doctrine.orm.default_entity_manager'

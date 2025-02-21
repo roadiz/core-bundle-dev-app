@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.16...v2.4.17) - 2025-02-21
+
+### Bug Fixes
+
+- Added `roadiz_core.useEmailReplyTo` configuration to disable Emails ReplyTo header when SMTP does not support it. - ([402fee5](https://github.com/roadiz/core-bundle-dev-app/commit/402fee59a22fc7d4c14820120befbf7df5900ec1))
+
 ## [2.4.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.15...v2.4.16) - 2025-02-17
 
 ### Bug Fixes
