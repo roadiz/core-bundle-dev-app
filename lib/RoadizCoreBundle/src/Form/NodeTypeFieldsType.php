@@ -12,9 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Node types selector form field type.
- */
 class NodeTypeFieldsType extends AbstractType
 {
     public function __construct(private readonly DecoratedNodeTypes $nodeTypesBag)
@@ -25,7 +22,7 @@ class NodeTypeFieldsType extends AbstractType
     {
         $resolver->setDefaults([
             'nodeType' => null,
-            'choice_label' => fn (NodeTypeField $field) => $field->getName(),
+            'choice_label' => fn (NodeTypeField $field) => $field->getLabel(),
             'choice_value' => fn (?NodeTypeField $field) => $field ? $field->getName() : '',
             'group_by' => fn (NodeTypeField $field) => $field->getNodeType()->getName(),
         ]);

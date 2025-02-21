@@ -14,7 +14,7 @@ final class Version20250218125729 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create node_type_decorator table';
     }
 
     public function up(Schema $schema): void

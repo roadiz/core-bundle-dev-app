@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\SearchEngine\Subscriber;
 
-use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
@@ -15,7 +15,7 @@ use RZ\Roadiz\CoreBundle\SearchEngine\SolariumNodeSource;
 final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscriber
 {
     public function __construct(
-        private readonly DecoratedNodeTypes $nodeTypesBag,
+        private readonly NodeTypes $nodeTypesBag,
     ) {
     }
 

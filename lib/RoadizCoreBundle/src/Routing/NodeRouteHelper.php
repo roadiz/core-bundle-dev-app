@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
-use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\Utils\StringHandler;
@@ -28,7 +28,7 @@ final class NodeRouteHelper
         private readonly PreviewResolverInterface $previewResolver,
         private readonly LoggerInterface $logger,
         private readonly string $defaultControllerClass,
-        private readonly DecoratedNodeTypes $nodeTypesBag,
+        private readonly NodeTypes $nodeTypesBag,
         private readonly string $defaultControllerNamespace = '\\App\\Controller',
     ) {
     }

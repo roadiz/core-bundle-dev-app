@@ -7,7 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Enum;
 enum NodeTypeDecoratorProperty: string
 {
     // String Value
-    case NODE_TYPE_DISPLAY_NAME = 'displayName';
+    case NODE_TYPE_DISPLAY_NAME = 'display_name';
     // String Value
     case NODE_TYPE_DESCRIPTION = 'description';
     // String Value

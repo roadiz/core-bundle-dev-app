@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Bag;
 
+use Doctrine\DBAL\Driver\PDO\PDOException;
+use Doctrine\DBAL\Exception;
+use http\Exception\RuntimeException;
 use RZ\Roadiz\Bag\LazyParameterBag;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -26,12 +29,16 @@ final class DecoratedNodeTypes extends LazyParameterBag implements NodeTypeResol
         $nodeTypes = $this->nodeTypesBag->all();
         foreach ($nodeTypes as $nodeType) {
             $decoratedNodeType = clone $nodeType;
-            $nodeTypeDecorators = $this->repository->findByNodeType($decoratedNodeType);
-            foreach ($nodeTypeDecorators as $nodeTypeDecorator) {
-                $nodeTypeDecorator->applyOn($decoratedNodeType);
+            try {
+                $nodeTypeDecorators = $this->repository->findByNodeType($decoratedNodeType);
+                foreach ($nodeTypeDecorators as $nodeTypeDecorator) {
+                    $nodeTypeDecorator->applyOn($decoratedNodeType);
+                }
+                $this->parameters[$decoratedNodeType->getName()] = $decoratedNodeType;
+                $this->parameters[$decoratedNodeType->getSourceEntityFullQualifiedClassName()] = $decoratedNodeType;
+            } catch (PDOException $e) {
+                throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
             }
-            $this->parameters[$decoratedNodeType->getName()] = $decoratedNodeType;
-            $this->parameters[$decoratedNodeType->getSourceEntityFullQualifiedClassName()] = $decoratedNodeType;
         }
 
         $this->ready = true;

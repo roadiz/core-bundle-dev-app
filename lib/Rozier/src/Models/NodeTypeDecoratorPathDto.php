@@ -7,7 +7,7 @@ namespace Themes\Rozier\Models;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 
-class NodeTypeDecoratorPathDto
+final class NodeTypeDecoratorPathDto
 {
     public function __construct(
         private NodeType $nodeType,
