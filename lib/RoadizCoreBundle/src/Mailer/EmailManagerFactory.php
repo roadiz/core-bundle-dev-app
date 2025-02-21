@@ -20,6 +20,7 @@ final readonly class EmailManagerFactory
         private MailerInterface $mailer,
         private Settings $settingsBag,
         private DocumentUrlGeneratorInterface $documentUrlGenerator,
+        private bool $useReplyTo = true,
     ) {
     }
 
@@ -31,7 +32,8 @@ final readonly class EmailManagerFactory
             $this->templating,
             $this->mailer,
             $this->settingsBag,
-            $this->documentUrlGenerator
+            $this->documentUrlGenerator,
+            $this->useReplyTo,
         );
     }
 }

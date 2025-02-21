@@ -2,6 +2,11 @@ resources:
     RZ\Roadiz\CoreBundle\Entity\CustomForm:
         graphQlOperations: []
         operations:
+            ApiPlatform\Metadata\Get:
+                method: 'GET'
+                normalizationContext:
+                    enable_max_depth: true
+
             api_custom_forms_item_post:
                 method: 'POST'
                 class: ApiPlatform\Metadata\Post
