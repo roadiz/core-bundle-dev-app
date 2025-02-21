@@ -4,6 +4,24 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Enum;
 
+use RZ\Roadiz\CoreBundle\Form\ColorType;
+use RZ\Roadiz\CoreBundle\Form\CssType;
+use RZ\Roadiz\CoreBundle\Form\JsonType;
+use RZ\Roadiz\CoreBundle\Form\MarkdownType;
+use RZ\Roadiz\CoreBundle\Form\YamlType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CountryType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 enum FieldType: int
 {
     case BOOLEAN_T = 5;
@@ -42,6 +60,36 @@ enum FieldType: int
     public function toHuman(): string
     {
         return self::humanValues()[$this->value];
+    }
+
+    public function toDoctrine(): ?string
+    {
+        return self::doctrineValues()[$this->value];
+    }
+
+    /**
+     * @return class-string<AbstractType>
+     */
+    public function toFormType(): string
+    {
+        return match ($this) {
+            FieldType::BOOLEAN_T => CheckboxType::class,
+            FieldType::COLOUR_T => ColorType::class,
+            FieldType::COUNTRY_T => CountryType::class,
+            FieldType::CSS_T => CssType::class,
+            FieldType::DATETIME_T => DateTimeType::class,
+            FieldType::DATE_T => DateType::class,
+            FieldType::DECIMAL_T => NumberType::class,
+            FieldType::DOCUMENTS_T => FileType::class,
+            FieldType::EMAIL_T => EmailType::class,
+            FieldType::ENUM_T, FieldType::MULTIPLE_T, FieldType::RADIO_GROUP_T, FieldType::CHECK_GROUP_T => ChoiceType::class,
+            FieldType::INTEGER_T => IntegerType::class,
+            FieldType::JSON_T => JsonType::class,
+            FieldType::MARKDOWN_T => MarkdownType::class,
+            FieldType::TEXT_T, FieldType::RICHTEXT_T => TextareaType::class,
+            FieldType::YAML_T => YamlType::class,
+            default => TextType::class,
+        };
     }
 
     /**

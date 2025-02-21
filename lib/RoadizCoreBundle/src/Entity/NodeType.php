@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * NodeType describes each node structure family,
  * They are mandatory before creating any Node.
  */
-class NodeType implements NodeTypeInterface
+final class NodeType implements NodeTypeInterface
 {
     #[
         Serializer\Groups(['node_type', 'color']),

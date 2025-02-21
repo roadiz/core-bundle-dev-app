@@ -12,7 +12,6 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
@@ -22,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\Documents\Repository\DocumentRepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -561,7 +561,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                 SELECT s.value FROM RZ\Roadiz\CoreBundle\Entity\Setting s
                 WHERE s.type = :type
             ) AND d.raw = :raw
-        ')->setParameter('type', AbstractField::DOCUMENTS_T)
+        ')->setParameter('type', FieldType::DOCUMENTS_T)
             ->setParameter('raw', false);
 
         return $query->getResult();
@@ -588,7 +588,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
             ->from(Setting::class, 's')
             ->andWhere($qb2->expr()->eq('s.type', ':type'))
             ->andWhere($qb2->expr()->isNotNull('s.value'))
-            ->setParameter('type', AbstractField::DOCUMENTS_T);
+            ->setParameter('type', FieldType::DOCUMENTS_T);
 
         $subQuery = $qb2->getQuery();
         $array = $subQuery->getScalarResult();

@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Form\ColorType;
 use RZ\Roadiz\CoreBundle\Form\CssType;
 use RZ\Roadiz\CoreBundle\Form\EnumerationType;
@@ -137,96 +138,37 @@ final class NodeSourceType extends AbstractType
     }
 
     /**
-     * Returns a Symfony Form type according to a node-type field.
-     *
      * @return class-string<AbstractType>
      */
     public static function getFormTypeFromFieldType(AbstractField $field): string
     {
-        switch ($field->getType()) {
-            case AbstractField::COLOUR_T:
-                return ColorType::class;
-
-            case AbstractField::GEOTAG_T:
-            case AbstractField::MULTI_GEOTAG_T:
-                return GeoJsonType::class;
-
-            case AbstractField::STRING_T:
-                return TextType::class;
-
-            case AbstractField::DATETIME_T:
-                return DateTimeType::class;
-
-            case AbstractField::DATE_T:
-                return DateType::class;
-
-            case AbstractField::RICHTEXT_T:
-            case AbstractField::TEXT_T:
-                return TextareaType::class;
-
-            case AbstractField::MARKDOWN_T:
-                return MarkdownType::class;
-
-            case AbstractField::BOOLEAN_T:
-                return CheckboxType::class;
-
-            case AbstractField::INTEGER_T:
-                return IntegerType::class;
-
-            case AbstractField::DECIMAL_T:
-                return NumberType::class;
-
-            case AbstractField::EMAIL_T:
-                return EmailType::class;
-
-            case AbstractField::RADIO_GROUP_T:
-            case AbstractField::ENUM_T:
-                return EnumerationType::class;
-
-            case AbstractField::MULTIPLE_T:
-            case AbstractField::CHECK_GROUP_T:
-                return MultipleEnumerationType::class;
-
-            case AbstractField::DOCUMENTS_T:
-                return NodeSourceDocumentType::class;
-
-            case AbstractField::NODES_T:
-                return NodeSourceNodeType::class;
-
-            case AbstractField::CHILDREN_T:
-                return NodeTreeType::class;
-
-            case AbstractField::CUSTOM_FORMS_T:
-                return NodeSourceCustomFormType::class;
-
-            case AbstractField::JSON_T:
-                return JsonType::class;
-
-            case AbstractField::CSS_T:
-                return CssType::class;
-
-            case AbstractField::COUNTRY_T:
-                return CountryType::class;
-
-            case AbstractField::YAML_T:
-                return YamlType::class;
-
-            case AbstractField::PASSWORD_T:
-                return PasswordType::class;
-
-            case AbstractField::MANY_TO_MANY_T:
-            case AbstractField::MANY_TO_ONE_T:
-                return NodeSourceJoinType::class;
-
-            case AbstractField::SINGLE_PROVIDER_T:
-            case AbstractField::MULTI_PROVIDER_T:
-                return NodeSourceProviderType::class;
-
-            case AbstractField::COLLECTION_T:
-                return NodeSourceCollectionType::class;
-        }
-
-        return TextType::class;
+        return match ($field->getType()) {
+            FieldType::BOOLEAN_T => CheckboxType::class,
+            FieldType::CHILDREN_T => NodeTreeType::class,
+            FieldType::COLLECTION_T => NodeSourceCollectionType::class,
+            FieldType::COLOUR_T => ColorType::class,
+            FieldType::COUNTRY_T => CountryType::class,
+            FieldType::CSS_T => CssType::class,
+            FieldType::CUSTOM_FORMS_T => NodeSourceCustomFormType::class,
+            FieldType::DATETIME_T => DateTimeType::class,
+            FieldType::DATE_T => DateType::class,
+            FieldType::DECIMAL_T => NumberType::class,
+            FieldType::DOCUMENTS_T => NodeSourceDocumentType::class,
+            FieldType::EMAIL_T => EmailType::class,
+            FieldType::GEOTAG_T, FieldType::MULTI_GEOTAG_T => GeoJsonType::class,
+            FieldType::INTEGER_T => IntegerType::class,
+            FieldType::JSON_T => JsonType::class,
+            FieldType::MANY_TO_MANY_T, FieldType::MANY_TO_ONE_T => NodeSourceJoinType::class,
+            FieldType::MARKDOWN_T => MarkdownType::class,
+            FieldType::MULTIPLE_T, FieldType::CHECK_GROUP_T => MultipleEnumerationType::class,
+            FieldType::NODES_T => NodeSourceNodeType::class,
+            FieldType::PASSWORD_T => PasswordType::class,
+            FieldType::RADIO_GROUP_T, FieldType::ENUM_T => EnumerationType::class,
+            FieldType::RICHTEXT_T, FieldType::TEXT_T => TextareaType::class,
+            FieldType::SINGLE_PROVIDER_T, FieldType::MULTI_PROVIDER_T => NodeSourceProviderType::class,
+            FieldType::YAML_T => YamlType::class,
+            default => TextType::class,
+        };
     }
 
     /**
@@ -240,14 +182,14 @@ final class NodeSourceType extends AbstractType
         $options = $this->getDefaultOptions($nodeSource, $field, $formOptions);
 
         switch ($field->getType()) {
-            case AbstractField::ENUM_T:
-            case AbstractField::MULTIPLE_T:
+            case FieldType::ENUM_T:
+            case FieldType::MULTIPLE_T:
                 $options = array_merge_recursive($options, [
                     'nodeTypeField' => $field,
                 ]);
                 break;
-            case AbstractField::MANY_TO_ONE_T:
-            case AbstractField::MANY_TO_MANY_T:
+            case FieldType::MANY_TO_ONE_T:
+            case FieldType::MANY_TO_MANY_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
                         'data-nodetypefield' => $field->getName(),
@@ -255,14 +197,14 @@ final class NodeSourceType extends AbstractType
                     ],
                 ]);
                 break;
-            case AbstractField::NODES_T:
+            case FieldType::NODES_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
                         'data-nodetypes' => json_encode(array_map('trim', $field->getDefaultValuesAsArray())),
                     ],
                 ]);
                 break;
-            case AbstractField::DATETIME_T:
+            case FieldType::DATETIME_T:
                 $options = array_merge_recursive($options, [
                     'date_widget' => 'single_text',
                     'date_format' => 'yyyy-MM-dd',
@@ -275,7 +217,7 @@ final class NodeSourceType extends AbstractType
                     ],
                 ]);
                 break;
-            case AbstractField::DATE_T:
+            case FieldType::DATE_T:
                 $options = array_merge_recursive($options, [
                     'widget' => 'single_text',
                     'format' => 'yyyy-MM-dd',
@@ -285,15 +227,15 @@ final class NodeSourceType extends AbstractType
                     'placeholder' => '',
                 ]);
                 break;
-            case AbstractField::DECIMAL_T:
-            case AbstractField::INTEGER_T:
+            case FieldType::DECIMAL_T:
+            case FieldType::INTEGER_T:
                 $options = array_merge_recursive($options, [
                     'constraints' => [
                         new Type('numeric'),
                     ],
                 ]);
                 break;
-            case AbstractField::EMAIL_T:
+            case FieldType::EMAIL_T:
                 $options = array_merge_recursive($options, [
                     'constraints' => [
                         new Email(),
@@ -303,7 +245,7 @@ final class NodeSourceType extends AbstractType
                     ],
                 ]);
                 break;
-            case AbstractField::STRING_T:
+            case FieldType::STRING_T:
                 $options = array_merge_recursive($options, [
                     'constraints' => [
                         new Length([
@@ -312,21 +254,21 @@ final class NodeSourceType extends AbstractType
                     ],
                 ]);
                 break;
-            case AbstractField::GEOTAG_T:
+            case FieldType::GEOTAG_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
                         'class' => 'rz-geotag-field',
                     ],
                 ]);
                 break;
-            case AbstractField::MULTI_GEOTAG_T:
+            case FieldType::MULTI_GEOTAG_T:
                 $options = array_merge_recursive($options, [
                     'attr' => [
                         'class' => 'rz-multi-geotag-field',
                     ],
                 ]);
                 break;
-            case AbstractField::MARKDOWN_T:
+            case FieldType::MARKDOWN_T:
                 $additionalOptions = $field->getDefaultValuesAsArray();
                 $options = array_merge_recursive($options, [
                     'attr' => [
@@ -334,13 +276,13 @@ final class NodeSourceType extends AbstractType
                     ],
                 ], $additionalOptions);
                 break;
-            case AbstractField::CHILDREN_T:
+            case FieldType::CHILDREN_T:
                 $options = array_merge_recursive($options, [
                     'nodeSource' => $nodeSource,
                     'nodeTypeField' => $field,
                 ]);
                 break;
-            case AbstractField::COUNTRY_T:
+            case FieldType::COUNTRY_T:
                 $options = array_merge_recursive($options, [
                     'expanded' => $field->isExpanded(),
                 ]);
@@ -356,7 +298,7 @@ final class NodeSourceType extends AbstractType
                     ]);
                 }
                 break;
-            case AbstractField::COLLECTION_T:
+            case FieldType::COLLECTION_T:
                 $configuration = $field->getDefaultValuesAsArray();
                 $collectionOptions = [
                     'allow_add' => true,
@@ -422,21 +364,21 @@ final class NodeSourceType extends AbstractType
         }
         if (
             $field->isVirtual()
-            && AbstractField::MANY_TO_ONE_T !== $field->getType()
-            && AbstractField::MANY_TO_MANY_T !== $field->getType()
+            && FieldType::MANY_TO_ONE_T !== $field->getType()
+            && FieldType::MANY_TO_MANY_T !== $field->getType()
         ) {
             $options['mapped'] = false;
         }
 
         if (
             in_array($field->getType(), [
-                AbstractField::MANY_TO_ONE_T,
-                AbstractField::MANY_TO_MANY_T,
-                AbstractField::DOCUMENTS_T,
-                AbstractField::NODES_T,
-                AbstractField::CUSTOM_FORMS_T,
-                AbstractField::MULTI_PROVIDER_T,
-                AbstractField::SINGLE_PROVIDER_T,
+                FieldType::MANY_TO_ONE_T,
+                FieldType::MANY_TO_MANY_T,
+                FieldType::DOCUMENTS_T,
+                FieldType::NODES_T,
+                FieldType::CUSTOM_FORMS_T,
+                FieldType::MULTI_PROVIDER_T,
+                FieldType::SINGLE_PROVIDER_T,
             ])
         ) {
             $options['nodeTypeField'] = $field;
@@ -444,7 +386,7 @@ final class NodeSourceType extends AbstractType
             unset($options['attr']['dir']);
         }
 
-        if (AbstractField::CHILDREN_T === $field->getType()) {
+        if (FieldType::CHILDREN_T === $field->getType()) {
             unset($options['attr']['dir']);
         }
 

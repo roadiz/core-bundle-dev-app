@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * custom data structure.
  */
 #[RoadizAssert\NodeTypeField]
-class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, SerializableInterface
+final class NodeTypeField extends AbstractField implements NodeTypeFieldInterface, SerializableInterface
 {
     #[
         Serializer\Groups(['node_type', 'node_type:import', 'setting']),

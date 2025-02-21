@@ -20,7 +20,7 @@
     "require": {
         "php": ">=8.2",
         "doctrine/orm": "~2.20.0",
-        "jms/serializer": "^3.9.0",
+        "jms/serializer": "^3.32.3",
         "roadiz/nodetype-contracts": "^2.0.0",
         "symfony/string": "6.4.*",
         "symfony/translation-contracts": "^3.0",

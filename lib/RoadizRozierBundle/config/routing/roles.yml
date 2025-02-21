@@ -15,7 +15,7 @@ rolesDeletePage:
 rolesExportAllPage:
     path:     /export
     defaults:
-        _controller: Themes\Rozier\Controllers\RolesController::exportAction
+        _controller: Themes\Rozier\Controllers\RolesUtilsController::exportAllAction
 rolesExportPage:
     path:     /export/{id}
     requirements: { id : "[0-9]+" }

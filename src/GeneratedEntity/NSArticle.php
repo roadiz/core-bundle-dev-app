@@ -231,7 +231,8 @@ class NSArticle extends NodesSources
                     ->getRepository(\App\GeneratedEntity\NSArticle::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'related_article'
+                        'related_article',
+                        []
                     );
             } else {
                 $this->relatedArticleSources = [];

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
 use RZ\Roadiz\CoreBundle\Entity\SettingGroup;
 use RZ\Roadiz\CoreBundle\Importer\SettingsImporter;
@@ -16,6 +14,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
@@ -55,7 +54,9 @@ class SettingsUtilsController extends RozierApp
             $this->serializer->serialize(
                 $settings,
                 'json',
-                SerializationContext::create()->setGroups(['setting'])
+                [
+                    'groups' => ['setting'],
+                ]
             ),
             Response::HTTP_OK,
             [

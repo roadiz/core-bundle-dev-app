@@ -225,6 +225,12 @@
                 <target state="translated">Client ID de l'API Unsplash, si vous remplissez un client valide, Roadiz sera en mesure de télécharger des images aléatoires sur la page de login et dans la gestion des Documents.</target>
                 <note>Setting help name</note>
             </trans-unit>
+
+            <trans-unit xml:space="preserve" id="cron_last_exec_date">
+                <source>cron_last_exec_date</source>
+                <target>Date et heure de la dernière exécution des CronJobs</target>
+                <note>Setting name</note>
+            </trans-unit>
     </body>
   </file>
 </xliff>

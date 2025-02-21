@@ -114,7 +114,8 @@ class NSMenuLink extends NodesSources
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'link_internal_reference'
+                        'link_internal_reference',
+                        [\App\GeneratedEntity\NSPage::class, \App\GeneratedEntity\NSArticle::class]
                     );
             } else {
                 $this->linkInternalReferenceSources = [];
