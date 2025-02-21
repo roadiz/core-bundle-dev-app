@@ -48,6 +48,8 @@ class EmailManager
     /*
      * DO NOT DIRECTLY USE THIS CONSTRUCTOR
      * USE 'EmailManagerFactory' Factory Service
+     *
+     * @internal
      */
     public function __construct(
         protected readonly RequestStack $requestStack,
@@ -56,6 +58,7 @@ class EmailManager
         protected readonly MailerInterface $mailer,
         protected readonly Settings $settingsBag,
         protected readonly DocumentUrlGeneratorInterface $documentUrlGenerator,
+        protected readonly bool $useReplyTo = true,
     ) {
         $this->assignation = [];
         $this->message = null;
@@ -126,6 +129,16 @@ class EmailManager
         return $this;
     }
 
+    public function getSupportEmailAddress(): ?string
+    {
+        $supportEmail = $this->settingsBag->get('support_email_address', null);
+        if (empty($supportEmail) || !filter_var($supportEmail, FILTER_VALIDATE_EMAIL)) {
+            $supportEmail = $this->settingsBag->get('email_sender', null);
+        }
+
+        return $supportEmail;
+    }
+
     /**
      * @throws LoaderError
      * @throws RuntimeError
@@ -139,8 +152,7 @@ class EmailManager
             ->subject($this->getSubject())
             ->from($this->getOrigin())
             ->to(...$this->getReceiver())
-            // Force using string and only one email
-            ->returnPath($this->getSenderEmail());
+        ;
 
         if (null !== $this->getEmailTemplate()) {
             $this->message->html($this->renderHtmlEmailBodyWithCss());
@@ -153,8 +165,11 @@ class EmailManager
          * Use sender email in ReplyTo: header only
          * to keep From: header with a know domain email.
          */
-        if (null !== $this->getSender()) {
-            $this->message->replyTo(...$this->getSender());
+        if (null !== $this->getSender() && null !== $this->getSenderEmail() && $this->useReplyTo) {
+            $this->message
+                // Force using string and only one email
+                ->returnPath($this->getSenderEmail())
+                ->replyTo(...$this->getSender());
         }
 
         return $this->message;

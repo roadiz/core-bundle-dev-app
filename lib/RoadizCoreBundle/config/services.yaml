@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.4.16'
+    roadiz_core.cms_version: '2.4.17'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -53,6 +53,7 @@ services:
             $recaptchaPrivateKey: '%roadiz_core.medias.recaptcha_private_key%'
             $webResponseClass: '%roadiz_core.web_response_class%'
             $useGravatar: '%roadiz_core.use_gravatar%'
+            $useReplyTo: '%roadiz_core.use_email_reply_to%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'
