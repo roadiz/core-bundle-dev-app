@@ -57,6 +57,9 @@ class Configuration implements ConfigurationInterface
             ->booleanNode('useGravatar')
                 ->defaultTrue()
             ->end()
+            ->booleanNode('useEmailReplyTo')
+                ->defaultTrue()
+            ->end()
             ->scalarNode('documentsLibDir')->defaultValue(
                 'vendor/roadiz/documents/src'
             )->info('Relative path to Roadiz Documents lib sources from project directory.')->end()

@@ -6,6 +6,7 @@ roadiz_core:
     documentsLibDir: 'lib/Documents/src'
     useNativeJsonColumnType: true
     useGravatar: false
+    useEmailReplyTo: false
     medias:
         unsplash_client_id: '%env(string:APP_UNSPLASH_CLIENT_ID)%'
         soundcloud_client_id: '%env(string:APP_SOUNDCLOUD_CLIENT_ID)%'
