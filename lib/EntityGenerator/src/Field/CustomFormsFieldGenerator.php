@@ -6,23 +6,11 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
-use Nette\PhpGenerator\Method;
 use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 
 final class CustomFormsFieldGenerator extends AbstractFieldGenerator
 {
-    protected function addSerializationAttributes(Property|Method $property): self
-    {
-        parent::addSerializationAttributes($property);
-        $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
-        $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
-            $this->field->getVarName(),
-        ]);
-
-        return $this;
-    }
-
     protected function addFieldAnnotation(Property $property): AbstractFieldGenerator
     {
         parent::addFieldAnnotation($property);

@@ -8,14 +8,14 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Utils\StringHandler;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 trait AttributeGroupTrait
 {
     #[
         ORM\Column(name: 'canonical_name', type: 'string', length: 255, unique: true, nullable: false),
-        SymfonySerializer\Groups(['attribute_group', 'attribute:export', 'attribute:import', 'attribute', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute_group', 'attribute:export', 'attribute:import', 'attribute', 'node', 'nodes_sources']),
         Assert\NotNull(),
         Assert\Length(max: 255),
         Assert\NotBlank()
@@ -27,7 +27,7 @@ trait AttributeGroupTrait
      */
     #[
         ORM\OneToMany(mappedBy: 'group', targetEntity: AttributeInterface::class),
-        SymfonySerializer\Ignore(),
+        Serializer\Ignore(),
     ]
     protected Collection $attributes;
 
@@ -41,7 +41,7 @@ trait AttributeGroupTrait
             cascade: ['all'],
             orphanRemoval: true
         ),
-        SymfonySerializer\Groups(['attribute_group', 'attribute:export', 'attribute', 'node', 'nodes_sources']),
+        Serializer\Groups(['attribute_group', 'attribute:export', 'attribute', 'node', 'nodes_sources']),
     ]
     protected Collection $attributeGroupTranslations;
 

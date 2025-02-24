@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\FolderTranslationRepository;
@@ -28,20 +27,17 @@ class FolderTranslation extends AbstractEntity
 {
     #[ORM\Column(type: 'string', length: 250)]
     #[SymfonySerializer\Groups(['folder', 'document'])]
-    #[Serializer\Groups(['folder', 'document'])]
     #[Assert\Length(max: 250)]
     protected string $name = '';
 
     #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'translatedFolders')]
     #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected Folder $folder;
 
     #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'folderTranslations')]
     #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['folder', 'document'])]
-    #[Serializer\Groups(['folder', 'document'])]
     protected TranslationInterface $translation;
 
     public function __construct(Folder $original, TranslationInterface $translation)

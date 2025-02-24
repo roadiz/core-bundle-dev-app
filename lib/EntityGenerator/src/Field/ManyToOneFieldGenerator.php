@@ -42,11 +42,6 @@ final class ManyToOneFieldGenerator extends AbstractConfigurableFieldGenerator
         return $this;
     }
 
-    protected function isExcludingFieldFromJmsSerialization(): bool
-    {
-        return false;
-    }
-
     public function addFieldAnnotation(Property $property): self
     {
         $this->addFieldAutodoc($property);

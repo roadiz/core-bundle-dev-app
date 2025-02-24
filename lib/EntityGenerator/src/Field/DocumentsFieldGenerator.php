@@ -6,29 +6,10 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
-use Nette\PhpGenerator\Method;
 use Nette\PhpGenerator\PhpNamespace;
-use Nette\PhpGenerator\Property;
-use Symfony\Component\String\UnicodeString;
 
 final class DocumentsFieldGenerator extends AbstractFieldGenerator
 {
-    protected function addSerializationAttributes(Property|Method $property): self
-    {
-        parent::addSerializationAttributes($property);
-        $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
-        $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
-            $this->field->getVarName(),
-        ]);
-        $property->addAttribute('JMS\Serializer\Annotation\Type', [
-            'array<'.
-            (new UnicodeString($this->options['document_class']))->trimStart('\\')->toString().
-            '>',
-        ]);
-
-        return $this;
-    }
-
     protected function getDefaultSerializationGroups(): array
     {
         $groups = parent::getDefaultSerializationGroups();

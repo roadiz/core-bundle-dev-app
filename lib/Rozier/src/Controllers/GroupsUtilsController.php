@@ -67,7 +67,7 @@ class GroupsUtilsController extends RozierApp
             $this->serializer->serialize(
                 [$existingGroup], // need to wrap in array
                 'json',
-                ['groups' => ['group:export']]
+                ['groups' => ['group:export']],
             ),
             Response::HTTP_OK,
             [

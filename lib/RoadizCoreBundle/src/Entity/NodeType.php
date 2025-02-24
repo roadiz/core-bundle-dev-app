@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\CoreBundle\Form\Constraint as RoadizAssert;
 use RZ\Roadiz\Utils\StringHandler;
@@ -21,16 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 final class NodeType implements NodeTypeInterface
 {
     #[
-        Serializer\Groups(['node_type', 'color']),
         SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'color']),
-        Serializer\Type('string'),
         Assert\Length(max: 7),
     ]
     protected ?string $color = '#000000';
     #[
-        Serializer\Groups(['node_type', 'node']),
         SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
-        Serializer\Type('string'),
         Assert\NotNull(),
         Assert\NotBlank(),
         RoadizAssert\SimpleLatinString(),
@@ -39,30 +34,22 @@ final class NodeType implements NodeTypeInterface
     ]
     private string $name = '';
     #[
-        Serializer\Groups(['node_type', 'node']),
         SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'node']),
-        Serializer\Type('string'),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 250)
     ]
     private string $displayName = '';
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('string')
     ]
     private ?string $description = null;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $visible = true;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $publishable = false;
 
@@ -70,15 +57,11 @@ final class NodeType implements NodeTypeInterface
      * @var bool define if this node-type produces nodes that will have attributes
      */
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $attributable = false;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $sortingAttributesByWeight = false;
     /**
@@ -88,37 +71,26 @@ final class NodeType implements NodeTypeInterface
      * Typically, if a node has a URL.
      */
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $reachable = true;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $hidingNodes = false;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $hidingNonReachableNodes = false;
     /**
      * @var Collection<int, NodeTypeField>
      */
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type("ArrayCollection<RZ\Roadiz\CoreBundle\Entity\NodeTypeField>"),
-        Serializer\Accessor(getter: 'getFields', setter: 'setFields')
     ]
     private Collection $fields;
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('int'),
         Assert\GreaterThanOrEqual(value: 0),
         Assert\NotNull
     ]
@@ -128,9 +100,7 @@ final class NodeType implements NodeTypeInterface
      * Define if this node-type title will be indexed during its parent indexation.
      */
     #[
-        Serializer\Groups(['node_type']),
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
-        Serializer\Type('boolean')
     ]
     private bool $searchable = true;
 

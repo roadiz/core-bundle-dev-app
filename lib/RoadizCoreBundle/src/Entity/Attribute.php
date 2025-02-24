@@ -122,9 +122,7 @@ class Attribute extends AbstractEntity implements AttributeInterface
     /**
      * @return Collection<int, Document>
      */
-    #[
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources']),
-    ]
+    #[SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources'])]
     public function getDocuments(): Collection
     {
         /** @var Collection<int, Document> $values */

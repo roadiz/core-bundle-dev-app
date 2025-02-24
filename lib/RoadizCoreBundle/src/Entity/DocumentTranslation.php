@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\DocumentTranslationRepository;
@@ -25,38 +24,32 @@ class DocumentTranslation extends AbstractEntity implements Loggable
 {
     #[ORM\Column(type: 'string', length: 250, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
-    #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Assert\Length(max: 250)]
     #[Gedmo\Versioned]
     protected ?string $name = null;
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[SymfonySerializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
-    #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Gedmo\Versioned]
     protected ?string $description = null;
 
     #[ORM\Column(type: 'text', length: 2000, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
-    #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Gedmo\Versioned]
     protected ?string $externalUrl = null;
 
     #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'documentTranslations')]
     #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
-    #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     protected TranslationInterface $translation;
 
     #[ORM\ManyToOne(targetEntity: Document::class, fetch: 'EXTRA_LAZY', inversedBy: 'documentTranslations')]
     #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected DocumentInterface $document;
 
     #[ORM\Column(type: 'text', nullable: true)]
     #[SymfonySerializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
-    #[Serializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Gedmo\Versioned]
     private ?string $copyright = null;
 
