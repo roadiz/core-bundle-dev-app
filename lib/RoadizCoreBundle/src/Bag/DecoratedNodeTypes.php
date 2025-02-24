@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Bag;
 
 use Doctrine\DBAL\Driver\PDO\PDOException;
-use Doctrine\DBAL\Exception;
 use http\Exception\RuntimeException;
 use RZ\Roadiz\Bag\LazyParameterBag;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
