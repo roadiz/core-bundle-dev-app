@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.3.34](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.33...v2.3.34) - 2025-02-25
+
+### Bug Fixes
+
+- Fix CustomForm nullable setters - ([e8b4f95](https://github.com/roadiz/core-bundle-dev-app/commit/e8b4f95739f75affb656c6b2cd8251f9f3a297fc))
+
 ## [2.3.33](https://github.com/roadiz/core-bundle-dev-app/compare/v2.3.32...v2.3.33) - 2025-02-17
 
 ### Bug Fixes
