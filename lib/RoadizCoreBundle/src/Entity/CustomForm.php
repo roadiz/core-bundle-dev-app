@@ -183,10 +183,9 @@ class CustomForm extends AbstractDateTimed
     }
 
     /**
-     * @param string $description
      * @return $this
      */
-    public function setDescription(string $description): CustomForm
+    public function setDescription(?string $description): CustomForm
     {
         $this->description = $description;
         return $this;
@@ -269,13 +268,9 @@ class CustomForm extends AbstractDateTimed
     }
 
     /**
-     * Sets the value of color.
-     *
-     * @param string $color
-     *
      * @return $this
      */
-    public function setColor(string $color): CustomForm
+    public function setColor(?string $color): CustomForm
     {
         $this->color = $color;
         return $this;
