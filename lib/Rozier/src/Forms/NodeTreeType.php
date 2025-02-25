@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms;
 
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
@@ -31,7 +31,7 @@ final class NodeTreeType extends AbstractType
         private readonly AuthorizationCheckerInterface $authorizationChecker,
         private readonly RequestStack $requestStack,
         private readonly TreeWidgetFactory $treeWidgetFactory,
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
     ) {
     }
 

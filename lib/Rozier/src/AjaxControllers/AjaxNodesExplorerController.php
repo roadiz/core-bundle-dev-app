@@ -6,7 +6,7 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Exception\NotSupported;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -29,7 +29,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
     public function __construct(
         private readonly ClientRegistry $clientRegistry,
         private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
         ExplorerItemFactoryInterface $explorerItemFactory,
         EventDispatcherInterface $eventDispatcher,
         SerializerInterface $serializer,

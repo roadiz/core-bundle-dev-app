@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
@@ -21,7 +21,7 @@ class TranstypeController extends RozierApp
 {
     public function __construct(
         private readonly NodeTranstyper $nodeTranstyper,
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
     ) {
     }
 

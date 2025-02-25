@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\Forms;
 
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,7 +20,7 @@ class TranstypeType extends AbstractType
 
     public function __construct(
         ManagerRegistry $managerRegistry,
-        private readonly NodeTypes $nodeTypesbag,
+        private readonly DecoratedNodeTypes $nodeTypesbag,
     ) {
         $this->managerRegistry = $managerRegistry;
     }

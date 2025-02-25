@@ -8,7 +8,7 @@ use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use Twig\Error\RuntimeError;
@@ -23,7 +23,7 @@ final class NodesSourcesExtension extends AbstractExtension
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
         private readonly bool $throwExceptions = false,
     ) {
     }

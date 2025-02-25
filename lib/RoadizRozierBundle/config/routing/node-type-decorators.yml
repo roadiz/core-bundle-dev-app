@@ -1,0 +1,21 @@
+---
+nodeTypeDecoratorsListPage:
+    path: /
+    defaults:
+        _controller: Themes\Rozier\Controllers\NodeTypes\NodeTypeDecoratorController::defaultAction
+    requirements: { nodeTypeName : "[a-zA-Z]+" }
+nodeTypeDecoratorsAddPage:
+    path: /add
+    defaults:
+        _controller: Themes\Rozier\Controllers\NodeTypes\NodeTypeDecoratorController::addAction
+nodeTypeDecoratorsEditPage:
+    path:     /edit/{id}
+    defaults:
+        _controller: Themes\Rozier\Controllers\NodeTypes\NodeTypeDecoratorController::editAction
+    requirements: { id : "[0-9]+" }
+nodeTypeDecoratorsDeletePage:
+    path:     /delete/{id}
+    defaults:
+        _controller: Themes\Rozier\Controllers\NodeTypes\NodeTypeDecoratorController::deleteAction
+    requirements: { id : "[0-9]+" }
+

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\TwigExtension;
 
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\StackType;
@@ -19,7 +19,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
 {
     public function __construct(
         private readonly RozierServiceRegistry $rozierServiceRegistry,
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
     ) {
     }
 

@@ -7,7 +7,7 @@ namespace Themes\Rozier\Widgets;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -41,7 +41,7 @@ final class NodeTreeWidget extends AbstractWidget
     public function __construct(
         RequestStack $requestStack,
         ManagerRegistry $managerRegistry,
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
         private readonly ?Node $parentNode = null,
         private readonly ?TranslationInterface $translation = null,
         private readonly bool $includeRootNode = false,

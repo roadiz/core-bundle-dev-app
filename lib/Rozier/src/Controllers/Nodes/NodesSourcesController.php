@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers\Nodes;
 
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -38,7 +38,7 @@ class NodesSourcesController extends RozierApp
     public function __construct(
         private readonly JwtExtension $jwtExtension,
         private readonly FormErrorSerializer $formErrorSerializer,
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
     ) {
     }
 

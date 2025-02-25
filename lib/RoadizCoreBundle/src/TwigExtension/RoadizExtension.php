@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\TwigExtension;
 
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
@@ -15,7 +15,7 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
 {
     public function __construct(
         private readonly Settings $settingsBag,
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
         private readonly PreviewResolverInterface $previewResolver,
         private readonly NodeChrootResolver $chrootResolver,
         private readonly string $cmsVersion,

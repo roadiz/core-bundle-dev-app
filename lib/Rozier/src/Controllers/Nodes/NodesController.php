@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers\Nodes;
 
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -55,7 +55,7 @@ final class NodesController extends RozierApp
         private readonly UniqueNodeGenerator $uniqueNodeGenerator,
         private readonly NodeFactory $nodeFactory,
         private readonly NodeOffspringResolverInterface $nodeOffspringResolver,
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
         private readonly string $nodeFormTypeClass,
         private readonly string $addNodeFormTypeClass,
     ) {
