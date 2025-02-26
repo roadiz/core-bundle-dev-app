@@ -6,7 +6,7 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\EntityManager;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
-use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Configuration\JoinNodeTypeFieldConfiguration;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
@@ -25,7 +25,7 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerControlle
         ExplorerItemFactoryInterface $explorerItemFactory,
         EventDispatcherInterface $eventDispatcher,
         SerializerInterface $serializer,
-        private readonly DecoratedNodeTypes $nodeTypesBag,
+        private readonly NodeTypes $nodeTypesBag,
     ) {
         parent::__construct($explorerItemFactory, $eventDispatcher, $serializer);
     }

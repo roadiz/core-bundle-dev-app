@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use Psr\Log\LoggerInterface;
-use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
@@ -37,7 +37,7 @@ final class AjaxNodesController extends AbstractAjaxController
         private readonly NodeChrootResolver $nodeChrootResolver,
         private readonly Registry $workflowRegistry,
         private readonly UniqueNodeGenerator $uniqueNodeGenerator,
-        private readonly DecoratedNodeTypes $nodeTypesBag,
+        private readonly NodeTypes $nodeTypesBag,
         SerializerInterface $serializer,
     ) {
         parent::__construct($serializer);

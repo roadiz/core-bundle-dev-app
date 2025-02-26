@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Xlsx;
 
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
-use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
@@ -25,7 +25,7 @@ final class NodeSourceXlsxSerializer extends AbstractXlsxSerializer
     public function __construct(
         TranslatorInterface $translator,
         private readonly UrlGeneratorInterface $urlGenerator,
-        private readonly DecoratedNodeTypes $nodeTypesBag,
+        private readonly NodeTypes $nodeTypesBag,
     ) {
         parent::__construct($translator);
     }
