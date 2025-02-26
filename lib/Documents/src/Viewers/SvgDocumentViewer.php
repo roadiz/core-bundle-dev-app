@@ -10,14 +10,8 @@ use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
-class SvgDocumentViewer
+final class SvgDocumentViewer
 {
-    protected array $attributes;
-    protected bool $asObject = false;
-    protected string $imageUrl;
-    protected FilesystemOperator $documentsStorage;
-    protected DocumentInterface $document;
-
     /**
      * @var string[]
      */
@@ -28,22 +22,12 @@ class SvgDocumentViewer
         'class',
     ];
 
-    /**
-     * @param bool   $asObject Default false
-     * @param string $imageUrl only needed if you set $asObject to true
-     */
     public function __construct(
-        FilesystemOperator $documentsStorage,
-        DocumentInterface $document,
-        array $attributes = [],
-        bool $asObject = false,
-        string $imageUrl = '',
+        private readonly FilesystemOperator $documentsStorage,
+        private readonly DocumentInterface $document,
+        private readonly array $attributes = [],
+        private readonly bool $asObject = false,
     ) {
-        $this->imageUrl = $imageUrl;
-        $this->attributes = $attributes;
-        $this->asObject = $asObject;
-        $this->documentsStorage = $documentsStorage;
-        $this->document = $document;
     }
 
     /**

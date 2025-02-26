@@ -12,6 +12,25 @@
 
 - **Roadiz requires php 8.2 minimum**
 - Upgraded to **ApiPlatform 3.3** - requires config changes
+  - Prefix all resource files with `resources:` for example:
+
+```yaml
+# config/api_resources/node.yml
+resources:
+    RZ\Roadiz\CoreBundle\Entity\Node:
+        operations:
+            ApiPlatform\Metadata\Get:
+                method: 'GET'
+                normalizationContext:
+                    groups:
+                        - node
+                        - tag_base
+                        - translation_base
+                        - document_display
+                        - document_display_sources
+                    enable_max_depth: true
+```
+
 - Deleted `Controller::findTranslationForLocale`, `Controller::renderJson`, `Controller::denyResourceExceptForFormats`, `Controller::getHandlerFactory`, `Controller::getPreviewResolver` methods
 - Deleted deprecated `AppController::makeResponseCachable`
 - Removed _sensio/framework-extra-bundle_, upgraded _sentry/sentry-symfony_ and _doctrine/annotations_
@@ -31,25 +50,6 @@
 ### Switched to **ApiPlatform 3.2**
 
 Make sure to upgrade `bundles.php` file and `api_platform.yaml` configuration:
-
-* Prefix all resource files with `resources:` for example:
-
-```yaml
-# config/api_resources/node.yml
-resources:
-    RZ\Roadiz\CoreBundle\Entity\Node:
-        operations:
-            ApiPlatform\Metadata\Get:
-                method: 'GET'
-                normalizationContext:
-                    groups:
-                        - node
-                        - tag_base
-                        - translation_base
-                        - document_display
-                        - document_display_sources
-                    enable_max_depth: true
-```
 
 * Merge `collectionOperations` and `itemOperations` into `operations` for each resource using `ApiPlatform\Metadata\Get` or `ApiPlatform\Metadata\GetCollection` classes
 * Regenerate your api platform resource YAML files, or rename `getByPath` operation to `%entity%_get_by_path`
