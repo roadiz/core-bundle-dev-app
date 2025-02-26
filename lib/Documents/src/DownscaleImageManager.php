@@ -14,15 +14,15 @@ use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\FileHashInterface;
 
-final class DownscaleImageManager
+final readonly class DownscaleImageManager
 {
     public function __construct(
-        private readonly EntityManagerInterface $em,
-        private readonly FilesystemOperator $documentsStorage,
-        private readonly ImageManager $imageManager,
-        private readonly ?LoggerInterface $logger = null,
-        private readonly int $maxPixelSize = 0,
-        private readonly string $rawImageSuffix = '.raw',
+        private EntityManagerInterface $em,
+        private FilesystemOperator $documentsStorage,
+        private ImageManager $imageManager,
+        private ?LoggerInterface $logger = null,
+        private int $maxPixelSize = 0,
+        private string $rawImageSuffix = '.raw',
     ) {
     }
 
