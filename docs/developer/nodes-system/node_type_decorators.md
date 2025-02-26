@@ -70,19 +70,20 @@ field (exemple: path = `Page.content` and property = `displayName`)
 
 This property is used to define the value who override default.
 
-It consists of a string linked to its property type.
+It consists of a `string` linked to its property type.
 
-List of the property type :
-- **displayName** => text type
-- **description** => text type
-- **color** => hexadecimal color type
-- **field_label** => text type
-- **field_universal** => boolean type
-- **field_description** => text type
-- **field_placeholder** => text type
-- **field_visible** => boolean type
-- **field_min_length** => integer type
-- **field_max_length** => integer type
+| Property          | Type              |
+|-------------------|-------------------|
+| displayName       | text              |
+| description       | text              |
+| color             | hexadecimal color |
+| field_label       | text              |
+| field_universal   | boolean           |
+| field_description | text              |
+| field_placeholder | text              |
+| field_visible     | boolean           |
+| field_min_length  | integer           |
+| field_max_length  | integer           |
 
 ::: tip
 Exemple of `value` on the `field_label` property : `'A text Label'`

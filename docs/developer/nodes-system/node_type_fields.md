@@ -10,27 +10,29 @@ Roadiz can handle many types of node-type fields. Here is a complete list:
 
 The following fields store simple data in your custom node-source database table.
 
-- **Single-line text**: `string`
-- **Date**: `date`
-- **Date and time**: `date-time`
-- **Basic long text**: `text`
-- **Markdown text**: `markdown`
-- **Boolean**: `boolean`
-- **Integer number**: `integer`
-- **Decimal number**: `decimal`
-- **Email**: `email`
-- **Colour**: `colour`
-- **Single geographic coordinates**: `geographic.coordinates`
-- **Multiple geographic coordinates**: `multiple.geographic.coordinates`
-- **JSON code**: `json`
-- **CSS code**: `css`
-- **Country code (ISO 3166-1 alpha-2)**: `country`
-- **YAML code**: `yaml`
-- **Many to many join**: `many-to-many`
-- **Many to one join**: `many-to-one`
-- **Single relationship using a provider**: `single-provider`
-- **Multiple relationship using a provider**: `multiple-provider`
-- **Custom collection**: `collection`
+|                                            |                                   |
+|--------------------------------------------|-----------------------------------|
+| **Single-line text**                       | `string`                          |
+| **Date**                                   | `date`                            |
+| **Date and time**                          | `date-time`                       |
+| **Basic long text**                        | `text`                            |
+| **Markdown text**                          | `markdown`                        |
+| **Boolean**                                | `boolean`                         |
+| **Integer number**                         | `integer`                         |
+| **Decimal number**                         | `decimal`                         |
+| **Email**                                  | `email`                           |
+| **Colour**                                 | `colour`                          |
+| **Single geographic coordinates**          | `geographic.coordinates`          |
+| **Multiple geographic coordinates**        | `multiple.geographic.coordinates` |
+| **JSON code**                              | `json`                            |
+| **CSS code**                               | `css`                             |
+| **Country code (ISO 3166-1 alpha-2)**      | `country`                         |
+| **YAML code**                              | `yaml`                            |
+| **Many to many join**                      | `many-to-many`                    |
+| **Many to one join**                       | `many-to-one`                     |
+| **Single relationship using a provider**   | `single-provider`                 |
+| **Multiple relationship using a provider** | `multiple-provider`               |
+| **Custom collection**                      | `collection`                      |
 
 ![Field types](./img/field-types.png){width=300}
 

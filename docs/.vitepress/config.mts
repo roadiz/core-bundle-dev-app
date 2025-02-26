@@ -75,7 +75,7 @@ export default defineConfig({
         },
 
         socialLinks: [
-            { icon: 'github', link: 'https://github.com/roadiz/roadiz' },
+            { icon: 'github', link: 'https://github.com/roadiz' },
         ],
 
         footer: {

@@ -21,16 +21,10 @@ If you submit a bug report please include all information available to you, here
 The code you contributed to the project should respect the guidelines defined in PHP *PSR2* standard.
 If you install the requirements for devs by the command `composer update --dev`, you can use *phpcs* to check your code.
 
-You can copy and paste the following command-lines to check easily :
+You can copy and paste the following command-lines to check and fix it easily :
 
 ``` console
-php bin/phpcs --report=full --report-file=./report.txt -p ./
-```
-
-Or you can use *phpcbf* to automatically fix code style issues.
-
-``` console
-php bin/phpcbf --report=full --report-file=./report.txt -p ./
+php vendor/bin/php-cs-fixer fix --ansi -vvv
 ```
 
 Please take those rules into account, we aim to have a clean codebase.
@@ -42,5 +36,5 @@ Your code will be checked when we will be considering your pull requests.
 Then we use `phpstan` as a static code analyzer to check bugs and misuses before they occur :
 
 ``` console
-php bin/phpstan analyse -c phpstan.neon
+php vendor/bin/phpstan analyse -c phpstan.neon
 ```
