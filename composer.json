@@ -46,7 +46,7 @@
         "doctrine/orm": "~2.20.0",
         "endroid/qr-code": "^4.0",
         "enshrined/svg-sanitize": "^0.15",
-        "gedmo/doctrine-extensions": "^3.16.1",
+        "gedmo/doctrine-extensions": "^3.19.0",
         "inlinestyle/inlinestyle": "~1.2.7",
         "intervention/image": "^2.5",
         "james-heinrich/getid3": "^1.9",

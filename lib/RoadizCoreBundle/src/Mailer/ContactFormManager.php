@@ -480,7 +480,7 @@ final class ContactFormManager extends EmailManager
         ];
 
         $this->assignation = [
-            'mailContact' => $this->settingsBag->get('email_sender'),
+            'mailContact' => $this->getSupportEmailAddress(),
             'emailType' => $this->getEmailType(),
             'title' => $this->getEmailTitle(),
             'email' => $this->getSender(),
