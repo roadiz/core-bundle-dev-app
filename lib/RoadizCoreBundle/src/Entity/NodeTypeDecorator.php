@@ -19,7 +19,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 ]
 class NodeTypeDecorator extends AbstractEntity implements PersistableInterface
 {
-    final private function __construct(
+    private function __construct(
         #[ORM\Column(type: 'string', length: 255, nullable: false)]
         private string $path,
         #[ORM\Column(type: 'string', nullable: false, enumType: NodeTypeDecoratorProperty::class)]
@@ -49,10 +49,8 @@ class NodeTypeDecorator extends AbstractEntity implements PersistableInterface
                 throw new \LogicException('NodeTypeDecorator::'.$property->name.' property is not a valid nodeType field');
             }
             $path .= $nodeTypeField->getName();
-        } else {
-            if (!$property->isNodeTypeProperty()) {
-                throw new \LogicException('NodeTypeDecorator::'.$property->name.' property requires a nodeType field');
-            }
+        } elseif (!$property->isNodeTypeProperty()) {
+            throw new \LogicException('NodeTypeDecorator::'.$property->name.' property requires a nodeType field');
         }
 
         return new self(
