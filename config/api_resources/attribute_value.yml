@@ -5,11 +5,11 @@ resources:
             ApiPlatform\Metadata\GetCollection:
                 method: "GET"
                 normalizationContext:
-                    groups: ["urls", "attribute", "document_display", "attribute_node", "attribute_documents"]
+                    groups: ["urls", "document_display", "attribute_node", "attribute_documents"]
                     enable_max_depth: true
             ApiPlatform\Metadata\Get:
                 method: 'GET'
                 normalizationContext:
-                    groups: ["urls", "attribute", "document_display", "attribute_node", "attribute_documents"]
+                    groups: ["urls", "document_display", "attribute_node", "attribute_documents"]
                     enable_max_depth: true
 

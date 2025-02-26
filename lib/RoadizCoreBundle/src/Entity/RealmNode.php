@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Repository\RealmNodeRepository;
@@ -34,7 +33,6 @@ class RealmNode extends AbstractEntity
         onDelete: 'CASCADE'
     )]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Node $node;
 
     #[ORM\ManyToOne(targetEntity: Realm::class, inversedBy: 'realmNodes')]
@@ -46,13 +44,11 @@ class RealmNode extends AbstractEntity
         onDelete: 'CASCADE'
     )]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Realm $realm;
 
     #[ORM\Column(name: 'inheritance_type', type: 'string', length: 10, nullable: false)]
     #[SymfonySerializer\Ignore]
     #[Assert\Length(max: 10)]
-    #[Serializer\Exclude]
     private string $inheritanceType = RealmInterface::INHERITANCE_AUTO;
 
     public function getNode(): Node

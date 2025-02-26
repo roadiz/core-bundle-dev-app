@@ -8,7 +8,6 @@ use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Repository\CustomFormRepository;
@@ -33,63 +32,50 @@ class CustomForm extends AbstractDateTimed
 {
     #[
         ORM\Column(name: 'color', type: 'string', length: 7, unique: false, nullable: true),
-        Serializer\Groups(['custom_form', 'nodes_sources']),
         Assert\Length(max: 7),
-        SymfonySerializer\Ignore()
+        SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
     ]
     protected ?string $color = '#000000';
 
     #[
         ORM\Column(type: 'string', length: 250, unique: true),
-        Serializer\Groups(['custom_form', 'nodes_sources']),
         SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 250),
-        SymfonySerializer\Ignore()
     ]
     private string $name = 'Untitled';
 
     #[
         ORM\Column(name: 'display_name', type: 'string', length: 250),
-        Serializer\Groups(['custom_form', 'nodes_sources']),
         SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 250),
-        SymfonySerializer\Ignore()
     ]
     private string $displayName = 'Untitled';
 
     #[
         ORM\Column(type: 'text', nullable: true),
-        Serializer\Groups(['custom_form', 'nodes_sources']),
         SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
-        SymfonySerializer\Ignore()
     ]
     private ?string $description = null;
 
     #[
         ORM\Column(type: 'text', nullable: true),
-        Serializer\Groups(['custom_form']),
-        SymfonySerializer\Groups(['custom_form']),
-        SymfonySerializer\Ignore()
+        SymfonySerializer\Groups(['custom_form:export']),
     ]
     private ?string $email = null;
 
     #[
         ORM\Column(type: 'string', length: 15, nullable: true),
-        Serializer\Groups(['custom_form']),
-        SymfonySerializer\Groups(['custom_form']),
+        SymfonySerializer\Groups(['custom_form:export']),
         Assert\Length(max: 15),
-        SymfonySerializer\Ignore()
     ]
     private ?string $retentionTime = null;
 
     #[
         ORM\Column(type: 'boolean', nullable: false, options: ['default' => true]),
-        Serializer\Groups(['custom_form', 'nodes_sources']),
-        SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
         SymfonySerializer\Ignore()
     ]
     private bool $open = true;
@@ -97,8 +83,6 @@ class CustomForm extends AbstractDateTimed
     #[
         ApiFilter(RoadizFilter\ArchiveFilter::class),
         ORM\Column(name: 'close_date', type: 'datetime', nullable: true),
-        Serializer\Groups(['custom_form', 'nodes_sources']),
-        SymfonySerializer\Groups(['custom_form', 'nodes_sources']),
         SymfonySerializer\Ignore()
     ]
     private ?\DateTime $closeDate = null;
@@ -114,8 +98,6 @@ class CustomForm extends AbstractDateTimed
             orphanRemoval: true
         ),
         ORM\OrderBy(['position' => 'ASC']),
-        Serializer\Groups(['custom_form']),
-        SymfonySerializer\Groups(['custom_form']),
         SymfonySerializer\Ignore()
     ]
     private Collection $fields;
@@ -130,7 +112,6 @@ class CustomForm extends AbstractDateTimed
             cascade: ['ALL'],
             orphanRemoval: true
         ),
-        Serializer\Exclude,
         SymfonySerializer\Ignore
     ]
     private Collection $customFormAnswers;
@@ -140,7 +121,6 @@ class CustomForm extends AbstractDateTimed
      */
     #[
         ORM\OneToMany(mappedBy: 'customForm', targetEntity: NodesCustomForms::class, fetch: 'EXTRA_LAZY'),
-        Serializer\Exclude,
         SymfonySerializer\Ignore
     ]
     private Collection $nodes;
@@ -228,11 +208,8 @@ class CustomForm extends AbstractDateTimed
      * Combine open flag and closeDate to determine
      * if current form is still available.
      */
-    #[
-        Serializer\Groups(['custom_form', 'nodes_sources']),
-        Serializer\VirtualProperty,
-        SymfonySerializer\Ignore
-    ]
+    #[SymfonySerializer\Groups(['custom_form', 'nodes_sources'])]
+    #[SymfonySerializer\SerializedName('open')]
     public function isFormStillOpen(): bool
     {
         return (null === $this->getCloseDate() || $this->getCloseDate() >= (new \DateTime('now')))

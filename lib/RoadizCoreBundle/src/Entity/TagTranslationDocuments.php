@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
 use RZ\Roadiz\CoreBundle\Repository\TagTranslationDocumentsRepository;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
@@ -30,7 +29,6 @@ class TagTranslationDocuments extends AbstractPositioned
     )]
     #[ORM\JoinColumn(name: 'tag_translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected TagTranslation $tagTranslation;
 
     #[ORM\ManyToOne(
@@ -41,7 +39,6 @@ class TagTranslationDocuments extends AbstractPositioned
     )]
     #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     #[SymfonySerializer\Groups(['tag'])]
-    #[Serializer\Groups(['tag'])]
     protected Document $document;
 
     /**
