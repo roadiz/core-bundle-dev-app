@@ -1385,9 +1385,20 @@
             <trans-unit xml:space="preserve" id="add.a.nodeTypeDecorator"><source>add.a.nodeTypeDecorator</source><note>Button label, for add new node-type-decorators</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.path"><source>nodeTypeDecorator.path</source><note>Table column label for node-type-decorator path</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.entity"><source>nodeTypeDecorator.entity</source><note>Table column label for node-type-decorator entity based on path</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.without_field"><source>nodeTypeDecorator.without_field</source><note>Default value of node type decorator field select</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.field"><source>nodeTypeDecorator.field</source><note>Table column label for node-type-decorator field based on path</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property"><source>nodeTypeDecorator.property</source><note>Table column label for node-type-decorator property</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.value"><source>nodeTypeDecorator.value</source><note>Table column label for node-type-decorator value</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.display_name"><source>nodeTypeDecorator.property.display_name</source><note>Property value label for node type display name</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.description"><source>nodeTypeDecorator.property.description</source><note>Property value label for node type description</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.color"><source>nodeTypeDecorator.property.color</source><note>Property value label for node type color</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_label"><source>nodeTypeDecorator.property.field_label</source><note>Property value label for node type field label</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_universal"><source>nodeTypeDecorator.property.field_universal</source><note>Property value label for node type field universal</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_description"><source>nodeTypeDecorator.property.field_description</source><note>Property value label for node type field description</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_placeholder"><source>nodeTypeDecorator.property.field_placeholder</source><note>Property value label for node type field placeholder</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_visible"><source>nodeTypeDecorator.property.field_visible</source><note>Property value label for node type field visible</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_min_length"><source>nodeTypeDecorator.property.field_min_length</source><note>Property value label for node type field min_length</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_max_length"><source>nodeTypeDecorator.property.field_max_length</source><note>Property value label for node type field max_length</note></trans-unit>
         </body>
     </file>
 </xliff>
