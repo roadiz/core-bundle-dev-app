@@ -1,0 +1,33 @@
+{% set path = item.path|split('.') %}
+{% set entity, field = path[0], path [1] %}
+{% if '' != field %}
+    {% set color = '#FF0000' %}
+{% else %}
+    {% set color = '#000000' %}
+{% endif %}
+<td style="--rz-accent-color: {{ color }};" class="name">
+    <a href="{{ path('nodeTypeDecoratorsEditPage', { id: item.getId }) }}"><span class="color" style="background-color:{{ color|raw }};"></span>{{ entity }}</a>
+</td>
+<td class="mobile-hidden">{{ field }}</td>
+<td class="mobile-hidden">{{ item.property.value }}</td>
+<td class="mobile-hidden">{{ item.value }}</td>
+<td class="table-actions-row table-actions-row-6">
+    {% apply spaceless %}
+        {% if hasBulkActions %}
+            <div class="bulk-selection">
+                <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ item.id }}" />
+            </div>
+        {% endif %}
+        <a class="uk-button uk-button-content uk-button-small"
+           href="{{ path('nodeTypeDecoratorsEditPage', { id: item.getId }) }}"
+           title="{% trans %}edit{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+
+        <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+           href="{{ path('nodeTypeDecoratorsDeletePage', { id: item.getId }) }}"
+           title="{% trans %}delete{% endtrans %}"
+           data-uk-tooltip="{animation:true}">
+            <i class="uk-icon-rz-trash-o"></i>
+        </a>
+    {% endapply %}
+</td>

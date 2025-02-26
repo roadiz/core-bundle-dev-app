@@ -74,6 +74,11 @@ abstract class EntityRepository extends ServiceEntityRepository
     public const NODETYPE_ALIAS = 'nt';
 
     /**
+     * Alias for DQL and Query builder representing NodeTypeDecorator relation.
+     */
+    public const NODETYPE_DECORATOR_ALIAS = 'ntd';
+
+    /**
      * @param class-string $entityClass
      */
     protected function dispatchQueryBuilderEvent(QueryBuilder $qb, string $entityClass): void

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\Forms;
 
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,7 +20,7 @@ class TranstypeType extends AbstractType
 
     public function __construct(
         ManagerRegistry $managerRegistry,
-        private readonly NodeTypes $nodeTypesbag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
     ) {
         $this->managerRegistry = $managerRegistry;
     }
@@ -65,10 +65,10 @@ class TranstypeType extends AbstractType
 
     protected function getAvailableTypes(NodeType $currentType): array
     {
-        $nodeTypes = $this->nodeTypesbag->all();
+        $nodeTypes = $this->nodeTypesBag->all();
 
         $result = array_values(array_filter(array_map(static function (NodeType $nodeType) use ($currentType) {
-            return ($nodeType->getName() !== $currentType->getName()) ? $nodeType->getName() : null;
+            return ($nodeType->getDisplayName() !== $currentType->getDisplayName()) ? $nodeType->getDisplayName() : null;
         }, $nodeTypes)));
 
         return array_combine($result, $result);

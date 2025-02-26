@@ -1,0 +1,22 @@
+{% extends "@RoadizRozier/node-types-decorators/add.html.twig" %}
+
+{% set path = item.path|split('.') %}
+{% set entity, field = path[0], path [1] %}
+{% if '' != field %}
+    {% set title = entity ~ ' - ' ~ field %}
+{% else %}
+    {% set title = entity  %}
+{% endif %}
+
+{% block title %}{{ title|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
+
+{%- block content_title -%}{{ title|u.truncate(25, '[…]', true) }}{%- endblock -%}
+
+{%- block content_header_nav -%}
+    <a class="content-header-nav-back uk-navbar-content"
+       href="{{ path('nodeTypeDecoratorsListPage') }}"
+       title="{% trans %}back_to.nodeTypes{% endtrans %}"
+       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i> </a>
+{%- endblock -%}
+
+

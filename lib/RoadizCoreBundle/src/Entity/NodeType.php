@@ -444,4 +444,15 @@ final class NodeType implements NodeTypeInterface
 
         return $this;
     }
+
+    public function __clone(): void
+    {
+        /** @var Collection<int, NodeTypeField> $fields */
+        $fields = $this->getFields();
+        $this->fields = new ArrayCollection();
+        foreach ($fields as $field) {
+            $cloneField = clone $field;
+            $this->addField($cloneField);
+        }
+    }
 }

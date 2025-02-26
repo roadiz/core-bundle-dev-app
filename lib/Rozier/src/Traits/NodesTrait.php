@@ -7,7 +7,7 @@ namespace Themes\Rozier\Traits;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Form\NodeTypesType;
@@ -45,7 +45,7 @@ trait NodesTrait
         return $node;
     }
 
-    public function addStackType(array $data, Node $node, NodeTypes $nodeTypesBag): ?NodeType
+    public function addStackType(array $data, Node $node, DecoratedNodeTypes $nodeTypesBag): ?NodeType
     {
         if (
             $data['nodeId'] == $node->getId()
