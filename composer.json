@@ -65,7 +65,7 @@
         "psr/cache": ">=1.0.1",
         "psr/log": ">=1.1",
         "ramsey/uuid": "^4.7",
-        "rezozero/intervention-request-bundle": "~3.0.1",
+        "rezozero/intervention-request-bundle": "~4.0.0",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
         "roadiz/nodetype-contracts": "^2.0.0",
@@ -135,7 +135,6 @@
         "webonyx/graphql-php": "^15.11"
     },
     "require-dev": {
-        "ambroisemaupate/intervention-request": "^4.0",
         "async-aws/simple-s3": "^1.1",
         "doctrine/doctrine-fixtures-bundle": "^3.6",
         "friendsofphp/php-cs-fixer": "^3.64",
