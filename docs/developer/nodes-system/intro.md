@@ -40,7 +40,6 @@ Some CLI commands are available to manage node-types:
 
 ```bash
 bin/console nodetypes:default-values  # Get all default values for a field across all node-types
-bin/console nodetypes:export-files    # Migrate database node-types to YAML files
 bin/console nodetypes:list            # List available node-types or fields
 bin/console nodetypes:validate-files  # Validate all node-type YAML files
 ```
