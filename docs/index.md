@@ -1,7 +1,18 @@
 ---
 layout: home
+features:
+    - icon: 👤
+      title: User Documentation
+      link: '/user/index'
+    - icon: 🛠️
+      title: Developer Documentation
+      link: '/developer/index'
+    - icon: 💡
+      title: Extensions Documentation
+      link: '/extensions/index'
+hero:
+    name: Welcome to Roadiz v2 Documentation
 ---
-# Welcome to Roadiz v2 Documentation
 
 Roadiz is a polymorphic CMS based on a node system that can handle many types of services.  
 It is built on **Symfony** framework, **Doctrine ORM**, **API Platform**, and **Twig** to ensure maximum performance and security.
@@ -18,16 +29,3 @@ When exploring Roadiz's back-office interface, you'll notice there is no Rich Te
 Roadiz is built by web designers, for web designers. It allows you to quickly create website prototypes using **Twig** templates or develop complex headless websites powered by **API Platform**.
 
 Roadiz is designed to be a great tool for both designers and developers to build strong web experiences together. But we also thought about editors! The Roadiz back-office theme, **Rozier**, offers a great writing and administration experience for all back-end users.
-
-## User Documentation
-
-- [User Guide](user/index.md)
-
-## Developer Documentation
-
-- [Developer Guide](developer/index.md)
-
-## Extension Documentation
-
-- [Extensions Guide](extension/index.md)
-

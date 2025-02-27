@@ -4,6 +4,7 @@ import {defineConfig} from 'vitepress'
 export default defineConfig({
     title: "docs",
     description: "Roadiz Documentation",
+    lastUpdated: true,
     themeConfig: {
         siteTitle: 'Roadiz',
         logo: '/Roadiz_White.jpg',
@@ -11,6 +12,8 @@ export default defineConfig({
         nav: [
             {text: 'Home', link: '/'},
             {text: 'Developer', link: '/developer/index'},
+            {text: 'User', link: '/user/index'},
+            {text: 'Extensions', link: '/extensions/index'},
         ],
 
         search: {
@@ -35,7 +38,7 @@ export default defineConfig({
                         text: 'Node system',
                         collapsed: true,
                         items: [
-                            {text: 'Intro', link: '/developer/nodes-system/index'},
+                            {text: 'Intro', link: '/developer/nodes-system/intro'},
                             {text: 'Nodes', link: '/developer/nodes-system/nodes'},
                             {text: 'Node types', link: '/developer/nodes-system/node_types'},
                             {text: 'Node type fields', link: '/developer/nodes-system/node_type_fields'},
@@ -65,6 +68,32 @@ export default defineConfig({
                     },
                     {text: 'Contributing', link: '/developer/contributing/contributing'},
                     {text: 'Troubleshooting', link: '/developer/troubleshooting/troubleshooting'},
+                ]
+            },
+            {
+                text: 'User',
+                collapsed: false,
+                items: [
+                    {text: 'Se connecter au back office', link: '/user/Se%20connecter%20au%20back-office'},
+                    {text: 'Édition des contenus',  link: '/user/Édition%20des%20contenus'},
+                    {text: 'Gérer les médias',  link: '/user/Gérer%20les%20médias'},
+                    {text: 'Dossiers de documents',  link: '/user/Dossiers%20de%20documents'},
+                    {text: 'Étiquettes', link: '/user/Étiquettes'},
+                    {text: 'Syntaxe Markdown', link: '/user/Syntaxe%20Markdown'},
+                    {text: 'Gérer les comptes',  link: '/user/Gérer%20les%20comptes'},
+                    {text: 'Formulaires personnalisés', link: '/user/Formulaires%20personnalisés'},
+                    {text: 'États (publié, dépublié, caché)', link: '/user/États%20(publié,%20dépublié,%20caché)'},
+                    {text: 'Visualisation et Prévisualisation',  link: '/user/Visualisation%20et%20Prévisualisation'},
+                    {text: 'Sécurité des accès au back-office : consignes et bonnes pratiques', link: '/user/Sécurité%20des%20accès%20au%20back-office'},
+                ]
+            },
+            {
+                text: 'Extensions',
+                collapsed: false,
+                items: [
+                    {text: 'Intro', link: '/extensions/intro'},
+                    {text: 'Extending Roadiz', link: '/extensions/extending_roadiz'},
+                    {text: 'Extending Solr', link: '/extensions/extending_solr'},
                 ]
             }
         ],

@@ -11,7 +11,7 @@ To add a new node type, follow these steps:
 1. **Create the YAML file**  
    In the `config/node_types/` directory, create a file named after your node type in lowercase (e.g., `nodetypename.yaml`).
 
-2. **Follow the required structure**  
+2. **Follow the required structure**
    The file must follow the correct structure and parameter types:
 
 ```yaml

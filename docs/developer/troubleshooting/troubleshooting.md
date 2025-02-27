@@ -1,5 +1,6 @@
 ---
 title: Troubleshooting
+next: false
 ---
 
 # Troubleshooting
