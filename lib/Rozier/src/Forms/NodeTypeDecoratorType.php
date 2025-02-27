@@ -39,7 +39,7 @@ final class NodeTypeDecoratorType extends AbstractType
                         return (null !== $field) ? !$property->isNodeTypeProperty() : $property->isNodeTypeProperty();
                     });
                 }),
-                'choice_label' => fn (NodeTypeDecoratorProperty $property) => $property->value,
+                'choice_label' => fn (NodeTypeDecoratorProperty $property) => 'nodeTypeDecorator.property.'.$property->value,
                 'label' => 'nodeTypeDecorator.property',
                 'required' => true,
                 'attr' => ['onchange' => 'document.forms["nodetypedecorator"].submit()'],

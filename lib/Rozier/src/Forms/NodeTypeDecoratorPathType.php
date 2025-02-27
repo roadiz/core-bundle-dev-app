@@ -57,7 +57,7 @@ final class NodeTypeDecoratorPathType extends AbstractType
                 $form = $event->getForm();
                 $form->add('field', NodeTypeFieldsType::class, [
                     'nodeType' => $form->getNormData()?->getNodeType(),
-                    'placeholder' => 'Without field',
+                    'placeholder' => 'nodeTypeDecorator.without_field',
                     'required' => false,
                     'attr' => ['onchange' => 'document.forms["nodetypedecorator"].submit()'],
                 ]);
