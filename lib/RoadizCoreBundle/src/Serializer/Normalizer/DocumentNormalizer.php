@@ -67,6 +67,14 @@ final class DocumentNormalizer extends AbstractPathNormalizer
             }
 
             if (
+                \in_array('document_raw_relative_path', $serializationGroups, true)
+                && !$object->isPrivate()
+                && null !== $rawDocument = $object->getRawDocument()
+            ) {
+                $data['rawRelativePath'] = $rawDocument->getRelativePath();
+            }
+
+            if (
                 \in_array('document_folders_all', $serializationGroups, true)
             ) {
                 $data['folders'] = $object->getFolders()
