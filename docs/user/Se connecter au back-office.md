@@ -7,7 +7,7 @@ prev: false
 Le lien de connexion vers votre back-office vous est communiqué par l’équipe Rezo Zero.
 Par défaut, vous accéderez à la page de connexion :
 
-![Capture d’écran 2022-02-25 à 16.57.45.png](Se%20connecter%20au%20back-office/Capture_decran_2022-02-25_a_16.57.45.png)
+![Capture d’écran 2022-02-25 à 16.57.45.webp](Se%20connecter%20au%20back-office/Capture_decran_2022-02-25_a_16.57.45.webp)
 
 Votre identifiant vous est transmis par email ; si vous avez oublié votre identifiant, renseignez votre email dans le champ Nom d’utilisateur. 
 

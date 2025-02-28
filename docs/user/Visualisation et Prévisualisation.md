@@ -27,13 +27,13 @@
 
 Pour visualiser les contenus **publiés** (ce que voient les utilisateurs du site), cliquez sur le bouton “Voir la page” de votre menu d’actions :
 
-![Capture d’écran 2024-04-24 à 16.36.11.png](Visualisation%20et%20Prévisualisation/Capture_decran_2024-04-24_a_16.36.11.png)
+![Capture d’écran 2024-04-24 à 16.36.11.webp](Visualisation%20et%20Prévisualisation/Capture_decran_2024-04-24_a_16.36.11.webp)
 
 ## Prévisualisation
 
 Pour visualiser tout type de contenus de la page (**publiés et non-publiés/en brouillon**), cliquez sur “Prévisualiser la page” de votre menu d’actions :
 
-![Capture d’écran 2024-04-24 à 16.39.45.png](Visualisation%20et%20Prévisualisation/Capture_decran_2024-04-24_a_16.39.45.png)
+![Capture d’écran 2024-04-24 à 16.39.45.webp](Visualisation%20et%20Prévisualisation/Capture_decran_2024-04-24_a_16.39.45.webp)
 
 <aside>
 💡 Attention : les blocs et les pages dont le statut est **caché** ne sont pas visibles (ni en visualisation, ni en prévisualisation)

@@ -12,23 +12,23 @@ Des indicateurs graphiques vous informent sur le statut de publication d’un n�
 
 **Losange : brouillon**
 
-![Capture d’écran 2022-02-25 à 16.01.24.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_16.01.24.png)
+![Capture d’écran 2022-02-25 à 16.01.24.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_16.01.24.webp)
 
 Le losange indique que le nœud est en brouillon (visible par les administrateurs du CMS en “preview” uniquement)
 
 **Cercle : publié**
 
-![Capture d’écran 2022-02-25 à 16.04.12.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_16.04.12.png)
+![Capture d’écran 2022-02-25 à 16.04.12.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_16.04.12.webp)
 
 **Losange barré : dépublié et caché**
 
-![Capture d’écran 2022-12-05 à 14.54.15.png](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.54.15.png)
+![Capture d’écran 2022-12-05 à 14.54.15.webp](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.54.15.webp)
 
-![Capture d’écran 2022-12-05 à 14.53.48.png](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.53.48.png)
+![Capture d’écran 2022-12-05 à 14.53.48.webp](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.53.48.webp)
 
 **Cercle barré : publié et caché**
 
-![Capture d’écran 2022-12-05 à 14.26.20.png](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.26.20.png)
+![Capture d’écran 2022-12-05 à 14.26.20.webp](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.26.20.webp)
 
 Le cercle indique que le contenu est publié et visible en front-end par les utilisateurs du site
 
@@ -40,7 +40,7 @@ Titre barré : indique que le nœud est caché (n’est pas visible par les util
 
 ## **Navigation dans l’arborescence**
 
-![Capture d’écran 2023-03-28 à 12.10.02.png](Édition%20des%20contenus/Capture_decran_2023-03-28_a_12.10.02.png)
+![Capture d’écran 2023-03-28 à 12.10.02.webp](Édition%20des%20contenus/Capture_decran_2023-03-28_a_12.10.02.webp)
 
 Chaque nœud a sa place dans votre site et c’est pourquoi nous avons choisi d’organiser votre contenu à travers une arborescence. C’est intuitif et cela fonctionne de la même manière que la gestion des fichiers de votre ordinateur.
 
@@ -74,11 +74,11 @@ Chaque nœud a sa place dans votre site et c’est pourquoi nous avons choisi d�
 
 Le bouton **Ajouter un nœud** est situé en haut de votre *arborescence*.
 
-![Capture d’écran 2022-02-24 à 18.40.42.png](Édition%20des%20contenus/Capture_decran_2022-02-24_a_18.40.42.png)
+![Capture d’écran 2022-02-24 à 18.40.42.webp](Édition%20des%20contenus/Capture_decran_2022-02-24_a_18.40.42.webp)
 
 Le bouton **« Ajouter un nœud enfant »** est situé en haut de chaque menu contextuel d’un nœud.
 
-![Capture d’écran 2022-02-24 à 18.41.34.png](Édition%20des%20contenus/Capture_decran_2022-02-24_a_18.41.34.png)
+![Capture d’écran 2022-02-24 à 18.41.34.webp](Édition%20des%20contenus/Capture_decran_2022-02-24_a_18.41.34.webp)
 
 Pour ajouter un nœud vide à votre arborescence, vous devrez choisir son emplacement. À l’intérieur du CMS, vous pouvez ajouter un contenu à la racine de votre arbre ou choisir un « nœud-parent ». Dans les deux cas, vous serez invité à choisir un *type* et un *nom* avant de créer votre nœud.
 
@@ -91,7 +91,7 @@ Pour ajouter un nœud vide à votre arborescence, vous devrez choisir son emplac
 
 ### **Contenu**
 
-![Capture d’écran 2022-02-25 à 14.04.33.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.04.33.png)
+![Capture d’écran 2022-02-25 à 14.04.33.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.04.33.webp)
 
 L’onglet contenu vous permettra de modifier les données spécifiques de votre nœud, en utilisant des champs-types tels que **contenu** ou **image**, etc.
 
@@ -99,7 +99,7 @@ L’onglet Contenu vous propose d’ajouter également les **Blocs** compatibles
 
 **Champ universel** : le petit drapeau vous indique que ce champ est universel ; il sera donc repris automatiquement en toutes les langues du site (il suffit de le remplir une fois pour la version FR ; il sera repris pour la version EN)
 
-![Capture d’écran 2022-02-22 à 10.36.09.png](Édition%20des%20contenus/Capture_decran_2022-02-22_a_10.36.09.png)
+![Capture d’écran 2022-02-22 à 10.36.09.webp](Édition%20des%20contenus/Capture_decran_2022-02-22_a_10.36.09.webp)
 
 **Nombre d’items requis** : le petit indicateur de certains champs vous permettent de savoir le nombre d’items requis, par exemple :
 
@@ -107,11 +107,11 @@ L’onglet Contenu vous propose d’ajouter également les **Blocs** compatibles
 
 1/1 : le champ est rempli ; nombre max d’items est 1
 
-![Capture d’écran 2022-02-22 à 10.36.27.png](Édition%20des%20contenus/Capture_decran_2022-02-22_a_10.36.27.png)
+![Capture d’écran 2022-02-22 à 10.36.27.webp](Édition%20des%20contenus/Capture_decran_2022-02-22_a_10.36.27.webp)
 
 Si l’indicateur est rouge, il s’agit d’un champ obligatoire (erreur si le champ n’est pas rempli) :
 
-![Capture d’écran 2022-02-25 à 14.14.29.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.14.29.png)
+![Capture d’écran 2022-02-25 à 14.14.29.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.14.29.webp)
 
 ### **Paramètres**
 
@@ -126,7 +126,7 @@ L’information relative au **TTL frontal** vous indique le nombre de minutes pr
 
 </aside>
 
-![Capture d’écran 2022-02-25 à 14.16.46.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.16.46.png)
+![Capture d’écran 2022-02-25 à 14.16.46.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.16.46.webp)
 
 ### **Étiquettes**
 
@@ -134,7 +134,7 @@ Si le gabarit concerné est prévu pour l’ajout des étiquettes, vous pourrez 
 
 *Cet onglet affichera le même contenu sans importance de traduction.*
 
-![Capture d’écran 2022-02-25 à 14.29.18.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.29.18.png)
+![Capture d’écran 2022-02-25 à 14.29.18.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.29.18.webp)
 
 [Enregistrement de l’écran 2023-03-28 à 12.15.27.mov](Édition%20des%20contenus/Enregistrement_de_lecran_2023-03-28_a_12.15.27.mov)
 
@@ -152,7 +152,7 @@ La **description** est un résumé de quelques caractères de votre page. Son ob
 
 </aside>
 
-![Capture d’écran 2022-02-25 à 14.34.26.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.34.26.png)
+![Capture d’écran 2022-02-25 à 14.34.26.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.34.26.webp)
 
 C’est également dans cet onglet que vous pouvez gérer les alias d’url et les redirections.
 
@@ -164,13 +164,13 @@ Les alias d’URL permettent de réécrire la dernière partie de l’URL de vot
 
 Les redirections automatiques permettent de rediriger la requête saisie vers l'URL actuel du noeud, et pour cette langue en particulier. Les redirections créées sont toujours du type "permanent".
 
-![Capture d’écran 2022-02-25 à 14.36.34.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.36.34.png)
+![Capture d’écran 2022-02-25 à 14.36.34.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.36.34.webp)
 
 ### Attributs
 
 Cet onglet est destiné à l’usage des développeurs ; vous n’aurez pas d’administration de contenus à mener dans cet onglet. 
 
-![Capture d’écran 2022-02-25 à 14.39.37.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.39.37.png)
+![Capture d’écran 2022-02-25 à 14.39.37.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.39.37.webp)
 
 ### **L’arborescence**
 
@@ -178,19 +178,19 @@ Quand un nœud est défini en tant que conteneur, son *arborescence* devient l
 
 Reconnaître un conteneur dans votre vue arborescente du site :
 
-![Capture d’écran 2023-03-28 à 12.17.21.png](Édition%20des%20contenus/Capture_decran_2023-03-28_a_12.17.21.png)
+![Capture d’écran 2023-03-28 à 12.17.21.webp](Édition%20des%20contenus/Capture_decran_2023-03-28_a_12.17.21.webp)
 
 Liste des nœuds d’un conteneur :
 
-![Capture d’écran 2022-02-25 à 14.41.00.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.41.00.png)
+![Capture d’écran 2022-02-25 à 14.41.00.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.41.00.webp)
 
 Pour ajouter un nouvel élément dans un container, cliquez sur le bouton en haut à droite :
 
-![Capture d’écran 2022-02-25 à 14.43.32.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.43.32.png)
+![Capture d’écran 2022-02-25 à 14.43.32.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.43.32.webp)
 
 Si le nœud n’est pas un conteneur, la vue arborescente vous montre les blocs constituant le nœud. La vue de l’arborescence devient très intéressante si vous possédez un très grand nombre de nœuds enfants. 
 
-![Capture d’écran 2022-02-25 à 14.43.02.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.43.02.png)
+![Capture d’écran 2022-02-25 à 14.43.02.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.43.02.webp)
 
 ## Duplication d’un nœud et placement sur une autre page
 
@@ -202,19 +202,19 @@ Certains blocs peuvent être repris en intégralité et placés sur une autre pa
 
 À droite de votre écran, vous disposez d’un menu d’action qui vous permettra de gérer votre nœud :
 
-![Capture d’écran 2022-02-25 à 15.00.23.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.00.23.png)
+![Capture d’écran 2022-02-25 à 15.00.23.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.00.23.webp)
 
 ### Sauvegarder
 
 Le bouton Sauvegarder est l’un des plus importants dans la gestion de cos contenus. Après chaque ajout ou modification de contenus, n’oubliez pas de cliquer sur le bouton Sauvegarder, sinon les actions de remplissage et modifications menées sur le back-office ne seront pas prises en compte.
 
-![Capture d’écran 2022-02-25 à 15.10.01.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.10.01.png)
+![Capture d’écran 2022-02-25 à 15.10.01.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.10.01.webp)
 
 ### Supprimer le nœud
 
 Cette action place votre nœud dans la corbeille
 
-![Capture d’écran 2022-02-25 à 15.10.37.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.10.37.png)
+![Capture d’écran 2022-02-25 à 15.10.37.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.10.37.webp)
 
 ### Supprimer une traduction
 
@@ -223,13 +223,13 @@ Cette action place votre nœud dans la corbeille
 
 </aside>
 
-![Supprimer une traduction](Édition%20des%20contenus/Untitled.png)
+![Supprimer une traduction](Édition%20des%20contenus/Untitled.webp)
 
 Supprimer une traduction
 
 ### Actions
 
-![Capture d’écran 2022-02-25 à 15.11.41.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.11.41.png)
+![Capture d’écran 2022-02-25 à 15.11.41.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.11.41.webp)
 
 - **Publier la descendance** : Publier un nœud et tous ses noeuds-enfants rattachés.
 - **Voir la page** : permet de voir les contenus publiés de la page correspondante (ouverture dans un nouvel onglet de l’URL de la page en front-office)
@@ -247,7 +247,7 @@ Supprimer une traduction
 
 ### Paramètres
 
-![Capture d’écran 2022-02-25 à 15.18.56.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.18.56.png)
+![Capture d’écran 2022-02-25 à 15.18.56.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.18.56.webp)
 
 Ces paramètres s’appliquent au niveau du nœud et donc ils seront identiques pour chaque traduction.
 
@@ -268,8 +268,8 @@ Pendant son cycle de vie, chaque nœud peut avoir différents statuts de publica
 - **Archivé** : lorsque vous ne souhaitez pas publier un nœud mais ne voulez pas non plus le supprimer de votre interface
 - **Supprimé** : il s’agit du dernière statut disponible pour vos nœuds. Avant de vider votre corbeille, chaque nœud sera affiché avec cette mention.
 
-![Capture d’écran 2022-02-25 à 15.07.20.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.07.20.png)
+![Capture d’écran 2022-02-25 à 15.07.20.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.07.20.webp)
 
 Pour améliorer la visibilité des statuts, les nœuds au stade de *brouillon* et *en attente de validation* sont présentés par une forme de losange alors que les nœuds *publiés* ont une forme circulaire.
 
-![Capture d’écran 2022-02-25 à 15.03.17.png](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.03.17.png)
+![Capture d’écran 2022-02-25 à 15.03.17.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_15.03.17.webp)

@@ -13,7 +13,7 @@
 
 Dans votre back-office, le Markdown peut être utilisé dès que vous identifiez les boutons de contrôle pour un contenu textuel :
 
-![Capture d’écran 2022-02-21 à 16.48.12.png](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_16.48.12.png)
+![Capture d’écran 2022-02-21 à 16.48.12.webp](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_16.48.12.webp)
 
 Le Markdown ne doit pas être utilisé dans les titres, sous-titres ou tags par exemple.
 
@@ -27,7 +27,7 @@ Insérer deux étoiles ** au début et à la fin du texte pour le mettre en gra
 
 Le bouton du back-office permet d’insérer directement les 4 étoiles autour du texte sélectionné :
 
-![Capture d’écran 2022-02-21 à 16.48.04.png](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_16.48.04.png)
+![Capture d’écran 2022-02-21 à 16.48.04.webp](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_16.48.04.webp)
 
 Attention à ne pas laisser d’espace à l’intérieur du groupe d’étoiles (de la même manière qu’avec les parenthèses) sinon le formatage ne s’appliquera pas.
 
@@ -39,7 +39,7 @@ Insérer une étoile * au début et à la fin du texte pour le mettre en italiq
 
 Le bouton du back-office permet d’insérer directement les 2 étoiles autour du texte sélectionné.
 
-![Capture d’écran 2022-02-21 à 16.52.41.png](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_16.52.41.png)
+![Capture d’écran 2022-02-21 à 16.52.41.webp](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_16.52.41.webp)
 
 ## Gras et italique
 
@@ -47,7 +47,7 @@ Les syntaxes gras et italiques peuvent bien sûr être combinées à l’aide de
 
 `******Ceci est un texte en gras et italique.******`  Ceci est un texte classique. 
 
-![Capture d’écran 2022-02-21 à 16.53.36.png](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_16.53.36.png)
+![Capture d’écran 2022-02-21 à 16.53.36.webp](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_16.53.36.webp)
 
 **Et si le caractère * est déjà utilisé dans mon texte ?**
 
@@ -80,7 +80,7 @@ Pays
 
 Votre back-office dispose d’un bouton qui vous permet d’insérer un retour-chariot en un seul clic :
 
-![Capture d’écran 2022-02-21 à 17.58.30.png](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_17.58.30.png)
+![Capture d’écran 2022-02-21 à 17.58.30.webp](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_17.58.30.webp)
 
 ## **Liens hypertextes**
 
@@ -92,7 +92,7 @@ Votre back-office dispose d’un bouton qui vous permet d’insérer un retour-c
 
 Votre back-office dispose d’un bouton qui vous permet d’insérer la syntaxe markdown en un seul clic :
 
-![Capture d’écran 2022-02-21 à 18.08.11.png](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_18.08.11.png)
+![Capture d’écran 2022-02-21 à 18.08.11.webp](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_18.08.11.webp)
 
 Insérez le lien souhaité à l’intérieur des parenthèses.
 
@@ -132,7 +132,7 @@ L’utilisation de l’espace insécable est très importante dans les titres de
 
 Votre back-office dispose d’un bouton qui vous permet d’insérer la syntaxe markdown d’un espace insécable en un seul clic :
 
-![Capture d’écran 2022-02-21 à 18.23.16.png](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_18.23.16.png)
+![Capture d’écran 2022-02-21 à 18.23.16.webp](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_18.23.16.webp)
 
 ## **Listes ordonnées et non-ordonnées**
 
@@ -160,7 +160,7 @@ Si vous avez besoin de retourner à la ligne au sein d’un seul élément, vous
 
 Votre back-office dispose d’un bouton qui vous permet d’insérer la syntaxe markdown d’une liste non-ordonnée en un seul clic :
 
-![Capture d’écran 2023-04-06 à 10.49.28.png](Syntaxe%20Markdown/Capture_decran_2023-04-06_a_10.49.28.png)
+![Capture d’écran 2023-04-06 à 10.49.28.webp](Syntaxe%20Markdown/Capture_decran_2023-04-06_a_10.49.28.webp)
 
 ## **Liste imbriquée**
 
@@ -189,13 +189,13 @@ Insérer le signe > et une espace avant chaque nouveau paragraphe pour inclure
 
 Votre back-office dispose d’un bouton qui vous permet d’insérer la syntaxe markdown d’une citation en un seul clic :
 
-![Capture d’écran 2022-02-21 à 18.12.51.png](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_18.12.51.png)
+![Capture d’écran 2022-02-21 à 18.12.51.webp](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_18.12.51.webp)
 
 ## Tiret insécable
 
 Votre back-office dispose d’un bouton qui vous permet d’insérer la syntaxe markdown d’un tiret insécable en un seul clic :
 
-![Capture d’écran 2022-02-21 à 18.24.10.png](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_18.24.10.png)
+![Capture d’écran 2022-02-21 à 18.24.10.webp](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_18.24.10.webp)
 
 ## **Titres**
 
@@ -216,7 +216,7 @@ Ajouter deux dièses # ou plus en fonction de l’importance du titre souhait�
 
 Les boutons du back-office permettent d’insérer directement les dièses avant le texte sélectionné. Veuillez à bien laisser un espace vide avant chaque nouveau titre.
 
-![Capture d’écran 2022-02-21 à 16.59.59.png](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_16.59.59.png)
+![Capture d’écran 2022-02-21 à 16.59.59.webp](Syntaxe%20Markdown/Capture_decran_2022-02-21_a_16.59.59.webp)
 
 ## Exposant et indice
 
@@ -224,7 +224,7 @@ Les boutons du back-office permettent d’insérer directement les dièses avant
 
 Pour afficher un exposant, il est nécessaire de le renseigner entre deux balises **<sup></sup>,** sans espaces
 
-![Capture d’écran 2022-03-17 à 14.50.14.png](Syntaxe%20Markdown/Capture_decran_2022-03-17_a_14.50.14.png)
+![Capture d’écran 2022-03-17 à 14.50.14.webp](Syntaxe%20Markdown/Capture_decran_2022-03-17_a_14.50.14.webp)
 
 Exemple : pour afficher 2ᵉ, remplissez `2**<sup>e</sup>**`
 
@@ -232,7 +232,7 @@ Exemple : pour afficher 2ᵉ, remplissez `2**<sup>e</sup>**`
 
 Pour afficher un indice, il est nécessaire de le renseigner entre deux balises **<sub></sub>** sans espaces
 
-![Capture d’écran 2022-03-17 à 14.51.27.png](Syntaxe%20Markdown/Capture_decran_2022-03-17_a_14.51.27.png)
+![Capture d’écran 2022-03-17 à 14.51.27.webp](Syntaxe%20Markdown/Capture_decran_2022-03-17_a_14.51.27.webp)
 
 Exemple : pour afficher CO₂, remplissez `CO**<sub>2</sub>**`
 
@@ -242,7 +242,7 @@ Exemple : pour afficher CO₂, remplissez `CO**<sub>2</sub>**`
 
 Si votre image est téléversée dans le back-office, elle possède un URL propre (commence par `/files`) Pour la retrouver, il s’agit de l’onglet Édition de votre image, champ URL publique :
 
-![Capture d’écran 2022-03-17 à 14.58.38.png](Syntaxe%20Markdown/Capture_decran_2022-03-17_a_14.58.38.png)
+![Capture d’écran 2022-03-17 à 14.58.38.webp](Syntaxe%20Markdown/Capture_decran_2022-03-17_a_14.58.38.webp)
 
 Syntaxe : `![Nom](/files/nomdufichier.jpg)`
 
@@ -250,9 +250,9 @@ Le nom du fichier ne s’affichera pas en front.
 
 Exemple :
 
-![Capture d’écran 2022-03-17 à 15.03.45.png](Syntaxe%20Markdown/Capture_decran_2022-03-17_a_15.03.45.png)
+![Capture d’écran 2022-03-17 à 15.03.45.webp](Syntaxe%20Markdown/Capture_decran_2022-03-17_a_15.03.45.webp)
 
-![Capture d’écran 2022-03-17 à 15.05.29.png](Syntaxe%20Markdown/Capture_decran_2022-03-17_a_15.05.29.png)
+![Capture d’écran 2022-03-17 à 15.05.29.webp](Syntaxe%20Markdown/Capture_decran_2022-03-17_a_15.05.29.webp)
 
 ### **Image externe**
 
@@ -268,7 +268,7 @@ Pour rendre une image cliquable, il est nécessaire “l’envelopper” votre l
 
 Pour vous assurer que votre syntaxe Markdown est bien appliquée, votre back-office vous propose un bouton “œil” qui ouvre l’aperçu du Markdown :
 
-![Capture d’écran 2023-04-24 à 10.15.01.png](Syntaxe%20Markdown/Capture_decran_2023-04-24_a_10.15.01.png)
+![Capture d’écran 2023-04-24 à 10.15.01.webp](Syntaxe%20Markdown/Capture_decran_2023-04-24_a_10.15.01.webp)
 
 ## Désactiver le Markdown
 
@@ -281,12 +281,12 @@ Exemples
 
 Markdown activé :
 
-![Capture d’écran 2023-04-28 à 09.58.02.png](Syntaxe%20Markdown/Capture_decran_2023-04-28_a_09.58.02.png)
+![Capture d’écran 2023-04-28 à 09.58.02.webp](Syntaxe%20Markdown/Capture_decran_2023-04-28_a_09.58.02.webp)
 
-![Capture d’écran 2023-04-28 à 09.58.07.png](Syntaxe%20Markdown/Capture_decran_2023-04-28_a_09.58.07.png)
+![Capture d’écran 2023-04-28 à 09.58.07.webp](Syntaxe%20Markdown/Capture_decran_2023-04-28_a_09.58.07.webp)
 
 Markdown désactivé :
 
-![Capture d’écran 2023-04-28 à 09.58.31.png](Syntaxe%20Markdown/Capture_decran_2023-04-28_a_09.58.31.png)
+![Capture d’écran 2023-04-28 à 09.58.31.webp](Syntaxe%20Markdown/Capture_decran_2023-04-28_a_09.58.31.webp)
 
-![Capture d’écran 2023-04-28 à 09.58.37.png](Syntaxe%20Markdown/Capture_decran_2023-04-28_a_09.58.37.png)
+![Capture d’écran 2023-04-28 à 09.58.37.webp](Syntaxe%20Markdown/Capture_decran_2023-04-28_a_09.58.37.webp)

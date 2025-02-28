@@ -4,9 +4,9 @@ Certains nœuds (pages ou blocs) sont gérés via des tags (étiquettes).
 
 L’accès aux étiquettes se fait par l’onglet correspondant :
 
-![Capture d’écran 2022-02-25 à 16.34.16.png](Étiquettes/Capture_decran_2022-02-25_a_16.34.16.png)
+![Capture d’écran 2022-02-25 à 16.34.16.webp](Étiquettes/Capture_decran_2022-02-25_a_16.34.16.webp)
 
-![Capture d’écran 2022-02-25 à 16.35.35.png](Étiquettes/Capture_decran_2022-02-25_a_16.35.35.png)
+![Capture d’écran 2022-02-25 à 16.35.35.webp](Étiquettes/Capture_decran_2022-02-25_a_16.35.35.webp)
 
 On distingue des étiquettes parent et des étiquettes enfant
 

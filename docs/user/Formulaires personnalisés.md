@@ -2,7 +2,7 @@
 
 # Création d’un formulaire
 
-![Capture d’écran 2024-03-15 à 15.36.45.png](Formulaires%20personnalisés/Capture_decran_2024-03-15_a_15.36.45.png)
+![Capture d’écran 2024-03-15 à 15.36.45.webp](Formulaires%20personnalisés/Capture_decran_2024-03-15_a_15.36.45.webp)
 
 Créer un nouveau formulaire
 
@@ -15,7 +15,7 @@ Créer un nouveau formulaire
 
 5 onglets vous permettent de gérer vos formulaires
 
-![Capture d’écran 2024-03-15 à 15.39.41.png](Formulaires%20personnalisés/Capture_decran_2024-03-15_a_15.39.41.png)
+![Capture d’écran 2024-03-15 à 15.39.41.webp](Formulaires%20personnalisés/Capture_decran_2024-03-15_a_15.39.41.webp)
 
 ## Onglet Paramètres
 
@@ -31,7 +31,7 @@ Créer un nouveau formulaire
 
 </aside>
 
-![Capture d’écran 2024-03-15 à 15.40.27.png](Formulaires%20personnalisés/Capture_decran_2024-03-15_a_15.40.27.png)
+![Capture d’écran 2024-03-15 à 15.40.27.webp](Formulaires%20personnalisés/Capture_decran_2024-03-15_a_15.40.27.webp)
 
 ### Autres
 
@@ -39,13 +39,13 @@ Le champ Description et couleur sont facultatifs.
 
 Vous avez la possibilité de saisir une date de fin du formulaire (date fermeture des inscriptions pas exemple).
 
-![Capture d’écran 2024-03-15 à 15.41.15.png](Formulaires%20personnalisés/Capture_decran_2024-03-15_a_15.41.15.png)
+![Capture d’écran 2024-03-15 à 15.41.15.webp](Formulaires%20personnalisés/Capture_decran_2024-03-15_a_15.41.15.webp)
 
 ### Durée de conservation - RGPD
 
 Pour des raisons RGPD, renseignez la durée de conservation des réponses.
 
-![Capture d’écran 2024-03-15 à 15.41.45.png](Formulaires%20personnalisés/Capture_decran_2024-03-15_a_15.41.45.png)
+![Capture d’écran 2024-03-15 à 15.41.45.webp](Formulaires%20personnalisés/Capture_decran_2024-03-15_a_15.41.45.webp)
 
 ### Bouton “Ouvert”
 
@@ -62,15 +62,15 @@ Ce bouton permet de publier ou dépublier le formulaire (active et desactive l�
 
 ## Onglet Questions
 
-![Capture d’écran 2022-03-04 à 16.00.48.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.00.48.png)
+![Capture d’écran 2022-03-04 à 16.00.48.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.00.48.webp)
 
 Permet de saisir tous les champs du formulaire. Pour ajouter une question :
 
-![Capture d’écran 2022-03-04 à 16.01.27.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.01.27.png)
+![Capture d’écran 2022-03-04 à 16.01.27.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.01.27.webp)
 
 Renseignez les paramètres de la question :
 
-![Capture d’écran 2022-03-04 à 16.20.14.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.20.14.png)
+![Capture d’écran 2022-03-04 à 16.20.14.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.20.14.webp)
 
 ### **Label**
 
@@ -82,11 +82,11 @@ Facultatif ; permet d’ajouter une mention à votre question
 
 Exemple back
 
-![Capture d’écran 2022-03-04 à 16.36.32.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.36.32.png)
+![Capture d’écran 2022-03-04 à 16.36.32.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.36.32.webp)
 
 Prévisualisation
 
-![Capture d’écran 2022-03-04 à 16.36.43.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.36.43.png)
+![Capture d’écran 2022-03-04 à 16.36.43.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.36.43.webp)
 
 ### **Placeholder**
 
@@ -111,11 +111,11 @@ Utilise des boîtes à cocher ou boutons radio à la place de la liste déroulan
 
 Exemple :
 
-![Capture d’écran 2022-03-04 à 16.47.26.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.47.26.png)
+![Capture d’écran 2022-03-04 à 16.47.26.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.47.26.webp)
 
 Liste déroulante
 
-![Capture d’écran 2022-03-04 à 16.47.44.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.47.44.png)
+![Capture d’écran 2022-03-04 à 16.47.44.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.47.44.webp)
 
 Boutons radio
 
@@ -123,7 +123,7 @@ Boutons radio
 
 permet de mettre en place une liste de choix (pour choix unique ou choix multiple des listes déroulantes et boutons radio/cace à cocher). Entrez les valeurs séparés par virgules. Exemple :
 
-![Capture d’écran 2022-03-04 à 16.29.25.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.29.25.png)
+![Capture d’écran 2022-03-04 à 16.29.25.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.29.25.webp)
 
 ### **Nom du groupe**
 
@@ -131,11 +131,11 @@ si votre formulaire est composé d’une seule partie, laissez le champ vide. Si
 
 Exemple back
 
-![Capture d’écran 2022-03-04 à 16.34.47.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.34.47.png)
+![Capture d’écran 2022-03-04 à 16.34.47.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.34.47.webp)
 
 Prévisualisation
 
-![Capture d’écran 2022-03-04 à 16.34.00.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.34.00.png)
+![Capture d’écran 2022-03-04 à 16.34.00.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.34.00.webp)
 
 ### Ordre de questions
 
@@ -152,7 +152,7 @@ Pour changer l’ordre de questions, utilisez cliquer-déposer :
 
 </aside>
 
-![Capture d’écran 2022-03-04 à 16.49.55.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.49.55.png)
+![Capture d’écran 2022-03-04 à 16.49.55.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.49.55.webp)
 
 ## Onglet 👁️‍🗨️
 
@@ -160,7 +160,7 @@ Permet de prévisualiser votre formulaire
 
 # Édition et consultation de formulaire existant
 
-![Capture d’écran 2022-03-04 à 16.52.43.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.52.43.png)
+![Capture d’écran 2022-03-04 à 16.52.43.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.52.43.webp)
 
 Les boutons d’actions de droite vous permettent de
 
@@ -172,7 +172,7 @@ Les boutons d’actions de droite vous permettent de
 - exporter
 - supprimer
 
-![Capture d’écran 2022-03-04 à 16.55.00.png](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.55.00.png)
+![Capture d’écran 2022-03-04 à 16.55.00.webp](Formulaires%20personnalisés/Capture_decran_2022-03-04_a_16.55.00.webp)
 
 # Intégration d’un Formulaire personnalisé
 
