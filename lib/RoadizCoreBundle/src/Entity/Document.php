@@ -231,10 +231,10 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[ORM\OneToMany(mappedBy: 'rawDocument', targetEntity: Document::class, fetch: 'EXTRA_LAZY')]
     #[SymfonySerializer\Ignore]
     private Collection $downscaledDocuments;
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'string', length: 12, nullable: true)]
     #[SymfonySerializer\Ignore]
-    #[Assert\Length(max: 100)]
-    private string $folder = '';
+    #[Assert\Length(max: 12)]
+    private ?string $folder = null;
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Ignore]
     private bool $private = false;
@@ -316,9 +316,12 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
 
     public function getFolder(): string
     {
-        return $this->folder;
+        return $this->folder ?? 'documents';
     }
 
+    /**
+     * @internal You should use DocumentFactory to generate a document folder
+     */
     public function setFolder(string $folder): static
     {
         $this->folder = $folder;

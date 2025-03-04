@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\Models;
 
 use ApiPlatform\Metadata\ApiProperty;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use RZ\Roadiz\Documents\DocumentFolderGenerator;
+use Symfony\Component\Serializer\Annotation as Serializer;
 
 trait DocumentTrait
 {
@@ -29,7 +30,7 @@ trait DocumentTrait
      *
      * @internal
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     protected static array $mimeToIcon = [
         // Code
         'application/javascript' => 'code',
@@ -141,7 +142,7 @@ trait DocumentTrait
      *
      * @internal
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     protected static array $processableMimeTypes = [
         'image/png',
         'image/jpeg',
@@ -156,7 +157,7 @@ trait DocumentTrait
     /**
      * Get short type name for current document Mime type.
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     public function getShortType(): string
     {
         if (null !== $this->getMimeType() && isset(static::$mimeToIcon[$this->getMimeType()])) {
@@ -169,7 +170,7 @@ trait DocumentTrait
     /**
      * Get short Mime type.
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     public function getShortMimeType(): string
     {
         if (!empty($this->getMimeType())) {
@@ -184,7 +185,7 @@ trait DocumentTrait
     /**
      * Is current document an image.
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     public function isImage(): bool
     {
         return 'image' === static::getShortType();
@@ -193,7 +194,7 @@ trait DocumentTrait
     /**
      * Is current document a vector SVG file.
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     public function isSvg(): bool
     {
         return 'image/svg+xml' === $this->getMimeType() || 'image/svg' === $this->getMimeType();
@@ -202,7 +203,7 @@ trait DocumentTrait
     /**
      * Is current document a video.
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     public function isVideo(): bool
     {
         return 'video' === static::getShortType();
@@ -211,7 +212,7 @@ trait DocumentTrait
     /**
      * Is current document an audio file.
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     public function isAudio(): bool
     {
         return 'audio' === static::getShortType();
@@ -220,21 +221,21 @@ trait DocumentTrait
     /**
      * Is current document a PDF file.
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     public function isPdf(): bool
     {
         return 'pdf' === static::getShortType();
     }
 
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     public function isWebp(): bool
     {
         return 'image/webp' === $this->getMimeType();
     }
 
     #[
-        SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
-        SymfonySerializer\SerializedName('relativePath'),
+        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+        Serializer\SerializedName('relativePath'),
     ]
     public function getRelativePath(): ?string
     {
@@ -246,8 +247,8 @@ trait DocumentTrait
     }
 
     #[
-        SymfonySerializer\Groups(['document_mount']),
-        SymfonySerializer\SerializedName('mountPath'),
+        Serializer\Groups(['document_mount']),
+        Serializer\SerializedName('mountPath'),
     ]
     public function getMountPath(): ?string
     {
@@ -262,7 +263,7 @@ trait DocumentTrait
     }
 
     #[
-        SymfonySerializer\Ignore
+        Serializer\Ignore
     ]
     public function getMountFolderPath(): ?string
     {
@@ -280,7 +281,7 @@ trait DocumentTrait
     /**
      * Tells if current document has embed media information.
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     public function isEmbed(): bool
     {
         return !empty($this->getEmbedId()) && !empty($this->getEmbedPlatform());
@@ -288,12 +289,12 @@ trait DocumentTrait
 
     protected function initDocumentTrait(): void
     {
-        $this->setFolder(\mb_substr(hash('crc32b', date('YmdHi')), 0, 12));
+        $this->setFolder(DocumentFolderGenerator::generateFolderName());
     }
 
     #[
-        SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
-        SymfonySerializer\SerializedName('processable'),
+        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+        Serializer\SerializedName('processable'),
         ApiProperty(
             description: 'Document can be processed as an image for resampling and other image operations.',
             writable: false,
@@ -305,8 +306,8 @@ trait DocumentTrait
     }
 
     #[
-        SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
-        SymfonySerializer\SerializedName('alt'),
+        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+        Serializer\SerializedName('alt'),
     ]
     public function getAlternativeText(): string
     {
@@ -316,7 +317,7 @@ trait DocumentTrait
     /**
      * Return false if no local file is linked to document. i.e no filename, no folder.
      */
-    #[SymfonySerializer\Ignore()]
+    #[Serializer\Ignore()]
     public function isLocal(): bool
     {
         return '' !== $this->getFilename() && '' !== $this->getFolder();

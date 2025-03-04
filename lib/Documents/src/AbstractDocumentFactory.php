@@ -8,7 +8,6 @@ use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\MountManager;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\FileHashInterface;
 use RZ\Roadiz\Documents\Models\FolderInterface;
@@ -23,23 +22,17 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 abstract class AbstractDocumentFactory
 {
-    private LoggerInterface $logger;
     private ?File $file = null;
     private ?FolderInterface $folder = null;
-    private FilesystemOperator $documentsStorage;
-    private DocumentFinderInterface $documentFinder;
 
     public function __construct(
-        FilesystemOperator $documentsStorage,
-        DocumentFinderInterface $documentFinder,
-        ?LoggerInterface $logger = null,
+        protected readonly FilesystemOperator $documentsStorage,
+        protected readonly DocumentFinderInterface $documentFinder,
+        protected readonly LoggerInterface $logger,
     ) {
         if (!$documentsStorage instanceof MountManager) {
             trigger_error('Document Storage must be a MountManager to address public and private files.', E_USER_WARNING);
         }
-        $this->documentsStorage = $documentsStorage;
-        $this->documentFinder = $documentFinder;
-        $this->logger = $logger ?? new NullLogger();
     }
 
     public function getFile(): File
@@ -217,7 +210,7 @@ abstract class AbstractDocumentFactory
                 }
             }
 
-            $document->setFolder(\mb_substr(hash('crc32b', date('YmdHi')), 0, 12));
+            $document->setFolder(DocumentFolderGenerator::generateFolderName());
         }
 
         $document->setFilename($this->getFileName());

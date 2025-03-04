@@ -1,0 +1,32 @@
+<th>
+    {% trans %}nodeTypeDecorator.entity{% endtrans %}
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'path',
+        'filters': filters,
+    } only %}
+</th>
+<th>
+    {% trans %}nodeTypeDecorator.field{% endtrans %}
+</th>
+<th>
+    {% trans %}nodeTypeDecorator.property{% endtrans %}
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'property',
+        'filters': filters,
+    } only %}
+</th>
+<th>
+    {% trans %}nodeTypeDecorator.value{% endtrans %}
+    {% include '@RoadizRozier/includes/column_ordering.html.twig' with {
+        'field': 'value',
+        'filters': filters,
+    } only %}
+</th>
+<th class="table-actions-row table-actions-row-6">
+    {% if hasBulkActions %}
+        <div class="bulk-selection">
+            <input class="checkbox" type="checkbox" name="bulk-selection-all" />
+        </div>
+    {% endif %}
+    {% trans %}actions{% endtrans %}
+</th>

@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\Repository;
 
 use Doctrine\Persistence\ObjectRepository;
+use RZ\Roadiz\Documents\Models\DocumentInterface;
 
 /**
- * @template T of \RZ\Roadiz\Documents\Models\DocumentInterface
+ * @template T of DocumentInterface
  *
  * @template-extends ObjectRepository<T>
  *

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\NodeTypes;
 
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Themes\Rozier\RozierApp;
@@ -12,7 +12,7 @@ use Themes\Rozier\RozierApp;
 final class NodeTypesController extends RozierApp
 {
     public function __construct(
-        private readonly NodeTypes $nodeTypesBag,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
     ) {
     }
 
