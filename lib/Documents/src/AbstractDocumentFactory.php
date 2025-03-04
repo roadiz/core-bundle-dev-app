@@ -126,10 +126,10 @@ abstract class AbstractDocumentFactory
         if (false !== $fileHash && !$allowDuplicates) {
             $existingDocument = $this->documentFinder->findOneByHashAndAlgorithm($fileHash, $this->getHashAlgorithm());
             if (null !== $existingDocument) {
-                if (
-                    $existingDocument->isRaw()
-                    && null !== $existingDownscaledDocument = $existingDocument->getDownscaledDocument()
-                ) {
+                /*
+                 * If existing document is a RAW, serve its downscaled version
+                 */
+                if (null !== $existingDownscaledDocument = $existingDocument->getDownscaledDocument()) {
                     $existingDocument = $existingDownscaledDocument;
                 }
                 if (null !== $this->folder) {
@@ -139,7 +139,10 @@ abstract class AbstractDocumentFactory
                 $this->logger->info(sprintf(
                     'File %s already exists with same checksum, do not upload it twice.',
                     $existingDocument->getFilename()
-                ));
+                ), [
+                    'path' => $existingDocument->getMountPath(),
+                ]);
+                (new Filesystem())->remove($file->getPathname());
 
                 return $existingDocument;
             }
