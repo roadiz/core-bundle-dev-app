@@ -20,6 +20,7 @@
                         <th class="mobile-hidden">{% trans %}type{% endtrans %}</th>
                         <th class="mobile-hidden">{% trans %}group{% endtrans %}</th>
                         <th class="mobile-hidden">{% trans %}status{% endtrans %}</th>
+                        <th class="table-actions-row">{% trans %}actions{% endtrans %}</th>
                     </tr>
                     </thead>
                     <tbody class="uk-sortable">
@@ -33,6 +34,14 @@
                                 {% if not field.Visible %}<i title="{{ 'invisible'|trans }}" data-uk-tooltip="{animation:true}" class="uk-icon-eye-slash"></i>{% endif %}
                                 {% if field.Universal %}<i title="{{ 'universal'|trans }}" data-uk-tooltip="{animation:true}" class="uk-icon-flag"></i>{% endif %}
                                 {% if field.Indexed %}<i title="{{ 'indexed'|trans }}" data-uk-tooltip="{animation:true}" class="uk-icon-filter"></i>{% endif %}
+                            </td>
+                            <td class="table-actions-row">
+                                <a class="uk-button uk-button-content uk-button-small"
+                                   href="{{ path('nodeTypeDecoratorsAddPage', {'nodeTypeName': nodeType.name, 'nodeTypeFieldName': field.name }) }}"
+                                   title="{% trans %}add.a.nodeTypeDecorator{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}">
+                                    <i class="uk-icon-pencil"></i>
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}

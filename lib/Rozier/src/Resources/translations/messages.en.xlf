@@ -4922,7 +4922,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="add.a.nodeTypeDecorator" approved="yes">
         <source>add.a.nodeTypeDecorator</source>
-            <target state="final">Add a Decorator</target>
+            <target state="final">Add a decorator</target>
             <note>Button label, for add new node-type-decorators</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.path" approved="yes">
@@ -4950,6 +4950,9 @@
             <target state="final">Value</target>
             <note>Table column label for node-type-decorator value</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.nodeTypeDecorators" approved="yes"><source>back_to.nodeTypeDecorators</source><target state="final">Back to decorators</target></trans-unit>
+      <trans-unit xml:space="preserve" id="delete.nodeTypeDecorator.%name%"><source>delete.nodeTypeDecorator.%name%</source><target state="final">Delete %name% decorator</target></trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeTypeDecorator"><source>are_you_sure.delete.nodeTypeDecorator</source><target state="final">Are you sure you want to delete this decorator?</target></trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.without_field" approved="yes"><source>nodeTypeDecorator.without_field</source><target state="final">Node-type level property</target><note>Default value of node type decorator field select</note></trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.display_name" approved="yes"><source>nodeTypeDecorator.property.display_name</source><target state="final">Display Name</target><note>Property value label for node type display name</note></trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.description" approved="yes"><source>nodeTypeDecorator.property.description</source><target state="final">Description</target><note>Property value label for node type description</note></trans-unit>

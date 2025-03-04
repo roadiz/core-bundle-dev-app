@@ -10,7 +10,6 @@ use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeDecorator;
 use RZ\Roadiz\CoreBundle\Enum\NodeTypeDecoratorProperty;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Themes\Rozier\Controllers\AbstractAdminController;
 use Themes\Rozier\Forms\NodeTypeDecoratorType;
@@ -39,14 +38,14 @@ final class NodeTypeDecoratorController extends AbstractAdminController
     {
         /** @var string $nodeTypeName */
         $nodeTypeName = $request->get('nodeTypeName');
-        $nodeTypeFieldName = $request->request->get('nodeTypeFieldName');
+        $nodeTypeFieldName = $request->request->get('nodeTypeFieldName') ?? $request->query->get('nodeTypeFieldName');
         $nodeType = $this->nodeTypesBag->get($nodeTypeName);
         $nodeTypeField = null;
         if ($nodeTypeFieldName && is_string($nodeTypeFieldName)) {
             $nodeTypeField = $this->nodeTypesBag->get($nodeTypeName)->getFieldByName($nodeTypeFieldName);
         }
-        if (null === $nodeTypeField) {
-            $property = NodeTypeDecoratorProperty::NODE_TYPE_DESCRIPTION;
+        if (null !== $nodeTypeField) {
+            $property = NodeTypeDecoratorProperty::NODE_TYPE_FIELD_LABEL;
         } else {
             $property = NodeTypeDecoratorProperty::NODE_TYPE_DESCRIPTION;
         }
@@ -101,13 +100,20 @@ final class NodeTypeDecoratorController extends AbstractAdminController
         throw new \InvalidArgumentException('Item should be instance of '.$this->getEntityClass());
     }
 
-    /**
-     * @throws \Twig\Error\RuntimeError
-     */
-    public function defaultAction(Request $request): ?Response
+    protected function additionalAssignation(Request $request): void
     {
+        parent::additionalAssignation($request);
+
         $this->assignation['nodeTypes'] = $this->nodeTypesBag->all();
 
-        return parent::defaultAction($request);
+        $nodeTypeName = $request->get('nodeTypeName', null);
+        if (null === $nodeTypeName) {
+            return;
+        }
+        $nodeTypeFieldName = $request->request->get('nodeTypeFieldName') ?? $request->query->get('nodeTypeFieldName');
+        $this->assignation['nodeType'] = $this->nodeTypesBag->get($nodeTypeName);
+        if ($nodeTypeFieldName && is_string($nodeTypeFieldName)) {
+            $this->assignation['nodeTypeField'] = $this->nodeTypesBag->get($nodeTypeName)?->getFieldByName($nodeTypeFieldName);
+        }
     }
 }

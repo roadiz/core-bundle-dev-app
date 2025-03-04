@@ -4950,7 +4950,11 @@
             <target state="final">Valeur</target>
             <note>Table column label for node-type-decorator value</note>
       </trans-unit>
-        <trans-unit xml:space="preserve" id="nodeTypeDecorator.without_field" approved="yes"><source>nodeTypeDecorator.without_field</source><target state="final">Propriété du type de nœud</target><note>Default value of node type decorator field select</note></trans-unit>
+
+      <trans-unit xml:space="preserve" id="back_to.nodeTypeDecorators" approved="yes"><source>back_to.nodeTypeDecorators</source><target state="final">Retour aux personnalisations</target></trans-unit>
+      <trans-unit xml:space="preserve" id="delete.nodeTypeDecorator.%name%"><source>delete.nodeTypeDecorator.%name%</source><target state="final">Supprimer la personnalisation pour %name%</target></trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeTypeDecorator"><source>are_you_sure.delete.nodeTypeDecorator</source><target state="final">Êtes-vous sûr.e de vouloir supprimer cette personnalisation?</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.without_field" approved="yes"><source>nodeTypeDecorator.without_field</source><target state="final">Propriété du type de nœud</target><note>Default value of node type decorator field select</note></trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.display_name" approved="yes"><source>nodeTypeDecorator.property.display_name</source><target state="final">Nom affiché</target><note>Property value label for node type display name</note></trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.description" approved="yes"><source>nodeTypeDecorator.property.description</source><target state="final">Description</target><note>Property value label for node type description</note></trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.color" approved="yes"><source>nodeTypeDecorator.property.color</source><target state="final">Couleur</target><note>Property value label for node type color</note></trans-unit>
