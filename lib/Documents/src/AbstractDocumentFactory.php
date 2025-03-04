@@ -141,7 +141,6 @@ abstract class AbstractDocumentFactory
                     $existingDocument->getFilename()
                 ), [
                     'path' => $existingDocument->getMountPath(),
-                    'entity' => $existingDocument,
                 ]);
                 (new Filesystem())->remove($file->getPathname());
 

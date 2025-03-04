@@ -73,6 +73,22 @@ final readonly class DownscaleImageManager
         }
     }
 
+    private function saveProcessedDocument(
+        DocumentInterface $document,
+        Image $processedImage,
+        bool $keepExistingRaw = false,
+    ): ?DocumentInterface {
+        if (!$keepExistingRaw) {
+            $this->removeOldRawDocument($document);
+        }
+
+        if (null === $document->getRawDocument() || !$keepExistingRaw) {
+            return $this->storeNewProcessedImage($document, $processedImage);
+        }
+
+        return $this->overwriteExistingProcessedImage($document, $processedImage);
+    }
+
     /**
      * Retrieve and process an image if necessary.
      */
@@ -237,22 +253,6 @@ final readonly class DownscaleImageManager
         return $document;
     }
 
-    private function saveProcessedDocument(
-        DocumentInterface $document,
-        Image $processedImage,
-        bool $keepExistingRaw = false,
-    ): ?DocumentInterface {
-        if (!$keepExistingRaw) {
-            $this->removeOldRawDocument($document);
-        }
-
-        if (null === $document->getRawDocument() || !$keepExistingRaw) {
-            return $this->storeNewProcessedImage($document, $processedImage);
-        }
-
-        return $this->overwriteExistingProcessedImage($document, $processedImage);
-    }
-
     /**
      * Generate a raw filename.
      */
@@ -288,9 +288,6 @@ final readonly class DownscaleImageManager
     private function logDownscaling(string $path, ?DocumentInterface $document = null): void
     {
         $context = ['path' => $path];
-        if ($document) {
-            $context['entity'] = $document;
-        }
         $this->logger?->info('Document has been downscaled.', $context);
     }
 }

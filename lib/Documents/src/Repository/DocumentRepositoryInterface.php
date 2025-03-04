@@ -30,4 +30,9 @@ interface DocumentRepositoryInterface extends ObjectRepository
      * @return array<T>
      */
     public function findAllWithoutFileHash(): array;
+
+    /**
+     * @return T|null
+     */
+    public function findOneByHashAndAlgorithm(string $hash, string $hashAlgorithm): ?DocumentInterface;
 }

@@ -365,7 +365,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         return $qb;
     }
 
-    public function findOneByHash(string $hash, string $hashAlgorithm): ?Document
+    public function findOneByHashAndAlgorithm(string $hash, string $hashAlgorithm): ?Document
     {
         $qb = $this->createQueryBuilder('d');
         $qb->andWhere($qb->expr()->eq('d.fileHash', ':hash'))
