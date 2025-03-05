@@ -9,7 +9,7 @@ features:
       link: '/developer/first-steps/requirements'
     - icon: 💡
       title: Extensions Documentation
-      link: '/extensions/index'
+      link: '/extensions/events'
 hero:
     name: Welcome to Roadiz documentation
 ---

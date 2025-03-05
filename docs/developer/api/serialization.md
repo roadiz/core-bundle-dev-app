@@ -2,6 +2,8 @@
 title: Serialization groups
 ---
 
+# Serialization groups
+
 *Roadiz* CMS uses `symfony/serializer` to perform JSON serialization
 over any objects, especially *Doctrine* entities.
 

@@ -83,7 +83,7 @@ export default defineConfig({
                 text: 'Extensions',
                 collapsed: false,
                 items: [
-                    {text: 'Roadiz events', link: '/extensions/intro'},
+                    {text: 'Roadiz events', link: '/extensions/events'},
                     {text: 'Extending Roadiz', link: '/extensions/extending_roadiz'},
                     {text: 'Extending Solr', link: '/extensions/extending_solr'},
                 ]
