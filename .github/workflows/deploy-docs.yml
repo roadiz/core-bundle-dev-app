@@ -24,26 +24,23 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
               with:
-                  fetch-depth: 0 # Not needed if lastUpdated is not enabled
-            - uses: pnpm/action-setup@v3 # Uncomment this block if you're using pnpm
-              working-directory: docs
+                  fetch-depth: 0
+            - uses: pnpm/action-setup@v3
               with:
-                version: 9 # Not needed if you've set "packageManager" in package.json
+                version: 9
             - name: Setup Node
               uses: actions/setup-node@v4
-              working-directory: docs
               with:
-                  node-version: 20
+                  node-version: 22
                   cache: pnpm
             - name: Setup Pages
               uses: actions/configure-pages@v4
-              working-directory: docs
             - name: Install dependencies
-              working-directory: docs
               run: pnpm install
-            - name: Build with VitePress
               working-directory: docs
+            - name: Build with VitePress
               run: pnpm docs:build
+              working-directory: docs
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
               with:
