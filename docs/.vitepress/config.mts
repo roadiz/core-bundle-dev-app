@@ -2,13 +2,14 @@ import {defineConfig} from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-    title: "docs",
+    title: "Roadiz Documentation",
     description: "Roadiz Documentation",
     lastUpdated: true,
+    head: [['link', { rel: 'icon', href: '/favicon.ico' }]],
     themeConfig: {
         siteTitle: 'Roadiz',
         logo: '/Roadiz_White.jpg',
-        // https://vitepress.dev/reference/default-theme-config
+
         nav: [
             {text: 'Home', link: '/'},
             {text: 'Built by Rezo Zero', link: 'https://www.rezo-zero.com/'},
