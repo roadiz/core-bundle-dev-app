@@ -3,13 +3,25 @@
 Roadiz is a full-stack Symfony application. It follows its configuration scheme as described in
 [Symfony Configuration](https://symfony.com/doc/6.4/configuration.html).
 
-## Choose your inheritance model
+## Choose your database inheritance model
 
-*Roadiz*'s main feature is its polymorphic document model, mapped to a relational database. This structure can cause performance bottlenecks when dealing with more than 20-30 node-types. To address this, we made the data inheritance model configurable.
+*Roadiz*'s main feature is its polymorphic data model, mapped to a relational database. 
+This structure can cause performance bottlenecks when dealing with more than 20-30 node types. 
+To address this, we made the data inheritance model configurable.
 
-You can switch to [`single_table`](https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/reference/inheritance-mapping.html#single-table-inheritance) mode for better performance with many node-types. However, this model does not support fields with the *same name but different types* since all node-type fields are stored in the **same SQL table**.
+Roadiz defaults to [`single_table`](https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/inheritance-mapping.html#single-table-inheritance) mode for better performances with many node-types. 
+However, this model does not support fields with the *same name but different types* since all node-type fields are stored in the **same SQL table**.
+Single table inheritance is the best option when you fetch different node-sources as the same time (for page blocks).
 
-For mixed field types, we recommend keeping the original [`joined table`](https://www.doctrine-project.org/projects/doctrine-orm/en/2.7/reference/inheritance-mapping.html#class-table-inheritance) inheritance type. This model is ideal for a small number of node-types (max. 20) with different fields but requires *LEFT JOIN* operations on each node-source query unless a node-type criterion is specified.
+::: tip
+In `single_table` mode, you can optimize your performances but reusing field `name` across node-types whenever possible.
+This will keep your columns count low and your queries fast.
+:::
+
+For mixed field types, you can switch to [`joined`](https://www.doctrine-project.org/projects/doctrine-orm/en/3.3/reference/inheritance-mapping.html#class-table-inheritance) inheritance type. 
+This model is better with a small number of node-types (max. 20) but with very different fields. It requires *LEFT JOIN* operations 
+on each node-source query unless a node-type criterion is specified.
+Joined table inheritance is a better option when you always fetch node-sources of the same type (for example, a list of articles).
 
 Configure *Doctrine* strategy in `config/packages/roadiz_core.yaml`:
 
@@ -27,9 +39,9 @@ roadiz_core:
 Changing this setting after content creation will **erase all node-source data**.
 :::
 
-## Solr endpoint
+## Apache Solr endpoint
 
-Roadiz supports *Apache Solr* for indexing nodes-sources. Configure Solr in `config/packages/roadiz_core.yaml`:
+Roadiz uses *Apache Solr* as Search engine and for indexing nodes-sources. Configure Solr in `config/packages/roadiz_core.yaml`:
 
 ```yaml
 roadiz_core:
@@ -53,7 +65,8 @@ Run the following command to check your Solr index:
 
 ## Reverse Proxy Cache Invalidation
 
-Roadiz supports cache invalidation for both external (e.g., *Varnish*) and internal (*Symfony* AppCache) reverse proxies. When the back-office cache is cleared, Roadiz sends a `BAN` request. For node-source updates, a `PURGE` request is sent using the first reachable node-source URL.
+Roadiz supports cache invalidation for both external (e.g., *Varnish*) and internal (*Symfony* AppCache) reverse proxies. 
+When the back-office cache is cleared, Roadiz sends a `BAN` request. For node-source updates, a `PURGE` request is sent using the first reachable node-source URL.
 
 ### Varnish Configuration
 
@@ -141,7 +154,7 @@ Use `type: attribute` whenever possible. Doctrine annotations are deprecated.
 Roadiz uses *Symfony Mailer* for email handling.
 [Symfony Mailer Setup](https://symfony.com/doc/6.4/mailer.html#transport-setup)
 
-::: note
+::: warning
 Ensure your email sender is from a validated domain to avoid being blacklisted.
 :::
 
