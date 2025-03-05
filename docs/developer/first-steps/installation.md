@@ -1,4 +1,4 @@
-## Create a New Roadiz Project
+# Create a New Roadiz Project
 
 For new projects, **Roadiz** can be easily set up using the `create-project` command and our *Skeleton*.
 

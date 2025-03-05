@@ -23,7 +23,7 @@ If you install the requirements for devs by the command `composer update --dev`,
 
 You can copy and paste the following command-lines to check and fix it easily :
 
-``` console
+```shell
 php vendor/bin/php-cs-fixer fix --ansi -vvv
 ```
 
@@ -35,6 +35,6 @@ Your code will be checked when we will be considering your pull requests.
 
 Then we use `phpstan` as a static code analyzer to check bugs and misuses before they occur :
 
-``` console
-php vendor/bin/phpstan analyse -c phpstan.neon
+```shell
+php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 ```

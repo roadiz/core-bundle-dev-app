@@ -1,4 +1,4 @@
-# Manual Configuration
+# Configuration
 
 Roadiz is a full-stack Symfony application. It follows its configuration scheme as described in
 [Symfony Configuration](https://symfony.com/doc/6.4/configuration.html).
@@ -212,25 +212,25 @@ roadiz_rozier:
 Run Roadiz via CLI:
 
 ```sh
-./bin/console
+bin/console
 ```
 
 If *php* is not in `/usr/bin/php`, use:
 
 ```sh
-php ./bin/console
+php bin/console
 ```
 
 To view available commands:
 
 ```sh
-./bin/console --help
+bin/console --help
 ```
 
 For Doctrine tools:
 
 ```sh
-./bin/console doctrine:migrations:migrate
+bin/console doctrine:migrations:migrate
 ```
 
 ::: warning

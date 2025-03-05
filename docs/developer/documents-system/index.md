@@ -2,66 +2,7 @@
 title: Documents system
 ---
 
-## Storing documents elsewhere\...
-
-Storing documents outside of your web-server is a good practice for many reasons:
-- it allows to scale your application easily
-- it allows to use a CDN to deliver your documents
-- it allows to use a dedicated storage service (like Amazon S3) to store your documents
-
-Documents system is based on *Flysystem*, a filesystem abstraction layer.
-It allows to store documents on local filesystem, Amazon S3, Google Cloud Storage, Rackspace Cloud Storage, Dropbox, FTP server, etc.
-
-If you want to override default configuration, you can create a `config/packages/flysystem.yaml` file in your project and you must declare 3 storages:
-- `documents_public.storage`: used to store public documents (accessible by anyone)
-- `documents_private.storage`: used to store private documents (accessible only by authenticated users, or custom access control)
-- `intervention_request.storage`: only used by Image processing system to store assets files
-
-Following example shows how to configure Flysystem to use *Scaleway* Object Storage (S3 compatible) service:
-``` yaml
-# config/packages/flysystem.yaml
-# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
-services:
-    scaleway_public_client:
-        class: 'AsyncAws\S3\S3Client'
-        arguments:
-            -  endpoint: '%env(SCW_STORAGE_ENDPOINT)%'
-               accessKeyId: '%env(SCW_STORAGE_ACCESS_KEY)%'
-               accessKeySecret: '%env(SCW_STORAGE_SECRET_KEY)%'
-               region: '%env(SCW_STORAGE_REGION)%'
-    # Private client must be different for allowing copy across file systems.
-    scaleway_private_client:
-        class: 'AsyncAws\S3\S3Client'
-        arguments:
-            -  endpoint: '%env(SCW_STORAGE_ENDPOINT)%'
-               accessKeyId: '%env(SCW_STORAGE_ACCESS_KEY)%'
-               accessKeySecret: '%env(SCW_STORAGE_SECRET_KEY)%'
-               region: '%env(SCW_STORAGE_REGION)%'
-
-flysystem:
-    storages:
-        documents_public.storage:
-            adapter: 'asyncaws'
-            visibility: 'public'
-            options:
-                client: 'scaleway_public_client'
-                bucket: '%env(SCALEWAY_STORAGE_BUCKET)%'
-                prefix: 'testing-public-files'
-        documents_private.storage:
-            adapter: 'asyncaws'
-            visibility: 'private'
-            options:
-                client: 'scaleway_private_client'
-                bucket: '%env(SCALEWAY_STORAGE_BUCKET)%'
-                prefix: 'testing-private-files'
-        intervention_request.storage:
-            adapter: 'asyncaws'
-            visibility: 'public'
-            options:
-                client: 'scaleway_public_client'
-                bucket: '%env(SCALEWAY_STORAGE_BUCKET)%'
-                prefix: 'testing-public-files'
-```
+# Documents
 
 ## Exposing documents in API
 
@@ -254,4 +195,66 @@ serialization group to your resource configuration.
     ],
     "alt": "Shirine - Bande annonce"
 }
+```
+
+## Storing documents files elsewhere
+
+Storing documents outside of your web-server is a good practice for many reasons:
+- it allows to scale your application easily
+- it allows to use a CDN to deliver your documents
+- it allows to use a dedicated storage service (like Amazon S3) to store your documents
+
+Documents system is based on *Flysystem*, a filesystem abstraction layer.
+It allows to store documents on local filesystem, Amazon S3, Google Cloud Storage, Rackspace Cloud Storage, Dropbox, FTP server, etc.
+
+If you want to override default configuration, you can create a `config/packages/flysystem.yaml` file in your project and you must declare 3 storages:
+- `documents_public.storage`: used to store public documents (accessible by anyone)
+- `documents_private.storage`: used to store private documents (accessible only by authenticated users, or custom access control)
+- `intervention_request.storage`: only used by Image processing system to store assets files
+
+Following example shows how to configure Flysystem to use *Scaleway* Object Storage (S3 compatible) service:
+
+``` yaml
+# config/packages/flysystem.yaml
+# Read the documentation at https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md
+services:
+    scaleway_public_client:
+        class: 'AsyncAws\S3\S3Client'
+        arguments:
+            -  endpoint: '%env(SCW_STORAGE_ENDPOINT)%'
+               accessKeyId: '%env(SCW_STORAGE_ACCESS_KEY)%'
+               accessKeySecret: '%env(SCW_STORAGE_SECRET_KEY)%'
+               region: '%env(SCW_STORAGE_REGION)%'
+    # Private client must be different for allowing copy across file systems.
+    scaleway_private_client:
+        class: 'AsyncAws\S3\S3Client'
+        arguments:
+            -  endpoint: '%env(SCW_STORAGE_ENDPOINT)%'
+               accessKeyId: '%env(SCW_STORAGE_ACCESS_KEY)%'
+               accessKeySecret: '%env(SCW_STORAGE_SECRET_KEY)%'
+               region: '%env(SCW_STORAGE_REGION)%'
+
+flysystem:
+    storages:
+        documents_public.storage:
+            adapter: 'asyncaws'
+            visibility: 'public'
+            options:
+                client: 'scaleway_public_client'
+                bucket: '%env(SCALEWAY_STORAGE_BUCKET)%'
+                prefix: 'testing-public-files'
+        documents_private.storage:
+            adapter: 'asyncaws'
+            visibility: 'private'
+            options:
+                client: 'scaleway_private_client'
+                bucket: '%env(SCALEWAY_STORAGE_BUCKET)%'
+                prefix: 'testing-private-files'
+        intervention_request.storage:
+            adapter: 'asyncaws'
+            visibility: 'public'
+            options:
+                client: 'scaleway_public_client'
+                bucket: '%env(SCALEWAY_STORAGE_BUCKET)%'
+                prefix: 'testing-public-files'
 ```

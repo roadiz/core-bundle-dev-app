@@ -1,7 +1,7 @@
 # Upgrading
 
 ::: warning
-**Always do a database backup before upgrading.** You can use the `mysqldump` or `pg_dump` tools  
+**Always do a database backup before upgrading.** You can use the `mysqldump`, `mariadb-dump` or `pg_dump` tools  
 to quickly export your database as a file.
 
 - With a MySQL server:  
@@ -13,8 +13,6 @@ to quickly export your database as a file.
   pg_dump -U [user] [database_name] -f dumpfilename.sql
   ```
 :::
-
-## Updating Roadiz
 
 Use **Composer** to update dependencies or Roadiz itself with **Standard** or **Headless** editions.  
 Make sure that your Roadiz *version constraint* is set in your project's `composer.json` file, then:
@@ -60,6 +58,6 @@ If you are using a runtime cache like OPcache or APCu, you’ll need to purge it
 because it can't be done from a CLI interface. As a last resort, restart your `php-fpm` service.
 :::
 
-## Upgrading from Roadiz 
+## Versions upgrades
 
-For upgrading Roadiz you can look this [Upgrading documentation](https://github.com/roadiz/core-bundle-dev-app/blob/develop/UPGRADE.md)
+For detailled version upgrades, you can check [Roadiz Github repository](https://github.com/roadiz/core-bundle-dev-app/blob/develop/UPGRADE.md)

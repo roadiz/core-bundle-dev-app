@@ -1,7 +1,6 @@
 # Node-types, Node-sources, and Nodes
 
-This is the most important part of Roadiz. Almost everything in your website will be a node.
-
+This is the most important part of Roadiz. Almost everything data in your website will be represented as a *node*.
 Before explaining further, let's check this simple node schema:
 
 ![Node Structure](./img/node-struct.svg)

@@ -2,6 +2,8 @@
 title: Tag system
 ---
 
+# Tag system
+
 Nodes are essentially hierarchical entities. So we created an entity to link nodes between them no matter where/what they are.
 Tags are meant as *tag* nodes, we couldn't be more explicit.
 But if you didn't understand here is a schema :

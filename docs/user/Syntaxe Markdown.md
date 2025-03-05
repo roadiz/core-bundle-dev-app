@@ -86,7 +86,9 @@ Votre back-office dispose d’un bouton qui vous permet d’insérer un retour-c
 
 **Pour les liens externes**, attention à ne pas oublier le préfixe du protocole `http://` ou `https://`.
 
+```markdown
 [Nom de mon lien](https://www.mon-site.com)
+```
 
 Votre back-office dispose d’un bouton qui vous permet d’insérer la syntaxe markdown en un seul clic :
 
@@ -96,19 +98,27 @@ Insérez le lien souhaité à l’intérieur des parenthèses.
 
 **Pour un lien interne**, il faut utiliser la notation relative (supprimer la partie nom de domaine et commencer par le slash) :
 
+```markdown
 [Contactez notre équipe](/contactez-nous)
+```
 
 **Pour un lien d’email**, préfixer l’URL avec `mailto:` :
 
+```markdown
 [Nom Prénom](mailto:nomprenom@gmail.com)
+```
 
 **Pour un lien téléphone**, préfixer l’URL avec `tel:` :
 
+```markdown
 [+33 9 72 28 04 34](tel:+33972280434)
+```
 
 **Un titre de lien** peut être ajouté en l’insérant avant la parenthèse fermante, entouré de guillemets :
 
+```markdown
 [Nom de mon lien](https://www.mon-site.com “Site web de l’organisme”)
+```
 
 ## Espace insécable
 

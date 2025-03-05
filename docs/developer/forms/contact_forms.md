@@ -2,6 +2,8 @@
 title: Building contact forms
 ---
 
+# Building contact forms
+
 With Roadiz you can easily create simple contact forms with `ContactFormManager` class.
 Your controller has a convenient shortcut to create this manager with `$this->createContactFormManager()` method.
 

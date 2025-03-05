@@ -2,6 +2,8 @@
 title: Attributes
 ---
 
+# Attributes
+
 Attributes are entities meant to qualify features on other entities, such as *nodes*.
 The main difference between *tags* and *attributes* is that you can set a value for each attributed *node*.
 

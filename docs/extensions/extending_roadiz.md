@@ -2,9 +2,48 @@
 title: Extending Roadiz
 ---
 
-# Extending Roadiz
+# Extending Roadiz examples
 
-## Add back-office entry
+## Override node-source paths
+
+You can override the default path generation for your node-sources by creating a subscriber.
+For example, if you want to generate a path based on *publication date* for your blog-posts like `2023/10/my-blog-post` 
+you can create a subscriber like this:
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\EventSubscriber;
+
+use App\GeneratedEntity\NSBlogPost;
+use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPathGeneratingEvent;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
+final class NSBlogPostPathSubscriber implements EventSubscriberInterface
+{
+    public static function getSubscribedEvents(): array
+    {
+        return [
+            NodesSourcesPathGeneratingEvent::class => ['onNodesSourcesPath', 100],
+        ];
+    }
+
+    public function onNodesSourcesPath(NodesSourcesPathGeneratingEvent $event): void
+    {
+        $source = $event->getNodeSource();
+
+        if (!$source instanceof NSBlogPost || null === $source->getPublishedAt()) {
+            return;
+        }
+        $event->setPath($source->getPublishedAt()->format('Y/m').'/'.$source->getIdentifier());
+        $event->stopPropagation();
+    }
+}
+```
+
+## Create a new back-office entry
 
 At first, create a controller into your theme folder, for example `src/Controller/Admin/AdminController`.
 ```php
@@ -68,7 +107,7 @@ For JS, the block `customScripts` work as is, just link an external JS file or w
 Then create your own content, do not hesitate to give a look at Rozier back-stage theme Twig files to use the right DOM structure.
 For simple features, you wouldn't have to extend JS nor CSS if you follow the same HTML coding style.
 
-## Linking things together
+### Linking things together
 
 Add the route in the theme `config/routes.yaml` file.
 

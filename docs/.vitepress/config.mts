@@ -24,13 +24,14 @@ export default defineConfig({
             {
                 text: 'Developer',
                 items: [
+                    {text: 'Introduction', link: '/developer/index'},
                     {
                         text: 'First steps',
                         collapsed: true,
                         items: [
                             {text: 'Requirements', link: '/developer/first-steps/requirements'},
                             {text: 'Installation', link: '/developer/first-steps/installation'},
-                            {text: 'Manual configuration', link: '/developer/first-steps/manual_config'},
+                            {text: 'Configuration', link: '/developer/first-steps/manual_config'},
                             {text: 'Upgrading', link: '/developer/first-steps/upgrading'},
                         ]
                     },
@@ -38,7 +39,7 @@ export default defineConfig({
                         text: 'Node system',
                         collapsed: true,
                         items: [
-                            {text: 'Intro', link: '/developer/nodes-system/intro'},
+                            {text: 'Introduction', link: '/developer/nodes-system/intro'},
                             {text: 'Nodes', link: '/developer/nodes-system/nodes'},
                             {text: 'Node types', link: '/developer/nodes-system/node_types'},
                             {text: 'Node type fields', link: '/developer/nodes-system/node_type_fields'},
@@ -49,7 +50,7 @@ export default defineConfig({
                         text: 'Building headless websites using API',
                         collapsed: true,
                         items: [
-                            {text: 'Intro', link: '/developer/api/index'},
+                            {text: 'Introduction', link: '/developer/api/index'},
                             {text: 'Exposing node types', link: '/developer/api/exposing_node_types'},
                             {text: 'Serialization', link: '/developer/api/serialization'},
                             {text: 'Web response', link: '/developer/api/web_response'},
@@ -74,6 +75,7 @@ export default defineConfig({
                 text: 'User',
                 collapsed: false,
                 items: [
+                    {text: 'Introduction', link: '/user/index'},
                     {text: 'Se connecter au back office', link: '/user/Se%20connecter%20au%20back-office'},
                     {text: 'Édition des contenus',  link: '/user/Édition%20des%20contenus'},
                     {text: 'Gérer les médias',  link: '/user/Gérer%20les%20médias'},
@@ -90,7 +92,7 @@ export default defineConfig({
                 text: 'Extensions',
                 collapsed: false,
                 items: [
-                    {text: 'Intro', link: '/extensions/intro'},
+                    {text: 'Roadiz events', link: '/extensions/intro'},
                     {text: 'Extending Roadiz', link: '/extensions/extending_roadiz'},
                     {text: 'Extending Solr', link: '/extensions/extending_solr'},
                 ]
