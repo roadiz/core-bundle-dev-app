@@ -6,7 +6,7 @@ features:
       link: '/user/index'
     - icon: 🛠️
       title: Developer Documentation
-      link: '/developer/index'
+      link: '/developer/first-steps/requirements'
     - icon: 💡
       title: Extensions Documentation
       link: '/extensions/index'

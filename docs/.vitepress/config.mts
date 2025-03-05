@@ -22,17 +22,10 @@ export default defineConfig({
             {
                 text: 'Developer',
                 items: [
-                    {text: 'Introduction', link: '/developer/index'},
-                    {
-                        text: 'First steps',
-                        collapsed: true,
-                        items: [
-                            {text: 'Requirements', link: '/developer/first-steps/requirements'},
-                            {text: 'Installation', link: '/developer/first-steps/installation'},
-                            {text: 'Configuration', link: '/developer/first-steps/manual_config'},
-                            {text: 'Upgrading', link: '/developer/first-steps/upgrading'},
-                        ]
-                    },
+                    {text: 'Requirements', link: '/developer/first-steps/requirements'},
+                    {text: 'Installation', link: '/developer/first-steps/installation'},
+                    {text: 'Configuration', link: '/developer/first-steps/manual_config'},
+                    {text: 'Upgrading', link: '/developer/first-steps/upgrading'},
                     {
                         text: 'Node system',
                         collapsed: true,
