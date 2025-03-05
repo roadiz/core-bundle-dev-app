@@ -21,7 +21,6 @@ Roadiz's node system allows you to create your data schema and organize your con
 
 Imagine you need to display your graphic design portfolio and also sell some t-shirts. With Roadiz, you can create custom content forms from scratch and choose the exact fields you need: images and texts for your projects, images, texts, prices, and even geolocation for your products. That’s why it’s called **polymorphic**.
 
-
 ## Philosophy
 
 When exploring Roadiz's back-office interface, you'll notice there is no Rich Text Editor (also called *WYSIWYG* editor). We chose to promote **Markdown** syntax to focus on content hierarchy and quality rather than content styling. Our goal is to preserve and respect the work of web designers and graphic designers.

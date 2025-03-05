@@ -1,11 +1,10 @@
 # Syntaxe Markdown
 
-<aside>
+::: tip
 📖 Markdown est un langage de balisage léger avec une syntaxe en texte brut conçue pour être facilement traduite en HTML et bien d’autres formats. Le but de Markdown est de rester lisible tel quel sans donner l’impression qu’il a été marqué par des balises ou des instructions de formatage, contrairement au Rich Text Format (RTF) ou HTML qui utilisent des balises et instructions de formatage empêchant leur lecture par un(e) non-spécialiste.
 
 — *Article sur Wikipédia — [https://fr.wikipedia.org/wiki/Markdown](https://fr.wikipedia.org/wiki/Markdown)*
-
-</aside>
+:::
 
 **Accès rapide**
 
@@ -66,10 +65,9 @@ Code postal<espace><espace><espace>
 Pays
 ```
 
-<aside>
+::: tip
 💡 Vous pouvez aussi utiliser le caractère `backslash` : `\`
-
-</aside>
+:::
 
 ```markdown
 Adresse : \ 
@@ -120,15 +118,13 @@ Par exemple : Ceci est une phrase comprenant des « symboles ».
 
 L’utilisation de l’espace insécable est très importante dans les titres des pages (pour éviter qu’un mot ou un symbole se retrouve seul à la ligne).
 
-<aside>
+::: tip
 💡 Sur macOS: vous pouvez faire une espace insécable avec le raccourci `Alt + Espace`
+:::
 
-</aside>
-
-<aside>
+::: tip
 💡 Sur Linux: `Shift+Ctrl+u` puis tapez `00a0`
-
-</aside>
+:::
 
 Votre back-office dispose d’un bouton qui vous permet d’insérer la syntaxe markdown d’un espace insécable en un seul clic :
 
@@ -172,10 +168,9 @@ Vous pouvez insérer un deuxième, troisième, etc. niveau à votre liste en la
         - ceci est le troisième niveau
 ```
 
-<aside>
+::: tip
 💡 N’oubliez pas l’espace entre le tiret et le début du texte, sinon la liste à puce ne s’activera pas.
-
-</aside>
+:::
 
 Pour créer un nouveau paragraphe, laisser toujours une ligne vide entre vos blocs de texte. Tout ligne vide en plus sera ignorée.
 
@@ -209,10 +204,9 @@ Ajouter deux dièses # ou plus en fonction de l’importance du titre souhait�
 #### Ceci est un titre H4
 ```
 
-<aside>
+::: tip
 ⚠️ Attention à ne pas utiliser une seule dièse pour créer un titre de niveau 1, car il est généralement réservé au titre principal de votre page.
-
-</aside>
+:::
 
 Les boutons du back-office permettent d’insérer directement les dièses avant le texte sélectionné. Veuillez à bien laisser un espace vide avant chaque nouveau titre.
 
@@ -272,10 +266,9 @@ Pour vous assurer que votre syntaxe Markdown est bien appliquée, votre back-off
 
 ## Désactiver le Markdown
 
-<aside>
+::: tip
 📌 Si vous souhaitez faire apparaître dans votre texte certains caractères utilisés par Markdown, comme *** +** ou **-**, il suffit d’échapper le caractère : rajoutez le symbole **\** devant le caractère que vous souhaitez faire apparaître.
-
-</aside>
+:::
 
 Exemples
 

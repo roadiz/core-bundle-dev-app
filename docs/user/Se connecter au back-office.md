@@ -15,7 +15,6 @@ Si vous avez oublié votre mot de passe, **”Mot de passe oublié ?”** **vo
 
 Si vous n’avez pas accès à votre email et/ou identifiants, contactez l’équipe Rezo Zero ou un Administrateur interne de votre back-office. 
 
-<aside>
+::: tip
 💡 Les mots de passe sont stockés de manière “hashée” cryptographiquement, celà veut dire que personne ne pourra retrouver votre mot de passe, et ce, même s’il a un accès à la base de donnée technique de votre site. Si vous avez oublié, ou perdu, votre mot de passe, vous serez invité·e à en créer un nouveau.
-
-</aside>
+:::

@@ -10,14 +10,23 @@ L’accès aux étiquettes se fait par l’onglet correspondant :
 
 On distingue des étiquettes parent et des étiquettes enfant
 
-Tuto création d’étiquette parent :
+## Tuto création d’étiquette parent 
 
-[Enregistrement de l’écran 2022-02-25 à 16.39.06.mov](Étiquettes/Enregistrement_de_lecran_2022-02-25_a_16.39.06.mov)
+<video controls>
+<source src="/user/Étiquettes/Enregistrement_de_lecran_2022-02-25_a_16.39.06.webm" type="video/webm">
+Your browser does not support the video tag.
+</video>
 
-Tuto création étiquette enfant :
+## Tuto création étiquette enfant 
 
-[Enregistrement de l’écran 2022-02-25 à 16.40.22.mov](Étiquettes/Enregistrement_de_lecran_2022-02-25_a_16.40.22.mov)
+<video controls>
+<source src="/user/Étiquettes/Enregistrement_de_lecran_2022-02-25_a_16.40.22.webm" type="video/webm">
+Your browser does not support the video tag.
+</video>
 
-Tuto d’attribution d’étiquette à un nœud et suppression :
+## Tuto d’attribution d’étiquette à un nœud et suppression
 
-[Enregistrement de l’écran 2022-02-25 à 16.43.36.mov](Étiquettes/Enregistrement_de_lecran_2022-02-25_a_16.43.36.mov)
+<video controls>
+<source src="/user/Étiquettes/Enregistrement_de_lecran_2022-02-25_a_16.43.36.webm" type="video/webm">
+Your browser does not support the video tag.
+</video>

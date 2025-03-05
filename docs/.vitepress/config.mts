@@ -84,7 +84,6 @@ export default defineConfig({
                     {text: 'Formulaires personnalisés', link: '/user/Formulaires%20personnalisés'},
                     {text: 'États (publié, dépublié, caché)', link: '/user/États%20(publié,%20dépublié,%20caché)'},
                     {text: 'Visualisation et Prévisualisation',  link: '/user/Visualisation%20et%20Prévisualisation'},
-                    {text: 'Sécurité des accès au back-office : consignes et bonnes pratiques', link: '/user/Sécurité%20des%20accès%20au%20back-office'},
                 ]
             },
             {

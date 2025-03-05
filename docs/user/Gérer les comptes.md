@@ -10,23 +10,24 @@ L’onglet qui vous permet de visualiser les utilisateurs et d’assurer leur ge
 
 # Ajouter un utilisateur
 
-<aside>
+::: tip
 💡 Pour ajouter un nouvel Utilisateur, renseignez les 4 champs obligatoires (le nom utilisateur peut être l’email de la personne). Cochez obligatoirement l’un des 3 groupes proposés : Admin, Backend user ou Éditeur. Pour des mesures de sécurité, limitez la création de comptes Admin (ce type de compte permet d’accéder à la liste des utilisateurs, avec droit d’ajout, modification et suppression). Le compte le plus commun est Éditeur.
-
-</aside>
+:::
 
 ![Capture d’écran 2022-10-18 à 11.19.39.webp](Gérer%20les%20comptes/Capture_decran_2022-10-18_a_11.19.39.webp)
 
-[Enregistrement de l’écran 2022-10-18 à 11.27.30.mov](Gérer%20les%20comptes/Enregistrement_de_lecran_2022-10-18_a_11.27.30.mov)
+<video controls>
+    <source src="/user/Gérer%20les%20comptes/Enregistrement_de_lecran_2022-10-18_a_11.27.30.webm" type="video/webm">
+    Your browser does not support the video tag.
+</video>
 
 ## Mot de passe éphémère : important
 
-<aside>
+::: tip
 💡 Concernant le mot de passe, il ne doit en aucun cas être transmis directement à l’utilisateur en question. La personne qui dispose d’un compte doit être la seule qui connaît son mot de passe. 
 
 Pour des raisons de sécurité, composez un mot de passe aléatoire, et suggérez au nouvel utilisateur de cliquer sur “Mot de passe oublié” lors de sa première connexion, afin qu’il puisse créer son propre mot de passe.
-
-</aside>
+:::
 
 Si vous créez un compte utilisateur sans spécifier son mot de passe, **un email avec un lien de réinitialisation du mot de passe lui sera envoyé automatiquement. Le lien de création de mot de passe, reçu sur sa messagerie, sera valable 10 minutes. Si l’utilisateur n’a pas créé son mot de passe dans le temps imparti (10 min), son compte sera verrouillé. 
 
@@ -68,10 +69,9 @@ Les paramètres de cet onglet permettent de gerer l’activation et desactivatio
 
 L’onglet Rôles vous permet de visualiser les rôles (droits) de l’utilisateur, liés à son type de compte (Admin, Éditeur ou Backed user).
 
-<aside>
+::: tip
 💡 IMPORTANT : si nombre de rôles est important, cela ne signifie pas que l’utilisateur posséde plus de droits. Par exemple, un Admin possède 10 rôles, un Éditeur en a 24. Il y a des rôles qui englobent plusieurs rôles/droits, c’est la raison pour laquelle il existe cet écart entre le nombre de rôles.
-
-</aside>
+:::
 
 ![Capture d’écran 2022-04-05 à 16.34.33.webp](Gérer%20les%20comptes/Capture_decran_2022-04-05_a_16.34.33.webp)
 
@@ -85,19 +85,20 @@ Cet onglet vous permet de visualiser à quel type d’utilisateur appartient le 
 
 ![Capture d’écran 2022-10-18 à 11.32.45.webp](Gérer%20les%20comptes/Capture_decran_2022-10-18_a_11.32.45.webp)
 
-<aside>
+::: tip
 💡 Vous pouvez changer le type de groupe (de éditeur à admin ou de back-end user à éditeur par exemple). Attention, il faut toujours ajouter le nouveau groupe avant de supprimer l’ancien.
+:::
 
-</aside>
-
-[Enregistrement de l’écran 2022-10-18 à 11.33.59.mov](Gérer%20les%20comptes/Enregistrement_de_lecran_2022-10-18_a_11.33.59.mov)
+<video controls>
+    <source src="/user/Gérer%20les%20comptes/Enregistrement_de_lecran_2022-10-18_a_11.33.59.webm" type="video/webm">
+    Your browser does not support the video tag.
+</video>
 
 ### Admin
 
-<aside>
+::: tip
 💡 Ce groupe possède tous les rôles/droits dans le back-office ; le compte Admin permet notamment d’ajouter / supprimer / modifier les utilisateurs. Le nombre d’administrateurs du site est donc à limiter (accorder ce groupe uniquement aux personnes responsables du site ; par précaution, ne pas donner les accès Admin aux individus externes de votre structure).
-
-</aside>
+:::
 
 ### Éditeur
 

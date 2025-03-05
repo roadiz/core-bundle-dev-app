@@ -4,17 +4,18 @@ Vous pouvez gérer les divers médias via l’icône **Documents** **dans la ba
 
 ![Capture d’écran 2023-03-28 à 12.23.13.webp](Gérer%20les%20médias/Capture_decran_2023-03-28_a_12.23.13.webp)
 
-**Accès rapide**
+## Intégrer un fichier dans le back-office
 
-# Intégrer un fichier dans le back-office
-
-## Téléverser
+### Téléverser
 
 Pour déposer un fichier dans votre CMS, cliquez sur le bouton téléverser ; un espace de téléversement s’ouvrira ; vous pouvez cliquer sur la zone grise pour activer un onglet qui vous permet de sélectionner le média stocké sur votre machine. Le document téléversé se retrouvera automatiquement en première position de votre onglet Documents : 
 
-[Enregistrement de l’écran 2023-03-28 à 13.42.16.mov](Gérer%20les%20médias/Enregistrement_de_lecran_2023-03-28_a_13.42.16.mov)
+<video controls>
+    <source src="/user/Gérer%20les%20médias/Enregistrement_de_lecran_2023-03-28_a_13.42.16.webm" type="video/webm">
+    Your browser does not support the video tag.
+</video>
 
-## Intégrer
+### Intégrer
 
 Vous pouvez également importer un média depuis une plateforme. C’est notamment le cas pour les vidéos.
 
@@ -22,9 +23,12 @@ Vous pouvez également importer un média depuis une plateforme. C’est notamme
 
 Une liste de plateformes est disponible dans votre CMS ; attention, uniquement les plateformes compatibles avec votre projet sont paramétrées en front-office, selon le cahier de charges défini). Saisissez l’URL du média et sélectionnez la plateforme correspondante, puis sauvegardez (Bouton Intégrer). Le média sera placé en première position de vos Documents :
 
-[Enregistrement de l’écran 2023-03-28 à 13.44.42.mov](Gérer%20les%20médias/Enregistrement_de_lecran_2023-03-28_a_13.44.42.mov)
+<video controls>
+    <source src="/user/Gérer%20les%20médias/Enregistrement_de_lecran_2023-03-28_a_13.44.42.webm" type="video/webm">
+    Your browser does not support the video tag.
+</video>
 
-## J’ai de la chance
+### J’ai de la chance
 
 **J’ai de la chance** est une fonctionnalité bien pratique qui permet de télécharger des documents au hasard sur votre site à partir de la base libre de *Unsplash*.
 
@@ -36,7 +40,7 @@ En cliquant sur **Document inutilisé***,* vous pourrez vérifier la liste de t
 
 ![Capture d’écran 2022-02-24 à 18.30.13.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_18.30.13.webp)
 
-# Intégrer une image ou vidéo dans un champ
+## Intégrer une image ou vidéo dans un champ
 
 Le fonctionnement d’intégration d’une image pour un header de page ou un bloc de contenu est le même : il s’agit de remplir le champ correspondant. 
 
@@ -47,7 +51,7 @@ Pour remplir un champ avec une image, vous pouvez
 
 ![Capture d’écran 2022-02-23 à 18.14.48.webp](Gérer%20les%20médias/Capture_decran_2022-02-23_a_18.14.48.webp)
 
-## Téléverser
+### Téléverser
 
 Cliquez sur le bouton téléverser pour ouvrir la zone active de upload 
 
@@ -55,7 +59,7 @@ Cliquez sur le bouton téléverser pour ouvrir la zone active de upload
 
 Déposez les fichiers à téléverser ou cliquez pour ouvrir l’explorateur (cf. la vidéo tuto [Gérer les fichiers (images, vidéos, documents) - SUPP](https://www.notion.so/G-rer-les-fichiers-images-vid-os-documents-SUPP-a23dd67b881245fa88dd8998b5de05c6?pvs=21) ).
 
-## Explorateur
+### Explorateur
 
 Cliquez sur le bouton Explorateur 
 
@@ -69,7 +73,7 @@ Refermez l’explorateur (croix ou bouton Explorateur) et sauvegardez votre sais
 
 ![Capture d’écran 2022-02-23 à 18.19.02.webp](Gérer%20les%20médias/Capture_decran_2022-02-23_a_18.19.02.webp)
 
-# Images
+## Images
 
 Votre CMS permet d’afficher plusieurs formats d’images : jpeg, png, svg.
 
@@ -79,7 +83,7 @@ Pour les fichiers qui nécessitent une transparence (logos, images sur fond colo
 
 Ne pas utiliser les fichiers source type .ai ou .tiff
 
-## édition
+### Édition
 
 L’onglet édition est l’onglet par défaut sur lequel vous arrivez dans votre parcours de gestion des médias. C’est par ailleurs dans cet endroit que vous pouvez télécharger le fichier sur votre machine :
 
@@ -89,7 +93,7 @@ Tout en bas de la page vous trouverez l’URL publique et le chemin absolu du fi
 
 ![Capture d’écran 2022-02-24 à 18.13.42.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_18.13.42.webp)
 
-## Méta-données
+### Méta-données
 
 L’onglet méta-données est prévu pour plusieurs fonctionnalités :
 
@@ -100,7 +104,7 @@ L’onglet méta-données est prévu pour plusieurs fonctionnalités :
 
 ![Capture d’écran 2022-02-24 à 17.18.52.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_17.18.52.webp)
 
-## Aperçu
+### Aperçu
 
 L’onglet Aperçu vous permet de visualiser l’image.
 
@@ -118,19 +122,19 @@ Depuis cet onglet vous pouvez également télécharger votre fichier sur votre m
 
 ![Capture d’écran 2022-02-24 à 17.40.02.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_17.40.02.webp)
 
-## Utilisation
+### Utilisation
 
 L’onglet Utilisation vous permet de voir dans quels blocs ou endroits du site est utilisé ce fichier ; en cliquant sur la ligne correspondante, vous serez redigiré automatiquement vers le nœud/bloc qui contient votre fichier :
 
 ![Capture d’écran 2022-02-24 à 17.37.30.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_17.37.30.webp)
 
-## Ajuster
+### Ajuster
 
 L’onglet Ajuster vous permet d’éditer votre image ; il ne s’agit pas d’un traitement graphique, mais uniquement des ajustements de position, zoom, recadrage.
 
 ![Capture d’écran 2022-02-24 à 17.41.48.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_17.41.48.webp)
 
-### Recadrage
+#### Recadrage
 
 Pour rogner une photo, vous pouvez choisir le ratio souhaité (libre ou prédéfini) :
 
@@ -158,7 +162,7 @@ D’autres boutons vous permettent d’effectuer des changements sur l’image :
 
 ![Capture d’écran 2022-02-24 à 17.47.02.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_17.47.02.webp)
 
-# Vidéos
+## Vidéos
 
 Votre CMS vous permet d’afficher les vidéos mp4 ainsi que les vidéos lues depuis les plateformes de streaming, type **Youtube ou Viméo**.
 
@@ -170,16 +174,15 @@ Pour les vidéos courtes (type boucle vidéo, sans son), vous pouvez téléverse
 
 <aside>
 💡 L’utilisation de fichiers vidéo directement dans le backoffice nécessite des connaissances en encodage vidéo et une bonne configuration des codecs compatibles pour le web : tels que H.264 et/ou VP8 dans les conteneurs MP4 et/ou WebM.
-
 </aside>
 
-## édition
+### Édition
 
 Dans l’onglet édition, vous trouverez un champ nommé Vignettes :
 
 ![Capture d’écran 2022-02-24 à 17.58.51.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_17.58.51.webp)
 
-### Vignette de vidéo
+#### Vignette de vidéo
 
 ![Capture d’écran 2022-02-24 à 18.00.33.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_18.00.33.webp)
 
@@ -187,7 +190,7 @@ Par défaut, le back-office prendra une image d’arrêt sur votre vidéo, ou la
 
 Il en est de même pour les fichiers mp4.
 
-### Gestion d’une vignette vidéo : pas à pas
+#### Gestion d’une vignette vidéo : pas à pas
 
 Si vous disposez d’une image qui correspondrait à la vignette de vidéo, vous pouvez la téléverser dans le back-office et l’utiliser. Si vous n’avez pas d’image prévue pour la vignette, vous pouvez effectuer une capture d’écran (image d’arrêt) qui servira de vignette. 
 
@@ -207,33 +210,42 @@ Idem sur la vue générale de votre rubrique Documents :
 
 ![Capture d’écran 2022-02-24 à 18.18.06.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_18.18.06.webp)
 
-### Gestion d’une vignette vidéo : tuto capture vidéo
+#### Gestion d’une vignette vidéo : tuto capture vidéo
 
-**étape 1 : intégration dans CMS**
+**Étape 1 : intégration dans CMS**
 
-[Enregistrement de l’écran 2023-04-05 à 15.20.20.mov](Gérer%20les%20médias/Enregistrement_de_lecran_2023-04-05_a_15.20.20.mov)
+<video controls>
+    <source src="/user/Gérer%20les%20médias/Enregistrement_de_lecran_2023-04-05_a_15.20.20.webm" type="video/webm">
+    Your browser does not support the video tag.
+</video>
 
-**étape 2 : intégration dans une galerie**
+**Étape 2 : intégration dans une galerie**
 
-[Enregistrement de l’écran 2023-04-05 à 15.26.19.mov](Gérer%20les%20médias/Enregistrement_de_lecran_2023-04-05_a_15.26.19.mov)
+<video controls>
+    <source src="/user/Gérer%20les%20médias/Enregistrement_de_lecran_2023-04-05_a_15.26.19.webm" type="video/webm">
+    Your browser does not support the video tag.
+</video>
 
-**étape 3: ajout de la vignette**
+**Étape 3: ajout de la vignette**
 
-[Enregistrement de l’écran 2023-04-05 à 15.29.01.mov](Gérer%20les%20médias/Enregistrement_de_lecran_2023-04-05_a_15.29.01.mov)
+<video controls>
+    <source src="/user/Gérer%20les%20médias/Enregistrement_de_lecran_2023-04-05_a_15.29.01.webm" type="video/webm">
+    Your browser does not support the video tag.
+</video>
 
 **Exemple Rendu avec la vignette :**
 
 ![Capture d’écran 2023-04-05 à 15.30.10.webp](Gérer%20les%20médias/Capture_decran_2023-04-05_a_15.30.10.webp)
 
-## Autres onglets de gestion
+### Autres onglets de gestion
 
 Pour les onglets Méta-données, Aperçu, Utilisation et Ajuster, consultez le chapitre ci-dessus (il s’agit du même fonctionnement pour les images et pour les vidéos). 
 
-# Documents pdf
+## Documents pdf
 
 Pour la gestion des documents pdf, consultez le tuto de la rubrique Image (même fonctionnement). 
 
-# Pictos
+## Pictos
 
 Pour intégrer des pictos dans des champs prévus à cet effet, privilégiez le format **svg**, ou bien **png** transparent.
 
@@ -241,7 +253,7 @@ Certains pictos sont entrées dans le code et ne sont pas administrables, c’es
 
 ![Capture d’écran 2022-02-24 à 16.53.53.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_16.53.53.webp)
 
-# Logos
+## Logos
 
 Pour les logos, privilégiez le format png transparent ou SVG.
 

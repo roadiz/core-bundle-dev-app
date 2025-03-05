@@ -1,64 +1,66 @@
 # Édition des contenus
 
-**Accès rapide**
-
-# **Gérer les nœuds**
+## Gérer les nœuds
 
 Les nœuds sont les éléments les plus importants du CMS Roadiz. Ils permettent la mise en forme de votre contenu telle que vous le souhaitez en fonction de la définition de vos types de nœuds. Un nœud peut être un post de blog, une page de contenu, une galerie photo, ou même un produit de l’e-boutique. Voilà pourquoi nous l’avons appelé « Nœud », c’est une unité de données abstraite et interconnectée avec le reste de votre arborescence.
 
-# **Général**
-
 Des indicateurs graphiques vous informent sur le statut de publication d’un nœud. Un nœud peut être une page du site ou un bloc.
 
-**Losange : brouillon**
+- **Losange : brouillon**
 
-![Capture d’écran 2022-02-25 à 16.01.24.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_16.01.24.webp)
+  ![Capture d’écran 2022-02-25 à 16.01.24.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_16.01.24.webp)
 
-Le losange indique que le nœud est en brouillon (visible par les administrateurs du CMS en “preview” uniquement)
+  Le losange indique que le nœud est en brouillon (visible par les administrateurs du CMS en “preview” uniquement)
 
-**Cercle : publié**
+- **Cercle : publié**
 
-![Capture d’écran 2022-02-25 à 16.04.12.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_16.04.12.webp)
+  ![Capture d’écran 2022-02-25 à 16.04.12.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_16.04.12.webp)
 
-**Losange barré : dépublié et caché**
+- **Losange barré : dépublié et caché**
 
-![Capture d’écran 2022-12-05 à 14.54.15.webp](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.54.15.webp)
+  ![Capture d’écran 2022-12-05 à 14.54.15.webp](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.54.15.webp)
 
-![Capture d’écran 2022-12-05 à 14.53.48.webp](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.53.48.webp)
+  ![Capture d’écran 2022-12-05 à 14.53.48.webp](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.53.48.webp)
 
-**Cercle barré : publié et caché**
+- **Cercle barré : publié et caché**
 
-![Capture d’écran 2022-12-05 à 14.26.20.webp](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.26.20.webp)
+  ![Capture d’écran 2022-12-05 à 14.26.20.webp](Édition%20des%20contenus/Capture_decran_2022-12-05_a_14.26.20.webp)
 
-Le cercle indique que le contenu est publié et visible en front-end par les utilisateurs du site
+  Le cercle indique que le contenu est publié et visible en front-end par les utilisateurs du site. Ce statut indique que le contenu est dépublié (brouillon) et caché (il ne sera visible par personne)
 
-Ce statut indique que le contenu est dépublié (brouillon) et caché (il ne sera visible par personne)
+  S'il s'agit d'un bloc, il ne sera pas visible (ni par les administrateurs, ni par des internautes). S'il s'agit d'une page, elle ne sera pas visible dans le site si elle est reliée à l’arborescence principale, mais sera quand même disponible en ligne si un internaute dispose de son URL
 
-S'il s'agit d'un bloc, il ne sera pas visible (ni par les administrateurs, ni par des internautes). S'il s'agit d'une page, elle ne sera pas visible dans le site si elle est reliée à l’arborescence principale, mais sera quand même disponible en ligne si un internaute dispose de son URL
+- **Titre barré** : indique que le nœud est caché (n’est pas visible par les utilisateurs du site, ni par les utilisateurs du back-office connectés)
 
-Titre barré : indique que le nœud est caché (n’est pas visible par les utilisateurs du site, ni par les utilisateurs du back-office connectés)
-
-## **Navigation dans l’arborescence**
+### Navigation dans l’arborescence
 
 ![Capture d’écran 2023-03-28 à 12.10.02.webp](Édition%20des%20contenus/Capture_decran_2023-03-28_a_12.10.02.webp)
 
 Chaque nœud a sa place dans votre site et c’est pourquoi nous avons choisi d’organiser votre contenu à travers une arborescence. C’est intuitif et cela fonctionne de la même manière que la gestion des fichiers de votre ordinateur.
 
 - Pour éditer le contenu d’un nœud, cliquez simplement dessus.
-
 - D’autres options sont disponibles à partir du menu contextuel de chaque nœud. Faites un clic-droit sur le nœud ou cliquez sur la flèche droite qui apparaît au survol.
 
-[Enregistrement de l’écran 2022-12-05 à 15.27.11.mov](Édition%20des%20contenus/Enregistrement_de_lecran_2022-12-05_a_15.27.11.mov)
+    <video controls>
+    <source src="/user/Édition%20des%20contenus/Enregistrement_de_lecran_2022-12-05_a_15.27.11.webm" type="video/webm">
+    Your browser does not support the video tag.
+    </video>
 
 - Vous pouvez replier/déplier des morceaux de votre arborescence en cliquant sur le `+` ou le `-` à droite de chaque nœud. L’état sera gardé en mémoire pour vous permettre d’accéder plus rapidement à vos contenus favoris.
 
-[Enregistrement de l’écran 2022-12-05 à 15.25.07.mov](Édition%20des%20contenus/Enregistrement_de_lecran_2022-12-05_a_15.25.07.mov)
+    <video controls>
+    <source src="/user/Édition%20des%20contenus/Enregistrement_de_lecran_2022-12-05_a_15.25.07.webm" type="video/webm">
+    Your browser does not support the video tag.
+    </video>
 
 - Pour déplacer un nœud dans votre arborescence, réalisez un « cliquer-déposer » grâce à la poignée (en forme de rond ou de losange). Vous pouvez déposer un nœud avant ou après un autre élément. Vous pouvez également le déposer à l’intérieur d’un autre nœud, en décalant légèrement votre souris vers la droite de ce dernier pour déplacer l’ombre du nœud à l’intérieur.
 
-[Enregistrement de l’écran 2022-12-05 à 15.30.24.mov](Édition%20des%20contenus/Enregistrement_de_lecran_2022-12-05_a_15.30.24.mov)
+    <video controls>
+    <source src="/user/Édition%20des%20contenus/Enregistrement_de_lecran_2022-12-05_a_15.30.24.webm" type="video/webm">
+    Your browser does not support the video tag.
+    </video>
 
-### **Actions des menus contextuels**
+### Actions des menus contextuels
 
 - *Ajouter un nœud enfant* : créer une zone de contenu à l’intérieur d’un nœud existant (page ou blocs)
 - *Éditer* : renvoie à la page d’édition de contenu du nœud concerné.
@@ -70,7 +72,7 @@ Chaque nœud a sa place dans votre site et c’est pourquoi nous avons choisi d�
 - *Publier la descendance* : Publier un nœud et tous ses noeuds-enfants rattachés.
 - *Dupliquer* : Copier l’intégralité du contenu et des interactions du nœud actuel dans un nouveau nœud.
 
-## **Création d’un nœud**
+## Création d’un nœud
 
 Le bouton **Ajouter un nœud** est situé en haut de votre *arborescence*.
 
@@ -85,11 +87,14 @@ Pour ajouter un nœud vide à votre arborescence, vous devrez choisir son emplac
 - Le **Titre** est l’identifiant global de votre nœud. Il doit être unique et ne changera pas d’une traduction à un autre. Il peut être modifié ultérieurement, sauf si votre développeur a verrouillé sa modification. Le **Titre** est utilisé pour construire les URL de vos pages, de manière générale.
 - Le **Type de nœud** (Node type) définit les champs disponibles de votre contenu. Choisissez le bien car la modification ne sera pas possible ultérieurement, il vous faudra supprimer le nœud et en créer un nouveau en cas d’erreur.
 
-[Enregistrement de l’écran 2022-12-06 à 10.15.26.mov](Édition%20des%20contenus/Enregistrement_de_lecran_2022-12-06_a_10.15.26.mov)
+<video controls>
+<source src="/user/Édition%20des%20contenus/Enregistrement_de_lecran_2022-12-06_a_10.15.26.webm" type="video/webm">
+Your browser does not support the video tag.
+</video>
 
-## **Éditer un nœud existant**
+## Éditer un nœud existant
 
-### **Contenu**
+### Contenu
 
 ![Capture d’écran 2022-02-25 à 14.04.33.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.04.33.webp)
 
@@ -113,22 +118,17 @@ Si l’indicateur est rouge, il s’agit d’un champ obligatoire (erreur si le 
 
 ![Capture d’écran 2022-02-25 à 14.14.29.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.14.29.webp)
 
-### **Paramètres**
+### Paramètres
 
 Les paramètres sont des données globales telles que votre **nom de nœud**. Ils sont utilisés pour gérer la visibilité de votre nœud en fonction des rôles de chaque utilisateur et des paramètres de chaque nœud. **Cette section ne doit pas être utilisée de façon régulière** puisque les paramètres sont fixés par votre développeur en amont pour correspondre à votre besoin.
 
 *Cet onglet affichera le même contenu sans importance de traduction*
 
-L’information relative au **TTL frontal** vous indique le nombre de minutes prévu pour l’affichage de la mise à jour du front (par exemple, si le TTL frontal vous indique 10 minutes, une page sera mise à jour en front 10 min après sa publication). Il s’agit d’un temps de mise en cache.
-
-<aside>
-💡 Depuis Roadiz v2 la durée de mise en cache d’une page n’a plus d’importance car le cache de la page ainsi que de toutes ses relations seront vidé automatiquement à chaque modification.
-
-</aside>
+L’information relative au **TTL frontal** vous indique le nombre de minutes prévu pour l’affichage de la mise à jour du front (par exemple, si le TTL frontal vous indique 10 minutes, une page sera mise à jour en front 10 min après sa publication). Il s’agit d’un temps de mise en cache. Par contre, la modification d'un contenu depuis le back-office invalide ce cache et permet de voir les changement instantanément.
 
 ![Capture d’écran 2022-02-25 à 14.16.46.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.16.46.webp)
 
-### **Étiquettes**
+### Étiquettes
 
 Si le gabarit concerné est prévu pour l’ajout des étiquettes, vous pourrez les sélectionner à l’aide de l’explorateur. Les étiquettes devront être créées en amont.
 
@@ -136,9 +136,12 @@ Si le gabarit concerné est prévu pour l’ajout des étiquettes, vous pourrez 
 
 ![Capture d’écran 2022-02-25 à 14.29.18.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.29.18.webp)
 
-[Enregistrement de l’écran 2023-03-28 à 12.15.27.mov](Édition%20des%20contenus/Enregistrement_de_lecran_2023-03-28_a_12.15.27.mov)
+<video controls>
+<source src="/user/Édition%20des%20contenus/Enregistrement_de_lecran_2023-03-28_a_12.15.27.webm" type="video/webm">
+Your browser does not support the video tag.
+</video>
 
-### **Référencement**
+### Référencement
 
 Cet onglet vous permet de définir le **Titre** et la **Méta description** de la page.
 Ces informations seront affichées notamment sur la page de résultat de recherche des moteurs de recherche. 
@@ -147,20 +150,19 @@ Le **titre** de référencement permet de rédiger entièrement le titre de votr
 
 La **description** est un résumé de quelques caractères de votre page. Son objectif est de décrire succinctement son contenu. Cette description doit respecter une taille entre 120 et 155 caractères.
 
-<aside>
+::: tip
 ⚠️ *Cet onglet affichera les contenus en fonction de chaque traduction.*
-
-</aside>
+:::
 
 ![Capture d’écran 2022-02-25 à 14.34.26.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.34.26.webp)
 
 C’est également dans cet onglet que vous pouvez gérer les alias d’url et les redirections.
 
-### **Alias d’URL**
+### Alias d’URL
 
 Les alias d’URL permettent de réécrire la dernière partie de l’URL de votre page pour chaque traduction. Ils doivent être différents du nom du nœud et uniques sur tout votre site.
 
-### **Redirections**
+### Redirections
 
 Les redirections automatiques permettent de rediriger la requête saisie vers l'URL actuel du noeud, et pour cette langue en particulier. Les redirections créées sont toujours du type "permanent".
 
@@ -172,7 +174,7 @@ Cet onglet est destiné à l’usage des développeurs ; vous n’aurez pas d’
 
 ![Capture d’écran 2022-02-25 à 14.39.37.webp](Édition%20des%20contenus/Capture_decran_2022-02-25_a_14.39.37.webp)
 
-### **L’arborescence**
+### L’arborescence
 
 Quand un nœud est défini en tant que conteneur, son *arborescence* devient la vue (onglet) par défaut. Vous pouvez définir l’ordre par défaut d’affichage des nœuds enfants dans l’onglet *Paramètres*. De plus, si le *type de nœud* est *publiable*, chaque nœud affichera sa date de publication avant son *titre*.
 
@@ -196,9 +198,12 @@ Si le nœud n’est pas un conteneur, la vue arborescente vous montre les blocs 
 
 Certains blocs peuvent être repris en intégralité et placés sur une autre page. Pour ce faire, il est nécessaire de dupliquer l’ensemble de blocs correspondants et de les glisser dans l’arborescence. Exemple :
 
-[Enregistrement de l’écran 2023-03-28 à 12.19.44.mov](Édition%20des%20contenus/Enregistrement_de_lecran_2023-03-28_a_12.19.44.mov)
+<video controls>
+<source src="/user/Édition%20des%20contenus/Enregistrement_de_lecran_2023-03-28_a_12.19.44.webm" type="video/webm">
+Your browser does not support the video tag.
+</video>
 
-# Menu d’action
+## Menu d’action
 
 À droite de votre écran, vous disposez d’un menu d’action qui vous permettra de gérer votre nœud :
 
@@ -218,14 +223,9 @@ Cette action place votre nœud dans la corbeille
 
 ### Supprimer une traduction
 
-<aside>
 ⚠️ Lorsque vous travaillerez sur une seconde traduction d’un nœud, un deuxième bouton *Supprimer* apparaitra pour supprimer la traduction seulement. **Attention, la suppression d’une traduction n’est pas récupérable !**
 
-</aside>
-
 ![Supprimer une traduction](Édition%20des%20contenus/Untitled.webp)
-
-Supprimer une traduction
 
 ### Actions
 
@@ -237,10 +237,9 @@ Supprimer une traduction
 - **Dupliquer** : permet de copier l’intégralité du contenu et des interactions du nœud actuel dans un nouveau nœud
 - **Transtyper** : permet de changer le type de nœud ; à utiliser avec parcimonie
     
-    <aside>
-    💡 La fonction Transtyper permet de changer le type du contenu, la fonctionnalité est dangereuse et vous fera perdre tous les champs n’existant plus dans le type de destination. *La fonctionnalité n’est pas encore stable sur Roadiz v2 et peut entrainer la création de nœuds orphelins.*
-    
-    </aside>
+::: tip
+💡 La fonction Transtyper permet de changer le type du contenu, la fonctionnalité est dangereuse et vous fera perdre tous les champs n’existant plus dans le type de destination. *La fonctionnalité n’est pas encore stable sur Roadiz v2 et peut entrainer la création de nœuds orphelins.*
+:::
     
 - **Ajouter un enfant** : créer une zone de contenu à l’intérieur d’un nœud existant (page ou blocs)
 - **Exporter** : utilisation rare ou inexistante
@@ -256,11 +255,9 @@ Ces paramètres s’appliquent au niveau du nœud et donc ils seront identiques 
 - **Verrouillage** : Empêche les utilisateurs de supprimer le nœud actuel ou de le renommer. Vous devriez activer ce mode si le nœud actuel est requis dans la logique de votre thème
 - **Nœud stéril** : Empêche les utilisateurs de créer des nœuds enfants.
 
-# **Statuts**
+## Statuts
 
 Pendant son cycle de vie, chaque nœud peut avoir différents statuts de publication. Lorsque vous créez un nouveau contenu, il sera automatiquement publié comme **Brouillon** par le CMS afin de vous permettre de le modifier sans incidence sur vos visiteurs et sans rendre public un contenu en cours de réalisation.
-
-### **Statuts disponibles**
 
 - **Brouillon** : statut initial pour chaque nouveau nœud
 - **En attente de validation** : un statut intermédiaire disponible pour les utilisateurs n’ayant pas les droits de publication
