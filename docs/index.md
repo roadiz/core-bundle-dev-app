@@ -11,7 +11,7 @@ features:
       title: Extensions Documentation
       link: '/extensions/index'
 hero:
-    name: Welcome to Roadiz v2 Documentation
+    name: Welcome to Roadiz documentation
 ---
 
 ## A modern CMS

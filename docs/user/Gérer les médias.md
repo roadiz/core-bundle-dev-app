@@ -1,6 +1,6 @@
 # Gérer les médias
 
-Vous pouvez gérer les divers médias via l’icône **Documents** **dans la barre d’outils. Vous pouvez soit téléverser, intégrer des documents externes, et même jeter un coup d’œil aux documents inutilisés de votre site Web. 
+Vous pouvez gérer les divers médias via l’icône **Documents** dans la barre d’outils. Vous pouvez soit téléverser, intégrer des documents externes, et même jeter un coup d’œil aux documents inutilisés de votre site Web. 
 
 ![Capture d’écran 2023-03-28 à 12.23.13.webp](Gérer%20les%20médias/Capture_decran_2023-03-28_a_12.23.13.webp)
 
@@ -21,7 +21,9 @@ Vous pouvez également importer un média depuis une plateforme. C’est notamme
 
 ![Capture d’écran 2022-02-24 à 16.57.54.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_16.57.54.webp)
 
-Une liste de plateformes est disponible dans votre CMS ; attention, uniquement les plateformes compatibles avec votre projet sont paramétrées en front-office, selon le cahier de charges défini). Saisissez l’URL du média et sélectionnez la plateforme correspondante, puis sauvegardez (Bouton Intégrer). Le média sera placé en première position de vos Documents :
+Une liste de plateformes est disponible dans votre CMS ; attention, uniquement les plateformes compatibles avec 
+votre projet sont paramétrées en front-office, selon le cahier de charges défini). Saisissez l’URL du média et 
+sélectionnez la plateforme correspondante, puis sauvegardez (Bouton Intégrer). Le média sera placé en première position de vos Documents :
 
 <video controls>
     <source src="/user/Gérer%20les%20médias/Enregistrement_de_lecran_2023-03-28_a_13.44.42.webm" type="video/webm">
@@ -30,13 +32,15 @@ Une liste de plateformes est disponible dans votre CMS ; attention, uniquement l
 
 ### J’ai de la chance
 
-**J’ai de la chance** est une fonctionnalité bien pratique qui permet de télécharger des documents au hasard sur votre site à partir de la base libre de *Unsplash*.
+**J’ai de la chance** est une fonctionnalité bien pratique qui permet de télécharger des documents au hasard sur 
+votre site à partir de la base libre de *Unsplash*.
 
 ![Capture d’écran 2022-02-24 à 18.29.31.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_18.29.31.webp)
 
 ## Documents non-utilisés
 
-En cliquant sur **Document inutilisé***,* vous pourrez vérifier la liste de toutes les sources non-référencées sur votre site, ce qui vous permettra par la suite de nettoyer votre base de données et de supprimer ainsi des fichiers inutiles.
+En cliquant sur **Document inutilisé***,* vous pourrez vérifier la liste de toutes les sources non-référencées sur votre site, 
+ce qui vous permettra par la suite de nettoyer votre base de données et de supprimer ainsi des fichiers inutiles.
 
 ![Capture d’écran 2022-02-24 à 18.30.13.webp](Gérer%20les%20médias/Capture_decran_2022-02-24_a_18.30.13.webp)
 
@@ -76,12 +80,12 @@ Refermez l’explorateur (croix ou bouton Explorateur) et sauvegardez votre sais
 ## Images
 
 Votre CMS permet d’afficher plusieurs formats d’images : jpeg, png, svg.
-
-De manière générale, privilégiez le format jpeg. Utilisez la meilleure qualité possible pour vos images, néanmoins leur poids ne doit pas dépasser 2 Mo. 
-
+De manière générale, privilégiez le format jpeg. Utilisez la meilleure qualité possible pour vos images, néanmoins leur poids ne doit pas dépasser 2 Mo.
 Pour les fichiers qui nécessitent une transparence (logos, images sur fond coloré, infographies), utilisez le format png transparent ou svg. Sinon, privilégiez le format jpeg.
 
-Ne pas utiliser les fichiers source type .ai ou .tiff
+::: danger
+Ne pas utiliser les fichiers source type .psd, .ai ou .tiff, il ne seront pas affichés sur le site.
+:::
 
 ### Édition
 
@@ -172,9 +176,9 @@ Pour des vidéos longues, privilégiez les plateformes de streaming.
 
 Pour les vidéos courtes (type boucle vidéo, sans son), vous pouvez téléverser le fichier directement dans le back-office. 
 
-<aside>
+::: warning
 💡 L’utilisation de fichiers vidéo directement dans le backoffice nécessite des connaissances en encodage vidéo et une bonne configuration des codecs compatibles pour le web : tels que H.264 et/ou VP8 dans les conteneurs MP4 et/ou WebM.
-</aside>
+:::
 
 ### Édition
 
@@ -241,7 +245,7 @@ Idem sur la vue générale de votre rubrique Documents :
 
 Pour les onglets Méta-données, Aperçu, Utilisation et Ajuster, consultez le chapitre ci-dessus (il s’agit du même fonctionnement pour les images et pour les vidéos). 
 
-## Documents pdf
+## Documents PDF
 
 Pour la gestion des documents pdf, consultez le tuto de la rubrique Image (même fonctionnement). 
 

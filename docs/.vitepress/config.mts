@@ -11,9 +11,7 @@ export default defineConfig({
         // https://vitepress.dev/reference/default-theme-config
         nav: [
             {text: 'Home', link: '/'},
-            {text: 'Developer', link: '/developer/index'},
-            {text: 'User', link: '/user/index'},
-            {text: 'Extensions', link: '/extensions/index'},
+            {text: 'Built by Rezo Zero', link: 'https://www.rezo-zero.com/'},
         ],
 
         search: {
@@ -109,7 +107,7 @@ export default defineConfig({
         ],
 
         footer: {
-            copyright: '© Copyright 2013-present, Ambroise Maupate & Julien Blanchet.'
+            copyright: 'Roadiz is proudly maintained by Rezo Zero Team. © Copyright 2013-present, Ambroise Maupate, Julien Blanchet.'
         }
     }
 })
