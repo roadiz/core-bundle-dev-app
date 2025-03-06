@@ -67,7 +67,7 @@ export default defineConfig({
                 text: 'User',
                 collapsed: false,
                 items: [
-                    {text: 'Introduction', link: '/user/index'},
+                    {text: 'Introduction', link: '/user/Intro'},
                     {text: 'Se connecter au back office', link: '/user/Se%20connecter%20au%20back-office'},
                     {text: 'Édition des contenus',  link: '/user/Édition%20des%20contenus'},
                     {text: 'Gérer les médias',  link: '/user/Gérer%20les%20médias'},
