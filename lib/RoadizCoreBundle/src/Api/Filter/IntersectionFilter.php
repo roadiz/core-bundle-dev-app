@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Api\Filter;
 
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use ApiPlatform\Exception\FilterValidationException;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -33,7 +33,7 @@ final class IntersectionFilter extends AbstractFilter
 
         foreach ($value as $fieldName => $fieldValue) {
             if (empty($fieldName)) {
-                throw new FilterValidationException([sprintf('“%s” filter must be only used with an associative array with fields as keys.', $property)]);
+                throw new InvalidArgumentException(sprintf('“%s” filter must be only used with an associative array with fields as keys.', $property));
             }
             if ($this->isPropertyEnabled($fieldName, $resourceClass)) {
                 // Allow single value intersection
@@ -111,7 +111,7 @@ final class IntersectionFilter extends AbstractFilter
         }
 
         if (null === $alias) {
-            throw new FilterValidationException([sprintf('Cannot add joins for property "%s" - property is not nested.', $property)]);
+            throw new InvalidArgumentException(sprintf('Cannot add joins for property "%s" - property is not nested.', $property));
         }
 
         return [$alias, $propertyParts['field'], $propertyParts['associations']];

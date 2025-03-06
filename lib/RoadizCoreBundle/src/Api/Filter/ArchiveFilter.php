@@ -8,7 +8,7 @@ use ApiPlatform\Doctrine\Common\PropertyHelperTrait;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use ApiPlatform\Exception\FilterValidationException;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
@@ -69,7 +69,7 @@ final class ArchiveFilter extends AbstractFilter
         }
 
         if (!is_string($value[self::PARAMETER_ARCHIVE])) {
-            throw new FilterValidationException([sprintf('“%s” filter must be only used with a string value.', self::PARAMETER_ARCHIVE)]);
+            throw new InvalidArgumentException(sprintf('“%s” filter must be only used with a string value.', self::PARAMETER_ARCHIVE));
         }
 
         $range = $this->normalizeFilteringDates($value[self::PARAMETER_ARCHIVE]);
