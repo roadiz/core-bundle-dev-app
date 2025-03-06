@@ -355,6 +355,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -376,7 +377,7 @@ final class GetCommonContentController extends AbstractController
         ManagerRegistry $managerRegistry,
         NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
         PreviewResolverInterface $previewResolver,
-        TreeWalkerGenerator $treeWalkerGenerator
+        TreeWalkerGenerator $treeWalkerGenerator,
     ) {
         $this->requestStack = $requestStack;
         $this->managerRegistry = $managerRegistry;
@@ -394,18 +395,27 @@ final class GetCommonContentController extends AbstractController
             $resource = new CommonContent();
 
             $request?->attributes->set('data', $resource);
+            $resource->home = $this->getHomePage($translation);
             $resource->head = $this->nodesSourcesHeadFactory->createForTranslation($translation);
-            $resource->home = $resource->head->getHomePage();
             $resource->menus = $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
                 'Menu',
                 MenuNodeSourceWalker::class,
                 $translation,
                 3
             );
+
             return $resource;
         } catch (ResourceNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage(), $exception);
         }
+    }
+
+    protected function getHomePage(TranslationInterface $translation): ?NodesSources
+    {
+        return $this->managerRegistry->getRepository(NodesSources::class)->findOneBy([
+            'node.home' => true,
+            'translation' => $translation,
+        ]);
     }
 
     protected function getTranslationFromRequest(?Request $request): TranslationInterface
@@ -435,8 +445,9 @@ final class GetCommonContentController extends AbstractController
                 ->findOneAvailableByLocaleOrOverrideLocale((string) $locale);
         }
         if (null === $translation) {
-            throw new NotFoundHttpException('No translation for locale ' . $locale);
+            throw new NotFoundHttpException('No translation for locale '.$locale);
         }
+
         return $translation;
     }
 
@@ -444,11 +455,9 @@ final class GetCommonContentController extends AbstractController
     {
         $repository = $this->managerRegistry->getRepository(TranslationInterface::class);
         if (!$repository instanceof TranslationRepository) {
-            throw new \RuntimeException(
-                'Translation repository must be instance of ' .
-                TranslationRepository::class
-            );
+            throw new \RuntimeException('Translation repository must be instance of '.TranslationRepository::class);
         }
+
         return $repository;
     }
 }

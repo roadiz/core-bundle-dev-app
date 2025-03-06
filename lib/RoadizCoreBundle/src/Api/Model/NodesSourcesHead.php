@@ -8,10 +8,8 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\EntityApi\NodeSourceApi;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodesSourcesHandler;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
-use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Annotation as Serializer;
 
@@ -27,8 +25,6 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
         protected readonly Settings $settingsBag,
         #[Serializer\Ignore]
         protected readonly UrlGeneratorInterface $urlGenerator,
-        #[Serializer\Ignore]
-        protected readonly NodeSourceApi $nodeSourceApi,
         #[Serializer\Ignore]
         protected readonly HandlerFactoryInterface $handlerFactory,
         #[Serializer\Ignore]
@@ -119,30 +115,6 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     }
 
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
-    public function getPolicyUrl(): ?string
-    {
-        $translation = $this->getTranslation();
-
-        $policyNodeSource = $this->nodeSourceApi->getOneBy([
-            'node.nodeName' => 'privacy',
-            'translation' => $translation,
-        ]);
-        if (null === $policyNodeSource) {
-            $policyNodeSource = $this->nodeSourceApi->getOneBy([
-                'node.nodeName' => 'legal',
-                'translation' => $translation,
-            ]);
-        }
-        if (null !== $policyNodeSource) {
-            return $this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                RouteObjectInterface::ROUTE_OBJECT => $policyNodeSource,
-            ]);
-        }
-
-        return null;
-    }
-
-    #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getMainColor(): ?string
     {
         return $this->settingsBag->get('main_color', null) ?? null;
@@ -196,19 +168,6 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
         return $this->settingsBag->get('tiktok_url', null) ?? null;
     }
 
-    #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
-    public function getHomePageUrl(): ?string
-    {
-        $homePage = $this->getHomePage();
-        if (null !== $homePage) {
-            return $this->urlGenerator->generate(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
-                RouteObjectInterface::ROUTE_OBJECT => $homePage,
-            ]);
-        }
-
-        return null;
-    }
-
     #[Serializer\Groups(['web_response', 'nodes_sources_single'])]
     public function getShareImage(): ?DocumentInterface
     {
@@ -238,14 +197,5 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
         }
 
         return $this->defaultTranslation;
-    }
-
-    #[Serializer\Ignore()]
-    public function getHomePage(): ?NodesSources
-    {
-        return $this->nodeSourceApi->getOneBy([
-            'node.home' => true,
-            'translation' => $this->getTranslation(),
-        ]);
     }
 }
