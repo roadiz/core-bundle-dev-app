@@ -4915,15 +4915,15 @@
         <source>ip_address</source>
         <target state="final">IP address</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator" approved="yes">
-        <source>nodeTypeDecorator</source>
-            <target state="final">Decorate nodes types</target>
-            <note>Title, for list node-type-decorator</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="add.a.nodeTypeDecorator" approved="yes">
         <source>add.a.nodeTypeDecorator</source>
             <target state="final">Add a decorator</target>
             <note>Button label, for add new node-type-decorators</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator" approved="yes">
+        <source>nodeTypeDecorator</source>
+            <target state="final">Decorate nodes types</target>
+            <note>Title, for list node-type-decorator</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.path" approved="yes">
         <source>nodeTypeDecorator.path</source>
@@ -4950,20 +4950,73 @@
             <target state="final">Value</target>
             <note>Table column label for node-type-decorator value</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.nodeTypeDecorators" approved="yes"><source>back_to.nodeTypeDecorators</source><target state="final">Back to decorators</target></trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodeTypeDecorator.%name%"><source>delete.nodeTypeDecorator.%name%</source><target state="final">Delete %name% decorator</target></trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeTypeDecorator"><source>are_you_sure.delete.nodeTypeDecorator</source><target state="final">Are you sure you want to delete this decorator?</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.without_field" approved="yes"><source>nodeTypeDecorator.without_field</source><target state="final">Node-type level property</target><note>Default value of node type decorator field select</note></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.display_name" approved="yes"><source>nodeTypeDecorator.property.display_name</source><target state="final">Display Name</target><note>Property value label for node type display name</note></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.description" approved="yes"><source>nodeTypeDecorator.property.description</source><target state="final">Description</target><note>Property value label for node type description</note></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.color" approved="yes"><source>nodeTypeDecorator.property.color</source><target state="final">Color</target><note>Property value label for node type color</note></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_label" approved="yes"><source>nodeTypeDecorator.property.field_label</source><target state="final">Label</target><note>Property value label for node type field label</note></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_universal" approved="yes"><source>nodeTypeDecorator.property.field_universal</source><target state="final">Universal</target><note>Property value label for node type field universal</note></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_description" approved="yes"><source>nodeTypeDecorator.property.field_description</source><target state="final">Description</target><note>Property value label for node type field description</note></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_placeholder" approved="yes"><source>nodeTypeDecorator.property.field_placeholder</source><target state="final">Placeholder</target><note>Property value label for node type field placeholder</note></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_visible" approved="yes"><source>nodeTypeDecorator.property.field_visible</source><target state="final">Visible</target><note>Property value label for node type field visible</note></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_min_length" approved="yes"><source>nodeTypeDecorator.property.field_min_length</source><target state="final">Min Length</target><note>Property value label for node type field min_length</note></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_max_length" approved="yes"><source>nodeTypeDecorator.property.field_max_length</source><target state="final">Max Length</target><note>Property value label for node type field max_length</note></trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.nodeTypeDecorators" approved="yes">
+        <source>back_to.nodeTypeDecorators</source>
+        <target state="final">Back to decorators</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.nodeTypeDecorator.%name%" approved="yes">
+        <source>delete.nodeTypeDecorator.%name%</source>
+        <target state="final">Delete %name% decorator</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeTypeDecorator" approved="yes">
+        <source>are_you_sure.delete.nodeTypeDecorator</source>
+        <target state="final">Are you sure you want to delete this decorator?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.without_field" approved="yes">
+        <source>nodeTypeDecorator.without_field</source>
+        <target state="final">Node-type level property</target>
+        <note>Default value of node type decorator field select</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.display_name" approved="yes">
+        <source>nodeTypeDecorator.property.display_name</source>
+        <target state="final">Display Name</target>
+        <note>Property value label for node type display name</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.description" approved="yes">
+        <source>nodeTypeDecorator.property.description</source>
+        <target state="final">Description</target>
+        <note>Property value label for node type description</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.color" approved="yes">
+        <source>nodeTypeDecorator.property.color</source>
+        <target state="final">Color</target>
+        <note>Property value label for node type color</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_label" approved="yes">
+        <source>nodeTypeDecorator.property.field_label</source>
+        <target state="final">Label</target>
+        <note>Property value label for node type field label</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_universal" approved="yes">
+        <source>nodeTypeDecorator.property.field_universal</source>
+        <target state="final">Universal</target>
+        <note>Property value label for node type field universal</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_description" approved="yes">
+        <source>nodeTypeDecorator.property.field_description</source>
+        <target state="final">Description</target>
+        <note>Property value label for node type field description</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_placeholder" approved="yes">
+        <source>nodeTypeDecorator.property.field_placeholder</source>
+        <target state="final">Placeholder</target>
+        <note>Property value label for node type field placeholder</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_visible" approved="yes">
+        <source>nodeTypeDecorator.property.field_visible</source>
+        <target state="final">Visible</target>
+        <note>Property value label for node type field visible</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_min_length" approved="yes">
+        <source>nodeTypeDecorator.property.field_min_length</source>
+        <target state="final">Min Length</target>
+        <note>Property value label for node type field min_length</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_max_length" approved="yes">
+        <source>nodeTypeDecorator.property.field_max_length</source>
+        <target state="final">Max Length</target>
+        <note>Property value label for node type field max_length</note>
+      </trans-unit>
     </body>
   </file>
 </xliff>
