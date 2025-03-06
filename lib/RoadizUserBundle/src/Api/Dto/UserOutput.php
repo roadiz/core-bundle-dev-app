@@ -23,8 +23,6 @@ final class UserOutput
     #[Groups(['user'])]
     public ?string $lastName = null;
     #[Groups(['user'])]
-    public ?string $phone = null;
-    #[Groups(['user'])]
     public ?string $company = null;
     #[Groups(['user'])]
     public ?string $locale = null;
@@ -32,10 +30,6 @@ final class UserOutput
     public ?string $pictureUrl = null;
     #[Groups(['user'])]
     public ?array $metadata = null;
-    #[Groups(['user'])]
-    public ?string $job = null;
-    #[Groups(['user'])]
-    public ?\DateTime $birthday = null;
     #[Groups(['user'])]
     public bool $emailValidated = false;
 }

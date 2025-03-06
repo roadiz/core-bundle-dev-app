@@ -60,35 +60,12 @@ abstract class AbstractHuman extends AbstractDateTimed
     protected ?string $lastName = null;
 
     #[
-        ORM\Column(type: 'string', length: 50, nullable: true),
-        Serializer\Groups(['user_personal', 'human']),
-        SymfonySerializer\Groups(['user_personal', 'human']),
-        Assert\Length(max: 50)
-    ]
-    protected ?string $phone = null;
-
-    #[
         ORM\Column(type: 'string', length: 250, nullable: true),
         Serializer\Groups(['user_personal', 'human']),
         SymfonySerializer\Groups(['user_personal', 'human']),
         Assert\Length(max: 250)
     ]
     protected ?string $company = null;
-
-    #[
-        ORM\Column(type: 'string', length: 250, nullable: true),
-        Serializer\Groups(['user_personal', 'human']),
-        SymfonySerializer\Groups(['user_personal', 'human']),
-        Assert\Length(max: 250)
-    ]
-    protected ?string $job = null;
-
-    #[
-        ORM\Column(type: 'datetime', nullable: true),
-        Serializer\Groups(['user_personal', 'human']),
-        SymfonySerializer\Groups(['user_personal', 'human'])
-    ]
-    protected ?\DateTime $birthday = null;
 
     public function getEmail(): ?string
     {
@@ -148,51 +125,6 @@ abstract class AbstractHuman extends AbstractDateTimed
     public function setCompany(?string $company): AbstractHuman
     {
         $this->company = $company;
-
-        return $this;
-    }
-
-    public function getJob(): ?string
-    {
-        return $this->job;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setJob(?string $job): AbstractHuman
-    {
-        $this->job = $job;
-
-        return $this;
-    }
-
-    public function getBirthday(): ?\DateTime
-    {
-        return $this->birthday;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setBirthday(?\DateTime $birthday = null): AbstractHuman
-    {
-        $this->birthday = $birthday;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setPhone(?string $phone): AbstractHuman
-    {
-        $this->phone = $phone;
 
         return $this;
     }
