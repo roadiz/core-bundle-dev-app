@@ -10,6 +10,7 @@
         {% include '@RoadizRozier/widgets/countFiltersBar.html.twig' %}
         <div class="content-header-action-menu">
             <nav>
+                <a class="uk-button rz-no-ajax-link" href="{{ path('nodeTypeDecoratorsListPage') }}"><i class="uk-icon-rz-pencil"></i> {% trans %}manage.decorators{% endtrans %} </a>
                 <div class="uk-button-dropdown" data-uk-dropdown="{mode:'click'}">
                     <button class="uk-button">
                         <i class="uk-icon-rz-download"></i> {% trans %}export{% endtrans %} <i class="uk-icon-caret-down"></i>
@@ -42,6 +43,7 @@
                         <th class="mobile-hidden uk-hidden-small uk-visible-xlarge">{% trans %}nodeType.entityName{% endtrans %}</th>
                         <th class="mobile-hidden uk-hidden-small uk-visible-large">{% trans %}nodeType.numberFields{% endtrans %}</th>
                         <th class="mobile-hidden uk-hidden-small uk-visible-large">{% trans %}nodeType.status{% endtrans %}</th>
+                        <th class="table-actions-row">{% trans %}actions{% endtrans %}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,6 +69,15 @@
                             <td class="mobile-hidden uk-hidden-small uk-visible-large">
                                 {% if not type.visible %}<span data-uk-tooltip="{animation:true}" title="{% trans %}nodeType.not_visible{% endtrans %}" class="uk-button-status uk-button-warning"><i class="uk-icon-eye-slash"></i></span>{% endif %}
                                 {% if type.hidingNodes %}<span class="uk-button-status" data-uk-tooltip="{animation:true}" title="{% trans %}nodeType.hiding_nodes{% endtrans %}"><i class="uk-icon-rz-steril"></i></span>{% endif %}
+                            </td>
+                            <td class="table-actions-row">
+                                <a class="uk-button uk-button-content uk-button-small" href="{{ path('nodeTypeFieldsListPage', { nodeTypeName: type.name }) }}" title="{% trans %}manage.nodeTypeFields{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-type-field"></i></a>
+                                <a class="uk-button uk-button-content uk-button-small"
+                                   href="{{ path('nodeTypeDecoratorsAddPage', {'nodeTypeName': type.name}) }}"
+                                   title="{% trans %}add.a.nodeTypeDecorator{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}">
+                                    <i class="uk-icon-pencil"></i>
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}

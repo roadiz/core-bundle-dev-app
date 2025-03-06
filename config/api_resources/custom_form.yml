@@ -2,11 +2,6 @@ resources:
     RZ\Roadiz\CoreBundle\Entity\CustomForm:
         graphQlOperations: []
         operations:
-            ApiPlatform\Metadata\GetCollection:
-                method: "GET"
-                normalizationContext:
-                    enable_max_depth: true
-
             ApiPlatform\Metadata\Get:
                 method: 'GET'
                 normalizationContext:

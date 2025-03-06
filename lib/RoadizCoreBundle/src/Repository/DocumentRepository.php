@@ -365,6 +365,18 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         return $qb;
     }
 
+    public function findOneByHashAndAlgorithm(string $hash, string $hashAlgorithm): ?Document
+    {
+        $qb = $this->createQueryBuilder('d');
+        $qb->andWhere($qb->expr()->eq('d.fileHash', ':hash'))
+            ->andWhere($qb->expr()->eq('d.fileHashAlgorithm', ':hashAlgorithm'))
+            ->setParameter(':hash', $hash)
+            ->setParameter(':hashAlgorithm', $hashAlgorithm)
+            ->setMaxResults(1);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
     /**
      * This method allows to pre-filter Documents with a given translation.
      */

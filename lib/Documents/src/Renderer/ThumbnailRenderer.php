@@ -12,11 +12,8 @@ use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
  */
 class ThumbnailRenderer implements RendererInterface
 {
-    protected ?ChainRenderer $chainRenderer = null;
-
-    public function __construct(?ChainRenderer $chainRenderer = null)
+    public function __construct(protected readonly ?ChainRenderer $chainRenderer = null)
     {
-        $this->chainRenderer = $chainRenderer;
     }
 
     public function supports(DocumentInterface $document, array $options): bool

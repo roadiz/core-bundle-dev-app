@@ -30,6 +30,7 @@ final readonly class CustomFormAnswerNotifyMessageHandler
         private Settings $settingsBag,
         private FilesystemOperator $documentsStorage,
         private LoggerInterface $messengerLogger,
+        private bool $useReplyTo = true,
     ) {
     }
 
@@ -55,7 +56,6 @@ final readonly class CustomFormAnswerNotifyMessageHandler
         $this->sendAnswer(
             $answer,
             [
-                'mailContact' => $message->getSenderAddress(),
                 'fields' => $emailFields,
                 'customForm' => $answer->getCustomForm(),
                 'title' => $message->getTitle(),
@@ -94,14 +94,25 @@ final readonly class CustomFormAnswerNotifyMessageHandler
         $defaultSender = filter_var($defaultSender, FILTER_VALIDATE_EMAIL) ? $defaultSender : 'sender@roadiz.io';
         $receivers = $this->getCustomFormReceivers($answer);
 
-        $realSender = filter_var($answer->getEmail(), FILTER_VALIDATE_EMAIL) ? $answer->getEmail() : $defaultSender;
         $emailManager = $this->emailManagerFactory->create();
-        $emailManager->setAssignation($assignation);
+        $emailManager->setAssignation([
+            ...$assignation,
+            // Mail contact is support or sender
+            'mailContact' => $emailManager->getSupportEmailAddress(),
+        ]);
         $emailManager->setEmailTemplate('@RoadizCore/email/forms/answerForm.html.twig');
         $emailManager->setEmailPlainTextTemplate('@RoadizCore/email/forms/answerForm.txt.twig');
         $emailManager->setSubject($assignation['title']);
         $emailManager->setEmailTitle($assignation['title']);
-        $emailManager->setSender($realSender);
+        $emailManager->appendWebsiteIcon();
+
+        /*
+         * Set real sender if email is valid to enable Reply-To
+         */
+        $realSender = filter_var($answer->getEmail(), FILTER_VALIDATE_EMAIL) ? $answer->getEmail() : $defaultSender;
+        if ($this->useReplyTo) {
+            $emailManager->setSender($realSender);
+        }
 
         try {
             foreach ($answer->getAnswerFields() as $customFormAnswerAttr) {

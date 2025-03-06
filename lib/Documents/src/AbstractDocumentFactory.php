@@ -8,7 +8,6 @@ use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\MountManager;
 use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\FileHashInterface;
 use RZ\Roadiz\Documents\Models\FolderInterface;
@@ -23,23 +22,17 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 abstract class AbstractDocumentFactory
 {
-    private LoggerInterface $logger;
     private ?File $file = null;
     private ?FolderInterface $folder = null;
-    private FilesystemOperator $documentsStorage;
-    private DocumentFinderInterface $documentFinder;
 
     public function __construct(
-        FilesystemOperator $documentsStorage,
-        DocumentFinderInterface $documentFinder,
-        ?LoggerInterface $logger = null,
+        protected readonly FilesystemOperator $documentsStorage,
+        protected readonly DocumentFinderInterface $documentFinder,
+        protected readonly LoggerInterface $logger,
     ) {
         if (!$documentsStorage instanceof MountManager) {
             trigger_error('Document Storage must be a MountManager to address public and private files.', E_USER_WARNING);
         }
-        $this->documentsStorage = $documentsStorage;
-        $this->documentFinder = $documentFinder;
-        $this->logger = $logger ?? new NullLogger();
     }
 
     public function getFile(): File
@@ -133,10 +126,10 @@ abstract class AbstractDocumentFactory
         if (false !== $fileHash && !$allowDuplicates) {
             $existingDocument = $this->documentFinder->findOneByHashAndAlgorithm($fileHash, $this->getHashAlgorithm());
             if (null !== $existingDocument) {
-                if (
-                    $existingDocument->isRaw()
-                    && null !== $existingDownscaledDocument = $existingDocument->getDownscaledDocument()
-                ) {
+                /*
+                 * If existing document is a RAW, serve its downscaled version
+                 */
+                if (null !== $existingDownscaledDocument = $existingDocument->getDownscaledDocument()) {
                     $existingDocument = $existingDownscaledDocument;
                 }
                 if (null !== $this->folder) {
@@ -146,7 +139,10 @@ abstract class AbstractDocumentFactory
                 $this->logger->info(sprintf(
                     'File %s already exists with same checksum, do not upload it twice.',
                     $existingDocument->getFilename()
-                ));
+                ), [
+                    'path' => $existingDocument->getMountPath(),
+                ]);
+                (new Filesystem())->remove($file->getPathname());
 
                 return $existingDocument;
             }
@@ -217,7 +213,7 @@ abstract class AbstractDocumentFactory
                 }
             }
 
-            $document->setFolder(\mb_substr(hash('crc32b', date('YmdHi')), 0, 12));
+            $document->setFolder(DocumentFolderGenerator::generateFolderName());
         }
 
         $document->setFilename($this->getFileName());

@@ -5,12 +5,13 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/articles
+  url: {{baseUrl}}/api/articles?_locale=fr
   body: none
   auth: none
 }
 
 params:query {
+  _locale: fr
   ~page: 
   ~itemsPerPage: 
   ~properties[]: 
@@ -29,7 +30,6 @@ params:query {
   ~metaDescription: 
   ~publishedAt[archive]: 
   ~noIndex: 
-  ~_locale: 
   ~node.id: 
   ~node.id[]: 
   ~node.nodeName: 

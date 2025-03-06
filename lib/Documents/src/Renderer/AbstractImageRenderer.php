@@ -13,17 +13,14 @@ use Twig\Environment;
 
 abstract class AbstractImageRenderer extends AbstractRenderer
 {
-    protected EmbedFinderFactory $embedFinderFactory;
-
     public function __construct(
         FilesystemOperator $documentsStorage,
-        EmbedFinderFactory $embedFinderFactory,
+        protected readonly EmbedFinderFactory $embedFinderFactory,
         Environment $templating,
         DocumentUrlGeneratorInterface $documentUrlGenerator,
         string $templateBasePath = 'documents',
     ) {
         parent::__construct($documentsStorage, $templating, $documentUrlGenerator, $templateBasePath);
-        $this->embedFinderFactory = $embedFinderFactory;
     }
 
     public function supports(DocumentInterface $document, array $options): bool
