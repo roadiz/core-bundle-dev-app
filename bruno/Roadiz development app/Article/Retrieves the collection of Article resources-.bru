@@ -5,13 +5,15 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/articles?_locale=fr
+  url: {{baseUrl}}/api/articles?_locale=fr&tagGroup[0]=quis,ut&tagGroup[1]=modi-en
   body: none
   auth: none
 }
 
 params:query {
   _locale: fr
+  tagGroup[0]: quis,ut
+  tagGroup[1]: modi-en
   ~page: 
   ~itemsPerPage: 
   ~properties[]: 
