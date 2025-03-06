@@ -67,17 +67,17 @@ export default defineConfig({
                 text: 'User',
                 collapsed: false,
                 items: [
-                    {text: 'Introduction', link: '/user/index'},
-                    {text: 'Se connecter au back office', link: '/user/Se%20connecter%20au%20back-office'},
-                    {text: 'Édition des contenus',  link: '/user/Édition%20des%20contenus'},
-                    {text: 'Gérer les médias',  link: '/user/Gérer%20les%20médias'},
-                    {text: 'Dossiers de documents',  link: '/user/Dossiers%20de%20documents'},
-                    {text: 'Étiquettes', link: '/user/Étiquettes'},
-                    {text: 'Syntaxe Markdown', link: '/user/Syntaxe%20Markdown'},
-                    {text: 'Gérer les comptes',  link: '/user/Gérer%20les%20comptes'},
-                    {text: 'Formulaires personnalisés', link: '/user/Formulaires%20personnalisés'},
-                    {text: 'États (publié, dépublié, caché)', link: '/user/États%20(publié,%20dépublié,%20caché)'},
-                    {text: 'Visualisation et Prévisualisation',  link: '/user/Visualisation%20et%20Prévisualisation'},
+                    {text: 'Introduction', link: '/user/intro'},
+                    {text: 'Se connecter au back office', link: '/user/connecter_au_back_office'},
+                    {text: 'Édition des contenus',  link: '/user/edition_des_contenus'},
+                    {text: 'Gérer les médias',  link: '/user/gerer_les_medias'},
+                    {text: 'Dossiers de documents',  link: '/user/dossiers_de_documents'},
+                    {text: 'Étiquettes', link: '/user/etiquettes'},
+                    {text: 'Syntaxe Markdown', link: '/user/syntaxe_markdown'},
+                    {text: 'Gérer les comptes',  link: '/user/gerer_les_comptes'},
+                    {text: 'Formulaires personnalisés', link: '/user/formulaires_personnalises'},
+                    {text: 'États (publié, dépublié, caché)', link: '/user/etats'},
+                    {text: 'Visualisation et Prévisualisation',  link: '/user/visualisation_et_previsualisation'},
                 ]
             },
             {
@@ -92,7 +92,7 @@ export default defineConfig({
         ],
 
         editLink: {
-            pattern: 'https://github.com/roadiz/core-bundle-dev-app/docs/::path',
+            pattern: 'https://github.com/roadiz/core-bundle-dev-app/edit/develop/docs/:path',
             text: 'Edit this page on GitHub'
         },
 
