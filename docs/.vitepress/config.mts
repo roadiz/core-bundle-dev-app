@@ -92,7 +92,7 @@ export default defineConfig({
         ],
 
         editLink: {
-            pattern: 'https://github.com/roadiz/core-bundle-dev-app/docs/::path',
+            pattern: 'https://github.com/roadiz/core-bundle-dev-app/edit/develop/docs/:path',
             text: 'Edit this page on GitHub'
         },
 
