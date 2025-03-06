@@ -42,7 +42,7 @@ Your event will be `\RZ\Roadiz\CoreBundle\Event\FilterSolariumNodeSourceEvent` a
 generate a path for your node-source using `path()` Twig method or `$this->urlGenerator->generate()` controller method.
 The default subscriber will generate the complete hierarchical path for any node-source using their identifier (available url-alias or node' name).
 
-# Tags events
+## Tags events
 
 - `RZ\Roadiz\CoreBundle\Event\Tag\TagCreatedEvent`
 - `RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent`
@@ -50,7 +50,7 @@ The default subscriber will generate the complete hierarchical path for any node
 
 Each tag event object contains the current `Tag` entity. You will get it using `$event->getTag()`.
 
-# Folders events
+## Folders events
 
 - `RZ\Roadiz\CoreBundle\Event\Folder\FolderCreatedEvent`
 - `RZ\Roadiz\CoreBundle\Event\Folder\FolderUpdatedEvent`
@@ -58,7 +58,7 @@ Each tag event object contains the current `Tag` entity. You will get it using `
 
 Each folder event object contains the current `Folder` entity. You will get it using `$event->getFolder()`.
 
-# Translations events
+## Translations events
 
 - `RZ\Roadiz\CoreBundle\Event\Translation\TranslationCreatedEvent`
 - `RZ\Roadiz\CoreBundle\Event\Translation\TranslationUpdatedEvent`
@@ -66,7 +66,7 @@ Each folder event object contains the current `Folder` entity. You will get it u
 
 Each folder event object contains the current `Translation` entity. You will get it using `$event->getTranslation()`.
 
-# UrlAlias events
+## UrlAlias events
 
 - `RZ\Roadiz\CoreBundle\Event\UrlAlias\UrlAliasCreatedEvent`
 - `RZ\Roadiz\CoreBundle\Event\UrlAlias\UrlAliasUpdatedEvent`
@@ -74,7 +74,7 @@ Each folder event object contains the current `Translation` entity. You will get
 
 Each folder event object contains the current `UrlAlias` entity. You will get it using `$event->getUrlAlias()`.
 
-# User events
+## User events
 
 - `RZ\Roadiz\CoreBundle\Event\User\UserCreatedEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserUpdatedEvent`

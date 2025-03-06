@@ -20,10 +20,11 @@ This is **development app** for Roadiz v2. It aggregates all Roadiz bundles and 
 - RoadizTwoFactorBundle
 - RoadizUserBundle
 - Rozier
+- and documentation website (./docs)
 
 If you want to start a new headless project with Roadiz, check https://github.com/roadiz/skeleton instead.
 
-### Install
+## Install
 
 - Clone this repository containing all monorepo packages in `lib` directory
 - Checkout `develop` branch
@@ -32,14 +33,14 @@ If you want to start a new headless project with Roadiz, check https://github.co
 - Create a `compose.override.yaml` file to expose containers ports
 - Run `composer install` to install all dependencies and run scripts. Symfony packages may add some config files and alter your `compose.yml` file, you can safely rollback to the original one
 
-### Run development server
+## Run development server
 
 - Run docker compose to get a local database and Solr server: `docker compose up -d`
 - Install Roadiz database fixture: `docker compose exec app bin/console install`
 - Install development fixtures: `docker compose exec app bin/console app:install`
 - Create a user: `docker compose exec app bin/console users:create -s -b -m $EMAIL $EMAIL`
 
-### Manual configuration
+## Manual configuration
 
 These require a manual configuration in `config/packages/*.yaml` files and cannot be injected in Container, 
 you'll find configuration example in `RoadizCoreBundle/config/packages` and `RoadizCompatBundle/config/packages` folders:
@@ -50,7 +51,7 @@ you'll find configuration example in `RoadizCoreBundle/config/packages` and `Roa
 - Monolog custom doctrine handler
 - Roadiz security scheme
 
-### Run tests
+## Run tests
 
 ```shell
 make test
@@ -58,7 +59,7 @@ make test
 
 Note that _phpstan_ can issue wrong errors if your `lib/*` bundles are symlinked.
 
-### Monorepo tools
+## Monorepo tools
 
 Roadiz development env uses: https://github.com/symplify/monorepo-builder
 
@@ -67,7 +68,7 @@ Roadiz development env uses: https://github.com/symplify/monorepo-builder
 - `vendor/bin/monorepo-builder release patch --dry-run`: List all steps to do when release a new tag (do not actually perform this when using GitFlow)
 
 
-### Use Frankenphp
+## Use Frankenphp
 
 Roadiz can be run with [*frankenphp*](https://frankenphp.dev) instead of PHP-FPM + Nginx. If you want to give it a try, override services `app`, `nginx` and `varnish` in your `compose.override.yml`
 
@@ -76,3 +77,11 @@ Use the target `php-dev-franken` instead of `php-dev`.
 We use [`dunglas/frankenphp`](https://hub.docker.com/r/dunglas/frankenphp) image with the tag of your PHP version and Debian Bookworm.
 
 Using frankenphp allows you to remove `docker/varnish` and `docker/nginx` folders in your project.
+
+## Run documentation website
+
+```shell
+cd docs
+pnpm install
+pnpm docs:dev
+```
