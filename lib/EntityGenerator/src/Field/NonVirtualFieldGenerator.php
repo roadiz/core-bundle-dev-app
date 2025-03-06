@@ -56,11 +56,6 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
         };
     }
 
-    protected function isExcludingFieldFromJmsSerialization(): bool
-    {
-        return false;
-    }
-
     protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
         parent::addFieldAttributes($property, $namespace, $exclude);

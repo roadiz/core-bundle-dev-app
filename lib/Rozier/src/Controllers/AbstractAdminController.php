@@ -5,13 +5,10 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers;
 
 use Doctrine\Persistence\ObjectRepository;
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -24,7 +21,6 @@ abstract class AbstractAdminController extends RozierApp
     public const ITEM_PER_PAGE = 20;
 
     public function __construct(
-        protected readonly SerializerInterface $serializer,
         protected readonly UrlGeneratorInterface $urlGenerator,
     ) {
     }
@@ -70,11 +66,6 @@ abstract class AbstractAdminController extends RozierApp
     }
 
     protected function getRequiredEditionRole(): string
-    {
-        return $this->getRequiredRole();
-    }
-
-    protected function getRequiredExportRole(): string
     {
         return $this->getRequiredRole();
     }
@@ -218,31 +209,6 @@ abstract class AbstractAdminController extends RozierApp
             $this->assignation,
             null,
             $this->getTemplateNamespace()
-        );
-    }
-
-    public function exportAction(Request $request): JsonResponse
-    {
-        $this->denyAccessUnlessGranted($this->getRequiredExportRole());
-        $this->additionalAssignation($request);
-
-        $items = $this->getRepository()->findAll();
-
-        return new JsonResponse(
-            $this->serializer->serialize(
-                $items,
-                'json',
-                SerializationContext::create()->setGroups([$this->getNamespace()])
-            ),
-            Response::HTTP_OK,
-            [
-                'Content-Disposition' => sprintf(
-                    'attachment; filename="%s_%s.json"',
-                    $this->getNamespace(),
-                    (new \DateTime())->format('YmdHi')
-                ),
-            ],
-            true
         );
     }
 

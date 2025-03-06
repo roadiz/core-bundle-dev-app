@@ -11,7 +11,6 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
@@ -60,7 +59,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      * Associates locales to pretty languages names.
      */
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     public static array $availableLocales = [
         'af_NA' => 'Afrikaans (Namibia)',
         'af_ZA' => 'Afrikaans (South Africa)',
@@ -499,7 +497,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     ];
 
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     public static array $rtlLanguages = [
         'ar_DZ' => 'Arabic (Algeria)',
         'ar_BH' => 'Arabic (Bahrain)',
@@ -532,7 +529,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      */
     #[ORM\OneToMany(mappedBy: 'translation', targetEntity: DocumentTranslation::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected Collection $documentTranslations;
 
     /**
@@ -540,7 +536,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      */
     #[ORM\OneToMany(mappedBy: 'translation', targetEntity: FolderTranslation::class, fetch: 'EXTRA_LAZY', orphanRemoval: true)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     protected Collection $folderTranslations;
 
     /**
@@ -552,7 +547,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      */
     #[ORM\Column(type: 'string', length: 10, unique: true, nullable: false)]
     #[SymfonySerializer\Groups(['attribute:export'])]
-    #[Serializer\Exclude]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Length(max: 10)]
@@ -564,7 +558,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
 
     #[ORM\Column(name: 'override_locale', type: 'string', length: 10, unique: true, nullable: true)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     #[Assert\Length(max: 10)]
     #[ApiProperty(
         description: 'Override standard locale with an other one (for example, `uk` instead of `en`)',
@@ -574,8 +567,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
 
     #[ORM\Column(type: 'string', length: 250, unique: true)]
     #[SymfonySerializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Type('string')]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 250)]
@@ -587,8 +578,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
 
     #[ORM\Column(name: 'default_translation', type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Type('bool')]
     #[ApiProperty(
         description: 'Is translation default one?',
         example: 'true',
@@ -597,8 +586,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
     #[SymfonySerializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Groups(['translation', 'translation_base'])]
-    #[Serializer\Type('bool')]
     #[ApiProperty(
         description: 'Is translation available publicly?',
         example: 'true',
@@ -615,7 +602,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         orphanRemoval: true
     )]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $nodeSources;
 
     /**
@@ -628,7 +614,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         orphanRemoval: true
     )]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $tagTranslations;
 
     public function __construct()
@@ -762,8 +747,6 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      */
     #[SymfonySerializer\SerializedName('locale')]
     #[SymfonySerializer\Groups(['translation_base'])]
-    #[Serializer\SerializedName('locale')]
-    #[Serializer\Groups(['translation_base'])]
     #[ApiProperty(
         description: 'Translation ISO 639-1 locale. See https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes',
         example: 'fr',

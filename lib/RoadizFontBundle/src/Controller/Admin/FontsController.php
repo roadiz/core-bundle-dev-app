@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\FontBundle\Controller\Admin;
 
-use JMS\Serializer\SerializerInterface;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
@@ -24,10 +23,9 @@ class FontsController extends AbstractAdminController
 {
     public function __construct(
         private readonly FilesystemOperator $fontStorage,
-        SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator,
     ) {
-        parent::__construct($serializer, $urlGenerator);
+        parent::__construct($urlGenerator);
     }
 
     protected function supports(PersistableInterface $item): bool
