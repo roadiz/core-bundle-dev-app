@@ -4,7 +4,14 @@
 
 - Make sure to upgrade to **v2.4.11** first. And perform `bin/console nodetypes:export-files` before upgrading to 2.5.
 - A backup of your database is highly recommended before upgrading to 2.5.
+- 
+## Removed useless user properties
 
+- Dropped `phone`, `job` and `birthday` columns from users table, they are rarely used and aren't GDPR friendly.
+
+## Upgraded rezozero/intervention-request-bundle
+
+Roadiz requires `rezozero/intervention-request-bundle` to `~4.0.0`
 
 # Upgrade to 2.4
 
