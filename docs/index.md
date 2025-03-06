@@ -3,7 +3,7 @@ layout: home
 features:
     - icon: 👤
       title: User Documentation (French)
-      link: '/user/Intro'
+      link: '/user/intro'
     - icon: 🛠️
       title: Developer Documentation
       link: '/developer/first-steps/requirements'
