@@ -10,11 +10,8 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 
 class EmbedRenderer implements RendererInterface
 {
-    protected EmbedFinderFactory $embedFinderFactory;
-
-    public function __construct(EmbedFinderFactory $embedFinderFactory)
+    public function __construct(protected readonly EmbedFinderFactory $embedFinderFactory)
     {
-        $this->embedFinderFactory = $embedFinderFactory;
     }
 
     public function supports(DocumentInterface $document, array $options): bool
