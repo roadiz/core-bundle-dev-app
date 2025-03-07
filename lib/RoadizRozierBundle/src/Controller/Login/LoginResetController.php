@@ -2,18 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Themes\Rozier\Controllers;
+namespace RZ\Roadiz\RozierBundle\Controller\Login;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Form\LoginResetForm;
 use RZ\Roadiz\CoreBundle\Traits\LoginResetTrait;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Themes\Rozier\RozierApp;
+use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class LoginResetController extends RozierApp
+#[AsController]
+final class LoginResetController extends AbstractController
 {
     use LoginResetTrait;
+
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly TranslatorInterface $translator,
+    ) {
+    }
 
     /**
      * @throws \Doctrine\ORM\ORMException
@@ -22,7 +32,8 @@ class LoginResetController extends RozierApp
     public function resetAction(Request $request, string $token): Response
     {
         /** @var User|null $user */
-        $user = $this->getUserByToken($this->em(), $token);
+        $user = $this->getUserByToken($this->managerRegistry->getManager(), $token);
+        $assignation = [];
 
         if (null !== $user) {
             $form = $this->createForm(LoginResetForm::class, null, [
@@ -32,22 +43,22 @@ class LoginResetController extends RozierApp
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                if ($this->updateUserPassword($form, $user, $this->em())) {
+                if ($this->updateUserPassword($form, $user, $this->managerRegistry->getManager())) {
                     return $this->redirectToRoute(
                         'loginResetConfirmPage'
                     );
                 }
             }
-            $this->assignation['form'] = $form->createView();
+            $assignation['form'] = $form->createView();
         } else {
-            $this->assignation['error'] = $this->getTranslator()->trans('confirmation.token.is.invalid');
+            $assignation['error'] = $this->translator->trans('confirmation.token.is.invalid');
         }
 
-        return $this->render('@RoadizRozier/login/reset.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/login/reset.html.twig', $assignation);
     }
 
     public function confirmAction(): Response
     {
-        return $this->render('@RoadizRozier/login/resetConfirm.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/login/resetConfirm.html.twig');
     }
 }

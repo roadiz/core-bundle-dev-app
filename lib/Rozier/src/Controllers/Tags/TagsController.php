@@ -49,7 +49,7 @@ class TagsController extends RozierApp
     }
 
     /**
-     * List every tags.
+     * List every tag.
      */
     public function indexAction(Request $request): Response
     {

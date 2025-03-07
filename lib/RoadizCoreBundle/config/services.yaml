@@ -143,6 +143,8 @@ services:
         autowire: true
         public: true
 
+    RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface:
+        class: RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactory
 
     RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator:
         decorates: 'api_platform.openapi.factory'

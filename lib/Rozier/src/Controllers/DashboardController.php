@@ -4,29 +4,29 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Themes\Rozier\RozierApp;
-use Twig\Error\RuntimeError;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 
-class DashboardController extends RozierApp
+#[AsController]
+final class DashboardController extends AbstractController
 {
-    /**
-     * @return Response $response
-     *
-     * @throws RuntimeError
-     */
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
+    {
+    }
+
     public function indexAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
-        $this->assignation['latestLogs'] = [];
-
-        $this->assignation['latestLogs'] = $this->em()
+        $assignation = [];
+        $assignation['latestLogs'] = $this->managerRegistry
              ->getRepository(Log::class)
              ->findLatestByNodesSources(8);
 
-        return $this->render('@RoadizRozier/dashboard/index.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/dashboard/index.html.twig', $assignation);
     }
 }

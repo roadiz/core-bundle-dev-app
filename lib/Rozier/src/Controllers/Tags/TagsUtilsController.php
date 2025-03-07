@@ -4,18 +4,22 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Tags;
 
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Themes\Rozier\RozierApp;
+use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\Serializer\SerializerInterface;
 
-class TagsUtilsController extends RozierApp
+#[AsController]
+final class TagsUtilsController extends AbstractController
 {
-    public function __construct(private readonly SerializerInterface $serializer)
-    {
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly SerializerInterface $serializer,
+    ) {
     }
 
     /**
@@ -25,13 +29,13 @@ class TagsUtilsController extends RozierApp
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
-        $existingTag = $this->em()->find(Tag::class, $tagId);
+        $existingTag = $this->managerRegistry->getRepository(Tag::class)->find($tagId);
 
         return new JsonResponse(
             $this->serializer->serialize(
                 $existingTag,
                 'json',
-                SerializationContext::create()->setGroups(['tag', 'position'])
+                ['groups' => ['tag', 'tag_base', 'tag_children', 'translated_tag', 'translation_base', 'position']]
             ),
             Response::HTTP_OK,
             [
@@ -51,7 +55,7 @@ class TagsUtilsController extends RozierApp
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
-        $existingTags = $this->em()
+        $existingTags = $this->managerRegistry
                               ->getRepository(Tag::class)
                               ->findBy(['parent' => null]);
 
@@ -59,7 +63,7 @@ class TagsUtilsController extends RozierApp
             $this->serializer->serialize(
                 $existingTags,
                 'json',
-                SerializationContext::create()->setGroups(['tag', 'position'])
+                ['groups' => ['tag', 'tag_base', 'tag_children', 'translated_tag', 'translation_base', 'position']]
             ),
             Response::HTTP_OK,
             [

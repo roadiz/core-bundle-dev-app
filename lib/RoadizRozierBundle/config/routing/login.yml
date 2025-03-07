@@ -7,10 +7,10 @@ loginRequestConfirmPage:
     controller: RZ\Roadiz\RozierBundle\Controller\Login\LoginRequestController::confirmAction
 loginResetConfirmPage:
     path:     /login/reset/confirm
-    controller: Themes\Rozier\Controllers\LoginResetController::confirmAction
+    controller: RZ\Roadiz\RozierBundle\Controller\Login\LoginResetController::confirmAction
 loginResetPage:
     path:     /login/reset/{token}
-    controller: Themes\Rozier\Controllers\LoginResetController::resetAction
+    controller: RZ\Roadiz\RozierBundle\Controller\Login\LoginResetController::resetAction
     requirements: { token : "[^\\/]+" }
 
 # Override legacy Rozier routes for security
