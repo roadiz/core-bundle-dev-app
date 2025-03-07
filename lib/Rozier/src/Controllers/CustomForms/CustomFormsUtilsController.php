@@ -8,21 +8,25 @@ use Doctrine\Persistence\ManagerRegistry;
 use PhpOffice\PhpSpreadsheet\Exception;
 use RZ\Roadiz\CoreBundle\CustomForm\CustomFormAnswerSerializer;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Themes\Rozier\RozierApp;
 
-class CustomFormsUtilsController extends RozierApp
+#[AsController]
+final class CustomFormsUtilsController extends AbstractController
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly TranslatorInterface $translator,
         private readonly CustomFormAnswerSerializer $customFormAnswerSerializer,
         private readonly SerializerInterface $serializer,
+        private readonly LogTrail $logTrail,
         private readonly array $csvEncoderOptions,
     ) {
     }
@@ -101,21 +105,21 @@ class CustomFormsUtilsController extends RozierApp
                 '%name%' => $existingCustomForm->getDisplayName(),
             ]);
 
-            $this->publishConfirmMessage($request, $msg, $newCustomForm);
+            $this->logTrail->publishConfirmMessage($request, $msg, $newCustomForm);
 
             return $this->redirectToRoute(
                 'customFormsEditPage',
                 ['id' => $newCustomForm->getId()]
             );
         } catch (\Exception $e) {
-            $this->publishErrorMessage(
+            $this->logTrail->publishErrorMessage(
                 $request,
                 $this->translator->trans('impossible.duplicate.custom.form.%name%', [
                     '%name%' => $existingCustomForm->getDisplayName(),
                 ]),
                 $newCustomForm
             );
-            $this->publishErrorMessage($request, $e->getMessage(), $existingCustomForm);
+            $this->logTrail->publishErrorMessage($request, $e->getMessage(), $existingCustomForm);
 
             return $this->redirectToRoute(
                 'customFormsEditPage',

@@ -25,6 +25,8 @@ use Twig\Error\RuntimeError;
 
 /**
  * Rozier main theme application.
+ *
+ * @deprecated Use AbstractController instead
  */
 class RozierApp extends AppController
 {

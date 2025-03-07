@@ -25,10 +25,6 @@ final class LoginResetController extends AbstractController
     ) {
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function resetAction(Request $request, string $token): Response
     {
         /** @var User|null $user */
