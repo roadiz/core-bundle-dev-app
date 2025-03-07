@@ -130,11 +130,13 @@ class TagsController extends RozierApp
             $this->em()->flush();
         }
 
+        $assignation = [];
+
         /*
          * Versioning
          */
         if ($this->isGranted('ROLE_ACCESS_VERSIONS')) {
-            if (null !== $response = $this->handleVersions($request, $tagTranslation)) {
+            if (null !== $response = $this->handleVersions($request, $tagTranslation, $assignation)) {
                 return $response;
             }
         }
@@ -207,15 +209,16 @@ class TagsController extends RozierApp
         /** @var TranslationRepository $translationRepository */
         $translationRepository = $this->em()->getRepository(Translation::class);
 
-        $this->assignation['tag'] = $tag;
-        $this->assignation['translation'] = $translation;
-        $this->assignation['translatedTag'] = $tagTranslation;
-        $this->assignation['available_translations'] = $translationRepository->findAll();
-        $this->assignation['translations'] = $translationRepository->findAvailableTranslationsForTag($tag);
-        $this->assignation['form'] = $form->createView();
-        $this->assignation['readOnly'] = $this->isReadOnly;
-
-        return $this->render('@RoadizRozier/tags/edit.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/tags/edit.html.twig', [
+            ...$assignation,
+            'tag' => $tag,
+            'translation' => $translation,
+            'translatedTag' => $tagTranslation,
+            'available_translations' => $translationRepository->findAll(),
+            'translations' => $translationRepository->findAvailableTranslationsForTag($tag),
+            'form' => $form->createView(),
+            'readOnly' => $this->isReadOnly,
+        ]);
     }
 
     protected function tagNameExists(string $name): bool

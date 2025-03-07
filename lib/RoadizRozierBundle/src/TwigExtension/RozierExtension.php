@@ -28,6 +28,15 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         return [
             'rozier' => $this->rozierServiceRegistry,
             'nodeStatuses' => NodeStatus::allLabelsAndValues(),
+            'thumbnailFormat' => [
+                'quality' => 50,
+                'fit' => '128x128',
+                'sharpen' => 5,
+                'inline' => false,
+                'picture' => true,
+                'controls' => false,
+                'loading' => 'lazy',
+            ],
         ];
     }
 

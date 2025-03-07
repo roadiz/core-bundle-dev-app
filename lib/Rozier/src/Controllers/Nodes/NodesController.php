@@ -121,10 +121,6 @@ final class NodesController extends RozierApp
         );
         $listManager->setDisplayingNotPublishedNodes(true);
         $listManager->setDisplayingAllNodesStatuses(true);
-
-        /*
-         * Stored in session
-         */
         $sessionListFilter = new SessionListFilters('node_list_item_per_page');
         $sessionListFilter->handleItemPerPage($request, $listManager);
         $listManager->handle();

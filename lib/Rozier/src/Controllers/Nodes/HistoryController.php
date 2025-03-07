@@ -54,19 +54,15 @@ final class HistoryController extends AbstractController
         });
         $listManager->setDisplayingNotPublishedNodes(true);
         $listManager->setDisplayingAllNodesStatuses(true);
-        /*
-         * Stored in session
-         */
         $sessionListFilter = new SessionListFilters('user_history_item_per_page');
         $sessionListFilter->handleItemPerPage($request, $listManager);
         $listManager->handle();
 
-        $assignation = [];
-        $assignation['node'] = $node;
-        $assignation['translation'] = $this->managerRegistry->getRepository(Translation::class)->findDefault();
-        $assignation['entries'] = $listManager->getEntities();
-        $assignation['filters'] = $listManager->getAssignation();
-
-        return $this->render('@RoadizRozier/nodes/history.html.twig', $assignation);
+        return $this->render('@RoadizRozier/nodes/history.html.twig', [
+            'node' => $node,
+            'entries' => $listManager->getEntities(),
+            'filters' => $listManager->getAssignation(),
+            'translation' => $this->managerRegistry->getRepository(Translation::class)->findDefault(),
+        ]);
     }
 }

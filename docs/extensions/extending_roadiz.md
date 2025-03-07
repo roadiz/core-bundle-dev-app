@@ -46,27 +46,32 @@ final class NSBlogPostPathSubscriber implements EventSubscriberInterface
 ## Create a new back-office entry
 
 At first, create a controller into your theme folder, for example `src/Controller/Admin/AdminController`.
+
 ```php
+<?php
+
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
-use Themes\Rozier\RozierApp;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 
-class AdminController extends RozierApp
+#[AsController]
+final class AdminController extends AbstractController
 {
     public function listAction(
         Request $request
     ) {
+        $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
+    
         return $this->render(
-            'admin/test.html.twig',
-            $this->assignation
+            'admin/test.html.twig'
         );
     }
 }
 ```
-
-If you look at this example you can see the class extends `RozierApp` class.
-This will enable you to "inject" your code into Rozier Back-stage DOM and Style.
 
 Now let\'s have a look to your twig template file `templates/admin/test.html.twig`.
 
