@@ -590,3 +590,5 @@ abstract class AbstractField extends AbstractPositioned
         return $this;
     }
 }
+
+\class_alias(AbstractField::class, '\RZ\Roadiz\Core\AbstractEntities\AbstractField');
