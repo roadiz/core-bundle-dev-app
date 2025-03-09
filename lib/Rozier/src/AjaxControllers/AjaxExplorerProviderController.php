@@ -14,7 +14,10 @@ use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AjaxExplorerProviderController extends AbstractAjaxController
+/*
+ * This class will be final in Roadiz v2.6+
+ */
+class AjaxExplorerProviderController extends AbstractAjaxController
 {
     public function __construct(
         private readonly ExplorerProviderLocator $explorerProviderLocator,
