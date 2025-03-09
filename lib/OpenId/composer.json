@@ -17,6 +17,7 @@
         "ext-json": "*",
         "codercat/jwk-to-pem": "^1.0",
         "lcobucci/jwt": "^5.3",
+        "lcobucci/clock": "^3.0",
         "psr/cache": ">=1.0.1",
         "roadiz/jwt": "2.5.x-dev",
         "roadiz/models": "2.5.x-dev",

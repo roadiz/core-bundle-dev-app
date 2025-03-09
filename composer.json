@@ -53,6 +53,7 @@
         "jms/serializer": "^3.32.3",
         "jms/serializer-bundle": "^5.5.1",
         "lcobucci/jwt": "^5.3",
+        "lcobucci/clock": "^3.0",
         "league/commonmark": "^2.2.0",
         "league/flysystem": "^3.0",
         "league/flysystem-bundle": "^3.0",
