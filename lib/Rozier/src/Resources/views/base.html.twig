@@ -86,7 +86,7 @@
             var temp = {
                 'baseUrl':           '{{ app.request.schemeAndHttpHost }}{{ app.request.basePath }}',
                 'resourcesUrl':      '{{ asset('', 'Rozier') }}',
-                'ajaxToken':         '{{ csrf_token('ajax') }}',
+                'ajaxToken':         '{{ csrf_token(constant('Themes\\Rozier\\AjaxControllers\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}',
                 'mainColor':         '{{ main_color }}',
                 'mapsStyle':         {% if head.mapsStyle %}{{ head.mapsStyle|raw }}{% else %}[]{% endif %},
                 'leafletMapTileUrl': '{{ bags.settings.get('leaflet_map_tile_url')|default('https://{s}.tile.osm.org/{z}/{x}/{y}.png') }}',
