@@ -192,7 +192,10 @@
             "RZ\\Roadiz\\UserBundle\\": "lib/RoadizUserBundle/src/",
             "RZ\\Roadiz\\Utils\\": "lib/Models/src/Roadiz/Utils/",
             "Themes\\Rozier\\": "lib/Rozier/src/"
-        }
+        },
+        "files": [
+            "lib/RoadizCoreBundle/deprecated.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

@@ -122,7 +122,10 @@
     "autoload": {
         "psr-4": {
             "RZ\\Roadiz\\CoreBundle\\": "src/"
-        }
+        },
+        "files": [
+            "deprecated.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
