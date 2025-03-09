@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Entity\AbstractField;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

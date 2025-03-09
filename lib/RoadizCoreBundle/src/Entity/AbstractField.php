@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\Core\AbstractEntities;
+namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use RZ\Roadiz\CoreBundle\Entity\FieldTypeTrait;
+use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
