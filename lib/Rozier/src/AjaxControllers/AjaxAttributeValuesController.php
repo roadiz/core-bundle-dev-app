@@ -31,10 +31,12 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
         $this->validateRequest($request, 'POST', false);
 
         /** @var AttributeValue|null $attributeValue */
-        $attributeValue = $this->em()->find(AttributeValue::class, (int) $attributeValueId);
+        $attributeValue = $this->managerRegistry
+            ->getRepository(AttributeValue::class)
+            ->find($attributeValueId);
 
         if (null === $attributeValue) {
-            throw $this->createNotFoundException($this->getTranslator()->trans('attribute_value.%attributeValueId%.not_exists', ['%attributeValueId%' => $attributeValueId]));
+            throw $this->createNotFoundException($this->translator->trans('attribute_value.%attributeValueId%.not_exists', ['%attributeValueId%' => $attributeValueId]));
         }
 
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_ATTRIBUTE, $attributeValue->getAttributable());
@@ -65,17 +67,19 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
 
         if (!empty($parameters['afterAttributeValueId']) && is_numeric($parameters['afterAttributeValueId'])) {
             /** @var AttributeValue|null $afterAttributeValue */
-            $afterAttributeValue = $this->em()->find(AttributeValue::class, (int) $parameters['afterAttributeValueId']);
+            $afterAttributeValue = $this->managerRegistry
+                ->getRepository(AttributeValue::class)
+                ->find((int) $parameters['afterAttributeValueId']);
             if (null === $afterAttributeValue) {
                 throw new BadRequestHttpException('afterAttributeValueId does not exist');
             }
             $attributeValue->setPosition($afterAttributeValue->getPosition() + 0.5);
-            $this->em()->flush();
+            $this->managerRegistry->getManager()->flush();
 
             return [
                 'statusCode' => '200',
                 'status' => 'success',
-                'responseText' => $this->getTranslator()->trans(
+                'responseText' => $this->translator->trans(
                     'attribute_value_translation.%name%.updated_from_node.%nodeName%',
                     $details
                 ),
@@ -83,17 +87,19 @@ final class AjaxAttributeValuesController extends AbstractAjaxController
         }
         if (!empty($parameters['beforeAttributeValueId']) && is_numeric($parameters['beforeAttributeValueId'])) {
             /** @var AttributeValue|null $beforeAttributeValue */
-            $beforeAttributeValue = $this->em()->find(AttributeValue::class, (int) $parameters['beforeAttributeValueId']);
+            $beforeAttributeValue = $this->managerRegistry
+                ->getRepository(AttributeValue::class)
+                ->find((int) $parameters['beforeAttributeValueId']);
             if (null === $beforeAttributeValue) {
                 throw new BadRequestHttpException('beforeAttributeValueId does not exist');
             }
             $attributeValue->setPosition($beforeAttributeValue->getPosition() - 0.5);
-            $this->em()->flush();
+            $this->managerRegistry->getManager()->flush();
 
             return [
                 'statusCode' => '200',
                 'status' => 'success',
-                'responseText' => $this->getTranslator()->trans(
+                'responseText' => $this->translator->trans(
                     'attribute_value_translation.%name%.updated_from_node.%nodeName%',
                     $details
                 ),

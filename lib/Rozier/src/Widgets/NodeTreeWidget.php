@@ -81,8 +81,6 @@ final class NodeTreeWidget extends AbstractWidget
 
     /**
      * Fill twig assignation array with NodeTree entities.
-     *
-     * @throws \ReflectionException
      */
     protected function getRootListManager(): NodeTreeDtoListManager
     {
@@ -124,8 +122,6 @@ final class NodeTreeWidget extends AbstractWidget
     /**
      * @param bool  $subRequest         Default: false
      * @param array $additionalCriteria Default: []
-     *
-     * @throws \ReflectionException
      */
     protected function getListManager(
         ?NodeInterface $parent = null,
@@ -243,8 +239,6 @@ final class NodeTreeWidget extends AbstractWidget
 
     /**
      * @return array<NodeInterface>
-     *
-     * @throws \ReflectionException
      */
     public function getNodes(): array
     {

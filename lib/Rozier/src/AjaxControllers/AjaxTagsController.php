@@ -6,12 +6,14 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\EntityHandler\TagHandler;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,26 +22,29 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class AjaxTagsController extends AbstractAjaxController
+final class AjaxTagsController extends AbstractAjaxExplorerController
 {
     public function __construct(
-        private readonly ExplorerItemFactoryInterface $explorerItemFactory,
         private readonly HandlerFactoryInterface $handlerFactory,
+        ExplorerItemFactoryInterface $explorerItemFactory,
+        EventDispatcherInterface $eventDispatcher,
+        EntityListManagerFactoryInterface $entityListManagerFactory,
+        ManagerRegistry $managerRegistry,
         SerializerInterface $serializer,
+        TranslatorInterface $translator,
     ) {
-        parent::__construct($serializer);
+        parent::__construct($explorerItemFactory, $eventDispatcher, $entityListManagerFactory, $managerRegistry, $serializer, $translator);
     }
 
     protected function getRepository(): TagRepository
     {
-        return $this->em()->getRepository(Tag::class);
+        return $this->managerRegistry->getRepository(Tag::class);
     }
 
-    /**
-     * @return Response JSON response
-     */
-    public function indexAction(Request $request): Response
+    public function indexAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
         $onlyParents = false;
@@ -105,18 +110,14 @@ final class AjaxTagsController extends AbstractAjaxController
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
         $arrayFilter = [
-            'translation' => $this->em()->getRepository(Translation::class)->findDefault(),
+            'translation' => $this->managerRegistry->getRepository(Translation::class)->findDefault(),
         ];
         $defaultOrder = [
             'createdAt' => 'DESC',
         ];
 
         if ($request->get('tagId') > 0) {
-            $parentTag = $this->em()
-                ->find(
-                    Tag::class,
-                    $request->get('tagId')
-                );
+            $parentTag = $this->managerRegistry->getRepository(Tag::class)->find($request->get('tagId'));
 
             $arrayFilter['parent'] = $parentTag;
         }
@@ -148,18 +149,20 @@ final class AjaxTagsController extends AbstractAjaxController
     }
 
     /**
-     * @param array<Tag>|\Traversable<Tag>|null $tags
+     * @param iterable<Tag>|null $tags
      *
      * @return array<int, array>
      */
-    protected function normalizeTags($tags): array
+    protected function normalizeTags(?iterable $tags): array
     {
+        if (null === $tags) {
+            return [];
+        }
         $tagsArray = [];
-        if (null !== $tags) {
-            foreach ($tags as $tag) {
-                $tagModel = $this->explorerItemFactory->createForEntity($tag);
-                $tagsArray[] = $tagModel->toArray();
-            }
+
+        foreach ($tags as $tag) {
+            $tagModel = $this->explorerItemFactory->createForEntity($tag);
+            $tagsArray[] = $tagModel->toArray();
         }
 
         return $tagsArray;
@@ -170,21 +173,23 @@ final class AjaxTagsController extends AbstractAjaxController
      */
     protected function recurseTags(?array $tags = null, bool $onlyParents = false): array
     {
-        $tagsArray = [];
-        if (null !== $tags) {
-            foreach ($tags as $tag) {
-                if ($onlyParents) {
-                    $children = $this->getRepository()->findByParentWithChildrenAndDefaultTranslation($tag);
-                } else {
-                    $children = $this->getRepository()->findByParentWithDefaultTranslation($tag);
-                }
+        if (null === $tags) {
+            return [];
+        }
 
-                $tagsArray[] = [
-                    'id' => $tag->getId(),
-                    'name' => $tag->getTranslatedTags()->first() ? $tag->getTranslatedTags()->first()->getName() : $tag->getTagName(),
-                    'children' => $this->recurseTags($children, $onlyParents),
-                ];
+        $tagsArray = [];
+        foreach ($tags as $tag) {
+            if ($onlyParents) {
+                $children = $this->getRepository()->findByParentWithChildrenAndDefaultTranslation($tag);
+            } else {
+                $children = $this->getRepository()->findByParentWithDefaultTranslation($tag);
             }
+
+            $tagsArray[] = [
+                'id' => $tag->getId(),
+                'name' => $tag->getTranslatedTags()->first() ? $tag->getTranslatedTags()->first()->getName() : $tag->getTagName(),
+                'children' => $this->recurseTags($children, $onlyParents),
+            ];
         }
 
         return $tagsArray;
@@ -198,7 +203,7 @@ final class AjaxTagsController extends AbstractAjaxController
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
-        $tag = $this->em()->find(Tag::class, (int) $tagId);
+        $tag = $this->managerRegistry->getRepository(Tag::class)->find($tagId);
 
         if (null === $tag) {
             throw $this->createNotFoundException('Tag '.$tagId.' does not exists');
@@ -222,9 +227,6 @@ final class AjaxTagsController extends AbstractAjaxController
         );
     }
 
-    /**
-     * @throws \Exception
-     */
     public function searchAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
@@ -269,7 +271,7 @@ final class AjaxTagsController extends AbstractAjaxController
             && is_numeric($parameters['newParent'])
             && $parameters['newParent'] > 0
         ) {
-            $parent = $this->em()->find(Tag::class, (int) $parameters['newParent']);
+            $parent = $this->managerRegistry->getRepository(Tag::class)->find((int) $parameters['newParent']);
             if (null !== $parent) {
                 $tag->setParent($parent);
             }
@@ -284,7 +286,7 @@ final class AjaxTagsController extends AbstractAjaxController
             !empty($parameters['nextTagId'])
             && $parameters['nextTagId'] > 0
         ) {
-            $nextTag = $this->em()->find(Tag::class, (int) $parameters['nextTagId']);
+            $nextTag = $this->managerRegistry->getRepository(Tag::class)->find((int) $parameters['nextTagId']);
             if (null !== $nextTag) {
                 $tag->setPosition($nextTag->getPosition() - 0.5);
             }
@@ -292,24 +294,21 @@ final class AjaxTagsController extends AbstractAjaxController
             !empty($parameters['prevTagId'])
             && $parameters['prevTagId'] > 0
         ) {
-            $prevTag = $this->em()->find(Tag::class, (int) $parameters['prevTagId']);
+            $prevTag = $this->managerRegistry->getRepository(Tag::class)->find((int) $parameters['prevTagId']);
             if (null !== $prevTag) {
                 $tag->setPosition($prevTag->getPosition() + 0.5);
             }
         }
         // Apply position update before cleaning
-        $this->em()->flush();
+        $this->managerRegistry->getManager()->flush();
 
         /** @var TagHandler $tagHandler */
         $tagHandler = $this->handlerFactory->getHandler($tag);
         $tagHandler->cleanPositions();
 
-        $this->em()->flush();
+        $this->managerRegistry->getManager()->flush();
 
-        /*
-         * Dispatch event
-         */
-        $this->dispatchEvent(new TagUpdatedEvent($tag));
+        $this->eventDispatcher->dispatch(new TagUpdatedEvent($tag));
     }
 
     /**

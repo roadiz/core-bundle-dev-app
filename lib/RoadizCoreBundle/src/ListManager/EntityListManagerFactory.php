@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\ListManager;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 final readonly class EntityListManagerFactory implements EntityListManagerFactoryInterface
@@ -17,9 +18,18 @@ final readonly class EntityListManagerFactory implements EntityListManagerFactor
 
     public function createEntityListManager(string $entityClass, array $criteria = [], array $ordering = []): EntityListManagerInterface
     {
+        // Remove leading backslashes on entity class name, getManagerForClass does not like it.
+        /** @var class-string<PersistableInterface> $entityClass */
+        $entityClass = str_starts_with($entityClass, '\\') ? substr($entityClass, 1) : $entityClass;
+        $em = $this->managerRegistry->getManagerForClass($entityClass);
+
+        if (null === $em) {
+            throw new \InvalidArgumentException(sprintf('Entity class "%s" does not exist.', $entityClass));
+        }
+
         return new EntityListManager(
             $this->requestStack->getCurrentRequest(),
-            $this->managerRegistry->getManagerForClass($entityClass),
+            $em,
             $entityClass,
             $criteria,
             $ordering

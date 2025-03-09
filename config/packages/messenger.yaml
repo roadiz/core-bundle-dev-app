@@ -15,10 +15,10 @@ framework:
             # Route your messages to the transports
             'RZ\Roadiz\CoreBundle\Message\AsyncMessage': async
 
-when@dev:
-    framework:
-        messenger:
-            transports:
-                async: 'sync://'
-                failed: 'sync://'
-                sync: 'sync://'
+#when@dev:
+#    framework:
+#        messenger:
+#            transports:
+#                async: 'sync://'
+#                failed: 'sync://'
+#                sync: 'sync://'

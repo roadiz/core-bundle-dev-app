@@ -8,17 +8,21 @@ use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\Documentation\Generators\DocumentationGenerator;
 use RZ\Roadiz\Typescript\Declaration\DeclarationGeneratorFactory;
 use RZ\Roadiz\Typescript\Declaration\Generators\DeclarationGenerator;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Themes\Rozier\RozierApp;
+use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Error\RuntimeError;
 
-final class NodeTypesUtilsController extends RozierApp
+#[AsController]
+final class NodeTypesExportController extends AbstractController
 {
     public function __construct(
         private readonly DecoratedNodeTypes $nodeTypesBag,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -29,7 +33,7 @@ final class NodeTypesUtilsController extends RozierApp
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
 
-        $documentationGenerator = new DocumentationGenerator($this->nodeTypesBag, $this->getTranslator());
+        $documentationGenerator = new DocumentationGenerator($this->nodeTypesBag, $this->translator);
 
         $tmpfname = tempnam(sys_get_temp_dir(), date('Y-m-d-H-i-s').'.zip');
         if (false === $tmpfname) {

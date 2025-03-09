@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
-use Doctrine\ORM\Exception\NotSupported;
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AjaxNodeTypesController extends AbstractAjaxController
 {
     public function __construct(
         private readonly DecoratedNodeTypes $nodeTypesBag,
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        ManagerRegistry $managerRegistry,
         SerializerInterface $serializer,
+        TranslatorInterface $translator,
     ) {
-        parent::__construct($serializer);
+        parent::__construct($managerRegistry, $serializer, $translator);
     }
 
     public function indexAction(Request $request): JsonResponse
@@ -41,12 +43,8 @@ final class AjaxNodeTypesController extends AbstractAjaxController
 
     /**
      * Get a NodeType list from an array of id.
-     *
-     * @return JsonResponse
-     *
-     * @throws NotSupported
      */
-    public function listAction(Request $request): Response
+    public function listAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 

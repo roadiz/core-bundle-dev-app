@@ -4,29 +4,37 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeDuplicatedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Themes\Rozier\RozierApp;
+use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class NodesUtilsController extends RozierApp
+#[AsController]
+final class NodesDuplicateController extends AbstractController
 {
-    public function __construct(private readonly NodeNamePolicyInterface $nodeNamePolicy)
-    {
+    public function __construct(
+        private readonly NodeNamePolicyInterface $nodeNamePolicy,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly TranslatorInterface $translator,
+        private readonly LogTrail $logTrail,
+    ) {
     }
 
-    /**
-     * Duplicate node by ID.
-     */
     public function duplicateAction(Request $request, int $nodeId): Response
     {
         /** @var Node|null $existingNode */
-        $existingNode = $this->em()->find(Node::class, $nodeId);
+        $existingNode = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
 
         if (null === $existingNode) {
             throw $this->createNotFoundException();
@@ -37,31 +45,28 @@ class NodesUtilsController extends RozierApp
         try {
             $duplicator = new NodeDuplicator(
                 $existingNode,
-                $this->em(),
+                $this->managerRegistry->getManagerForClass(Node::class),
                 $this->nodeNamePolicy
             );
             $newNode = $duplicator->duplicate();
 
-            /*
-             * Dispatch event
-             */
-            $this->dispatchEvent(new NodeCreatedEvent($newNode));
-            $this->dispatchEvent(new NodeDuplicatedEvent($newNode));
+            $this->eventDispatcher->dispatch(new NodeCreatedEvent($newNode));
+            $this->eventDispatcher->dispatch(new NodeDuplicatedEvent($newNode));
 
-            $msg = $this->getTranslator()->trans('duplicated.node.%name%', [
+            $msg = $this->translator->trans('duplicated.node.%name%', [
                 '%name%' => $existingNode->getNodeName(),
             ]);
 
-            $this->publishConfirmMessage($request, $msg, $newNode->getNodeSources()->first() ?: $newNode);
+            $this->logTrail->publishConfirmMessage($request, $msg, $newNode->getNodeSources()->first() ?: $newNode);
 
             return $this->redirectToRoute(
                 'nodesEditPage',
                 ['nodeId' => $newNode->getId()]
             );
         } catch (\Exception $e) {
-            $this->publishErrorMessage(
+            $this->logTrail->publishErrorMessage(
                 $request,
-                $this->getTranslator()->trans('impossible.duplicate.node.%name%', [
+                $this->translator->trans('impossible.duplicate.node.%name%', [
                     '%name%' => $existingNode->getNodeName(),
                 ]),
                 $existingNode

@@ -4,32 +4,40 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Tags;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Event\Tag\TagCreatedEvent;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\CoreBundle\Tag\TagFactory;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Forms\MultiTagType;
-use Themes\Rozier\RozierApp;
 
-class TagMultiCreationController extends RozierApp
+#[AsController]
+final class TagMultiCreationController extends AbstractController
 {
-    public function __construct(private readonly TagFactory $tagFactory)
-    {
+    public function __construct(
+        private readonly TagFactory $tagFactory,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly TranslatorInterface $translator,
+        private readonly LogTrail $logTrail,
+    ) {
     }
 
-    /**
-     * @throws \Twig\Error\RuntimeError
-     */
     public function addChildAction(Request $request, int $parentTagId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_TAGS');
 
-        $translation = $this->em()->getRepository(Translation::class)->findDefault();
-        $parentTag = $this->em()->find(Tag::class, $parentTagId);
+        $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
+        $parentTag = $this->managerRegistry->getRepository(Tag::class)->find($parentTagId);
 
         if (null === $parentTag) {
             throw new ResourceNotFoundException();
@@ -49,26 +57,20 @@ class TagMultiCreationController extends RozierApp
                 /*
                  * Get latest position to add tags after.
                  */
-                $latestPosition = $this->em()
+                $latestPosition = $this->managerRegistry
                     ->getRepository(Tag::class)
                     ->findLatestPositionInParent($parentTag);
 
                 $tagsArray = [];
                 foreach ($names as $name) {
                     $tagsArray[] = $this->tagFactory->create($name, $translation, $parentTag, $latestPosition);
-                    $this->em()->flush();
+                    $this->managerRegistry->getManager()->flush();
                 }
 
-                /*
-                 * Dispatch event and msg
-                 */
                 foreach ($tagsArray as $tag) {
-                    /*
-                     * Dispatch event
-                     */
-                    $this->dispatchEvent(new TagCreatedEvent($tag));
-                    $msg = $this->getTranslator()->trans('child.tag.%name%.created', ['%name%' => $tag->getTagName()]);
-                    $this->publishConfirmMessage($request, $msg, $tag);
+                    $this->eventDispatcher->dispatch(new TagCreatedEvent($tag));
+                    $msg = $this->translator->trans('child.tag.%name%.created', ['%name%' => $tag->getTagName()]);
+                    $this->logTrail->publishConfirmMessage($request, $msg, $tag);
                 }
 
                 return $this->redirectToRoute('tagsTreePage', ['tagId' => $parentTagId]);
@@ -77,10 +79,10 @@ class TagMultiCreationController extends RozierApp
             }
         }
 
-        $this->assignation['translation'] = $translation;
-        $this->assignation['form'] = $form->createView();
-        $this->assignation['tag'] = $parentTag;
-
-        return $this->render('@RoadizRozier/tags/add-multiple.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/tags/add-multiple.html.twig', [
+            'tag' => $parentTag,
+            'form' => $form->createView(),
+            'translation' => $translation,
+        ]);
     }
 }
