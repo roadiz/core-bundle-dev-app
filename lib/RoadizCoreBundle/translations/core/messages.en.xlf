@@ -167,12 +167,12 @@
             </trans-unit>
       <trans-unit xml:space="preserve" id="attributes.defaultRealm.placeholder" approved="yes">
                 <source>attributes.defaultRealm.placeholder</source>
-                
+
                 <target state="final">-- No default realm --</target>
             <note>Default text when no realm is attached to an attribute</note></trans-unit>
       <trans-unit xml:space="preserve" id="attributeValue.realm.placeholder" approved="yes">
                 <source>attributeValue.realm.placeholder</source>
-                
+
                 <target state="final">-- No realm --</target>
             <note>Default text when no realm is attached to an attribute-value</note></trans-unit>
       <trans-unit xml:space="preserve" id="login_link" approved="yes">
@@ -189,7 +189,7 @@
             </trans-unit>
       <trans-unit xml:space="preserve" id="request_login_link" approved="yes">
                 <source>request_login_link</source>
-                
+
                 <target state="final">Request a login link</target>
             <note>Button label to request a login link</note></trans-unit>
       <trans-unit xml:space="preserve" id="login_link.request" approved="yes">
@@ -197,7 +197,7 @@
                 <target state="final">Your login link</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="you.asked.for.a.login_link.on.site" approved="yes">
-                <source>you.asked.for.a.login_link.on.%site%</source>
+                <source>you.asked.for.a.login_link.on.site</source>
                 <target state="final">You requested a login link for website: %site%</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="click_on_following_link_to_login" approved="yes">
@@ -205,7 +205,7 @@
                 <target state="final">Click on the following link to login automatically.</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="login_link_will_expire_at.expiresAt" approved="yes">
-                <source>login_link_will_expire_at.%expiresAt%</source>
+                <source>login_link_will_expire_at.expiresAt</source>
                 <target state="final">This link will expire on %expiresAt%</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="classic.login_password" approved="yes">

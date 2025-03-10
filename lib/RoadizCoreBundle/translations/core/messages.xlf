@@ -207,7 +207,7 @@
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="you.asked.for.a.login_link.on.site">
-                <source>you.asked.for.a.login_link.on.%site%</source>
+                <source>you.asked.for.a.login_link.on.site</source>
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="click_on_following_link_to_login">
@@ -215,7 +215,7 @@
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="login_link_will_expire_at.expiresAt">
-                <source>login_link_will_expire_at.%expiresAt%</source>
+                <source>login_link_will_expire_at.expiresAt</source>
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="classic.login_password">
