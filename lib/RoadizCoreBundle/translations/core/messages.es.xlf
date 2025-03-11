@@ -153,6 +153,7 @@
                 <source>password_should_be_at_least_{{length}}_characters_long</source>
                 <target state="translated">la contraseña debe de ser de al menos {{length}} caracteres de largo.</target>
             </trans-unit>
+      <!-- History entry params -->
     </body>
   </file>
 </xliff>
