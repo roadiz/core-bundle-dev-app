@@ -15,8 +15,6 @@ use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Group;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\NodeType;
-use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 
@@ -37,10 +35,6 @@ final readonly class HandlerFactory implements HandlerFactoryInterface
                 return $this->container->get(NodeHandler::class)->setNode($entity);
             case $entity instanceof NodesSources:
                 return $this->container->get(NodesSourcesHandler::class)->setNodeSource($entity);
-            case $entity instanceof NodeType:
-                return $this->container->get(NodeTypeHandler::class)->setNodeType($entity);
-            case $entity instanceof NodeTypeField:
-                return $this->container->get(NodeTypeFieldHandler::class)->setNodeTypeField($entity);
             case $entity instanceof Document:
                 return $this->container->get(DocumentHandler::class)->setDocument($entity);
             case $entity instanceof CustomForm:

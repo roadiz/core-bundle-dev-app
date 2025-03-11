@@ -6,10 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Model;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Entity\AttributeGroup;
-use RZ\Roadiz\CoreBundle\Entity\AttributeTranslation;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -18,9 +15,7 @@ trait AttributeTrait
 {
     #[
         ORM\Column(type: 'string', length: 255, unique: true, nullable: false),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources']),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources']),
-        Serializer\Type('string'),
+        SymfonySerializer\Groups(['attribute', 'attribute:export', 'attribute:import', 'node', 'nodes_sources']),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 255)
@@ -29,25 +24,19 @@ trait AttributeTrait
 
     #[
         ORM\Column(type: 'boolean', unique: false, nullable: false, options: ['default' => false]),
-        Serializer\Groups(['attribute']),
-        SymfonySerializer\Groups(['attribute']),
-        Serializer\Type('boolean')
+        SymfonySerializer\Groups(['attribute', 'attribute:export', 'attribute:import']),
     ]
     protected bool $searchable = false;
 
     #[
         ORM\Column(type: 'integer', unique: false, nullable: false),
-        Serializer\Groups(['attribute']),
-        SymfonySerializer\Groups(['attribute']),
-        Serializer\Type('integer')
+        SymfonySerializer\Groups(['attribute', 'attribute:export', 'attribute:import']),
     ]
     protected int $type = AttributeInterface::STRING_T;
 
     #[
         ORM\Column(type: 'string', length: 7, unique: false, nullable: true),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources']),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources']),
-        Serializer\Type('string'),
+        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),
         Assert\Length(max: 7)
     ]
     protected ?string $color = null;
@@ -60,9 +49,7 @@ trait AttributeTrait
             inversedBy: 'attributes'
         ),
         ORM\JoinColumn(name: 'group_id', onDelete: 'SET NULL'),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources']),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources']),
-        Serializer\Type(AttributeGroup::class)
+        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export', 'attribute:import']),
     ]
     protected ?AttributeGroupInterface $group = null;
 
@@ -77,10 +64,7 @@ trait AttributeTrait
             fetch: 'EAGER',
             orphanRemoval: true
         ),
-        Serializer\Groups(['attribute', 'node', 'nodes_sources']),
-        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources']),
-        Serializer\Type('ArrayCollection<'.AttributeTranslation::class.'>'),
-        Serializer\Accessor(getter: 'getAttributeTranslations', setter: 'setAttributeTranslations')
+        SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources', 'attribute:export']),
     ]
     protected Collection $attributeTranslations;
 
@@ -95,7 +79,6 @@ trait AttributeTrait
             fetch: 'EXTRA_LAZY',
             orphanRemoval: true
         ),
-        Serializer\Exclude,
         SymfonySerializer\Ignore
     ]
     protected Collection $attributeValues;

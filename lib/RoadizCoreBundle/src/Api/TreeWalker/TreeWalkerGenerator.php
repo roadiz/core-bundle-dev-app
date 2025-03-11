@@ -8,7 +8,6 @@ use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\Definition\DefinitionFactoryConfiguration;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\Definition\DefinitionFactoryInterface;
-use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeSourceApi;
 use RZ\TreeWalker\AbstractWalker;
@@ -25,7 +24,6 @@ final class TreeWalkerGenerator
 
     public function __construct(
         private readonly NodeSourceApi $nodeSourceApi,
-        private readonly NodeTypes $nodeTypesBag,
         private readonly WalkerContextInterface $walkerContext,
         private readonly CacheItemPoolInterface $cacheItemPool,
     ) {
@@ -45,7 +43,7 @@ final class TreeWalkerGenerator
         $walkers = [];
         /** @var NodesSources[] $roots */
         $roots = $this->nodeSourceApi->getBy([
-            'node.nodeType' => $this->nodeTypesBag->get($nodeType),
+            'node.nodeTypeName' => $nodeType,
             'node.parent' => null,
             'translation' => $translation,
         ]);

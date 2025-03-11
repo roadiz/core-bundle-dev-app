@@ -225,6 +225,11 @@
                 <target></target>
                 <note>Setting name</note>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="cron_last_exec_date">
+                <source>cron_last_exec_date</source>
+                <target></target>
+                <note>Setting name</note>
+            </trans-unit>
             <trans-unit xml:space="preserve" id="unsplash_client_id.help">
                 <source>unsplash_client_id.help</source>
                 <target></target>

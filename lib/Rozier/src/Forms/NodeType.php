@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms;
 
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -15,6 +16,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class NodeType extends AbstractType
 {
+    public function __construct(
+        private readonly NodeTypes $nodeTypesBag,
+    ) {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('nodeName', TextType::class, [
@@ -31,7 +37,7 @@ class NodeType extends AbstractType
 
         /** @var Node|null $node */
         $node = $builder->getData();
-        $isReachable = null !== $node && $node->getNodeType()->isReachable();
+        $isReachable = null !== $node && $this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable();
         if ($isReachable) {
             $builder->add('home', CheckboxType::class, [
                 'label' => 'node.isHome',

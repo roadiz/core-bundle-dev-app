@@ -64,7 +64,10 @@ LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 ARG UID
 ARG GID
 
-COPY --link docker/mariadb/performances.cnf /etc/mariadb/conf.d/performances.cnf
+# https://hub.docker.com/_/mariadb
+# Using a custom MariaDB configuration file
+# Custom configuration files should end in .cnf and be mounted read only at the directory /etc/mysql/conf.d
+COPY --link docker/mariadb/performances.cnf /etc/mysql/conf.d/performances.cnf
 
 RUN <<EOF
 usermod -u ${UID} mysql

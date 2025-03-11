@@ -13,15 +13,18 @@ use RZ\Roadiz\CoreBundle\Importer\AttributeImporter;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\SerializerInterface as SymfonySerializerInterface;
 use Themes\Rozier\Controllers\AbstractAdminWithBulkController;
 use Twig\Error\RuntimeError;
 
-class AttributeController extends AbstractAdminWithBulkController
+final class AttributeController extends AbstractAdminWithBulkController
 {
     public function __construct(
+        private readonly SymfonySerializerInterface $symfonySerializer,
         private readonly AttributeImporter $attributeImporter,
         FormFactoryInterface $formFactory,
         SerializerInterface $serializer,
@@ -143,5 +146,31 @@ class AttributeController extends AbstractAdminWithBulkController
         $this->assignation['form'] = $form->createView();
 
         return $this->render('@RoadizRozier/attributes/import.html.twig', $this->assignation);
+    }
+
+    #[\Override]
+    public function exportAction(Request $request): JsonResponse
+    {
+        $this->denyAccessUnlessGranted($this->getRequiredExportRole());
+        $this->additionalAssignation($request);
+
+        $items = $this->getRepository()->findAll();
+
+        return new JsonResponse(
+            $this->symfonySerializer->serialize(
+                $items,
+                'json',
+                ['groups' => [$this->getNamespace().':export']]
+            ),
+            Response::HTTP_OK,
+            [
+                'Content-Disposition' => sprintf(
+                    'attachment; filename="%s_%s.json"',
+                    $this->getNamespace(),
+                    (new \DateTime())->format('YmdHi')
+                ),
+            ],
+            true
+        );
     }
 }

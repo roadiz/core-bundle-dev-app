@@ -12,18 +12,10 @@ use RZ\Roadiz\CoreBundle\Entity\TagTranslationDocuments;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
-/**
- * Class TagTranslationDocumentsTransformer.
- */
-class TagTranslationDocumentsTransformer implements DataTransformerInterface
+final readonly class TagTranslationDocumentsTransformer implements DataTransformerInterface
 {
-    private ObjectManager $manager;
-    private TagTranslation $tagTranslation;
-
-    public function __construct(ObjectManager $manager, TagTranslation $tagTranslation)
+    public function __construct(private ObjectManager $manager, private TagTranslation $tagTranslation)
     {
-        $this->manager = $manager;
-        $this->tagTranslation = $tagTranslation;
     }
 
     /**

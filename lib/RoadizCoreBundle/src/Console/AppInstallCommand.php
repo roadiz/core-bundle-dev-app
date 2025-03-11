@@ -9,10 +9,8 @@ use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Importer\AttributeImporter;
 use RZ\Roadiz\CoreBundle\Importer\EntityImporterInterface;
 use RZ\Roadiz\CoreBundle\Importer\GroupsImporter;
-use RZ\Roadiz\CoreBundle\Importer\NodeTypesImporter;
 use RZ\Roadiz\CoreBundle\Importer\RolesImporter;
 use RZ\Roadiz\CoreBundle\Importer\SettingsImporter;
-use RZ\Roadiz\CoreBundle\Importer\TagsImporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -31,8 +29,6 @@ final class AppInstallCommand extends Command
         #[Autowire('%kernel.project_dir%')]
         private readonly string $projectDir,
         private readonly ManagerRegistry $managerRegistry,
-        private readonly NodeTypesImporter $nodeTypesImporter,
-        private readonly TagsImporter $tagsImporter,
         private readonly SettingsImporter $settingsImporter,
         private readonly RolesImporter $rolesImporter,
         private readonly GroupsImporter $groupsImporter,
@@ -45,7 +41,7 @@ final class AppInstallCommand extends Command
     protected function configure(): void
     {
         $this->setName('app:install')
-            ->setDescription('Install application fixtures (node-types, settings, roles) from config.yml')
+            ->setDescription('Install application fixtures (settings, roles, tags, attributes) from config.yml')
             ->addOption(
                 'dry-run',
                 'd',
@@ -103,16 +99,6 @@ final class AppInstallCommand extends Command
         if (isset($data['importFiles']['settings'])) {
             foreach ($data['importFiles']['settings'] as $filename) {
                 $this->importFile($filename, $this->settingsImporter);
-            }
-        }
-        if (isset($data['importFiles']['nodetypes'])) {
-            foreach ($data['importFiles']['nodetypes'] as $filename) {
-                $this->importFile($filename, $this->nodeTypesImporter);
-            }
-        }
-        if (isset($data['importFiles']['tags'])) {
-            foreach ($data['importFiles']['tags'] as $filename) {
-                $this->importFile($filename, $this->tagsImporter);
             }
         }
         if (isset($data['importFiles']['attributes'])) {

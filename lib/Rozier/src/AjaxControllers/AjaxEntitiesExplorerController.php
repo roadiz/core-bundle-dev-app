@@ -4,24 +4,42 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
-use Doctrine\ORM\EntityManager;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Configuration\JoinNodeTypeFieldConfiguration;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
+use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerController
 {
+    public function __construct(
+        private readonly NodeTypes $nodeTypesBag,
+        ExplorerItemFactoryInterface $explorerItemFactory,
+        EventDispatcherInterface $eventDispatcher,
+        EntityListManagerFactoryInterface $entityListManagerFactory,
+        SerializerInterface $serializer,
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+    ) {
+        parent::__construct($explorerItemFactory, $eventDispatcher, $entityListManagerFactory, $managerRegistry, $serializer, $translator);
+    }
+
     protected function getFieldConfiguration(NodeTypeField $nodeTypeField): array
     {
         if (
-            AbstractField::MANY_TO_MANY_T !== $nodeTypeField->getType()
-            && AbstractField::MANY_TO_ONE_T !== $nodeTypeField->getType()
+            FieldType::MANY_TO_MANY_T !== $nodeTypeField->getType()
+            && FieldType::MANY_TO_ONE_T !== $nodeTypeField->getType()
         ) {
             throw new BadRequestHttpException('nodeTypeField is not a valid entity join.');
         }
@@ -39,12 +57,25 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerControlle
     {
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
-        if (!$request->query->has('nodeTypeFieldId')) {
+        if (!$request->query->has('nodeTypeFieldName')) {
             throw new BadRequestHttpException('nodeTypeFieldId parameter is missing.');
         }
 
-        /** @var NodeTypeField|null $nodeTypeField */
-        $nodeTypeField = $this->em()->find(NodeTypeField::class, $request->query->get('nodeTypeFieldId'));
+        if (!$request->query->has('nodeTypeName')) {
+            throw new BadRequestHttpException('nodeTypeName parameter is missing.');
+        }
+
+        $nodeTypeName = $request->query->get('nodeTypeName');
+        if (!is_string($nodeTypeName)) {
+            throw new \RuntimeException('nodeTypeName should be a string');
+        }
+
+        $nodeTypeFieldName = $request->query->get('nodeTypeFieldName');
+        if (!is_string($nodeTypeFieldName)) {
+            throw new \RuntimeException('nodeTypeFieldName should be a string');
+        }
+
+        $nodeTypeField = $this->nodeTypesBag->get($nodeTypeName)?->getFieldByName($nodeTypeFieldName);
 
         if (null === $nodeTypeField) {
             throw new BadRequestHttpException('nodeTypeField does not exist.');
@@ -89,8 +120,8 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerControlle
 
     public function listAction(Request $request): JsonResponse
     {
-        if (!$request->query->has('nodeTypeFieldId')) {
-            throw new BadRequestHttpException('nodeTypeFieldId parameter is missing.');
+        if (!$request->query->has('nodeTypeFieldName')) {
+            throw new BadRequestHttpException('nodeTypeFieldName parameter is missing.');
         }
 
         if (!$request->query->has('ids')) {
@@ -99,11 +130,23 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerControlle
 
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
-        /** @var EntityManager $em */
-        $em = $this->em();
+        $em = $this->managerRegistry->getManager();
 
-        /** @var NodeTypeField|null $nodeTypeField */
-        $nodeTypeField = $this->em()->find(NodeTypeField::class, $request->query->get('nodeTypeFieldId'));
+        if (!$request->query->has('nodeTypeName')) {
+            throw new BadRequestHttpException('nodeTypeName parameter is missing.');
+        }
+
+        $nodeTypeName = $request->query->get('nodeTypeName');
+        if (!is_string($nodeTypeName)) {
+            throw new \RuntimeException('nodeTypeName should be a string');
+        }
+
+        $nodeTypeFieldName = $request->query->get('nodeTypeFieldName');
+        if (!is_string($nodeTypeFieldName)) {
+            throw new \RuntimeException('nodeTypeFieldName should be a string');
+        }
+
+        $nodeTypeField = $this->nodeTypesBag->get($nodeTypeName)?->getFieldByName($nodeTypeFieldName);
 
         if (null === $nodeTypeField) {
             throw new BadRequestHttpException('nodeTypeField does not exist.');

@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Console;
 
-use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
-use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Yaml\Yaml;
 
 final class NodeTypesCommand extends Command
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
+        private readonly NodeTypes $nodeTypesBag,
         ?string $name = null,
     ) {
         parent::__construct($name);
@@ -39,38 +39,30 @@ final class NodeTypesCommand extends Command
         $name = $input->getArgument('name');
 
         if ($name) {
-            $nodetype = $this->managerRegistry
-                ->getRepository(NodeType::class)
-                ->findOneByName($name);
+            $nodeType = $this->nodeTypesBag->get(ucfirst($name));
 
-            if (null === $nodetype) {
+            if (!$nodeType instanceof NodeType) {
                 $io->note($name.' node type does not exist.');
 
                 return 0;
             }
-            /** @var array<NodeTypeField> $fields */
-            $fields = $this->managerRegistry->getRepository(NodeTypeField::class)
-                ->findBy([
-                    'nodeType' => $nodetype,
-                ], ['position' => 'ASC']);
 
             $tableContent = [];
-            foreach ($fields as $field) {
+            foreach ($nodeType->getFields() as $field) {
                 $tableContent[] = [
-                    $field->getId(),
                     $field->getLabel(),
                     $field->getName(),
                     str_replace('.type', '', $field->getTypeName()),
                     $field->isVisible() ? 'X' : '',
                     $field->isIndexed() ? 'X' : '',
+                    $field->getSerializationGroups() ? Yaml::dump($field->getSerializationGroups(), 0) : '',
+                    $field->getNormalizationContext() ? Yaml::dump($field->getNormalizationContext(), inline: 1) : '',
+                    $field->getDefaultValues() ? Yaml::dump($field->getDefaultValuesAsArray(), inline: 1) : '',
                 ];
             }
-            $io->table(['Id', 'Label', 'Name', 'Type', 'Visible', 'Index'], $tableContent);
+            $io->table(['Label', 'Name', 'Type', 'Visible', 'Index', 'Ser. groups', 'Context', 'Default values'], $tableContent);
         } else {
-            /** @var array<NodeType> $nodetypes */
-            $nodetypes = $this->managerRegistry
-                ->getRepository(NodeType::class)
-                ->findBy([], ['name' => 'ASC']);
+            $nodetypes = $this->nodeTypesBag->all();
 
             if (0 === count($nodetypes)) {
                 $io->note('No available node-types…');
@@ -80,13 +72,12 @@ final class NodeTypesCommand extends Command
 
             foreach ($nodetypes as $nt) {
                 $tableContent[] = [
-                    $nt->getId(),
                     $nt->getName(),
                     $nt->isVisible() ? 'X' : '',
                 ];
             }
 
-            $io->table(['Id', 'Title', 'Visible'], $tableContent);
+            $io->table(['Title', 'Visible'], $tableContent);
         }
 
         return 0;

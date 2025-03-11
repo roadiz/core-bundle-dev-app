@@ -10,10 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Group selector form field type.
- */
-class MultipleEnumerationType extends AbstractType
+final class MultipleEnumerationType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -34,7 +31,9 @@ class MultipleEnumerationType extends AbstractType
         });
 
         $resolver->setNormalizer('choices', function (Options $options, $choices) {
-            $values = explode(',', $options['nodeTypeField']->getDefaultValues() ?? '');
+            /** @var NodeTypeField $nodeTypeField */
+            $nodeTypeField = $options['nodeTypeField'];
+            $values = $nodeTypeField->getDefaultValuesAsArray();
 
             foreach ($values as $value) {
                 $value = trim($value);

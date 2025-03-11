@@ -37,8 +37,32 @@ use Symfony\Component\Serializer\Attribute as Serializer;
 class NSPage extends NodesSources
 {
     /**
+     * Sub-title.
+     * Sub-title description.
+     */
+    #[Serializer\SerializedName(serializedName: 'subTitle')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Sub-title: Sub-title description')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'sub_title', type: 'string', nullable: true, length: 250)]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\MaxDepth(2)]
+    #[JMS\Type('string')]
+    private ?string $subTitle = null;
+
+    /**
      * Content.
      * Content.
+     * Default values:
+     * allow_h1: false
+     * allow_h2: false
+     * allow_h3: false
+     * allow_h4: false
+     * allow_h5: false
+     * allow_h6: false
+     * allow_list: false
+     * allow_blockquote: false
      */
     #[Serializer\SerializedName(serializedName: 'content')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -50,18 +74,6 @@ class NSPage extends NodesSources
     #[JMS\MaxDepth(2)]
     #[JMS\Type('string')]
     private ?string $content = null;
-
-    /** Sub-title. */
-    #[Serializer\SerializedName(serializedName: 'subTitle')]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[ApiProperty(description: 'Sub-title')]
-    #[Serializer\MaxDepth(2)]
-    #[Gedmo\Versioned]
-    #[ORM\Column(name: 'sub_title', type: 'string', nullable: true, length: 250)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
-    #[JMS\Type('string')]
-    private ?string $subTitle = null;
 
     /** Page color. */
     #[Serializer\SerializedName(serializedName: 'color')]
@@ -133,7 +145,15 @@ class NSPage extends NodesSources
     #[Serializer\Groups(['page_get_by_path'])]
     #[ApiProperty(description: 'References')]
     #[Serializer\MaxDepth(1)]
-    #[Serializer\Context(normalizationContext: ['groups' => ['page_get_by_path', 'urls', 'nodes_sources_base']], groups: ['page_get_by_path'])]
+    #[Serializer\Context(
+        normalizationContext: [
+        'groups' => ['page_get_by_path', 'urls', 'nodes_sources_base'],
+        'skip_null_value' => true,
+        'jsonld_embed_context' => false,
+        'enable_max_depth' => true,
+    ],
+        groups: ['page_get_by_path'],
+    )]
     private ?array $nodeReferencesSources = null;
 
     /**
@@ -206,27 +226,14 @@ class NSPage extends NodesSources
     /**
      * Reference to folders.
      * Default values:
-     * # Entity class name
      * classname: RZ\Roadiz\CoreBundle\Entity\Folder
-     * # Displayable is the method used to display entity name
      * displayable: getName
-     * # Same as Displayable but for a secondary information
      * alt_displayable: getFullPath
-     * # Searchable entity fields
      * searchable:
      *     - folderName
      * orderBy:
-     *     - field: position
-     *       direction: ASC
-     * # Use a proxy entity
-     * # proxy:
-     * #     classname: App\Entity\PositionedFolderGalleryBlock
-     * #     self: nodeSource
-     * #     relation: folder
-     * #     # This order will preserve position
-     * #     orderBy:
-     * #         - field: position
-     * #           direction: ASC
+     *     - { field: position, direction: ASC }
+     *
      * @var \Doctrine\Common\Collections\Collection<int, \RZ\Roadiz\CoreBundle\Entity\Folder>
      */
     #[Serializer\SerializedName(serializedName: 'folderReferences')]
@@ -337,7 +344,8 @@ class NSPage extends NodesSources
     /**
      * Layout.
      * Default values:
-     * dark, transparent
+     * - dark
+     * - transparent
      */
     #[Serializer\SerializedName(serializedName: 'layout')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -359,22 +367,15 @@ class NSPage extends NodesSources
     /**
      * Main user.
      * Default values:
-     * # Entity class name
      * classname: \RZ\Roadiz\CoreBundle\Entity\User
-     * # Displayable is the method used to display entity name
      * displayable: getUsername
-     * # Same as Displayable but for a secondary information
      * alt_displayable: getEmail
-     * # Same as Displayable but for a secondary information
-     * thumbnail: ~
-     * # Searchable entity fields
+     * thumbnail: null
      * searchable:
      *     - username
      *     - email
-     * # This order will only be used for explorer
      * orderBy:
-     *     - field: email
-     *       direction: ASC
+     *     - { field: email, direction: ASC }
      */
     #[Serializer\SerializedName(serializedName: 'mainUser')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -386,25 +387,6 @@ class NSPage extends NodesSources
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[JMS\MaxDepth(2)]
     private ?\RZ\Roadiz\CoreBundle\Entity\User $mainUser = null;
-
-    /**
-     * @return string|null
-     */
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setContent(?string $content): static
-    {
-        $this->content = null !== $content ?
-                    (string) $content :
-                    null;
-        return $this;
-    }
 
     /**
      * @return string|null
@@ -421,6 +403,25 @@ class NSPage extends NodesSources
     {
         $this->subTitle = null !== $subTitle ?
                     (string) $subTitle :
+                    null;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setContent(?string $content): static
+    {
+        $this->content = null !== $content ?
+                    (string) $content :
                     null;
         return $this;
     }
@@ -617,7 +618,8 @@ class NSPage extends NodesSources
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'node_references'
+                        'node_references',
+                        []
                     );
             } else {
                 $this->nodeReferencesSources = [];
@@ -979,6 +981,16 @@ class NSPage extends NodesSources
         return 'Page';
     }
 
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#000000';
+    }
+
     /**
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
@@ -996,7 +1008,7 @@ class NSPage extends NodesSources
     #[JMS\VirtualProperty]
     public function isPublishable(): bool
     {
-        return true;
+        return false;
     }
 
     public function __toString(): string

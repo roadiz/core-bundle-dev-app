@@ -9,7 +9,6 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
 use RZ\Roadiz\CoreBundle\Model\AttributableInterface;
 use RZ\Roadiz\CoreBundle\Model\AttributeValueInterface;
@@ -38,15 +37,13 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
     #[
         ORM\ManyToOne(targetEntity: Node::class, inversedBy: 'attributeValues'),
         ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Groups(['attribute_node']),
         SymfonySerializer\Groups(['attribute_node']),
         SymfonySerializer\MaxDepth(1),
         ApiFilter(BaseFilter\SearchFilter::class, properties: [
             'node' => 'exact',
             'node.id' => 'exact',
             'node.nodeName' => 'exact',
-            'node.nodeType' => 'exact',
-            'node.nodeType.name' => 'exact',
+            'node.nodeTypeName' => 'exact',
         ]),
         ApiFilter(BaseFilter\BooleanFilter::class, properties: [
             'node.visible',
@@ -63,7 +60,6 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
         onDelete: 'SET NULL'
     )]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private ?RealmInterface $realm = null;
 
     public function __construct()

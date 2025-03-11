@@ -1,9 +1,9 @@
-<tr style="--rz-accent-color: {{ node.nodeType.color }};">
+<tr style="--rz-accent-color: {{ getNodeType(node).color }};">
     <td class="nodes-list-item-link">
-        <span class="nodes-list-item-color" style="background-color:{{ node.nodeType.color }};"></span>
+        <span class="nodes-list-item-color" style="background-color:{{ getNodeType(node).color }};"></span>
         <a href="{{ path('nodesEditPage', { nodeId: node.id }) }}">{{ node.nodeSources.first.title|default(node.nodeName) }}</a>
     </td>
-    <td class="mobile-hidden">{{ node.nodeType.displayName }}</td>
+    <td class="mobile-hidden">{{ getNodeType(node).displayName }}</td>
     <td class="mobile-hidden uk-visible-large">
         {% apply spaceless %}
             {% if node.isDraft == true %}

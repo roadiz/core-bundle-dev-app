@@ -7,6 +7,7 @@ namespace RZ\Roadiz\EntityGenerator\Tests;
 use Doctrine\Common\Collections\ArrayCollection;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeResolverInterface;
+use Symfony\Component\Yaml\Yaml;
 
 trait NodeTypeAwareTestTrait
 {
@@ -144,6 +145,10 @@ trait NodeTypeAwareTestTrait
                         ->setExcludedFromSerialization(true)
                         ->setLabel('ForBar hidden nodes field')
                         ->setDescription('Maecenas sed diam eget risus varius blandit sit amet non magna')
+                        ->setDefaultValues(Yaml::dump([
+                            'Mock',
+                            'MockTwo',
+                        ]))
                         ->setIndexed(false),
                     (new SimpleNodeTypeField())
                         ->setName('foo_bar_typed')
@@ -151,13 +156,13 @@ trait NodeTypeAwareTestTrait
                         ->setVirtual(true)
                         ->setLabel('ForBar nodes typed field')
                         ->setIndexed(false)
-                        ->setDefaultValues('MockTwo'),
+                        ->setDefaultValues(Yaml::dump(['MockTwo'])),
                     (new SimpleNodeTypeField())
                         ->setName('layout')
                         ->setTypeName('enum')
                         ->setLabel('ForBar layout enum')
                         ->setIndexed(true)
-                        ->setDefaultValues('layout_odd, layout_odd_big_title, layout_even, layout_even_big_title, layout_media_grid'),
+                        ->setDefaultValues(Yaml::dump(['layout_odd', 'layout_odd_big_title', 'layout_even', 'layout_even_big_title', 'layout_media_grid'])),
                     (new SimpleNodeTypeField())
                         ->setName('foo_many_to_one')
                         ->setTypeName('many_to_one')

@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms;
 
-use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
-use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -26,30 +25,21 @@ use Themes\Rozier\Widgets\TreeWidgetFactory;
  * This form type is not published inside Roadiz CMS as it needs
  * NodeTreeWidget which is part of Rozier Theme.
  */
-class NodeTreeType extends AbstractType
+final class NodeTreeType extends AbstractType
 {
-    protected AuthorizationCheckerInterface $authorizationChecker;
-    protected RequestStack $requestStack;
-    protected ManagerRegistry $managerRegistry;
-    protected TreeWidgetFactory $treeWidgetFactory;
-
     public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
-        RequestStack $requestStack,
-        ManagerRegistry $managerRegistry,
-        TreeWidgetFactory $treeWidgetFactory,
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly RequestStack $requestStack,
+        private readonly TreeWidgetFactory $treeWidgetFactory,
+        private readonly DecoratedNodeTypes $nodeTypesBag,
     ) {
-        $this->authorizationChecker = $authorizationChecker;
-        $this->requestStack = $requestStack;
-        $this->treeWidgetFactory = $treeWidgetFactory;
-        $this->managerRegistry = $managerRegistry;
     }
 
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         parent::finishView($view, $form, $options);
 
-        if (AbstractField::CHILDREN_T !== $options['nodeTypeField']->getType()) {
+        if (FieldType::CHILDREN_T !== $options['nodeTypeField']->getType()) {
             throw new \RuntimeException('Given field is not a NodeTypeField::CHILDREN_T field.', 1);
         }
 
@@ -62,16 +52,16 @@ class NodeTreeType extends AbstractType
         /*
          * Linked types to create quick add buttons
          */
-        $defaultValues = explode(',', $options['nodeTypeField']->getDefaultValues() ?? '');
+        /** @var NodeTypeField $nodeTypeField */
+        $nodeTypeField = $options['nodeTypeField'];
+        $defaultValues = $nodeTypeField->getDefaultValuesAsArray();
         foreach ($defaultValues as $key => $value) {
             $defaultValues[$key] = trim($value);
         }
 
-        $nodeTypes = $this->managerRegistry->getRepository(NodeType::class)
-            ->findBy(
-                ['name' => $defaultValues],
-                ['displayName' => 'ASC']
-            );
+        $nodeTypes = array_values(array_filter(array_map(function (string $nodeTypeName) {
+            return $this->nodeTypesBag->get($nodeTypeName);
+        }, $defaultValues)));
 
         $view->vars['linkedTypes'] = $nodeTypes;
 
@@ -83,9 +73,9 @@ class NodeTreeType extends AbstractType
          * If node-type has been used as default values,
          * we need to restrict node-tree display too.
          */
-        if (is_array($nodeTypes) && count($nodeTypes) > 0) {
+        if (count($nodeTypes) > 0) {
             $nodeTree->setAdditionalCriteria([
-                'nodeType' => $nodeTypes,
+                'nodeTypeName' => array_map(fn (NodeType $nodeType) => $nodeType->getName(), $nodeTypes),
             ]);
         }
 

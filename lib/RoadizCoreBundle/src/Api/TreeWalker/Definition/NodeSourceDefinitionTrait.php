@@ -21,6 +21,7 @@ trait NodeSourceDefinitionTrait
 
     protected function getQueryBuilder(
         NodesSources $parent,
+        bool $onlyVisible = true,
     ): QueryBuilder {
         if (!($this->context instanceof NodeSourceWalkerContext)) {
             throw new \InvalidArgumentException('Context should be instance of '.NodeSourceWalkerContext::class);
@@ -50,7 +51,7 @@ trait NodeSourceDefinitionTrait
             ->setParameter('parent', $parent->getNode())
             ->setParameter('translation', $parent->getTranslation());
 
-        if ($this->onlyVisible) {
+        if ($onlyVisible) {
             $qb->andWhere(EntityRepository::NODE_ALIAS.'.visible = :visible')
                 ->setParameter('visible', true);
         }

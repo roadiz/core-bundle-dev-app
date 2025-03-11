@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Css editor form field type.
  */
-class CssType extends AbstractType
+final class CssType extends AbstractType
 {
     public function getParent(): ?string
     {

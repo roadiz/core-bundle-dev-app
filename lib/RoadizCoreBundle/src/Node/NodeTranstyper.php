@@ -11,8 +11,8 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
@@ -28,6 +28,7 @@ final class NodeTranstyper
 
     public function __construct(
         ManagerRegistry $managerRegistry,
+        private readonly NodeTypes $nodeTypesBag,
         ?LoggerInterface $logger = null,
     ) {
         $this->logger = $logger ?? new NullLogger();
@@ -74,7 +75,7 @@ final class NodeTranstyper
          * to find data that can be transferred during trans-typing.
          */
         $fieldAssociations = [];
-        $oldFields = $node->getNodeType()->getFields();
+        $oldFields = $this->nodeTypesBag->get($node->getNodeTypeName())?->getFields() ?? [];
 
         foreach ($oldFields as $oldField) {
             $matchingField = $this->getMatchingNodeTypeField($oldField, $destinationNodeType);
@@ -129,7 +130,7 @@ final class NodeTranstyper
             $this->logger->debug('Transtyped: '.$existingSource->getTranslation()->getLocale());
         }
 
-        $node->setNodeType($destinationNodeType);
+        $node->setNodeTypeName($destinationNodeType->getName());
 
         return $node;
     }
@@ -178,7 +179,7 @@ final class NodeTranstyper
                 $setter = $oldField->getSetterName();
                 $getter = $oldField->getGetterName();
                 $source->$setter($existingSource->$getter());
-            } elseif (AbstractField::DOCUMENTS_T === $oldField->getType()) {
+            } elseif ($oldField->isDocuments()) {
                 /*
                  * Copy documents.
                  */
@@ -240,7 +241,7 @@ final class NodeTranstyper
          * transtype, not to get an orphan node.
          */
         $node = new Node();
-        $node->setNodeType($nodeType);
+        $node->setNodeTypeName($nodeType->getName());
         $node->setNodeName('testing_before_transtype'.$uniqueId);
         $this->getManager()->persist($node);
 

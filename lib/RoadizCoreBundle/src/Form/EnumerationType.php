@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Group selector form field type.
  */
-class EnumerationType extends AbstractType
+final class EnumerationType extends AbstractType
 {
     public function configureOptions(OptionsResolver $resolver): void
     {
@@ -27,7 +27,7 @@ class EnumerationType extends AbstractType
         $resolver->setAllowedTypes('nodeTypeField', [NodeTypeField::class]);
 
         $resolver->setNormalizer('choices', function (Options $options, $choices) {
-            $values = explode(',', $options['nodeTypeField']->getDefaultValues() ?? '');
+            $values = $options['nodeTypeField']->getDefaultValuesAsArray();
 
             foreach ($values as $value) {
                 $value = trim($value);

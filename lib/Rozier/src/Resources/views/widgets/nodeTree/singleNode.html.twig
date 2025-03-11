@@ -7,7 +7,7 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
 {% else %}
     {% set name = node.nodeName|replace({'${':'--'}) %} {# Remove VueJS placeholder marks #}
 {% endif %}
-{% set type = node.nodeType.name %}
+{% set type = getNodeType(node) %}
 
 {% set classes = [
     type|lower,
@@ -16,13 +16,13 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
 
 {% set classes = classes|merge(['uk-nestable-item']) %}
 {% if not node.isHidingChildren and
-    not node.nodeType.isHidingNodes and
-    not node.nodeType.isHidingNonReachableNodes %}
+    not type.isHidingNodes and
+    not type.isHidingNonReachableNodes %}
     {# Get children using EntityListManager for more control. #}
     {% set children = nodeTree.getChildrenNodes(node, true) %}
 {% elseif not node.isHidingChildren and
-    not node.nodeType.isHidingNodes and
-    node.nodeType.isHidingNonReachableNodes %}
+    not type.isHidingNodes and
+    type.isHidingNonReachableNodes %}
     {# Get children using EntityListManager for more control. #}
     {% set children = nodeTree.getReachableChildrenNodes(node, true) %}
 {% else %}
@@ -48,14 +48,14 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
 {% if not node.isPublished %}{% set innerClasses = innerClasses|merge(['unpublished-node']) %}{% endif %}
 {% if not node.isArchived %}{% set innerClasses = innerClasses|merge(['archived-node']) %}{% endif %}
 {% if not node.isLocked %}{% set innerClasses = innerClasses|merge(['locked-node']) %}{% endif %}
-{% if nodeTree.isStackTree and node.nodeType.isPublishable and source.publishedAt %}
+{% if nodeTree.isStackTree and type.isPublishable and source.publishedAt %}
     {% set innerClasses = innerClasses|merge(['datetime-publishable']) %}
     {% if source.publishedAt > date() %}
         {% set innerClasses = innerClasses|merge(['datetime-publishable-future']) %}
     {% endif %}
 {% endif %}
 
-<li style="--rz-accent-color: {{ node.nodeType.color }};" data-node-id="{{ node.id }}" class="{{ classes|join(' ') }}">
+<li style="--rz-accent-color: {{ type.color }};" data-node-id="{{ node.id }}" class="{{ classes|join(' ') }}">
     {% if not mainNodeTree and not nodeTree.isStackTree %}
         <span class="nodetree-list-item-color"></span>
     {% endif %}
@@ -64,13 +64,17 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
             {# Disable nestable handling if node-tree prevents reordering on root level only #}
             <div class="{% if canReorder %}uk-nestable-handle{% else %}non-nestable-handle{% endif %}"
                 {%- if not mainNodeTree and not nodeTree.isStackTree -%}
-                title="{{ node.nodeType.displayName }}"
+                title="{{ type.displayName }}"
                 data-uk-tooltip="{animation:true}"{%- endif -%}>
                 {% if not mainNodeTree and not nodeTree.isStackTree %}
                     {% set thumbnail = nodeTree.getOneDisplayableDocument(node) %}
                     {% if thumbnail %}
                         <figure class="nodetree-element-img">
-                            {{ thumbnail|display({"fit":"60x60", "quality": 70}) }}
+                            {{ thumbnail|display({
+                                "fit":"60x60",
+                                "align": thumbnail.imageCropAlignment,
+                                "quality": 70
+                            }) }}
                         </figure>
                     {% endif %}
                 {% endif %}
@@ -87,7 +91,7 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
                 {% elseif node.isHome and node.isHidingChildren %}
                     <i class="uk-icon-rz-building"></i>
                 {% endif %}
-                {% if nodeTree.isStackTree and node.nodeType.isPublishable and source.publishedAt %}
+                {% if nodeTree.isStackTree and type.isPublishable and source.publishedAt %}
                     <div class="nodetree-published-at uk-badge">
                         <i class="uk-icon-clock-o"></i> {{ source.publishedAt|format_date('short', locale=app.request.locale) }}
                     </div>
@@ -154,7 +158,7 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
     {% if not mainNodeTree and not nodeTree.isStackTree %}
         {% set subListClasses = subListClasses|merge(['children-node-widget-list']) %}
     {% endif %}
-    {% if node.isHidingChildren or node.nodeType.isHidingNodes or not children %}
+    {% if node.isHidingChildren or type.isHidingNodes or not children %}
         {% set subListClasses = subListClasses|merge(['empty']) %}
     {% endif %}
     {% apply spaceless %}

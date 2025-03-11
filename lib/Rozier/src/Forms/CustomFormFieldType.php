@@ -5,18 +5,20 @@ declare(strict_types=1);
 namespace Themes\Rozier\Forms;
 
 use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Form\DataListTextType;
 use RZ\Roadiz\CoreBundle\Form\MarkdownType;
 use RZ\Roadiz\CoreBundle\Repository\CustomFormFieldRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CustomFormFieldType extends AbstractType
+final class CustomFormFieldType extends AbstractType
 {
     public function __construct(
         private readonly CustomFormFieldRepository $customFormFieldRepository,
@@ -46,10 +48,12 @@ class CustomFormFieldType extends AbstractType
                 'required' => false,
                 'help' => 'label_for_field_with_empty_data',
             ])
-            ->add('type', ChoiceType::class, [
+            ->add('type', EnumType::class, [
                 'label' => 'type',
                 'required' => true,
-                'choices' => array_flip(CustomFormField::$typeToHuman),
+                'class' => FieldType::class,
+                'choice_label' => fn (FieldType $fieldType) => $fieldType->toHuman(),
+                'choice_filter' => fn (FieldType $fieldType) => \in_array($fieldType, CustomFormField::$availableTypes),
             ])
             ->add('required', CheckboxType::class, [
                 'label' => 'required',

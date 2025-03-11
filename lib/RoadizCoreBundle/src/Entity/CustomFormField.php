@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Repository\CustomFormFieldRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation as SymfonySerializer;
@@ -31,20 +31,23 @@ use Symfony\Component\Validator\Constraints\Choice;
 ]
 class CustomFormField extends AbstractField
 {
-    public static array $typeToHuman = [
-        AbstractField::STRING_T => 'string.type',
-        AbstractField::DATETIME_T => 'date-time.type',
-        AbstractField::DATE_T => 'date.type',
-        AbstractField::TEXT_T => 'text.type',
-        AbstractField::MARKDOWN_T => 'markdown.type',
-        AbstractField::BOOLEAN_T => 'boolean.type',
-        AbstractField::INTEGER_T => 'integer.type',
-        AbstractField::DECIMAL_T => 'decimal.type',
-        AbstractField::EMAIL_T => 'email.type',
-        AbstractField::ENUM_T => 'single-choice.type',
-        AbstractField::MULTIPLE_T => 'multiple-choice.type',
-        AbstractField::COUNTRY_T => 'country.type',
-        AbstractField::DOCUMENTS_T => 'documents.type',
+    /**
+     * @var array<int, FieldType>
+     */
+    public static array $availableTypes = [
+        FieldType::BOOLEAN_T,
+        FieldType::COUNTRY_T,
+        FieldType::DATETIME_T,
+        FieldType::DATE_T,
+        FieldType::DECIMAL_T,
+        FieldType::DOCUMENTS_T,
+        FieldType::EMAIL_T,
+        FieldType::ENUM_T,
+        FieldType::INTEGER_T,
+        FieldType::MARKDOWN_T,
+        FieldType::MULTIPLE_T,
+        FieldType::STRING_T,
+        FieldType::TEXT_T,
     ];
 
     #[
@@ -184,6 +187,14 @@ class CustomFormField extends AbstractField
     public function __toString(): string
     {
         return (string) $this->getId();
+    }
+
+    /**
+     * CustomFormField should use a comma separated string to store default values. For simplicity.
+     */
+    public function getDefaultValuesAsArray(): array
+    {
+        return array_values(array_filter(array_map('trim', explode(',', $this->defaultValues ?? ''))));
     }
 
     public function __clone()

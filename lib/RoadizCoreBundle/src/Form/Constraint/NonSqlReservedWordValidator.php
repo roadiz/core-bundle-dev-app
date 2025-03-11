@@ -8,7 +8,7 @@ use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class NonSqlReservedWordValidator extends ConstraintValidator
+final class NonSqlReservedWordValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {

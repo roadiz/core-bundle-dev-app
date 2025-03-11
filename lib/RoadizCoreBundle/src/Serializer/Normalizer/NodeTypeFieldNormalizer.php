@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\Exception\ExceptionInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Yaml\Yaml;
 
-final readonly class NodeTypeFieldNormalizer implements NormalizerInterface
+final readonly class NodeTypeFieldNormalizer implements NormalizerInterface, DenormalizerInterface
 {
     public function __construct(
         #[Autowire(service: 'serializer.normalizer.object')]
         private NormalizerInterface $normalizer,
+        #[Autowire(service: 'serializer.normalizer.object')]
+        private DenormalizerInterface $denormalizer,
     ) {
     }
 
@@ -54,5 +58,24 @@ final readonly class NodeTypeFieldNormalizer implements NormalizerInterface
         return [
             NodeTypeField::class => false,
         ];
+    }
+
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): NodeTypeField
+    {
+        $object = $this->denormalizer->denormalize($data, $type, $format, $context);
+
+        if ($object instanceof NodeTypeField && is_string($data['type'])) {
+            $object->setType(FieldType::fromHuman($data['type'])->value);
+        }
+        if (isset($data['defaultValues']) && is_array($data['defaultValues'])) {
+            $object->setDefaultValues(Yaml::dump($data['defaultValues']));
+        }
+
+        return $object;
+    }
+
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
+    {
+        return $this->denormalizer->supportsDenormalization($data, $type, $format);
     }
 }

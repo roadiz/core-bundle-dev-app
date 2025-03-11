@@ -341,6 +341,9 @@ class NSMock extends NodesSources
      * @var \mock\Entity\NodesSources[]|null
      * ForBar hidden nodes field.
      * Maecenas sed diam eget risus varius blandit sit amet non magna.
+     * Default values:
+     * - Mock
+     * - MockTwo
      */
     #[JMS\Exclude]
     private ?array $fooBarHiddenSources = null;
@@ -350,7 +353,7 @@ class NSMock extends NodesSources
      * @var \tests\mocks\GeneratedNodesSources\NSMockTwo[]|null
      * ForBar nodes typed field.
      * Default values:
-     * MockTwo
+     * - MockTwo
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'fooBarTyped')]
@@ -362,7 +365,11 @@ class NSMock extends NodesSources
     /**
      * ForBar layout enum.
      * Default values:
-     * layout_odd, layout_odd_big_title, layout_even, layout_even_big_title, layout_media_grid
+     * - layout_odd
+     * - layout_odd_big_title
+     * - layout_even
+     * - layout_even_big_title
+     * - layout_media_grid
      */
     #[Serializer\SerializedName(serializedName: 'layout')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -788,7 +795,8 @@ class NSMock extends NodesSources
                     ->getRepository(\mock\Entity\NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'foo_bar'
+                        'foo_bar',
+                        []
                     );
             } else {
                 $this->fooBarSources = [];
@@ -823,7 +831,8 @@ class NSMock extends NodesSources
                     ->getRepository(\mock\Entity\NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'foo_bar_hidden'
+                        'foo_bar_hidden',
+                        [\tests\mocks\GeneratedNodesSources\NSMock::class, \tests\mocks\GeneratedNodesSources\NSMockTwo::class]
                     );
             } else {
                 $this->fooBarHiddenSources = [];
@@ -858,7 +867,8 @@ class NSMock extends NodesSources
                     ->getRepository(\tests\mocks\GeneratedNodesSources\NSMockTwo::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'foo_bar_typed'
+                        'foo_bar_typed',
+                        []
                     );
             } else {
                 $this->fooBarTypedSources = [];
@@ -1031,6 +1041,16 @@ class NSMock extends NodesSources
     public function getNodeTypeName(): string
     {
         return 'Mock';
+    }
+
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '';
     }
 
     /**

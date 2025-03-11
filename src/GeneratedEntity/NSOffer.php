@@ -87,7 +87,7 @@ class NSOffer extends NodesSources
     /**
      * Layout.
      * Default values:
-     * dark
+     * - dark
      */
     #[Serializer\SerializedName(serializedName: 'layout')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -199,6 +199,16 @@ class NSOffer extends NodesSources
     public function getNodeTypeName(): string
     {
         return 'Offer';
+    }
+
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#ff0000';
     }
 
     /**

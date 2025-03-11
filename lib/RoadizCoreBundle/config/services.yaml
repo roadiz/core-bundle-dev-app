@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.4.18'
+    roadiz_core.cms_version: '2.5.0'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -34,9 +34,6 @@ services:
             $projectDir: '%kernel.project_dir%'
             $exportDir: '%kernel.project_dir%/var/export'
             $generatedEntitiesDir: '%roadiz_core.generated_entities_dir%'
-            $serializedNodeTypesDir: '%roadiz_core.serialized_node_types_dir%'
-            $importFilesConfigPath: '%roadiz_core.import_files_config_path%'
-            $kernelProjectDir: '%kernel.project_dir%'
             $apiResourcesDir: '%kernel.project_dir%/config/api_resources'
             $nodeTypesDir: '%kernel.project_dir%/config/node_types'
             $debug: '%kernel.debug%'
@@ -146,6 +143,8 @@ services:
         autowire: true
         public: true
 
+    RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface:
+        class: RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactory
 
     RZ\Roadiz\CoreBundle\Api\OpenApi\PreviewDecorator:
         decorates: 'api_platform.openapi.factory'
@@ -204,13 +203,13 @@ services:
 
     # Tag
     # requires DocumentNormalizer
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagNormalizer:
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagTranslationNormalizer:
         # By default, .inner is passed as argument
         decorates: 'api_platform.jsonld.normalizer.item'
         decoration_priority: 18
     # Need a different name to avoid duplicate YAML key
     roadiz_core.serializer.normalizer.tag.json:
-        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagNormalizer'
+        class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\TagTranslationNormalizer'
         decorates: 'api_platform.serializer.normalizer.item'
         decoration_priority: 18
 
@@ -246,7 +245,31 @@ services:
     # NodesTypes
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodeTypeFieldNormalizer:
         tags:
-              - { name: 'serializer.normalizer', priority: 5 }
+            - { name: 'serializer.normalizer', priority: 5 }
+    # FieldType enum
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\FieldTypeNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
+    # Group
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\GroupNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
+    # Role
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\RoleNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
+    # Attribute
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
+    # AttributeGroup
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeGroupNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 4 }
+    # Translation
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\TranslationNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 5 }
     # Need a different name to avoid duplicate YAML key
     roadiz_core.serializer.normalizer.nodes_sources_path.json:
         class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\NodesSourcesPathNormalizer'
@@ -455,23 +478,28 @@ services:
         class: RZ\Roadiz\Random\TokenGenerator
 
     JMS\Serializer\Construction\ObjectConstructorInterface:
+        deprecated:
+            package: roadiz/core-bundle
+            version: 2.5.0
+            message: 'The "%alias_id%" service is deprecated and will be removed in Roadiz 2.6.'
         alias: RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor
 
     RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ChainDoctrineObjectConstructor:
         decorates: jms_serializer.doctrine_object_constructor
+        deprecated:
+            package: roadiz/core-bundle
+            version: 2.5.0
+            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.6.'
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor'
             - [
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TranslationObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\AttributeObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TagObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeTypeObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingObjectConstructor',
-                    '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\SettingGroupObjectConstructor'
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TranslationObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\AttributeObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TagObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
+                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
             ]
 
     Solarium\Core\Client\Client:
@@ -492,13 +520,9 @@ services:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\GroupsImporter:
         tags: ['roadiz_core.importer']
-    RZ\Roadiz\CoreBundle\Importer\NodeTypesImporter:
-        tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\RolesImporter:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\SettingsImporter:
-        tags: ['roadiz_core.importer']
-    RZ\Roadiz\CoreBundle\Importer\TagsImporter:
         tags: ['roadiz_core.importer']
 
     #
@@ -661,6 +685,9 @@ services:
     RZ\Roadiz\CoreBundle\Node\NodeNamePolicyFactory: ~
     RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface:
         factory: ['@RZ\Roadiz\CoreBundle\Node\NodeNamePolicyFactory', 'create']
+
+    RZ\Roadiz\CoreBundle\Repository\NodeTypeRepositoryInterface:
+        class: 'RZ\Roadiz\CoreBundle\Repository\NodeTypeFilesRepository'
 
     #
     # Workflows

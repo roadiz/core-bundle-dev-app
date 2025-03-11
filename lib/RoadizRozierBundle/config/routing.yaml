@@ -52,6 +52,11 @@ nodeTypeFieldsRoutes:
     resource: "routing/node-type-fields.yml"
     prefix: /rz-admin/node-types/fields
 
+# Node type DECORATORS
+nodeTypeDecoratorsRoutes:
+    resource: "routing/node-type-decorators.yml"
+    prefix: /rz-admin/node-types/decorators
+
 # SETTINGS
 settingsHomePage:
     path:     /rz-admin/settings
@@ -198,9 +203,9 @@ searchNodePage:
     path:     /rz-admin/search
     controller: Themes\Rozier\Controllers\SearchController::searchNodeAction
 searchNodeSourcePage:
-    path:     /rz-admin/search/{nodetypeId}
+    path:     /rz-admin/search/{nodeTypeName}
     controller: Themes\Rozier\Controllers\SearchController::searchNodeSourceAction
-    requirements: { nodetypeId : "[0-9]+" }
+    requirements: { nodeTypeName : "[a-zA-Z]+" }
 
 webhooksHomePage:
     path:     /rz-admin/webhooks
@@ -216,5 +221,5 @@ webhooksRoutes:
 #
 loginImagePage:
     path: /css/login/image
-    controller: Themes\Rozier\Controllers\LoginController::imageAction
+    controller: RZ\Roadiz\RozierBundle\Controller\Login\LoginImageController::imageAction
 

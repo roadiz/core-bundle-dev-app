@@ -9,13 +9,10 @@ use League\Flysystem\FilesystemOperator;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-class UniqueFilenameValidator extends ConstraintValidator
+final class UniqueFilenameValidator extends ConstraintValidator
 {
-    protected FilesystemOperator $documentsStorage;
-
-    public function __construct(FilesystemOperator $documentsStorage)
+    public function __construct(private readonly FilesystemOperator $documentsStorage)
     {
-        $this->documentsStorage = $documentsStorage;
     }
 
     /**

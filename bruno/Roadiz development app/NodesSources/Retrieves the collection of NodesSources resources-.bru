@@ -7,10 +7,14 @@ meta {
 get {
   url: {{baseUrl}}/api/nodes_sources
   body: none
-  auth: bearer
+  auth: inherit
 }
 
 params:query {
+  ~node.nodeType.publishable: 1
+  ~publishable: 1
+  ~reachable: 1
+  ~node.nodeType.reachable: 1
   ~page: 
   ~itemsPerPage: 
   ~properties[]: 
@@ -32,8 +36,6 @@ params:query {
   ~node.nodesTags.tag.tagName[]: 
   ~node.nodeType: 
   ~node.nodeType[]: 
-  ~node.nodeType.name: 
-  ~node.nodeType.name[]: 
   ~translation.id: 
   ~translation.id[]: 
   ~translation.locale: 
@@ -58,8 +60,6 @@ params:query {
   ~noIndex: 
   ~node.visible: 
   ~node.home: 
-  ~node.nodeType.reachable: 
-  ~node.nodeType.publishable: 
   ~node.position: 
   ~node.position[]: 
   ~node.position[between]: 
@@ -78,8 +78,4 @@ params:query {
   ~intersect[node.nodesTags.tag.tagName]: 
   ~intersect[node.nodesTags.tag.tagName][]: 
   ~_preview: 
-}
-
-auth:bearer {
-  token: {{token}}
 }

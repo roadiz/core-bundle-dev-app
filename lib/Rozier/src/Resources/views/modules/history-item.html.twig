@@ -83,7 +83,7 @@
                             <dd>{{ log.username }}</dd>
                         {% endif %}
                         {% for key, data in log.additionalData %}
-                            {% if data is not iterable %}
+                            {% if data and data is not iterable %}
                                 <dt>{{ key|trans }}</dt>
                                 <dd>{{ data|u.truncate(140, '[…]') }}</dd>
                             {% endif %}

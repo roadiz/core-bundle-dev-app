@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\Filter;
 
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
-use ApiPlatform\Exception\FilterValidationException;
+use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -54,11 +54,11 @@ final class LocaleFilter extends GeneratedEntityFilter
         }
 
         if (0 === count($supportedLocales)) {
-            throw new FilterValidationException(['Locale filter is not available because no translation exist.']);
+            throw new InvalidArgumentException('Locale filter is not available because no translation exist.');
         }
 
         if (!in_array($value, $supportedLocales)) {
-            throw new FilterValidationException([sprintf('Locale filter value "%s" not supported. Supported values are %s', $value, implode(', ', $supportedLocales))]);
+            throw new InvalidArgumentException(sprintf('Locale filter value "%s" not supported. Supported values are %s', $value, implode(', ', $supportedLocales)));
         }
 
         /*
@@ -79,7 +79,7 @@ final class LocaleFilter extends GeneratedEntityFilter
             }
 
             if (null === $translation) {
-                throw new FilterValidationException(['No translation exist for locale: '.$value]);
+                throw new InvalidArgumentException('No translation exist for locale: '.$value);
             }
 
             $queryBuilder

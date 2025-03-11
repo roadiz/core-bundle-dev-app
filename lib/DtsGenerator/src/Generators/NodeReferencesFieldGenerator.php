@@ -23,10 +23,11 @@ final class NodeReferencesFieldGenerator extends AbstractFieldGenerator
      */
     private function getLinkedNodeTypes(): array
     {
-        if (null === $this->field->getDefaultValues()) {
-            return [];
+        $nodeTypeNames = $this->field->getDefaultValuesAsArray();
+
+        if (0 === count($nodeTypeNames)) {
+            return $nodeTypeNames;
         }
-        $nodeTypeNames = explode(',', $this->field->getDefaultValues());
 
         return array_values(array_filter(array_map(function (string $name) {
             $nodeType = $this->nodeTypesBag->get(trim($name));
@@ -51,8 +52,8 @@ final class NodeReferencesFieldGenerator extends AbstractFieldGenerator
     protected function getIntroductionLines(): array
     {
         $lines = parent::getIntroductionLines();
-        if (!empty($this->field->getDefaultValues())) {
-            $lines[] = 'Possible values: '.$this->field->getDefaultValues();
+        if (!empty($this->field->getDefaultValuesAsArray())) {
+            $lines[] = 'Possible values: '.json_encode($this->field->getDefaultValuesAsArray());
         }
 
         return $lines;

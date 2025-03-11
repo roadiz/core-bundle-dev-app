@@ -8,7 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
-use RZ\Roadiz\CoreBundle\ListManager\EntityListManager;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\Documents\Events\DocumentInFolderEvent;
@@ -26,7 +26,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Themes\Rozier\RozierApp;
 
 class DocumentPublicListController extends AbstractController
 {
@@ -36,6 +35,7 @@ class DocumentPublicListController extends AbstractController
         private readonly LogTrail $logTrail,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly FormFactoryInterface $formFactory,
+        private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
         private readonly array $documentPlatforms,
     ) {
     }
@@ -123,22 +123,13 @@ class DocumentPublicListController extends AbstractController
         }
         $assignation['joinFolderForm'] = $joinFolderForm->createView();
 
-        $listManager = new EntityListManager(
-            $request,
-            $this->managerRegistry->getManagerForClass(Document::class),
+        $listManager = $this->entityListManagerFactory->createAdminEntityListManager(
             Document::class,
             $prefilters,
             ['createdAt' => 'DESC']
         );
-        $listManager->setDisplayingNotPublishedNodes(true);
-        $listManager->setItemPerPage(RozierApp::DEFAULT_ITEM_PER_PAGE);
-
-        /*
-         * Stored in session
-         */
-        $sessionListFilter = new SessionListFilters('documents_item_per_page');
+        $sessionListFilter = new SessionListFilters('documents_item_per_page', 50);
         $sessionListFilter->handleItemPerPage($request, $listManager);
-
         $listManager->handle();
 
         $assignation['filters'] = $listManager->getAssignation();

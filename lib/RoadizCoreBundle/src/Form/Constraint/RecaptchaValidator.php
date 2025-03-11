@@ -16,7 +16,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * @see https://github.com/thrace-project/form-bundle/blob/master/Validator/Constraint/RecaptchaValidator.php
  */
-class RecaptchaValidator extends ConstraintValidator implements RecaptchaServiceInterface
+final class RecaptchaValidator extends ConstraintValidator implements RecaptchaServiceInterface
 {
     public function __construct(
         protected HttpClientInterface $client,

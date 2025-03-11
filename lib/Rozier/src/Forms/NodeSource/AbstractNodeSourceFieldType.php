@@ -15,11 +15,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class AbstractNodeSourceFieldType extends AbstractType
 {
-    protected ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(protected readonly ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
     /**

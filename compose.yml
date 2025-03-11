@@ -101,6 +101,8 @@ services:
         networks:
             - default
         environment:
+            APP_ENV: dev
+            APP_DEBUG: 1
             PHP_CS_FIXER_IGNORE_ENV: 1
             TRUSTED_PROXIES: ${TRUSTED_PROXIES}
             UID: ${UID}

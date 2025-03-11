@@ -16,6 +16,12 @@
             "role": "AD, integrator"
         },
         {
+            "name": "Eliot Lauger",
+            "email": "eliot@roadiz.io",
+            "homepage": "https://www.roadiz.io",
+            "role": "Backend developer"
+        },
+        {
             "name": "Adrien Scholaert",
             "email": "contact@adrienscholaert.fr",
             "homepage": "http://adrienscholaert.fr",
@@ -46,13 +52,14 @@
         "doctrine/orm": "~2.20.0",
         "endroid/qr-code": "^4.0",
         "enshrined/svg-sanitize": "^0.15",
-        "gedmo/doctrine-extensions": "^3.16.1",
+        "gedmo/doctrine-extensions": "^3.19.0",
         "inlinestyle/inlinestyle": "~1.2.7",
         "intervention/image": "^2.5",
         "james-heinrich/getid3": "^1.9",
-        "jms/serializer": "^3.9.0",
-        "jms/serializer-bundle": "^4.2.0",
+        "jms/serializer": "^3.32.3",
+        "jms/serializer-bundle": "^5.5.1",
         "lcobucci/jwt": "^5.3",
+        "lcobucci/clock": "^3.0",
         "league/commonmark": "^2.2.0",
         "league/flysystem": "^3.0",
         "league/flysystem-bundle": "^3.0",
@@ -65,10 +72,10 @@
         "psr/cache": ">=1.0.1",
         "psr/log": ">=1.1",
         "ramsey/uuid": "^4.7",
-        "rezozero/intervention-request-bundle": "~3.0.1",
+        "rezozero/intervention-request-bundle": "~4.0.0",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
-        "roadiz/nodetype-contracts": "~1.1.2",
+        "roadiz/nodetype-contracts": "^2.0.0",
         "rollerworks/password-common-list": "^0.3.0",
         "rollerworks/password-strength-bundle": "^3.0",
         "scheb/2fa-backup-code": "^7.5",
@@ -135,7 +142,6 @@
         "webonyx/graphql-php": "^15.11"
     },
     "require-dev": {
-        "ambroisemaupate/intervention-request": "^4.0",
         "async-aws/simple-s3": "^1.1",
         "doctrine/doctrine-fixtures-bundle": "^3.6",
         "friendsofphp/php-cs-fixer": "^3.64",
@@ -192,7 +198,10 @@
             "RZ\\Roadiz\\UserBundle\\": "lib/RoadizUserBundle/src/",
             "RZ\\Roadiz\\Utils\\": "lib/Models/src/Roadiz/Utils/",
             "Themes\\Rozier\\": "lib/Rozier/src/"
-        }
+        },
+        "files": [
+            "lib/RoadizCoreBundle/deprecated.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -245,8 +254,8 @@
             "require": "6.4.*"
         },
         "branch-alias": {
-            "dev-main": "2.4.x-dev",
-            "dev-develop": "2.5.x-dev"
+            "dev-main": "2.5.x-dev",
+            "dev-develop": "2.6.x-dev"
         }
     },
     "prefer-stable": true

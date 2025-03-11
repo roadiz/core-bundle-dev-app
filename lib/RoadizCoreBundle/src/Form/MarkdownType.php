@@ -10,10 +10,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Markdown editor form field type.
- */
-class MarkdownType extends AbstractType
+final class MarkdownType extends AbstractType
 {
     public function getParent(): ?string
     {
@@ -30,6 +27,7 @@ class MarkdownType extends AbstractType
         parent::buildView($view, $form, $options);
 
         /*
+         * allow_h1: false
          * allow_h2: false
          * allow_h3: false
          * allow_h4: false
@@ -48,6 +46,7 @@ class MarkdownType extends AbstractType
          * allow_preview: false
          */
         $view->vars['attr']['class'] = 'markdown_textarea';
+        $view->vars['attr']['allow_h1'] = $options['allow_h1'];
         $view->vars['attr']['allow_h2'] = $options['allow_h2'];
         $view->vars['attr']['allow_h3'] = $options['allow_h3'];
         $view->vars['attr']['allow_h4'] = $options['allow_h4'];
@@ -70,6 +69,7 @@ class MarkdownType extends AbstractType
     {
         $resolver->setDefaults([
             'required' => false,
+            'allow_h1' => false,
             'allow_h2' => true,
             'allow_h3' => true,
             'allow_h4' => true,
@@ -88,6 +88,7 @@ class MarkdownType extends AbstractType
             'allow_preview' => true,
         ]);
 
+        $resolver->setAllowedTypes('allow_h1', ['boolean']);
         $resolver->setAllowedTypes('allow_h2', ['boolean']);
         $resolver->setAllowedTypes('allow_h3', ['boolean']);
         $resolver->setAllowedTypes('allow_h4', ['boolean']);

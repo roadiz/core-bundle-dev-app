@@ -49,14 +49,23 @@ class NSMenuLink extends NodesSources
      * @var \RZ\Roadiz\CoreBundle\Entity\NodesSources[]|null
      * Référence au nœud (Page ou Bloc de page).
      * Default values:
-     * Page, Article
+     * - Page
+     * - Article
      */
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'linkInternalReference')]
     #[Serializer\Groups(['urls'])]
     #[ApiProperty(description: 'Référence au nœud (Page ou Bloc de page)')]
     #[Serializer\MaxDepth(1)]
-    #[Serializer\Context(normalizationContext: ['groups' => ['urls', 'nodes_sources_base']], groups: ['urls'])]
+    #[Serializer\Context(
+        normalizationContext: [
+        'groups' => ['urls', 'nodes_sources_base'],
+        'skip_null_value' => true,
+        'jsonld_embed_context' => false,
+        'enable_max_depth' => true,
+    ],
+        groups: ['urls'],
+    )]
     private ?array $linkInternalReferenceSources = null;
 
     /**
@@ -105,7 +114,8 @@ class NSMenuLink extends NodesSources
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\NodesSources::class)
                     ->findByNodesSourcesAndFieldNameAndTranslation(
                         $this,
-                        'link_internal_reference'
+                        'link_internal_reference',
+                        [\App\GeneratedEntity\NSPage::class, \App\GeneratedEntity\NSArticle::class]
                     );
             } else {
                 $this->linkInternalReferenceSources = [];
@@ -178,6 +188,16 @@ class NSMenuLink extends NodesSources
     public function getNodeTypeName(): string
     {
         return 'MenuLink';
+    }
+
+    #[JMS\VirtualProperty]
+    #[JMS\Groups(['node_type'])]
+    #[JMS\SerializedName('nodeTypeColor')]
+    #[Serializer\Groups(['node_type'])]
+    #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    public function getNodeTypeColor(): string
+    {
+        return '#6369c2';
     }
 
     /**

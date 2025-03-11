@@ -61,7 +61,9 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
     protected function hasOnlyOneNodeType(): bool
     {
         if (!empty($this->field->getDefaultValues())) {
-            return 1 === count(explode(',', $this->field->getDefaultValues()));
+            $defaultValuesParsed = $this->field->getDefaultValuesAsArray();
+
+            return 1 === count(array_unique($defaultValuesParsed));
         }
 
         return false;
@@ -69,8 +71,9 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
 
     protected function getRepositoryClass(): string
     {
-        if (!empty($this->field->getDefaultValues()) && true === $this->hasOnlyOneNodeType()) {
-            $nodeTypeName = trim(explode(',', $this->field->getDefaultValues())[0]);
+        $defaultValuesParsed = $this->field->getDefaultValuesAsArray();
+        if (count($defaultValuesParsed) > 0 && true === $this->hasOnlyOneNodeType()) {
+            $nodeTypeName = trim(array_values($defaultValuesParsed)[0]);
 
             $nodeType = $this->nodeTypeResolver->get($nodeTypeName);
             if (null !== $nodeType) {
@@ -94,6 +97,26 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
             ->addComment($this->getFieldSourcesName().' NodesSources direct field buffer.')
             ->addComment('@var '.$this->getRepositoryClass().'[]|null');
 
+        $nodeSourceClasses = [];
+        if (!empty($this->field->getDefaultValues())) {
+            $defaultValuesParsed = $this->field->getDefaultValuesAsArray();
+            $nodeTypes = array_map(
+                fn ($nodeTypeName) => $this->nodeTypeResolver->get($nodeTypeName),
+                $defaultValuesParsed
+            );
+            $nodeSourceClasses = array_map(
+                fn ($nodeType) => '\\'.$nodeType->getSourceEntityFullQualifiedClassName().'::class',
+                array_filter($nodeTypes)
+            );
+        }
+        $repositoryClass = $this->getRepositoryClass().'::class';
+        if (1 === count($nodeSourceClasses)) {
+            $repositoryClass = array_shift($nodeSourceClasses);
+            $nodeSourceClasses = '';
+        } else {
+            $nodeSourceClasses = implode(', ', $nodeSourceClasses);
+        }
+
         $this->addFieldAutodoc($property);
         $this->addFieldAttributes($property, $namespace, $this->isExcludingFieldFromJmsSerialization());
 
@@ -106,10 +129,11 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
 if (null === \$this->{$this->getFieldSourcesName()}) {
     if (null !== \$this->objectManager) {
         \$this->{$this->getFieldSourcesName()} = \$this->objectManager
-            ->getRepository({$this->getRepositoryClass()}::class)
+            ->getRepository({$repositoryClass})
             ->findByNodesSourcesAndFieldNameAndTranslation(
                 \$this,
-                '{$this->field->getName()}'
+                '{$this->field->getName()}',
+                [{$nodeSourceClasses}]
             );
     } else {
         \$this->{$this->getFieldSourcesName()} = [];

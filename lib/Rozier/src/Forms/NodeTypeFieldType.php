@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\Forms;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -30,7 +31,7 @@ class NodeTypeFieldType extends AbstractType
         ->add('type', ChoiceType::class, [
             'label' => 'type',
             'required' => true,
-            'choices' => array_flip(NodeTypeField::$typeToHuman),
+            'choices' => array_flip(FieldType::humanValues()),
         ])
         ->add('description', TextType::class, [
             'label' => 'description',

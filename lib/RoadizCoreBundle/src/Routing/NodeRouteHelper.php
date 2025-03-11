@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
+use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\Utils\StringHandler;
@@ -27,6 +28,7 @@ final class NodeRouteHelper
         private readonly PreviewResolverInterface $previewResolver,
         private readonly LoggerInterface $logger,
         private readonly string $defaultControllerClass,
+        private readonly NodeTypes $nodeTypesBag,
         private readonly string $defaultControllerNamespace = '\\App\\Controller',
     ) {
     }
@@ -39,11 +41,12 @@ final class NodeRouteHelper
     public function getController(): ?string
     {
         if (null === $this->controller) {
-            if (!$this->node->getNodeType()->isReachable()) {
+            $nodeType = $this->nodeTypesBag->get($this->node->getNodeTypeName());
+            if (!$nodeType->isReachable()) {
                 return null;
             }
             $controllerClassName = $this->getControllerNamespace().'\\'.
-                StringHandler::classify($this->node->getNodeType()->getName()).
+                StringHandler::classify($nodeType->getName()).
                 'Controller';
 
             if (\class_exists($controllerClassName)) {

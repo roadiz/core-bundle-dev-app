@@ -29,29 +29,29 @@
         "doctrine/doctrine-bundle": "^2.8.1",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "~2.20.0",
-        "gedmo/doctrine-extensions": "^3.16.1",
+        "gedmo/doctrine-extensions": "^3.19.0",
         "inlinestyle/inlinestyle": "~1.2.7",
         "james-heinrich/getid3": "^1.9",
-        "jms/serializer": "^3.9.0",
-        "jms/serializer-bundle": "^4.2.0",
+        "jms/serializer": "^3.32.3",
+        "jms/serializer-bundle": "^5.5.1",
         "league/flysystem": "^3.0",
         "league/flysystem-bundle": "^3.0",
         "lexik/jwt-authentication-bundle": "^3.1.0",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpoffice/phpspreadsheet": "^1.15",
         "ramsey/uuid": "^4.7",
-        "rezozero/intervention-request-bundle": "~3.0.1",
+        "rezozero/intervention-request-bundle": "~4.0.0",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
-        "roadiz/doc-generator": "2.4.*",
-        "roadiz/documents": "2.4.*",
-        "roadiz/dts-generator": "2.4.*",
-        "roadiz/entity-generator": "2.4.*",
-        "roadiz/jwt": "2.4.*",
-        "roadiz/markdown": "2.4.*",
-        "roadiz/models": "2.4.*",
-        "roadiz/nodetype-contracts": "~1.1.2",
-        "roadiz/random": "2.4.*",
+        "roadiz/doc-generator": "2.5.*",
+        "roadiz/documents": "2.5.*",
+        "roadiz/dts-generator": "2.5.*",
+        "roadiz/entity-generator": "2.5.*",
+        "roadiz/jwt": "2.5.*",
+        "roadiz/markdown": "2.5.*",
+        "roadiz/models": "2.5.*",
+        "roadiz/nodetype-contracts": "^2.0.0",
+        "roadiz/random": "2.5.*",
         "rollerworks/password-common-list": "^0.3.0",
         "rollerworks/password-strength-bundle": "^3.0",
         "scienta/doctrine-json-functions": "^4.2",
@@ -122,7 +122,10 @@
     "autoload": {
         "psr-4": {
             "RZ\\Roadiz\\CoreBundle\\": "src/"
-        }
+        },
+        "files": [
+            "deprecated.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -137,8 +140,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.4.x-dev",
-            "dev-develop": "2.5.x-dev"
+            "dev-main": "2.5.x-dev",
+            "dev-develop": "2.6.x-dev"
         }
     }
 }

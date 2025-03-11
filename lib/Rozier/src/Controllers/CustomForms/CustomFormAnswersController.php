@@ -4,67 +4,67 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\CustomForms;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
-use Themes\Rozier\RozierApp;
-use Twig\Error\RuntimeError;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class CustomFormAnswersController extends RozierApp
+#[AsController]
+final class CustomFormAnswersController extends AbstractController
 {
-    /**
-     * List every node-types.
-     *
-     * @throws RuntimeError
-     */
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
+        private readonly TranslatorInterface $translator,
+        private readonly LogTrail $logTrail,
+    ) {
+    }
+
     public function listAction(Request $request, int $customFormId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
-        /*
-         * Manage get request to filter list
-         */
 
-        $customForm = $this->em()->find(
-            CustomForm::class,
-            $customFormId
-        );
+        $customForm = $this->managerRegistry
+            ->getRepository(CustomForm::class)
+            ->find($customFormId);
 
-        $listManager = $this->createEntityListManager(
+        $listManager = $this->entityListManagerFactory->createAdminEntityListManager(
             CustomFormAnswer::class,
             ['customForm' => $customForm],
             ['submittedAt' => 'DESC']
         );
-        $listManager->setDisplayingNotPublishedNodes(true);
         $listManager->handle();
-        $this->assignation['customForm'] = $customForm;
-        $this->assignation['filters'] = $listManager->getAssignation();
-        $this->assignation['custom_form_answers'] = $listManager->getEntities();
 
-        return $this->render('@RoadizRozier/custom-form-answers/list.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/custom-form-answers/list.html.twig', [
+            'customForm' => $customForm,
+            'filters' => $listManager->getAssignation(),
+            'custom_form_answers' => $listManager->getEntities(),
+        ]);
     }
 
-    /**
-     * Return a deletion form for requested node-type.
-     *
-     * @throws RuntimeError
-     */
     public function deleteAction(Request $request, int $customFormAnswerId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS_DELETE');
 
-        $customFormAnswer = $this->em()->find(CustomFormAnswer::class, $customFormAnswerId);
+        $customFormAnswer = $this->managerRegistry
+            ->getRepository(CustomFormAnswer::class)
+            ->find($customFormAnswerId);
 
-        if (null === $customFormAnswer) {
+        if (!$customFormAnswer instanceof CustomFormAnswer) {
             throw new ResourceNotFoundException();
         }
 
-        $this->assignation['customFormAnswer'] = $customFormAnswer;
         $form = $this->buildDeleteForm($customFormAnswer);
         $form->handleRequest($request);
 
@@ -72,11 +72,11 @@ class CustomFormAnswersController extends RozierApp
             $form->isSubmitted()
             && $form->isValid()
         ) {
-            $this->em()->remove($customFormAnswer);
-            $this->em()->flush();
+            $this->managerRegistry->getManager()->remove($customFormAnswer);
+            $this->managerRegistry->getManager()->flush();
 
-            $msg = $this->getTranslator()->trans('customFormAnswer.%id%.deleted', ['%id%' => $customFormAnswer->getId()]);
-            $this->publishConfirmMessage($request, $msg, $customFormAnswer);
+            $msg = $this->translator->trans('customFormAnswer.%id%.deleted', ['%id%' => $customFormAnswer->getId()]);
+            $this->logTrail->publishConfirmMessage($request, $msg, $customFormAnswer);
 
             /*
              * Redirect to update schema page
@@ -87,9 +87,10 @@ class CustomFormAnswersController extends RozierApp
             );
         }
 
-        $this->assignation['form'] = $form->createView();
-
-        return $this->render('@RoadizRozier/custom-form-answers/delete.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/custom-form-answers/delete.html.twig', [
+            'customFormAnswer' => $customFormAnswer,
+            'form' => $form->createView(),
+        ]);
     }
 
     private function buildDeleteForm(CustomFormAnswer $customFormAnswer): FormInterface

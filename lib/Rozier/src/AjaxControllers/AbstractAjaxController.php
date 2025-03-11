@@ -4,22 +4,28 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
-use Themes\Rozier\RozierApp;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Extends common back-office controller, but add a request validation
  * to secure Ajax connexions.
  */
-abstract class AbstractAjaxController extends RozierApp
+abstract class AbstractAjaxController extends AbstractController
 {
+    public const AJAX_TOKEN_INTENTION = 'rozier_ajax';
+
     public function __construct(
+        protected readonly ManagerRegistry $managerRegistry,
         protected readonly SerializerInterface $serializer,
+        protected readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -32,16 +38,15 @@ abstract class AbstractAjaxController extends RozierApp
     {
         $translationId = $request->get('translationId', null);
         if (\is_numeric($translationId) && $translationId > 0) {
-            $translation = $this->em()->find(
-                Translation::class,
-                $translationId
-            );
+            $translation = $this->managerRegistry
+                ->getRepository(Translation::class)
+                ->find($translationId);
             if (null !== $translation) {
                 return $translation;
             }
         }
 
-        return $this->em()->getRepository(Translation::class)->findDefault();
+        return $this->managerRegistry->getRepository(Translation::class)->findDefault();
     }
 
     /**
@@ -96,6 +101,7 @@ abstract class AbstractAjaxController extends RozierApp
                 ['groups' => [
                     'document_display',
                     'explorer_thumbnail',
+                    'node_type:display',
                     'model',
                 ]]
             ),

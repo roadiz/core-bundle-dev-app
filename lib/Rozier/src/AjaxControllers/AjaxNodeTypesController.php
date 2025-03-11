@@ -4,45 +4,32 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Exception\NotSupported;
+use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AjaxNodeTypesController extends AbstractAjaxController
 {
     public function __construct(
+        private readonly DecoratedNodeTypes $nodeTypesBag,
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        ManagerRegistry $managerRegistry,
         SerializerInterface $serializer,
+        TranslatorInterface $translator,
     ) {
-        parent::__construct($serializer);
+        parent::__construct($managerRegistry, $serializer, $translator);
     }
 
-    /**
-     * @return Response JSON response
-     */
-    public function indexAction(Request $request): Response
+    public function indexAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-        $arrayFilter = [];
-
-        /*
-         * Manage get request to filter list
-         */
-        $listManager = $this->createEntityListManager(
-            NodeType::class,
-            $arrayFilter
-        );
-        $listManager->setDisplayingNotPublishedNodes(true);
-        $listManager->setItemPerPage(30);
-        $listManager->handle();
-
-        $nodeTypes = $listManager->getEntities();
+        $nodeTypes = $this->nodeTypesBag->all();
         $documentsArray = $this->normalizeNodeType($nodeTypes);
 
         return $this->createSerializedResponse([
@@ -50,18 +37,14 @@ final class AjaxNodeTypesController extends AbstractAjaxController
             'statusCode' => 200,
             'nodeTypes' => $documentsArray,
             'nodeTypesCount' => count($nodeTypes),
-            'filters' => $listManager->getAssignation(),
+            'filters' => [],
         ]);
     }
 
     /**
      * Get a NodeType list from an array of id.
-     *
-     * @return JsonResponse
-     *
-     * @throws NotSupported
      */
-    public function listAction(Request $request): Response
+    public function listAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
@@ -75,12 +58,9 @@ final class AjaxNodeTypesController extends AbstractAjaxController
         $nodesArray = [];
 
         if (count($cleanNodeTypesName)) {
-            /** @var EntityManager $em */
-            $em = $this->em();
-            $nodeTypes = $em->getRepository(NodeType::class)->findBy([
-                'name' => $cleanNodeTypesName,
-            ]);
-
+            $nodeTypes = array_values(array_filter(array_map(function ($name) {
+                return $this->nodeTypesBag->get($name);
+            }, $cleanNodeTypesName)));
             // Sort array by ids given in request
             $nodesArray = $this->normalizeNodeType($nodeTypes);
         }

@@ -11,7 +11,6 @@ services:
             $addNodeFormTypeClass: '%roadiz_rozier.add_node_form.class%'
             $googleServerId: '%roadiz_core.medias.google_server_id%'
             $soundcloudClientId: '%roadiz_core.medias.soundcloud_client_id%'
-            $allowNodeTypeEdition: '%kernel.debug%'
             $forceSslOnRedirectUri: '%roadiz_rozier.open_id.force_ssl_on_redirect_uri%'
             $useGravatar: '%roadiz_core.use_gravatar%'
             $csvEncoderOptions: '%roadiz_rozier.csv_encoder_options%'
@@ -51,27 +50,16 @@ services:
         exclude:
             - '%roadiz_rozier.theme_dir%/Controllers/LoginRequestController.php'
 
-    Themes\Rozier\Explorer\FoldersProvider:
-        public: true
-    Themes\Rozier\Explorer\SettingsProvider:
-        public: true
-    Themes\Rozier\Explorer\UsersProvider:
-        public: true
+    Themes\Rozier\Explorer\FoldersProvider: ~
+    Themes\Rozier\Explorer\SettingsProvider: ~
+    Themes\Rozier\Explorer\UsersProvider: ~
 
     RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface:
         class: Themes\Rozier\Explorer\ExplorerItemFactory
         autowire: true
         autoconfigure: true
 
-    # Since symfony/dependency-injection 5.1: The "Psr\Container\ContainerInterface" autowiring alias is deprecated.
-    # Define it explicitly in your app if you want to keep using it.
-    Themes\Rozier\Forms\NodeSource\NodeSourceProviderType:
-        autoconfigure: true
-        autowire: false
-        arguments:
-            - '@doctrine'
-            - '@service_container'
-
+    Themes\Rozier\Forms\NodeSource\NodeSourceProviderType: ~
     Themes\Rozier\Widgets\TreeWidgetFactory: ~
     Themes\Rozier\RozierServiceRegistry:
         public: true
