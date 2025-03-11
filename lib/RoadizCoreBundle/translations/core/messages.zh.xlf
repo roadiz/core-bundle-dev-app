@@ -157,6 +157,7 @@
                 <source>login_link</source>
                 <target state="translated">登录链接</target>
             </trans-unit>
+      <!-- History entry params -->
     </body>
   </file>
 </xliff>
