@@ -212,6 +212,48 @@
                 <source>classic.login_password</source>
                 <target state="final">Se connecter avec mot de passe</target>
             </trans-unit>
+
+
+            <trans-unit id="user_id" xml:space="preserve">
+                <source>user_id</source>
+                <target state="translated">ID utilisateur</target>
+            </trans-unit>
+            <trans-unit id="user_email" xml:space="preserve">
+                <source>user_email</source>
+                <target state="translated">E-mail utilisateur</target>
+            </trans-unit>
+            <trans-unit id="user_picture_url" xml:space="preserve">
+                <source>user_picture_url</source>
+                <target state="translated">URL image de profil</target>
+            </trans-unit>
+            <trans-unit id="user_public_name" xml:space="preserve">
+                <source>user_public_name</source>
+                <target state="translated">Pseudonyme utilisateur</target>
+            </trans-unit>
+            <trans-unit id="security" xml:space="preserve">
+                <source>security</source>
+                <target state="translated">Sécurité</target>
+            </trans-unit>
+            <trans-unit id="authenticator" xml:space="preserve">
+                <source>authenticator</source>
+                <target state="translated">Authentificateur</target>
+            </trans-unit>
+            <trans-unit id="entity_title" xml:space="preserve">
+                <source>entity_title</source>
+                <target state="translated">Entity title</target>
+            </trans-unit>
+            <trans-unit id="exception_class" xml:space="preserve">
+                <source>exception_class</source>
+                <target state="translated">Classe de l'exception</target>
+            </trans-unit>
+            <trans-unit id="path" xml:space="preserve">
+                <source>path</source>
+                <target state="translated">Chemin</target>
+            </trans-unit>
+            <trans-unit id="firewall" xml:space="preserve">
+                <source>firewall</source>
+                <target state="translated">Pare-feu</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

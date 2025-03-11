@@ -212,6 +212,47 @@
                 <source>classic.login_password</source>
                 <target state="final">Password login</target>
             </trans-unit>
+
+            <trans-unit id="user_id" xml:space="preserve">
+                <source>user_id</source>
+                <target state="translated">User ID</target>
+            </trans-unit>
+            <trans-unit id="user_email" xml:space="preserve">
+                <source>user_email</source>
+                <target state="translated">User email</target>
+            </trans-unit>
+            <trans-unit id="user_picture_url" xml:space="preserve">
+                <source>user_picture_url</source>
+                <target state="translated">User picture URL</target>
+            </trans-unit>
+            <trans-unit id="user_public_name" xml:space="preserve">
+                <source>user_public_name</source>
+                <target state="translated">User public name</target>
+            </trans-unit>
+            <trans-unit id="security" xml:space="preserve">
+                <source>security</source>
+                <target state="translated">Security</target>
+            </trans-unit>
+            <trans-unit id="authenticator" xml:space="preserve">
+                <source>authenticator</source>
+                <target state="translated">Authenticator</target>
+            </trans-unit>
+            <trans-unit id="entity_title" xml:space="preserve">
+                <source>entity_title</source>
+                <target state="translated">Entity title</target>
+            </trans-unit>
+            <trans-unit id="exception_class" xml:space="preserve">
+                <source>exception_class</source>
+                <target state="translated">Exception class</target>
+            </trans-unit>
+            <trans-unit id="path" xml:space="preserve">
+                <source>path</source>
+                <target state="translated">Path</target>
+            </trans-unit>
+            <trans-unit id="firewall" xml:space="preserve">
+                <source>firewall</source>
+                <target state="translated">Firewall</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

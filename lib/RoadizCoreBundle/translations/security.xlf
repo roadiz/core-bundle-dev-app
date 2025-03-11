@@ -18,6 +18,10 @@
                 <source>Your user account is locked. Contact an administrator.</source>
                 <target />
             </trans-unit>
+            <trans-unit id="User logged in successfully" xml:space="preserve">
+                <source>User logged in successfully.</source>
+                <target />
+            </trans-unit>
         </body>
     </file>
 </xliff>
