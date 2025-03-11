@@ -204,6 +204,7 @@
                 <source>classic.login_password</source>
                 <target state="final">Password login</target>
             </trans-unit>
+      <!-- History entry params -->
     </body>
   </file>
 </xliff>
