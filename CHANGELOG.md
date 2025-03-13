@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.0...v2.5.1) - 2025-03-13
+
+### Bug Fixes
+
+- Fixed ArchiveFilter with invalid filter values - ([61e7aff](https://github.com/roadiz/core-bundle-dev-app/commit/61e7affbe46fd66ff5934d71591d8487102b4ffa))
+
 ## [2.5.0](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.18...v2.5.0) - 2025-03-11
 
 ### ⚠ Breaking changes
