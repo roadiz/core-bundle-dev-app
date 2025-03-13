@@ -19,8 +19,12 @@ roadiz_rozier:
         oauth_client_id: '%env(string:OPEN_ID_CLIENT_ID)%'
         # OpenID identity provider OAuth2 client secret
         oauth_client_secret: '%env(string:OPEN_ID_CLIENT_SECRET)%'
+        scopes:
+            - openid
+            - profile
+            - email
         requires_local_user: true
-        force_ssl_on_redirect_uri: true
+        force_ssl_on_redirect_uri: false
         # Only when local users are not required, creating virtual users
         # with following roles.
         granted_roles:
