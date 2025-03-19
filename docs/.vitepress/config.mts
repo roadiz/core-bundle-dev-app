@@ -59,6 +59,7 @@ export default defineConfig({
                             {text: 'Custom forms', link: '/developer/forms/custom_forms'},
                         ]
                     },
+                    {text: 'Infrastructure', link: '/developer/infrastructure/infrastructure'},
                     {text: 'Contributing', link: '/developer/contributing/contributing'},
                     {text: 'Troubleshooting', link: '/developer/troubleshooting/troubleshooting'},
                 ]
