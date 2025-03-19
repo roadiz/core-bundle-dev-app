@@ -97,7 +97,7 @@ Custom form definition is a **JSON form schema** meant to give your frontend app
 
 Then you can send your data to the **post** endpoint using *FormData* and respecting field hierarchy:
 
-![image](./img/custom_form_post.png){.align-center}
+![image](./img/custom_form_post.webp){.align-center}
 
 ```http
 POST {{baseUrl}}/api/custom_forms/:id/post
@@ -107,18 +107,18 @@ If there are any error, a *JSON* response will give you details fields-by-fields
 
 If post is successful, API will respond an empty `202 Accepted` response
 
-![image](./img/custom_form_post_response.png){.align-center}
+![image](./img/custom_form_post_response.webp){.align-center}
 
 Then you will be able to see all your form submits in Roadiz backoffice :
 
-![image](./img/custom_form_entry.png){.align-left}
+![image](./img/custom_form_entry.webp){.align-left}
 
 In Manage custom forms section / Answers
 
-![image](./img/custom_form_answers.png){.align-center}
+![image](./img/custom_form_answers.webp){.align-center}
 
 ::: tip
 Any file attached to your custom-form answers will be uploaded as private documents.
 :::
 
-![image](./img/custom_form_response.png){.align-center}
+![image](./img/custom_form_response.webp){.align-center}

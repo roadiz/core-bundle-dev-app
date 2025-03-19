@@ -2,7 +2,7 @@
 
 Describes the technical architecture of the website, highlighting the key components, data flows, and interactions between various services.
 
-![image](./schema_infra.jpg)
+![image](./schema_infra.webp)
 
 ## Overview of the Infrastructure
 
