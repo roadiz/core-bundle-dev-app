@@ -42,7 +42,7 @@ export default defineConfig({
                         text: 'Building headless websites using API',
                         collapsed: true,
                         items: [
-                            {text: 'Introduction', link: '/developer/api/index'},
+                            {text: 'Introduction', link: '/developer/api/intro'},
                             {text: 'Exposing node types', link: '/developer/api/exposing_node_types'},
                             {text: 'Serialization', link: '/developer/api/serialization'},
                             {text: 'Web response', link: '/developer/api/web_response'},
