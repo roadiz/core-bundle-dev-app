@@ -297,7 +297,7 @@ You can debug all registered definition factories using `bin/console debug:conta
 ## Retrieve common content
 
 Now that we can fetch each page data, we need to get all unique content for building Menus, Homepage reference, headers, footers, etc.
-We could extend our \_[WebResponse]() to inject theses common data to each request, but it would bloat HTTP responses, and affect API performances.
+We could extend our _WebResponse_ to inject theses common data to each request, but it would bloat HTTP responses, and affect API performances.
 
 For these common content, you can create a `/api/common_content` API endpoint in your project which will fetched only once in your frontend application.
 
@@ -571,9 +571,9 @@ Then, the following resource will be exposed:
 
 You can decorate WebResponse to add custom properties.
 This will require transformation using a custom transformer and your own `App\Api\Model\WebResponse` model object.
-Your \_[transformer]() must implement `RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface`.
+Your _transformer_ must implement `RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface`.
 
-First, override \_[WebResponse]() class and declare it in Roadiz Core configuration:
+First, override _WebResponse_ class and declare it in Roadiz Core configuration:
 
 ```php
 <?php
