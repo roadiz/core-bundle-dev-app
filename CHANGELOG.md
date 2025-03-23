@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.1...v2.5.2) - 2025-03-23
+
+### Bug Fixes
+
+- Do not class alias `RZ\Roadiz\Core\AbstractEntities\AbstractField` is already exists - ([d4e25e2](https://github.com/roadiz/core-bundle-dev-app/commit/d4e25e2b6fc291fc9707a494566e6463d4a174b7))
+
 ## [2.5.1](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.0...v2.5.1) - 2025-03-13
 
 ### Bug Fixes
