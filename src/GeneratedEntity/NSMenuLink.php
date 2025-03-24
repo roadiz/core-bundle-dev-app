@@ -75,7 +75,7 @@ class NSMenuLink extends NodesSources
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'image')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_documents'])]
-    #[ApiProperty(description: 'Image')]
+    #[ApiProperty(description: 'Image', genId: true)]
     #[Serializer\MaxDepth(2)]
     private ?array $image = null;
 
@@ -135,7 +135,7 @@ class NSMenuLink extends NodesSources
     }
 
     /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[]
+     * @return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]
      */
     #[JMS\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_documents'])]
     #[JMS\MaxDepth(2)]
@@ -148,7 +148,7 @@ class NSMenuLink extends NodesSources
             if (null !== $this->objectManager) {
                 $this->image = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndFieldName(
+                    ->findDocumentDtoByNodeSourceAndFieldName(
                         $this,
                         'image'
                     );

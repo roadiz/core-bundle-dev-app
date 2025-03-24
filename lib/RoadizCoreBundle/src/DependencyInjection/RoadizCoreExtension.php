@@ -193,6 +193,7 @@ class RoadizCoreExtension extends Extension
             'translation_class' => Translation::class,
             'namespace' => NodeType::getGeneratedEntitiesNamespace(),
             'use_native_json' => $config['useNativeJsonColumnType'],
+            'use_document_dto' => $config['useDocumentDto'],
             'use_api_platform_filters' => true,
         ];
         $container->setParameter('roadiz_core.entity_generator_factory.options', $entityGeneratorFactoryOptions);

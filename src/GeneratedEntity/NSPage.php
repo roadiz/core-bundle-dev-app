@@ -94,7 +94,7 @@ class NSPage extends NodesSources
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'images')]
     #[Serializer\Groups(['realm_a'])]
-    #[ApiProperty(description: 'Images')]
+    #[ApiProperty(description: 'Images', genId: true)]
     #[Serializer\MaxDepth(2)]
     private ?array $images = null;
 
@@ -106,7 +106,7 @@ class NSPage extends NodesSources
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'headerImage')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_images', 'nodes_sources_documents'])]
-    #[ApiProperty(description: 'Header image')]
+    #[ApiProperty(description: 'Header image', genId: true)]
     #[Serializer\MaxDepth(2)]
     private ?array $headerImage = null;
 
@@ -131,7 +131,7 @@ class NSPage extends NodesSources
     #[JMS\Exclude]
     #[Serializer\SerializedName(serializedName: 'pictures')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_images', 'nodes_sources_documents'])]
-    #[ApiProperty(description: 'Pictures: Picture for website')]
+    #[ApiProperty(description: 'Pictures: Picture for website', genId: true)]
     #[Serializer\MaxDepth(2)]
     private ?array $pictures = null;
 
@@ -446,7 +446,7 @@ class NSPage extends NodesSources
     }
 
     /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[]
+     * @return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]
      */
     #[JMS\Groups(['realm_a'])]
     #[JMS\MaxDepth(2)]
@@ -459,7 +459,7 @@ class NSPage extends NodesSources
             if (null !== $this->objectManager) {
                 $this->images = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndFieldName(
+                    ->findDocumentDtoByNodeSourceAndFieldName(
                         $this,
                         'images'
                     );
@@ -492,7 +492,7 @@ class NSPage extends NodesSources
     }
 
     /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[]
+     * @return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]
      */
     #[JMS\Groups(['nodes_sources', 'nodes_sources_images', 'nodes_sources_documents'])]
     #[JMS\MaxDepth(2)]
@@ -505,7 +505,7 @@ class NSPage extends NodesSources
             if (null !== $this->objectManager) {
                 $this->headerImage = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndFieldName(
+                    ->findDocumentDtoByNodeSourceAndFieldName(
                         $this,
                         'header_image'
                     );
@@ -557,7 +557,7 @@ class NSPage extends NodesSources
     }
 
     /**
-     * @return \RZ\Roadiz\CoreBundle\Entity\Document[]
+     * @return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]
      */
     #[JMS\Groups(['nodes_sources', 'nodes_sources_images', 'nodes_sources_documents'])]
     #[JMS\MaxDepth(2)]
@@ -570,7 +570,7 @@ class NSPage extends NodesSources
             if (null !== $this->objectManager) {
                 $this->pictures = $this->objectManager
                     ->getRepository(\RZ\Roadiz\CoreBundle\Entity\Document::class)
-                    ->findByNodeSourceAndFieldName(
+                    ->findDocumentDtoByNodeSourceAndFieldName(
                         $this,
                         'pictures'
                     );

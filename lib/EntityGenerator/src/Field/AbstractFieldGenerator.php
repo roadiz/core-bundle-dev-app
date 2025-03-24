@@ -142,6 +142,7 @@ abstract class AbstractFieldGenerator
                 'description' => $description,
                 'example' => $this->field->getPlaceholder(),
                 'schema' => $openapiContext ?? null,
+                ...$this->getApiPropertyOptions(),
             ]));
 
             if ($this->getSerializationMaxDepth() > 0) {
@@ -402,5 +403,10 @@ abstract class AbstractFieldGenerator
     protected function isExcludingFieldFromJmsSerialization(): bool
     {
         return true;
+    }
+
+    protected function getApiPropertyOptions(): array
+    {
+        return [];
     }
 }
