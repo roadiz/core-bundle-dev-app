@@ -267,6 +267,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Ignore]
     #[Serializer\Groups(['document', 'document_private', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('bool')]
+    #[ApiFilter(BaseFilter\BooleanFilter::class)]
     private bool $private = false;
     #[ORM\Column(name: 'imageWidth', type: Types::SMALLINT, nullable: false, options: ['default' => 0])]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]

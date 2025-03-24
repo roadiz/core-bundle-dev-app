@@ -157,7 +157,10 @@ trait DocumentTrait
     /**
      * Get short type name for current document Mime type.
      */
-    #[Serializer\Ignore()]
+    #[
+        Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+        Serializer\SerializedName('type'),
+    ]
     public function getShortType(): string
     {
         if (null !== $this->getMimeType() && isset(static::$mimeToIcon[$this->getMimeType()])) {

@@ -46,6 +46,36 @@ class NodesSourcesDocuments extends AbstractPositioned
     protected Document $document;
 
     /**
+     * @var string|null Image crop alignment.
+     *
+     * The possible values are:
+     *
+     * top-left
+     * top
+     * top-right
+     * left
+     * center (default)
+     * right
+     * bottom-left
+     * bottom
+     * bottom-right
+     */
+    #[ORM\Column(name: 'image_crop_alignment', type: 'string', length: 12, nullable: true)]
+    #[Assert\Length(max: 12)]
+    #[Assert\Choice(choices: [
+        'top-left',
+        'top',
+        'top-right',
+        'left',
+        'center',
+        'right',
+        'bottom-left',
+        'bottom',
+        'bottom-right',
+    ])]
+    protected ?string $imageCropAlignment = null;
+
+    /**
      * Create a new relation between NodeSource, a Document and a NodeTypeField.
      *
      * @param NodesSources                $nodeSource NodesSources and inherited types
@@ -105,6 +135,18 @@ class NodesSourcesDocuments extends AbstractPositioned
     public function setDocument(Document $document): NodesSourcesDocuments
     {
         $this->document = $document;
+
+        return $this;
+    }
+
+    public function getImageCropAlignment(): ?string
+    {
+        return $this->imageCropAlignment;
+    }
+
+    public function setImageCropAlignment(?string $imageCropAlignment): NodesSourcesDocuments
+    {
+        $this->imageCropAlignment = $imageCropAlignment;
 
         return $this;
     }

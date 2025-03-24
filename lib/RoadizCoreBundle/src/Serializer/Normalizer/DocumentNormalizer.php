@@ -46,7 +46,6 @@ final class DocumentNormalizer extends AbstractPathNormalizer
             $this->stopwatch->start('normalizeDocument', 'serializer');
             /** @var array<string> $serializationGroups */
             $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
-            $data['type'] = $object->getShortType();
 
             if (
                 !$object->isPrivate()

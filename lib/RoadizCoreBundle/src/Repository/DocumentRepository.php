@@ -22,6 +22,7 @@ use RZ\Roadiz\CoreBundle\Entity\Folder;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Setting;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
+use RZ\Roadiz\CoreBundle\Model\DocumentDto;
 use RZ\Roadiz\Documents\Repository\DocumentRepositoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
@@ -548,6 +549,48 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         $qb->addSelect('dt')
             ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
             ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
+            ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->addOrderBy('nsf.position', 'ASC')
+            ->setParameter('fieldName', $fieldName)
+            ->setParameter('nodeSource', $nodeSource)
+            ->setParameter('translation', $nodeSource->getTranslation())
+            ->setParameter('raw', false)
+            ->setCacheable(true);
+
+        return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @return array<DocumentDto>
+     */
+    public function findDocumentDtoByNodeSourceAndFieldName(
+        NodesSources $nodeSource,
+        string $fieldName,
+    ): array {
+        $qb = $this->createQueryBuilder('d');
+        $qb->addSelect(sprintf(
+            'NEW %s(
+                    d.id,
+                    d.filename,
+                    d.mimeType,
+                    d.imageWidth,
+                    d.imageHeight,
+                    d.mediaDuration,
+                    d.imageAverageColor,
+                    d.folder,
+                    d.imageCropAlignment,
+                    nsf.imageCropAlignment,
+                    dt.name,
+                    dt.description,
+                    dt.copyright,
+                    dt.externalUrl
+                )',
+            DocumentDto::class
+        ))
+            ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
+            ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
+            ->innerJoin('d.folders', 'f')
             ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->addOrderBy('nsf.position', 'ASC')
