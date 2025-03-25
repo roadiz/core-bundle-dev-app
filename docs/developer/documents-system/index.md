@@ -60,7 +60,7 @@ documents are not displayable: PDF, native video, ZIP, etc:
     "thumbnail": {
         "@type": "Document",
         "@id": "/api/documents/xxxxx",
-        "relativePath": "xxxxxxx/img_2004_framed_1080p_2000.png",
+        "relativePath": "xxxxxxx/img_2004_framed_1080p_2000.webp",
         "type": "image",
         "mimeType": "image/png",
         "name": null,
@@ -75,7 +75,7 @@ documents are not displayable: PDF, native video, ZIP, etc:
         "externalUrl": null,
         "processable": true,
         "thumbnail": null,
-        "alt": "img_2004_framed_1080p_2000.png"
+        "alt": "img_2004_framed_1080p_2000.webp"
     },
     "alt": "img_2004_framed_1080p_2000.webm"
 }
@@ -109,7 +109,7 @@ configuration.
     "thumbnail": {
         "@type": "Document",
         "@id": "/api/documents/xxxxx",
-        "relativePath": "xxxxxxxx/img_2004_framed_1080p_2000.png",
+        "relativePath": "xxxxxxxx/img_2004_framed_1080p_2000.webp",
         "type": "image",
         "mimeType": "image/png",
         "name": null,
@@ -124,7 +124,7 @@ configuration.
         "externalUrl": null,
         "processable": true,
         "thumbnail": null,
-        "alt": "img_2004_framed_1080p_2000.png"
+        "alt": "img_2004_framed_1080p_2000.webp"
     },
     "altSources": [
         {
