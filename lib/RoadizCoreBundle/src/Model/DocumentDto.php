@@ -32,6 +32,8 @@ final class DocumentDto
         private readonly ?string $folder = null,
         private readonly ?string $documentImageCropAlignment = null,
         private readonly ?string $nodeSourceDocumentImageCropAlignment = null,
+        private readonly ?array $documentHotspot = null,
+        private readonly ?array $nodeSourceDocumentHotspot = null,
         private readonly ?string $documentTranslationName = null,
         private readonly ?string $documentTranslationDescription = null,
         private readonly ?string $documentTranslationCopyright = null,
@@ -132,6 +134,16 @@ final class DocumentDto
             return $this->nodeSourceDocumentImageCropAlignment;
         } else {
             return $this->documentImageCropAlignment;
+        }
+    }
+
+    #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    public function getHotspot(): ?array
+    {
+        if (null !== $this->nodeSourceDocumentHotspot) {
+            return $this->nodeSourceDocumentHotspot;
+        } else {
+            return $this->documentHotspot;
         }
     }
 

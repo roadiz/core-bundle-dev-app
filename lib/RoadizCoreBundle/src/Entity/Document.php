@@ -128,6 +128,11 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     ])]
     protected ?string $imageCropAlignment = null;
 
+    #[ORM\Column(name: 'hotspot', type: 'json', nullable: true)]
+    #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    protected ?array $hotspot = null;
+
     #[ORM\ManyToOne(
         targetEntity: Document::class,
         cascade: ['all'],
@@ -825,6 +830,17 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     {
         $this->imageCropAlignment = $imageCropAlignment;
 
+        return $this;
+    }
+
+    public function getHotspot(): ?array
+    {
+        return $this->hotspot;
+    }
+
+    public function setHotspot(?array $hotspot): Document
+    {
+        $this->hotspot = $hotspot;
         return $this;
     }
 }

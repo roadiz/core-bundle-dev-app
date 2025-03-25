@@ -581,6 +581,8 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.folder,
                     d.imageCropAlignment,
                     nsf.imageCropAlignment,
+                    d.hotspot,
+                    nsf.hotspot,
                     dt.name,
                     dt.description,
                     dt.copyright,

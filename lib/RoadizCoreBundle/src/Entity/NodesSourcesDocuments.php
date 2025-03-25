@@ -75,6 +75,9 @@ class NodesSourcesDocuments extends AbstractPositioned
     ])]
     protected ?string $imageCropAlignment = null;
 
+    #[ORM\Column(name: 'hotspot', type: 'json', nullable: true)]
+    protected ?array $hotspot = null;
+
     /**
      * Create a new relation between NodeSource, a Document and a NodeTypeField.
      *
@@ -148,6 +151,17 @@ class NodesSourcesDocuments extends AbstractPositioned
     {
         $this->imageCropAlignment = $imageCropAlignment;
 
+        return $this;
+    }
+
+    public function getHotspot(): ?array
+    {
+        return $this->hotspot;
+    }
+
+    public function setHotspot(?array $hotspot): NodesSourcesDocuments
+    {
+        $this->hotspot = $hotspot;
         return $this;
     }
 }
