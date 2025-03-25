@@ -50,15 +50,21 @@ final class DocumentsFieldGenerator extends AbstractFieldGenerator
     public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $getter = $classType->addMethod($this->field->getGetterName())
-            ->setReturnType('array')
-            ->addComment('@return '.$this->options['document_class'].'[]');
+            ->setReturnType('array');
+        if (true === $this->options['use_document_dto']) {
+            $getter->addComment('@return \RZ\Roadiz\CoreBundle\Model\DocumentDto[]');
+            $method = 'findDocumentDtoByNodeSourceAndFieldName';
+        } else {
+            $getter->addComment('@return '.$this->options['document_class'].'[]');
+            $method = 'findByNodeSourceAndFieldName';
+        }
         $this->addSerializationAttributes($getter);
         $getter->setBody(<<<EOF
 if (null === \$this->{$this->field->getVarName()}) {
     if (null !== \$this->objectManager) {
         \$this->{$this->field->getVarName()} = \$this->objectManager
             ->getRepository({$namespace->simplifyName($this->options['document_class'])}::class)
-            ->findByNodeSourceAndFieldName(
+            ->{$method}(
                 \$this,
                 '{$this->field->getName()}'
             );
@@ -101,5 +107,12 @@ PHP
         );
 
         return $this;
+    }
+
+    protected function getApiPropertyOptions(): array
+    {
+        return [
+            'genId' => (true === $this->options['use_document_dto'] ? true : null),
+        ];
     }
 }

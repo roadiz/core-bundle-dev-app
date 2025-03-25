@@ -20,6 +20,7 @@ use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\CopyrightValidFilter;
 use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentTrait;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentTrait;
 use RZ\Roadiz\Documents\Models\FileHashInterface;
@@ -73,6 +74,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Document extends AbstractDateTimed implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface
 {
+    use BaseDocumentTrait;
     use DocumentTrait;
 
     /**
@@ -127,6 +129,11 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         'bottom-right',
     ])]
     protected ?string $imageCropAlignment = null;
+
+    #[ORM\Column(name: 'hotspot', type: 'json', nullable: true)]
+    #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    protected ?array $hotspot = null;
 
     #[ORM\ManyToOne(
         targetEntity: Document::class,
@@ -267,6 +274,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Ignore]
     #[Serializer\Groups(['document', 'document_private', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Type('bool')]
+    #[ApiFilter(BaseFilter\BooleanFilter::class)]
     private bool $private = false;
     #[ORM\Column(name: 'imageWidth', type: Types::SMALLINT, nullable: false, options: ['default' => 0])]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
@@ -823,6 +831,18 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     public function setImageCropAlignment(?string $imageCropAlignment): Document
     {
         $this->imageCropAlignment = $imageCropAlignment;
+
+        return $this;
+    }
+
+    public function getHotspot(): ?array
+    {
+        return $this->hotspot;
+    }
+
+    public function setHotspot(?array $hotspot): Document
+    {
+        $this->hotspot = $hotspot;
 
         return $this;
     }
