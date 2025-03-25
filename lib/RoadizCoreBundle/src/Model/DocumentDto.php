@@ -8,12 +8,12 @@ use ApiPlatform\Metadata\ApiProperty;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use RZ\Roadiz\CoreBundle\Entity\Folder;
-use RZ\Roadiz\Documents\Models\DocumentTrait;
+use RZ\Roadiz\Documents\Models\BaseDocumentTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 final class DocumentDto
 {
-    use DocumentTrait;
+    use BaseDocumentTrait;
 
     /**
      * @var Collection<Folder>
@@ -38,7 +38,6 @@ final class DocumentDto
         private readonly ?string $documentTranslationDescription = null,
         private readonly ?string $documentTranslationCopyright = null,
         private readonly ?string $documentTranslationExternalUrl = null,
-        ?Collection $folders = null,
     ) {
         $this->folders = new ArrayCollection();
     }

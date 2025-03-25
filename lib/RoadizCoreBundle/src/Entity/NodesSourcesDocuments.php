@@ -162,6 +162,7 @@ class NodesSourcesDocuments extends AbstractPositioned
     public function setHotspot(?array $hotspot): NodesSourcesDocuments
     {
         $this->hotspot = $hotspot;
+
         return $this;
     }
 }

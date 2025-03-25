@@ -20,6 +20,7 @@ use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\CopyrightValidFilter;
 use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentTrait;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentTrait;
 use RZ\Roadiz\Documents\Models\FileHashInterface;
@@ -73,6 +74,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Document extends AbstractDateTimed implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface
 {
+    use BaseDocumentTrait;
     use DocumentTrait;
 
     /**
@@ -841,6 +843,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     public function setHotspot(?array $hotspot): Document
     {
         $this->hotspot = $hotspot;
+
         return $this;
     }
 }
