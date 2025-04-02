@@ -584,8 +584,8 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.imageAverageColor,
                     d.folder,
                     d.imageCropAlignment,
-                    nsf.imageCropAlignment,
                     d.hotspot,
+                    nsf.imageCropAlignment,
                     nsf.hotspot,
                     dt.name,
                     dt.description,
@@ -606,6 +606,42 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
             ->setCacheable(true);
 
         return $qb->getQuery()->getResult();
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findFirstThumbnailDtoBy(
+        int|string $originalDocumentId,
+    ): ?DocumentDto {
+        $qb = $this->createQueryBuilder('d');
+        $qb->addSelect(sprintf(
+            'NEW %s(
+                    d.id,
+                    d.filename,
+                    d.mimeType,
+                    d.private,
+                    d.raw,
+                    d.imageWidth,
+                    d.imageHeight,
+                    d.mediaDuration,
+                    d.embedId,
+                    d.embedPlatform,
+                    d.imageAverageColor,
+                    d.folder,
+                    d.imageCropAlignment,
+                    d.hotspot
+                )',
+            DocumentDto::class
+        ))
+            ->andWhere($qb->expr()->eq('d.original', ':original'))
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->setParameter('original', $originalDocumentId)
+            ->setParameter('raw', false)
+            ->setMaxResults(1)
+            ->setCacheable(true);
+
+        return $qb->getQuery()->getOneOrNullResult();
     }
 
     /**

@@ -74,6 +74,23 @@ final readonly class DocumentDtoNormalizer implements NormalizerInterface
             }
         }
 
+        if (
+            \in_array('document_thumbnails', $serializationGroups, true)
+            && ($object->isEmbed() || !$object->isImage())
+        ) {
+            $thumbnail = $this->repository->findFirstThumbnailDtoBy($object->getId());
+            if (null !== $thumbnail) {
+                $data['thumbnail'] = $this->normalize(
+                    $thumbnail,
+                    $format,
+                    [
+                        ...$context,
+                        'groups' => array_diff($serializationGroups, ['document_thumbnails']),
+                    ],
+                );
+            }
+        }
+
         $this->appendToNormalizedData($object, $data, $serializationGroups);
 
         $this->stopwatch->stop('normalizeDocumentDto');
