@@ -6,7 +6,7 @@ namespace RZ\Roadiz\Documents\Renderer;
 
 use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Documents\Exceptions\DocumentWithoutFileException;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Documents\OptionsResolver\UrlOptionsResolver;
 use RZ\Roadiz\Documents\OptionsResolver\ViewOptionsResolver;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
@@ -27,7 +27,7 @@ abstract class AbstractRenderer implements RendererInterface
         $this->viewOptionsResolver = new ViewOptionsResolver();
     }
 
-    protected function getSource(DocumentInterface $document, array $options): string
+    protected function getSource(BaseDocumentInterface $document, array $options): string
     {
         if (empty($document->getRelativePath())) {
             throw new DocumentWithoutFileException($document);
@@ -49,15 +49,12 @@ abstract class AbstractRenderer implements RendererInterface
     }
 
     /**
-     * @param iterable<DocumentInterface> $sourcesDocs
+     * @param iterable<BaseDocumentInterface> $sourcesDocs
      */
-    protected function getSourcesFilesArray(DocumentInterface $document, iterable $sourcesDocs): array
+    protected function getSourcesFilesArray(BaseDocumentInterface $document, iterable $sourcesDocs): array
     {
         $sources = [];
 
-        /**
-         * @var DocumentInterface $source
-         */
         foreach ($sourcesDocs as $source) {
             $sourceMountPath = $source->getMountPath();
             if (null !== $sourceMountPath) {
