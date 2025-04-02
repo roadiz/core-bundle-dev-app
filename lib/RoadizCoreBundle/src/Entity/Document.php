@@ -18,6 +18,7 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\CopyrightValidFilter;
+use RZ\Roadiz\CoreBundle\Form\Constraint\ValidHotspotJson;
 use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
 use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
 use RZ\Roadiz\Documents\Models\BaseDocumentTrait;
@@ -133,6 +134,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[ORM\Column(name: 'hotspot', type: 'json', nullable: true)]
     #[SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    #[ValidHotspotJson]
     protected ?array $hotspot = null;
 
     #[ORM\ManyToOne(

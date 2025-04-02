@@ -134,7 +134,10 @@ class DocumentEditType extends AbstractType
                 function (mixed $hotspot): string {
                     return json_encode($hotspot, JSON_THROW_ON_ERROR);
                 },
-                function (mixed $hotspot): array {
+                function (mixed $hotspot): ?array {
+                    if (!\is_string($hotspot)) {
+                        return null;
+                    }
                     try {
                         return json_decode($hotspot, true, flags: JSON_THROW_ON_ERROR);
                     } catch (\JsonException $e) {
