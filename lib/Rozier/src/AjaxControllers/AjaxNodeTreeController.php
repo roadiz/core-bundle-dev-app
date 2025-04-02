@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -12,8 +13,10 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Widgets\NodeTreeWidget;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
+use Twig\Environment;
 
 final class AjaxNodeTreeController extends AbstractAjaxController
 {
@@ -21,9 +24,12 @@ final class AjaxNodeTreeController extends AbstractAjaxController
         private readonly NodeChrootResolver $nodeChrootResolver,
         private readonly TreeWidgetFactory $treeWidgetFactory,
         private readonly NodeTypes $nodeTypesBag,
+        private readonly Environment $twig,
+        ManagerRegistry $managerRegistry,
         SerializerInterface $serializer,
+        TranslatorInterface $translator,
     ) {
-        parent::__construct($serializer);
+        parent::__construct($managerRegistry, $serializer, $translator);
     }
 
     public function getTreeAction(Request $request): JsonResponse
@@ -35,6 +41,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
         $nodeTree = null;
         /** @var NodeType[] $linkedTypes */
         $linkedTypes = [];
+        $assignation = [];
 
         switch ($request->get('_action')) {
             /*
@@ -42,11 +49,9 @@ final class AjaxNodeTreeController extends AbstractAjaxController
              */
             case 'requestNodeTree':
                 if ($request->get('parentNodeId') > 0) {
-                    $node = $this->em()
-                                ->find(
-                                    Node::class,
-                                    (int) $request->get('parentNodeId')
-                                );
+                    $node = $this->managerRegistry
+                        ->getRepository(Node::class)
+                        ->find((int) $request->get('parentNodeId'));
                 } elseif (null !== $this->getUser()) {
                     $node = $this->nodeChrootResolver->getChroot($this->getUser());
                 } else {
@@ -59,11 +64,9 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                     $request->get('tagId')
                     && $request->get('tagId') > 0
                 ) {
-                    $filterTag = $this->em()
-                                        ->find(
-                                            Tag::class,
-                                            (int) $request->get('tagId')
-                                        );
+                    $filterTag = $this->managerRegistry
+                        ->getRepository(Tag::class)
+                        ->find((int) $request->get('tagId'));
 
                     $nodeTree->setTag($filterTag);
                 }
@@ -86,7 +89,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                     ]);
                 }
 
-                $this->assignation['mainNodeTree'] = false;
+                $assignation['mainNodeTree'] = false;
 
                 if (true === (bool) $request->get('stackTree')) {
                     $nodeTree->setStackTree(true);
@@ -102,19 +105,19 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                 }
 
                 $nodeTree = $this->treeWidgetFactory->createRootNodeTree($parent, $translation);
-                $this->assignation['mainNodeTree'] = true;
+                $assignation['mainNodeTree'] = true;
                 break;
         }
 
-        $this->assignation['nodeTree'] = $nodeTree;
+        $assignation['nodeTree'] = $nodeTree;
         // Need to expose linkedTypes to add data-attributes on widget again
-        $this->assignation['linkedTypes'] = $linkedTypes;
+        $assignation['linkedTypes'] = $linkedTypes;
 
         return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
             'linkedTypes' => $linkedTypes,
-            'nodeTree' => trim($this->getTwig()->render('@RoadizRozier/widgets/nodeTree/nodeTree.html.twig', $this->assignation)),
+            'nodeTree' => trim($this->twig->render('@RoadizRozier/widgets/nodeTree/nodeTree.html.twig', $assignation)),
         ]);
     }
 }

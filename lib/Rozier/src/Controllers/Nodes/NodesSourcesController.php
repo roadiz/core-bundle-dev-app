@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
+use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -15,31 +17,56 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
 use RZ\Roadiz\CoreBundle\Routing\NodeRouter;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\CoreBundle\TwigExtension\JwtExtension;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Cmf\Component\Routing\RouteObjectInterface;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Forms\NodeSource\NodeSourceType;
-use Themes\Rozier\RozierApp;
 use Themes\Rozier\Traits\VersionedControllerTrait;
 use Twig\Error\RuntimeError;
 
-class NodesSourcesController extends RozierApp
+#[AsController]
+final class NodesSourcesController extends AbstractController
 {
     use VersionedControllerTrait;
 
     public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
         private readonly JwtExtension $jwtExtension,
         private readonly FormErrorSerializer $formErrorSerializer,
         private readonly DecoratedNodeTypes $nodeTypesBag,
+        private readonly Settings $settingsBag,
+        private readonly TranslatorInterface $translator,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly FormFactoryInterface $formFactory,
+        private readonly LogTrail $logTrail,
     ) {
+    }
+
+    protected function getDoctrine(): ManagerRegistry
+    {
+        return $this->managerRegistry;
+    }
+
+    protected function createNamedFormBuilder(string $name = 'form', mixed $data = null, array $options = []): FormBuilderInterface
+    {
+        return $this->formFactory->createNamedBuilder($name, FormType::class, $data, $options);
     }
 
     /**
@@ -48,7 +75,9 @@ class NodesSourcesController extends RozierApp
     public function editSourceAction(Request $request, int $nodeId, int $translationId): Response
     {
         /** @var Translation|null $translation */
-        $translation = $this->em()->find(Translation::class, $translationId);
+        $translation = $this->managerRegistry
+            ->getRepository(Translation::class)
+            ->find($translationId);
 
         if (null === $translation) {
             throw new ResourceNotFoundException('Translation does not exist');
@@ -59,7 +88,9 @@ class NodesSourcesController extends RozierApp
          * that is initialized before calling route method.
          */
         /** @var Node|null $gNode */
-        $gNode = $this->em()->find(Node::class, $nodeId);
+        $gNode = $this->managerRegistry
+            ->getRepository(Node::class)
+            ->find($nodeId);
         if (null === $gNode) {
             throw new ResourceNotFoundException('Node does not exist');
         }
@@ -67,7 +98,7 @@ class NodesSourcesController extends RozierApp
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $gNode);
 
         /** @var NodesSources|null $source */
-        $source = $this->em()
+        $source = $this->managerRegistry
                        ->getRepository(NodesSources::class)
                        ->setDisplayingAllNodesStatuses(true)
                        ->setDisplayingNotPublishedNodes(true)
@@ -77,15 +108,15 @@ class NodesSourcesController extends RozierApp
             throw new ResourceNotFoundException('Node source does not exist');
         }
 
-        $this->em()->refresh($source);
+        $this->managerRegistry->getManager()->refresh($source);
 
         $node = $source->getNode();
-
+        $assignation = [];
         /*
          * Versioning
          */
         if ($this->isGranted('ROLE_ACCESS_VERSIONS')) {
-            if (null !== $response = $this->handleVersions($request, $source)) {
+            if (null !== $response = $this->handleVersions($request, $source, $assignation)) {
                 return $response;
             }
         }
@@ -121,34 +152,39 @@ class NodesSourcesController extends RozierApp
 
                 $jwtToken = $this->jwtExtension->createPreviewJwt();
 
-                if ($this->getSettingsBag()->get('custom_preview_scheme')) {
-                    $previewUrl = $this->generateUrl($source, [
-                        'canonicalScheme' => $this->getSettingsBag()->get('custom_preview_scheme'),
+                if ($this->settingsBag->get('custom_preview_scheme')) {
+                    $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
+                        RouteObjectInterface::ROUTE_OBJECT => $source,
+                        'canonicalScheme' => $this->settingsBag->get('custom_preview_scheme'),
                         'token' => $jwtToken,
                         NodeRouter::NO_CACHE_PARAMETER => true,
                     ], UrlGeneratorInterface::ABSOLUTE_URL);
-                } elseif ($this->getSettingsBag()->get('custom_public_scheme')) {
-                    $previewUrl = $this->generateUrl($source, [
-                        'canonicalScheme' => $this->getSettingsBag()->get('custom_public_scheme'),
+                } elseif ($this->settingsBag->get('custom_public_scheme')) {
+                    $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
+                        RouteObjectInterface::ROUTE_OBJECT => $source,
+                        'canonicalScheme' => $this->settingsBag->get('custom_public_scheme'),
                         '_preview' => 1,
                         'token' => $jwtToken,
                         NodeRouter::NO_CACHE_PARAMETER => true,
                     ], UrlGeneratorInterface::ABSOLUTE_URL);
                 } else {
-                    $previewUrl = $this->generateUrl($source, [
+                    $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
+                        RouteObjectInterface::ROUTE_OBJECT => $source,
                         '_preview' => 1,
                         'token' => $jwtToken,
                         NodeRouter::NO_CACHE_PARAMETER => true,
                     ]);
                 }
 
-                if ($this->getSettingsBag()->get('custom_public_scheme')) {
-                    $publicUrl = $this->generateUrl($source, [
-                        'canonicalScheme' => $this->getSettingsBag()->get('custom_public_scheme'),
+                if ($this->settingsBag->get('custom_public_scheme')) {
+                    $publicUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
+                        RouteObjectInterface::ROUTE_OBJECT => $source,
+                        'canonicalScheme' => $this->settingsBag->get('custom_public_scheme'),
                         NodeRouter::NO_CACHE_PARAMETER => true,
                     ], UrlGeneratorInterface::ABSOLUTE_URL);
                 } else {
-                    $publicUrl = $this->generateUrl($source, [
+                    $publicUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
+                        RouteObjectInterface::ROUTE_OBJECT => $source,
                         NodeRouter::NO_CACHE_PARAMETER => true,
                     ]);
                 }
@@ -174,23 +210,24 @@ class NodesSourcesController extends RozierApp
                 return new JsonResponse([
                     'status' => 'fail',
                     'errors' => $errors,
-                    'message' => $this->getTranslator()->trans('form_has_errors.check_you_fields'),
+                    'message' => $this->translator->trans('form_has_errors.check_you_fields'),
                 ], Response::HTTP_BAD_REQUEST);
             }
         }
 
-        $availableTranslations = $this->em()
+        $availableTranslations = $this->managerRegistry
             ->getRepository(Translation::class)
             ->findAvailableTranslationsForNode($gNode);
 
-        $this->assignation['translation'] = $translation;
-        $this->assignation['available_translations'] = $availableTranslations;
-        $this->assignation['node'] = $node;
-        $this->assignation['source'] = $source;
-        $this->assignation['form'] = $form->createView();
-        $this->assignation['readOnly'] = $this->isReadOnly;
-
-        return $this->render('@RoadizRozier/nodes/editSource.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/nodes/editSource.html.twig', [
+            ...$assignation,
+            'translation' => $translation,
+            'node' => $node,
+            'source' => $source,
+            'form' => $form->createView(),
+            'readOnly' => $this->isReadOnly,
+            'available_translations' => $availableTranslations,
+        ]);
     }
 
     /**
@@ -201,19 +238,22 @@ class NodesSourcesController extends RozierApp
     public function removeAction(Request $request, int $nodeSourceId): Response
     {
         /** @var NodesSources|null $ns */
-        $ns = $this->em()->find(NodesSources::class, $nodeSourceId);
+        $ns = $this->managerRegistry
+            ->getRepository(NodesSources::class)
+            ->find($nodeSourceId);
         if (null === $ns) {
             throw new ResourceNotFoundException('Node source does not exist');
         }
         $this->denyAccessUnlessGranted(NodeVoter::DELETE, $ns);
         $node = $ns->getNode();
-        $this->em()->refresh($ns->getNode());
+        $manager = $this->managerRegistry->getManager();
+        $manager->refresh($ns->getNode());
 
         /*
          * Prevent deleting last node-source available in node.
          */
         if ($node->getNodeSources()->count() <= 1) {
-            $msg = $this->getTranslator()->trans('node_source.%node_source%.%translation%.cant.deleted', [
+            $msg = $this->translator->trans('node_source.%node_source%.%translation%.cant.deleted', [
                 '%node_source%' => $node->getNodeName(),
                 '%translation%' => $ns->getTranslation()->getName(),
             ]);
@@ -235,13 +275,11 @@ class NodesSourcesController extends RozierApp
 
         if ($form->isSubmitted() && $form->isValid()) {
             $node = $ns->getNode();
-            /*
-             * Dispatch event
-             */
-            $this->dispatchEvent(new NodesSourcesDeletedEvent($ns));
 
-            $this->em()->remove($ns);
-            $this->em()->flush();
+            $this->eventDispatcher->dispatch(new NodesSourcesDeletedEvent($ns));
+
+            $manager->remove($ns);
+            $manager->flush();
 
             $ns = $node->getNodeSources()->first() ?: null;
 
@@ -249,12 +287,12 @@ class NodesSourcesController extends RozierApp
                 throw new ResourceNotFoundException('No more node-source available for this node.');
             }
 
-            $msg = $this->getTranslator()->trans('node_source.%node_source%.deleted.%translation%', [
+            $msg = $this->translator->trans('node_source.%node_source%.deleted.%translation%', [
                 '%node_source%' => $node->getNodeName(),
                 '%translation%' => $ns->getTranslation()->getName(),
             ]);
 
-            $this->publishConfirmMessage($request, $msg, $node);
+            $this->logTrail->publishConfirmMessage($request, $msg, $node);
 
             return $this->redirectToRoute(
                 'nodesEditSourcePage',
@@ -262,10 +300,10 @@ class NodesSourcesController extends RozierApp
             );
         }
 
-        $this->assignation['nodeSource'] = $ns;
-        $this->assignation['form'] = $form->createView();
-
-        return $this->render('@RoadizRozier/nodes/deleteSource.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/nodes/deleteSource.html.twig', [
+            'nodeSource' => $ns,
+            'form' => $form->createView(),
+        ]);
     }
 
     protected function onPostUpdate(PersistableInterface $entity, Request $request): void
@@ -277,16 +315,16 @@ class NodesSourcesController extends RozierApp
             return;
         }
 
-        $this->dispatchEvent(new NodesSourcesPreUpdatedEvent($entity));
-        $this->em()->flush();
-        $this->dispatchEvent(new NodesSourcesUpdatedEvent($entity));
+        $this->eventDispatcher->dispatch(new NodesSourcesPreUpdatedEvent($entity));
+        $this->managerRegistry->getManager()->flush();
+        $this->eventDispatcher->dispatch(new NodesSourcesUpdatedEvent($entity));
 
-        $msg = $this->getTranslator()->trans('node_source.%node_source%.updated.%translation%', [
+        $msg = $this->translator->trans('node_source.%node_source%.updated.%translation%', [
             '%node_source%' => $entity->getNode()->getNodeName(),
             '%translation%' => $entity->getTranslation()->getName(),
         ]);
 
-        $this->publishConfirmMessage($request, $msg, $entity);
+        $this->logTrail->publishConfirmMessage($request, $msg, $entity);
     }
 
     protected function getPostUpdateRedirection(PersistableInterface $entity): ?Response

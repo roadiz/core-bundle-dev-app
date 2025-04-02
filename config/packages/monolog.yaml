@@ -15,6 +15,11 @@ when@dev:
                 path: "%kernel.logs_dir%/messenger.%kernel.environment%.log"
                 level: debug
                 channels: ["messenger"]
+            security:
+                type: stream
+                path: "%kernel.logs_dir%/security.%kernel.environment%.log"
+                level: debug
+                channels: ["security"]
             console:
                 type: console
                 process_psr_3_messages: false

@@ -16,6 +16,12 @@
             "role": "AD, integrator"
         },
         {
+            "name": "Eliot Lauger",
+            "email": "eliot@roadiz.io",
+            "homepage": "https://www.roadiz.io",
+            "role": "Backend developer"
+        },
+        {
             "name": "Adrien Scholaert",
             "email": "contact@adrienscholaert.fr",
             "homepage": "http://adrienscholaert.fr",
@@ -51,6 +57,7 @@
         "intervention/image": "^2.5",
         "james-heinrich/getid3": "^1.9",
         "lcobucci/jwt": "^5.3",
+        "lcobucci/clock": "^3.0",
         "league/commonmark": "^2.2.0",
         "league/flysystem": "^3.0",
         "league/flysystem-bundle": "^3.0",
@@ -189,7 +196,10 @@
             "RZ\\Roadiz\\UserBundle\\": "lib/RoadizUserBundle/src/",
             "RZ\\Roadiz\\Utils\\": "lib/Models/src/Roadiz/Utils/",
             "Themes\\Rozier\\": "lib/Rozier/src/"
-        }
+        },
+        "files": [
+            "lib/RoadizCoreBundle/deprecated.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
@@ -242,8 +252,8 @@
             "require": "6.4.*"
         },
         "branch-alias": {
-            "dev-main": "2.4.x-dev",
-            "dev-develop": "2.5.x-dev"
+            "dev-main": "2.5.x-dev",
+            "dev-develop": "2.6.x-dev"
         }
     },
     "prefer-stable": true

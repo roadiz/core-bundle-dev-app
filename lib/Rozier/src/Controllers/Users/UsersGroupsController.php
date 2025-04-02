@@ -4,34 +4,46 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Users;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Group;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Event\User\UserJoinedGroupEvent;
 use RZ\Roadiz\CoreBundle\Event\User\UserLeavedGroupEvent;
 use RZ\Roadiz\CoreBundle\Form\GroupsType;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
-use Themes\Rozier\RozierApp;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class UsersGroupsController extends RozierApp
+#[AsController]
+final class UsersGroupsController extends AbstractController
 {
+    public function __construct(
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly TranslatorInterface $translator,
+        private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly LogTrail $logTrail,
+    ) {
+    }
+
     public function editGroupsAction(Request $request, int $userId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_USERS');
 
         /** @var User|null $user */
-        $user = $this->em()->find(User::class, $userId);
+        $user = $this->managerRegistry->getRepository(User::class)->find($userId);
         if (null === $user) {
             throw new ResourceNotFoundException();
         }
-
-        $this->assignation['user'] = $user;
 
         $form = $this->buildEditGroupsForm($user);
         $form->handleRequest($request);
@@ -42,22 +54,21 @@ class UsersGroupsController extends RozierApp
                 if (array_key_exists('group', $data) && $data['group'][0] instanceof Group) {
                     $group = $data['group'][0];
                 } elseif (array_key_exists('group', $data) && is_numeric($data['group'])) {
-                    $group = $this->em()->find(Group::class, $data['group']);
+                    $group = $this->managerRegistry->getRepository(Group::class)->find($data['group']);
                 } else {
                     $group = null;
                 }
 
                 if (null !== $group) {
                     $user->addGroup($group);
-                    $this->em()->flush();
+                    $this->managerRegistry->getManager()->flush();
+                    $this->eventDispatcher->dispatch(new UserJoinedGroupEvent($user, $group));
 
-                    $this->dispatchEvent(new UserJoinedGroupEvent($user, $group));
-
-                    $msg = $this->getTranslator()->trans('user.%user%.group.%group%.linked', [
+                    $msg = $this->translator->trans('user.%user%.group.%group%.linked', [
                         '%user%' => $user->getUserName(),
                         '%group%' => $group->getName(),
                     ]);
-                    $this->publishConfirmMessage($request, $msg, $user);
+                    $this->logTrail->publishConfirmMessage($request, $msg, $user);
 
                     /*
                      * Force redirect to avoid resending form when refreshing page
@@ -70,9 +81,10 @@ class UsersGroupsController extends RozierApp
             }
         }
 
-        $this->assignation['form'] = $form->createView();
-
-        return $this->render('@RoadizRozier/users/groups.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/users/groups.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
     }
 
     public function removeGroupAction(Request $request, int $userId, int $groupId): Response
@@ -80,9 +92,9 @@ class UsersGroupsController extends RozierApp
         $this->denyAccessUnlessGranted('ROLE_ACCESS_USERS');
 
         /** @var User|null $user */
-        $user = $this->em()->find(User::class, $userId);
+        $user = $this->managerRegistry->getRepository(User::class)->find($userId);
         /** @var Group|null $group */
-        $group = $this->em()->find(Group::class, $groupId);
+        $group = $this->managerRegistry->getRepository(Group::class)->find($groupId);
 
         if (null === $user) {
             throw new ResourceNotFoundException();
@@ -95,23 +107,20 @@ class UsersGroupsController extends RozierApp
             throw $this->createAccessDeniedException();
         }
 
-        $this->assignation['user'] = $user;
-        $this->assignation['group'] = $group;
-
         $form = $this->createForm(FormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user->removeGroup($group);
-            $this->em()->flush();
+            $this->managerRegistry->getManager()->flush();
 
-            $this->dispatchEvent(new UserLeavedGroupEvent($user, $group));
+            $this->eventDispatcher->dispatch(new UserLeavedGroupEvent($user, $group));
 
-            $msg = $this->getTranslator()->trans('user.%user%.group.%group%.removed', [
+            $msg = $this->translator->trans('user.%user%.group.%group%.removed', [
                 '%user%' => $user->getUserName(),
                 '%group%' => $group->getName(),
             ]);
-            $this->publishConfirmMessage($request, $msg, $user);
+            $this->logTrail->publishConfirmMessage($request, $msg, $user);
 
             /*
              * Force redirect to avoid resending form when refreshing page
@@ -122,9 +131,11 @@ class UsersGroupsController extends RozierApp
             );
         }
 
-        $this->assignation['form'] = $form->createView();
-
-        return $this->render('@RoadizRozier/users/removeGroup.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/users/removeGroup.html.twig', [
+            'user' => $user,
+            'group' => $group,
+            'form' => $form->createView(),
+        ]);
     }
 
     private function buildEditGroupsForm(User $user): FormInterface

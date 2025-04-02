@@ -13,17 +13,14 @@ use Twig\Environment;
 
 class VideoRenderer extends AbstractRenderer
 {
-    protected DocumentFinderInterface $documentFinder;
-
     public function __construct(
         FilesystemOperator $documentsStorage,
-        DocumentFinderInterface $documentFinder,
+        protected readonly DocumentFinderInterface $documentFinder,
         Environment $templating,
         DocumentUrlGeneratorInterface $documentUrlGenerator,
         string $templateBasePath = 'documents',
     ) {
         parent::__construct($documentsStorage, $templating, $documentUrlGenerator, $templateBasePath);
-        $this->documentFinder = $documentFinder;
     }
 
     public function supports(DocumentInterface $document, array $options): bool

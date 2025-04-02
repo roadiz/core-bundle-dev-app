@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Configuration\JoinNodeTypeFieldConfiguration;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,16 +19,20 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerController
 {
     public function __construct(
+        private readonly NodeTypes $nodeTypesBag,
         ExplorerItemFactoryInterface $explorerItemFactory,
         EventDispatcherInterface $eventDispatcher,
+        EntityListManagerFactoryInterface $entityListManagerFactory,
         SerializerInterface $serializer,
-        private readonly NodeTypes $nodeTypesBag,
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
     ) {
-        parent::__construct($explorerItemFactory, $eventDispatcher, $serializer);
+        parent::__construct($explorerItemFactory, $eventDispatcher, $entityListManagerFactory, $managerRegistry, $serializer, $translator);
     }
 
     protected function getFieldConfiguration(NodeTypeField $nodeTypeField): array
@@ -125,8 +130,7 @@ final class AjaxEntitiesExplorerController extends AbstractAjaxExplorerControlle
 
         $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
-        /** @var EntityManager $em */
-        $em = $this->em();
+        $em = $this->managerRegistry->getManager();
 
         if (!$request->query->has('nodeTypeName')) {
             throw new BadRequestHttpException('nodeTypeName parameter is missing.');

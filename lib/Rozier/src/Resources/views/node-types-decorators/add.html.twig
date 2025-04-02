@@ -3,6 +3,11 @@
 {% block title %}{% trans %}add.a.nodeTypeDecorator{% endtrans %} | {{ parent() }}{% endblock %}
 
 {%- block content_title -%}{% trans %}add.a.nodeTypeDecorator{% endtrans %}{%- endblock -%}
+{%- block content_sub_title -%}
+{% if nodeType %}
+    <p>{{ nodeType.displayName }}</p>
+{% endif %}
+{%- endblock -%}
 
 {%- block content_header_nav -%}
     <a class="content-header-nav-back uk-navbar-content"

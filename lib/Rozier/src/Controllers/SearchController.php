@@ -17,6 +17,8 @@ use RZ\Roadiz\CoreBundle\Form\ExtendedBooleanType;
 use RZ\Roadiz\CoreBundle\Form\NodeStatesType;
 use RZ\Roadiz\CoreBundle\Form\NodeTypesType;
 use RZ\Roadiz\CoreBundle\Form\SeparatorType;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -34,32 +36,31 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Themes\Rozier\Forms\NodeSource\NodeSourceType;
-use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
-class SearchController extends RozierApp
+#[AsController]
+final class SearchController extends AbstractController
 {
-    protected bool $pagination = true;
-    protected ?int $itemPerPage = null;
-
     public function __construct(
         protected readonly NodeTypes $nodeTypesBag,
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly FormFactoryInterface $formFactory,
         protected readonly SerializerInterface $serializer,
+        protected readonly EntityListManagerFactoryInterface $entityListManagerFactory,
         protected readonly array $csvEncoderOptions,
     ) {
     }
 
-    public function isBlank(mixed $var): bool
+    protected function isBlank(mixed $var): bool
     {
         return empty($var) && !is_numeric($var);
     }
 
-    public function notBlank(mixed $var): bool
+    protected function notBlank(mixed $var): bool
     {
         return !$this->isBlank($var);
     }
@@ -78,8 +79,12 @@ class SearchController extends RozierApp
         return $data;
     }
 
-    protected function processCriteria(array $data, string $prefix = ''): array
-    {
+    protected function processCriteria(
+        array $data,
+        bool &$pagination,
+        ?int &$itemPerPage,
+        string $prefix = '',
+    ): array {
         if (!empty($data[$prefix.'nodeName'])) {
             if (!isset($data[$prefix.'nodeName_exact']) || true !== $data[$prefix.'nodeName_exact']) {
                 $data[$prefix.'nodeName'] = ['LIKE', '%'.$data[$prefix.'nodeName'].'%'];
@@ -109,8 +114,8 @@ class SearchController extends RozierApp
         }
 
         if (isset($data[$prefix.'limitResult'])) {
-            $this->pagination = false;
-            $this->itemPerPage = (int) $data[$prefix.'limitResult'];
+            $pagination = false;
+            $itemPerPage = (int) $data[$prefix.'limitResult'];
             unset($data[$prefix.'limitResult']);
         }
 
@@ -128,9 +133,9 @@ class SearchController extends RozierApp
         return $data;
     }
 
-    protected function processCriteriaNodetype(array $data, NodeType $nodetype): array
+    protected function processCriteriaNodeType(array $data, NodeType $nodeType): array
     {
-        $fields = $nodetype->getFields();
+        $fields = $nodeType->getFields();
         foreach ($data as $key => $value) {
             if ('title' === $key) {
                 $data['title'] = ['LIKE', '%'.$value.'%'];
@@ -186,6 +191,9 @@ class SearchController extends RozierApp
         $builder = $this->buildSimpleForm('');
         $form = $this->addButtons($builder)->getForm();
         $form->handleRequest($request);
+        $assignation = [];
+        $pagination = true;
+        $itemPerPage = null;
 
         $builderNodeType = $this->buildNodeTypeForm();
 
@@ -209,29 +217,29 @@ class SearchController extends RozierApp
                     $data[$key] = $value;
                 }
             }
-            $data = $this->processCriteria($data);
-            $listManager = $this->createEntityListManager(
+            $data = $this->processCriteria($data, $pagination, $itemPerPage);
+            $listManager = $this->entityListManagerFactory->createEntityListManager(
                 Node::class,
                 $data
             );
             $listManager->setDisplayingNotPublishedNodes(true);
             $listManager->setDisplayingAllNodesStatuses(true);
 
-            if (false === $this->pagination) {
-                $listManager->setItemPerPage($this->itemPerPage ?? 999);
+            if (false === $pagination) {
+                $listManager->setItemPerPage($itemPerPage ?? 999);
                 $listManager->disablePagination();
             }
             $listManager->handle();
 
-            $this->assignation['filters'] = $listManager->getAssignation();
-            $this->assignation['nodes'] = $listManager->getEntities();
+            $assignation['filters'] = $listManager->getAssignation();
+            $assignation['nodes'] = $listManager->getEntities();
         }
 
-        $this->assignation['form'] = $form->createView();
-        $this->assignation['nodeTypeForm'] = $nodeTypeForm->createView();
-        $this->assignation['filters']['searchDisable'] = true;
+        $assignation['form'] = $form->createView();
+        $assignation['nodeTypeForm'] = $nodeTypeForm->createView();
+        $assignation['filters']['searchDisable'] = true;
 
-        return $this->render('@RoadizRozier/search/list.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/search/list.html.twig', $assignation);
     }
 
     /**
@@ -239,10 +247,12 @@ class SearchController extends RozierApp
      */
     public function searchNodeSourceAction(Request $request, string $nodeTypeName): Response
     {
-        $nodetype = $this->nodeTypesBag->get($nodeTypeName);
-
+        $nodeType = $this->nodeTypesBag->get($nodeTypeName);
+        $assignation = [];
+        $pagination = true;
+        $itemPerPage = null;
         $builder = $this->buildSimpleForm('__node__');
-        $this->extendForm($builder, $nodetype);
+        $this->extendForm($builder, $nodeType);
         $this->addButtons($builder, true);
 
         $form = $builder->getForm();
@@ -256,21 +266,21 @@ class SearchController extends RozierApp
             return $response;
         }
 
-        if (null !== $response = $this->handleNodeForm($form, $nodetype)) {
+        if (null !== $response = $this->handleNodeForm($form, $nodeType, $pagination, $itemPerPage, $assignation)) {
             return $response;
         }
 
-        $this->assignation['form'] = $form->createView();
-        $this->assignation['nodeType'] = $nodetype;
-        $this->assignation['filters']['searchDisable'] = true;
+        $assignation['form'] = $form->createView();
+        $assignation['nodeType'] = $nodeType;
+        $assignation['filters']['searchDisable'] = true;
 
-        return $this->render('@RoadizRozier/search/list.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/search/list.html.twig', $assignation);
     }
 
     /**
      * Build node-type selection form.
      */
-    protected function buildNodeTypeForm(?string $nodetypeName = null): FormBuilderInterface
+    protected function buildNodeTypeForm(?string $nodeTypeName = null): FormBuilderInterface
     {
         $builderNodeType = $this->formFactory->createNamedBuilder('nodeTypeForm', FormType::class, [], ['method' => 'get']);
         $builderNodeType->add(
@@ -280,7 +290,7 @@ class SearchController extends RozierApp
                 'label' => 'nodeType',
                 'placeholder' => 'ignore',
                 'required' => false,
-                'data' => $nodetypeName,
+                'data' => $nodeTypeName,
                 'showInvisible' => true,
             ]
         );
@@ -327,8 +337,13 @@ class SearchController extends RozierApp
         return null;
     }
 
-    protected function handleNodeForm(FormInterface $form, NodeType $nodetype): ?Response
-    {
+    protected function handleNodeForm(
+        FormInterface $form,
+        NodeType $nodeType,
+        bool &$pagination,
+        ?int &$itemPerPage,
+        array &$assignation,
+    ): ?Response {
         if (!$form->isSubmitted() || !$form->isValid()) {
             return null;
         }
@@ -349,17 +364,17 @@ class SearchController extends RozierApp
                 }
             }
         }
-        $data = $this->processCriteria($data, 'node.');
-        $data = $this->processCriteriaNodetype($data, $nodetype);
+        $data = $this->processCriteria($data, $pagination, $itemPerPage, 'node.');
+        $data = $this->processCriteriaNodeType($data, $nodeType);
 
-        $listManager = $this->createEntityListManager(
-            $nodetype->getSourceEntityFullQualifiedClassName(),
+        $listManager = $this->entityListManagerFactory->createEntityListManager(
+            $nodeType->getSourceEntityFullQualifiedClassName(),
             $data
         );
         $listManager->setDisplayingNotPublishedNodes(true);
         $listManager->setDisplayingAllNodesStatuses(true);
-        if (false === $this->pagination) {
-            $listManager->setItemPerPage($this->itemPerPage ?? 999);
+        if (false === $pagination) {
+            $listManager->setItemPerPage($itemPerPage ?? 999);
             $listManager->disablePagination();
         }
         $listManager->handle();
@@ -375,7 +390,7 @@ class SearchController extends RozierApp
          */
         $button = $form->get('export');
         if ($button instanceof ClickableInterface && $button->isClicked()) {
-            $filename = 'search-'.$nodetype->getName().'-'.date('YmdHis').'.csv';
+            $filename = 'search-'.$nodeType->getName().'-'.date('YmdHis').'.csv';
             $response = new StreamedResponse(function () use ($entities) {
                 echo $this->serializer->serialize($entities, 'csv', [
                     ...$this->csvEncoderOptions,
@@ -399,9 +414,9 @@ class SearchController extends RozierApp
             return $response;
         }
 
-        $this->assignation['filters'] = $listManager->getAssignation();
-        $this->assignation['nodesSources'] = $entities;
-        $this->assignation['nodes'] = $nodes;
+        $assignation['filters'] = $listManager->getAssignation();
+        $assignation['nodesSources'] = $entities;
+        $assignation['nodes'] = $nodes;
 
         return null;
     }
@@ -501,9 +516,9 @@ class SearchController extends RozierApp
         ;
     }
 
-    private function extendForm(FormBuilderInterface $builder, NodeType $nodetype): void
+    private function extendForm(FormBuilderInterface $builder, NodeType $nodeType): void
     {
-        $fields = $nodetype->getFields();
+        $fields = $nodeType->getFields();
 
         $builder->add(
             'nodetypefield',
@@ -516,7 +531,7 @@ class SearchController extends RozierApp
         $builder->add(
             $this->createTextSearchForm($builder, 'title', 'title')
         );
-        if ($nodetype->isPublishable()) {
+        if ($nodeType->isPublishable()) {
             $builder->add(
                 'publishedAt',
                 CompareDatetimeType::class,

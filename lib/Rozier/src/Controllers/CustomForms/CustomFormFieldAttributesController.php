@@ -4,36 +4,36 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\CustomForms;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormFieldAttribute;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Themes\Rozier\RozierApp;
-use Twig\Error\RuntimeError;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 
-class CustomFormFieldAttributesController extends RozierApp
+#[AsController]
+final class CustomFormFieldAttributesController extends AbstractController
 {
-    /**
-     * List every node-types.
-     *
-     * @throws RuntimeError
-     */
+    public function __construct(private readonly ManagerRegistry $managerRegistry)
+    {
+    }
+
     public function listAction(Request $request, int $customFormAnswerId): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_CUSTOMFORMS');
-        /*
-         * Manage get request to filter list
-         */
 
         /** @var CustomFormAnswer $customFormAnswer */
-        $customFormAnswer = $this->em()->find(CustomFormAnswer::class, $customFormAnswerId);
+        $customFormAnswer = $this->managerRegistry
+            ->getRepository(CustomFormAnswer::class)
+            ->find($customFormAnswerId);
         $answers = $this->getAnswersByGroups($customFormAnswer->getAnswerFields());
 
-        $this->assignation['fields'] = $answers;
-        $this->assignation['answer'] = $customFormAnswer;
-        $this->assignation['customFormId'] = $customFormAnswer->getCustomForm()->getId();
-
-        return $this->render('@RoadizRozier/custom-form-field-attributes/list.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/custom-form-field-attributes/list.html.twig', [
+            'fields' => $answers,
+            'answer' => $customFormAnswer,
+            'customFormId' => $customFormAnswer->getCustomForm()->getId(),
+        ]);
     }
 
     protected function getAnswersByGroups(iterable $answers): array

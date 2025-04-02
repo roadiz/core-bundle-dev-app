@@ -13,7 +13,7 @@ class GeoJsonType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addModelTransformer(new CallbackTransformer(function (?array $value) {
+        $builder->addModelTransformer(new CallbackTransformer(function (mixed $value) {
             return null !== $value ? json_encode($value) : '';
         }, function (?string $value) {
             return null !== $value ? json_decode($value) : null;

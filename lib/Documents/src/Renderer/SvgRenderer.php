@@ -12,12 +12,10 @@ use RZ\Roadiz\Documents\Viewers\SvgDocumentViewer;
 class SvgRenderer implements RendererInterface
 {
     protected ViewOptionsResolver $viewOptionsResolver;
-    protected FilesystemOperator $documentsStorage;
 
-    public function __construct(FilesystemOperator $documentsStorage)
+    public function __construct(protected readonly FilesystemOperator $documentsStorage)
     {
         $this->viewOptionsResolver = new ViewOptionsResolver();
-        $this->documentsStorage = $documentsStorage;
     }
 
     public function supports(DocumentInterface $document, array $options): bool

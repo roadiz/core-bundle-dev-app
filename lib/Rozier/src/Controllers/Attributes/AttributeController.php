@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Themes\Rozier\Controllers\AbstractAdminWithBulkController;
 use Twig\Error\RuntimeError;
 
-class AttributeController extends AbstractAdminWithBulkController
+final class AttributeController extends AbstractAdminWithBulkController
 {
     public function __construct(
         private readonly SerializerInterface $serializer,

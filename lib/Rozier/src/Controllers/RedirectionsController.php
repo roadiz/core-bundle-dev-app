@@ -13,7 +13,7 @@ use RZ\Roadiz\CoreBundle\Event\Redirection\RedirectionEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Themes\Rozier\Forms\RedirectionType;
 
-class RedirectionsController extends AbstractAdminWithBulkController
+final class RedirectionsController extends AbstractAdminWithBulkController
 {
     protected function supports(PersistableInterface $item): bool
     {

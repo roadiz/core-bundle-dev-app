@@ -25,7 +25,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Traits\NodesTrait;
 
-class NodesTagsController extends AbstractController
+final class NodesTagsController extends AbstractController
 {
     use NodesTrait;
 

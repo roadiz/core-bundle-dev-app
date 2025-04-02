@@ -24,10 +24,9 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxExplorerControll
         ];
 
         if ($request->query->has('folderId') && $request->get('folderId') > 0) {
-            $folder = $this->em()->find(
-                Folder::class,
-                $request->get('folderId')
-            );
+            $folder = $this->managerRegistry
+                ->getRepository(Folder::class)
+                ->find($request->get('folderId'));
 
             $arrayFilter['folders'] = [$folder];
         }
@@ -85,8 +84,7 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxExplorerControll
         $documentsArray = [];
 
         if (count($cleanDocumentIds)) {
-            $em = $this->em();
-            $documents = $em->getRepository(Document::class)->findBy([
+            $documents = $this->managerRegistry->getRepository(Document::class)->findBy([
                 'id' => $cleanDocumentIds,
                 'raw' => false,
             ]);
@@ -126,10 +124,10 @@ final class AjaxDocumentsExplorerController extends AbstractAjaxExplorerControll
     private function getTrans(): array
     {
         return [
-            'editDocument' => $this->getTranslator()->trans('edit.document'),
-            'unlinkDocument' => $this->getTranslator()->trans('unlink.document'),
-            'linkDocument' => $this->getTranslator()->trans('link.document'),
-            'moreItems' => $this->getTranslator()->trans('more.documents'),
+            'editDocument' => $this->translator->trans('edit.document'),
+            'unlinkDocument' => $this->translator->trans('unlink.document'),
+            'linkDocument' => $this->translator->trans('link.document'),
+            'moreItems' => $this->translator->trans('more.documents'),
         ];
     }
 }
