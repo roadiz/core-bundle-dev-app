@@ -9,11 +9,10 @@ use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Comparable;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
 use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
 use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * Combined AbstractDateTimed and PositionedTrait.
@@ -33,8 +32,6 @@ abstract class AbstractDateTimedPositioned extends AbstractDateTimed implements 
     #[
         ORM\Column(type: 'float'),
         Serializer\Groups(['position']),
-        Serializer\Type('float'),
-        SymfonySerializer\Groups(['position']),
         ApiFilter(RangeFilter::class),
         ApiFilter(NumericFilter::class)
     ]

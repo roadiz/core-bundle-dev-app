@@ -1,7 +1,7 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\Node:
         # Needed when using GraphQL
-        shortName: NsNode
+        shortName: Node
         graphQlOperations:
             - class: ApiPlatform\Metadata\GraphQl\Query
             - class: ApiPlatform\Metadata\GraphQl\QueryCollection

@@ -477,31 +477,6 @@ services:
     RZ\Roadiz\Random\TokenGeneratorInterface:
         class: RZ\Roadiz\Random\TokenGenerator
 
-    JMS\Serializer\Construction\ObjectConstructorInterface:
-        deprecated:
-            package: roadiz/core-bundle
-            version: 2.5.0
-            message: 'The "%alias_id%" service is deprecated and will be removed in Roadiz 2.6.'
-        alias: RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor
-
-    RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ChainDoctrineObjectConstructor:
-        decorates: jms_serializer.doctrine_object_constructor
-        deprecated:
-            package: roadiz/core-bundle
-            version: 2.5.0
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.6.'
-        arguments:
-            - '@doctrine.orm.default_entity_manager'
-            - '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\ObjectConstructor'
-            - [
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TranslationObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\AttributeObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\TagObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\NodeObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\RoleObjectConstructor',
-                '@RZ\Roadiz\CoreBundle\Serializer\ObjectConstructor\GroupObjectConstructor',
-            ]
-
     Solarium\Core\Client\Client:
         factory: ['RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry', 'getClient']
 

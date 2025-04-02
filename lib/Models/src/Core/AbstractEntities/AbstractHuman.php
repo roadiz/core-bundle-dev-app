@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Core\AbstractEntities;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -24,7 +23,6 @@ abstract class AbstractHuman extends AbstractDateTimed
     #[
         ORM\Column(type: 'string', length: 200, unique: true),
         Serializer\Groups(['user_personal', 'human']),
-        SymfonySerializer\Groups(['user_personal', 'human']),
         Assert\NotNull(),
         Assert\NotBlank(),
         Assert\Length(max: 200),
@@ -38,7 +36,6 @@ abstract class AbstractHuman extends AbstractDateTimed
     #[
         ORM\Column(name: 'publicName', type: 'string', length: 250, nullable: true),
         Serializer\Groups(['user_public', 'human']),
-        SymfonySerializer\Groups(['user_public', 'human']),
         Assert\Length(max: 250)
     ]
     protected ?string $publicName = null;
@@ -46,7 +43,6 @@ abstract class AbstractHuman extends AbstractDateTimed
     #[
         ORM\Column(name: 'firstName', type: 'string', length: 250, nullable: true),
         Serializer\Groups(['user_personal', 'human']),
-        SymfonySerializer\Groups(['user_personal', 'human']),
         Assert\Length(max: 250)
     ]
     protected ?string $firstName = null;
@@ -54,7 +50,6 @@ abstract class AbstractHuman extends AbstractDateTimed
     #[
         ORM\Column(name: 'lastName', type: 'string', length: 250, nullable: true),
         Serializer\Groups(['user_personal', 'human']),
-        SymfonySerializer\Groups(['user_personal', 'human']),
         Assert\Length(max: 250)
     ]
     protected ?string $lastName = null;
@@ -62,7 +57,6 @@ abstract class AbstractHuman extends AbstractDateTimed
     #[
         ORM\Column(type: 'string', length: 250, nullable: true),
         Serializer\Groups(['user_personal', 'human']),
-        SymfonySerializer\Groups(['user_personal', 'human']),
         Assert\Length(max: 250)
     ]
     protected ?string $company = null;

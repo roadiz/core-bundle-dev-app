@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Users;
 
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Role;
 use RZ\Roadiz\CoreBundle\Entity\User;
@@ -22,11 +21,10 @@ class UsersController extends AbstractAdminWithBulkController
 {
     public function __construct(
         FormFactoryInterface $formFactory,
-        SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator,
         private readonly bool $useGravatar,
     ) {
-        parent::__construct($formFactory, $serializer, $urlGenerator);
+        parent::__construct($formFactory, $urlGenerator);
     }
 
     protected function supports(PersistableInterface $item): bool

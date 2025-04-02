@@ -20,10 +20,6 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
             return $this;
         }
 
-        $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
-        $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
-            $this->field->getVarName(),
-        ]);
         $property->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
             'serializedName' => $this->field->getVarName(),
         ]);
@@ -53,7 +49,6 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
 
     protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
-        $property->addAttribute('JMS\Serializer\Annotation\Exclude');
         $property->addAttribute('Symfony\Component\Serializer\Attribute\Ignore');
 
         /*

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\SearchEngine;
 
 use Doctrine\Persistence\ObjectManager;
-use JMS\Serializer\Annotation as JMS;
 use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use Symfony\Component\Serializer\Attribute\Ignore;
@@ -15,22 +14,18 @@ use Symfony\Component\Serializer\Attribute\Ignore;
  */
 class SolrSearchResults implements SearchResultsInterface
 {
-    #[JMS\Exclude]
     #[Ignore]
     protected int $position;
 
     /**
      * @var array<SolrSearchResultItem>|null
      */
-    #[JMS\Exclude]
     #[Ignore]
     protected ?array $resultItems;
 
     public function __construct(
-        #[JMS\Exclude]
         #[Ignore]
         protected readonly array $response,
-        #[JMS\Exclude]
         #[Ignore]
         protected readonly ObjectManager $entityManager,
     ) {
@@ -38,8 +33,6 @@ class SolrSearchResults implements SearchResultsInterface
         $this->resultItems = null;
     }
 
-    #[JMS\Groups(['search_results'])]
-    #[JMS\VirtualProperty()]
     public function getResultCount(): int
     {
         if (
@@ -54,8 +47,6 @@ class SolrSearchResults implements SearchResultsInterface
     /**
      * @return array<SolrSearchResultItem>
      */
-    #[JMS\Groups(['search_results'])]
-    #[JMS\VirtualProperty()]
     public function getResultItems(): array
     {
         if (null === $this->resultItems) {

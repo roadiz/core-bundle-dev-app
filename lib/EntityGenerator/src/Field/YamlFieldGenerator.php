@@ -14,10 +14,6 @@ final class YamlFieldGenerator extends NonVirtualFieldGenerator
     {
         parent::addSerializationAttributes($property);
         if (!$this->excludeFromSerialization()) {
-            $property->addAttribute('JMS\Serializer\Annotation\VirtualProperty');
-            $property->addAttribute('JMS\Serializer\Annotation\SerializedName', [
-                $this->field->getVarName(),
-            ]);
             $property->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
                 'serializedName' => $this->field->getVarName(),
             ]);
@@ -40,11 +36,6 @@ final class YamlFieldGenerator extends NonVirtualFieldGenerator
         $groups[] = 'nodes_sources_yaml';
 
         return $groups;
-    }
-
-    protected function isExcludingFieldFromJmsSerialization(): bool
-    {
-        return false;
     }
 
     protected function hasFieldAlternativeGetter(): bool

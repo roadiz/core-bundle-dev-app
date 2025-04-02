@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\NodeTypes;
 
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeDecorator;
@@ -18,10 +17,9 @@ final class NodeTypeDecoratorController extends AbstractAdminController
 {
     public function __construct(
         private readonly DecoratedNodeTypes $nodeTypesBag,
-        SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator,
     ) {
-        parent::__construct($serializer, $urlGenerator);
+        parent::__construct($urlGenerator);
     }
 
     protected function supports(PersistableInterface $item): bool

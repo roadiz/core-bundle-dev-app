@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Attributes;
 
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Attribute;
 use RZ\Roadiz\CoreBundle\Form\AttributeImportType;
@@ -17,20 +16,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Serializer\SerializerInterface as SymfonySerializerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Themes\Rozier\Controllers\AbstractAdminWithBulkController;
 use Twig\Error\RuntimeError;
 
 final class AttributeController extends AbstractAdminWithBulkController
 {
     public function __construct(
-        private readonly SymfonySerializerInterface $symfonySerializer,
+        private readonly SerializerInterface $serializer,
         private readonly AttributeImporter $attributeImporter,
         FormFactoryInterface $formFactory,
-        SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator,
     ) {
-        parent::__construct($formFactory, $serializer, $urlGenerator);
+        parent::__construct($formFactory, $urlGenerator);
     }
 
     protected function supports(PersistableInterface $item): bool
@@ -148,16 +146,15 @@ final class AttributeController extends AbstractAdminWithBulkController
         return $this->render('@RoadizRozier/attributes/import.html.twig', $this->assignation);
     }
 
-    #[\Override]
     public function exportAction(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted($this->getRequiredExportRole());
+        $this->denyAccessUnlessGranted($this->getRequiredListingRole());
         $this->additionalAssignation($request);
 
         $items = $this->getRepository()->findAll();
 
         return new JsonResponse(
-            $this->symfonySerializer->serialize(
+            $this->serializer->serialize(
                 $items,
                 'json',
                 ['groups' => [$this->getNamespace().':export']]
