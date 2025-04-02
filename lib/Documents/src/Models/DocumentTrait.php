@@ -10,22 +10,6 @@ use Symfony\Component\Serializer\Annotation as Serializer;
 trait DocumentTrait
 {
     #[
-        Serializer\Groups(['document_mount']),
-        Serializer\SerializedName('mountPath'),
-    ]
-    public function getMountPath(): ?string
-    {
-        if (null === $relativePath = $this->getRelativePath()) {
-            return null;
-        }
-        if ($this->isPrivate()) {
-            return 'private://'.$relativePath;
-        } else {
-            return 'public://'.$relativePath;
-        }
-    }
-
-    #[
         Serializer\Ignore
     ]
     public function getMountFolderPath(): ?string
@@ -39,15 +23,6 @@ trait DocumentTrait
         } else {
             return 'public://'.$folder;
         }
-    }
-
-    /**
-     * Tells if current document has embed media information.
-     */
-    #[Serializer\Ignore()]
-    public function isEmbed(): bool
-    {
-        return !empty($this->getEmbedId()) && !empty($this->getEmbedPlatform());
     }
 
     protected function initDocumentTrait(): void

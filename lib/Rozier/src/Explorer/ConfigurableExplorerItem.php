@@ -7,7 +7,7 @@ namespace Themes\Rozier\Explorer;
 use Doctrine\Common\Collections\Collection;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use Symfony\Component\String\UnicodeString;
 
 final class ConfigurableExplorerItem extends AbstractExplorerItem
@@ -57,17 +57,17 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
         return $this->entity;
     }
 
-    protected function getThumbnail(): ?DocumentInterface
+    protected function getThumbnail(): ?BaseDocumentInterface
     {
-        /** @var DocumentInterface|null $thumbnail */
+        /** @var BaseDocumentInterface|null $thumbnail */
         $thumbnail = null;
         if (!empty($this->configuration['thumbnail'])) {
             $thumbnailCallable = [$this->entity, $this->configuration['thumbnail']];
             if (\is_callable($thumbnailCallable)) {
                 $thumbnail = call_user_func($thumbnailCallable);
-                if ($thumbnail instanceof Collection && $thumbnail->count() > 0 && $thumbnail->first() instanceof DocumentInterface) {
+                if ($thumbnail instanceof Collection && $thumbnail->count() > 0 && $thumbnail->first() instanceof BaseDocumentInterface) {
                     $thumbnail = $thumbnail->first();
-                } elseif (is_array($thumbnail) && count($thumbnail) > 0 && $thumbnail[0] instanceof DocumentInterface) {
+                } elseif (is_array($thumbnail) && count($thumbnail) > 0 && $thumbnail[0] instanceof BaseDocumentInterface) {
                     $thumbnail = $thumbnail[0];
                 }
             }

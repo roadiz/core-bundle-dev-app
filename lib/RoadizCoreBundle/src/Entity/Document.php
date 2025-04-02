@@ -382,11 +382,6 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
-    public function isPrivate(): bool
-    {
-        return $this->private;
-    }
-
     public function setPrivate(bool $private): static
     {
         $this->private = $private;
@@ -519,14 +514,6 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     public function hasTranslations(): bool
     {
         return $this->getDocumentTranslations()->count() > 0;
-    }
-
-    /**
-     * Is document a raw one.
-     */
-    public function isRaw(): bool
-    {
-        return $this->raw;
     }
 
     public function setRaw(bool $raw): static
@@ -799,21 +786,11 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
-    public function getEmbedPlatform(): ?string
-    {
-        return $this->embedPlatform;
-    }
-
     public function setEmbedPlatform(?string $embedPlatform): static
     {
         $this->embedPlatform = $embedPlatform;
 
         return $this;
-    }
-
-    public function getEmbedId(): ?string
-    {
-        return $this->embedId;
     }
 
     public function setEmbedId(?string $embedId): static

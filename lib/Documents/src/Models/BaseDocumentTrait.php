@@ -153,6 +153,22 @@ trait BaseDocumentTrait
         'image/heif',
     ];
 
+    #[
+        Serializer\Groups(['document_mount']),
+        Serializer\SerializedName('mountPath'),
+    ]
+    public function getMountPath(): ?string
+    {
+        if (null === $relativePath = $this->getRelativePath()) {
+            return null;
+        }
+        if ($this->isPrivate()) {
+            return 'private://'.$relativePath;
+        } else {
+            return 'public://'.$relativePath;
+        }
+    }
+
     /**
      * Get short type name for current document Mime type.
      */
@@ -277,5 +293,39 @@ trait BaseDocumentTrait
     public function isLocal(): bool
     {
         return '' !== $this->getFilename() && '' !== $this->getFolder();
+    }
+
+    /**
+     * Tells if current document has embed media information.
+     */
+    #[Serializer\Ignore()]
+    public function isEmbed(): bool
+    {
+        return !empty($this->getEmbedId()) && !empty($this->getEmbedPlatform());
+    }
+
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    public function getEmbedId(): ?string
+    {
+        return $this->embedId;
+    }
+
+    #[Serializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    public function getEmbedPlatform(): ?string
+    {
+        return $this->embedPlatform;
+    }
+
+    public function isPrivate(): bool
+    {
+        return $this->private;
+    }
+
+    /**
+     * Is document a raw one.
+     */
+    public function isRaw(): bool
+    {
+        return $this->raw;
     }
 }

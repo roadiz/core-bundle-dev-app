@@ -5,29 +5,27 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Model;
 
 use ApiPlatform\Metadata\ApiProperty;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use RZ\Roadiz\CoreBundle\Entity\Folder;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Documents\Models\BaseDocumentTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
-final class DocumentDto
+final class DocumentDto implements BaseDocumentInterface
 {
     use BaseDocumentTrait;
-
-    /**
-     * @var Collection<Folder>
-     */
-    public Collection $folders;
 
     public function __construct(
         #[ApiProperty(identifier: true)]
         private readonly int $id,
         private readonly ?string $filename = null,
         private readonly ?string $mimeType = null,
+        private readonly bool $private = false,
+        private readonly bool $raw = false,
         private readonly int $imageWidth = 0,
         private readonly int $imageHeight = 0,
         private readonly int $mediaDuration = 0,
+        private readonly ?string $embedId = null,
+        private readonly ?string $embedPlatform = null,
         private readonly ?string $imageAverageColor = null,
         private readonly ?string $folder = null,
         private readonly ?string $documentImageCropAlignment = null,
@@ -39,13 +37,17 @@ final class DocumentDto
         private readonly ?string $documentTranslationCopyright = null,
         private readonly ?string $documentTranslationExternalUrl = null,
     ) {
-        $this->folders = new ArrayCollection();
     }
 
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getFolder(): string
+    {
+        return $this->folder ?? 'documents';
     }
 
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
@@ -79,40 +81,51 @@ final class DocumentDto
     }
 
     #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
+    public function getFilename(): string
+    {
+        return $this->filename ?? '';
+    }
+
+    #[SerializedName('name')]
+    #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationName(): ?string
     {
         return $this->documentTranslationName;
     }
 
+    #[SerializedName('description')]
     #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationDescription(): ?string
     {
         return $this->documentTranslationDescription;
     }
 
+    #[SerializedName('copyright')]
     #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationCopyright(): ?string
     {
         return $this->documentTranslationCopyright;
     }
 
+    #[SerializedName('externalUrl')]
     #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationExternalUrl(): ?string
     {
         return $this->documentTranslationExternalUrl;
     }
 
-    #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
-    public function getFilename(): string
+    #[
+        Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
+        SerializedName('alt'),
+        ApiProperty(
+            description: 'Document alternative text, for img HTML tag.',
+            writable: false,
+        )
+    ]
+    public function getAlternativeText(): string
     {
-        return $this->filename ?? '';
-    }
-
-    #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
-    public function getAlt(): string
-    {
-        return !empty($this->getDocumentTranslationName()) ?
-            $this->getDocumentTranslationName() :
+        return !empty($this->documentTranslationName) ?
+            $this->documentTranslationName :
             $this->getFilename();
     }
 
@@ -146,14 +159,18 @@ final class DocumentDto
         }
     }
 
-    #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
-    public function getFolder(): string
+    public function __toString(): string
     {
-        return $this->folder ?? 'documents';
-    }
+        if (!empty($this->getFilename())) {
+            return $this->getFilename();
+        }
+        if (!empty($this->documentTranslationName)) {
+            return $this->documentTranslationName;
+        }
+        if (!empty($this->getEmbedPlatform())) {
+            return $this->getEmbedPlatform().' ('.$this->getEmbedId().')';
+        }
 
-    public function getFolders(): Collection
-    {
-        return $this->folders;
+        return (string) $this->getId();
     }
 }

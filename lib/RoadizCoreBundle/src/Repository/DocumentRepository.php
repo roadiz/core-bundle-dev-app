@@ -574,9 +574,13 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
                     d.id,
                     d.filename,
                     d.mimeType,
+                    d.private,
+                    d.raw,
                     d.imageWidth,
                     d.imageHeight,
                     d.mediaDuration,
+                    d.embedId,
+                    d.embedPlatform,
                     d.imageAverageColor,
                     d.folder,
                     d.imageCropAlignment,
@@ -592,7 +596,6 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         ))
             ->leftJoin('d.documentTranslations', 'dt', 'WITH', 'dt.translation = :translation')
             ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
-            ->innerJoin('d.folders', 'f')
             ->andWhere($qb->expr()->eq('nsf.fieldName', ':fieldName'))
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
             ->addOrderBy('nsf.position', 'ASC')
