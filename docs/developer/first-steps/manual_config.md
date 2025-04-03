@@ -220,6 +220,82 @@ roadiz_rozier:
             - ROLE_BACKEND_USER
 ```
 
+### Authentik SSO
+
+[Authentik documentation](https://docs.goauthentik.io/docs/)
+
+#### Using Authentik with Roadiz
+
+First, you need to add the necessary services to your `compose.yml` (or your override file) to run the Authentik application.
+You can find these services in `compose.override.yml.dist`:
+
+- `postgresql`
+- `server`
+- `workerAuthentik`
+
+Don't forget to declare your volumes as well.
+
+#### Declare Variables in Your `.env`
+
+Set the following environment variables in your `.env` file:
+
+- `PG_PASS` (Auth0 recommends generating this with OpenSSL)
+- `AUTHENTIK_SECRET_KEY` (Auth0 recommends generating this with OpenSSL)
+- `PG_USER` (PostgreSQL user)
+- `PG_DB` (PostgreSQL database)
+
+#### Running Authentik
+
+Start your Docker Compose setup and navigate to:
+
+```
+http://<your-server-IP-or-hostname>:9000/if/flow/initial-setup/
+```
+
+to create your admin user in Authentik.
+
+#### Creating an Application
+
+Follow these steps to create an application in Authentik:
+
+![Step 1](./img/img_create_application_1.webp)
+![Step 2](./img/img_create_application_2.webp)
+![Step 3](./img/img_create_application_3.webp)
+![Step 4](./img/img_create_application_4.webp)
+
+#### Configuring the Provider
+
+Go to the provider you created:
+
+![Provider](./img/img_application_provider.webp)
+
+Add a URL in the redirect URL field (`.../rz-admin/login`).
+
+![Provider](./img/img_redirect_url.webp)
+
+#### Updating Environment Variables
+
+Add the following variables to your `.env` file, using the data obtained from the provider in Authentik:
+
+- `OPEN_ID_DISCOVERY_URL=<OpenID Configuration URL>`
+- `OPEN_ID_CLIENT_ID=<Client ID>`
+- `OPEN_ID_CLIENT_SECRET=<Client Secret>`
+
+#### Creating a User in Authentik
+
+From the Authentik admin panel, create a user with a scope similar to Roadiz:
+
+![Provider](./img/img_application_user.webp)
+
+#### Logging into Roadiz with OpenID
+
+Now, when you go to the Roadiz login page:
+
+![Provider](./img/img_openid.webp)
+
+You can log in using OpenID. The login button has been updated to indicate connection via Authentik.
+Clicking it will redirect you to the Authentik login page, and after authentication, you will be automatically redirected to the Roadiz back office.
+
 ## Console Commands
 
 Run Roadiz via CLI:
