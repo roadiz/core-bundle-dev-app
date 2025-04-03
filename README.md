@@ -78,6 +78,23 @@ We use [`dunglas/frankenphp`](https://hub.docker.com/r/dunglas/frankenphp) image
 
 Using frankenphp allows you to remove `docker/varnish` and `docker/nginx` folders in your project.
 
+## Use Authentik SSO
+
+Roadiz can be integrated with [*Authentik*](https://goauthentik.io/), allowing users to authenticate via OpenID Connect. This enables seamless and secure login management across your applications.
+
+To set up Authentik with Roadiz, you can use the following command to deploy the necessary services:
+
+```shell
+docker compose -f compose.authentik.yml --env-file .env.local up -d
+```
+
+This command will start the Authentik services using the configuration defined in compose.authentik.yml while loading environment variables from .env.local.
+Once running, you can create an application in Authentik, configure OpenID settings, and enable SSO authentication for Roadiz.
+
+After setup, users will be redirected to Authentik for authentication and automatically logged into Roadiz upon successful verification.
+
+See how to configure it in [Documention](https://docs.roadiz.io/developer/first-steps/manual_config.html#openid-sso-authentication)
+
 ## Run documentation website
 
 ```shell
