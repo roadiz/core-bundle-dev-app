@@ -15,7 +15,6 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
@@ -93,7 +92,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     public const DELETED = 50;
 
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     public static array $orderingFields = [
         'position' => 'position',
         'nodeName' => 'nodeName',
@@ -104,8 +102,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(name: 'node_name', type: 'string', length: 255, unique: true)]
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node', 'log_sources'])]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node', 'log_sources'])]
-    #[Serializer\Accessor(getter: 'getNodeName', setter: 'setNodeName')]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 255)]
@@ -126,7 +122,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
     #[SymfonySerializer\Groups(['nodes_sources_base', 'nodes_sources', 'node'])]
-    #[Serializer\Groups(['nodes_sources_base', 'nodes_sources', 'node'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Is this node visible in website navigation?',
@@ -143,7 +138,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         enumType: NodeStatus::class,
         options: ['default' => NodeStatus::DRAFT]
     )]
-    #[Serializer\Exclude]
     #[SymfonySerializer\Ignore]
     private NodeStatus $status = NodeStatus::DRAFT;
 
@@ -155,14 +149,12 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[Assert\GreaterThanOrEqual(value: 0)]
     #[Assert\NotNull]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     #[Gedmo\Versioned]
     // @phpstan-ignore-next-line
     private ?int $ttl = 0;
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['node'])]
-    #[Serializer\Groups(['node'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Is this node locked to prevent deletion and renaming?',
@@ -172,7 +164,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(name: 'hide_children', type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['node'])]
-    #[Serializer\Groups(['node'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Does this node act as a container for other nodes?',
@@ -182,7 +173,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => false])]
     #[SymfonySerializer\Groups(['node'])]
-    #[Serializer\Groups(['node'])]
     #[Gedmo\Versioned]
     #[ApiProperty(
         description: 'Can this node hold other nodes inside?',
@@ -192,7 +182,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(name: 'children_order', type: 'string', length: 50)]
     #[SymfonySerializer\Groups(['node', 'node_listing'])]
-    #[Serializer\Groups(['node', 'node_listing'])]
     #[Assert\Length(max: 50)]
     #[Gedmo\Versioned]
     #[ApiProperty(
@@ -208,7 +197,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
 
     #[ORM\Column(name: 'children_order_direction', type: 'string', length: 4)]
     #[SymfonySerializer\Groups(['node', 'node_listing'])]
-    #[Serializer\Groups(['node', 'node_listing'])]
     #[Assert\Length(max: 4)]
     #[Assert\Choice(choices: ['ASC', 'DESC'])]
     #[Gedmo\Versioned]
@@ -224,7 +212,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     private string $childrenOrderDirection = 'ASC';
 
     #[ORM\Column(name: 'nodetype_name', type: 'string', length: 30)]
-    #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
     private string $nodeTypeName;
 
@@ -234,7 +221,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[ORM\ManyToOne(targetEntity: Node::class, fetch: 'EAGER', inversedBy: 'children')]
     #[ORM\JoinColumn(name: 'parent_node_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private ?LeafInterface $parent = null;
 
     /**
@@ -243,7 +229,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     #[ORM\OneToMany(mappedBy: 'parent', targetEntity: Node::class, orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[SymfonySerializer\Groups(['node_children'])]
-    #[Serializer\Groups(['node_children'])]
     private Collection $children;
 
     /**
@@ -257,7 +242,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     )]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
         'nodesTags.tag' => 'exact',
         'nodesTags.tag.tagName' => 'exact',
@@ -277,14 +261,12 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      */
     #[ORM\OneToMany(mappedBy: 'node', targetEntity: NodesCustomForms::class, fetch: 'EXTRA_LAZY')]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $customForms;
 
     /**
      * @var Collection<int, StackType>
      */
     #[ORM\OneToMany(mappedBy: 'node', targetEntity: StackType::class, cascade: ['persist'], orphanRemoval: true)]
-    #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
     private Collection $stackTypes;
@@ -298,7 +280,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         fetch: 'EXTRA_LAZY',
         orphanRemoval: true
     )]
-    #[Serializer\Groups(['node'])]
     #[SymfonySerializer\Groups(['node'])]
     #[SymfonySerializer\Ignore]
     private Collection $nodeSources;
@@ -315,7 +296,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
     )]
     #[ORM\OrderBy(['position' => 'ASC'])]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $bNodes;
 
     /**
@@ -323,7 +303,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      */
     #[ORM\OneToMany(mappedBy: 'nodeB', targetEntity: NodesToNodes::class)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $aNodes;
 
     /**
@@ -331,7 +310,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      */
     #[ORM\OneToMany(mappedBy: 'node', targetEntity: AttributeValue::class, orphanRemoval: true)]
     #[ORM\OrderBy(['position' => 'ASC'])]
-    #[Serializer\Groups(['node_attributes'])]
     #[SymfonySerializer\Groups(['node_attributes'])]
     #[SymfonySerializer\MaxDepth(1)]
     private Collection $attributeValues;
@@ -588,8 +566,6 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
      * @return Collection<int, Tag>
      */
     #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node'])]
-    #[Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node'])]
-    #[Serializer\VirtualProperty]
     public function getTags(): Collection
     {
         return $this->nodesTags->map(function (NodesTags $nodesTags) {

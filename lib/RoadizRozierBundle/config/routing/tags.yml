@@ -42,15 +42,6 @@ tagsDeletePage:
     defaults:
         _controller: Themes\Rozier\Controllers\Tags\TagsController::deleteAction
     requirements: { tagId : "[0-9]+" }
-tagsExportPage:
-    path:     /export/{tagId}
-    defaults:
-        _controller: Themes\Rozier\Controllers\Tags\TagsUtilsController::exportAction
-    requirements: { tagId : "[0-9]+" }
-tagsExportAllPage:
-    path:     /export
-    defaults:
-        _controller: Themes\Rozier\Controllers\Tags\TagsUtilsController::exportAction
 tagsBulkDeletePage:
     path:     /bulk-delete
     defaults:

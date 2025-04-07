@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -49,8 +50,8 @@ final class GetCommonContentController extends AbstractController
             $resource = new CommonContent();
 
             $request?->attributes->set('data', $resource);
+            $resource->home = $this->getHomePage($translation);
             $resource->head = $this->nodesSourcesHeadFactory->createForTranslation($translation);
-            $resource->home = $resource->head->getHomePage();
             $resource->menus = $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
                 'Menu',
                 MenuNodeSourceWalker::class,
@@ -62,6 +63,14 @@ final class GetCommonContentController extends AbstractController
         } catch (ResourceNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage(), $exception);
         }
+    }
+
+    protected function getHomePage(TranslationInterface $translation): ?NodesSources
+    {
+        return $this->managerRegistry->getRepository(NodesSources::class)->findOneBy([
+            'node.home' => true,
+            'translation' => $translation,
+        ]);
     }
 
     protected function getTranslationFromRequest(?Request $request): TranslationInterface

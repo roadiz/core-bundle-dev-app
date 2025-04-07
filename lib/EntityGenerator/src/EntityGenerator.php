@@ -165,7 +165,6 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->addUse($this->options['parent_class'])
             ->addUse('Doctrine\ORM\Mapping', 'ORM')
             ->addUse('Gedmo\Mapping\Annotation', 'Gedmo')
-            ->addUse('JMS\Serializer\Annotation', 'JMS')
             ->addUse('RZ\Roadiz\CoreBundle\Entity\Node')
             ->addUse('RZ\Roadiz\CoreBundle\Entity\Translation')
             ->addUse('RZ\Roadiz\CoreBundle\Entity\UserLogEntry')
@@ -283,9 +282,6 @@ final class EntityGenerator implements EntityGeneratorInterface
     {
         $classType->addMethod('getNodeTypeName')
             ->setReturnType('string')
-            ->addAttribute('JMS\Serializer\Annotation\VirtualProperty')
-            ->addAttribute('JMS\Serializer\Annotation\Groups', [['nodes_sources', 'nodes_sources_default']])
-            ->addAttribute('JMS\Serializer\Annotation\SerializedName', ['@type'])
             ->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [['nodes_sources', 'nodes_sources_default']])
             ->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
                 'serializedName' => '@type',
@@ -295,9 +291,6 @@ final class EntityGenerator implements EntityGeneratorInterface
 
         $classType->addMethod('getNodeTypeColor')
             ->setReturnType('string')
-            ->addAttribute('JMS\Serializer\Annotation\VirtualProperty')
-            ->addAttribute('JMS\Serializer\Annotation\Groups', [['node_type']])
-            ->addAttribute('JMS\Serializer\Annotation\SerializedName', ['nodeTypeColor'])
             ->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [['node_type']])
             ->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
                 'serializedName' => 'nodeTypeColor',
@@ -309,7 +302,6 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->addComment('$this->nodeType->isReachable() proxy.')
             ->addComment('@return bool Does this nodeSource is reachable over network?')
             ->setReturnType('bool')
-            ->addAttribute('JMS\Serializer\Annotation\VirtualProperty')
             ->setBody('return '.($this->nodeType->isReachable() ? 'true' : 'false').';')
         ;
 
@@ -317,7 +309,6 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->addComment('$this->nodeType->isPublishable() proxy.')
             ->addComment('@return bool Does this nodeSource is publishable with date and time?')
             ->setReturnType('bool')
-            ->addAttribute('JMS\Serializer\Annotation\VirtualProperty')
             ->setBody('return '.($this->nodeType->isPublishable() ? 'true' : 'false').';')
         ;
 

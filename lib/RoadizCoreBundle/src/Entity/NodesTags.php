@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\Common\Comparable;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
 use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodesTagsRepository;
@@ -43,7 +42,6 @@ class NodesTags implements PositionedInterface, Comparable
             onDelete: 'CASCADE'
         ),
         SymfonySerializer\Ignore,
-        Serializer\Exclude,
     ]
     private Node $node;
 
@@ -57,14 +55,12 @@ class NodesTags implements PositionedInterface, Comparable
             onDelete: 'CASCADE'
         ),
         SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'node']),
-        Serializer\Groups(['nodes_sources', 'nodes_sources_base', 'node']),
     ]
     private Tag $tag;
 
     #[
         ORM\Column(type: 'float', nullable: false, options: ['default' => 1]),
         SymfonySerializer\Ignore,
-        Serializer\Exclude,
     ]
     protected float $position = 0.0;
 

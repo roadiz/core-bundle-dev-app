@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Webhook;
 use RZ\Roadiz\CoreBundle\Form\WebhookType;
@@ -22,10 +21,9 @@ final class WebhookController extends AbstractAdminWithBulkController
     public function __construct(
         private readonly WebhookDispatcher $webhookDispatcher,
         FormFactoryInterface $formFactory,
-        SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator,
     ) {
-        parent::__construct($formFactory, $serializer, $urlGenerator);
+        parent::__construct($formFactory, $urlGenerator);
     }
 
     public function triggerAction(Request $request, string $id): Response

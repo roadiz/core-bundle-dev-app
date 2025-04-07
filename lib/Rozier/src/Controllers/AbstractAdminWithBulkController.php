@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
-use JMS\Serializer\SerializerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -19,10 +18,9 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
 {
     public function __construct(
         protected readonly FormFactoryInterface $formFactory,
-        SerializerInterface $serializer,
         UrlGeneratorInterface $urlGenerator,
     ) {
-        parent::__construct($serializer, $urlGenerator);
+        parent::__construct($urlGenerator);
     }
 
     protected function additionalAssignation(Request $request): void
