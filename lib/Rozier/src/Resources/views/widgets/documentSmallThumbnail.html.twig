@@ -31,11 +31,13 @@
         <object class="document-image" type="image/svg+xml" width="80" height="80" data="{{ document|url }}"></object>
     {% elseif document.isImage and not document.private %}
         {{- document|display({
-            "fit":"80x80",
-            "align": document.imageCropAlignment,
-            "quality":50,
-            "picture": true,
-            "class": "document-image"
+            crop: "1:1",
+            width: 100,
+            align: document.imageCropAlignment,
+            hotspot: document.hotspotAsString,
+            quality:50,
+            picture: true,
+            class: "document-image"
         }) -}}
     {% elseif document.private %}
         <div class="document-platform-icon"><i class="uk-icon-lock"></i></div>

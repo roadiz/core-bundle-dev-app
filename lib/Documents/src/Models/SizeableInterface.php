@@ -24,5 +24,9 @@ interface SizeableInterface
 
     public function getHotspot(): ?array;
 
+    public function setHotspot(?array $hotspot): static;
+
+    public function getHotspotAsString(): ?string;
+
     public function getImageCropAlignment(): ?string;
 }

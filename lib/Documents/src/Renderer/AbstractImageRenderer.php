@@ -13,6 +13,8 @@ use Twig\Environment;
 
 abstract class AbstractImageRenderer extends AbstractRenderer
 {
+    public const WIDTH_HEIGHT_PATTERN = '#(?<width>[0-9]+)[x:\.](?<height>[0-9]+)#';
+
     public function __construct(
         FilesystemOperator $documentsStorage,
         protected readonly EmbedFinderFactory $embedFinderFactory,
@@ -121,8 +123,58 @@ abstract class AbstractImageRenderer extends AbstractRenderer
         throw new \RuntimeException('Cannot generate imageCreateTrueColor');
     }
 
+    protected function getImageRatio(array &$options): ?float
+    {
+        /** @var \ArrayAccess<string, string|null> $options */
+        $compositing = $options['crop'] ?? $options['fit'] ?? '';
+        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, $compositing, $matches)) {
+            return ((float) $matches['width']) / ((float) $matches['height']);
+        }
+
+        return null;
+    }
+
+    protected function getImageWidth(array &$options): int
+    {
+        /** @var \ArrayAccess<string, string|null> $options */
+        $compositing = $options['fit'] ?? '';
+        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, $compositing, $matches)) {
+            return (int) $matches['width'];
+        } elseif (null !== $options['ratio'] && 0 !== $options['height'] && 0 !== $options['ratio']) {
+            return (int) (intval($options['height']) * floatval($options['ratio']));
+        }
+
+        return 0;
+    }
+
+    protected function getImageHeight(array &$options): int
+    {
+        /** @var \ArrayAccess<string, string|null> $options */
+        $compositing = $options['fit'] ?? '';
+        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, $compositing, $matches)) {
+            return (int) $matches['height'];
+        } elseif (null !== $options['ratio'] && 0 !== $options['width'] && 0 !== $options['ratio']) {
+            return (int) (intval($options['width']) / floatval($options['ratio']));
+        }
+
+        return 0;
+    }
+
     protected function additionalAssignation(BaseDocumentInterface $document, array $options, array &$assignation): void
     {
+        /*
+         * Guess ratio, width and height options from fit or crop
+         */
+        if (empty($options['ratio'])) {
+            $assignation['ratio'] = $options['ratio'] = $this->getImageRatio($options);
+        }
+        if (empty($options['width'])) {
+            $assignation['width'] = $options['width'] = $this->getImageWidth($options);
+        }
+        if (empty($options['height'])) {
+            $assignation['height'] = $options['height'] = $this->getImageHeight($options);
+        }
+
         if (!($document instanceof AdvancedDocumentInterface)) {
             return;
         }

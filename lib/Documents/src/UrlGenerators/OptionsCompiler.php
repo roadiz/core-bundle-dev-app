@@ -25,6 +25,11 @@ class OptionsCompiler
         $this->options = $options;
         $shortOptions = [];
 
+        if (array_key_exists('hotspot', $this->options)
+            && is_string($this->options['hotspot'])
+            && !empty($this->options['hotspot'])) {
+            $shortOptions['d'] = 'd'.$this->options['hotspot'];
+        }
         if (null === $this->options['fit'] && $this->options['width'] > 0) {
             $shortOptions['w'] = 'w'.(int) $this->options['width'];
         }

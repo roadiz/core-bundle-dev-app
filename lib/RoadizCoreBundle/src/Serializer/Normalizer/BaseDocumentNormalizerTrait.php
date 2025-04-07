@@ -43,8 +43,10 @@ trait BaseDocumentNormalizerTrait
             $data['url'] = $this->documentUrlGenerator
                 ->setDocument($object)
                 ->setOptions([
-                    'fit' => '250x200',
+                    'width' => 250,
+                    'crop' => '5:4',
                     'quality' => 60,
+                    'sharpen' => 3,
                 ])
                 ->getUrl();
         }

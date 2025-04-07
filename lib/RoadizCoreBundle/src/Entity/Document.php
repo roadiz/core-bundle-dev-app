@@ -819,7 +819,21 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this->hotspot;
     }
 
-    public function setHotspot(?array $hotspot): Document
+    /*
+     * Get image hotspot coordinates as x;y string.
+     */
+    public function getHotspotAsString(): ?string
+    {
+        $hotspot = $this->getHotspot();
+
+        return null !== $hotspot ? sprintf(
+            '%.5f;%.5f',
+            $hotspot['x'],
+            $hotspot['y']
+        ) : null;
+    }
+
+    public function setHotspot(?array $hotspot): static
     {
         $this->hotspot = $hotspot;
 

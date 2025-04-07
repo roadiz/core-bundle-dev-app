@@ -159,6 +159,20 @@ final class DocumentDto implements BaseDocumentInterface
         }
     }
 
+    /*
+     * Get image hotspot coordinates as x;y string.
+     */
+    public function getHotspotAsString(): ?string
+    {
+        $hotspot = $this->getHotspot();
+
+        return null !== $hotspot ? sprintf(
+            '%.5f;%.5f',
+            $hotspot['x'],
+            $hotspot['y']
+        ) : null;
+    }
+
     public function __toString(): string
     {
         if (!empty($this->getFilename())) {

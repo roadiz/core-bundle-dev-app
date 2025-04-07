@@ -75,7 +75,8 @@ final class DocumentArchiveController extends AbstractController
         $assignation['action'] = '?'.http_build_query(['documents' => $documentsIds]);
         $assignation['thumbnailFormat'] = [
             'quality' => 50,
-            'fit' => '128x128',
+            'crop' => '1:1',
+            'width' => 128,
             'sharpen' => 5,
             'inline' => false,
             'picture' => true,
