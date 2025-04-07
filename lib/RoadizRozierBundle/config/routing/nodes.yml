@@ -147,7 +147,7 @@ nodesExportNodeCsvPage:
 nodesDuplicatePage:
     path:     /duplicate/{nodeId}
     defaults:
-        _controller: Themes\Rozier\Controllers\Nodes\NodesUtilsController::duplicateAction
+        _controller: Themes\Rozier\Controllers\Nodes\NodesDuplicateController::duplicateAction
     requirements: { nodeId : "[0-9]+" }
 nodesEmptyTrashPage:
     path:     /empty-trash

@@ -66,25 +66,25 @@ trait NodesTrait
 
     public function buildStackTypesForm(Node $node): ?FormInterface
     {
-        if ($node->isHidingChildren()) {
-            $defaults = [];
-            $builder = $this->createNamedFormBuilder('add_stack_type', $defaults)
-                ->add('nodeId', HiddenType::class, [
-                    'data' => (int) $node->getId(),
-                ])
-                ->add('nodeTypeName', NodeTypesType::class, [
-                    'showInvisible' => true,
-                    'label' => false,
-                    'constraints' => [
-                        new NotNull(),
-                        new NotBlank(),
-                    ],
-                ]);
-
-            return $builder->getForm();
-        } else {
+        if (!$node->isHidingChildren()) {
             return null;
         }
+
+        $defaults = [];
+        $builder = $this->createNamedFormBuilder('add_stack_type', $defaults)
+            ->add('nodeId', HiddenType::class, [
+                'data' => (int) $node->getId(),
+            ])
+            ->add('nodeTypeName', NodeTypesType::class, [
+                'showInvisible' => true,
+                'label' => false,
+                'constraints' => [
+                    new NotNull(),
+                    new NotBlank(),
+                ],
+            ]);
+
+        return $builder->getForm();
     }
 
     protected function buildDeleteForm(Node $node): FormInterface
@@ -103,8 +103,6 @@ trait NodesTrait
 
     protected function buildEmptyTrashForm(): FormInterface
     {
-        $builder = $this->createFormBuilder();
-
-        return $builder->getForm();
+        return $this->createFormBuilder()->getForm();
     }
 }

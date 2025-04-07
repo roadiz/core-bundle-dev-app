@@ -5,8 +5,8 @@
 nodesTypesExportDocumentationPage:
     path:     /export/documentation
     defaults:
-        _controller: Themes\Rozier\Controllers\NodeTypes\NodeTypesUtilsController::exportDocumentationAction
+        _controller: Themes\Rozier\Controllers\NodeTypes\NodeTypesExportController::exportDocumentationAction
 nodesTypesExportTypeScriptPage:
     path:     /export/typescript
     defaults:
-        _controller: Themes\Rozier\Controllers\NodeTypes\NodeTypesUtilsController::exportTypeScriptDeclarationAction
+        _controller: Themes\Rozier\Controllers\NodeTypes\NodeTypesExportController::exportTypeScriptDeclarationAction

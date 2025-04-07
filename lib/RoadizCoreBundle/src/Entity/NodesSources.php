@@ -56,7 +56,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(PropertyFilter::class),
     ApiFilter(NodeTypeReachableFilter::class),
     ApiFilter(NodeTypePublishableFilter::class),
-    ApiFilter(RoadizFilter\LocaleFilter::class)
+    ApiFilter(RoadizFilter\LocaleFilter::class),
+    ApiFilter(RoadizFilter\TagGroupFilter::class),
 ]
 class NodesSources extends AbstractEntity implements Loggable
 {

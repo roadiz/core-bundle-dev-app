@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\Contracts\NodeType\SerializableInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractField;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Form\Constraint as RoadizAssert;
 use Symfony\Component\Serializer\Annotation as Serializer;

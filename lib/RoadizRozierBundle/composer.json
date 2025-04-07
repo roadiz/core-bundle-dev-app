@@ -20,10 +20,10 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.2",
-        "roadiz/compat-bundle": "2.5.x-dev",
-        "roadiz/core-bundle": "2.5.x-dev",
-        "roadiz/openid": "2.5.x-dev",
-        "roadiz/rozier": "2.5.x-dev",
+        "roadiz/compat-bundle": "2.5.*",
+        "roadiz/core-bundle": "2.5.*",
+        "roadiz/openid": "2.5.*",
+        "roadiz/rozier": "2.5.*",
         "symfony/framework-bundle": "6.4.*"
     },
     "require-dev": {
@@ -52,8 +52,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.4.x-dev",
-            "dev-develop": "2.5.x-dev"
+            "dev-main": "2.5.x-dev",
+            "dev-develop": "2.6.x-dev"
         }
     }
 }

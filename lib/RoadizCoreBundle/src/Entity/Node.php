@@ -24,6 +24,7 @@ use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypePublishableFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypeReachableFilter;
+use RZ\Roadiz\CoreBundle\Api\Filter\TagGroupFilter;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Model\AttributableInterface;
 use RZ\Roadiz\CoreBundle\Model\AttributableTrait;
@@ -72,7 +73,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     ),
     ApiFilter(NodeTypeReachableFilter::class),
     ApiFilter(NodeTypePublishableFilter::class),
-    ApiFilter(PropertyFilter::class)
+    ApiFilter(PropertyFilter::class),
+    ApiFilter(TagGroupFilter::class)
 ]
 class Node extends AbstractDateTimedPositioned implements LeafInterface, AttributableInterface, Loggable, NodeInterface
 {

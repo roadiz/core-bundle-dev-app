@@ -34,7 +34,7 @@ The following fields store simple data in your custom node-source database table
 | **Multiple relationship using a provider** | `multiple-provider`               |
 | **Custom collection**                      | `collection`                      |
 
-![Field types](./img/field-types.png){width=300}
+![Field types](./img/field-types.webp){width=300}
 
 ## Single and multiple geographic coordinates
 

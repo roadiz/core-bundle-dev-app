@@ -10,13 +10,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DocumentPreviewController extends AbstractController
+final class DocumentPreviewController extends AbstractController
 {
-    private DocumentFinderInterface $documentFinder;
-
-    public function __construct(DocumentFinderInterface $documentFinder)
+    public function __construct(private readonly DocumentFinderInterface $documentFinder)
     {
-        $this->documentFinder = $documentFinder;
     }
 
     public function previewAction(Request $request, Document $documentId): Response

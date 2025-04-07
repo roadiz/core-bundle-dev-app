@@ -5,23 +5,24 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers\NodeTypes;
 
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Themes\Rozier\RozierApp;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 
-final class NodeTypesController extends RozierApp
+#[AsController]
+final class NodeTypesController extends AbstractController
 {
     public function __construct(
         private readonly DecoratedNodeTypes $nodeTypesBag,
     ) {
     }
 
-    public function indexAction(Request $request): Response
+    public function indexAction(): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
 
-        $this->assignation['node_types'] = $this->nodeTypesBag->all();
-
-        return $this->render('@RoadizRozier/node-types/list.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/node-types/list.html.twig', [
+            'node_types' => $this->nodeTypesBag->all(),
+        ]);
     }
 }

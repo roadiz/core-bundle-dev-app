@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
+use Doctrine\Persistence\ManagerRegistry;
 use Monolog\Logger;
 use RZ\Roadiz\CoreBundle\Entity\User;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Themes\Rozier\RozierApp;
-use Twig\Error\RuntimeError;
 
-/**
- * Display CMS logs.
- */
-class HistoryController extends RozierApp
+#[AsController]
+final class HistoryController extends AbstractController
 {
     public static array $levelToHuman = [
         Logger::EMERGENCY => 'emergency',
@@ -29,10 +29,14 @@ class HistoryController extends RozierApp
         Logger::DEBUG => 'debug',
     ];
 
+    public function __construct(
+        private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
+        private readonly ManagerRegistry $managerRegistry,
+    ) {
+    }
+
     /**
      * List all logs action.
-     *
-     * @throws RuntimeError
      */
     public function indexAction(Request $request): Response
     {
@@ -41,7 +45,7 @@ class HistoryController extends RozierApp
         /*
          * Manage get request to filter list
          */
-        $listManager = $this->createEntityListManager(
+        $listManager = $this->entityListManagerFactory->createAdminEntityListManager(
             Log::class,
             [],
             ['datetime' => 'DESC']
@@ -50,19 +54,15 @@ class HistoryController extends RozierApp
         $listManager->setDisplayingAllNodesStatuses(true);
         $listManager->handle();
 
-        $this->assignation['filters'] = $listManager->getAssignation();
-        $this->assignation['logs'] = $listManager->getEntities();
-        $this->assignation['levels'] = static::$levelToHuman;
-
-        return $this->render('@RoadizRozier/history/list.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/history/list.html.twig', [
+            'logs' => $listManager->getEntities(),
+            'levels' => self::$levelToHuman,
+            'filters' => $listManager->getAssignation(),
+        ]);
     }
 
     /**
      * List user logs action.
-     *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
      */
     public function userAction(Request $request, int|string $userId): Response
     {
@@ -76,7 +76,7 @@ class HistoryController extends RozierApp
         }
 
         /** @var User|null $user */
-        $user = $this->em()->find(User::class, $userId);
+        $user = $this->managerRegistry->getRepository(User::class)->find($userId);
 
         if (null === $user) {
             throw new ResourceNotFoundException();
@@ -85,7 +85,7 @@ class HistoryController extends RozierApp
         /*
          * Manage get request to filter list
          */
-        $listManager = $this->createEntityListManager(
+        $listManager = $this->entityListManagerFactory->createAdminEntityListManager(
             Log::class,
             ['userId' => $user->getId()],
             ['datetime' => 'DESC']
@@ -95,11 +95,11 @@ class HistoryController extends RozierApp
         $listManager->setItemPerPage(30);
         $listManager->handle();
 
-        $this->assignation['filters'] = $listManager->getAssignation();
-        $this->assignation['logs'] = $listManager->getEntities();
-        $this->assignation['levels'] = static::$levelToHuman;
-        $this->assignation['user'] = $user;
-
-        return $this->render('@RoadizRozier/history/list.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/history/list.html.twig', [
+            'user' => $user,
+            'logs' => $listManager->getEntities(),
+            'levels' => self::$levelToHuman,
+            'filters' => $listManager->getAssignation(),
+        ]);
     }
 }

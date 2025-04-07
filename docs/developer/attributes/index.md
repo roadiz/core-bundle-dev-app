@@ -7,7 +7,7 @@ title: Attributes
 Attributes are entities meant to qualify features on other entities, such as *nodes*.
 The main difference between *tags* and *attributes* is that you can set a value for each attributed *node*.
 
-![image](./img/manage_attributes.png){.align-right width="300px"}
+![image](./img/manage_attributes.webp){.align-right width="300px"}
 
 The attribute "Color" can be set to "red" for one node and set to "green" for an other one.
 
@@ -83,7 +83,7 @@ If you grouped your attributes, you can use `grouped_attributes` filter instead:
 
 ## Attributes types
 
-![image](./img/create_attribute.png){.align-center}
+![image](./img/create_attribute.webp){.align-center}
 
 - *String*
 - *Date*
@@ -100,7 +100,7 @@ If you grouped your attributes, you can use `grouped_attributes` filter instead:
 
 *Attribute* section is available for any node in any translations.
 
-![image](./img/add_attribute.png){.align-center}
+![image](./img/add_attribute.webp){.align-center}
 
 ## Twig extension
 

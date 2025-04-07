@@ -221,5 +221,5 @@ webhooksRoutes:
 #
 loginImagePage:
     path: /css/login/image
-    controller: Themes\Rozier\Controllers\LoginController::imageAction
+    controller: RZ\Roadiz\RozierBundle\Controller\Login\LoginImageController::imageAction
 

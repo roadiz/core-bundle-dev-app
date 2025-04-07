@@ -1,12 +1,12 @@
 documentsAdjustPage:
     path:     /adjust/{documentId}
     defaults:
-        _controller: Themes\Rozier\Controllers\Documents\DocumentsController::adjustAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Document\DocumentAdjustController::adjustAction
     requirements: { documentId : "[0-9]+" }
 documentsEditPage:
     path:     /edit/{documentId}
     defaults:
-        _controller: Themes\Rozier\Controllers\Documents\DocumentsController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Document\DocumentEditController::editAction
     requirements: { documentId : "[0-9]+" }
 documentsLimitationsPage:
     path:     /limitations/{id}
@@ -37,7 +37,7 @@ documentsDownloadInlinePage:
 documentsUsagePage:
     path:     /usage/{documentId}
     defaults:
-        _controller: Themes\Rozier\Controllers\Documents\DocumentsController::usageAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Document\DocumentUsageController::usageAction
     requirements: { documentId : "[0-9]+" }
 documentsUploadPage:
     path:     /upload/{_format}/{folderId}
@@ -51,13 +51,13 @@ documentsUploadPage:
 documentsRandomPage:
     path:     /random/{folderId}
     defaults:
-        _controller: Themes\Rozier\Controllers\Documents\DocumentsController::randomAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Document\DocumentEmbedController::randomAction
         folderId: null
     requirements: { folderId : "[0-9]+" }
 documentsEmbedPage:
     path:     /embed/{folderId}
     defaults:
-        _controller: Themes\Rozier\Controllers\Documents\DocumentsController::embedAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Document\DocumentEmbedController::embedAction
         folderId: null
     requirements: { folderId : "[0-9]+" }
 documentsDeletePage:

@@ -4,20 +4,26 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\AjaxControllers;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Widgets\TagTreeWidget;
 use Themes\Rozier\Widgets\TreeWidgetFactory;
+use Twig\Environment;
 
 final class AjaxTagTreeController extends AbstractAjaxController
 {
     public function __construct(
         private readonly TreeWidgetFactory $treeWidgetFactory,
+        private readonly Environment $twig,
+        ManagerRegistry $managerRegistry,
         SerializerInterface $serializer,
+        TranslatorInterface $translator,
     ) {
-        parent::__construct($serializer);
+        parent::__construct($managerRegistry, $serializer, $translator);
     }
 
     public function getTreeAction(Request $request): JsonResponse
@@ -27,6 +33,7 @@ final class AjaxTagTreeController extends AbstractAjaxController
 
         /** @var TagTreeWidget|null $tagTree */
         $tagTree = null;
+        $assignation = [];
 
         switch ($request->get('_action')) {
             /*
@@ -34,18 +41,16 @@ final class AjaxTagTreeController extends AbstractAjaxController
              */
             case 'requestTagTree':
                 if ($request->get('parentTagId') > 0) {
-                    $tag = $this->em()
-                                ->find(
-                                    Tag::class,
-                                    (int) $request->get('parentTagId')
-                                );
+                    $tag = $this->managerRegistry
+                        ->getRepository(Tag::class)
+                        ->find((int) $request->get('parentTagId'));
                 } else {
                     $tag = null;
                 }
 
                 $tagTree = $this->treeWidgetFactory->createTagTree($tag, $translation);
 
-                $this->assignation['mainTagTree'] = false;
+                $assignation['mainTagTree'] = false;
 
                 break;
                 /*
@@ -54,16 +59,16 @@ final class AjaxTagTreeController extends AbstractAjaxController
             case 'requestMainTagTree':
                 $parent = null;
                 $tagTree = $this->treeWidgetFactory->createTagTree($parent, $translation);
-                $this->assignation['mainTagTree'] = true;
+                $assignation['mainTagTree'] = true;
                 break;
         }
 
-        $this->assignation['tagTree'] = $tagTree;
+        $assignation['tagTree'] = $tagTree;
 
         return $this->createSerializedResponse([
             'statusCode' => '200',
             'status' => 'success',
-            'tagTree' => $this->getTwig()->render('@RoadizRozier/widgets/tagTree/tagTree.html.twig', $this->assignation),
+            'tagTree' => $this->twig->render('@RoadizRozier/widgets/tagTree/tagTree.html.twig', $assignation),
         ]);
     }
 }

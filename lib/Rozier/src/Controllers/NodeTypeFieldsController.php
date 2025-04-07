@@ -6,13 +6,15 @@ namespace Themes\Rozier\Controllers;
 
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Themes\Rozier\RozierApp;
 use Twig\Error\RuntimeError;
 
-class NodeTypeFieldsController extends RozierApp
+#[AsController]
+final class NodeTypeFieldsController extends AbstractController
 {
     public function __construct(
         private readonly DecoratedNodeTypes $nodeTypesBag,
@@ -35,9 +37,9 @@ class NodeTypeFieldsController extends RozierApp
 
         $fields = $nodeType->getFields();
 
-        $this->assignation['nodeType'] = $nodeType;
-        $this->assignation['fields'] = $fields;
-
-        return $this->render('@RoadizRozier/node-type-fields/list.html.twig', $this->assignation);
+        return $this->render('@RoadizRozier/node-type-fields/list.html.twig', [
+            'nodeType' => $nodeType,
+            'fields' => $fields,
+        ]);
     }
 }
