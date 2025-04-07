@@ -141,11 +141,6 @@ PHP
         return $this;
     }
 
-    protected function isExcludingFieldFromJmsSerialization(): bool
-    {
-        return false;
-    }
-
     public function getFieldConstructorInitialization(): string
     {
         return '$this->'.$this->field->getVarName().' = new \Doctrine\Common\Collections\ArrayCollection();';

@@ -10,7 +10,6 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Repository\RealmRepository;
@@ -42,19 +41,16 @@ class Realm extends AbstractEntity implements RealmInterface
 {
     #[ORM\Column(name: 'type', type: 'string', length: 30)]
     #[SymfonySerializer\Groups(['get', 'realm'])]
-    #[Serializer\Groups(['get', 'realm'])]
     #[Assert\Length(max: 30)]
     private string $type = RealmInterface::TYPE_PLAIN_PASSWORD;
 
     #[ORM\Column(name: 'behaviour', type: 'string', length: 30, nullable: false, options: ['default' => 'none'])]
     #[SymfonySerializer\Groups(['get', 'realm', 'web_response'])]
-    #[Serializer\Groups(['get', 'realm', 'web_response'])]
     #[Assert\Length(max: 30)]
     private string $behaviour = RealmInterface::BEHAVIOUR_NONE;
 
     #[ORM\Column(name: 'name', unique: true)]
     #[SymfonySerializer\Groups(['get', 'realm', 'web_response'])]
-    #[Serializer\Groups(['get', 'realm', 'web_response'])]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Length(max: 250)]
@@ -63,19 +59,16 @@ class Realm extends AbstractEntity implements RealmInterface
 
     #[ORM\Column(name: 'plain_password', type: 'string', length: 255, unique: false, nullable: true)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     #[Assert\Length(max: 255)]
     private ?string $plainPassword = null;
 
     #[ORM\ManyToOne(targetEntity: Role::class)]
     #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private ?Role $roleEntity = null;
 
     #[ORM\Column(name: 'serialization_group', type: 'string', length: 200, nullable: true)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     #[Assert\Length(max: 200)]
     private ?string $serializationGroup = null;
 
@@ -85,7 +78,6 @@ class Realm extends AbstractEntity implements RealmInterface
     #[ORM\JoinTable(name: 'realms_users')]
     #[ORM\ManyToMany(targetEntity: User::class)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $users;
 
     /**
@@ -93,7 +85,6 @@ class Realm extends AbstractEntity implements RealmInterface
      */
     #[ORM\OneToMany(mappedBy: 'realm', targetEntity: RealmNode::class)]
     #[SymfonySerializer\Ignore]
-    #[Serializer\Exclude]
     private Collection $realmNodes;
 
     public function __construct()
@@ -222,15 +213,12 @@ class Realm extends AbstractEntity implements RealmInterface
     }
 
     #[SymfonySerializer\Groups(['get', 'realm', 'web_response'])]
-    #[Serializer\Groups(['get', 'realm', 'web_response'])]
     public function getAuthenticationScheme(): string
     {
-        switch ($this->getType()) {
-            case RealmInterface::TYPE_PLAIN_PASSWORD:
-                return 'PasswordQuery';
-            default:
-                return 'Bearer';
-        }
+        return match ($this->getType()) {
+            RealmInterface::TYPE_PLAIN_PASSWORD => 'PasswordQuery',
+            default => 'Bearer',
+        };
     }
 
     public function getType(): string

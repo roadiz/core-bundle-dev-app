@@ -5,8 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Core\AbstractEntities;
 
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * Base entity implementing PersistableInterface to offer a unique ID.
@@ -21,9 +20,7 @@ abstract class AbstractEntity implements PersistableInterface
         ORM\Id,
         ORM\Column(type: 'integer'),
         ORM\GeneratedValue,
-        Serializer\Groups(['id']),
-        Serializer\Type('integer'),
-        SymfonySerializer\Groups(['id'])
+        Serializer\Groups(['id'])
     ]
     protected int|string|null $id = null;
 

@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use RZ\Roadiz\CoreBundle\Repository\CustomFormFieldRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -53,7 +52,6 @@ class CustomFormField extends AbstractField
     #[
         ORM\ManyToOne(targetEntity: CustomForm::class, inversedBy: 'fields'),
         ORM\JoinColumn(name: 'custom_form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
-        Serializer\Exclude,
         SymfonySerializer\Ignore
     ]
     private CustomForm $customForm;
@@ -63,14 +61,12 @@ class CustomFormField extends AbstractField
      */
     #[
         ORM\OneToMany(mappedBy: 'customFormField', targetEntity: CustomFormFieldAttribute::class),
-        Serializer\Exclude,
         SymfonySerializer\Ignore
     ]
     private Collection $customFormFieldAttributes;
 
     #[
         ORM\Column(name: 'field_required', type: 'boolean', nullable: false, options: ['default' => false]),
-        Serializer\Groups(['custom_form']),
         SymfonySerializer\Groups(['custom_form'])
     ]
     private bool $required = false;
@@ -80,7 +76,6 @@ class CustomFormField extends AbstractField
      */
     #[
         ORM\Column(name: 'autocomplete', type: 'string', length: 18, nullable: true),
-        Serializer\Groups(['custom_form']),
         SymfonySerializer\Groups(['custom_form']),
         Choice([
             'off',
