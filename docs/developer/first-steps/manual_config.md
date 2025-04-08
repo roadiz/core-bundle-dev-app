@@ -224,20 +224,9 @@ roadiz_rozier:
 
 [Authentik documentation](https://docs.goauthentik.io/docs/)
 
-#### Using Authentik with Roadiz
-
-First, you need to add the necessary services to your `compose.yml` (or your override file) to run the Authentik application.
-You can find these services in `compose.override.yml.dist`:
-
-- `postgresql`
-- `server`
-- `workerAuthentik`
-
-Don't forget to declare your volumes as well.
-
 #### Declare Variables in Your `.env`
 
-Set the following environment variables in your `.env` file:
+Set the following environment variables in your `.env.local` file:
 
 - `PG_PASS` (Auth0 recommends generating this with OpenSSL)
 - `AUTHENTIK_SECRET_KEY` (Auth0 recommends generating this with OpenSSL)
@@ -246,7 +235,13 @@ Set the following environment variables in your `.env` file:
 
 #### Running Authentik
 
-Start your Docker Compose setup and navigate to:
+Start your authentik application with :
+
+```shell
+ docker compose -f compose.authentik.yml --env-file .env.local up -d --force-recreate
+```
+
+And navigate to:
 
 ```
 http://<your-server-IP-or-hostname>:9000/if/flow/initial-setup/
