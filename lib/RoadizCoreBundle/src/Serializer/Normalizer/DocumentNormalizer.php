@@ -20,6 +20,8 @@ use Symfony\Component\Stopwatch\Stopwatch;
  */
 final class DocumentNormalizer extends AbstractPathNormalizer
 {
+    use BaseDocumentNormalizerTrait;
+
     public function __construct(
         NormalizerInterface $decorated,
         UrlGeneratorInterface $urlGenerator,
@@ -39,103 +41,71 @@ final class DocumentNormalizer extends AbstractPathNormalizer
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $data = $this->decorated->normalize($object, $format, $context);
+
         if (
-            $object instanceof Document
-            && is_array($data)
+            !$object instanceof Document
+            || !is_array($data)
         ) {
-            $this->stopwatch->start('normalizeDocument', 'serializer');
-            /** @var array<string> $serializationGroups */
-            $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
-            $data['type'] = $object->getShortType();
-
-            if (
-                !$object->isPrivate()
-                && !$object->isProcessable()
-            ) {
-                $mountPath = $object->getMountPath();
-                if (null !== $mountPath) {
-                    $data['publicUrl'] = $this->documentsStorage->publicUrl($mountPath);
-                }
-            }
-
-            if (
-                !$object->isPrivate()
-                && $object->isProcessable()
-                && null !== $alignment = $object->getImageCropAlignment()
-            ) {
-                $data['imageCropAlignment'] = $alignment;
-            }
-
-            if (
-                \in_array('document_raw_relative_path', $serializationGroups, true)
-                && !$object->isPrivate()
-                && null !== $rawDocument = $object->getRawDocument()
-            ) {
-                $data['rawRelativePath'] = $rawDocument->getRelativePath();
-            }
-
-            if (
-                \in_array('document_folders_all', $serializationGroups, true)
-            ) {
-                $data['folders'] = $object->getFolders()
-                    ->map(function (FolderInterface $folder) use ($format, $context) {
-                        return $this->decorated->normalize($folder, $format, $context);
-                    })
-                    ->getValues()
-                ;
-            } elseif (
-                \in_array('document_folders', $serializationGroups, true)
-            ) {
-                $data['folders'] = $object->getFolders()->filter(function (FolderInterface $folder) {
-                    return $folder->getVisible();
-                })->map(function (FolderInterface $folder) use ($format, $context) {
-                    return $this->decorated->normalize($folder, $format, $context);
-                })->getValues();
-            }
-
-            if (
-                $object->getEmbedPlatform()
-                && $object->getEmbedId()
-            ) {
-                $embedFinder = $this->embedFinderFactory->createForPlatform(
-                    $object->getEmbedPlatform(),
-                    $object->getEmbedId()
-                );
-                if (null !== $embedFinder) {
-                    $data['embedUrl'] = $embedFinder->getSource();
-                }
-            }
-
-            if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {
-                /*
-                 * Always falls back on default translation if no translation is found for Documents entities
-                 */
-                $translatedData = $object->getDocumentTranslationsByTranslation($context['translation'])->first() ?:
-                    $object->getDocumentTranslationsByDefaultTranslation();
-                if ($translatedData instanceof DocumentTranslation) {
-                    $data['name'] = $translatedData->getName();
-                    $data['description'] = $translatedData->getDescription();
-                    $data['copyright'] = $translatedData->getCopyright();
-                    $data['alt'] = !empty($translatedData->getName()) ? $translatedData->getName() : $object->getFilename();
-                    $data['externalUrl'] = $translatedData->getExternalUrl();
-                }
-            }
-
-            if (
-                !$object->isPrivate()
-                && \in_array('explorer_thumbnail', $serializationGroups, true)
-            ) {
-                $data['url'] = $this->documentUrlGenerator
-                    ->setDocument($object)
-                    ->setOptions([
-                        'fit' => '250x200',
-                        'quality' => 60,
-                    ])
-                    ->getUrl();
-            }
-
-            $this->stopwatch->stop('normalizeDocument');
+            return $data;
         }
+
+        $this->stopwatch->start('normalizeDocument', 'serializer');
+        /** @var array<string> $serializationGroups */
+        $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
+
+        if (
+            !$object->isPrivate()
+            && $object->isProcessable()
+            && null !== $alignment = $object->getImageCropAlignment()
+        ) {
+            $data['imageCropAlignment'] = $alignment;
+        }
+
+        if (
+            \in_array('document_raw_relative_path', $serializationGroups, true)
+            && !$object->isPrivate()
+            && null !== $rawDocument = $object->getRawDocument()
+        ) {
+            $data['rawRelativePath'] = $rawDocument->getRelativePath();
+        }
+
+        if (
+            \in_array('document_folders_all', $serializationGroups, true)
+        ) {
+            $data['folders'] = $object->getFolders()
+                ->map(function (FolderInterface $folder) use ($format, $context) {
+                    return $this->decorated->normalize($folder, $format, $context);
+                })
+                ->getValues()
+            ;
+        } elseif (
+            \in_array('document_folders', $serializationGroups, true)
+        ) {
+            $data['folders'] = $object->getFolders()->filter(function (FolderInterface $folder) {
+                return $folder->getVisible();
+            })->map(function (FolderInterface $folder) use ($format, $context) {
+                return $this->decorated->normalize($folder, $format, $context);
+            })->getValues();
+        }
+
+        if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {
+            /*
+             * Always falls back on default translation if no translation is found for Documents entities
+             */
+            $translatedData = $object->getDocumentTranslationsByTranslation($context['translation'])->first() ?:
+                $object->getDocumentTranslationsByDefaultTranslation();
+            if ($translatedData instanceof DocumentTranslation) {
+                $data['name'] = $translatedData->getName();
+                $data['description'] = $translatedData->getDescription();
+                $data['copyright'] = $translatedData->getCopyright();
+                $data['alt'] = !empty($translatedData->getName()) ? $translatedData->getName() : $object->getFilename();
+                $data['externalUrl'] = $translatedData->getExternalUrl();
+            }
+        }
+
+        $this->appendToNormalizedData($object, $data, $serializationGroups);
+
+        $this->stopwatch->stop('normalizeDocument');
 
         return $data;
     }

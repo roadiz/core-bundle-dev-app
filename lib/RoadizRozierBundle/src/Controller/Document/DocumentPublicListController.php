@@ -137,7 +137,8 @@ class DocumentPublicListController extends AbstractController
         $assignation['translation'] = $translation;
         $assignation['thumbnailFormat'] = [
             'quality' => 50,
-            'fit' => '128x128',
+            'crop' => '1:1',
+            'width' => 128,
             'sharpen' => 5,
             'inline' => false,
             'picture' => true,

@@ -71,9 +71,11 @@ This template is using NodeTreeDto and TagTreeDto objects to render a node tree.
                     {% if thumbnail %}
                         <figure class="nodetree-element-img">
                             {{ thumbnail|display({
-                                "fit":"60x60",
-                                "align": thumbnail.imageCropAlignment,
-                                "quality": 70
+                                width: 60,
+                                crop: '1:1',
+                                align: thumbnail.imageCropAlignment,
+                                hotspot: thumbnail.hotspotAsString,
+                                quality: 50
                             }) }}
                         </figure>
                     {% endif %}

@@ -14,7 +14,7 @@ final class ValidJsonValidator extends ConstraintValidator
      */
     public function validate(mixed $value, Constraint $constraint): void
     {
-        if (!empty($value)) {
+        if (!empty($value) && is_string($value)) {
             try {
                 \json_decode($value, true, 512, JSON_THROW_ON_ERROR);
             } catch (\JsonException $e) {

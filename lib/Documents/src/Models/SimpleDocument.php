@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\Collection;
  */
 class SimpleDocument implements DocumentInterface
 {
+    use BaseDocumentTrait;
     use DocumentTrait;
 
     private string $filename = '';

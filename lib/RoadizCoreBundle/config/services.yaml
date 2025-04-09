@@ -190,6 +190,10 @@ services:
         class: 'RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentNormalizer'
         decorates: 'api_platform.serializer.normalizer.item'
         decoration_priority: 20
+    # DocumentDto
+    RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentDtoNormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: 20 }
 
     # Serialize document sources (must be decorate AFTER DocumentNormalizer)
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\DocumentSourcesNormalizer:

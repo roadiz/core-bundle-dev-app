@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Api\Model;
 
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 
 interface NodesSourcesHeadInterface
 {
@@ -17,7 +17,7 @@ interface NodesSourcesHeadInterface
 
     public function isNoIndex(): bool;
 
-    public function getShareImage(): ?DocumentInterface;
+    public function getShareImage(): ?BaseDocumentInterface;
 
     public function getTranslation(): TranslationInterface;
 }

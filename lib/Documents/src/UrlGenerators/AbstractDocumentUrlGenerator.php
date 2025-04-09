@@ -8,13 +8,13 @@ use League\Flysystem\FilesystemOperator;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 use RZ\Roadiz\Documents\Exceptions\PrivateDocumentException;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Documents\OptionsResolver\ViewOptionsResolver;
 use Symfony\Component\HttpFoundation\UrlHelper;
 
 abstract class AbstractDocumentUrlGenerator implements DocumentUrlGeneratorInterface
 {
-    protected ?DocumentInterface $document;
+    protected ?BaseDocumentInterface $document;
     protected array $options;
     protected ViewOptionsResolver $viewOptionsResolver;
     protected OptionsCompiler $optionCompiler;
@@ -50,7 +50,7 @@ abstract class AbstractDocumentUrlGenerator implements DocumentUrlGeneratorInter
         return $this;
     }
 
-    public function getDocument(): ?DocumentInterface
+    public function getDocument(): ?BaseDocumentInterface
     {
         return $this->document;
     }
@@ -58,7 +58,7 @@ abstract class AbstractDocumentUrlGenerator implements DocumentUrlGeneratorInter
     /**
      * @return $this
      */
-    public function setDocument(DocumentInterface $document): static
+    public function setDocument(BaseDocumentInterface $document): static
     {
         $this->document = $document;
 

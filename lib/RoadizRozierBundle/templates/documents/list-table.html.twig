@@ -8,8 +8,10 @@
                     {{ document|display({
                         picture: true,
                         align: document.imageCropAlignment,
-                        fit: '64x64',
-                        quality: 70
+                        hotspot: document.hotspotAsString,
+                        width: 64,
+                        crop: '1:1',
+                        quality: 60
                     }) }}
                 {% endif %}
                 {% if not (document.isImage or document.isSvg) and document.shortType != 'unknown' %}

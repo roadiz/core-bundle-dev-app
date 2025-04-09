@@ -14,6 +14,25 @@
                 <source>field_with_same_name_already_exists_but_with_different_doctrine_type</source>
                 <target state="translated">This field already exists with the same name in another node type, but with a different Doctrine data type.</target>
             </trans-unit>
+
+
+
+            <trans-unit id="hotspot_is_not_valid" xml:space="preserve">
+                <source>hotspot_is_not_valid</source>
+                <target state="translated">Hotspot is not valid</target>
+            </trans-unit>
+            <trans-unit id="hotspot_does_not_contain_x_and_y" xml:space="preserve">
+                <source>hotspot_does_not_contain_x_and_y</source>
+                <target state="translated">Hotspot must contain x and y properties</target>
+            </trans-unit>
+            <trans-unit id="hotspot_x_must_be_between_0_and_1" xml:space="preserve">
+                <source>hotspot_x_must_be_between_0_and_1</source>
+                <target state="translated">Hotspot x value must be between 0 and 1</target>
+            </trans-unit>
+            <trans-unit id="hotspot_y_must_be_between_0_and_1" xml:space="preserve">
+                <source>hotspot_y_must_be_between_0_and_1</source>
+                <target state="translated">Hotspot y value must be between 0 and 1</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>
