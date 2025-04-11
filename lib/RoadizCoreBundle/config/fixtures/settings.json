@@ -250,6 +250,16 @@
         "defaultValues": ""
     },
     {
+        "name": "tiktok_url",
+        "visible": true,
+        "settingGroup": {
+            "name": "Social networks",
+            "inMenu": true
+        },
+        "type": 0,
+        "defaultValues": ""
+    },
+    {
         "name": "custom_preview_scheme",
         "description": "custom_preview_scheme.help",
         "visible": true,
