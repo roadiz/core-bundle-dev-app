@@ -54,7 +54,7 @@ class SolrSearchResults implements SearchResultsInterface
             if (
                 isset($this->response['response']['docs'])
             ) {
-                $this->resultItems = array_filter(array_map(
+                $this->resultItems = array_values(array_filter(array_map(
                     function (array $item) {
                         $object = $this->getHydratedItem($item);
                         if (!\is_object($object)) {
@@ -68,7 +68,7 @@ class SolrSearchResults implements SearchResultsInterface
                         );
                     },
                     $this->response['response']['docs']
-                ));
+                )));
             }
         }
 

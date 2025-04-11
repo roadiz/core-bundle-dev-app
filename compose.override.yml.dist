@@ -64,7 +64,8 @@ services:
 #            - ${PUBLIC_APP_PORT}:80/tcp
         # Comment ports and uncomment next line if you use Frankenphp
 #        entrypoint: ["echo", "Service nginx disabled"]
-
+    worker:
+        entrypoint: [ "php", "-d", "memory_limit=-1", "/app/bin/console", "messenger:consume", "async", "--time-limit=600", "--profile", "-vvv" ]
 
     mailer:
         ports:
