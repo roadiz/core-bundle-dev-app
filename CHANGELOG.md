@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.2...v2.5.3) - 2025-04-11
+
+### Bug Fixes
+
+- Ensure Breadcrumb items, Solr Result items and Realms are indexed arrays - ([0af705e](https://github.com/roadiz/core-bundle-dev-app/commit/0af705ebc45d26268936bd4f635b4cb3738c4e1a))
+
 ## [2.5.2](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.1...v2.5.2) - 2025-03-23
 
 ### Bug Fixes
