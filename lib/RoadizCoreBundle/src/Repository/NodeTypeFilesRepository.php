@@ -157,8 +157,8 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
             throw new \RuntimeException('Deserialized NodeType is not an instance of NodeType');
         }
 
-        if (strtolower($nodeType->getName()) !== explode('.', $fileName)[0]) {
-            throw new ValidationFailedException($nodeType, new ConstraintViolationList([new ConstraintViolation('The name of the nodeType is "'.strtolower($nodeType->getName()).'" and the name of the file is "'.$fileName.'"', null, [], $nodeType->getName(), 'name', $nodeType->getName())]));
+        if (mb_strtolower($nodeType->getName()) !== explode('.', $fileName)[0]) {
+            throw new ValidationFailedException($nodeType, new ConstraintViolationList([new ConstraintViolation('Name mismatch: nodeType name is "'.strtolower($nodeType->getName()).'" but the file name is "'.$fileName.'"', null, [], $nodeType->getName(), 'name', $nodeType->getName())]));
         }
 
         /*
