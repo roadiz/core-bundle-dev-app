@@ -50,7 +50,8 @@ final class NodesTagsController extends AbstractController
             ->setDisplayingNotPublishedNodes(true);
 
         /**
-         * Get all sources because if node does not have default traduction we can't find by default traduction.
+         * Get all sources because if node does not have a default translation
+         * we still need to get one available translation.
          *
          * @var NodesSources|null $source
          */
