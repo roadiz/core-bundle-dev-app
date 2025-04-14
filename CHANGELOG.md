@@ -2,6 +2,14 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.3...v2.5.4) - 2025-04-14
+
+### Bug Fixes
+
+- Add validation on nodeTypeName and nodetype file-name ([#80](https://github.com/roadiz/core-bundle-dev-app/issues/80)) - ([4565995](https://github.com/roadiz/core-bundle-dev-app/commit/45659952d6ec85de75e5dc787f33d48e5dbd7587))
+- Fixed NodeTagsController without default translation ([#76](https://github.com/roadiz/core-bundle-dev-app/issues/76)) - ([8c8bf56](https://github.com/roadiz/core-bundle-dev-app/commit/8c8bf5644a97094d062b86dc7eb77b13ff938e5d))
+- Add sort direction ASC or DESC in nodeType list ([#79](https://github.com/roadiz/core-bundle-dev-app/issues/79)) - ([41ae0ca](https://github.com/roadiz/core-bundle-dev-app/commit/41ae0ca98403bdfcbf08ff1859892fcceffdcbd9))
+
 ## [2.5.3](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.2...v2.5.3) - 2025-04-11
 
 ### Bug Fixes
