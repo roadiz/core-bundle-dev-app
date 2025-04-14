@@ -12,6 +12,8 @@ use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Yaml\Yaml;
@@ -48,7 +50,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
                     if (null === $content) {
                         continue;
                     }
-                    $nodeTypes[] = $this->deserialize($content);
+                    $nodeTypes[] = $this->deserialize($content, $file->getBasename());
                 } catch (InvalidConfigurationException $e) {
                     $e->addHint('File: '.$file->getRealPath());
                     throw $e;
@@ -90,7 +92,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
                 return null;
             }
 
-            return $this->deserialize($content);
+            return $this->deserialize($content, $firstFile->getBasename());
         } catch (InvalidConfigurationException $e) {
             $e->addHint('File: '.$firstFile->getRealPath());
             throw $e;
@@ -129,7 +131,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
         return in_array($fileName, $supported);
     }
 
-    private function deserialize(string $content): NodeType
+    private function deserialize(string $content, string $fileName): NodeType
     {
         /*
          * Validate YAML configuration before deserializing it.
@@ -153,6 +155,10 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
 
         if (!$nodeType instanceof NodeType) {
             throw new \RuntimeException('Deserialized NodeType is not an instance of NodeType');
+        }
+
+        if (mb_strtolower($nodeType->getName()) !== explode('.', $fileName)[0]) {
+            throw new ValidationFailedException($nodeType, new ConstraintViolationList([new ConstraintViolation('Name mismatch: nodeType name is "'.strtolower($nodeType->getName()).'" but the file name is "'.$fileName.'"', null, [], $nodeType->getName(), 'name', $nodeType->getName())]));
         }
 
         /*
