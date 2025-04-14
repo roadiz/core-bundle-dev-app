@@ -592,7 +592,7 @@ class NodesSourcesRepository extends StatusAwareRepository
             ->setCacheable(true);
 
         $this->alterQueryBuilderWithAuthorizationChecker($qb);
-        if (!$this->previewResolver->isPreview()) {
+        if (!$this->previewResolver->isPreview() && !$this->isDisplayingAllNodesStatuses()) {
             $qb->andWhere($qb->expr()->eq(static::TRANSLATION_ALIAS.'.available', ':available'))
                 ->setParameter('available', true);
         }
