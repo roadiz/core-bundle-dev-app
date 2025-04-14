@@ -8,6 +8,7 @@ use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 
 #[AsController]
 final class NodeTypesController extends AbstractController
@@ -17,12 +18,14 @@ final class NodeTypesController extends AbstractController
     ) {
     }
 
-    public function indexAction(): Response
-    {
+    public function indexAction(
+        #[MapQueryParameter(filter: \FILTER_VALIDATE_REGEXP, options: ['regexp' => '/ASC|DESC/'])]
+        ?string $ordering = null,
+    ): Response {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
 
         return $this->render('@RoadizRozier/node-types/list.html.twig', [
-            'node_types' => $this->nodeTypesBag->all(),
+            'node_types' => $this->nodeTypesBag->allSorted($ordering),
         ]);
     }
 }
