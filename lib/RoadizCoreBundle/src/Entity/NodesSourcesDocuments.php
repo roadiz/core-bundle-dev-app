@@ -165,4 +165,13 @@ class NodesSourcesDocuments extends AbstractPositioned
 
         return $this;
     }
+
+    public function copyFrom(NodesSourcesDocuments $source): NodesSourcesDocuments
+    {
+        $this->setDocument($source->getDocument());
+        $this->setHotspot($source->getHotspot());
+        $this->setImageCropAlignment($source->getImageCropAlignment());
+
+        return $this;
+    }
 }

@@ -147,6 +147,9 @@ final readonly class UniversalDataDuplicator
             /** @var NodesSourcesDocuments $newDocument */
             foreach ($newDocuments as $newDocument) {
                 $nsDoc = new NodesSourcesDocuments($destSource, $newDocument->getDocument(), $field);
+                // Copy all contextual information from source nodes-sources-document
+                // (hotspot, imageCropAlignment)
+                $nsDoc->copyFrom($newDocument);
                 $nsDoc->setPosition($position);
                 ++$position;
 
