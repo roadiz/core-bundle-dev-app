@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.4...v2.5.5) - 2025-04-15
+
+### Bug Fixes
+
+- Fixed NodeTypesController default ordering ([#81](https://github.com/roadiz/core-bundle-dev-app/issues/81)) - ([437de9a](https://github.com/roadiz/core-bundle-dev-app/commit/437de9a558aab04f8b4ec99757b6adcca965c605))
+
 ## [2.5.4](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.3...v2.5.4) - 2025-04-14
 
 ### Bug Fixes
