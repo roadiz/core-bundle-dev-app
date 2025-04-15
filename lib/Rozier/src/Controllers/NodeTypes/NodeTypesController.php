@@ -20,7 +20,7 @@ final class NodeTypesController extends AbstractController
 
     public function indexAction(
         #[MapQueryParameter(filter: \FILTER_VALIDATE_REGEXP, options: ['regexp' => '/ASC|DESC/'])]
-        ?string $ordering = null,
+        ?string $ordering = 'ASC',
     ): Response {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODETYPES');
 
