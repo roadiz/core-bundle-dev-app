@@ -75,8 +75,6 @@ class NSMock extends NodesSources
     #[Serializer\MaxDepth(2)]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'fooMultiple', type: 'json', nullable: true)]
-    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
-    #[JMS\MaxDepth(2)]
     private ?array $fooMultiple = null;
 
     /**
