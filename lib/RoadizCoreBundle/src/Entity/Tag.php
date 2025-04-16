@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
-use ApiPlatform\Serializer\Filter\PropertyFilter;
 use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,6 +15,7 @@ use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimedPositioned;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Api\Filter\NodesTagsFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NotFilter;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use RZ\Roadiz\Utils\StringHandler;
@@ -40,6 +41,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ["parent_tag_id", "visible", "position"], name: "tag_parent_visible_position"),
     UniqueEntity(fields: ["tagName"]),
     ApiFilter(PropertyFilter::class),
+    ApiFilter(NodesTagsFilter::class),
     ApiFilter(BaseFilter\OrderFilter::class, properties: [
         "position",
         "createdAt",
