@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.18...v2.4.19) - 2025-04-16
+
+### Features
+
+- Added new NodesTagsFilter to enhance tag filtering and security against nodes - ([db101c1](https://github.com/roadiz/core-bundle-dev-app/commit/db101c1302f6773df67baaa7e084b7f0b9854d1b))
+
 ## [2.4.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.17...v2.4.18) - 2025-02-25
 
 ### Bug Fixes
