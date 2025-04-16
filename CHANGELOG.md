@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.6](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.5...v2.5.6) - 2025-04-16
+
+### Bug Fixes
+
+- Update generation of node source multiple-choice fields ([#82](https://github.com/roadiz/core-bundle-dev-app/issues/82)) - ([351bc53](https://github.com/roadiz/core-bundle-dev-app/commit/351bc5322a9e6050171164eaa6b85b1275c6a53a))
+
 ## [2.5.5](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.4...v2.5.5) - 2025-04-15
 
 ### Bug Fixes
