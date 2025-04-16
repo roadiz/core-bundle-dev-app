@@ -39,6 +39,21 @@ trait NodeTypeAwareTestTrait
                         ->setDescription('Maecenas sed diam eget risus varius blandit sit amet non magna')
                         ->setIndexed(false),
                     (new SimpleNodeTypeField())
+                        ->setName('fooMultiple')
+                        ->setTypeName('multiple')
+                        ->setDoctrineType('json')
+                        ->setVirtual(false)
+                        ->setLabel('Foo Multiple field')
+                        ->setDefaultValues(<<<EOT
+- maecenas
+- eget
+- risus
+- varius
+- blandit
+- magna
+EOT)
+                        ->setIndexed(false),
+                    (new SimpleNodeTypeField())
                         ->setName('fooIndexed')
                         ->setTypeName('string')
                         ->setVirtual(false)
