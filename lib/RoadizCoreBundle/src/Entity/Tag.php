@@ -15,6 +15,7 @@ use JMS\Serializer\Annotation as Serializer;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
+use RZ\Roadiz\CoreBundle\Api\Filter\NodesTagsFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NotFilter;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use RZ\Roadiz\Utils\StringHandler;
@@ -40,6 +41,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['parent_tag_id', 'visible', 'position'], name: 'tag_parent_visible_position'),
     UniqueEntity(fields: ['tagName']),
     ApiFilter(PropertyFilter::class),
+    ApiFilter(NodesTagsFilter::class),
     ApiFilter(BaseFilter\OrderFilter::class, properties: [
         'position',
         'createdAt',
