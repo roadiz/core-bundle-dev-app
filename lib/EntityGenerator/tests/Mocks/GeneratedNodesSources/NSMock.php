@@ -60,6 +60,26 @@ class NSMock extends NodesSources
     private ?string $foo = null;
 
     /**
+     * Foo Multiple field.
+     * Default values:
+     * - maecenas
+     * - eget
+     * - risus
+     * - varius
+     * - blandit
+     * - magna
+     */
+    #[Serializer\SerializedName(serializedName: 'fooMultiple')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Foo Multiple field')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'fooMultiple', type: 'json', nullable: true)]
+    #[JMS\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[JMS\MaxDepth(2)]
+    private ?array $fooMultiple = null;
+
+    /**
      * Foo indexed field.
      * Maecenas sed diam eget risus varius blandit sit amet non magna.
      */
@@ -441,6 +461,23 @@ class NSMock extends NodesSources
         $this->foo = null !== $foo ?
                     (string) $foo :
                     null;
+        return $this;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getFooMultiple(): ?array
+    {
+        return null !== $this->fooMultiple ? array_values($this->fooMultiple) : null;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setFooMultiple(?array $fooMultiple): static
+    {
+        $this->fooMultiple = (null !== $fooMultiple) ? array_values($fooMultiple) : null;
         return $this;
     }
 

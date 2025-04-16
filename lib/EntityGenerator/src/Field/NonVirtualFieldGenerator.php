@@ -194,6 +194,8 @@ class NonVirtualFieldGenerator extends AbstractFieldGenerator
             $assignation = '$this->'.$this->field->getVarName().' = null !== $'.$this->field->getVarName().' ?
             '.$casting.$assignation.' :
             null;';
+        } elseif ($this->field->isMultiple()) {
+            $assignation = '$this->'.$this->field->getVarName().' = (null !== '.$assignation.') ? array_values('.$assignation.') : null;';
         } else {
             $assignation = '$this->'.$this->field->getVarName().' = '.$assignation.';';
         }
