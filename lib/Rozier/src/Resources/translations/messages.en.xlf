@@ -4241,11 +4241,6 @@
         <target state="final">Reachable</target>
         <note>For node-types, defines if produced nodes will be reachable with an URL or not (eg. just content blocks).</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="not_reachable" approved="yes">
-        <source>not_reachable</source>
-        <target state="final">Not reachable</target>
-        <note>Node-types will not be reachable from an URL.</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="You cannot delete a node-type in production mode." approved="yes">
         <source>You cannot delete a node-type in production mode.</source>
         <target state="final">You cannot delete a node type from a production environment.</target>
@@ -4770,15 +4765,15 @@
         <target state="final">Exclude from search</target>
         <note>Node type field : Input Label.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.documentation" approved="yes">
-        <source>export.documentation</source>
-        <target state="final">Export documentation</target>
-        <note>Button label, for exporting node-type Markdown documentation</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="manage.decorators" approved="yes">
         <source>manage.decorators</source>
         <target state="final">Decorate</target>
         <note>Button label, for manage node-type-decorators</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.documentation" approved="yes">
+        <source>export.documentation</source>
+        <target state="final">Export documentation</target>
+        <note>Button label, for exporting node-type Markdown documentation</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="export.typescript_declaration" approved="yes">
         <source>export.typescript_declaration</source>
@@ -4920,40 +4915,10 @@
         <source>ip_address</source>
         <target state="final">IP address</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeTypeDecorator" approved="yes">
-        <source>add.a.nodeTypeDecorator</source>
-            <target state="final">Add a decorator</target>
-            <note>Button label, for add new node-type-decorators</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator" approved="yes">
         <source>nodeTypeDecorator</source>
-            <target state="final">Decorate nodes types</target>
-            <note>Title, for list node-type-decorator</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.path" approved="yes">
-        <source>nodeTypeDecorator.path</source>
-            <target state="final">Path</target>
-            <note>Table column label for node-type-decorator path</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.entity" approved="yes">
-        <source>nodeTypeDecorator.entity</source>
-            <target state="final">Entity</target>
-            <note>Table column label for node-type-decorator entity based on path</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.field" approved="yes">
-        <source>nodeTypeDecorator.field</source>
-            <target state="final">Field</target>
-            <note>Table column label for node-type-decorator field based on path</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property" approved="yes">
-        <source>nodeTypeDecorator.property</source>
-            <target state="final">Property</target>
-            <note>Table column label for node-type-decorator property</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.value" approved="yes">
-        <source>nodeTypeDecorator.value</source>
-            <target state="final">Value</target>
-            <note>Table column label for node-type-decorator value</note>
+        <target state="final">Decorate nodes types</target>
+        <note>Title, for list node-type-decorator</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="back_to.nodeTypeDecorators" approved="yes">
         <source>back_to.nodeTypeDecorators</source>
@@ -4967,10 +4932,40 @@
         <source>are_you_sure.delete.nodeTypeDecorator</source>
         <target state="final">Are you sure you want to delete this decorator?</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeTypeDecorator" approved="yes">
+        <source>add.a.nodeTypeDecorator</source>
+        <target state="final">Add a decorator</target>
+        <note>Button label, for add new node-type-decorators</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.path" approved="yes">
+        <source>nodeTypeDecorator.path</source>
+        <target state="final">Path</target>
+        <note>Table column label for node-type-decorator path</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.entity" approved="yes">
+        <source>nodeTypeDecorator.entity</source>
+        <target state="final">Entity</target>
+        <note>Table column label for node-type-decorator entity based on path</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.without_field" approved="yes">
         <source>nodeTypeDecorator.without_field</source>
         <target state="final">Node-type level property</target>
         <note>Default value of node type decorator field select</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.field" approved="yes">
+        <source>nodeTypeDecorator.field</source>
+        <target state="final">Field</target>
+        <note>Table column label for node-type-decorator field based on path</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property" approved="yes">
+        <source>nodeTypeDecorator.property</source>
+        <target state="final">Property</target>
+        <note>Table column label for node-type-decorator property</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.value" approved="yes">
+        <source>nodeTypeDecorator.value</source>
+        <target state="final">Value</target>
+        <note>Table column label for node-type-decorator value</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.display_name" approved="yes">
         <source>nodeTypeDecorator.property.display_name</source>
