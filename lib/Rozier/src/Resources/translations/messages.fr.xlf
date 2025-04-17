@@ -4241,6 +4241,11 @@
         <target state="final">Accessible</target>
         <note>For node-types, defines if produced nodes will be reachable with an URL or not (eg. just content blocks).</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="not_reachable" approved="yes">
+        <source>not_reachable</source>
+        <target state="final">Non accessible</target>
+        <note>Node-types will not be reachable from an URL.</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="You cannot delete a node-type in production mode." approved="yes">
         <source>You cannot delete a node-type in production mode.</source>
         <target state="final">Vous ne pouvez pas supprimer un type de nœud depuis un environnement en production.</target>
