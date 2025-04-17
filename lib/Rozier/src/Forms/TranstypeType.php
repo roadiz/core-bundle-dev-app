@@ -4,34 +4,24 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Forms;
 
-use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
+use RZ\Roadiz\CoreBundle\Form\NodeTypesType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 
-class TranstypeType extends AbstractType
+final class TranstypeType extends AbstractType
 {
-    protected ManagerRegistry $managerRegistry;
-
-    public function __construct(
-        ManagerRegistry $managerRegistry,
-        private readonly DecoratedNodeTypes $nodeTypesBag,
-    ) {
-        $this->managerRegistry = $managerRegistry;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
             'nodeTypeName',
-            ChoiceType::class,
+            NodeTypesType::class,
             [
-                'choices' => $this->getAvailableTypes($options['currentType']),
+                'currentType' => $options['currentType'],
+                'showInvisible' => true,
                 'label' => 'nodeType',
                 'constraints' => [
                     new NotNull(),
@@ -61,16 +51,5 @@ class TranstypeType extends AbstractType
             'currentType',
         ]);
         $resolver->setAllowedTypes('currentType', NodeType::class);
-    }
-
-    protected function getAvailableTypes(NodeType $currentType): array
-    {
-        $nodeTypes = $this->nodeTypesBag->all();
-
-        $result = array_values(array_filter(array_map(static function (NodeType $nodeType) use ($currentType) {
-            return ($nodeType->getDisplayName() !== $currentType->getDisplayName()) ? $nodeType->getDisplayName() : null;
-        }, $nodeTypes)));
-
-        return array_combine($result, $result);
     }
 }
