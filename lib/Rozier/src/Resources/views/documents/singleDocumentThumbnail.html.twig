@@ -4,6 +4,7 @@
         {% if not document.private and (document.isImage or document.isSvg or document.hasThumbnails) %}
             {{ document|display(thumbnailFormat|merge({
                 align: document.imageCropAlignment,
+                hotspot: document.hotspotAsString,
             })) }}
         {% endif %}
         {% if not (document.isImage or document.isSvg) and document.shortType != 'unknown' %}

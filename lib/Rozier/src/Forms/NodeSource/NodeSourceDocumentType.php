@@ -7,6 +7,7 @@ namespace Themes\Rozier\Forms\NodeSource;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodesSourcesHandler;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -65,12 +66,13 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
         /** @var NodeTypeField $nodeTypeField */
         $nodeTypeField = $event->getForm()->getConfig()->getOption('nodeTypeField');
 
-        $event->setData($this->managerRegistry
-            ->getRepository(Document::class)
-            ->findByNodeSourceAndFieldName(
+        // TODO: Send imageCropAlignment and hotspot through Form data
+        $event->setData(array_map(fn (NodesSourcesDocuments $nsd) => $nsd->getDocument(), $this->managerRegistry
+            ->getRepository(NodesSourcesDocuments::class)
+            ->findByNodesSourcesAndFieldName(
                 $nodeSource,
                 $nodeTypeField->getName()
-            ));
+            )));
     }
 
     /**
@@ -88,19 +90,31 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
         $this->nodesSourcesHandler->setNodeSource($nodeSource);
         $this->nodesSourcesHandler->cleanDocumentsFromField($nodeTypeField, false);
 
-        if (is_array($event->getData())) {
-            $position = 0.0;
-            $manager = $this->managerRegistry->getManager();
-            foreach ($event->getData() as $documentId) {
-                /** @var Document|null $tempDoc */
-                $tempDoc = $manager->find(Document::class, (int) $documentId);
+        if (!is_array($event->getData())) {
+            return;
+        }
 
-                if (null !== $tempDoc) {
-                    $this->nodesSourcesHandler->addDocumentForField($tempDoc, $nodeTypeField, false, $position);
-                    ++$position;
-                } else {
-                    throw new \RuntimeException('Document #'.$documentId.' was not found during relationship creation.');
-                }
+        $position = 0.0;
+        $manager = $this->managerRegistry->getManager();
+        foreach ($event->getData() as $documentId) {
+            /** @var Document|null $tempDoc */
+            $tempDoc = $manager->find(Document::class, (int) $documentId);
+
+            if (null !== $tempDoc) {
+                // TODO: Send imageCropAlignment and hotspot through Form data
+                $hotspot = null;
+                $imageCropAlignment = null;
+                $this->nodesSourcesHandler->addDocumentForField(
+                    $tempDoc,
+                    $nodeTypeField,
+                    false,
+                    $position,
+                    $hotspot,
+                    $imageCropAlignment
+                );
+                ++$position;
+            } else {
+                throw new \RuntimeException('Document #'.$documentId.' was not found during relationship creation.');
             }
         }
     }

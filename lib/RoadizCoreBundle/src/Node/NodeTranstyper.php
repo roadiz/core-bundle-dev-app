@@ -186,6 +186,7 @@ final class NodeTranstyper
                 $documents = $existingSource->getDocumentsByFieldsWithName($oldField->getName());
                 foreach ($documents as $document) {
                     $nsDoc = new NodesSourcesDocuments($source, $document);
+                    // TODO: We are losing all contextual data here (hotspot, alignment, etc.)
                     $nsDoc->setFieldName($matchingField->getName());
                     $this->getManager()->persist($nsDoc);
                     $source->getDocumentsByFields()->add($nsDoc);

@@ -21,6 +21,21 @@ final class NodesSourcesDocumentsRepository extends EntityRepository
         parent::__construct($registry, NodesSourcesDocuments::class, $dispatcher);
     }
 
+    /**
+     * @return NodesSourcesDocuments[]
+     */
+    public function findByNodesSourcesAndFieldName(NodesSources $nodeSource, string $fieldName): array
+    {
+        $queryBuilder = $this->createQueryBuilder('nsd');
+        $queryBuilder->andWhere($queryBuilder->expr()->eq('nsd.nodeSource', ':nodeSource'))
+            ->andWhere($queryBuilder->expr()->eq('nsd.fieldName', ':fieldName'))
+            ->orderBy('nsd.position', 'ASC')
+            ->setParameter('nodeSource', $nodeSource)
+            ->setParameter('fieldName', $fieldName);
+
+        return $queryBuilder->getQuery()->getResult();
+    }
+
     public function getLatestPositionForFieldName(NodesSources $nodeSource, string $fieldName): int
     {
         $query = $this->_em->createQuery('

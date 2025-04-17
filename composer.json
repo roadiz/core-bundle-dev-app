@@ -70,7 +70,7 @@
         "psr/cache": ">=1.0.1",
         "psr/log": ">=1.1",
         "ramsey/uuid": "^4.7",
-        "rezozero/intervention-request-bundle": "~4.0.0",
+        "rezozero/intervention-request-bundle": "~4.1.0",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
         "roadiz/nodetype-contracts": "^2.0.0",

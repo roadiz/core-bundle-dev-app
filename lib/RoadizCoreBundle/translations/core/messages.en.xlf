@@ -253,6 +253,18 @@
                 <source>firewall</source>
                 <target state="translated">Firewall</target>
             </trans-unit>
+
+
+
+
+            <trans-unit id="document.hotspot" xml:space="preserve">
+                <source>document.hotspot</source>
+                <target state="translated">Hotspot</target>
+            </trans-unit>
+            <trans-unit id="document.hotspot.help" xml:space="preserve">
+                <source>document.hotspot.help</source>
+                <target state="translated">An image's hotspot can be used to define a more precise area for resizing than the alignment option.</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

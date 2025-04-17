@@ -17,8 +17,9 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 final class DocumentExplorerItem extends AbstractExplorerItem
 {
-    public static array $thumbnail80Array = [
-        'fit' => '80x80',
+    public static array $thumbnailSmallArray = [
+        'width' => 100,
+        'crop' => '1:1',
         'quality' => 50,
         'sharpen' => 5,
         'inline' => false,
@@ -97,7 +98,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         $thumbnail80Url = null;
         $this->documentUrlGenerator->setDocument($this->document);
         $hasThumbnail = false;
-        $thumbnailOptions = self::$thumbnail80Array;
+        $thumbnailOptions = self::$thumbnailSmallArray;
         $previewOptions = self::$previewArray;
 
         if (
@@ -112,12 +113,14 @@ final class DocumentExplorerItem extends AbstractExplorerItem
 
         if ($this->document instanceof Document) {
             $thumbnailOptions = [
-                ...self::$thumbnail80Array,
+                ...self::$thumbnailSmallArray,
                 'align' => $this->document->getImageCropAlignment(),
+                'hotspot' => $this->document->getHotspotAsString(),
             ];
             $previewOptions = [
                 ...self::$previewArray,
                 'align' => $this->document->getImageCropAlignment(),
+                'hotspot' => $this->document->getHotspotAsString(),
             ];
         }
 

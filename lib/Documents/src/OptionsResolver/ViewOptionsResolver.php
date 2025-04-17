@@ -9,91 +9,92 @@ class ViewOptionsResolver extends UrlOptionsResolver
     public function __construct()
     {
         parent::__construct();
+
         $this->setDefaults([
-            'identifier' => null,
-            'id' => null,
-            'class' => null,
             'alt' => null,
-            'title' => null,
+            'autoplay' => false,
+            'blurredFallback' => false,
+            'class' => null,
+            'controls' => true,
             'custom_poster' => null,
             'embed' => false,
+            'fallback' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg==',
+            'fullscreen' => true,
+            'id' => null,
+            'identifier' => null,
+            'inline' => true,
             'lazyload' => false,
             'lazyload_class' => 'lazyload',
-            'inline' => true,
-            'autoplay' => false,
-            'muted' => false,
-            'loop' => false,
-            'controls' => true,
-            'fullscreen' => true,
             'loading' => null,
-            'fallback' => 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg==',
-            'blurredFallback' => false,
+            'loop' => false,
             'media' => [],
-            'srcset' => [],
-            'sizes' => [],
+            'muted' => false,
             'picture' => false,
+            'sizes' => [],
+            'srcset' => [],
+            'title' => null,
             // prevent thumbnail usage when available
             'no_thumbnail' => false,
             /*
              * Soundcloud
              */
             'hide_related' => false,
-            'show_comments' => false,
-            'show_user' => false,
-            'show_reposts' => false,
             'show_artwork' => false,
+            'show_comments' => false,
+            'show_reposts' => false,
+            'show_user' => false,
             'visual' => false,
             /*
              * Vimeo
              */
-            'displayTitle' => false,
-            'byline' => false,
-            'portrait' => false,
-            'color' => null,
             'api' => true,
             'automute' => false,
             'autopause' => false,
+            'byline' => false,
+            'color' => null,
+            'displayTitle' => false,
+            'portrait' => false,
             /*
              * Youtube
              */
+            'enablejsapi' => true,
+            'end' => false,
             'modestbranding' => true,
+            'playlist' => false,
+            'playsinline' => false, // Allow iframe to play inline on iOS
             'rel' => false,
             'showinfo' => false,
             'start' => false,
-            'end' => false,
-            'enablejsapi' => true,
-            'playlist' => false,
-            'playsinline' => false, // Allow iframe to play inline on iOS
             /*
              * Mixcloud
              */
-            'mini' => false,
-            'light' => true,
-            'hide_cover' => true,
             'hide_artwork' => false,
+            'hide_cover' => true,
+            'light' => true,
+            'mini' => false,
         ]);
 
-        $this->setAllowedTypes('identifier', ['null', 'string']);
-        $this->setAllowedTypes('id', ['null', 'string']);
-        $this->setAllowedTypes('class', ['null', 'string']);
         $this->setAllowedTypes('alt', ['null', 'string']);
-        $this->setAllowedTypes('title', ['null', 'string']);
+        $this->setAllowedTypes('autoplay', ['boolean']);
+        $this->setAllowedTypes('blurredFallback', ['boolean']);
+        $this->setAllowedTypes('class', ['null', 'string']);
+        $this->setAllowedTypes('controls', ['boolean']);
         $this->setAllowedTypes('custom_poster', ['null', 'string']);
         $this->setAllowedTypes('embed', ['boolean']);
+        $this->setAllowedTypes('fullscreen', ['boolean']);
+        $this->setAllowedTypes('id', ['null', 'string']);
+        $this->setAllowedTypes('identifier', ['null', 'string']);
+        $this->setAllowedTypes('inline', ['boolean']);
         $this->setAllowedTypes('lazyload', ['boolean']);
         $this->setAllowedTypes('lazyload_class', ['string']);
-        $this->setAllowedTypes('inline', ['boolean']);
-        $this->setAllowedTypes('autoplay', ['boolean']);
-        $this->setAllowedTypes('muted', ['boolean']);
-        $this->setAllowedTypes('blurredFallback', ['boolean']);
         $this->setAllowedTypes('loop', ['boolean']);
-        $this->setAllowedTypes('controls', ['boolean']);
-        $this->setAllowedTypes('fullscreen', ['boolean']);
-        $this->setAllowedTypes('srcset', ['array']);
         $this->setAllowedTypes('media', ['array']);
-        $this->setAllowedTypes('sizes', ['array']);
-        $this->setAllowedTypes('picture', ['boolean']);
+        $this->setAllowedTypes('muted', ['boolean']);
         $this->setAllowedTypes('no_thumbnail', ['boolean']);
+        $this->setAllowedTypes('picture', ['boolean']);
+        $this->setAllowedTypes('sizes', ['array']);
+        $this->setAllowedTypes('srcset', ['array']);
+        $this->setAllowedTypes('title', ['null', 'string']);
 
         // Fallback src content when using lazyload with data-src
         $this->setAllowedTypes('fallback', ['string']);
