@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.7...v2.5.8) - 2025-04-17
+
+### Bug Fixes
+
+- Fixed TranstypeType.php and grouped NodeTypesType.php choices by reachable or not - ([18dbafb](https://github.com/roadiz/core-bundle-dev-app/commit/18dbafbc6a07808e9b8c6228174ffd6f5152700a))
+
 ## [2.5.7](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.6...v2.5.7) - 2025-04-16
 
 ### Features
