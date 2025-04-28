@@ -14,6 +14,10 @@
         <h1 class="content-title node-edit-source-title"{% if source.translation.locale is rtl %} dir="rtl"{% endif %}>
             {{ ("edit.nodeSource.%name%"|trans({'%name%': currentTitle}))|u.truncate(30, '[…]', false) }}
             {% include '@RoadizRozier/nodes/nodeTypeCircle.html.twig' %}
+
+            {% if app.debug %}
+                <span class="uk-badge uk-badge-mini">NS #{{ source.id }}</span>
+            {% endif %}
         </h1>
         {% include '@RoadizRozier/nodes/navBack.html.twig' %}
         {% include '@RoadizRozier/nodes/navBar.html.twig' with {"current": 'source'} %}
