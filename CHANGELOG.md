@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.5.10) - 2025-04-28
+
+### Styling
+
+- **(Rozier)** Refactor document styles and optimize transitions. - ([6ecfe16](https://github.com/roadiz/core-bundle-dev-app/commit/6ecfe164463cee08919a7c117e0c62639b4b4209))
+
 ## [2.5.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.8...2.5.9) - 2025-04-28
 
 ### Bug Fixes
