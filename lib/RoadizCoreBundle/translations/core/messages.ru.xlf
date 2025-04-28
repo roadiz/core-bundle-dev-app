@@ -153,6 +153,7 @@
                 <source>password_should_be_at_least_{{length}}_characters_long</source>
                 <target state="translated">пароль должен содержать как минимум %length% символов</target>
             </trans-unit>
+      <!-- History entry params -->
     </body>
   </file>
 </xliff>
