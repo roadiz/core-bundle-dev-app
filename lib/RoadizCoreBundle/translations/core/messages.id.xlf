@@ -141,6 +141,7 @@
                 <target state="translated">nolai sudah digunakan</target>
                 <note>Error message meaning that user can’t use that value for this object (eg. Object name is already used).</note>
             </trans-unit>
+      <!-- History entry params -->
     </body>
   </file>
 </xliff>
