@@ -123,8 +123,10 @@
 .documents-widget-sortable-list-item,
 .documents-widget-dragging {
     position: relative;
-    display: inline-block; vertical-align: top;
-    width:80px; height:80px;
+    display: inline-block;
+    vertical-align: top;
+    width:80px;
+    height:80px;
     margin-right:12px;
     margin-top: 8px;
     cursor: move;
@@ -158,17 +160,18 @@
         transition: ~"0.4s opacity ease, 0.4s top ease";
     }
 
-    .document-mime-type{
+    .document-mime-type {
         display: none;
     }
 
-    .document-links{
+    .document-links {
         position:absolute;
-        width:80px;
-        height:30px;
-        bottom:-30px;
+        width: 80px;
+        height: 30px;
+        transform: translateY(100%);
+        bottom: 0;
         overflow: hidden;
-        transition: 0.4s bottom @easeOutExpo;
+        transition: 0.4s transform @easeOutExpo;
         background: rgba(255,255,255,0.8);
 
         .document-link {
@@ -231,9 +234,8 @@
     }
 
     &:hover{
-
-        .document-links{
-            bottom:0px;
+        .document-links {
+            transform: translateY(0);
         }
         .document-platform-icon {
             opacity: 0;

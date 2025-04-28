@@ -33,23 +33,23 @@
     .preview-zoom {
         position: absolute;
         z-index: 15;
-        top: 0;
+        top: -4px;
         right: 0;
         width: 20px;
         text-align: center;
-        background: var(--rz-accent-color);
+        transform: translateY(-100%);
+        background-color: var(--rz-accent-color);
+        cursor: pointer;
         font-size: 11px;
-        padding: 2px 0;
+        padding: 5px 0;
         height: 15px;
         color: #fff;
-        opacity: 0;
-        transition: 0.4s opacity @easeOutExpo;
+        transition: 0.4s transform @easeOutExpo;
     }
 
     &:hover {
         .preview-zoom {
-            opacity: 1;
-            cursor: pointer;
+            transform: translateY(0);
         }
     }
 
@@ -75,13 +75,14 @@
         display: none;
     }
 
-    .document-links{
-        position:absolute;
-        width:80px;
-        height:30px;
-        bottom:-30px;
+    .document-links {
+        position: absolute;
+        width: 80px;
+        height: 30px;
+        transform: translateY(100%);
+        bottom: 0;
         overflow: hidden;
-        transition: 0.4s bottom @easeOutExpo;
+        transition: 0.4s transform @easeOutExpo;
         background: rgba(255,255,255,0.8);
 
         .document-link {
@@ -144,9 +145,8 @@
     }
 
     &:hover{
-
         .document-links{
-            bottom:0px;
+            transform: translateY(0);
         }
         .document-platform-icon {
             opacity: 0;

@@ -65,7 +65,7 @@
         border: 1px solid #fff;
 
         .links {
-            right: 0;
+            transform: translateX(0);
         }
     }
 
@@ -83,10 +83,11 @@
         position:absolute;
         width: @drawer-item-height * 2;
         height: @drawer-item-height;
-        top:0;
-        right: -@drawer-item-height * 2;
+        transform: translateX(100%);
+        top: 0;
+        right: 0;
         overflow: hidden;
-        transition: 0.4s right @easeOutExpo;
+        transition: 0.4s transform @easeOutExpo;
 
         &.no-edit {
             width: @drawer-item-height;
@@ -174,7 +175,7 @@
     .widget-explorer & {
         border: none;
         cursor: pointer;
-        background: #4C4C4C;
+        background-color: #4C4C4C;
         color: #888;
         flex: 0 1 48%;
 
@@ -184,7 +185,7 @@
 
         &:hover {
             border: none;
-            background: darken(#4C4C4C, 3%);
+            background-color: darken(#4C4C4C, 3%);
 
             .link-button-inner{
                 right: 0;
