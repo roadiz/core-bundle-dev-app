@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\UrlGenerators;
 
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 
 interface DocumentUrlGeneratorInterface
 {
@@ -13,7 +13,7 @@ interface DocumentUrlGeneratorInterface
     /**
      * @return $this
      */
-    public function setDocument(DocumentInterface $document): static;
+    public function setDocument(BaseDocumentInterface $document): static;
 
     /**
      * @return $this

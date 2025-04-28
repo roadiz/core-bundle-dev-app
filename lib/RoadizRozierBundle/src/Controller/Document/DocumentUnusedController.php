@@ -44,7 +44,8 @@ final class DocumentUnusedController extends AbstractController
         $assignation['documents'] = $listManager->getEntities();
         $assignation['thumbnailFormat'] = [
             'quality' => 50,
-            'fit' => '128x128',
+            'crop' => '1:1',
+            'width' => 128,
             'sharpen' => 5,
             'inline' => false,
             'picture' => true,

@@ -7,12 +7,14 @@ namespace RZ\Roadiz\Documents\Renderer;
 use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Twig\Environment;
 
 abstract class AbstractImageRenderer extends AbstractRenderer
 {
+    public const WIDTH_HEIGHT_PATTERN = '#(?<width>[0-9]+)[x:\.](?<height>[0-9]+)#';
+
     public function __construct(
         FilesystemOperator $documentsStorage,
         protected readonly EmbedFinderFactory $embedFinderFactory,
@@ -23,14 +25,14 @@ abstract class AbstractImageRenderer extends AbstractRenderer
         parent::__construct($documentsStorage, $templating, $documentUrlGenerator, $templateBasePath);
     }
 
-    public function supports(DocumentInterface $document, array $options): bool
+    public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return $document->isImage()
             && !empty($document->getRelativePath())
             && !$this->isEmbeddable($document, $options);
     }
 
-    public function isEmbeddable(DocumentInterface $document, array $options): bool
+    public function isEmbeddable(BaseDocumentInterface $document, array $options): bool
     {
         return isset($options['embed'])
             && true === $options['embed']
@@ -57,7 +59,7 @@ abstract class AbstractImageRenderer extends AbstractRenderer
     }
 
     protected function parseSrcSet(
-        DocumentInterface $document,
+        BaseDocumentInterface $document,
         array $options = [],
         bool $convertToWebP = false,
     ): ?string {
@@ -69,7 +71,7 @@ abstract class AbstractImageRenderer extends AbstractRenderer
     }
 
     protected function parseSrcSetInner(
-        DocumentInterface $document,
+        BaseDocumentInterface $document,
         array $srcSetArray = [],
         bool $convertToWebP = false,
         bool $absolute = false,
@@ -121,42 +123,94 @@ abstract class AbstractImageRenderer extends AbstractRenderer
         throw new \RuntimeException('Cannot generate imageCreateTrueColor');
     }
 
-    protected function additionalAssignation(DocumentInterface $document, array $options, array &$assignation): void
+    protected function getImageRatio(array &$options): ?float
     {
-        if ($document instanceof AdvancedDocumentInterface) {
-            if (null !== $options['ratio'] && 0 !== $options['ratio']) {
-                $assignation['ratio'] = $options['ratio'];
-            } elseif (null !== $document->getImageRatio()) {
-                $assignation['ratio'] = $document->getImageRatio();
+        /** @var \ArrayAccess<string, string|null> $options */
+        $compositing = $options['crop'] ?? $options['fit'] ?? '';
+        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, $compositing, $matches)) {
+            return ((float) $matches['width']) / ((float) $matches['height']);
+        }
+
+        return null;
+    }
+
+    protected function getImageWidth(array &$options): int
+    {
+        /** @var \ArrayAccess<string, string|null> $options */
+        $compositing = $options['fit'] ?? '';
+        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, $compositing, $matches)) {
+            return (int) $matches['width'];
+        } elseif (null !== $options['ratio'] && 0 !== $options['height'] && 0 !== $options['ratio']) {
+            return (int) (intval($options['height']) * floatval($options['ratio']));
+        }
+
+        return 0;
+    }
+
+    protected function getImageHeight(array &$options): int
+    {
+        /** @var \ArrayAccess<string, string|null> $options */
+        $compositing = $options['fit'] ?? '';
+        if (1 === preg_match(static::WIDTH_HEIGHT_PATTERN, $compositing, $matches)) {
+            return (int) $matches['height'];
+        } elseif (null !== $options['ratio'] && 0 !== $options['width'] && 0 !== $options['ratio']) {
+            return (int) (intval($options['width']) / floatval($options['ratio']));
+        }
+
+        return 0;
+    }
+
+    protected function additionalAssignation(BaseDocumentInterface $document, array $options, array &$assignation): void
+    {
+        /*
+         * Guess ratio, width and height options from fit or crop
+         */
+        if (empty($options['ratio'])) {
+            $assignation['ratio'] = $options['ratio'] = $this->getImageRatio($options);
+        }
+        if (empty($options['width'])) {
+            $assignation['width'] = $options['width'] = $this->getImageWidth($options);
+        }
+        if (empty($options['height'])) {
+            $assignation['height'] = $options['height'] = $this->getImageHeight($options);
+        }
+
+        if (!($document instanceof AdvancedDocumentInterface)) {
+            return;
+        }
+
+        if (null !== $options['ratio'] && 0 !== $options['ratio']) {
+            $assignation['ratio'] = $options['ratio'];
+        } elseif (null !== $document->getImageRatio()) {
+            $assignation['ratio'] = $document->getImageRatio();
+        }
+        if (
+            null !== $document->getImageAverageColor()
+            && '#ffffff' !== $document->getImageAverageColor()
+            && '#000000' !== $document->getImageAverageColor()
+        ) {
+            $assignation['averageColor'] = $document->getImageAverageColor();
+        }
+        if (true === $options['blurredFallback']) {
+            if (!empty($options['fit'])) {
+                // Both Fit and Width cannot be explicitly set
+                // need to revert on Crop
+                $options['crop'] = $options['fit'];
+                unset($options['fit']);
             }
-            if (
-                null !== $document->getImageAverageColor()
-                && '#ffffff' !== $document->getImageAverageColor()
-                && '#000000' !== $document->getImageAverageColor()
-            ) {
-                $assignation['averageColor'] = $document->getImageAverageColor();
+            if (!empty($options['height'])) {
+                unset($options['height']);
             }
-            if (true === $options['blurredFallback']) {
-                if (!empty($options['fit'])) {
-                    // Both Fit and Width cannot be explicitly set
-                    // need to revert on Crop
-                    $options['crop'] = $options['fit'];
-                    unset($options['fit']);
-                }
-                if (!empty($options['height'])) {
-                    unset($options['height']);
-                }
-                $assignation['fallback'] = $this->getSource(
-                    $document,
-                    array_merge(
-                        $options,
-                        [
-                            'quality' => 10,
-                            'width' => 60,
-                        ]
-                    )
-                );
-            }
+            $assignation['fallback'] = $this->getSource(
+                $document,
+                array_merge(
+                    $options,
+                    [
+                        'quality' => 10,
+                        'width' => 60,
+                    ]
+                )
+            );
         }
     }
 }

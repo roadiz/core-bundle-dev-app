@@ -60,6 +60,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setDefaults([
             'use_native_json' => true,
             'use_api_platform_filters' => false,
+            'use_document_dto' => false,
         ]);
         $resolver->setRequired([
             'parent_class',
@@ -73,6 +74,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             'namespace',
             'use_native_json',
             'use_api_platform_filters',
+            'use_document_dto',
         ]);
         $resolver->setAllowedTypes('parent_class', 'string');
         $resolver->setAllowedTypes('node_class', 'string');
@@ -85,6 +87,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setAllowedTypes('namespace', 'string');
         $resolver->setAllowedTypes('use_native_json', 'bool');
         $resolver->setAllowedTypes('use_api_platform_filters', 'bool');
+        $resolver->setAllowedTypes('use_document_dto', 'bool');
 
         $normalizeClassName = function (OptionsResolver $resolver, string $className) {
             return (new UnicodeString($className))->startsWith('\\') ?

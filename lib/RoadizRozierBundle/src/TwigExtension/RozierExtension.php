@@ -30,7 +30,8 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
             'nodeStatuses' => NodeStatus::allLabelsAndValues(),
             'thumbnailFormat' => [
                 'quality' => 50,
-                'fit' => '128x128',
+                'crop' => '1:1',
+                'width' => 128,
                 'sharpen' => 5,
                 'inline' => false,
                 'picture' => true,

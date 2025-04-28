@@ -38,7 +38,7 @@
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpoffice/phpspreadsheet": "^1.15",
         "ramsey/uuid": "^4.7",
-        "rezozero/intervention-request-bundle": "~4.0.0",
+        "rezozero/intervention-request-bundle": "~4.1.0",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
         "roadiz/doc-generator": "2.5.*",

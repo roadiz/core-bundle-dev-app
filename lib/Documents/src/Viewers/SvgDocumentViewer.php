@@ -7,7 +7,7 @@ namespace RZ\Roadiz\Documents\Viewers;
 use enshrined\svgSanitize\Sanitizer;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 final class SvgDocumentViewer
@@ -24,7 +24,7 @@ final class SvgDocumentViewer
 
     public function __construct(
         private readonly FilesystemOperator $documentsStorage,
-        private readonly DocumentInterface $document,
+        private readonly BaseDocumentInterface $document,
         private readonly array $attributes = [],
         private readonly bool $asObject = false,
     ) {

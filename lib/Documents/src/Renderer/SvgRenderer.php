@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\Renderer;
 
 use League\Flysystem\FilesystemOperator;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Documents\OptionsResolver\ViewOptionsResolver;
 use RZ\Roadiz\Documents\Viewers\SvgDocumentViewer;
 
@@ -18,12 +18,12 @@ class SvgRenderer implements RendererInterface
         $this->viewOptionsResolver = new ViewOptionsResolver();
     }
 
-    public function supports(DocumentInterface $document, array $options): bool
+    public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return $document->isSvg() && (!isset($options['inline']) || false === $options['inline']);
     }
 
-    public function render(DocumentInterface $document, array $options): string
+    public function render(BaseDocumentInterface $document, array $options): string
     {
         $mountPath = $document->getMountPath();
         if (null === $mountPath) {

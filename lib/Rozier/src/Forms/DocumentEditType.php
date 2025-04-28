@@ -8,8 +8,11 @@ use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Form\ColorType;
 use RZ\Roadiz\CoreBundle\Form\Constraint\UniqueFilename;
 use RZ\Roadiz\CoreBundle\Form\DocumentCollectionType;
+use RZ\Roadiz\CoreBundle\Form\JsonType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -121,6 +124,27 @@ class DocumentEditType extends AbstractType
                 'help' => 'document.imageCropAlignment.help',
                 'required' => false,
             ]);
+            $builder->add('hotspot', JsonType::class, [
+                'label' => 'document.hotspot',
+                'help' => 'document.hotspot.help',
+                'required' => false,
+            ]);
+            $builder->get('hotspot')
+            ->addModelTransformer(new CallbackTransformer(
+                function (mixed $hotspot): string {
+                    return json_encode($hotspot, JSON_THROW_ON_ERROR);
+                },
+                function (mixed $hotspot): ?array {
+                    if (!\is_string($hotspot)) {
+                        return null;
+                    }
+                    try {
+                        return json_decode($hotspot, true, flags: JSON_THROW_ON_ERROR);
+                    } catch (\JsonException $e) {
+                        throw new TransformationFailedException($e->getMessage(), previous: $e);
+                    }
+                }
+            ));
         }
 
         /*

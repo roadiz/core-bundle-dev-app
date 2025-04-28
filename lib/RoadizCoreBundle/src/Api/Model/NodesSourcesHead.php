@@ -9,7 +9,7 @@ use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodesSourcesHandler;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
@@ -169,7 +169,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     }
 
     #[Serializer\Groups(['web_response', 'nodes_sources_single'])]
-    public function getShareImage(): ?DocumentInterface
+    public function getShareImage(): ?BaseDocumentInterface
     {
         if (
             null !== $this->nodesSource
