@@ -2,6 +2,16 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.9](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.8...2.5.9) - 2025-04-28
+
+### Bug Fixes
+
+- Enable correct linking to node type fields based on user roles ([#85](https://github.com/roadiz/core-bundle-dev-app/issues/85)) - ([f85d4ff](https://github.com/roadiz/core-bundle-dev-app/commit/f85d4ffa710092d96b4a9291378119d31cf97b85))
+
+### Documentation
+
+- Fix and update serialization group descriptions - ([182fef2](https://github.com/roadiz/core-bundle-dev-app/commit/182fef250da9c66621c75411104f4a67416fd178))
+
 ## [2.5.8](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.7...v2.5.8) - 2025-04-17
 
 ### Bug Fixes
