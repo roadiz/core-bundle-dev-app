@@ -265,6 +265,14 @@
                 <source>document.hotspot.help</source>
                 <target state="translated">An image's hotspot can be used to define a more precise area for resizing than the alignment option.</target>
             </trans-unit>
+            <trans-unit id="apple_podcast" xml:space="preserve">
+                <source>apple_podcast</source>
+                <target state="translated">Apple Podcast</target>
+            </trans-unit>
+            <trans-unit id="Apple_podcast" xml:space="preserve">
+                <source>Apple_podcast</source>
+                <target state="translated">Apple Podcast</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>
