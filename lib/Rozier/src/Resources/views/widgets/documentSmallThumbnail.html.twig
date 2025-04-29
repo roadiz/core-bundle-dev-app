@@ -56,7 +56,7 @@
         </div>
         {% if document.isEmbed %}
             <div class="document-mime-type">{{ document.getEmbedPlatform }}</div>
-            <div class="document-platform-icon"><i class="uk-icon-rz-{{ (document|embedFinder).shortType }}"></i></div>
+            <div class="document-platform-icon"><i class="uk-icon-{{ (document|embedFinder).shortType }}"></i></div>
         {% else %}
             <div class="document-mime-type">{{ document.getShortMimeType|u.truncate(13, '…', false) }}</div>
         {% endif %}

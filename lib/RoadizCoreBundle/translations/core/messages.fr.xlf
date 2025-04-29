@@ -254,6 +254,24 @@
                 <source>firewall</source>
                 <target state="translated">Pare-feu</target>
             </trans-unit>
+
+
+            <trans-unit id="document.hotspot" xml:space="preserve">
+                <source>document.hotspot</source>
+                <target state="translated">Point d'intéret</target>
+            </trans-unit>
+            <trans-unit id="document.hotspot.help" xml:space="preserve">
+                <source>document.hotspot.help</source>
+                <target state="translated">Le point d'intérêt d'une image permet de définir une zone plus précise que l'option d'alignement pour le redimensionnement.</target>
+            </trans-unit>
+            <trans-unit id="apple_podcast" xml:space="preserve">
+                <source>apple_podcast</source>
+                <target state="translated">Apple Podcast</target>
+            </trans-unit>
+            <trans-unit id="Apple_podcast" xml:space="preserve">
+                <source>Apple_podcast</source>
+                <target state="translated">Apple Podcast</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>

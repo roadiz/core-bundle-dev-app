@@ -67,7 +67,7 @@
                     </div>
                     <template v-if="document.embedPlatform">
                         <div class="document-mime-type">{{ document.embedPlatform }}</div>
-                        <div class="document-platform-icon"><i :class="'uk-icon-rz-' + document.icon"></i></div>
+                        <div class="document-platform-icon"><i :class="'uk-icon-' + document.icon"></i></div>
                     </template>
                     <template v-else>
                         <div class="document-mime-type">{{ shortMimeType }}</div>
