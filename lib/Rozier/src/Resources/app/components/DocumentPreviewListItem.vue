@@ -49,7 +49,12 @@
                         </template>
                     </template>
 
-                    <template v-if="drawerName">
+                    <template v-if="drawerName && entityName">
+                        <input type="hidden" :name="drawerName + '[' + index +'][document]'" :value="document.id" />
+                        <input v-if="hotspot" type="hidden" :name="drawerName + '[' + index +'][hotspot]'" :value="JSON.stringify(hotspot)" />
+                        <input v-if="imageCropAlignment" type="hidden" :name="drawerName + '[' + index +'][imageCropAlignment]'" :value="imageCropAlignment" />
+                    </template>
+                    <template v-else-if="drawerName">
                         <input type="hidden" :name="drawerName + '[' + index +']'" :value="document.id" />
                     </template>
 
@@ -86,19 +91,14 @@
 </template>
 
 <script>
-    import { mapActions } from 'vuex'
-    import filters from '../filters'
-    import AjaxLink from '../components/AjaxLink.vue'
-    import DynamicImg from '../directives/DynamicImg'
-    import centralTruncate from '../filters/centralTruncate'
+import {mapActions} from 'vuex'
+import filters from '../filters'
+import AjaxLink from '../components/AjaxLink.vue'
+import DynamicImg from '../directives/DynamicImg'
+import centralTruncate from '../filters/centralTruncate'
 
-    export default {
-        props: ['item', 'isItemExplorer', 'drawerName', 'index', 'removeItem', 'addItem'],
-        data: function () {
-            return {
-                document: this.item
-            }
-        },
+export default {
+        props: ['item', 'isItemExplorer', 'drawerName', 'index', 'removeItem', 'addItem', 'entityName'],
         directives: {
             DynamicImg
         },
@@ -115,6 +115,15 @@
             },
             editUrl: function () {
                 return this.document.editItem + this.getReferer()
+            },
+            document: function () {
+                return (this.item.document) ? this.item.document : this.item
+            },
+            hotspot: function () {
+                return (this.item.hotspot) ? this.item.hotspot : null
+            },
+            imageCropAlignment: function () {
+                return (this.item.imageCropAlignment) ? this.item.imageCropAlignment : null
             }
         },
         methods: {

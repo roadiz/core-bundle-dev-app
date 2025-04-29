@@ -48,9 +48,9 @@
     </transition>
 </template>
 <script>
-    import AjaxLink from './AjaxLink.vue'
+import AjaxLink from './AjaxLink.vue'
 
-    export default {
+export default {
         props: {
             item: {
                 type: Object
@@ -80,6 +80,9 @@
                 type: String
             },
             name: {
+                type: String
+            },
+            entityName: {
                 type: String
             }
         },
