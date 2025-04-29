@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.10...v2.5.11) - 2025-04-29
+
+### Features
+
+- Add Apple Podcast embed integration and fix platform icons - ([8c05733](https://github.com/roadiz/core-bundle-dev-app/commit/8c057339e25e59d8259e10723d410d8cad856e50))
+
 ## [2.5.10](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.9...v2.5.10) - 2025-04-28
 
 ### Styling
