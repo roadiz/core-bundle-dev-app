@@ -63,7 +63,7 @@ export default {
                 const filters = { nodeTypes, nodeTypeField, providerClass, providerOptions, nodeTypeName }
 
                 // Init data
-                let test = this.drawersInitData({
+                this.drawersInitData({
                     drawer: this.drawer,
                     entity,
                     ids,
