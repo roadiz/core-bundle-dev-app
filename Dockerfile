@@ -163,6 +163,7 @@ ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
 
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
+ENV SERVER_NAME=":80"
 ENV APP_FFMPEG_PATH=/usr/bin/ffmpeg
 ENV APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime
 ENV FRANKENPHP_CONFIG="worker ./public/index.php"
@@ -235,21 +236,6 @@ CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
 
 USER php
 
-########################
-# Php - franken - Prod #
-########################
-
-FROM php-franken AS php-prod-franken
-
-ENV XDEBUG_MODE=off
-
-RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-
-COPY --link docker/frankenphp/conf.d/app.prod.ini ${PHP_INI_DIR}/conf.d/
-
-CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile" ]
-
-USER php
 
 #############
 # Php - Dev #
