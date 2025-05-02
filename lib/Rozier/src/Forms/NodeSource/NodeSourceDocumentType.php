@@ -13,6 +13,8 @@ use RZ\Roadiz\CoreBundle\EntityHandler\NodesSourcesHandler;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
@@ -22,6 +24,13 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
         private readonly NodesSourcesHandler $nodesSourcesHandler,
     ) {
         parent::__construct($managerRegistry);
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options): void
+    {
+        parent::buildView($view, $form, $options);
+
+        $view->vars['entityName'] = 'node-source-document';
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -56,7 +65,7 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
 
     public function getBlockPrefix(): string
     {
-        return 'documents';
+        return 'node_source_documents';
     }
 
     public function onPreSetData(FormEvent $event): void
@@ -66,19 +75,19 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
         /** @var NodeTypeField $nodeTypeField */
         $nodeTypeField = $event->getForm()->getConfig()->getOption('nodeTypeField');
 
-        // TODO: Send imageCropAlignment and hotspot through Form data
-        $event->setData(array_map(fn (NodesSourcesDocuments $nsd) => $nsd->getDocument(), $this->managerRegistry
+        $event->setData($this->managerRegistry
             ->getRepository(NodesSourcesDocuments::class)
             ->findByNodesSourcesAndFieldName(
                 $nodeSource,
                 $nodeTypeField->getName()
-            )));
+            ));
     }
 
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Doctrine\ORM\TransactionRequiredException
+     * @throws \JsonException
      */
     public function onPostSubmit(FormEvent $event): void
     {
@@ -96,14 +105,16 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
 
         $position = 0.0;
         $manager = $this->managerRegistry->getManager();
-        foreach ($event->getData() as $documentId) {
+        foreach ($event->getData() as $documentDto) {
+            if (!isset($documentDto['document'])) {
+                throw new \RuntimeException('Document was not found in submitted data.');
+            }
             /** @var Document|null $tempDoc */
-            $tempDoc = $manager->find(Document::class, (int) $documentId);
+            $tempDoc = $manager->find(Document::class, (int) $documentDto['document']);
 
             if (null !== $tempDoc) {
-                // TODO: Send imageCropAlignment and hotspot through Form data
-                $hotspot = null;
-                $imageCropAlignment = null;
+                $hotspot = (isset($documentDto['hotspot'])) ? json_decode($documentDto['hotspot'], true, flags: JSON_THROW_ON_ERROR) : null;
+                $imageCropAlignment = $documentDto['imageCropAlignment'] ?? null;
                 $this->nodesSourcesHandler->addDocumentForField(
                     $tempDoc,
                     $nodeTypeField,
@@ -114,7 +125,7 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
                 );
                 ++$position;
             } else {
-                throw new \RuntimeException('Document #'.$documentId.' was not found during relationship creation.');
+                throw new \RuntimeException('Document #'.$documentDto['document'].' was not found during relationship creation.');
             }
         }
     }

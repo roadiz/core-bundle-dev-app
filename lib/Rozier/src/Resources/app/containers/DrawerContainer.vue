@@ -8,6 +8,7 @@ import {DRAWERS_UPDATE_LIST} from '../types/mutationTypes'
 import RzButton from '../components/RzButton.vue'
 import draggable from 'vuedraggable'
 import Dropzone from '../components/Dropzone.vue'
+import {NODE_SOURCE_DOCUMENT_ENTITY} from "../types/entityTypes";
 
 export default {
         props: ['entity'],
@@ -16,7 +17,8 @@ export default {
                 drawerName: null,
                 dropzoneLanguage: window.RozierRoot.messages.dropzone,
                 groupName: null,
-                isSortable: null
+                isSortable: null,
+                entityName: null
             }
         },
         mounted () {
@@ -26,6 +28,7 @@ export default {
             // Import
             Vue.nextTick(() => {
                 this.drawerName = this.$refs.drawer.getAttribute('name')
+                this.entityName = this.$refs.drawer.getAttribute('data-entity-name')
 
                 let ids = this.ids
                 let entity = this.entity
@@ -66,7 +69,8 @@ export default {
                     ids,
                     filters,
                     maxLength,
-                    minLength
+                    minLength,
+                    entityName: this.entityName
                 })
             })
         },
@@ -140,7 +144,15 @@ export default {
                 })
             },
             showSuccess: function (file, response) {
-                this.addItem(response.document)
+                if (this.entityName === NODE_SOURCE_DOCUMENT_ENTITY) {
+                    this.addItem({
+                        document: response.document,
+                        hotspot: null,
+                        imageCropAlignment: null,
+                    })
+                } else {
+                    this.addItem(response.document)
+                }
             },
             showError: function (file, error, xhr) {
                 console.error(file)

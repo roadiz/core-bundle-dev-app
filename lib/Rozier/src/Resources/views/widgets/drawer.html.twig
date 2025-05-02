@@ -1,7 +1,14 @@
 {% set entityIds = [] %}
 {% set isSortable = isSortable|default('true') %}
 {% for entity in value %}
-    {% if entity.id is defined %}
+    {% if entity is NodesSourcesDocument %}
+        {% set entityIds = entityIds|merge([{
+            id: entity.id,
+            document: entity.document.id,
+            hotspot: entity.hotspot,
+            imageCropAlignment: entity.imageCropAlignment
+        }]) %}
+    {% elseif entity.id is defined %}
         {% set entityIds = entityIds|merge([entity.id]) %}
     {% else %}
         {#
@@ -27,7 +34,7 @@
         {% endif %}
     {% endfor %}
     <div class="uk-form-row form-col-{{ name }} drawer-widget-wrapper" {{ drawerAttributes|join(' ')|raw }}>
-        <drawer-container data-vuejs inline-template>
+        <drawer-container data-vuejs inline-template data-entity-name="{{ entityName }}">
             <div class="drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"
                  :class="{ 'uk-active' : isActive, 'uk-alert-danger': drawer.errorMessage }"
                  v-if="drawer"
@@ -111,13 +118,15 @@
                                 <component
                                     v-bind:is="drawer.currentListingView"
                                     v-for="(item, index) in items"
-                                    :key="item.id"
+                                    :key="(item.document) ? item.document.id : item.id"
                                     :drawer-name="drawerName"
                                     :is-item-explorer="false"
                                     :add-item="addItem"
                                     :remove-item="removeItem"
                                     :index="index"
-                                    :item="item">
+                                    :item="item"
+                                    :entity-name="entityName"
+                                >
                                 </component>
                             </transition-group>
                         </draggable>
