@@ -275,6 +275,14 @@
                 <target />
             </trans-unit>
 
+            <trans-unit id="apple_podcast" xml:space="preserve">
+                <source>apple_podcast</source>
+                <target />
+            </trans-unit>
+            <trans-unit id="Apple_podcast" xml:space="preserve">
+                <source>Apple_podcast</source>
+                <target />
+            </trans-unit>
         </body>
     </file>
 </xliff>
