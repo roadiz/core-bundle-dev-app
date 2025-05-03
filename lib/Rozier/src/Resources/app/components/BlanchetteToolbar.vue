@@ -58,26 +58,26 @@
         </button>
     </div>
 </template>
-<style lang="scss" scoped>
-    .toolbar {
-        margin: 20px 0;
+<style lang="less" scoped>
+.toolbar {
+    margin: 20px 0;
 
-        .toolbar__select_wraper {
-            position: relative;
-            display: inline-block;
+    .toolbar__select_wraper {
+        position: relative;
+        display: inline-block;
 
-            .toolbar__select {
-                padding-right: 30px;
-            }
+        .toolbar__select {
+            padding-right: 30px;
+        }
 
-            i {
-                position: absolute;
-                right: 7px;
-                top: 11px;
-                pointer-events: none;
-            }
+        i {
+            position: absolute;
+            right: 7px;
+            top: 11px;
+            pointer-events: none;
         }
     }
+}
 </style>
 <script>
     export default {

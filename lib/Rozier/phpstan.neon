@@ -4,7 +4,6 @@ parameters:
         - src
     excludePaths:
         - */node_modules/*
-        - */bower_components/*
         - */static/*
     doctrine:
         repositoryClass: RZ\Roadiz\Core\Repositories\EntityRepository

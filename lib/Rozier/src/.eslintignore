@@ -4,6 +4,5 @@
 /static/
 /Resources/app/vendor
 /Resources/app/less
-/Resources/app/scss
 /Resources/app/assets
 /node_modules/

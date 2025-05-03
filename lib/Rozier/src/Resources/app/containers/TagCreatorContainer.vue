@@ -38,31 +38,30 @@
         }
     }
 </script>
-<style lang="scss" scoped>
-    $bgColor: darken(#3d3d3d, 10);
-    $textColor: lighten(#3d3d3d, 10);
-    $btnSize: 40px;
+<style lang="less" scoped>
+@bgColor: darken(#3d3d3d, 10);
+@textColor: lighten(#3d3d3d, 10);
 
-    .tag-creator {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        width: 100%;
-        padding: 20px 40px;
-        background-color: $bgColor;
-        color: $textColor;
-        box-sizing: border-box;
-        display: flex;
+.tag-creator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 20px 40px;
+    background-color: @bgColor;
+    color: @textColor;
+    box-sizing: border-box;
+    display: flex;
 
-        .new-tag-container,
-        .infos {
-            flex: 1;
-        }
-
-        .infos {
-            font-size: 12px;
-            margin-right: 20px;
-        }
+    .new-tag-container,
+    .infos {
+        flex: 1;
     }
+
+    .infos {
+        font-size: 12px;
+        margin-right: 20px;
+    }
+}
 </style>

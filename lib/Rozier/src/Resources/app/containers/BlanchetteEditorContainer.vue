@@ -36,40 +36,39 @@
         <slot ref="editForm"></slot>
     </div>
 </template>
-<style lang="scss" scoped>
-    .blanchette-editor {
-        margin-bottom: 25px;
-    }
+<style lang="less" scoped>
+.blanchette-editor {
+    margin-bottom: 25px;
+}
 
-    .canvas {
-        position: relative;
-        width: 100%;
-        height: 100%;
-    }
+.canvas {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
 
-    .spinner-container {
-        position: absolute;
-        z-index: 5;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background: rgba(#fff, 0.5);
-    }
+.spinner-container {
+    position: absolute;
+    z-index: 5;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255,255,255, 0.5);
+}
 
-    .editor {
-        background: #eee;
-        height: 100%;
-        overflow: hidden;
+.editor {
+    background: #eee;
+    height: 100%;
+    overflow: hidden;
 
-        > img {
-            display: block;
-            max-width: 100%;
-            max-height: 100%;
-            margin: auto;
-            vertical-align: middle;
-        }
+    > img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        margin: auto;
     }
+}
 </style>
 <script>
     import 'vue-cropperjs'

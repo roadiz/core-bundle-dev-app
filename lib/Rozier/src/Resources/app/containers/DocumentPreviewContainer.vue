@@ -58,7 +58,7 @@
         }
     }
 </script>
-<style lang="scss">
+<style lang="less">
     .document-preview-widget {
         position: fixed;
         width: 100%;
@@ -71,7 +71,7 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: rgba(#000, 0.5);
+            background: rgba(0, 0, 0, 0.5);
         }
 
         &__information {
