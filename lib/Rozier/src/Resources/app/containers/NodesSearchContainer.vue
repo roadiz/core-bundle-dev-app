@@ -24,14 +24,24 @@
             ...mapActions([
                 'nodesSourceSearchUpdate',
                 'nodeSourceSearchEnableFocus',
-                'nodeSourceSearchDisableFocus'
+                'nodeSourceSearchDisableFocus',
+                'nodeSourceSearchEscape',
             ]),
             enableFocus: debounce(function () {
                 this.nodeSourceSearchEnableFocus()
             }, 50),
             disableFocus: debounce(function () {
                 this.nodeSourceSearchDisableFocus()
-            }, 500) // wait to enable click on links
+            }, 300), // wait to enable click on links
+            /**
+             * @param {KeyboardEvent} e
+             */
+            keyUp: function (e) {
+                if (e && e.key === 'Escape') {
+                    e.preventDefault()
+                    this.nodeSourceSearchEscape()
+                }
+            },
         },
         watch: {
             searchTerms: debounce(function (newValue, oldValue) {

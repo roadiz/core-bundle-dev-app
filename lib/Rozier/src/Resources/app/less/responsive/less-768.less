@@ -32,7 +32,7 @@
         display: none !important;
     }
 
-    #main-container-inner{
+    #main-container-inner {
         display: block;
         width:100%;
         height:100%;
@@ -182,12 +182,17 @@
             left:0;
             width:80vw;
             background: #f2f2f2;
-            .translate(-80vw, 0);
             z-index: 999;
             --webkit-overflow-scrolling: touch;
             overflow-y: scroll;
             padding-bottom: 50px;
             box-sizing: border-box;
+            transition: transform ease-in-out 0.33s;
+            transform: translateX(-100%);
+
+            &.open {
+                transform: translateX(0);
+            }
 
             header{
                 display: none;
@@ -306,29 +311,17 @@
         }
 
         // Main trees
-        #main-trees{
-            position: absolute;
+        #main-trees {
             display: block;
-            width:0;
+            width: 0;
             overflow: visible;
-            z-index:8;
+            z-index: 9;
 
-            #main-trees-overlay{
-                display: none;
-            }
-
-            #main-trees-container{
-                width:0;
+            #main-trees-container {
                 overflow: visible;
-                background: none;
-
-                &> div{
-                    width:0;
-                    background: none;
-                }
             }
 
-            #nodes-sources-search{
+            #nodes-sources-search {
                 position: fixed;
                 top: @mobile-admin-menu-height;
                 bottom:0;
@@ -337,7 +330,6 @@
                 height:100%;
                 background: #aaa;
                 z-index:8;
-                .translate(-80vw, 0);
 
                 form {
                     padding:20px 20px 5px 20px;
@@ -401,17 +393,6 @@
         }
     }
 
-    #tree-wrapper{
-        position: fixed;
-        top: @mobile-admin-menu-height;
-        bottom:0;
-        left:0;
-        width:80vw;
-        background: #aaa;
-        z-index:8;
-        .translate(-80vw, 0);
-    }
-
     .mobile-button{
         position: fixed;
         display: inline-flex;
@@ -448,15 +429,6 @@
 
     #tree-button{
         left: @mobile-admin-menu-height * 2;
-    }
-
-    #tree-menu{
-        margin-top:0;
-        padding-top:10px;
-    }
-
-    #tree-container{
-        background: var(--maintree-global-bg);
     }
 
     // Grid

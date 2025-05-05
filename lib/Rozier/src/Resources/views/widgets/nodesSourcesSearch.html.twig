@@ -14,8 +14,8 @@
                        ref="searchTermsInput"
                        autocomplete="off"
                        v-model="searchTerms"
-                       @focus="enableFocus"
-                       @blur="disableFocus"
+                       @keyup="keyUp"
+                       @focus.prevent="enableFocus"
                        placeholder="{% trans %}search.node{% endtrans %}"/>
 
             </div>

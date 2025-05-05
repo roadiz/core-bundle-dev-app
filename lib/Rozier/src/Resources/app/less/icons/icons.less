@@ -338,9 +338,6 @@
 .uk-icon-rz-settings-general:before {
   content: "\e061";
 }
-.uk-icon-rz-soundcloud:before {
-  content: "\e062";
-}
 .uk-icon-rz-space-forced:before {
   content: "\e063";
 }
@@ -428,9 +425,6 @@
 .uk-icon-rz-users:before {
   content: "\e080";
 }
-.uk-icon-rz-vimeo:before {
-  content: "\e081";
-}
 .uk-icon-rz-visibility:before {
   content: "\e082";
 }
@@ -445,9 +439,6 @@
 }
 .uk-icon-rz-xls:before {
   content: "\e086";
-}
-.uk-icon-rz-youtube:before {
-  content: "\e087";
 }
 .uk-icon-rz-surveys-big:before {
   content: "\e088";
@@ -485,42 +476,63 @@
 /*
  * Brands
  */
-.uk-icon-rz-youtube:before,
-.uk-icon-rz-vimeo:before,
-.uk-icon-rz-soundcloud:before,
-.uk-icon-rz-spotify:before,
-.uk-icon-rz-ted:before,
-.uk-icon-rz-twitch:before,
-.uk-icon-rz-mixcloud:before {
-    font-family: 'FontAwesomeBrands';
+.uk-icon-youtube,
+.uk-icon-vimeo,
+.uk-icon-soundcloud,
+.uk-icon-spotify,
+.uk-icon-ted,
+.uk-icon-twitch,
+.uk-icon-mixcloud,
+.uk-icon-rz-youtube,
+.uk-icon-rz-vimeo,
+.uk-icon-rz-soundcloud,
+.uk-icon-rz-spotify,
+.uk-icon-rz-ted,
+.uk-icon-rz-twitch,
+.uk-icon-rz-mixcloud {
+    font-family: 'FontAwesomeBrands' !important;
     font-size: 0.75em;
     vertical-align: bottom;
+
+    &:before {
+        font-family: 'FontAwesomeBrands' !important;
+        font-size: 0.75em;
+        vertical-align: bottom;
+    }
 }
 
+.uk-icon-youtube:before,
 .uk-icon-rz-youtube:before {
   content: "\f167";
 }
+.uk-icon-mixcloud:before,
 .uk-icon-rz-mixcloud:before {
   content: "\f289";
 }
+.uk-icon-vimeo:before,
 .uk-icon-rz-vimeo:before {
     content: "\f27d";
 }
+.uk-icon-soundcloud:before,
 .uk-icon-rz-soundcloud:before {
     content: "\f1be";
 }
+.uk-icon-spotify:before,
 .uk-icon-rz-spotify:before {
     content: "\f1bc";
 }
+.uk-icon-deezer:before,
 .uk-icon-rz-deezer:before {
     font-family: 'FontAwesome';
     font-size: 0.75em;
     vertical-align: bottom;
     content: "\f001";
 }
+.uk-icon-ted:before,
 .uk-icon-rz-ted:before {
     display: none;
 }
+.uk-icon-twitch:before,
 .uk-icon-rz-twitch:before {
     content: "\f1e8";
 }
