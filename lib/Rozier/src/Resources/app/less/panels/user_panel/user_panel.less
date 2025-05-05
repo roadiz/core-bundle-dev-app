@@ -193,7 +193,10 @@
 
 .user-actions-menu {
     text-align: center;
-    padding: 20px 0 10px 0;
+
+    @media (min-width: @screen-sm-min) {
+        padding: 20px 0 10px 0;
+    }
 
     h3, p {
         font-size: @default-font-size;
