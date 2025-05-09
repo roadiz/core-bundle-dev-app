@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.11...v2.5.12) - 2025-05-09
+
+### Bug Fixes
+
+- Improve YouTube embed handling and add error logging - fixes #90 - ([e18eac2](https://github.com/roadiz/core-bundle-dev-app/commit/e18eac2185a6280db954b6c5a085709a82b0cc4b))
+
 ## [2.5.11](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.10...v2.5.11) - 2025-04-29
 
 ### Features
