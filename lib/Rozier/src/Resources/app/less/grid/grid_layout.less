@@ -3,12 +3,17 @@
  * and width for each section
  */
 #main-container-inner {
-    display: grid;
-    grid-template-columns: @user-panel-sm-width @entries-panel-width fit-content(100%) auto;
-    justify-content: stretch;
-    height: 100vh;
-    overflow: hidden;
+    display: block;
+    width: 100%;
+    height: 100%;
 
+    @media (min-width: @screen-sm-min) {
+        display: grid;
+        grid-template-columns: @user-panel-sm-width @entries-panel-width fit-content(100%) auto;
+        justify-content: stretch;
+        height: 100vh;
+        overflow: hidden;
+    }
     @media (min-width: @screen-lg-min) {
         grid-template-columns: @user-panel-lg-width @entries-panel-lg-width fit-content(100%) auto;
     }
@@ -50,11 +55,23 @@
         }
     }
 
+    .navigation-container-section {
+        @media (max-width: @screen-xs-max) {
+            position: fixed !important;
+        }
+    }
+
     #main-content {
+        display: block;
+        width: 100vw;
+        z-index: 0;
         position: relative;
         overflow-y: auto;
         --webkit-overflow-scrolling: touch;
-        width: 100%;
+
+        @media (min-width: @screen-sm-min) {
+            width: 100%;
+        }
 
         #canvasloader-container {
             position: fixed;

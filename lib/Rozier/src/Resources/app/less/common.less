@@ -100,9 +100,19 @@ background: #CCC;
     font-size: @default-font-size;
 }
 
-@media screen and (max-width: @screen-md-max) {
+
+@media (max-width: @screen-xs-max) {
+    .mobile-hidden {
+        display: none !important;
+    }
+    .uk-tooltip {
+        display: none !important;
+    }
+}
+
+@media (max-width: @screen-md-max) {
     .uk-visible-xlarge {
-        display: none;
+        display: none !important;
     }
 }
 

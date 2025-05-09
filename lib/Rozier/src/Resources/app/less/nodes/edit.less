@@ -100,7 +100,10 @@
         }
 
         &:first-child {
-            margin-left: 50px;
+            @media (min-width: @screen-sm-min) {
+                margin-left: 50px;
+            }
+
             a {
                 border-radius: 5px 0 0 5px;
                 border-left: 1px solid #bfbfbf;

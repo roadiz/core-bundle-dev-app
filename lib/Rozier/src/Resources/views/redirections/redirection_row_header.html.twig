@@ -16,8 +16,8 @@
     } only %}
     {% endif %}
 </th>
-<th>{% trans %}redirection.type{% endtrans %}</th>
-<th>
+<th class="mobile-hidden">{% trans %}redirection.type{% endtrans %}</th>
+<th class="mobile-hidden">
     {% trans %}redirection.use_count{% endtrans %}
     {% if not no_sort %}
     {% include '@RoadizRozier/includes/column_ordering.html.twig' with {

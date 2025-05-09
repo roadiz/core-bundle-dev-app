@@ -2,20 +2,9 @@
    NAVBARS - NAVIGATION
 \*------------------------------------*/
 
-
-/*
- * Styles for navigation nav bars
- */
-
-
-/* -------- VARS -------- */
-
 @active-border-size: 4px;
 
-
-
 /* -------- STYLES -------- */
-
 .navbar-navigation {
     & > .uk-navbar-nav {
         background-color: var(--maincontent-header-bg);
@@ -29,7 +18,7 @@
             display: block;
             background: none transparent;
 
-            a { // .navbar-link
+            a {
                 position: relative;
                 font-family: @main-font;
                 line-height:44px;
@@ -43,6 +32,10 @@
                 &:active, &:focus{
                     box-shadow: none;
                     color: var(--global-text-color);
+                }
+
+                @media screen and (max-width: @screen-md-max) {
+                    font-size: @default-font-size;
                 }
             }
 

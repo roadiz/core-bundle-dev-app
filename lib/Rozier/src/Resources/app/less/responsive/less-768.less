@@ -3,115 +3,49 @@
 \*------------------------------------*/
 
 @media (max-width: @screen-xs-max) {
-    /*
-     * Styles for screens with width <= 768 (mobile)
-     */
-    .uk-button {
-        &-content {
-            width: 32px;
-            height: 32px;
+    #menu-mobile {
+        display: block;
+        top:0;
+        left:0;
+        width:50px;
+        height: @mobile-admin-menu-height;
+        background: #f2f2f2;
+        cursor: pointer;
+        z-index:3;
+
+        .menu-mobile-bar{
+            position: absolute;
+            left:18px;
+            width:18px;
+            height:2px;
+            background: var(--user-panel-color);
         }
 
-        &-small {
-            [class*=uk-icon-] {
-                font-size: 16px;
-            }
+        #menu-mobile-bar-1{
+            top:19px;
         }
 
-        &-mini {
-            height: 17px;
-            padding: 0;
+        #menu-mobile-bar-2{
+            top:25px;
+        }
+
+        #menu-mobile-bar-3{
+            top:31px;
         }
     }
 
-    .mobile-hidden {
+    #company,
+    #cms-version {
         display: none;
     }
 
-    .uk-tooltip {
-        display: none !important;
-    }
-
     #main-container-inner {
-        display: block;
-        width:100%;
-        height:100%;
-
-        .navigation-container-section {
-            position: fixed !important;
-        }
         // User panel
         #user-panel {
             display:block;
             width:100%;
             height: @mobile-admin-menu-height;
             z-index:6;
-
-            #menu-mobile {
-                //position: absolute;
-                display: block;
-                top:0;
-                left:0;
-                width:50px;
-                height: @mobile-admin-menu-height;
-                background: #f2f2f2;
-                cursor: pointer;
-                z-index:3;
-
-                .menu-mobile-bar{
-                    position: absolute;
-                    left:18px;
-                    width:18px;
-                    height:2px;
-                    background: var(--user-panel-color);
-                }
-
-                #menu-mobile-bar-1{
-                    top:19px;
-                }
-
-                #menu-mobile-bar-2{
-                    top:25px;
-                }
-
-                #menu-mobile-bar-3{
-                    top:31px;
-                }
-            }
-
-            #company, #cms-version{
-                display: none;
-            }
-
-            #user-picture{
-                position: absolute;
-                top:0;
-                right:0;
-                width:60px;
-                height: @mobile-admin-menu-height;
-                background: var(--user-panel-color);
-                border-radius: 0;
-                border:0;
-                transition: 0.6s background @easeOutExpo;
-
-                &.active{
-                    background: #3a3a3a;
-                }
-
-                img {
-                    position: absolute;
-                    width:38px;
-                    height:38px;
-                    top:5px;
-                    right:8px;
-                    border-radius: (@user-picture-size / 2)+5px;
-                    border: 3px solid var(--user-panel-color);
-                }
-
-                .uk-icon {
-                    color: rgba(255, 255, 255, 0.5);
-                }
-            }
 
             .uk-icon-button{
                 position: relative;
@@ -384,91 +318,10 @@
 
             }
         }
-
-
-        // Main content
-        #main-content {
-            display: block;
-            width: 100vw;
-            z-index: 0;
-        }
     }
 
-    .mobile-button{
-        position: fixed;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        top:0;
-        width: @mobile-admin-menu-height;
-        height: @mobile-admin-menu-height;
-        border-right:1px solid #5f5f5f;
-        text-align: center;
-        z-index:7;
-        .box-sizing();
-        transition: 0.6s background @easeOutExpo;
-
-
-        &.active{
-            background: #aaaaaa;
-            i {
-                color:@grey-interface;
-            }
-        }
-
-        i {
-            font-size:24px;
-            line-height: @mobile-admin-menu-height -1;
-            color:#a3a3a3;
-            transition: 0.6s color @easeOutExpo;
-        }
-    }
-
-    #search-button{
-        left: @mobile-admin-menu-height;
-    }
-
-    #tree-button{
-        left: @mobile-admin-menu-height * 2;
-    }
-
-    // Grid
-    .content{
-        h2 {
-            font-size: 19px;
-            line-height: 23px;
-        }
-        h3 {
-            font-size: 16px;
-            line-height: 20px;
-        }
-
-        &.content-upload{
-            padding:0;
-
-            & > *{
-                padding:0;
-            }
-        }
-
-        &.content-no-action-menu {
-            padding:30px 0;
-
-            & > * {
-                padding:0 5px;
-            }
-        }
-    }
-
-    .content-header{
-        height: auto;
-        padding:10px 15px 0;
-
-        &.header-node-edit-source {
-            padding: 10px 45px 0 15px;
-        }
-
-        .navbar-navigation{
+    .content-header {
+        .navbar-navigation {
             position: relative;
             top: 1px;
             background-color: transparent;
@@ -503,282 +356,6 @@
                     }
                 }
             }
-
         }
-    }
-
-    .content-breadcrumb {
-        position: relative;
-        top: 0;
-        height: auto;
-        padding: 15px 0 0;
-        margin: 0;
-
-        & > li {
-            font-size: 9px;
-        }
-    }
-
-    .content-header-nav-back{
-        top:15px; left:15px;
-    }
-
-    .content-title {
-        font-size: 20px;
-        line-height: 28px;
-        padding: 20px 0;
-    }
-
-    #uk-navbar-filter-count{
-        display: none;
-    }
-
-
-    // Forms
-    .uk-form {
-        .form-col-date,
-        .form-col-datetime {
-            & > div:last-child > div:last-child{
-                margin-left:0;
-            }
-        }
-    }
-
-
-    // HTML Editor
-    .uk-htmleditor-navbar-nav>li{
-        margin-bottom:8px;
-    }
-
-    .uk-htmleditor-navbar-flip .uk-htmleditor-navbar-nav{
-        display: none;
-    }
-
-
-    // Content header
-    .content-header-action-menu{
-        position: relative;
-        top:0;
-        right:0;
-        left:0;
-        padding: 10px 0;
-        text-align: center;
-        justify-content: center;
-
-        .uk-button {
-            overflow: hidden;
-            width: 100%;
-            margin: 0 0 7px;
-        }
-
-        .uk-button-dropdown {
-            width: 100%;
-            margin: 0 0 7px;
-        }
-
-        .uk-dropdown {
-            margin-top: -8px;
-        }
-    }
-
-
-    // Node widgets
-    .documents-widget-nav {
-        .children-nodes-quick-creation{
-            display:none;
-        }
-        .uk-button{
-            //width:36px;
-            overflow: hidden;
-
-            i {
-                margin-right:10px;
-            }
-        }
-    }
-
-    // Action menu
-    .actions-menu {
-        header,
-        .uk-button {
-            display: block;
-            margin: 0 8px 8px 0;
-
-            &:before{
-                display: none;
-            }
-
-            .icon-container{
-                position: relative;
-                display: inline-block;
-                width:auto;
-                height: auto;
-                background: none;
-                padding: 0;
-                vertical-align: middle;
-                box-shadow: none;
-            }
-
-            .label {
-                position: relative;
-                display: inline-block;
-
-                .label-text{
-                    padding: 0;
-                    background: none transparent;
-                }
-            }
-        }
-
-        .uk-button {
-            width: 100%;
-        }
-
-        .with-subnav{
-            display: block;
-            vertical-align:top;
-            height:auto;
-            width:auto;
-
-            &.node-actions {
-                display: none;
-            }
-
-            &.node-parameters,
-            &.node-status {
-                width: auto;
-                margin: 30px -15px;
-
-                header {
-                    background: none;
-                    border:none;
-                    padding-left:8px;
-
-                    &:before{
-                        display: none;
-                    }
-
-                    .label{
-                        display: inline-block;
-                        left: 1em;
-                        background: none;
-
-                        &:after { display: none; }
-
-                        .label-text {
-                            padding:0;
-                            color:#444;
-                        }
-                    }
-                }
-
-                ul {
-                    position: relative;
-                    display: block;
-                    border:none;
-                    border-top: 3px solid #CCC;
-                    top:0;
-                    right:0;
-                    left:0;
-                    width: auto;
-                    box-shadow:none;
-                }
-            }
-        }
-    }
-
-
-    /* -------- PAGES -------- */
-
-    // History
-    .history-log-item {
-        height:auto;
-        overflow:hidden;
-
-        .table{
-            display: inline-block;
-            height:auto;
-        }
-
-        .table-cell{
-            display: inline-block;
-            height:auto;
-        }
-
-        .history-log-date{
-            width:100%; height:30px;
-            padding:0 10px;
-            font-size: @default-font-size; line-height:30px;
-        }
-
-        .history-log-user{
-            position: absolute;
-            top:3px; right:3px;
-            width:24px; height:24px;
-
-            &:before{
-                display: none;
-            }
-
-            a{
-                display: block;
-                height:100%;
-            }
-
-            .user-image{
-                top:0;
-                margin-top:0;
-                max-width:24px;
-                max-height:24px;
-            }
-
-            .user-image-default .uk-icon-rz-users{
-                font-size: @default-font-size; line-height:24px;
-            }
-        }
-
-        .history-log-message{
-            height:auto;
-            padding:5px 10px;
-            word-break:break-word;
-        }
-    }
-
-
-    // Documents
-    .content-document-preview .document-source{
-        display: none;
-    }
-
-
-    // Node type fields
-    #add-node-type-field-form .form-col-maxLength,
-    #edit-node-type-field-form .form-col-maxLength{
-        margin-left:0;
-        margin-right:50px;
-    }
-
-
-    // Custom forms
-    .content-custom-forms-list {
-        .uk-button-content {
-            margin-bottom:4px;
-        }
-    }
-
-    // Settings
-    #add-setting-form .form-col-type,
-    #edit-setting-form .form-col-type{
-        margin:20px 0 0 0;
-    }
-
-    .settings .table-actions-row{
-        width:95px;
-    }
-
-    .dropzone .dz-default.dz-message span {
-        height: auto;
-        padding: 10px 20px;
-        line-height: 16px;
     }
 }

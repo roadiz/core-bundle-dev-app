@@ -50,56 +50,6 @@
     }
 }
 
-.documents-widget-nav{
-    min-height:45px;
-    border-bottom:1px dashed @documents-widget-border;
-
-    @media (min-width: @screen-lg-min) {
-        min-height:55px;
-    }
-
-    .uk-navbar-brand {
-        .widgetNavBarBrand();
-    }
-
-    .uk-icon-rz-documents{
-        font-size:28px;
-    }
-
-    .documents-widget-quick-creation{
-        margin:0;
-    }
-
-    .uk-navbar-content {
-        padding: 11px 10px;
-        height: auto;
-    }
-
-    .uk-button{
-        background: @documents-widget-btn-bg;
-        margin-right:6px;
-        border: 1px solid @documents-widget-btn-border;
-        color: @documents-widget-btn-color;
-
-        &:last-child{
-            margin-right:0;
-        }
-
-        &.uk-active,
-        &:active,
-        &:hover {
-            border-color:darken(@documents-widget-btn-border, 15%);
-            background-color:darken(@documents-widget-btn-bg, 10%);
-            color: darken(@documents-widget-btn-color, 15%);
-        }
-
-        &.rz-coming-soon {
-            opacity: 0.5;
-            pointer-events: none;
-        }
-    }
-}
-
 .documents-widget-sortable-container {
     background: var(--contrasted-bg);
     position: relative;
