@@ -17,7 +17,7 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
      * @internal Use getPlatform() instead
      */
     protected static string $platform = 'youtube';
-    protected static string $idPattern = '#^https\:\/\/(?:www\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v\=)?(?<id>[a-zA-Z0-9\_\-]+)#';
+    protected static string $idPattern = '#^https\:\/\/(?:www\.|studio\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v\=|video\?v\=)?(?<id>[a-zA-Z0-9\_\-]+)#';
     protected static string $realIdPattern = '#^(?<id>[a-zA-Z0-9\_\-]+)$#';
     protected ?string $embedUrl;
 
@@ -29,6 +29,7 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
     public static function supportEmbedUrl(string $embedUrl): bool
     {
         return str_starts_with($embedUrl, 'https://www.youtube.com/')
+            || str_starts_with($embedUrl, 'https://studio.youtube.com/')
             || str_starts_with($embedUrl, 'https://youtube.com/')
             || str_starts_with($embedUrl, 'https://youtu.be/');
     }
@@ -190,6 +191,12 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
             $queryString['end'] = (int) $options['end'];
         }
 
+        if (1 === preg_match(static::$idPattern, $this->embedId, $matches)) {
+            $embedId = $matches['id'];
+        } else {
+            $embedId = $this->embedId;
+        }
+
         $queryString['loop'] = (int) $options['loop'];
         $queryString['controls'] = (int) $options['controls'];
         $queryString['fs'] = (int) $options['fullscreen'];
@@ -199,6 +206,6 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
         $queryString['enablejsapi'] = (int) $options['enablejsapi'];
         $queryString['mute'] = (int) $options['muted'];
 
-        return static::YOUTUBE_EMBED_DOMAIN.'/embed/'.$this->embedId.'?'.http_build_query($queryString);
+        return static::YOUTUBE_EMBED_DOMAIN.'/embed/'.$embedId.'?'.http_build_query($queryString);
     }
 }
