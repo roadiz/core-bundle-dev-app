@@ -259,7 +259,7 @@ final class TagsController extends AbstractController
                 'id' => $tagsIds,
             ]);
 
-        if (count($tags) > 0) {
+        if (0 === count($tags)) {
             throw new ResourceNotFoundException();
         }
 
