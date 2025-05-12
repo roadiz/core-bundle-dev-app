@@ -119,8 +119,45 @@
     }
 }
 
-.mobile-button{
-    display:none;
+.mobile-button {
+    position: fixed;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    top:0;
+    width: @mobile-admin-menu-height;
+    height: @mobile-admin-menu-height;
+    border-right:1px solid #5f5f5f;
+    text-align: center;
+    z-index:7;
+    .box-sizing();
+    transition: 0.6s background @easeOutExpo;
+
+    &#search-button{
+        left: @mobile-admin-menu-height;
+    }
+
+    &#tree-button{
+        left: @mobile-admin-menu-height * 2;
+    }
+
+    @media (min-width: @screen-sm-min) {
+        display: none;
+    }
+
+    &.active{
+        background: #aaaaaa;
+        i {
+            color:@grey-interface;
+        }
+    }
+
+    i {
+        font-size:24px;
+        line-height: @mobile-admin-menu-height -1;
+        color:#a3a3a3;
+        transition: 0.6s color @easeOutExpo;
+    }
 }
 
 .tree-widget {

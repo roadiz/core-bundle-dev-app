@@ -15,8 +15,8 @@
         {{- item.redirectUri|u.truncate(80, '…') -}}
     {% endif %}
 </td>
-<td>{{ item.typeAsString|trans }}</td>
-<td>{{ item.useCount }}</td>
+<td class="mobile-hidden">{{ item.typeAsString|trans }}</td>
+<td class="mobile-hidden">{{ item.useCount }}</td>
 <td class="table-actions-row">
     {% apply spaceless %}
         {% if hasBulkActions %}

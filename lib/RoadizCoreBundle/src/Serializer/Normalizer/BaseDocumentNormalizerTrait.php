@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
+use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 
 trait BaseDocumentNormalizerTrait
@@ -14,12 +15,15 @@ trait BaseDocumentNormalizerTrait
             $object->getEmbedPlatform()
             && $object->getEmbedId()
         ) {
-            $embedFinder = $this->embedFinderFactory->createForPlatform(
-                $object->getEmbedPlatform(),
-                $object->getEmbedId()
-            );
-            if (null !== $embedFinder) {
-                $data['embedUrl'] = $embedFinder->getSource();
+            try {
+                $embedFinder = $this->embedFinderFactory->createForPlatform(
+                    $object->getEmbedPlatform(),
+                    $object->getEmbedId()
+                );
+                if (null !== $embedFinder) {
+                    $data['embedUrl'] = $embedFinder->getSource();
+                }
+            } catch (InvalidEmbedId) {
             }
         }
 

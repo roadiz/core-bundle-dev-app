@@ -4,7 +4,7 @@
 <td class="mobile-hidden">{{ item.createdAt|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
 <td class="mobile-hidden">{{ item.closeDate|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
 <td class="mobile-hidden"><div class="uk-badge uk-badge-table">{% transchoice item.getFields|length %}{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields{% endtranschoice %}</div></td>
-<td class="table-actions-row table-actions-row-6">
+<td class="table-actions-row table-actions-row-6 table-actions-row-xs-4">
     {% apply spaceless %}
         {% if hasBulkActions %}
             <div class="bulk-selection">
@@ -16,7 +16,7 @@
            title="{% trans %}edit{% endtrans %}"
            data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
 
-        <a class="uk-button uk-button-content uk-button-small"
+        <a class="uk-button uk-button-content uk-button-small mobile-hidden"
            href="{{ path('customFormFieldsListPage', { customFormId: item.getId }) }}"
            title="{% trans %}manage.customFormFields{% endtrans %}"
            data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-custom-form-fields"></i></a>
@@ -31,12 +31,12 @@
            title="{% trans %}customForm.show{% endtrans %}"
            data-uk-tooltip="{animation:true}" target="_blank"><i class="uk-icon-rz-visibility"></i></a>
 
-        <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
+        <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link mobile-hidden"
            href="{{ path('customFormsDuplicatePage', { id: item.getId }) }}"
            title="{% trans %}customForm.duplicate{% endtrans %}"
            data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-duplicate"></i></a>
 
-        <a class="uk-button uk-button-content uk-button-small uk-button-success rz-no-ajax-link"
+        <a class="uk-button uk-button-content uk-button-small uk-button-success rz-no-ajax-link mobile-hidden"
            href="{{ path('customFormsExportPage', { id: item.getId }) }}"
            title="{% trans %}export{% endtrans %}"
            data-uk-tooltip="{animation:true}">
