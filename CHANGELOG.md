@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.12...v2.5.13) - 2025-05-12
+
+### Bug Fixes
+
+- Fixed wrong condition on TagsController.php - ([cb11a38](https://github.com/roadiz/core-bundle-dev-app/commit/cb11a38e2a5ee1a9cfbc420d207176b6b37fcb48))
+
 ## [2.5.12](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.11...v2.5.12) - 2025-05-09
 
 ### Bug Fixes
