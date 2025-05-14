@@ -1,7 +1,7 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.5.13'
-    roadiz_core.cms_version_prefix: 'main'
+    roadiz_core.cms_version: '2.6.x-dev'
+    roadiz_core.cms_version_prefix: 'develop'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
     env(APP_USE_ACCEPT_LANGUAGE_HEADER): 'false'
