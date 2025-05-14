@@ -92,14 +92,20 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
             $arrayFilter['tags'] = [$tag];
         }
 
-        if ($request->query->has('nodeTypes') && count($request->get('nodeTypes')) > 0) {
-            /** @var NodeType[] $nodeTypes */
-            $nodeTypes = array_filter(array_map(function ($nodeTypeName) {
-                return $this->nodeTypesBag->get(trim($nodeTypeName));
-            }, $request->get('nodeTypes')));
+        if ($request->query->has('nodeTypes')) {
+            $nodeTypesRequest = $request->get('nodeTypes');
+            if (\is_string($nodeTypesRequest) && '' !== trim($nodeTypesRequest)) {
+                $nodeTypesRequest = [$nodeTypesRequest];
+            }
+            if (\is_array($nodeTypesRequest) && count($nodeTypesRequest) > 0) {
+                /** @var NodeType[] $nodeTypes */
+                $nodeTypes = array_filter(array_map(function ($nodeTypeName) {
+                    return $this->nodeTypesBag->get(trim($nodeTypeName));
+                }, $nodeTypesRequest));
 
-            if (count($nodeTypes) > 0) {
-                $arrayFilter['nodeTypeName'] = array_map(fn (NodeType $nodeType) => $nodeType->getName(), $nodeTypes);
+                if (count($nodeTypes) > 0) {
+                    $arrayFilter['nodeTypeName'] = array_map(fn (NodeType $nodeType) => $nodeType->getName(), $nodeTypes);
+                }
             }
         }
 
