@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.13...v2.5.14) - 2025-05-14
+
+### Bug Fixes
+
+- Handle single string input for nodeTypes request - ([f27fcdc](https://github.com/roadiz/core-bundle-dev-app/commit/f27fcdc5e0166b26dfdbc4ae57e7e03cb2809ac6))
+
 ## [2.5.13](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.12...v2.5.13) - 2025-05-12
 
 ### Bug Fixes
