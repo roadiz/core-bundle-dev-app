@@ -93,7 +93,8 @@ final readonly class LocaleSubscriber implements EventSubscriberInterface
             'interventionRequestProcess',
         ];
         if (
-            !\in_array($request->attributes->getString('_route'), $statelessRoutes, true)
+            null !== $request->attributes->get('_route')
+            && !\in_array($request->attributes->getString('_route'), $statelessRoutes, true)
             && !$request->attributes->getBoolean('_stateless')
             && $request->hasPreviousSession()
         ) {
