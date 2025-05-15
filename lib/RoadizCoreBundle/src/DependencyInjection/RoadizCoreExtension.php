@@ -54,6 +54,7 @@ class RoadizCoreExtension extends Extension
 
         $container->setParameter('roadiz_core.app_namespace', $config['appNamespace']);
         $container->setParameter('roadiz_core.app_version', $config['appVersion']);
+        $container->setParameter('roadiz_core.help_external_url', $config['helpExternalUrl']);
         $container->setParameter('roadiz_core.use_gravatar', $config['useGravatar']);
         $container->setParameter('roadiz_core.use_email_reply_to', $config['useEmailReplyTo']);
         $container->setParameter('roadiz_core.health_check_token', $config['healthCheckToken']);

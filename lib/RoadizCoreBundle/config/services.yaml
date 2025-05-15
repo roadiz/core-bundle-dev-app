@@ -1,6 +1,6 @@
 ---
 parameters:
-    roadiz_core.cms_version: '2.5.14'
+    roadiz_core.cms_version: '2.5.15'
     roadiz_core.cms_version_prefix: 'main'
     env(APP_NAMESPACE): "roadiz"
     env(APP_VERSION): "0.1.0"
@@ -51,6 +51,7 @@ services:
             $webResponseClass: '%roadiz_core.web_response_class%'
             $useGravatar: '%roadiz_core.use_gravatar%'
             $useReplyTo: '%roadiz_core.use_email_reply_to%'
+            $helpExternalUrl: '%roadiz_core.help_external_url%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'

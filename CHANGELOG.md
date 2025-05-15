@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.15](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.14...v2.5.15) - 2025-05-15
+
+### Features
+
+- Add a configurable external help URL for back-office: `helpExternalUrl` - ([14686ec](https://github.com/roadiz/core-bundle-dev-app/commit/14686ec7090c38d712fed12619e5a2ed49232162))
+
 ## [2.5.14](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.13...v2.5.14) - 2025-05-14
 
 ### Bug Fixes
