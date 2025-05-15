@@ -22,6 +22,7 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
         private readonly string $cmsVersionPrefix,
         private readonly bool $hideRoadizVersion,
         private readonly int $maxVersionsShowed,
+        private readonly ?string $helpExternalUrl,
     ) {
     }
 
@@ -31,7 +32,7 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
             'cms_version' => !$this->hideRoadizVersion ? $this->cmsVersion : null,
             'cms_prefix' => !$this->hideRoadizVersion ? $this->cmsVersionPrefix : null,
             'max_versions_showed' => $this->maxVersionsShowed,
-            'help_external_url' => 'http://docs.roadiz.io',
+            'help_external_url' => $this->helpExternalUrl,
             'is_preview' => $this->previewResolver->isPreview(),
             'bags' => [
                 'settings' => $this->settingsBag,
