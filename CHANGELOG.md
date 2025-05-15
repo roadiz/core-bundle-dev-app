@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.19...v2.4.20) - 2025-05-15
+
+### Bug Fixes
+
+- Fixed redirection hash map cache and LocaleSubscriber.php with null `_route`. - ([43035f5](https://github.com/roadiz/core-bundle-dev-app/commit/43035f5b7aaa6f66852f6550934d148efa615cc5))
+
 ## [2.4.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.18...v2.4.19) - 2025-04-16
 
 ### Features
