@@ -1,3 +1,10 @@
+## [v2.1.73](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.72...v2.1.73) (2025-05-16)
+
+
+### Bug Fixes
+
+* Fixed php version incompatibility with `rezozero/tree-walker` ([18c7c52](https://github.com/roadiz/core-bundle-dev-app/commit/18c7c522304df5fc755928d3b7e340d13a9186d7))
+
 ## [v2.1.72](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.71...v2.1.72) (2025-02-10)
 
 
