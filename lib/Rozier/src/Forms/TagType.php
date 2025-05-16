@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Themes\Rozier\Forms;
 
 use RZ\Roadiz\CoreBundle\Entity\Tag;
-use RZ\Roadiz\CoreBundle\Form\ColorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,6 +35,7 @@ class TagType extends AbstractType
         ->add('color', ColorType::class, [
             'label' => 'tag.color',
             'required' => false,
+            'html5' => true,
         ])
         ->add('childrenOrder', ChoiceType::class, [
             'label' => 'tag.childrenOrder',

@@ -7,10 +7,10 @@ namespace Themes\Rozier\Forms;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeDecorator;
 use RZ\Roadiz\CoreBundle\Enum\NodeTypeDecoratorProperty;
-use RZ\Roadiz\CoreBundle\Form\ColorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\Loader\CallbackChoiceLoader;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -44,10 +44,7 @@ final class NodeTypeDecoratorType extends AbstractType
                 'required' => true,
                 'attr' => ['onchange' => 'document.forms["nodetypedecorator"].submit()'],
             ])
-            ->add('value', $this->getValueType($builder->getData()), [
-                'label' => 'nodeTypeDecorator.value',
-                'required' => false,
-            ])
+            ->add('value', $this->getValueType($builder->getData()), $this->getValueOption($builder->getData()))
         ;
     }
 
@@ -79,6 +76,23 @@ final class NodeTypeDecoratorType extends AbstractType
             return ColorType::class;
         } else {
             return TextType::class;
+        }
+    }
+
+    private function getValueOption(NodeTypeDecorator $nodeTypeDecorator): array
+    {
+        $property = $nodeTypeDecorator->getProperty();
+        if (NodeTypeDecoratorProperty::NODE_TYPE_COLOR === $property) {
+            return [
+                'label' => 'nodeTypeDecorator.value',
+                'required' => false,
+                'html5' => true,
+            ];
+        } else {
+            return [
+                'label' => 'nodeTypeDecorator.value',
+                'required' => false,
+            ];
         }
     }
 

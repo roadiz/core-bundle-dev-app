@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Themes\Rozier\Forms;
 
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
-use RZ\Roadiz\CoreBundle\Form\ColorType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -74,6 +74,7 @@ class NodeTypeType extends AbstractType
             ->add('color', ColorType::class, [
                 'label' => 'nodeType.color',
                 'required' => false,
+                'html5' => true,
             ])
             ->add('defaultTtl', IntegerType::class, [
                 'label' => 'nodeType.defaultTtl',
