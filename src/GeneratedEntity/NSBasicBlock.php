@@ -40,6 +40,42 @@ class NSBasicBlock extends NodesSources
     #[ORM\Column(name: 'content', type: 'text', nullable: true)]
     private ?string $content = null;
 
+    /** Contenttest. */
+    #[Serializer\SerializedName(serializedName: 'contenttest')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Contenttest')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'contenttest', type: 'text', nullable: true)]
+    private ?string $contenttest = null;
+
+    /** Css. */
+    #[Serializer\SerializedName(serializedName: 'css')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Css')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'css', type: 'text', nullable: true)]
+    private mixed $css = null;
+
+    /** Yaml. */
+    #[Serializer\SerializedName(serializedName: 'yaml')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_yaml'])]
+    #[ApiProperty(description: 'Yaml')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'yaml', type: 'text', nullable: true)]
+    private mixed $yaml = null;
+
+    /** Json. */
+    #[Serializer\SerializedName(serializedName: 'json')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Json')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'json', type: 'text', nullable: true)]
+    private mixed $json = null;
+
     /** Boolean field. */
     #[Serializer\SerializedName(serializedName: 'booleanField')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -75,6 +111,87 @@ class NSBasicBlock extends NodesSources
         $this->content = null !== $content ?
                     (string) $content :
                     null;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getContenttest(): ?string
+    {
+        return $this->contenttest;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setContenttest(?string $contenttest): static
+    {
+        $this->contenttest = null !== $contenttest ?
+                    (string) $contenttest :
+                    null;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCss(): mixed
+    {
+        return $this->css;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setCss(mixed $css): static
+    {
+        $this->css = $css;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getYaml(): mixed
+    {
+        return $this->yaml;
+    }
+
+    #[Serializer\SerializedName(serializedName: 'yaml')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default', 'nodes_sources_yaml'])]
+    #[Serializer\MaxDepth(2)]
+    public function getYamlAsObject(): object|array|null
+    {
+        if (null !== $this->yaml) {
+            return \Symfony\Component\Yaml\Yaml::parse($this->yaml);
+        }
+        return null;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setYaml(mixed $yaml): static
+    {
+        $this->yaml = $yaml;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJson(): mixed
+    {
+        return $this->json;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setJson(mixed $json): static
+    {
+        $this->json = $json;
         return $this;
     }
 
