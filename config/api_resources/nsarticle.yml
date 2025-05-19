@@ -3,9 +3,6 @@ resources:
         shortName: Article
         types:
             - Article
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             article_get_collection:
                 method: GET
@@ -26,6 +23,7 @@ resources:
                 method: GET
                 class: ApiPlatform\Metadata\GetCollection
                 shortName: Article
+                output: RZ\Roadiz\CoreBundle\Api\Dto\Archive
                 uriTemplate: /articles/archives
                 extraProperties:
                     archive_enabled: true

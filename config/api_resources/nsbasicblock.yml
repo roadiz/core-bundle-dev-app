@@ -3,9 +3,6 @@ resources:
         shortName: BasicBlock
         types:
             - BasicBlock
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             basicblock_get:
                 method: GET

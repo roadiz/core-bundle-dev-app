@@ -3,9 +3,6 @@ resources:
         shortName: MenuLink
         types:
             - MenuLink
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             menulink_get:
                 method: GET

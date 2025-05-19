@@ -3,9 +3,6 @@ resources:
         shortName: GroupBlock
         types:
             - GroupBlock
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             groupblock_get:
                 method: GET

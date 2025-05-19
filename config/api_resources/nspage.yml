@@ -3,9 +3,6 @@ resources:
         shortName: Page
         types:
             - Page
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             page_get_collection:
                 method: GET
@@ -25,15 +22,6 @@ resources:
                         - nodes_sources_images
                         - nodes_sources_boolean
                         - nodes_sources_geo
-            page_archives_collection:
-                method: GET
-                class: ApiPlatform\Metadata\GetCollection
-                shortName: Page
-                uriTemplate: /pages/archives
-                extraProperties:
-                    archive_enabled: true
-                openapiContext:
-                    summary: 'Retrieve all Page ressources archives months and years'
             page_get:
                 method: GET
                 class: ApiPlatform\Metadata\Get

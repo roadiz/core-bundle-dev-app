@@ -10,6 +10,7 @@ use Doctrine\Inflector\InflectorFactory;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\CoreBundle\Api\Controller\GetWebResponseByPathController;
+use RZ\Roadiz\CoreBundle\Api\Dto\Archive;
 use RZ\Roadiz\CoreBundle\Api\Model\WebResponseInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\String\UnicodeString;
@@ -310,6 +311,7 @@ final readonly class ApiResourceGenerator
                         'method' => 'GET',
                         'class' => GetCollection::class,
                         'shortName' => $nodeType->getName(),
+                        'output' => Archive::class,
                         'uriTemplate' => $this->getResourceUriPrefix($nodeType).'/archives',
                         'extraProperties' => [
                             'archive_enabled' => true,
