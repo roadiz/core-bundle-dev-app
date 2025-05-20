@@ -2020,46 +2020,421 @@
         <target state="translated">Параметри</target>
       </trans-unit>
       <!-- embed documents -->
-      <trans-unit xml:space="preserve" id="embed.document">
-        <source>embed.document</source>
-        <target state="translated">Влаштувати</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="embed">
         <source>embed</source>
         <target state="translated">Влаштувати</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="tagTree">
-        <source>tagTree</source>
-        <target state="translated">Дерево тега</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%node%.linked.tags">
-        <source>node.%node%.linked.tags</source>
-        <target state="translated">Вузол "%node%" був помічений новими тегами</target>
+      <trans-unit xml:space="preserve" id="embed.document">
+        <source>embed.document</source>
+        <target state="translated">Влаштувати</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="list.tags.to_link">
         <source>list.tags.to_link</source>
         <target state="translated">Список тегів з цим вузлом</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%node%.linked.tags">
+        <source>node.%node%.linked.tags</source>
+        <target state="translated">Вузол "%node%" був помічений новими тегами</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="tagTree">
+        <source>tagTree</source>
+        <target state="translated">Дерево тега</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="use.new_or_existing.tags_with_hierarchy">
         <source>use.new_or_existing.tags_with_hierarchy</source>
         <target state="translated">Ви можете використовувати існуючі або нові теги та створювати нові теги всередині існуючого, використовуючи "/".</target>
       </trans-unit>
-      <!-- stacks -->
+      <trans-unit xml:space="preserve" id="%count%.customFormFields">
+        <source>%count%.customFormFields</source>
+        <target state="translated">%count% користувацьких форм полей</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.node">
+        <source>add.a.child.node</source>
+        <target state="translated">Додати дочірній вузол</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.tag">
+        <source>add.a.child.tag</source>
+        <target state="translated">Додати дочірній тег</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.customForm">
+        <source>add.a.customForm</source>
+        <target state="translated">Додати користувацьку форму</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.customFormField">
+        <source>add.a.customFormField</source>
+        <target state="translated">Додати користувацьку форму полей</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.folder">
+        <source>add.a.folder</source>
+        <target state="translated">Додати теку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.font">
+        <source>add.a.font</source>
+        <target state="translated">Додати шрифт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.group">
+        <source>add.a.group</source>
+        <target state="translated">Додати групу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.node">
+        <source>add.a.node</source>
+        <target state="translated">Додати вузол</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeType">
+        <source>add.a.nodeType</source>
+        <target state="translated">Додати тип вузла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeTypeField">
+        <source>add.a.nodeTypeField</source>
+        <target state="translated">Додати поле типу вузла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.role">
+        <source>add.a.role</source>
+        <target state="translated">Додати роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.setting">
+        <source>add.a.setting</source>
+        <target state="translated">Додати опцію</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.settingGroup">
+        <source>add.a.settingGroup</source>
+        <target state="translated">Додати групу опцій</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.specific.role">
+        <source>add.a.specific.role</source>
+        <target state="translated">Додати спеціальну роль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.tag">
+        <source>add.a.tag</source>
+        <target state="translated">Додати тег</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.theme">
+        <source>add.a.theme</source>
+        <target state="translated">Додати тему</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.translation">
+        <source>add.a.translation</source>
+        <target state="translated">Додати переклад</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.urlAlias">
+        <source>add.a.urlAlias</source>
+        <target state="translated">Додати URL-синонім</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.user">
+        <source>add.a.user</source>
+        <target state="translated">Додати користувача</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.child.folder">
+        <source>add.child.folder</source>
+        <target state="translated">Додати дочірню теку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.customForm">
+        <source>add.customForm</source>
+        <target state="translated">Додати користувацьку форму</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.customFormField">
+        <source>add.customFormField</source>
+        <target state="translated">Додати поле</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.folder">
+        <source>add.folder</source>
+        <target state="translated">Додати теку</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="add.stack.type">
         <source>add.stack.type</source>
         <target state="translated">Додати тип стека</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stack.types">
-        <source>stack.types</source>
-        <target state="translated">Типи стека</target>
+      <trans-unit xml:space="preserve" id="answer.form">
+        <source>answer.form</source>
+        <target state="translated">Форма відповіді</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="remove">
-        <source>remove</source>
-        <target state="translated">Видалити</target>
+      <trans-unit xml:space="preserve" id="are.you.sure.you.want.to.cancel.this.upload">
+        <source>are.you.sure.you.want.to.cancel.this.upload</source>
+        <target state="translated">Ви дійсно хочете скасувати завантаження?</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stack_node.%name%.has_new_type.%type%">
-        <source>stack_node.%name%.has_new_type.%type%</source>
-        <target state="translated">Стек вузла "%name%" був помічений як "%type%" тип</target>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customForm">
+        <source>are_you_sure.delete.customForm</source>
+        <target state="translated">Ви дійсно хочете видалити це поле?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer">
+        <source>are_you_sure.delete.customFormAnswer</source>
+        <target state="translated">Ви дійсно хочете видалити це питання?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormField">
+        <source>are_you_sure.delete.customFormField</source>
+        <target state="translated">Ви дійсно хочете видалити це поле?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation">
+        <source>are_you_sure.delete.document.translation</source>
+        <target state="translated">Дійсно видалити переклад документу?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder">
+        <source>are_you_sure.delete.folder</source>
+        <target state="translated">Ви дійсно хочете видалити цю теку?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.documents">
+        <source>are_you_sure.delete.these.documents</source>
+        <target state="translated">Ви дійсно хочете видалити ці документи</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes">
+        <source>are_you_sure.delete.these.nodes</source>
+        <target state="translated">Дійсно видалити ці вузли?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash">
+        <source>are_you_sure.empty.node.and.data.trash</source>
+        <target state="translated">Ви дійсно хочете очистити смітник від видалених вузлів та їх даних?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back">
+        <source>back</source>
+        <target state="translated">Назад</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customFormAnswers">
+        <source>back_to.customFormAnswers</source>
+        <target state="translated">Назад до відповідей</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customFormFields">
+        <source>back_to.customFormFields</source>
+        <target state="translated">Назад до полей</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customForms">
+        <source>back_to.customForms</source>
+        <target state="translated">Назад до персоналізації форм</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.folders">
+        <source>back_to.folders</source>
+        <target state="translated">Назад до тек</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.top">
+        <source>back_to.top</source>
+        <target state="translated">Наверх</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="blockquote">
+        <source>blockquote</source>
+        <target state="translated">Цитата</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bold">
+        <source>bold</source>
+        <target state="translated">Товстий</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.actions">
+        <source>bulk.actions</source>
+        <target state="translated">Пакетні дії</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.documents">
+        <source>bulk.delete.documents</source>
+        <target state="translated">Видалити виділені документи</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.nodes">
+        <source>bulk.delete.nodes</source>
+        <target state="translated">Видалити вибрані вузли</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.fold.documents">
+        <source>bulk.fold.documents</source>
+        <target state="translated">Додати виділені документів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="cancel.upload">
+        <source>cancel.upload</source>
+        <target state="translated">Скасувати завантаження</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="colour.type">
+        <source>colour.type</source>
+        <target state="translated">Колір</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="create.a.node">
+        <source>create.a.node</source>
+        <target state="translated">Створити вузол</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="created.at">
+        <source>created.at</source>
+        <target state="translated">Дата створення</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm">
+        <source>customForm</source>
+        <target state="translated">Користувацька форма</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.%name%.send">
+        <source>customForm.%name%.send</source>
+        <target state="translated">Форма "%name%" відправлена</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.answers">
+        <source>customForm.answers</source>
+        <target state="translated">Відповіді</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.closeDate">
+        <source>customForm.closeDate</source>
+        <target state="translated">Закрити дату</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.color">
+        <source>customForm.color</source>
+        <target state="translated">Колір</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.displayName">
+        <source>customForm.displayName</source>
+        <target state="translated">Коротка назва</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.open">
+        <source>customForm.open</source>
+        <target state="translated">Відкрити</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.show">
+        <source>customForm.show</source>
+        <target state="translated">Показати форму</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer">
+        <source>customFormAnswer</source>
+        <target state="translated">Відповіді</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer.%id%.deleted">
+        <source>customFormAnswer.%id%.deleted</source>
+        <target state="translated">Запитання №%id% видалено.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer.answers">
+        <source>customFormAnswer.answers</source>
+        <target state="translated">Атрибут відповіді</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.created">
+        <source>customFormField.%name%.created</source>
+        <target state="translated">Поле "%name%" створено.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.deleted">
+        <source>customFormField.%name%.deleted</source>
+        <target state="translated">Поле "%name%" видалено.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.updated">
+        <source>customFormField.%name%.updated</source>
+        <target state="translated">Поле "%name%" оновлено.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormFieldAttribute">
+        <source>customFormFieldAttribute</source>
+        <target state="translated">Атрибут відповіді</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="default.translation">
+        <source>default.translation</source>
+        <target state="translated">Переклад за замовчуванням</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.all">
+        <source>delete.all</source>
+        <target state="translated">Видалити усі</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customForm">
+        <source>delete.customForm</source>
+        <target state="translated">Видалити поле</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customForm.%name%">
+        <source>delete.customForm.%name%</source>
+        <target state="translated">Поле "%name%" видалено</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%">
+        <source>delete.customFormAnswer.%name%</source>
+        <target state="translated">Питання "%name%" видалено</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormField">
+        <source>delete.customFormField</source>
+        <target state="translated">Видалити поле</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormField.%name%">
+        <source>delete.customFormField.%name%</source>
+        <target state="translated">Поле "%name%" видалено</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.document.translation.%name%">
+        <source>delete.document.translation.%name%</source>
+        <target state="translated">Видалити переклад документу "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.documents">
+        <source>delete.documents</source>
+        <target state="translated">Видалити документи</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder">
+        <source>delete.folder</source>
+        <target state="translated">Видалити теку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder.%name%">
+        <source>delete.folder.%name%</source>
+        <target state="translated">Видалити теку "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.font">
+        <source>delete.font</source>
+        <target state="translated">Видалити шрифт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.nodes">
+        <source>delete.nodes</source>
+        <target state="translated">Видалити вибрані вузли</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.format.unknown">
+        <source>document.format.unknown</source>
+        <target state="translated">Формат документу невідомий</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.metas">
+        <source>document.metas</source>
+        <target state="translated">Мети</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete">
+        <source>document.translation.%name%.cannot_delete</source>
+        <target state="translated">Переклад документу "%name%" не може бути видалений</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted">
+        <source>document.translation.%name%.deleted</source>
+        <target state="translated">Переклад документу "%name%" видалений</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.updated">
+        <source>document.translation.%name%.updated</source>
+        <target state="translated">Переклад документу "%name%" оновлений</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="documents.linked_to.folders">
+        <source>documents.linked_to.folders</source>
+        <target state="translated">Документи були додані до теки.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer">
+        <source>drop.files.here.to.upload.or.click.to.open.your.explorer</source>
+        <target state="translated">Киньте файли сюди щоб завантажити або клікніть, щоб відкрити провідник</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicated.node.%name%">
+        <source>duplicated.node.%name%</source>
+        <target state="translated">Вузол "%name%" продубльовано</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customForm.%name%">
+        <source>edit.customForm.%name%</source>
+        <target state="translated">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormField.%name%">
+        <source>edit.customFormField.%name%</source>
+        <target state="translated">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormFields">
+        <source>edit.customFormFields</source>
+        <target state="translated">Додати поле</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormFields.for.customForm.%name%">
+        <source>edit.customFormFields.for.customForm.%name%</source>
+        <target state="translated">Поля %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder">
+        <source>edit.folder</source>
+        <target state="translated">Редагувати теку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder.%name%">
+        <source>edit.folder.%name%</source>
+        <target state="translated">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.document.already_exists">
+        <source>embed.document.already_exists</source>
+        <target state="translated">Влаштовуваний документ вже існує</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.preview">
+        <source>embed.preview</source>
+        <target state="translated">Попередній перегляд зовнішної медіа</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.node.trash">
+        <source>empty.node.trash</source>
+        <target state="translated">Очистити смітник вузлів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.trash">
+        <source>empty.trash</source>
+        <target state="translated">Очистити смітник</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.all.nodes">
+        <source>export.all.nodes</source>
+        <target state="translated">Експортувати усі вузли</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="field.%name%.updated">
         <source>field.%name%.updated</source>
@@ -2069,165 +2444,29 @@
         <source>field.%nodeTypeFieldId%.not_exists</source>
         <target state="translated">Поле #%nodeTypeFieldId% не існує.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="created.at">
-        <source>created.at</source>
-        <target state="translated">Дата створення</target>
+      <trans-unit xml:space="preserve" id="file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib">
+        <source>file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib</source>
+        <target state="translated">Файл завеликий ({{filesize}}MB), максимальний розмір - {{maxFilesize}} MB</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="updated.at">
-        <source>updated.at</source>
-        <target state="translated">Дата зміни</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="position">
-        <source>position</source>
-        <target state="translated">Позиція</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="empty.node.trash">
-        <source>empty.node.trash</source>
-        <target state="translated">Очистити смітник вузлів</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.trash.emptied">
-        <source>node.trash.emptied</source>
-        <target state="translated">Смітник вузлів був очищений</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="empty.trash">
-        <source>empty.trash</source>
-        <target state="translated">Очистити смітник</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash">
-        <source>are_you_sure.empty.node.and.data.trash</source>
-        <target state="translated">Ви дійсно хочете очистити смітник від видалених вузлів та їх даних?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="random.document">
-        <source>random.document</source>
-        <target state="translated">Випадково</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.format.unknown">
-        <source>document.format.unknown</source>
-        <target state="translated">Формат документу невідомий</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.embed.document.found">
-        <source>no.embed.document.found</source>
-        <target state="translated">Не знайдений документ для влаштування</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embed.document.already_exists">
-        <source>embed.document.already_exists</source>
-        <target state="translated">Влаштовуваний документ вже існує</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.metas">
-        <source>document.metas</source>
-        <target state="translated">Мети</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.document.translation.%name%">
-        <source>delete.document.translation.%name%</source>
-        <target state="translated">Видалити переклад документу "%name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation">
-        <source>are_you_sure.delete.document.translation</source>
-        <target state="translated">Дійсно видалити переклад документу?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.updated">
-        <source>document.translation.%name%.updated</source>
-        <target state="translated">Переклад документу "%name%" оновлений</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted">
-        <source>document.translation.%name%.deleted</source>
-        <target state="translated">Переклад документу "%name%" видалений</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete">
-        <source>document.translation.%name%.cannot_delete</source>
-        <target state="translated">Переклад документу "%name%" не може бути видалений</target>
+      <trans-unit xml:space="preserve" id="folder.name">
+        <source>folder.name</source>
+        <target state="translated">Назва теки</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folderTree">
         <source>folderTree</source>
         <target state="translated">Теки документів</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="add.folder">
-        <source>add.folder</source>
-        <target state="translated">Додати теку</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.child.folder">
-        <source>add.child.folder</source>
-        <target state="translated">Додати дочірню теку</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.folder">
-        <source>edit.folder</source>
-        <target state="translated">Редагувати теку</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.folder">
-        <source>delete.folder</source>
-        <target state="translated">Видалити теку</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.folders">
-        <source>back_to.folders</source>
-        <target state="translated">Назад до тек</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.folder.%name%">
-        <source>delete.folder.%name%</source>
-        <target state="translated">Видалити теку "%name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder">
-        <source>are_you_sure.delete.folder</source>
-        <target state="translated">Ви дійсно хочете видалити цю теку?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.folder.%name%">
-        <source>edit.folder.%name%</source>
-        <target state="translated">%name%</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="folders">
         <source>folders</source>
         <target state="translated">Таки</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="default.translation">
-        <source>default.translation</source>
-        <target state="translated">Переклад за замовчуванням</target>
+      <trans-unit xml:space="preserve" id="forbidden.page">
+        <source>forbidden.page</source>
+        <target state="translated">Заборонена сторінка, під'єднайтесь будь ласка знову.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.minLength">
-        <source>nodeTypeField.minLength</source>
-        <target state="translated">Мінімальна довжина</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.maxLength">
-        <source>nodeTypeField.maxLength</source>
-        <target state="translated">Максимальна довжина</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all.nodes">
-        <source>export.all.nodes</source>
-        <target state="translated">Експортувати усі вузли</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer">
-        <source>drop.files.here.to.upload.or.click.to.open.your.explorer</source>
-        <target state="translated">Киньте файли сюди щоб завантажити або клікніть, щоб відкрити провідник</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads">
-        <source>your.browser.does.not.support.dragndrop.file.uploads</source>
-        <target state="translated">Ваш браузер не підтримує технологію drag'n'drop</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days">
-        <source>please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days</source>
-        <target state="translated">Будь ласка використовуйте форму нижчу, щоб завантажити вашу файли як колись</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib">
-        <source>file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib</source>
-        <target state="translated">Файл завеликий ({{filesize}}MB), максимальний розмір - {{maxFilesize}} MB</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type">
-        <source>you.cant.upload.files.of.this.type</source>
-        <target state="translated">Ви не можете завантажувати файли цього типу</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="cancel.upload">
-        <source>cancel.upload</source>
-        <target state="translated">Скасувати завантаження</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are.you.sure.you.want.to.cancel.this.upload">
-        <source>are.you.sure.you.want.to.cancel.this.upload</source>
-        <target state="translated">Ви дійсно хочете скасувати завантаження?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="remove.file">
-        <source>remove.file</source>
-        <target state="translated">Видалити файл</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="you.can.not.upload.any.more.files">
-        <source>you.can.not.upload.any.more.files</source>
-        <target state="translated">Ви не можете більше завантажувати файли</target>
+      <trans-unit xml:space="preserve" id="fullscreen">
+        <source>fullscreen</source>
+        <target state="translated">Повний екран</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="headline.2">
         <source>headline.2</source>
@@ -2249,77 +2488,69 @@
         <source>headline.6</source>
         <target state="translated">Заголовок 6</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="fullscreen">
-        <source>fullscreen</source>
-        <target state="translated">Повний екран</target>
+      <trans-unit xml:space="preserve" id="image">
+        <source>image</source>
+        <target state="translated">Зображення</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bold">
-        <source>bold</source>
-        <target state="translated">Товстий</target>
+      <trans-unit xml:space="preserve" id="impossible.duplicate.node.%name%">
+        <source>impossible.duplicate.node.%name%</source>
+        <target state="translated">Неможливо продублювати вузол "%name%"</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="italic">
         <source>italic</source>
         <target state="translated">Курсив</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="strikethrough">
-        <source>strikethrough</source>
-        <target state="translated">Перекреслений</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="blockquote">
-        <source>blockquote</source>
-        <target state="translated">Цитата</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="link">
         <source>link</source>
         <target state="translated">Посилання</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image">
-        <source>image</source>
-        <target state="translated">Зображення</target>
+      <trans-unit xml:space="preserve" id="link.tags">
+        <source>link.tags</source>
+        <target state="translated">Тег вибрано</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="unordered.list">
-        <source>unordered.list</source>
-        <target state="translated">Ненумерованний список</target>
+      <trans-unit xml:space="preserve" id="list.folders.to_link">
+        <source>list.folders.to_link</source>
+        <target state="translated">Список тек (існуючі чи ні)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="ordered.list">
-        <source>ordered.list</source>
-        <target state="translated">Нумерований список</target>
+      <trans-unit xml:space="preserve" id="list.tags.to_link.or_unlink">
+        <source>list.tags.to_link.or_unlink</source>
+        <target state="translated">Список від'єднаних чи приєднаних тегів...</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back">
-        <source>back</source>
-        <target state="translated">Назад</target>
+      <trans-unit xml:space="preserve" id="main_color">
+        <source>main_color</source>
+        <target state="translated">Основний колір</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="separator">
-        <source>separator</source>
-        <target state="translated">Розділювач</target>
+      <trans-unit xml:space="preserve" id="manage.customFormFields">
+        <source>manage.customFormFields</source>
+        <target state="translated">Керування полями</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="non_breaking.space">
-        <source>non_breaking.space</source>
-        <target state="translated">Нерозривний пробіл</target>
+      <trans-unit xml:space="preserve" id="manage.customForms">
+        <source>manage.customForms</source>
+        <target state="translated">Керування полями</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="forbidden.page">
-        <source>forbidden.page</source>
-        <target state="translated">Заборонена сторінка, під'єднайтесь будь ласка знову.</target>
+      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
+        <source>new.answer.form.%site%</source>
+        <target state="translated">Нове запитання для "%site%"</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="see_all">
-        <source>see_all</source>
-        <target state="translated">Дивитись усі</target>
+      <trans-unit xml:space="preserve" id="no.customFormField">
+        <source>no.customFormField</source>
+        <target state="translated">Не знайдено користувацьких форм</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.documents">
-        <source>search.documents</source>
-        <target state="translated">Шукати документи</target>
+      <trans-unit xml:space="preserve" id="no.embed.document.found">
+        <source>no.embed.document.found</source>
+        <target state="translated">Не знайдений документ для влаштування</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.nodes">
-        <source>search.nodes</source>
-        <target state="translated">Шукати вузли</target>
+      <trans-unit xml:space="preserve" id="no_documents.linked_to.folders">
+        <source>no_documents.linked_to.folders</source>
+        <target state="translated">Жоден документ не було додано</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.toggle-explorer">
-        <source>nodes.toggle-explorer</source>
-        <target state="translated">Провідник</target>
+      <trans-unit xml:space="preserve" id="node.hidden">
+        <source>node.hidden</source>
+        <target state="translated">Приховано</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.name">
-        <source>folder.name</source>
-        <target state="translated">Назва теки</target>
+      <trans-unit xml:space="preserve" id="node.trash.emptied">
+        <source>node.trash.emptied</source>
+        <target state="translated">Смітник вузлів був очищений</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.color">
         <source>nodeType.color</source>
@@ -2329,345 +2560,13 @@
         <source>nodeType.numberFields</source>
         <target state="translated">Кількість полів</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.top">
-        <source>back_to.top</source>
-        <target state="translated">Наверх</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.customFormField">
-        <source>no.customFormField</source>
-        <target state="translated">Не знайдено користувацьких форм</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.customForm">
-        <source>add.customForm</source>
-        <target state="translated">Додати користувацьку форму</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm">
-        <source>customForm</source>
-        <target state="translated">Користувацька форма</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.displayName">
-        <source>customForm.displayName</source>
-        <target state="translated">Коротка назва</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="%count%.customFormFields">
-        <source>%count%.customFormFields</source>
-        <target state="translated">%count% користувацьких форм полей</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.customFormFields">
-        <source>manage.customFormFields</source>
-        <target state="translated">Керування полями</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.answers">
-        <source>customForm.answers</source>
-        <target state="translated">Відповіді</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.show">
-        <source>customForm.show</source>
-        <target state="translated">Показати форму</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer">
-        <source>are_you_sure.delete.customFormAnswer</source>
-        <target state="translated">Ви дійсно хочете видалити це питання?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%">
-        <source>delete.customFormAnswer.%name%</source>
-        <target state="translated">Питання "%name%" видалено</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customFormAnswers">
-        <source>back_to.customFormAnswers</source>
-        <target state="translated">Назад до відповідей</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer">
-        <source>customFormAnswer</source>
-        <target state="translated">Відповіді</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customForms">
-        <source>back_to.customForms</source>
-        <target state="translated">Назад до персоналізації форм</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="submitted.date">
-        <source>submitted.date</source>
-        <target state="translated">Дата відправлення</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer.answers">
-        <source>customFormAnswer.answers</source>
-        <target state="translated">Атрибут відповіді</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormFieldAttribute">
-        <source>customFormFieldAttribute</source>
-        <target state="translated">Атрибут відповіді</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormField">
-        <source>delete.customFormField</source>
-        <target state="translated">Видалити поле</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.customFormField">
-        <source>add.customFormField</source>
-        <target state="translated">Додати поле</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customFormFields">
-        <source>back_to.customFormFields</source>
-        <target state="translated">Назад до полей</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormField.%name%">
-        <source>delete.customFormField.%name%</source>
-        <target state="translated">Поле "%name%" видалено</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormField">
-        <source>are_you_sure.delete.customFormField</source>
-        <target state="translated">Ви дійсно хочете видалити це поле?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormField.%name%">
-        <source>edit.customFormField.%name%</source>
-        <target state="translated">%name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormFields.for.customForm.%name%">
-        <source>edit.customFormFields.for.customForm.%name%</source>
-        <target state="translated">Поля %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customForm">
-        <source>delete.customForm</source>
-        <target state="translated">Видалити поле</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customForm.%name%">
-        <source>delete.customForm.%name%</source>
-        <target state="translated">Поле "%name%" видалено</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customForm">
-        <source>are_you_sure.delete.customForm</source>
-        <target state="translated">Ви дійсно хочете видалити це поле?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customForm.%name%">
-        <source>edit.customForm.%name%</source>
-        <target state="translated">%name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields">
-        <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
-        <target state="translated">{0} Немає полей|{1} 1 поле|]1,Inf] %count% полей</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="create.a.node">
-        <source>create.a.node</source>
-        <target state="translated">Створити вузол</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.node">
-        <source>add.a.node</source>
-        <target state="translated">Додати вузол</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.tag">
-        <source>add.a.tag</source>
-        <target state="translated">Додати тег</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.urlAlias">
-        <source>add.a.urlAlias</source>
-        <target state="translated">Додати URL-синонім</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.child.node">
-        <source>add.a.child.node</source>
-        <target state="translated">Додати дочірній вузол</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.child.tag">
-        <source>add.a.child.tag</source>
-        <target state="translated">Додати дочірній тег</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeType">
-        <source>add.a.nodeType</source>
-        <target state="translated">Додати тип вузла</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeTypeField">
-        <source>add.a.nodeTypeField</source>
-        <target state="translated">Додати поле типу вузла</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.translation">
-        <source>add.a.translation</source>
-        <target state="translated">Додати переклад</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.theme">
-        <source>add.a.theme</source>
-        <target state="translated">Додати тему</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.font">
-        <source>add.a.font</source>
-        <target state="translated">Додати шрифт</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.user">
-        <source>add.a.user</source>
-        <target state="translated">Додати користувача</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.specific.role">
-        <source>add.a.specific.role</source>
-        <target state="translated">Додати спеціальну роль</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.group">
-        <source>add.a.group</source>
-        <target state="translated">Додати групу</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.role">
-        <source>add.a.role</source>
-        <target state="translated">Додати роль</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.setting">
-        <source>add.a.setting</source>
-        <target state="translated">Додати опцію</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.settingGroup">
-        <source>add.a.settingGroup</source>
-        <target state="translated">Додати групу опцій</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.font">
-        <source>delete.font</source>
-        <target state="translated">Видалити шрифт</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.customForm">
-        <source>add.a.customForm</source>
-        <target state="translated">Додати користувацьку форму</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.color">
-        <source>customForm.color</source>
-        <target state="translated">Колір</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.customForms">
-        <source>manage.customForms</source>
-        <target state="translated">Керування полями</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.open">
-        <source>customForm.open</source>
-        <target state="translated">Відкрити</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.closeDate">
-        <source>customForm.closeDate</source>
-        <target state="translated">Закрити дату</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.customFormField">
-        <source>add.a.customFormField</source>
-        <target state="translated">Додати користувацьку форму полей</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormFields">
-        <source>edit.customFormFields</source>
-        <target state="translated">Додати поле</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.folder">
-        <source>add.a.folder</source>
-        <target state="translated">Додати теку</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.hidden">
-        <source>node.hidden</source>
-        <target state="translated">Приховано</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="required">
-        <source>required</source>
-        <target state="translated">Обов'язковий</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.documents">
-        <source>delete.documents</source>
-        <target state="translated">Видалити документи</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.documents">
-        <source>are_you_sure.delete.these.documents</source>
-        <target state="translated">Ви дійсно хочете видалити ці документи</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.delete.documents">
-        <source>bulk.delete.documents</source>
-        <target state="translated">Видалити виділені документи</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="main_color">
-        <source>main_color</source>
-        <target state="translated">Основний колір</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="colour.type">
-        <source>colour.type</source>
-        <target state="translated">Колір</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.type">
-        <source>nodes.type</source>
-        <target state="translated">Зв'язки вузлів</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embed.preview">
-        <source>embed.preview</source>
-        <target state="translated">Попередній перегляд зовнішної медіа</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="answer.form">
-        <source>answer.form</source>
-        <target state="translated">Форма відповіді</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.send">
-        <source>customForm.%name%.send</source>
-        <target state="translated">Форма "%name%" відправлена</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
-        <source>new.answer.form.%site%</source>
-        <target state="translated">Нове запитання для "%site%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer.%id%.deleted">
-        <source>customFormAnswer.%id%.deleted</source>
-        <target state="translated">Запитання №%id% видалено.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.updated">
-        <source>customFormField.%name%.updated</source>
-        <target state="translated">Поле "%name%" оновлено.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.created">
-        <source>customFormField.%name%.created</source>
-        <target state="translated">Поле "%name%" створено.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.deleted">
-        <source>customFormField.%name%.deleted</source>
-        <target state="translated">Поле "%name%" видалено.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="duplicated.node.%name%">
-        <source>duplicated.node.%name%</source>
-        <target state="translated">Вузол "%name%" продубльовано</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="impossible.duplicate.node.%name%">
-        <source>impossible.duplicate.node.%name%</source>
-        <target state="translated">Неможливо продублювати вузол "%name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="list.folders.to_link">
-        <source>list.folders.to_link</source>
-        <target state="translated">Список тек (існуючі чи ні)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.fold.documents">
-        <source>bulk.fold.documents</source>
-        <target state="translated">Додати виділені документів</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="documents.linked_to.folders">
-        <source>documents.linked_to.folders</source>
-        <target state="translated">Документи були додані до теки.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no_documents.linked_to.folders">
-        <source>no_documents.linked_to.folders</source>
-        <target state="translated">Жоден документ не було додано</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="wrong.request">
-        <source>wrong.request</source>
-        <target state="translated">Хибний запит</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodes">
-        <source>delete.nodes</source>
-        <target state="translated">Видалити вибрані вузли</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes">
-        <source>are_you_sure.delete.these.nodes</source>
-        <target state="translated">Дійсно видалити ці вузли?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.all">
-        <source>delete.all</source>
-        <target state="translated">Видалити усі</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.delete.nodes">
-        <source>bulk.delete.nodes</source>
-        <target state="translated">Видалити вибрані вузли</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="link.tags">
-        <source>link.tags</source>
-        <target state="translated">Тег вибрано</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="unlink.tags">
-        <source>unlink.tags</source>
-        <target state="translated">Зняти вибір з тега</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="list.tags.to_link.or_unlink">
-        <source>list.tags.to_link.or_unlink</source>
-        <target state="translated">Список від'єднаних чи приєднаних тегів...</target>
+      <trans-unit xml:space="preserve" id="nodeTypeField.maxLength">
+        <source>nodeTypeField.maxLength</source>
+        <target state="translated">Максимальна довжина</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.minLength">
+        <source>nodeTypeField.minLength</source>
+        <target state="translated">Мінімальна довжина</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.deleted">
         <source>nodes.bulk.deleted</source>
@@ -2677,177 +2576,145 @@
         <source>nodes.bulk.not_tagged</source>
         <target state="translated">Неможливо тегувати вибрані вузли</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.bulk.tagged">
-        <source>nodes.bulk.tagged</source>
-        <target state="translated">Вибрані вузли були теговані</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.not_untagged">
         <source>nodes.bulk.not_untagged</source>
         <target state="translated">Неможливо видалити теги з вибраних вузлів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.bulk.tagged">
+        <source>nodes.bulk.tagged</source>
+        <target state="translated">Вибрані вузли були теговані</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.untagged">
         <source>nodes.bulk.untagged</source>
         <target state="translated">Теги з вибраних вузлів були видалені</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.actions">
-        <source>bulk.actions</source>
-        <target state="translated">Пакетні дії</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.marker">
-        <source>reset.marker</source>
-        <target state="translated">Видалити помітку</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter">
-        <source>geotag.type_an_address.then_type_enter</source>
-        <target state="translated">Введіть адресу та натисніть "Enter"...</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="geographic.coordinates.type">
-        <source>geographic.coordinates.type</source>
-        <target state="translated">Географічні координати</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="multiple.geographic.coordinates.type">
-        <source>multiple.geographic.coordinates.type</source>
-        <target state="translated">Кілька гео. координатів</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="link.folders">
-        <source>link.folders</source>
-        <target state="translated">Посилання на папку(и)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="unlink.folders">
-        <source>unlink.folders</source>
-        <target state="translated">Від'єднати папку(и)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.download.documents">
-        <source>bulk.download.documents</source>
-        <target state="translated">Завантажити вибрані документи</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="download.documents">
-        <source>download.documents</source>
-        <target state="translated">Завантажити документи</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.download.these.documents">
-        <source>are_you_sure.download.these.documents</source>
-        <target state="translated">Ви дійсно хочете завантажити ці документи?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="purge.generated_images.cache">
-        <source>purge.generated_images.cache</source>
-        <target state="translated">Очистити кеш зображень</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.purge.generated_images.cache">
-        <source>are_you_sure.purge.generated_images.cache</source>
-        <target state="translated">Ви дійсно хочете очистити кеш зображень?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.generated_images.cache">
-        <source>delete.generated_images.cache</source>
-        <target state="translated">Очистити кеш зображень</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.documents">
-        <source>more.documents</source>
-        <target state="translated">Більше документів</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.nodes">
-        <source>more.nodes</source>
-        <target state="translated">Більше вузлів</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.custom_forms">
-        <source>more.custom_forms</source>
-        <target state="translated">Більше користувацьких форм</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="search.custom_forms">
-        <source>search.custom_forms</source>
-        <target state="translated">Шукати користувацькі форми</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="custom-forms.toggle-explorer">
-        <source>custom-forms.toggle-explorer</source>
+      <trans-unit xml:space="preserve" id="nodes.toggle-explorer">
+        <source>nodes.toggle-explorer</source>
         <target state="translated">Провідник</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.account">
-        <source>edit.account</source>
-        <target state="translated">Редагувати обліковий запис</target>
+      <trans-unit xml:space="preserve" id="nodes.type">
+        <source>nodes.type</source>
+        <target state="translated">Зв'язки вузлів</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="NodeType">
-        <source>NodeType</source>
-        <target state="translated">Тип вузла</target>
+      <trans-unit xml:space="preserve" id="non_breaking.space">
+        <source>non_breaking.space</source>
+        <target state="translated">Нерозривний пробіл</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="select.nodetype">
-        <source>select.nodetype</source>
-        <target state="translated">Фільтр</target>
+      <trans-unit xml:space="preserve" id="ordered.list">
+        <source>ordered.list</source>
+        <target state="translated">Нумерований список</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="ignore">
-        <source>ignore</source>
-        <target state="translated">Ігнорувати</target>
+      <trans-unit xml:space="preserve" id="please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days">
+        <source>please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days</source>
+        <target state="translated">Будь ласка використовуйте форму нижчу, щоб завантажити вашу файли як колись</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="true">
-        <source>true</source>
-        <target state="translated">Так</target>
+      <trans-unit xml:space="preserve" id="position">
+        <source>position</source>
+        <target state="translated">Позиція</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="false">
-        <source>false</source>
-        <target state="translated">Ні</target>
+      <trans-unit xml:space="preserve" id="random.document">
+        <source>random.document</source>
+        <target state="translated">Випадково</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.name">
-        <source>node.name</source>
-        <target state="translated">Ім'я вузла</target>
+      <trans-unit xml:space="preserve" id="remove">
+        <source>remove</source>
+        <target state="translated">Видалити</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.id.parent">
-        <source>node.id.parent</source>
-        <target state="translated">ID батьківського вузла</target>
+      <trans-unit xml:space="preserve" id="remove.file">
+        <source>remove.file</source>
+        <target state="translated">Видалити файл</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.datetime.operator">
-        <source>node.datetime.operator</source>
-        <target state="translated">Оператор</target>
+      <trans-unit xml:space="preserve" id="required">
+        <source>required</source>
+        <target state="translated">Обов'язковий</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.datetime.value">
-        <source>node.datetime.value</source>
-        <target state="translated">Дата створення</target>
+      <trans-unit xml:space="preserve" id="search.documents">
+        <source>search.documents</source>
+        <target state="translated">Шукати документи</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.limit.result">
-        <source>node.limit.result</source>
-        <target state="translated">Обмеження ресурсів</target>
+      <trans-unit xml:space="preserve" id="search.nodes">
+        <source>search.nodes</source>
+        <target state="translated">Шукати вузли</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.tags">
-        <source>node.tags</source>
-        <target state="translated">Теги</target>
+      <trans-unit xml:space="preserve" id="see_all">
+        <source>see_all</source>
+        <target state="translated">Дивитись усі</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.tag.exclusive">
-        <source>node.tag.exclusive</source>
-        <target state="translated">Вибирання ексклюзивних тегів</target>
+      <trans-unit xml:space="preserve" id="separator">
+        <source>separator</source>
+        <target state="translated">Розділювач</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodetypefield">
-        <source>nodetypefield</source>
-        <target state="translated">Поля типів вузлів</target>
+      <trans-unit xml:space="preserve" id="stack.types">
+        <source>stack.types</source>
+        <target state="translated">Типи стека</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.a.node">
-        <source>search.a.node</source>
-        <target state="translated">Шукати вузол</target>
+      <trans-unit xml:space="preserve" id="stack_node.%name%.has_new_type.%type%">
+        <source>stack_node.%name%.has_new_type.%type%</source>
+        <target state="translated">Стек вузла "%name%" був помічений як "%type%" тип</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all.nodesSource">
-        <source>export.all.nodesSource</source>
-        <target state="translated">Експортувати всі сирці вузлів</target>
+      <trans-unit xml:space="preserve" id="strikethrough">
+        <source>strikethrough</source>
+        <target state="translated">Перекреслений</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="role.cannot.update.status">
-        <source>role.cannot.update.status</source>
-        <target state="translated">Недостатньо повноважень щоб застосувати цей статус</target>
+      <trans-unit xml:space="preserve" id="submitted.date">
+        <source>submitted.date</source>
+        <target state="translated">Дата відправлення</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.%field%.updated">
-        <source>node.%name%.%field%.updated</source>
-        <target state="translated">Вузол %name% "%field%" був оновлений</target>
+      <trans-unit xml:space="preserve" id="unlink.tags">
+        <source>unlink.tags</source>
+        <target state="translated">Зняти вибір з тега</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="added.node.%name%">
-        <source>added.node.%name%</source>
-        <target state="translated">Вузол "%name%" додано.</target>
+      <trans-unit xml:space="preserve" id="unordered.list">
+        <source>unordered.list</source>
+        <target state="translated">Ненумерованний список</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="custom-forms.type">
-        <source>custom-forms.type</source>
-        <target state="translated">Користувацька форма</target>
+      <trans-unit xml:space="preserve" id="updated.at">
+        <source>updated.at</source>
+        <target state="translated">Дата зміни</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="wrong.request">
+        <source>wrong.request</source>
+        <target state="translated">Хибний запит</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="you.can.not.upload.any.more.files">
+        <source>you.can.not.upload.any.more.files</source>
+        <target state="translated">Ви не можете більше завантажувати файли</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type">
+        <source>you.cant.upload.files.of.this.type</source>
+        <target state="translated">Ви не можете завантажувати файли цього типу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads">
+        <source>your.browser.does.not.support.dragndrop.file.uploads</source>
+        <target state="translated">Ваш браузер не підтримує технологію drag'n'drop</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields">
+        <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
+        <target state="translated">{0} Немає полей|{1} 1 поле|]1,Inf] %count% полей</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database">
+        <source>%email%.email.does.not.exist.in.user.account.database</source>
+        <target state="translated">Email-адреса "%email%" не існує у базі даних користувачів.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="Bad credentials">
         <source>Bad credentials.</source>
         <target state="translated">Замало повноважень</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeNode">
+        <source>homeNode</source>
+        <target state="translated">Головний вузол</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeType">
+        <source>NodeType</source>
+        <target state="translated">Тип вузла</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="User account has expired.">
         <source>User account has expired.</source>
         <target state="translated">Термін дії облікового запису закінчився.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User account is disabled.">
+        <source>User account is disabled.</source>
+        <target state="translated">Обліковий запис деактивовано.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="User account is locked.">
         <source>User account is locked.</source>
@@ -2857,9 +2724,57 @@
         <source>User credentials have expired.</source>
         <target state="translated">Термін дії реквізитів для доступу закінчився.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="User account is disabled.">
-        <source>User account is disabled.</source>
-        <target state="translated">Обліковий запис деактивовано.</target>
+      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent">
+        <source>a.confirmation.email.has.already.be.sent</source>
+        <target state="translated">Лист підтвердження був вам надісланий, перевірте вашу електронну пошту або теку "спам".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email">
+        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
+        <target state="translated">Посилання на скидання вашого паролю було надіслано вам на email. Не чекайте довго, інакше адреса стане недійсною.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="about.cms">
+        <source>about.cms</source>
+        <target state="translated">Про Roadiz</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.newsletter">
+        <source>add.a.newsletter</source>
+        <target state="translated">Додати новину</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="added.node.%name%">
+        <source>added.node.%name%</source>
+        <target state="translated">Вузол "%name%" додано.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="admin_image">
+        <source>admin_image</source>
+        <target state="translated">Основне зображення або лого адміністрації</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes">
+        <source>are_you_sure.change-status.these.nodes</source>
+        <target state="translated">Ви дійсно хочете змінити статус усіх вибраних вузлів?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeSource">
+        <source>are_you_sure.delete.nodeSource</source>
+        <target state="translated">Ви дійсно хочете видалити сирець цього вузла?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.download.these.documents">
+        <source>are_you_sure.download.these.documents</source>
+        <target state="translated">Ви дійсно хочете завантажити ці документи?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.purge.generated_images.cache">
+        <source>are_you_sure.purge.generated_images.cache</source>
+        <target state="translated">Ви дійсно хочете очистити кеш зображень?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.login">
+        <source>back_to.login</source>
+        <target state="translated">Назад до сторінки входу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.newsletter">
+        <source>back_to.newsletter</source>
+        <target state="translated">Назад до новини</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.download.documents">
+        <source>bulk.download.documents</source>
+        <target state="translated">Завантажити вибрані документи</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="change.nodes.status">
         <source>change.nodes.status</source>
@@ -2869,157 +2784,57 @@
         <source>change.nodes.status.all</source>
         <target state="translated">Змінити статус усіх вибраних вузлів</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes">
-        <source>are_you_sure.change-status.these.nodes</source>
-        <target state="translated">Ви дійсно хочете змінити статус усіх вибраних вузлів?</target>
+      <trans-unit xml:space="preserve" id="changelog">
+        <source>changelog</source>
+        <target state="translated">Журал змін</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.status">
-        <source>nodes.status</source>
-        <target state="translated">Вибирання статусу</target>
+      <trans-unit xml:space="preserve" id="choose.a.new.password">
+        <source>choose.a.new.password</source>
+        <target state="translated">Обрати новий пароль</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.bulk.status.changed">
-        <source>nodes.bulk.status.changed</source>
-        <target state="translated">Вибраний статус вузла був змінений.</target>
+      <trans-unit xml:space="preserve" id="chroot">
+        <source>chroot</source>
+        <target state="translated">Кореневий вузол</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="staticTheme">
-        <source>staticTheme</source>
-        <target state="translated">Статична тема</target>
+      <trans-unit xml:space="preserve" id="chroot.limited.one">
+        <source>chroot.limited.one</source>
+        <target state="translated">Ви можете вибрати лише один кореневий вузол</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="staticTheme.does_not.allow.node_url_routes">
-        <source>staticTheme.does_not.allow.node_url_routes</source>
-        <target state="translated">Статична тема означає, що вона не буде читатись динамічними вузлами URL, лише статичними.</target>
+      <trans-unit xml:space="preserve" id="confirmation.token.has.expired">
+        <source>confirmation.token.has.expired</source>
+        <target state="translated">В ключа підтвердження витік термін дії.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="theme.is_static">
-        <source>theme.is_static</source>
-        <target state="translated">Статична</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="password.must.match">
-        <source>password.must.match</source>
-        <target state="translated">Паролі повинні співпадати</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="passwords.must.match">
-        <source>passwords.must.match</source>
-        <target state="translated">Паролі повинні співпадати</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.nodeType.available.create_one_first">
-        <source>no.nodeType.available.create_one_first</source>
-        <target state="translated">Не було знайдено жодного типу вузла. Будь ласка створіть хоча б один перед тим, як додавати вузол.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.no_creation.already_exists">
-        <source>node.%name%.no_creation.already_exists</source>
-        <target state="translated">Вузол "%name%" не може бути створений, оскільки вже існує інший з таким іменем.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.dynamicNodeName">
-        <source>node.dynamicNodeName</source>
-        <target state="translated">Назва динамічного вузла</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.status">
-        <source>nodeType.status</source>
-        <target state="translated">Статус</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.not_visible">
-        <source>nodeType.not_visible</source>
-        <target state="translated">Невидимий тип вузла</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.nodeType">
-        <source>newsletter.nodeType</source>
-        <target state="translated">Зарезервований тип новий</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.hiding_nodes">
-        <source>nodeType.hiding_nodes</source>
-        <target state="translated">Цей тип приховує дерево вузлів</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.%name%.created">
-        <source>newsletter.%name%.created</source>
-        <target state="translated">Новина "%name%" створена.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.%newsletter%.updated.%translation%">
-        <source>newsletter.%newsletter%.updated.%translation%</source>
-        <target state="translated">Новина "%newsletter%" оновлена для перекладу "%translation%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="duplicated.newsletter.%name%">
-        <source>duplicated.newsletter.%name%</source>
-        <target state="translated">Новина "%name%" продубльована.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="impossible.duplicate.newsletter.%name%">
-        <source>impossible.duplicate.newsletter.%name%</source>
-        <target state="translated">Неможливо продублювати новину "%name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="see.newsletter">
-        <source>see.newsletter</source>
-        <target state="translated">Дивитись новину</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.newsletter">
-        <source>add.a.newsletter</source>
-        <target state="translated">Додати новину</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.newsletter.%name%">
-        <source>edit.newsletter.%name%</source>
-        <target state="translated">Редагувати новину "%name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter">
-        <source>newsletter</source>
-        <target state="translated">Новина</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.type">
-        <source>newsletter.type</source>
-        <target state="translated">Тип новини</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.newsletter">
-        <source>back_to.newsletter</source>
-        <target state="translated">Назад до новини</target>
+      <trans-unit xml:space="preserve" id="confirmation.token.is.invalid">
+        <source>confirmation.token.is.invalid</source>
+        <target state="translated">Ключ підтвердження недійсний.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="create.a.newsletter">
         <source>create.a.newsletter</source>
         <target state="translated">Створити новину</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.html">
-        <source>export.html</source>
-        <target state="translated">Експортувати HTML</target>
+      <trans-unit xml:space="preserve" id="current.document.is.private.you.cannot.preview.it">
+        <source>current.document.is.private.you.cannot.preview.it</source>
+        <target state="translated">Поточна версія приватна, ви не можете її переглянути</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.html.inline">
-        <source>export.html.inline</source>
-        <target state="translated">Експортувати HTML (із влаштованим CSS)</target>
+      <trans-unit xml:space="preserve" id="current.version">
+        <source>current.version</source>
+        <target state="translated">Поточна версія</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="start.test.user.right">
-        <source>start.test.user.right</source>
-        <target state="translated">Отримати привілеї користувача</target>
+      <trans-unit xml:space="preserve" id="custom-forms.toggle-explorer">
+        <source>custom-forms.toggle-explorer</source>
+        <target state="translated">Провідник</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stop.test.user.right">
-        <source>stop.test.user.right</source>
-        <target state="translated">Повернутись назад до вашого обл. запису</target>
+      <trans-unit xml:space="preserve" id="custom-forms.type">
+        <source>custom-forms.type</source>
+        <target state="translated">Користувацька форма</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="overwrite.document">
-        <source>overwrite.document</source>
-        <target state="translated">Переписати файл документу</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.already_exists">
+        <source>customForm.%name%.already_exists</source>
+        <target state="translated">Користувацька форма "%name%" вже існує.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.file.%name%.updated">
-        <source>document.file.%name%.updated</source>
-        <target state="translated">Файл "%name%" завантажено</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeSource">
-        <source>are_you_sure.delete.nodeSource</source>
-        <target state="translated">Ви дійсно хочете видалити сирець цього вузла?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node_source.%node_source%.%translation%.cant.deleted">
-        <source>node_source.%node_source%.%translation%.cant.deleted</source>
-        <target state="translated">Переклад %translation% "%node_source%" не можу бути видаленим</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node_source.%node_source%.deleted.%translation%">
-        <source>node_source.%node_source%.deleted.%translation%</source>
-        <target state="translated">Переклад "%node_source%" "%translation%" було видалено</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodesource">
-        <source>delete.nodesource</source>
-        <target state="translated">Видалити сирець вузла</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="latest.node-sources.updates">
-        <source>latest.node-sources.updates</source>
-        <target state="translated">Останнє оновлення вузла</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.updated">
-        <source>customForm.%name%.updated</source>
-        <target state="translated">Форма "%name%" оновлена</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.cannot_rename_already_exists">
+        <source>customForm.%name%.cannot_rename_already_exists</source>
+        <target state="translated">Користувацька форма "%name%" не може бути перейменована, інша з таким же іменем уже існує.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="customForm.%name%.created">
         <source>customForm.%name%.created</source>
@@ -3029,221 +2844,389 @@
         <source>customForm.%name%.deleted</source>
         <target state="translated">Користувацька форма "%name%" видалена.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.cannot_rename_already_exists">
-        <source>customForm.%name%.cannot_rename_already_exists</source>
-        <target state="translated">Користувацька форма "%name%" не може бути перейменована, інша з таким же іменем уже існує.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.already_exists">
-        <source>customForm.%name%.already_exists</source>
-        <target state="translated">Користувацька форма "%name%" вже існує.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="select.all">
-        <source>select.all</source>
-        <target state="translated">Вибрати все</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="deselect.all">
-        <source>deselect.all</source>
-        <target state="translated">Зняти виділення</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.user.%name%.roles">
-        <source>edit.user.%name%.roles</source>
-        <target state="translated">Ролі %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="history.for.%name%">
-        <source>history.for.%name%</source>
-        <target state="translated">Історія %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="admin_image">
-        <source>admin_image</source>
-        <target state="translated">Основне зображення або лого адміністрації</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="chroot.limited.one">
-        <source>chroot.limited.one</source>
-        <target state="translated">Ви можете вибрати лише один кореневий вузол</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="chroot">
-        <source>chroot</source>
-        <target state="translated">Кореневий вузол</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists">
-        <source>node.noCreation.alreadyExists</source>
-        <target state="translated">Вузол не може бути створений, вже існує інший з таким же іменем</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style">
-        <source>maps_style</source>
-        <target state="translated">Стандартні стилі Google Maps</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.status">
-        <source>user.status</source>
-        <target state="translated">Статус</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.enabled">
-        <source>user.enabled</source>
-        <target state="translated">Активований аккаунт</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.disabled">
-        <source>user.disabled</source>
-        <target state="translated">Деактивований аккаунт</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.locked">
-        <source>user.locked</source>
-        <target state="translated">Заблокований аккаунт</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.expired">
-        <source>user.expired</source>
-        <target state="translated">Термін аккаунту минув</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.expiresAt">
-        <source>user.expiresAt</source>
-        <target state="translated">Термін аккаунту мине через:</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.force.expired">
-        <source>user.force.expired</source>
-        <target state="translated">Примусове завершення аккаунту</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.credentialsExpiresAt">
-        <source>user.credentialsExpiresAt</source>
-        <target state="translated">Повноваження аккаунту закінчаться через:</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.force.credentialsExpired">
-        <source>user.force.credentialsExpired</source>
-        <target state="translated">Примусове закінчення повноважень аккаунту</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.user.%name%.security">
-        <source>edit.user.%name%.security</source>
-        <target state="translated">Безпека %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.%name%.security.updated">
-        <source>user.%name%.security.updated</source>
-        <target state="translated">Параметри безпеки "%name%" оновлено.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.account.has-expired">
-        <source>user.account.has-expired</source>
-        <target state="translated">Обліковий запис користувача закінчився</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.crendentials.has-expired">
-        <source>user.crendentials.has-expired</source>
-        <target state="translated">Повноваження аккаунту закінчилися</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.last-login">
-        <source>user.last-login</source>
-        <target state="translated">Дата останнього заходу</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.password-requested-at">
-        <source>user.password-requested-at</source>
-        <target state="translated">Дата останнього запиту пароля</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="never.requested">
-        <source>never.requested</source>
-        <target state="translated">Ніколи</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="year">
-        <source>year</source>
-        <target state="translated">Рік</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="month">
-        <source>month</source>
-        <target state="translated">Місяць</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.updated">
+        <source>customForm.%name%.updated</source>
+        <target state="translated">Форма "%name%" оновлена</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="day">
         <source>day</source>
         <target state="translated">День</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="hour">
-        <source>hour</source>
-        <target state="translated">Година</target>
+      <trans-unit xml:space="preserve" id="delete.generated_images.cache">
+        <source>delete.generated_images.cache</source>
+        <target state="translated">Очистити кеш зображень</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="minute">
-        <source>minute</source>
-        <target state="translated">Хв.</target>
+      <trans-unit xml:space="preserve" id="delete.nodesource">
+        <source>delete.nodesource</source>
+        <target state="translated">Видалити сирець вузла</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="user.security">
-        <source>user.security</source>
-        <target state="translated">Безпека</target>
+      <trans-unit xml:space="preserve" id="deselect.all">
+        <source>deselect.all</source>
+        <target state="translated">Зняти виділення</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="your.account.email">
-        <source>your.account.email</source>
-        <target state="translated">Ваш email-аккаунт</target>
+      <trans-unit xml:space="preserve" id="document.file.%name%.updated">
+        <source>document.file.%name%.updated</source>
+        <target state="translated">Файл "%name%" завантажено</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database">
-        <source>%email%.email.does.not.exist.in.user.account.database</source>
-        <target state="translated">Email-адреса "%email%" не існує у базі даних користувачів.</target>
+      <trans-unit xml:space="preserve" id="document.filepath">
+        <source>document.filepath</source>
+        <target state="translated">Абсолютний шлях файлу</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email">
-        <source>to.get.new.password.enter.your.account.email</source>
-        <target state="translated">Щоб отримати новий пароль просто вкажіть email вашого облікового запису.</target>
+      <trans-unit xml:space="preserve" id="document.public_url">
+        <source>document.public_url</source>
+        <target state="translated">Публічний URL</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="request.new.password">
-        <source>request.new.password</source>
-        <target state="translated">Попросити новий пароль</target>
+      <trans-unit xml:space="preserve" id="download.document">
+        <source>download.document</source>
+        <target state="translated">Завантажити документ</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.login">
-        <source>back_to.login</source>
-        <target state="translated">Назад до сторінки входу</target>
+      <trans-unit xml:space="preserve" id="download.documents">
+        <source>download.documents</source>
+        <target state="translated">Завантажити документи</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email">
-        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
-        <target state="translated">Посилання на скидання вашого паролю було надіслано вам на email. Не чекайте довго, інакше адреса стане недійсною.</target>
+      <trans-unit xml:space="preserve" id="download.folder.content">
+        <source>download.folder.content</source>
+        <target state="translated">Завантажити вміст теки</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="confirmation.token.is.invalid">
-        <source>confirmation.token.is.invalid</source>
-        <target state="translated">Ключ підтвердження недійсний.</target>
+      <trans-unit xml:space="preserve" id="duplicated.newsletter.%name%">
+        <source>duplicated.newsletter.%name%</source>
+        <target state="translated">Новина "%name%" продубльована.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="confirmation.token.has.expired">
-        <source>confirmation.token.has.expired</source>
-        <target state="translated">В ключа підтвердження витік термін дії.</target>
+      <trans-unit xml:space="preserve" id="edit.account">
+        <source>edit.account</source>
+        <target state="translated">Редагувати обліковий запис</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="choose.a.new.password">
-        <source>choose.a.new.password</source>
-        <target state="translated">Обрати новий пароль</target>
+      <trans-unit xml:space="preserve" id="edit.newsletter.%name%">
+        <source>edit.newsletter.%name%</source>
+        <target state="translated">Редагувати новину "%name%"</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="save.new.password">
-        <source>save.new.password</source>
-        <target state="translated">Зберегти новий пароль</target>
+      <trans-unit xml:space="preserve" id="edit.user.%name%.roles">
+        <source>edit.user.%name%.roles</source>
+        <target state="translated">Ролі %name%</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="your.new.password.has.been.saved">
-        <source>your.new.password.has.been.saved</source>
-        <target state="translated">Ваш новий пароль збережено.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="go_back_to.login.page.to.connect">
-        <source>go_back_to.login.page.to.connect</source>
-        <target state="translated">Поверніться назад до сторінки входу для підключення.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent">
-        <source>a.confirmation.email.has.already.be.sent</source>
-        <target state="translated">Лист підтвердження був вам надісланий, перевірте вашу електронну пошту або теку "спам".</target>
+      <trans-unit xml:space="preserve" id="edit.user.%name%.security">
+        <source>edit.user.%name%.security</source>
+        <target state="translated">Безпека %name%</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="email.invalid">
         <source>email.invalid</source>
         <target state="translated">Невірна email-адреса.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="resultCache">
-        <source>resultCache</source>
-        <target state="translated">Кеш результатів</target>
+      <trans-unit xml:space="preserve" id="export.all.nodesSource">
+        <source>export.all.nodesSource</source>
+        <target state="translated">Експортувати всі сирці вузлів</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="hydratationCache">
-        <source>hydratationCache</source>
-        <target state="translated">Розрідження кешу</target>
+      <trans-unit xml:space="preserve" id="export.html">
+        <source>export.html</source>
+        <target state="translated">Експортувати HTML</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="queryCache">
-        <source>queryCache</source>
-        <target state="translated">Кеш запитів</target>
+      <trans-unit xml:space="preserve" id="export.html.inline">
+        <source>export.html.inline</source>
+        <target state="translated">Експортувати HTML (із влаштованим CSS)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="metadataCache">
-        <source>metadataCache</source>
-        <target state="translated">Кеш метаданих</target>
+      <trans-unit xml:space="preserve" id="false">
+        <source>false</source>
+        <target state="translated">Ні</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="no.cache.available">
-        <source>no.cache.available</source>
-        <target state="translated">Доступний кеш на знайдено</target>
+      <trans-unit xml:space="preserve" id="geographic.coordinates.type">
+        <source>geographic.coordinates.type</source>
+        <target state="translated">Географічні координати</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter">
+        <source>geotag.type_an_address.then_type_enter</source>
+        <target state="translated">Введіть адресу та натисніть "Enter"...</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="go_back_to.login.page.to.connect">
+        <source>go_back_to.login.page.to.connect</source>
+        <target state="translated">Поверніться назад до сторінки входу для підключення.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="history.for.%name%">
+        <source>history.for.%name%</source>
+        <target state="translated">Історія %name%</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="homeNode.limited.one">
         <source>homeNode.limited.one</source>
         <target state="translated">Можна вибрати лише один головний вузол</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="NodeNode">
-        <source>homeNode</source>
-        <target state="translated">Головний вузол</target>
+      <trans-unit xml:space="preserve" id="hour">
+        <source>hour</source>
+        <target state="translated">Година</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="hydratationCache">
+        <source>hydratationCache</source>
+        <target state="translated">Розрідження кешу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ignore">
+        <source>ignore</source>
+        <target state="translated">Ігнорувати</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="impossible.duplicate.newsletter.%name%">
+        <source>impossible.duplicate.newsletter.%name%</source>
+        <target state="translated">Неможливо продублювати новину "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="item-per-page.display.count">
+        <source>item-per-page.display.count</source>
+        <target state="translated">Дисплей:</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="last.version">
+        <source>last.version</source>
+        <target state="translated">Остання версія</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="lastest.version.installed">
+        <source>lastest.version.installed</source>
+        <target state="translated">Встановлена остання версія</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="latest.node-sources.updates">
+        <source>latest.node-sources.updates</source>
+        <target state="translated">Останнє оновлення вузла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="link.folders">
+        <source>link.folders</source>
+        <target state="translated">Посилання на папку(и)</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="maps_style">
+        <source>maps_style</source>
+        <target state="translated">Стандартні стилі Google Maps</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="metadataCache">
+        <source>metadataCache</source>
+        <target state="translated">Кеш метаданих</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="minute">
+        <source>minute</source>
+        <target state="translated">Хв.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="month">
+        <source>month</source>
+        <target state="translated">Місяць</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.custom_forms">
+        <source>more.custom_forms</source>
+        <target state="translated">Більше користувацьких форм</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.documents">
+        <source>more.documents</source>
+        <target state="translated">Більше документів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.nodes">
+        <source>more.nodes</source>
+        <target state="translated">Більше вузлів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.node.to.first.position">
+        <source>move.node.to.first.position</source>
+        <target state="translated">Перейти до початку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.node.to.last.position">
+        <source>move.node.to.last.position</source>
+        <target state="translated">Перейти до кінця</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="multiple.geographic.coordinates.type">
+        <source>multiple.geographic.coordinates.type</source>
+        <target state="translated">Кілька гео. координатів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="never.requested">
+        <source>never.requested</source>
+        <target state="translated">Ніколи</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="news.version.release">
+        <source>news.version.release</source>
+        <target state="translated">Нова версія Roadiz доступна для завантаження</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter">
+        <source>newsletter</source>
+        <target state="translated">Новина</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.%name%.created">
+        <source>newsletter.%name%.created</source>
+        <target state="translated">Новина "%name%" створена.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.%newsletter%.updated.%translation%">
+        <source>newsletter.%newsletter%.updated.%translation%</source>
+        <target state="translated">Новина "%newsletter%" оновлена для перекладу "%translation%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.nodeType">
+        <source>newsletter.nodeType</source>
+        <target state="translated">Зарезервований тип новий</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.type">
+        <source>newsletter.type</source>
+        <target state="translated">Тип новини</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.cache.available">
+        <source>no.cache.available</source>
+        <target state="translated">Доступний кеш на знайдено</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.nodeType.available.create_one_first">
+        <source>no.nodeType.available.create_one_first</source>
+        <target state="translated">Не було знайдено жодного типу вузла. Будь ласка створіть хоча б один перед тим, як додавати вузол.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.%field%.updated">
+        <source>node.%name%.%field%.updated</source>
+        <target state="translated">Вузол %name% "%field%" був оновлений</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.no_creation.already_exists">
+        <source>node.%name%.no_creation.already_exists</source>
+        <target state="translated">Вузол "%name%" не може бути створений, оскільки вже існує інший з таким іменем.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.datetime.operator">
+        <source>node.datetime.operator</source>
+        <target state="translated">Оператор</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.datetime.value">
+        <source>node.datetime.value</source>
+        <target state="translated">Дата створення</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.dynamicNodeName">
+        <source>node.dynamicNodeName</source>
+        <target state="translated">Назва динамічного вузла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.id.parent">
+        <source>node.id.parent</source>
+        <target state="translated">ID батьківського вузла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.limit.result">
+        <source>node.limit.result</source>
+        <target state="translated">Обмеження ресурсів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.name">
+        <source>node.name</source>
+        <target state="translated">Ім'я вузла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists">
+        <source>node.noCreation.alreadyExists</source>
+        <target state="translated">Вузол не може бути створений, вже існує інший з таким же іменем</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.tag.exclusive">
+        <source>node.tag.exclusive</source>
+        <target state="translated">Вибирання ексклюзивних тегів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.tags">
+        <source>node.tags</source>
+        <target state="translated">Теги</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.hiding_nodes">
+        <source>nodeType.hiding_nodes</source>
+        <target state="translated">Цей тип приховує дерево вузлів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.not_visible">
+        <source>nodeType.not_visible</source>
+        <target state="translated">Невидимий тип вузла</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.status">
+        <source>nodeType.status</source>
+        <target state="translated">Статус</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.%node_source%.%translation%.cant.deleted">
+        <source>node_source.%node_source%.%translation%.cant.deleted</source>
+        <target state="translated">Переклад %translation% "%node_source%" не можу бути видаленим</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.%node_source%.deleted.%translation%">
+        <source>node_source.%node_source%.deleted.%translation%</source>
+        <target state="translated">Переклад "%node_source%" "%translation%" було видалено</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.bulk.status.changed">
+        <source>nodes.bulk.status.changed</source>
+        <target state="translated">Вибраний статус вузла був змінений.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.status">
+        <source>nodes.status</source>
+        <target state="translated">Вибирання статусу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodetypefield">
+        <source>nodetypefield</source>
+        <target state="translated">Поля типів вузлів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not.valid.facebook.name">
+        <source>not.valid.facebook.name</source>
+        <target state="translated">Це неправильне Facebook ім'я, просто скопіюйте частину після https://www.facebook.com/</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="overwrite.document">
+        <source>overwrite.document</source>
+        <target state="translated">Переписати файл документу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="password.must.match">
+        <source>password.must.match</source>
+        <target state="translated">Паролі повинні співпадати</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="passwords.must.match">
+        <source>passwords.must.match</source>
+        <target state="translated">Паролі повинні співпадати</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="purge.generated_images.cache">
+        <source>purge.generated_images.cache</source>
+        <target state="translated">Очистити кеш зображень</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="queryCache">
+        <source>queryCache</source>
+        <target state="translated">Кеш запитів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="request.new.password">
+        <source>request.new.password</source>
+        <target state="translated">Попросити новий пароль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="reset.marker">
+        <source>reset.marker</source>
+        <target state="translated">Видалити помітку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="resultCache">
+        <source>resultCache</source>
+        <target state="translated">Кеш результатів</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="role.cannot.update.status">
+        <source>role.cannot.update.status</source>
+        <target state="translated">Недостатньо повноважень щоб застосувати цей статус</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="routePrefix">
+        <source>routePrefix</source>
+        <target state="translated">Статичний кореневий вузол</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="save.new.password">
+        <source>save.new.password</source>
+        <target state="translated">Зберегти новий пароль</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.a.node">
+        <source>search.a.node</source>
+        <target state="translated">Шукати вузол</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.custom_forms">
+        <source>search.custom_forms</source>
+        <target state="translated">Шукати користувацькі форми</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="see.newsletter">
+        <source>see.newsletter</source>
+        <target state="translated">Дивитись новину</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.all">
+        <source>select.all</source>
+        <target state="translated">Вибрати все</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.nodetype">
+        <source>select.nodetype</source>
+        <target state="translated">Фільтр</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="start.test.user.right">
+        <source>start.test.user.right</source>
+        <target state="translated">Отримати привілеї користувача</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="staticTheme">
+        <source>staticTheme</source>
+        <target state="translated">Статична тема</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="staticTheme.does_not.allow.node_url_routes">
+        <source>staticTheme.does_not.allow.node_url_routes</source>
+        <target state="translated">Статична тема означає, що вона не буде читатись динамічними вузлами URL, лише статичними.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="static_domain_name">
+        <source>static_domain_name</source>
+        <target state="translated">Статичне доменне ім'я</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="stop.test.user.right">
+        <source>stop.test.user.right</source>
+        <target state="translated">Повернутись назад до вашого обл. запису</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="theme.is_static">
+        <source>theme.is_static</source>
+        <target state="translated">Статична</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="theme.root.limited.one">
         <source>theme.root.limited.one</source>
@@ -3253,73 +3236,89 @@
         <source>themeRoot</source>
         <target state="translated">Кореневий вузол</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="about.cms">
-        <source>about.cms</source>
-        <target state="translated">Про Roadiz</target>
+      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email">
+        <source>to.get.new.password.enter.your.account.email</source>
+        <target state="translated">Щоб отримати новий пароль просто вкажіть email вашого облікового запису.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="news.version.release">
-        <source>news.version.release</source>
-        <target state="translated">Нова версія Roadiz доступна для завантаження</target>
+      <trans-unit xml:space="preserve" id="true">
+        <source>true</source>
+        <target state="translated">Так</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="lastest.version.installed">
-        <source>lastest.version.installed</source>
-        <target state="translated">Встановлена остання версія</target>
+      <trans-unit xml:space="preserve" id="unlink.folders">
+        <source>unlink.folders</source>
+        <target state="translated">Від'єднати папку(и)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="current.version">
-        <source>current.version</source>
-        <target state="translated">Поточна версія</target>
+      <trans-unit xml:space="preserve" id="user.%name%.security.updated">
+        <source>user.%name%.security.updated</source>
+        <target state="translated">Параметри безпеки "%name%" оновлено.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="last.version">
-        <source>last.version</source>
-        <target state="translated">Остання версія</target>
+      <trans-unit xml:space="preserve" id="user.account.has-expired">
+        <source>user.account.has-expired</source>
+        <target state="translated">Обліковий запис користувача закінчився</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="changelog">
-        <source>changelog</source>
-        <target state="translated">Журал змін</target>
+      <trans-unit xml:space="preserve" id="user.credentialsExpiresAt">
+        <source>user.credentialsExpiresAt</source>
+        <target state="translated">Повноваження аккаунту закінчаться через:</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="download.folder.content">
-        <source>download.folder.content</source>
-        <target state="translated">Завантажити вміст теки</target>
+      <trans-unit xml:space="preserve" id="user.crendentials.has-expired">
+        <source>user.crendentials.has-expired</source>
+        <target state="translated">Повноваження аккаунту закінчилися</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="not.valid.facebook.name">
-        <source>not.valid.facebook.name</source>
-        <target state="translated">Це неправильне Facebook ім'я, просто скопіюйте частину після https://www.facebook.com/</target>
+      <trans-unit xml:space="preserve" id="user.disabled">
+        <source>user.disabled</source>
+        <target state="translated">Деактивований аккаунт</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="routePrefix">
-        <source>routePrefix</source>
-        <target state="translated">Статичний кореневий вузол</target>
+      <trans-unit xml:space="preserve" id="user.enabled">
+        <source>user.enabled</source>
+        <target state="translated">Активований аккаунт</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="current.document.is.private.you.cannot.preview.it">
-        <source>current.document.is.private.you.cannot.preview.it</source>
-        <target state="translated">Поточна версія приватна, ви не можете її переглянути</target>
+      <trans-unit xml:space="preserve" id="user.expired">
+        <source>user.expired</source>
+        <target state="translated">Термін аккаунту минув</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.public_url">
-        <source>document.public_url</source>
-        <target state="translated">Публічний URL</target>
+      <trans-unit xml:space="preserve" id="user.expiresAt">
+        <source>user.expiresAt</source>
+        <target state="translated">Термін аккаунту мине через:</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.filepath">
-        <source>document.filepath</source>
-        <target state="translated">Абсолютний шлях файлу</target>
+      <trans-unit xml:space="preserve" id="user.force.credentialsExpired">
+        <source>user.force.credentialsExpired</source>
+        <target state="translated">Примусове закінчення повноважень аккаунту</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="download.document">
-        <source>download.document</source>
-        <target state="translated">Завантажити документ</target>
+      <trans-unit xml:space="preserve" id="user.force.expired">
+        <source>user.force.expired</source>
+        <target state="translated">Примусове завершення аккаунту</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="static_domain_name">
-        <source>static_domain_name</source>
-        <target state="translated">Статичне доменне ім'я</target>
+      <trans-unit xml:space="preserve" id="user.last-login">
+        <source>user.last-login</source>
+        <target state="translated">Дата останнього заходу</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="item-per-page.display.count">
-        <source>item-per-page.display.count</source>
-        <target state="translated">Дисплей:</target>
+      <trans-unit xml:space="preserve" id="user.locked">
+        <source>user.locked</source>
+        <target state="translated">Заблокований аккаунт</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="move.node.to.first.position">
-        <source>move.node.to.first.position</source>
-        <target state="translated">Перейти до початку</target>
+      <trans-unit xml:space="preserve" id="user.password-requested-at">
+        <source>user.password-requested-at</source>
+        <target state="translated">Дата останнього запиту пароля</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="move.node.to.last.position">
-        <source>move.node.to.last.position</source>
-        <target state="translated">Перейти до кінця</target>
+      <trans-unit xml:space="preserve" id="user.security">
+        <source>user.security</source>
+        <target state="translated">Безпека</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.status">
+        <source>user.status</source>
+        <target state="translated">Статус</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="year">
+        <source>year</source>
+        <target state="translated">Рік</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.account.email">
+        <source>your.account.email</source>
+        <target state="translated">Ваш email-аккаунт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.new.password.has.been.saved">
+        <source>your.new.password.has.been.saved</source>
+        <target state="translated">Ваш новий пароль збережено.</target>
       </trans-unit>
       <!-- Node tree contextual menu commands -->
       <trans-unit xml:space="preserve" id="node.hide">
@@ -3360,14 +3359,6 @@
         <target state="translated">Це значення не вірне.</target>
       </trans-unit>
       <!-- Font variantes -->
-      <trans-unit xml:space="preserve" id="font_variant.regular">
-        <source>font_variant.regular</source>
-        <target state="translated">Звичайний</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.italic">
-        <source>font_variant.italic</source>
-        <target state="translated">Курсив</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.bold">
         <source>font_variant.bold</source>
         <target state="translated">Товстий</target>
@@ -3376,6 +3367,10 @@
         <source>font_variant.bold.italic</source>
         <target state="translated">Товстий курсив</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.italic">
+        <source>font_variant.italic</source>
+        <target state="translated">Курсив</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.light">
         <source>font_variant.light</source>
         <target state="translated">Світлий</target>
@@ -3383,6 +3378,10 @@
       <trans-unit xml:space="preserve" id="font_variant.light.italic">
         <source>font_variant.light.italic</source>
         <target state="translated">Світлий курсив</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.regular">
+        <source>font_variant.regular</source>
+        <target state="translated">Звичайний</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="update.roadiz">
         <source>update.roadiz</source>
