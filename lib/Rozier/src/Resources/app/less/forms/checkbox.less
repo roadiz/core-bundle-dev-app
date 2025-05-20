@@ -35,6 +35,7 @@ input[type=checkbox].rz-boolean-checkbox {
         line-height: 1.5;
         background-color: var(--rz-accent-color);
         transition: transform ease-in-out 0.2s;
+        transform: translateX(-100%);
     }
 
     &:after {
@@ -50,11 +51,12 @@ input[type=checkbox].rz-boolean-checkbox {
         line-height: 1.5;
         background-color: grey;
         transition: transform ease-in-out 0.2s;
+        transform: translateX(-100%);
     }
 
     &:checked:before {
         content: attr(data-on-text);
-        transform: translateX(-100%);
+        transform: translateX(0);
         font-size: 12px;
         line-height: 1.5;
         text-align: center;
@@ -64,7 +66,7 @@ input[type=checkbox].rz-boolean-checkbox {
 
     &:checked:after {
         content: attr(data-off-text);
-        transform: translateX(-100%);
+        transform: translateX(0);
         font-size: 12px;
         line-height: 1.5;
         text-align: center;
