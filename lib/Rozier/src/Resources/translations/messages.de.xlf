@@ -756,30 +756,29 @@
       <!-- are_you_sure.undelete.node.and.data -->
       <!-- undelete.node.%name% -->
       <!-- embed documents -->
-      <!-- stacks -->
-      <trans-unit xml:space="preserve" id="your.account.email">
-        <source>your.account.email</source>
-        <target state="translated">Ihr Konto E-Mail</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database">
         <source>%email%.email.does.not.exist.in.user.account.database</source>
         <target state="translated">Die E-Mail %email% existiert nicht in der Benutzerdatenbank.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email">
-        <source>to.get.new.password.enter.your.account.email</source>
-        <target state="translated">Um ein neues Passwort anzufordern, geben Sie einfach die mit Ihrem Konto verknüpfte E-Mail ein.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email">
-        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
-        <target state="translated">Ein persönlicher Link zum Zurücksetzen des Passworts wurde Ihnen per E-Mail zugesandt. Warten Sie nicht zu lange, denn der Link läuft automatisch ab.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent">
         <source>a.confirmation.email.has.already.be.sent</source>
         <target state="translated">Eine Bestätigungs-E-Mail wurde bereits an Sie gesendet. Überprüfen Sie Ihre E-Mails oder Ihren Spam-Ordner.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email">
+        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
+        <target state="translated">Ein persönlicher Link zum Zurücksetzen des Passworts wurde Ihnen per E-Mail zugesandt. Warten Sie nicht zu lange, denn der Link läuft automatisch ab.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="email.invalid">
         <source>email.invalid</source>
         <target state="translated">E-Mail ist ungültig oder existiert nicht.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email">
+        <source>to.get.new.password.enter.your.account.email</source>
+        <target state="translated">Um ein neues Passwort anzufordern, geben Sie einfach die mit Ihrem Konto verknüpfte E-Mail ein.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.account.email">
+        <source>your.account.email</source>
+        <target state="translated">Ihr Konto E-Mail</target>
       </trans-unit>
       <!-- Node tree contextual menu commands -->
       <!-- Some constraints messages -->
