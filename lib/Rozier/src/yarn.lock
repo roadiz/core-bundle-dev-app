@@ -2398,13 +2398,6 @@ boom@2.x.x:
   dependencies:
     hoek "2.x.x"
 
-bootstrap-switch@3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-switch/-/bootstrap-switch-3.3.2.tgz#79ddb49fadc308fb731e257f95957af48996eea7"
-  integrity sha512-9ntjMDMeawsUAxp15DiO1po3kf1J8xSSENesgTLJc0j/HoB4wZ8ap8bk8LlazywDHh05E8740nue0LX2A98ZPw==
-  dependencies:
-    jquery ">=1.9.0"
-
 brace-expansion@^1.1.7:
   version "1.1.11"
   resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-1.1.11.tgz#3c7fcbf529d87226f3d2f52b966ff5271eb441dd"
@@ -5848,11 +5841,6 @@ jquery@>=1.7, "jquery@>=1.8.0 <4.0.0":
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.1.tgz#fab0408f8b45fc19f956205773b62b292c147a16"
   integrity sha512-opJeO4nCucVnsjiXOE+/PcCgYw9Gwpvs/a6B1LL/lQhwWwpbVEVYDZ1FokFr8PRc7ghYlrFPuyHuiiDNTQxmcw==
-
-jquery@>=1.9.0:
-  version "3.7.1"
-  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
-  integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
 
 js-base64@^2.1.9:
   version "2.6.4"
