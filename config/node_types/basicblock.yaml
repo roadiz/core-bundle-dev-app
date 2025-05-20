@@ -21,6 +21,29 @@ fields:
         expanded: false
         type: markdown
     -
+        name: contenttest
+        universal: false
+        excludeFromSearch: false
+        serializationGroups: {  }
+        excludedFromSerialization: false
+        indexed: false
+        visible: true
+        label: Contenttest
+        expanded: false
+        type: markdown
+    -
+        name: css
+        label: Css
+        type: css
+    -
+        name: yaml
+        label: Yaml
+        type: yaml
+    -
+        name: json
+        label: Json
+        type: json
+    -
         name: boolean_field
         universal: false
         excludeFromSearch: false

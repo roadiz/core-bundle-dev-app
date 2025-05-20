@@ -11,7 +11,6 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
-use RZ\Roadiz\CoreBundle\Form\ColorType;
 use RZ\Roadiz\CoreBundle\Form\CssType;
 use RZ\Roadiz\CoreBundle\Form\EnumerationType;
 use RZ\Roadiz\CoreBundle\Form\JsonType;
@@ -22,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeTypeFieldVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -317,6 +317,11 @@ final class NodeSourceType extends AbstractType
                     }
                 }
                 $options = array_merge_recursive($options, $collectionOptions);
+                break;
+            case FieldType::COLOUR_T:
+                $options = array_merge_recursive($options, [
+                    'html5' => true,
+                ]);
                 break;
         }
 
