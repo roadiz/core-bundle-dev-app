@@ -2065,46 +2065,429 @@
         <target state="translated">Параметри</target>
       </trans-unit>
       <!-- embed documents -->
-      <trans-unit xml:space="preserve" id="embed.document">
-        <source>embed.document</source>
-        <target state="translated">Угнежђено</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="embed">
         <source>embed</source>
         <target state="translated">Угнежђено</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="tagTree">
-        <source>tagTree</source>
-        <target state="translated">Дрвце тагова</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%node%.linked.tags">
-        <source>node.%node%.linked.tags</source>
-        <target state="translated">Чвор %node% је повезан са новим таговима</target>
+      <trans-unit xml:space="preserve" id="embed.document">
+        <source>embed.document</source>
+        <target state="translated">Угнежђено</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="list.tags.to_link">
         <source>list.tags.to_link</source>
         <target state="translated">Листа тагова који су повезани са датим чвором</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%node%.linked.tags">
+        <source>node.%node%.linked.tags</source>
+        <target state="translated">Чвор %node% је повезан са новим таговима</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="tagTree">
+        <source>tagTree</source>
+        <target state="translated">Дрвце тагова</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="use.new_or_existing.tags_with_hierarchy">
         <source>use.new_or_existing.tags_with_hierarchy</source>
         <target state="translated">Можете користити нове или постојеће тагове. Тагове можете креирати директно у оквиру постојећег коришћењем "/".</target>
       </trans-unit>
-      <!-- stacks -->
+      <trans-unit xml:space="preserve" id="%count%.customFormFields">
+        <source>%count%.customFormFields</source>
+        <target state="translated">%count% поља прилагодљиве форме</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.node">
+        <source>add.a.child.node</source>
+        <target state="translated">Додај потомачки чвор</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.tag">
+        <source>add.a.child.tag</source>
+        <target state="translated">Додај потомачки таг</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.customForm">
+        <source>add.a.customForm</source>
+        <target state="translated">Додај посебан фонт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.customFormField">
+        <source>add.a.customFormField</source>
+        <target state="translated">Додај поље формулара</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.folder">
+        <source>add.a.folder</source>
+        <target state="translated">Додај фолдер</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.font">
+        <source>add.a.font</source>
+        <target state="translated">Додај фонт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.group">
+        <source>add.a.group</source>
+        <target state="translated">Додај групу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.node">
+        <source>add.a.node</source>
+        <target state="translated">Додај чвор</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeType">
+        <source>add.a.nodeType</source>
+        <target state="translated">Додај тип чвора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeTypeField">
+        <source>add.a.nodeTypeField</source>
+        <target state="translated">Додај поље типа чвора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.role">
+        <source>add.a.role</source>
+        <target state="translated">Додај улогу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.setting">
+        <source>add.a.setting</source>
+        <target state="translated">Додај подешавање</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.settingGroup">
+        <source>add.a.settingGroup</source>
+        <target state="translated">Додај групу подешавања</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.specific.role">
+        <source>add.a.specific.role</source>
+        <target state="translated">Додај специфичну улогу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.tag">
+        <source>add.a.tag</source>
+        <target state="translated">Додај таг</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.theme">
+        <source>add.a.theme</source>
+        <target state="translated">Додај тему</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.translation">
+        <source>add.a.translation</source>
+        <target state="translated">Додај превод</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.urlAlias">
+        <source>add.a.urlAlias</source>
+        <target state="translated">Додај псеудоним url адресе</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.user">
+        <source>add.a.user</source>
+        <target state="translated">Додај корисника</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.child.folder">
+        <source>add.child.folder</source>
+        <target state="translated">Додај под-фолдер</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.customForm">
+        <source>add.customForm</source>
+        <target state="translated">Додај прилагодљиви формулар</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.customFormField">
+        <source>add.customFormField</source>
+        <target state="translated">Додај поље</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.folder">
+        <source>add.folder</source>
+        <target state="translated">Додај фолдер</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="add.stack.type">
         <source>add.stack.type</source>
         <target state="translated">Додај тип stack-а</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stack.types">
-        <source>stack.types</source>
-        <target state="translated">Stack типови</target>
+      <trans-unit xml:space="preserve" id="answer.form">
+        <source>answer.form</source>
+        <target state="translated">Формулар за одговоре</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="remove">
-        <source>remove</source>
-        <target state="translated">Уклони</target>
+      <trans-unit xml:space="preserve" id="are.you.sure.you.want.to.cancel.this.upload">
+        <source>are.you.sure.you.want.to.cancel.this.upload</source>
+        <target state="translated">Да ли сте сигурни да желите да откажете ово слање ?</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stack_node.%name%.has_new_type.%type%">
-        <source>stack_node.%name%.has_new_type.%type%</source>
-        <target state="translated">Stack-чвор “%name%” је повезан са “%type%” типом.</target>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customForm">
+        <source>are_you_sure.delete.customForm</source>
+        <target state="translated">Да ли сте сигурни да желите да избришете овај прилагодљиви формулар ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer">
+        <source>are_you_sure.delete.customFormAnswer</source>
+        <target state="translated">Да ли сте сигурни да желите да обришете овај одговор ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormField">
+        <source>are_you_sure.delete.customFormField</source>
+        <target state="translated">Да ли сте сигурни да желите да избришете ово поље ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation">
+        <source>are_you_sure.delete.document.translation</source>
+        <target state="translated">Да ли сте сигурни да желите да избришете превод документа ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder">
+        <source>are_you_sure.delete.folder</source>
+        <target state="translated">Да ли сте сигурни да желите да обришете овај фолдер ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.documents">
+        <source>are_you_sure.delete.these.documents</source>
+        <target state="translated">Да ли сте сигурни да желите да избришете наведене документе ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes">
+        <source>are_you_sure.delete.these.nodes</source>
+        <target state="translated">Да ли сте сигурни да желите да избришете наведене чворове ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash">
+        <source>are_you_sure.empty.node.and.data.trash</source>
+        <target state="translated">Да ли сте сигурни да желите да испразните корпицу са баченим чворовима и њиховим подацима ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back">
+        <source>back</source>
+        <target state="translated">Назад</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customFormAnswers">
+        <source>back_to.customFormAnswers</source>
+        <target state="translated">Натраг на одговоре</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customFormFields">
+        <source>back_to.customFormFields</source>
+        <target state="translated">Натраг на поља</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customForms">
+        <source>back_to.customForms</source>
+        <target state="translated">Натраг на прилагодљиве формуларе</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.folders">
+        <source>back_to.folders</source>
+        <target state="translated">Натраг до фолдера</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.top">
+        <source>back_to.top</source>
+        <target state="translated">Назад на врх стране</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="blockquote">
+        <source>blockquote</source>
+        <target state="translated">Blockquote</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bold">
+        <source>bold</source>
+        <target state="translated">Bold</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.actions">
+        <source>bulk.actions</source>
+        <target state="translated">Опште акције</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.documents">
+        <source>bulk.delete.documents</source>
+        <target state="translated">Избриши селектоване документе</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.nodes">
+        <source>bulk.delete.nodes</source>
+        <target state="translated">Избриши селектоване чворове</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.fold.documents">
+        <source>bulk.fold.documents</source>
+        <target state="translated">Додај селектоване документе у фолдер</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="cancel.upload">
+        <source>cancel.upload</source>
+        <target state="translated">Откажи слање</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="colour.type">
+        <source>colour.type</source>
+        <target state="translated">Боја</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="create.a.node">
+        <source>create.a.node</source>
+        <target state="translated">Креирај чвор</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="created.at">
+        <source>created.at</source>
+        <target state="translated">Креирано</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm">
+        <source>customForm</source>
+        <target state="translated">Прилагодљив формулар</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.%name%.send">
+        <source>customForm.%name%.send</source>
+        <target state="translated">Послат је формулар под именом %name%.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.answers">
+        <source>customForm.answers</source>
+        <target state="translated">Одговори</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.closeDate">
+        <source>customForm.closeDate</source>
+        <target state="translated">Датум завршетка</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.color">
+        <source>customForm.color</source>
+        <target state="translated">Боја</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.displayName">
+        <source>customForm.displayName</source>
+        <target state="translated">Прикажи име</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.open">
+        <source>customForm.open</source>
+        <target state="translated">Отворен</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.show">
+        <source>customForm.show</source>
+        <target state="translated">Прикажи формулар</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer">
+        <source>customFormAnswer</source>
+        <target state="translated">Одговори</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer.%id%.deleted">
+        <source>customFormAnswer.%id%.deleted</source>
+        <target state="translated">Одговор %id% је избрисан</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer.answers">
+        <source>customFormAnswer.answers</source>
+        <target state="translated">Атрибути одговора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.created">
+        <source>customFormField.%name%.created</source>
+        <target state="translated">Поље имена %name% је креирано.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.deleted">
+        <source>customFormField.%name%.deleted</source>
+        <target state="translated">Поље имена %name% је избрисано.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.updated">
+        <source>customFormField.%name%.updated</source>
+        <target state="translated">Поље имена %name% је ажурирано</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormFieldAttribute">
+        <source>customFormFieldAttribute</source>
+        <target state="translated">Атрибути одговора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="default.translation">
+        <source>default.translation</source>
+        <target state="translated">Подразумевани превод</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.all">
+        <source>delete.all</source>
+        <target state="translated">Избриши све</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customForm">
+        <source>delete.customForm</source>
+        <target state="translated">Избриши прилагодљиви формулар</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customForm.%name%">
+        <source>delete.customForm.%name%</source>
+        <target state="translated">Избрисан је прилагодљиви формулар под именом %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%">
+        <source>delete.customFormAnswer.%name%</source>
+        <target state="translated">Одговор %name% је обрисан</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormField">
+        <source>delete.customFormField</source>
+        <target state="translated">Избриши поље</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormField.%name%">
+        <source>delete.customFormField.%name%</source>
+        <target state="translated">Избрисано је поље имена %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.document.translation.%name%">
+        <source>delete.document.translation.%name%</source>
+        <target state="translated">Избриши превод документа %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.documents">
+        <source>delete.documents</source>
+        <target state="translated">Избриши документе</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder">
+        <source>delete.folder</source>
+        <target state="translated">Обриши фолдер</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder.%name%">
+        <source>delete.folder.%name%</source>
+        <target state="translated">Избриши фолдер %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.font">
+        <source>delete.font</source>
+        <target state="translated">Избриши фонт</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.nodes">
+        <source>delete.nodes</source>
+        <target state="translated">Избриши селектоване чворове</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.format.unknown">
+        <source>document.format.unknown</source>
+        <target state="translated">Формат документа је непознат.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.metas">
+        <source>document.metas</source>
+        <target state="translated">Meta</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete">
+        <source>document.translation.%name%.cannot_delete</source>
+        <target state="translated">Документ под именом %name% не може бити обрисан.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted">
+        <source>document.translation.%name%.deleted</source>
+        <target state="translated">Превод документа %name% је избрисан.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.updated">
+        <source>document.translation.%name%.updated</source>
+        <target state="translated">Превод документа %name% је ажуриран.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="documents.linked_to.folders">
+        <source>documents.linked_to.folders</source>
+        <target state="translated">Документи су повезани са фолдерима.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer">
+        <source>drop.files.here.to.upload.or.click.to.open.your.explorer</source>
+        <target state="translated">Убаците фајлове овде како би се послали на сервер или их кликните како бисте их отворили у претраживачу.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicated.node.%name%">
+        <source>duplicated.node.%name%</source>
+        <target state="translated">Чвор “%name%” је дуплициран</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customForm.%name%">
+        <source>edit.customForm.%name%</source>
+        <target state="translated">Уређивање прилагодљиве форме %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormField.%name%">
+        <source>edit.customFormField.%name%</source>
+        <target state="translated">Уређивање поља прилагодљиве форме %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormFields">
+        <source>edit.customFormFields</source>
+        <target state="translated">Додај поље</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormFields.for.customForm.%name%">
+        <source>edit.customFormFields.for.customForm.%name%</source>
+        <target state="translated">Уређивање поља за форму %name% </target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder">
+        <source>edit.folder</source>
+        <target state="translated">Уреди фолдер</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder.%name%">
+        <source>edit.folder.%name%</source>
+        <target state="translated">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.document.already_exists">
+        <source>embed.document.already_exists</source>
+        <target state="translated">Документ који ће бити угнежђен већ постоји.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.preview">
+        <source>embed.preview</source>
+        <target state="translated">Пробни приказ екстерних медија</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embedId.is_not_valid">
+        <source>embedId.is_not_valid</source>
+        <target state="translated">Идентификатор медија није исправан.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.node.trash">
+        <source>empty.node.trash</source>
+        <target state="translated">Испразни отпатке чвора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.trash">
+        <source>empty.trash</source>
+        <target state="translated">Испразни корпу</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.all">
+        <source>export.all</source>
+        <target state="translated">Извези све</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.all.nodes">
+        <source>export.all.nodes</source>
+        <target state="translated">Извези све чворове</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="field.%name%.updated">
         <source>field.%name%.updated</source>
@@ -2114,187 +2497,39 @@
         <source>field.%nodeTypeFieldId%.not_exists</source>
         <target state="translated">Поље #%nodeTypeFieldId% не постоји.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="created.at">
-        <source>created.at</source>
-        <target state="translated">Креирано</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="updated.at">
-        <source>updated.at</source>
-        <target state="translated">Ажурирано</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="position">
-        <source>position</source>
-        <target state="translated">Позиција</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="empty.node.trash">
-        <source>empty.node.trash</source>
-        <target state="translated">Испразни отпатке чвора</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.trash.emptied">
-        <source>node.trash.emptied</source>
-        <target state="translated">Корпица за отпатке чвора је испражњена.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="empty.trash">
-        <source>empty.trash</source>
-        <target state="translated">Испразни корпу</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash">
-        <source>are_you_sure.empty.node.and.data.trash</source>
-        <target state="translated">Да ли сте сигурни да желите да испразните корпицу са баченим чворовима и њиховим подацима ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="random.document">
-        <source>random.document</source>
-        <target state="translated">Насумично</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.format.unknown">
-        <source>document.format.unknown</source>
-        <target state="translated">Формат документа је непознат.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.embed.document.found">
-        <source>no.embed.document.found</source>
-        <target state="translated">Није пронађен документ који би се угнездио?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embed.document.already_exists">
-        <source>embed.document.already_exists</source>
-        <target state="translated">Документ који ће бити угнежђен већ постоји.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embedId.is_not_valid">
-        <source>embedId.is_not_valid</source>
-        <target state="translated">Идентификатор медија није исправан.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.metas">
-        <source>document.metas</source>
-        <target state="translated">Meta</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.document.translation.%name%">
-        <source>delete.document.translation.%name%</source>
-        <target state="translated">Избриши превод документа %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation">
-        <source>are_you_sure.delete.document.translation</source>
-        <target state="translated">Да ли сте сигурни да желите да избришете превод документа ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.updated">
-        <source>document.translation.%name%.updated</source>
-        <target state="translated">Превод документа %name% је ажуриран.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted">
-        <source>document.translation.%name%.deleted</source>
-        <target state="translated">Превод документа %name% је избрисан.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete">
-        <source>document.translation.%name%.cannot_delete</source>
-        <target state="translated">Документ под именом %name% не може бити обрисан.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="folderTree">
-        <source>folderTree</source>
-        <target state="translated">Фолдери докумената</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.folder">
-        <source>add.folder</source>
-        <target state="translated">Додај фолдер</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.child.folder">
-        <source>add.child.folder</source>
-        <target state="translated">Додај под-фолдер</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.folder">
-        <source>edit.folder</source>
-        <target state="translated">Уреди фолдер</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.folder">
-        <source>delete.folder</source>
-        <target state="translated">Обриши фолдер</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.folders">
-        <source>back_to.folders</source>
-        <target state="translated">Натраг до фолдера</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.settings">
-        <source>folder.settings</source>
-        <target state="translated">Подешавања</target>
-        <note>Nav bar label for editing folder id and visibility state</note>
+      <trans-unit xml:space="preserve" id="file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib">
+        <source>file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib</source>
+        <target state="translated">Фајл је превелик ({{filesize}}MiB), максимална подржана величина је {{maxFilesize}} MiB</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folder.labels">
         <source>folder.labels</source>
         <target state="translated">Ознаке</target>
         <note>Nav bar label for editing folder label in each translation.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.folder.%name%">
-        <source>delete.folder.%name%</source>
-        <target state="translated">Избриши фолдер %name%</target>
+      <trans-unit xml:space="preserve" id="folder.name">
+        <source>folder.name</source>
+        <target state="translated">Име фолдера</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder">
-        <source>are_you_sure.delete.folder</source>
-        <target state="translated">Да ли сте сигурни да желите да обришете овај фолдер ?</target>
+      <trans-unit xml:space="preserve" id="folder.settings">
+        <source>folder.settings</source>
+        <target state="translated">Подешавања</target>
+        <note>Nav bar label for editing folder id and visibility state</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.folder.%name%">
-        <source>edit.folder.%name%</source>
-        <target state="translated">%name%</target>
+      <trans-unit xml:space="preserve" id="folderTree">
+        <source>folderTree</source>
+        <target state="translated">Фолдери докумената</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folders">
         <source>folders</source>
         <target state="translated">Фолдери</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="default.translation">
-        <source>default.translation</source>
-        <target state="translated">Подразумевани превод</target>
+      <trans-unit xml:space="preserve" id="forbidden.page">
+        <source>forbidden.page</source>
+        <target state="translated">Приступ страници није могућ, молимо Вас да се повежете поново.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.minLength">
-        <source>nodeTypeField.minLength</source>
-        <target state="translated">Минимална дужина</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.maxLength">
-        <source>nodeTypeField.maxLength</source>
-        <target state="translated">Максимална дужина</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all.nodes">
-        <source>export.all.nodes</source>
-        <target state="translated">Извези све чворове</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all">
-        <source>export.all</source>
-        <target state="translated">Извези све</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer">
-        <source>drop.files.here.to.upload.or.click.to.open.your.explorer</source>
-        <target state="translated">Убаците фајлове овде како би се послали на сервер или их кликните како бисте их отворили у претраживачу.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads">
-        <source>your.browser.does.not.support.dragndrop.file.uploads</source>
-        <target state="translated">Ваш претраживач не подржава drag’n’drop функцију за слање фајлова.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days">
-        <source>please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days</source>
-        <target state="translated">Молимо Вас, користите fallback како бисте послали фајлове као у добра стара времена.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib">
-        <source>file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib</source>
-        <target state="translated">Фајл је превелик ({{filesize}}MiB), максимална подржана величина је {{maxFilesize}} MiB</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type">
-        <source>you.cant.upload.files.of.this.type</source>
-        <target state="translated">Не можете послати фајлове овог типа.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="server.responded.with.{{statusCode}}.code">
-        <source>server.responded.with.{{statusCode}}.code</source>
-        <target state="translated">Сервер је дао одговор у виду кода {{statusCode}}</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="cancel.upload">
-        <source>cancel.upload</source>
-        <target state="translated">Откажи слање</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are.you.sure.you.want.to.cancel.this.upload">
-        <source>are.you.sure.you.want.to.cancel.this.upload</source>
-        <target state="translated">Да ли сте сигурни да желите да откажете ово слање ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="remove.file">
-        <source>remove.file</source>
-        <target state="translated">Уклони фајл</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="you.can.not.upload.any.more.files">
-        <source>you.can.not.upload.any.more.files</source>
-        <target state="translated">Не можете послати још фајлова</target>
+      <trans-unit xml:space="preserve" id="fullscreen">
+        <source>fullscreen</source>
+        <target state="translated">Преко целог екрана</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="headline.2">
         <source>headline.2</source>
@@ -2316,77 +2551,69 @@
         <source>headline.6</source>
         <target state="translated">Наслов 6</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="fullscreen">
-        <source>fullscreen</source>
-        <target state="translated">Преко целог екрана</target>
+      <trans-unit xml:space="preserve" id="image">
+        <source>image</source>
+        <target state="translated">Слика</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bold">
-        <source>bold</source>
-        <target state="translated">Bold</target>
+      <trans-unit xml:space="preserve" id="impossible.duplicate.node.%name%">
+        <source>impossible.duplicate.node.%name%</source>
+        <target state="translated">Није могуће дуплицирати чвор под именом %name%</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="italic">
         <source>italic</source>
         <target state="translated">Italic</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="strikethrough">
-        <source>strikethrough</source>
-        <target state="translated">Прецртано</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="blockquote">
-        <source>blockquote</source>
-        <target state="translated">Blockquote</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="link">
         <source>link</source>
         <target state="translated">Линк</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image">
-        <source>image</source>
-        <target state="translated">Слика</target>
+      <trans-unit xml:space="preserve" id="link.tags">
+        <source>link.tags</source>
+        <target state="translated">Тагуј селектовано</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="unordered.list">
-        <source>unordered.list</source>
-        <target state="translated">Неуређена листа</target>
+      <trans-unit xml:space="preserve" id="list.folders.to_link">
+        <source>list.folders.to_link</source>
+        <target state="translated">Листа фолдера (постојећих или не)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="ordered.list">
-        <source>ordered.list</source>
-        <target state="translated">Уређена листа</target>
+      <trans-unit xml:space="preserve" id="list.tags.to_link.or_unlink">
+        <source>list.tags.to_link.or_unlink</source>
+        <target state="translated">Листа тагова који се могу линковати или им се може уклонити линк...</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back">
-        <source>back</source>
-        <target state="translated">Назад</target>
+      <trans-unit xml:space="preserve" id="main_color">
+        <source>main_color</source>
+        <target state="translated">Основна боја за back-office</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="separator">
-        <source>separator</source>
-        <target state="translated">Сепаратор</target>
+      <trans-unit xml:space="preserve" id="manage.customFormFields">
+        <source>manage.customFormFields</source>
+        <target state="translated">Уређивање поља</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="non_breaking.space">
-        <source>non_breaking.space</source>
-        <target state="translated">Размак који не прелама</target>
+      <trans-unit xml:space="preserve" id="manage.customForms">
+        <source>manage.customForms</source>
+        <target state="translated">Уређивање прилагодљивих формулара</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="forbidden.page">
-        <source>forbidden.page</source>
-        <target state="translated">Приступ страници није могућ, молимо Вас да се повежете поново.</target>
+      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
+        <source>new.answer.form.%site%</source>
+        <target state="translated">Нови одговор са %site%</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="see_all">
-        <source>see_all</source>
-        <target state="translated">Прикажи све</target>
+      <trans-unit xml:space="preserve" id="no.customFormField">
+        <source>no.customFormField</source>
+        <target state="translated">Форма није попуњена</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.documents">
-        <source>search.documents</source>
-        <target state="translated">Претражи документа</target>
+      <trans-unit xml:space="preserve" id="no.embed.document.found">
+        <source>no.embed.document.found</source>
+        <target state="translated">Није пронађен документ који би се угнездио?</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.nodes">
-        <source>search.nodes</source>
-        <target state="translated">Претражи чворове</target>
+      <trans-unit xml:space="preserve" id="no_documents.linked_to.folders">
+        <source>no_documents.linked_to.folders</source>
+        <target state="translated">Ниједан документ није повезан.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.toggle-explorer">
-        <source>nodes.toggle-explorer</source>
-        <target state="translated">Претраживач</target>
+      <trans-unit xml:space="preserve" id="node.hidden">
+        <source>node.hidden</source>
+        <target state="translated">Сакривено</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.name">
-        <source>folder.name</source>
-        <target state="translated">Име фолдера</target>
+      <trans-unit xml:space="preserve" id="node.trash.emptied">
+        <source>node.trash.emptied</source>
+        <target state="translated">Корпица за отпатке чвора је испражњена.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.color">
         <source>nodeType.color</source>
@@ -2396,345 +2623,13 @@
         <source>nodeType.numberFields</source>
         <target state="translated">Број поља</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.top">
-        <source>back_to.top</source>
-        <target state="translated">Назад на врх стране</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.customFormField">
-        <source>no.customFormField</source>
-        <target state="translated">Форма није попуњена</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.customForm">
-        <source>add.customForm</source>
-        <target state="translated">Додај прилагодљиви формулар</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm">
-        <source>customForm</source>
-        <target state="translated">Прилагодљив формулар</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.displayName">
-        <source>customForm.displayName</source>
-        <target state="translated">Прикажи име</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="%count%.customFormFields">
-        <source>%count%.customFormFields</source>
-        <target state="translated">%count% поља прилагодљиве форме</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.customFormFields">
-        <source>manage.customFormFields</source>
-        <target state="translated">Уређивање поља</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.answers">
-        <source>customForm.answers</source>
-        <target state="translated">Одговори</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.show">
-        <source>customForm.show</source>
-        <target state="translated">Прикажи формулар</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer">
-        <source>are_you_sure.delete.customFormAnswer</source>
-        <target state="translated">Да ли сте сигурни да желите да обришете овај одговор ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%">
-        <source>delete.customFormAnswer.%name%</source>
-        <target state="translated">Одговор %name% је обрисан</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customFormAnswers">
-        <source>back_to.customFormAnswers</source>
-        <target state="translated">Натраг на одговоре</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer">
-        <source>customFormAnswer</source>
-        <target state="translated">Одговори</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customForms">
-        <source>back_to.customForms</source>
-        <target state="translated">Натраг на прилагодљиве формуларе</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="submitted.date">
-        <source>submitted.date</source>
-        <target state="translated">Датум слања</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer.answers">
-        <source>customFormAnswer.answers</source>
-        <target state="translated">Атрибути одговора</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormFieldAttribute">
-        <source>customFormFieldAttribute</source>
-        <target state="translated">Атрибути одговора</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormField">
-        <source>delete.customFormField</source>
-        <target state="translated">Избриши поље</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.customFormField">
-        <source>add.customFormField</source>
-        <target state="translated">Додај поље</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customFormFields">
-        <source>back_to.customFormFields</source>
-        <target state="translated">Натраг на поља</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormField.%name%">
-        <source>delete.customFormField.%name%</source>
-        <target state="translated">Избрисано је поље имена %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormField">
-        <source>are_you_sure.delete.customFormField</source>
-        <target state="translated">Да ли сте сигурни да желите да избришете ово поље ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormField.%name%">
-        <source>edit.customFormField.%name%</source>
-        <target state="translated">Уређивање поља прилагодљиве форме %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormFields.for.customForm.%name%">
-        <source>edit.customFormFields.for.customForm.%name%</source>
-        <target state="translated">Уређивање поља за форму %name% </target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customForm">
-        <source>delete.customForm</source>
-        <target state="translated">Избриши прилагодљиви формулар</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customForm.%name%">
-        <source>delete.customForm.%name%</source>
-        <target state="translated">Избрисан је прилагодљиви формулар под именом %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customForm">
-        <source>are_you_sure.delete.customForm</source>
-        <target state="translated">Да ли сте сигурни да желите да избришете овај прилагодљиви формулар ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customForm.%name%">
-        <source>edit.customForm.%name%</source>
-        <target state="translated">Уређивање прилагодљиве форме %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields">
-        <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
-        <target state="translated">{0} Нема поља|{1} 1 поље|]1,Inf] %count% поља</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="create.a.node">
-        <source>create.a.node</source>
-        <target state="translated">Креирај чвор</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.node">
-        <source>add.a.node</source>
-        <target state="translated">Додај чвор</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.tag">
-        <source>add.a.tag</source>
-        <target state="translated">Додај таг</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.urlAlias">
-        <source>add.a.urlAlias</source>
-        <target state="translated">Додај псеудоним url адресе</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.child.node">
-        <source>add.a.child.node</source>
-        <target state="translated">Додај потомачки чвор</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.child.tag">
-        <source>add.a.child.tag</source>
-        <target state="translated">Додај потомачки таг</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeType">
-        <source>add.a.nodeType</source>
-        <target state="translated">Додај тип чвора</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeTypeField">
-        <source>add.a.nodeTypeField</source>
-        <target state="translated">Додај поље типа чвора</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.translation">
-        <source>add.a.translation</source>
-        <target state="translated">Додај превод</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.theme">
-        <source>add.a.theme</source>
-        <target state="translated">Додај тему</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.font">
-        <source>add.a.font</source>
-        <target state="translated">Додај фонт</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.user">
-        <source>add.a.user</source>
-        <target state="translated">Додај корисника</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.specific.role">
-        <source>add.a.specific.role</source>
-        <target state="translated">Додај специфичну улогу</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.group">
-        <source>add.a.group</source>
-        <target state="translated">Додај групу</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.role">
-        <source>add.a.role</source>
-        <target state="translated">Додај улогу</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.setting">
-        <source>add.a.setting</source>
-        <target state="translated">Додај подешавање</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.settingGroup">
-        <source>add.a.settingGroup</source>
-        <target state="translated">Додај групу подешавања</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.font">
-        <source>delete.font</source>
-        <target state="translated">Избриши фонт</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.customForm">
-        <source>add.a.customForm</source>
-        <target state="translated">Додај посебан фонт</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.color">
-        <source>customForm.color</source>
-        <target state="translated">Боја</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.customForms">
-        <source>manage.customForms</source>
-        <target state="translated">Уређивање прилагодљивих формулара</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.open">
-        <source>customForm.open</source>
-        <target state="translated">Отворен</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.closeDate">
-        <source>customForm.closeDate</source>
-        <target state="translated">Датум завршетка</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.customFormField">
-        <source>add.a.customFormField</source>
-        <target state="translated">Додај поље формулара</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormFields">
-        <source>edit.customFormFields</source>
-        <target state="translated">Додај поље</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.folder">
-        <source>add.a.folder</source>
-        <target state="translated">Додај фолдер</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.hidden">
-        <source>node.hidden</source>
-        <target state="translated">Сакривено</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="required">
-        <source>required</source>
-        <target state="translated">Неопходно</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.documents">
-        <source>delete.documents</source>
-        <target state="translated">Избриши документе</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.documents">
-        <source>are_you_sure.delete.these.documents</source>
-        <target state="translated">Да ли сте сигурни да желите да избришете наведене документе ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.delete.documents">
-        <source>bulk.delete.documents</source>
-        <target state="translated">Избриши селектоване документе</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="main_color">
-        <source>main_color</source>
-        <target state="translated">Основна боја за back-office</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="colour.type">
-        <source>colour.type</source>
-        <target state="translated">Боја</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.type">
-        <source>nodes.type</source>
-        <target state="translated">Референце чворова</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embed.preview">
-        <source>embed.preview</source>
-        <target state="translated">Пробни приказ екстерних медија</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="answer.form">
-        <source>answer.form</source>
-        <target state="translated">Формулар за одговоре</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.send">
-        <source>customForm.%name%.send</source>
-        <target state="translated">Послат је формулар под именом %name%.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
-        <source>new.answer.form.%site%</source>
-        <target state="translated">Нови одговор са %site%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer.%id%.deleted">
-        <source>customFormAnswer.%id%.deleted</source>
-        <target state="translated">Одговор %id% је избрисан</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.updated">
-        <source>customFormField.%name%.updated</source>
-        <target state="translated">Поље имена %name% је ажурирано</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.created">
-        <source>customFormField.%name%.created</source>
-        <target state="translated">Поље имена %name% је креирано.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.deleted">
-        <source>customFormField.%name%.deleted</source>
-        <target state="translated">Поље имена %name% је избрисано.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="duplicated.node.%name%">
-        <source>duplicated.node.%name%</source>
-        <target state="translated">Чвор “%name%” је дуплициран</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="impossible.duplicate.node.%name%">
-        <source>impossible.duplicate.node.%name%</source>
-        <target state="translated">Није могуће дуплицирати чвор под именом %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="list.folders.to_link">
-        <source>list.folders.to_link</source>
-        <target state="translated">Листа фолдера (постојећих или не)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.fold.documents">
-        <source>bulk.fold.documents</source>
-        <target state="translated">Додај селектоване документе у фолдер</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="documents.linked_to.folders">
-        <source>documents.linked_to.folders</source>
-        <target state="translated">Документи су повезани са фолдерима.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no_documents.linked_to.folders">
-        <source>no_documents.linked_to.folders</source>
-        <target state="translated">Ниједан документ није повезан.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="wrong.request">
-        <source>wrong.request</source>
-        <target state="translated">Погрешан захтев</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodes">
-        <source>delete.nodes</source>
-        <target state="translated">Избриши селектоване чворове</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes">
-        <source>are_you_sure.delete.these.nodes</source>
-        <target state="translated">Да ли сте сигурни да желите да избришете наведене чворове ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.all">
-        <source>delete.all</source>
-        <target state="translated">Избриши све</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.delete.nodes">
-        <source>bulk.delete.nodes</source>
-        <target state="translated">Избриши селектоване чворове</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="link.tags">
-        <source>link.tags</source>
-        <target state="translated">Тагуј селектовано</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="unlink.tags">
-        <source>unlink.tags</source>
-        <target state="translated">Укини тагове селектованом</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="list.tags.to_link.or_unlink">
-        <source>list.tags.to_link.or_unlink</source>
-        <target state="translated">Листа тагова који се могу линковати или им се може уклонити линк...</target>
+      <trans-unit xml:space="preserve" id="nodeTypeField.maxLength">
+        <source>nodeTypeField.maxLength</source>
+        <target state="translated">Максимална дужина</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.minLength">
+        <source>nodeTypeField.minLength</source>
+        <target state="translated">Минимална дужина</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.deleted">
         <source>nodes.bulk.deleted</source>
@@ -2744,185 +2639,149 @@
         <source>nodes.bulk.not_tagged</source>
         <target state="translated">Није могуће таговати селектоване чворове</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.bulk.tagged">
-        <source>nodes.bulk.tagged</source>
-        <target state="translated">Селектовани чворови су таговани</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.not_untagged">
         <source>nodes.bulk.not_untagged</source>
         <target state="translated">Није могуће уклонити тагове селектованих чворова</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.bulk.tagged">
+        <source>nodes.bulk.tagged</source>
+        <target state="translated">Селектовани чворови су таговани</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.untagged">
         <source>nodes.bulk.untagged</source>
         <target state="translated">Селектованим чворовима је уклоњен таг.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.actions">
-        <source>bulk.actions</source>
-        <target state="translated">Опште акције</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.marker">
-        <source>reset.marker</source>
-        <target state="translated">Укини селекцију</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter">
-        <source>geotag.type_an_address.then_type_enter</source>
-        <target state="translated">Укуцајте адресу, а затим укуцајте “Enter”…</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="geographic.coordinates.type">
-        <source>geographic.coordinates.type</source>
-        <target state="translated">Јединствене географске координате</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="multiple.geographic.coordinates.type">
-        <source>multiple.geographic.coordinates.type</source>
-        <target state="translated">Вишеструке географске координате</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="link.folders">
-        <source>link.folders</source>
-        <target state="translated">Линк до фолдера</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="unlink.folders">
-        <source>unlink.folders</source>
-        <target state="translated">Откажи линк са фолдером(има)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.download.documents">
-        <source>bulk.download.documents</source>
-        <target state="translated">Преузми селектоване документе</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="download.documents">
-        <source>download.documents</source>
-        <target state="translated">Преузми документе</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.download.these.documents">
-        <source>are_you_sure.download.these.documents</source>
-        <target state="translated">Да ли сте сигурни да желите да преузмете ове документе ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="purge.generated_images.cache">
-        <source>purge.generated_images.cache</source>
-        <target state="translated">Очисти кеш меморију за слике</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.purge.generated_images.cache">
-        <source>are_you_sure.purge.generated_images.cache</source>
-        <target state="translated">Да ли сте сигурни да желите да очистите кеш меморију за слике ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.generated_images.cache">
-        <source>delete.generated_images.cache</source>
-        <target state="translated">Очисти кеш меморију за слике</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.documents">
-        <source>more.documents</source>
-        <target state="translated">Још докумената</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.nodes">
-        <source>more.nodes</source>
-        <target state="translated">Још чворова</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.node_types">
-        <source>more.node_types</source>
-        <target state="translated">Још типова чворова</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.tags">
-        <source>more.tags</source>
-        <target state="translated">Још тагова</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.custom_forms">
-        <source>more.custom_forms</source>
-        <target state="translated">Још прилагодљивих формулара</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="search.custom_forms">
-        <source>search.custom_forms</source>
-        <target state="translated">Претраживање прилагодљивих формулара</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="custom-forms.toggle-explorer">
-        <source>custom-forms.toggle-explorer</source>
+      <trans-unit xml:space="preserve" id="nodes.toggle-explorer">
+        <source>nodes.toggle-explorer</source>
         <target state="translated">Претраживач</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.account">
-        <source>edit.account</source>
-        <target state="translated">Уредите свој налог</target>
+      <trans-unit xml:space="preserve" id="nodes.type">
+        <source>nodes.type</source>
+        <target state="translated">Референце чворова</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="NodeType">
-        <source>NodeType</source>
-        <target state="translated">Тип чвора</target>
+      <trans-unit xml:space="preserve" id="non_breaking.space">
+        <source>non_breaking.space</source>
+        <target state="translated">Размак који не прелама</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="select.nodetype">
-        <source>select.nodetype</source>
-        <target state="translated">Филтрирање</target>
+      <trans-unit xml:space="preserve" id="ordered.list">
+        <source>ordered.list</source>
+        <target state="translated">Уређена листа</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="ignore">
-        <source>ignore</source>
-        <target state="translated">Индиферентан</target>
+      <trans-unit xml:space="preserve" id="please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days">
+        <source>please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days</source>
+        <target state="translated">Молимо Вас, користите fallback како бисте послали фајлове као у добра стара времена.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="true">
-        <source>true</source>
-        <target state="translated">Логичко Да</target>
+      <trans-unit xml:space="preserve" id="position">
+        <source>position</source>
+        <target state="translated">Позиција</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="false">
-        <source>false</source>
-        <target state="translated">Логичко Не</target>
+      <trans-unit xml:space="preserve" id="random.document">
+        <source>random.document</source>
+        <target state="translated">Насумично</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.name">
-        <source>node.name</source>
-        <target state="translated">Име чвора</target>
+      <trans-unit xml:space="preserve" id="remove">
+        <source>remove</source>
+        <target state="translated">Уклони</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.id.parent">
-        <source>node.id.parent</source>
-        <target state="translated">Id чвора-родитеља</target>
+      <trans-unit xml:space="preserve" id="remove.file">
+        <source>remove.file</source>
+        <target state="translated">Уклони фајл</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.datetime.operator">
-        <source>node.datetime.operator</source>
-        <target state="translated">Оператор</target>
+      <trans-unit xml:space="preserve" id="required">
+        <source>required</source>
+        <target state="translated">Неопходно</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.datetime.value">
-        <source>node.datetime.value</source>
-        <target state="translated">Датум креирања</target>
+      <trans-unit xml:space="preserve" id="search.documents">
+        <source>search.documents</source>
+        <target state="translated">Претражи документа</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.limit.result">
-        <source>node.limit.result</source>
-        <target state="translated">Лимитирање резултата</target>
+      <trans-unit xml:space="preserve" id="search.nodes">
+        <source>search.nodes</source>
+        <target state="translated">Претражи чворове</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.tags">
-        <source>node.tags</source>
-        <target state="translated">Тагови</target>
+      <trans-unit xml:space="preserve" id="see_all">
+        <source>see_all</source>
+        <target state="translated">Прикажи све</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.tag.exclusive">
-        <source>node.tag.exclusive</source>
-        <target state="translated">Селекција ексклузивних тагова</target>
+      <trans-unit xml:space="preserve" id="separator">
+        <source>separator</source>
+        <target state="translated">Сепаратор</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodetypefield">
-        <source>nodetypefield</source>
-        <target state="translated">Поља типа чвора</target>
+      <trans-unit xml:space="preserve" id="server.responded.with.{{statusCode}}.code">
+        <source>server.responded.with.{{statusCode}}.code</source>
+        <target state="translated">Сервер је дао одговор у виду кода {{statusCode}}</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.a.node">
-        <source>search.a.node</source>
-        <target state="translated">Претраживање чвора</target>
+      <trans-unit xml:space="preserve" id="stack.types">
+        <source>stack.types</source>
+        <target state="translated">Stack типови</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all.nodesSource">
-        <source>export.all.nodesSource</source>
-        <target state="translated">Извези сав изворишни код чвора</target>
+      <trans-unit xml:space="preserve" id="stack_node.%name%.has_new_type.%type%">
+        <source>stack_node.%name%.has_new_type.%type%</source>
+        <target state="translated">Stack-чвор “%name%” је повезан са “%type%” типом.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="role.cannot.update.status">
-        <source>role.cannot.update.status</source>
-        <target state="translated">Немате одговарајућа права да аплицирате наведени статус.</target>
+      <trans-unit xml:space="preserve" id="strikethrough">
+        <source>strikethrough</source>
+        <target state="translated">Прецртано</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.%field%.updated">
-        <source>node.%name%.%field%.updated</source>
-        <target state="translated">Статус чвора по имену %name%.%field% је ажуриран.</target>
+      <trans-unit xml:space="preserve" id="submitted.date">
+        <source>submitted.date</source>
+        <target state="translated">Датум слања</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="added.node.%name%">
-        <source>added.node.%name%</source>
-        <target state="translated">Додат је чвор имена %name%.</target>
+      <trans-unit xml:space="preserve" id="unlink.tags">
+        <source>unlink.tags</source>
+        <target state="translated">Укини тагове селектованом</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="custom-forms.type">
-        <source>custom-forms.type</source>
-        <target state="translated">Прилагодљив формулар</target>
+      <trans-unit xml:space="preserve" id="unordered.list">
+        <source>unordered.list</source>
+        <target state="translated">Неуређена листа</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="updated.at">
+        <source>updated.at</source>
+        <target state="translated">Ажурирано</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="wrong.request">
+        <source>wrong.request</source>
+        <target state="translated">Погрешан захтев</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="you.can.not.upload.any.more.files">
+        <source>you.can.not.upload.any.more.files</source>
+        <target state="translated">Не можете послати још фајлова</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type">
+        <source>you.cant.upload.files.of.this.type</source>
+        <target state="translated">Не можете послати фајлове овог типа.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads">
+        <source>your.browser.does.not.support.dragndrop.file.uploads</source>
+        <target state="translated">Ваш претраживач не подржава drag’n’drop функцију за слање фајлова.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields">
+        <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
+        <target state="translated">{0} Нема поља|{1} 1 поље|]1,Inf] %count% поља</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database">
+        <source>%email%.email.does.not.exist.in.user.account.database</source>
+        <target state="translated">%email% , адреса не постоји у бази података корисника.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="Bad credentials">
         <source>Bad credentials.</source>
         <target state="translated">Неисправне креденције.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeNode">
+        <source>homeNode</source>
+        <target state="translated">Home чвор</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeType">
+        <source>NodeType</source>
+        <target state="translated">Тип чвора</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="User account has expired.">
         <source>User account has expired.</source>
         <target state="translated">Кориснички налог је истекао.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User account is disabled.">
+        <source>User account is disabled.</source>
+        <target state="translated">Кориснички налог је инактивиран.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="User account is locked.">
         <source>User account is locked.</source>
@@ -2932,9 +2791,57 @@
         <source>User credentials have expired.</source>
         <target state="translated">Корисничке креденције су истекле.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="User account is disabled.">
-        <source>User account is disabled.</source>
-        <target state="translated">Кориснички налог је инактивиран.</target>
+      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent">
+        <source>a.confirmation.email.has.already.be.sent</source>
+        <target state="translated">Еmail за потврђивање Вам је већ послат. Молимо Вас, проверите да није случајно завршио у фолдеру spam.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email">
+        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
+        <target state="translated">Линк за ресетовање лозинке је послат на Ваш email. Ако не одговорите на захтев, важење линка ће аутоматски истећи и линк више неће бити активан.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="about.cms">
+        <source>about.cms</source>
+        <target state="translated">О Roadiz</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.newsletter">
+        <source>add.a.newsletter</source>
+        <target state="translated">Додајте вести</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="added.node.%name%">
+        <source>added.node.%name%</source>
+        <target state="translated">Додат је чвор имена %name%.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="admin_image">
+        <source>admin_image</source>
+        <target state="translated">Back-office, главна слика или бренд</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes">
+        <source>are_you_sure.change-status.these.nodes</source>
+        <target state="translated">Да ли сте сигурни да желите да промените статус свим селектованим чворовима ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeSource">
+        <source>are_you_sure.delete.nodeSource</source>
+        <target state="translated">Да ли сте сигурни да желите да избришете изворни код овог чвора ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.download.these.documents">
+        <source>are_you_sure.download.these.documents</source>
+        <target state="translated">Да ли сте сигурни да желите да преузмете ове документе ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.purge.generated_images.cache">
+        <source>are_you_sure.purge.generated_images.cache</source>
+        <target state="translated">Да ли сте сигурни да желите да очистите кеш меморију за слике ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.login">
+        <source>back_to.login</source>
+        <target state="translated">Натраг на пријављивање</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.newsletter">
+        <source>back_to.newsletter</source>
+        <target state="translated">Натраг на вести</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.download.documents">
+        <source>bulk.download.documents</source>
+        <target state="translated">Преузми селектоване документе</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="change.nodes.status">
         <source>change.nodes.status</source>
@@ -2944,157 +2851,57 @@
         <source>change.nodes.status.all</source>
         <target state="translated">Промени статус свим селектованим чворовима</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes">
-        <source>are_you_sure.change-status.these.nodes</source>
-        <target state="translated">Да ли сте сигурни да желите да промените статус свим селектованим чворовима ?</target>
+      <trans-unit xml:space="preserve" id="changelog">
+        <source>changelog</source>
+        <target state="translated">Забелешке о ажурирању</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.status">
-        <source>nodes.status</source>
-        <target state="translated">Статус селектованог</target>
+      <trans-unit xml:space="preserve" id="choose.a.new.password">
+        <source>choose.a.new.password</source>
+        <target state="translated">Одаберите нову лозинку</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.bulk.status.changed">
-        <source>nodes.bulk.status.changed</source>
-        <target state="translated">Статус селектованих чворова је промењен.</target>
+      <trans-unit xml:space="preserve" id="chroot">
+        <source>chroot</source>
+        <target state="translated">Основни (root) чвор</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="staticTheme">
-        <source>staticTheme</source>
-        <target state="translated">Статична тема</target>
+      <trans-unit xml:space="preserve" id="chroot.limited.one">
+        <source>chroot.limited.one</source>
+        <target state="translated">Можете одабрати само један основни (root) чвор</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="staticTheme.does_not.allow.node_url_routes">
-        <source>staticTheme.does_not.allow.node_url_routes</source>
-        <target state="translated">Статична тема значи да тема неће слушати URL-ове динамичких чворова, већ само статичних рута.</target>
+      <trans-unit xml:space="preserve" id="confirmation.token.has.expired">
+        <source>confirmation.token.has.expired</source>
+        <target state="translated">Токен за потврђивање је истекао.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="theme.is_static">
-        <source>theme.is_static</source>
-        <target state="translated">Статична</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="password.must.match">
-        <source>password.must.match</source>
-        <target state="translated">Лозинке морају да се поклапају</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="passwords.must.match">
-        <source>passwords.must.match</source>
-        <target state="translated">Лозинке морају да се поклапају</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.nodeType.available.create_one_first">
-        <source>no.nodeType.available.create_one_first</source>
-        <target state="translated">Ниједан тип чвора није пронађен. Молимо Вас да га креирате пре него што додате чвор.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.no_creation.already_exists">
-        <source>node.%name%.no_creation.already_exists</source>
-        <target state="translated">Чвор имена %name% не може бити креиран јер чвор са тим именом већ постоји.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.dynamicNodeName">
-        <source>node.dynamicNodeName</source>
-        <target state="translated">Име динамичког чвора</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.status">
-        <source>nodeType.status</source>
-        <target state="translated">Статус</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.not_visible">
-        <source>nodeType.not_visible</source>
-        <target state="translated">Невидљиви тип чвора</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.nodeType">
-        <source>newsletter.nodeType</source>
-        <target state="translated">Тип чвора, вести</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.hiding_nodes">
-        <source>nodeType.hiding_nodes</source>
-        <target state="translated">Овај тип скрива своје дрвце чворова.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.%name%.created">
-        <source>newsletter.%name%.created</source>
-        <target state="translated">Креиране су вести под именом %name%.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.%newsletter%.updated.%translation%">
-        <source>newsletter.%newsletter%.updated.%translation%</source>
-        <target state="translated">Вести под именом “%newsletter%” су ажуриране преводом %translation%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="duplicated.newsletter.%name%">
-        <source>duplicated.newsletter.%name%</source>
-        <target state="translated">Вести под именом “%name%” су дуплициране.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="impossible.duplicate.newsletter.%name%">
-        <source>impossible.duplicate.newsletter.%name%</source>
-        <target state="translated">Није могуће дуплицирати вести под називом %name%.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="see.newsletter">
-        <source>see.newsletter</source>
-        <target state="translated">Погледајте вести</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.newsletter">
-        <source>add.a.newsletter</source>
-        <target state="translated">Додајте вести</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.newsletter.%name%">
-        <source>edit.newsletter.%name%</source>
-        <target state="translated">Додајте вести под именом %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter">
-        <source>newsletter</source>
-        <target state="translated">Вести</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.type">
-        <source>newsletter.type</source>
-        <target state="translated">Тип вести</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.newsletter">
-        <source>back_to.newsletter</source>
-        <target state="translated">Натраг на вести</target>
+      <trans-unit xml:space="preserve" id="confirmation.token.is.invalid">
+        <source>confirmation.token.is.invalid</source>
+        <target state="translated">Токен за потврђивање је неисправан.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="create.a.newsletter">
         <source>create.a.newsletter</source>
         <target state="translated">Креирај вести</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.html">
-        <source>export.html</source>
-        <target state="translated">Извези HTML</target>
+      <trans-unit xml:space="preserve" id="current.document.is.private.you.cannot.preview.it">
+        <source>current.document.is.private.you.cannot.preview.it</source>
+        <target state="translated">Овај документ је приватни и не можете га погледати.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.html.inline">
-        <source>export.html.inline</source>
-        <target state="translated">Извези HTML (inline CSS)</target>
+      <trans-unit xml:space="preserve" id="current.version">
+        <source>current.version</source>
+        <target state="translated">Верзија која се тренутно користи</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="start.test.user.right">
-        <source>start.test.user.right</source>
-        <target state="translated">Узми корисничке привилегије</target>
+      <trans-unit xml:space="preserve" id="custom-forms.toggle-explorer">
+        <source>custom-forms.toggle-explorer</source>
+        <target state="translated">Претраживач</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stop.test.user.right">
-        <source>stop.test.user.right</source>
-        <target state="translated">Врати се на свог корисника</target>
+      <trans-unit xml:space="preserve" id="custom-forms.type">
+        <source>custom-forms.type</source>
+        <target state="translated">Прилагодљив формулар</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="overwrite.document">
-        <source>overwrite.document</source>
-        <target state="translated">Пресними преко овог фајла документа</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.already_exists">
+        <source>customForm.%name%.already_exists</source>
+        <target state="translated">Прилагодљив формулар под називом %name% већ постоји</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.file.%name%.updated">
-        <source>document.file.%name%.updated</source>
-        <target state="translated">Фајл под именом %name% је ажуриран</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeSource">
-        <source>are_you_sure.delete.nodeSource</source>
-        <target state="translated">Да ли сте сигурни да желите да избришете изворни код овог чвора ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node_source.%node_source%.%translation%.cant.deleted">
-        <source>node_source.%node_source%.%translation%.cant.deleted</source>
-        <target state="translated">%node_source%.%translation% превод не може бити избрисан</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node_source.%node_source%.deleted.%translation%">
-        <source>node_source.%node_source%.deleted.%translation%</source>
-        <target state="translated">“%node_source%” %translation% превод је избрисан</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodesource">
-        <source>delete.nodesource</source>
-        <target state="translated">Избриши изворни код чвора</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="latest.node-sources.updates">
-        <source>latest.node-sources.updates</source>
-        <target state="translated">Најновије ажурирање изворног кода чвора</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.updated">
-        <source>customForm.%name%.updated</source>
-        <target state="translated">Прилагодљив формулар %name% не може бити ажуриран</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.cannot_rename_already_exists">
+        <source>customForm.%name%.cannot_rename_already_exists</source>
+        <target state="translated">Прилагодљив формулар под називом %name% не може бити преименован, јер предложено име већ постоји</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="customForm.%name%.created">
         <source>customForm.%name%.created</source>
@@ -3104,225 +2911,401 @@
         <source>customForm.%name%.deleted</source>
         <target state="translated">Прилагодљив формулар са називом %name% је избрисан</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.cannot_rename_already_exists">
-        <source>customForm.%name%.cannot_rename_already_exists</source>
-        <target state="translated">Прилагодљив формулар под називом %name% не може бити преименован, јер предложено име већ постоји</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.already_exists">
-        <source>customForm.%name%.already_exists</source>
-        <target state="translated">Прилагодљив формулар под називом %name% већ постоји</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="select.all">
-        <source>select.all</source>
-        <target state="translated">Селектуј све</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="deselect.all">
-        <source>deselect.all</source>
-        <target state="translated">Де-селектуј све</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.user.%name%.roles">
-        <source>edit.user.%name%.roles</source>
-        <target state="translated">%name% улога</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="history.for.%name%">
-        <source>history.for.%name%</source>
-        <target state="translated">%name% историја</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="admin_image">
-        <source>admin_image</source>
-        <target state="translated">Back-office, главна слика или бренд</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="chroot.limited.one">
-        <source>chroot.limited.one</source>
-        <target state="translated">Можете одабрати само један основни (root) чвор</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="chroot">
-        <source>chroot</source>
-        <target state="translated">Основни (root) чвор</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists">
-        <source>node.noCreation.alreadyExists</source>
-        <target state="translated">Чвор не може бити креиран, зато што чвор са истим именом већ постоји.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style">
-        <source>maps_style</source>
-        <target state="translated">Подразумевани стилови Google Maps-а</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location">
-        <source>maps_default_location</source>
-        <target state="translated">Подразумеване локације на Maps</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.status">
-        <source>user.status</source>
-        <target state="translated">Статус</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.enabled">
-        <source>user.enabled</source>
-        <target state="translated">Активиран налог</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.disabled">
-        <source>user.disabled</source>
-        <target state="translated">Деактивиран налог</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.locked">
-        <source>user.locked</source>
-        <target state="translated">Закључани налог</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.expired">
-        <source>user.expired</source>
-        <target state="translated">Налог који је истекао</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.expiresAt">
-        <source>user.expiresAt</source>
-        <target state="translated">Налог истиче:</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.force.expired">
-        <source>user.force.expired</source>
-        <target state="translated">Форсирај истек налога</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.credentialsExpiresAt">
-        <source>user.credentialsExpiresAt</source>
-        <target state="translated">Креденције налога истичу:</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.force.credentialsExpired">
-        <source>user.force.credentialsExpired</source>
-        <target state="translated">Форсирај истек креденција налога</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.user.%name%.security">
-        <source>edit.user.%name%.security</source>
-        <target state="translated">%name% , сигурност</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.%name%.security.updated">
-        <source>user.%name%.security.updated</source>
-        <target state="translated">Сигурносна подешавања за %name% су ажурирана</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.account.has-expired">
-        <source>user.account.has-expired</source>
-        <target state="translated">Кориснички налог је истекао</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.crendentials.has-expired">
-        <source>user.crendentials.has-expired</source>
-        <target state="translated">Креденције корисничког налога су истекле</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.last-login">
-        <source>user.last-login</source>
-        <target state="translated">Датум последњег пријављивања</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.password-requested-at">
-        <source>user.password-requested-at</source>
-        <target state="translated">Датум када је последњи пут тражена лозинка</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="never.requested">
-        <source>never.requested</source>
-        <target state="translated">Никада</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="year">
-        <source>year</source>
-        <target state="translated">Година</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="month">
-        <source>month</source>
-        <target state="translated">Месец</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.updated">
+        <source>customForm.%name%.updated</source>
+        <target state="translated">Прилагодљив формулар %name% не може бити ажуриран</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="day">
         <source>day</source>
         <target state="translated">Дан</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="hour">
-        <source>hour</source>
-        <target state="translated">Сат</target>
+      <trans-unit xml:space="preserve" id="delete.generated_images.cache">
+        <source>delete.generated_images.cache</source>
+        <target state="translated">Очисти кеш меморију за слике</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="minute">
-        <source>minute</source>
-        <target state="translated">Минут</target>
+      <trans-unit xml:space="preserve" id="delete.nodesource">
+        <source>delete.nodesource</source>
+        <target state="translated">Избриши изворни код чвора</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="user.security">
-        <source>user.security</source>
-        <target state="translated">Безбедност</target>
+      <trans-unit xml:space="preserve" id="deselect.all">
+        <source>deselect.all</source>
+        <target state="translated">Де-селектуј све</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="your.account.email">
-        <source>your.account.email</source>
-        <target state="translated">Еmail адреса Вашег налога</target>
+      <trans-unit xml:space="preserve" id="document.file.%name%.updated">
+        <source>document.file.%name%.updated</source>
+        <target state="translated">Фајл под именом %name% је ажуриран</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database">
-        <source>%email%.email.does.not.exist.in.user.account.database</source>
-        <target state="translated">%email% , адреса не постоји у бази података корисника.</target>
+      <trans-unit xml:space="preserve" id="document.filepath">
+        <source>document.filepath</source>
+        <target state="translated">Детаљна путања до фајла (Absolute file path)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email">
-        <source>to.get.new.password.enter.your.account.email</source>
-        <target state="translated">Како бисте затражили нову лозинку, једноставно унесите email који је повезан са Вашим налогом.</target>
+      <trans-unit xml:space="preserve" id="document.public_url">
+        <source>document.public_url</source>
+        <target state="translated">Јавна URL адреса</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="request.new.password">
-        <source>request.new.password</source>
-        <target state="translated">Затражи нову лозинку</target>
+      <trans-unit xml:space="preserve" id="download.document">
+        <source>download.document</source>
+        <target state="translated">Преузми документ</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.login">
-        <source>back_to.login</source>
-        <target state="translated">Натраг на пријављивање</target>
+      <trans-unit xml:space="preserve" id="download.documents">
+        <source>download.documents</source>
+        <target state="translated">Преузми документе</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email">
-        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
-        <target state="translated">Линк за ресетовање лозинке је послат на Ваш email. Ако не одговорите на захтев, важење линка ће аутоматски истећи и линк више неће бити активан.</target>
+      <trans-unit xml:space="preserve" id="download.folder.content">
+        <source>download.folder.content</source>
+        <target state="translated">Преузми садржај фолдера</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="confirmation.token.is.invalid">
-        <source>confirmation.token.is.invalid</source>
-        <target state="translated">Токен за потврђивање је неисправан.</target>
+      <trans-unit xml:space="preserve" id="duplicated.newsletter.%name%">
+        <source>duplicated.newsletter.%name%</source>
+        <target state="translated">Вести под именом “%name%” су дуплициране.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="confirmation.token.has.expired">
-        <source>confirmation.token.has.expired</source>
-        <target state="translated">Токен за потврђивање је истекао.</target>
+      <trans-unit xml:space="preserve" id="edit.account">
+        <source>edit.account</source>
+        <target state="translated">Уредите свој налог</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="choose.a.new.password">
-        <source>choose.a.new.password</source>
-        <target state="translated">Одаберите нову лозинку</target>
+      <trans-unit xml:space="preserve" id="edit.newsletter.%name%">
+        <source>edit.newsletter.%name%</source>
+        <target state="translated">Додајте вести под именом %name%</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="save.new.password">
-        <source>save.new.password</source>
-        <target state="translated">Снимите нову лозинку</target>
+      <trans-unit xml:space="preserve" id="edit.user.%name%.roles">
+        <source>edit.user.%name%.roles</source>
+        <target state="translated">%name% улога</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="your.new.password.has.been.saved">
-        <source>your.new.password.has.been.saved</source>
-        <target state="translated">Ваша нова лозинка је сачувана.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="go_back_to.login.page.to.connect">
-        <source>go_back_to.login.page.to.connect</source>
-        <target state="translated">Вратите се натраг на страницу за пријављивање како бисте се повезали.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent">
-        <source>a.confirmation.email.has.already.be.sent</source>
-        <target state="translated">Еmail за потврђивање Вам је већ послат. Молимо Вас, проверите да није случајно завршио у фолдеру spam.</target>
+      <trans-unit xml:space="preserve" id="edit.user.%name%.security">
+        <source>edit.user.%name%.security</source>
+        <target state="translated">%name% , сигурност</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="email.invalid">
         <source>email.invalid</source>
         <target state="translated">Email је неважећи или непостојећи.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="resultCache">
-        <source>resultCache</source>
-        <target state="translated">Резултат је додат (cache)</target>
+      <trans-unit xml:space="preserve" id="export.all.nodesSource">
+        <source>export.all.nodesSource</source>
+        <target state="translated">Извези сав изворишни код чвора</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="hydratationCache">
-        <source>hydratationCache</source>
-        <target state="translated">Hydratation cache</target>
+      <trans-unit xml:space="preserve" id="export.html">
+        <source>export.html</source>
+        <target state="translated">Извези HTML</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="queryCache">
-        <source>queryCache</source>
-        <target state="translated">Query cache</target>
+      <trans-unit xml:space="preserve" id="export.html.inline">
+        <source>export.html.inline</source>
+        <target state="translated">Извези HTML (inline CSS)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="metadataCache">
-        <source>metadataCache</source>
-        <target state="translated">Metadata cache</target>
+      <trans-unit xml:space="preserve" id="false">
+        <source>false</source>
+        <target state="translated">Логичко Не</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="no.cache.available">
-        <source>no.cache.available</source>
-        <target state="translated">Није пронађен доступни cache.</target>
+      <trans-unit xml:space="preserve" id="geographic.coordinates.type">
+        <source>geographic.coordinates.type</source>
+        <target state="translated">Јединствене географске координате</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter">
+        <source>geotag.type_an_address.then_type_enter</source>
+        <target state="translated">Укуцајте адресу, а затим укуцајте “Enter”…</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="go_back_to.login.page.to.connect">
+        <source>go_back_to.login.page.to.connect</source>
+        <target state="translated">Вратите се натраг на страницу за пријављивање како бисте се повезали.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="history.for.%name%">
+        <source>history.for.%name%</source>
+        <target state="translated">%name% историја</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="homeNode.limited.one">
         <source>homeNode.limited.one</source>
         <target state="translated">Можете одабрати само један почетни (home) чвор.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="NodeNode">
-        <source>homeNode</source>
-        <target state="translated">Home чвор</target>
+      <trans-unit xml:space="preserve" id="hour">
+        <source>hour</source>
+        <target state="translated">Сат</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="hydratationCache">
+        <source>hydratationCache</source>
+        <target state="translated">Hydratation cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ignore">
+        <source>ignore</source>
+        <target state="translated">Индиферентан</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="impossible.duplicate.newsletter.%name%">
+        <source>impossible.duplicate.newsletter.%name%</source>
+        <target state="translated">Није могуће дуплицирати вести под називом %name%.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="item-per-page.display.count">
+        <source>item-per-page.display.count</source>
+        <target state="translated">Прикажи</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="last.version">
+        <source>last.version</source>
+        <target state="translated">Најновија верзија</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="lastest.version.installed">
+        <source>lastest.version.installed</source>
+        <target state="translated">Користите најновију верзију Roadiz-а</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="latest.node-sources.updates">
+        <source>latest.node-sources.updates</source>
+        <target state="translated">Најновије ажурирање изворног кода чвора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="link.folders">
+        <source>link.folders</source>
+        <target state="translated">Линк до фолдера</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="maps_default_location">
+        <source>maps_default_location</source>
+        <target state="translated">Подразумеване локације на Maps</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="maps_style">
+        <source>maps_style</source>
+        <target state="translated">Подразумевани стилови Google Maps-а</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="metadataCache">
+        <source>metadataCache</source>
+        <target state="translated">Metadata cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="minute">
+        <source>minute</source>
+        <target state="translated">Минут</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="month">
+        <source>month</source>
+        <target state="translated">Месец</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.custom_forms">
+        <source>more.custom_forms</source>
+        <target state="translated">Још прилагодљивих формулара</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.documents">
+        <source>more.documents</source>
+        <target state="translated">Још докумената</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.node_types">
+        <source>more.node_types</source>
+        <target state="translated">Још типова чворова</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.nodes">
+        <source>more.nodes</source>
+        <target state="translated">Још чворова</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.tags">
+        <source>more.tags</source>
+        <target state="translated">Још тагова</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.node.to.first.position">
+        <source>move.node.to.first.position</source>
+        <target state="translated">Помери на прву позицију</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.node.to.last.position">
+        <source>move.node.to.last.position</source>
+        <target state="translated">Помери на последњу позицију</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="multiple.geographic.coordinates.type">
+        <source>multiple.geographic.coordinates.type</source>
+        <target state="translated">Вишеструке географске координате</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="never.requested">
+        <source>never.requested</source>
+        <target state="translated">Никада</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="news.version.release">
+        <source>news.version.release</source>
+        <target state="translated">Доступна је нова, унапређена верзија Roadiz-а.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter">
+        <source>newsletter</source>
+        <target state="translated">Вести</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.%name%.created">
+        <source>newsletter.%name%.created</source>
+        <target state="translated">Креиране су вести под именом %name%.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.%newsletter%.updated.%translation%">
+        <source>newsletter.%newsletter%.updated.%translation%</source>
+        <target state="translated">Вести под именом “%newsletter%” су ажуриране преводом %translation%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.nodeType">
+        <source>newsletter.nodeType</source>
+        <target state="translated">Тип чвора, вести</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.type">
+        <source>newsletter.type</source>
+        <target state="translated">Тип вести</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.cache.available">
+        <source>no.cache.available</source>
+        <target state="translated">Није пронађен доступни cache.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.nodeType.available.create_one_first">
+        <source>no.nodeType.available.create_one_first</source>
+        <target state="translated">Ниједан тип чвора није пронађен. Молимо Вас да га креирате пре него што додате чвор.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.%field%.updated">
+        <source>node.%name%.%field%.updated</source>
+        <target state="translated">Статус чвора по имену %name%.%field% је ажуриран.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.no_creation.already_exists">
+        <source>node.%name%.no_creation.already_exists</source>
+        <target state="translated">Чвор имена %name% не може бити креиран јер чвор са тим именом већ постоји.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.datetime.operator">
+        <source>node.datetime.operator</source>
+        <target state="translated">Оператор</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.datetime.value">
+        <source>node.datetime.value</source>
+        <target state="translated">Датум креирања</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.dynamicNodeName">
+        <source>node.dynamicNodeName</source>
+        <target state="translated">Име динамичког чвора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.id.parent">
+        <source>node.id.parent</source>
+        <target state="translated">Id чвора-родитеља</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.limit.result">
+        <source>node.limit.result</source>
+        <target state="translated">Лимитирање резултата</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.name">
+        <source>node.name</source>
+        <target state="translated">Име чвора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists">
+        <source>node.noCreation.alreadyExists</source>
+        <target state="translated">Чвор не може бити креиран, зато што чвор са истим именом већ постоји.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.tag.exclusive">
+        <source>node.tag.exclusive</source>
+        <target state="translated">Селекција ексклузивних тагова</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.tags">
+        <source>node.tags</source>
+        <target state="translated">Тагови</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.hiding_nodes">
+        <source>nodeType.hiding_nodes</source>
+        <target state="translated">Овај тип скрива своје дрвце чворова.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.not_visible">
+        <source>nodeType.not_visible</source>
+        <target state="translated">Невидљиви тип чвора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.status">
+        <source>nodeType.status</source>
+        <target state="translated">Статус</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.%node_source%.%translation%.cant.deleted">
+        <source>node_source.%node_source%.%translation%.cant.deleted</source>
+        <target state="translated">%node_source%.%translation% превод не може бити избрисан</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.%node_source%.deleted.%translation%">
+        <source>node_source.%node_source%.deleted.%translation%</source>
+        <target state="translated">“%node_source%” %translation% превод је избрисан</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.bulk.status.changed">
+        <source>nodes.bulk.status.changed</source>
+        <target state="translated">Статус селектованих чворова је промењен.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.status">
+        <source>nodes.status</source>
+        <target state="translated">Статус селектованог</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodetypefield">
+        <source>nodetypefield</source>
+        <target state="translated">Поља типа чвора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not.valid.facebook.name">
+        <source>not.valid.facebook.name</source>
+        <target state="translated">Дати ID није валидни Facebook ID. Пронађите свој ID путем сајта http://lookup-id.com/ .</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="overwrite.document">
+        <source>overwrite.document</source>
+        <target state="translated">Пресними преко овог фајла документа</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="password.must.match">
+        <source>password.must.match</source>
+        <target state="translated">Лозинке морају да се поклапају</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="passwords.must.match">
+        <source>passwords.must.match</source>
+        <target state="translated">Лозинке морају да се поклапају</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="purge.generated_images.cache">
+        <source>purge.generated_images.cache</source>
+        <target state="translated">Очисти кеш меморију за слике</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="queryCache">
+        <source>queryCache</source>
+        <target state="translated">Query cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="request.new.password">
+        <source>request.new.password</source>
+        <target state="translated">Затражи нову лозинку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="reset.marker">
+        <source>reset.marker</source>
+        <target state="translated">Укини селекцију</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="resultCache">
+        <source>resultCache</source>
+        <target state="translated">Резултат је додат (cache)</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="role.cannot.update.status">
+        <source>role.cannot.update.status</source>
+        <target state="translated">Немате одговарајућа права да аплицирате наведени статус.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="routePrefix">
+        <source>routePrefix</source>
+        <target state="translated">Prefix за статичне руте</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="save.new.password">
+        <source>save.new.password</source>
+        <target state="translated">Снимите нову лозинку</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.a.node">
+        <source>search.a.node</source>
+        <target state="translated">Претраживање чвора</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.custom_forms">
+        <source>search.custom_forms</source>
+        <target state="translated">Претраживање прилагодљивих формулара</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="see.newsletter">
+        <source>see.newsletter</source>
+        <target state="translated">Погледајте вести</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.all">
+        <source>select.all</source>
+        <target state="translated">Селектуј све</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.nodetype">
+        <source>select.nodetype</source>
+        <target state="translated">Филтрирање</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="start.test.user.right">
+        <source>start.test.user.right</source>
+        <target state="translated">Узми корисничке привилегије</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="staticTheme">
+        <source>staticTheme</source>
+        <target state="translated">Статична тема</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="staticTheme.does_not.allow.node_url_routes">
+        <source>staticTheme.does_not.allow.node_url_routes</source>
+        <target state="translated">Статична тема значи да тема неће слушати URL-ове динамичких чворова, већ само статичних рута.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="static_domain_name">
+        <source>static_domain_name</source>
+        <target state="translated">Име статичког домена</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="stop.test.user.right">
+        <source>stop.test.user.right</source>
+        <target state="translated">Врати се на свог корисника</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="theme.is_static">
+        <source>theme.is_static</source>
+        <target state="translated">Статична</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="theme.root.limited.one">
         <source>theme.root.limited.one</source>
@@ -3332,73 +3315,89 @@
         <source>themeRoot</source>
         <target state="translated">Root чвор</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="about.cms">
-        <source>about.cms</source>
-        <target state="translated">О Roadiz</target>
+      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email">
+        <source>to.get.new.password.enter.your.account.email</source>
+        <target state="translated">Како бисте затражили нову лозинку, једноставно унесите email који је повезан са Вашим налогом.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="news.version.release">
-        <source>news.version.release</source>
-        <target state="translated">Доступна је нова, унапређена верзија Roadiz-а.</target>
+      <trans-unit xml:space="preserve" id="true">
+        <source>true</source>
+        <target state="translated">Логичко Да</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="lastest.version.installed">
-        <source>lastest.version.installed</source>
-        <target state="translated">Користите најновију верзију Roadiz-а</target>
+      <trans-unit xml:space="preserve" id="unlink.folders">
+        <source>unlink.folders</source>
+        <target state="translated">Откажи линк са фолдером(има)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="current.version">
-        <source>current.version</source>
-        <target state="translated">Верзија која се тренутно користи</target>
+      <trans-unit xml:space="preserve" id="user.%name%.security.updated">
+        <source>user.%name%.security.updated</source>
+        <target state="translated">Сигурносна подешавања за %name% су ажурирана</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="last.version">
-        <source>last.version</source>
-        <target state="translated">Најновија верзија</target>
+      <trans-unit xml:space="preserve" id="user.account.has-expired">
+        <source>user.account.has-expired</source>
+        <target state="translated">Кориснички налог је истекао</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="changelog">
-        <source>changelog</source>
-        <target state="translated">Забелешке о ажурирању</target>
+      <trans-unit xml:space="preserve" id="user.credentialsExpiresAt">
+        <source>user.credentialsExpiresAt</source>
+        <target state="translated">Креденције налога истичу:</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="download.folder.content">
-        <source>download.folder.content</source>
-        <target state="translated">Преузми садржај фолдера</target>
+      <trans-unit xml:space="preserve" id="user.crendentials.has-expired">
+        <source>user.crendentials.has-expired</source>
+        <target state="translated">Креденције корисничког налога су истекле</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="not.valid.facebook.name">
-        <source>not.valid.facebook.name</source>
-        <target state="translated">Дати ID није валидни Facebook ID. Пронађите свој ID путем сајта http://lookup-id.com/ .</target>
+      <trans-unit xml:space="preserve" id="user.disabled">
+        <source>user.disabled</source>
+        <target state="translated">Деактивиран налог</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="routePrefix">
-        <source>routePrefix</source>
-        <target state="translated">Prefix за статичне руте</target>
+      <trans-unit xml:space="preserve" id="user.enabled">
+        <source>user.enabled</source>
+        <target state="translated">Активиран налог</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="current.document.is.private.you.cannot.preview.it">
-        <source>current.document.is.private.you.cannot.preview.it</source>
-        <target state="translated">Овај документ је приватни и не можете га погледати.</target>
+      <trans-unit xml:space="preserve" id="user.expired">
+        <source>user.expired</source>
+        <target state="translated">Налог који је истекао</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.public_url">
-        <source>document.public_url</source>
-        <target state="translated">Јавна URL адреса</target>
+      <trans-unit xml:space="preserve" id="user.expiresAt">
+        <source>user.expiresAt</source>
+        <target state="translated">Налог истиче:</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.filepath">
-        <source>document.filepath</source>
-        <target state="translated">Детаљна путања до фајла (Absolute file path)</target>
+      <trans-unit xml:space="preserve" id="user.force.credentialsExpired">
+        <source>user.force.credentialsExpired</source>
+        <target state="translated">Форсирај истек креденција налога</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="download.document">
-        <source>download.document</source>
-        <target state="translated">Преузми документ</target>
+      <trans-unit xml:space="preserve" id="user.force.expired">
+        <source>user.force.expired</source>
+        <target state="translated">Форсирај истек налога</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="static_domain_name">
-        <source>static_domain_name</source>
-        <target state="translated">Име статичког домена</target>
+      <trans-unit xml:space="preserve" id="user.last-login">
+        <source>user.last-login</source>
+        <target state="translated">Датум последњег пријављивања</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="item-per-page.display.count">
-        <source>item-per-page.display.count</source>
-        <target state="translated">Прикажи</target>
+      <trans-unit xml:space="preserve" id="user.locked">
+        <source>user.locked</source>
+        <target state="translated">Закључани налог</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="move.node.to.first.position">
-        <source>move.node.to.first.position</source>
-        <target state="translated">Помери на прву позицију</target>
+      <trans-unit xml:space="preserve" id="user.password-requested-at">
+        <source>user.password-requested-at</source>
+        <target state="translated">Датум када је последњи пут тражена лозинка</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="move.node.to.last.position">
-        <source>move.node.to.last.position</source>
-        <target state="translated">Помери на последњу позицију</target>
+      <trans-unit xml:space="preserve" id="user.security">
+        <source>user.security</source>
+        <target state="translated">Безбедност</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.status">
+        <source>user.status</source>
+        <target state="translated">Статус</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="year">
+        <source>year</source>
+        <target state="translated">Година</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.account.email">
+        <source>your.account.email</source>
+        <target state="translated">Еmail адреса Вашег налога</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.new.password.has.been.saved">
+        <source>your.new.password.has.been.saved</source>
+        <target state="translated">Ваша нова лозинка је сачувана.</target>
       </trans-unit>
       <!-- Node tree contextual menu commands -->
       <trans-unit xml:space="preserve" id="node.hide">
@@ -3439,13 +3438,13 @@
         <target state="translated">Ова вредност није валидна</target>
       </trans-unit>
       <!-- Font variantes -->
-      <trans-unit xml:space="preserve" id="font_variant.regular">
-        <source>font_variant.regular</source>
-        <target state="translated">Обично</target>
+      <trans-unit xml:space="preserve" id="font_variant.black">
+        <source>font_variant.black</source>
+        <target state="translated">Црно</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.italic">
-        <source>font_variant.italic</source>
-        <target state="translated">Italic</target>
+      <trans-unit xml:space="preserve" id="font_variant.black.italic">
+        <source>font_variant.black.italic</source>
+        <target state="translated">Црно italic</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.bold">
         <source>font_variant.bold</source>
@@ -3455,21 +3454,13 @@
         <source>font_variant.bold.italic</source>
         <target state="translated">Bold italic</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.light">
-        <source>font_variant.light</source>
-        <target state="translated">Light</target>
+      <trans-unit xml:space="preserve" id="font_variant.extra_bold">
+        <source>font_variant.extra_bold</source>
+        <target state="translated">Extra bold</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.light.italic">
-        <source>font_variant.light.italic</source>
-        <target state="translated">Light italic</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.thin">
-        <source>font_variant.thin</source>
-        <target state="translated">Thin</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.thin.italic">
-        <source>font_variant.thin.italic</source>
-        <target state="translated">Thin italic</target>
+      <trans-unit xml:space="preserve" id="font_variant.extra_bold.italic">
+        <source>font_variant.extra_bold.italic</source>
+        <target state="translated">Extra bold italic</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.extra_light">
         <source>font_variant.extra_light</source>
@@ -3479,21 +3470,17 @@
         <source>font_variant.extra_light.italic</source>
         <target state="translated">Extra light italic</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.extra_bold">
-        <source>font_variant.extra_bold</source>
-        <target state="translated">Extra bold</target>
+      <trans-unit xml:space="preserve" id="font_variant.italic">
+        <source>font_variant.italic</source>
+        <target state="translated">Italic</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.extra_bold.italic">
-        <source>font_variant.extra_bold.italic</source>
-        <target state="translated">Extra bold italic</target>
+      <trans-unit xml:space="preserve" id="font_variant.light">
+        <source>font_variant.light</source>
+        <target state="translated">Light</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.semi_bold">
-        <source>font_variant.semi_bold</source>
-        <target state="translated">Semi bold</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.semi_bold.italic">
-        <source>font_variant.semi_bold.italic</source>
-        <target state="translated">Semi bold italic</target>
+      <trans-unit xml:space="preserve" id="font_variant.light.italic">
+        <source>font_variant.light.italic</source>
+        <target state="translated">Light italic</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.medium">
         <source>font_variant.medium</source>
@@ -3503,13 +3490,25 @@
         <source>font_variant.medium.italic</source>
         <target state="translated">Medium italic</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.black">
-        <source>font_variant.black</source>
-        <target state="translated">Црно</target>
+      <trans-unit xml:space="preserve" id="font_variant.regular">
+        <source>font_variant.regular</source>
+        <target state="translated">Обично</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.black.italic">
-        <source>font_variant.black.italic</source>
-        <target state="translated">Црно italic</target>
+      <trans-unit xml:space="preserve" id="font_variant.semi_bold">
+        <source>font_variant.semi_bold</source>
+        <target state="translated">Semi bold</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.semi_bold.italic">
+        <source>font_variant.semi_bold.italic</source>
+        <target state="translated">Semi bold italic</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.thin">
+        <source>font_variant.thin</source>
+        <target state="translated">Thin</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.thin.italic">
+        <source>font_variant.thin.italic</source>
+        <target state="translated">Thin italic</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="update.roadiz">
         <source>update.roadiz</source>
