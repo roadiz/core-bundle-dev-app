@@ -2083,6 +2083,42 @@
         <source>node.deleted</source>
         <target state="final">Supprimé</target>
       </trans-unit>
+        <trans-unit xml:space="preserve" id="node.visible">
+          <source>node.visible</source>
+          <target state="final">Visible</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="node.hideChildren">
+          <source>node.hideChildren</source>
+          <target state="final">Conteneur</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="node.locked">
+          <source>node.locked</source>
+          <target state="final">Verrouillé</target>
+        </trans-unit>
+        <trans-unit xml:space="preserve" id="node.sterile">
+          <source>node.sterile</source>
+          <target state="final">Stérile (aucun enfant autorisé)</target>
+        </trans-unit>
+      <trans-unit xml:space="preserve" id="node.isHome.help">
+        <source>node.isHome.help</source>
+        <target state="translated">Indique si ce nœud est la page d’accueil de votre site. Cela changera son chemin en « / ».</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.visible.help">
+        <source>node.visible.help</source>
+        <target state="translated">Contrôle si ce nœud est visible dans les menus de votre site. Tous les nœuds parents invisibles sont ignorés lors de la génération des chemins.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.hideChildren.help">
+        <source>node.hideChildren.help</source>
+        <target state="translated">Convertit ce nœud en pile de nœuds (ou conteneur), utile pour afficher des collections de contenus au lieu d’afficher les enfants directs dans l’arborescence.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.locked.help">
+        <source>node.locked.help</source>
+        <target state="translated">Un nœud verrouillé ne peut pas être déplacé, renommé ou supprimé.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.sterile.help">
+        <source>node.sterile.help</source>
+        <target state="translated">Un nœud stérile ne peut pas avoir d’enfants.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="draft" approved="yes">
         <source>draft</source>
         <target state="final">Brouillon</target>

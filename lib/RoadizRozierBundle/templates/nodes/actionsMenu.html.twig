@@ -153,37 +153,6 @@
                     {% endblock %}
                 </nav>
             </div>
-
-            {#
-            # Node parameters
-            #}
-            {% if node and (is_granted('EDIT_STATUS', node)) %}
-                <div role="button" tabindex="0" class="node-statuses node-parameters with-subnav">
-                    <header><i class="uk-icon-rz-settings-general"></i><span class="label"><span class="label-text">{% trans %}parameters{% endtrans %}</span></span></header>
-                    <ul>
-                        <li class="node-visibility">
-                            <i class="uk-icon-rz-visibility"></i>
-                            <span class="label">{% trans %}visibility{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}" data-on-text="I" data-off-text="O" class="rz-boolean-checkbox" type="checkbox" name="visible" value="1" {% if node.isVisible %}checked{% endif %} />
-                        </li>
-                        <li class="node-hiding-children">
-                            <i class="uk-icon-rz-stack"></i>
-                            <span class="label">{% trans %}hiding-children{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}" data-on-text="I" data-off-text="O" class="rz-boolean-checkbox" type="checkbox" name="hideChildren" value="1" {% if node.isHidingChildren %}checked{% endif %} />
-                        </li>
-                        <li class="node-lock">
-                            <i class="uk-icon-lock"></i>
-                            <span class="label">{% trans %}lock-status{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}" data-on-text="I" data-off-text="O" class="rz-boolean-checkbox" type="checkbox" name="locked" value="1" {% if node.isLocked %}checked{% endif %} />
-                        </li>
-                        <li class="node-sterile">
-                            <i class="uk-icon-rz-steril"></i>
-                            <span class="label">{% trans %}sterile-status{% endtrans %}</span>
-                            <input data-node-id="{{ node.getId }}" data-on-text="I" data-off-text="O" class="rz-boolean-checkbox" type="checkbox" name="sterile" value="1" {% if node.isSterile %}checked{% endif %} />
-                        </li>
-                    </ul>
-                </div>
-            {% endif %}
             {% if node %}
                 {#
                 # Node statuses

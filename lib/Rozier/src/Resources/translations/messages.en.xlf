@@ -2083,6 +2083,42 @@
         <source>node.deleted</source>
         <target state="final">Deleted</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.visible">
+        <source>node.visible</source>
+        <target state="final">Visible</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.hideChildren">
+        <source>node.hideChildren</source>
+        <target state="final">Container</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.locked">
+        <source>node.locked</source>
+        <target state="final">Locked</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.sterile">
+        <source>node.sterile</source>
+        <target state="final">Sterile (no children allowed)</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.isHome.help">
+        <source>node.isHome.help</source>
+        <target state="translated">Indicates if this node is the homepage of your website. This will change its path to `/`.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.visible.help">
+        <source>node.visible.help</source>
+        <target state="translated">Controls whether this node is visible on your website menus. All invisible parent nodes are ignored when generating paths.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.hideChildren.help">
+        <source>node.hideChildren.help</source>
+        <target state="translated">Convert this node into a node stack (or container) which is useful to display content collections instead of displaying direct children in node-tree.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.locked.help">
+        <source>node.locked.help</source>
+        <target state="translated">A locked node cannot be moved, renamed, or deleted.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.sterile.help">
+        <source>node.sterile.help</source>
+        <target state="translated">A sterile node cannot have any child nodes.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="draft" approved="yes">
         <source>draft</source>
         <target state="final">Draft</target>

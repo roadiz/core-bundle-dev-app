@@ -6,6 +6,8 @@ namespace Themes\Rozier\Forms;
 
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,6 +20,7 @@ class NodeType extends AbstractType
 {
     public function __construct(
         private readonly NodeTypes $nodeTypesBag,
+        private readonly Security $security,
     ) {
     }
 
@@ -41,8 +44,31 @@ class NodeType extends AbstractType
         if ($isReachable) {
             $builder->add('home', CheckboxType::class, [
                 'label' => 'node.isHome',
+                'help' => 'node.isHome.help',
                 'required' => false,
-                'attr' => ['class' => 'rz-boolean-checkbox'],
+            ]);
+        }
+
+        if ($this->security->isGranted(NodeVoter::EDIT_STATUS, $node)) {
+            $builder->add('visible', CheckboxType::class, [
+                'label' => 'node.visible',
+                'help' => 'node.visible.help',
+                'required' => false,
+            ]);
+            $builder->add('hideChildren', CheckboxType::class, [
+                'label' => 'node.hideChildren',
+                'help' => 'node.hideChildren.help',
+                'required' => false,
+            ]);
+            $builder->add('locked', CheckboxType::class, [
+                'label' => 'node.locked',
+                'help' => 'node.locked.help',
+                'required' => false,
+            ]);
+            $builder->add('sterile', CheckboxType::class, [
+                'label' => 'node.sterile',
+                'help' => 'node.sterile.help',
+                'required' => false,
             ]);
         }
 
