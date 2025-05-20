@@ -2033,46 +2033,429 @@
         <target state="translated">Parameter</target>
       </trans-unit>
       <!-- embed documents -->
-      <trans-unit xml:space="preserve" id="embed.document">
-        <source>embed.document</source>
-        <target state="translated">Tertanam</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="embed">
         <source>embed</source>
         <target state="translated">lampirkan</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="tagTree">
-        <source>tagTree</source>
-        <target state="translated">tandai pokok</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%node%.linked.tags">
-        <source>node.%node%.linked.tags</source>
-        <target state="translated">node %node% penandaan terkait</target>
+      <trans-unit xml:space="preserve" id="embed.document">
+        <source>embed.document</source>
+        <target state="translated">Tertanam</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="list.tags.to_link">
         <source>list.tags.to_link</source>
         <target state="translated">daftar tanda untuk tautan</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%node%.linked.tags">
+        <source>node.%node%.linked.tags</source>
+        <target state="translated">node %node% penandaan terkait</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="tagTree">
+        <source>tagTree</source>
+        <target state="translated">tandai pokok</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="use.new_or_existing.tags_with_hierarchy">
         <source>use.new_or_existing.tags_with_hierarchy</source>
         <target state="translated">gunakan tanda baru atau yang ada dengan hierarki</target>
       </trans-unit>
-      <!-- stacks -->
+      <trans-unit xml:space="preserve" id="%count%.customFormFields">
+        <source>%count%.customFormFields</source>
+        <target state="translated">%count% Bentuk Kustom Para Pemain</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.node">
+        <source>add.a.child.node</source>
+        <target state="translated">Tambahkan Anak Node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.tag">
+        <source>add.a.child.tag</source>
+        <target state="translated">Tambahkan Anak Tanda</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.customForm">
+        <source>add.a.customForm</source>
+        <target state="translated">Tambahkan Formulir Kustom</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.customFormField">
+        <source>add.a.customFormField</source>
+        <target state="translated">Tambahkan Formulir Kustom Para Pemain</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.folder">
+        <source>add.a.folder</source>
+        <target state="translated">Tambahkan Folder</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.font">
+        <source>add.a.font</source>
+        <target state="translated">Tambahkan Huruf</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.group">
+        <source>add.a.group</source>
+        <target state="translated">Tambahkan Grup</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.node">
+        <source>add.a.node</source>
+        <target state="translated">Tambahkan Node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeType">
+        <source>add.a.nodeType</source>
+        <target state="translated">Tambahkan tipe node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeTypeField">
+        <source>add.a.nodeTypeField</source>
+        <target state="translated">Tambahkan Tipe Node Para Pemain</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.role">
+        <source>add.a.role</source>
+        <target state="translated">Tambahkan Peran</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.setting">
+        <source>add.a.setting</source>
+        <target state="translated">Tambahkan Pengaturan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.settingGroup">
+        <source>add.a.settingGroup</source>
+        <target state="translated">Tambahkan Pengaturan Grup</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.specific.role">
+        <source>add.a.specific.role</source>
+        <target state="translated">Tambahkan Peran Spesifik</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.tag">
+        <source>add.a.tag</source>
+        <target state="translated">Tambahkan Tanda</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.theme">
+        <source>add.a.theme</source>
+        <target state="translated">Tambahkan Tema</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.translation">
+        <source>add.a.translation</source>
+        <target state="translated">Tambahkan Terjemahan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.urlAlias">
+        <source>add.a.urlAlias</source>
+        <target state="translated">Tambahkan Nama Lain URL</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.user">
+        <source>add.a.user</source>
+        <target state="translated">Tambahkan Pengguna</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.child.folder">
+        <source>add.child.folder</source>
+        <target state="translated">Tambahkan subfolder</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.customForm">
+        <source>add.customForm</source>
+        <target state="translated">Tambahkan bentuk kustom</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.customFormField">
+        <source>add.customFormField</source>
+        <target state="translated">Tambahkan Para Pemain</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.folder">
+        <source>add.folder</source>
+        <target state="translated">Tambahkan folder</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="add.stack.type">
         <source>add.stack.type</source>
         <target state="translated">tambahkan tipe susunan</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stack.types">
-        <source>stack.types</source>
-        <target state="translated">tipe susunan</target>
+      <trans-unit xml:space="preserve" id="answer.form">
+        <source>answer.form</source>
+        <target state="translated">Formulir jawaban</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="remove">
-        <source>remove</source>
-        <target state="translated">menghapus</target>
+      <trans-unit xml:space="preserve" id="are.you.sure.you.want.to.cancel.this.upload">
+        <source>are.you.sure.you.want.to.cancel.this.upload</source>
+        <target state="translated">Apakah Anda yakin ingin membatalkan unggahan ini?</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stack_node.%name%.has_new_type.%type%">
-        <source>stack_node.%name%.has_new_type.%type%</source>
-        <target state="translated">node susunan %name% memiliki tipe baru %type%</target>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customForm">
+        <source>are_you_sure.delete.customForm</source>
+        <target state="translated">Anda yakin ingin menghapus kustom formulir ini?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer">
+        <source>are_you_sure.delete.customFormAnswer</source>
+        <target state="translated">Yakin ingin menghapus jawaban ini?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormField">
+        <source>are_you_sure.delete.customFormField</source>
+        <target state="translated">Anda yakin ingin menghapus Para Pemain ini?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation">
+        <source>are_you_sure.delete.document.translation</source>
+        <target state="translated">apakah anda yakin hapus dokumen terjemahan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder">
+        <source>are_you_sure.delete.folder</source>
+        <target state="translated">Apakah Anda yakin ingin menghapus folder ini?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.documents">
+        <source>are_you_sure.delete.these.documents</source>
+        <target state="translated">Apakah Anda yakin ingin menghapus dokumen ini?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes">
+        <source>are_you_sure.delete.these.nodes</source>
+        <target state="translated">Yakin ingin menghapus node ini?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash">
+        <source>are_you_sure.empty.node.and.data.trash</source>
+        <target state="translated">apakah anda yakin kosongkan node dan data sampah</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back">
+        <source>back</source>
+        <target state="translated">Kembali</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customFormAnswers">
+        <source>back_to.customFormAnswers</source>
+        <target state="translated">kembali ke Jawaban Kustom Formulir</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customFormFields">
+        <source>back_to.customFormFields</source>
+        <target state="translated">Kembali ke Para Pemain</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customForms">
+        <source>back_to.customForms</source>
+        <target state="translated">Kembali ke Kustom Formulir</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.folders">
+        <source>back_to.folders</source>
+        <target state="translated">Kembali ke folder</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.top">
+        <source>back_to.top</source>
+        <target state="translated">Kembali ke Atas</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="blockquote">
+        <source>blockquote</source>
+        <target state="translated">Blok Kutipan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bold">
+        <source>bold</source>
+        <target state="translated">Tebal</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.actions">
+        <source>bulk.actions</source>
+        <target state="translated">Aksi Besar</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.documents">
+        <source>bulk.delete.documents</source>
+        <target state="translated">Hapus Dokumen Pilihan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.nodes">
+        <source>bulk.delete.nodes</source>
+        <target state="translated">Hapus Node Pilihan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.fold.documents">
+        <source>bulk.fold.documents</source>
+        <target state="translated">Tautan dokumen pilihan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="cancel.upload">
+        <source>cancel.upload</source>
+        <target state="translated">Batal Unggah</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="colour.type">
+        <source>colour.type</source>
+        <target state="translated">Warna</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="create.a.node">
+        <source>create.a.node</source>
+        <target state="translated">Membuat Node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="created.at">
+        <source>created.at</source>
+        <target state="translated">dibuat di</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm">
+        <source>customForm</source>
+        <target state="translated">Bentuk Kustom</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.%name%.send">
+        <source>customForm.%name%.send</source>
+        <target state="translated">Formulir Kustom %name% kirim</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.answers">
+        <source>customForm.answers</source>
+        <target state="translated">Jawaban</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.closeDate">
+        <source>customForm.closeDate</source>
+        <target state="translated">Tanggal Tutup</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.color">
+        <source>customForm.color</source>
+        <target state="translated">Warna</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.displayName">
+        <source>customForm.displayName</source>
+        <target state="translated">Nama Layar</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.open">
+        <source>customForm.open</source>
+        <target state="translated">Buka</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.show">
+        <source>customForm.show</source>
+        <target state="translated">Tampilkan Formulir</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer">
+        <source>customFormAnswer</source>
+        <target state="translated">Jawaban</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer.%id%.deleted">
+        <source>customFormAnswer.%id%.deleted</source>
+        <target state="translated">Jawaban %id% dihapus.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer.answers">
+        <source>customFormAnswer.answers</source>
+        <target state="translated">Atribut Jawaban</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.created">
+        <source>customFormField.%name%.created</source>
+        <target state="translated">Para Pemain %name% dibuat.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.deleted">
+        <source>customFormField.%name%.deleted</source>
+        <target state="translated">Para Pemain %name% dihapus.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.updated">
+        <source>customFormField.%name%.updated</source>
+        <target state="translated">Para Pemain %name% diperbarui.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormFieldAttribute">
+        <source>customFormFieldAttribute</source>
+        <target state="translated">Atribut Jawaban</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="default.translation">
+        <source>default.translation</source>
+        <target state="translated">Terjemahan Standar</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.all">
+        <source>delete.all</source>
+        <target state="translated">Hapus Semua</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customForm">
+        <source>delete.customForm</source>
+        <target state="translated">Hapus Kustom Formulir</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customForm.%name%">
+        <source>delete.customForm.%name%</source>
+        <target state="translated">Kustom Formulir %name% dihapus</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%">
+        <source>delete.customFormAnswer.%name%</source>
+        <target state="translated">Jawaban %name% dihapus</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormField">
+        <source>delete.customFormField</source>
+        <target state="translated">Hapus Para Pemain</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormField.%name%">
+        <source>delete.customFormField.%name%</source>
+        <target state="translated">Para Pemain %name% dihapus</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.document.translation.%name%">
+        <source>delete.document.translation.%name%</source>
+        <target state="translated">hapus dokumen terjemahan %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.documents">
+        <source>delete.documents</source>
+        <target state="translated">Hapus Dokumen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder">
+        <source>delete.folder</source>
+        <target state="translated">Hapus Folder</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder.%name%">
+        <source>delete.folder.%name%</source>
+        <target state="translated">Hapus Folder %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.font">
+        <source>delete.font</source>
+        <target state="translated">Hapus Huruf</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.nodes">
+        <source>delete.nodes</source>
+        <target state="translated">Hapus Node Pilihan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.format.unknown">
+        <source>document.format.unknown</source>
+        <target state="translated">format dokumen tidak diketahui</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.metas">
+        <source>document.metas</source>
+        <target state="translated">dokumen metas</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete">
+        <source>document.translation.%name%.cannot_delete</source>
+        <target state="translated">Dokumen %name% terjemahan tidak bisa dihapus.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted">
+        <source>document.translation.%name%.deleted</source>
+        <target state="translated">dokumen terjemahan %name% dihapus</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.updated">
+        <source>document.translation.%name%.updated</source>
+        <target state="translated">dokumen terjemahan %name% diperbarui</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="documents.linked_to.folders">
+        <source>documents.linked_to.folders</source>
+        <target state="translated">Dokumen telah ditautkan dengan folder.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer">
+        <source>drop.files.here.to.upload.or.click.to.open.your.explorer</source>
+        <target state="translated">Drop berkas disini untuk unggah atau klik untuk membuka penjelajah Anda.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicated.node.%name%">
+        <source>duplicated.node.%name%</source>
+        <target state="translated">Node %name% telah diduplikat</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customForm.%name%">
+        <source>edit.customForm.%name%</source>
+        <target state="translated">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormField.%name%">
+        <source>edit.customFormField.%name%</source>
+        <target state="translated">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormFields">
+        <source>edit.customFormFields</source>
+        <target state="translated">Tambahkan Para Pemain</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormFields.for.customForm.%name%">
+        <source>edit.customFormFields.for.customForm.%name%</source>
+        <target state="translated">%name% Para Pemain</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder">
+        <source>edit.folder</source>
+        <target state="translated">Sunting Folder</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder.%name%">
+        <source>edit.folder.%name%</source>
+        <target state="translated">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.document.already_exists">
+        <source>embed.document.already_exists</source>
+        <target state="translated">dokumen tertanam sudah ada</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.preview">
+        <source>embed.preview</source>
+        <target state="translated">Pratinjau Media Eksternal</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embedId.is_not_valid">
+        <source>embedId.is_not_valid</source>
+        <target state="translated">tertanam tidak cocok</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.node.trash">
+        <source>empty.node.trash</source>
+        <target state="translated">node sampah kosong</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.trash">
+        <source>empty.trash</source>
+        <target state="translated">sampah kosong</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.all">
+        <source>export.all</source>
+        <target state="translated">Ekspor semua</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.all.nodes">
+        <source>export.all.nodes</source>
+        <target state="translated">Ekspor semua node</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="field.%name%.updated">
         <source>field.%name%.updated</source>
@@ -2082,187 +2465,39 @@
         <source>field.%nodeTypeFieldId%.not_exists</source>
         <target state="translated">para pemain %nodeTypeFieldId% tidak ada</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="created.at">
-        <source>created.at</source>
-        <target state="translated">dibuat di</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="updated.at">
-        <source>updated.at</source>
-        <target state="translated">diperbarui di</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="position">
-        <source>position</source>
-        <target state="translated">mengatur tempat</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="empty.node.trash">
-        <source>empty.node.trash</source>
-        <target state="translated">node sampah kosong</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.trash.emptied">
-        <source>node.trash.emptied</source>
-        <target state="translated">sampah simpanan dikosongkan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="empty.trash">
-        <source>empty.trash</source>
-        <target state="translated">sampah kosong</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash">
-        <source>are_you_sure.empty.node.and.data.trash</source>
-        <target state="translated">apakah anda yakin kosongkan node dan data sampah</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="random.document">
-        <source>random.document</source>
-        <target state="translated">dokumen acak</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.format.unknown">
-        <source>document.format.unknown</source>
-        <target state="translated">format dokumen tidak diketahui</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.embed.document.found">
-        <source>no.embed.document.found</source>
-        <target state="translated">tidak ada dokumen tertanam yang ditemukan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embed.document.already_exists">
-        <source>embed.document.already_exists</source>
-        <target state="translated">dokumen tertanam sudah ada</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embedId.is_not_valid">
-        <source>embedId.is_not_valid</source>
-        <target state="translated">tertanam tidak cocok</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.metas">
-        <source>document.metas</source>
-        <target state="translated">dokumen metas</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.document.translation.%name%">
-        <source>delete.document.translation.%name%</source>
-        <target state="translated">hapus dokumen terjemahan %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation">
-        <source>are_you_sure.delete.document.translation</source>
-        <target state="translated">apakah anda yakin hapus dokumen terjemahan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.updated">
-        <source>document.translation.%name%.updated</source>
-        <target state="translated">dokumen terjemahan %name% diperbarui</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted">
-        <source>document.translation.%name%.deleted</source>
-        <target state="translated">dokumen terjemahan %name% dihapus</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete">
-        <source>document.translation.%name%.cannot_delete</source>
-        <target state="translated">Dokumen %name% terjemahan tidak bisa dihapus.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="folderTree">
-        <source>folderTree</source>
-        <target state="translated">Folder dokumen</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.folder">
-        <source>add.folder</source>
-        <target state="translated">Tambahkan folder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.child.folder">
-        <source>add.child.folder</source>
-        <target state="translated">Tambahkan subfolder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.folder">
-        <source>edit.folder</source>
-        <target state="translated">Sunting Folder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.folder">
-        <source>delete.folder</source>
-        <target state="translated">Hapus Folder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.folders">
-        <source>back_to.folders</source>
-        <target state="translated">Kembali ke folder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.settings">
-        <source>folder.settings</source>
-        <target state="translated">Pengaturan</target>
-        <note>Nav bar label for editing folder id and visibility state</note>
+      <trans-unit xml:space="preserve" id="file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib">
+        <source>file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib</source>
+        <target state="translated">Berkas terlalu besar ({{filesize}}Mib), maks ukuran berkas {{maxFilesize}} MiB</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folder.labels">
         <source>folder.labels</source>
         <target state="translated">Label</target>
         <note>Nav bar label for editing folder label in each translation.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.folder.%name%">
-        <source>delete.folder.%name%</source>
-        <target state="translated">Hapus Folder %name%</target>
+      <trans-unit xml:space="preserve" id="folder.name">
+        <source>folder.name</source>
+        <target state="translated">Nama Folder</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder">
-        <source>are_you_sure.delete.folder</source>
-        <target state="translated">Apakah Anda yakin ingin menghapus folder ini?</target>
+      <trans-unit xml:space="preserve" id="folder.settings">
+        <source>folder.settings</source>
+        <target state="translated">Pengaturan</target>
+        <note>Nav bar label for editing folder id and visibility state</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.folder.%name%">
-        <source>edit.folder.%name%</source>
-        <target state="translated">%name%</target>
+      <trans-unit xml:space="preserve" id="folderTree">
+        <source>folderTree</source>
+        <target state="translated">Folder dokumen</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folders">
         <source>folders</source>
         <target state="translated">Folder</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="default.translation">
-        <source>default.translation</source>
-        <target state="translated">Terjemahan Standar</target>
+      <trans-unit xml:space="preserve" id="forbidden.page">
+        <source>forbidden.page</source>
+        <target state="translated">Halaman Terlarang, Silahkan menghubungkan kembali</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.minLength">
-        <source>nodeTypeField.minLength</source>
-        <target state="translated">Panjang minimal</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.maxLength">
-        <source>nodeTypeField.maxLength</source>
-        <target state="translated">Panjang maksimal</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all.nodes">
-        <source>export.all.nodes</source>
-        <target state="translated">Ekspor semua node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all">
-        <source>export.all</source>
-        <target state="translated">Ekspor semua</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer">
-        <source>drop.files.here.to.upload.or.click.to.open.your.explorer</source>
-        <target state="translated">Drop berkas disini untuk unggah atau klik untuk membuka penjelajah Anda.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads">
-        <source>your.browser.does.not.support.dragndrop.file.uploads</source>
-        <target state="translated">Peramban Anda tidak mendukung berkas unggahan drag and drop</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days">
-        <source>please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days</source>
-        <target state="translated">Silahkan gunakan formulir fallback dibawah ini untuk mengunggah berkas Anda seperti di masa lalu</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib">
-        <source>file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib</source>
-        <target state="translated">Berkas terlalu besar ({{filesize}}Mib), maks ukuran berkas {{maxFilesize}} MiB</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type">
-        <source>you.cant.upload.files.of.this.type</source>
-        <target state="translated">Anda tidak bisa mengunggah berkas tipe ini</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="server.responded.with.{{statusCode}}.code">
-        <source>server.responded.with.{{statusCode}}.code</source>
-        <target state="translated">Server menanggapi dengan kode {{statusCode}}</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="cancel.upload">
-        <source>cancel.upload</source>
-        <target state="translated">Batal Unggah</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are.you.sure.you.want.to.cancel.this.upload">
-        <source>are.you.sure.you.want.to.cancel.this.upload</source>
-        <target state="translated">Apakah Anda yakin ingin membatalkan unggahan ini?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="remove.file">
-        <source>remove.file</source>
-        <target state="translated">Hapus Berkas</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="you.can.not.upload.any.more.files">
-        <source>you.can.not.upload.any.more.files</source>
-        <target state="translated">Anda tidak dapat mengunggah berkas lagi</target>
+      <trans-unit xml:space="preserve" id="fullscreen">
+        <source>fullscreen</source>
+        <target state="translated">Layar Penuh</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="headline.2">
         <source>headline.2</source>
@@ -2284,77 +2519,69 @@
         <source>headline.6</source>
         <target state="translated">Judul 6</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="fullscreen">
-        <source>fullscreen</source>
-        <target state="translated">Layar Penuh</target>
+      <trans-unit xml:space="preserve" id="image">
+        <source>image</source>
+        <target state="translated">Gambar</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bold">
-        <source>bold</source>
-        <target state="translated">Tebal</target>
+      <trans-unit xml:space="preserve" id="impossible.duplicate.node.%name%">
+        <source>impossible.duplicate.node.%name%</source>
+        <target state="translated">Tidak mungkin untuk duplikat node %name%</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="italic">
         <source>italic</source>
         <target state="translated">Miring</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="strikethrough">
-        <source>strikethrough</source>
-        <target state="translated">Dicoret</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="blockquote">
-        <source>blockquote</source>
-        <target state="translated">Blok Kutipan</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="link">
         <source>link</source>
         <target state="translated">Tautan</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image">
-        <source>image</source>
-        <target state="translated">Gambar</target>
+      <trans-unit xml:space="preserve" id="link.tags">
+        <source>link.tags</source>
+        <target state="translated">Pilihan Tanda</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="unordered.list">
-        <source>unordered.list</source>
-        <target state="translated">Daftar Tak Berurutan</target>
+      <trans-unit xml:space="preserve" id="list.folders.to_link">
+        <source>list.folders.to_link</source>
+        <target state="translated">Daftar Folder (eksis atau tidak)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="ordered.list">
-        <source>ordered.list</source>
-        <target state="translated">Daftar Pesanan</target>
+      <trans-unit xml:space="preserve" id="list.tags.to_link.or_unlink">
+        <source>list.tags.to_link.or_unlink</source>
+        <target state="translated">Daftar tanda untuk tautan atau hapus tautan...</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back">
-        <source>back</source>
-        <target state="translated">Kembali</target>
+      <trans-unit xml:space="preserve" id="main_color">
+        <source>main_color</source>
+        <target state="translated">Warna back-office utama</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="separator">
-        <source>separator</source>
-        <target state="translated">Pemisah</target>
+      <trans-unit xml:space="preserve" id="manage.customFormFields">
+        <source>manage.customFormFields</source>
+        <target state="translated">Mengelola Para Pemain</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="non_breaking.space">
-        <source>non_breaking.space</source>
-        <target state="translated">Tidak Melanggar Ruang</target>
+      <trans-unit xml:space="preserve" id="manage.customForms">
+        <source>manage.customForms</source>
+        <target state="translated">Mengelola Formulir Kustom</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="forbidden.page">
-        <source>forbidden.page</source>
-        <target state="translated">Halaman Terlarang, Silahkan menghubungkan kembali</target>
+      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
+        <source>new.answer.form.%site%</source>
+        <target state="translated">Jawaban baru dari %site% formulir</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="see_all">
-        <source>see_all</source>
-        <target state="translated">Lihat Semua</target>
+      <trans-unit xml:space="preserve" id="no.customFormField">
+        <source>no.customFormField</source>
+        <target state="translated">Tidak ada bidang formulir khusus</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.documents">
-        <source>search.documents</source>
-        <target state="translated">Pencarian Dokumen</target>
+      <trans-unit xml:space="preserve" id="no.embed.document.found">
+        <source>no.embed.document.found</source>
+        <target state="translated">tidak ada dokumen tertanam yang ditemukan</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.nodes">
-        <source>search.nodes</source>
-        <target state="translated">Pencarian Node</target>
+      <trans-unit xml:space="preserve" id="no_documents.linked_to.folders">
+        <source>no_documents.linked_to.folders</source>
+        <target state="translated">Tidak ada dokumen yang ditautkan.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.toggle-explorer">
-        <source>nodes.toggle-explorer</source>
-        <target state="translated">Penjelajah</target>
+      <trans-unit xml:space="preserve" id="node.hidden">
+        <source>node.hidden</source>
+        <target state="translated">Tersembunyi</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.name">
-        <source>folder.name</source>
-        <target state="translated">Nama Folder</target>
+      <trans-unit xml:space="preserve" id="node.trash.emptied">
+        <source>node.trash.emptied</source>
+        <target state="translated">sampah simpanan dikosongkan</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.color">
         <source>nodeType.color</source>
@@ -2364,345 +2591,13 @@
         <source>nodeType.numberFields</source>
         <target state="translated">Nomor Para Pemain</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.top">
-        <source>back_to.top</source>
-        <target state="translated">Kembali ke Atas</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.customFormField">
-        <source>no.customFormField</source>
-        <target state="translated">Tidak ada bidang formulir khusus</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.customForm">
-        <source>add.customForm</source>
-        <target state="translated">Tambahkan bentuk kustom</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm">
-        <source>customForm</source>
-        <target state="translated">Bentuk Kustom</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.displayName">
-        <source>customForm.displayName</source>
-        <target state="translated">Nama Layar</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="%count%.customFormFields">
-        <source>%count%.customFormFields</source>
-        <target state="translated">%count% Bentuk Kustom Para Pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.customFormFields">
-        <source>manage.customFormFields</source>
-        <target state="translated">Mengelola Para Pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.answers">
-        <source>customForm.answers</source>
-        <target state="translated">Jawaban</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.show">
-        <source>customForm.show</source>
-        <target state="translated">Tampilkan Formulir</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer">
-        <source>are_you_sure.delete.customFormAnswer</source>
-        <target state="translated">Yakin ingin menghapus jawaban ini?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%">
-        <source>delete.customFormAnswer.%name%</source>
-        <target state="translated">Jawaban %name% dihapus</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customFormAnswers">
-        <source>back_to.customFormAnswers</source>
-        <target state="translated">kembali ke Jawaban Kustom Formulir</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer">
-        <source>customFormAnswer</source>
-        <target state="translated">Jawaban</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customForms">
-        <source>back_to.customForms</source>
-        <target state="translated">Kembali ke Kustom Formulir</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="submitted.date">
-        <source>submitted.date</source>
-        <target state="translated">Tanggal Pengiriman</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer.answers">
-        <source>customFormAnswer.answers</source>
-        <target state="translated">Atribut Jawaban</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormFieldAttribute">
-        <source>customFormFieldAttribute</source>
-        <target state="translated">Atribut Jawaban</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormField">
-        <source>delete.customFormField</source>
-        <target state="translated">Hapus Para Pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.customFormField">
-        <source>add.customFormField</source>
-        <target state="translated">Tambahkan Para Pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customFormFields">
-        <source>back_to.customFormFields</source>
-        <target state="translated">Kembali ke Para Pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormField.%name%">
-        <source>delete.customFormField.%name%</source>
-        <target state="translated">Para Pemain %name% dihapus</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormField">
-        <source>are_you_sure.delete.customFormField</source>
-        <target state="translated">Anda yakin ingin menghapus Para Pemain ini?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormField.%name%">
-        <source>edit.customFormField.%name%</source>
-        <target state="translated">%name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormFields.for.customForm.%name%">
-        <source>edit.customFormFields.for.customForm.%name%</source>
-        <target state="translated">%name% Para Pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customForm">
-        <source>delete.customForm</source>
-        <target state="translated">Hapus Kustom Formulir</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customForm.%name%">
-        <source>delete.customForm.%name%</source>
-        <target state="translated">Kustom Formulir %name% dihapus</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customForm">
-        <source>are_you_sure.delete.customForm</source>
-        <target state="translated">Anda yakin ingin menghapus kustom formulir ini?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customForm.%name%">
-        <source>edit.customForm.%name%</source>
-        <target state="translated">%name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields">
-        <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
-        <target state="translated">{0} Tidak ada para pemain|{1} 1 para pemain|]1,Inf] %count% para pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="create.a.node">
-        <source>create.a.node</source>
-        <target state="translated">Membuat Node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.node">
-        <source>add.a.node</source>
-        <target state="translated">Tambahkan Node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.tag">
-        <source>add.a.tag</source>
-        <target state="translated">Tambahkan Tanda</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.urlAlias">
-        <source>add.a.urlAlias</source>
-        <target state="translated">Tambahkan Nama Lain URL</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.child.node">
-        <source>add.a.child.node</source>
-        <target state="translated">Tambahkan Anak Node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.child.tag">
-        <source>add.a.child.tag</source>
-        <target state="translated">Tambahkan Anak Tanda</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeType">
-        <source>add.a.nodeType</source>
-        <target state="translated">Tambahkan tipe node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeTypeField">
-        <source>add.a.nodeTypeField</source>
-        <target state="translated">Tambahkan Tipe Node Para Pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.translation">
-        <source>add.a.translation</source>
-        <target state="translated">Tambahkan Terjemahan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.theme">
-        <source>add.a.theme</source>
-        <target state="translated">Tambahkan Tema</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.font">
-        <source>add.a.font</source>
-        <target state="translated">Tambahkan Huruf</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.user">
-        <source>add.a.user</source>
-        <target state="translated">Tambahkan Pengguna</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.specific.role">
-        <source>add.a.specific.role</source>
-        <target state="translated">Tambahkan Peran Spesifik</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.group">
-        <source>add.a.group</source>
-        <target state="translated">Tambahkan Grup</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.role">
-        <source>add.a.role</source>
-        <target state="translated">Tambahkan Peran</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.setting">
-        <source>add.a.setting</source>
-        <target state="translated">Tambahkan Pengaturan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.settingGroup">
-        <source>add.a.settingGroup</source>
-        <target state="translated">Tambahkan Pengaturan Grup</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.font">
-        <source>delete.font</source>
-        <target state="translated">Hapus Huruf</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.customForm">
-        <source>add.a.customForm</source>
-        <target state="translated">Tambahkan Formulir Kustom</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.color">
-        <source>customForm.color</source>
-        <target state="translated">Warna</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.customForms">
-        <source>manage.customForms</source>
-        <target state="translated">Mengelola Formulir Kustom</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.open">
-        <source>customForm.open</source>
-        <target state="translated">Buka</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.closeDate">
-        <source>customForm.closeDate</source>
-        <target state="translated">Tanggal Tutup</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.customFormField">
-        <source>add.a.customFormField</source>
-        <target state="translated">Tambahkan Formulir Kustom Para Pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormFields">
-        <source>edit.customFormFields</source>
-        <target state="translated">Tambahkan Para Pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.folder">
-        <source>add.a.folder</source>
-        <target state="translated">Tambahkan Folder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.hidden">
-        <source>node.hidden</source>
-        <target state="translated">Tersembunyi</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="required">
-        <source>required</source>
-        <target state="translated">Wajib</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.documents">
-        <source>delete.documents</source>
-        <target state="translated">Hapus Dokumen</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.documents">
-        <source>are_you_sure.delete.these.documents</source>
-        <target state="translated">Apakah Anda yakin ingin menghapus dokumen ini?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.delete.documents">
-        <source>bulk.delete.documents</source>
-        <target state="translated">Hapus Dokumen Pilihan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="main_color">
-        <source>main_color</source>
-        <target state="translated">Warna back-office utama</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="colour.type">
-        <source>colour.type</source>
-        <target state="translated">Warna</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.type">
-        <source>nodes.type</source>
-        <target state="translated">Referensi Node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embed.preview">
-        <source>embed.preview</source>
-        <target state="translated">Pratinjau Media Eksternal</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="answer.form">
-        <source>answer.form</source>
-        <target state="translated">Formulir jawaban</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.send">
-        <source>customForm.%name%.send</source>
-        <target state="translated">Formulir Kustom %name% kirim</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
-        <source>new.answer.form.%site%</source>
-        <target state="translated">Jawaban baru dari %site% formulir</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer.%id%.deleted">
-        <source>customFormAnswer.%id%.deleted</source>
-        <target state="translated">Jawaban %id% dihapus.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.updated">
-        <source>customFormField.%name%.updated</source>
-        <target state="translated">Para Pemain %name% diperbarui.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.created">
-        <source>customFormField.%name%.created</source>
-        <target state="translated">Para Pemain %name% dibuat.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.deleted">
-        <source>customFormField.%name%.deleted</source>
-        <target state="translated">Para Pemain %name% dihapus.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="duplicated.node.%name%">
-        <source>duplicated.node.%name%</source>
-        <target state="translated">Node %name% telah diduplikat</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="impossible.duplicate.node.%name%">
-        <source>impossible.duplicate.node.%name%</source>
-        <target state="translated">Tidak mungkin untuk duplikat node %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="list.folders.to_link">
-        <source>list.folders.to_link</source>
-        <target state="translated">Daftar Folder (eksis atau tidak)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.fold.documents">
-        <source>bulk.fold.documents</source>
-        <target state="translated">Tautan dokumen pilihan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="documents.linked_to.folders">
-        <source>documents.linked_to.folders</source>
-        <target state="translated">Dokumen telah ditautkan dengan folder.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no_documents.linked_to.folders">
-        <source>no_documents.linked_to.folders</source>
-        <target state="translated">Tidak ada dokumen yang ditautkan.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="wrong.request">
-        <source>wrong.request</source>
-        <target state="translated">Permintaan Salah</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodes">
-        <source>delete.nodes</source>
-        <target state="translated">Hapus Node Pilihan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes">
-        <source>are_you_sure.delete.these.nodes</source>
-        <target state="translated">Yakin ingin menghapus node ini?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.all">
-        <source>delete.all</source>
-        <target state="translated">Hapus Semua</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.delete.nodes">
-        <source>bulk.delete.nodes</source>
-        <target state="translated">Hapus Node Pilihan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="link.tags">
-        <source>link.tags</source>
-        <target state="translated">Pilihan Tanda</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="unlink.tags">
-        <source>unlink.tags</source>
-        <target state="translated">hapus tautan penandaan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="list.tags.to_link.or_unlink">
-        <source>list.tags.to_link.or_unlink</source>
-        <target state="translated">Daftar tanda untuk tautan atau hapus tautan...</target>
+      <trans-unit xml:space="preserve" id="nodeTypeField.maxLength">
+        <source>nodeTypeField.maxLength</source>
+        <target state="translated">Panjang maksimal</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.minLength">
+        <source>nodeTypeField.minLength</source>
+        <target state="translated">Panjang minimal</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.deleted">
         <source>nodes.bulk.deleted</source>
@@ -2712,177 +2607,149 @@
         <source>nodes.bulk.not_tagged</source>
         <target state="translated">Tidak mungkin untuk menandai node pilihan</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.bulk.tagged">
-        <source>nodes.bulk.tagged</source>
-        <target state="translated">Pilihan node telah ditandai</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.not_untagged">
         <source>nodes.bulk.not_untagged</source>
         <target state="translated">Tidak mungkin untuk menghapus tanda node pilihan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.bulk.tagged">
+        <source>nodes.bulk.tagged</source>
+        <target state="translated">Pilihan node telah ditandai</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.untagged">
         <source>nodes.bulk.untagged</source>
         <target state="translated">Node yang dipilih telah dihilangkan tanda</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.actions">
-        <source>bulk.actions</source>
-        <target state="translated">Aksi Besar</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.marker">
-        <source>reset.marker</source>
-        <target state="translated">Setel Ulang Penanda</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter">
-        <source>geotag.type_an_address.then_type_enter</source>
-        <target state="translated">Ketik alamat lalu ketik "enter"...</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="geographic.coordinates.type">
-        <source>geographic.coordinates.type</source>
-        <target state="translated">Koordinat geografis tunggal</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="multiple.geographic.coordinates.type">
-        <source>multiple.geographic.coordinates.type</source>
-        <target state="translated">Beberapa koordinat geografis</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="link.folders">
-        <source>link.folders</source>
-        <target state="translated">Tautan ke folder (s)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="unlink.folders">
-        <source>unlink.folders</source>
-        <target state="translated">Hapus tautan dari folder (s)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.download.documents">
-        <source>bulk.download.documents</source>
-        <target state="translated">Unduh dokumen pilihan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="download.documents">
-        <source>download.documents</source>
-        <target state="translated">Unduh Dokumen</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.download.these.documents">
-        <source>are_you_sure.download.these.documents</source>
-        <target state="translated">Yakin ingin mengunduh dokumen ini?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="purge.generated_images.cache">
-        <source>purge.generated_images.cache</source>
-        <target state="translated">Bersihkan cache gambar</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.purge.generated_images.cache">
-        <source>are_you_sure.purge.generated_images.cache</source>
-        <target state="translated">Yakin ingin membersihkan cache gambar?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.generated_images.cache">
-        <source>delete.generated_images.cache</source>
-        <target state="translated">Hapus cache gambar</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.documents">
-        <source>more.documents</source>
-        <target state="translated">Dokumen Lainnya</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.nodes">
-        <source>more.nodes</source>
-        <target state="translated">Node Lainnya</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.custom_forms">
-        <source>more.custom_forms</source>
-        <target state="translated">Formulir Kustom Lainnya</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="search.custom_forms">
-        <source>search.custom_forms</source>
-        <target state="translated">Pencarian Formulir Kustom</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="custom-forms.toggle-explorer">
-        <source>custom-forms.toggle-explorer</source>
+      <trans-unit xml:space="preserve" id="nodes.toggle-explorer">
+        <source>nodes.toggle-explorer</source>
         <target state="translated">Penjelajah</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.account">
-        <source>edit.account</source>
-        <target state="translated">Sunting Akun Anda</target>
+      <trans-unit xml:space="preserve" id="nodes.type">
+        <source>nodes.type</source>
+        <target state="translated">Referensi Node</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="NodeType">
-        <source>NodeType</source>
-        <target state="translated">Ketik Node</target>
+      <trans-unit xml:space="preserve" id="non_breaking.space">
+        <source>non_breaking.space</source>
+        <target state="translated">Tidak Melanggar Ruang</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="select.nodetype">
-        <source>select.nodetype</source>
-        <target state="translated">Saring</target>
+      <trans-unit xml:space="preserve" id="ordered.list">
+        <source>ordered.list</source>
+        <target state="translated">Daftar Pesanan</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="ignore">
-        <source>ignore</source>
-        <target state="translated">Abaikan</target>
+      <trans-unit xml:space="preserve" id="please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days">
+        <source>please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days</source>
+        <target state="translated">Silahkan gunakan formulir fallback dibawah ini untuk mengunggah berkas Anda seperti di masa lalu</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="true">
-        <source>true</source>
-        <target state="translated">Iya</target>
+      <trans-unit xml:space="preserve" id="position">
+        <source>position</source>
+        <target state="translated">mengatur tempat</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="false">
-        <source>false</source>
-        <target state="translated">Tidak</target>
+      <trans-unit xml:space="preserve" id="random.document">
+        <source>random.document</source>
+        <target state="translated">dokumen acak</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.name">
-        <source>node.name</source>
-        <target state="translated">Nama Node</target>
+      <trans-unit xml:space="preserve" id="remove">
+        <source>remove</source>
+        <target state="translated">menghapus</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.id.parent">
-        <source>node.id.parent</source>
-        <target state="translated">Id Induk Node</target>
+      <trans-unit xml:space="preserve" id="remove.file">
+        <source>remove.file</source>
+        <target state="translated">Hapus Berkas</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.datetime.operator">
-        <source>node.datetime.operator</source>
-        <target state="translated">Operator</target>
+      <trans-unit xml:space="preserve" id="required">
+        <source>required</source>
+        <target state="translated">Wajib</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.datetime.value">
-        <source>node.datetime.value</source>
-        <target state="translated">Tanggal Pembuatan</target>
+      <trans-unit xml:space="preserve" id="search.documents">
+        <source>search.documents</source>
+        <target state="translated">Pencarian Dokumen</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.limit.result">
-        <source>node.limit.result</source>
-        <target state="translated">Batas Hasil</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.tags">
-        <source>node.tags</source>
-        <target state="translated">Penandaan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.tag.exclusive">
-        <source>node.tag.exclusive</source>
-        <target state="translated">Pemilihan tanda eksklusif</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodetypefield">
-        <source>nodetypefield</source>
-        <target state="translated">Ketik Node Para Pemain</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="search.a.node">
-        <source>search.a.node</source>
+      <trans-unit xml:space="preserve" id="search.nodes">
+        <source>search.nodes</source>
         <target state="translated">Pencarian Node</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all.nodesSource">
-        <source>export.all.nodesSource</source>
-        <target state="translated">Ekspor semua sumber node</target>
+      <trans-unit xml:space="preserve" id="see_all">
+        <source>see_all</source>
+        <target state="translated">Lihat Semua</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="role.cannot.update.status">
-        <source>role.cannot.update.status</source>
-        <target state="translated">Tidak cukup hak untuk menerapkan status ini</target>
+      <trans-unit xml:space="preserve" id="separator">
+        <source>separator</source>
+        <target state="translated">Pemisah</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.%field%.updated">
-        <source>node.%name%.%field%.updated</source>
-        <target state="translated">Node %name% "%field%" status telah diperbarui.</target>
+      <trans-unit xml:space="preserve" id="server.responded.with.{{statusCode}}.code">
+        <source>server.responded.with.{{statusCode}}.code</source>
+        <target state="translated">Server menanggapi dengan kode {{statusCode}}</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="added.node.%name%">
-        <source>added.node.%name%</source>
-        <target state="translated">Node “%name%” telah ditambah.</target>
+      <trans-unit xml:space="preserve" id="stack.types">
+        <source>stack.types</source>
+        <target state="translated">tipe susunan</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="custom-forms.type">
-        <source>custom-forms.type</source>
-        <target state="translated">Formulir Kustom</target>
+      <trans-unit xml:space="preserve" id="stack_node.%name%.has_new_type.%type%">
+        <source>stack_node.%name%.has_new_type.%type%</source>
+        <target state="translated">node susunan %name% memiliki tipe baru %type%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="strikethrough">
+        <source>strikethrough</source>
+        <target state="translated">Dicoret</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="submitted.date">
+        <source>submitted.date</source>
+        <target state="translated">Tanggal Pengiriman</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="unlink.tags">
+        <source>unlink.tags</source>
+        <target state="translated">hapus tautan penandaan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="unordered.list">
+        <source>unordered.list</source>
+        <target state="translated">Daftar Tak Berurutan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="updated.at">
+        <source>updated.at</source>
+        <target state="translated">diperbarui di</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="wrong.request">
+        <source>wrong.request</source>
+        <target state="translated">Permintaan Salah</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="you.can.not.upload.any.more.files">
+        <source>you.can.not.upload.any.more.files</source>
+        <target state="translated">Anda tidak dapat mengunggah berkas lagi</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type">
+        <source>you.cant.upload.files.of.this.type</source>
+        <target state="translated">Anda tidak bisa mengunggah berkas tipe ini</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads">
+        <source>your.browser.does.not.support.dragndrop.file.uploads</source>
+        <target state="translated">Peramban Anda tidak mendukung berkas unggahan drag and drop</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields">
+        <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
+        <target state="translated">{0} Tidak ada para pemain|{1} 1 para pemain|]1,Inf] %count% para pemain</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database">
+        <source>%email%.email.does.not.exist.in.user.account.database</source>
+        <target state="translated">%email% email tidak ada pada database pengguna.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="Bad credentials">
         <source>Bad credentials.</source>
         <target state="translated">Kredensial Buruk</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeNode">
+        <source>homeNode</source>
+        <target state="translated">Beranda Node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeType">
+        <source>NodeType</source>
+        <target state="translated">Ketik Node</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="User account has expired.">
         <source>User account has expired.</source>
         <target state="translated">Akun Pengguna telah kadaluarsa.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User account is disabled.">
+        <source>User account is disabled.</source>
+        <target state="translated">Akun pengguna dinonaktifkan.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="User account is locked.">
         <source>User account is locked.</source>
@@ -2892,9 +2759,57 @@
         <source>User credentials have expired.</source>
         <target state="translated">Kredensial Pengguna telah kadaluarsa.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="User account is disabled.">
-        <source>User account is disabled.</source>
-        <target state="translated">Akun pengguna dinonaktifkan.</target>
+      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent">
+        <source>a.confirmation.email.has.already.be.sent</source>
+        <target state="translated">Email konfirmasi sudah dikirim kepada Anda, periksa email atau folder spam Anda.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email">
+        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
+        <target state="translated">Tautan reset Kata Sandi pribadi telah dikirim kepada Anda melalui email, jangan menunggu terlalu lama link ini akan berakhir secara otomatis.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="about.cms">
+        <source>about.cms</source>
+        <target state="translated">Tentang Roadiz</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.newsletter">
+        <source>add.a.newsletter</source>
+        <target state="translated">Tambahkan Laporan Berkala</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="added.node.%name%">
+        <source>added.node.%name%</source>
+        <target state="translated">Node “%name%” telah ditambah.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="admin_image">
+        <source>admin_image</source>
+        <target state="translated">Kembali kantor foto utama atau merk</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes">
+        <source>are_you_sure.change-status.these.nodes</source>
+        <target state="translated">Yakin ingin mengubah setiap status node terpilih?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeSource">
+        <source>are_you_sure.delete.nodeSource</source>
+        <target state="translated">Anda yakin ingin menghapus sumber node ini?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.download.these.documents">
+        <source>are_you_sure.download.these.documents</source>
+        <target state="translated">Yakin ingin mengunduh dokumen ini?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.purge.generated_images.cache">
+        <source>are_you_sure.purge.generated_images.cache</source>
+        <target state="translated">Yakin ingin membersihkan cache gambar?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.login">
+        <source>back_to.login</source>
+        <target state="translated">Kembali ke masuk</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.newsletter">
+        <source>back_to.newsletter</source>
+        <target state="translated">Kembali ke Laporan Berkala</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.download.documents">
+        <source>bulk.download.documents</source>
+        <target state="translated">Unduh dokumen pilihan</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="change.nodes.status">
         <source>change.nodes.status</source>
@@ -2904,157 +2819,57 @@
         <source>change.nodes.status.all</source>
         <target state="translated">Ubah semua status node terpilih</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes">
-        <source>are_you_sure.change-status.these.nodes</source>
-        <target state="translated">Yakin ingin mengubah setiap status node terpilih?</target>
+      <trans-unit xml:space="preserve" id="changelog">
+        <source>changelog</source>
+        <target state="translated">Changelog</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.status">
-        <source>nodes.status</source>
-        <target state="translated">Status Seleksi</target>
+      <trans-unit xml:space="preserve" id="choose.a.new.password">
+        <source>choose.a.new.password</source>
+        <target state="translated">Pilih Kata Sandi Baru</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.bulk.status.changed">
-        <source>nodes.bulk.status.changed</source>
-        <target state="translated">Status seleksi node telah diubah.</target>
+      <trans-unit xml:space="preserve" id="chroot">
+        <source>chroot</source>
+        <target state="translated">Kata dasar node</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="staticTheme">
-        <source>staticTheme</source>
-        <target state="translated">Tema Statis</target>
+      <trans-unit xml:space="preserve" id="chroot.limited.one">
+        <source>chroot.limited.one</source>
+        <target state="translated">Anda hanya bisa memilih satu kata dasar node</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="staticTheme.does_not.allow.node_url_routes">
-        <source>staticTheme.does_not.allow.node_url_routes</source>
-        <target state="translated">Tema Statis berarti tidak akan mendengarkan URL node dinamis, hanya rute statis.</target>
+      <trans-unit xml:space="preserve" id="confirmation.token.has.expired">
+        <source>confirmation.token.has.expired</source>
+        <target state="translated">Token Konfirmasi telah Kadaluarsa.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="theme.is_static">
-        <source>theme.is_static</source>
-        <target state="translated">Statis</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="password.must.match">
-        <source>password.must.match</source>
-        <target state="translated">Kata Sandi Harus Cocok</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="passwords.must.match">
-        <source>passwords.must.match</source>
-        <target state="translated">Kata Sandi harus cocok</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.nodeType.available.create_one_first">
-        <source>no.nodeType.available.create_one_first</source>
-        <target state="translated">Tidak ada tipe node yang ditemukan. Silahkan buat satu sebelum menambahkan sebuah node.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.no_creation.already_exists">
-        <source>node.%name%.no_creation.already_exists</source>
-        <target state="translated">Node %name% tidak bisa dibuat satu nama dengan yang sudah ada.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.dynamicNodeName">
-        <source>node.dynamicNodeName</source>
-        <target state="translated">Nama node dinamis</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.status">
-        <source>nodeType.status</source>
-        <target state="translated">Status</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.not_visible">
-        <source>nodeType.not_visible</source>
-        <target state="translated">Tipe node tidak terlihat</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.nodeType">
-        <source>newsletter.nodeType</source>
-        <target state="translated">Laporan berkala node cadangan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.hiding_nodes">
-        <source>nodeType.hiding_nodes</source>
-        <target state="translated">Tipe ini menyembunyikan node pokoknya</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.%name%.created">
-        <source>newsletter.%name%.created</source>
-        <target state="translated">Laporan berkala %name% dibuat.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.%newsletter%.updated.%translation%">
-        <source>newsletter.%newsletter%.updated.%translation%</source>
-        <target state="translated">Laporan berkala %newsletter% telah diperbarui dari %translation% terjemahan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="duplicated.newsletter.%name%">
-        <source>duplicated.newsletter.%name%</source>
-        <target state="translated">Laporan berkala %name% telah diduplikat</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="impossible.duplicate.newsletter.%name%">
-        <source>impossible.duplicate.newsletter.%name%</source>
-        <target state="translated">Tidak mungkin untuk menduplikat laporan berkala %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="see.newsletter">
-        <source>see.newsletter</source>
-        <target state="translated">Lihat Laporan Berkala</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.newsletter">
-        <source>add.a.newsletter</source>
-        <target state="translated">Tambahkan Laporan Berkala</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.newsletter.%name%">
-        <source>edit.newsletter.%name%</source>
-        <target state="translated">Suntiing Laporan Berkala %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter">
-        <source>newsletter</source>
-        <target state="translated">Laporan berkala</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.type">
-        <source>newsletter.type</source>
-        <target state="translated">Tipe Laporan Berkala</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.newsletter">
-        <source>back_to.newsletter</source>
-        <target state="translated">Kembali ke Laporan Berkala</target>
+      <trans-unit xml:space="preserve" id="confirmation.token.is.invalid">
+        <source>confirmation.token.is.invalid</source>
+        <target state="translated">Token Konfirmasi tidak cocok.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="create.a.newsletter">
         <source>create.a.newsletter</source>
         <target state="translated">Membuat Laporan Berkala</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.html">
-        <source>export.html</source>
-        <target state="translated">Ekspor HTML</target>
+      <trans-unit xml:space="preserve" id="current.document.is.private.you.cannot.preview.it">
+        <source>current.document.is.private.you.cannot.preview.it</source>
+        <target state="translated">Dokumen saat ini bersifat pribadi, Anda tidak dapat melihatnya.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.html.inline">
-        <source>export.html.inline</source>
-        <target state="translated">Ekspor HTML (dibarisan CSS)</target>
+      <trans-unit xml:space="preserve" id="current.version">
+        <source>current.version</source>
+        <target state="translated">Versi Saat ini</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="start.test.user.right">
-        <source>start.test.user.right</source>
-        <target state="translated">Ambil Hak Pengguna</target>
+      <trans-unit xml:space="preserve" id="custom-forms.toggle-explorer">
+        <source>custom-forms.toggle-explorer</source>
+        <target state="translated">Penjelajah</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stop.test.user.right">
-        <source>stop.test.user.right</source>
-        <target state="translated">Kembali ke Pengguna Anda</target>
+      <trans-unit xml:space="preserve" id="custom-forms.type">
+        <source>custom-forms.type</source>
+        <target state="translated">Formulir Kustom</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="overwrite.document">
-        <source>overwrite.document</source>
-        <target state="translated">Timpa berkas dokumen</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.already_exists">
+        <source>customForm.%name%.already_exists</source>
+        <target state="translated">Formulir Kustom %name% sudah ada</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.file.%name%.updated">
-        <source>document.file.%name%.updated</source>
-        <target state="translated">Berkas %name% telah diperbarui</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeSource">
-        <source>are_you_sure.delete.nodeSource</source>
-        <target state="translated">Anda yakin ingin menghapus sumber node ini?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node_source.%node_source%.%translation%.cant.deleted">
-        <source>node_source.%node_source%.%translation%.cant.deleted</source>
-        <target state="translated">"%node_source%" %translation% terjemahan tidak bisa dihapus</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node_source.%node_source%.deleted.%translation%">
-        <source>node_source.%node_source%.deleted.%translation%</source>
-        <target state="translated">"%node_source%" %translation% terjemahan telah dihapus</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodesource">
-        <source>delete.nodesource</source>
-        <target state="translated">Hapus sumber node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="latest.node-sources.updates">
-        <source>latest.node-sources.updates</source>
-        <target state="translated">Sumber node terbaru diperbarui</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.updated">
-        <source>customForm.%name%.updated</source>
-        <target state="translated">Formulir Kustom %name% telah diperbarui</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.cannot_rename_already_exists">
+        <source>customForm.%name%.cannot_rename_already_exists</source>
+        <target state="translated">Formulir Kustom %name% tidak bisa diganti nama, sudah ada satu</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="customForm.%name%.created">
         <source>customForm.%name%.created</source>
@@ -3064,225 +2879,393 @@
         <source>customForm.%name%.deleted</source>
         <target state="translated">Formulir Kustom %name% telah dihapus.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.cannot_rename_already_exists">
-        <source>customForm.%name%.cannot_rename_already_exists</source>
-        <target state="translated">Formulir Kustom %name% tidak bisa diganti nama, sudah ada satu</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.already_exists">
-        <source>customForm.%name%.already_exists</source>
-        <target state="translated">Formulir Kustom %name% sudah ada</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="select.all">
-        <source>select.all</source>
-        <target state="translated">Pilih Semua</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="deselect.all">
-        <source>deselect.all</source>
-        <target state="translated">Hapus semua</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.user.%name%.roles">
-        <source>edit.user.%name%.roles</source>
-        <target state="translated">%name% Peran</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="history.for.%name%">
-        <source>history.for.%name%</source>
-        <target state="translated">%name% riwayat</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="admin_image">
-        <source>admin_image</source>
-        <target state="translated">Kembali kantor foto utama atau merk</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="chroot.limited.one">
-        <source>chroot.limited.one</source>
-        <target state="translated">Anda hanya bisa memilih satu kata dasar node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="chroot">
-        <source>chroot</source>
-        <target state="translated">Kata dasar node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists">
-        <source>node.noCreation.alreadyExists</source>
-        <target state="translated">Node tidak bisa dibuat, node sudah ada dengan namanya</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style">
-        <source>maps_style</source>
-        <target state="translated">Gaya Google Map Standar</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location">
-        <source>maps_default_location</source>
-        <target state="translated">Map Lokasi Standar</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.status">
-        <source>user.status</source>
-        <target state="translated">Status</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.enabled">
-        <source>user.enabled</source>
-        <target state="translated">Aktifkan Akun</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.disabled">
-        <source>user.disabled</source>
-        <target state="translated">Nonaktifkan Akun</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.locked">
-        <source>user.locked</source>
-        <target state="translated">Mengunci Akun</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.expired">
-        <source>user.expired</source>
-        <target state="translated">Akun Kadaluarsa</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.expiresAt">
-        <source>user.expiresAt</source>
-        <target state="translated">Akun akan kadaluarsa pada:</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.force.expired">
-        <source>user.force.expired</source>
-        <target state="translated">Paksa Kadaluarsa Akun</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.credentialsExpiresAt">
-        <source>user.credentialsExpiresAt</source>
-        <target state="translated">Kredensial Akun akan Kadaluarsa pada:</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.force.credentialsExpired">
-        <source>user.force.credentialsExpired</source>
-        <target state="translated">Paksa Kadaluarsa Akun Kredensial</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.user.%name%.security">
-        <source>edit.user.%name%.security</source>
-        <target state="translated">%name% Keamanan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.%name%.security.updated">
-        <source>user.%name%.security.updated</source>
-        <target state="translated">%name% pengaturan keamanan telah diperbarui.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.account.has-expired">
-        <source>user.account.has-expired</source>
-        <target state="translated">Akun pengguna telah kadaluarsa</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.crendentials.has-expired">
-        <source>user.crendentials.has-expired</source>
-        <target state="translated">Akun Kredensial Pengguna telah kadaluarsa</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.last-login">
-        <source>user.last-login</source>
-        <target state="translated">Tanggal masuk terakhir</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.password-requested-at">
-        <source>user.password-requested-at</source>
-        <target state="translated">Tanggal permintaan sandi terakhir</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="never.requested">
-        <source>never.requested</source>
-        <target state="translated">Tidak Pernah</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="year">
-        <source>year</source>
-        <target state="translated">Tahun</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="month">
-        <source>month</source>
-        <target state="translated">Bulan</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.updated">
+        <source>customForm.%name%.updated</source>
+        <target state="translated">Formulir Kustom %name% telah diperbarui</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="day">
         <source>day</source>
         <target state="translated">Hari</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="hour">
-        <source>hour</source>
-        <target state="translated">Jam</target>
+      <trans-unit xml:space="preserve" id="delete.generated_images.cache">
+        <source>delete.generated_images.cache</source>
+        <target state="translated">Hapus cache gambar</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="minute">
-        <source>minute</source>
-        <target state="translated">Menit</target>
+      <trans-unit xml:space="preserve" id="delete.nodesource">
+        <source>delete.nodesource</source>
+        <target state="translated">Hapus sumber node</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="user.security">
-        <source>user.security</source>
-        <target state="translated">Keamanan</target>
+      <trans-unit xml:space="preserve" id="deselect.all">
+        <source>deselect.all</source>
+        <target state="translated">Hapus semua</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="your.account.email">
-        <source>your.account.email</source>
-        <target state="translated">Akun email Anda</target>
+      <trans-unit xml:space="preserve" id="document.file.%name%.updated">
+        <source>document.file.%name%.updated</source>
+        <target state="translated">Berkas %name% telah diperbarui</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database">
-        <source>%email%.email.does.not.exist.in.user.account.database</source>
-        <target state="translated">%email% email tidak ada pada database pengguna.</target>
+      <trans-unit xml:space="preserve" id="document.filepath">
+        <source>document.filepath</source>
+        <target state="translated">Jalur File Absolut</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email">
-        <source>to.get.new.password.enter.your.account.email</source>
-        <target state="translated">Untuk meminta kata sandi baru, cukup masukkan email yang terhubung ke akun Anda.</target>
+      <trans-unit xml:space="preserve" id="document.public_url">
+        <source>document.public_url</source>
+        <target state="translated">URL Umum</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="request.new.password">
-        <source>request.new.password</source>
-        <target state="translated">Permintaan Kata Sandi baru</target>
+      <trans-unit xml:space="preserve" id="download.document">
+        <source>download.document</source>
+        <target state="translated">Unduh Dokumen</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.login">
-        <source>back_to.login</source>
-        <target state="translated">Kembali ke masuk</target>
+      <trans-unit xml:space="preserve" id="download.documents">
+        <source>download.documents</source>
+        <target state="translated">Unduh Dokumen</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email">
-        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
-        <target state="translated">Tautan reset Kata Sandi pribadi telah dikirim kepada Anda melalui email, jangan menunggu terlalu lama link ini akan berakhir secara otomatis.</target>
+      <trans-unit xml:space="preserve" id="download.folder.content">
+        <source>download.folder.content</source>
+        <target state="translated">Unduh Konten Folder</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="confirmation.token.is.invalid">
-        <source>confirmation.token.is.invalid</source>
-        <target state="translated">Token Konfirmasi tidak cocok.</target>
+      <trans-unit xml:space="preserve" id="duplicated.newsletter.%name%">
+        <source>duplicated.newsletter.%name%</source>
+        <target state="translated">Laporan berkala %name% telah diduplikat</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="confirmation.token.has.expired">
-        <source>confirmation.token.has.expired</source>
-        <target state="translated">Token Konfirmasi telah Kadaluarsa.</target>
+      <trans-unit xml:space="preserve" id="edit.account">
+        <source>edit.account</source>
+        <target state="translated">Sunting Akun Anda</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="choose.a.new.password">
-        <source>choose.a.new.password</source>
-        <target state="translated">Pilih Kata Sandi Baru</target>
+      <trans-unit xml:space="preserve" id="edit.newsletter.%name%">
+        <source>edit.newsletter.%name%</source>
+        <target state="translated">Suntiing Laporan Berkala %name%</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="save.new.password">
-        <source>save.new.password</source>
-        <target state="translated">Simpan Kata Sandi Baru</target>
+      <trans-unit xml:space="preserve" id="edit.user.%name%.roles">
+        <source>edit.user.%name%.roles</source>
+        <target state="translated">%name% Peran</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="your.new.password.has.been.saved">
-        <source>your.new.password.has.been.saved</source>
-        <target state="translated">Kata Sandi Baru Anda Telah Disimpan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="go_back_to.login.page.to.connect">
-        <source>go_back_to.login.page.to.connect</source>
-        <target state="translated">Kembali ke halaman masuk untuk terhubung.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent">
-        <source>a.confirmation.email.has.already.be.sent</source>
-        <target state="translated">Email konfirmasi sudah dikirim kepada Anda, periksa email atau folder spam Anda.</target>
+      <trans-unit xml:space="preserve" id="edit.user.%name%.security">
+        <source>edit.user.%name%.security</source>
+        <target state="translated">%name% Keamanan</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="email.invalid">
         <source>email.invalid</source>
         <target state="translated">Email tidak cocok atau tidak ada.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="resultCache">
-        <source>resultCache</source>
-        <target state="translated">Hasil Cache</target>
+      <trans-unit xml:space="preserve" id="export.all.nodesSource">
+        <source>export.all.nodesSource</source>
+        <target state="translated">Ekspor semua sumber node</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="hydratationCache">
-        <source>hydratationCache</source>
-        <target state="translated">Cache Hidratasi</target>
+      <trans-unit xml:space="preserve" id="export.html">
+        <source>export.html</source>
+        <target state="translated">Ekspor HTML</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="queryCache">
-        <source>queryCache</source>
-        <target state="translated">Cache Permintaan</target>
+      <trans-unit xml:space="preserve" id="export.html.inline">
+        <source>export.html.inline</source>
+        <target state="translated">Ekspor HTML (dibarisan CSS)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="metadataCache">
-        <source>metadataCache</source>
-        <target state="translated">Cache Metadata</target>
+      <trans-unit xml:space="preserve" id="false">
+        <source>false</source>
+        <target state="translated">Tidak</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="no.cache.available">
-        <source>no.cache.available</source>
-        <target state="translated">Tidak ditemukan cache yang tersedia.</target>
+      <trans-unit xml:space="preserve" id="geographic.coordinates.type">
+        <source>geographic.coordinates.type</source>
+        <target state="translated">Koordinat geografis tunggal</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter">
+        <source>geotag.type_an_address.then_type_enter</source>
+        <target state="translated">Ketik alamat lalu ketik "enter"...</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="go_back_to.login.page.to.connect">
+        <source>go_back_to.login.page.to.connect</source>
+        <target state="translated">Kembali ke halaman masuk untuk terhubung.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="history.for.%name%">
+        <source>history.for.%name%</source>
+        <target state="translated">%name% riwayat</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="homeNode.limited.one">
         <source>homeNode.limited.one</source>
         <target state="translated">Anda hanya bisa memilih satu beranda node.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="NodeNode">
-        <source>homeNode</source>
-        <target state="translated">Beranda Node</target>
+      <trans-unit xml:space="preserve" id="hour">
+        <source>hour</source>
+        <target state="translated">Jam</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="hydratationCache">
+        <source>hydratationCache</source>
+        <target state="translated">Cache Hidratasi</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ignore">
+        <source>ignore</source>
+        <target state="translated">Abaikan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="impossible.duplicate.newsletter.%name%">
+        <source>impossible.duplicate.newsletter.%name%</source>
+        <target state="translated">Tidak mungkin untuk menduplikat laporan berkala %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="item-per-page.display.count">
+        <source>item-per-page.display.count</source>
+        <target state="translated">Tampilan:</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="last.version">
+        <source>last.version</source>
+        <target state="translated">Versi Terakhir</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="lastest.version.installed">
+        <source>lastest.version.installed</source>
+        <target state="translated">Roadiz sudah diperbarui.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="latest.node-sources.updates">
+        <source>latest.node-sources.updates</source>
+        <target state="translated">Sumber node terbaru diperbarui</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="link.folders">
+        <source>link.folders</source>
+        <target state="translated">Tautan ke folder (s)</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="maps_default_location">
+        <source>maps_default_location</source>
+        <target state="translated">Map Lokasi Standar</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="maps_style">
+        <source>maps_style</source>
+        <target state="translated">Gaya Google Map Standar</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="metadataCache">
+        <source>metadataCache</source>
+        <target state="translated">Cache Metadata</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="minute">
+        <source>minute</source>
+        <target state="translated">Menit</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="month">
+        <source>month</source>
+        <target state="translated">Bulan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.custom_forms">
+        <source>more.custom_forms</source>
+        <target state="translated">Formulir Kustom Lainnya</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.documents">
+        <source>more.documents</source>
+        <target state="translated">Dokumen Lainnya</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.nodes">
+        <source>more.nodes</source>
+        <target state="translated">Node Lainnya</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.node.to.first.position">
+        <source>move.node.to.first.position</source>
+        <target state="translated">Pindahkan ke posisi pertama</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.node.to.last.position">
+        <source>move.node.to.last.position</source>
+        <target state="translated">Pindahkan ke posisi terakhir</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="multiple.geographic.coordinates.type">
+        <source>multiple.geographic.coordinates.type</source>
+        <target state="translated">Beberapa koordinat geografis</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="never.requested">
+        <source>never.requested</source>
+        <target state="translated">Tidak Pernah</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="news.version.release">
+        <source>news.version.release</source>
+        <target state="translated">Versi terbaru Roadiz sudah tersedia pembaruan.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter">
+        <source>newsletter</source>
+        <target state="translated">Laporan berkala</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.%name%.created">
+        <source>newsletter.%name%.created</source>
+        <target state="translated">Laporan berkala %name% dibuat.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.%newsletter%.updated.%translation%">
+        <source>newsletter.%newsletter%.updated.%translation%</source>
+        <target state="translated">Laporan berkala %newsletter% telah diperbarui dari %translation% terjemahan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.nodeType">
+        <source>newsletter.nodeType</source>
+        <target state="translated">Laporan berkala node cadangan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.type">
+        <source>newsletter.type</source>
+        <target state="translated">Tipe Laporan Berkala</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.cache.available">
+        <source>no.cache.available</source>
+        <target state="translated">Tidak ditemukan cache yang tersedia.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.nodeType.available.create_one_first">
+        <source>no.nodeType.available.create_one_first</source>
+        <target state="translated">Tidak ada tipe node yang ditemukan. Silahkan buat satu sebelum menambahkan sebuah node.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.%field%.updated">
+        <source>node.%name%.%field%.updated</source>
+        <target state="translated">Node %name% "%field%" status telah diperbarui.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.no_creation.already_exists">
+        <source>node.%name%.no_creation.already_exists</source>
+        <target state="translated">Node %name% tidak bisa dibuat satu nama dengan yang sudah ada.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.datetime.operator">
+        <source>node.datetime.operator</source>
+        <target state="translated">Operator</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.datetime.value">
+        <source>node.datetime.value</source>
+        <target state="translated">Tanggal Pembuatan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.dynamicNodeName">
+        <source>node.dynamicNodeName</source>
+        <target state="translated">Nama node dinamis</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.id.parent">
+        <source>node.id.parent</source>
+        <target state="translated">Id Induk Node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.limit.result">
+        <source>node.limit.result</source>
+        <target state="translated">Batas Hasil</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.name">
+        <source>node.name</source>
+        <target state="translated">Nama Node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists">
+        <source>node.noCreation.alreadyExists</source>
+        <target state="translated">Node tidak bisa dibuat, node sudah ada dengan namanya</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.tag.exclusive">
+        <source>node.tag.exclusive</source>
+        <target state="translated">Pemilihan tanda eksklusif</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.tags">
+        <source>node.tags</source>
+        <target state="translated">Penandaan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.hiding_nodes">
+        <source>nodeType.hiding_nodes</source>
+        <target state="translated">Tipe ini menyembunyikan node pokoknya</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.not_visible">
+        <source>nodeType.not_visible</source>
+        <target state="translated">Tipe node tidak terlihat</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.status">
+        <source>nodeType.status</source>
+        <target state="translated">Status</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.%node_source%.%translation%.cant.deleted">
+        <source>node_source.%node_source%.%translation%.cant.deleted</source>
+        <target state="translated">"%node_source%" %translation% terjemahan tidak bisa dihapus</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.%node_source%.deleted.%translation%">
+        <source>node_source.%node_source%.deleted.%translation%</source>
+        <target state="translated">"%node_source%" %translation% terjemahan telah dihapus</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.bulk.status.changed">
+        <source>nodes.bulk.status.changed</source>
+        <target state="translated">Status seleksi node telah diubah.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.status">
+        <source>nodes.status</source>
+        <target state="translated">Status Seleksi</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodetypefield">
+        <source>nodetypefield</source>
+        <target state="translated">Ketik Node Para Pemain</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not.valid.facebook.name">
+        <source>not.valid.facebook.name</source>
+        <target state="translated">Ini bukan ID pengguna Facebook yang cocok, temukan ID Anda menggunakan Situs http://lookup-id.com/</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="overwrite.document">
+        <source>overwrite.document</source>
+        <target state="translated">Timpa berkas dokumen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="password.must.match">
+        <source>password.must.match</source>
+        <target state="translated">Kata Sandi Harus Cocok</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="passwords.must.match">
+        <source>passwords.must.match</source>
+        <target state="translated">Kata Sandi harus cocok</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="purge.generated_images.cache">
+        <source>purge.generated_images.cache</source>
+        <target state="translated">Bersihkan cache gambar</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="queryCache">
+        <source>queryCache</source>
+        <target state="translated">Cache Permintaan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="request.new.password">
+        <source>request.new.password</source>
+        <target state="translated">Permintaan Kata Sandi baru</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="reset.marker">
+        <source>reset.marker</source>
+        <target state="translated">Setel Ulang Penanda</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="resultCache">
+        <source>resultCache</source>
+        <target state="translated">Hasil Cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="role.cannot.update.status">
+        <source>role.cannot.update.status</source>
+        <target state="translated">Tidak cukup hak untuk menerapkan status ini</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="routePrefix">
+        <source>routePrefix</source>
+        <target state="translated">Awalan rute statis</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="save.new.password">
+        <source>save.new.password</source>
+        <target state="translated">Simpan Kata Sandi Baru</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.a.node">
+        <source>search.a.node</source>
+        <target state="translated">Pencarian Node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.custom_forms">
+        <source>search.custom_forms</source>
+        <target state="translated">Pencarian Formulir Kustom</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="see.newsletter">
+        <source>see.newsletter</source>
+        <target state="translated">Lihat Laporan Berkala</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.all">
+        <source>select.all</source>
+        <target state="translated">Pilih Semua</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.nodetype">
+        <source>select.nodetype</source>
+        <target state="translated">Saring</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="start.test.user.right">
+        <source>start.test.user.right</source>
+        <target state="translated">Ambil Hak Pengguna</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="staticTheme">
+        <source>staticTheme</source>
+        <target state="translated">Tema Statis</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="staticTheme.does_not.allow.node_url_routes">
+        <source>staticTheme.does_not.allow.node_url_routes</source>
+        <target state="translated">Tema Statis berarti tidak akan mendengarkan URL node dinamis, hanya rute statis.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="static_domain_name">
+        <source>static_domain_name</source>
+        <target state="translated">Nama Domain Statis</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="stop.test.user.right">
+        <source>stop.test.user.right</source>
+        <target state="translated">Kembali ke Pengguna Anda</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="theme.is_static">
+        <source>theme.is_static</source>
+        <target state="translated">Statis</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="theme.root.limited.one">
         <source>theme.root.limited.one</source>
@@ -3292,73 +3275,89 @@
         <source>themeRoot</source>
         <target state="translated">Kata dasar node</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="about.cms">
-        <source>about.cms</source>
-        <target state="translated">Tentang Roadiz</target>
+      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email">
+        <source>to.get.new.password.enter.your.account.email</source>
+        <target state="translated">Untuk meminta kata sandi baru, cukup masukkan email yang terhubung ke akun Anda.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="news.version.release">
-        <source>news.version.release</source>
-        <target state="translated">Versi terbaru Roadiz sudah tersedia pembaruan.</target>
+      <trans-unit xml:space="preserve" id="true">
+        <source>true</source>
+        <target state="translated">Iya</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="lastest.version.installed">
-        <source>lastest.version.installed</source>
-        <target state="translated">Roadiz sudah diperbarui.</target>
+      <trans-unit xml:space="preserve" id="unlink.folders">
+        <source>unlink.folders</source>
+        <target state="translated">Hapus tautan dari folder (s)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="current.version">
-        <source>current.version</source>
-        <target state="translated">Versi Saat ini</target>
+      <trans-unit xml:space="preserve" id="user.%name%.security.updated">
+        <source>user.%name%.security.updated</source>
+        <target state="translated">%name% pengaturan keamanan telah diperbarui.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="last.version">
-        <source>last.version</source>
-        <target state="translated">Versi Terakhir</target>
+      <trans-unit xml:space="preserve" id="user.account.has-expired">
+        <source>user.account.has-expired</source>
+        <target state="translated">Akun pengguna telah kadaluarsa</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="changelog">
-        <source>changelog</source>
-        <target state="translated">Changelog</target>
+      <trans-unit xml:space="preserve" id="user.credentialsExpiresAt">
+        <source>user.credentialsExpiresAt</source>
+        <target state="translated">Kredensial Akun akan Kadaluarsa pada:</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="download.folder.content">
-        <source>download.folder.content</source>
-        <target state="translated">Unduh Konten Folder</target>
+      <trans-unit xml:space="preserve" id="user.crendentials.has-expired">
+        <source>user.crendentials.has-expired</source>
+        <target state="translated">Akun Kredensial Pengguna telah kadaluarsa</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="not.valid.facebook.name">
-        <source>not.valid.facebook.name</source>
-        <target state="translated">Ini bukan ID pengguna Facebook yang cocok, temukan ID Anda menggunakan Situs http://lookup-id.com/</target>
+      <trans-unit xml:space="preserve" id="user.disabled">
+        <source>user.disabled</source>
+        <target state="translated">Nonaktifkan Akun</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="routePrefix">
-        <source>routePrefix</source>
-        <target state="translated">Awalan rute statis</target>
+      <trans-unit xml:space="preserve" id="user.enabled">
+        <source>user.enabled</source>
+        <target state="translated">Aktifkan Akun</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="current.document.is.private.you.cannot.preview.it">
-        <source>current.document.is.private.you.cannot.preview.it</source>
-        <target state="translated">Dokumen saat ini bersifat pribadi, Anda tidak dapat melihatnya.</target>
+      <trans-unit xml:space="preserve" id="user.expired">
+        <source>user.expired</source>
+        <target state="translated">Akun Kadaluarsa</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.public_url">
-        <source>document.public_url</source>
-        <target state="translated">URL Umum</target>
+      <trans-unit xml:space="preserve" id="user.expiresAt">
+        <source>user.expiresAt</source>
+        <target state="translated">Akun akan kadaluarsa pada:</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.filepath">
-        <source>document.filepath</source>
-        <target state="translated">Jalur File Absolut</target>
+      <trans-unit xml:space="preserve" id="user.force.credentialsExpired">
+        <source>user.force.credentialsExpired</source>
+        <target state="translated">Paksa Kadaluarsa Akun Kredensial</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="download.document">
-        <source>download.document</source>
-        <target state="translated">Unduh Dokumen</target>
+      <trans-unit xml:space="preserve" id="user.force.expired">
+        <source>user.force.expired</source>
+        <target state="translated">Paksa Kadaluarsa Akun</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="static_domain_name">
-        <source>static_domain_name</source>
-        <target state="translated">Nama Domain Statis</target>
+      <trans-unit xml:space="preserve" id="user.last-login">
+        <source>user.last-login</source>
+        <target state="translated">Tanggal masuk terakhir</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="item-per-page.display.count">
-        <source>item-per-page.display.count</source>
-        <target state="translated">Tampilan:</target>
+      <trans-unit xml:space="preserve" id="user.locked">
+        <source>user.locked</source>
+        <target state="translated">Mengunci Akun</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="move.node.to.first.position">
-        <source>move.node.to.first.position</source>
-        <target state="translated">Pindahkan ke posisi pertama</target>
+      <trans-unit xml:space="preserve" id="user.password-requested-at">
+        <source>user.password-requested-at</source>
+        <target state="translated">Tanggal permintaan sandi terakhir</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="move.node.to.last.position">
-        <source>move.node.to.last.position</source>
-        <target state="translated">Pindahkan ke posisi terakhir</target>
+      <trans-unit xml:space="preserve" id="user.security">
+        <source>user.security</source>
+        <target state="translated">Keamanan</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.status">
+        <source>user.status</source>
+        <target state="translated">Status</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="year">
+        <source>year</source>
+        <target state="translated">Tahun</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.account.email">
+        <source>your.account.email</source>
+        <target state="translated">Akun email Anda</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.new.password.has.been.saved">
+        <source>your.new.password.has.been.saved</source>
+        <target state="translated">Kata Sandi Baru Anda Telah Disimpan</target>
       </trans-unit>
       <!-- Node tree contextual menu commands -->
       <trans-unit xml:space="preserve" id="node.hide">
@@ -3399,14 +3398,6 @@
         <target state="translated">Nilai ini tidak cocok</target>
       </trans-unit>
       <!-- Font variantes -->
-      <trans-unit xml:space="preserve" id="font_variant.regular">
-        <source>font_variant.regular</source>
-        <target state="translated">Reguler</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.italic">
-        <source>font_variant.italic</source>
-        <target state="translated">Miring</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.bold">
         <source>font_variant.bold</source>
         <target state="translated">Tebal</target>
@@ -3415,6 +3406,10 @@
         <source>font_variant.bold.italic</source>
         <target state="translated">Tebal Miring</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.italic">
+        <source>font_variant.italic</source>
+        <target state="translated">Miring</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.light">
         <source>font_variant.light</source>
         <target state="translated">Terang</target>
@@ -3422,6 +3417,10 @@
       <trans-unit xml:space="preserve" id="font_variant.light.italic">
         <source>font_variant.light.italic</source>
         <target state="translated">Terang Miring</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.regular">
+        <source>font_variant.regular</source>
+        <target state="translated">Reguler</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="update.roadiz">
         <source>update.roadiz</source>
