@@ -28,7 +28,6 @@
                 <link rel="stylesheet" href="{{ additionalStylesheet.path }}" />
             {% endfor %}
         {% endif %}
-        <script src="{{ asset('vendor/modernizr.custom.50380.js', 'Rozier') }}"></script>
     </head>
     <body>
         <div id="app"></div>
@@ -83,7 +82,7 @@
         </div>
         <div id="codemirror-preview-containers"></div>
         <script>
-            var temp = {
+            window.RozierConfig = {
                 'baseUrl':           '{{ app.request.schemeAndHttpHost }}{{ app.request.basePath }}',
                 'resourcesUrl':      '{{ asset('', 'Rozier') }}',
                 'ajaxToken':         '{{ csrf_token(constant('Themes\\Rozier\\AjaxControllers\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}',
@@ -214,8 +213,6 @@
                     'attributeValueAjaxEdit':     '{{ path('adminHomePage') }}/ajax/attribute-values/edit/%attributeValueId%',
                 }
             };
-
-            var RozierRoot = temp;
         </script>
         {% if app.debug %}
             <script src="{{ asset('vendor/vue.js', 'Rozier') }}"></script>

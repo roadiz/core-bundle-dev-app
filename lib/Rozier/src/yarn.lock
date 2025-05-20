@@ -5832,15 +5832,15 @@ jquery.actual@^1.0.19:
   resolved "https://registry.yarnpkg.com/jquery.actual/-/jquery.actual-1.0.19.tgz#8a712b848f388e5088003414529274b773b9b2d5"
   integrity sha512-S1QFm4yKYpIDXClxsnAoMBdyPjBnixnaOOwcBto7IB9JVWDcxiH74zviQl5JSNgbM4zzNezPf1hq9JmVeeFHmA==
 
-jquery.caret@^0.3.1:
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/jquery.caret/-/jquery.caret-0.3.1.tgz#9c093318faf327eff322e826ca9f3241368bc7b8"
-  integrity sha512-nS2mjMZzP4e4tIOgeTLSs+jFhUsUVZUPgkUMpi4DlJq9SgKEg6w2jf7q8joMJp6v+voJHXrH8rzAnbyxWHwAeA==
-
 jquery@>=1.7, "jquery@>=1.8.0 <4.0.0":
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.1.tgz#fab0408f8b45fc19f956205773b62b292c147a16"
   integrity sha512-opJeO4nCucVnsjiXOE+/PcCgYw9Gwpvs/a6B1LL/lQhwWwpbVEVYDZ1FokFr8PRc7ghYlrFPuyHuiiDNTQxmcw==
+
+jquery@^3.5.0:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.7.1.tgz#083ef98927c9a6a74d05a6af02806566d16274de"
+  integrity sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==
 
 js-base64@^2.1.9:
   version "2.6.4"
@@ -9956,6 +9956,11 @@ vuedraggable@^2.15.0:
   integrity sha512-6/HDXi92GzB+Hcs9fC6PAAozK1RLt1ewPTLjK0anTYguXLAeySDmcnqE8IC0xa7shvSzRjQXq3/+dsZ7ETGF3g==
   dependencies:
     sortablejs "1.10.2"
+
+vuex@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/vuex/-/vuex-3.0.1.tgz#e761352ebe0af537d4bb755a9b9dc4be3df7efd2"
+  integrity sha512-wLoqz0B7DSZtgbWL1ShIBBCjv22GV5U+vcBFox658g6V0s4wZV9P4YjCNyoHSyIBpj1f29JBoNQIqD82cR4O3w==
 
 watchpack-chokidar2@^2.0.1:
   version "2.0.1"

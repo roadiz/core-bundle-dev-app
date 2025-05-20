@@ -118,7 +118,7 @@ export default {
                 timeout: 0, // no timeout
                 autoProcessQueue: this.autoProcessQueue,
                 paramName: 'form[attachment]',
-                headers: { _token: window.Rozier.ajaxToken, ...this.headers },
+                headers: { _token: window.RozierConfig.ajaxToken, ...this.headers },
                 dictDefaultMessage: this.language.dictDefaultMessage,
                 dictCancelUpload: this.language.dictCancelUpload,
                 dictCancelUploadConfirmation: this.language.dictCancelUploadConfirmation,

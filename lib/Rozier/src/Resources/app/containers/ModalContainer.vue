@@ -32,7 +32,7 @@ Vue.use(vmodal)
 export default {
     data() {
         return {
-            linkUrl: window.RozierRoot.routes.loginPage + '?_home=1',
+            linkUrl: window.RozierConfig.routes.loginPage + '?_home=1',
         }
     },
     computed: {

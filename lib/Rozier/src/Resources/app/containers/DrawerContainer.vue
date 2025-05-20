@@ -15,7 +15,7 @@ export default {
     data: () => {
         return {
             drawerName: null,
-            dropzoneLanguage: window.RozierRoot.messages.dropzone,
+            dropzoneLanguage: window.RozierConfig.messages.dropzone,
             groupName: null,
             isSortable: null,
             entityName: null,
