@@ -5820,13 +5820,6 @@ isstream@~0.1.2:
   resolved "https://registry.yarnpkg.com/isstream/-/isstream-0.1.2.tgz#47e63f7af55afa6f92e1500e690eb8b8529c099a"
   integrity sha512-Yljz7ffyPbrLpLngrMtZ7NduUgVvi6wG9RJ9IUcyCd59YQ911PBJphODUcbOVbqYfxe1wuYf/LJ8PauMRwsM/g==
 
-jquery-minicolors@^2.1.10:
-  version "2.1.10"
-  resolved "https://registry.yarnpkg.com/jquery-minicolors/-/jquery-minicolors-2.1.10.tgz#b29eea541d9a32b4e26923168fb2c16271867379"
-  integrity sha512-vXG4hz0h97VtmXXXrG6ceM0kjANjMziWfT1L0TZ1PaTEN2AYdJZWCndrGX/ep4AWMGgXsnEfGl/h95Gjm/4eKw==
-  dependencies:
-    jquery ">= 1.7.x"
-
 jquery-ui@>=1.0, jquery-ui@^1.12.1:
   version "1.13.2"
   resolved "https://registry.yarnpkg.com/jquery-ui/-/jquery-ui-1.13.2.tgz#de03580ae6604773602f8d786ad1abfb75232034"

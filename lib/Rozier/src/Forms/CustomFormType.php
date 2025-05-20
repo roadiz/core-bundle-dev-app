@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Themes\Rozier\Forms;
 
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
-use RZ\Roadiz\CoreBundle\Form\ColorType;
 use RZ\Roadiz\CoreBundle\Form\MarkdownType;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -92,6 +92,7 @@ final class CustomFormType extends AbstractType
             ->add('color', ColorType::class, [
                 'label' => 'customForm.color',
                 'required' => false,
+                'html5' => true,
             ]);
     }
 

@@ -13,53 +13,52 @@
         font-size: @default-font-size;
         height: auto;
     }
-    .markdown-editor-tabs {
-        .markdown-editor-preview {
-            display: none;
-            width:560px;
-            box-sizing: border-box;
-            padding: 10px 20px;
-            background-color: #ececec;
-            border: 1px solid #d3d3d3;
-            border-left: none;
-            transition: width 0.5s ease;
+}
 
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: auto;
-            z-index: 99;
-            overflow-y: auto;
-            font-family: -apple-system, Helvetica, Arial, sans-serif;
+.markdown-editor-preview {
+    display: none;
+    width:560px;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    background-color: #ececec;
+    border: 1px solid #d3d3d3;
+    border-left: none;
+    transition: width 0.5s ease;
 
-            * {
-                font-family: -apple-system, Helvetica, Arial, sans-serif;
-            }
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: auto;
+    z-index: 99;
+    overflow-y: auto;
+    font-family: -apple-system, Helvetica, Arial, sans-serif;
 
-            code, pre {
-                font-size: 10px;
-                line-height: 16px;
-                font-family: Monaco, "Lucida Console", monospace;
-            }
+    * {
+        font-family: -apple-system, Helvetica, Arial, sans-serif;
+    }
 
-            p, ul, ol {
-                margin: 1em 0;
-            }
-            ul, ol {
-                padding-left: 2em;
+    code, pre {
+        font-size: 10px;
+        line-height: 16px;
+        font-family: Monaco, "Lucida Console", monospace;
+    }
 
-                ul, ol {
-                    margin: 0 0 0.5em;
-                }
-            }
+    p, ul, ol {
+        margin: 1em 0;
+    }
+    ul, ol {
+        padding-left: 2em;
 
-            p, li {
-                color: #666;
-                font-size: 14px;
-                line-height: 18px;
-            }
+        ul, ol {
+            margin: 0 0 0.5em;
         }
+    }
+
+    p, li {
+        color: #666;
+        font-size: 14px;
+        line-height: 18px;
     }
 }
 
@@ -314,25 +313,16 @@
             display: inline-block;
         }
     }
+    .markdown-editor-preview {
+        width:450px;
 
-    .uk-form-row {
-        .markdown-editor-tabs {
-            .markdown-editor-preview {
-                width:450px;
-
-                &.active {
-                    display: block;
-                }
-            }
+        &.active {
+            display: block;
         }
     }
 }
 @media screen and (min-width: 1281px) {
-    .uk-form-row {
-        .markdown-editor-tabs {
-            .markdown-editor-preview {
-                width:560px;
-            }
-        }
-    }
+    .markdown-editor-preview {
+         width:560px;
+     }
 }

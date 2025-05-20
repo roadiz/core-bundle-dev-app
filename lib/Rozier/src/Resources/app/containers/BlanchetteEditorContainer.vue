@@ -77,6 +77,7 @@
 
     // Components
     import BlanchetteToolbar from '../components/BlanchetteToolbar.vue'
+    import { sleep } from '../utils/sleep'
 
     export default {
         props: {
@@ -130,14 +131,13 @@
                     filename: this.filename
                 }).then(() => this.restore())
             },
-            load () {
-                window.setTimeout(() => {
-                    if (!this.image) {
-                        this.image = this.$refs.image
-                        this.start()
-                        this.blanchetteEditorLoaded()
-                    }
-                }, 1000)
+            async load () {
+                await sleep(1000)
+                if (!this.image) {
+                    this.image = this.$refs.image
+                    this.start()
+                    this.blanchetteEditorLoaded()
+                }
             },
             setAspectRatio (e) {
                 const ratio = e.target.value

@@ -25,10 +25,9 @@
     </transition>
 </template>
 <script>
-    import $ from 'jquery'
-    import { mapState, mapActions } from 'vuex'
+import {mapActions, mapState} from 'vuex'
 
-    export default {
+export default {
         computed: {
             ...mapState({
                 isVisible: state => state.documentPreview.isVisible,
@@ -51,7 +50,7 @@
                 this.documentPreviewClose()
             },
             onClick (e) {
-                if ($(e.srcElement).hasClass('document-preview-widget__wrapper')) {
+                if (e.srcElement.classList.contains('document-preview-widget__wrapper')) {
                     this.closePreview()
                 }
             }

@@ -3,7 +3,8 @@
 </template>
 
 <script>
-import $ from 'jquery'
+import {fadeOut} from "../utils/animation";
+import { sleep } from '../utils/sleep'
 
 export default {
     props: {
@@ -151,10 +152,22 @@ export default {
                 }
             })
 
-            let $dropzone = $(element)
-            $dropzone.append(`<div class="dz-default dz-message"><span>${this.language.dictDefaultMessage}</span></div>`)
-            let $dzMessage = $dropzone.find('.dz-message')
-            $dzMessage.append(`<div class="circles-icons"><div class="circle circle-1"></div><div class="circle circle-2"></div><div class="circle circle-3"></div><div class="circle circle-4"></div><div class="circle circle-5"></div><i class="uk-icon-rz-file"></i></div>`)
+            const dropzone = element;
+            dropzone.insertAdjacentHTML('beforeend', `<div class="dz-default dz-message"><span>${this.language.dictDefaultMessage}</span></div>`)
+
+            const dzMessageDiv = dropzone.querySelector('.dz-message')
+            const circlesIconsHTML = `
+                <div class="circles-icons">
+                    <div class="circle circle-1"></div>
+                    <div class="circle circle-2"></div>
+                    <div class="circle circle-3"></div>
+                    <div class="circle circle-4"></div>
+                    <div class="circle circle-5"></div>
+                    <i class="uk-icon-rz-file"></i>
+                </div>
+            `;
+
+            dzMessageDiv.insertAdjacentHTML('beforeend', circlesIconsHTML);
         } else {
             this.dropzone = new Dropzone(element, this.dropzoneOptions)
         }
@@ -173,7 +186,7 @@ export default {
             vm.$emit('vdropzone-removed-file', file)
         })
 
-        this.dropzone.on('success', function (file, response) {
+        this.dropzone.on('success', async function (file, response) {
             vm.$emit('vdropzone-success', file, response)
 
             /*
@@ -182,10 +195,9 @@ export default {
              * 20 files…
              */
             if (file.previewElement) {
-                let $preview = $(file.previewElement)
-                window.setTimeout(function () {
-                    $preview.fadeOut(500)
-                }, 3000)
+                let preview = file.previewElement
+                await sleep(3000)
+                await fadeOut(preview, 500)
             }
         })
 
