@@ -1,0 +1,74 @@
+input[type=checkbox].rz-boolean-checkbox {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    position: relative;
+    font-family: system-ui;
+    font-size: 12px;
+    line-height: 1.5;
+    color: white;
+    width: 58px;
+    height: 28px;
+    box-sizing: border-box;
+    border: 1px solid #D3D3D3;
+    border-radius: 5px;
+    overflow: hidden;
+    padding: 0;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    margin-top: 0;
+
+    &:focus {
+        border: 1px solid #888;
+    }
+
+    &:before {
+        content: attr(data-on-text);
+        box-sizing: border-box;
+        padding: 5px 10px;
+        position: absolute;
+        text-align: center;
+        top: 0;
+        left: 0;
+        width: 29px;
+        height: 28px;
+        line-height: 1.5;
+        background-color: var(--rz-accent-color);
+        transition: transform ease-in-out 0.2s;
+    }
+
+    &:after {
+        content: attr(data-off-text);
+        box-sizing: border-box;
+        padding: 5px 10px;
+        position: absolute;
+        text-align: center;
+        top: 0;
+        left: 58px;
+        width: 29px;
+        height: 28px;
+        line-height: 1.5;
+        background-color: grey;
+        transition: transform ease-in-out 0.2s;
+    }
+
+    &:checked:before {
+        content: attr(data-on-text);
+        transform: translateX(-100%);
+        font-size: 12px;
+        line-height: 1.5;
+        text-align: center;
+        color: white;
+        font-family: system-ui;
+    }
+
+    &:checked:after {
+        content: attr(data-off-text);
+        transform: translateX(-100%);
+        font-size: 12px;
+        line-height: 1.5;
+        text-align: center;
+        color: white;
+        font-family: system-ui;
+    }
+}
