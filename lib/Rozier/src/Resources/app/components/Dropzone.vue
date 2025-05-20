@@ -4,6 +4,7 @@
 
 <script>
 import {fadeOut} from "../utils/animation";
+import { sleep } from '../utils/sleep'
 
 export default {
     props: {
@@ -185,7 +186,7 @@ export default {
             vm.$emit('vdropzone-removed-file', file)
         })
 
-        this.dropzone.on('success', function (file, response) {
+        this.dropzone.on('success', async function (file, response) {
             vm.$emit('vdropzone-success', file, response)
 
             /*
@@ -195,9 +196,8 @@ export default {
              */
             if (file.previewElement) {
                 let preview = file.previewElement
-                window.setTimeout(function () {
-                    fadeOut(preview, 500)
-                }, 3000)
+                await sleep(3000)
+                await fadeOut(preview, 500)
             }
         })
 
