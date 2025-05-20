@@ -49,7 +49,6 @@
 
 /* -------- ADMIN HEADERS -------- */
 
-@global-header-height: 140px;
 @admin-entries-li-height: 54px;
 @mobile-admin-menu-height: 50px;
 @global-header-color: #e5e5e5;
@@ -59,20 +58,6 @@
 @admin-menu-info-color: #ebebeb;
 
 /* -------- PANEL SIZES -------- */
-
-@user-panel-width: 90px;
-@user-panel-sm-width: 90px;
-@user-panel-lg-width: 90px;
-@user-panel-xl-width: 90px;
-
-@entries-panel-width: 60px;
-@entries-panel-lg-width: 70px;
-@entries-panel-xl-width: 70px;
-
-@trees-panel-width: 270px;
-@trees-panel-lg-width: 270px;
-@trees-panel-xl-width: 350px;
-@trees-panel-xxl-width: 450px;
 
 /* -------- USER PANEL -------- */
 
@@ -148,6 +133,24 @@
     --rz-accent-color-lighter: color-mix(in srgb, var(--rz-accent-color) var(--color-light-mix), white);
     --rz-accent-color-darker: color-mix(in srgb, var(--rz-accent-color) var(--color-darker-mix), black);
     --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
+
+    // Sizing
+    --trees-panel-width: 270px;
+    --entries-panel-width: 60px;
+    --user-panel-width: 90px;
+    --global-header-height: 140px;
+    --minify-tree-panel-area-width: 35px;
+
+    @media (min-width: @screen-lg-min) {
+        --trees-panel-width: 270px;
+        --entries-panel-width: 70px;
+    }
+    @media (min-width: @screen-xl-min) {
+        --trees-panel-width: 350px;
+    }
+    @media (min-width: @screen-xxl-min) {
+        --trees-panel-width: 450px;
+    }
 }
 
 /**

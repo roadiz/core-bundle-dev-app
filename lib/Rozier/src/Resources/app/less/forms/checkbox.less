@@ -14,12 +14,20 @@ input[type=checkbox].rz-boolean-checkbox {
     border-radius: 5px;
     overflow: hidden;
     padding: 0;
-    cursor: pointer;
     background-color: #e0e0e0;
     margin-top: 0;
 
     &:focus {
         border: 1px solid #888;
+    }
+
+    &:not(:disabled) {
+        cursor: pointer;
+    }
+
+    &:disabled {
+        border: 1px solid #D3D3D3;
+        opacity: 0.5;
     }
 
     &:before {

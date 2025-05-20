@@ -9,26 +9,15 @@
 
     @media (min-width: @screen-sm-min) {
         display: grid;
-        grid-template-columns: @user-panel-sm-width @entries-panel-width fit-content(100%) auto;
+        grid-template-columns: var(--user-panel-width) var(--entries-panel-width) fit-content(100%) auto;
         justify-content: stretch;
         height: 100vh;
         overflow: hidden;
     }
-    @media (min-width: @screen-lg-min) {
-        grid-template-columns: @user-panel-lg-width @entries-panel-lg-width fit-content(100%) auto;
-    }
-    @media (min-width: @screen-xl-min) {
-        grid-template-columns: @user-panel-xl-width @entries-panel-xl-width fit-content(100%) auto;
-    }
 
     &.trees-panel--hidden {
-        grid-template-columns: @user-panel-sm-width @entries-panel-width auto;
-
-        @media (min-width: @screen-lg-min) {
-            grid-template-columns: @user-panel-lg-width @entries-panel-lg-width auto;
-        }
-        @media (min-width: @screen-xl-min) {
-            grid-template-columns: @user-panel-xl-width @entries-panel-xl-width auto;
+        @media (min-width: @screen-sm-min) {
+            grid-template-columns: var(--user-panel-width) var(--entries-panel-width) auto;
         }
     }
 
@@ -39,20 +28,6 @@
     #admin-menu {
         position: relative;
         width: 100%;
-    }
-    #main-trees {
-        position: relative;
-        width: @trees-panel-width;
-
-        @media (min-width: @screen-lg-min) {
-            width: @trees-panel-lg-width;
-        }
-        @media (min-width: @screen-xl-min) {
-            width: @trees-panel-xl-width;
-        }
-        @media (min-width: @screen-xxl-min) {
-            width: @trees-panel-xxl-width;
-        }
     }
 
     .navigation-container-section {
@@ -101,12 +76,6 @@
             @media (min-width: @screen-md-min) {
                 display: block;
             }
-        }
-    }
-
-    &.trees-panel--minified {
-        #main-trees {
-            width: 0;
         }
     }
 }

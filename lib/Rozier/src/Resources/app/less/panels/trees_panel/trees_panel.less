@@ -1,9 +1,9 @@
 #main-trees {
     position: relative;
-    transition: ~'0.8s width ease';
-    .transition-timing-function(@easeOutExpo);
+    transition: 0.3s transform ease-in-out, 0.3s width ease-in-out, 0.3s opacity ease-in-out;
     overflow:hidden;
-    z-index:1;
+    z-index: 1;
+    width: var(--trees-panel-width);
 
     .root-tree {
         padding-bottom: 1em;
@@ -11,14 +11,19 @@
         margin-right: 16px;
 
         @media (min-width: @screen-sm-min) {
-            margin-left: 0;
-            margin-right: 0;
+            margin-left: 5px;
+            margin-right: 12px;
         }
     }
 
     @media (min-width: @screen-sm-min) {
         left: 0;
         height: 100%;
+    }
+
+    .trees-panel--minified & {
+        width: 0;
+        opacity: 0;
     }
 }
 
@@ -436,6 +441,7 @@
     box-shadow: 0 1px 0 rgba(255,255,255,0.6);
     text-align: center;
     background-color: var(--maintree-search-bg);
+    white-space: nowrap;
 
     @media (max-width: @screen-xs-max) {
         padding-top: 10px;

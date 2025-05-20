@@ -10,16 +10,7 @@
     --explorer-width: 100vw;
 
     @media (min-width: @screen-sm-min) {
-        --explorer-width: @user-panel-sm-width + @entries-panel-width + @trees-panel-width;
-    }
-    @media (min-width: @screen-lg-min) {
-        --explorer-width: @user-panel-lg-width + @entries-panel-lg-width + @trees-panel-lg-width;
-    }
-    @media (min-width: @screen-xl-min) {
-        --explorer-width: @user-panel-xl-width + @entries-panel-xl-width + @trees-panel-xl-width;
-    }
-    @media (min-width: @screen-xxl-min) {
-        --explorer-width: @user-panel-xl-width + @entries-panel-xl-width + @trees-panel-xxl-width;
+        --explorer-width: ~'calc(var(--user-panel-width) + var(--entries-panel-width) + var(--trees-panel-width))';
     }
 }
 
