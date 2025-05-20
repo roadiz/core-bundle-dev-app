@@ -2036,46 +2036,429 @@
         <target state="translated">Parametri </target>
       </trans-unit>
       <!-- embed documents -->
-      <trans-unit xml:space="preserve" id="embed.document">
-        <source>embed.document</source>
-        <target state="translated">Inserire</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="embed">
         <source>embed</source>
         <target state="translated">Inserire</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="tagTree">
-        <source>tagTree</source>
-        <target state="translated">Etichette</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%node%.linked.tags">
-        <source>node.%node%.linked.tags</source>
-        <target state="translated"> Il nodo "% node%" è stato taggato.</target>
+      <trans-unit xml:space="preserve" id="embed.document">
+        <source>embed.document</source>
+        <target state="translated">Inserire</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="list.tags.to_link">
         <source>list.tags.to_link</source>
         <target state="translated">Elenca le etichette da collegare al nodo</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%node%.linked.tags">
+        <source>node.%node%.linked.tags</source>
+        <target state="translated"> Il nodo "% node%" è stato taggato.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="tagTree">
+        <source>tagTree</source>
+        <target state="translated">Etichette</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="use.new_or_existing.tags_with_hierarchy">
         <source>use.new_or_existing.tags_with_hierarchy</source>
         <target state="translated">Utilizzare un'etichetta nuova o esistente tenendo conto della struttura ad albero</target>
       </trans-unit>
-      <!-- stacks -->
+      <trans-unit xml:space="preserve" id="%count%.customFormFields">
+        <source>%count%.customFormFields</source>
+        <target state="translated">%count% campi del modulo personalizzato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.node">
+        <source>add.a.child.node</source>
+        <target state="translated">Aggiungi un nodo figlio</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.tag">
+        <source>add.a.child.tag</source>
+        <target state="translated">Aggiungi un tag secondario</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.customForm">
+        <source>add.a.customForm</source>
+        <target state="translated">Aggiungi un modulo personalizzato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.customFormField">
+        <source>add.a.customFormField</source>
+        <target state="translated">Aggiungi una domanda</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.folder">
+        <source>add.a.folder</source>
+        <target state="translated">Aggiungi una cartella</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.font">
+        <source>add.a.font</source>
+        <target state="translated">Aggiungi un carattere</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.group">
+        <source>add.a.group</source>
+        <target state="translated">Aggiungi un gruppo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.node">
+        <source>add.a.node</source>
+        <target state="translated">Aggiungi un nodo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeType">
+        <source>add.a.nodeType</source>
+        <target state="translated">Aggiungi un tipo di nodo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeTypeField">
+        <source>add.a.nodeTypeField</source>
+        <target state="translated">Aggiungi un campo di tipo nodo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.role">
+        <source>add.a.role</source>
+        <target state="translated">Aggiungi un ruolo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.setting">
+        <source>add.a.setting</source>
+        <target state="translated">Aggiungi un'impostazione </target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.settingGroup">
+        <source>add.a.settingGroup</source>
+        <target state="translated">Aggiungi un gruppo di impostazioni</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.specific.role">
+        <source>add.a.specific.role</source>
+        <target state="translated">Aggiungi un ruolo specifico</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.tag">
+        <source>add.a.tag</source>
+        <target state="translated">Aggiungi un'etichetta</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.theme">
+        <source>add.a.theme</source>
+        <target state="translated">Aggiungi un tema</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.translation">
+        <source>add.a.translation</source>
+        <target state="translated">Aggiungi una traduzione</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.urlAlias">
+        <source>add.a.urlAlias</source>
+        <target state="translated">Aggiungi un alias di Url</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.user">
+        <source>add.a.user</source>
+        <target state="translated">Aggiungi un user</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.child.folder">
+        <source>add.child.folder</source>
+        <target state="translated">Aggiungi sottocartella</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.customForm">
+        <source>add.customForm</source>
+        <target state="translated">Aggiungi il modulo personalizzato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.customFormField">
+        <source>add.customFormField</source>
+        <target state="translated">Aggiungi campo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.folder">
+        <source>add.folder</source>
+        <target state="translated">Aggiungi cartella</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="add.stack.type">
         <source>add.stack.type</source>
         <target state="translated">Aggiungi il tipo di stack</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stack.types">
-        <source>stack.types</source>
-        <target state="translated">Tipi di stack</target>
+      <trans-unit xml:space="preserve" id="answer.form">
+        <source>answer.form</source>
+        <target state="translated">Questionario</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="remove">
-        <source>remove</source>
-        <target state="translated">Rimuovi</target>
+      <trans-unit xml:space="preserve" id="are.you.sure.you.want.to.cancel.this.upload">
+        <source>are.you.sure.you.want.to.cancel.this.upload</source>
+        <target state="translated">Vuoi annullare questo caricamento?</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stack_node.%name%.has_new_type.%type%">
-        <source>stack_node.%name%.has_new_type.%type%</source>
-        <target state="translated">Lo stack dei nodi "% name%" è collegato a un nuovo tipo "% type%".</target>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customForm">
+        <source>are_you_sure.delete.customForm</source>
+        <target state="translated">Sei sicuro di voler eliminare questo modulo personalizzato?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer">
+        <source>are_you_sure.delete.customFormAnswer</source>
+        <target state="translated">Sei sicuro di voler eliminare questo modulo?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormField">
+        <source>are_you_sure.delete.customFormField</source>
+        <target state="translated">Sei sicuro di voler eliminare questo campo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation">
+        <source>are_you_sure.delete.document.translation</source>
+        <target state="translated">Sei sicuro di voler eliminare i metadati dal documento?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder">
+        <source>are_you_sure.delete.folder</source>
+        <target state="translated">Sei sicuro di voler eliminare questa cartella?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.documents">
+        <source>are_you_sure.delete.these.documents</source>
+        <target state="translated">Sei sicuro di voler cancellare questi documenti?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes">
+        <source>are_you_sure.delete.these.nodes</source>
+        <target state="translated">Sei sicuro di voler eliminare questi nodi?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash">
+        <source>are_you_sure.empty.node.and.data.trash</source>
+        <target state="translated">Sei sicuro di voler svuotare il cestino dei nodi? Tutti i dati saranno persi in modo permanente.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back">
+        <source>back</source>
+        <target state="translated">Indietro</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customFormAnswers">
+        <source>back_to.customFormAnswers</source>
+        <target state="translated">Ritorna alle risposte</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customFormFields">
+        <source>back_to.customFormFields</source>
+        <target state="translated">Ritorna ai campi</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customForms">
+        <source>back_to.customForms</source>
+        <target state="translated">Torna ai moduli personalizzati</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.folders">
+        <source>back_to.folders</source>
+        <target state="translated">Ritorna all'elenco dei file</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.top">
+        <source>back_to.top</source>
+        <target state="translated">Torna all'inizio</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="blockquote">
+        <source>blockquote</source>
+        <target state="translated">Blockquote</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bold">
+        <source>bold</source>
+        <target state="translated">Grassetto </target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.actions">
+        <source>bulk.actions</source>
+        <target state="translated">Azioni raggruppate</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.documents">
+        <source>bulk.delete.documents</source>
+        <target state="translated">Elimina i documenti selezionati</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.nodes">
+        <source>bulk.delete.nodes</source>
+        <target state="translated">Elimina nodi selezionati</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.fold.documents">
+        <source>bulk.fold.documents</source>
+        <target state="translated">Collega i documenti selezionati</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="cancel.upload">
+        <source>cancel.upload</source>
+        <target state="translated">Annulla caricamento</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="colour.type">
+        <source>colour.type</source>
+        <target state="translated">Colore</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="create.a.node">
+        <source>create.a.node</source>
+        <target state="translated">Crea un nodo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="created.at">
+        <source>created.at</source>
+        <target state="translated">Data di creazione</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm">
+        <source>customForm</source>
+        <target state="translated">Modulo personalizzato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.%name%.send">
+        <source>customForm.%name%.send</source>
+        <target state="translated">Il modulo "%name%" è stato inviato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.answers">
+        <source>customForm.answers</source>
+        <target state="translated">Risposte</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.closeDate">
+        <source>customForm.closeDate</source>
+        <target state="translated">Data di fine</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.color">
+        <source>customForm.color</source>
+        <target state="translated">Colore</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.displayName">
+        <source>customForm.displayName</source>
+        <target state="translated">Titolo visualizzato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.open">
+        <source>customForm.open</source>
+        <target state="translated">Aperto</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.show">
+        <source>customForm.show</source>
+        <target state="translated">Visualizza il modulo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer">
+        <source>customFormAnswer</source>
+        <target state="translated">Risposte modulo personalizzato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer.%id%.deleted">
+        <source>customFormAnswer.%id%.deleted</source>
+        <target state="translated">La risposta #% id% è stata rimossa</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer.answers">
+        <source>customFormAnswer.answers</source>
+        <target state="translated">Rispondere</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.created">
+        <source>customFormField.%name%.created</source>
+        <target state="translated">Il campo "% name%" è stata creato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.deleted">
+        <source>customFormField.%name%.deleted</source>
+        <target state="translated">Il campo "% name%" è stata rimosso</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.updated">
+        <source>customFormField.%name%.updated</source>
+        <target state="translated">Il campo "%name%" è stata aggiornato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormFieldAttribute">
+        <source>customFormFieldAttribute</source>
+        <target state="translated">Elemento della risposta</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="default.translation">
+        <source>default.translation</source>
+        <target state="translated">Traduzione principale</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.all">
+        <source>delete.all</source>
+        <target state="translated">cancella tutto</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customForm">
+        <source>delete.customForm</source>
+        <target state="translated">Elimina il modulo personalizzato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customForm.%name%">
+        <source>delete.customForm.%name%</source>
+        <target state="translated">Elimina il modulo personalizzato "% name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%">
+        <source>delete.customFormAnswer.%name%</source>
+        <target state="translated">Elimina risposta "%name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormField">
+        <source>delete.customFormField</source>
+        <target state="translated">Elimina campo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormField.%name%">
+        <source>delete.customFormField.%name%</source>
+        <target state="translated">Elimina la domanda "% name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.document.translation.%name%">
+        <source>delete.document.translation.%name%</source>
+        <target state="translated">Elimina i metadati dal documento per la traduzione "% name%".</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.documents">
+        <source>delete.documents</source>
+        <target state="translated">Cancella documento</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder">
+        <source>delete.folder</source>
+        <target state="translated">Cancella cartella</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder.%name%">
+        <source>delete.folder.%name%</source>
+        <target state="translated">Elimina la cartella "% name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.font">
+        <source>delete.font</source>
+        <target state="translated">Elimina il carattere</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.nodes">
+        <source>delete.nodes</source>
+        <target state="translated">Cancella il nodi selezionati</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.format.unknown">
+        <source>document.format.unknown</source>
+        <target state="translated">Il formato del documento è sconosciuto</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.metas">
+        <source>document.metas</source>
+        <target state="translated">Metadati</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete">
+        <source>document.translation.%name%.cannot_delete</source>
+        <target state="translated">I metadati del documento "%name%" non possono essere cancellati.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted">
+        <source>document.translation.%name%.deleted</source>
+        <target state="translated">I metadati nel documento "%name%" sono stati rimossi.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.updated">
+        <source>document.translation.%name%.updated</source>
+        <target state="translated">I metadati del documento "%name%" sono stati aggiornati.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="documents.linked_to.folders">
+        <source>documents.linked_to.folders</source>
+        <target state="translated">I documenti sono stati collegati alle cartelle</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer">
+        <source>drop.files.here.to.upload.or.click.to.open.your.explorer</source>
+        <target state="translated">Rilascia qui i file da caricare o fai clic per aprire l'explorer.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicated.node.%name%">
+        <source>duplicated.node.%name%</source>
+        <target state="translated">Il nodo "% name%" è stato duplicato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customForm.%name%">
+        <source>edit.customForm.%name%</source>
+        <target state="translated">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormField.%name%">
+        <source>edit.customFormField.%name%</source>
+        <target state="translated">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormFields">
+        <source>edit.customFormFields</source>
+        <target state="translated">Modifica la domanda</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormFields.for.customForm.%name%">
+        <source>edit.customFormFields.for.customForm.%name%</source>
+        <target state="translated">Campi"% name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder">
+        <source>edit.folder</source>
+        <target state="translated">Crea cartella</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder.%name%">
+        <source>edit.folder.%name%</source>
+        <target state="translated">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.document.already_exists">
+        <source>embed.document.already_exists</source>
+        <target state="translated">Il documento da integrare esiste già.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.preview">
+        <source>embed.preview</source>
+        <target state="translated">Panoramica dei media</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embedId.is_not_valid">
+        <source>embedId.is_not_valid</source>
+        <target state="translated">L'identificativo del supporto non è valido.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.node.trash">
+        <source>empty.node.trash</source>
+        <target state="translated">Svuota il cestino dei nodi</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.trash">
+        <source>empty.trash</source>
+        <target state="translated">Svuota il cestino</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.all">
+        <source>export.all</source>
+        <target state="translated">Esporta tutto</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.all.nodes">
+        <source>export.all.nodes</source>
+        <target state="translated">Esporta tuttI i nodi</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="field.%name%.updated">
         <source>field.%name%.updated</source>
@@ -2085,187 +2468,39 @@
         <source>field.%nodeTypeFieldId%.not_exists</source>
         <target state="translated">Il campo% nodeTypeFieldId% non esiste.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="created.at">
-        <source>created.at</source>
-        <target state="translated">Data di creazione</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="updated.at">
-        <source>updated.at</source>
-        <target state="translated">Data di modifica</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="position">
-        <source>position</source>
-        <target state="translated">Posizione</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="empty.node.trash">
-        <source>empty.node.trash</source>
-        <target state="translated">Svuota il cestino dei nodi</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.trash.emptied">
-        <source>node.trash.emptied</source>
-        <target state="translated">Cestino dei nodi vuoto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="empty.trash">
-        <source>empty.trash</source>
-        <target state="translated">Svuota il cestino</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash">
-        <source>are_you_sure.empty.node.and.data.trash</source>
-        <target state="translated">Sei sicuro di voler svuotare il cestino dei nodi? Tutti i dati saranno persi in modo permanente.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="random.document">
-        <source>random.document</source>
-        <target state="translated">Random</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.format.unknown">
-        <source>document.format.unknown</source>
-        <target state="translated">Il formato del documento è sconosciuto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.embed.document.found">
-        <source>no.embed.document.found</source>
-        <target state="translated">Nessun documento da integrare è stato trovato.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embed.document.already_exists">
-        <source>embed.document.already_exists</source>
-        <target state="translated">Il documento da integrare esiste già.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embedId.is_not_valid">
-        <source>embedId.is_not_valid</source>
-        <target state="translated">L'identificativo del supporto non è valido.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.metas">
-        <source>document.metas</source>
-        <target state="translated">Metadati</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.document.translation.%name%">
-        <source>delete.document.translation.%name%</source>
-        <target state="translated">Elimina i metadati dal documento per la traduzione "% name%".</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation">
-        <source>are_you_sure.delete.document.translation</source>
-        <target state="translated">Sei sicuro di voler eliminare i metadati dal documento?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.updated">
-        <source>document.translation.%name%.updated</source>
-        <target state="translated">I metadati del documento "%name%" sono stati aggiornati.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted">
-        <source>document.translation.%name%.deleted</source>
-        <target state="translated">I metadati nel documento "%name%" sono stati rimossi.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete">
-        <source>document.translation.%name%.cannot_delete</source>
-        <target state="translated">I metadati del documento "%name%" non possono essere cancellati.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="folderTree">
-        <source>folderTree</source>
-        <target state="translated">Cartelle di documenti</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.folder">
-        <source>add.folder</source>
-        <target state="translated">Aggiungi cartella</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.child.folder">
-        <source>add.child.folder</source>
-        <target state="translated">Aggiungi sottocartella</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.folder">
-        <source>edit.folder</source>
-        <target state="translated">Crea cartella</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.folder">
-        <source>delete.folder</source>
-        <target state="translated">Cancella cartella</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.folders">
-        <source>back_to.folders</source>
-        <target state="translated">Ritorna all'elenco dei file</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.settings">
-        <source>folder.settings</source>
-        <target state="translated">Impostazioni cartella</target>
-        <note>Nav bar label for editing folder id and visibility state</note>
+      <trans-unit xml:space="preserve" id="file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib">
+        <source>file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib</source>
+        <target state="translated">Il file è troppo pesante ({{filesize}} MB). La dimensione massima è {{maxFilesize}} MB.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folder.labels">
         <source>folder.labels</source>
         <target state="translated">etichette di cartella</target>
         <note>Nav bar label for editing folder label in each translation.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.folder.%name%">
-        <source>delete.folder.%name%</source>
-        <target state="translated">Elimina la cartella "% name%"</target>
+      <trans-unit xml:space="preserve" id="folder.name">
+        <source>folder.name</source>
+        <target state="translated">Nome cartella</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder">
-        <source>are_you_sure.delete.folder</source>
-        <target state="translated">Sei sicuro di voler eliminare questa cartella?</target>
+      <trans-unit xml:space="preserve" id="folder.settings">
+        <source>folder.settings</source>
+        <target state="translated">Impostazioni cartella</target>
+        <note>Nav bar label for editing folder id and visibility state</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.folder.%name%">
-        <source>edit.folder.%name%</source>
-        <target state="translated">%name%</target>
+      <trans-unit xml:space="preserve" id="folderTree">
+        <source>folderTree</source>
+        <target state="translated">Cartelle di documenti</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folders">
         <source>folders</source>
         <target state="translated">Cartelle</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="default.translation">
-        <source>default.translation</source>
-        <target state="translated">Traduzione principale</target>
+      <trans-unit xml:space="preserve" id="forbidden.page">
+        <source>forbidden.page</source>
+        <target state="translated">Pagina proibita</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.minLength">
-        <source>nodeTypeField.minLength</source>
-        <target state="translated">Lunghezza minima</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.maxLength">
-        <source>nodeTypeField.maxLength</source>
-        <target state="translated">Lunghezza massima</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all.nodes">
-        <source>export.all.nodes</source>
-        <target state="translated">Esporta tuttI i nodi</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all">
-        <source>export.all</source>
-        <target state="translated">Esporta tutto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer">
-        <source>drop.files.here.to.upload.or.click.to.open.your.explorer</source>
-        <target state="translated">Rilascia qui i file da caricare o fai clic per aprire l'explorer.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads">
-        <source>your.browser.does.not.support.dragndrop.file.uploads</source>
-        <target state="translated">Il tuo browser non supporta il caricamento di file drag-and-drop.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days">
-        <source>please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days</source>
-        <target state="translated">Si prega di utilizzare il modulo qui sotto per caricare i file come nei vecchi tempi</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib">
-        <source>file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib</source>
-        <target state="translated">Il file è troppo pesante ({{filesize}} MB). La dimensione massima è {{maxFilesize}} MB.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type">
-        <source>you.cant.upload.files.of.this.type</source>
-        <target state="translated">Non puoi caricare file di questo tipo.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="server.responded.with.{{statusCode}}.code">
-        <source>server.responded.with.{{statusCode}}.code</source>
-        <target state="translated">ll server ha risposto con il codice {{statusCode}}</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="cancel.upload">
-        <source>cancel.upload</source>
-        <target state="translated">Annulla caricamento</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are.you.sure.you.want.to.cancel.this.upload">
-        <source>are.you.sure.you.want.to.cancel.this.upload</source>
-        <target state="translated">Vuoi annullare questo caricamento?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="remove.file">
-        <source>remove.file</source>
-        <target state="translated">Rimuovi il file</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="you.can.not.upload.any.more.files">
-        <source>you.can.not.upload.any.more.files</source>
-        <target state="translated">Non è più possibile caricare altri file.</target>
+      <trans-unit xml:space="preserve" id="fullscreen">
+        <source>fullscreen</source>
+        <target state="translated">A schermo intero</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="headline.2">
         <source>headline.2</source>
@@ -2287,73 +2522,65 @@
         <source>headline.6</source>
         <target state="translated">Titolo 6</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="fullscreen">
-        <source>fullscreen</source>
-        <target state="translated">A schermo intero</target>
+      <trans-unit xml:space="preserve" id="image">
+        <source>image</source>
+        <target state="translated">Immagine</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bold">
-        <source>bold</source>
-        <target state="translated">Grassetto </target>
+      <trans-unit xml:space="preserve" id="impossible.duplicate.node.%name%">
+        <source>impossible.duplicate.node.%name%</source>
+        <target state="translated">Impossibile duplicare il nodo "% name%"</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="italic">
         <source>italic</source>
         <target state="translated">Corsivo</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="strikethrough">
-        <source>strikethrough</source>
-        <target state="translated">Barrato</target>
+      <trans-unit xml:space="preserve" id="link.tags">
+        <source>link.tags</source>
+        <target state="translated">Etichetta selezionata</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="blockquote">
-        <source>blockquote</source>
-        <target state="translated">Blockquote</target>
+      <trans-unit xml:space="preserve" id="list.folders.to_link">
+        <source>list.folders.to_link</source>
+        <target state="translated">Elenca le cartelle (esistenti o meno)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image">
-        <source>image</source>
-        <target state="translated">Immagine</target>
+      <trans-unit xml:space="preserve" id="list.tags.to_link.or_unlink">
+        <source>list.tags.to_link.or_unlink</source>
+        <target state="translated">lista etichette per unire o separare...</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="unordered.list">
-        <source>unordered.list</source>
-        <target state="translated">Elenco non ordinato</target>
+      <trans-unit xml:space="preserve" id="main_color">
+        <source>main_color</source>
+        <target state="translated">Colore principale del back office</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="ordered.list">
-        <source>ordered.list</source>
-        <target state="translated">Elenco ordinato</target>
+      <trans-unit xml:space="preserve" id="manage.customFormFields">
+        <source>manage.customFormFields</source>
+        <target state="translated">Gestisci campi</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back">
-        <source>back</source>
-        <target state="translated">Indietro</target>
+      <trans-unit xml:space="preserve" id="manage.customForms">
+        <source>manage.customForms</source>
+        <target state="translated">Formulari personalizzati</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="separator">
-        <source>separator</source>
-        <target state="translated">Separatore</target>
+      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
+        <source>new.answer.form.%site%</source>
+        <target state="translated">Nuova risposta su "%site%"</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="non_breaking.space">
-        <source>non_breaking.space</source>
-        <target state="translated">Spazio senza interruzioni</target>
+      <trans-unit xml:space="preserve" id="no.customFormField">
+        <source>no.customFormField</source>
+        <target state="translated">Nessuna domanda</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="forbidden.page">
-        <source>forbidden.page</source>
-        <target state="translated">Pagina proibita</target>
+      <trans-unit xml:space="preserve" id="no.embed.document.found">
+        <source>no.embed.document.found</source>
+        <target state="translated">Nessun documento da integrare è stato trovato.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="see_all">
-        <source>see_all</source>
-        <target state="translated">Vedi tutto</target>
+      <trans-unit xml:space="preserve" id="no_documents.linked_to.folders">
+        <source>no_documents.linked_to.folders</source>
+        <target state="translated">Nessun documento è stato collegato alle cartelle</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.documents">
-        <source>search.documents</source>
-        <target state="translated">Cerca documenti</target>
+      <trans-unit xml:space="preserve" id="node.hidden">
+        <source>node.hidden</source>
+        <target state="translated">Nascosto</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.nodes">
-        <source>search.nodes</source>
-        <target state="translated">Cerca nodi</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.toggle-explorer">
-        <source>nodes.toggle-explorer</source>
-        <target state="translated">Esplora</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.name">
-        <source>folder.name</source>
-        <target state="translated">Nome cartella</target>
+      <trans-unit xml:space="preserve" id="node.trash.emptied">
+        <source>node.trash.emptied</source>
+        <target state="translated">Cestino dei nodi vuoto</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.color">
         <source>nodeType.color</source>
@@ -2363,345 +2590,13 @@
         <source>nodeType.numberFields</source>
         <target state="translated">Numero di campi</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.top">
-        <source>back_to.top</source>
-        <target state="translated">Torna all'inizio</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.customFormField">
-        <source>no.customFormField</source>
-        <target state="translated">Nessuna domanda</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.customForm">
-        <source>add.customForm</source>
-        <target state="translated">Aggiungi il modulo personalizzato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm">
-        <source>customForm</source>
-        <target state="translated">Modulo personalizzato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.displayName">
-        <source>customForm.displayName</source>
-        <target state="translated">Titolo visualizzato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="%count%.customFormFields">
-        <source>%count%.customFormFields</source>
-        <target state="translated">%count% campi del modulo personalizzato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.customFormFields">
-        <source>manage.customFormFields</source>
-        <target state="translated">Gestisci campi</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.answers">
-        <source>customForm.answers</source>
-        <target state="translated">Risposte</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.show">
-        <source>customForm.show</source>
-        <target state="translated">Visualizza il modulo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer">
-        <source>are_you_sure.delete.customFormAnswer</source>
-        <target state="translated">Sei sicuro di voler eliminare questo modulo?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%">
-        <source>delete.customFormAnswer.%name%</source>
-        <target state="translated">Elimina risposta "%name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customFormAnswers">
-        <source>back_to.customFormAnswers</source>
-        <target state="translated">Ritorna alle risposte</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer">
-        <source>customFormAnswer</source>
-        <target state="translated">Risposte modulo personalizzato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customForms">
-        <source>back_to.customForms</source>
-        <target state="translated">Torna ai moduli personalizzati</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="submitted.date">
-        <source>submitted.date</source>
-        <target state="translated">Data d'invio</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer.answers">
-        <source>customFormAnswer.answers</source>
-        <target state="translated">Rispondere</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormFieldAttribute">
-        <source>customFormFieldAttribute</source>
-        <target state="translated">Elemento della risposta</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormField">
-        <source>delete.customFormField</source>
-        <target state="translated">Elimina campo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.customFormField">
-        <source>add.customFormField</source>
-        <target state="translated">Aggiungi campo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customFormFields">
-        <source>back_to.customFormFields</source>
-        <target state="translated">Ritorna ai campi</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormField.%name%">
-        <source>delete.customFormField.%name%</source>
-        <target state="translated">Elimina la domanda "% name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormField">
-        <source>are_you_sure.delete.customFormField</source>
-        <target state="translated">Sei sicuro di voler eliminare questo campo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormField.%name%">
-        <source>edit.customFormField.%name%</source>
-        <target state="translated">%name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormFields.for.customForm.%name%">
-        <source>edit.customFormFields.for.customForm.%name%</source>
-        <target state="translated">Campi"% name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customForm">
-        <source>delete.customForm</source>
-        <target state="translated">Elimina il modulo personalizzato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customForm.%name%">
-        <source>delete.customForm.%name%</source>
-        <target state="translated">Elimina il modulo personalizzato "% name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customForm">
-        <source>are_you_sure.delete.customForm</source>
-        <target state="translated">Sei sicuro di voler eliminare questo modulo personalizzato?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customForm.%name%">
-        <source>edit.customForm.%name%</source>
-        <target state="translated">%name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields">
-        <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
-        <target state="translated">{0} Nessun campo | {1} 1 campo|] 1, Inf] %count% campi</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="create.a.node">
-        <source>create.a.node</source>
-        <target state="translated">Crea un nodo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.node">
-        <source>add.a.node</source>
-        <target state="translated">Aggiungi un nodo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.tag">
-        <source>add.a.tag</source>
-        <target state="translated">Aggiungi un'etichetta</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.urlAlias">
-        <source>add.a.urlAlias</source>
-        <target state="translated">Aggiungi un alias di Url</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.child.node">
-        <source>add.a.child.node</source>
-        <target state="translated">Aggiungi un nodo figlio</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.child.tag">
-        <source>add.a.child.tag</source>
-        <target state="translated">Aggiungi un tag secondario</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeType">
-        <source>add.a.nodeType</source>
-        <target state="translated">Aggiungi un tipo di nodo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeTypeField">
-        <source>add.a.nodeTypeField</source>
-        <target state="translated">Aggiungi un campo di tipo nodo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.translation">
-        <source>add.a.translation</source>
-        <target state="translated">Aggiungi una traduzione</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.theme">
-        <source>add.a.theme</source>
-        <target state="translated">Aggiungi un tema</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.font">
-        <source>add.a.font</source>
-        <target state="translated">Aggiungi un carattere</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.user">
-        <source>add.a.user</source>
-        <target state="translated">Aggiungi un user</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.specific.role">
-        <source>add.a.specific.role</source>
-        <target state="translated">Aggiungi un ruolo specifico</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.group">
-        <source>add.a.group</source>
-        <target state="translated">Aggiungi un gruppo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.role">
-        <source>add.a.role</source>
-        <target state="translated">Aggiungi un ruolo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.setting">
-        <source>add.a.setting</source>
-        <target state="translated">Aggiungi un'impostazione </target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.settingGroup">
-        <source>add.a.settingGroup</source>
-        <target state="translated">Aggiungi un gruppo di impostazioni</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.font">
-        <source>delete.font</source>
-        <target state="translated">Elimina il carattere</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.customForm">
-        <source>add.a.customForm</source>
-        <target state="translated">Aggiungi un modulo personalizzato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.color">
-        <source>customForm.color</source>
-        <target state="translated">Colore</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.customForms">
-        <source>manage.customForms</source>
-        <target state="translated">Formulari personalizzati</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.open">
-        <source>customForm.open</source>
-        <target state="translated">Aperto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.closeDate">
-        <source>customForm.closeDate</source>
-        <target state="translated">Data di fine</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.customFormField">
-        <source>add.a.customFormField</source>
-        <target state="translated">Aggiungi una domanda</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormFields">
-        <source>edit.customFormFields</source>
-        <target state="translated">Modifica la domanda</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.folder">
-        <source>add.a.folder</source>
-        <target state="translated">Aggiungi una cartella</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.hidden">
-        <source>node.hidden</source>
-        <target state="translated">Nascosto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="required">
-        <source>required</source>
-        <target state="translated">Richiesto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.documents">
-        <source>delete.documents</source>
-        <target state="translated">Cancella documento</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.documents">
-        <source>are_you_sure.delete.these.documents</source>
-        <target state="translated">Sei sicuro di voler cancellare questi documenti?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.delete.documents">
-        <source>bulk.delete.documents</source>
-        <target state="translated">Elimina i documenti selezionati</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="main_color">
-        <source>main_color</source>
-        <target state="translated">Colore principale del back office</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="colour.type">
-        <source>colour.type</source>
-        <target state="translated">Colore</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.type">
-        <source>nodes.type</source>
-        <target state="translated">Riferimenti del nodo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embed.preview">
-        <source>embed.preview</source>
-        <target state="translated">Panoramica dei media</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="answer.form">
-        <source>answer.form</source>
-        <target state="translated">Questionario</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.send">
-        <source>customForm.%name%.send</source>
-        <target state="translated">Il modulo "%name%" è stato inviato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
-        <source>new.answer.form.%site%</source>
-        <target state="translated">Nuova risposta su "%site%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer.%id%.deleted">
-        <source>customFormAnswer.%id%.deleted</source>
-        <target state="translated">La risposta #% id% è stata rimossa</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.updated">
-        <source>customFormField.%name%.updated</source>
-        <target state="translated">Il campo "%name%" è stata aggiornato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.created">
-        <source>customFormField.%name%.created</source>
-        <target state="translated">Il campo "% name%" è stata creato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.deleted">
-        <source>customFormField.%name%.deleted</source>
-        <target state="translated">Il campo "% name%" è stata rimosso</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="duplicated.node.%name%">
-        <source>duplicated.node.%name%</source>
-        <target state="translated">Il nodo "% name%" è stato duplicato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="impossible.duplicate.node.%name%">
-        <source>impossible.duplicate.node.%name%</source>
-        <target state="translated">Impossibile duplicare il nodo "% name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="list.folders.to_link">
-        <source>list.folders.to_link</source>
-        <target state="translated">Elenca le cartelle (esistenti o meno)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.fold.documents">
-        <source>bulk.fold.documents</source>
-        <target state="translated">Collega i documenti selezionati</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="documents.linked_to.folders">
-        <source>documents.linked_to.folders</source>
-        <target state="translated">I documenti sono stati collegati alle cartelle</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no_documents.linked_to.folders">
-        <source>no_documents.linked_to.folders</source>
-        <target state="translated">Nessun documento è stato collegato alle cartelle</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="wrong.request">
-        <source>wrong.request</source>
-        <target state="translated">Richiesta errata</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodes">
-        <source>delete.nodes</source>
-        <target state="translated">Cancella il nodi selezionati</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes">
-        <source>are_you_sure.delete.these.nodes</source>
-        <target state="translated">Sei sicuro di voler eliminare questi nodi?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.all">
-        <source>delete.all</source>
-        <target state="translated">cancella tutto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.delete.nodes">
-        <source>bulk.delete.nodes</source>
-        <target state="translated">Elimina nodi selezionati</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="link.tags">
-        <source>link.tags</source>
-        <target state="translated">Etichetta selezionata</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="unlink.tags">
-        <source>unlink.tags</source>
-        <target state="translated">Rimuovi dall'etichetta i selezionati</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="list.tags.to_link.or_unlink">
-        <source>list.tags.to_link.or_unlink</source>
-        <target state="translated">lista etichette per unire o separare...</target>
+      <trans-unit xml:space="preserve" id="nodeTypeField.maxLength">
+        <source>nodeTypeField.maxLength</source>
+        <target state="translated">Lunghezza massima</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.minLength">
+        <source>nodeTypeField.minLength</source>
+        <target state="translated">Lunghezza minima</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.deleted">
         <source>nodes.bulk.deleted</source>
@@ -2711,185 +2606,149 @@
         <source>nodes.bulk.not_tagged</source>
         <target state="translated">Impossibile etichettare i nodi selezionati</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.bulk.tagged">
-        <source>nodes.bulk.tagged</source>
-        <target state="translated">I nodi selezionati sono stati etichettati</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.not_untagged">
         <source>nodes.bulk.not_untagged</source>
         <target state="translated">Impossibile rimuovere l'etichetta ai nodi selezionati</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.bulk.tagged">
+        <source>nodes.bulk.tagged</source>
+        <target state="translated">I nodi selezionati sono stati etichettati</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.untagged">
         <source>nodes.bulk.untagged</source>
         <target state="translated">Ai nodi selezionati è stata rimossa l'etichetta</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.actions">
-        <source>bulk.actions</source>
-        <target state="translated">Azioni raggruppate</target>
+      <trans-unit xml:space="preserve" id="nodes.toggle-explorer">
+        <source>nodes.toggle-explorer</source>
+        <target state="translated">Esplora</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.marker">
-        <source>reset.marker</source>
-        <target state="translated">Risetta marker</target>
+      <trans-unit xml:space="preserve" id="nodes.type">
+        <source>nodes.type</source>
+        <target state="translated">Riferimenti del nodo</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter">
-        <source>geotag.type_an_address.then_type_enter</source>
-        <target state="translated">Scrivi un indirizzo poi premi enter</target>
+      <trans-unit xml:space="preserve" id="non_breaking.space">
+        <source>non_breaking.space</source>
+        <target state="translated">Spazio senza interruzioni</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="geographic.coordinates.type">
-        <source>geographic.coordinates.type</source>
-        <target state="translated">Coordinate geografiche singole</target>
+      <trans-unit xml:space="preserve" id="ordered.list">
+        <source>ordered.list</source>
+        <target state="translated">Elenco ordinato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="multiple.geographic.coordinates.type">
-        <source>multiple.geographic.coordinates.type</source>
-        <target state="translated">Coordinate geografiche multiple</target>
+      <trans-unit xml:space="preserve" id="please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days">
+        <source>please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days</source>
+        <target state="translated">Si prega di utilizzare il modulo qui sotto per caricare i file come nei vecchi tempi</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="link.folders">
-        <source>link.folders</source>
-        <target state="translated">Unisci a cartella/e</target>
+      <trans-unit xml:space="preserve" id="position">
+        <source>position</source>
+        <target state="translated">Posizione</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="unlink.folders">
-        <source>unlink.folders</source>
-        <target state="translated">Separa da cartella/e</target>
+      <trans-unit xml:space="preserve" id="random.document">
+        <source>random.document</source>
+        <target state="translated">Random</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.download.documents">
-        <source>bulk.download.documents</source>
-        <target state="translated">Download i documenti selezionati</target>
+      <trans-unit xml:space="preserve" id="remove">
+        <source>remove</source>
+        <target state="translated">Rimuovi</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="download.documents">
-        <source>download.documents</source>
-        <target state="translated">Scarica documenti</target>
+      <trans-unit xml:space="preserve" id="remove.file">
+        <source>remove.file</source>
+        <target state="translated">Rimuovi il file</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.download.these.documents">
-        <source>are_you_sure.download.these.documents</source>
-        <target state="translated">Sei sicuro di voler scaricare questi documenti?</target>
+      <trans-unit xml:space="preserve" id="required">
+        <source>required</source>
+        <target state="translated">Richiesto</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="purge.generated_images.cache">
-        <source>purge.generated_images.cache</source>
-        <target state="translated">Elimina cache di immagini</target>
+      <trans-unit xml:space="preserve" id="search.documents">
+        <source>search.documents</source>
+        <target state="translated">Cerca documenti</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.purge.generated_images.cache">
-        <source>are_you_sure.purge.generated_images.cache</source>
-        <target state="translated">Sei sicuro di voler eliminare la cache di immagini?</target>
+      <trans-unit xml:space="preserve" id="search.nodes">
+        <source>search.nodes</source>
+        <target state="translated">Cerca nodi</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.generated_images.cache">
-        <source>delete.generated_images.cache</source>
-        <target state="translated">Elimina cache di immagini</target>
+      <trans-unit xml:space="preserve" id="see_all">
+        <source>see_all</source>
+        <target state="translated">Vedi tutto</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="more.documents">
-        <source>more.documents</source>
-        <target state="translated">Più documenti</target>
+      <trans-unit xml:space="preserve" id="separator">
+        <source>separator</source>
+        <target state="translated">Separatore</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="more.nodes">
-        <source>more.nodes</source>
-        <target state="translated">Più nodi</target>
+      <trans-unit xml:space="preserve" id="server.responded.with.{{statusCode}}.code">
+        <source>server.responded.with.{{statusCode}}.code</source>
+        <target state="translated">ll server ha risposto con il codice {{statusCode}}</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="more.node_types">
-        <source>more.node_types</source>
-        <target state="translated">Più tipi di nodi</target>
+      <trans-unit xml:space="preserve" id="stack.types">
+        <source>stack.types</source>
+        <target state="translated">Tipi di stack</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="more.tags">
-        <source>more.tags</source>
-        <target state="translated">Più etichette</target>
+      <trans-unit xml:space="preserve" id="stack_node.%name%.has_new_type.%type%">
+        <source>stack_node.%name%.has_new_type.%type%</source>
+        <target state="translated">Lo stack dei nodi "% name%" è collegato a un nuovo tipo "% type%".</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="more.custom_forms">
-        <source>more.custom_forms</source>
-        <target state="translated">Più moduli personalizzati</target>
+      <trans-unit xml:space="preserve" id="strikethrough">
+        <source>strikethrough</source>
+        <target state="translated">Barrato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.custom_forms">
-        <source>search.custom_forms</source>
-        <target state="translated">Cerca moduli personalizzati</target>
+      <trans-unit xml:space="preserve" id="submitted.date">
+        <source>submitted.date</source>
+        <target state="translated">Data d'invio</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="custom-forms.toggle-explorer">
-        <source>custom-forms.toggle-explorer</source>
-        <target state="translated">Esploratore</target>
+      <trans-unit xml:space="preserve" id="unlink.tags">
+        <source>unlink.tags</source>
+        <target state="translated">Rimuovi dall'etichetta i selezionati</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.account">
-        <source>edit.account</source>
-        <target state="translated">Modifica il tuo profilo</target>
+      <trans-unit xml:space="preserve" id="unordered.list">
+        <source>unordered.list</source>
+        <target state="translated">Elenco non ordinato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="NodeType">
-        <source>NodeType</source>
-        <target state="translated">Tipo di nodo</target>
+      <trans-unit xml:space="preserve" id="updated.at">
+        <source>updated.at</source>
+        <target state="translated">Data di modifica</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="select.nodetype">
-        <source>select.nodetype</source>
-        <target state="translated">Filtro</target>
+      <trans-unit xml:space="preserve" id="wrong.request">
+        <source>wrong.request</source>
+        <target state="translated">Richiesta errata</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="ignore">
-        <source>ignore</source>
-        <target state="translated">Ignora</target>
+      <trans-unit xml:space="preserve" id="you.can.not.upload.any.more.files">
+        <source>you.can.not.upload.any.more.files</source>
+        <target state="translated">Non è più possibile caricare altri file.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="true">
-        <source>true</source>
-        <target state="translated">Vero</target>
+      <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type">
+        <source>you.cant.upload.files.of.this.type</source>
+        <target state="translated">Non puoi caricare file di questo tipo.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="false">
-        <source>false</source>
-        <target state="translated">Falso</target>
+      <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads">
+        <source>your.browser.does.not.support.dragndrop.file.uploads</source>
+        <target state="translated">Il tuo browser non supporta il caricamento di file drag-and-drop.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.name">
-        <source>node.name</source>
-        <target state="translated">Nome nodo</target>
+      <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields">
+        <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
+        <target state="translated">{0} Nessun campo | {1} 1 campo|] 1, Inf] %count% campi</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.id.parent">
-        <source>node.id.parent</source>
-        <target state="translated">Identificatore del nodo genitore</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.datetime.operator">
-        <source>node.datetime.operator</source>
-        <target state="translated">Operatore</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.datetime.value">
-        <source>node.datetime.value</source>
-        <target state="translated">Data di creazione</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.limit.result">
-        <source>node.limit.result</source>
-        <target state="translated">Limite di risultati</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.tags">
-        <source>node.tags</source>
-        <target state="translated">Etichette </target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.tag.exclusive">
-        <source>node.tag.exclusive</source>
-        <target state="translated">Selezione di etichette esclusive</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodetypefield">
-        <source>nodetypefield</source>
-        <target state="translated">Campi del tipo di nodo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="search.a.node">
-        <source>search.a.node</source>
-        <target state="translated">Cerca un nodo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all.nodesSource">
-        <source>export.all.nodesSource</source>
-        <target state="translated">Esportare i contenuti del nodo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="role.cannot.update.status">
-        <source>role.cannot.update.status</source>
-        <target state="translated">Diritti insufficienti per applicare questo stato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.%field%.updated">
-        <source>node.%name%.%field%.updated</source>
-        <target state="translated">Il campo "% campo%" del nodo% name% è stato aggiornato.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="added.node.%name%">
-        <source>added.node.%name%</source>
-        <target state="translated">Il nodo "% name%" è stato creato.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="custom-forms.type">
-        <source>custom-forms.type</source>
-        <target state="translated">Modulo personalizzato</target>
+      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database">
+        <source>%email%.email.does.not.exist.in.user.account.database</source>
+        <target state="translated">L'email "% email%" non è stata trovata nel database.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="Bad credentials">
         <source>Bad credentials.</source>
         <target state="translated">Identificazione non riuscita</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeNode">
+        <source>homeNode</source>
+        <target state="translated">Nodo Home</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeType">
+        <source>NodeType</source>
+        <target state="translated">Tipo di nodo</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="User account has expired.">
         <source>User account has expired.</source>
         <target state="translated">Il tuo account è scaduto.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="User account is disabled.">
+        <source>User account is disabled.</source>
+        <target state="translated">Il tuo account è disabilitato</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="User account is locked.">
         <source>User account is locked.</source>
@@ -2899,9 +2758,57 @@
         <source>User credentials have expired.</source>
         <target state="translated">Le tue credenziali sono scadute</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="User account is disabled.">
-        <source>User account is disabled.</source>
-        <target state="translated">Il tuo account è disabilitato</target>
+      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent">
+        <source>a.confirmation.email.has.already.be.sent</source>
+        <target state="translated"> È già stata inviata un'email di conferma, controlla la posta indesiderata.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email">
+        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
+        <target state="translated">Un link per la reimpostazione della password personale ti è stato inviato via email. Non aspettare troppo a lungo, questo link scadrà automaticamente.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="about.cms">
+        <source>about.cms</source>
+        <target state="translated">A proposito di Roadiz</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.newsletter">
+        <source>add.a.newsletter</source>
+        <target state="translated">Aggiungi una newsletter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="added.node.%name%">
+        <source>added.node.%name%</source>
+        <target state="translated">Il nodo "% name%" è stato creato.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="admin_image">
+        <source>admin_image</source>
+        <target state="translated">Logo immagine / amministrazione</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes">
+        <source>are_you_sure.change-status.these.nodes</source>
+        <target state="translated">Sei sicuro di voler cambiare lo stato di questi nodi?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeSource">
+        <source>are_you_sure.delete.nodeSource</source>
+        <target state="translated">Sei sicuro di voler eliminare questa traduzione di nodo?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.download.these.documents">
+        <source>are_you_sure.download.these.documents</source>
+        <target state="translated">Sei sicuro di voler scaricare questi documenti?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.purge.generated_images.cache">
+        <source>are_you_sure.purge.generated_images.cache</source>
+        <target state="translated">Sei sicuro di voler eliminare la cache di immagini?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.login">
+        <source>back_to.login</source>
+        <target state="translated">Ritorna alla pagina di accesso</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.newsletter">
+        <source>back_to.newsletter</source>
+        <target state="translated">Torna all'elenco delle newsletter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.download.documents">
+        <source>bulk.download.documents</source>
+        <target state="translated">Download i documenti selezionati</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="change.nodes.status">
         <source>change.nodes.status</source>
@@ -2911,157 +2818,57 @@
         <source>change.nodes.status.all</source>
         <target state="translated">Modifica nodi selezionati</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes">
-        <source>are_you_sure.change-status.these.nodes</source>
-        <target state="translated">Sei sicuro di voler cambiare lo stato di questi nodi?</target>
+      <trans-unit xml:space="preserve" id="changelog">
+        <source>changelog</source>
+        <target state="translated">Note di rilascio</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.status">
-        <source>nodes.status</source>
-        <target state="translated">Stato di selezione</target>
+      <trans-unit xml:space="preserve" id="choose.a.new.password">
+        <source>choose.a.new.password</source>
+        <target state="translated">Scegli una nuova password</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.bulk.status.changed">
-        <source>nodes.bulk.status.changed</source>
-        <target state="translated">Lo stato della selezione nodi è stato modificato</target>
+      <trans-unit xml:space="preserve" id="chroot">
+        <source>chroot</source>
+        <target state="translated">Nodo radice</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="staticTheme">
-        <source>staticTheme</source>
-        <target state="translated">Tema statico</target>
+      <trans-unit xml:space="preserve" id="chroot.limited.one">
+        <source>chroot.limited.one</source>
+        <target state="translated">Puoi scegliere solo un nodo radice</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="staticTheme.does_not.allow.node_url_routes">
-        <source>staticTheme.does_not.allow.node_url_routes</source>
-        <target state="translated">Un "tema statico" significa che non risponderà alle richieste da URL di nodo dinamico, solo route statiche.</target>
+      <trans-unit xml:space="preserve" id="confirmation.token.has.expired">
+        <source>confirmation.token.has.expired</source>
+        <target state="translated">Il token di conferma è scaduto.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="theme.is_static">
-        <source>theme.is_static</source>
-        <target state="translated">Statico</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="password.must.match">
-        <source>password.must.match</source>
-        <target state="translated">Le password devono corrispondere</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="passwords.must.match">
-        <source>passwords.must.match</source>
-        <target state="translated">Le password devono corrispondere</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.nodeType.available.create_one_first">
-        <source>no.nodeType.available.create_one_first</source>
-        <target state="translated">Nessun tipo di nodo è presente sul tuo sito. Si prega di crearne uno prima di aggiungere nuovi nodi.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.no_creation.already_exists">
-        <source>node.%name%.no_creation.already_exists</source>
-        <target state="translated">Il nodo "% name%" non può essere creato perché il suo nome è già utilizzato.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.dynamicNodeName">
-        <source>node.dynamicNodeName</source>
-        <target state="translated">Il nome del nodo è dinamico</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.status">
-        <source>nodeType.status</source>
-        <target state="translated">Stato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.not_visible">
-        <source>nodeType.not_visible</source>
-        <target state="translated">Tipo di nodo invisibile</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.nodeType">
-        <source>newsletter.nodeType</source>
-        <target state="translated"> Riservato per le newsletter</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.hiding_nodes">
-        <source>nodeType.hiding_nodes</source>
-        <target state="translated">Digita il suo albero nascosto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.%name%.created">
-        <source>newsletter.%name%.created</source>
-        <target state="translated">La newsletter "% name%" è stata creata.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.%newsletter%.updated.%translation%">
-        <source>newsletter.%newsletter%.updated.%translation%</source>
-        <target state="translated">La newsletter "% name%" è stata aggiornata per la traduzione% translation%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="duplicated.newsletter.%name%">
-        <source>duplicated.newsletter.%name%</source>
-        <target state="translated">La newsletter "% name%" è stata duplicata</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="impossible.duplicate.newsletter.%name%">
-        <source>impossible.duplicate.newsletter.%name%</source>
-        <target state="translated">Impossibile duplicare la newsletter "% name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="see.newsletter">
-        <source>see.newsletter</source>
-        <target state="translated">Vedi la newsletter</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.newsletter">
-        <source>add.a.newsletter</source>
-        <target state="translated">Aggiungi una newsletter</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.newsletter.%name%">
-        <source>edit.newsletter.%name%</source>
-        <target state="translated">La newsletter "% name%" è stata duplicata</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter">
-        <source>newsletter</source>
-        <target state="translated">Newsletter</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.type">
-        <source>newsletter.type</source>
-        <target state="translated">Tipo di newsletter</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.newsletter">
-        <source>back_to.newsletter</source>
-        <target state="translated">Torna all'elenco delle newsletter</target>
+      <trans-unit xml:space="preserve" id="confirmation.token.is.invalid">
+        <source>confirmation.token.is.invalid</source>
+        <target state="translated">Il token di conferma non è valido.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="create.a.newsletter">
         <source>create.a.newsletter</source>
         <target state="translated">Crea una newsletter</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.html">
-        <source>export.html</source>
-        <target state="translated">Esporta in HTML</target>
+      <trans-unit xml:space="preserve" id="current.document.is.private.you.cannot.preview.it">
+        <source>current.document.is.private.you.cannot.preview.it</source>
+        <target state="translated">Il documento corrente è contrassegnato come privato, non è possibile visualizzarne l'anteprima.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.html.inline">
-        <source>export.html.inline</source>
-        <target state="translated">Esporta in HTML (CSS incorporato)</target>
+      <trans-unit xml:space="preserve" id="current.version">
+        <source>current.version</source>
+        <target state="translated">Versione corrente</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="start.test.user.right">
-        <source>start.test.user.right</source>
-        <target state="translated">Prendi i privilegi</target>
+      <trans-unit xml:space="preserve" id="custom-forms.toggle-explorer">
+        <source>custom-forms.toggle-explorer</source>
+        <target state="translated">Esploratore</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stop.test.user.right">
-        <source>stop.test.user.right</source>
-        <target state="translated">Ritorna all'utente</target>
+      <trans-unit xml:space="preserve" id="custom-forms.type">
+        <source>custom-forms.type</source>
+        <target state="translated">Modulo personalizzato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="overwrite.document">
-        <source>overwrite.document</source>
-        <target state="translated">Sovrascrivi il documento</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.already_exists">
+        <source>customForm.%name%.already_exists</source>
+        <target state="translated">Il modulo personalizzato "% name%" esiste già.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.file.%name%.updated">
-        <source>document.file.%name%.updated</source>
-        <target state="translated">Documento "%name%" aggiornato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeSource">
-        <source>are_you_sure.delete.nodeSource</source>
-        <target state="translated">Sei sicuro di voler eliminare questa traduzione di nodo?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node_source.%node_source%.%translation%.cant.deleted">
-        <source>node_source.%node_source%.%translation%.cant.deleted</source>
-        <target state="translated">L'eliminazione di "% node_source%" a "% translation%" non è possibile</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node_source.%node_source%.deleted.%translation%">
-        <source>node_source.%node_source%.deleted.%translation%</source>
-        <target state="translated">L'eliminazione di "% node_source%" a "% translation%" non è possibile</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodesource">
-        <source>delete.nodesource</source>
-        <target state="translated">Rimuovi la sorgente del nodo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="latest.node-sources.updates">
-        <source>latest.node-sources.updates</source>
-        <target state="translated">Ultimi aggiornamenti fonti nodi</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.updated">
-        <source>customForm.%name%.updated</source>
-        <target state="translated">La domanda "% name%" è stata aggiornata</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.cannot_rename_already_exists">
+        <source>customForm.%name%.cannot_rename_already_exists</source>
+        <target state="translated">Il modulo personalizzato "% name%" non può essere rinominato, il nome utilizzato esiste già.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="customForm.%name%.created">
         <source>customForm.%name%.created</source>
@@ -3071,225 +2878,401 @@
         <source>customForm.%name%.deleted</source>
         <target state="translated">La domanda "% name%" è stata rimossa</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.cannot_rename_already_exists">
-        <source>customForm.%name%.cannot_rename_already_exists</source>
-        <target state="translated">Il modulo personalizzato "% name%" non può essere rinominato, il nome utilizzato esiste già.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.already_exists">
-        <source>customForm.%name%.already_exists</source>
-        <target state="translated">Il modulo personalizzato "% name%" esiste già.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="select.all">
-        <source>select.all</source>
-        <target state="translated">Seleziona tutto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="deselect.all">
-        <source>deselect.all</source>
-        <target state="translated">Deseleziona tutto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.user.%name%.roles">
-        <source>edit.user.%name%.roles</source>
-        <target state="translated">%name% ruoli</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="history.for.%name%">
-        <source>history.for.%name%</source>
-        <target state="translated">Cronologia %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="admin_image">
-        <source>admin_image</source>
-        <target state="translated">Logo immagine / amministrazione</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="chroot.limited.one">
-        <source>chroot.limited.one</source>
-        <target state="translated">Puoi scegliere solo un nodo radice</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="chroot">
-        <source>chroot</source>
-        <target state="translated">Nodo radice</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists">
-        <source>node.noCreation.alreadyExists</source>
-        <target state="translated">Il nodo non è stato creato perché esiste già.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style">
-        <source>maps_style</source>
-        <target state="translated">Stile predefinito di Google Maps</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location">
-        <source>maps_default_location</source>
-        <target state="translated">Posizione di mappatura predefinita</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.status">
-        <source>user.status</source>
-        <target state="translated">Stato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.enabled">
-        <source>user.enabled</source>
-        <target state="translated">Account attivato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.disabled">
-        <source>user.disabled</source>
-        <target state="translated">Account disabilitato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.locked">
-        <source>user.locked</source>
-        <target state="translated">Account bloccato</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.expired">
-        <source>user.expired</source>
-        <target state="translated">Account scaduto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.expiresAt">
-        <source>user.expiresAt</source>
-        <target state="translated">L'account scade il:</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.force.expired">
-        <source>user.force.expired</source>
-        <target state="translated">Forza la scadenza dell'account</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.credentialsExpiresAt">
-        <source>user.credentialsExpiresAt</source>
-        <target state="translated">Gli ID account scadono il:</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.force.credentialsExpired">
-        <source>user.force.credentialsExpired</source>
-        <target state="translated">Forza la scadenza degli ID account</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.user.%name%.security">
-        <source>edit.user.%name%.security</source>
-        <target state="translated">Sicurezza di "% name%"</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.%name%.security.updated">
-        <source>user.%name%.security.updated</source>
-        <target state="translated">Le impostazioni di sicurezza dell'account "% name%" sono state aggiornate.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.account.has-expired">
-        <source>user.account.has-expired</source>
-        <target state="translated">L'account è scaduto.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.crendentials.has-expired">
-        <source>user.crendentials.has-expired</source>
-        <target state="translated">Le credenziali dell'account utente sono scadute.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.last-login">
-        <source>user.last-login</source>
-        <target state="translated">Data dell'ultima connessione</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.password-requested-at">
-        <source>user.password-requested-at</source>
-        <target state="translated">Data dell'ultima richiesta di password</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="never.requested">
-        <source>never.requested</source>
-        <target state="translated">Mai richiesto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="year">
-        <source>year</source>
-        <target state="translated">Anno</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="month">
-        <source>month</source>
-        <target state="translated">Mese</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.updated">
+        <source>customForm.%name%.updated</source>
+        <target state="translated">La domanda "% name%" è stata aggiornata</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="day">
         <source>day</source>
         <target state="translated">Giorno</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="hour">
-        <source>hour</source>
-        <target state="translated">Ora</target>
+      <trans-unit xml:space="preserve" id="delete.generated_images.cache">
+        <source>delete.generated_images.cache</source>
+        <target state="translated">Elimina cache di immagini</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="minute">
-        <source>minute</source>
-        <target state="translated">Minuti</target>
+      <trans-unit xml:space="preserve" id="delete.nodesource">
+        <source>delete.nodesource</source>
+        <target state="translated">Rimuovi la sorgente del nodo</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="user.security">
-        <source>user.security</source>
-        <target state="translated">Sicurezza</target>
+      <trans-unit xml:space="preserve" id="deselect.all">
+        <source>deselect.all</source>
+        <target state="translated">Deseleziona tutto</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="your.account.email">
-        <source>your.account.email</source>
-        <target state="translated">Email collegata al tuo account</target>
+      <trans-unit xml:space="preserve" id="document.file.%name%.updated">
+        <source>document.file.%name%.updated</source>
+        <target state="translated">Documento "%name%" aggiornato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database">
-        <source>%email%.email.does.not.exist.in.user.account.database</source>
-        <target state="translated">L'email "% email%" non è stata trovata nel database.</target>
+      <trans-unit xml:space="preserve" id="document.filepath">
+        <source>document.filepath</source>
+        <target state="translated">Percorso del file assoluto </target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email">
-        <source>to.get.new.password.enter.your.account.email</source>
-        <target state="translated">Per ottenere una nuova password, inserisci l'indirizzo email collegato al tuo account utente.</target>
+      <trans-unit xml:space="preserve" id="document.public_url">
+        <source>document.public_url</source>
+        <target state="translated">URL pubblico</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="request.new.password">
-        <source>request.new.password</source>
-        <target state="translated">Invia la richiesta</target>
+      <trans-unit xml:space="preserve" id="download.document">
+        <source>download.document</source>
+        <target state="translated">Scarica il documento</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.login">
-        <source>back_to.login</source>
-        <target state="translated">Ritorna alla pagina di accesso</target>
+      <trans-unit xml:space="preserve" id="download.documents">
+        <source>download.documents</source>
+        <target state="translated">Scarica documenti</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email">
-        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
-        <target state="translated">Un link per la reimpostazione della password personale ti è stato inviato via email. Non aspettare troppo a lungo, questo link scadrà automaticamente.</target>
+      <trans-unit xml:space="preserve" id="download.folder.content">
+        <source>download.folder.content</source>
+        <target state="translated">Scarica il contenuto del file</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="confirmation.token.is.invalid">
-        <source>confirmation.token.is.invalid</source>
-        <target state="translated">Il token di conferma non è valido.</target>
+      <trans-unit xml:space="preserve" id="duplicated.newsletter.%name%">
+        <source>duplicated.newsletter.%name%</source>
+        <target state="translated">La newsletter "% name%" è stata duplicata</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="confirmation.token.has.expired">
-        <source>confirmation.token.has.expired</source>
-        <target state="translated">Il token di conferma è scaduto.</target>
+      <trans-unit xml:space="preserve" id="edit.account">
+        <source>edit.account</source>
+        <target state="translated">Modifica il tuo profilo</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="choose.a.new.password">
-        <source>choose.a.new.password</source>
-        <target state="translated">Scegli una nuova password</target>
+      <trans-unit xml:space="preserve" id="edit.newsletter.%name%">
+        <source>edit.newsletter.%name%</source>
+        <target state="translated">La newsletter "% name%" è stata duplicata</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="save.new.password">
-        <source>save.new.password</source>
-        <target state="translated">Salva una nuova password</target>
+      <trans-unit xml:space="preserve" id="edit.user.%name%.roles">
+        <source>edit.user.%name%.roles</source>
+        <target state="translated">%name% ruoli</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="your.new.password.has.been.saved">
-        <source>your.new.password.has.been.saved</source>
-        <target state="translated">La tua nuova password è stata salvata.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="go_back_to.login.page.to.connect">
-        <source>go_back_to.login.page.to.connect</source>
-        <target state="translated">È possibile tornare alla pagina di accesso.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent">
-        <source>a.confirmation.email.has.already.be.sent</source>
-        <target state="translated"> È già stata inviata un'email di conferma, controlla la posta indesiderata.</target>
+      <trans-unit xml:space="preserve" id="edit.user.%name%.security">
+        <source>edit.user.%name%.security</source>
+        <target state="translated">Sicurezza di "% name%"</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="email.invalid">
         <source>email.invalid</source>
         <target state="translated">L'email non è valida o non esiste.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="resultCache">
-        <source>resultCache</source>
-        <target state="translated">Risultati della cache</target>
+      <trans-unit xml:space="preserve" id="export.all.nodesSource">
+        <source>export.all.nodesSource</source>
+        <target state="translated">Esportare i contenuti del nodo</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="hydratationCache">
-        <source>hydratationCache</source>
-        <target state="translated">cache d'idratazione</target>
+      <trans-unit xml:space="preserve" id="export.html">
+        <source>export.html</source>
+        <target state="translated">Esporta in HTML</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="queryCache">
-        <source>queryCache</source>
-        <target state="translated">Cache di query</target>
+      <trans-unit xml:space="preserve" id="export.html.inline">
+        <source>export.html.inline</source>
+        <target state="translated">Esporta in HTML (CSS incorporato)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="metadataCache">
-        <source>metadataCache</source>
-        <target state="translated">Metadati della cache</target>
+      <trans-unit xml:space="preserve" id="false">
+        <source>false</source>
+        <target state="translated">Falso</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="no.cache.available">
-        <source>no.cache.available</source>
-        <target state="translated">Nessuna cache trovata.</target>
+      <trans-unit xml:space="preserve" id="geographic.coordinates.type">
+        <source>geographic.coordinates.type</source>
+        <target state="translated">Coordinate geografiche singole</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter">
+        <source>geotag.type_an_address.then_type_enter</source>
+        <target state="translated">Scrivi un indirizzo poi premi enter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="go_back_to.login.page.to.connect">
+        <source>go_back_to.login.page.to.connect</source>
+        <target state="translated">È possibile tornare alla pagina di accesso.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="history.for.%name%">
+        <source>history.for.%name%</source>
+        <target state="translated">Cronologia %name%</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="homeNode.limited.one">
         <source>homeNode.limited.one</source>
         <target state="translated">Puoi scegliere solo un nodo principale</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="NodeNode">
-        <source>homeNode</source>
-        <target state="translated">Nodo Home</target>
+      <trans-unit xml:space="preserve" id="hour">
+        <source>hour</source>
+        <target state="translated">Ora</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="hydratationCache">
+        <source>hydratationCache</source>
+        <target state="translated">cache d'idratazione</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ignore">
+        <source>ignore</source>
+        <target state="translated">Ignora</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="impossible.duplicate.newsletter.%name%">
+        <source>impossible.duplicate.newsletter.%name%</source>
+        <target state="translated">Impossibile duplicare la newsletter "% name%"</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="item-per-page.display.count">
+        <source>item-per-page.display.count</source>
+        <target state="translated">Mostra:</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="last.version">
+        <source>last.version</source>
+        <target state="translated">Ultima versione</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="lastest.version.installed">
+        <source>lastest.version.installed</source>
+        <target state="translated">Roadiz è aggiornato.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="latest.node-sources.updates">
+        <source>latest.node-sources.updates</source>
+        <target state="translated">Ultimi aggiornamenti fonti nodi</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="link.folders">
+        <source>link.folders</source>
+        <target state="translated">Unisci a cartella/e</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="maps_default_location">
+        <source>maps_default_location</source>
+        <target state="translated">Posizione di mappatura predefinita</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="maps_style">
+        <source>maps_style</source>
+        <target state="translated">Stile predefinito di Google Maps</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="metadataCache">
+        <source>metadataCache</source>
+        <target state="translated">Metadati della cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="minute">
+        <source>minute</source>
+        <target state="translated">Minuti</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="month">
+        <source>month</source>
+        <target state="translated">Mese</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.custom_forms">
+        <source>more.custom_forms</source>
+        <target state="translated">Più moduli personalizzati</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.documents">
+        <source>more.documents</source>
+        <target state="translated">Più documenti</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.node_types">
+        <source>more.node_types</source>
+        <target state="translated">Più tipi di nodi</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.nodes">
+        <source>more.nodes</source>
+        <target state="translated">Più nodi</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.tags">
+        <source>more.tags</source>
+        <target state="translated">Più etichette</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.node.to.first.position">
+        <source>move.node.to.first.position</source>
+        <target state="translated">Sposta in cima alla lista</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="move.node.to.last.position">
+        <source>move.node.to.last.position</source>
+        <target state="translated">Sposta alla fine dell'elenco</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="multiple.geographic.coordinates.type">
+        <source>multiple.geographic.coordinates.type</source>
+        <target state="translated">Coordinate geografiche multiple</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="never.requested">
+        <source>never.requested</source>
+        <target state="translated">Mai richiesto</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="news.version.release">
+        <source>news.version.release</source>
+        <target state="translated">Una nuova versione di Roadiz è stata rilasciata</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter">
+        <source>newsletter</source>
+        <target state="translated">Newsletter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.%name%.created">
+        <source>newsletter.%name%.created</source>
+        <target state="translated">La newsletter "% name%" è stata creata.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.%newsletter%.updated.%translation%">
+        <source>newsletter.%newsletter%.updated.%translation%</source>
+        <target state="translated">La newsletter "% name%" è stata aggiornata per la traduzione% translation%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.nodeType">
+        <source>newsletter.nodeType</source>
+        <target state="translated"> Riservato per le newsletter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.type">
+        <source>newsletter.type</source>
+        <target state="translated">Tipo di newsletter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.cache.available">
+        <source>no.cache.available</source>
+        <target state="translated">Nessuna cache trovata.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.nodeType.available.create_one_first">
+        <source>no.nodeType.available.create_one_first</source>
+        <target state="translated">Nessun tipo di nodo è presente sul tuo sito. Si prega di crearne uno prima di aggiungere nuovi nodi.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.%field%.updated">
+        <source>node.%name%.%field%.updated</source>
+        <target state="translated">Il campo "% campo%" del nodo% name% è stato aggiornato.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.no_creation.already_exists">
+        <source>node.%name%.no_creation.already_exists</source>
+        <target state="translated">Il nodo "% name%" non può essere creato perché il suo nome è già utilizzato.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.datetime.operator">
+        <source>node.datetime.operator</source>
+        <target state="translated">Operatore</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.datetime.value">
+        <source>node.datetime.value</source>
+        <target state="translated">Data di creazione</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.dynamicNodeName">
+        <source>node.dynamicNodeName</source>
+        <target state="translated">Il nome del nodo è dinamico</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.id.parent">
+        <source>node.id.parent</source>
+        <target state="translated">Identificatore del nodo genitore</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.limit.result">
+        <source>node.limit.result</source>
+        <target state="translated">Limite di risultati</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.name">
+        <source>node.name</source>
+        <target state="translated">Nome nodo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists">
+        <source>node.noCreation.alreadyExists</source>
+        <target state="translated">Il nodo non è stato creato perché esiste già.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.tag.exclusive">
+        <source>node.tag.exclusive</source>
+        <target state="translated">Selezione di etichette esclusive</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.tags">
+        <source>node.tags</source>
+        <target state="translated">Etichette </target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.hiding_nodes">
+        <source>nodeType.hiding_nodes</source>
+        <target state="translated">Digita il suo albero nascosto</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.not_visible">
+        <source>nodeType.not_visible</source>
+        <target state="translated">Tipo di nodo invisibile</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.status">
+        <source>nodeType.status</source>
+        <target state="translated">Stato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.%node_source%.%translation%.cant.deleted">
+        <source>node_source.%node_source%.%translation%.cant.deleted</source>
+        <target state="translated">L'eliminazione di "% node_source%" a "% translation%" non è possibile</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.%node_source%.deleted.%translation%">
+        <source>node_source.%node_source%.deleted.%translation%</source>
+        <target state="translated">L'eliminazione di "% node_source%" a "% translation%" non è possibile</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.bulk.status.changed">
+        <source>nodes.bulk.status.changed</source>
+        <target state="translated">Lo stato della selezione nodi è stato modificato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.status">
+        <source>nodes.status</source>
+        <target state="translated">Stato di selezione</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodetypefield">
+        <source>nodetypefield</source>
+        <target state="translated">Campi del tipo di nodo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not.valid.facebook.name">
+        <source>not.valid.facebook.name</source>
+        <target state="translated">Questo non è un ID di Facebook valido, puoi andare su http://lookup-id.com/ per trovarlo.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="overwrite.document">
+        <source>overwrite.document</source>
+        <target state="translated">Sovrascrivi il documento</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="password.must.match">
+        <source>password.must.match</source>
+        <target state="translated">Le password devono corrispondere</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="passwords.must.match">
+        <source>passwords.must.match</source>
+        <target state="translated">Le password devono corrispondere</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="purge.generated_images.cache">
+        <source>purge.generated_images.cache</source>
+        <target state="translated">Elimina cache di immagini</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="queryCache">
+        <source>queryCache</source>
+        <target state="translated">Cache di query</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="request.new.password">
+        <source>request.new.password</source>
+        <target state="translated">Invia la richiesta</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="reset.marker">
+        <source>reset.marker</source>
+        <target state="translated">Risetta marker</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="resultCache">
+        <source>resultCache</source>
+        <target state="translated">Risultati della cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="role.cannot.update.status">
+        <source>role.cannot.update.status</source>
+        <target state="translated">Diritti insufficienti per applicare questo stato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="routePrefix">
+        <source>routePrefix</source>
+        <target state="translated">Prefisso di route statiche</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="save.new.password">
+        <source>save.new.password</source>
+        <target state="translated">Salva una nuova password</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.a.node">
+        <source>search.a.node</source>
+        <target state="translated">Cerca un nodo</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.custom_forms">
+        <source>search.custom_forms</source>
+        <target state="translated">Cerca moduli personalizzati</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="see.newsletter">
+        <source>see.newsletter</source>
+        <target state="translated">Vedi la newsletter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.all">
+        <source>select.all</source>
+        <target state="translated">Seleziona tutto</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.nodetype">
+        <source>select.nodetype</source>
+        <target state="translated">Filtro</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="start.test.user.right">
+        <source>start.test.user.right</source>
+        <target state="translated">Prendi i privilegi</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="staticTheme">
+        <source>staticTheme</source>
+        <target state="translated">Tema statico</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="staticTheme.does_not.allow.node_url_routes">
+        <source>staticTheme.does_not.allow.node_url_routes</source>
+        <target state="translated">Un "tema statico" significa che non risponderà alle richieste da URL di nodo dinamico, solo route statiche.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="static_domain_name">
+        <source>static_domain_name</source>
+        <target state="translated">Nome di dominio statico</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="stop.test.user.right">
+        <source>stop.test.user.right</source>
+        <target state="translated">Ritorna all'utente</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="theme.is_static">
+        <source>theme.is_static</source>
+        <target state="translated">Statico</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="theme.root.limited.one">
         <source>theme.root.limited.one</source>
@@ -3299,73 +3282,89 @@
         <source>themeRoot</source>
         <target state="translated">Nodo radice</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="about.cms">
-        <source>about.cms</source>
-        <target state="translated">A proposito di Roadiz</target>
+      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email">
+        <source>to.get.new.password.enter.your.account.email</source>
+        <target state="translated">Per ottenere una nuova password, inserisci l'indirizzo email collegato al tuo account utente.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="news.version.release">
-        <source>news.version.release</source>
-        <target state="translated">Una nuova versione di Roadiz è stata rilasciata</target>
+      <trans-unit xml:space="preserve" id="true">
+        <source>true</source>
+        <target state="translated">Vero</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="lastest.version.installed">
-        <source>lastest.version.installed</source>
-        <target state="translated">Roadiz è aggiornato.</target>
+      <trans-unit xml:space="preserve" id="unlink.folders">
+        <source>unlink.folders</source>
+        <target state="translated">Separa da cartella/e</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="current.version">
-        <source>current.version</source>
-        <target state="translated">Versione corrente</target>
+      <trans-unit xml:space="preserve" id="user.%name%.security.updated">
+        <source>user.%name%.security.updated</source>
+        <target state="translated">Le impostazioni di sicurezza dell'account "% name%" sono state aggiornate.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="last.version">
-        <source>last.version</source>
-        <target state="translated">Ultima versione</target>
+      <trans-unit xml:space="preserve" id="user.account.has-expired">
+        <source>user.account.has-expired</source>
+        <target state="translated">L'account è scaduto.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="changelog">
-        <source>changelog</source>
-        <target state="translated">Note di rilascio</target>
+      <trans-unit xml:space="preserve" id="user.credentialsExpiresAt">
+        <source>user.credentialsExpiresAt</source>
+        <target state="translated">Gli ID account scadono il:</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="download.folder.content">
-        <source>download.folder.content</source>
-        <target state="translated">Scarica il contenuto del file</target>
+      <trans-unit xml:space="preserve" id="user.crendentials.has-expired">
+        <source>user.crendentials.has-expired</source>
+        <target state="translated">Le credenziali dell'account utente sono scadute.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="not.valid.facebook.name">
-        <source>not.valid.facebook.name</source>
-        <target state="translated">Questo non è un ID di Facebook valido, puoi andare su http://lookup-id.com/ per trovarlo.</target>
+      <trans-unit xml:space="preserve" id="user.disabled">
+        <source>user.disabled</source>
+        <target state="translated">Account disabilitato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="routePrefix">
-        <source>routePrefix</source>
-        <target state="translated">Prefisso di route statiche</target>
+      <trans-unit xml:space="preserve" id="user.enabled">
+        <source>user.enabled</source>
+        <target state="translated">Account attivato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="current.document.is.private.you.cannot.preview.it">
-        <source>current.document.is.private.you.cannot.preview.it</source>
-        <target state="translated">Il documento corrente è contrassegnato come privato, non è possibile visualizzarne l'anteprima.</target>
+      <trans-unit xml:space="preserve" id="user.expired">
+        <source>user.expired</source>
+        <target state="translated">Account scaduto</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.public_url">
-        <source>document.public_url</source>
-        <target state="translated">URL pubblico</target>
+      <trans-unit xml:space="preserve" id="user.expiresAt">
+        <source>user.expiresAt</source>
+        <target state="translated">L'account scade il:</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.filepath">
-        <source>document.filepath</source>
-        <target state="translated">Percorso del file assoluto </target>
+      <trans-unit xml:space="preserve" id="user.force.credentialsExpired">
+        <source>user.force.credentialsExpired</source>
+        <target state="translated">Forza la scadenza degli ID account</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="download.document">
-        <source>download.document</source>
-        <target state="translated">Scarica il documento</target>
+      <trans-unit xml:space="preserve" id="user.force.expired">
+        <source>user.force.expired</source>
+        <target state="translated">Forza la scadenza dell'account</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="static_domain_name">
-        <source>static_domain_name</source>
-        <target state="translated">Nome di dominio statico</target>
+      <trans-unit xml:space="preserve" id="user.last-login">
+        <source>user.last-login</source>
+        <target state="translated">Data dell'ultima connessione</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="item-per-page.display.count">
-        <source>item-per-page.display.count</source>
-        <target state="translated">Mostra:</target>
+      <trans-unit xml:space="preserve" id="user.locked">
+        <source>user.locked</source>
+        <target state="translated">Account bloccato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="move.node.to.first.position">
-        <source>move.node.to.first.position</source>
-        <target state="translated">Sposta in cima alla lista</target>
+      <trans-unit xml:space="preserve" id="user.password-requested-at">
+        <source>user.password-requested-at</source>
+        <target state="translated">Data dell'ultima richiesta di password</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="move.node.to.last.position">
-        <source>move.node.to.last.position</source>
-        <target state="translated">Sposta alla fine dell'elenco</target>
+      <trans-unit xml:space="preserve" id="user.security">
+        <source>user.security</source>
+        <target state="translated">Sicurezza</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.status">
+        <source>user.status</source>
+        <target state="translated">Stato</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="year">
+        <source>year</source>
+        <target state="translated">Anno</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.account.email">
+        <source>your.account.email</source>
+        <target state="translated">Email collegata al tuo account</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.new.password.has.been.saved">
+        <source>your.new.password.has.been.saved</source>
+        <target state="translated">La tua nuova password è stata salvata.</target>
       </trans-unit>
       <!-- Node tree contextual menu commands -->
       <trans-unit xml:space="preserve" id="node.hide">
@@ -3406,13 +3405,13 @@
         <target state="translated">Questo valore non è valido.</target>
       </trans-unit>
       <!-- Font variantes -->
-      <trans-unit xml:space="preserve" id="font_variant.regular">
-        <source>font_variant.regular</source>
-        <target state="translated">Regolare</target>
+      <trans-unit xml:space="preserve" id="font_variant.black">
+        <source>font_variant.black</source>
+        <target state="translated">nero</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.italic">
-        <source>font_variant.italic</source>
-        <target state="translated">Corsivo</target>
+      <trans-unit xml:space="preserve" id="font_variant.black.italic">
+        <source>font_variant.black.italic</source>
+        <target state="translated">corsivo nero</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.bold">
         <source>font_variant.bold</source>
@@ -3422,21 +3421,13 @@
         <source>font_variant.bold.italic</source>
         <target state="translated">Grassetto corsivo</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.light">
-        <source>font_variant.light</source>
-        <target state="translated">Poco calcato</target>
+      <trans-unit xml:space="preserve" id="font_variant.extra_bold">
+        <source>font_variant.extra_bold</source>
+        <target state="translated">Molto grassetto</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.light.italic">
-        <source>font_variant.light.italic</source>
-        <target state="translated">Poco calcato corsivo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.thin">
-        <source>font_variant.thin</source>
-        <target state="translated">Stretto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.thin.italic">
-        <source>font_variant.thin.italic</source>
-        <target state="translated">Corsivo stretto</target>
+      <trans-unit xml:space="preserve" id="font_variant.extra_bold.italic">
+        <source>font_variant.extra_bold.italic</source>
+        <target state="translated">Corsivo molto grassetto</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.extra_light">
         <source>font_variant.extra_light</source>
@@ -3446,21 +3437,17 @@
         <source>font_variant.extra_light.italic</source>
         <target state="translated">Corsivo molto poco calcato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.extra_bold">
-        <source>font_variant.extra_bold</source>
-        <target state="translated">Molto grassetto</target>
+      <trans-unit xml:space="preserve" id="font_variant.italic">
+        <source>font_variant.italic</source>
+        <target state="translated">Corsivo</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.extra_bold.italic">
-        <source>font_variant.extra_bold.italic</source>
-        <target state="translated">Corsivo molto grassetto</target>
+      <trans-unit xml:space="preserve" id="font_variant.light">
+        <source>font_variant.light</source>
+        <target state="translated">Poco calcato</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.semi_bold">
-        <source>font_variant.semi_bold</source>
-        <target state="translated">Semi grassetto</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.semi_bold.italic">
-        <source>font_variant.semi_bold.italic</source>
-        <target state="translated">Semi corsivo grassetto</target>
+      <trans-unit xml:space="preserve" id="font_variant.light.italic">
+        <source>font_variant.light.italic</source>
+        <target state="translated">Poco calcato corsivo</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.medium">
         <source>font_variant.medium</source>
@@ -3470,13 +3457,25 @@
         <source>font_variant.medium.italic</source>
         <target state="translated">Medio corsivo</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.black">
-        <source>font_variant.black</source>
-        <target state="translated">nero</target>
+      <trans-unit xml:space="preserve" id="font_variant.regular">
+        <source>font_variant.regular</source>
+        <target state="translated">Regolare</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.black.italic">
-        <source>font_variant.black.italic</source>
-        <target state="translated">corsivo nero</target>
+      <trans-unit xml:space="preserve" id="font_variant.semi_bold">
+        <source>font_variant.semi_bold</source>
+        <target state="translated">Semi grassetto</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.semi_bold.italic">
+        <source>font_variant.semi_bold.italic</source>
+        <target state="translated">Semi corsivo grassetto</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.thin">
+        <source>font_variant.thin</source>
+        <target state="translated">Stretto</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.thin.italic">
+        <source>font_variant.thin.italic</source>
+        <target state="translated">Corsivo stretto</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="update.roadiz">
         <source>update.roadiz</source>
