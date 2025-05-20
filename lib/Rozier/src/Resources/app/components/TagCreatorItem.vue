@@ -10,25 +10,25 @@
     </div>
 </template>
 <script>
-    export default {
-        props: {
-            tagName: {
-                required: true,
-                type: String
-            },
-            createTag: {
-                required: true,
-                type: Function
-            }
+export default {
+    props: {
+        tagName: {
+            required: true,
+            type: String,
         },
-        methods: {
-            tagCreatorItemClick () {
-                this.createTag({
-                    tagName: this.tagName
-                })
-            }
-        }
-    }
+        createTag: {
+            required: true,
+            type: Function,
+        },
+    },
+    methods: {
+        tagCreatorItemClick() {
+            this.createTag({
+                tagName: this.tagName,
+            })
+        },
+    },
+}
 </script>
 <style lang="less" scoped>
 @bgColor: darken(#3d3d3d, 10);
@@ -101,8 +101,8 @@
         text-transform: uppercase;
         display: block;
         line-height: 11px;
-        color: rgba(0,0,0,.6);
-        letter-spacing: .07em;
+        color: rgba(0, 0, 0, 0.6);
+        letter-spacing: 0.07em;
         font-weight: 700;
         text-overflow: ellipsis;
         white-space: nowrap;

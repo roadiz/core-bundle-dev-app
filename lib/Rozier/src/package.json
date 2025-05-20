@@ -9,7 +9,8 @@
     "build": "NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider better-npm-run build",
     "clean": "rm -rf node_modules && rm -rf static",
     "start": "npm run dev",
-    "lint": "eslint"
+    "prettier": "prettier --config .prettierrc.js -w --check Resources/app/**/*.js Resources/app/**/*.vue Resources/app/**/*.less",
+    "lint": "eslint && prettier --config .prettierrc.js -w --check Resources/app/**/*.js Resources/app/**/*.vue Resources/app/**/*.less"
   },
   "betterScripts": {
     "dev": {

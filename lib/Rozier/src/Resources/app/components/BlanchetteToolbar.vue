@@ -1,28 +1,76 @@
 <template>
     <div class="toolbar" ref="toolbar">
         <template v-if="!cropped">
-            <button class="toolbar__button uk-button" data-uk-tooltip :title="translations.move" v-if="setDragMode" @click="setDragMode('move')">
+            <button
+                class="toolbar__button uk-button"
+                data-uk-tooltip
+                :title="translations.move"
+                v-if="setDragMode"
+                @click="setDragMode('move')"
+            >
                 <i class="uk-icon-arrows"></i>
             </button>
-            <button class="toolbar__button uk-button" data-uk-tooltip :title="translations.crop" v-if="setDragMode" @click="setDragMode('crop')">
+            <button
+                class="toolbar__button uk-button"
+                data-uk-tooltip
+                :title="translations.crop"
+                v-if="setDragMode"
+                @click="setDragMode('crop')"
+            >
                 <i class="uk-icon-crop"></i>
             </button>
-            <button class="toolbar_button uk-button" data-uk-tooltip :title="translations.zoomIn" v-if="zoomIn" @click="zoomIn">
+            <button
+                class="toolbar_button uk-button"
+                data-uk-tooltip
+                :title="translations.zoomIn"
+                v-if="zoomIn"
+                @click="zoomIn"
+            >
                 <i class="uk-icon-search-plus"></i>
             </button>
-            <button class="toolbar_button uk-button" data-uk-tooltip :title="translations.zoomOut" v-if="zoomOut" @click="zoomOut">
+            <button
+                class="toolbar_button uk-button"
+                data-uk-tooltip
+                :title="translations.zoomOut"
+                v-if="zoomOut"
+                @click="zoomOut"
+            >
                 <i class="uk-icon-search-minus"></i>
             </button>
-            <button class="toolbar_button uk-button" data-uk-tooltip :title="translations.rotateLeft" v-if="rotateLeft" @click="rotateLeft">
+            <button
+                class="toolbar_button uk-button"
+                data-uk-tooltip
+                :title="translations.rotateLeft"
+                v-if="rotateLeft"
+                @click="rotateLeft"
+            >
                 <i class="uk-icon-rotate-left"></i>
             </button>
-            <button class="toolbar_button uk-button" data-uk-tooltip :title="translations.rotateRight" v-if="rotateRight" @click="rotateRight">
+            <button
+                class="toolbar_button uk-button"
+                data-uk-tooltip
+                :title="translations.rotateRight"
+                v-if="rotateRight"
+                @click="rotateRight"
+            >
                 <i class="uk-icon-rotate-right"></i>
             </button>
-            <button class="toolbar_button uk-button" data-uk-tooltip :title="translations.flipHorizontal" v-if="flipHorizontal" @click="flipHorizontal">
+            <button
+                class="toolbar_button uk-button"
+                data-uk-tooltip
+                :title="translations.flipHorizontal"
+                v-if="flipHorizontal"
+                @click="flipHorizontal"
+            >
                 <i class="uk-icon-arrows-h"></i>
             </button>
-            <button class="toolbar_button uk-button" data-uk-tooltip :title="translations.flipVertical" v-if="flipVertical" @click="flipVertical">
+            <button
+                class="toolbar_button uk-button"
+                data-uk-tooltip
+                :title="translations.flipVertical"
+                v-if="flipVertical"
+                @click="flipVertical"
+            >
                 <i class="uk-icon-arrows-v"></i>
             </button>
 
@@ -45,15 +93,33 @@
                 <i class="uk-icon-arrow-down"></i>
             </div>
 
-            <button class="toolbar_button uk-button uk-button-primary" data-uk-tooltip :title="translations.applyChange" v-if="cropping && !cropped" @click="crop">
+            <button
+                class="toolbar_button uk-button uk-button-primary"
+                data-uk-tooltip
+                :title="translations.applyChange"
+                v-if="cropping && !cropped"
+                @click="crop"
+            >
                 <i class="uk-icon-check"></i>
             </button>
         </template>
 
-        <button class="toolbar_button uk-button uk-button-secondary" data-uk-tooltip :title="translations.undo" v-if="cropped" @click="undo">
+        <button
+            class="toolbar_button uk-button uk-button-secondary"
+            data-uk-tooltip
+            :title="translations.undo"
+            v-if="cropped"
+            @click="undo"
+        >
             <i class="uk-icon-undo"></i>
         </button>
-        <button class="toolbar_button uk-button uk-button-primary" data-uk-tooltip :title="translations.saveAndOverwrite" v-if="cropped" @click="overwrite">
+        <button
+            class="toolbar_button uk-button uk-button-primary"
+            data-uk-tooltip
+            :title="translations.saveAndOverwrite"
+            v-if="cropped"
+            @click="overwrite"
+        >
             <i class="uk-icon-floppy-o"></i> {{ translations.saveAndOverwrite }}
         </button>
     </div>
@@ -80,92 +146,92 @@
 }
 </style>
 <script>
-    export default {
-        props: {
-            translations: {
-                type: Object,
-                required: true
-            },
-            aspectRatio: {
-                type: Function
-            },
-            cropping: {
-                type: Boolean,
-                required: true
-            },
-            cropped: {
-                type: Boolean,
-                required: true
-            },
-            overwrite: {
-                type: Function,
-                required: true
-            },
-            undo: {
-                type: Function,
-                required: true
-            },
-            setDragMode: {
-                type: Function
-            },
-            zoomOut: {
-                type: Function
-            },
-            zoomIn: {
-                type: Function
-            },
-            rotateLeft: {
-                type: Function
-            },
-            rotateRight: {
-                type: Function
-            },
-            flipHorizontal: {
-                type: Function
-            },
-            flipVertical: {
-                type: Function
-            },
-            crop: {
-                type: Function
-            },
-            move: {
-                type: Function
-            },
-            clear: {
-                type: Function
-            }
+export default {
+    props: {
+        translations: {
+            type: Object,
+            required: true,
         },
-        data () {
-            return {
-                ratio: 'free'
-            }
+        aspectRatio: {
+            type: Function,
         },
-        mounted () {
-            window.addEventListener('keydown', this.keydown, false)
+        cropping: {
+            type: Boolean,
+            required: true,
         },
-        beforeDestroy () {
-            window.removeEventListener('keydown', this.keydown, false)
+        cropped: {
+            type: Boolean,
+            required: true,
         },
-        methods: {
-            keydown (e) {
-                const key = e.keyCode
+        overwrite: {
+            type: Function,
+            required: true,
+        },
+        undo: {
+            type: Function,
+            required: true,
+        },
+        setDragMode: {
+            type: Function,
+        },
+        zoomOut: {
+            type: Function,
+        },
+        zoomIn: {
+            type: Function,
+        },
+        rotateLeft: {
+            type: Function,
+        },
+        rotateRight: {
+            type: Function,
+        },
+        flipHorizontal: {
+            type: Function,
+        },
+        flipVertical: {
+            type: Function,
+        },
+        crop: {
+            type: Function,
+        },
+        move: {
+            type: Function,
+        },
+        clear: {
+            type: Function,
+        },
+    },
+    data() {
+        return {
+            ratio: 'free',
+        }
+    },
+    mounted() {
+        window.addEventListener('keydown', this.keydown, false)
+    },
+    beforeDestroy() {
+        window.removeEventListener('keydown', this.keydown, false)
+    },
+    methods: {
+        keydown(e) {
+            const key = e.keyCode
 
-                switch (key) {
-                    // Undo crop (Key: Ctrl + Z)
+            switch (key) {
+                // Undo crop (Key: Ctrl + Z)
                 case 90:
                     if (this.undo) {
                         e.preventDefault()
                         this.undo()
                     }
                     break
-                }
+            }
 
-                if (this.cropped) {
-                    return
-                }
+            if (this.cropped) {
+                return
+            }
 
-                switch (key) {
+            switch (key) {
                 // Crop the image (Key: Enter)
                 case 13:
                     if (this.crop) {
@@ -267,8 +333,8 @@
                         this.flipVertical()
                     }
                     break
-                }
             }
-        }
-    }
+        },
+    },
+}
 </script>

@@ -3,40 +3,34 @@
         <div class="tag-creator" v-if="!isTagExisting && searchTerms">
             <div class="infos">{{ translations.createTag }}</div>
 
-            <tag-creator-item
-                :create-tag="tagsCreate"
-                :tag-name="searchTerms">
-            </tag-creator-item>
+            <tag-creator-item :create-tag="tagsCreate" :tag-name="searchTerms"> </tag-creator-item>
         </div>
     </transition>
 </template>
 <script>
-    import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
-    // Components
-    import TagCreatorItem from '../components/TagCreatorItem.vue'
+// Components
+import TagCreatorItem from '../components/TagCreatorItem.vue'
 
-    export default {
-        mounted () {
-            this.tagCreatorReady()
-        },
-        computed: {
-            ...mapState({
-                translations: state => state.translations,
-                searchTerms: state => state.explorer.searchTerms,
-                isTagExisting: state => state.tags.isTagExisting
-            })
-        },
-        methods: {
-            ...mapActions([
-                'tagsCreate',
-                'tagCreatorReady'
-            ])
-        },
-        components: {
-            TagCreatorItem
-        }
-    }
+export default {
+    mounted() {
+        this.tagCreatorReady()
+    },
+    computed: {
+        ...mapState({
+            translations: (state) => state.translations,
+            searchTerms: (state) => state.explorer.searchTerms,
+            isTagExisting: (state) => state.tags.isTagExisting,
+        }),
+    },
+    methods: {
+        ...mapActions(['tagsCreate', 'tagCreatorReady']),
+    },
+    components: {
+        TagCreatorItem,
+    },
+}
 </script>
 <style lang="less" scoped>
 @bgColor: darken(#3d3d3d, 10);

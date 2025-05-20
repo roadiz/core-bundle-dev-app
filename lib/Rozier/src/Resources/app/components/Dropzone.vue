@@ -3,67 +3,67 @@
 </template>
 
 <script>
-import {fadeOut} from "../utils/animation";
+import { fadeOut } from '../utils/animation'
 import { sleep } from '../utils/sleep'
 
 export default {
     props: {
         id: {
             type: String,
-            required: true
+            required: true,
         },
         url: {
             type: String,
-            required: true
+            required: true,
         },
         clickable: {
             type: Boolean,
-            default: true
+            default: true,
         },
         acceptedFileTypes: {
-            type: String
+            type: String,
         },
         thumbnailHeight: {
             type: Number,
-            default: 80
+            default: 80,
         },
         thumbnailWidth: {
             type: Number,
-            default: 80
+            default: 80,
         },
         showRemoveLink: {
             type: Boolean,
-            default: true
+            default: true,
         },
         maxFileSizeInMB: {
             type: Number,
-            default: 64
+            default: 64,
         },
         maxNumberOfFiles: {
             type: Number,
-            default: 5
+            default: 5,
         },
         autoProcessQueue: {
             type: Boolean,
-            default: true
+            default: true,
         },
         useFontAwesome: {
             type: Boolean,
-            default: false
+            default: false,
         },
         headers: {
-            type: Object
+            type: Object,
         },
         language: {
-            type: Object
+            type: Object,
         },
         useCustomDropzoneOptions: {
             type: Boolean,
-            default: false
+            default: false,
         },
         dropzoneOptions: {
-            type: Object
-        }
+            type: Object,
+        },
     },
     methods: {
         setOption: function (option, value) {
@@ -77,25 +77,25 @@ export default {
         },
         removeFile: function (file) {
             this.dropzone.removeFile(file)
-        }
+        },
     },
     computed: {
         doneIcon: function () {
             if (this.useFontAwesome) {
                 return '<i class="fa fa-check"></i>'
             } else {
-                return  ' <i class="material-icons">done</i>' // eslint-disable-line
+                return ' <i class="material-icons">done</i>' // eslint-disable-line
             }
         },
         errorIcon: function () {
             if (this.useFontAwesome) {
                 return '<i class="fa fa-close"></i>'
             } else {
-                return  ' <i class="material-icons">error</i>' // eslint-disable-line
+                return ' <i class="material-icons">error</i>' // eslint-disable-line
             }
-        }
+        },
     },
-    mounted () {
+    mounted() {
         if (this.$isServer) {
             return
         }
@@ -145,15 +145,18 @@ export default {
 
                     for (let i = 0, len = ref.length; i < len; i++) {
                         let node = ref[i]
-                        results.push(node.textContent = errorMessage)
+                        results.push((node.textContent = errorMessage))
                     }
 
                     return results
-                }
+                },
             })
 
-            const dropzone = element;
-            dropzone.insertAdjacentHTML('beforeend', `<div class="dz-default dz-message"><span>${this.language.dictDefaultMessage}</span></div>`)
+            const dropzone = element
+            dropzone.insertAdjacentHTML(
+                'beforeend',
+                `<div class="dz-default dz-message"><span>${this.language.dictDefaultMessage}</span></div>`
+            )
 
             const dzMessageDiv = dropzone.querySelector('.dz-message')
             const circlesIconsHTML = `
@@ -165,9 +168,9 @@ export default {
                     <div class="circle circle-5"></div>
                     <i class="uk-icon-rz-file"></i>
                 </div>
-            `;
+            `
 
-            dzMessageDiv.insertAdjacentHTML('beforeend', circlesIconsHTML);
+            dzMessageDiv.insertAdjacentHTML('beforeend', circlesIconsHTML)
         } else {
             this.dropzone = new Dropzone(element, this.dropzoneOptions)
         }
@@ -226,8 +229,8 @@ export default {
         })
     },
 
-    beforeDestroy () {
+    beforeDestroy() {
         this.dropzone.destroy()
-    }
+    },
 }
 </script>
