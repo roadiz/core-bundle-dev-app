@@ -177,7 +177,7 @@ final class NodesTreesController extends AbstractController
         $assignation = [];
 
         $nodesIds = trim($request->get('deleteForm')['nodesIds']);
-        $nodesIds = explode(',', $nodesIds);
+        $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($nodesIds);
 
         /** @var Node[] $nodes */
@@ -234,7 +234,7 @@ final class NodesTreesController extends AbstractController
         $assignation = [];
 
         $nodesIds = trim($request->get('statusForm')['nodesIds']);
-        $nodesIds = explode(',', $nodesIds);
+        $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($nodesIds);
 
         /** @var Node[] $nodes */
@@ -290,8 +290,8 @@ final class NodesTreesController extends AbstractController
         $builder = $this->formFactory
                         ->createNamedBuilder('deleteForm')
                         ->add('nodesIds', HiddenType::class, [
-                            'data' => implode(',', $nodesIds),
-                            'attr' => ['class' => 'nodes-id-bulk-tags'],
+                            'data' => json_encode($nodesIds, flags: JSON_THROW_ON_ERROR),
+                            'attr' => ['class' => 'bulk-form-value'],
                             'constraints' => [
                                 new NotNull(),
                                 new NotBlank(),
@@ -311,7 +311,7 @@ final class NodesTreesController extends AbstractController
     {
         if (!empty($data['nodesIds'])) {
             $nodesIds = trim($data['nodesIds']);
-            $nodesIds = explode(',', $nodesIds);
+            $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
             array_filter($nodesIds);
 
             $nodes = $this->managerRegistry
@@ -339,8 +339,7 @@ final class NodesTreesController extends AbstractController
     private function bulkStatusNodes(array $data): string
     {
         if (!empty($data['nodesIds'])) {
-            $nodesIds = trim($data['nodesIds']);
-            $nodesIds = explode(',', $nodesIds);
+            $nodesIds = \json_decode($data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
             array_filter($nodesIds);
 
             /** @var Node[] $nodes */
@@ -372,7 +371,7 @@ final class NodesTreesController extends AbstractController
         $builder = $this->formFactory
             ->createNamedBuilder('tagForm')
             ->add('nodesIds', HiddenType::class, [
-                'attr' => ['class' => 'nodes-id-bulk-tags'],
+                'attr' => ['class' => 'bulk-form-value'],
                 'constraints' => [
                     new NotNull(),
                     new NotBlank(),
@@ -418,7 +417,7 @@ final class NodesTreesController extends AbstractController
             !empty($data['tagsPaths'])
             && !empty($data['nodesIds'])
         ) {
-            $nodesIds = explode(',', $data['nodesIds']);
+            $nodesIds = json_decode($data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
             $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */
@@ -457,7 +456,7 @@ final class NodesTreesController extends AbstractController
             !empty($data['tagsPaths'])
             && !empty($data['nodesIds'])
         ) {
-            $nodesIds = explode(',', $data['nodesIds']);
+            $nodesIds = \json_decode($data['nodesIds'], true, flags: JSON_THROW_ON_ERROR);
             $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */
@@ -499,8 +498,8 @@ final class NodesTreesController extends AbstractController
         $builder = $this->formFactory
             ->createNamedBuilder('statusForm')
             ->add('nodesIds', HiddenType::class, [
-                'attr' => ['class' => 'nodes-id-bulk-status'],
-                'data' => implode(',', $nodesIds),
+                'attr' => ['class' => 'bulk-form-value'],
+                'data' => json_encode($nodesIds, flags: JSON_THROW_ON_ERROR),
                 'constraints' => [
                     new NotBlank(),
                     new NotNull(),

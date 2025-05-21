@@ -31,7 +31,7 @@
     }
 }
 
-.bulk-actions-title-cont{
+.bulk-actions-title-cont {
     position: relative;
     height:9px;
     margin:0 100px 30px;
@@ -64,9 +64,7 @@
     background: var(--maincontent-bar-bg);
 }
 .tags-bulk-folder-cont,
-.documents-bulk-folder-cont,
-.nodes-bulk-status-cont,
-.nodes-bulk-folder-cont {
+.documents-bulk-folder-cont {
     display: none;
     margin:10px 100px 0;
     padding:10px 0 0 0;
@@ -136,10 +134,10 @@
 
 #tags-bulk-delete-form,
 #documents-bulk-delete-form,
-#documents-bulk-download-form,
-#nodes-bulk-delete-form{
+#documents-bulk-download-form {
     position: relative;
-    margin-bottom:30px; padding-bottom:30px;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
 
     &:after{
         position: absolute;
@@ -194,5 +192,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
+
+        .data-uk-margin {
+            margin: 0;
+        }
+    }
+
+    // Sub-forms inside the bulk actions
+    .bulk-group {
+        display: none;
+        margin:10px 100px 0;
+        padding:10px 0 0 0;
+        border-top:1px dashed #c3c3c3;
+
+        &.bulk-group--open {
+            display: block;
+        }
     }
 }
