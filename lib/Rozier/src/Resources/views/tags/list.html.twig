@@ -7,7 +7,7 @@
 {%- endblock -%}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
+<section class="content-global content-nav-and-filters  bulk-layout">
 
     <header class="content-header header-tags header-nodes-list">
         <h1 class="content-title tags-list-title">{% trans %}tags{% endtrans %}</h1>
@@ -35,7 +35,12 @@
                                 'filters': filters,
                             } only %}
                         </th>
-                        <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
+                        <th class="table-actions-row table-actions-row-3">
+                            <div class="bulk-selection">
+                                <input class="checkbox" type="checkbox" name="bulk-selection-all" />
+                            </div>
+                            {% trans %}actions{% endtrans %}
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -65,12 +70,12 @@
                         <tr>
                             <td><a href="{{ path('tagsEditPage', { tagId: tag.getId }) }}">{{ tag.getId }}</a></td>
                             <td><a href="{{ path('tagsEditPage', { tagId: tag.getId }) }}">tag_{{ tag.getId }} <span class="uk-badge uk-badge-warning">{% trans %}notranslation_available.tag{% endtrans %}</span></a></td>
-                            <td class="table-actions-row">
+                            <td class="table-actions-row table-actions-row-3">
                             {% apply spaceless %}
                                 {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
-                                <div class="tagtree-bulk-selection">
-                                    <input class="tag-checkbox" type="checkbox" name="bulk-selection[]" value="{{ tag.getId }}" />
-                                </div>
+                                    <div class="bulk-selection">
+                                        <input class="tag-checkbox" type="checkbox" name="bulk-selection[]" value="{{ tag.getId }}" />
+                                    </div>
                                 {% endif %}
                                 <a class="uk-button uk-button-content uk-button-small" href="{{ path('tagsEditPage', { tagId: tag.getId }) }}" title="{% trans %}edit.tag{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
 

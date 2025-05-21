@@ -63,14 +63,11 @@
     color: #333;
     background: var(--maincontent-bar-bg);
 }
+
 .tags-bulk-folder-cont,
 .documents-bulk-folder-cont {
-    display: none;
-    margin:10px 100px 0;
-    padding:10px 0 0 0;
-    border-top:1px dashed #c3c3c3;
 
-    .uk-form .data-uk-margin>div{
+    .uk-form .data-uk-margin > div{
         display: inline-block;
         vertical-align: middle;
         margin-bottom:0;
@@ -112,13 +109,12 @@
 }
 
 #tagForm_submitTag,
-#folderForm_submitFolder{
+#folderForm_submitFolder {
     margin-left:4px;
 }
 
 #tagForm_submitUntag,
 #folderForm_submitUnfolder{
-
     &:before{
         content:@minus;
     }
@@ -132,7 +128,6 @@
     }
 }
 
-#tags-bulk-delete-form,
 #documents-bulk-delete-form,
 #documents-bulk-download-form {
     position: relative;
