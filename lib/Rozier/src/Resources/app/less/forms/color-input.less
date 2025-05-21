@@ -1,0 +1,50 @@
+.color-input-wrapper {
+    display: flex;
+    align-items: center;
+
+    input[type="text"],
+    input[type="color"] {
+        border-right: 0 none !important;
+        height: 30px;
+        border-radius: 0;
+        transition: width 0.3s ease-in-out;
+    }
+
+    input[type="color"]:not(:disabled) {
+        cursor: pointer;
+    }
+
+    input[type="color"] {
+        width: 40px;
+    }
+    input[type="text"] {
+        width: 150px;
+    }
+
+    .color-toggle-btn {
+        height: 30px;
+    }
+
+    &.color-input-wrapper--defined {
+        .color-toggle-btn:before {
+            content: "";
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-color: var(--color-input-value);
+            margin-right: 5px;
+            margin-left: -2px;
+        }
+    }
+
+    @media screen and (min-width: 1380px) {
+        input[type="text"],
+        input[type="color"] {
+            height: 36px;
+        }
+
+        .color-toggle-btn {
+            height: 36px;
+        }
+    }
+}

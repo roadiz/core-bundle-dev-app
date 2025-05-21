@@ -5058,6 +5058,9 @@
         <target state="final">Max Length</target>
         <note>Property value label for node type field max_length</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="color_input.picker.button"><source>color_input.picker.button</source><target state="final">Color</target></trans-unit>
+      <trans-unit xml:space="preserve" id="color_input.hex.button"><source>color_input.hex.button</source><target state="final">Hexadecimal</target></trans-unit>
+      <trans-unit xml:space="preserve" id="color_input.placeholder"><source>color_input.placeholder</source><target state="final">No color</target></trans-unit>
     </body>
   </file>
 </xliff>
