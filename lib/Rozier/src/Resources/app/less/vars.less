@@ -45,11 +45,9 @@
 @main-font: system-ui;
 @roadiz-mono-font: monospace;
 @roadiz-light: 300;
-@default-font-size: 13px;
 
 /* -------- ADMIN HEADERS -------- */
 
-@admin-entries-li-height: 54px;
 @mobile-admin-menu-height: 50px;
 @global-header-color: #e5e5e5;
 @admin-entries-line-horizontal: #d8d8d8;
@@ -135,11 +133,14 @@
     --rz-accent-color-darkest: color-mix(in srgb, var(--rz-accent-color) var(--color-darkest-mix), black);
 
     // Sizing
-    --trees-panel-width: 270px;
+    --children-node-height: 42px;
     --entries-panel-width: 60px;
-    --user-panel-width: 90px;
     --global-header-height: 140px;
     --minify-tree-panel-area-width: 35px;
+    --trees-panel-width: 270px;
+    --user-panel-width: 90px;
+    --default-font-size: 13px;
+    --markdown-navbar-item-size: 30px;
 
     @media (min-width: @screen-lg-min) {
         --trees-panel-width: 270px;
@@ -162,7 +163,7 @@
     color: var(--global-title-color);
 
     &.label {
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         padding-left: 0px;
         margin-left: 0;
     }

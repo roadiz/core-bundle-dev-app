@@ -55,7 +55,7 @@
     input[type="date"],
     input[type="datetime-local"],
     textarea {
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         line-height: 16px;
         //font-weight: bold;
         //width: 100%; // You cannot place this for a wide selector! it will break ui-kit
@@ -100,7 +100,7 @@
 
     // File
     input[type=file]{
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
     }
 
     // Checkbox
@@ -131,7 +131,7 @@
         height:36px;
         margin: 0;
         padding: 0;
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         color: @grey-form-text;
         //border: 1px solid @grey-form-border;
         .border-radius(0px);
@@ -182,7 +182,7 @@
     select[multiple]{
         min-width: 100px; min-height: 120px;
         padding:0 6px;
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         -webkit-appearance:none;
         border-radius: 0px;
 
@@ -226,7 +226,7 @@
 
     // Labels
     .uk-form-label {
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         color: var(--global-title-color);
         font-weight: normal;
 
@@ -247,7 +247,7 @@
     }
 
     .form-check-label {
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         color: var(--global-title-color);
         font-weight: normal;
     }

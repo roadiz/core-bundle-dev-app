@@ -2,28 +2,24 @@
    MARKDOWN
 \*------------------------------------*/
 
-/* -------- VARS -------- */
-
-@navbar-liHW: 30px;
-@markdown-contentH: 200px;
 
 /* -------- STYLES -------- */
 .uk-form-row {
     .CodeMirror {
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         height: auto;
     }
 }
 
 .markdown-editor-preview {
     display: none;
-    width:560px;
+    width: ~'calc(var(--user-panel-width) + var(--entries-panel-width) + var(--trees-panel-width))';
     box-sizing: border-box;
     padding: 10px 20px;
     background-color: #ececec;
     border: 1px solid #d3d3d3;
     border-left: none;
-    transition: width 0.5s ease;
+    transition: width 0.3s ease-in-out;
 
     position: fixed;
     top: 0;
@@ -65,7 +61,7 @@
 .markdown-editor {
     .CodeMirror {
         font-family: @roadiz-mono-font;
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
         line-height: 18px;
         color: #666666;
         border: 1px solid @grey-form-border;
@@ -96,14 +92,14 @@
 
     &.content-limit{
         .CodeMirror{
-            border-color:@alert-color;
+            border-color: @alert-color;
 
             &:hover, &:focus, &:active{
                 border-color: @alert-color;
             }
         }
         .markdown-editor-count{
-            color:@alert-color;
+            color: @alert-color;
         }
     }
 
@@ -121,8 +117,8 @@
         }
 
         li {
-            width: @navbar-liHW;
-            height: @navbar-liHW;
+            width: var(--markdown-navbar-item-size);
+            height: var(--markdown-navbar-item-size);
             .box-sizing();
 
             &:first-child {
@@ -138,7 +134,7 @@
                 text-align: left;
                 padding: 0 0 0 7px;
                 font-size: 11px;
-                line-height: @navbar-liHW;
+                line-height: var(--markdown-navbar-item-size);
                 color: #666;
                 border: 1px solid @grey-form-border;
                 background-color: #F2F2F2;
@@ -165,7 +161,7 @@
                     left: -1px;
                     content: "";
                     width: 1px;
-                    height: @navbar-liHW;
+                    height: var(--markdown-navbar-item-size);
                     background-color: @grey-form-submit-border-hover;
                     opacity: 0;
                     transition: opacity ease 0.2s;
@@ -203,7 +199,7 @@
     &-toolbar {
         i {
             font-size: 16px;
-            line-height: @navbar-liHW;
+            line-height: var(--markdown-navbar-item-size);
             font-family: 'rz-icons';
         }
     }
@@ -225,7 +221,7 @@
     }
     &-preview {
         padding: 10px 20px;
-        font-size: @default-font-size;
+        font-size: var(--default-font-size);
 
         h2, h3, h4, h5, h6 {
             font-weight: bold;
@@ -272,7 +268,7 @@
     bottom: 0px;
     height: 30px;
     line-height: 30px;
-    font-size: @default-font-size;
+    font-size: var(--default-font-size);
     text-align: right;
     display: none;
 }
@@ -314,15 +310,8 @@
         }
     }
     .markdown-editor-preview {
-        width:450px;
-
         &.active {
             display: block;
         }
     }
-}
-@media screen and (min-width: 1281px) {
-    .markdown-editor-preview {
-         width:560px;
-     }
 }
