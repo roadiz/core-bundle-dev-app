@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -41,11 +42,9 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Workflow\Registry;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Controllers\Nodes\NodesBulkActionsTrait;
 use Themes\Rozier\Forms\NodeSource\NodeSourceType;
-use Twig\Error\RuntimeError;
 
 #[AsController]
 final class SearchController extends AbstractController
@@ -58,8 +57,8 @@ final class SearchController extends AbstractController
         private readonly FormFactoryInterface $formFactory,
         private readonly SerializerInterface $serializer,
         private readonly LogTrail $logTrail,
+        private readonly HandlerFactoryInterface $handlerFactory,
         private readonly TranslatorInterface $translator,
-        private readonly EventDispatcherInterface $eventDispatcher,
         private readonly Registry $workflowRegistry,
         private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
         private readonly array $csvEncoderOptions,

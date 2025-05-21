@@ -49,6 +49,7 @@ trait NodesBulkActionsTrait
                 $request->attributes->get('_route_params'),
             );
         }
+
         return null;
     }
 
