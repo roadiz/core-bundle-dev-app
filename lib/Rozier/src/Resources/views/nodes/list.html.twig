@@ -5,7 +5,7 @@
 {% block title %}{{ mainTitle|trans()|u.truncate(25, '[…]', true) }} | {{ parent() }}{% endblock %}
 
 {% block content %}
-<section class="content-global content-nav-and-filters">
+<section class="content-global content-nav-and-filters bulk-layout">
 
     <header class="content-header header-node header-nodes-list">
         <h1 class="content-title">
@@ -37,7 +37,7 @@
         {% endif %}
     </header>
 
-    {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
+    {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
 
     <article class="content content-no-action-menu">
         <div class="content-table-cont">
@@ -57,6 +57,5 @@
             </table>
         </div>
     </article>
-
 </section>
 {% endblock %}

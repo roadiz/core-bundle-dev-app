@@ -11,7 +11,7 @@
 {%- endblock -%}
 
 {% block content %}
-    <section class="content-global content-nav-and-filters">
+    <section class="content-global content-nav-and-filters bulk-layout">
         <header class="content-header header-node header-nodes-list">
             {% if nodeType %}
                 <h1 class="content-title">{% trans %}search{% endtrans %} - {{ nodeType.displayName }}</h1>
@@ -45,11 +45,8 @@
                 </form>
             {% endif %}
 
-            {% if filters.itemCount > filters.itemPerPage %}
-                {% include '@RoadizRozier/widgets/filtersBar.html.twig' %}
-            {% else %}
-                <hr>
-            {% endif %}
+            {% include '@RoadizRozier/nodes/filtersBar.html.twig' %}
+
             <div class="data-uk-margin content-table-cont">
                 <table class="nodes content-table uk-table">
                     <thead>

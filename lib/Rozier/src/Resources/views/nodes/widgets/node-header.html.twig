@@ -19,5 +19,10 @@
             'filters': filters,
         } only %}
     </th>
-    <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
+    <th class="table-actions-row table-actions-row-3">
+        <div class="bulk-selection">
+            <input class="checkbox" type="checkbox" name="bulk-selection-all" />
+        </div>
+        {% trans %}actions{% endtrans %}
+    </th>
 </tr>

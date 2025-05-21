@@ -32,6 +32,7 @@ use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormError;
@@ -52,6 +53,7 @@ use Twig\Error\RuntimeError;
 final class NodesController extends AbstractController
 {
     use NodesTrait;
+    use NodesBulkActionsTrait;
 
     /**
      * @param class-string<AbstractType> $nodeFormTypeClass
@@ -149,6 +151,31 @@ final class NodesController extends AbstractController
         $sessionListFilter = new SessionListFilters('node_list_item_per_page');
         $sessionListFilter->handleItemPerPage($request, $listManager);
         $listManager->handle();
+
+        /*
+         * Handle bulk tag form
+         */
+        $tagNodesForm = $this->buildBulkTagForm();
+        if (null !== $response = $this->handleTagNodesForm($request, $tagNodesForm)) {
+            return $response;
+        }
+        $assignation['tagNodesForm'] = $tagNodesForm->createView();
+
+        /*
+         * Handle bulk status
+         */
+        if ($this->isGranted('ROLE_ACCESS_NODES_STATUS')) {
+            $statusBulkNodes = $this->buildBulkStatusForm($request->getRequestUri());
+            $assignation['statusNodesForm'] = $statusBulkNodes->createView();
+        }
+
+        /*
+         * Handle bulk delete form
+         */
+        if ('deleted' !== $filter && $this->isGranted('ROLE_ACCESS_NODES_DELETE')) {
+            $deleteNodesForm = $this->buildBulkDeleteForm($request->getRequestUri());
+            $assignation['deleteNodesForm'] = $deleteNodesForm->createView();
+        }
 
         $assignation['filters'] = $listManager->getAssignation();
         $assignation['translation'] = $translation;
