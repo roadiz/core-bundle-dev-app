@@ -49,11 +49,11 @@
                       title="{{ document.embedPlatform|trans|capitalize }}"><i class="uk-icon-rz-{{ iconName }}"></i></span>
             {% endif %}
         </td>
-        <td>
-            <div class="tagtree-bulk-selection">
-                <input class="tag-checkbox document-checkbox" type="checkbox" name="documents[]" value="{{ document.id }}" />
-            </div>
+        <td class="table-actions-row table-actions-row-3">
             {% apply spaceless %}
+                <div class="bulk-selection">
+                    <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ document.id }}" />
+                </div>
                 <a class="uk-button uk-button-content uk-button-small document-link"
                    href="{{ path('documentsEditPage', { documentId: document.id }) }}"><i class="uk-icon-rz-pencil"></i></a>
                 <a class="uk-button uk-button-content uk-button-small uk-button-danger"
@@ -126,7 +126,12 @@
                         {% endif %}
                     </th>
                     <th class="mobile-hidden uk-visible-xlarge"></th>
-                    <th class="table-actions-row table-actions-row-3">{% trans %}actions{% endtrans %}</th>
+                    <th class="table-actions-row table-actions-row-3">
+                        <div class="bulk-selection">
+                            <input class="checkbox" type="checkbox" name="bulk-selection-all" />
+                        </div>
+                        {% trans %}actions{% endtrans %}
+                    </th>
                 </tr>
                 </thead>
                 <tbody>

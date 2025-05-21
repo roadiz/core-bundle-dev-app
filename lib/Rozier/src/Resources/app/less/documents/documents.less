@@ -82,9 +82,20 @@ table.documents {
         padding: 0 50px;
     }
 
-    .document-checkbox {
+    .bulk-selection {
+        position: absolute;
         top: 8px;
         right: 5px;
+        margin: 0;
+    }
+
+    .document-checkbox {
+        display: none;
+        cursor: pointer;
+
+        &:checked {
+            display: block;
+        }
     }
 
     .document-mime-type {

@@ -102,7 +102,12 @@ final class DocumentsController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS_DELETE');
 
         $documentsIds = $request->get('documents', []);
-        if (0 === count($documentsIds)) {
+
+        if (is_string($documentsIds)) {
+            $documentsIds = json_decode($documentsIds, true, flags: JSON_THROW_ON_ERROR);
+        }
+
+        if (!is_array($documentsIds) || count($documentsIds) <= 0) {
             throw new ResourceNotFoundException('No selected documents to delete.');
         }
 

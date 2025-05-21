@@ -162,7 +162,7 @@ class DocumentPublicListController extends AbstractController
     {
         $builder = $this->formFactory->createNamedBuilder('folderForm')
             ->add('documentsId', HiddenType::class, [
-                'attr' => ['class' => 'document-id-bulk-folder'],
+                'attr' => ['class' => 'bulk-form-value'],
                 'constraints' => [
                     new NotNull(),
                     new NotBlank(),
@@ -210,7 +210,7 @@ class DocumentPublicListController extends AbstractController
             !empty($data['documentsId'])
             && !empty($data['folderPaths'])
         ) {
-            $documentsIds = explode(',', $data['documentsId']);
+            $documentsIds = json_decode($data['documentsId'], true, flags: JSON_THROW_ON_ERROR);
 
             $documents = $this->managerRegistry
                 ->getRepository(Document::class)
@@ -262,7 +262,7 @@ class DocumentPublicListController extends AbstractController
             !empty($data['documentsId'])
             && !empty($data['folderPaths'])
         ) {
-            $documentsIds = explode(',', $data['documentsId']);
+            $documentsIds = json_decode($data['documentsId'], true, flags: JSON_THROW_ON_ERROR);
 
             $documents = $this->managerRegistry
                 ->getRepository(Document::class)
