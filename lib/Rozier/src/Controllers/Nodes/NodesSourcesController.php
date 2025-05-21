@@ -194,7 +194,7 @@ final class NodesSourcesController extends AbstractController
                     'public_url' => $source->getNode()->isPublished() ? $publicUrl : null,
                     'preview_url' => $previewUrl,
                     'errors' => [],
-                ], Response::HTTP_PARTIAL_CONTENT);
+                ], Response::HTTP_OK);
             }
 
             if ($this->isReadOnly) {
