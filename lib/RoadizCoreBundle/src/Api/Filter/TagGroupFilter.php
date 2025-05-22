@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Api\Filter;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\OpenApi\Model\Parameter;
 use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
@@ -88,12 +89,14 @@ final class TagGroupFilter extends AbstractFilter
             'type' => Type::BUILTIN_TYPE_ARRAY,
             'required' => false,
             'description' => 'Filter entities by tag name groups (comma separated). Inside groups filter use OR, between each groups filter use AND.',
-            'openapi' => [
-                'description' => 'Filter entities by tag name groups (comma separated). Inside groups filter use OR, between each groups filter use AND.',
-                'example' => 'tag-1,tag-2&'.self::PROPERTY.'[]=tag-3,tag-4',
-                'allowEmptyValue' => false,
-                'explode' => true,
-            ],
+            'openapi' => new Parameter(
+                name: self::PROPERTY.'[]',
+                in: 'query',
+                description: 'Filter entities by tag name groups (comma separated). Inside groups filter use OR, between each groups filter use AND.',
+                allowEmptyValue: false,
+                explode: true,
+                example: 'tag-1,tag-2&'.self::PROPERTY.'[]=tag-3,tag-4',
+            ),
         ];
 
         return $carry;

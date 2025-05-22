@@ -73,7 +73,7 @@ final class IntersectionFilter extends AbstractFilter
                     'type' => 'string',
                     'required' => false,
                     'description' => 'Discriminate an existing filter with additional filtering value using a new inner join.',
-                    'openapi' => [
+                    'openapiContext' => [
                         'description' => 'Discriminate an existing filter with additional filtering value using a new inner join.',
                     ],
                 ];
@@ -82,7 +82,7 @@ final class IntersectionFilter extends AbstractFilter
                     'type' => 'string',
                     'required' => false,
                     'description' => 'Discriminate an existing filter with additional filtering value using a new inner join.',
-                    'openapi' => [
+                    'openapiContext' => [
                         'description' => 'Discriminate an existing filter with additional filtering value using a new inner join.',
                     ],
                 ];

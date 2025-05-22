@@ -1,8 +1,5 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\Tag:
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             ApiPlatform\Metadata\GetCollection:
                 method: "GET"

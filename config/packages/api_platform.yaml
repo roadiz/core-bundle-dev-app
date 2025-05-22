@@ -9,9 +9,9 @@ api_platform:
     version:     '%env(string:APP_VERSION)%'
     enable_swagger_ui: true
     enable_re_doc: true
-    # Symfony inflector wrongly pluralizes "nodes_sources" to "nodes_sourcess"
-    keep_legacy_inflector: true
     use_symfony_listeners: true
+    graphql:
+        enabled: false
     formats:
         jsonld: ['application/ld+json']
         json: ['application/json']
@@ -22,12 +22,6 @@ api_platform:
         html: ['text/html']
     patch_formats:
         json: [ 'application/merge-patch+json' ]
-    graphql:
-        introspection: '%kernel.debug%'
-        graphiql:
-            enabled: false
-        graphql_playground:
-            enabled: false
     show_webby: false
     mapping:
         paths:
@@ -39,11 +33,12 @@ api_platform:
             - '%kernel.project_dir%/config/api_resources'
     swagger:
         versions: [3]
+    serializer:
+        hydra_prefix: true
     defaults:
         stateless: true
         extra_properties:
             standard_put: true
-            rfc_7807_compliant_errors: false
         enable_max_depth: true
         normalization_context:
             skip_null_values: true
@@ -69,12 +64,3 @@ api_platform:
         invalidation:
             enabled: true
             varnish_urls: [ '%env(VARNISH_URL)%' ]
-
-when@prod:
-    api_platform:
-        graphql:
-            introspection: false
-            graphiql:
-                enabled: false
-            graphql_playground:
-                enabled: false

@@ -1,6 +1,5 @@
 resources:
     App\Api\Model\CommonContent:
-        graphQlOperations: []
         operations:
             getCommonContent:
                 class: ApiPlatform\Metadata\Get
