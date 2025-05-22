@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Api\Filter;
 use ApiPlatform\Doctrine\Orm\Filter\AbstractFilter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\OpenApi\Model\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 
@@ -72,9 +73,11 @@ final class CopyrightValidFilter extends AbstractFilter
                 'type' => 'bool',
                 'required' => false,
                 'description' => 'Filter items for which copyright dates are valid.',
-                'openapi' => [
-                    'description' => 'Filter items for which copyright dates are valid.',
-                ],
+                'openapi' => new Parameter(
+                    name: self::PARAMETER,
+                    in: 'query',
+                    description: 'Filter items for which copyright dates are valid.'
+                ),
             ],
         ];
     }

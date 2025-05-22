@@ -19,11 +19,6 @@ rz_intervention_request:
     prefix:   /
 
 
-graphql_playground:
-    path: /api/docs/graphql_playground
-    stateless: false
-    controller: api_platform.graphql.action.graphql_playground
-
 api_contact_form_definition:
     methods: [GET]
     stateless: true

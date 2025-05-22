@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Api\Filter;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Exception\InvalidArgumentException;
 use ApiPlatform\Metadata\Operation;
+use ApiPlatform\OpenApi\Model\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -108,9 +109,11 @@ final class LocaleFilter extends GeneratedEntityFilter
                 'property' => self::PROPERTY,
                 'type' => 'string',
                 'required' => false,
-                'openapi' => [
-                    'description' => 'Filter items with translation locale ('.implode(', ', $supportedLocales).').',
-                ],
+                'openapi' => new Parameter(
+                    name: self::PROPERTY,
+                    in: 'query',
+                    description: 'Filter items with translation locale ('.implode(', ', $supportedLocales).').'
+                ),
             ],
         ];
     }

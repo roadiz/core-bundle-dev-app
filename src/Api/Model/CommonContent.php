@@ -20,14 +20,14 @@ final class CommonContent
     #[Groups(['common_content'])]
     #[ApiProperty(
         identifier: false,
-        genId: false,
+        // genId: false, // https://github.com/api-platform/core/issues/7162
     )]
     public ?NodesSourcesHeadInterface $head = null;
 
     #[Groups(['common_content'])]
     #[ApiProperty(
         identifier: false,
-        genId: false,
+        // genId: false, // https://github.com/api-platform/core/issues/7162
     )]
     public ?array $menus = null;
 }

@@ -21,9 +21,6 @@
         "symfony/serializer": "6.4.*",
         "symfony/options-resolver": "6.4.*"
     },
-    "suggest": {
-        "api-platform/core": "If you need to create ApiFilter annotation right into your entities"
-    },
     "autoload": {
         "psr-4": {
             "RZ\\Roadiz\\EntityGenerator\\": "src/"
@@ -35,10 +32,11 @@
         }
     },
     "require-dev": {
-        "phpstan/phpstan": "^1.5.3",
+        "api-platform/doctrine-orm": "^3 || ^4",
+        "api-platform/symfony": "^3 || ^4",
         "phpstan/phpdoc-parser": "<2",
-        "phpunit/phpunit": "^9.5",
-        "api-platform/core": "~3.3.11"
+        "phpstan/phpstan": "^1.5.3",
+        "phpunit/phpunit": "^9.5"
     },
     "extra": {
         "branch-alias": {

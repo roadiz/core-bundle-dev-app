@@ -42,7 +42,7 @@
         "twig/twig": "^3.16"
     },
     "require-dev": {
-        "api-platform/metadata": "~3.3.11",
+        "api-platform/metadata": "^3 || ^4",
         "doctrine/doctrine-bundle": "^2.8.1",
         "php-coveralls/php-coveralls": "^2.4",
         "phpstan/phpstan": "^1.5.3",
