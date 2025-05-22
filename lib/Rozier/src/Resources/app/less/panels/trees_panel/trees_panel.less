@@ -104,9 +104,6 @@
     .nodetree-tags {
         display: none;
     }
-    .nodetree-bulk-selection {
-        display: none;
-    }
     .nodetree-published-at {
         display: none;
     }
@@ -178,7 +175,7 @@
 }
 
 .see-all-root-tree {
-    font-size: @default-font-size;
+    font-size: var(--default-font-size);
     color: #989898;
     vertical-align: top;
     display: inline-block;
@@ -313,7 +310,7 @@
                 background: var(--maintree-search-input-bg);
                 border: 0 none;
                 color: var(--maintree-search-placeholder);
-                font-size: @default-font-size;
+                font-size: var(--default-font-size);
                 width: 100%;
                 // padding: 19px 18px 18px;
                 border-radius: 20px;

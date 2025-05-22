@@ -1333,6 +1333,10 @@
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_visible"><source>nodeTypeDecorator.property.field_visible</source><note>Property value label for node type field visible</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_min_length"><source>nodeTypeDecorator.property.field_min_length</source><note>Property value label for node type field min_length</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_max_length"><source>nodeTypeDecorator.property.field_max_length</source><note>Property value label for node type field max_length</note></trans-unit>
+
+            <trans-unit xml:space="preserve" id="color_input.picker.button"><source>color_input.picker.button</source></trans-unit>
+            <trans-unit xml:space="preserve" id="color_input.hex.button"><source>color_input.hex.button</source></trans-unit>
+            <trans-unit xml:space="preserve" id="color_input.placeholder"><source>color_input.placeholder</source></trans-unit>
         </body>
     </file>
 </xliff>

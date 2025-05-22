@@ -60,6 +60,108 @@
     }
 }
 
+#login-form {
+    text-align: left;
+
+    input[type="email"],
+    input[type="text"],
+    input[type="password"] {
+        width: 100%;
+        line-height: normal;
+    }
+    .data-uk-margin{
+        margin-bottom: 2rem;
+    }
+    .data-uk-margin > div {
+        margin-bottom: 11px;
+        margin-top: 11px;
+    }
+
+    .uk-form-row.form-col-color,
+    .uk-form-row.form-col-checkbox {
+        display: block;
+    }
+}
+
+#login-credit {
+    text-align: right;
+    justify-self: right;
+    width: 100%;
+    padding-right: 2em;
+
+    @media (min-width: @screen-sm-min) {
+        width: 100%;
+        bottom: 1em;
+        position: absolute;
+        padding: 0;
+        text-align: center;
+    }
+
+    .uk-icon-rz-roadiz-icon,
+    .uk-icon-rz-rezozero {
+        font-size: 18px;
+        color: var(--global-text-lighter-color);
+        bottom: 50px;
+        width: 100%;
+        left: 0px;
+    }
+
+    #login-version {
+        color: var(--global-text-lighter-color);
+        font-size: 10px;
+        bottom: 26px;
+        width: 100%;
+        left: 0px;
+    }
+}
+
+#login-infos {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: @grey-interface;
+
+    @media (min-width: @screen-sm-min) {
+        display: block;
+        width: @login-BarW;
+    }
+}
+
+#login-logo {
+    width: @login-BarW;
+    height: 70px;
+    background-color: var(--rz-accent-color);
+    top: 0; left: 0;
+    text-align: center;
+
+    @media (min-width: @screen-sm-min) {
+        height: 116px;
+    }
+
+    // Center vertically Default icon when no-image
+    .uk-icon-rz-roadiz-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        font-size: 40px;
+
+        @media (min-width: @screen-sm-min) {
+            font-size: 55px;
+        }
+    }
+
+    img, svg, object {
+        display: block;
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        object-position: center;
+        margin: 0 auto;
+        padding: 10px;
+    }
+}
+
 #purge-caches,
 #login {
     width: 100vw;
@@ -99,186 +201,6 @@
         }
     }
 
-    #login-infos {
-        position: relative;
-        display: flex;
-        align-items: center;
-        background-color: @grey-interface;
-
-        @media (min-width: @screen-sm-min) {
-            display: block;
-            width: @login-BarW;
-        }
-    }
-
-    #login-logo {
-        width: @login-BarW;
-        height: 70px;
-        background-color: var(--rz-accent-color);
-        top: 0; left: 0;
-        text-align: center;
-
-        @media (min-width: @screen-sm-min) {
-            height: 116px;
-        }
-
-        // Center vertically Default icon when no-image
-        .uk-icon-rz-roadiz-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            font-size: 40px;
-
-            @media (min-width: @screen-sm-min) {
-                font-size: 55px;
-            }
-        }
-
-        img, svg, object {
-            display: block;
-            height: 100%;
-            width: 100%;
-            object-fit: contain;
-            object-position: center;
-            margin: 0 auto;
-            padding: 10px;
-        }
-    }
-
-    #login-credit {
-        text-align: right;
-        justify-self: right;
-        width: 100%;
-        padding-right: 2em;
-
-        @media (min-width: @screen-sm-min) {
-            width: 100%;
-            bottom: 1em;
-            position: absolute;
-            padding: 0;
-            text-align: center;
-        }
-
-        .uk-icon-rz-roadiz-icon,
-        .uk-icon-rz-rezozero {
-            font-size: 18px;
-            color: var(--global-text-lighter-color);
-            bottom: 50px;
-            width: 100%;
-            left: 0px;
-        }
-
-        #login-version {
-            color: var(--global-text-lighter-color);
-            font-size: 10px;
-            bottom: 26px;
-            width: 100%;
-            left: 0px;
-        }
-    }
-
-    #login-formGlobal {
-        width: 100%;
-        position: relative;
-        padding: 40px 15px 30px;
-        .box-sizing();
-
-        @media (min-width: @screen-sm-min) {
-            padding: 50px 40px 30px;
-        }
-
-        h1 {
-            margin: 0px 6px 25px 0px;
-            font-size: 36px;
-            font-weight: lighter;
-
-            @media (max-width: @screen-xs-max) {
-                font-size: 24px;
-            }
-        }
-
-        #login-form {
-            text-align: left;
-
-            input[type="email"],
-            input[type="text"],
-            input[type="password"] {
-                width: 100%;
-                line-height: normal;
-            }
-            .data-uk-margin{
-                margin-bottom: 15px;
-            }
-            .data-uk-margin > div {
-                margin-bottom: 11px;
-                margin-top: 11px;
-            }
-        }
-        #login-link {
-            padding-top: 1em;
-            text-align: left;
-            bottom: 30px;
-
-            #frontend-home-link {
-                display: inline-block;
-                text-decoration: none;
-                width: auto; height: 38px;
-
-                .uk-icon-rz-earth {
-                    display: inline-block;
-                    width: 38px;
-                    height: 38px;
-                    font-size: 26px;
-                    line-height: 38px;
-                    background: @grey-verylight;
-                    vertical-align: middle;
-                    color: @grey-form-submit-icon;
-                    transition: ~'color ease 0.35s, border-color ease 0.35s';
-
-                    &:before {
-                        padding-left: 2px;
-                    }
-                }
-                .text {
-                    display: inline-block;
-                    height: 38px;
-                    line-height: 41px;
-                    font-size: @default-font-size;
-                    vertical-align: top;
-                    color: @grey-form-submit-textsimple;
-                    transition: color ease 0.35s;
-                }
-                &:hover {
-                    .uk-icon-rz-earth {
-                        border-color: @grey-form-submit-border-hover;
-                        color: var(--global-title-color);
-                    }
-                    .text {
-                        color: @grey-form-text;
-                    }
-                }
-            }
-            .login-link {
-                display: inline-block;
-                margin: 8px 0 8px 8px;
-                height: 22px;
-                line-height: 25px;
-                font-size: @default-font-size;
-                vertical-align: top;
-                border-left: 1px solid @grey-form-border;
-                padding-left: 10px;
-                text-decoration: none;
-                color: @grey-form-submit-textsimple;
-                transition: color ease 0.35s;
-
-                &:hover {
-                    color: @grey-form-text;
-                }
-            }
-        }
-    }
-
     .uk-alert {
         position: static;
         width: auto;
@@ -291,21 +213,87 @@
     }
 }
 
-.form-col--remember-me {
+#login-form-global {
+    width: 100%;
+    position: relative;
+    padding: 40px 15px 30px;
+    .box-sizing();
 
-    .uk-form-label {
-        display: inline-block;
-        margin-left: 22px;
+    @media (min-width: @screen-sm-min) {
+        padding: 50px 40px 30px;
+    }
 
-        &:before {
-            content:'';
-            display: none;
+    h1 {
+        margin: 0px 6px 25px 0px;
+        font-size: 36px;
+        font-weight: lighter;
+
+        @media (max-width: @screen-xs-max) {
+            font-size: 24px;
         }
     }
 
-    input[type=checkbox] {
-        position: absolute;
-        top: 8px;
-        left: 0px;
+    #login-link {
+        padding-top: 1em;
+        text-align: left;
+        bottom: 30px;
+
+        .login-link {
+            display: inline-block;
+            margin: 8px 0 8px 8px;
+            height: 22px;
+            line-height: 25px;
+            font-size: var(--default-font-size);
+            vertical-align: top;
+            border-left: 1px solid @grey-form-border;
+            padding-left: 10px;
+            text-decoration: none;
+            color: @grey-form-submit-textsimple;
+            transition: color ease 0.35s;
+
+            &:hover {
+                color: @grey-form-text;
+            }
+        }
+    }
+
+    #frontend-home-link {
+        display: inline-block;
+        text-decoration: none;
+        width: auto; height: 38px;
+
+        .uk-icon-rz-earth {
+            display: inline-block;
+            width: 38px;
+            height: 38px;
+            font-size: 26px;
+            line-height: 38px;
+            background: @grey-verylight;
+            vertical-align: middle;
+            color: @grey-form-submit-icon;
+            transition: ~'color ease 0.35s, border-color ease 0.35s';
+
+            &:before {
+                padding-left: 2px;
+            }
+        }
+        .text {
+            display: inline-block;
+            height: 38px;
+            line-height: 41px;
+            font-size: var(--default-font-size);
+            vertical-align: top;
+            color: @grey-form-submit-textsimple;
+            transition: color ease 0.35s;
+        }
+        &:hover {
+            .uk-icon-rz-earth {
+                border-color: @grey-form-submit-border-hover;
+                color: var(--global-title-color);
+            }
+            .text {
+                color: @grey-form-text;
+            }
+        }
     }
 }

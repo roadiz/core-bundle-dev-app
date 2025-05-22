@@ -93,7 +93,7 @@
                 display: inline-block;
                 vertical-align: top;
                 height:60px;
-                font-size: @default-font-size;
+                font-size: var(--default-font-size);
                 line-height:60px;
                 color:#939393;
                 font-family: @main-font;
@@ -128,11 +128,11 @@
                 transform: translateX(0);
             }
 
-            header{
+            header {
                 display: none;
             }
 
-            #admin-menu-nav{
+            #admin-menu-nav {
                 position: absolute;
                 top:0;
                 right:0;
@@ -141,15 +141,15 @@
                 overflow-y: auto;
             }
 
-            .uk-nav{
+            .uk-nav {
                 padding-top:0;
             }
 
-            li{
+            li {
                 width:100%;
                 text-align: left;
                 background: #f2f2f2;
-                padding:3px 0px;
+                padding: 3px 0px;
                 border-bottom:1px solid #d9d9d9;
                 transition: 0.6s background @easeOutExpo;
 
@@ -183,44 +183,54 @@
                     background: var(--contrasted-bg);
                 }
 
-                .uk-nav-sub{
+                .uk-nav-sub {
                     position: relative;
                     display: none;
                     vertical-align: top;
-                    top:0; right:0; left:0;
-                    min-width:inherit;
+                    top:0;
+                    right:0;
+                    left:0;
+                    min-width: inherit;
                     height:0;
                     background: none;
                     overflow: hidden;
                     box-shadow: none;
                     border-left: none;
 
-                    li{
-                        width: auto; min-width:inherit;
+                    li {
+                        width: auto;
+                        min-width:inherit;
                         padding:0;
                         border-top:none;
                         background: none;
                         border-bottom-color:#c3c3c3;
 
-                        a{
+                        a {
                             padding:0 0 0 20px;
                         }
 
-                        .info{
+                        .info {
                             height:40px;
                             line-height:40px;
                         }
                     }
                 }
 
-                &:hover{
+                &.nav-open {
+                    padding: 3px 0 0;
 
-                    &:after{
-                        display: none;
+                    // Open submenu on click
+                    & > .uk-nav-sub {
+                        display: block;
+                        height: auto;
                     }
-
                 }
 
+                &:hover {
+                    &:after {
+                        display: none;
+                    }
+                }
             }
 
             .info {
@@ -336,7 +346,7 @@
                     a {
                         height: auto;
                         background-color: transparent;
-                        font-size: @default-font-size;
+                        font-size: var(--default-font-size);
                         line-height: 25px;
                         padding: 5px 8px;
                     }

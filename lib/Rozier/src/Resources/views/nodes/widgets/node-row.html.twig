@@ -41,6 +41,9 @@
     <td class="mobile-hidden uk-visible-xlarge">{{ node.updatedAt|format_date('short', locale=app.request.locale) }}</td>
     <td class="table-actions-row">
         {% apply spaceless %}
+            <div class="bulk-selection">
+                <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ node.id }}" />
+            </div>
             <a class="uk-button uk-button-content uk-button-small"
                href="{{ path('nodesEditPage', { nodeId: node.id }) }}"
                title="{% trans %}edit.node{% endtrans %}"

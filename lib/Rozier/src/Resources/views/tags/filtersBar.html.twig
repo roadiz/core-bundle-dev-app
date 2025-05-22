@@ -8,11 +8,6 @@
                     <input id="uk-form-filter-input-search" type="text" name="search" placeholder="{% trans %}search{% endtrans %}" value="{{ filters.search }}">
                 </div>
             </form>
-
-            <a class="uk-button uk-button-select-all uk-button-bulk-select-tags"
-               href="#"
-               title="{% trans %}select.all{% endtrans %}"
-               data-uk-tooltip="{animation:true}"><i class="uk-icon-check-square-o"></i> {% trans %}select.all{% endtrans %}</a>
         </div>
 
         {% if filters.itemCount > filters.itemPerPage %}
@@ -33,23 +28,25 @@
         {% endif %}
         {% include '@RoadizRozier/widgets/itemPerPage.html.twig' %}
 
-        <nav class="bulk-actions tags-bulk-actions">
+        <nav class="bulk-actions bulk-actions--collapsed">
             <div class="bulk-actions-title-cont">
                 <h3 class="bulk-actions-title tags-bulk-actions-title">{% trans %}bulk.actions{% endtrans %}</h3>
             </div>
             {% apply spaceless %}
+            <div class="bulk-actions__actions">
                 <a class="uk-button uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-tags" href="#" title="{% trans %}deselect.all{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-square-o"></i></a>
                 {# Links #}
                 {% if deleteTagsForm %}
-                {% form_theme deleteTagsForm '@RoadizRozier/horizontalForms.html.twig' %}
-                <form class="uk-form uk-form-horizontal tag-bulk-delete-form" action="{{ path('tagsBulkDeletePage') }}" method="get">
-                    {{ form_widget(deleteTagsForm) }}
-                    <button type="submit"
-                        class="uk-button uk-button-bulk uk-button-danger uk-button-bulk-delete uk-button-bulk-delete-tags"
-                        title="{% trans %}bulk.delete.tags{% endtrans %}"
-                        data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i> </button>
-                </form>
+                    {% form_theme deleteTagsForm '@RoadizRozier/horizontalForms.html.twig' %}
+                    <form class="uk-form uk-form-horizontal tag-bulk-delete-form" action="{{ path('tagsBulkDeletePage') }}" method="get">
+                        {{ form_widget(deleteTagsForm) }}
+                        <button type="submit"
+                                class="uk-button uk-button-bulk uk-button-danger uk-button-bulk-delete uk-button-bulk-delete-tags"
+                                title="{% trans %}bulk.delete.tags{% endtrans %}"
+                                data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i> </button>
+                    </form>
                 {% endif %}
+            </div>
             {% endapply %}
         </nav>
 

@@ -39,6 +39,11 @@ final class DocumentArchiveController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
         $documentsIds = $request->get('documents', []);
+
+        if (is_string($documentsIds)) {
+            $documentsIds = json_decode($documentsIds, true, flags: JSON_THROW_ON_ERROR);
+        }
+
         if (!is_array($documentsIds) || count($documentsIds) <= 0) {
             throw new ResourceNotFoundException('No selected documents to download.');
         }

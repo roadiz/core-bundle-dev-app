@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers;
 
 use Doctrine\Persistence\ManagerRegistry;
+use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
@@ -18,6 +19,7 @@ use RZ\Roadiz\CoreBundle\Form\NodeStatesType;
 use RZ\Roadiz\CoreBundle\Form\NodeTypesType;
 use RZ\Roadiz\CoreBundle\Form\SeparatorType;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -39,19 +41,27 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Workflow\Registry;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Themes\Rozier\Controllers\Nodes\NodesBulkActionsTrait;
 use Themes\Rozier\Forms\NodeSource\NodeSourceType;
-use Twig\Error\RuntimeError;
 
 #[AsController]
 final class SearchController extends AbstractController
 {
+    use NodesBulkActionsTrait;
+
     public function __construct(
-        protected readonly NodeTypes $nodeTypesBag,
-        protected readonly ManagerRegistry $managerRegistry,
-        protected readonly FormFactoryInterface $formFactory,
-        protected readonly SerializerInterface $serializer,
-        protected readonly EntityListManagerFactoryInterface $entityListManagerFactory,
-        protected readonly array $csvEncoderOptions,
+        private readonly NodeTypes $nodeTypesBag,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly FormFactoryInterface $formFactory,
+        private readonly SerializerInterface $serializer,
+        private readonly LogTrail $logTrail,
+        private readonly HandlerFactoryInterface $handlerFactory,
+        private readonly TranslatorInterface $translator,
+        private readonly Registry $workflowRegistry,
+        private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
+        private readonly array $csvEncoderOptions,
     ) {
     }
 
@@ -183,9 +193,6 @@ final class SearchController extends AbstractController
         return $data;
     }
 
-    /**
-     * @throws RuntimeError
-     */
     public function searchNodeAction(Request $request): Response
     {
         $builder = $this->buildSimpleForm('');
@@ -208,15 +215,10 @@ final class SearchController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = [];
-            foreach ($form->getData() as $key => $value) {
-                if (
-                    (!is_array($value) && $this->notBlank($value))
-                    || (is_array($value) && isset($value['compareDatetime']))
-                ) {
-                    $data[$key] = $value;
-                }
-            }
+            $data = array_filter($form->getData(), function ($value) {
+                return (!is_array($value) && $this->notBlank($value))
+                    || (is_array($value) && isset($value['compareDatetime']));
+            });
             $data = $this->processCriteria($data, $pagination, $itemPerPage);
             $listManager = $this->entityListManagerFactory->createEntityListManager(
                 Node::class,
@@ -235,6 +237,31 @@ final class SearchController extends AbstractController
             $assignation['nodes'] = $listManager->getEntities();
         }
 
+        /*
+         * Handle bulk tag form
+         */
+        $tagNodesForm = $this->buildBulkTagForm();
+        if (null !== $response = $this->handleTagNodesForm($request, $tagNodesForm)) {
+            return $response;
+        }
+        $assignation['tagNodesForm'] = $tagNodesForm->createView();
+
+        /*
+         * Handle bulk status
+         */
+        if ($this->isGranted('ROLE_ACCESS_NODES_STATUS')) {
+            $statusBulkNodes = $this->buildBulkStatusForm($request->getRequestUri());
+            $assignation['statusNodesForm'] = $statusBulkNodes->createView();
+        }
+
+        /*
+         * Handle bulk delete form
+         */
+        if ($this->isGranted('ROLE_ACCESS_NODES_DELETE')) {
+            $deleteNodesForm = $this->buildBulkDeleteForm($request->getRequestUri());
+            $assignation['deleteNodesForm'] = $deleteNodesForm->createView();
+        }
+
         $assignation['form'] = $form->createView();
         $assignation['nodeTypeForm'] = $nodeTypeForm->createView();
         $assignation['filters']['searchDisable'] = true;
@@ -242,9 +269,6 @@ final class SearchController extends AbstractController
         return $this->render('@RoadizRozier/search/list.html.twig', $assignation);
     }
 
-    /**
-     * @throws RuntimeError
-     */
     public function searchNodeSourceAction(Request $request, string $nodeTypeName): Response
     {
         $nodeType = $this->nodeTypesBag->get($nodeTypeName);
@@ -268,6 +292,31 @@ final class SearchController extends AbstractController
 
         if (null !== $response = $this->handleNodeForm($form, $nodeType, $pagination, $itemPerPage, $assignation)) {
             return $response;
+        }
+
+        /*
+         * Handle bulk tag form
+         */
+        $tagNodesForm = $this->buildBulkTagForm();
+        if (null !== $response = $this->handleTagNodesForm($request, $tagNodesForm)) {
+            return $response;
+        }
+        $assignation['tagNodesForm'] = $tagNodesForm->createView();
+
+        /*
+         * Handle bulk status
+         */
+        if ($this->isGranted('ROLE_ACCESS_NODES_STATUS')) {
+            $statusBulkNodes = $this->buildBulkStatusForm($request->getRequestUri());
+            $assignation['statusNodesForm'] = $statusBulkNodes->createView();
+        }
+
+        /*
+         * Handle bulk delete form
+         */
+        if ($this->isGranted('ROLE_ACCESS_NODES_DELETE')) {
+            $deleteNodesForm = $this->buildBulkDeleteForm($request->getRequestUri());
+            $assignation['deleteNodesForm'] = $deleteNodesForm->createView();
         }
 
         $assignation['form'] = $form->createView();

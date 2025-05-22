@@ -251,7 +251,7 @@ final class TagsController extends AbstractController
         }
 
         $tagsIds = trim($request->get('deleteForm')['tagsIds']);
-        $tagsIds = explode(',', $tagsIds);
+        $tagsIds = \json_decode($tagsIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($tagsIds);
 
         $tags = $this->managerRegistry->getRepository(Tag::class)
@@ -583,8 +583,8 @@ final class TagsController extends AbstractController
         $builder = $this->formFactory
             ->createNamedBuilder('deleteForm')
             ->add('tagsIds', HiddenType::class, [
-                'data' => implode(',', $tagsIds),
-                'attr' => ['class' => 'tags-id-bulk-tags'],
+                'data' => \json_encode($tagsIds, flags: JSON_THROW_ON_ERROR),
+                'attr' => ['class' => 'bulk-form-value'],
                 'constraints' => [
                     new NotNull(),
                     new NotBlank(),
@@ -607,7 +607,7 @@ final class TagsController extends AbstractController
         }
 
         $tagsIds = trim($data['tagsIds']);
-        $tagsIds = explode(',', $tagsIds);
+        $tagsIds = \json_decode($tagsIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($tagsIds);
 
         $tags = $this->managerRegistry->getRepository(Tag::class)

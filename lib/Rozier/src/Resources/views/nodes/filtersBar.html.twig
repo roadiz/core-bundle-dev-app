@@ -31,22 +31,25 @@
 
         {% include '@RoadizRozier/widgets/itemPerPage.html.twig' %}
 
-        <nav class="bulk-actions nodes-bulk-actions">
+        <nav class="bulk-actions bulk-actions--collapsed">
             <div class="bulk-actions-title-cont">
                 <h3 class="bulk-actions-title nodes-bulk-actions-title">{% trans %}bulk.actions{% endtrans %}</h3>
             </div>
             {% apply spaceless %}
+            <div class="bulk-actions__actions">
                 <a class="uk-button rz-no-ajax-link uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-nodes" href="#" title="{% trans %}deselect.all{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-square-o"></i></a>
                 {# Links #}
                 {% if tagNodesForm %}
                     <a class="uk-button rz-no-ajax-link uk-button-bulk uk-button-bulk-folder uk-button-bulk-folder-nodes"
                         href="#"
+                        data-bulk-group="nodes-bulk-folder-form-cont"
                         title="{% trans %}link.tags{% endtrans %}"
                         data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-tags"></i></a>
                 {% endif %}
                 {% if statusNodesForm %}
                     <a class="uk-button rz-no-ajax-link uk-button-bulk uk-button-bulk-status uk-button-bulk-status-nodes"
                         href="#"
+                        data-bulk-group="nodes-bulk-status-form-cont"
                         title="{% trans %}nodes.status{% endtrans %}"
                         data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-published"></i></a>
                 {% endif %}
@@ -63,33 +66,34 @@
                             data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></button>
                     </form>
                 {% endif %}
-                {# Forms #}
-                {% if tagNodesForm %}
-                    <div class="bulk-folder-cont nodes-bulk-folder-cont">
-                        {% form_theme tagNodesForm '@RoadizRozier/forms.html.twig' %}
-                        <form class="uk-form uk-form-horizontal node-bulk-tag-form"
-                              action="#"
-                              method="post">
-                            {{ form_widget(tagNodesForm) }}
-                        </form>
-                    </div>
-                {% endif %}
-                {% if statusNodesForm %}
-                    <div class="bulk-status-cont nodes-bulk-status-cont">
-                        {% form_theme statusNodesForm '@RoadizRozier/forms.html.twig' %}
-                        <form class="uk-form uk-form-horizontal node-bulk-status-form"
-                              action="{{ path('nodesBulkStatusPage') }}"
-                              method="get">
-                            {{ form_widget(statusNodesForm) }}
-                            <div class="uk-form-row form-col-submit">
-                                <button type="submit"
-                                        class="uk-button uk-button-primary uk-button-small"
-                                        title="{% trans %}change.nodes.status{% endtrans %}"
-                                        data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-save"></i></button>
-                            </div>
-                        </form>
-                    </div>
-                {% endif %}
+            </div>
+            {# Forms #}
+            {% if tagNodesForm %}
+                <div id="nodes-bulk-folder-form-cont" class="bulk-group bulk-folder-cont nodes-bulk-folder-cont">
+                    {% form_theme tagNodesForm '@RoadizRozier/forms.html.twig' %}
+                    <form class="uk-form uk-form-horizontal node-bulk-tag-form"
+                          action="#"
+                          method="post">
+                        {{ form_widget(tagNodesForm) }}
+                    </form>
+                </div>
+            {% endif %}
+            {% if statusNodesForm %}
+                <div id="nodes-bulk-status-form-cont" class="bulk-group bulk-status-cont nodes-bulk-status-cont">
+                    {% form_theme statusNodesForm '@RoadizRozier/forms.html.twig' %}
+                    <form class="uk-form uk-form-horizontal node-bulk-status-form"
+                          action="{{ path('nodesBulkStatusPage') }}"
+                          method="get">
+                        {{ form_widget(statusNodesForm) }}
+                        <div class="uk-form-row form-col-submit">
+                            <button type="submit"
+                                    class="uk-button uk-button-primary uk-button-small"
+                                    title="{% trans %}change.nodes.status{% endtrans %}"
+                                    data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-save"></i></button>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
             {% endapply %}
         </nav>
     </div>

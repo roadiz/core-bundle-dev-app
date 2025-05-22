@@ -58,30 +58,50 @@
 
         {% include '@RoadizRozier/documents/itemPerPage.html.twig' %}
 
-        <nav class="bulk-actions documents-bulk-actions">
-
+        <nav class="bulk-actions bulk-actions--collapsed">
             <div class="bulk-actions-title-cont">
                 <h3 class="bulk-actions-title documents-bulk-actions-title">{% trans %}bulk.actions{% endtrans %}</h3>
             </div>
-
             {% apply spaceless %}
+            <div class="bulk-actions__actions">
                 <a class="uk-button uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-documents" href="#" title="{% trans %}deselect.all{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-square-o"></i></a>
-                <a class="uk-button uk-button-bulk uk-button-bulk-download uk-button-bulk-download-documents" href="#" title="{% trans %}bulk.download.documents{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></a>
+
+                <form class="uk-form uk-form-horizontal"
+                      action="{{ path('documentsBulkDownloadPage') }}"
+                      method="get">
+                    <input type="hidden" class="bulk-form-value" name="documents" />
+                    <button type="submit"
+                            class="uk-button uk-button-bulk uk-button-bulk-download uk-button-bulk-download-documents"
+                            title="{% trans %}bulk.download.documents{% endtrans %}"
+                            data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></button>
+                </form>
+
                 {% if joinFolderForm %}
-                <a class="uk-button uk-button-bulk uk-button-bulk-folder uk-button-bulk-folder-documents" href="#" title="{% trans %}bulk.fold.documents{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-folder-tree-mini"></i></a>
+                <a class="uk-button uk-button-bulk uk-button-bulk-folder uk-button-bulk-folder-documents"
+                   href="#"
+                   data-bulk-group="documents-bulk-folder-cont"
+                   title="{% trans %}bulk.fold.documents{% endtrans %}"
+                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-folder-tree-mini"></i></a>
                 {% endif %}
-                <a class="uk-button uk-button-bulk uk-button-danger uk-button-bulk-delete uk-button-bulk-delete-documents" href="#" title="{% trans %}bulk.delete.documents{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></a>
-                {% if joinFolderForm %}
-                <div class="bulk-folder-cont documents-bulk-folder-cont">
-                    {% form_theme joinFolderForm '@RoadizRozier/horizontalForms.html.twig' %}
-                    {{ form_start(joinFolderForm, { attr: {id: "embed-dropzone-document"}}) }}
-                        {{ form_widget(joinFolderForm) }}
-                    {{ form_end(joinFolderForm) }}
-                </div>
-                {% endif %}
+                <form class="uk-form uk-form-horizontal"
+                      action="{{ path('documentsBulkDeletePage') }}"
+                      method="get">
+                    <input type="hidden" class="bulk-form-value" name="documents" />
+                    <button type="submit"
+                            class="uk-button uk-button-bulk uk-button-danger uk-button-bulk-delete uk-button-bulk-delete-documents"
+                            title="{% trans %}bulk.delete.documents{% endtrans %}"
+                            data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></button>
+                </form>
+            </div>
+            {% if joinFolderForm %}
+            <div id="documents-bulk-folder-cont" class="bulk-group bulk-folder-cont documents-bulk-folder-cont">
+                {% form_theme joinFolderForm '@RoadizRozier/horizontalForms.html.twig' %}
+                {{ form_start(joinFolderForm, { attr: {id: "embed-dropzone-document"}}) }}
+                    {{ form_widget(joinFolderForm) }}
+                {{ form_end(joinFolderForm) }}
+            </div>
+            {% endif %}
             {% endapply %}
-
         </nav>
-
     </div>
 </nav>
