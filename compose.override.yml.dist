@@ -25,7 +25,6 @@ services:
 #        tty: true
 #        networks:
 #            - default
-#            - frontproxynet
 #        volumes:
 #            - ./:/app
 #            - ./docker/frankenphp/Caddyfile:/etc/caddy/Caddyfile:ro

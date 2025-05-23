@@ -40,7 +40,6 @@ services:
         depends_on:
             - db
         networks:
-            - frontproxynet
             - default
         labels:
             - "traefik.enable=true"
@@ -65,7 +64,6 @@ services:
             - solr-precreate
             - ${SOLR_CORE_NAME}
         networks:
-            - frontproxynet
             - default
         labels:
             - "traefik.enable=true"
@@ -136,7 +134,6 @@ services:
             - ./:/app
         networks:
             - default
-            - frontproxynet
         labels:
             - "traefik.enable=true"
             - "traefik.http.services.${APP_NAMESPACE}.loadbalancer.server.scheme=http"
@@ -157,7 +154,6 @@ services:
             target: varnish
         networks:
             - default
-            - frontproxynet
         depends_on:
             - nginx
         labels:
@@ -179,7 +175,6 @@ services:
         hostname: mailer
         image: axllent/mailpit
         networks:
-            - frontproxynet
             - default
         labels:
             - "traefik.enable=true"
@@ -192,8 +187,6 @@ services:
             - "traefik.http.routers.${APP_NAMESPACE}_mailer.service=${APP_NAMESPACE}_mailer"
 
 networks:
-    frontproxynet:
-        external: true
     # If you need to use port forwarding, fixing default gateway can be useful
     # to keep same host IP address between service restarts
     default:

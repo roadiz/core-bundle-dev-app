@@ -31,7 +31,7 @@ If you want to start a new headless project with Roadiz, check https://github.co
 - Initialize `git flow init` to use GitFlow branching model
 - Create a `.env.local` file with mandatory `APP_SECRET` and `JWT_PASSPHRASE` vars minimum
 - Create a `compose.override.yml` file to expose containers ports
-- Run `composer install` to install all dependencies and run scripts. Symfony packages may add some config files and alter your `compose.yml` file, you can safely rollback to the original one
+- Run `docker compose run --rm --no-deps --entrypoint= app composer install` to install all dependencies and run scripts inside your Docker container. Symfony packages may add some config files and alter your `compose.yml` file, you can safely rollback to the original one
 
 ## Run development server
 
