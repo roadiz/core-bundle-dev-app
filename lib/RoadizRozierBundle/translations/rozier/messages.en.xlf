@@ -2083,6 +2083,42 @@
         <source>node.deleted</source>
         <target state="final">Deleted</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.visible" approved="yes">
+        <source>node.visible</source>
+        <target state="final">Visible</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.hideChildren" approved="yes">
+        <source>node.hideChildren</source>
+        <target state="final">Container</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.locked" approved="yes">
+        <source>node.locked</source>
+        <target state="final">Locked</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.sterile" approved="yes">
+        <source>node.sterile</source>
+        <target state="final">Sterile (no children allowed)</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.isHome.help" approved="yes">
+        <source>node.isHome.help</source>
+        <target state="final">Indicates if this node is the homepage of your website. This will change its path to `/`.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.visible.help" approved="yes">
+        <source>node.visible.help</source>
+        <target state="final">Controls whether this node is visible on your website menus. All invisible parent nodes are ignored when generating paths.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.hideChildren.help" approved="yes">
+        <source>node.hideChildren.help</source>
+        <target state="final">Convert this node into a node stack (or container) which is useful to display content collections instead of displaying direct children in node-tree.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.locked.help" approved="yes">
+        <source>node.locked.help</source>
+        <target state="final">A locked node cannot be moved, renamed, or deleted.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.sterile.help" approved="yes">
+        <source>node.sterile.help</source>
+        <target state="final">A sterile node cannot have any child nodes.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="draft" approved="yes">
         <source>draft</source>
         <target state="final">Draft</target>
@@ -4240,6 +4276,11 @@
         <target state="final">Reachable</target>
         <note>For node-types, defines if produced nodes will be reachable with an URL or not (eg. just content blocks).</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="not_reachable" approved="yes">
+        <source>not_reachable</source>
+        <target state="final">Not reachable</target>
+        <note>Node-types will not be reachable from an URL.</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="You cannot delete a node-type in production mode." approved="yes">
         <source>You cannot delete a node-type in production mode.</source>
         <target state="final">You cannot delete a node type from a production environment.</target>
@@ -5015,6 +5056,18 @@
         <source>nodeTypeDecorator.property.field_max_length</source>
         <target state="final">Max Length</target>
         <note>Property value label for node type field max_length</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color_input.picker.button" approved="yes">
+        <source>color_input.picker.button</source>
+        <target state="final">Color</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color_input.hex.button" approved="yes">
+        <source>color_input.hex.button</source>
+        <target state="final">Hexadecimal</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color_input.placeholder" approved="yes">
+        <source>color_input.placeholder</source>
+        <target state="final">No color</target>
       </trans-unit>
     </body>
   </file>
