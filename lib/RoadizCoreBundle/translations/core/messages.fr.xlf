@@ -196,15 +196,79 @@
                 <source>login_link.request</source>
                 <target state="final">Votre lien de connexion</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="you.asked.for.a.login_link.on.site" approved="yes">
+                <source>you.asked.for.a.login_link.on.site</source>
+                <target state="final">Vous avez fait une demande de connexion sur le site : %site%</target>
+            </trans-unit>
       <trans-unit xml:space="preserve" id="click_on_following_link_to_login" approved="yes">
                 <source>click_on_following_link_to_login</source>
                 <target state="final">Cliquez sur le lien suivant pour vous connecter automatiquement.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="login_link_will_expire_at.expiresAt" approved="yes">
+                <source>login_link_will_expire_at.expiresAt</source>
+                <target state="final">Ce lien expirera le %expiresAt%</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="classic.login_password" approved="yes">
                 <source>classic.login_password</source>
                 <target state="final">Se connecter avec mot de passe</target>
             </trans-unit>
       <!-- History entry params -->
+      <trans-unit id="user_id" xml:space="preserve" approved="yes">
+                <source>user_id</source>
+                <target state="final">ID utilisateur</target>
+            </trans-unit>
+      <trans-unit id="user_email" xml:space="preserve" approved="yes">
+                <source>user_email</source>
+                <target state="final">E-mail utilisateur</target>
+            </trans-unit>
+      <trans-unit id="user_picture_url" xml:space="preserve" approved="yes">
+                <source>user_picture_url</source>
+                <target state="final">URL image de profil</target>
+            </trans-unit>
+      <trans-unit id="user_public_name" xml:space="preserve" approved="yes">
+                <source>user_public_name</source>
+                <target state="final">Pseudonyme utilisateur</target>
+            </trans-unit>
+      <trans-unit id="security" xml:space="preserve" approved="yes">
+                <source>security</source>
+                <target state="final">Sécurité</target>
+            </trans-unit>
+      <trans-unit id="authenticator" xml:space="preserve" approved="yes">
+                <source>authenticator</source>
+                <target state="final">Authentificateur</target>
+            </trans-unit>
+      <trans-unit id="entity_title" xml:space="preserve" approved="yes">
+                <source>entity_title</source>
+                <target state="final">Entity title</target>
+            </trans-unit>
+      <trans-unit id="exception_class" xml:space="preserve" approved="yes">
+                <source>exception_class</source>
+                <target state="final">Classe de l'exception</target>
+            </trans-unit>
+      <trans-unit id="path" xml:space="preserve" approved="yes">
+                <source>path</source>
+                <target state="final">Chemin</target>
+            </trans-unit>
+      <trans-unit id="firewall" xml:space="preserve" approved="yes">
+                <source>firewall</source>
+                <target state="final">Pare-feu</target>
+            </trans-unit>
+      <trans-unit id="document.hotspot" xml:space="preserve" approved="yes">
+                <source>document.hotspot</source>
+                <target state="final">Point d'intéret</target>
+            </trans-unit>
+      <trans-unit id="document.hotspot.help" xml:space="preserve" approved="yes">
+                <source>document.hotspot.help</source>
+                <target state="final">Le point d'intérêt d'une image permet de définir une zone plus précise que l'option d'alignement pour le redimensionnement.</target>
+            </trans-unit>
+      <trans-unit id="apple_podcast" xml:space="preserve" approved="yes">
+                <source>apple_podcast</source>
+                <target state="final">Apple Podcast</target>
+            </trans-unit>
+      <trans-unit id="Apple_podcast" xml:space="preserve" approved="yes">
+                <source>Apple_podcast</source>
+                <target state="final">Apple Podcast</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>
