@@ -2,21 +2,25 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" original="" target-language="fr" datatype="plaintext">
     <body>
-      <trans-unit id="Your user account is not enabled. Contact an administrator" xml:space="preserve">
+      <trans-unit id="Your user account is not enabled. Contact an administrator" xml:space="preserve" approved="yes">
                 <source>Your user account is not enabled. Contact an administrator.</source>
-                <target state="translated">Votre compte utilisateur n'est pas activé. Contactez un administrateur.</target>
+                <target state="final">Votre compte utilisateur n'est pas activé. Contactez un administrateur.</target>
             </trans-unit>
-      <trans-unit id="Your credentials have expired. Please request a new password" xml:space="preserve">
+      <trans-unit id="Your credentials have expired. Please request a new password" xml:space="preserve" approved="yes">
                 <source>Your credentials have expired. Please request a new password.</source>
-                <target state="translated">Vos informations de connexion ont expiré. Veuillez demander un nouveau mot de passe.</target>
+                <target state="final">Vos informations de connexion ont expiré. Veuillez demander un nouveau mot de passe.</target>
             </trans-unit>
-      <trans-unit id="Your account has expired. Contact an administrator" xml:space="preserve">
+      <trans-unit id="Your account has expired. Contact an administrator" xml:space="preserve" approved="yes">
                 <source>Your account has expired. Contact an administrator.</source>
-                <target state="translated">Votre compte a expiré. Contactez un administrateur.</target>
+                <target state="final">Votre compte a expiré. Contactez un administrateur.</target>
             </trans-unit>
-      <trans-unit id="Your user account is locked. Contact an administrator" xml:space="preserve">
+      <trans-unit id="Your user account is locked. Contact an administrator" xml:space="preserve" approved="yes">
                 <source>Your user account is locked. Contact an administrator.</source>
-                <target state="translated">Votre compte utilisateur est verrouillé. Contactez un administrateur.</target>
+                <target state="final">Votre compte utilisateur est verrouillé. Contactez un administrateur.</target>
+            </trans-unit>
+      <trans-unit id="User logged in successfully" xml:space="preserve" approved="yes">
+                <source>User logged in successfully.</source>
+                <target state="final">L'utilisateur s'est connecté avec succès.</target>
             </trans-unit>
     </body>
   </file>
