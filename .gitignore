@@ -136,6 +136,8 @@ fabric.properties
 ###< phpunit/phpunit ###
 
 /*.sql
+/*.tar
+/*.tar.gz
 /generated/*
 /.data/db/*
 /.data/db_test/*
@@ -168,4 +170,5 @@ fabric.properties
 /.php-cs-fixer.cache
 ###< friendsofphp/php-cs-fixer ###
 /compose.override.yml
+/compose.override.yaml
 /siege.txt
