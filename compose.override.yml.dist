@@ -1,6 +1,6 @@
 services:
     db:
-        # Uncomment next line if you want to use mariaDb instead of mysql
+#       # Uncomment next line if you want to use mariaDb instead of mysql
 #        build:
 #            target: mariadb
 #            args:
@@ -53,15 +53,15 @@ services:
 #            - "traefik.http.routers.${APP_NAMESPACE}_secure.tls=true"
 #            - "traefik.http.routers.${APP_NAMESPACE}_secure.service=${APP_NAMESPACE}"
 
-    # Uncomment next line if you use Frankenphp
+#    # Uncomment next line if you use Frankenphp
 #    varnish:
 #        entrypoint: ["echo", "Service varnish disabled"]
 
 #    nginx:
-        # Uncomment ports if you use nginx
+#        # Uncomment ports if you use nginx
 #        ports:
 #            - ${PUBLIC_APP_PORT}:80/tcp
-        # Comment ports and uncomment next line if you use Frankenphp
+#        # Comment ports and uncomment next line if you use Frankenphp
 #        entrypoint: ["echo", "Service nginx disabled"]
     worker:
         entrypoint: [ "php", "-d", "memory_limit=-1", "/app/bin/console", "messenger:consume", "async", "--time-limit=600", "--profile", "-vvv" ]
