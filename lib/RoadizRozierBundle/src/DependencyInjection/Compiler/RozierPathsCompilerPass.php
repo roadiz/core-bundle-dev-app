@@ -9,7 +9,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Finder\Finder;
 
 class RozierPathsCompilerPass implements CompilerPassInterface
 {
@@ -50,55 +49,5 @@ class RozierPathsCompilerPass implements CompilerPassInterface
                     'package' => $name,
                 ])
         );
-
-        /*
-         * add translations paths
-         */
-        $translationFolder = realpath($themeDir.'/Resources/translations');
-
-        if (false === $translationFolder || !file_exists($translationFolder)) {
-            throw new \RuntimeException($themeDir.'/Resources/translations is not a valid directory');
-        }
-
-        if ($container->hasDefinition('translator.default')) {
-            $translator = $container->findDefinition('translator.default');
-            $files = [];
-            $finder = Finder::create()
-                ->followLinks()
-                ->files()
-                ->filter(function (\SplFileInfo $file) {
-                    return 2 <= \mb_substr_count($file->getBasename(), '.')
-                        && preg_match('/\.\w+$/', $file->getBasename());
-                })
-                ->in($translationFolder)
-                ->sortByName()
-            ;
-            foreach ($finder as $file) {
-                $fileNameParts = explode('.', basename((string) $file));
-                $locale = $fileNameParts[\count($fileNameParts) - 2];
-                if (!isset($files[$locale])) {
-                    $files[$locale] = [];
-                }
-
-                $files[$locale][] = (string) $file;
-            }
-            /** @var array $options */
-            $options = $translator->getArgument(4);
-
-            $options = array_merge_recursive(
-                $options,
-                [
-                    'resource_files' => $files,
-                    'scanned_directories' => $scannedDirectories = [$translationFolder],
-                    'cache_vary' => [
-                        'scanned_directories' => array_map(static function (string $dir) use ($projectDir): string {
-                            return str_starts_with($dir, $projectDir.'/') ? \mb_substr($dir, 1 + \mb_strlen($projectDir)) : $dir;
-                        }, $scannedDirectories),
-                    ],
-                ]
-            );
-
-            $translator->replaceArgument(4, $options);
-        }
     }
 }

@@ -235,6 +235,16 @@
                 <target></target>
                 <note>Setting help name</note>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="Store last cronjob execution date and time.">
+                <source>Store last cronjob execution date and time.</source>
+                <target></target>
+                <note>Setting help name</note>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="force_locale.setting.help">
+                <source>Force displaying translation locale in every node’ paths. This should be *ON* if you redirect users based on their language on homepage.</source>
+                <target></target>
+                <note>Setting help name</note>
+            </trans-unit>
         </body>
     </file>
 </xliff>
