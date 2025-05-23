@@ -102,3 +102,8 @@ cd docs
 pnpm install
 pnpm docs:dev
 ```
+
+## Admin frontend development
+
+The admin UI assets are located in the lib/Rozier folder.
+To launch the frontend dev server or build the assets, go to that folder and follow the local README instructions.
