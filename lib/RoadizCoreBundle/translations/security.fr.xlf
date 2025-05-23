@@ -18,10 +18,6 @@
                 <source>Your user account is locked. Contact an administrator.</source>
                 <target state="translated">Votre compte utilisateur est verrouillé. Contactez un administrateur.</target>
             </trans-unit>
-      <trans-unit id="User logged in successfully" xml:space="preserve">
-            <source>User logged in successfully.</source>
-            <target state="translated">L'utilisateur s'est connecté avec succès.</target>
-        </trans-unit>
     </body>
   </file>
 </xliff>
