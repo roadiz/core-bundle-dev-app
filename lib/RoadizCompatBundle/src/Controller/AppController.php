@@ -20,6 +20,8 @@ use Twig\Error\SyntaxError;
 
 /**
  * Base class for Roadiz themes.
+ *
+ * @deprecated Use AbstractController instead
  */
 abstract class AppController extends Controller
 {

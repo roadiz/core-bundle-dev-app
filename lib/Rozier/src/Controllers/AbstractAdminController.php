@@ -4,9 +4,14 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use Doctrine\Persistence\ObjectRepository;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Exception\InvalidConfigurationException;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,30 +19,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\UnicodeString;
 use Symfony\Contracts\EventDispatcher\Event;
-use Themes\Rozier\RozierApp;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-abstract class AbstractAdminController extends RozierApp
+abstract class AbstractAdminController extends AbstractController
 {
-    public const ITEM_PER_PAGE = 20;
+    protected array $assignation = [];
 
     public function __construct(
         protected readonly UrlGeneratorInterface $urlGenerator,
+        protected readonly EntityListManagerFactoryInterface $entityListManagerFactory,
+        protected readonly ManagerRegistry $managerRegistry,
+        protected readonly TranslatorInterface $translator,
+        protected readonly LogTrail $logTrail,
+        protected readonly EventDispatcherInterface $eventDispatcher,
     ) {
-    }
-
-    protected function getThemeDirectory(): string
-    {
-        return RozierApp::getThemeDir();
-    }
-
-    protected function getTemplateNamespace(): string
-    {
-        return '@RoadizRozier';
     }
 
     protected function additionalAssignation(Request $request): void
     {
-        $this->assignation['controller_namespace'] = $this->getNamespace();
+        /*
+         * Initialize assignation array with default values for Twig template.
+         */
+        $this->assignation = [
+            'controller_namespace' => $this->getNamespace(),
+        ];
     }
 
     protected function prepareWorkingItem(PersistableInterface $item): void
@@ -47,7 +53,13 @@ abstract class AbstractAdminController extends RozierApp
 
     protected function getRepository(): ObjectRepository
     {
-        return $this->em()->getRepository($this->getEntityClass());
+        return $this->managerRegistry->getRepository($this->getEntityClass());
+    }
+
+    protected function em(): ObjectManager
+    {
+        return $this->managerRegistry->getManagerForClass($this->getEntityClass()) ??
+            throw new \RuntimeException('No entity manager found for class '.$this->getEntityClass());
     }
 
     protected function getRequiredDeletionRole(): string
@@ -70,15 +82,12 @@ abstract class AbstractAdminController extends RozierApp
         return $this->getRequiredRole();
     }
 
-    /**
-     * @throws \Twig\Error\RuntimeError
-     */
     public function defaultAction(Request $request): ?Response
     {
         $this->denyAccessUnlessGranted($this->getRequiredListingRole());
         $this->additionalAssignation($request);
 
-        $elm = $this->createEntityListManager(
+        $elm = $this->entityListManagerFactory->createAdminEntityListManager(
             $this->getEntityClass(),
             $this->getDefaultCriteria($request),
             $this->getDefaultOrder($request)
@@ -97,14 +106,9 @@ abstract class AbstractAdminController extends RozierApp
         return $this->render(
             $this->getTemplateFolder().'/list.html.twig',
             $this->assignation,
-            null,
-            $this->getTemplateNamespace()
         );
     }
 
-    /**
-     * @throws \Twig\Error\RuntimeError
-     */
     public function addAction(Request $request): ?Response
     {
         $this->denyAccessUnlessGranted($this->getRequiredCreationRole());
@@ -116,6 +120,7 @@ abstract class AbstractAdminController extends RozierApp
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->managerRegistry->getManagerForClass($this->getEntityClass());
             /*
              * Events are dispatched before entity manager is flushed
              * to be able to throw exceptions before it is persisted.
@@ -123,20 +128,20 @@ abstract class AbstractAdminController extends RozierApp
             $event = $this->createCreateEvent($item);
             $this->dispatchSingleOrMultipleEvent($event);
 
-            $this->em()->persist($item);
-            $this->em()->flush();
+            $entityManager->persist($item);
+            $entityManager->flush();
 
             $postEvent = $this->createPostCreateEvent($item);
             $this->dispatchSingleOrMultipleEvent($postEvent);
 
-            $msg = $this->getTranslator()->trans(
+            $msg = $this->translator->trans(
                 '%namespace%.%item%.was_created',
                 [
                     '%item%' => $this->getEntityName($item),
-                    '%namespace%' => $this->getTranslator()->trans($this->getNamespace()),
+                    '%namespace%' => $this->translator->trans($this->getNamespace()),
                 ]
             );
-            $this->publishConfirmMessage($request, $msg, $item);
+            $this->logTrail->publishConfirmMessage($request, $msg, $item);
 
             return $this->getPostSubmitResponse($item, true, $request);
         }
@@ -147,23 +152,16 @@ abstract class AbstractAdminController extends RozierApp
         return $this->render(
             $this->getTemplateFolder().'/add.html.twig',
             $this->assignation,
-            null,
-            $this->getTemplateNamespace()
         );
     }
 
-    /**
-     * @param int|string $id Numeric ID or UUID
-     *
-     * @throws \Twig\Error\RuntimeError
-     */
-    public function editAction(Request $request, $id): ?Response
+    public function editAction(Request $request, int|string $id): ?Response
     {
         $this->denyAccessUnlessGranted($this->getRequiredEditionRole());
         $this->additionalAssignation($request);
 
         /** @var mixed|object|null $item */
-        $item = $this->em()->find($this->getEntityClass(), $id);
+        $item = $this->getRepository()->find($id);
         if (!($item instanceof PersistableInterface)) {
             throw $this->createNotFoundException();
         }
@@ -175,13 +173,14 @@ abstract class AbstractAdminController extends RozierApp
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->managerRegistry->getManagerForClass($this->getEntityClass());
             /*
              * Events are dispatched before entity manager is flushed
              * to be able to throw exceptions before it is persisted.
              */
             $event = $this->createUpdateEvent($item);
             $this->dispatchSingleOrMultipleEvent($event);
-            $this->em()->flush();
+            $entityManager->flush();
 
             /*
              * Event that requires that EM is flushed
@@ -189,14 +188,14 @@ abstract class AbstractAdminController extends RozierApp
             $postEvent = $this->createPostUpdateEvent($item);
             $this->dispatchSingleOrMultipleEvent($postEvent);
 
-            $msg = $this->getTranslator()->trans(
+            $msg = $this->translator->trans(
                 '%namespace%.%item%.was_updated',
                 [
                     '%item%' => $this->getEntityName($item),
-                    '%namespace%' => $this->getTranslator()->trans($this->getNamespace()),
+                    '%namespace%' => $this->translator->trans($this->getNamespace()),
                 ]
             );
-            $this->publishConfirmMessage($request, $msg, $item);
+            $this->logTrail->publishConfirmMessage($request, $msg, $item);
 
             return $this->getPostSubmitResponse($item, false, $request);
         }
@@ -207,23 +206,16 @@ abstract class AbstractAdminController extends RozierApp
         return $this->render(
             $this->getTemplateFolder().'/edit.html.twig',
             $this->assignation,
-            null,
-            $this->getTemplateNamespace()
         );
     }
 
-    /**
-     * @param int|string $id Numeric ID or UUID
-     *
-     * @throws \Twig\Error\RuntimeError
-     */
-    public function deleteAction(Request $request, $id): ?Response
+    public function deleteAction(Request $request, int|string $id): ?Response
     {
         $this->denyAccessUnlessGranted($this->getRequiredDeletionRole());
         $this->additionalAssignation($request);
 
         /** @var mixed|object|null $item */
-        $item = $this->em()->find($this->getEntityClass(), $id);
+        $item = $this->getRepository()->find($id);
 
         if (!($item instanceof PersistableInterface)) {
             throw $this->createNotFoundException();
@@ -236,26 +228,27 @@ abstract class AbstractAdminController extends RozierApp
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->managerRegistry->getManagerForClass($this->getEntityClass());
             /*
              * Events are dispatched before entity manager is flushed
              * to be able to throw exceptions before it is persisted.
              */
             $event = $this->createDeleteEvent($item);
             $this->dispatchSingleOrMultipleEvent($event);
-            $this->em()->remove($item);
-            $this->em()->flush();
+            $entityManager->remove($item);
+            $entityManager->flush();
 
             $postEvent = $this->createPostDeleteEvent($item);
             $this->dispatchSingleOrMultipleEvent($postEvent);
 
-            $msg = $this->getTranslator()->trans(
+            $msg = $this->translator->trans(
                 '%namespace%.%item%.was_deleted',
                 [
                     '%item%' => $this->getEntityName($item),
-                    '%namespace%' => $this->getTranslator()->trans($this->getNamespace()),
+                    '%namespace%' => $this->translator->trans($this->getNamespace()),
                 ]
             );
-            $this->publishConfirmMessage($request, $msg, $item);
+            $this->logTrail->publishConfirmMessage($request, $msg, $item);
 
             return $this->getPostDeleteResponse($item);
         }
@@ -266,8 +259,6 @@ abstract class AbstractAdminController extends RozierApp
         return $this->render(
             $this->getTemplateFolder().'/delete.html.twig',
             $this->assignation,
-            null,
-            $this->getTemplateNamespace()
         );
     }
 
@@ -411,8 +402,7 @@ abstract class AbstractAdminController extends RozierApp
             return null;
         }
         if ($event instanceof Event) {
-            // @phpstan-ignore-next-line
-            return $this->dispatchEvent($event);
+            return $this->eventDispatcher->dispatch($event);
         }
         if (\is_iterable($event)) {
             $events = [];

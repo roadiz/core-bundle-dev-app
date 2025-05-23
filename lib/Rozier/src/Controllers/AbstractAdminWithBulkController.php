@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\FormError;
@@ -13,14 +16,21 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 abstract class AbstractAdminWithBulkController extends AbstractAdminController
 {
     public function __construct(
         protected readonly FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator,
+        EntityListManagerFactoryInterface $entityListManagerFactory,
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LogTrail $logTrail,
+        EventDispatcherInterface $eventDispatcher,
     ) {
-        parent::__construct($urlGenerator);
+        parent::__construct($urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
     protected function additionalAssignation(Request $request): void
@@ -152,14 +162,14 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
                         if (null !== $updateEvent) {
                             $this->dispatchSingleOrMultipleEvent($updateEvent);
                         }
-                        $msg = $this->getTranslator()->trans(
+                        $msg = $this->translator->trans(
                             $confirmMessageTemplate,
                             [
                                 '%item%' => $this->getEntityName($item),
-                                '%namespace%' => $this->getTranslator()->trans($this->getNamespace()),
+                                '%namespace%' => $this->translator->trans($this->getNamespace()),
                             ]
                         );
-                        $this->publishConfirmMessage($request, $msg, $item);
+                        $this->logTrail->publishConfirmMessage($request, $msg, $item);
                     }
                 }
                 $this->em()->flush();
@@ -175,9 +185,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
 
         return $this->render(
             $templatePath,
-            $this->assignation,
-            null,
-            $this->getTemplateNamespace()
+            $this->assignation
         );
     }
 

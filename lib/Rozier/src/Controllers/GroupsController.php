@@ -107,11 +107,11 @@ final class GroupsController extends AbstractAdminController
             if (null !== $role) {
                 $item->addRoleEntity($role);
                 $this->em()->flush();
-                $msg = $this->getTranslator()->trans('role.%role%.linked_group.%group%', [
+                $msg = $this->translator->trans('role.%role%.linked_group.%group%', [
                     '%group%' => $item->getName(),
                     '%role%' => $role->getRole(),
                 ]);
-                $this->publishConfirmMessage($request, $msg, $role);
+                $this->logTrail->publishConfirmMessage($request, $msg, $role);
 
                 return $this->redirectToRoute(
                     'groupsEditRolesPage',
@@ -158,11 +158,11 @@ final class GroupsController extends AbstractAdminController
         if ($form->isSubmitted() && $form->isValid()) {
             $item->removeRoleEntity($role);
             $this->em()->flush();
-            $msg = $this->getTranslator()->trans('role.%role%.removed_from_group.%group%', [
+            $msg = $this->translator->trans('role.%role%.removed_from_group.%group%', [
                 '%role%' => $role->getRole(),
                 '%group%' => $item->getName(),
             ]);
-            $this->publishConfirmMessage($request, $msg, $role);
+            $this->logTrail->publishConfirmMessage($request, $msg, $role);
 
             return $this->redirectToRoute(
                 'groupsEditRolesPage',
@@ -175,9 +175,6 @@ final class GroupsController extends AbstractAdminController
         return $this->render('@RoadizRozier/groups/removeRole.html.twig', $this->assignation);
     }
 
-    /**
-     * @throws RuntimeError
-     */
     public function editUsersAction(Request $request, int $id): Response
     {
         $this->denyAccessUnlessGranted($this->getRequiredRole());
@@ -202,11 +199,11 @@ final class GroupsController extends AbstractAdminController
             if (null !== $user) {
                 $user->addGroup($item);
                 $this->em()->flush();
-                $msg = $this->getTranslator()->trans('user.%user%.linked.group.%group%', [
+                $msg = $this->translator->trans('user.%user%.linked.group.%group%', [
                     '%group%' => $item->getName(),
                     '%user%' => $user->getUserName(),
                 ]);
-                $this->publishConfirmMessage($request, $msg, $user);
+                $this->logTrail->publishConfirmMessage($request, $msg, $user);
 
                 return $this->redirectToRoute(
                     'groupsEditUsersPage',
@@ -252,11 +249,11 @@ final class GroupsController extends AbstractAdminController
         if ($form->isSubmitted() && $form->isValid()) {
             $user->removeGroup($item);
             $this->em()->flush();
-            $msg = $this->getTranslator()->trans('user.%user%.removed_from_group.%group%', [
-                '%user%' => $user->getUserName(),
+            $msg = $this->translator->trans('user.%user%.removed_from_group.%group%', [
+                '%user%' => $user->getUsername(),
                 '%group%' => $item->getName(),
             ]);
-            $this->publishConfirmMessage($request, $msg, $user);
+            $this->logTrail->publishConfirmMessage($request, $msg, $user);
 
             return $this->redirectToRoute(
                 'groupsEditUsersPage',

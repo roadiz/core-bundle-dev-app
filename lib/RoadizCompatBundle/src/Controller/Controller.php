@@ -56,6 +56,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Twig\Environment;
 use Twig\Error\RuntimeError;
 
+/**
+ * @deprecated Use AbstractController instead
+ */
 abstract class Controller extends AbstractController
 {
     public static function getSubscribedServices(): array

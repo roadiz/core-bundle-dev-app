@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\NodeTypes;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeDecorator;
 use RZ\Roadiz\CoreBundle\Enum\NodeTypeDecoratorProperty;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Controllers\AbstractAdminController;
 use Themes\Rozier\Forms\NodeTypeDecoratorType;
 
@@ -18,8 +23,13 @@ final class NodeTypeDecoratorController extends AbstractAdminController
     public function __construct(
         private readonly DecoratedNodeTypes $nodeTypesBag,
         UrlGeneratorInterface $urlGenerator,
+        EntityListManagerFactoryInterface $entityListManagerFactory,
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LogTrail $logTrail,
+        EventDispatcherInterface $eventDispatcher,
     ) {
-        parent::__construct($urlGenerator);
+        parent::__construct($urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
     protected function supports(PersistableInterface $item): bool

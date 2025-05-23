@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Webhook;
 use RZ\Roadiz\CoreBundle\Form\WebhookType;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\CoreBundle\Webhook\Exception\TooManyWebhookTriggeredException;
 use RZ\Roadiz\CoreBundle\Webhook\WebhookDispatcher;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -15,6 +18,8 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class WebhookController extends AbstractAdminWithBulkController
 {
@@ -22,8 +27,13 @@ final class WebhookController extends AbstractAdminWithBulkController
         private readonly WebhookDispatcher $webhookDispatcher,
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator,
+        EntityListManagerFactoryInterface $entityListManagerFactory,
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LogTrail $logTrail,
+        EventDispatcherInterface $eventDispatcher,
     ) {
-        parent::__construct($formFactory, $urlGenerator);
+        parent::__construct($formFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
     public function triggerAction(Request $request, string $id): Response
@@ -47,14 +57,14 @@ final class WebhookController extends AbstractAdminWithBulkController
                 $this->webhookDispatcher->dispatch($item);
                 $this->em()->flush();
 
-                $msg = $this->getTranslator()->trans(
+                $msg = $this->translator->trans(
                     'webhook.%item%.will_be_triggered_in.%seconds%',
                     [
                         '%item%' => $this->getEntityName($item),
                         '%seconds%' => $item->getThrottleSeconds(),
                     ]
                 );
-                $this->publishConfirmMessage($request, $msg, $item);
+                $this->logTrail->publishConfirmMessage($request, $msg, $item);
 
                 return $this->redirect($this->urlGenerator->generate(
                     $this->getDefaultRouteName(),
@@ -73,8 +83,6 @@ final class WebhookController extends AbstractAdminWithBulkController
         return $this->render(
             $this->getTemplateFolder().'/trigger.html.twig',
             $this->assignation,
-            null,
-            $this->getTemplateNamespace()
         );
     }
 

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Attributes;
 
+use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Attribute;
 use RZ\Roadiz\CoreBundle\Form\AttributeImportType;
 use RZ\Roadiz\CoreBundle\Form\AttributeType;
 use RZ\Roadiz\CoreBundle\Importer\AttributeImporter;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,6 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Controllers\AbstractAdminWithBulkController;
 use Twig\Error\RuntimeError;
 
@@ -27,8 +32,13 @@ final class AttributeController extends AbstractAdminWithBulkController
         private readonly AttributeImporter $attributeImporter,
         FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator,
+        EntityListManagerFactoryInterface $entityListManagerFactory,
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LogTrail $logTrail,
+        EventDispatcherInterface $eventDispatcher,
     ) {
-        parent::__construct($formFactory, $urlGenerator);
+        parent::__construct($formFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
     protected function supports(PersistableInterface $item): bool
@@ -128,17 +138,17 @@ final class AttributeController extends AbstractAdminWithBulkController
                 $this->attributeImporter->import($serializedData);
                 $this->em()->flush();
 
-                $msg = $this->getTranslator()->trans(
+                $msg = $this->translator->trans(
                     '%namespace%.imported',
                     [
-                        '%namespace%' => $this->getTranslator()->trans($this->getNamespace()),
+                        '%namespace%' => $this->translator->trans($this->getNamespace()),
                     ]
                 );
-                $this->publishConfirmMessage($request, $msg);
+                $this->logTrail->publishConfirmMessage($request, $msg);
 
                 return $this->redirectToRoute('attributesHomePage');
             }
-            $form->addError(new FormError($this->getTranslator()->trans('file.not_uploaded')));
+            $form->addError(new FormError($this->translator->trans('file.not_uploaded')));
         }
 
         $this->assignation['form'] = $form->createView();

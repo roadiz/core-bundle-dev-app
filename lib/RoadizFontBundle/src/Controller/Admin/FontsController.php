@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\FontBundle\Controller\Admin;
 
+use Doctrine\Persistence\ManagerRegistry;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\FontBundle\Entity\Font;
 use RZ\Roadiz\FontBundle\Event\Font\PreUpdatedFontEvent;
 use RZ\Roadiz\FontBundle\Form\FontType;
@@ -17,6 +20,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Controllers\AbstractAdminController;
 
 class FontsController extends AbstractAdminController
@@ -24,8 +29,13 @@ class FontsController extends AbstractAdminController
     public function __construct(
         private readonly FilesystemOperator $fontStorage,
         UrlGeneratorInterface $urlGenerator,
+        EntityListManagerFactoryInterface $entityListManagerFactory,
+        ManagerRegistry $managerRegistry,
+        TranslatorInterface $translator,
+        LogTrail $logTrail,
+        EventDispatcherInterface $eventDispatcher,
     ) {
-        parent::__construct($urlGenerator);
+        parent::__construct($urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
     protected function supports(PersistableInterface $item): bool
