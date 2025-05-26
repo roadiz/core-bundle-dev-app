@@ -454,6 +454,26 @@
             }
         }
     }
+
+    &.form-errored {
+        .uk-form-label-description,
+        .uk-form-label {
+            color: @alert-color;
+
+            &:before {
+                color: @alert-color;
+            }
+        }
+        input[type="text"],
+        input[type="password"],
+        input[type="search"],
+        input[type="email"],
+        input[type="number"],
+        &.markdown-editor .CodeMirror,
+        textarea {
+            border-color: @alert-color;
+        }
+    }
 }
 
 .uk-form-translation-default{
