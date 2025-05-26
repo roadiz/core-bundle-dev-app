@@ -14,7 +14,7 @@ final class Version20250519140947 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Added contenttest column to nodes_sources table';
     }
 
     public function up(Schema $schema): void

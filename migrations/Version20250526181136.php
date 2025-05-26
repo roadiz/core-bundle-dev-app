@@ -10,24 +10,26 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250519152532 extends AbstractMigration
+final class Version20250526181136 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return 'Added css, yaml, and json columns to nodes_sources table';
+        return 'Added contacts column to nodes_sources table';
     }
 
     public function up(Schema $schema): void
     {
+        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            ALTER TABLE nodes_sources ADD css LONGTEXT DEFAULT NULL, ADD yaml LONGTEXT DEFAULT NULL, ADD json LONGTEXT DEFAULT NULL
+            ALTER TABLE nodes_sources ADD contacts JSON DEFAULT NULL
         SQL);
     }
 
     public function down(Schema $schema): void
     {
+        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            ALTER TABLE nodes_sources DROP css, DROP yaml, DROP json
+            ALTER TABLE nodes_sources DROP contacts
         SQL);
     }
 }

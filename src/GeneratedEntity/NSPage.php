@@ -255,6 +255,19 @@ class NSPage extends NodesSources
     private mixed $settings = null;
 
     /**
+     * Contacts.
+     * Default values:
+     * entry_type: App\Form\ContactFormType
+     */
+    #[Serializer\SerializedName(serializedName: 'contacts')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Contacts')]
+    #[Serializer\MaxDepth(2)]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'contacts', type: 'json', nullable: true)]
+    private mixed $contacts = null;
+
+    /**
      * Folder simple.
      * Default values:
      * classname: Themes\Rozier\Explorer\FoldersProvider
@@ -767,6 +780,23 @@ class NSPage extends NodesSources
     public function setSettings(mixed $settings): static
     {
         $this->settings = $settings;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContacts(): mixed
+    {
+        return $this->contacts;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setContacts(mixed $contacts): static
+    {
+        $this->contacts = $contacts;
         return $this;
     }
 
