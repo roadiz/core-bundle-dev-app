@@ -2,17 +2,17 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="zh-CN">
     <body>
-      <trans-unit xml:space="preserve" id="validate_email.subject">
+      <trans-unit xml:space="preserve" id="validate_email.subject" approved="yes">
                 <source>validate_email.subject</source>
-                <target state="translated">验证您的账户电子邮件地址</target>
+                <target state="final">验证您的账户电子邮件地址</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="validate_email.subtitle">
+      <trans-unit xml:space="preserve" id="validate_email.subtitle" approved="yes">
                 <source>validate_email.subtitle</source>
-                <target state="translated">欢迎来到 “%site%”！</target>
+                <target state="final">欢迎来到 “%site%”！</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="validate_email.btn_label">
+      <trans-unit xml:space="preserve" id="validate_email.btn_label" approved="yes">
                 <source>validate_email.btn_label</source>
-                <target state="translated">确认我的电子邮件地址</target>
+                <target state="final">确认我的电子邮件地址</target>
             </trans-unit>
     </body>
   </file>
