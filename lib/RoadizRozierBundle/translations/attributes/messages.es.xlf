@@ -2,9 +2,9 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="es-ES">
     <body>
-      <trans-unit xml:space="preserve" id="attributes">
+      <trans-unit xml:space="preserve" id="attributes" approved="yes">
                 <source>attributes</source>
-                <target state="translated">Atributos</target>
+                <target state="final">Atributos</target>
             </trans-unit>
     </body>
   </file>
