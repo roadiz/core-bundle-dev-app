@@ -132,9 +132,9 @@
                 <target state="final">Domaine sécurisé</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="realm_node.realm.help">
+      <trans-unit xml:space="preserve" id="realm_node.realm.help" approved="yes">
                 <source>realm_node.realm.help</source>
-                <target state="translated">Choisissez un domaine sécurisé au préalablement créé pour l'appliquer à ce nœud et à son arborescence.</target>
+                <target state="final">Choisissez un domaine sécurisé au préalablement créé pour l'appliquer à ce nœud et à son arborescence.</target>
                 <note/>
             </trans-unit>
       <trans-unit xml:space="preserve" id="realm_node.realm.placeholder" approved="yes">
