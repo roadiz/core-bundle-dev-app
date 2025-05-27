@@ -2,9 +2,9 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="fr">
     <body>
-      <trans-unit xml:space="preserve" id="no_redirection_found">
+      <trans-unit xml:space="preserve" id="no_redirection_found" approved="yes">
                 <source>no_redirection_found</source>
-                <target state="translated">Aucune redirection trouvée</target>
+                <target state="final">Aucune redirection trouvée</target>
             </trans-unit>
     </body>
   </file>
