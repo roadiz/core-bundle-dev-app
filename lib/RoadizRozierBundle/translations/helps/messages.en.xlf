@@ -2,57 +2,57 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="en">
     <body>
-      <trans-unit xml:space="preserve" id="document.private.help">
+      <trans-unit xml:space="preserve" id="document.private.help" approved="yes">
                 <source>document.private.help</source>
-            <target state="translated">Move current document file to a non-public server directory. This option disables document display on your website.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="document.imageAverageColor.help">
+            <target state="final">Move current document file to a non-public server directory. This option disables document display on your website.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageAverageColor.help" approved="yes">
                 <source>document.imageAverageColor.help</source>
-            <target state="translated">Image average color, useful to create colored placeholder during image loading on your website.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="node.nodeName.help">
+            <target state="final">Image average color, useful to create colored placeholder during image loading on your website.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="node.nodeName.help" approved="yes">
                 <source>node.nodeName.help</source>
-            <target state="translated">Node name must be unique and is used to generate your page URL and fetch current node in Themes. It must not contain any special characters.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="tag.tagName.help">
+            <target state="final">Node name must be unique and is used to generate your page URL and fetch current node in Themes. It must not contain any special characters.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="tag.tagName.help" approved="yes">
                 <source>tag.tagName.help</source>
-            <target state="translated">Tag name must be unique and is used to generate your page URL and fetch current tag in Themes. It must not contain any special characters.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="tag.locked.help">
+            <target state="final">Tag name must be unique and is used to generate your page URL and fetch current tag in Themes. It must not contain any special characters.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="tag.locked.help" approved="yes">
                 <source>tag.locked.help</source>
-            <target state="translated">A locked tag is not renamed after updating its translated title. It prevents deletion too.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="folder.locked.help">
+            <target state="final">A locked tag is not renamed after updating its translated title. It prevents deletion too.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="folder.locked.help" approved="yes">
                 <source>folder.locked.help</source>
-            <target state="translated">A locked folder is not renamed after updating its translated title. It prevents deletion too.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.metaTitle.help">
+            <target state="final">A locked folder is not renamed after updating its translated title. It prevents deletion too.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeSource.metaTitle.help" approved="yes">
                 <source>nodeSource.metaTitle.help</source>
-            <target state="translated">SEO title allows you to write the entire title of your page. For optimal display in search engines, the title should not exceed 55 to 65 characters on average.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.metaDescription.help">
+            <target state="final">SEO title allows you to write the entire title of your page. For optimal display in search engines, the title should not exceed 55 to 65 characters on average.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeSource.metaDescription.help" approved="yes">
                 <source>nodeSource.metaDescription.help</source>
-            <target state="translated">SEO description is a summary in a few characters of your page. Its purpose is to briefly describe its content. This description must be between 120 and 155 characters long.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.noIndex.help">
+            <target state="final">SEO description is a summary in a few characters of your page. Its purpose is to briefly describe its content. This description must be between 120 and 155 characters long.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeSource.noIndex.help" approved="yes">
                 <source>nodeSource.noIndex.help</source>
-            <target state="translated">Prevents robots to index your content and hide them from sitemap.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.urlAlias.help">
+            <target state="final">Prevents robots to index your content and hide them from sitemap.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeSource.urlAlias.help" approved="yes">
                 <source>nodeSource.urlAlias.help</source>
-            <target state="translated">URL aliases allow you to rewrite the last part of the URL of your page for each translation. They must be different from the node name and unique throughout your site.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.redirections.help">
+            <target state="final">URL aliases allow you to rewrite the last part of the URL of your page for each translation. They must be different from the node name and unique throughout your site.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeSource.redirections.help" approved="yes">
                 <source>nodeSource.redirections.help</source>
-            <target state="translated">Automatic redirections always redirect visitors from a given request path to the up-to-date current node URL, for this translation. Created redirections will be "permanent" type.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.hidingNonReachableNodes.help">
+            <target state="final">Automatic redirections always redirect visitors from a given request path to the up-to-date current node URL, for this translation. Created redirections will be "permanent" type.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.hidingNonReachableNodes.help" approved="yes">
                 <source>nodeType.hidingNonReachableNodes.help</source>
-            <target state="translated">This node-type will only hide its non-reachable children nodes</target></trans-unit>
-      <trans-unit xml:space="preserve" id="exclude_this_field_from_fulltext_search_engine">
+            <target state="final">This node-type will only hide its non-reachable children nodes</target></trans-unit>
+      <trans-unit xml:space="preserve" id="exclude_this_field_from_fulltext_search_engine" approved="yes">
                 <source>exclude_this_field_from_fulltext_search_engine</source>
-            <target state="translated">Exclude this field value from full-text search engine.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="source_translation.help">
+            <target state="final">Exclude this field value from full-text search engine.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="source_translation.help" approved="yes">
                 <source>source_translation.help</source>
-            <target state="translated">This will copy node contents from this translation.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="translate_offspring.help">
+            <target state="final">This will copy node contents from this translation.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="translate_offspring.help" approved="yes">
                 <source>translate_offspring.help</source>
-            <target state="translated">This will propagate translation to every node children when they are not translated yet in destination language.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="user.publicName.help">
+            <target state="final">This will propagate translation to every node children when they are not translated yet in destination language.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="user.publicName.help" approved="yes">
                 <source>user.publicName.help</source>
-            <target state="translated">If filled, public name may be displayed to any other website user, you can use it as a pseudonym.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="document.createdAt.help">
+            <target state="final">If filled, public name may be displayed to any other website user, you can use it as a pseudonym.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="document.createdAt.help" approved="yes">
                 <source>document.createdAt.help</source>
-            <target state="translated">Allows editing Document creation date and time for sorting purposes.</target></trans-unit>
+            <target state="final">Allows editing Document creation date and time for sorting purposes.</target></trans-unit>
     </body>
   </file>
 </xliff>
