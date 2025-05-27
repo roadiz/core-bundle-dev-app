@@ -55,9 +55,9 @@ Document are listed as “unused” when they are not linked to any node, tag, s
                 <source>document.picture_sources</source>
                 <target state="final">All picture sources</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="private_documents">
+      <trans-unit xml:space="preserve" id="private_documents" approved="yes">
                 <source>private_documents</source>
-                <target state="translated">Private documents</target>
+                <target state="final">Private documents</target>
             </trans-unit>
     </body>
   </file>
