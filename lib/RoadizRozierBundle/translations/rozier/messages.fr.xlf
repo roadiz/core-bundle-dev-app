@@ -2083,41 +2083,41 @@
         <source>node.deleted</source>
         <target state="final">Supprimé</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.visible">
+      <trans-unit xml:space="preserve" id="node.visible" approved="yes">
         <source>node.visible</source>
-        <target state="translated">Visible</target>
+        <target state="final">Visible</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.hideChildren">
+      <trans-unit xml:space="preserve" id="node.hideChildren" approved="yes">
         <source>node.hideChildren</source>
-        <target state="translated">Conteneur</target>
+        <target state="final">Conteneur</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.locked">
+      <trans-unit xml:space="preserve" id="node.locked" approved="yes">
         <source>node.locked</source>
-        <target state="translated">Verrouillé</target>
+        <target state="final">Verrouillé</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.sterile">
+      <trans-unit xml:space="preserve" id="node.sterile" approved="yes">
         <source>node.sterile</source>
-        <target state="translated">Stérile (aucun enfant autorisé)</target>
+        <target state="final">Stérile (aucun enfant autorisé)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.isHome.help">
+      <trans-unit xml:space="preserve" id="node.isHome.help" approved="yes">
         <source>node.isHome.help</source>
-        <target state="translated">Indique si ce nœud est la page d’accueil de votre site. Cela changera son chemin en « / ».</target>
+        <target state="final">Indique si ce nœud est la page d’accueil de votre site. Cela changera son chemin en « / ».</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.visible.help">
+      <trans-unit xml:space="preserve" id="node.visible.help" approved="yes">
         <source>node.visible.help</source>
-        <target state="translated">Contrôle si ce nœud est visible dans les menus de votre site. Tous les nœuds parents invisibles sont ignorés lors de la génération des chemins.</target>
+        <target state="final">Contrôle si ce nœud est visible dans les menus de votre site. Tous les nœuds parents invisibles sont ignorés lors de la génération des chemins.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.hideChildren.help">
+      <trans-unit xml:space="preserve" id="node.hideChildren.help" approved="yes">
         <source>node.hideChildren.help</source>
-        <target state="translated">Convertit ce nœud en pile de nœuds (ou conteneur), utile pour afficher des collections de contenus au lieu d’afficher les enfants directs dans l’arborescence.</target>
+        <target state="final">Convertit ce nœud en pile de nœuds (ou conteneur), utile pour afficher des collections de contenus au lieu d’afficher les enfants directs dans l’arborescence.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.locked.help">
+      <trans-unit xml:space="preserve" id="node.locked.help" approved="yes">
         <source>node.locked.help</source>
-        <target state="translated">Un nœud verrouillé ne peut pas être déplacé, renommé ou supprimé.</target>
+        <target state="final">Un nœud verrouillé ne peut pas être déplacé, renommé ou supprimé.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.sterile.help">
+      <trans-unit xml:space="preserve" id="node.sterile.help" approved="yes">
         <source>node.sterile.help</source>
-        <target state="translated">Un nœud stérile ne peut pas avoir d’enfants.</target>
+        <target state="final">Un nœud stérile ne peut pas avoir d’enfants.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="draft" approved="yes">
         <source>draft</source>
@@ -4276,9 +4276,9 @@
         <target state="final">Accessible</target>
         <note>For node-types, defines if produced nodes will be reachable with an URL or not (eg. just content blocks).</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="not_reachable">
+      <trans-unit xml:space="preserve" id="not_reachable" approved="yes">
         <source>not_reachable</source>
-        <target state="translated">Non accessible</target>
+        <target state="final">Non accessible</target>
         <note>Node-types will not be reachable from an URL.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="You cannot delete a node-type in production mode." approved="yes">
@@ -5057,17 +5057,17 @@
         <target state="final">Longueur Maximum</target>
         <note>Property value label for node type field max_length</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="color_input.picker.button">
+      <trans-unit xml:space="preserve" id="color_input.picker.button" approved="yes">
         <source>color_input.picker.button</source>
-        <target state="translated">Couleur</target>
+        <target state="final">Couleur</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="color_input.hex.button" approved="yes">
         <source>color_input.hex.button</source>
-        <target state="final">Hexadécimal</target>
+        <target state="final">Hexadecimal</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="color_input.placeholder">
+      <trans-unit xml:space="preserve" id="color_input.placeholder" approved="yes">
         <source>color_input.placeholder</source>
-        <target state="translated">Aucune couleur</target>
+        <target state="final">Aucune couleur</target>
       </trans-unit>
     </body>
   </file>
