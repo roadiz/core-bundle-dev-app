@@ -29,6 +29,7 @@ final readonly class DownscaleImageManager
 
     /**
      * Downscale document if needed, overriding raw document.
+     *
      * @throws FilesystemException
      */
     public function processAndOverrideDocument(?DocumentInterface $document = null): void
@@ -51,6 +52,7 @@ final readonly class DownscaleImageManager
 
     /**
      * Downscale document if needed, keeping existing raw document.
+     *
      * @throws FilesystemException
      */
     public function processDocumentFromExistingRaw(?DocumentInterface $document = null): void
@@ -94,6 +96,7 @@ final readonly class DownscaleImageManager
 
     /**
      * Retrieve and process an image if necessary.
+     *
      * @throws FilesystemException
      */
     private function getProcessedImage(?string $documentPath): ?ImageInterface
