@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.16...v2.5.17) - 2025-05-28
+
+### Bug Fixes
+
+- Removed checks on optional NodesCustomForms.php and NodesSourcesDocuments.php constructor field argument - ([e11ecaa](https://github.com/roadiz/core-bundle-dev-app/commit/e11ecaa6d6a4ffa88d1f65b0adf8b54887fecf41))
+
 ## [2.5.16](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.15...v2.5.16) - 2025-05-15
 
 ### Bug Fixes
