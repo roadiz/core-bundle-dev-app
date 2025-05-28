@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\Console;
 
 use Intervention\Image\Exceptions\DecoderException;
+use League\Flysystem\FilesystemException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\SizeableInterface;
 use RZ\Roadiz\Documents\SvgSizeResolver;
@@ -56,7 +57,7 @@ class DocumentSizeCommand extends AbstractDocumentCommand
                 $imageProcess = $this->imageManager->read($this->documentsStorage->readStream($mountPath));
                 $document->setImageWidth($imageProcess->width());
                 $document->setImageHeight($imageProcess->height());
-            } catch (DecoderException $exception) {
+            } catch (DecoderException|FilesystemException $exception) {
                 /*
                  * Do nothing
                  * just return 0 width and height
