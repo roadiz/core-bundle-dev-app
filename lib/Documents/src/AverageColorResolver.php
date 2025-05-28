@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents;
 
-use Intervention\Image\Image;
+use Intervention\Image\Interfaces\ImageInterface;
 
 final readonly class AverageColorResolver
 {
-    public function getAverageColor(Image $image): string
+    public function getAverageColor(ImageInterface $image): string
     {
         $colorArray = $this->getAverageColorAsArray($image);
 
@@ -20,7 +20,7 @@ final readonly class AverageColorResolver
         );
     }
 
-    public function getAverageColorAsArray(Image $image): array
+    public function getAverageColorAsArray(ImageInterface $image): array
     {
         $image->resize(1, 1);
         /** @var array $array */

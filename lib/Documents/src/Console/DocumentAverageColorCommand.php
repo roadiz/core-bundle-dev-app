@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\Console;
 
-use Intervention\Image\Exception\NotReadableException;
+use Intervention\Image\Exceptions\DecoderException;
 use RZ\Roadiz\Documents\AverageColorResolver;
 use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
@@ -43,11 +43,11 @@ class DocumentAverageColorCommand extends AbstractDocumentCommand
             return;
         }
         try {
-            $mediumColor = (new AverageColorResolver())->getAverageColor($this->imageManager->make(
+            $mediumColor = (new AverageColorResolver())->getAverageColor($this->imageManager->read(
                 $this->documentsStorage->readStream($mountPath)
             ));
             $document->setImageAverageColor($mediumColor);
-        } catch (NotReadableException $exception) {
+        } catch (DecoderException $exception) {
             /*
              * Do nothing
              * just return 0 width and height

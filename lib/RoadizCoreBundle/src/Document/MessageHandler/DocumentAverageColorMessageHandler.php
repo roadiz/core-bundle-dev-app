@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Document\MessageHandler;
 
 use Doctrine\Persistence\ManagerRegistry;
-use Intervention\Image\Exception\NotReadableException;
+use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\ImageManager;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
@@ -40,9 +40,9 @@ final class DocumentAverageColorMessageHandler extends AbstractLockingDocumentMe
         }
         $documentStream = $this->documentsStorage->readStream($document->getMountPath());
         try {
-            $mediumColor = (new AverageColorResolver())->getAverageColor($this->imageManager->make($documentStream));
+            $mediumColor = (new AverageColorResolver())->getAverageColor($this->imageManager->read($documentStream));
             $document->setImageAverageColor($mediumColor);
-        } catch (NotReadableException $exception) {
+        } catch (DriverException $exception) {
             $this->messengerLogger->warning(
                 'Document file is not a readable image.',
                 [

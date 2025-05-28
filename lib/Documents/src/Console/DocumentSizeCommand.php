@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\Console;
 
-use Intervention\Image\Exception\NotReadableException;
+use Intervention\Image\Exceptions\DecoderException;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\SizeableInterface;
 use RZ\Roadiz\Documents\SvgSizeResolver;
@@ -53,10 +53,10 @@ class DocumentSizeCommand extends AbstractDocumentCommand
             }
         } elseif ($document->isImage()) {
             try {
-                $imageProcess = $this->imageManager->make($this->documentsStorage->readStream($mountPath));
+                $imageProcess = $this->imageManager->read($this->documentsStorage->readStream($mountPath));
                 $document->setImageWidth($imageProcess->width());
                 $document->setImageHeight($imageProcess->height());
-            } catch (NotReadableException $exception) {
+            } catch (DecoderException $exception) {
                 /*
                  * Do nothing
                  * just return 0 width and height
