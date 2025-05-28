@@ -8,24 +8,11 @@ use Intervention\Image\Interfaces\ImageInterface;
 
 final readonly class AverageColorResolver
 {
+    /**
+     * Get the average color of an image by resampling the image to 1x1 pixel and pick this pixel color.
+     */
     public function getAverageColor(ImageInterface $image): string
     {
-        $colorArray = $this->getAverageColorAsArray($image);
-
-        return sprintf(
-            '#%02x%02x%02x',
-            $colorArray[0],
-            $colorArray[1],
-            $colorArray[2]
-        );
-    }
-
-    public function getAverageColorAsArray(ImageInterface $image): array
-    {
-        $image->resize(1, 1);
-        /** @var array $array */
-        $array = $image->pickColor(0, 0);
-
-        return $array;
+        return substr($image->resize(1, 1)->pickColor(0, 0)->toHex('#'), 0, 7);
     }
 }

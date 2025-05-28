@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Document\MessageHandler;
 use Doctrine\Persistence\ManagerRegistry;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\ImageManager;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
@@ -38,7 +39,7 @@ final class DocumentSizeMessageHandler extends AbstractLockingDocumentMessageHan
             $imageProcess = $this->imageManager->read($this->documentsStorage->readStream($document->getMountPath()));
             $document->setImageWidth($imageProcess->width());
             $document->setImageHeight($imageProcess->height());
-        } catch (DriverException $exception) {
+        } catch (DriverException|FilesystemException $exception) {
             $this->messengerLogger->warning(
                 'Document file is not a readable image.',
                 [

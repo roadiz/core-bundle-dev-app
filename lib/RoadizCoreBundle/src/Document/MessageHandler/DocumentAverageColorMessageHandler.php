@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Document\MessageHandler;
 use Doctrine\Persistence\ManagerRegistry;
 use Intervention\Image\Exceptions\DriverException;
 use Intervention\Image\ImageManager;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Document\Message\AbstractDocumentMessage;
@@ -30,19 +31,16 @@ final class DocumentAverageColorMessageHandler extends AbstractLockingDocumentMe
         return $document->isLocal() && $document->isProcessable();
     }
 
-    /**
-     * @throws \League\Flysystem\FilesystemException
-     */
     protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
     {
         if (!$document instanceof AdvancedDocumentInterface) {
             return;
         }
-        $documentStream = $this->documentsStorage->readStream($document->getMountPath());
         try {
+            $documentStream = $this->documentsStorage->readStream($document->getMountPath());
             $mediumColor = (new AverageColorResolver())->getAverageColor($this->imageManager->read($documentStream));
             $document->setImageAverageColor($mediumColor);
-        } catch (DriverException $exception) {
+        } catch (DriverException|FilesystemException $exception) {
             $this->messengerLogger->warning(
                 'Document file is not a readable image.',
                 [

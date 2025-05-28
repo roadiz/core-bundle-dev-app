@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\Console;
 
 use Intervention\Image\Exceptions\DecoderException;
+use League\Flysystem\FilesystemException;
 use RZ\Roadiz\Documents\AverageColorResolver;
 use RZ\Roadiz\Documents\Models\AdvancedDocumentInterface;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
@@ -47,7 +48,7 @@ class DocumentAverageColorCommand extends AbstractDocumentCommand
                 $this->documentsStorage->readStream($mountPath)
             ));
             $document->setImageAverageColor($mediumColor);
-        } catch (DecoderException $exception) {
+        } catch (DecoderException|FilesystemException) {
             /*
              * Do nothing
              * just return 0 width and height
