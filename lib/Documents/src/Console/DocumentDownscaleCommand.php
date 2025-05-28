@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\Console;
 
 use Doctrine\Persistence\ManagerRegistry;
-use Intervention\Image\Exception\NotReadableException;
+use Intervention\Image\Exceptions\DecoderException;
 use Intervention\Image\ImageManager;
+use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Documents\DownscaleImageManager;
 use RZ\Roadiz\Documents\Events\CachePurgeAssetsRequestEvent;
@@ -133,7 +134,7 @@ class DocumentDownscaleCommand extends AbstractDocumentCommand
         foreach ($documents as $document) {
             try {
                 $this->downscaler->processDocumentFromExistingRaw($document);
-            } catch (NotReadableException $exception) {
+            } catch (DecoderException|FilesystemException $exception) {
                 $io->error($exception->getMessage().' - '.(string) $document);
             }
             $io->progressAdvance();
