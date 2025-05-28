@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.20...v2.4.21) - 2025-05-28
+
+### Bug Fixes
+
+- Updated NodesSourcesDocuments constructor to remove check on optional field property - ([9687b6c](https://github.com/roadiz/core-bundle-dev-app/commit/9687b6c9a8e5d9136f2813387ca4e0edb1546e8c))
+
 ## [2.4.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.19...v2.4.20) - 2025-05-15
 
 ### Bug Fixes
