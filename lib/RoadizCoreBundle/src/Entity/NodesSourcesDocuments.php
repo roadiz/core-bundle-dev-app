@@ -46,7 +46,7 @@ class NodesSourcesDocuments extends AbstractPositioned
     protected Document $document;
 
     /**
-     * Create a new relation between NodeSource, a Document and a NodeTypeField.
+     * Create a new relation between NodeSource, a Document and a NodeTypeFieldInterface.
      *
      * @param NodesSources                $nodeSource NodesSources and inherited types
      * @param Document                    $document   Document to link
@@ -54,9 +54,6 @@ class NodesSourcesDocuments extends AbstractPositioned
      */
     public function __construct(NodesSources $nodeSource, Document $document, ?NodeTypeFieldInterface $field = null)
     {
-        if (!$field instanceof NodeTypeField) {
-            throw new \InvalidArgumentException('NodesSourcesDocuments field must be a NodeTypeField instance.');
-        }
         $this->nodeSource = $nodeSource;
         $this->document = $document;
         $this->initializeFieldAwareEntityTrait($field);
