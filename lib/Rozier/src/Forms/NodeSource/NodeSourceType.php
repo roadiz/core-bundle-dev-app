@@ -36,6 +36,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Type;
 use Themes\Rozier\Forms\GeoJsonType;
@@ -377,15 +378,24 @@ final class NodeSourceType extends AbstractType
             $options['mapped'] = false;
         }
 
-        if ($field->isRequired() && in_array($field->getType(), [
-            FieldType::DOCUMENTS_T,
-            FieldType::NODES_T,
-            FieldType::CUSTOM_FORMS_T,
-        ])) {
-            $options['constraints'] = [
-                new Count(min: 1),
-                new NotNull(),
-            ];
+        if ($field->isRequired()) {
+            if (in_array($field->getType(), [
+                FieldType::DOCUMENTS_T,
+                FieldType::NODES_T,
+                FieldType::CUSTOM_FORMS_T,
+                FieldType::MANY_TO_MANY_T,
+            ])) {
+                $options['constraints'] = [
+                    new Count(min: 1),
+                    new NotNull(),
+                ];
+            }
+
+            if (FieldType::MANY_TO_ONE_T === $field->getType()) {
+                $options['constraints'] = [
+                    new NotBlank(),
+                ];
+            }
         }
 
         if (
