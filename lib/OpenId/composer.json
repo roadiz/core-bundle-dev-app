@@ -13,7 +13,7 @@
     ],
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "ext-json": "*",
         "codercat/jwk-to-pem": "^1.0",
         "lcobucci/jwt": "^5.3",
