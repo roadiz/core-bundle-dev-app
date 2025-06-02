@@ -16,8 +16,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 final class RealmVoter extends Voter
 {
-    public const READ = 'read';
-    public const PASSWORD_QUERY_PARAMETER = 'password';
+    public const string READ = 'read';
+    public const string PASSWORD_QUERY_PARAMETER = 'password';
 
     public function __construct(
         private readonly Security $security,
@@ -25,11 +25,13 @@ final class RealmVoter extends Voter
     ) {
     }
 
+    #[\Override]
     public function supportsAttribute(string $attribute): bool
     {
         return self::READ === $attribute;
     }
 
+    #[\Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
         return $this->supportsAttribute($attribute) && $subject instanceof RealmInterface;
@@ -38,6 +40,7 @@ final class RealmVoter extends Voter
     /**
      * @param RealmInterface $subject
      */
+    #[\Override]
     public function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         return match ($subject->getType()) {
@@ -63,9 +66,7 @@ final class RealmVoter extends Voter
             return false;
         }
 
-        return $subject->getUsers()->exists(function ($key, UserInterface $user) use ($token) {
-            return $user->getUserIdentifier() === $token->getUserIdentifier();
-        });
+        return $subject->getUsers()->exists(fn ($key, UserInterface $user) => $user->getUserIdentifier() === $token->getUserIdentifier());
     }
 
     private function voteForPassword(string $attribute, RealmInterface $subject, TokenInterface $token): bool

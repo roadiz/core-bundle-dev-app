@@ -58,7 +58,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(RoadizFilter\LocaleFilter::class),
     ApiFilter(RoadizFilter\TagGroupFilter::class),
 ]
-class NodesSources extends AbstractEntity implements Loggable
+class NodesSources extends AbstractEntity implements Loggable, \Stringable
 {
     #[SymfonySerializer\Ignore]
     protected ?ObjectManager $objectManager = null;
@@ -168,16 +168,6 @@ class NodesSources extends AbstractEntity implements Loggable
     #[Assert\NotNull]
     private Node $node;
 
-    #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
-        'translation.id' => 'exact',
-        'translation.locale' => 'exact',
-    ])]
-    #[ORM\ManyToOne(targetEntity: Translation::class, inversedBy: 'nodeSources')]
-    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Groups(['translation_base'])]
-    #[Assert\NotNull]
-    private TranslationInterface $translation;
-
     /**
      * @var Collection<int, UrlAlias>
      */
@@ -205,10 +195,17 @@ class NodesSources extends AbstractEntity implements Loggable
     /**
      * Create a new NodeSource with its Node and Translation.
      */
-    public function __construct(Node $node, TranslationInterface $translation)
+    public function __construct(Node $node, #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
+        'translation.id' => 'exact',
+        'translation.locale' => 'exact',
+    ])]
+        #[ORM\ManyToOne(targetEntity: Translation::class, inversedBy: 'nodeSources')]
+        #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        #[SymfonySerializer\Groups(['translation_base'])]
+        #[Assert\NotNull]
+        private TranslationInterface $translation)
     {
         $this->setNode($node);
-        $this->translation = $translation;
         $this->urlAliases = new ArrayCollection();
         $this->documentsByFields = new ArrayCollection();
         $this->redirections = new ArrayCollection();
@@ -254,9 +251,7 @@ class NodesSources extends AbstractEntity implements Loggable
     public function clearDocumentsByFields(NodeTypeFieldInterface $field): NodesSources
     {
         $toRemoveCollection = $this->getDocumentsByFields()->filter(
-            function (NodesSourcesDocuments $element) use ($field) {
-                return $element->getFieldName() === $field->getName();
-            }
+            fn (NodesSourcesDocuments $element) => $element->getFieldName() === $field->getName()
         );
         /** @var NodesSourcesDocuments $toRemove */
         foreach ($toRemoveCollection as $toRemove) {
@@ -280,14 +275,10 @@ class NodesSources extends AbstractEntity implements Loggable
     #[SymfonySerializer\Ignore]
     public function getOneDisplayableDocument(): ?DocumentInterface
     {
-        return $this->getDocumentsByFields()->filter(function (NodesSourcesDocuments $nsd) {
-            return null !== $nsd->getDocument()
-                && !$nsd->getDocument()->isPrivate()
-                && ($nsd->getDocument()->isImage() || $nsd->getDocument()->isSvg())
-                && $nsd->getDocument()->isProcessable();
-        })->map(function (NodesSourcesDocuments $nsd) {
-            return $nsd->getDocument();
-        })->first() ?: null;
+        return $this->getDocumentsByFields()->filter(fn (NodesSourcesDocuments $nsd) => null !== $nsd->getDocument()
+            && !$nsd->getDocument()->isPrivate()
+            && ($nsd->getDocument()->isImage() || $nsd->getDocument()->isSvg())
+            && $nsd->getDocument()->isProcessable())->map(fn (NodesSourcesDocuments $nsd) => $nsd->getDocument())->first() ?: null;
     }
 
     /**
@@ -309,11 +300,9 @@ class NodesSources extends AbstractEntity implements Loggable
     public function hasNodesSourcesDocuments(NodesSourcesDocuments $nodesSourcesDocuments): bool
     {
         return $this->getDocumentsByFields()->exists(
-            function ($key, NodesSourcesDocuments $element) use ($nodesSourcesDocuments) {
-                return null !== $nodesSourcesDocuments->getDocument()->getId()
-                    && $element->getDocument()->getId() === $nodesSourcesDocuments->getDocument()->getId()
-                    && $element->getFieldName() === $nodesSourcesDocuments->getFieldName();
-            }
+            fn ($key, NodesSourcesDocuments $element) => null !== $nodesSourcesDocuments->getDocument()->getId()
+                && $element->getDocument()->getId() === $nodesSourcesDocuments->getDocument()->getId()
+                && $element->getFieldName() === $nodesSourcesDocuments->getFieldName()
         );
     }
 
@@ -344,12 +333,8 @@ class NodesSources extends AbstractEntity implements Loggable
 
         return $this->getDocumentsByFields()
             ->matching($criteria)
-            ->filter(function (NodesSourcesDocuments $element) use ($field) {
-                return $element->getFieldName() === $field->getName();
-            })
-            ->map(function (NodesSourcesDocuments $nodesSourcesDocuments) {
-                return $nodesSourcesDocuments->getDocument();
-            })
+            ->filter(fn (NodesSourcesDocuments $element) => $element->getFieldName() === $field->getName())
+            ->map(fn (NodesSourcesDocuments $nodesSourcesDocuments) => $nodesSourcesDocuments->getDocument())
             ->toArray()
         ;
     }
@@ -364,12 +349,8 @@ class NodesSources extends AbstractEntity implements Loggable
 
         return $this->getDocumentsByFields()
             ->matching($criteria)
-            ->filter(function (NodesSourcesDocuments $element) use ($fieldName) {
-                return $element->getFieldName() === $fieldName;
-            })
-            ->map(function (NodesSourcesDocuments $nodesSourcesDocuments) {
-                return $nodesSourcesDocuments->getDocument();
-            })
+            ->filter(fn (NodesSourcesDocuments $element) => $element->getFieldName() === $fieldName)
+            ->map(fn (NodesSourcesDocuments $nodesSourcesDocuments) => $nodesSourcesDocuments->getDocument())
             ->toArray()
         ;
     }
@@ -484,6 +465,7 @@ class NodesSources extends AbstractEntity implements Loggable
         }
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();

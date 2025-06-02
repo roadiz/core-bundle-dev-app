@@ -13,6 +13,7 @@ use Solarium\QueryType\Update\Query\Query as UpdateQuery;
 
 class NodesSourcesIndexer extends AbstractIndexer implements BatchIndexer
 {
+    #[\Override]
     public function index(mixed $id): void
     {
         $update = $this->getSolr()->createUpdate();
@@ -37,6 +38,7 @@ class NodesSourcesIndexer extends AbstractIndexer implements BatchIndexer
         }
     }
 
+    #[\Override]
     public function delete(mixed $id): void
     {
         $this->deleteNodeSource($this->managerRegistry->getRepository(NodesSources::class)->find($id));
@@ -75,6 +77,7 @@ class NodesSourcesIndexer extends AbstractIndexer implements BatchIndexer
      * @throws \Doctrine\ORM\NoResultException
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
+    #[\Override]
     public function reindexAll(int $batchCount = 1, int $batchNumber = 0): void
     {
         $update = $this->getSolr()->createUpdate();
@@ -114,7 +117,7 @@ class NodesSourcesIndexer extends AbstractIndexer implements BatchIndexer
          */
         $paginator = new Paginator($baseQb->getQuery(), true);
 
-        $this->io?->title(get_class($this));
+        $this->io?->title(static::class);
         $this->io?->progressStart($count);
 
         foreach ($paginator as $row) {

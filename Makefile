@@ -21,6 +21,7 @@ rector_test:
 
 rector:
 	php -d "memory_limit=-1" vendor/bin/rector process
+	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
 
 phpunit:
 	APP_ENV=test docker compose exec app php vendor/bin/phpunit -v

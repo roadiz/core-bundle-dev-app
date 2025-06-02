@@ -36,8 +36,6 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  */
 class NodesSourcesRepository extends StatusAwareRepository
 {
-    private ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler;
-
     /**
      * @param class-string<NodesSources> $entityClass
      */
@@ -46,16 +44,16 @@ class NodesSourcesRepository extends StatusAwareRepository
         PreviewResolverInterface $previewResolver,
         EventDispatcherInterface $dispatcher,
         Security $security,
-        ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
+        private readonly ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         string $entityClass = NodesSources::class,
     ) {
         parent::__construct($registry, $entityClass, $previewResolver, $dispatcher, $security);
-        $this->nodeSourceSearchHandler = $nodeSourceSearchHandler;
     }
 
     /**
      * @return Event
      */
+    #[\Override]
     protected function dispatchQueryBuilderBuildEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
         // @phpstan-ignore-next-line
@@ -67,6 +65,7 @@ class NodesSourcesRepository extends StatusAwareRepository
     /**
      * @return Event
      */
+    #[\Override]
     protected function dispatchQueryBuilderApplyEvent(QueryBuilder $qb, string $property, mixed $value): object
     {
         // @phpstan-ignore-next-line
@@ -78,6 +77,7 @@ class NodesSourcesRepository extends StatusAwareRepository
     /**
      * @return Event
      */
+    #[\Override]
     protected function dispatchQueryEvent(Query $query): object
     {
         // @phpstan-ignore-next-line
@@ -150,6 +150,7 @@ class NodesSourcesRepository extends StatusAwareRepository
     /**
      * Bind parameters to generated query.
      */
+    #[\Override]
     protected function applyFilterByCriteria(array &$criteria, QueryBuilder $qb): void
     {
         /*
@@ -203,6 +204,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         return $query->getOneOrNullResult();
     }
 
+    #[\Override]
     public function alterQueryBuilderWithAuthorizationChecker(
         QueryBuilder $qb,
         string $prefix = EntityRepository::NODESSOURCES_ALIAS,
@@ -315,6 +317,7 @@ class NodesSourcesRepository extends StatusAwareRepository
      * @throws \Doctrine\ORM\NoResultException
      * @throws NonUniqueResultException
      */
+    #[\Override]
     public function countBy(mixed $criteria): int
     {
         $query = $this->getCountContextualQuery($criteria);
@@ -356,6 +359,7 @@ class NodesSourcesRepository extends StatusAwareRepository
      *
      * @return array<NodesSources>
      */
+    #[\Override]
     public function findBy(
         array $criteria,
         ?array $orderBy = null,
@@ -402,6 +406,7 @@ class NodesSourcesRepository extends StatusAwareRepository
      *
      * @throws NonUniqueResultException
      */
+    #[\Override]
     public function findOneBy(
         array $criteria,
         ?array $orderBy = null,
@@ -455,7 +460,7 @@ class NodesSourcesRepository extends StatusAwareRepository
                 }
 
                 return $this->nodeSourceSearchHandler->search($query, $arguments, 999999)->getResultItems();
-            } catch (SolrServerNotAvailableException $exception) {
+            } catch (SolrServerNotAvailableException) {
                 return [];
             }
         }
@@ -490,6 +495,7 @@ class NodesSourcesRepository extends StatusAwareRepository
      * Extends EntityRepository to make join possible with «node.» prefix.
      * Required if making search with EntityListManager and filtering by node criteria.
      */
+    #[\Override]
     protected function prepareComparisons(array &$criteria, QueryBuilder $qb, string $alias): QueryBuilder
     {
         $simpleQB = new SimpleQueryBuilder($qb);
@@ -517,6 +523,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         return $qb;
     }
 
+    #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
@@ -529,6 +536,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         return $qb;
     }
 
+    #[\Override]
     public function searchBy(
         string $pattern,
         array $criteria = [],
@@ -600,6 +608,7 @@ class NodesSourcesRepository extends StatusAwareRepository
         return $qb->getQuery()->getResult();
     }
 
+    #[\Override]
     protected function classicLikeComparison(
         string $pattern,
         QueryBuilder $qb,

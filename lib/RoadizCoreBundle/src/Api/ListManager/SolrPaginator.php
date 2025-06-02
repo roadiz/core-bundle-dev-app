@@ -24,6 +24,7 @@ final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
         }
     }
 
+    #[\Override]
     public function count(): int
     {
         $this->handleOnce();
@@ -31,6 +32,7 @@ final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
         return $this->listManager->getItemCount();
     }
 
+    #[\Override]
     public function getLastPage(): float
     {
         $this->handleOnce();
@@ -39,6 +41,7 @@ final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
         return max($lastPage, 1);
     }
 
+    #[\Override]
     public function getTotalItems(): float
     {
         $this->handleOnce();
@@ -46,6 +49,7 @@ final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
         return $this->listManager->getItemCount();
     }
 
+    #[\Override]
     public function getCurrentPage(): float
     {
         $this->handleOnce();
@@ -53,6 +57,7 @@ final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
         return $this->listManager->getAssignation()['currentPage'];
     }
 
+    #[\Override]
     public function getItemsPerPage(): float
     {
         $this->handleOnce();
@@ -60,6 +65,7 @@ final class SolrPaginator implements PaginatorInterface, \IteratorAggregate
         return $this->listManager->getAssignation()['itemPerPage'];
     }
 
+    #[\Override]
     public function getIterator(): \Traversable
     {
         $this->handleOnce();

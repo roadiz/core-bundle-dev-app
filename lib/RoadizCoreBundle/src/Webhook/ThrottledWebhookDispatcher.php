@@ -22,6 +22,7 @@ final readonly class ThrottledWebhookDispatcher implements WebhookDispatcher
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function dispatch(WebhookInterface $webhook): void
     {
         $doNotTriggerBefore = $webhook->doNotTriggerBefore();

@@ -23,11 +23,13 @@ class GroupVoter extends RoleVoter
         return $subject instanceof Group;
     }
 
+    #[\Override]
     protected function extractRoles(TokenInterface $token): array
     {
         return $this->roleHierarchy->getReachableRoleNames($token->getRoleNames());
     }
 
+    #[\Override]
     public function vote(TokenInterface $token, $subject, array $attributes): int
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
@@ -52,9 +54,7 @@ class GroupVoter extends RoleVoter
              */
             if (
                 $user instanceof User
-                && $user->getGroups()->exists(function ($key, Group $group) use ($attribute) {
-                    return $attribute->getId() === $group->getId();
-                })
+                && $user->getGroups()->exists(fn ($key, Group $group) => $attribute->getId() === $group->getId())
             ) {
                 return $result;
             }

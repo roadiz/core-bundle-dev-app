@@ -8,11 +8,8 @@ use RZ\Roadiz\CoreBundle\Message\AsyncMessage;
 
 abstract class AbstractDocumentMessage implements AsyncMessage
 {
-    private int $documentId;
-
-    public function __construct(int $documentId)
+    public function __construct(private readonly int $documentId)
     {
-        $this->documentId = $documentId;
     }
 
     public function getDocumentId(): int

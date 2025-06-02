@@ -9,21 +9,25 @@ use RZ\Roadiz\CoreBundle\Explorer\AbstractDoctrineExplorerProvider;
 
 final class UsersProvider extends AbstractDoctrineExplorerProvider
 {
+    #[\Override]
     protected function getProvidedClassname(): string
     {
         return User::class;
     }
 
+    #[\Override]
     protected function getDefaultCriteria(): array
     {
         return [];
     }
 
+    #[\Override]
     protected function getDefaultOrdering(): array
     {
         return ['username' => 'ASC'];
     }
 
+    #[\Override]
     public function supports(mixed $item): bool
     {
         if ($item instanceof User) {

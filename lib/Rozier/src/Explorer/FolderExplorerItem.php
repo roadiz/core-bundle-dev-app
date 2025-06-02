@@ -16,11 +16,13 @@ final class FolderExplorerItem extends AbstractExplorerItem
     ) {
     }
 
+    #[\Override]
     public function getId(): int|string
     {
         return $this->folder->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         /** @var Folder|null $parent */
@@ -34,6 +36,7 @@ final class FolderExplorerItem extends AbstractExplorerItem
         return '';
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         return $this->folder->getTranslatedFolders()->first() ?
@@ -41,11 +44,13 @@ final class FolderExplorerItem extends AbstractExplorerItem
             $this->folder->getName();
     }
 
+    #[\Override]
     public function getOriginal(): Folder
     {
         return $this->folder;
     }
 
+    #[\Override]
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('foldersEditPage', [

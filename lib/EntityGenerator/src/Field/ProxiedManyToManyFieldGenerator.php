@@ -13,6 +13,7 @@ use Symfony\Component\String\UnicodeString;
 
 final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGenerator
 {
+    #[\Override]
     protected function addSerializationAttributes(Property|Method $property): self
     {
         parent::addSerializationAttributes($property);
@@ -20,14 +21,14 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
             return $this;
         }
 
-        $property->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
+        $property->addAttribute(\Symfony\Component\Serializer\Attribute\SerializedName::class, [
             'serializedName' => $this->field->getVarName(),
         ]);
-        $property->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [
+        $property->addAttribute(\Symfony\Component\Serializer\Attribute\Groups::class, [
             $this->getSerializationGroups(),
         ]);
         if ($this->getSerializationMaxDepth() > 0) {
-            $property->addAttribute('Symfony\Component\Serializer\Attribute\MaxDepth', [
+            $property->addAttribute(\Symfony\Component\Serializer\Attribute\MaxDepth::class, [
                 $this->getSerializationMaxDepth(),
             ]);
         }
@@ -38,18 +39,20 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
     /**
      * Generate PHP property declaration block.
      */
+    #[\Override]
     protected function getFieldProperty(ClassType $classType): Property
     {
         return $classType
             ->addProperty($this->getProxiedVarName())
             ->setPrivate()
             ->addComment('Buffer var to get referenced entities (documents, nodes, cforms, doctrine entities)')
-            ->setType('\Doctrine\Common\Collections\Collection');
+            ->setType(\Doctrine\Common\Collections\Collection::class);
     }
 
+    #[\Override]
     protected function addFieldAttributes(Property $property, PhpNamespace $namespace, bool $exclude = false): self
     {
-        $property->addAttribute('Symfony\Component\Serializer\Attribute\Ignore');
+        $property->addAttribute(\Symfony\Component\Serializer\Attribute\Ignore::class);
 
         /*
          * Many Users have Many Groups.
@@ -65,7 +68,7 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
             'cascade' => ['persist', 'remove'],
         ];
 
-        $property->addAttribute('Doctrine\ORM\Mapping\OneToMany', $ormParams);
+        $property->addAttribute(\Doctrine\ORM\Mapping\OneToMany::class, $ormParams);
 
         if (isset($this->configuration['proxy']['orderBy']) && count($this->configuration['proxy']['orderBy']) > 0) {
             // use default order for Collections
@@ -73,7 +76,7 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
             foreach ($this->configuration['proxy']['orderBy'] as $order) {
                 $orderBy[$order['field']] = $order['direction'];
             }
-            $property->addAttribute('Doctrine\ORM\Mapping\OrderBy', [
+            $property->addAttribute(\Doctrine\ORM\Mapping\OrderBy::class, [
                 $orderBy,
             ]);
         }
@@ -81,6 +84,7 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
         return $this;
     }
 
+    #[\Override]
     public function addFieldAnnotation(Property $property): self
     {
         $property->addComment($this->field->getLabel().'.');
@@ -89,15 +93,16 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
         return $this;
     }
 
+    #[\Override]
     public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $classType->addMethod($this->getProxiedGetterName())
-            ->setReturnType('\Doctrine\Common\Collections\Collection')
+            ->setReturnType(\Doctrine\Common\Collections\Collection::class)
             ->setPublic()
             ->setBody('return $this->'.$this->getProxiedVarName().';')
             ->addComment(
                 '@return '.
-                $namespace->simplifyName('\Doctrine\Common\Collections\Collection').
+                $namespace->simplifyName(\Doctrine\Common\Collections\Collection::class).
                 '<int, '.
                 $this->getProxyClassname().
                 '>'
@@ -118,6 +123,7 @@ EOF
         return $this;
     }
 
+    #[\Override]
     public function addFieldSetter(ClassType $classType): self
     {
         $proxySetter = $classType->addMethod($this->getProxiedSetterName())
@@ -127,7 +133,7 @@ EOF
             ->addComment('@return $this')
         ;
         $proxySetter->addParameter($this->getProxiedVarName())
-            ->setType('\Doctrine\Common\Collections\Collection');
+            ->setType(\Doctrine\Common\Collections\Collection::class);
 
         $proxySetter->setBody(<<<EOF
 \$this->{$this->getProxiedVarName()} = \${$this->getProxiedVarName()};
@@ -171,6 +177,7 @@ EOF
         return $this;
     }
 
+    #[\Override]
     public function getFieldConstructorInitialization(): string
     {
         return '$this->'.$this->getProxiedVarName().' = new \Doctrine\Common\Collections\ArrayCollection();';
@@ -193,17 +200,17 @@ EOF
 
     protected function getProxySelfSetterName(): string
     {
-        return 'set'.ucwords($this->configuration['proxy']['self']);
+        return 'set'.ucwords((string) $this->configuration['proxy']['self']);
     }
 
     protected function getProxyRelationSetterName(): string
     {
-        return 'set'.ucwords($this->configuration['proxy']['relation']);
+        return 'set'.ucwords((string) $this->configuration['proxy']['relation']);
     }
 
     protected function getProxyRelationGetterName(): string
     {
-        return 'get'.ucwords($this->configuration['proxy']['relation']);
+        return 'get'.ucwords((string) $this->configuration['proxy']['relation']);
     }
 
     protected function getProxyClassname(): string
@@ -213,6 +220,7 @@ EOF
             '\\'.$this->configuration['proxy']['classname'];
     }
 
+    #[\Override]
     public function getCloneStatements(): string
     {
         return <<<PHP

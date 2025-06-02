@@ -63,6 +63,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     }
 
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
+    #[\Override]
     public function getSiteName(): ?string
     {
         return $this->settingsBag->get('site_name', null) ?? null;
@@ -85,6 +86,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     }
 
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
+    #[\Override]
     public function getMetaTitle(): ?string
     {
         if (null === $this->seo) {
@@ -95,6 +97,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     }
 
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
+    #[\Override]
     public function getMetaDescription(): ?string
     {
         if (null === $this->seo) {
@@ -105,6 +108,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     }
 
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
+    #[\Override]
     public function isNoIndex(): bool
     {
         if (null !== $this->nodesSource) {
@@ -169,6 +173,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     }
 
     #[Serializer\Groups(['web_response', 'nodes_sources_single'])]
+    #[\Override]
     public function getShareImage(): ?BaseDocumentInterface
     {
         if (
@@ -190,6 +195,7 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     }
 
     #[Serializer\Ignore()]
+    #[\Override]
     public function getTranslation(): TranslationInterface
     {
         if (null !== $this->nodesSource) {

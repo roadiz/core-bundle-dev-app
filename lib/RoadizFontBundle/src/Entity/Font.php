@@ -168,116 +168,80 @@ class Font extends AbstractDateTimed
      */
     public function getFontVariantInfos(): array
     {
-        switch ($this->getVariant()) {
-            case static::SEMI_BOLD_ITALIC:
-                return [
-                    'style' => 'italic',
-                    'weight' => 600,
-                ];
-
-            case static::SEMI_BOLD:
-                return [
-                    'style' => 'normal',
-                    'weight' => 600,
-                ];
-
-            case static::EXTRA_BOLD_ITALIC:
-                return [
-                    'style' => 'italic',
-                    'weight' => 800,
-                ];
-
-            case static::EXTRA_BOLD:
-                return [
-                    'style' => 'normal',
-                    'weight' => 800,
-                ];
-
-            case static::EXTRA_LIGHT_ITALIC:
-                return [
-                    'style' => 'italic',
-                    'weight' => 200,
-                ];
-
-            case static::EXTRA_LIGHT:
-                return [
-                    'style' => 'normal',
-                    'weight' => 200,
-                ];
-
-            case static::THIN_ITALIC:
-                return [
-                    'style' => 'italic',
-                    'weight' => 100,
-                ];
-
-            case static::THIN:
-                return [
-                    'style' => 'normal',
-                    'weight' => 100,
-                ];
-
-            case static::BLACK_ITALIC:
-                return [
-                    'style' => 'italic',
-                    'weight' => 900,
-                ];
-
-            case static::BLACK:
-                return [
-                    'style' => 'normal',
-                    'weight' => 900,
-                ];
-
-            case static::MEDIUM_ITALIC:
-                return [
-                    'style' => 'italic',
-                    'weight' => 500,
-                ];
-
-            case static::MEDIUM:
-                return [
-                    'style' => 'normal',
-                    'weight' => 500,
-                ];
-
-            case static::LIGHT_ITALIC:
-                return [
-                    'style' => 'italic',
-                    'weight' => 300,
-                ];
-
-            case static::LIGHT:
-                return [
-                    'style' => 'normal',
-                    'weight' => 300,
-                ];
-
-            case static::BOLD_ITALIC:
-                return [
-                    'style' => 'italic',
-                    'weight' => 'bold',
-                ];
-
-            case static::BOLD:
-                return [
-                    'style' => 'normal',
-                    'weight' => 'bold',
-                ];
-
-            case static::ITALIC:
-                return [
-                    'style' => 'italic',
-                    'weight' => 'normal',
-                ];
-
-            case static::REGULAR:
-            default:
-                return [
-                    'style' => 'normal',
-                    'weight' => 'normal',
-                ];
-        }
+        return match ($this->getVariant()) {
+            static::SEMI_BOLD_ITALIC => [
+                'style' => 'italic',
+                'weight' => 600,
+            ],
+            static::SEMI_BOLD => [
+                'style' => 'normal',
+                'weight' => 600,
+            ],
+            static::EXTRA_BOLD_ITALIC => [
+                'style' => 'italic',
+                'weight' => 800,
+            ],
+            static::EXTRA_BOLD => [
+                'style' => 'normal',
+                'weight' => 800,
+            ],
+            static::EXTRA_LIGHT_ITALIC => [
+                'style' => 'italic',
+                'weight' => 200,
+            ],
+            static::EXTRA_LIGHT => [
+                'style' => 'normal',
+                'weight' => 200,
+            ],
+            static::THIN_ITALIC => [
+                'style' => 'italic',
+                'weight' => 100,
+            ],
+            static::THIN => [
+                'style' => 'normal',
+                'weight' => 100,
+            ],
+            static::BLACK_ITALIC => [
+                'style' => 'italic',
+                'weight' => 900,
+            ],
+            static::BLACK => [
+                'style' => 'normal',
+                'weight' => 900,
+            ],
+            static::MEDIUM_ITALIC => [
+                'style' => 'italic',
+                'weight' => 500,
+            ],
+            static::MEDIUM => [
+                'style' => 'normal',
+                'weight' => 500,
+            ],
+            static::LIGHT_ITALIC => [
+                'style' => 'italic',
+                'weight' => 300,
+            ],
+            static::LIGHT => [
+                'style' => 'normal',
+                'weight' => 300,
+            ],
+            static::BOLD_ITALIC => [
+                'style' => 'italic',
+                'weight' => 'bold',
+            ],
+            static::BOLD => [
+                'style' => 'normal',
+                'weight' => 'bold',
+            ],
+            static::ITALIC => [
+                'style' => 'italic',
+                'weight' => 'normal',
+            ],
+            default => [
+                'style' => 'normal',
+                'weight' => 'normal',
+            ],
+        };
     }
 
     public function getName(): string

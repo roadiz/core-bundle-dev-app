@@ -333,7 +333,7 @@ class CustomForm extends AbstractDateTimed
     {
         try {
             return null !== $this->getRetentionTime() ? new \DateInterval($this->getRetentionTime()) : null;
-        } catch (\Exception $exception) {
+        } catch (\Exception) {
             return null;
         }
     }

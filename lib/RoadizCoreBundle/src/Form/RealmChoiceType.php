@@ -16,28 +16,25 @@ final class RealmChoiceType extends AbstractType
     {
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'multiple' => false,
-            'choice_label' => function (?Realm $choice) {
-                return $choice ? $choice->getName() : '';
-            },
-            'choice_value' => function (?Realm $choice) {
-                return $choice ? $choice->getId() : '';
-            },
+            'choice_label' => fn (?Realm $choice) => $choice ? $choice->getName() : '',
+            'choice_value' => fn (?Realm $choice) => $choice ? $choice->getId() : '',
         ]);
 
-        $resolver->setNormalizer('choices', function () {
-            return $this->managerRegistry->getRepository(Realm::class)->findAll();
-        });
+        $resolver->setNormalizer('choices', fn () => $this->managerRegistry->getRepository(Realm::class)->findAll());
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'realms';

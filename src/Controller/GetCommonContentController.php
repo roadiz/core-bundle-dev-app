@@ -21,24 +21,8 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 final class GetCommonContentController extends AbstractController
 {
-    private RequestStack $requestStack;
-    private ManagerRegistry $managerRegistry;
-    private NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory;
-    private PreviewResolverInterface $previewResolver;
-    private TreeWalkerGenerator $treeWalkerGenerator;
-
-    public function __construct(
-        RequestStack $requestStack,
-        ManagerRegistry $managerRegistry,
-        NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
-        PreviewResolverInterface $previewResolver,
-        TreeWalkerGenerator $treeWalkerGenerator,
-    ) {
-        $this->requestStack = $requestStack;
-        $this->managerRegistry = $managerRegistry;
-        $this->nodesSourcesHeadFactory = $nodesSourcesHeadFactory;
-        $this->previewResolver = $previewResolver;
-        $this->treeWalkerGenerator = $treeWalkerGenerator;
+    public function __construct(private readonly RequestStack $requestStack, private readonly ManagerRegistry $managerRegistry, private readonly NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory, private readonly PreviewResolverInterface $previewResolver, private readonly TreeWalkerGenerator $treeWalkerGenerator)
+    {
     }
 
     public function __invoke(): ?CommonContent

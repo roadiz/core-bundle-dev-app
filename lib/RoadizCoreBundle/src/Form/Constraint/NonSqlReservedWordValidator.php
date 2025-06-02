@@ -10,11 +10,12 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 final class NonSqlReservedWordValidator extends ConstraintValidator
 {
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (null !== $value) {
             $fieldName = StringHandler::variablize($value);
-            $lowerName = \mb_strtolower($value);
+            $lowerName = \mb_strtolower((string) $value);
             if (
                 in_array($value, NonSqlReservedWord::$forbiddenNames)
                 || in_array($lowerName, NonSqlReservedWord::$forbiddenNames)

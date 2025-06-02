@@ -33,6 +33,7 @@ class SolrSearchResults implements SearchResultsInterface
         $this->resultItems = null;
     }
 
+    #[\Override]
     public function getResultCount(): int
     {
         if (
@@ -47,6 +48,7 @@ class SolrSearchResults implements SearchResultsInterface
     /**
      * @return array<SolrSearchResultItem>
      */
+    #[\Override]
     public function getResultItems(): array
     {
         if (null === $this->resultItems) {
@@ -90,6 +92,7 @@ class SolrSearchResults implements SearchResultsInterface
         return [];
     }
 
+    #[\Override]
     public function map(callable $callable): array
     {
         return array_map($callable, $this->getResultItems());
@@ -127,6 +130,7 @@ class SolrSearchResults implements SearchResultsInterface
      * @since 5.0
      */
     #[\ReturnTypeWillChange]
+    #[\Override]
     public function current(): SolrSearchResultItem
     {
         return $this->getResultItems()[$this->position];
@@ -141,6 +145,7 @@ class SolrSearchResults implements SearchResultsInterface
      *
      * @since 5.0
      */
+    #[\Override]
     public function next(): void
     {
         ++$this->position;
@@ -153,6 +158,7 @@ class SolrSearchResults implements SearchResultsInterface
      * @since 5.0
      */
     #[\ReturnTypeWillChange]
+    #[\Override]
     public function key(): int
     {
         return $this->position;
@@ -168,6 +174,7 @@ class SolrSearchResults implements SearchResultsInterface
      *
      * @since 5.0
      */
+    #[\Override]
     public function valid(): bool
     {
         return isset($this->getResultItems()[$this->position]);
@@ -182,6 +189,7 @@ class SolrSearchResults implements SearchResultsInterface
      *
      * @since 5.0
      */
+    #[\Override]
     public function rewind(): void
     {
         $this->position = 0;

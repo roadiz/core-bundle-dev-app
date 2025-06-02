@@ -23,10 +23,11 @@ final class DocumentUrlExtension extends AbstractExtension
     ) {
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
-            new TwigFilter('url', [$this, 'getUrl']),
+            new TwigFilter('url', $this->getUrl(...)),
         ];
     }
 

@@ -195,7 +195,7 @@ abstract class AbstractSolarium
                 }
 
                 return true;
-            } catch (\RuntimeException $e) {
+            } catch (\RuntimeException) {
                 return false;
             }
         }
@@ -285,7 +285,7 @@ abstract class AbstractSolarium
          * Remove ctrl characters
          */
         $content = preg_replace('[:cntrl:]', '', $content);
-        $content = preg_replace('/[\x00-\x1F]/', '', $content);
+        $content = preg_replace('/[\x00-\x1F]/', '', (string) $content);
 
         return $content;
     }

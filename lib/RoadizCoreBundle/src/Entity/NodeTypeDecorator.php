@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     UniqueEntity(fields: ['path', 'property']),
     ORM\Index(columns: ['path'], name: 'idx_ntd_path'),
 ]
-class NodeTypeDecorator extends AbstractEntity implements PersistableInterface
+class NodeTypeDecorator extends AbstractEntity implements PersistableInterface, \Stringable
 {
     private function __construct(
         #[ORM\Column(type: 'string', length: 255, nullable: false)]
@@ -90,7 +90,7 @@ class NodeTypeDecorator extends AbstractEntity implements PersistableInterface
 
     public function getStringValue(): ?string
     {
-        return null !== $this->value ? $this->value : null;
+        return $this->value ?? null;
     }
 
     public function getBooleanValue(): ?bool
@@ -175,6 +175,7 @@ class NodeTypeDecorator extends AbstractEntity implements PersistableInterface
         return $nodeType->getFieldByName($fieldName);
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->path.$this->property->value;

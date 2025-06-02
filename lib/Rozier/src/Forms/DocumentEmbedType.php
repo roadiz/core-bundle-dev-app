@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DocumentEmbedType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $services = [];
@@ -38,6 +39,7 @@ class DocumentEmbedType extends AbstractType
         }
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('required', true);
@@ -45,6 +47,7 @@ class DocumentEmbedType extends AbstractType
         $resolver->setAllowedTypes('document_platforms', ['array']);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'document_embed';

@@ -11,20 +11,19 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class GeoJsonType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->addModelTransformer(new CallbackTransformer(function (mixed $value) {
-            return null !== $value ? json_encode($value) : '';
-        }, function (?string $value) {
-            return null !== $value ? json_decode($value) : null;
-        }));
+        $builder->addModelTransformer(new CallbackTransformer(fn (mixed $value) => null !== $value ? json_encode($value) : '', fn (?string $value) => null !== $value ? json_decode($value) : null));
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'geojson';
     }
 
+    #[\Override]
     public function getParent(): string
     {
         return TextareaType::class;

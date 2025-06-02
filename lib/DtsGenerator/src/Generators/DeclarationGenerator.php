@@ -45,9 +45,7 @@ final class DeclarationGenerator
 
     private function getAllTypesInterface(): string
     {
-        $nodeTypeNames = array_map(function (NodeTypeInterface $nodeType) {
-            return $nodeType->getSourceEntityClassName();
-        }, $this->nodeTypes);
+        $nodeTypeNames = array_map(fn (NodeTypeInterface $nodeType) => $nodeType->getSourceEntityClassName(), $this->nodeTypes);
 
         $nodeTypeNames = implode(' | ', $nodeTypeNames);
 

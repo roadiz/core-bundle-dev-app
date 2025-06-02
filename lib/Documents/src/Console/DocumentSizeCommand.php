@@ -17,6 +17,7 @@ class DocumentSizeCommand extends AbstractDocumentCommand
 {
     protected SymfonyStyle $io;
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('documents:size')
@@ -24,6 +25,7 @@ class DocumentSizeCommand extends AbstractDocumentCommand
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);
@@ -57,7 +59,7 @@ class DocumentSizeCommand extends AbstractDocumentCommand
                 $imageProcess = $this->imageManager->read($this->documentsStorage->readStream($mountPath));
                 $document->setImageWidth($imageProcess->width());
                 $document->setImageHeight($imageProcess->height());
-            } catch (DecoderException|FilesystemException $exception) {
+            } catch (DecoderException|FilesystemException) {
                 /*
                  * Do nothing
                  * just return 0 width and height

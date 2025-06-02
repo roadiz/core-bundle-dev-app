@@ -14,6 +14,7 @@ use Symfony\Component\RateLimiter\Storage\CacheStorage;
 
 class RateLimitersCompilerPass implements CompilerPassInterface
 {
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('limiter')) {

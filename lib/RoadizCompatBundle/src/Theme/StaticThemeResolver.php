@@ -21,6 +21,7 @@ class StaticThemeResolver implements ThemeResolverInterface
         usort($this->themes, [static::class, 'compareThemePriority']);
     }
 
+    #[\Override]
     public function getBackendTheme(): Theme
     {
         $theme = new Theme();
@@ -34,14 +35,16 @@ class StaticThemeResolver implements ThemeResolverInterface
     /**
      * @return class-string
      */
+    #[\Override]
     public function getBackendClassName(): string
     {
         /** @var class-string $className */ // php-stan hint
-        $className = '\\Themes\\Rozier\\RozierApp';
+        $className = \Themes\Rozier\RozierApp::class;
 
         return $className;
     }
 
+    #[\Override]
     public function findTheme(?string $host = null): ?Theme
     {
         $default = null;
@@ -63,6 +66,7 @@ class StaticThemeResolver implements ThemeResolverInterface
         return $default;
     }
 
+    #[\Override]
     public function findThemeByClass(string $classname): ?Theme
     {
         foreach ($this->getFrontendThemes() as $theme) {
@@ -74,6 +78,7 @@ class StaticThemeResolver implements ThemeResolverInterface
         return null;
     }
 
+    #[\Override]
     public function findAll(): array
     {
         $backendThemes = [];
@@ -86,15 +91,13 @@ class StaticThemeResolver implements ThemeResolverInterface
         return array_merge($backendThemes, $this->getFrontendThemes());
     }
 
+    #[\Override]
     public function findById($id): ?Theme
     {
-        if (isset($this->getFrontendThemes()[$id])) {
-            return $this->getFrontendThemes()[$id];
-        }
-
-        return null;
+        return $this->getFrontendThemes()[$id] ?? null;
     }
 
+    #[\Override]
     public function getFrontendThemes(): array
     {
         return $this->themes;

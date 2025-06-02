@@ -12,12 +12,12 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-final class TreeWidgetFactory
+final readonly class TreeWidgetFactory
 {
     public function __construct(
-        private readonly RequestStack $requestStack,
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly DecoratedNodeTypes $nodeTypesBag,
+        private RequestStack $requestStack,
+        private ManagerRegistry $managerRegistry,
+        private DecoratedNodeTypes $nodeTypesBag,
     ) {
     }
 

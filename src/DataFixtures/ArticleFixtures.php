@@ -20,6 +20,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
     ) {
     }
 
+    #[\Override]
     public function getDependencies(): array
     {
         return [
@@ -27,6 +28,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $articleContainer = $this->uniqueNodeGenerator->generate(

@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 final class TranstypeType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add(
@@ -31,11 +32,13 @@ final class TranstypeType extends AbstractType
         );
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'transtype';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

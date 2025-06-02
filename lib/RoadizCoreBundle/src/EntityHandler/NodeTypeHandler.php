@@ -243,6 +243,7 @@ final class NodeTypeHandler extends AbstractHandler
         return $this;
     }
 
+    #[\Override]
     public function cleanPositions(bool $setPositions = false): float
     {
         throw new \LogicException('Node-types are static, you can not clean their positions.');

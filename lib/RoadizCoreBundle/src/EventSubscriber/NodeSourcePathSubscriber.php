@@ -16,6 +16,7 @@ final readonly class NodeSourcePathSubscriber implements EventSubscriberInterfac
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

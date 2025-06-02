@@ -14,6 +14,7 @@ use Symfony\Component\Messenger\Exception\RecoverableMessageHandlingException;
  */
 abstract class AbstractLockingDocumentMessageHandler extends AbstractDocumentMessageHandler
 {
+    #[\Override]
     public function __invoke(AbstractDocumentMessage $message): void
     {
         $document = $this->managerRegistry

@@ -20,7 +20,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AjaxSearchController extends AbstractAjaxController
 {
-    public const RESULT_COUNT = 10;
+    public const int RESULT_COUNT = 10;
 
     public function __construct(
         private readonly Security $security,

@@ -53,7 +53,7 @@ final readonly class LeafEntityLifeCycleSubscriber
                  */
                 $handler->cleanPositions(true);
             }
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException) {
         }
     }
 }

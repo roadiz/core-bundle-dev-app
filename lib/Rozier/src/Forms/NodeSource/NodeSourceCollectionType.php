@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormEvents;
 
 final class NodeSourceCollectionType extends CollectionType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
@@ -18,7 +19,7 @@ final class NodeSourceCollectionType extends CollectionType
         /*
          * We need to flatten form data array keys to force numeric array in database
          */
-        $builder->addEventListener(FormEvents::SUBMIT, [$this, 'onSubmit'], 40);
+        $builder->addEventListener(FormEvents::SUBMIT, $this->onSubmit(...), 40);
     }
 
     public function onSubmit(FormEvent $event): void

@@ -78,16 +78,19 @@ final class NodesController extends AbstractController
     ) {
     }
 
+    #[\Override]
     protected function getNodeFactory(): NodeFactory
     {
         return $this->nodeFactory;
     }
 
+    #[\Override]
     protected function em(): ObjectManager
     {
         return $this->managerRegistry->getManagerForClass(Node::class);
     }
 
+    #[\Override]
     protected function createNamedFormBuilder(
         string $name = 'form',
         mixed $data = null,
@@ -625,7 +628,7 @@ final class NodesController extends AbstractController
                     'translationId' => $translation->getId(),
                 ]
             );
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $msg = $this->translator->trans('node.noCreation.alreadyExists');
             throw new ResourceNotFoundException($msg);
         }

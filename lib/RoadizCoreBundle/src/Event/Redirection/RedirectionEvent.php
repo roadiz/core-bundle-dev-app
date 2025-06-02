@@ -9,11 +9,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class RedirectionEvent extends Event
 {
-    protected ?Redirection $redirection;
-
-    public function __construct(?Redirection $redirection)
+    public function __construct(protected ?Redirection $redirection)
     {
-        $this->redirection = $redirection;
     }
 
     public function getRedirection(): ?Redirection

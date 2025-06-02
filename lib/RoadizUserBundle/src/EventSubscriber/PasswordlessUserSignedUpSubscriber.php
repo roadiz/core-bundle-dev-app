@@ -15,6 +15,7 @@ final readonly class PasswordlessUserSignedUpSubscriber implements EventSubscrib
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

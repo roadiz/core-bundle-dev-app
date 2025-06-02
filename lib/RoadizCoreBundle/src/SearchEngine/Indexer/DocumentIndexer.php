@@ -10,6 +10,7 @@ use Solarium\Plugin\BufferedAdd\BufferedAdd;
 
 class DocumentIndexer extends AbstractIndexer
 {
+    #[\Override]
     public function index(mixed $id): void
     {
         $document = $this->managerRegistry->getRepository(Document::class)->find($id);
@@ -26,6 +27,7 @@ class DocumentIndexer extends AbstractIndexer
         }
     }
 
+    #[\Override]
     public function delete(mixed $id): void
     {
         $document = $this->managerRegistry->getRepository(Document::class)->find($id);
@@ -42,6 +44,7 @@ class DocumentIndexer extends AbstractIndexer
         }
     }
 
+    #[\Override]
     public function reindexAll(): void
     {
         $update = $this->getSolr()->createUpdate();
@@ -61,7 +64,7 @@ class DocumentIndexer extends AbstractIndexer
             ->createQueryBuilder('d')
             ->getQuery();
 
-        $this->io?->title(get_class($this));
+        $this->io?->title(static::class);
         $this->io?->progressStart((int) $countQuery->getSingleScalarResult());
 
         foreach ($q->toIterable() as $row) {

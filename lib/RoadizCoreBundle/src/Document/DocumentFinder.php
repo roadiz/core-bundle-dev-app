@@ -16,6 +16,7 @@ final class DocumentFinder extends AbstractDocumentFinder
     {
     }
 
+    #[\Override]
     public function findAllByFilenames(array $fileNames): iterable
     {
         return $this->getRepository()->findBy([
@@ -24,6 +25,7 @@ final class DocumentFinder extends AbstractDocumentFinder
         ]);
     }
 
+    #[\Override]
     public function findOneByFilenames(array $fileNames): ?DocumentInterface
     {
         return $this->getRepository()->findOneBy([
@@ -32,6 +34,7 @@ final class DocumentFinder extends AbstractDocumentFinder
         ]);
     }
 
+    #[\Override]
     public function findOneByHashAndAlgorithm(string $hash, string $algorithm): ?DocumentInterface
     {
         return $this->getRepository()->findOneByHashAndAlgorithm($hash, $algorithm);

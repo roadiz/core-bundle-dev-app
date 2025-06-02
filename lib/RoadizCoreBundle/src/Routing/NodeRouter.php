@@ -48,6 +48,7 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
         $this->matcher = $matcher;
     }
 
+    #[\Override]
     public function getRouteCollection(): RouteCollection
     {
         return new RouteCollection();
@@ -56,6 +57,7 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
     /**
      * Gets the UrlMatcher instance associated with this Router.
      */
+    #[\Override]
     public function getMatcher(): UrlMatcherInterface
     {
         return $this->matcher;
@@ -73,6 +75,7 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
         return $this;
     }
 
+    #[\Override]
     public function getRouteDebugMessage(string $name, array $parameters = []): string
     {
         if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name) {
@@ -95,6 +98,7 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
     /**
      * @throws InvalidArgumentException
      */
+    #[\Override]
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME !== $name) {
@@ -116,7 +120,7 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
         }
 
         if (!empty($parameters['canonicalScheme'])) {
-            $schemeAuthority = trim($parameters['canonicalScheme']);
+            $schemeAuthority = trim((string) $parameters['canonicalScheme']);
             unset($parameters['canonicalScheme']);
         } else {
             $schemeAuthority = $this->getContext()->getScheme().'://'.$this->getHttpHost();

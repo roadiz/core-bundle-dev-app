@@ -24,6 +24,7 @@ final readonly class PasswordlessAuthenticationSuccessEventSubscriber implements
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

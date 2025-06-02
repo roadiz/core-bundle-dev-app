@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 class MultiTagType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('names', TextareaType::class, [
@@ -29,6 +30,7 @@ class MultiTagType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'multitags';

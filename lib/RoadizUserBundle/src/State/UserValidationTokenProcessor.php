@@ -29,10 +29,11 @@ final readonly class UserValidationTokenProcessor implements ProcessorInterface
     ) {
     }
 
+    #[\Override]
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): VoidOutput
     {
         if (!$data instanceof UserValidationTokenInput) {
-            throw new \RuntimeException(sprintf('Cannot process %s', get_class($data)));
+            throw new \RuntimeException(sprintf('Cannot process %s', $data::class));
         }
 
         if (!$this->security->isGranted('ROLE_USER')) {

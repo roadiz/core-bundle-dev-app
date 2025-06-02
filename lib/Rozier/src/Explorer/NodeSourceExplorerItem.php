@@ -22,11 +22,13 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
     ) {
     }
 
+    #[\Override]
     public function getId(): string|int
     {
         return $this->nodeSource->getNode()->getId();
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         $parent = $this->nodeSource->getParent();
@@ -46,16 +48,19 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
         return implode(' / ', array_reverse($items));
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         return $this->nodeSource->getTitle() ?? $this->nodeSource->getNode()->getNodeName();
     }
 
+    #[\Override]
     public function getOriginal(): NodesSources
     {
         return $this->nodeSource;
     }
 
+    #[\Override]
     public function getEditItemPath(): ?string
     {
         /** @var Translation $translation */
@@ -71,6 +76,7 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
         return null;
     }
 
+    #[\Override]
     public function getThumbnail(): ?DocumentInterface
     {
         /** @var NodesSourcesDocuments|false $thumbnail */
@@ -79,11 +85,13 @@ final class NodeSourceExplorerItem extends AbstractExplorerItem
         return $thumbnail ? $thumbnail->getDocument() : null;
     }
 
+    #[\Override]
     public function isPublished(): bool
     {
         return $this->nodeSource->getNode()->isPublished();
     }
 
+    #[\Override]
     public function getColor(): string
     {
         return $this->nodeSource->getNodeTypeColor();

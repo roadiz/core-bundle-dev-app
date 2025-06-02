@@ -64,7 +64,7 @@ trait NodesBulkActionsTrait
 
         $assignation = [];
 
-        $nodesIds = trim($request->get('deleteForm')['nodesIds']);
+        $nodesIds = trim((string) $request->get('deleteForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($nodesIds);
 
@@ -121,7 +121,7 @@ trait NodesBulkActionsTrait
 
         $assignation = [];
 
-        $nodesIds = trim($request->get('statusForm')['nodesIds']);
+        $nodesIds = trim((string) $request->get('statusForm')['nodesIds']);
         $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($nodesIds);
 
@@ -197,7 +197,7 @@ trait NodesBulkActionsTrait
     private function bulkDeleteNodes(array $data): string
     {
         if (!empty($data['nodesIds'])) {
-            $nodesIds = trim($data['nodesIds']);
+            $nodesIds = trim((string) $data['nodesIds']);
             $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
             array_filter($nodesIds);
 
@@ -315,7 +315,7 @@ trait NodesBulkActionsTrait
                     'id' => $nodesIds,
                 ]);
 
-            $paths = explode(',', $data['tagsPaths']);
+            $paths = explode(',', (string) $data['tagsPaths']);
             $paths = array_filter($paths);
 
             foreach ($paths as $path) {
@@ -354,7 +354,7 @@ trait NodesBulkActionsTrait
                     'id' => $nodesIds,
                 ]);
 
-            $paths = explode(',', $data['tagsPaths']);
+            $paths = explode(',', (string) $data['tagsPaths']);
             $paths = array_filter($paths);
 
             foreach ($paths as $path) {

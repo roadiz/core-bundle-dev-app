@@ -35,6 +35,7 @@ final class NodeTreeType extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         parent::finishView($view, $form, $options);
@@ -56,12 +57,10 @@ final class NodeTreeType extends AbstractType
         $nodeTypeField = $options['nodeTypeField'];
         $defaultValues = $nodeTypeField->getDefaultValuesAsArray();
         foreach ($defaultValues as $key => $value) {
-            $defaultValues[$key] = trim($value);
+            $defaultValues[$key] = trim((string) $value);
         }
 
-        $nodeTypes = array_values(array_filter(array_map(function (string $nodeTypeName) {
-            return $this->nodeTypesBag->get($nodeTypeName);
-        }, $defaultValues)));
+        $nodeTypes = array_values(array_filter(array_map(fn (string $nodeTypeName) => $this->nodeTypesBag->get($nodeTypeName), $defaultValues)));
 
         $view->vars['linkedTypes'] = $nodeTypes;
 
@@ -83,16 +82,19 @@ final class NodeTreeType extends AbstractType
         $view->vars['nodeStatuses'] = NodeStatus::allLabelsAndValues();
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return HiddenType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'childrennodes';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired([

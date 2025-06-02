@@ -26,6 +26,7 @@ final class SolrSearchListManager extends AbstractEntityListManager
         parent::__construct($request);
     }
 
+    #[\Override]
     public function handle(bool $disabled = false): void
     {
         if (null === $this->request) {
@@ -60,12 +61,14 @@ final class SolrSearchListManager extends AbstractEntityListManager
         }
     }
 
+    #[\Override]
     protected function handleSearchParam(string $search): void
     {
         parent::handleSearchParam($search);
         $this->query = trim($search);
     }
 
+    #[\Override]
     public function getItemCount(): int
     {
         if (null !== $this->searchResults) {
@@ -74,6 +77,7 @@ final class SolrSearchListManager extends AbstractEntityListManager
         throw new \InvalidArgumentException('Call EntityListManagerInterface::handle before counting entities.');
     }
 
+    #[\Override]
     public function getEntities(): array
     {
         if (null !== $this->searchResults) {

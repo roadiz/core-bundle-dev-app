@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FontVariantsType extends AbstractType
 {
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -21,11 +22,13 @@ class FontVariantsType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'font_variants';

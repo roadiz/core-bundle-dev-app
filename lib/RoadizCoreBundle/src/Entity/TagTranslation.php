@@ -147,9 +147,7 @@ class TagTranslation extends AbstractEntity
     #[SymfonySerializer\Groups(['tag'])]
     public function getDocuments(): array
     {
-        return array_map(function (TagTranslationDocuments $tagTranslationDocument) {
-            return $tagTranslationDocument->getDocument();
-        }, $this->getTagTranslationDocuments()->toArray());
+        return array_map(fn (TagTranslationDocuments $tagTranslationDocument) => $tagTranslationDocument->getDocument(), $this->getTagTranslationDocuments()->toArray());
     }
 
     public function getTagTranslationDocuments(): Collection

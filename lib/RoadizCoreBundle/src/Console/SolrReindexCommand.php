@@ -28,6 +28,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
         parent::__construct($clientRegistry, $name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('solr:reindex')
@@ -38,6 +39,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
             ->addOption('batch-number', null, InputOption::VALUE_REQUIRED, 'Run a selected batch (only for nodes), <comment>first batch is 0</comment>.');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);

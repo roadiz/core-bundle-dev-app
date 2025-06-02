@@ -59,8 +59,6 @@ abstract class AbstractFieldGenerator
 
     public function getIntroduction(): string
     {
-        return implode(PHP_EOL, array_map(function (string $line) {
-            return static::INDENTATION_MARK.'// '.$line;
-        }, $this->getIntroductionLines()));
+        return implode(PHP_EOL, array_map(fn (string $line) => static::INDENTATION_MARK.'// '.$line, $this->getIntroductionLines()));
     }
 }

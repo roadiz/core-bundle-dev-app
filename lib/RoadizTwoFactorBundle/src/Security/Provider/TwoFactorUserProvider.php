@@ -17,6 +17,7 @@ final readonly class TwoFactorUserProvider implements TwoFactorUserProviderInter
     ) {
     }
 
+    #[\Override]
     public function getFromUser(User $user): ?TwoFactorUser
     {
         return $this->managerRegistry
@@ -24,6 +25,7 @@ final readonly class TwoFactorUserProvider implements TwoFactorUserProviderInter
             ->findOneBy(['user' => $user]);
     }
 
+    #[\Override]
     public function createForUser(User $user): TwoFactorUser
     {
         $twoFactorUser = $this->getFromUser($user);
@@ -40,18 +42,21 @@ final readonly class TwoFactorUserProvider implements TwoFactorUserProviderInter
         return $twoFactorUser;
     }
 
+    #[\Override]
     public function activate(TwoFactorUser $user): void
     {
         $user->setActivatedAt(new \DateTime());
         $this->managerRegistry->getManager()->flush();
     }
 
+    #[\Override]
     public function disable(TwoFactorUser $user): void
     {
         $this->managerRegistry->getManager()->remove($user);
         $this->managerRegistry->getManager()->flush();
     }
 
+    #[\Override]
     public function generateBackupCodes(TwoFactorUser $user): array
     {
         $length = $user->getDigits();

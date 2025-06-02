@@ -22,6 +22,7 @@ final class NodesType extends AbstractType
     {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new CallbackTransformer(
@@ -58,6 +59,7 @@ final class NodesType extends AbstractType
         ));
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -71,6 +73,7 @@ final class NodesType extends AbstractType
         $resolver->setAllowedTypes('asMultiple', ['boolean']);
     }
 
+    #[\Override]
     public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         parent::finishView($view, $form, $options);
@@ -83,11 +86,13 @@ final class NodesType extends AbstractType
         }
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return HiddenType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'nodes';

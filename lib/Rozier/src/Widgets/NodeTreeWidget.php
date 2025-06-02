@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class NodeTreeWidget extends AbstractWidget
 {
-    public const SESSION_ITEM_PER_PAGE = 'nodetree_item_per_page';
+    public const string SESSION_ITEM_PER_PAGE = 'nodetree_item_per_page';
     /**
      * @var array<NodeInterface>|null
      */
@@ -219,6 +219,7 @@ final class NodeTreeWidget extends AbstractWidget
         return $this->filters;
     }
 
+    #[\Override]
     public function getTranslation(): TranslationInterface
     {
         return $this->translation ?? parent::getTranslation();

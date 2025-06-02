@@ -28,6 +28,7 @@ final class RecaptchaValidator extends ConstraintValidator implements RecaptchaS
     /**
      * @see \Symfony\Component\Validator\ConstraintValidator::validate()
      */
+    #[\Override]
     public function validate(mixed $data, Constraint $constraint): void
     {
         if ($constraint instanceof Recaptcha) {
@@ -76,6 +77,7 @@ final class RecaptchaValidator extends ConstraintValidator implements RecaptchaS
      * @throws ServerExceptionInterface
      * @throws TransportExceptionInterface
      */
+    #[\Override]
     public function check(
         string $responseValue,
         string $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify',

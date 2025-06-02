@@ -27,6 +27,7 @@ final class Roles extends LazyParameterBag
         return $this->repository;
     }
 
+    #[\Override]
     protected function populateParameters(): void
     {
         try {
@@ -36,7 +37,7 @@ final class Roles extends LazyParameterBag
             foreach ($roles as $role) {
                 $this->parameters[$role->getRole()] = $role;
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->parameters = [];
         }
         $this->ready = true;
@@ -47,6 +48,7 @@ final class Roles extends LazyParameterBag
      *
      * @param null $default
      */
+    #[\Override]
     public function get(string $key, $default = null): Role
     {
         $role = parent::get($key, $default);

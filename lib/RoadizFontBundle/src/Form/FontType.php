@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints\File;
 
 class FontType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class, [
@@ -60,11 +61,13 @@ class FontType extends AbstractType
             ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'font';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

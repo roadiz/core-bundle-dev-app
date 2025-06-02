@@ -23,6 +23,7 @@ final class GenerateNodeSourceEntitiesCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('generate:nsentities')
@@ -33,6 +34,7 @@ final class GenerateNodeSourceEntitiesCommand extends Command
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

@@ -21,6 +21,7 @@ final readonly class RoleSubscriber implements EventSubscriberInterface
     {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

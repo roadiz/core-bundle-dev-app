@@ -22,12 +22,14 @@ final class SolrOptimizeCommand extends SolrCommand
         parent::__construct($clientRegistry, $name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('solr:optimize')
             ->setDescription('Optimize Solr search engine index');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);

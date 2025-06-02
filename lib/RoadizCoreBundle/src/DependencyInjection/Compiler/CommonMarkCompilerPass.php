@@ -10,6 +10,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class CommonMarkCompilerPass implements CompilerPassInterface
 {
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         if ($container->has('roadiz_core.markdown.environments.text_converter')) {

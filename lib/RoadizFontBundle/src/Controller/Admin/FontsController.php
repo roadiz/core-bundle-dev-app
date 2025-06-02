@@ -38,56 +38,67 @@ class FontsController extends AbstractAdminController
         parent::__construct($urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
+    #[\Override]
     protected function supports(PersistableInterface $item): bool
     {
         return $item instanceof Font;
     }
 
+    #[\Override]
     protected function getNamespace(): string
     {
         return 'font';
     }
 
+    #[\Override]
     protected function createEmptyItem(Request $request): PersistableInterface
     {
         return new Font();
     }
 
+    #[\Override]
     protected function getTemplateFolder(): string
     {
         return '@RoadizFont/admin';
     }
 
+    #[\Override]
     protected function getRequiredRole(): string
     {
         return 'ROLE_ACCESS_FONTS';
     }
 
+    #[\Override]
     protected function getEntityClass(): string
     {
         return Font::class;
     }
 
+    #[\Override]
     protected function getFormType(): string
     {
         return FontType::class;
     }
 
+    #[\Override]
     protected function getDefaultOrder(Request $request): array
     {
         return ['name' => 'ASC'];
     }
 
+    #[\Override]
     protected function getDefaultRouteName(): string
     {
         return 'fontsHomePage';
     }
 
+    #[\Override]
     protected function getEditRouteName(): string
     {
         return 'fontsEditPage';
     }
 
+    #[\Override]
     protected function createUpdateEvent(PersistableInterface $item): ?Event
     {
         if ($item instanceof Font) {
@@ -97,6 +108,7 @@ class FontsController extends AbstractAdminController
         return null;
     }
 
+    #[\Override]
     protected function getEntityName(PersistableInterface $item): string
     {
         if ($item instanceof Font) {

@@ -44,6 +44,7 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
         return $resourceInfo;
     }
 
+    #[\Override]
     public function resolvePath(
         string $path,
         array $supportedFormatExtensions = ['html'],
@@ -66,7 +67,7 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
 
         $identifier = '';
         if (count($tokens) > 0) {
-            $identifier = strip_tags($tokens[(int) (count($tokens) - 1)]);
+            $identifier = strip_tags((string) $tokens[(int) (count($tokens) - 1)]);
         }
 
         if ('' === $identifier) {

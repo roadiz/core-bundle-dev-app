@@ -12,6 +12,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 final class AttributeValueIndexingSubscriber extends AbstractIndexingSubscriber
 {
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

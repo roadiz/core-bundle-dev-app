@@ -11,6 +11,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $builder = new TreeBuilder('roadiz_compat');
@@ -36,9 +37,7 @@ class Configuration implements ConfigurationInterface
                     ->info('Full qualified theme class (this must start with \ character and ends with App suffix)')
                     ->isRequired()
                     ->validate()
-                        ->ifTrue(function (string $s) {
-                            return 1 !== preg_match('/^\\\[a-zA-Z\\\]+App$/', trim($s)) || !class_exists($s);
-                        })
+                        ->ifTrue(fn (string $s) => 1 !== preg_match('/^\\\[a-zA-Z\\\]+App$/', trim($s)) || !class_exists($s))
                         ->thenInvalid('Theme class does not exist or classname is invalid: must start with \ character and ends with App suffix.')
                     ->end()
                 ->end()

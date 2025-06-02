@@ -33,6 +33,7 @@ final class CustomFormFieldType extends AbstractType
         return $this->customFormFieldRepository->findDistinctGroupNamesInCustomForm($field->getCustomForm());
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('label', TextType::class, [
@@ -117,18 +118,18 @@ final class CustomFormFieldType extends AbstractType
                     'photo',
                 ],
                 'placeholder' => 'autocomplete.no_autocomplete',
-                'choice_label' => function ($choice, $key, $value) {
-                    return 'autocomplete.'.$value;
-                },
+                'choice_label' => fn ($choice, $key, $value) => 'autocomplete.'.$value,
                 'required' => false,
             ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'customformfield';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

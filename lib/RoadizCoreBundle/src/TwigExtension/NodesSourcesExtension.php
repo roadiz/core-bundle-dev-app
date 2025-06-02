@@ -28,31 +28,29 @@ final class NodesSourcesExtension extends AbstractExtension
     ) {
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
-            new TwigFilter('children', [$this, 'getChildren']),
-            new TwigFilter('next', [$this, 'getNext']),
-            new TwigFilter('previous', [$this, 'getPrevious']),
-            new TwigFilter('lastSibling', [$this, 'getLastSibling']),
-            new TwigFilter('firstSibling', [$this, 'getFirstSibling']),
-            new TwigFilter('parent', [$this, 'getParent']),
-            new TwigFilter('parents', [$this, 'getParents']),
-            new TwigFilter('tags', [$this, 'getTags']),
+            new TwigFilter('children', $this->getChildren(...)),
+            new TwigFilter('next', $this->getNext(...)),
+            new TwigFilter('previous', $this->getPrevious(...)),
+            new TwigFilter('lastSibling', $this->getLastSibling(...)),
+            new TwigFilter('firstSibling', $this->getFirstSibling(...)),
+            new TwigFilter('parent', $this->getParent(...)),
+            new TwigFilter('parents', $this->getParents(...)),
+            new TwigFilter('tags', $this->getTags(...)),
         ];
     }
 
+    #[\Override]
     public function getTests(): array
     {
         $tests = [];
 
         foreach ($this->nodeTypesBag->all() as $nodeType) {
-            $tests[] = new TwigTest($nodeType->getName(), function ($mixed) use ($nodeType) {
-                return null !== $mixed && get_class($mixed) === $nodeType->getSourceEntityFullQualifiedClassName();
-            });
-            $tests[] = new TwigTest($nodeType->getSourceEntityClassName(), function ($mixed) use ($nodeType) {
-                return null !== $mixed && get_class($mixed) === $nodeType->getSourceEntityFullQualifiedClassName();
-            });
+            $tests[] = new TwigTest($nodeType->getName(), fn ($mixed) => null !== $mixed && $mixed::class === $nodeType->getSourceEntityFullQualifiedClassName());
+            $tests[] = new TwigTest($nodeType->getSourceEntityClassName(), fn ($mixed) => null !== $mixed && $mixed::class === $nodeType->getSourceEntityFullQualifiedClassName());
         }
 
         return $tests;

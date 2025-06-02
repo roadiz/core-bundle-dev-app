@@ -14,17 +14,20 @@ abstract class AbstractApplePodcastEmbedFinder extends AbstractEmbedFinder
     protected static string $platform = 'apple_podcast';
     protected static string $idPattern = '#^https\:\/\/(?:podcasts\.apple\.com|embed\.podcasts\.apple\.com)\/(?<path>[a-zA-Z\-]+/podcast/[a-zA-Z0-9\%\-\/\=?]+)\/?#';
 
+    #[\Override]
     public static function supportEmbedUrl(string $embedUrl): bool
     {
         return str_starts_with($embedUrl, 'https://podcasts.apple.com')
             || str_starts_with($embedUrl, 'https://embed.podcasts.apple.com');
     }
 
+    #[\Override]
     public static function getPlatform(): string
     {
         return static::$platform;
     }
 
+    #[\Override]
     protected function validateEmbedId(string $embedId = ''): string
     {
         if (false !== preg_match(static::$idPattern, $embedId, $matches)) {
@@ -33,11 +36,13 @@ abstract class AbstractApplePodcastEmbedFinder extends AbstractEmbedFinder
         throw new InvalidEmbedId($embedId, static::$platform);
     }
 
+    #[\Override]
     public function getMediaFeed(?string $search = null): string
     {
         return '';
     }
 
+    #[\Override]
     public function getFeed(): array|\SimpleXMLElement|null
     {
         if (null === $this->feed) {
@@ -60,31 +65,37 @@ abstract class AbstractApplePodcastEmbedFinder extends AbstractEmbedFinder
         return $this->feed;
     }
 
+    #[\Override]
     public function getMediaTitle(): ?string
     {
         return $this->getFeed()['name'] ?? null;
     }
 
+    #[\Override]
     public function getMediaDescription(): ?string
     {
         return $this->getFeed()['description'] ?? null;
     }
 
+    #[\Override]
     public function getMediaCopyright(): ?string
     {
         return $this->getFeed()['productionCompany'] ?? null;
     }
 
+    #[\Override]
     public function getThumbnailURL(): ?string
     {
         return $this->getFeed()['thumbnailUrl'] ?? null;
     }
 
+    #[\Override]
     public function getThumbnailName(string $pathinfo): string
     {
         return $pathinfo;
     }
 
+    #[\Override]
     public function getSource(array &$options = []): string
     {
         parent::getSource($options);
@@ -96,16 +107,19 @@ abstract class AbstractApplePodcastEmbedFinder extends AbstractEmbedFinder
         return $this->embedId;
     }
 
+    #[\Override]
     public function getShortType(): string
     {
         return 'podcast';
     }
 
+    #[\Override]
     protected function areDuplicatesAllowed(): bool
     {
         return true;
     }
 
+    #[\Override]
     public function isEmptyThumbnailAllowed(): bool
     {
         return true;

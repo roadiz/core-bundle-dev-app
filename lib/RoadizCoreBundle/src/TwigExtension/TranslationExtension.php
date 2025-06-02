@@ -14,18 +14,20 @@ use Twig\TwigTest;
 
 final class TranslationExtension extends AbstractExtension
 {
+    #[\Override]
     public function getFilters(): array
     {
         return [
-            new TwigFilter('country_iso', [$this, 'getCountryName']),
-            new TwigFilter('locale_iso', [$this, 'getLocaleName']),
+            new TwigFilter('country_iso', $this->getCountryName(...)),
+            new TwigFilter('locale_iso', $this->getLocaleName(...)),
         ];
     }
 
+    #[\Override]
     public function getTests(): array
     {
         return [
-            new TwigTest('rtl', [$this, 'isLocaleRtl']),
+            new TwigTest('rtl', $this->isLocaleRtl(...)),
         ];
     }
 

@@ -11,6 +11,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 final class NodeTypeConfiguration implements ConfigurationInterface
 {
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('node_type');

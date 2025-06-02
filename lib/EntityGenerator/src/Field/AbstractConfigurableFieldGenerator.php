@@ -33,6 +33,6 @@ abstract class AbstractConfigurableFieldGenerator extends AbstractFieldGenerator
      */
     protected function getFullyQualifiedClassName(): string
     {
-        return '\\'.trim($this->configuration['classname'], '\\');
+        return '\\'.trim((string) $this->configuration['classname'], '\\');
     }
 }

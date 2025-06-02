@@ -18,7 +18,7 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
 {
     use NormalizerAwareTrait;
 
-    private const ALREADY_CALLED = 'REALM_SERIALIZER_NORMALIZER_ALREADY_CALLED';
+    private const string ALREADY_CALLED = 'REALM_SERIALIZER_NORMALIZER_ALREADY_CALLED';
 
     public function __construct(
         private readonly Security $security,
@@ -27,6 +27,7 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
     ) {
     }
 
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         if (!($data instanceof NodesSources)) {
@@ -50,6 +51,7 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
     /**
      * @return array|string|int|float|bool|\ArrayObject|null
      */
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $this->stopwatch->start('realm-serialization-group-normalizer', 'serializer');
@@ -74,8 +76,6 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
     {
         $realms = $this->realmResolver->getRealmsWithSerializationGroup($object->getNode());
 
-        return array_filter($realms, function (RealmInterface $realm) {
-            return $this->security->isGranted(RealmVoter::READ, $realm);
-        });
+        return array_filter($realms, fn (RealmInterface $realm) => $this->security->isGranted(RealmVoter::READ, $realm));
     }
 }

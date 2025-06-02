@@ -19,6 +19,7 @@ final class TagTranslationNormalizer extends AbstractPathNormalizer
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $data = $this->decorated->normalize($object, $format, $context);
@@ -43,9 +44,7 @@ final class TagTranslationNormalizer extends AbstractPathNormalizer
                 if (\in_array('tag_documents', $serializationGroups, true)) {
                     $documentsContext = $context;
                     $documentsContext['groups'] = ['document_display'];
-                    $data['documents'] = array_map(function (DocumentInterface $document) use ($format, $documentsContext) {
-                        return $this->decorated->normalize($document, $format, $documentsContext);
-                    }, $translatedData->getDocuments());
+                    $data['documents'] = array_map(fn (DocumentInterface $document) => $this->decorated->normalize($document, $format, $documentsContext), $translatedData->getDocuments());
                 }
             }
             $this->stopwatch->stop('normalizeTag');

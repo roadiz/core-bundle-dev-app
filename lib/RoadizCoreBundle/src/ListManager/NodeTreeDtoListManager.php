@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\Attribute\Exclude;
 #[Exclude]
 final class NodeTreeDtoListManager extends EntityListManager
 {
+    #[\Override]
     protected function createPaginator(): void
     {
         $this->paginator = new NodeTreeDtoPaginator(
@@ -28,6 +29,7 @@ final class NodeTreeDtoListManager extends EntityListManager
     /**
      * @return array<NodeTreeDto>
      */
+    #[\Override]
     public function getEntities(): array
     {
         if (true === $this->pagination && null !== $this->paginator) {

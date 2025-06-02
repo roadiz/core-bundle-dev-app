@@ -23,11 +23,12 @@ final class AttributeDocumentType extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(
             FormEvents::POST_SUBMIT,
-            [$this, 'onPostSubmit']
+            $this->onPostSubmit(...)
         );
         $builder->addModelTransformer(new AttributeDocumentsTransformer(
             $this->managerRegistry,
@@ -35,6 +36,7 @@ final class AttributeDocumentType extends AbstractType
         ));
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -48,11 +50,13 @@ final class AttributeDocumentType extends AbstractType
         $resolver->setAllowedTypes('attribute', [AttributeInterface::class]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'documents';
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return CollectionType::class;

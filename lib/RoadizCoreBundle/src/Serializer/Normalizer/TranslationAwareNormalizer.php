@@ -20,7 +20,7 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
 {
     use NormalizerAwareTrait;
 
-    private const ALREADY_CALLED = 'TRANSLATION_AWARE_NORMALIZER_ALREADY_CALLED';
+    private const string ALREADY_CALLED = 'TRANSLATION_AWARE_NORMALIZER_ALREADY_CALLED';
 
     public function __construct(
         private readonly RequestStack $requestStack,
@@ -34,6 +34,7 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         if ($object instanceof WebResponseInterface) {
@@ -99,6 +100,7 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
         return null;
     }
 
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         // Make sure we're not called twice

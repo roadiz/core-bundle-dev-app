@@ -15,11 +15,13 @@ class SettingsRoleStrategy implements JwtRoleStrategy
     ) {
     }
 
+    #[\Override]
     public function supports(): bool
     {
         return !empty($this->settingsBag->get(static::SETTING_NAME));
     }
 
+    #[\Override]
     public function getRoles(): ?array
     {
         $settings = $this->settingsBag->get(static::SETTING_NAME);
@@ -27,8 +29,6 @@ class SettingsRoleStrategy implements JwtRoleStrategy
             return null;
         }
 
-        return array_map(function ($role) {
-            return trim($role);
-        }, explode(',', $settings));
+        return array_map(fn ($role) => trim((string) $role), explode(',', $settings));
     }
 }

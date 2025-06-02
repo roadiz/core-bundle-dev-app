@@ -12,13 +12,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 final class NodeTypeFieldVoter extends Voter
 {
-    public const VIEW = 'VIEW';
+    public const string VIEW = 'VIEW';
 
     public function __construct(
         private readonly Security $security,
     ) {
     }
 
+    #[\Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
         if (!\in_array($attribute, [self::VIEW])) {
@@ -28,6 +29,7 @@ final class NodeTypeFieldVoter extends Voter
         return $subject instanceof NodeTypeField;
     }
 
+    #[\Override]
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();

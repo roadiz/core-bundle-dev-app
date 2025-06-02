@@ -41,6 +41,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
     ) {
     }
 
+    #[\Override]
     public function getId(): string|int
     {
         if ($this->document instanceof PersistableInterface) {
@@ -50,11 +51,13 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         return 0;
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         return (string) $this->document;
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         if (
@@ -68,11 +71,13 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         return (string) $this->document;
     }
 
+    #[\Override]
     public function getOriginal(): DocumentInterface
     {
         return $this->document;
     }
 
+    #[\Override]
     protected function getEditItemPath(): ?string
     {
         if (!($this->document instanceof PersistableInterface)) {
@@ -84,6 +89,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         ]);
     }
 
+    #[\Override]
     protected function getColor(): ?string
     {
         if ($this->document instanceof AdvancedDocumentInterface) {
@@ -93,6 +99,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         return null;
     }
 
+    #[\Override]
     public function toArray(): array
     {
         $thumbnail80Url = null;

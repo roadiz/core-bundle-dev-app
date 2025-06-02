@@ -20,6 +20,7 @@ final class NodeTypesValidateFilesCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('nodetypes:validate-files')
@@ -28,6 +29,7 @@ final class NodeTypesValidateFilesCommand extends Command
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($onlyFile = $input->getArgument('file')) {

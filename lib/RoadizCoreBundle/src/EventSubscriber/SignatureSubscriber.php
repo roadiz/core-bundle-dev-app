@@ -36,6 +36,7 @@ final readonly class SignatureSubscriber implements EventSubscriberInterface
         }
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

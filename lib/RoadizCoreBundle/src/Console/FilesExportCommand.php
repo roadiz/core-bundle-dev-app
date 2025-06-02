@@ -26,6 +26,7 @@ final class FilesExportCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -38,6 +39,7 @@ final class FilesExportCommand extends Command
         return $appName.'_'.date('Y-m-d').'.zip';
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $fs = new Filesystem();

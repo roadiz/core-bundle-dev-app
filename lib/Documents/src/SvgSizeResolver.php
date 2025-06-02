@@ -29,7 +29,7 @@ final class SvgSizeResolver
             if (null !== $viewBox && '' !== $viewBox->textContent) {
                 return explode(' ', $viewBox->textContent);
             }
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             return null;
         }
 
@@ -47,7 +47,7 @@ final class SvgSizeResolver
             ) {
                 return (int) $attribute->textContent;
             }
-        } catch (\RuntimeException $exception) {
+        } catch (\RuntimeException) {
             return null;
         }
 

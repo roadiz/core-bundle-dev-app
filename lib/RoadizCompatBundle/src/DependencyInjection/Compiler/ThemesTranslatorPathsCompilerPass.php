@@ -11,6 +11,7 @@ use Symfony\Component\Finder\Finder;
 
 final class ThemesTranslatorPathsCompilerPass implements CompilerPassInterface
 {
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         if ($container->hasDefinition('translator.default')) {
@@ -47,10 +48,8 @@ final class ThemesTranslatorPathsCompilerPass implements CompilerPassInterface
                 $finder = Finder::create()
                     ->followLinks()
                     ->files()
-                    ->filter(function (\SplFileInfo $file) {
-                        return 2 <= \mb_substr_count($file->getBasename(), '.')
-                            && \preg_match('/\.\w+$/', $file->getBasename());
-                    })
+                    ->filter(fn (\SplFileInfo $file) => 2 <= \mb_substr_count($file->getBasename(), '.')
+                        && \preg_match('/\.\w+$/', $file->getBasename()))
                     ->in($translationFolder)
                     ->sortByName()
                 ;
@@ -69,9 +68,7 @@ final class ThemesTranslatorPathsCompilerPass implements CompilerPassInterface
                         'resource_files' => $files,
                         'scanned_directories' => $scannedDirectories = [$translationFolder],
                         'cache_vary' => [
-                            'scanned_directories' => array_map(static function (string $dir) use ($projectDir): string {
-                                return str_starts_with($dir, $projectDir.'/') ? \mb_substr($dir, 1 + \mb_strlen($projectDir)) : $dir;
-                            }, $scannedDirectories),
+                            'scanned_directories' => array_map(static fn (string $dir): string => str_starts_with($dir, $projectDir.'/') ? \mb_substr($dir, 1 + \mb_strlen($projectDir)) : $dir, $scannedDirectories),
                         ],
                     ]
                 );

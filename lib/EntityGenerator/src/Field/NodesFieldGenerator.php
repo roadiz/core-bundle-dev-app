@@ -21,12 +21,14 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
         parent::__construct($field, $defaultValuesResolver, $options);
     }
 
+    #[\Override]
     public function addField(ClassType $classType, PhpNamespace $namespace): void
     {
         $this->addFieldGetter($classType, $namespace);
         $this->addFieldSetter($classType);
     }
 
+    #[\Override]
     protected function getDefaultSerializationGroups(): array
     {
         $groups = parent::getDefaultSerializationGroups();
@@ -55,7 +57,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
     {
         $defaultValuesParsed = $this->field->getDefaultValuesAsArray();
         if (count($defaultValuesParsed) > 0 && true === $this->hasOnlyOneNodeType()) {
-            $nodeTypeName = trim(array_values($defaultValuesParsed)[0]);
+            $nodeTypeName = trim((string) array_values($defaultValuesParsed)[0]);
 
             $nodeType = $this->nodeTypeResolver->get($nodeTypeName);
             if (null !== $nodeType) {
@@ -70,6 +72,7 @@ final class NodesFieldGenerator extends AbstractFieldGenerator
         return $this->options['parent_class'];
     }
 
+    #[\Override]
     public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $property = $classType->addProperty($this->getFieldSourcesName())
@@ -128,6 +131,7 @@ PHP
         return $this;
     }
 
+    #[\Override]
     public function addFieldSetter(ClassType $classType): self
     {
         $setter = $classType->addMethod($this->field->getSetterName().'Sources')

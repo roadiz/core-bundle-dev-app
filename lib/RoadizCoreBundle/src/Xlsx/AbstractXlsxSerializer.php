@@ -22,6 +22,7 @@ abstract class AbstractXlsxSerializer implements SerializerInterface
      * @throws \PhpOffice\PhpSpreadsheet\Exception
      * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
+    #[\Override]
     public function serialize(mixed $obj): string
     {
         $data = $this->toArray($obj);

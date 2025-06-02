@@ -26,11 +26,13 @@ final class AppMigrateCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     public function getProjectDir(): string
     {
         return $this->projectDir;
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('app:migrate')
@@ -43,6 +45,7 @@ final class AppMigrateCommand extends Command
             );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

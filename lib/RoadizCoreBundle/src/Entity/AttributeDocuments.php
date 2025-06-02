@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 ]
 class AttributeDocuments extends AbstractPositioned
 {
-    #[
+    public function __construct(#[
         ORM\ManyToOne(
             targetEntity: Attribute::class,
             cascade: ['persist', 'merge'],
@@ -36,29 +36,23 @@ class AttributeDocuments extends AbstractPositioned
         ),
         SymfonySerializer\Ignore()
     ]
-    protected Attribute $attribute;
-
-    #[
-        ORM\ManyToOne(
-            targetEntity: Document::class,
-            cascade: ['persist', 'merge'],
-            fetch: 'EAGER',
-            inversedBy: 'attributeDocuments'
-        ),
-        ORM\JoinColumn(
-            name: 'document_id',
-            referencedColumnName: 'id',
-            nullable: false,
-            onDelete: 'CASCADE'
-        ),
-        SymfonySerializer\Groups(['attribute']),
-    ]
-    protected Document $document;
-
-    public function __construct(Attribute $attribute, Document $document)
+        protected Attribute $attribute, #[
+            ORM\ManyToOne(
+                targetEntity: Document::class,
+                cascade: ['persist', 'merge'],
+                fetch: 'EAGER',
+                inversedBy: 'attributeDocuments'
+            ),
+            ORM\JoinColumn(
+                name: 'document_id',
+                referencedColumnName: 'id',
+                nullable: false,
+                onDelete: 'CASCADE'
+            ),
+            SymfonySerializer\Groups(['attribute']),
+        ]
+        protected Document $document)
     {
-        $this->document = $document;
-        $this->attribute = $attribute;
     }
 
     public function __clone()

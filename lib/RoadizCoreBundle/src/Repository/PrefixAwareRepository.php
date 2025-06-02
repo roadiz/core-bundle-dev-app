@@ -65,6 +65,7 @@ abstract class PrefixAwareRepository extends EntityRepository
         return $this;
     }
 
+    #[\Override]
     protected function prepareComparisons(array &$criteria, QueryBuilder $qb, string $alias): QueryBuilder
     {
         $simpleQB = new SimpleQueryBuilder($qb);
@@ -136,6 +137,7 @@ abstract class PrefixAwareRepository extends EntityRepository
      *
      * @throws \Exception
      */
+    #[\Override]
     public function findBy(
         array $criteria,
         ?array $orderBy = null,
@@ -186,6 +188,7 @@ abstract class PrefixAwareRepository extends EntityRepository
      *
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
+    #[\Override]
     public function findOneBy(
         array $criteria,
         ?array $orderBy = null,
@@ -219,6 +222,7 @@ abstract class PrefixAwareRepository extends EntityRepository
      *
      * @return array<TEntityClass>
      */
+    #[\Override]
     public function searchBy(
         string $pattern,
         array $criteria = [],
@@ -265,6 +269,7 @@ abstract class PrefixAwareRepository extends EntityRepository
         }
     }
 
+    #[\Override]
     public function countSearchBy(string $pattern, array $criteria = []): int
     {
         $qb = $this->createQueryBuilder($this->getDefaultPrefix());
@@ -280,6 +285,7 @@ abstract class PrefixAwareRepository extends EntityRepository
     /**
      * Create a LIKE comparison with entity texts columns.
      */
+    #[\Override]
     protected function classicLikeComparison(
         string $pattern,
         QueryBuilder $qb,

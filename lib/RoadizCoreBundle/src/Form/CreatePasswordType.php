@@ -12,6 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CreatePasswordType extends RepeatedType
 {
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -31,12 +32,11 @@ final class CreatePasswordType extends RepeatedType
                 'label' => 'passwordVerify',
             ],
             'required' => false,
-            'error_mapping' => function (Options $options) {
-                return ['.' => $options['first_name']];
-            },
+            'error_mapping' => fn (Options $options) => ['.' => $options['first_name']],
         ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'repeated';

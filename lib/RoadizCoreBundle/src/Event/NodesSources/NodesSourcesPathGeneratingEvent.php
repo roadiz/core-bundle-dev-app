@@ -11,7 +11,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 final class NodesSourcesPathGeneratingEvent extends Event
 {
-    private ?string $path;
+    private ?string $path = null;
     /**
      * @var bool tells Node Router to prepend request context information to path or not
      */

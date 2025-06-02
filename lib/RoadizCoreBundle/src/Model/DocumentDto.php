@@ -45,12 +45,14 @@ final class DocumentDto implements BaseDocumentInterface
         return $this->id;
     }
 
+    #[\Override]
     public function getFolder(): string
     {
         return $this->folder ?? 'documents';
     }
 
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
+    #[\Override]
     public function getMimeType(): string
     {
         return $this->mimeType;
@@ -81,6 +83,7 @@ final class DocumentDto implements BaseDocumentInterface
     }
 
     #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
+    #[\Override]
     public function getFilename(): string
     {
         return $this->filename ?? '';
@@ -122,6 +125,7 @@ final class DocumentDto implements BaseDocumentInterface
             writable: false,
         )
     ]
+    #[\Override]
     public function getAlternativeText(): string
     {
         return !empty($this->documentTranslationName) ?
@@ -130,6 +134,7 @@ final class DocumentDto implements BaseDocumentInterface
     }
 
     #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
+    #[\Override]
     public function getRelativePath(): ?string
     {
         if ($this->isLocal()) {
@@ -173,6 +178,7 @@ final class DocumentDto implements BaseDocumentInterface
         ) : null;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         if (!empty($this->getFilename())) {

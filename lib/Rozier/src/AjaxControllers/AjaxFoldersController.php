@@ -66,7 +66,7 @@ final class AjaxFoldersController extends AbstractAjaxController
         if ($request->query->has('search') && '' != $request->get('search')) {
             $responseArray = [];
 
-            $pattern = strip_tags($request->get('search'));
+            $pattern = strip_tags((string) $request->get('search'));
             $folders = $this->managerRegistry
                         ->getRepository(Folder::class)
                         ->searchBy(

@@ -33,11 +33,13 @@ final class InstallCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     public function getProjectDir(): string
     {
         return $this->projectDir;
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -45,6 +47,7 @@ final class InstallCommand extends Command
             ->setDescription('Perform Doctrine migrations, install default Roadiz roles, settings and translation.');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

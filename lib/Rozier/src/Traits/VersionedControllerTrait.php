@@ -68,7 +68,7 @@ trait VersionedControllerTrait
                     return $this->getPostUpdateRedirection($entity);
                 }
                 $assignation['revertForm'] = $revertForm->createView();
-            } catch (UnexpectedValueException $e) {
+            } catch (UnexpectedValueException) {
                 throw new ResourceNotFoundException();
             }
         }

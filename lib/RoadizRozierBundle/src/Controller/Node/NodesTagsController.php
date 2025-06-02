@@ -91,16 +91,19 @@ final class NodesTagsController extends AbstractController
         ]);
     }
 
+    #[\Override]
     protected function getNodeFactory(): NodeFactory
     {
         return $this->nodeFactory;
     }
 
+    #[\Override]
     protected function em(): ObjectManager
     {
         return $this->managerRegistry->getManagerForClass(Node::class);
     }
 
+    #[\Override]
     protected function createNamedFormBuilder(
         string $name = 'form',
         mixed $data = null,

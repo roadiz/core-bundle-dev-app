@@ -218,7 +218,7 @@ class DocumentPublicListController extends AbstractController
                     'id' => $documentsIds,
                 ]);
 
-            $folderPaths = explode(',', $data['folderPaths']);
+            $folderPaths = explode(',', (string) $data['folderPaths']);
             $folderPaths = array_filter($folderPaths);
 
             foreach ($folderPaths as $path) {
@@ -270,7 +270,7 @@ class DocumentPublicListController extends AbstractController
                     'id' => $documentsIds,
                 ]);
 
-            $folderPaths = explode(',', $data['folderPaths']);
+            $folderPaths = explode(',', (string) $data['folderPaths']);
             $folderPaths = array_filter($folderPaths);
 
             foreach ($folderPaths as $path) {

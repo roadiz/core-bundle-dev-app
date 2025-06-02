@@ -20,11 +20,13 @@ class OpenIdAccountProvider implements UserProviderInterface
         throw new UserNotFoundException('Cannot load an OpenId account with its email.');
     }
 
+    #[\Override]
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         throw new UserNotFoundException('Cannot load an OpenId account with its email.');
     }
 
+    #[\Override]
     public function refreshUser(UserInterface $user): UserInterface
     {
         if ($user instanceof OpenIdAccount) {
@@ -41,6 +43,7 @@ class OpenIdAccountProvider implements UserProviderInterface
     /**
      * @param class-string $class
      */
+    #[\Override]
     public function supportsClass(string $class): bool
     {
         return OpenIdAccount::class === $class;

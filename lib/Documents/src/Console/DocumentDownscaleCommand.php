@@ -37,6 +37,7 @@ class DocumentDownscaleCommand extends AbstractDocumentCommand
         parent::__construct($managerRegistry, $imageManager, $documentsStorage, $name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('documents:downscale')
@@ -46,6 +47,7 @@ class DocumentDownscaleCommand extends AbstractDocumentCommand
             ->setDescription('Downscale every document according to max pixel size defined in configuration.');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

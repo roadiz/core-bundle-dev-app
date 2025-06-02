@@ -15,6 +15,7 @@ class DocumentFilesizeCommand extends AbstractDocumentCommand
 {
     protected SymfonyStyle $io;
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('documents:file:size')
@@ -22,6 +23,7 @@ class DocumentFilesizeCommand extends AbstractDocumentCommand
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);

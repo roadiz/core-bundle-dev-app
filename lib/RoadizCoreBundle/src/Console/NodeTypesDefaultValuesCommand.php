@@ -23,6 +23,7 @@ final class NodeTypesDefaultValuesCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('nodetypes:default-values')
@@ -34,6 +35,7 @@ final class NodeTypesDefaultValuesCommand extends Command
             );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('name');

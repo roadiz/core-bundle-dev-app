@@ -24,6 +24,7 @@ final class LogsCleanupCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -34,6 +35,7 @@ final class LogsCleanupCommand extends Command
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $now = new \DateTime('now');
@@ -58,7 +60,7 @@ final class LogsCleanupCommand extends Command
 
         try {
             $logs = $qb->getQuery()->getSingleScalarResult();
-        } catch (NoResultException $e) {
+        } catch (NoResultException) {
             $logs = 0;
         }
 
@@ -73,7 +75,7 @@ final class LogsCleanupCommand extends Command
             try {
                 $numDeleted = $qb2->getQuery()->execute();
                 $io->success($numDeleted.' log entries were deleted.');
-            } catch (NoResultException $e) {
+            } catch (NoResultException) {
                 $io->writeln('No log entries were deleted.');
             }
         }

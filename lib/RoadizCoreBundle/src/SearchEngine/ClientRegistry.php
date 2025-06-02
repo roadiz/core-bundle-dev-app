@@ -39,7 +39,7 @@ final readonly class ClientRegistry
             $client->ping($ping);
 
             return true;
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
     }

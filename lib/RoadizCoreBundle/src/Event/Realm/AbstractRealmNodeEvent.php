@@ -9,11 +9,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class AbstractRealmNodeEvent extends Event
 {
-    private RealmNode $realmNode;
-
-    public function __construct(RealmNode $realmNode)
+    public function __construct(private readonly RealmNode $realmNode)
     {
-        $this->realmNode = $realmNode;
     }
 
     public function getRealmNode(): RealmNode

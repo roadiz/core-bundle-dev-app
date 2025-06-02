@@ -18,6 +18,7 @@ final readonly class BackupCodeManager implements BackupCodeManagerInterface
     ) {
     }
 
+    #[\Override]
     public function isBackupCode(object $user, string $code): bool
     {
         if ($user instanceof User) {
@@ -31,6 +32,7 @@ final readonly class BackupCodeManager implements BackupCodeManagerInterface
         return false;
     }
 
+    #[\Override]
     public function invalidateBackupCode(object $user, string $code): void
     {
         if ($user instanceof User) {

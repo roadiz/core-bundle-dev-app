@@ -30,6 +30,7 @@ final class AjaxCustomFormFieldsController extends AjaxAbstractFieldsController
         throw $this->createNotFoundException($this->translator->trans('field.%customFormFieldId%.not_exists', ['%customFormFieldId%' => $customFormFieldId]));
     }
 
+    #[\Override]
     protected function getEntityClass(): string
     {
         return CustomFormField::class;

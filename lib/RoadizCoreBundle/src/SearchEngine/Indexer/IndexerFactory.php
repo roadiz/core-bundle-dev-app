@@ -15,11 +15,8 @@ use RZ\Roadiz\CoreBundle\Entity\Tag;
 
 class IndexerFactory implements IndexerFactoryInterface
 {
-    protected ContainerInterface $serviceLocator;
-
-    public function __construct(ContainerInterface $serviceLocator)
+    public function __construct(protected ContainerInterface $serviceLocator)
     {
-        $this->serviceLocator = $serviceLocator;
     }
 
     /**
@@ -28,6 +25,7 @@ class IndexerFactory implements IndexerFactoryInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     public function getIndexerFor(string $classname): Indexer
     {
         return match ($classname) {

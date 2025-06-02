@@ -20,7 +20,7 @@ use RZ\Roadiz\CoreBundle\Repository\CustomFormFieldAttributeRepository;
     ORM\Index(columns: ['custom_form_answer_id', 'custom_form_field_id'], name: 'cffattribute_answer_field'),
     ORM\HasLifecycleCallbacks
 ]
-class CustomFormFieldAttribute extends AbstractEntity
+class CustomFormFieldAttribute extends AbstractEntity implements \Stringable
 {
     #[
         ORM\ManyToOne(targetEntity: CustomFormAnswer::class, inversedBy: 'answerFields'),
@@ -61,9 +61,7 @@ class CustomFormFieldAttribute extends AbstractEntity
     public function getValue(): ?string
     {
         if ($this->getCustomFormField()->isDocuments()) {
-            return implode(', ', $this->getDocuments()->map(function (Document $document) {
-                return $document->getRelativePath();
-            })->toArray());
+            return implode(', ', $this->getDocuments()->map(fn (Document $document) => $document->getRelativePath())->toArray());
         }
         if ($this->getCustomFormField()->isDate()) {
             return (new \DateTime($this->value))->format('Y-m-d');
@@ -100,6 +98,7 @@ class CustomFormFieldAttribute extends AbstractEntity
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function __toString(): string
     {
         return $this->getValue() ?? '';

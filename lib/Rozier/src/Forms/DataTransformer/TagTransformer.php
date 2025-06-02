@@ -11,11 +11,8 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class TagTransformer implements DataTransformerInterface
 {
-    private ObjectManager $manager;
-
-    public function __construct(ObjectManager $manager)
+    public function __construct(private readonly ObjectManager $manager)
     {
-        $this->manager = $manager;
     }
 
     /**
@@ -23,6 +20,7 @@ class TagTransformer implements DataTransformerInterface
      *
      * @return array|string
      */
+    #[\Override]
     public function transform($tags)
     {
         if (empty($tags)) {
@@ -42,6 +40,7 @@ class TagTransformer implements DataTransformerInterface
      *
      * @return array
      */
+    #[\Override]
     public function reverseTransform($tagIds)
     {
         if (!$tagIds) {

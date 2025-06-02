@@ -49,6 +49,7 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
     ) {
     }
 
+    #[\Override]
     public function applyToCollection(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
@@ -72,6 +73,7 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
             ->orderBy($publicationField, 'DESC');
     }
 
+    #[\Override]
     public function supportsResult(string $resourceClass, ?Operation $operation = null, array $context = []): bool
     {
         if (null === $this->requestStack->getCurrentRequest()) {
@@ -84,6 +86,7 @@ final readonly class ArchiveExtension implements QueryResultCollectionExtensionI
     /**
      * @return iterable<Archive>
      */
+    #[\Override]
     public function getResult(
         QueryBuilder $queryBuilder,
         ?string $resourceClass = null,

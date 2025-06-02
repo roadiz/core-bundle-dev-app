@@ -10,6 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class ImageCropAlignmentType extends AbstractType
 {
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -31,11 +32,13 @@ final class ImageCropAlignmentType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'image_crop_alignment';
     }
 
+    #[\Override]
     public function getParent(): string
     {
         return ChoiceType::class;

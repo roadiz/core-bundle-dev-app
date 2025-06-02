@@ -85,6 +85,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function getMessageType(): ?string
     {
         return $this->messageType;
@@ -97,6 +98,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function getUri(): ?string
     {
         return $this->uri;
@@ -109,6 +111,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function getPayload(): ?array
     {
         return $this->payload;
@@ -121,6 +124,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function getThrottleSeconds(): int
     {
         return $this->throttleSeconds;
@@ -137,6 +141,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function doNotTriggerBefore(): ?\DateTime
     {
         if (null === $this->getLastTriggeredAt()) {
@@ -154,11 +159,13 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function getLastTriggeredAt(): ?\DateTime
     {
         return $this->lastTriggeredAt;
     }
 
+    #[\Override]
     public function setLastTriggeredAt(?\DateTime $lastTriggeredAt): Webhook
     {
         $this->lastTriggeredAt = $lastTriggeredAt;
@@ -166,6 +173,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function isAutomatic(): bool
     {
         return $this->automatic;
@@ -190,6 +198,7 @@ class Webhook extends AbstractDateTimed implements WebhookInterface
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();

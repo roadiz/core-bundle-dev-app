@@ -12,6 +12,7 @@ class TwigLoaderCompilerPass implements CompilerPassInterface
 {
     use PriorityTaggedServiceTrait;
 
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         if ($container->has('twig.loader.native_filesystem')) {

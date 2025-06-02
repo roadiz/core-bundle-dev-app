@@ -10,6 +10,7 @@ use Solarium\Exception\HttpException;
 
 final class FolderIndexer extends DocumentIndexer
 {
+    #[\Override]
     public function index(mixed $id): void
     {
         try {
@@ -44,6 +45,7 @@ final class FolderIndexer extends DocumentIndexer
         }
     }
 
+    #[\Override]
     public function delete(mixed $id): void
     {
         // Just reindex all linked documents to get rid of folder

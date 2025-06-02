@@ -20,16 +20,13 @@ final class RoleEntityType extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'multiple' => false,
-            'choice_label' => function (?Role $choice) {
-                return $choice ? $choice->getRole() : '';
-            },
-            'choice_value' => function (?Role $choice) {
-                return $choice ? $choice->getId() : '';
-            },
+            'choice_label' => fn (?Role $choice) => $choice ? $choice->getRole() : '',
+            'choice_value' => fn (?Role $choice) => $choice ? $choice->getId() : '',
         ]);
 
         $resolver->setNormalizer('choices', function (Options $options, $choices) {
@@ -46,11 +43,13 @@ final class RoleEntityType extends AbstractType
         });
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'role_entity';

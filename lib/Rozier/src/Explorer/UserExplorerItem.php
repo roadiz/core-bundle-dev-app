@@ -16,16 +16,19 @@ final class UserExplorerItem extends AbstractExplorerItem
     ) {
     }
 
+    #[\Override]
     public function getId(): int|string
     {
         return $this->user->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         return $this->user->getEmail();
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         $fullName = trim(
@@ -40,11 +43,13 @@ final class UserExplorerItem extends AbstractExplorerItem
         return $this->user->getUsername();
     }
 
+    #[\Override]
     public function getOriginal(): User
     {
         return $this->user;
     }
 
+    #[\Override]
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('usersEditPage', [

@@ -24,6 +24,7 @@ final class RecaptchaType extends AbstractType
      *
      * @see \Symfony\Component\Form\AbstractType::buildView()
      */
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         $view->vars['configs'] = $options['configs'];
@@ -32,6 +33,7 @@ final class RecaptchaType extends AbstractType
     /**
      * @see \Symfony\Component\Form\AbstractType::configureOptions()
      */
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -44,6 +46,7 @@ final class RecaptchaType extends AbstractType
     /**
      * @see \Symfony\Component\Form\AbstractType::getParent()
      */
+    #[\Override]
     public function getParent(): ?string
     {
         return TextType::class;
@@ -56,6 +59,7 @@ final class RecaptchaType extends AbstractType
      *          <div class="g-recaptcha" data-sitekey="{{ configs.publicKey }}"></div>
      *      {%- endblock recaptcha_widget %}
      */
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'recaptcha';

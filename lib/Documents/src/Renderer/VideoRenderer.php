@@ -23,6 +23,7 @@ class VideoRenderer extends AbstractRenderer
         parent::__construct($documentsStorage, $templating, $documentUrlGenerator, $templateBasePath);
     }
 
+    #[\Override]
     public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return $document->isVideo();
@@ -33,6 +34,7 @@ class VideoRenderer extends AbstractRenderer
      * @throws \Twig\Error\SyntaxError
      * @throws \Twig\Error\LoaderError
      */
+    #[\Override]
     public function render(BaseDocumentInterface $document, array $options): string
     {
         $options = $this->viewOptionsResolver->resolve($options);
@@ -44,7 +46,7 @@ class VideoRenderer extends AbstractRenderer
          * Use a user defined poster url
          */
         if (!empty($options['custom_poster'])) {
-            $assignation['poster'] = trim(strip_tags($options['custom_poster']));
+            $assignation['poster'] = trim(strip_tags((string) $options['custom_poster']));
         } else {
             /*
              * Look for poster with the same args as the video.

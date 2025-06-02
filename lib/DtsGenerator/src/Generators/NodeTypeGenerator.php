@@ -77,15 +77,11 @@ final class NodeTypeGenerator
         $lines[] = 'Publishable: '.$this->generatorFactory->getHumanBool($this->nodeType->isPublishable());
         $lines[] = 'Visible: '.$this->generatorFactory->getHumanBool($this->nodeType->isVisible());
 
-        return implode(PHP_EOL, array_map(function (string $line) {
-            return '// '.$line;
-        }, $lines));
+        return implode(PHP_EOL, array_map(fn (string $line) => '// '.$line, $lines));
     }
 
     protected function getFieldsContents(): string
     {
-        return implode(PHP_EOL, array_map(function (AbstractFieldGenerator $abstractFieldGenerator) {
-            return $abstractFieldGenerator->getContents();
-        }, $this->fieldGenerators));
+        return implode(PHP_EOL, array_map(fn (AbstractFieldGenerator $abstractFieldGenerator) => $abstractFieldGenerator->getContents(), $this->fieldGenerators));
     }
 }

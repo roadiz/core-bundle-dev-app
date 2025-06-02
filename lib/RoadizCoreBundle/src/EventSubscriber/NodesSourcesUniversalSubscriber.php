@@ -17,6 +17,7 @@ final readonly class NodesSourcesUniversalSubscriber implements EventSubscriberI
     {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

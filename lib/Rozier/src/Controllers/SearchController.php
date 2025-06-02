@@ -133,7 +133,7 @@ final class SearchController extends AbstractController
          * no need to prefix tags
          */
         if (isset($data['tags'])) {
-            $data['tags'] = array_map('trim', explode(',', $data['tags']));
+            $data['tags'] = array_map('trim', explode(',', (string) $data['tags']));
             foreach ($data['tags'] as $key => $value) {
                 $data['tags'][$key] = $this->managerRegistry->getRepository(Tag::class)->findByPath($value);
             }
@@ -215,10 +215,8 @@ final class SearchController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = array_filter($form->getData(), function ($value) {
-                return (!is_array($value) && $this->notBlank($value))
-                    || (is_array($value) && isset($value['compareDatetime']));
-            });
+            $data = array_filter($form->getData(), fn ($value) => (!is_array($value) && $this->notBlank($value))
+                || (is_array($value) && isset($value['compareDatetime'])));
             $data = $this->processCriteria($data, $pagination, $itemPerPage);
             $listManager = $this->entityListManagerFactory->createEntityListManager(
                 Node::class,
@@ -404,7 +402,7 @@ final class SearchController extends AbstractController
                 || (is_array($value) && isset($value['compareDate']))
                 || (is_array($value) && [] != $value && !isset($value['compareOp']))
             ) {
-                if (\is_string($key) & \str_contains($key, '__node__')) {
+                if (\is_string($key) & \str_contains((string) $key, '__node__')) {
                     /** @var string $newKey */
                     $newKey = \str_replace('__node__', 'node.', $key);
                     $data[$newKey] = $value;

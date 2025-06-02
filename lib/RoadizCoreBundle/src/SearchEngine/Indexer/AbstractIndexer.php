@@ -36,6 +36,7 @@ abstract class AbstractIndexer implements CliAwareIndexer
         return $solr;
     }
 
+    #[\Override]
     public function setIo(?SymfonyStyle $io): self
     {
         $this->io = $io;
@@ -46,6 +47,7 @@ abstract class AbstractIndexer implements CliAwareIndexer
     /**
      * Empty Solr index.
      */
+    #[\Override]
     public function emptySolr(?string $documentType = null): void
     {
         $update = $this->getSolr()->createUpdate();
@@ -62,6 +64,7 @@ abstract class AbstractIndexer implements CliAwareIndexer
     /**
      * Send an optimize and commit update query to Solr.
      */
+    #[\Override]
     public function optimizeSolr(): void
     {
         $optimizeUpdate = $this->getSolr()->createUpdate();

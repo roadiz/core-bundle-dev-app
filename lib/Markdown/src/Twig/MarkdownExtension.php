@@ -14,14 +14,15 @@ final class MarkdownExtension extends AbstractExtension
     {
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
-            new TwigFilter('markdown', [$this, 'markdown'], ['is_safe' => ['html']]),
-            new TwigFilter('inlineMarkdown', [$this, 'inlineMarkdown'], ['is_safe' => ['html']]),
-            new TwigFilter('inline_markdown', [$this, 'inlineMarkdown'], ['is_safe' => ['html']]),
-            new TwigFilter('markdownExtra', [$this, 'markdownExtra'], ['is_safe' => ['html']]),
-            new TwigFilter('markdown_extra', [$this, 'markdownExtra'], ['is_safe' => ['html']]),
+            new TwigFilter('markdown', $this->markdown(...), ['is_safe' => ['html']]),
+            new TwigFilter('inlineMarkdown', $this->inlineMarkdown(...), ['is_safe' => ['html']]),
+            new TwigFilter('inline_markdown', $this->inlineMarkdown(...), ['is_safe' => ['html']]),
+            new TwigFilter('markdownExtra', $this->markdownExtra(...), ['is_safe' => ['html']]),
+            new TwigFilter('markdown_extra', $this->markdownExtra(...), ['is_safe' => ['html']]),
         ];
     }
 

@@ -53,7 +53,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'name' => 'exact',
     ])
 ]
-class Translation extends AbstractDateTimed implements TranslationInterface
+class Translation extends AbstractDateTimed implements TranslationInterface, \Stringable
 {
     /**
      * Associates locales to pretty languages names.
@@ -642,11 +642,13 @@ class Translation extends AbstractDateTimed implements TranslationInterface
             ($this->isDefaultTranslation() ? ' - Default' : '').PHP_EOL;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
@@ -655,6 +657,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     /**
      * @return $this
      */
+    #[\Override]
     public function setName(?string $name): Translation
     {
         $this->name = $name ?? '';
@@ -662,6 +665,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         return $this;
     }
 
+    #[\Override]
     public function getLocale(): string
     {
         return $this->locale;
@@ -670,6 +674,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     /**
      * @return $this
      */
+    #[\Override]
     public function setLocale(string $locale): Translation
     {
         $this->locale = $locale;
@@ -677,6 +682,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         return $this;
     }
 
+    #[\Override]
     public function isAvailable(): bool
     {
         return $this->available;
@@ -685,6 +691,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     /**
      * @return $this
      */
+    #[\Override]
     public function setAvailable(bool $available): Translation
     {
         $this->available = $available;
@@ -692,6 +699,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         return $this;
     }
 
+    #[\Override]
     public function isDefaultTranslation(): bool
     {
         return $this->defaultTranslation;
@@ -700,6 +708,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     /**
      * @return $this
      */
+    #[\Override]
     public function setDefaultTranslation(bool $defaultTranslation): Translation
     {
         $this->defaultTranslation = $defaultTranslation;
@@ -725,6 +734,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
     /**
      * Gets the value of overrideLocale.
      */
+    #[\Override]
     public function getOverrideLocale(): ?string
     {
         return $this->overrideLocale;
@@ -735,6 +745,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface
      *
      * @param string|null $overrideLocale the override locale
      */
+    #[\Override]
     public function setOverrideLocale(?string $overrideLocale): Translation
     {
         $this->overrideLocale = StringHandler::slugify($overrideLocale);
@@ -751,11 +762,13 @@ class Translation extends AbstractDateTimed implements TranslationInterface
         description: 'Translation ISO 639-1 locale. See https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes',
         example: 'fr',
     )]
+    #[\Override]
     public function getPreferredLocale(): string
     {
         return !empty($this->overrideLocale) ? $this->overrideLocale : $this->locale;
     }
 
+    #[\Override]
     public function isRtl(): bool
     {
         return in_array($this->getLocale(), static::getRightToLeftLocales());

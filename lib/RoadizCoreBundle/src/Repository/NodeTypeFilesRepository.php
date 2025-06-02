@@ -33,6 +33,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
      *
      * @throws \Exception
      */
+    #[\Override]
     public function findAll(): array
     {
         $this->stopwatch->start('NodeTypeFilesRepository::findAll');
@@ -70,6 +71,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function findOneByName(string $name): ?NodeType
     {
         $finder = new Finder();
@@ -78,9 +80,7 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
             throw new \Exception('No files exist in this folder : '.$this->nodeTypesDir);
         }
 
-        $finder->filter(function (\SplFileInfo $file) use ($name) {
-            return $this->supportName($file->getBasename(), $name);
-        });
+        $finder->filter(fn (\SplFileInfo $file) => $this->supportName($file->getBasename(), $name));
 
         $iterator = $finder->getIterator();
         $iterator->rewind();

@@ -96,6 +96,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     #[
         Serializer\Groups(['node_type'])
     ]
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return $this->getNodeType()->getName();
@@ -113,6 +114,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
         return $this;
     }
 
+    #[\Override]
     public function getMinLength(): ?int
     {
         return $this->minLength;
@@ -125,6 +127,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
         return $this;
     }
 
+    #[\Override]
     public function getMaxLength(): ?int
     {
         return $this->maxLength;
@@ -140,6 +143,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     /**
      * Tell if current field can be searched and indexed in a Search engine server.
      */
+    #[\Override]
     public function isSearchable(): bool
     {
         return !$this->excludeFromSearch && in_array($this->getType(), FieldType::searchableTypes());
@@ -157,6 +161,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     /**
      * @return bool $isIndexed
      */
+    #[\Override]
     public function isIndexed(): bool
     {
         // JSON types cannot be indexed
@@ -170,6 +175,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
         return $this;
     }
 
+    #[\Override]
     public function isVisible(): bool
     {
         return $this->visible;
@@ -182,6 +188,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
         return $this;
     }
 
+    #[\Override]
     public function isUniversal(): bool
     {
         return $this->universal;
@@ -224,6 +231,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
         return $this;
     }
 
+    #[\Override]
     public function getSerializationExclusionExpression(): ?string
     {
         return $this->serializationExclusionExpression;
@@ -236,6 +244,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
         return $this;
     }
 
+    #[\Override]
     public function getSerializationGroups(): array
     {
         return array_filter($this->serializationGroups ?? []);
@@ -254,6 +263,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
         return $this;
     }
 
+    #[\Override]
     public function getSerializationMaxDepth(): ?int
     {
         return $this->serializationMaxDepth;
@@ -266,6 +276,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
         return $this;
     }
 
+    #[\Override]
     public function isExcludedFromSerialization(): bool
     {
         return $this->excludedFromSerialization;

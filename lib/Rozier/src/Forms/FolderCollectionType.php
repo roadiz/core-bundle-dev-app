@@ -21,6 +21,7 @@ final class FolderCollectionType extends AbstractType
     {
     }
 
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
@@ -28,6 +29,7 @@ final class FolderCollectionType extends AbstractType
         $view->vars['provider_class'] = FoldersProvider::class;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -38,6 +40,7 @@ final class FolderCollectionType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new FolderCollectionTransformer(
@@ -46,11 +49,13 @@ final class FolderCollectionType extends AbstractType
         ));
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return TextType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'folders';

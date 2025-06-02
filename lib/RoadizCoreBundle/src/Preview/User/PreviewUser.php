@@ -14,6 +14,7 @@ final readonly class PreviewUser implements UserInterface
     ) {
     }
 
+    #[\Override]
     public function getRoles(): array
     {
         return $this->roles;
@@ -29,6 +30,7 @@ final readonly class PreviewUser implements UserInterface
         throw new \BadMethodCallException('Preview user does not have a password salt');
     }
 
+    #[\Override]
     public function eraseCredentials(): void
     {
         throw new \BadMethodCallException('Preview user cannot erase its credentials');
@@ -39,6 +41,7 @@ final readonly class PreviewUser implements UserInterface
         return $this->username;
     }
 
+    #[\Override]
     public function getUserIdentifier(): string
     {
         return $this->username;

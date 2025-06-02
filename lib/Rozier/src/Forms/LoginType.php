@@ -19,15 +19,11 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 class LoginType extends AbstractType
 {
-    protected UrlGeneratorInterface $urlGenerator;
-    protected RequestStack $requestStack;
-
-    public function __construct(UrlGeneratorInterface $urlGenerator, RequestStack $requestStack)
+    public function __construct(protected UrlGeneratorInterface $urlGenerator, protected RequestStack $requestStack)
     {
-        $this->urlGenerator = $urlGenerator;
-        $this->requestStack = $requestStack;
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('_username', TextType::class, [
@@ -65,13 +61,13 @@ class LoginType extends AbstractType
         }
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
-        $resolver->setNormalizer('action', function (Options $options) {
-            return $this->urlGenerator->generate('loginCheckPage');
-        });
+        $resolver->setNormalizer('action', fn (Options $options) => $this->urlGenerator->generate('loginCheckPage'));
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         /*

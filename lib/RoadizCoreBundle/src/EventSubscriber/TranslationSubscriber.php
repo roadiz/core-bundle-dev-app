@@ -24,6 +24,7 @@ final readonly class TranslationSubscriber implements EventSubscriberInterface
     {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

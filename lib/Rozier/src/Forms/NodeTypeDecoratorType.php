@@ -24,6 +24,7 @@ final class NodeTypeDecoratorType extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -35,9 +36,7 @@ final class NodeTypeDecoratorType extends AbstractType
                     $data = $builder->getData();
                     $field = $this->getExplodedPath($data->getPath())['field'] ?? null;
 
-                    return array_filter(NodeTypeDecoratorProperty::cases(), function (NodeTypeDecoratorProperty $property) use ($field) {
-                        return (null !== $field) ? !$property->isNodeTypeProperty() : $property->isNodeTypeProperty();
-                    });
+                    return array_filter(NodeTypeDecoratorProperty::cases(), fn (NodeTypeDecoratorProperty $property) => (null !== $field) ? !$property->isNodeTypeProperty() : $property->isNodeTypeProperty());
                 }),
                 'choice_label' => fn (NodeTypeDecoratorProperty $property) => 'nodeTypeDecorator.property.'.$property->value,
                 'label' => 'nodeTypeDecorator.property',
@@ -48,11 +47,13 @@ final class NodeTypeDecoratorType extends AbstractType
         ;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'nodetypedecorator';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

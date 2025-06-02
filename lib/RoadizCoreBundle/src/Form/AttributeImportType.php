@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints\File;
 
 final class AttributeImportType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('file', FileType::class, [

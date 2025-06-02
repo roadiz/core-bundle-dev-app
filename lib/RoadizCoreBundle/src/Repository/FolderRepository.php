@@ -174,6 +174,7 @@ final class FolderRepository extends EntityRepository
      * @param array        $criteria Additional criteria
      * @param string       $alias    SQL query table alias
      */
+    #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
@@ -204,6 +205,7 @@ final class FolderRepository extends EntityRepository
      * @throws \Doctrine\ORM\NoResultException
      * @throws NonUniqueResultException
      */
+    #[\Override]
     public function countSearchBy(string $pattern, array $criteria = [], string $alias = 'obj'): int
     {
         $qb = $this->createQueryBuilder($alias);

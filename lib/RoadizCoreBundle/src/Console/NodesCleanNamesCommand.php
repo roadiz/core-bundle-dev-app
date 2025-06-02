@@ -25,6 +25,7 @@ final class NodesCleanNamesCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('nodes:clean-names')
@@ -44,6 +45,7 @@ final class NodesCleanNamesCommand extends Command
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $entityManager = $this->managerRegistry->getManagerForClass(Node::class);

@@ -39,11 +39,13 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RoadizCoreExtension extends Extension
 {
+    #[\Override]
     public function getAlias(): string
     {
         return 'roadiz_core';
     }
 
+    #[\Override]
     public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/../config'));
@@ -83,7 +85,7 @@ class RoadizCoreExtension extends Extension
         $projectDir = $container->getParameter('kernel.project_dir');
         $container->setParameter(
             'roadiz_core.documents_lib_dir',
-            $projectDir.DIRECTORY_SEPARATOR.trim($config['documentsLibDir'], "/ \t\n\r\0\x0B")
+            $projectDir.DIRECTORY_SEPARATOR.trim((string) $config['documentsLibDir'], "/ \t\n\r\0\x0B")
         );
         /*
          * Media config
@@ -241,9 +243,7 @@ class RoadizCoreExtension extends Extension
                         new Reference(EventDispatcherInterface::class),
                     ])
                     ->addMethodCall('registerPlugin', ['roadiz_core.solr.client.logger', $logger])
-                    ->addMethodCall('setEndpoints', [array_map(function (string $endpointId) {
-                        return new Reference($endpointId);
-                    }, $solrEndpoints)])
+                    ->addMethodCall('setEndpoints', [array_map(fn (string $endpointId) => new Reference($endpointId), $solrEndpoints)])
             );
         }
         $container->setParameter('roadiz_core.solr.clients', $solrEndpoints);

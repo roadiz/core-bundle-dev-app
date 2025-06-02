@@ -12,6 +12,7 @@ final class NodesSourcesBreadcrumbsFactory implements BreadcrumbsFactoryInterfac
     /*
      * Loop over parents and create a Breadcrumbs object with only visible nodes.
      */
+    #[\Override]
     public function create(?PersistableInterface $entity, bool $onlyVisible = true): ?BreadcrumbsInterface
     {
         if (!$entity instanceof NodesSources) {

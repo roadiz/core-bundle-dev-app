@@ -95,9 +95,7 @@ final class DocumentEditController extends AbstractController
                     'documentsEditPage',
                     $routeParams
                 );
-            } catch (FilesystemException $exception) {
-                $form->get('filename')->addError(new FormError($exception->getMessage()));
-            } catch (FileException $exception) {
+            } catch (FilesystemException|FileException $exception) {
                 $form->get('filename')->addError(new FormError($exception->getMessage()));
             }
         }

@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Webhook\WebhookInterface;
 
 final class WebhookMessageFactory implements WebhookMessageFactoryInterface
 {
+    #[\Override]
     public function createMessage(WebhookInterface $webhook): HttpRequestMessageInterface
     {
         if (null === $webhook->getMessageType()) {

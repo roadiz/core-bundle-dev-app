@@ -37,16 +37,19 @@ class UsersController extends AbstractAdminWithBulkController
         parent::__construct($formFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
+    #[\Override]
     protected function supports(PersistableInterface $item): bool
     {
         return $item instanceof User;
     }
 
+    #[\Override]
     protected function getNamespace(): string
     {
         return 'user';
     }
 
+    #[\Override]
     protected function createEmptyItem(Request $request): User
     {
         $user = new User();
@@ -55,16 +58,19 @@ class UsersController extends AbstractAdminWithBulkController
         return $user;
     }
 
+    #[\Override]
     protected function getTemplateFolder(): string
     {
         return '@RoadizRozier/users';
     }
 
+    #[\Override]
     protected function getRequiredRole(): string
     {
         return 'ROLE_ACCESS_USERS';
     }
 
+    #[\Override]
     protected function getRequiredEditionRole(): string
     {
         // Allow any backoffice user to access user edition before
@@ -72,36 +78,43 @@ class UsersController extends AbstractAdminWithBulkController
         return 'ROLE_BACKEND_USER';
     }
 
+    #[\Override]
     protected function getRequiredDeletionRole(): string
     {
         return 'ROLE_ACCESS_USERS_DELETE';
     }
 
+    #[\Override]
     protected function getEntityClass(): string
     {
         return User::class;
     }
 
+    #[\Override]
     protected function getFormType(): string
     {
         return UserType::class;
     }
 
+    #[\Override]
     protected function getDefaultRouteName(): string
     {
         return 'usersHomePage';
     }
 
+    #[\Override]
     protected function getEditRouteName(): string
     {
         return 'usersEditPage';
     }
 
+    #[\Override]
     protected function getBulkDeleteRouteName(): ?string
     {
         return 'usersBulkDeletePage';
     }
 
+    #[\Override]
     protected function denyAccessUnlessItemGranted(PersistableInterface $item): void
     {
         parent::denyAccessUnlessItemGranted($item);
@@ -123,6 +136,7 @@ class UsersController extends AbstractAdminWithBulkController
         }
     }
 
+    #[\Override]
     protected function getEntityName(PersistableInterface $item): string
     {
         if (!$item instanceof User) {
@@ -132,11 +146,13 @@ class UsersController extends AbstractAdminWithBulkController
         return $item->getUsername();
     }
 
+    #[\Override]
     protected function getDefaultOrder(Request $request): array
     {
         return ['username' => 'ASC'];
     }
 
+    #[\Override]
     protected function createUpdateEvent(PersistableInterface $item)
     {
         if (!$item instanceof User) {
@@ -214,6 +230,7 @@ class UsersController extends AbstractAdminWithBulkController
         );
     }
 
+    #[\Override]
     protected function additionalAssignation(Request $request): void
     {
         parent::additionalAssignation($request);
@@ -272,11 +289,9 @@ class UsersController extends AbstractAdminWithBulkController
             $this->getRequiredRole(),
             $this->createEnableBulkForm(true),
             $this->createEnableBulkForm(),
-            function (string $ids) {
-                return $this->createEnableBulkForm(false, [
-                    'id' => $ids,
-                ]);
-            },
+            fn (string $ids) => $this->createEnableBulkForm(false, [
+                'id' => $ids,
+            ]),
             $this->getTemplateFolder().'/bulk_enable.html.twig',
             '%namespace%.%item%.was_enabled',
             function (PersistableInterface $item) {
@@ -296,11 +311,9 @@ class UsersController extends AbstractAdminWithBulkController
             $this->getRequiredRole(),
             $this->createDisableBulkForm(true),
             $this->createDisableBulkForm(),
-            function (string $ids) {
-                return $this->createDisableBulkForm(false, [
-                    'id' => $ids,
-                ]);
-            },
+            fn (string $ids) => $this->createDisableBulkForm(false, [
+                'id' => $ids,
+            ]),
             $this->getTemplateFolder().'/bulk_disable.html.twig',
             '%namespace%.%item%.was_disabled',
             function (PersistableInterface $item) {

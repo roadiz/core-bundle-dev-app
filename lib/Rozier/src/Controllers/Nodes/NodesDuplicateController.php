@@ -63,7 +63,7 @@ final class NodesDuplicateController extends AbstractController
                 'nodesEditPage',
                 ['nodeId' => $newNode->getId()]
             );
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->logTrail->publishErrorMessage(
                 $request,
                 $this->translator->trans('impossible.duplicate.node.%name%', [

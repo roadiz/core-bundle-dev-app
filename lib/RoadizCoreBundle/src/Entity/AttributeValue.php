@@ -73,11 +73,13 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
      * to perform a custom serialization
      */
     #[SymfonySerializer\Groups(['position', 'attribute', 'node_attributes'])]
+    #[\Override]
     public function getPosition(): float
     {
         return $this->position;
     }
 
+    #[\Override]
     public function getAttributable(): Node
     {
         return $this->node;
@@ -86,6 +88,7 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
     /**
      * @return $this
      */
+    #[\Override]
     public function setAttributable(?AttributableInterface $attributable): self
     {
         if ($attributable instanceof Node) {
@@ -108,11 +111,13 @@ class AttributeValue extends AbstractPositioned implements AttributeValueInterfa
         return $this;
     }
 
+    #[\Override]
     public function getRealm(): ?RealmInterface
     {
         return $this->realm;
     }
 
+    #[\Override]
     public function setRealm(?RealmInterface $realm): AttributeValue
     {
         $this->realm = $realm;

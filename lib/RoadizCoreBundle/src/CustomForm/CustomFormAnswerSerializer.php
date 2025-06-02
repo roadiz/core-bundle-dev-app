@@ -28,11 +28,9 @@ final readonly class CustomFormAnswerSerializer
         foreach ($answer->getAnswerFields() as $answerAttr) {
             $field = $answerAttr->getCustomFormField();
             if ($field->isDocuments()) {
-                $answers[$field->getLabel()] = implode(PHP_EOL, $answerAttr->getDocuments()->map(function (Document $document) {
-                    return $this->urlGenerator->generate('documentsDownloadPage', [
-                        'documentId' => $document->getId(),
-                    ], UrlGeneratorInterface::ABSOLUTE_URL);
-                })->toArray());
+                $answers[$field->getLabel()] = implode(PHP_EOL, $answerAttr->getDocuments()->map(fn (Document $document) => $this->urlGenerator->generate('documentsDownloadPage', [
+                    'documentId' => $document->getId(),
+                ], UrlGeneratorInterface::ABSOLUTE_URL))->toArray());
             } else {
                 $answers[$field->getLabel()] = $answerAttr->getValue();
             }

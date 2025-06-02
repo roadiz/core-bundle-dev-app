@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 final class LocaleFilter extends GeneratedEntityFilter
 {
-    public const PROPERTY = '_locale';
+    public const string PROPERTY = '_locale';
 
     public function __construct(
         private readonly PreviewResolverInterface $previewResolver,
@@ -31,6 +31,7 @@ final class LocaleFilter extends GeneratedEntityFilter
         parent::__construct($managerRegistry, $logger, $properties, $nameConverter, $generatedEntityNamespacePattern);
     }
 
+    #[\Override]
     protected function filterProperty(
         string $property,
         mixed $value,
@@ -100,6 +101,7 @@ final class LocaleFilter extends GeneratedEntityFilter
      *   - swagger (optional): additional parameters for the path operation, e.g. 'swagger' => ['description' => 'My Description']
      * The description can contain additional data specific to a filter.
      */
+    #[\Override]
     public function getDescription(string $resourceClass): array
     {
         $supportedLocales = $this->managerRegistry->getRepository(Translation::class)->getAvailableLocales();

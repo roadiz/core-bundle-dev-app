@@ -19,6 +19,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -96,9 +97,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
 
                     return $event->getSolariumDocument()->cleanTextContent($tagName, false);
                 },
-                $nodeSource->getNode()->getTags()->filter(function (Tag $tag) {
-                    return $tag->isVisible();
-                })->toArray()
+                $nodeSource->getNode()->getTags()->filter(fn (Tag $tag) => $tag->isVisible())->toArray()
             );
             $out = array_filter(array_unique($out));
             // Use tags_txt to be compatible with other data types
@@ -110,47 +109,33 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
              * `all_tags_slugs_ss` can store all tags, even technical one, this fields should not user searchable.
              */
             $allOut = array_map(
-                function (Tag $tag) {
-                    return $tag->getTagName();
-                },
+                fn (Tag $tag) => $tag->getTagName(),
                 $nodeSource->getNode()->getTags()->toArray()
             );
             $allOut = array_filter(array_unique($allOut));
             // Use all_tags_slugs_ss to be compatible with other data types
             $assoc['all_tags_slugs_ss'] = $allOut;
 
-            $booleanFields = $nodeType->getFields()->filter(function (NodeTypeField $field) {
-                return $field->isBoolean();
-            });
+            $booleanFields = $nodeType->getFields()->filter(fn (NodeTypeField $field) => $field->isBoolean());
             $this->indexSuffixedFields($booleanFields, '_b', $nodeSource, $assoc);
 
-            $numberFields = $nodeType->getFields()->filter(function (NodeTypeField $field) {
-                return $field->isInteger();
-            });
+            $numberFields = $nodeType->getFields()->filter(fn (NodeTypeField $field) => $field->isInteger());
             $this->indexSuffixedFields($numberFields, '_i', $nodeSource, $assoc);
 
-            $decimalFields = $nodeType->getFields()->filter(function (NodeTypeField $field) {
-                return $field->isDecimal();
-            });
+            $decimalFields = $nodeType->getFields()->filter(fn (NodeTypeField $field) => $field->isDecimal());
             $this->indexSuffixedFields($decimalFields, '_f', $nodeSource, $assoc);
 
-            $stringFields = $nodeType->getFields()->filter(function (NodeTypeField $field) {
-                return $field->isEnum() || $field->isCountry() || $field->isColor() || $field->isEmail();
-            });
+            $stringFields = $nodeType->getFields()->filter(fn (NodeTypeField $field) => $field->isEnum() || $field->isCountry() || $field->isColor() || $field->isEmail());
             $this->indexSuffixedFields($stringFields, '_s', $nodeSource, $assoc);
 
-            $dateTimeFields = $nodeType->getFields()->filter(function (NodeTypeField $field) {
-                return $field->isDate() || $field->isDateTime();
-            });
+            $dateTimeFields = $nodeType->getFields()->filter(fn (NodeTypeField $field) => $field->isDate() || $field->isDateTime());
             $this->indexSuffixedFields($dateTimeFields, '_dt', $nodeSource, $assoc);
 
             /*
              * Make sure your Solr managed-schema has a field named `*_p` with type `location` singleValued
              * <dynamicField name="*_p" type="location" indexed="true" stored="true" multiValued="false"/>
              */
-            $pointFields = $nodeType->getFields()->filter(function (NodeTypeField $field) {
-                return $field->isGeoTag();
-            });
+            $pointFields = $nodeType->getFields()->filter(fn (NodeTypeField $field) => $field->isGeoTag());
             foreach ($pointFields as $field) {
                 $name = $field->getName();
                 $name .= '_p';
@@ -163,9 +148,7 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
              * Make sure your Solr managed-schema has a field named `*_ps` with type `location` multiValued
              * <dynamicField name="*_ps" type="location" indexed="true" stored="true" multiValued="true"/>
              */
-            $multiPointFields = $nodeType->getFields()->filter(function (NodeTypeField $field) {
-                return $field->isMultiGeoTag();
-            });
+            $multiPointFields = $nodeType->getFields()->filter(fn (NodeTypeField $field) => $field->isMultiGeoTag());
             foreach ($multiPointFields as $field) {
                 $name = $field->getName();
                 $name .= '_ps';

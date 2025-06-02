@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     UniqueEntity('email'),
     UniqueEntity('username')
 ]
-class User extends AbstractHuman implements UserInterface, AdvancedUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface
+class User extends AbstractHuman implements UserInterface, AdvancedUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
     /**
      * Email confirmation link TTL (in seconds) to change
@@ -201,6 +201,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     #[Serializer\SerializedName('identifier')]
     #[Serializer\Groups(['user_identifier', 'user_personal'])]
+    #[\Override]
     public function getUserIdentifier(): string
     {
         return $this->username;
@@ -247,6 +248,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * @return string $password
      */
+    #[\Override]
     public function getPassword(): string
     {
         return $this->password;
@@ -415,6 +417,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Removes sensitive data from the user.
      */
+    #[\Override]
     public function eraseCredentials(): User
     {
         return $this->setPlainPassword('');
@@ -482,6 +485,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * @see AccountExpiredException
      */
     #[Serializer\Groups(['user_security'])]
+    #[\Override]
     public function isAccountNonExpired(): bool
     {
         return null === $this->expiresAt || $this->expiresAt->getTimestamp() > time();
@@ -498,6 +502,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * @see LockedException
      */
     #[Serializer\Groups(['user_security'])]
+    #[\Override]
     public function isAccountNonLocked(): bool
     {
         return !$this->locked;
@@ -569,6 +574,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * @return string $text
      */
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();
@@ -584,6 +590,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      *
      * @see DisabledException
      */
+    #[\Override]
     public function isEnabled(): bool
     {
         return $this->enabled;
@@ -609,6 +616,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * @see CredentialsExpiredException
      */
     #[Serializer\Ignore]
+    #[\Override]
     public function isCredentialsNonExpired(): bool
     {
         return null === $this->credentialsExpiresAt || $this->credentialsExpiresAt->getTimestamp() > time();
@@ -633,6 +641,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      */
     #[Serializer\SerializedName('roles')]
     #[Serializer\Groups(['user_role'])]
+    #[\Override]
     public function getRoles(): array
     {
         if (null === $this->roles) {
@@ -730,6 +739,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * Every field tested in this methods must be serialized in token.
      */
     #[Serializer\Ignore]
+    #[\Override]
     public function isEqualTo(UserInterface $user): bool
     {
         if (!$user instanceof User) {

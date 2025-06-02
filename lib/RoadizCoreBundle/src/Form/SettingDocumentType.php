@@ -24,6 +24,7 @@ final class SettingDocumentType extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new CallbackTransformer(
@@ -59,6 +60,7 @@ final class SettingDocumentType extends AbstractType
         ));
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return FileType::class;

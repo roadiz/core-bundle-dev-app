@@ -25,16 +25,16 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 #[Exclude]
-final class CustomFormHelper
+final readonly class CustomFormHelper
 {
-    public const ARRAY_SEPARATOR = ', ';
+    public const string ARRAY_SEPARATOR = ', ';
 
     public function __construct(
-        private readonly ObjectManager $em,
-        private readonly CustomForm $customForm,
-        private readonly AbstractDocumentFactory $documentFactory,
-        private readonly FormFactoryInterface $formFactory,
-        private readonly EventDispatcherInterface $eventDispatcher,
+        private ObjectManager $em,
+        private CustomForm $customForm,
+        private AbstractDocumentFactory $documentFactory,
+        private FormFactoryInterface $formFactory,
+        private EventDispatcherInterface $eventDispatcher,
     ) {
     }
 
@@ -101,11 +101,9 @@ final class CustomFormHelper
                     $formField = $formGroup->get($customFormField->getName());
                     $fieldAttr = $this->getAttribute($answer, $customFormField);
                 }
-            } else {
-                if ($form->has($customFormField->getName())) {
-                    $formField = $form->get($customFormField->getName());
-                    $fieldAttr = $this->getAttribute($answer, $customFormField);
-                }
+            } elseif ($form->has($customFormField->getName())) {
+                $formField = $form->get($customFormField->getName());
+                $fieldAttr = $this->getAttribute($answer, $customFormField);
             }
 
             if (null !== $formField) {

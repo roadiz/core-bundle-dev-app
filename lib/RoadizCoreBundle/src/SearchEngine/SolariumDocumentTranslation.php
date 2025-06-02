@@ -30,11 +30,13 @@ class SolariumDocumentTranslation extends AbstractSolarium
         parent::__construct($clientRegistry, $searchEngineLogger, $markdown);
     }
 
+    #[\Override]
     public function getDocumentId(): int|string
     {
         return $this->documentTranslation->getId();
     }
 
+    #[\Override]
     public function getFieldsAssoc(bool $subResource = false): array
     {
         $event = new DocumentTranslationIndexingEvent($this->documentTranslation, [], $this);
@@ -47,6 +49,7 @@ class SolariumDocumentTranslation extends AbstractSolarium
     /**
      * Remove any document linked to current node-source.
      */
+    #[\Override]
     public function clean(Query $update): bool
     {
         $update->addDeleteQuery(
@@ -58,9 +61,10 @@ class SolariumDocumentTranslation extends AbstractSolarium
         return true;
     }
 
+    #[\Override]
     protected function getIdempotentIdentifier(): string
     {
-        $namespace = explode('\\', get_class($this->documentTranslation));
+        $namespace = explode('\\', $this->documentTranslation::class);
         // get last 3 parts of namespace
         $namespace = array_slice($namespace, -3);
 

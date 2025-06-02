@@ -17,6 +17,7 @@ final readonly class AssetsCacheEventSubscriber implements EventSubscriberInterf
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
