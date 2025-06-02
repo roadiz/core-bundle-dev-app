@@ -38,6 +38,9 @@ jobs:
             - name: Validate monorepo
               run: |
                   vendor/bin/monorepo-builder validate
+            - name: Run rector
+              run: |
+                  php -d "memory_limit=-1" vendor/bin/rector process --dry-run
             - name: Run unit tests
               run: |
                   XDEBUG_MODE=coverage vendor/bin/phpunit -v
