@@ -282,6 +282,7 @@ final class EntityGenerator implements EntityGeneratorInterface
     {
         $classType->addMethod('getNodeTypeName')
             ->setReturnType('string')
+            ->addAttribute('Override')
             ->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [['nodes_sources', 'nodes_sources_default']])
             ->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
                 'serializedName' => '@type',
@@ -291,6 +292,7 @@ final class EntityGenerator implements EntityGeneratorInterface
 
         $classType->addMethod('getNodeTypeColor')
             ->setReturnType('string')
+            ->addAttribute('Override')
             ->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [['node_type']])
             ->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
                 'serializedName' => 'nodeTypeColor',
@@ -301,6 +303,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $classType->addMethod('isReachable')
             ->addComment('$this->nodeType->isReachable() proxy.')
             ->addComment('@return bool Does this nodeSource is reachable over network?')
+            ->addAttribute('Override')
             ->setReturnType('bool')
             ->setBody('return '.($this->nodeType->isReachable() ? 'true' : 'false').';')
         ;
@@ -308,12 +311,14 @@ final class EntityGenerator implements EntityGeneratorInterface
         $classType->addMethod('isPublishable')
             ->addComment('$this->nodeType->isPublishable() proxy.')
             ->addComment('@return bool Does this nodeSource is publishable with date and time?')
+            ->addAttribute('Override')
             ->setReturnType('bool')
             ->setBody('return '.($this->nodeType->isPublishable() ? 'true' : 'false').';')
         ;
 
         $classType->addMethod('__toString')
             ->setReturnType('string')
+            ->addAttribute('Override')
             ->setBody('return \'['.$this->nodeType->getSourceEntityClassName().'] \' . parent::__toString();')
         ;
 

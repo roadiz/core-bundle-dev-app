@@ -997,6 +997,7 @@ class NSMock extends NodesSources
         $this->fooManyToManyProxiedProxy = $fooManyToManyProxiedProxyClone;
     }
 
+    #[\Override]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
     public function getNodeTypeName(): string
@@ -1004,6 +1005,7 @@ class NSMock extends NodesSources
         return 'Mock';
     }
 
+    #[\Override]
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
     public function getNodeTypeColor(): string
@@ -1015,6 +1017,7 @@ class NSMock extends NodesSources
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
      */
+    #[\Override]
     public function isReachable(): bool
     {
         return true;
@@ -1024,11 +1027,13 @@ class NSMock extends NodesSources
      * $this->nodeType->isPublishable() proxy.
      * @return bool Does this nodeSource is publishable with date and time?
      */
+    #[\Override]
     public function isPublishable(): bool
     {
         return true;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return '[NSMock] ' . parent::__toString();
