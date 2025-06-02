@@ -15,7 +15,7 @@
         "php": ">=8.2",
         "ext-json": "*",
         "nette/php-generator": "^4.1",
-        "roadiz/nodetype-contracts": "^2.0.0",
+        "roadiz/nodetype-contracts": "^3.0.0",
         "symfony/string": "6.4.*",
         "symfony/yaml": "6.4.*",
         "symfony/serializer": "6.4.*",
