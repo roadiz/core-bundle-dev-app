@@ -89,6 +89,7 @@ final class NodeTypeConfiguration implements ConfigurationInterface
                     ->booleanNode('indexed')->defaultFalse()->end()
                     ->booleanNode('visible')->defaultTrue()->end()
                     ->booleanNode('expanded')->defaultFalse()->end()
+                    ->booleanNode('required')->defaultFalse()->end()
                     ->variableNode('defaultValues')->end()
                     ->arrayNode('normalizationContext')
                         ->children()

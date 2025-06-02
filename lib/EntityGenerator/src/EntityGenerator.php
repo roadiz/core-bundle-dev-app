@@ -169,6 +169,7 @@ final class EntityGenerator implements EntityGeneratorInterface
             ->addUse('RZ\Roadiz\CoreBundle\Entity\Translation')
             ->addUse('RZ\Roadiz\CoreBundle\Entity\UserLogEntry')
             ->addUse('Symfony\Component\Serializer\Attribute', 'Serializer')
+            ->addUse('Symfony\Component\Validator\Constraints', 'Assert')
         ;
 
         $classType = $namespace->addClass($this->nodeType->getSourceEntityClassName())

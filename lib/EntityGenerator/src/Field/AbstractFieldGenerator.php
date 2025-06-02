@@ -11,6 +11,7 @@ use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\SerializableInterface;
+use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use Symfony\Component\String\UnicodeString;
 
 abstract class AbstractFieldGenerator
@@ -156,6 +157,22 @@ abstract class AbstractFieldGenerator
                     'normalizationContext' => $this->getNormalizationContext(),
                     'groups' => $this->getSerializationGroups(),
                 ]);
+            }
+        }
+
+        if ($this->field->isRequired() && (!$this->field->isVirtual() || in_array($this->field->getType(), [FieldType::MANY_TO_MANY_T, FieldType::MANY_TO_ONE_T]))) {
+            if ($this->field->isManyToMany()
+                || $this->field->isCollection()
+                || $this->field->isMultiple()
+            ) {
+                $property->addAttribute('Symfony\Component\Validator\Constraints\Count', [
+                    'min' => 1,
+                ]);
+                $property->addAttribute('Symfony\Component\Validator\Constraints\NotNull');
+            } elseif ($this->field->isBool()) {
+                $property->addAttribute('Symfony\Component\Validator\Constraints\IsTrue');
+            } else {
+                $property->addAttribute('Symfony\Component\Validator\Constraints\NotBlank');
             }
         }
 
