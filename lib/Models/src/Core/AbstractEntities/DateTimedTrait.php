@@ -51,7 +51,7 @@ trait DateTimedTrait
         return $this;
     }
 
-    protected function initAbstractDateTimed(): void
+    protected function initDateTimedTrait(): void
     {
         $this->setUpdatedAt(new \DateTime('now'));
         $this->setCreatedAt(new \DateTime('now'));

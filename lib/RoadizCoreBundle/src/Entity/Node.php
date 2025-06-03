@@ -332,7 +332,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         $this->aNodes = new ArrayCollection();
         $this->bNodes = new ArrayCollection();
         $this->attributeValues = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**

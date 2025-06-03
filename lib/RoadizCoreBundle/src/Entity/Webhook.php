@@ -64,6 +64,11 @@ class Webhook implements WebhookInterface
     #[SymfonySerializer\Ignore]
     protected ?Node $rootNode = null;
 
+    public function __construct()
+    {
+        $this->initDateTimedTrait();
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;

@@ -627,7 +627,7 @@ class Translation implements TranslationInterface
         $this->tagTranslations = new ArrayCollection();
         $this->folderTranslations = new ArrayCollection();
         $this->documentTranslations = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**

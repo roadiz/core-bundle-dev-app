@@ -206,7 +206,7 @@ class Tag implements DateTimedInterface, LeafInterface, PersistableInterface, \S
         $this->nodesTags = new ArrayCollection();
         $this->translatedTags = new ArrayCollection();
         $this->children = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**

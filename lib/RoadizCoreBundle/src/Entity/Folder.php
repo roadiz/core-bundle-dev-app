@@ -132,7 +132,7 @@ class Folder implements DateTimedInterface, FolderInterface, LeafInterface, Pers
         $this->children = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->translatedFolders = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**

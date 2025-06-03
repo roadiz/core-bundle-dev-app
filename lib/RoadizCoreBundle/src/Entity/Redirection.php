@@ -113,7 +113,7 @@ class Redirection implements DateTimedInterface, PersistableInterface
     public function __construct()
     {
         $this->type = Response::HTTP_MOVED_PERMANENTLY;
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     public function getUseCount(): int

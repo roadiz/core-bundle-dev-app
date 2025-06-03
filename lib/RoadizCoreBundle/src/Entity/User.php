@@ -158,7 +158,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         $this->roleEntities = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->sendCreationConfirmationEmail(false);
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**

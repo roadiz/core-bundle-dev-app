@@ -136,7 +136,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
         $this->fields = new ArrayCollection();
         $this->customFormAnswers = new ArrayCollection();
         $this->nodes = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     public function getDisplayName(): string

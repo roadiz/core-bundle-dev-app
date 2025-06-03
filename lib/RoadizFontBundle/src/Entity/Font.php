@@ -136,7 +136,7 @@ class Font implements DateTimedInterface, PersistableInterface
     public function __construct()
     {
         $this->folder = \mb_substr(hash('crc32b', date('YmdHi')), 0, 12);
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**

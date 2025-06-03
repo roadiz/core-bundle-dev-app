@@ -304,7 +304,7 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
 
     public function __construct()
     {
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
         $this->initDocumentTrait();
 
         $this->folders = new ArrayCollection();
