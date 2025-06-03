@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
@@ -55,14 +54,13 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
         /*
          * Try nodes routes
          */
-        return $this->matchNode($decodedUrl, null);
+        return $this->matchNode($decodedUrl);
     }
 
-    protected function getNodeRouteHelper(NodesSources $nodeSource, ?Theme $theme): NodeRouteHelper
+    protected function getNodeRouteHelper(NodesSources $nodeSource): NodeRouteHelper
     {
         return new NodeRouteHelper(
             $nodeSource->getNode(),
-            $theme,
             $this->previewResolver,
             $this->logger,
             $this->defaultControllerClass,
@@ -71,7 +69,7 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
     }
 
     #[\Override]
-    public function matchNode(string $decodedUrl, ?Theme $theme): array
+    public function matchNode(string $decodedUrl): array
     {
         $resourceInfo = $this->pathResolver->resolvePath(
             $decodedUrl,
@@ -81,7 +79,7 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
 
         if ($nodeSource instanceof NodesSources && !$nodeSource->getNode()->isHome()) {
             $translation = $nodeSource->getTranslation();
-            $nodeRouteHelper = $this->getNodeRouteHelper($nodeSource, $theme);
+            $nodeRouteHelper = $this->getNodeRouteHelper($nodeSource);
 
             if (!$this->previewResolver->isPreview() && !$translation->isAvailable()) {
                 throw new ResourceNotFoundException();
@@ -100,7 +98,6 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
                 'nodeSource' => $nodeSource,
                 RouteObjectInterface::ROUTE_OBJECT => $resourceInfo->getResource(),
                 'translation' => $resourceInfo->getTranslation(),
-                'theme' => $theme,
             ];
         }
         throw new ResourceNotFoundException();

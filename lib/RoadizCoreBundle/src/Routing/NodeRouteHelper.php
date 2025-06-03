@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
-use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,7 +23,6 @@ final class NodeRouteHelper
      */
     public function __construct(
         private readonly NodeInterface $node,
-        private readonly ?Theme $theme,
         private readonly PreviewResolverInterface $previewResolver,
         private readonly LoggerInterface $logger,
         private readonly string $defaultControllerClass,
@@ -70,13 +68,7 @@ final class NodeRouteHelper
 
     protected function getControllerNamespace(): string
     {
-        $namespace = $this->defaultControllerNamespace;
-        if (null !== $this->theme) {
-            $reflection = new \ReflectionClass($this->theme->getClassName());
-            $namespace = $reflection->getNamespaceName().'\\Controllers';
-        }
-
-        return $namespace;
+        return $this->defaultControllerNamespace;
     }
 
     public function getMethod(): string

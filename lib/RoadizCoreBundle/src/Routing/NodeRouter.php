@@ -9,7 +9,6 @@ use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\Theme;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPathGeneratingEvent;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
@@ -23,11 +22,7 @@ use Symfony\Component\Routing\Router;
 
 class NodeRouter extends Router implements VersatileGeneratorInterface
 {
-    /**
-     * @var string
-     */
-    public const NO_CACHE_PARAMETER = '_no_cache';
-    private ?Theme $theme = null;
+    public const string NO_CACHE_PARAMETER = '_no_cache';
 
     public function __construct(
         NodeUrlMatcherInterface $matcher,
@@ -61,18 +56,6 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
     public function getMatcher(): UrlMatcherInterface
     {
         return $this->matcher;
-    }
-
-    public function getTheme(): ?Theme
-    {
-        return $this->theme;
-    }
-
-    public function setTheme(?Theme $theme): NodeRouter
-    {
-        $this->theme = $theme;
-
-        return $this;
     }
 
     #[\Override]
@@ -197,7 +180,6 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
     protected function getNodesSourcesPath(NodesSources $source, array $parameters = []): NodePathInfo
     {
         $event = new NodesSourcesPathGeneratingEvent(
-            $this->getTheme(),
             $source,
             $this->getContext(),
             $parameters,
