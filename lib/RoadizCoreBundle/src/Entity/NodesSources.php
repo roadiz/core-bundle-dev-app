@@ -123,51 +123,6 @@ class NodesSources extends AbstractEntity implements Loggable, \Stringable
     )]
     protected bool $noIndex = false;
 
-    #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
-        'node.id' => 'exact',
-        'node.nodeName' => 'exact',
-        'node.parent' => 'exact',
-        'node.parent.nodeName' => 'exact',
-        'node.nodesTags.tag' => 'exact',
-        'node.nodesTags.tag.tagName' => 'exact',
-        'node.nodeTypeName' => 'exact',
-    ])]
-    #[ApiFilter(BaseFilter\OrderFilter::class, properties: [
-        'node.position',
-        'node.createdAt',
-        'node.updatedAt',
-    ])]
-    #[ApiFilter(BaseFilter\NumericFilter::class, properties: [
-        'node.position',
-    ])]
-    #[ApiFilter(BaseFilter\RangeFilter::class, properties: [
-        'node.position',
-    ])]
-    #[ApiFilter(BaseFilter\DateFilter::class, properties: [
-        'node.createdAt',
-        'node.updatedAt',
-    ])]
-    #[ApiFilter(BaseFilter\BooleanFilter::class, properties: [
-        'node.visible',
-        'node.home',
-    ])]
-    #[ApiFilter(RoadizFilter\NotFilter::class, properties: [
-        'node.nodeTypeName',
-        'node.id',
-        'node.nodesTags.tag.tagName',
-    ])]
-    // Use IntersectionFilter after SearchFilter!
-    #[ApiFilter(RoadizFilter\IntersectionFilter::class, properties: [
-        'node.nodesTags.tag',
-        'node.nodesTags.tag.tagName',
-    ])]
-    #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'nodeSources')]
-    #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
-    #[Assert\Valid]
-    #[Assert\NotNull]
-    private Node $node;
-
     /**
      * @var Collection<int, UrlAlias>
      */
@@ -192,20 +147,62 @@ class NodesSources extends AbstractEntity implements Loggable, \Stringable
     #[SymfonySerializer\Ignore]
     private Collection $documentsByFields;
 
-    /**
-     * Create a new NodeSource with its Node and Translation.
-     */
-    public function __construct(Node $node, #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
-        'translation.id' => 'exact',
-        'translation.locale' => 'exact',
-    ])]
+    public function __construct(
+        #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
+            'node.id' => 'exact',
+            'node.nodeName' => 'exact',
+            'node.parent' => 'exact',
+            'node.parent.nodeName' => 'exact',
+            'node.nodesTags.tag' => 'exact',
+            'node.nodesTags.tag.tagName' => 'exact',
+            'node.nodeTypeName' => 'exact',
+        ])]
+        #[ApiFilter(BaseFilter\OrderFilter::class, properties: [
+            'node.position',
+            'node.createdAt',
+            'node.updatedAt',
+        ])]
+        #[ApiFilter(BaseFilter\NumericFilter::class, properties: [
+            'node.position',
+        ])]
+        #[ApiFilter(BaseFilter\RangeFilter::class, properties: [
+            'node.position',
+        ])]
+        #[ApiFilter(BaseFilter\DateFilter::class, properties: [
+            'node.createdAt',
+            'node.updatedAt',
+        ])]
+        #[ApiFilter(BaseFilter\BooleanFilter::class, properties: [
+            'node.visible',
+            'node.home',
+        ])]
+        #[ApiFilter(RoadizFilter\NotFilter::class, properties: [
+            'node.nodeTypeName',
+            'node.id',
+            'node.nodesTags.tag.tagName',
+        ])]
+        // Use IntersectionFilter after SearchFilter!
+        #[ApiFilter(RoadizFilter\IntersectionFilter::class, properties: [
+            'node.nodesTags.tag',
+            'node.nodesTags.tag.tagName',
+        ])]
+        #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'nodeSources')]
+        #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base', 'log_sources'])]
+        #[Assert\Valid]
+        #[Assert\NotNull]
+        private Node $node,
+        #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
+            'translation.id' => 'exact',
+            'translation.locale' => 'exact',
+        ])]
         #[ORM\ManyToOne(targetEntity: Translation::class, inversedBy: 'nodeSources')]
         #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
         #[SymfonySerializer\Groups(['translation_base'])]
         #[Assert\NotNull]
-        private TranslationInterface $translation)
-    {
-        $this->setNode($node);
+        private TranslationInterface $translation,
+    ) {
+        $this->node->addNodeSources($this);
         $this->urlAliases = new ArrayCollection();
         $this->documentsByFields = new ArrayCollection();
         $this->redirections = new ArrayCollection();

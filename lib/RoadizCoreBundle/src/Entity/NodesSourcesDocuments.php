@@ -59,7 +59,7 @@ class NodesSourcesDocuments extends AbstractPositioned
     protected ?array $hotspot = null;
 
     /**
-     * Create a new relation between NodeSource, a Document and a NodeTypeField.
+     * Create a new relation between NodeSource, a Document for a NodeTypeField.
      */
     public function __construct(
         #[ORM\ManyToOne(

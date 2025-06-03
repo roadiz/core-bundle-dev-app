@@ -121,9 +121,6 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     #[SymfonySerializer\Ignore]
     private Collection $translatedFolders;
 
-    /**
-     * Create a new Folder.
-     */
     public function __construct()
     {
         $this->children = new ArrayCollection();
