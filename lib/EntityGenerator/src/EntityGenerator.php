@@ -242,6 +242,7 @@ final class EntityGenerator implements EntityGeneratorInterface
 
         $method = $classType
             ->addMethod('__clone')
+            ->addAttribute(\Override::class)
             ->setReturnType('void')
         ;
 
@@ -282,28 +283,28 @@ final class EntityGenerator implements EntityGeneratorInterface
     {
         $classType->addMethod('getNodeTypeName')
             ->setReturnType('string')
-            ->addAttribute('Override')
             ->addAttribute(\Symfony\Component\Serializer\Attribute\Groups::class, [['nodes_sources', 'nodes_sources_default']])
             ->addAttribute(\Symfony\Component\Serializer\Attribute\SerializedName::class, [
                 'serializedName' => '@type',
             ])
+            ->addAttribute(\Override::class)
             ->setBody('return \''.$this->nodeType->getName().'\';')
         ;
 
         $classType->addMethod('getNodeTypeColor')
             ->setReturnType('string')
-            ->addAttribute('Override')
             ->addAttribute(\Symfony\Component\Serializer\Attribute\Groups::class, [['node_type']])
             ->addAttribute(\Symfony\Component\Serializer\Attribute\SerializedName::class, [
                 'serializedName' => 'nodeTypeColor',
             ])
+            ->addAttribute(\Override::class)
             ->setBody('return \''.$this->nodeType->getColor().'\';')
         ;
 
         $classType->addMethod('isReachable')
             ->addComment('$this->nodeType->isReachable() proxy.')
             ->addComment('@return bool Does this nodeSource is reachable over network?')
-            ->addAttribute('Override')
+            ->addAttribute(\Override::class)
             ->setReturnType('bool')
             ->setBody('return '.($this->nodeType->isReachable() ? 'true' : 'false').';')
         ;
@@ -311,14 +312,14 @@ final class EntityGenerator implements EntityGeneratorInterface
         $classType->addMethod('isPublishable')
             ->addComment('$this->nodeType->isPublishable() proxy.')
             ->addComment('@return bool Does this nodeSource is publishable with date and time?')
-            ->addAttribute('Override')
+            ->addAttribute(\Override::class)
             ->setReturnType('bool')
             ->setBody('return '.($this->nodeType->isPublishable() ? 'true' : 'false').';')
         ;
 
         $classType->addMethod('__toString')
             ->setReturnType('string')
-            ->addAttribute('Override')
+            ->addAttribute(\Override::class)
             ->setBody('return \'['.$this->nodeType->getSourceEntityClassName().'] \' . parent::__toString();')
         ;
 

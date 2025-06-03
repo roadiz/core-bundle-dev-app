@@ -619,9 +619,7 @@ class NSMock extends NodesSources
     #[Serializer\MaxDepth(2)]
     public function getEventReferencesProxied(): array
     {
-        return $this->eventReferencesProxiedProxy->map(function (\App\Entity\PositionedCity $proxyEntity) {
-            return $proxyEntity->getCity();
-        })->getValues();
+        return $this->eventReferencesProxiedProxy->map(fn(\App\Entity\PositionedCity $proxyEntity) => $proxyEntity->getCity())->getValues();
     }
 
     /**
@@ -923,9 +921,7 @@ class NSMock extends NodesSources
     #[Serializer\MaxDepth(1)]
     public function getFooManyToManyProxied(): array
     {
-        return $this->fooManyToManyProxiedProxy->map(function (\Themes\MyTheme\Entities\PositionedCity $proxyEntity) {
-            return $proxyEntity->getCity();
-        })->getValues();
+        return $this->fooManyToManyProxiedProxy->map(fn(\Themes\MyTheme\Entities\PositionedCity $proxyEntity) => $proxyEntity->getCity())->getValues();
     }
 
     /**
@@ -974,6 +970,7 @@ class NSMock extends NodesSources
         $this->fooManyToManyProxiedProxy = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    #[\Override]
     public function __clone(): void
     {
         parent::__clone();
@@ -997,17 +994,17 @@ class NSMock extends NodesSources
         $this->fooManyToManyProxiedProxy = $fooManyToManyProxiedProxyClone;
     }
 
-    #[\Override]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return 'Mock';
     }
 
-    #[\Override]
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    #[\Override]
     public function getNodeTypeColor(): string
     {
         return '';

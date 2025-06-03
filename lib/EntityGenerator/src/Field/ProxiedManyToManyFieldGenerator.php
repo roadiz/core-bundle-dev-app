@@ -114,9 +114,7 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
             ->setReturnType('array');
         $this->addSerializationAttributes($getter);
         $getter->setBody(<<<EOF
-return \$this->{$this->getProxiedVarName()}->map(function ({$this->getProxyClassname()} \$proxyEntity) {
-    return \$proxyEntity->{$this->getProxyRelationGetterName()}();
-})->getValues();
+return \$this->{$this->getProxiedVarName()}->map(fn({$this->getProxyClassname()} \$proxyEntity) => \$proxyEntity->{$this->getProxyRelationGetterName()}())->getValues();
 EOF
         );
 
