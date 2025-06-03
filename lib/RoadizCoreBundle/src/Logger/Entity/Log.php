@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Repository\LogRepository;
 use Symfony\Component\Serializer\Attribute as Serializer;
+use Symfony\Component\Uid\Uuid;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
@@ -70,8 +71,7 @@ class Log implements PersistableInterface
     #[ORM\Column(name: 'entity_id', type: 'string', length: 36, unique: false, nullable: true)]
     #[Serializer\Groups(['log'])]
     #[Assert\Length(max: 36)]
-    // @phpstan-ignore-next-line
-    protected string|int|null $entityId = null;
+    protected ?string $entityId = null;
 
     #[ORM\Column(name: 'additional_data', type: 'json', unique: false, nullable: true)]
     #[Serializer\Groups(['log'])]
@@ -147,7 +147,7 @@ class Log implements PersistableInterface
     {
         if (null !== $nodeSource) {
             $this->entityClass = NodesSources::class;
-            $this->entityId = $nodeSource->getId();
+            $this->entityId = (string) $nodeSource->getId();
         }
 
         return $this;
@@ -212,9 +212,14 @@ class Log implements PersistableInterface
         return $this->entityId;
     }
 
-    public function setEntityId(int|string|null $entityId): Log
+    public function setEntityId(int|string|Uuid|null $entityId): Log
     {
-        $this->entityId = $entityId;
+        if (null === $entityId) {
+            $this->entityId = null;
+            return $this;
+        }
+
+        $this->entityId = (string) $entityId;
 
         return $this;
     }

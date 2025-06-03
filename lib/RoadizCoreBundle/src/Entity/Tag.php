@@ -11,8 +11,12 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodesTagsFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NotFilter;
@@ -47,8 +51,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         'updatedAt',
     ])
 ]
-class Tag extends AbstractDateTimedPositioned implements LeafInterface, \Stringable
+class Tag implements DateTimedInterface, LeafInterface, PersistableInterface, \Stringable
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
     use LeafTrait;
 
     #[ORM\Column(

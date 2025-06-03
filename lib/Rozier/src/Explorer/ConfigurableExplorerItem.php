@@ -9,6 +9,7 @@ use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use Symfony\Component\String\UnicodeString;
+use Symfony\Component\Uid\Uuid;
 
 final class ConfigurableExplorerItem extends AbstractExplorerItem
 {
@@ -19,7 +20,7 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    public function getId(): int|string
+    public function getId(): string|int|Uuid
     {
         return $this->entity->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }

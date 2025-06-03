@@ -14,6 +14,7 @@ use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Uid\Uuid;
 
 final class DocumentExplorerItem extends AbstractExplorerItem
 {
@@ -42,7 +43,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
     }
 
     #[\Override]
-    public function getId(): string|int
+    public function getId(): string|int|Uuid
     {
         if ($this->document instanceof PersistableInterface) {
             return $this->document->getId();

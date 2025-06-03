@@ -32,7 +32,7 @@ final readonly class ThrottledWebhookDispatcher implements WebhookDispatcher
         ) {
             throw new TooManyWebhookTriggeredException(\DateTimeImmutable::createFromMutable($doNotTriggerBefore));
         }
-        $limiter = $this->throttledWebhooksLimiter->create($webhook->getId());
+        $limiter = $this->throttledWebhooksLimiter->create((string) $webhook->getId());
         $limit = $limiter->consume();
         // the argument of consume() is the number of tokens to consume
         // and returns an object of type Limit

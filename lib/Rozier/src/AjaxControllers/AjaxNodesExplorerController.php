@@ -252,8 +252,8 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
     private function normalizeItem(NodesSources|Node $item, array &$nodesArray): void
     {
         $model = $this->explorerItemFactory->createForEntity($item);
-        if (!key_exists($model->getId(), $nodesArray)) {
-            $nodesArray[$model->getId()] = $model->toArray();
+        if (!key_exists((string) $model->getId(), $nodesArray)) {
+            $nodesArray[(string) $model->getId()] = $model->toArray();
         }
     }
 }
