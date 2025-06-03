@@ -8,15 +8,18 @@ use RZ\Roadiz\CoreBundle\Message\AsyncMessage;
 
 abstract class AbstractSolrMessage implements AsyncMessage
 {
+    /**
+     * @param class-string $classname
+     */
     public function __construct(
-        /**
-         * Cannot typehint with class-string: breaks Symfony Serializer 5.4.
-         */
         protected string $classname,
         protected mixed $identifier,
     ) {
     }
 
+    /**
+     * @return class-string
+     */
     public function getClassname(): string
     {
         return $this->classname;
