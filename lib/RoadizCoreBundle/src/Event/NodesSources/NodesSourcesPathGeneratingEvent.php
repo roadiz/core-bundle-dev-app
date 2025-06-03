@@ -28,6 +28,9 @@ final class NodesSourcesPathGeneratingEvent extends Event
     ) {
     }
 
+    /**
+     * @deprecated
+     */
     public function getTheme(): ?Theme
     {
         return $this->theme;

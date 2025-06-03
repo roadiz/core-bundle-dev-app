@@ -7,6 +7,8 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 /**
  * Themes describe a database entity to store
  * front-end and back-end controllers.
+ *
+ * @deprecated since 2.6, Themes will be definitly dropped
  */
 class Theme
 {
