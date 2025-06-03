@@ -18,8 +18,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Table,
     ORM\HasLifecycleCallbacks
 ]
-abstract class AbstractHuman extends AbstractDateTimed
+abstract class AbstractHuman implements DateTimedInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
+
     #[
         ORM\Column(type: 'string', length: 200, unique: true),
         Serializer\Groups(['user_personal', 'human']),
