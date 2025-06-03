@@ -94,6 +94,11 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     private bool $visible = true;
 
     #[
+        Serializer\Groups(['node_type', 'node_type:import']),
+    ]
+    private bool $required = false;
+
+    #[
         Serializer\Groups(['node_type'])
     ]
     public function getNodeTypeName(): string
@@ -274,6 +279,18 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
     public function setExcludedFromSerialization(bool $excludedFromSerialization): NodeTypeField
     {
         $this->excludedFromSerialization = $excludedFromSerialization;
+
+        return $this;
+    }
+
+    public function isRequired(): bool
+    {
+        return $this->required;
+    }
+
+    public function setRequired(bool $required): NodeTypeField
+    {
+        $this->required = $required;
 
         return $this;
     }

@@ -74,7 +74,7 @@
         "rezozero/intervention-request-bundle": "~5.0.1",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
-        "roadiz/nodetype-contracts": "^2.0.0",
+        "roadiz/nodetype-contracts": "^3.0.0",
         "rollerworks/password-common-list": "^0.3.0",
         "rollerworks/password-strength-bundle": "^3.0",
         "scheb/2fa-backup-code": "^7.5",
