@@ -748,9 +748,7 @@ class NSMock extends NodesSources
     #[Serializer\MaxDepth(2)]
     public function getFooMtmRequired(): array
     {
-        return $this->fooMtmRequiredProxy->map(function (\App\Entity\PositionedCity $proxyEntity) {
-            return $proxyEntity->getCity();
-        })->getValues();
+        return $this->fooMtmRequiredProxy->map(fn(\App\Entity\PositionedCity $proxyEntity) => $proxyEntity->getCity())->getValues();
     }
 
     /**
