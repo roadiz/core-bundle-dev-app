@@ -74,15 +74,14 @@ class Log extends AbstractEntity
     #[Serializer\Groups(['log'])]
     protected ?array $additionalData = null;
 
-    /**
-     * @throws \Exception
-     */
-    public function __construct(#[ORM\Column(name: 'level', type: 'integer', nullable: false)]
+    public function __construct(
+        #[ORM\Column(name: 'level', type: 'integer', nullable: false)]
         #[Serializer\Groups(['log'])]
-        protected int $level, #[ORM\Column(name: 'message', type: 'text')]
+        protected int $level,
+        #[ORM\Column(name: 'message', type: 'text')]
         #[Serializer\Groups(['log'])]
-        protected string $message)
-    {
+        protected string $message,
+    ) {
         $this->datetime = new \DateTime('now');
     }
 
