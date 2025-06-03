@@ -83,9 +83,7 @@ class Group extends AbstractEntity
     public function getRoles(): array
     {
         if (null === $this->roles) {
-            $this->roles = array_map(function (Role $role) {
-                return $role->getRole();
-            }, $this->getRolesEntities()->toArray());
+            $this->roles = array_map(fn (Role $role) => $role->getRole(), $this->getRolesEntities()->toArray());
         }
 
         return $this->roles;

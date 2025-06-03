@@ -19,6 +19,7 @@ final class UsersType extends AbstractType
     {
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -43,11 +44,13 @@ final class UsersType extends AbstractType
         });
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'users';

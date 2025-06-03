@@ -27,6 +27,7 @@ final readonly class NodeTypeFieldNormalizer implements NormalizerInterface, Den
      *
      * @throws ExceptionInterface
      */
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $data = $this->normalizer->normalize($object, $format, $context);
@@ -48,6 +49,7 @@ final readonly class NodeTypeFieldNormalizer implements NormalizerInterface, Den
         return $data;
     }
 
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null): bool
     {
         return $this->normalizer->supportsNormalization($data, $format);
@@ -60,6 +62,7 @@ final readonly class NodeTypeFieldNormalizer implements NormalizerInterface, Den
         ];
     }
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): NodeTypeField
     {
         $object = $this->denormalizer->denormalize($data, $type, $format, $context);
@@ -74,6 +77,7 @@ final readonly class NodeTypeFieldNormalizer implements NormalizerInterface, Den
         return $object;
     }
 
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
     {
         return $this->denormalizer->supportsDenormalization($data, $type, $format);

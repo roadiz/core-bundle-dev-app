@@ -38,6 +38,7 @@ final class DocumentNormalizer extends AbstractPathNormalizer
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $data = $this->decorated->normalize($object, $format, $context);
@@ -73,19 +74,13 @@ final class DocumentNormalizer extends AbstractPathNormalizer
             \in_array('document_folders_all', $serializationGroups, true)
         ) {
             $data['folders'] = $object->getFolders()
-                ->map(function (FolderInterface $folder) use ($format, $context) {
-                    return $this->decorated->normalize($folder, $format, $context);
-                })
+                ->map(fn (FolderInterface $folder) => $this->decorated->normalize($folder, $format, $context))
                 ->getValues()
             ;
         } elseif (
             \in_array('document_folders', $serializationGroups, true)
         ) {
-            $data['folders'] = $object->getFolders()->filter(function (FolderInterface $folder) {
-                return $folder->getVisible();
-            })->map(function (FolderInterface $folder) use ($format, $context) {
-                return $this->decorated->normalize($folder, $format, $context);
-            })->getValues();
+            $data['folders'] = $object->getFolders()->filter(fn (FolderInterface $folder) => $folder->getVisible())->map(fn (FolderInterface $folder) => $this->decorated->normalize($folder, $format, $context))->getValues();
         }
 
         if (isset($context['translation']) && $context['translation'] instanceof TranslationInterface) {

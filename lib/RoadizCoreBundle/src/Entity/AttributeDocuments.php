@@ -21,44 +21,40 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 ]
 class AttributeDocuments extends AbstractPositioned
 {
-    #[
-        ORM\ManyToOne(
-            targetEntity: Attribute::class,
-            cascade: ['persist', 'merge'],
-            fetch: 'EAGER',
-            inversedBy: 'attributeDocuments'
-        ),
-        ORM\JoinColumn(
-            name: 'attribute_id',
-            referencedColumnName: 'id',
-            nullable: false,
-            onDelete: 'CASCADE'
-        ),
-        SymfonySerializer\Ignore()
-    ]
-    protected Attribute $attribute;
-
-    #[
-        ORM\ManyToOne(
-            targetEntity: Document::class,
-            cascade: ['persist', 'merge'],
-            fetch: 'EAGER',
-            inversedBy: 'attributeDocuments'
-        ),
-        ORM\JoinColumn(
-            name: 'document_id',
-            referencedColumnName: 'id',
-            nullable: false,
-            onDelete: 'CASCADE'
-        ),
-        SymfonySerializer\Groups(['attribute']),
-    ]
-    protected Document $document;
-
-    public function __construct(Attribute $attribute, Document $document)
-    {
-        $this->document = $document;
-        $this->attribute = $attribute;
+    public function __construct(
+        #[
+            ORM\ManyToOne(
+                targetEntity: Attribute::class,
+                cascade: ['persist', 'merge'],
+                fetch: 'EAGER',
+                inversedBy: 'attributeDocuments'
+            ),
+            ORM\JoinColumn(
+                name: 'attribute_id',
+                referencedColumnName: 'id',
+                nullable: false,
+                onDelete: 'CASCADE'
+            ),
+            SymfonySerializer\Ignore()
+        ]
+        protected Attribute $attribute,
+        #[
+            ORM\ManyToOne(
+                targetEntity: Document::class,
+                cascade: ['persist', 'merge'],
+                fetch: 'EAGER',
+                inversedBy: 'attributeDocuments'
+            ),
+            ORM\JoinColumn(
+                name: 'document_id',
+                referencedColumnName: 'id',
+                nullable: false,
+                onDelete: 'CASCADE'
+            ),
+            SymfonySerializer\Groups(['attribute']),
+        ]
+        protected Document $document,
+    ) {
     }
 
     public function __clone()

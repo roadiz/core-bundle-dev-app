@@ -19,11 +19,11 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 final class NodesTagsFilter extends AbstractFilter
 {
-    public const PROPERTY_PARAMETER = 'nodesTags';
-    public const TRUE_VALUES = [true, '1', 1, 'true', 'on'];
-    public const FALSE_VALUES = [false, '0', 0, 'false', 'off'];
+    public const string PROPERTY_PARAMETER = 'nodesTags';
+    public const array TRUE_VALUES = [true, '1', 1, 'true', 'on'];
+    public const array FALSE_VALUES = [false, '0', 0, 'false', 'off'];
 
-    private const DEFAULTS = [
+    private const array DEFAULTS = [
         'withNodes' => false,
         'withoutNodes' => false,
         'visible' => null,
@@ -43,6 +43,7 @@ final class NodesTagsFilter extends AbstractFilter
         parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
     }
 
+    #[\Override]
     protected function filterProperty(
         string $property,
         mixed $value,
@@ -181,6 +182,7 @@ final class NodesTagsFilter extends AbstractFilter
         ));
     }
 
+    #[\Override]
     public function getDescription(string $resourceClass): array
     {
         return [

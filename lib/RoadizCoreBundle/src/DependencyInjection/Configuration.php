@@ -16,6 +16,7 @@ class Configuration implements ConfigurationInterface
     public const INHERITANCE_TYPE_JOINED = 'joined';
     public const INHERITANCE_TYPE_SINGLE_TABLE = 'single_table';
 
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $builder = new TreeBuilder('roadiz_core');

@@ -30,6 +30,7 @@ class SolariumNodeSource extends AbstractSolarium
         parent::__construct($clientRegistry, $searchEngineLogger, $markdown);
     }
 
+    #[\Override]
     public function getDocumentId(): int|string
     {
         return $this->nodeSource->getId() ?? throw new \RuntimeException('NodeSource must have an ID');
@@ -42,6 +43,7 @@ class SolariumNodeSource extends AbstractSolarium
      *
      * @throws \Exception
      */
+    #[\Override]
     public function getFieldsAssoc(bool $subResource = false): array
     {
         $event = new NodesSourcesIndexingEvent($this->nodeSource, [], $this);
@@ -54,6 +56,7 @@ class SolariumNodeSource extends AbstractSolarium
     /**
      * Remove any document linked to current node-source.
      */
+    #[\Override]
     public function clean(Query $update): bool
     {
         $update->addDeleteQuery(
@@ -65,9 +68,10 @@ class SolariumNodeSource extends AbstractSolarium
         return true;
     }
 
+    #[\Override]
     protected function getIdempotentIdentifier(): string
     {
-        $namespace = explode('\\', get_class($this->nodeSource));
+        $namespace = explode('\\', $this->nodeSource::class);
         // get last 3 parts of namespace
         $namespace = array_slice($namespace, -3);
 

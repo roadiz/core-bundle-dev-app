@@ -11,11 +11,11 @@ use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesCreatedEvent;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-final class NodeTranslator
+final readonly class NodeTranslator
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly EventDispatcherInterface $dispatcher,
+        private ManagerRegistry $managerRegistry,
+        private EventDispatcherInterface $dispatcher,
     ) {
     }
 
@@ -53,9 +53,7 @@ final class NodeTranslator
             /** @var NodesSources|false $baseSource */
             $baseSource =
                 $node->getNodeSourcesByTranslation($sourceTranslation)->first() ?:
-                    $node->getNodeSources()->filter(function (NodesSources $nodesSources) {
-                        return $nodesSources->getTranslation()->isDefaultTranslation();
-                    })->first() ?:
+                    $node->getNodeSources()->filter(fn (NodesSources $nodesSources) => $nodesSources->getTranslation()->isDefaultTranslation())->first() ?:
                         $node->getNodeSources()->first();
 
             if (!($baseSource instanceof NodesSources)) {

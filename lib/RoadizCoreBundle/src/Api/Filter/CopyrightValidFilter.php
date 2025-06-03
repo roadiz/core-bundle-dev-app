@@ -13,10 +13,11 @@ use RZ\Roadiz\CoreBundle\Entity\Document;
 
 final class CopyrightValidFilter extends AbstractFilter
 {
-    public const PARAMETER = 'copyrightValid';
-    public const TRUE_VALUES = [1, '1', 'true', true, 'on', 'yes'];
-    public const FALSE_VALUES = [0, '0', 'false', false, 'off', 'no'];
+    public const string PARAMETER = 'copyrightValid';
+    public const array TRUE_VALUES = [1, '1', 'true', true, 'on', 'yes'];
+    public const array FALSE_VALUES = [0, '0', 'false', false, 'off', 'no'];
 
+    #[\Override]
     protected function filterProperty(
         string $property,
         mixed $value,
@@ -65,6 +66,7 @@ final class CopyrightValidFilter extends AbstractFilter
         }
     }
 
+    #[\Override]
     public function getDescription(string $resourceClass): array
     {
         return [

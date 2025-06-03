@@ -21,6 +21,7 @@ final readonly class ThemeAwareNodeUrlMatcher implements UrlMatcherInterface, Re
     ) {
     }
 
+    #[\Override]
     public function match(string $pathinfo): array
     {
         $decodedUrl = rawurldecode($pathinfo);
@@ -34,31 +35,37 @@ final readonly class ThemeAwareNodeUrlMatcher implements UrlMatcherInterface, Re
         );
     }
 
+    #[\Override]
     public function setContext(RequestContext $context): void
     {
         $this->innerMatcher->setContext($context);
     }
 
+    #[\Override]
     public function getContext(): RequestContext
     {
         return $this->innerMatcher->getContext();
     }
 
+    #[\Override]
     public function matchRequest(Request $request): array
     {
         return $this->match($request->getPathInfo());
     }
 
+    #[\Override]
     public function getSupportedFormatExtensions(): array
     {
         return $this->innerMatcher->getSupportedFormatExtensions();
     }
 
+    #[\Override]
     public function getDefaultSupportedFormatExtension(): string
     {
         return $this->innerMatcher->getDefaultSupportedFormatExtension();
     }
 
+    #[\Override]
     public function matchNode(string $decodedUrl, ?Theme $theme): array
     {
         return $this->innerMatcher->matchNode(

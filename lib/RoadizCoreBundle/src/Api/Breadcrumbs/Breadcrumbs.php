@@ -22,6 +22,7 @@ final readonly class Breadcrumbs implements BreadcrumbsInterface
     /**
      * @return PersistableInterface[]
      */
+    #[\Override]
     public function getItems(): array
     {
         return array_values($this->items);

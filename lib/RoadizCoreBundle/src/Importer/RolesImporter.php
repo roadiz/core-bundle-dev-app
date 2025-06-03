@@ -14,11 +14,13 @@ final readonly class RolesImporter implements EntityImporterInterface
     {
     }
 
+    #[\Override]
     public function supports(string $entityClass): bool
     {
         return Role::class === $entityClass;
     }
 
+    #[\Override]
     public function import(string $serializedData): bool
     {
         $this->serializer->deserialize(

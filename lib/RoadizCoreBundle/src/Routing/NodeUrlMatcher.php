@@ -35,16 +35,19 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
         parent::__construct($context, $previewResolver, $stopwatch, $logger);
     }
 
+    #[\Override]
     public function getSupportedFormatExtensions(): array
     {
         return ['xml', 'json', 'pdf', 'html'];
     }
 
+    #[\Override]
     public function getDefaultSupportedFormatExtension(): string
     {
         return 'html';
     }
 
+    #[\Override]
     public function match(string $pathinfo): array
     {
         $decodedUrl = rawurldecode($pathinfo);
@@ -67,6 +70,7 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
         );
     }
 
+    #[\Override]
     public function matchNode(string $decodedUrl, ?Theme $theme): array
     {
         $resourceInfo = $this->pathResolver->resolvePath(

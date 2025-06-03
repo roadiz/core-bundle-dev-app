@@ -21,6 +21,7 @@ final readonly class BackofficeAuthenticationSuccessHandler implements Authentic
     ) {
     }
 
+    #[\Override]
     public function onAuthenticationSuccess(Request $request, TokenInterface $token): ?Response
     {
         $user = $token->getUser();

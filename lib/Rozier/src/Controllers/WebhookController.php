@@ -86,51 +86,61 @@ final class WebhookController extends AbstractAdminWithBulkController
         );
     }
 
+    #[\Override]
     protected function supports(PersistableInterface $item): bool
     {
         return $item instanceof Webhook;
     }
 
+    #[\Override]
     protected function getNamespace(): string
     {
         return 'webhook';
     }
 
+    #[\Override]
     protected function createEmptyItem(Request $request): PersistableInterface
     {
         return new Webhook();
     }
 
+    #[\Override]
     protected function getTemplateFolder(): string
     {
         return '@RoadizRozier/admin/webhooks';
     }
 
+    #[\Override]
     protected function getRequiredRole(): string
     {
         return 'ROLE_ACCESS_WEBHOOKS';
     }
 
+    #[\Override]
     protected function getEntityClass(): string
     {
         return Webhook::class;
     }
 
+    #[\Override]
     protected function getFormType(): string
     {
         return WebhookType::class;
     }
 
+    #[\Override]
     protected function getDefaultRouteName(): string
     {
         return 'webhooksHomePage';
     }
 
+    #[\Override]
     protected function getEditRouteName(): string
     {
         return 'webhooksEditPage';
     }
 
+    #[\Override]
     protected function getEntityName(PersistableInterface $item): string
     {
         if ($item instanceof Webhook) {
@@ -140,6 +150,7 @@ final class WebhookController extends AbstractAdminWithBulkController
         return '';
     }
 
+    #[\Override]
     protected function getBulkDeleteRouteName(): ?string
     {
         return 'webhooksBulkDeletePage';

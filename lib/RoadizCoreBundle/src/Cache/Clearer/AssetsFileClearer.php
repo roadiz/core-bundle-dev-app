@@ -9,6 +9,7 @@ use Symfony\Component\Finder\Finder;
 
 final class AssetsFileClearer extends FileClearer
 {
+    #[\Override]
     public function clear(): bool
     {
         $fs = new Filesystem();

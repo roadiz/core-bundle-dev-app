@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['submitted_at']),
     ORM\Index(columns: ['custom_form_id', 'submitted_at'], name: 'answer_customform_submitted_at')
 ]
-class CustomFormAnswer extends AbstractEntity
+class CustomFormAnswer extends AbstractEntity implements \Stringable
 {
     #[
         ORM\Column(name: 'ip', type: 'string', length: 46, nullable: false),
@@ -111,6 +111,7 @@ class CustomFormAnswer extends AbstractEntity
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();
@@ -148,9 +149,7 @@ class CustomFormAnswer extends AbstractEntity
 
     public function getEmail(): ?string
     {
-        $attribute = $this->getAnswerFields()->filter(function (CustomFormFieldAttribute $attribute) {
-            return $attribute->getCustomFormField()->isEmail();
-        })->first();
+        $attribute = $this->getAnswerFields()->filter(fn (CustomFormFieldAttribute $attribute) => $attribute->getCustomFormField()->isEmail())->first();
 
         return $attribute ? (string) $attribute->getValue() : null;
     }

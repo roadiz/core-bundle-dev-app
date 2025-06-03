@@ -32,6 +32,7 @@ final readonly class AutomaticWebhookSubscriber implements EventSubscriberInterf
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -76,7 +77,7 @@ final readonly class AutomaticWebhookSubscriber implements EventSubscriberInterf
                  */
                 try {
                     $this->webhookDispatcher->dispatch($webhook);
-                } catch (TooManyWebhookTriggeredException $e) {
+                } catch (TooManyWebhookTriggeredException) {
                     // do nothing
                 }
             }

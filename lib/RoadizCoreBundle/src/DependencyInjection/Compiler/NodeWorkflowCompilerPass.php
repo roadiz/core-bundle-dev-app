@@ -14,6 +14,7 @@ use Symfony\Component\Workflow\SupportStrategy\InstanceOfSupportStrategy;
 
 class NodeWorkflowCompilerPass implements CompilerPassInterface
 {
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('workflow.registry')) {

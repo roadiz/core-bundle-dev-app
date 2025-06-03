@@ -11,6 +11,7 @@ class DummyDocumentUrlGenerator implements DocumentUrlGeneratorInterface
     private ?BaseDocumentInterface $document = null;
     private array $options = [];
 
+    #[\Override]
     public function getUrl(bool $absolute = false): string
     {
         if (null === $this->document) {
@@ -36,6 +37,7 @@ class DummyDocumentUrlGenerator implements DocumentUrlGeneratorInterface
         return '/assets/'.$compiledOptions.'/'.$this->document->getRelativePath();
     }
 
+    #[\Override]
     public function setDocument(BaseDocumentInterface $document): static
     {
         $this->document = $document;
@@ -43,6 +45,7 @@ class DummyDocumentUrlGenerator implements DocumentUrlGeneratorInterface
         return $this;
     }
 
+    #[\Override]
     public function setOptions(array $options = []): static
     {
         $this->options = $options;

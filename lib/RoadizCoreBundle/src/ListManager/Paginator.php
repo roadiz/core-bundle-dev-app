@@ -116,7 +116,7 @@ class Paginator
                     $qb->select($qb->expr()->countDistinct($alias));
                     try {
                         return (int) $qb->getQuery()->getSingleScalarResult();
-                    } catch (NoResultException|NonUniqueResultException $e) {
+                    } catch (NoResultException|NonUniqueResultException) {
                         return 0;
                     }
                 }
@@ -217,7 +217,7 @@ class Paginator
         foreach ($this->getSearchableFields() as $field) {
             $orX[] = $qb->expr()->like(
                 'LOWER('.$alias.'.'.$field.')',
-                $qb->expr()->literal('%'.\mb_strtolower($this->searchPattern).'%')
+                $qb->expr()->literal('%'.\mb_strtolower((string) $this->searchPattern).'%')
             );
         }
         $qb->andWhere($qb->expr()->orX(...$orX));

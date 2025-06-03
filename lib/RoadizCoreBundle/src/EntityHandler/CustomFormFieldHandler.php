@@ -37,6 +37,7 @@ final class CustomFormFieldHandler extends AbstractHandler
      *
      * @return float Return the next position after the **last** customFormField
      */
+    #[\Override]
     public function cleanPositions(bool $setPositions = true): float
     {
         if (null === $this->customFormField) {

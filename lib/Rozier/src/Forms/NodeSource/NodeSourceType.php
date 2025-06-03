@@ -53,6 +53,7 @@ final class NodeSourceType extends AbstractType
     /**
      * @throws \ReflectionException
      */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $fields = $this->getFieldsForSource($builder->getData(), $options['nodeType']);
@@ -78,6 +79,7 @@ final class NodeSourceType extends AbstractType
         }
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -95,6 +97,7 @@ final class NodeSourceType extends AbstractType
         $resolver->setAllowedTypes('class', 'string');
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'source';
@@ -105,14 +108,10 @@ final class NodeSourceType extends AbstractType
      */
     private function getFieldsForSource(NodesSources $source, NodeType $nodeType): array
     {
-        $fields = $nodeType->getFields()->filter(function (NodeTypeField $field) {
-            return $field->isVisible();
-        });
+        $fields = $nodeType->getFields()->filter(fn (NodeTypeField $field) => $field->isVisible());
 
         if (!$this->needsUniversalFields($source)) {
-            $fields = $fields->filter(function (NodeTypeField $field) {
-                return !$field->isUniversal();
-            });
+            $fields = $fields->filter(fn (NodeTypeField $field) => !$field->isUniversal());
         }
 
         return $fields->toArray();

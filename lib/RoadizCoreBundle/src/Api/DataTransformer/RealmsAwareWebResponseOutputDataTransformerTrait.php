@@ -23,16 +23,12 @@ trait RealmsAwareWebResponseOutputDataTransformerTrait
         $output->setRealms($this->getRealmResolver()->getRealms($data->getNode()));
         $output->setHidingBlocks(false);
 
-        $denyingRealms = array_filter($output->getRealms(), function (RealmInterface $realm) {
-            return RealmInterface::BEHAVIOUR_DENY === $realm->getBehaviour();
-        });
+        $denyingRealms = array_filter($output->getRealms(), fn (RealmInterface $realm) => RealmInterface::BEHAVIOUR_DENY === $realm->getBehaviour());
         foreach ($denyingRealms as $denyingRealm) {
             $this->getRealmResolver()->denyUnlessGranted($denyingRealm);
         }
 
-        $blockHidingRealms = array_filter($output->getRealms(), function (RealmInterface $realm) {
-            return RealmInterface::BEHAVIOUR_HIDE_BLOCKS === $realm->getBehaviour();
-        });
+        $blockHidingRealms = array_filter($output->getRealms(), fn (RealmInterface $realm) => RealmInterface::BEHAVIOUR_HIDE_BLOCKS === $realm->getBehaviour());
         foreach ($blockHidingRealms as $blockHidingRealm) {
             if (!$this->getRealmResolver()->isGranted($blockHidingRealm)) {
                 $output->setHidingBlocks(true);

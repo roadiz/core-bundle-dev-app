@@ -20,6 +20,7 @@ final class AttributeChoiceType extends AbstractType
     {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new CallbackTransformer(
@@ -30,12 +31,11 @@ final class AttributeChoiceType extends AbstractType
 
                 return null;
             },
-            function ($formToData) {
-                return $this->managerRegistry->getRepository(Attribute::class)->find($formToData);
-            }
+            fn ($formToData) => $this->managerRegistry->getRepository(Attribute::class)->find($formToData)
         ));
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -68,6 +68,7 @@ final class AttributeChoiceType extends AbstractType
         });
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;

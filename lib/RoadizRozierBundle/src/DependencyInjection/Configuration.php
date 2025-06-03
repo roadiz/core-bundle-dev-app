@@ -12,6 +12,7 @@ use Themes\Rozier\Forms\NodeType;
 
 final class Configuration implements ConfigurationInterface
 {
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $builder = new TreeBuilder('roadiz_rozier');

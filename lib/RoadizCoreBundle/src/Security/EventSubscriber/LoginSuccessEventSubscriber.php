@@ -15,6 +15,7 @@ final readonly class LoginSuccessEventSubscriber implements EventSubscriberInter
     {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

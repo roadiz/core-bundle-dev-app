@@ -15,6 +15,7 @@ use Symfony\Component\Validator\Constraints\Length;
 
 final class NodeSourceBaseType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('title', TextType::class, [
@@ -51,11 +52,13 @@ final class NodeSourceBaseType extends AbstractType
         }
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'nodesourcebase';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

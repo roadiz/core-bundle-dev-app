@@ -15,7 +15,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 final readonly class AttributeNormalizer implements DenormalizerInterface
 {
-    public const PERSIST_NEW_ENTITIES = 'persist_new_entities';
+    public const string PERSIST_NEW_ENTITIES = 'persist_new_entities';
 
     public function __construct(
         private ManagerRegistry $managerRegistry,
@@ -31,6 +31,7 @@ final readonly class AttributeNormalizer implements DenormalizerInterface
         ];
     }
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): Attribute
     {
         $code = $data['code'];
@@ -115,6 +116,7 @@ final readonly class AttributeNormalizer implements DenormalizerInterface
         $attributeTranslation->setLabel($data['label']);
     }
 
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
     {
         return is_array($data) && array_key_exists('type', $data) && array_key_exists('code', $data);

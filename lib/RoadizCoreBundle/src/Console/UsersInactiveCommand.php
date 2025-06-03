@@ -19,6 +19,7 @@ final class UsersInactiveCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -54,6 +55,7 @@ final class UsersInactiveCommand extends Command
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -76,16 +78,12 @@ final class UsersInactiveCommand extends Command
 
         $filteringRole = $input->getOption('role');
         if (\is_string($filteringRole) && !empty(trim($filteringRole))) {
-            $inactiveUsers = array_filter($inactiveUsers, function (User $user) use ($filteringRole) {
-                return \in_array($filteringRole, $user->getRoles(), true);
-            });
+            $inactiveUsers = array_filter($inactiveUsers, fn (User $user) => \in_array($filteringRole, $user->getRoles(), true));
         }
 
         $missingRole = $input->getOption('missing-role');
         if (\is_string($missingRole) && !empty(trim($missingRole))) {
-            $inactiveUsers = array_filter($inactiveUsers, function (User $user) use ($missingRole) {
-                return !\in_array($missingRole, $user->getRoles(), true);
-            });
+            $inactiveUsers = array_filter($inactiveUsers, fn (User $user) => !\in_array($missingRole, $user->getRoles(), true));
         }
 
         $io->success(sprintf(
@@ -97,14 +95,12 @@ final class UsersInactiveCommand extends Command
         if ($output->isVerbose() && count($inactiveUsers) > 0) {
             $io->table(
                 ['ID', 'Username', 'Last login', 'Created at'],
-                array_map(function (User $user) {
-                    return [
-                        $user->getId(),
-                        $user->getUsername(),
-                        $user->getLastLogin()?->format('Y-m-d H:i:s') ?? 'Never',
-                        $user->getCreatedAt()?->format('Y-m-d H:i:s') ?? 'Never',
-                    ];
-                }, $inactiveUsers)
+                array_map(fn (User $user) => [
+                    $user->getId(),
+                    $user->getUsername(),
+                    $user->getLastLogin()?->format('Y-m-d H:i:s') ?? 'Never',
+                    $user->getCreatedAt()?->format('Y-m-d H:i:s') ?? 'Never',
+                ], $inactiveUsers)
             );
         }
 

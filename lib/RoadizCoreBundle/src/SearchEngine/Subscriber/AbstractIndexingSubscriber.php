@@ -58,9 +58,7 @@ abstract class AbstractIndexingSubscriber implements EventSubscriberInterface
             && isset($geoJson['features'])
             && \count($geoJson['features']) > 0
         ) {
-            return array_filter(array_map(function ($feature) {
-                return $this->formatGeoJsonFeature($feature);
-            }, $geoJson['features']));
+            return array_filter(array_map(fn ($feature) => $this->formatGeoJsonFeature($feature), $geoJson['features']));
         }
 
         return null;

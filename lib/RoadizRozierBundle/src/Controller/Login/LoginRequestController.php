@@ -27,6 +27,7 @@ final class LoginRequestController extends AbstractController
     ) {
     }
 
+    #[\Override]
     protected function getUserViewer(): UserViewer
     {
         return $this->userViewer;

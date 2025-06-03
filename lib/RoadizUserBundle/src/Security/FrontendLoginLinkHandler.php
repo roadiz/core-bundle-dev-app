@@ -29,6 +29,7 @@ final readonly class FrontendLoginLinkHandler implements LoginLinkHandlerInterfa
         ], $options);
     }
 
+    #[\Override]
     public function createLoginLink(
         UserInterface $user,
         ?Request $request = null,
@@ -66,6 +67,7 @@ final readonly class FrontendLoginLinkHandler implements LoginLinkHandlerInterfa
         return new LoginLinkDetails($url, $expiresAt);
     }
 
+    #[\Override]
     public function consumeLoginLink(Request $request): UserInterface
     {
         return $this->decorated->consumeLoginLink($request);

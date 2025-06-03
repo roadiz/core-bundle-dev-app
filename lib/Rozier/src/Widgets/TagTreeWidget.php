@@ -118,6 +118,7 @@ final class TagTreeWidget extends AbstractWidget
         return $this->canReorder;
     }
 
+    #[\Override]
     public function getTranslation(): TranslationInterface
     {
         return $this->translation ?? parent::getTranslation();

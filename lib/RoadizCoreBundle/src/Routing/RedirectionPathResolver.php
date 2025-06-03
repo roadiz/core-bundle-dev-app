@@ -10,14 +10,14 @@ use RZ\Roadiz\CoreBundle\Entity\Redirection;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-final class RedirectionPathResolver implements PathResolverInterface
+final readonly class RedirectionPathResolver implements PathResolverInterface
 {
-    public const CACHE_KEY = 'redirection_path_resolver_cache';
+    public const string CACHE_KEY = 'redirection_path_resolver_cache';
 
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly CacheItemPoolInterface $cacheAdapter,
-        private readonly Stopwatch $stopwatch,
+        private ManagerRegistry $managerRegistry,
+        private CacheItemPoolInterface $cacheAdapter,
+        private Stopwatch $stopwatch,
     ) {
     }
 
@@ -50,6 +50,7 @@ final class RedirectionPathResolver implements PathResolverInterface
         return $redirections;
     }
 
+    #[\Override]
     public function resolvePath(
         string $path,
         array $supportedFormatExtensions = ['html'],

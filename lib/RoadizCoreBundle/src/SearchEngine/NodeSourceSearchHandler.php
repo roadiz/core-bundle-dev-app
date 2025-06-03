@@ -18,6 +18,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
     protected bool $boostByUpdateDate = false;
     protected bool $boostByCreationDate = false;
 
+    #[\Override]
     protected function nativeSearch(
         string $q,
         array $args = [],
@@ -76,6 +77,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         return $solrRequest->getData();
     }
 
+    #[\Override]
     protected function argFqProcess(array &$args): array
     {
         if (!isset($args['fq'])) {
@@ -219,11 +221,13 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         return $args;
     }
 
+    #[\Override]
     protected function getDocumentType(): string
     {
         return 'NodesSources';
     }
 
+    #[\Override]
     public function boostByPublicationDate(): NodeSourceSearchHandler
     {
         $this->boostByPublicationDate = true;
@@ -233,6 +237,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         return $this;
     }
 
+    #[\Override]
     public function boostByUpdateDate(): NodeSourceSearchHandler
     {
         $this->boostByPublicationDate = false;
@@ -242,6 +247,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
         return $this;
     }
 
+    #[\Override]
     public function boostByCreationDate(): NodeSourceSearchHandler
     {
         $this->boostByPublicationDate = false;

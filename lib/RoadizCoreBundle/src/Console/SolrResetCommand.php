@@ -23,12 +23,14 @@ final class SolrResetCommand extends SolrCommand
         parent::__construct($clientRegistry, $name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('solr:reset')
             ->setDescription('Reset Solr search engine index');
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);

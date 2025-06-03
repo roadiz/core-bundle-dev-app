@@ -10,6 +10,7 @@ use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 
 class PictureRenderer extends AbstractImageRenderer
 {
+    #[\Override]
     public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return isset($options['picture'])
@@ -22,6 +23,7 @@ class PictureRenderer extends AbstractImageRenderer
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\LoaderError
      */
+    #[\Override]
     public function render(BaseDocumentInterface $document, array $options): string
     {
         $options = $this->viewOptionsResolver->resolve($options);

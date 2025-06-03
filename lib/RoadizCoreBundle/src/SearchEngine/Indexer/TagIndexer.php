@@ -9,6 +9,7 @@ use Solarium\Exception\HttpException;
 
 final class TagIndexer extends NodesSourcesIndexer
 {
+    #[\Override]
     public function index(mixed $id): void
     {
         try {
@@ -41,6 +42,7 @@ final class TagIndexer extends NodesSourcesIndexer
         }
     }
 
+    #[\Override]
     public function delete(mixed $id): void
     {
         // Just reindex all linked NS to get rid of tag

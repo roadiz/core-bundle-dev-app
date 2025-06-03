@@ -15,6 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class RealmType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class, [
@@ -63,6 +64,7 @@ final class RealmType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', Realm::class);

@@ -23,6 +23,7 @@ class UsersCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('users:list')
@@ -47,6 +48,7 @@ class UsersCommand extends Command
         ];
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

@@ -15,6 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TagType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('tagName', TextType::class, [
@@ -55,11 +56,13 @@ class TagType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'tag';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

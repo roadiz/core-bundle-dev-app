@@ -21,33 +21,29 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 ]
 class TagTranslationDocuments extends AbstractPositioned
 {
-    #[ORM\ManyToOne(
-        targetEntity: TagTranslation::class,
-        cascade: ['persist', 'merge'],
-        fetch: 'EAGER',
-        inversedBy: 'tagTranslationDocuments'
-    )]
-    #[ORM\JoinColumn(name: 'tag_translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Ignore]
-    protected TagTranslation $tagTranslation;
-
-    #[ORM\ManyToOne(
-        targetEntity: Document::class,
-        cascade: ['persist', 'merge'],
-        fetch: 'EAGER',
-        inversedBy: 'tagTranslations'
-    )]
-    #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Groups(['tag'])]
-    protected Document $document;
-
     /**
      * Create a new relation between NodeSource, a Document and a NodeTypeField.
      */
-    public function __construct(TagTranslation $tagTranslation, Document $document)
-    {
-        $this->document = $document;
-        $this->tagTranslation = $tagTranslation;
+    public function __construct(
+        #[ORM\ManyToOne(
+            targetEntity: TagTranslation::class,
+            cascade: ['persist', 'merge'],
+            fetch: 'EAGER',
+            inversedBy: 'tagTranslationDocuments'
+        )]
+        #[ORM\JoinColumn(name: 'tag_translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        #[SymfonySerializer\Ignore]
+        protected TagTranslation $tagTranslation,
+        #[ORM\ManyToOne(
+            targetEntity: Document::class,
+            cascade: ['persist', 'merge'],
+            fetch: 'EAGER',
+            inversedBy: 'tagTranslations'
+        )]
+        #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        #[SymfonySerializer\Groups(['tag'])]
+        protected Document $document,
+    ) {
     }
 
     public function __clone()

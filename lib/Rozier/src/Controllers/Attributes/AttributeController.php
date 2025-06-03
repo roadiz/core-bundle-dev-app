@@ -41,21 +41,25 @@ final class AttributeController extends AbstractAdminWithBulkController
         parent::__construct($formFactory, $urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
+    #[\Override]
     protected function supports(PersistableInterface $item): bool
     {
         return $item instanceof Attribute;
     }
 
+    #[\Override]
     protected function getBulkDeleteRouteName(): ?string
     {
         return 'attributesBulkDeletePage';
     }
 
+    #[\Override]
     protected function getNamespace(): string
     {
         return 'attribute';
     }
 
+    #[\Override]
     protected function createEmptyItem(Request $request): PersistableInterface
     {
         $item = new Attribute();
@@ -64,31 +68,37 @@ final class AttributeController extends AbstractAdminWithBulkController
         return $item;
     }
 
+    #[\Override]
     protected function getTemplateFolder(): string
     {
         return '@RoadizRozier/attributes';
     }
 
+    #[\Override]
     protected function getRequiredRole(): string
     {
         return 'ROLE_ACCESS_ATTRIBUTES';
     }
 
+    #[\Override]
     protected function getRequiredDeletionRole(): string
     {
         return 'ROLE_ACCESS_ATTRIBUTES_DELETE';
     }
 
+    #[\Override]
     protected function getEntityClass(): string
     {
         return Attribute::class;
     }
 
+    #[\Override]
     protected function getFormType(): string
     {
         return AttributeType::class;
     }
 
+    #[\Override]
     protected function getDefaultOrder(Request $request): array
     {
         return [
@@ -97,16 +107,19 @@ final class AttributeController extends AbstractAdminWithBulkController
         ];
     }
 
+    #[\Override]
     protected function getDefaultRouteName(): string
     {
         return 'attributesHomePage';
     }
 
+    #[\Override]
     protected function getEditRouteName(): string
     {
         return 'attributesEditPage';
     }
 
+    #[\Override]
     protected function getEntityName(PersistableInterface $item): string
     {
         if ($item instanceof Attribute) {

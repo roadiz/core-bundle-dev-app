@@ -26,18 +26,15 @@ class NodesToNodes extends AbstractPositioned
 {
     use FieldAwareEntityTrait;
 
-    #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'bNodes')]
-    #[ORM\JoinColumn(name: 'node_a_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    protected Node $nodeA;
-
-    #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'aNodes')]
-    #[ORM\JoinColumn(name: 'node_b_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    protected Node $nodeB;
-
-    public function __construct(Node $nodeA, Node $nodeB, ?NodeTypeFieldInterface $field = null)
-    {
-        $this->nodeA = $nodeA;
-        $this->nodeB = $nodeB;
+    public function __construct(
+        #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'bNodes')]
+        #[ORM\JoinColumn(name: 'node_a_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        protected Node $nodeA,
+        #[ORM\ManyToOne(targetEntity: Node::class, cascade: ['persist'], fetch: 'EAGER', inversedBy: 'aNodes')]
+        #[ORM\JoinColumn(name: 'node_b_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        protected Node $nodeB,
+        ?NodeTypeFieldInterface $field = null,
+    ) {
         $this->initializeFieldAwareEntityTrait($field);
     }
 

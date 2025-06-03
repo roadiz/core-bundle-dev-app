@@ -36,6 +36,7 @@ class SolariumDocument extends AbstractSolarium
     /**
      * @deprecated
      */
+    #[\Override]
     public function getDocument(): ?DocumentInterface
     {
         throw new \RuntimeException('Method getDocument cannot be called for SolariumDocument.');
@@ -55,6 +56,7 @@ class SolariumDocument extends AbstractSolarium
         return array_filter($documents);
     }
 
+    #[\Override]
     public function getDocumentId(): string|int
     {
         throw new \RuntimeException('SolariumDocument should not provide any ID');
@@ -65,6 +67,7 @@ class SolariumDocument extends AbstractSolarium
      *
      * @return bool *FALSE* if no document found linked to current Roadiz document
      */
+    #[\Override]
     public function getDocumentFromIndex(): bool
     {
         /** @var SolariumDocumentTranslation $documentTranslationItem */
@@ -78,6 +81,7 @@ class SolariumDocument extends AbstractSolarium
     /**
      * @return $this
      */
+    #[\Override]
     public function createEmptyDocument(Query $update): self
     {
         /** @var SolariumDocumentTranslation $documentTranslationItem */
@@ -88,11 +92,13 @@ class SolariumDocument extends AbstractSolarium
         return $this;
     }
 
+    #[\Override]
     protected function getFieldsAssoc(): array
     {
         return [];
     }
 
+    #[\Override]
     public function clean(Query $update): bool
     {
         /** @var SolariumDocumentTranslation $documentTranslationItem */
@@ -103,6 +109,7 @@ class SolariumDocument extends AbstractSolarium
         return true;
     }
 
+    #[\Override]
     public function indexAndCommit(): ?ResultInterface
     {
         $lastResult = null;
@@ -117,6 +124,7 @@ class SolariumDocument extends AbstractSolarium
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function updateAndCommit(): ?ResultInterface
     {
         $lastResult = null;
@@ -131,6 +139,7 @@ class SolariumDocument extends AbstractSolarium
     /**
      * @throws \Exception
      */
+    #[\Override]
     public function update(Query $update): void
     {
         /** @var SolariumDocumentTranslation $documentTranslationItem */
@@ -139,6 +148,7 @@ class SolariumDocument extends AbstractSolarium
         }
     }
 
+    #[\Override]
     public function remove(Query $update): bool
     {
         /** @var SolariumDocumentTranslation $documentTranslationItem */
@@ -149,6 +159,7 @@ class SolariumDocument extends AbstractSolarium
         return true;
     }
 
+    #[\Override]
     public function removeAndCommit(): void
     {
         /** @var SolariumDocumentTranslation $documentTranslationItem */
@@ -157,6 +168,7 @@ class SolariumDocument extends AbstractSolarium
         }
     }
 
+    #[\Override]
     public function cleanAndCommit(): void
     {
         /** @var SolariumDocumentTranslation $documentTranslationItem */
@@ -165,6 +177,7 @@ class SolariumDocument extends AbstractSolarium
         }
     }
 
+    #[\Override]
     public function index(): bool
     {
         /** @var SolariumDocumentTranslation $documentTranslationItem */
@@ -175,6 +188,7 @@ class SolariumDocument extends AbstractSolarium
         return true;
     }
 
+    #[\Override]
     protected function getIdempotentIdentifier(): string
     {
         throw new \InvalidArgumentException('SolariumDocument should not provide any ID');

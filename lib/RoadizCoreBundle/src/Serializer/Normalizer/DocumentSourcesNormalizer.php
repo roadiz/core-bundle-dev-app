@@ -26,6 +26,7 @@ final class DocumentSourcesNormalizer extends AbstractPathNormalizer
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $data = $this->decorated->normalize($object, $format, $context);

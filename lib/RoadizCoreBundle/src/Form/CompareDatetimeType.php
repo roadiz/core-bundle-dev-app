@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class CompareDatetimeType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('compareOp', ChoiceType::class, [
@@ -41,6 +42,7 @@ final class CompareDatetimeType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
@@ -48,6 +50,7 @@ final class CompareDatetimeType extends AbstractType
         $view->vars['attr']['class'] = 'rz-compare-datetype';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -56,6 +59,7 @@ final class CompareDatetimeType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'comparedatetime';

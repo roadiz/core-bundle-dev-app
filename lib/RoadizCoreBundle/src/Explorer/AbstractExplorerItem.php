@@ -28,6 +28,7 @@ abstract class AbstractExplorerItem implements ExplorerItemInterface
         return null;
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return [

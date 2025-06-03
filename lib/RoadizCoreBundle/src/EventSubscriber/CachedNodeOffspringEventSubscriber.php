@@ -17,6 +17,7 @@ final readonly class CachedNodeOffspringEventSubscriber implements EventSubscrib
     {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

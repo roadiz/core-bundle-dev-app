@@ -34,12 +34,13 @@ use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Workflow\Event\Event;
 
-final class SolariumSubscriber implements EventSubscriberInterface
+final readonly class SolariumSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private readonly MessageBusInterface $messageBus)
+    public function __construct(private MessageBusInterface $messageBus)
     {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

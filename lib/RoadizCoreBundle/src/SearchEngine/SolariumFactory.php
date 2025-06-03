@@ -26,6 +26,7 @@ class SolariumFactory implements SolariumFactoryInterface
         $this->logger = $searchEngineLogger;
     }
 
+    #[\Override]
     public function createWithDocument(Document $document): SolariumDocument
     {
         return new SolariumDocument(
@@ -37,6 +38,7 @@ class SolariumFactory implements SolariumFactoryInterface
         );
     }
 
+    #[\Override]
     public function createWithDocumentTranslation(DocumentTranslation $documentTranslation): SolariumDocumentTranslation
     {
         return new SolariumDocumentTranslation(
@@ -48,6 +50,7 @@ class SolariumFactory implements SolariumFactoryInterface
         );
     }
 
+    #[\Override]
     public function createWithNodesSources(NodesSources $nodeSource): SolariumNodeSource
     {
         return new SolariumNodeSource(

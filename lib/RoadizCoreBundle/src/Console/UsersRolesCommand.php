@@ -28,6 +28,7 @@ final class UsersRolesCommand extends UsersCommand
         parent::__construct($managerRegistry, $name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('users:roles')
@@ -51,6 +52,7 @@ final class UsersRolesCommand extends UsersCommand
             );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

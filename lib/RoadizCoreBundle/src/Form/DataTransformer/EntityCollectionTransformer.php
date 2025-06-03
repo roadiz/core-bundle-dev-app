@@ -25,6 +25,7 @@ readonly class EntityCollectionTransformer implements DataTransformerInterface
     /**
      * @param iterable<PersistableInterface>|mixed|null $value
      */
+    #[\Override]
     public function transform(mixed $value): string|array
     {
         if (empty($value)) {
@@ -47,6 +48,7 @@ readonly class EntityCollectionTransformer implements DataTransformerInterface
      *
      * @return array<PersistableInterface>|ArrayCollection<int, PersistableInterface>
      */
+    #[\Override]
     public function reverseTransform(mixed $value): array|ArrayCollection
     {
         if (!$value) {

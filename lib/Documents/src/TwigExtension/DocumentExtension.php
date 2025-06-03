@@ -33,17 +33,18 @@ final class DocumentExtension extends AbstractExtension
     ) {
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
-            new TwigFilter('display', [$this, 'display'], ['is_safe' => ['html']]),
-            new TwigFilter('imageRatio', [$this, 'getImageRatio']),
-            new TwigFilter('imageSize', [$this, 'getImageSize']),
-            new TwigFilter('imageOrientation', [$this, 'getImageOrientation']),
-            new TwigFilter('path', [$this, 'getPath']),
-            new TwigFilter('exists', [$this, 'exists']),
-            new TwigFilter('embedFinder', [$this, 'getEmbedFinder']),
-            new TwigFilter('formatBytes', [$this, 'formatBytes']),
+            new TwigFilter('display', $this->display(...), ['is_safe' => ['html']]),
+            new TwigFilter('imageRatio', $this->getImageRatio(...)),
+            new TwigFilter('imageSize', $this->getImageSize(...)),
+            new TwigFilter('imageOrientation', $this->getImageOrientation(...)),
+            new TwigFilter('path', $this->getPath(...)),
+            new TwigFilter('exists', $this->exists(...)),
+            new TwigFilter('embedFinder', $this->getEmbedFinder(...)),
+            new TwigFilter('formatBytes', $this->formatBytes(...)),
         ];
     }
 
@@ -55,7 +56,7 @@ final class DocumentExtension extends AbstractExtension
         $size = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         $factor = floor((\mb_strlen((string) $bytes) - 1) / 3);
 
-        return sprintf("%.{$precision}f", (int) $bytes / pow(1024, $factor)).@$size[$factor];
+        return sprintf("%.{$precision}f", (int) $bytes / 1024 ** $factor).@$size[$factor];
     }
 
     /**

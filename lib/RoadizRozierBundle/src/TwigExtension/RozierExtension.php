@@ -23,6 +23,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     ) {
     }
 
+    #[\Override]
     public function getGlobals(): array
     {
         return [
@@ -41,10 +42,11 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         ];
     }
 
+    #[\Override]
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('getNodeType', [$this, 'getNodeType']),
+            new TwigFunction('getNodeType', $this->getNodeType(...)),
         ];
     }
 

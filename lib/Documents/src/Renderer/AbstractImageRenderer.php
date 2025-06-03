@@ -25,6 +25,7 @@ abstract class AbstractImageRenderer extends AbstractRenderer
         parent::__construct($documentsStorage, $templating, $documentUrlGenerator, $templateBasePath);
     }
 
+    #[\Override]
     public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return $document->isImage()

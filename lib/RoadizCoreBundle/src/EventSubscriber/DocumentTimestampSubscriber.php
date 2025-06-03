@@ -10,6 +10,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 final readonly class DocumentTimestampSubscriber implements EventSubscriberInterface
 {
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

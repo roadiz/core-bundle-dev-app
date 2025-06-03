@@ -51,6 +51,7 @@ final class FolderTreeWidget extends AbstractWidget
         return $this->folders;
     }
 
+    #[\Override]
     public function getTranslation(): TranslationInterface
     {
         return $this->translation ?? parent::getTranslation();

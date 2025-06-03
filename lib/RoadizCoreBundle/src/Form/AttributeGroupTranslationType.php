@@ -19,6 +19,7 @@ final class AttributeGroupTranslationType extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class, [
@@ -38,12 +39,14 @@ final class AttributeGroupTranslationType extends AbstractType
         $builder->get('translation')->addModelTransformer($this->translationTransformer);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
         $resolver->setDefault('data_class', AttributeGroupTranslation::class);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'attribute_group_translation';

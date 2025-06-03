@@ -18,11 +18,13 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
     ) {
     }
 
+    #[\Override]
     public function getId(): int|string
     {
         return $this->entity->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         $alt = $this->configuration['classname'];
@@ -39,6 +41,7 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
         return (new UnicodeString($alt ?? ''))->truncate(30, '…')->toString();
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         $displayableCallable = [$this->entity, $this->configuration['displayable']];
@@ -52,11 +55,13 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
         return (new UnicodeString($displayable ?? ''))->truncate(30, '…')->toString();
     }
 
+    #[\Override]
     public function getOriginal(): PersistableInterface
     {
         return $this->entity;
     }
 
+    #[\Override]
     protected function getThumbnail(): ?BaseDocumentInterface
     {
         /** @var BaseDocumentInterface|null $thumbnail */
@@ -76,6 +81,7 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
         return $thumbnail;
     }
 
+    #[\Override]
     protected function getEditItemPath(): ?string
     {
         return null;

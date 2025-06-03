@@ -199,6 +199,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      * @param array        $criteria Additional criteria
      * @param string       $alias    SQL query table alias
      */
+    #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
@@ -230,6 +231,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     /**
      * Bind parameters to generated query.
      */
+    #[\Override]
     protected function applyFilterByCriteria(array &$criteria, QueryBuilder $qb): void
     {
         /*
@@ -366,6 +368,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         return $qb;
     }
 
+    #[\Override]
     public function findOneByHashAndAlgorithm(string $hash, string $hashAlgorithm): ?Document
     {
         $qb = $this->createQueryBuilder('d');
@@ -396,6 +399,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      * @param int|null $limit
      * @param int|null $offset
      */
+    #[\Override]
     public function findBy(
         array $criteria,
         ?array $orderBy = null,
@@ -436,6 +440,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      *
      * @throws NonUniqueResultException
      */
+    #[\Override]
     public function findOneBy(
         array $criteria,
         ?array $orderBy = null,
@@ -466,6 +471,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
+    #[\Override]
     public function countBy(
         mixed $criteria,
         ?TranslationInterface $translation = null,
@@ -668,6 +674,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      *
      * @return array<Document>
      */
+    #[\Override]
     public function findAllUnused(): array
     {
         return $this->getAllUnusedQueryBuilder()->getQuery()->getResult();
@@ -762,6 +769,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     /**
      * @return Document[]
      */
+    #[\Override]
     public function findAllWithoutFileHash(): array
     {
         $qb = $this->createQueryBuilder('d');
@@ -794,6 +802,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     /**
      * @return array<Document>
      */
+    #[\Override]
     public function findDuplicates(): array
     {
         return $this->getDuplicatesQueryBuilder()->getQuery()->getResult();

@@ -46,6 +46,7 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
         parent::__construct();
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -68,6 +69,7 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
         ];
     }
 
+    #[\Override]
     public function collect(HttpRequest $request, HttpResponse $response, ?\Throwable $exception = null): void
     {
         if (isset($this->currentRequest)) {
@@ -84,6 +86,7 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
         ];
     }
 
+    #[\Override]
     public function getName(): string
     {
         return 'solarium';
@@ -154,16 +157,19 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
         $this->currentEndpoint = null;
     }
 
+    #[\Override]
     public function serialize(): string
     {
         return serialize($this->data);
     }
 
+    #[\Override]
     public function unserialize($data): void
     {
         $this->data = unserialize($data);
     }
 
+    #[\Override]
     public function reset(): void
     {
         $this->data = [];
@@ -186,6 +192,7 @@ final class SolariumLogger extends SolariumPlugin implements DataCollectorInterf
         return method_exists($endpoint, 'getCoreBaseUri') ? $endpoint->getCoreBaseUri() : $endpoint->getBaseUri();
     }
 
+    #[\Override]
     public static function getTemplate(): ?string
     {
         return '@RoadizCore/DataCollector/solarium.html.twig';

@@ -696,9 +696,7 @@ class NSMock extends NodesSources
     #[Serializer\MaxDepth(2)]
     public function getEventReferencesProxied(): array
     {
-        return $this->eventReferencesProxiedProxy->map(function (\App\Entity\PositionedCity $proxyEntity) {
-            return $proxyEntity->getCity();
-        })->getValues();
+        return $this->eventReferencesProxiedProxy->map(fn(\App\Entity\PositionedCity $proxyEntity) => $proxyEntity->getCity())->getValues();
     }
 
     /**
@@ -750,9 +748,7 @@ class NSMock extends NodesSources
     #[Serializer\MaxDepth(2)]
     public function getFooMtmRequired(): array
     {
-        return $this->fooMtmRequiredProxy->map(function (\App\Entity\PositionedCity $proxyEntity) {
-            return $proxyEntity->getCity();
-        })->getValues();
+        return $this->fooMtmRequiredProxy->map(fn(\App\Entity\PositionedCity $proxyEntity) => $proxyEntity->getCity())->getValues();
     }
 
     /**
@@ -1054,9 +1050,7 @@ class NSMock extends NodesSources
     #[Serializer\MaxDepth(1)]
     public function getFooManyToManyProxied(): array
     {
-        return $this->fooManyToManyProxiedProxy->map(function (\Themes\MyTheme\Entities\PositionedCity $proxyEntity) {
-            return $proxyEntity->getCity();
-        })->getValues();
+        return $this->fooManyToManyProxiedProxy->map(fn(\Themes\MyTheme\Entities\PositionedCity $proxyEntity) => $proxyEntity->getCity())->getValues();
     }
 
     /**
@@ -1106,6 +1100,7 @@ class NSMock extends NodesSources
         $this->fooManyToManyProxiedProxy = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    #[\Override]
     public function __clone(): void
     {
         parent::__clone();
@@ -1140,6 +1135,7 @@ class NSMock extends NodesSources
 
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return 'Mock';
@@ -1147,6 +1143,7 @@ class NSMock extends NodesSources
 
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    #[\Override]
     public function getNodeTypeColor(): string
     {
         return '';
@@ -1156,6 +1153,7 @@ class NSMock extends NodesSources
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
      */
+    #[\Override]
     public function isReachable(): bool
     {
         return true;
@@ -1165,11 +1163,13 @@ class NSMock extends NodesSources
      * $this->nodeType->isPublishable() proxy.
      * @return bool Does this nodeSource is publishable with date and time?
      */
+    #[\Override]
     public function isPublishable(): bool
     {
         return true;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return '[NSMock] ' . parent::__toString();

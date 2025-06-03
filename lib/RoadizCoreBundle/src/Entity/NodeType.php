@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * NodeType describes each node structure family,
  * They are mandatory before creating any Node.
  */
-final class NodeType implements NodeTypeInterface
+final class NodeType implements NodeTypeInterface, \Stringable
 {
     #[
         SymfonySerializer\Groups(['node_type:display', 'node_type', 'node_type:import', 'color']),
@@ -104,9 +104,6 @@ final class NodeType implements NodeTypeInterface
     ]
     private bool $searchable = true;
 
-    /**
-     * Create a new NodeType.
-     */
     public function __construct()
     {
         $this->fields = new ArrayCollection();
@@ -114,6 +111,7 @@ final class NodeType implements NodeTypeInterface
         $this->displayName = 'Untitled node-type';
     }
 
+    #[\Override]
     public function getLabel(): string
     {
         return $this->getDisplayName();
@@ -134,6 +132,7 @@ final class NodeType implements NodeTypeInterface
         return $this;
     }
 
+    #[\Override]
     public function getDescription(): ?string
     {
         return $this->description;
@@ -149,6 +148,7 @@ final class NodeType implements NodeTypeInterface
         return $this;
     }
 
+    #[\Override]
     public function isVisible(): bool
     {
         return $this->visible;
@@ -164,6 +164,7 @@ final class NodeType implements NodeTypeInterface
         return $this;
     }
 
+    #[\Override]
     public function isPublishable(): bool
     {
         return $this->publishable;
@@ -181,6 +182,7 @@ final class NodeType implements NodeTypeInterface
         return $this->reachable;
     }
 
+    #[\Override]
     public function isReachable(): bool
     {
         return $this->getReachable();
@@ -223,6 +225,7 @@ final class NodeType implements NodeTypeInterface
     /**
      * Gets the value of color.
      */
+    #[\Override]
     public function getColor(): ?string
     {
         return $this->color;
@@ -252,6 +255,7 @@ final class NodeType implements NodeTypeInterface
         return $this;
     }
 
+    #[\Override]
     public function getFieldByName(string $name): ?NodeTypeField
     {
         $fieldCriteria = Criteria::create();
@@ -265,6 +269,7 @@ final class NodeType implements NodeTypeInterface
     /**
      * @return Collection<int, NodeTypeField>
      */
+    #[\Override]
     public function getFields(): Collection
     {
         return $this->fields;
@@ -288,13 +293,13 @@ final class NodeType implements NodeTypeInterface
      * a simple array.
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getFieldsNames(): array
     {
-        return array_map(function (NodeTypeField $field) {
-            return $field->getName();
-        }, $this->getFields()->toArray());
+        return array_map(fn (NodeTypeField $field) => $field->getName(), $this->getFields()->toArray());
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
@@ -333,6 +338,7 @@ final class NodeType implements NodeTypeInterface
      * @return class-string<NodesSources>
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getSourceEntityFullQualifiedClassName(): string
     {
         // @phpstan-ignore-next-line
@@ -349,6 +355,7 @@ final class NodeType implements NodeTypeInterface
      * Get node-source entity class name without its namespace.
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getSourceEntityClassName(): string
     {
         return 'NS'.ucwords($this->getName());
@@ -358,11 +365,13 @@ final class NodeType implements NodeTypeInterface
      * Get node-source entity database table name.
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getSourceEntityTableName(): string
     {
         return 'ns_'.\mb_strtolower($this->getName());
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getName();
@@ -372,13 +381,13 @@ final class NodeType implements NodeTypeInterface
      * Get every searchable node-type fields as a Doctrine ArrayCollection.
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getSearchableFields(): Collection
     {
-        return $this->getFields()->filter(function (NodeTypeField $field) {
-            return $field->isSearchable();
-        });
+        return $this->getFields()->filter(fn (NodeTypeField $field) => $field->isSearchable());
     }
 
+    #[\Override]
     public function isSearchable(): bool
     {
         return $this->searchable;

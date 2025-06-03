@@ -11,11 +11,11 @@ use RZ\Roadiz\CoreBundle\SearchEngine\Message\SolrReindexMessage;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
 #[AsMessageHandler]
-final class SolrReindexMessageHandler
+final readonly class SolrReindexMessageHandler
 {
     public function __construct(
-        private readonly IndexerFactoryInterface $indexerFactory,
-        private readonly LoggerInterface $searchEngineLogger,
+        private IndexerFactoryInterface $indexerFactory,
+        private LoggerInterface $searchEngineLogger,
     ) {
     }
 
@@ -27,7 +27,7 @@ final class SolrReindexMessageHandler
                 // @phpstan-ignore-next-line
                 $this->indexerFactory->getIndexerFor($message->getClassname())->index($message->getIdentifier());
             }
-        } catch (SolrServerNotAvailableException $exception) {
+        } catch (SolrServerNotAvailableException) {
             return;
         } catch (\LogicException $exception) {
             $this->searchEngineLogger->error($exception->getMessage());

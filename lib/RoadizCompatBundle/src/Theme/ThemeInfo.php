@@ -13,12 +13,12 @@ use Symfony\Component\Filesystem\Filesystem;
 final class ThemeInfo
 {
     private string $name;
-    private string $themeName;
+    private readonly string $themeName;
     /**
      * @var class-string|null
      */
     private ?string $classname = null;
-    private Filesystem $filesystem;
+    private readonly Filesystem $filesystem;
     private ?string $themePath = null;
     private static array $protectedThemeNames = ['Rozier'];
 
@@ -56,7 +56,7 @@ final class ThemeInfo
     protected function guessClassnameFromThemeName(string $themeName): string
     {
         $className = match ($themeName) {
-            'RozierApp', 'RozierTheme', 'Rozier' => '\\Themes\\Rozier\\RozierApp',
+            'RozierApp', 'RozierTheme', 'Rozier' => \Themes\Rozier\RozierApp::class,
             default => '\\Themes\\'.$themeName.'\\'.$themeName.'App',
         };
 
@@ -104,7 +104,7 @@ final class ThemeInfo
             throw new LogicException('Theme name must only contain alphabetical characters and begin with uppercase letter.');
         }
 
-        $name = trim(preg_replace('#(?:Theme)?(?:App)?$#', '', $name));
+        $name = trim((string) preg_replace('#(?:Theme)?(?:App)?$#', '', $name));
         if (!empty($name)) {
             return $name;
         }
@@ -181,7 +181,7 @@ final class ThemeInfo
             if ($reflection->isSubclassOf(AbstractController::class)) {
                 return $reflection;
             }
-        } catch (\ReflectionException $Exception) {
+        } catch (\ReflectionException) {
             return null;
         }
 
@@ -238,7 +238,7 @@ final class ThemeInfo
             if ($reflection->isSubclassOf(AbstractController::class)) {
                 return true;
             }
-        } catch (\ReflectionException $Exception) {
+        } catch (\ReflectionException) {
             return false;
         }
 

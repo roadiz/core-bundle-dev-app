@@ -26,6 +26,7 @@ final class FilesImportCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this
@@ -36,6 +37,7 @@ final class FilesImportCommand extends Command
             ]);
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

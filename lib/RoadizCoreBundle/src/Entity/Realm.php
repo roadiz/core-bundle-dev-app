@@ -93,6 +93,7 @@ class Realm extends AbstractEntity implements RealmInterface
         $this->realmNodes = new ArrayCollection();
     }
 
+    #[\Override]
     public function getRole(): ?string
     {
         if (null === $this->roleEntity) {
@@ -114,6 +115,7 @@ class Realm extends AbstractEntity implements RealmInterface
         return $this;
     }
 
+    #[\Override]
     public function getSerializationGroup(): ?string
     {
         return $this->serializationGroup;
@@ -128,6 +130,7 @@ class Realm extends AbstractEntity implements RealmInterface
         return $this;
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name ?? '';
@@ -166,6 +169,7 @@ class Realm extends AbstractEntity implements RealmInterface
     /**
      * @return Collection<int, User>
      */
+    #[\Override]
     public function getUsers(): Collection
     {
         return $this->users;
@@ -183,6 +187,7 @@ class Realm extends AbstractEntity implements RealmInterface
         return $this;
     }
 
+    #[\Override]
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
@@ -195,6 +200,7 @@ class Realm extends AbstractEntity implements RealmInterface
         return $this;
     }
 
+    #[\Override]
     public function getBehaviour(): string
     {
         return $this->behaviour;
@@ -207,12 +213,14 @@ class Realm extends AbstractEntity implements RealmInterface
         return $this;
     }
 
+    #[\Override]
     public function getChallenge(): string
     {
         return $this->getAuthenticationScheme().' realm="'.addslashes($this->getName()).'"';
     }
 
     #[SymfonySerializer\Groups(['get', 'realm', 'web_response'])]
+    #[\Override]
     public function getAuthenticationScheme(): string
     {
         return match ($this->getType()) {
@@ -221,6 +229,7 @@ class Realm extends AbstractEntity implements RealmInterface
         };
     }
 
+    #[\Override]
     public function getType(): string
     {
         return $this->type;

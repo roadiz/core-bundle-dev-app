@@ -13,6 +13,7 @@ use RZ\Roadiz\Documents\Models\FolderInterface;
 
 final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexingSubscriber
 {
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -74,9 +75,7 @@ final class DefaultDocumentTranslationIndexingSubscriber extends AbstractIndexin
         /*
          * `tags_txt` Must store only public, visible and user-searchable content.
          */
-        $visibleFolders = $document->getFolders()->filter(function (FolderInterface $folder) {
-            return $folder->isVisible();
-        })->toArray();
+        $visibleFolders = $document->getFolders()->filter(fn (FolderInterface $folder) => $folder->isVisible())->toArray();
         $visibleFolderNames = [];
         /** @var Folder $folder */
         foreach ($visibleFolders as $folder) {

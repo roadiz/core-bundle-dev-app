@@ -13,6 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class UsersDisableCommand extends UsersCommand
 {
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('users:disable')
@@ -24,6 +25,7 @@ final class UsersDisableCommand extends UsersCommand
             );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

@@ -56,6 +56,7 @@ final readonly class MaintenanceModeSubscriber implements EventSubscriberInterfa
         ];
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -91,7 +92,7 @@ final readonly class MaintenanceModeSubscriber implements EventSubscriberInterfa
     {
         $ctrlClass = $theme->getClassName();
         $controller = new $ctrlClass();
-        $serviceId = get_class($controller);
+        $serviceId = $controller::class;
 
         if ($this->serviceLocator->has($serviceId)) {
             $controller = $this->serviceLocator->get($serviceId);

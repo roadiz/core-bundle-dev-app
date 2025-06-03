@@ -13,21 +13,25 @@ use RZ\Roadiz\Documents\Models\TimeableInterface;
 
 abstract class AbstractPodcastFinder extends AbstractEmbedFinder
 {
+    #[\Override]
     public static function supportEmbedUrl(string $embedUrl): bool
     {
         return false;
     }
 
+    #[\Override]
     public static function getPlatform(): string
     {
         return 'podcast';
     }
 
+    #[\Override]
     protected function validateEmbedId(string $embedId = ''): string
     {
         return $embedId;
     }
 
+    #[\Override]
     public function getFeed(): array|\SimpleXMLElement|null
     {
         if (null === $this->feed) {
@@ -36,7 +40,7 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
                 $this->feed = new \SimpleXMLElement($rawFeed);
 
                 return $this->feed;
-            } catch (\Exception $errorException) {
+            } catch (\Exception) {
                 throw new \RuntimeException('Feed content is not a valid Podcast XML');
             }
         }
@@ -70,6 +74,7 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
      *
      * @throws FilesystemException
      */
+    #[\Override]
     public function createDocumentFromFeed(
         ObjectManager $objectManager,
         AbstractDocumentFactory $documentFactory,
@@ -156,6 +161,7 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
         return $copyright.' – '.$this->getMediaCopyright();
     }
 
+    #[\Override]
     public function getMediaFeed(?string $search = null): string
     {
         $url = $this->embedId;
@@ -164,6 +170,7 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
         return $response->getContent();
     }
 
+    #[\Override]
     public function getMediaTitle(): ?string
     {
         $feed = $this->getFeed();
@@ -174,6 +181,7 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
         return null;
     }
 
+    #[\Override]
     public function getMediaDescription(): ?string
     {
         $feed = $this->getFeed();
@@ -184,6 +192,7 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
         return null;
     }
 
+    #[\Override]
     public function getMediaCopyright(): ?string
     {
         $feed = $this->getFeed();
@@ -194,6 +203,7 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
         return null;
     }
 
+    #[\Override]
     public function getThumbnailURL(): ?string
     {
         $feed = $this->getFeed();
@@ -208,6 +218,7 @@ abstract class AbstractPodcastFinder extends AbstractEmbedFinder
         return null;
     }
 
+    #[\Override]
     protected function areDuplicatesAllowed(): bool
     {
         return true;

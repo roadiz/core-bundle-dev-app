@@ -110,6 +110,7 @@ final class DoctrineHandler extends AbstractProcessingHandler
         }
     }
 
+    #[\Override]
     public function write(array $record): void
     {
         try {
@@ -134,7 +135,7 @@ final class DoctrineHandler extends AbstractProcessingHandler
                     } elseif ($value instanceof NodesSources) {
                         $this->populateForNodesSources($value, $log, $data);
                     } elseif ('entity' === $key && $value instanceof PersistableInterface) {
-                        $log->setEntityClass(get_class($value));
+                        $log->setEntityClass($value::class);
                         $log->setEntityId($value->getId());
 
                         $texteable = ['getTitle', 'getName', '__toString'];
@@ -154,7 +155,7 @@ final class DoctrineHandler extends AbstractProcessingHandler
                         $data = array_merge(
                             $data,
                             [
-                                'exception_class' => get_class($value),
+                                'exception_class' => $value::class,
                                 'message' => $value->getMessage(),
                             ]
                         );
@@ -222,7 +223,7 @@ final class DoctrineHandler extends AbstractProcessingHandler
 
             $manager->persist($log);
             $manager->flush();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             /*
              * Need to prevent SQL errors over throwing
              * if PDO has faulted

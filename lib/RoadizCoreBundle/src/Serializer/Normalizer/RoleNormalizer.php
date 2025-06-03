@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 final readonly class RoleNormalizer implements DenormalizerInterface
 {
-    public const PERSIST_NEW_ENTITIES = 'persist_new_entities';
+    public const string PERSIST_NEW_ENTITIES = 'persist_new_entities';
 
     public function __construct(private ManagerRegistry $managerRegistry)
     {
@@ -24,6 +24,7 @@ final readonly class RoleNormalizer implements DenormalizerInterface
         ];
     }
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): Role
     {
         $name = $data['name'];
@@ -69,6 +70,7 @@ final readonly class RoleNormalizer implements DenormalizerInterface
         return $role;
     }
 
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
     {
         return is_array($data) && array_key_exists('name', $data);

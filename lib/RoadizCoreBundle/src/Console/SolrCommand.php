@@ -22,6 +22,7 @@ class SolrCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('solr:check')
@@ -48,6 +49,7 @@ class SolrCommand extends Command
         return $client;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);

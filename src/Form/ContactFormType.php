@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 final class ContactFormType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -55,12 +56,14 @@ final class ContactFormType extends AbstractType
         ;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('label', false);
         $resolver->setDefault('required', false);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return '';

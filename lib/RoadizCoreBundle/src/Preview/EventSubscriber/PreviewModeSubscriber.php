@@ -13,16 +13,17 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-final class PreviewModeSubscriber implements EventSubscriberInterface
+final readonly class PreviewModeSubscriber implements EventSubscriberInterface
 {
-    public const QUERY_PARAM_NAME = '_preview';
+    public const string QUERY_PARAM_NAME = '_preview';
 
     public function __construct(
-        private readonly PreviewResolverInterface $previewResolver,
-        private readonly Security $security,
+        private PreviewResolverInterface $previewResolver,
+        private Security $security,
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

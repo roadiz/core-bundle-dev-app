@@ -47,7 +47,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         'updatedAt',
     ])
 ]
-class Tag extends AbstractDateTimedPositioned implements LeafInterface
+class Tag extends AbstractDateTimedPositioned implements LeafInterface, \Stringable
 {
     use LeafTrait;
 
@@ -195,9 +195,6 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     ])]
     private Collection $nodesTags;
 
-    /**
-     * Create a new Tag.
-     */
     public function __construct()
     {
         $this->nodesTags = new ArrayCollection();
@@ -234,9 +231,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
      */
     public function getNodes(): Collection
     {
-        return $this->nodesTags->map(function (NodesTags $nodesTags) {
-            return $nodesTags->getNode();
-        });
+        return $this->nodesTags->map(fn (NodesTags $nodesTags) => $nodesTags->getNode());
     }
 
     /**
@@ -280,17 +275,13 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     #[SymfonySerializer\Ignore]
     public function getTranslatedTagsByTranslation(TranslationInterface $translation): Collection
     {
-        return $this->translatedTags->filter(function (TagTranslation $tagTranslation) use ($translation) {
-            return $tagTranslation->getTranslation()->getLocale() === $translation->getLocale();
-        });
+        return $this->translatedTags->filter(fn (TagTranslation $tagTranslation) => $tagTranslation->getTranslation()->getLocale() === $translation->getLocale());
     }
 
     #[SymfonySerializer\Ignore]
     public function getTranslatedTagsByDefaultTranslation(): ?TagTranslation
     {
-        return $this->translatedTags->findFirst(function (int $key, TagTranslation $tagTranslation) {
-            return $tagTranslation->getTranslation()->isDefaultTranslation();
-        });
+        return $this->translatedTags->findFirst(fn (int $key, TagTranslation $tagTranslation) => $tagTranslation->getTranslation()->isDefaultTranslation());
     }
 
     public function getOneLineSummary(): string
@@ -374,6 +365,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();
@@ -427,6 +419,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
             [];
     }
 
+    #[\Override]
     public function setParent(?LeafInterface $parent = null): static
     {
         if ($parent === $this) {

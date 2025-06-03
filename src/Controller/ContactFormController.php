@@ -15,12 +15,12 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 
-final class ContactFormController
+final readonly class ContactFormController
 {
     public function __construct(
-        private readonly ContactFormManagerFactory $contactFormManagerFactory,
-        private readonly RateLimiterFactory $contactFormLimiter,
-        private readonly LiformInterface $liform,
+        private ContactFormManagerFactory $contactFormManagerFactory,
+        private RateLimiterFactory $contactFormLimiter,
+        private LiformInterface $liform,
     ) {
     }
 

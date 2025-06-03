@@ -18,11 +18,13 @@ final class CustomFormExplorerItem extends AbstractExplorerItem
     ) {
     }
 
+    #[\Override]
     public function getId(): string|int
     {
         return $this->customForm->getId();
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         return strip_tags($this->translator->trans(
@@ -33,16 +35,19 @@ final class CustomFormExplorerItem extends AbstractExplorerItem
         ));
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         return $this->customForm->getDisplayName();
     }
 
+    #[\Override]
     public function getOriginal(): CustomForm
     {
         return $this->customForm;
     }
 
+    #[\Override]
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('customFormsEditPage', [
@@ -50,6 +55,7 @@ final class CustomFormExplorerItem extends AbstractExplorerItem
         ]);
     }
 
+    #[\Override]
     protected function getColor(): ?string
     {
         return $this->customForm->getColor();

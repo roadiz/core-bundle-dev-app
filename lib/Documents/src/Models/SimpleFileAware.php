@@ -9,48 +9,53 @@ namespace RZ\Roadiz\Documents\Models;
  */
 class SimpleFileAware implements FileAwareInterface
 {
-    private string $basePath;
-
-    public function __construct(string $basePath)
+    public function __construct(private readonly string $basePath)
     {
-        $this->basePath = $basePath;
     }
 
+    #[\Override]
     public function getPublicFilesPath(): string
     {
         return $this->basePath.$this->getPublicFilesBasePath();
     }
 
+    #[\Override]
     public function getPublicFilesBasePath(): string
     {
         return '/files';
     }
 
+    #[\Override]
     public function getPrivateFilesPath(): string
     {
         return $this->basePath.$this->getPrivateFilesBasePath();
     }
 
+    #[\Override]
     public function getPrivateFilesBasePath(): string
     {
         return '/private';
     }
 
+    #[\Override]
     public function getFontsFilesPath(): string
     {
         return $this->basePath.$this->getPrivateFilesBasePath();
     }
 
+    #[\Override]
     public function getFontsFilesBasePath(): string
     {
         return '/fonts';
     }
 
+    #[\Override]
     public function getPublicCachePath(): string
     {
         return '/cache';
     }
 
+    #[\Override]
     public function getPublicCacheBasePath(): string
     {
         return '/cache';

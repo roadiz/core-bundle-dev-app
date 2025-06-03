@@ -19,7 +19,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "roadiz/compat-bundle": "2.6.x-dev",
         "roadiz/core-bundle": "2.6.x-dev",
         "roadiz/openid": "2.6.x-dev",

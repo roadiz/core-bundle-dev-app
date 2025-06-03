@@ -11,16 +11,17 @@ use function Symfony\Component\String\u;
 
 final class CentralTruncateExtension extends AbstractExtension
 {
+    #[\Override]
     public function getFilters(): array
     {
         return [
             new TwigFilter(
                 'centralTruncate',
-                [$this, 'centralTruncate']
+                $this->centralTruncate(...)
             ),
             new TwigFilter(
                 'central_truncate',
-                [$this, 'centralTruncate']
+                $this->centralTruncate(...)
             ),
         ];
     }

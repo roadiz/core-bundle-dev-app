@@ -12,6 +12,7 @@ final class ValidJsonValidator extends ConstraintValidator
     /**
      * @param ValidJson $constraint
      */
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (!empty($value) && is_string($value)) {

@@ -26,6 +26,7 @@ final class ThemeAssetsCommand extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('themes:assets:install')
@@ -43,6 +44,7 @@ final class ThemeAssetsCommand extends Command
     /**
      * @throws ThemeClassNotValidException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

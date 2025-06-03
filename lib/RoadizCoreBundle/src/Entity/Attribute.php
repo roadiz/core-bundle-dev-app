@@ -95,11 +95,13 @@ class Attribute extends AbstractEntity implements AttributeInterface
         return $this;
     }
 
+    #[\Override]
     public function getDefaultRealm(): ?RealmInterface
     {
         return $this->defaultRealm;
     }
 
+    #[\Override]
     public function setDefaultRealm(?RealmInterface $defaultRealm): Attribute
     {
         $this->defaultRealm = $defaultRealm;
@@ -107,6 +109,7 @@ class Attribute extends AbstractEntity implements AttributeInterface
         return $this;
     }
 
+    #[\Override]
     public function getWeight(): int
     {
         return $this->weight;
@@ -123,14 +126,11 @@ class Attribute extends AbstractEntity implements AttributeInterface
      * @return Collection<int, Document>
      */
     #[SymfonySerializer\Groups(['attribute', 'node', 'nodes_sources'])]
+    #[\Override]
     public function getDocuments(): Collection
     {
         /** @var Collection<int, Document> $values */
-        $values = $this->attributeDocuments->map(function (AttributeDocuments $attributeDocuments) {
-            return $attributeDocuments->getDocument();
-        })->filter(function (?Document $document) {
-            return null !== $document;
-        });
+        $values = $this->attributeDocuments->map(fn (AttributeDocuments $attributeDocuments) => $attributeDocuments->getDocument())->filter(fn (?Document $document) => null !== $document);
 
         return $values; // phpstan does not understand filtering null values
     }

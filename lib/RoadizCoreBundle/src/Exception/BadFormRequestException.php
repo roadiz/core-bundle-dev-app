@@ -9,15 +9,9 @@ namespace RZ\Roadiz\CoreBundle\Exception;
  */
 class BadFormRequestException extends \Exception
 {
-    protected string $statusText;
-    protected ?string $fieldErrored;
-
-    public function __construct(?string $message = null, int $code = 403, string $statusText = 'danger', ?string $fieldErrored = null)
+    public function __construct(?string $message = null, int $code = 403, protected string $statusText = 'danger', protected ?string $fieldErrored = null)
     {
         parent::__construct($message, $code);
-
-        $this->statusText = $statusText;
-        $this->fieldErrored = $fieldErrored;
     }
 
     public function getStatusText(): string

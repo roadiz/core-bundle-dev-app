@@ -44,6 +44,7 @@ final readonly class DocumentDtoNormalizer implements NormalizerInterface
      * @throws ExceptionInterface
      * @throws NonUniqueResultException
      */
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         /** @var array<string> $serializationGroups */
@@ -62,15 +63,9 @@ final readonly class DocumentDtoNormalizer implements NormalizerInterface
 
             if (\in_array('document_folders_all', $serializationGroups, true)) {
                 $data['folders'] = $document->getFolders()
-                    ->map(function (FolderInterface $folder) use ($format, $context) {
-                        return $this->normalizer->normalize($folder, $format, $context);
-                    })->getValues();
+                    ->map(fn (FolderInterface $folder) => $this->normalizer->normalize($folder, $format, $context))->getValues();
             } else {
-                $data['folders'] = $document->getFolders()->filter(function (FolderInterface $folder) {
-                    return $folder->getVisible();
-                })->map(function (FolderInterface $folder) use ($format, $context) {
-                    return $this->normalizer->normalize($folder, $format, $context);
-                })->getValues();
+                $data['folders'] = $document->getFolders()->filter(fn (FolderInterface $folder) => $folder->getVisible())->map(fn (FolderInterface $folder) => $this->normalizer->normalize($folder, $format, $context))->getValues();
             }
         }
 
@@ -98,6 +93,7 @@ final readonly class DocumentDtoNormalizer implements NormalizerInterface
         return $data;
     }
 
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null): bool
     {
         return $this->normalizer->supportsNormalization($data, $format);

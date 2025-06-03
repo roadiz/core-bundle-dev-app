@@ -317,7 +317,7 @@ final class ContactFormManager extends EmailManager
                                 ->add('confirm', $this->translator->trans($this->successMessage));
                         }
 
-                        $this->redirectUrl = null !== $this->redirectUrl ? $this->redirectUrl : $request->getUri();
+                        $this->redirectUrl ??= $request->getUri();
 
                         return new RedirectResponse($this->redirectUrl);
                     }
@@ -327,7 +327,7 @@ final class ContactFormManager extends EmailManager
                     } else {
                         $this->form->addError(new FormError($e->getMessage()));
                     }
-                } catch (TransportExceptionInterface $exception) {
+                } catch (TransportExceptionInterface) {
                     $this->form->addError(new FormError('Contact form could not be sent.'));
                 }
             }
@@ -543,6 +543,7 @@ final class ContactFormManager extends EmailManager
      *
      * @throws \RuntimeException
      */
+    #[\Override]
     public function send(): void
     {
         if (empty($this->assignation)) {
@@ -573,6 +574,7 @@ final class ContactFormManager extends EmailManager
     /**
      * @return array<Address>|null
      */
+    #[\Override]
     public function getReceiver(): ?array
     {
         if (empty($this->settingsBag->get('email_sender'))) {

@@ -36,6 +36,7 @@ final readonly class ExplorerItemFactory implements ExplorerItemFactoryInterface
     ) {
     }
 
+    #[\Override]
     public function createForEntity(mixed $entity, array $configuration = []): ExplorerItemInterface
     {
         return match (true) {

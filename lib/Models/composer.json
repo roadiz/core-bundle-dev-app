@@ -18,7 +18,7 @@
         }
     ],
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "doctrine/orm": "~2.20.0",
         "roadiz/nodetype-contracts": "^3.0.0",
         "symfony/string": "6.4.*",

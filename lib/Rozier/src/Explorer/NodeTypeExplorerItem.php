@@ -16,11 +16,13 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
     ) {
     }
 
+    #[\Override]
     public function getId(): string|int
     {
         return $this->nodeType->getName();
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         return $this->nodeType->getName();
@@ -31,16 +33,19 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
         return $this->nodeType->getName();
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         return $this->nodeType->getDisplayName();
     }
 
+    #[\Override]
     public function getOriginal(): NodeType
     {
         return $this->nodeType;
     }
 
+    #[\Override]
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('nodeTypesEditPage', [
@@ -48,11 +53,13 @@ final class NodeTypeExplorerItem extends AbstractExplorerItem
         ]);
     }
 
+    #[\Override]
     protected function getColor(): ?string
     {
         return $this->nodeType->getColor();
     }
 
+    #[\Override]
     public function toArray(): array
     {
         return [

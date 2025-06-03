@@ -11,7 +11,7 @@ use Symfony\Component\Validator\Constraint;
  */
 final class Recaptcha extends Constraint
 {
-    public const FORM_NAME = 'g-recaptcha-response';
+    public const string FORM_NAME = 'g-recaptcha-response';
     public string $emptyMessage = 'you_must_show_youre_not_robot';
     public string $invalidMessage = 'recaptcha_is_invalid.try_again';
     public string $fieldName = self::FORM_NAME;
@@ -21,6 +21,7 @@ final class Recaptcha extends Constraint
     /**
      * @return string[]
      */
+    #[\Override]
     public function getRequiredOptions(): array
     {
         return [

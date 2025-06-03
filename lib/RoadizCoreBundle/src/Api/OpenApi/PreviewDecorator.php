@@ -16,6 +16,7 @@ final readonly class PreviewDecorator implements OpenApiFactoryInterface
     ) {
     }
 
+    #[\Override]
     public function __invoke(array $context = []): OpenApi
     {
         $openApi = ($this->decorated)($context);

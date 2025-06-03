@@ -17,11 +17,13 @@ final readonly class SettingsImporter implements EntityImporterInterface
     {
     }
 
+    #[\Override]
     public function supports(string $entityClass): bool
     {
         return Setting::class === $entityClass;
     }
 
+    #[\Override]
     public function import(string $serializedData): bool
     {
         $manager = $this->managerRegistry->getManagerForClass(Setting::class);

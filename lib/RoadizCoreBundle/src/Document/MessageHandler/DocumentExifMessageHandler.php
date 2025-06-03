@@ -12,6 +12,7 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 
 final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHandler
 {
+    #[\Override]
     protected function supports(DocumentInterface $document): bool
     {
         if (!$document->isLocal()) {
@@ -29,6 +30,7 @@ final class DocumentExifMessageHandler extends AbstractLockingDocumentMessageHan
         return false;
     }
 
+    #[\Override]
     protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
     {
         if (!$document instanceof Document) {

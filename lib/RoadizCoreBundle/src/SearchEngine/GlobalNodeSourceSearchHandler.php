@@ -55,9 +55,7 @@ readonly class GlobalNodeSourceSearchHandler
         );
 
         if (count($nodesSources) > 0) {
-            return array_map(function (SolrSearchResultItem $item) {
-                return $item->getItem();
-            }, $nodesSources);
+            return array_map(fn (SolrSearchResultItem $item) => $item->getItem(), $nodesSources);
         }
 
         /*
@@ -91,7 +89,7 @@ readonly class GlobalNodeSourceSearchHandler
             }
             try {
                 return $qb->getQuery()->getResult();
-            } catch (NoResultException $e) {
+            } catch (NoResultException) {
                 return [];
             }
         }

@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\SearchEngine\Event\DocumentSearchQueryEvent;
 
 class DocumentSearchHandler extends AbstractSearchHandler
 {
+    #[\Override]
     protected function nativeSearch(
         string $q,
         array $args = [],
@@ -54,6 +55,7 @@ class DocumentSearchHandler extends AbstractSearchHandler
         return $solrRequest->getData();
     }
 
+    #[\Override]
     protected function argFqProcess(array &$args): array
     {
         if (!isset($args['fq'])) {
@@ -102,7 +104,7 @@ class DocumentSearchHandler extends AbstractSearchHandler
          * Filter by filename
          */
         if (isset($args['filename'])) {
-            $args['fq'][] = sprintf('filename_s:"%s"', trim($args['filename']));
+            $args['fq'][] = sprintf('filename_s:"%s"', trim((string) $args['filename']));
         }
 
         /*
@@ -116,6 +118,7 @@ class DocumentSearchHandler extends AbstractSearchHandler
         return $args;
     }
 
+    #[\Override]
     protected function getDocumentType(): string
     {
         return 'DocumentTranslation';

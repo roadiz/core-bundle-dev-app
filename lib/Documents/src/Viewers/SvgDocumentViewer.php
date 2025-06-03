@@ -151,7 +151,7 @@ final class SvgDocumentViewer
 
         $attrs = [];
         foreach ($attributes as $key => $value) {
-            $attrs[] = $key.'="'.htmlspecialchars($value).'"';
+            $attrs[] = $key.'="'.htmlspecialchars((string) $value).'"';
         }
 
         return '<object '.implode(' ', $attrs).'></object>';

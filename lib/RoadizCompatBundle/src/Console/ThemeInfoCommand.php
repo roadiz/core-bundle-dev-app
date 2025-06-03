@@ -23,6 +23,7 @@ final class ThemeInfoCommand extends Command
         parent::__construct();
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('themes:info')
@@ -38,6 +39,7 @@ final class ThemeInfoCommand extends Command
     /**
      * @throws ThemeClassNotValidException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

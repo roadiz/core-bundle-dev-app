@@ -17,6 +17,7 @@ final class MenuLinkPathNormalizer extends AbstractPathNormalizer
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    #[\Override]
     public function normalize($object, $format = null, array $context = [])
     {
         $data = $this->decorated->normalize($object, $format, $context);

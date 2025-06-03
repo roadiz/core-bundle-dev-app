@@ -15,6 +15,7 @@ class DocumentPruneCommand extends AbstractDocumentCommand
 {
     protected SymfonyStyle $io;
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('documents:prune:unused')
@@ -23,6 +24,7 @@ class DocumentPruneCommand extends AbstractDocumentCommand
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);

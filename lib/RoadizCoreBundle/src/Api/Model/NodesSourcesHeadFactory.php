@@ -19,6 +19,7 @@ final readonly class NodesSourcesHeadFactory implements NodesSourcesHeadFactoryI
     ) {
     }
 
+    #[\Override]
     public function createForNodeSource(NodesSources $nodesSources): NodesSourcesHeadInterface
     {
         return new NodesSourcesHead(
@@ -30,6 +31,7 @@ final readonly class NodesSourcesHeadFactory implements NodesSourcesHeadFactoryI
         );
     }
 
+    #[\Override]
     public function createForTranslation(TranslationInterface $translation): NodesSourcesHeadInterface
     {
         return new NodesSourcesHead(

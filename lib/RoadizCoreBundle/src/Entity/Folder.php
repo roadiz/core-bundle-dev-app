@@ -121,9 +121,6 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     #[SymfonySerializer\Ignore]
     private Collection $translatedFolders;
 
-    /**
-     * Create a new Folder.
-     */
     public function __construct()
     {
         $this->children = new ArrayCollection();
@@ -135,6 +132,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function addDocument(DocumentInterface $document): static
     {
         if (!$this->getDocuments()->contains($document)) {
@@ -147,6 +145,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return Collection<int, DocumentInterface>
      */
+    #[\Override]
     public function getDocuments(): Collection
     {
         return $this->documents;
@@ -155,6 +154,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function removeDocument(DocumentInterface $document): static
     {
         if ($this->getDocuments()->contains($document)) {
@@ -164,11 +164,13 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this;
     }
 
+    #[\Override]
     public function getVisible(): bool
     {
         return $this->isVisible();
     }
 
+    #[\Override]
     public function isVisible(): bool
     {
         return $this->visible;
@@ -177,6 +179,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function setVisible(bool $visible): static
     {
         $this->visible = $visible;
@@ -199,12 +202,11 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     #[SymfonySerializer\Ignore]
     public function getTranslatedFoldersByDefaultTranslation(): ?FolderTranslation
     {
-        return $this->translatedFolders->findFirst(function (int $key, FolderTranslation $translatedFolder) {
-            return $translatedFolder->getTranslation()->isDefaultTranslation();
-        });
+        return $this->translatedFolders->findFirst(fn (int $key, FolderTranslation $translatedFolder) => $translatedFolder->getTranslation()->isDefaultTranslation());
     }
 
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
+    #[\Override]
     public function getName(): ?string
     {
         return $this->getTranslatedFolders()->first() ?
@@ -232,6 +234,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this;
     }
 
+    #[\Override]
     public function getFolderName(): string
     {
         return $this->folderName ?? '';
@@ -240,6 +243,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function setFolderName(string $folderName): static
     {
         $this->dirtyFolderName = $folderName;
@@ -248,6 +252,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this;
     }
 
+    #[\Override]
     public function getDirtyFolderName(): string
     {
         return $this->dirtyFolderName;
@@ -256,6 +261,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function setDirtyFolderName(string $dirtyFolderName): static
     {
         $this->dirtyFolderName = $dirtyFolderName;
@@ -307,6 +313,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return implode('/', $path);
     }
 
+    #[\Override]
     public function setParent(?LeafInterface $parent = null): static
     {
         if ($parent === $this) {

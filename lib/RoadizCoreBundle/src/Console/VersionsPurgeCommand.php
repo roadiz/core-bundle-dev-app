@@ -25,6 +25,7 @@ final class VersionsPurgeCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('versions:purge')
@@ -52,6 +53,7 @@ EOT
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($input->hasOption('before') && '' != $input->getOption('before')) {

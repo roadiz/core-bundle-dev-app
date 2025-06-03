@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class AddUserType extends UserType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
@@ -22,6 +23,7 @@ class AddUserType extends UserType
         ;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'add_user';

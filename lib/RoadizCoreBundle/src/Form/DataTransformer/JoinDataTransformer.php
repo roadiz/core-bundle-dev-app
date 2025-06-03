@@ -24,6 +24,7 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
     /**
      * @return array joinDataTransformer must always return an array for view data
      */
+    #[\Override]
     public function transform(mixed $value): array
     {
         /*
@@ -56,6 +57,7 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
     /**
      * @return array|object|null
      */
+    #[\Override]
     public function reverseTransform(mixed $value): mixed
     {
         if ($this->nodeTypeField->isManyToMany()) {
@@ -66,10 +68,8 @@ final readonly class JoinDataTransformer implements DataTransformerInterface
             /*
              * Need to preserve order in POST data
              */
-            usort($unorderedEntities, function (PersistableInterface $a, PersistableInterface $b) use ($value) {
-                return array_search($a->getId(), $value) -
-                    array_search($b->getId(), $value);
-            });
+            usort($unorderedEntities, fn (PersistableInterface $a, PersistableInterface $b) => array_search($a->getId(), $value) -
+                array_search($b->getId(), $value));
 
             return $unorderedEntities;
         }

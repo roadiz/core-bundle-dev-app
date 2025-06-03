@@ -9,23 +9,20 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class EmbedFinderFactory
 {
     /**
-     * Embed platform classes, for example:
-     *
-     * [
-     *    youtube => YoutubeEmbedFinder::class,
-     *    vimeo => VimeoEmbedFinder::class
-     * ]
-     *
-     * @var array<string, class-string<EmbedFinderInterface>>
-     */
-    private array $embedPlatforms;
-
-    /**
      * @param array<string, class-string<EmbedFinderInterface>> $embedPlatforms
      */
-    public function __construct(protected readonly HttpClientInterface $client, array $embedPlatforms = [])
-    {
-        $this->embedPlatforms = $embedPlatforms;
+    public function __construct(
+        protected readonly HttpClientInterface $client,
+        /**
+         * Embed platform classes, for example:
+         *
+         * [
+         *    youtube => YoutubeEmbedFinder::class,
+         *    vimeo => VimeoEmbedFinder::class
+         * ]
+         */
+        private array $embedPlatforms = [],
+    ) {
     }
 
     public function createForPlatform(?string $mediaPlatform, ?string $embedId): ?EmbedFinderInterface

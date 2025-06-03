@@ -16,6 +16,7 @@ final class MenuNodeSourceWalker extends AbstractCycleAwareWalker
     /**
      * @throws InvalidArgumentException
      */
+    #[\Override]
     protected function initializeDefinitions(): void
     {
         if ($this->isRoot()) {

@@ -24,6 +24,7 @@ final class TreeWalkerIndexingEventSubscriber extends AbstractIndexingSubscriber
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -54,7 +55,7 @@ final class TreeWalkerIndexingEventSubscriber extends AbstractIndexingSubscriber
             foreach ($blockWalker->getChildren() as $subWalker) {
                 $this->walkAndIndex($subWalker, $assoc, $lang);
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         $event->setAssociations($assoc);

@@ -20,7 +20,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.8.1",
         "doctrine/doctrine-migrations-bundle": "^3.1",

@@ -41,6 +41,7 @@ final class DocumentAudioVideoMessageHandler extends AbstractLockingDocumentMess
         parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
     }
 
+    #[\Override]
     protected function supports(DocumentInterface $document): bool
     {
         /*
@@ -51,6 +52,7 @@ final class DocumentAudioVideoMessageHandler extends AbstractLockingDocumentMess
             && (\class_exists('getID3') || is_string($this->ffmpegPath));
     }
 
+    #[\Override]
     protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
     {
         /*

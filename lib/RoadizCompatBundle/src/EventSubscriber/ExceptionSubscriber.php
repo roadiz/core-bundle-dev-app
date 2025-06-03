@@ -34,6 +34,7 @@ final readonly class ExceptionSubscriber implements EventSubscriberInterface
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         /*
@@ -134,7 +135,7 @@ final readonly class ExceptionSubscriber implements EventSubscriberInterface
                         $event->setResponse($response);
 
                         return;
-                    } catch (LoaderError $error) {
+                    } catch (LoaderError) {
                         // Twig template does not exist
                     }
                 }
@@ -186,7 +187,7 @@ final readonly class ExceptionSubscriber implements EventSubscriberInterface
     {
         $ctrlClass = $theme->getClassName();
         $controller = new $ctrlClass();
-        $serviceId = get_class($controller);
+        $serviceId = $controller::class;
 
         if ($this->serviceLocator->has($serviceId)) {
             $controller = $this->serviceLocator->get($serviceId);

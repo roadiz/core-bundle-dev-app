@@ -10,10 +10,9 @@ use Twig\TwigTest;
 
 final class NodesSourcesDocumentExtension extends AbstractExtension
 {
+    #[\Override]
     public function getTests(): array
     {
-        return [new TwigTest('NodesSourcesDocument', function ($mixed) {
-            return $mixed instanceof NodesSourcesDocuments;
-        })];
+        return [new TwigTest('NodesSourcesDocument', fn ($mixed) => $mixed instanceof NodesSourcesDocuments)];
     }
 }

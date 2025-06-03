@@ -5,6 +5,7 @@ test:
 	vendor/bin/requirements-checker
 	vendor/bin/monorepo-builder validate
 	make phpstan
+	make rector_test
 	XDEBUG_MODE=coverage vendor/bin/phpunit -v
 	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
@@ -14,6 +15,13 @@ test:
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
+
+rector_test:
+	php -d "memory_limit=-1" vendor/bin/rector process --dry-run
+
+rector:
+	php -d "memory_limit=-1" vendor/bin/rector process
+	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
 
 phpunit:
 	APP_ENV=test docker compose exec app php vendor/bin/phpunit -v

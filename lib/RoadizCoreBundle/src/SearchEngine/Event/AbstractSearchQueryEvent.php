@@ -9,13 +9,8 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class AbstractSearchQueryEvent extends Event
 {
-    private Query $query;
-    private array $args;
-
-    public function __construct(Query $query, array $args)
+    public function __construct(private readonly Query $query, private readonly array $args)
     {
-        $this->query = $query;
-        $this->args = $args;
     }
 
     public function getQuery(): Query

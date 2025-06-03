@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints\NotNull;
 
 class TagTranslationType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('name', TextType::class, [
@@ -43,11 +44,13 @@ class TagTranslationType extends AbstractType
         ;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'tag_translation';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

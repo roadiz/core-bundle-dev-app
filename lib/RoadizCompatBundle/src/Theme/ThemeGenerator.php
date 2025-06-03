@@ -62,7 +62,7 @@ class ThemeGenerator
         try {
             $this->symlink($originDir, $targetDir, true);
             $method = self::METHOD_RELATIVE_SYMLINK;
-        } catch (IOException $e) {
+        } catch (IOException) {
             $method = $this->absoluteSymlinkWithFallback($originDir, $targetDir);
         }
 
@@ -79,7 +79,7 @@ class ThemeGenerator
         try {
             $this->symlink($originDir, $targetDir);
             $method = self::METHOD_ABSOLUTE_SYMLINK;
-        } catch (IOException $e) {
+        } catch (IOException) {
             // fall back to copy
             $method = $this->hardCopy($originDir, $targetDir);
         }
@@ -119,7 +119,7 @@ class ThemeGenerator
                 $targetDir,
                 Finder::create()->ignoreDotFiles(false)->in($originDir)
             );
-        } catch (IOException $exception) {
+        } catch (IOException) {
             // Do nothing
         }
 

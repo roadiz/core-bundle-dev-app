@@ -9,12 +9,13 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-final class FormErrorSerializer implements FormErrorSerializerInterface
+final readonly class FormErrorSerializer implements FormErrorSerializerInterface
 {
-    public function __construct(private readonly TranslatorInterface $translator)
+    public function __construct(private TranslatorInterface $translator)
     {
     }
 
+    #[\Override]
     public function getErrorsAsArray(FormInterface $form): array
     {
         $errors = [];
@@ -36,7 +37,7 @@ final class FormErrorSerializer implements FormErrorSerializerInterface
                         if ($cause instanceof \Exception) {
                             $errors[$errorFieldName.'_cause_message'] = $cause->getMessage();
                         }
-                        $errors[$errorFieldName.'_cause'] = get_class($cause);
+                        $errors[$errorFieldName.'_cause'] = $cause::class;
                     }
                 }
             }

@@ -31,10 +31,11 @@ final readonly class UserPasswordResetProcessor implements ProcessorInterface
     ) {
     }
 
+    #[\Override]
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): VoidOutput
     {
         if (!$data instanceof UserPasswordTokenInput) {
-            throw new \RuntimeException(sprintf('Cannot process %s', get_class($data)));
+            throw new \RuntimeException(sprintf('Cannot process %s', $data::class));
         }
 
         $user = $this->managerRegistry

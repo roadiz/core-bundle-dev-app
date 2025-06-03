@@ -30,6 +30,7 @@ class AttributeGroup extends AbstractEntity implements AttributeGroupInterface
         $this->attributeGroupTranslations = new ArrayCollection();
     }
 
+    #[\Override]
     protected function createAttributeGroupTranslation(): AttributeGroupTranslationInterface
     {
         return (new AttributeGroupTranslation())->setAttributeGroup($this);

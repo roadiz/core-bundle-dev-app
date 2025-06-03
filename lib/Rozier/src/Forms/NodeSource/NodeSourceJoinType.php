@@ -14,6 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class NodeSourceJoinType extends AbstractConfigurableNodeSourceFieldType
 {
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -24,6 +25,7 @@ final class NodeSourceJoinType extends AbstractConfigurableNodeSourceFieldType
         $resolver->setDefault('multiple', true);
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $configuration = $this->getFieldConfiguration($options);
@@ -38,6 +40,7 @@ final class NodeSourceJoinType extends AbstractConfigurableNodeSourceFieldType
     /**
      * Pass data to form twig template.
      */
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
@@ -82,6 +85,7 @@ final class NodeSourceJoinType extends AbstractConfigurableNodeSourceFieldType
         $view->vars['data'] = $displayableData;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'join';

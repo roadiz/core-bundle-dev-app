@@ -24,6 +24,7 @@ abstract class AbstractEntity implements PersistableInterface
     ]
     protected int|string|null $id = null;
 
+    #[\Override]
     public function getId(): int|string|null
     {
         return $this->id;

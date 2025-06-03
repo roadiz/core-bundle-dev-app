@@ -16,6 +16,7 @@ final class TagExplorerItem extends AbstractExplorerItem
     ) {
     }
 
+    #[\Override]
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('tagsEditPage', [
@@ -23,21 +24,25 @@ final class TagExplorerItem extends AbstractExplorerItem
         ]);
     }
 
+    #[\Override]
     protected function getColor(): ?string
     {
         return $this->tag->getColor();
     }
 
+    #[\Override]
     public function getId(): string|int
     {
         return $this->tag->getId();
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         return $this->getTagParents($this->tag);
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         $firstTrans = $this->tag->getTranslatedTags()->first();
@@ -50,6 +55,7 @@ final class TagExplorerItem extends AbstractExplorerItem
         return $name;
     }
 
+    #[\Override]
     public function getOriginal(): Tag
     {
         return $this->tag;

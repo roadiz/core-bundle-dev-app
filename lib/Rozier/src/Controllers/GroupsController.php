@@ -22,51 +22,61 @@ use Twig\Error\RuntimeError;
 
 final class GroupsController extends AbstractAdminController
 {
+    #[\Override]
     protected function supports(PersistableInterface $item): bool
     {
         return $item instanceof Group;
     }
 
+    #[\Override]
     protected function getNamespace(): string
     {
         return 'group';
     }
 
+    #[\Override]
     protected function createEmptyItem(Request $request): PersistableInterface
     {
         return new Group();
     }
 
+    #[\Override]
     protected function getTemplateFolder(): string
     {
         return '@RoadizRozier/groups';
     }
 
+    #[\Override]
     protected function getRequiredRole(): string
     {
         return 'ROLE_ACCESS_GROUPS';
     }
 
+    #[\Override]
     protected function getEntityClass(): string
     {
         return Group::class;
     }
 
+    #[\Override]
     protected function getFormType(): string
     {
         return GroupType::class;
     }
 
+    #[\Override]
     protected function getDefaultRouteName(): string
     {
         return 'groupsHomePage';
     }
 
+    #[\Override]
     protected function getEditRouteName(): string
     {
         return 'groupsEditPage';
     }
 
+    #[\Override]
     protected function getEntityName(PersistableInterface $item): string
     {
         if ($item instanceof Group) {
@@ -75,6 +85,7 @@ final class GroupsController extends AbstractAdminController
         throw new \InvalidArgumentException('Item should be instance of '.$this->getEntityClass());
     }
 
+    #[\Override]
     protected function denyAccessUnlessItemGranted(PersistableInterface $item): void
     {
         $this->denyAccessUnlessGranted($item);

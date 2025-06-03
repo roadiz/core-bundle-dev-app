@@ -15,6 +15,7 @@ final class SuperAdminRoleHierarchyVoter extends RoleArrayVoter
         parent::__construct($prefix);
     }
 
+    #[\Override]
     protected function extractRoles(TokenInterface $token): array
     {
         $roleNames = parent::extractRoles($token);

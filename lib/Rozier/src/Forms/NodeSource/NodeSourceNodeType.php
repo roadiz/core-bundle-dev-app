@@ -22,19 +22,21 @@ final class NodeSourceNodeType extends AbstractNodeSourceFieldType
         parent::__construct($managerRegistry);
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            [$this, 'onPreSetData']
+            $this->onPreSetData(...)
         )
             ->addEventListener(
                 FormEvents::POST_SUBMIT,
-                [$this, 'onPostSubmit']
+                $this->onPostSubmit(...)
             )
         ;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
@@ -48,6 +50,7 @@ final class NodeSourceNodeType extends AbstractNodeSourceFieldType
         ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'nodes';

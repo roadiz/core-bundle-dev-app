@@ -42,6 +42,7 @@ class RozierApp extends AppController
         'Français' => 'fr',
     ];
 
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
@@ -64,6 +65,7 @@ class RozierApp extends AppController
     /**
      * @deprecated Use EntityListManagerFactoryInterface::createAdminEntityListManager() instead
      */
+    #[\Override]
     public function createEntityListManager(string $entity, array $criteria = [], array $ordering = []): EntityListManagerInterface
     {
         return parent::createEntityListManager($entity, $criteria, $ordering)
@@ -73,6 +75,7 @@ class RozierApp extends AppController
     /**
      * Returns a fully qualified view path for Twig rendering.
      */
+    #[\Override]
     protected function getNamespacedView(string $view, string $namespace = ''): string
     {
         if ('' !== $namespace && '/' !== $namespace) {

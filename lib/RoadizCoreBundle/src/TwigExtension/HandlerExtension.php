@@ -19,10 +19,11 @@ final class HandlerExtension extends AbstractExtension
     {
     }
 
+    #[\Override]
     public function getFilters(): array
     {
         return [
-            new TwigFilter('handler', [$this, 'getHandler']),
+            new TwigFilter('handler', $this->getHandler(...)),
         ];
     }
 

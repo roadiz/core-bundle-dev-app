@@ -26,6 +26,7 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
     ) {
     }
 
+    #[\Override]
     public function getGlobals(): array
     {
         return [

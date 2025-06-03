@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Logger\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Monolog\Logger;
 use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\User;
@@ -42,14 +41,6 @@ class Log extends AbstractEntity
     #[Assert\Length(max: 255)]
     protected ?string $username = null;
 
-    #[ORM\Column(name: 'message', type: 'text')]
-    #[Serializer\Groups(['log'])]
-    protected string $message = '';
-
-    #[ORM\Column(name: 'level', type: 'integer', nullable: false)]
-    #[Serializer\Groups(['log'])]
-    protected int $level = Logger::DEBUG;
-
     #[ORM\Column(name: 'datetime', type: 'datetime', nullable: false)]
     #[Serializer\Groups(['log'])]
     protected \DateTime $datetime;
@@ -83,13 +74,14 @@ class Log extends AbstractEntity
     #[Serializer\Groups(['log'])]
     protected ?array $additionalData = null;
 
-    /**
-     * @throws \Exception
-     */
-    public function __construct(int $level, string $message)
-    {
-        $this->level = $level;
-        $this->message = $message;
+    public function __construct(
+        #[ORM\Column(name: 'level', type: 'integer', nullable: false)]
+        #[Serializer\Groups(['log'])]
+        protected int $level,
+        #[ORM\Column(name: 'message', type: 'text')]
+        #[Serializer\Groups(['log'])]
+        protected string $message,
+    ) {
         $this->datetime = new \DateTime('now');
     }
 

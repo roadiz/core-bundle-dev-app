@@ -26,6 +26,7 @@ final class UniqueNodeNameValidator extends ConstraintValidator
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
         $value = StringHandler::slugify($value);

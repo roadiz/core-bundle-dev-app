@@ -11,6 +11,7 @@ use Nette\PhpGenerator\Property;
 
 final class CustomFormsFieldGenerator extends AbstractFieldGenerator
 {
+    #[\Override]
     protected function addFieldAnnotation(Property $property): AbstractFieldGenerator
     {
         parent::addFieldAnnotation($property);
@@ -21,6 +22,7 @@ final class CustomFormsFieldGenerator extends AbstractFieldGenerator
         return $this;
     }
 
+    #[\Override]
     protected function getNormalizationContext(): array
     {
         return [
@@ -29,6 +31,7 @@ final class CustomFormsFieldGenerator extends AbstractFieldGenerator
         ];
     }
 
+    #[\Override]
     protected function getDefaultSerializationGroups(): array
     {
         $groups = parent::getDefaultSerializationGroups();
@@ -37,16 +40,19 @@ final class CustomFormsFieldGenerator extends AbstractFieldGenerator
         return $groups;
     }
 
+    #[\Override]
     protected function getFieldTypeDeclaration(): string
     {
         return '?array';
     }
 
+    #[\Override]
     protected function getFieldDefaultValueDeclaration(): Literal|string|null
     {
         return new Literal('null');
     }
 
+    #[\Override]
     public function addFieldGetter(ClassType $classType, PhpNamespace $namespace): self
     {
         $method = $classType
@@ -77,6 +83,7 @@ EOF
         return $this;
     }
 
+    #[\Override]
     protected function addFieldSetter(ClassType $classType): self
     {
         $method = $classType

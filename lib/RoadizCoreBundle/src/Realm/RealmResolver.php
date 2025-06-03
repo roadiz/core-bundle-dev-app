@@ -23,6 +23,7 @@ final readonly class RealmResolver implements RealmResolverInterface
     ) {
     }
 
+    #[\Override]
     public function getRealms(?Node $node): array
     {
         if (null === $node) {
@@ -32,6 +33,7 @@ final readonly class RealmResolver implements RealmResolverInterface
         return $this->managerRegistry->getRepository(Realm::class)->findByNode($node);
     }
 
+    #[\Override]
     public function getRealmsWithSerializationGroup(?Node $node): array
     {
         if (null === $node) {
@@ -41,11 +43,13 @@ final readonly class RealmResolver implements RealmResolverInterface
         return $this->managerRegistry->getRepository(Realm::class)->findByNodeWithSerializationGroup($node);
     }
 
+    #[\Override]
     public function isGranted(RealmInterface $realm): bool
     {
         return $this->security->isGranted(RealmVoter::READ, $realm);
     }
 
+    #[\Override]
     public function denyUnlessGranted(RealmInterface $realm): void
     {
         if (!$this->isGranted($realm)) {
@@ -60,6 +64,7 @@ final readonly class RealmResolver implements RealmResolverInterface
             ->__toString();
     }
 
+    #[\Override]
     public function getGrantedRealms(): array
     {
         $cacheItem = $this->cache->getItem('granted_realms_'.$this->getUserCacheKey());
@@ -73,6 +78,7 @@ final readonly class RealmResolver implements RealmResolverInterface
         return $cacheItem->get();
     }
 
+    #[\Override]
     public function getDeniedRealms(): array
     {
         $cacheItem = $this->cache->getItem('denied_realms_'.$this->getUserCacheKey());
@@ -86,6 +92,7 @@ final readonly class RealmResolver implements RealmResolverInterface
         return $cacheItem->get();
     }
 
+    #[\Override]
     public function hasRealms(): bool
     {
         $cacheItem = $this->cache->getItem('app_has_realms');
@@ -99,6 +106,7 @@ final readonly class RealmResolver implements RealmResolverInterface
         return $cacheItem->get();
     }
 
+    #[\Override]
     public function hasRealmsWithSerializationGroup(): bool
     {
         $cacheItem = $this->cache->getItem('app_has_realms_with_serialization_group');

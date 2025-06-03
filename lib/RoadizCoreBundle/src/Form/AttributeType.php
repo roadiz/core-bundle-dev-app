@@ -18,6 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class AttributeType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('code', TextType::class, [
@@ -97,12 +98,14 @@ final class AttributeType extends AbstractType
         ;
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         parent::configureOptions($resolver);
         $resolver->setDefault('data_class', Attribute::class);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'attribute';

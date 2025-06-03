@@ -19,6 +19,7 @@ final class AttributeValueNormalizer extends AbstractPathNormalizer
      *
      * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
      */
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
     {
         $data = $this->decorated->normalize($object, $format, $context);
@@ -52,9 +53,7 @@ final class AttributeValueNormalizer extends AbstractPathNormalizer
             if (\in_array('attribute_documents', $serializationGroups, true)) {
                 $documentsContext = $context;
                 $documentsContext['groups'] = ['document_display'];
-                $data['documents'] = array_map(function (DocumentInterface $document) use ($format, $documentsContext) {
-                    return $this->decorated->normalize($document, $format, $documentsContext);
-                }, $object->getAttribute()->getDocuments()->toArray());
+                $data['documents'] = array_map(fn (DocumentInterface $document) => $this->decorated->normalize($document, $format, $documentsContext), $object->getAttribute()->getDocuments()->toArray());
             }
             $this->stopwatch->stop('normalizeAttributeValue');
         }

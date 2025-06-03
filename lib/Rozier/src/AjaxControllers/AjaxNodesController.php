@@ -154,7 +154,7 @@ final class AjaxNodesController extends AbstractAjaxController
             if ($this->nodeTypesBag->get($node->getNodeTypeName())?->isReachable()) {
                 $oldPaths = $this->nodeMover->getNodeSourcesUrls($node);
             }
-        } catch (SameNodeUrlException $e) {
+        } catch (SameNodeUrlException) {
             $oldPaths = [];
         }
 

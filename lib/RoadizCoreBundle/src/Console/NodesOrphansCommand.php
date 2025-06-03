@@ -22,6 +22,7 @@ final class NodesOrphansCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('nodes:orphans')
@@ -38,6 +39,7 @@ final class NodesOrphansCommand extends Command
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -52,7 +54,7 @@ final class NodesOrphansCommand extends Command
         $orphans = [];
         try {
             $orphans = $qb->getQuery()->getResult();
-        } catch (NoResultException $e) {
+        } catch (NoResultException) {
         }
 
         if (0 === count($orphans)) {
@@ -69,7 +71,7 @@ final class NodesOrphansCommand extends Command
             $tableContent[] = [
                 $node->getId(),
                 $node->getNodeName(),
-                null !== $node->getNodeTypeName() ? $node->getNodeTypeName() : '',
+                $node->getNodeTypeName() ?? '',
                 !$node->isVisible() ? 'X' : '',
                 $node->isPublished() ? 'X' : '',
             ];

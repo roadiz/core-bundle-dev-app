@@ -74,8 +74,6 @@ class NodeTypeGenerator
 
     protected function getFieldsContents(): string
     {
-        return implode("\n", array_map(function (AbstractFieldGenerator $abstractFieldGenerator) {
-            return $abstractFieldGenerator->getContents();
-        }, $this->fieldGenerators));
+        return implode("\n", array_map(fn (AbstractFieldGenerator $abstractFieldGenerator) => $abstractFieldGenerator->getContents(), $this->fieldGenerators));
     }
 }

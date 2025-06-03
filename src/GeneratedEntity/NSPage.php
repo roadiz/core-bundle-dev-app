@@ -674,9 +674,7 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     public function getUsers(): array
     {
-        return $this->usersProxy->map(function (\App\Entity\PositionedPageUser $proxyEntity) {
-            return $proxyEntity->getUser();
-        })->getValues();
+        return $this->usersProxy->map(fn(\App\Entity\PositionedPageUser $proxyEntity) => $proxyEntity->getUser())->getValues();
     }
 
     /**
@@ -917,6 +915,7 @@ class NSPage extends NodesSources
         $this->folderReferences = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    #[\Override]
     public function __clone(): void
     {
         parent::__clone();
@@ -933,6 +932,7 @@ class NSPage extends NodesSources
 
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return 'Page';
@@ -940,6 +940,7 @@ class NSPage extends NodesSources
 
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    #[\Override]
     public function getNodeTypeColor(): string
     {
         return '#000000';
@@ -949,6 +950,7 @@ class NSPage extends NodesSources
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
      */
+    #[\Override]
     public function isReachable(): bool
     {
         return true;
@@ -958,11 +960,13 @@ class NSPage extends NodesSources
      * $this->nodeType->isPublishable() proxy.
      * @return bool Does this nodeSource is publishable with date and time?
      */
+    #[\Override]
     public function isPublishable(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return '[NSPage] ' . parent::__toString();

@@ -6,15 +6,14 @@ namespace RZ\Roadiz\Typescript\Declaration\Generators;
 
 final class EnumFieldGenerator extends AbstractFieldGenerator
 {
+    #[\Override]
     protected function getType(): string
     {
         switch (true) {
             case $this->field->isEnum():
                 $defaultValues = $this->field->getDefaultValuesAsArray();
                 if (!empty($defaultValues) && count($defaultValues) > 0) {
-                    $defaultValues = array_map(function (string $value) {
-                        return '\''.$value.'\'';
-                    }, $defaultValues);
+                    $defaultValues = array_map(fn (string $value) => '\''.$value.'\'', $defaultValues);
 
                     return implode(' | ', $defaultValues).' | null';
                 }
@@ -27,6 +26,7 @@ final class EnumFieldGenerator extends AbstractFieldGenerator
         }
     }
 
+    #[\Override]
     protected function getIntroductionLines(): array
     {
         $lines = parent::getIntroductionLines();

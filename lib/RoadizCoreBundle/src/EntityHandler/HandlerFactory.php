@@ -28,29 +28,20 @@ final readonly class HandlerFactory implements HandlerFactoryInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
+    #[\Override]
     public function getHandler(AbstractEntity $entity): AbstractHandler
     {
-        switch (true) {
-            case $entity instanceof Node:
-                return $this->container->get(NodeHandler::class)->setNode($entity);
-            case $entity instanceof NodesSources:
-                return $this->container->get(NodesSourcesHandler::class)->setNodeSource($entity);
-            case $entity instanceof Document:
-                return $this->container->get(DocumentHandler::class)->setDocument($entity);
-            case $entity instanceof CustomForm:
-                return $this->container->get(CustomFormHandler::class)->setCustomForm($entity);
-            case $entity instanceof CustomFormField:
-                return $this->container->get(CustomFormFieldHandler::class)->setCustomFormField($entity);
-            case $entity instanceof Folder:
-                return $this->container->get(FolderHandler::class)->setFolder($entity);
-            case $entity instanceof Group:
-                return $this->container->get(GroupHandler::class)->setGroup($entity);
-            case $entity instanceof Tag:
-                return $this->container->get(TagHandler::class)->setTag($entity);
-            case $entity instanceof Translation:
-                return $this->container->get(TranslationHandler::class)->setTranslation($entity);
-        }
-
-        throw new \InvalidArgumentException('HandlerFactory does not support '.get_class($entity));
+        return match (true) {
+            $entity instanceof Node => $this->container->get(NodeHandler::class)->setNode($entity),
+            $entity instanceof NodesSources => $this->container->get(NodesSourcesHandler::class)->setNodeSource($entity),
+            $entity instanceof Document => $this->container->get(DocumentHandler::class)->setDocument($entity),
+            $entity instanceof CustomForm => $this->container->get(CustomFormHandler::class)->setCustomForm($entity),
+            $entity instanceof CustomFormField => $this->container->get(CustomFormFieldHandler::class)->setCustomFormField($entity),
+            $entity instanceof Folder => $this->container->get(FolderHandler::class)->setFolder($entity),
+            $entity instanceof Group => $this->container->get(GroupHandler::class)->setGroup($entity),
+            $entity instanceof Tag => $this->container->get(TagHandler::class)->setTag($entity),
+            $entity instanceof Translation => $this->container->get(TranslationHandler::class)->setTranslation($entity),
+            default => throw new \InvalidArgumentException('HandlerFactory does not support '.$entity::class),
+        };
     }
 }

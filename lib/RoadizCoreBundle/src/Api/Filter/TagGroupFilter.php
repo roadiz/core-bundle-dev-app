@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 final class TagGroupFilter extends AbstractFilter
 {
-    public const PROPERTY = 'tagGroup';
+    public const string PROPERTY = 'tagGroup';
 
     public function __construct(
         ManagerRegistry $managerRegistry,
@@ -29,6 +29,7 @@ final class TagGroupFilter extends AbstractFilter
         parent::__construct($managerRegistry, $logger, $properties, $nameConverter);
     }
 
+    #[\Override]
     protected function filterProperty(
         string $property,
         mixed $value,
@@ -52,7 +53,7 @@ final class TagGroupFilter extends AbstractFilter
 
         foreach ($value as $group) {
             if (!\is_array($group)) {
-                $group = explode(',', $group);
+                $group = explode(',', (string) $group);
             }
             $normalizedValue[] = array_filter(array_map('trim', $group));
         }
@@ -81,6 +82,7 @@ final class TagGroupFilter extends AbstractFilter
         $this->setTagNamesParameters($queryBuilder, $normalizedValue);
     }
 
+    #[\Override]
     public function getDescription(string $resourceClass): array
     {
         $carry = [];

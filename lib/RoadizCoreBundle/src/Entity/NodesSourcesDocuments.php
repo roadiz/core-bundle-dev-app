@@ -25,26 +25,6 @@ class NodesSourcesDocuments extends AbstractPositioned
 {
     use FieldAwareEntityTrait;
 
-    #[ORM\ManyToOne(
-        targetEntity: NodesSources::class,
-        cascade: ['persist'],
-        fetch: 'EAGER',
-        inversedBy: 'documentsByFields'
-    )]
-    #[Assert\NotNull]
-    #[ORM\JoinColumn(name: 'ns_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    protected NodesSources $nodeSource;
-
-    #[ORM\ManyToOne(
-        targetEntity: Document::class,
-        cascade: ['persist'],
-        fetch: 'EAGER',
-        inversedBy: 'nodesSourcesByFields'
-    )]
-    #[Assert\NotNull]
-    #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    protected Document $document;
-
     /**
      * @var string|null Image crop alignment.
      *
@@ -79,12 +59,29 @@ class NodesSourcesDocuments extends AbstractPositioned
     protected ?array $hotspot = null;
 
     /**
-     * Create a new relation between NodeSource, a Document and a NodeTypeField.
+     * Create a new relation between NodeSource, a Document for a NodeTypeField.
      */
-    public function __construct(NodesSources $nodeSource, Document $document, ?NodeTypeFieldInterface $field = null)
-    {
-        $this->nodeSource = $nodeSource;
-        $this->document = $document;
+    public function __construct(
+        #[ORM\ManyToOne(
+            targetEntity: NodesSources::class,
+            cascade: ['persist'],
+            fetch: 'EAGER',
+            inversedBy: 'documentsByFields'
+        )]
+        #[Assert\NotNull]
+        #[ORM\JoinColumn(name: 'ns_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        protected NodesSources $nodeSource,
+        #[ORM\ManyToOne(
+            targetEntity: Document::class,
+            cascade: ['persist'],
+            fetch: 'EAGER',
+            inversedBy: 'nodesSourcesByFields'
+        )]
+        #[Assert\NotNull]
+        #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        protected Document $document,
+        ?NodeTypeFieldInterface $field = null,
+    ) {
         $this->initializeFieldAwareEntityTrait($field);
     }
 

@@ -16,6 +16,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 final class TranslationsDeleteCommand extends TranslationsCommand
 {
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('translations:delete')
@@ -27,6 +28,7 @@ final class TranslationsDeleteCommand extends TranslationsCommand
             );
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

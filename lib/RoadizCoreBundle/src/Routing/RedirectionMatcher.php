@@ -26,6 +26,7 @@ final class RedirectionMatcher extends UrlMatcher
         parent::__construct(new RouteCollection(), $context);
     }
 
+    #[\Override]
     public function match(string $pathinfo): array
     {
         $decodedUrl = rawurldecode($pathinfo);

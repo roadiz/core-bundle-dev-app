@@ -14,16 +14,19 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
      */
     protected static string $platform = 'unsplash';
 
+    #[\Override]
     public function getShortType(): string
     {
         return 'documents';
     }
 
+    #[\Override]
     public static function supportEmbedUrl(string $embedUrl): bool
     {
         return false;
     }
 
+    #[\Override]
     public static function getPlatform(): string
     {
         return static::$platform;
@@ -42,6 +45,7 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
         ]), $embedId);
     }
 
+    #[\Override]
     protected function validateEmbedId(string $embedId = ''): string
     {
         return $embedId;
@@ -50,6 +54,7 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
     /**
      * @see https://unsplash.com/documentation#get-a-random-photo
      */
+    #[\Override]
     public function getRandom(array $options = []): ?array
     {
         try {
@@ -86,6 +91,7 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
         }
     }
 
+    #[\Override]
     public function getRandomBySearch(string $keyword, array $options = []): ?array
     {
         return $this->getRandom(
@@ -95,31 +101,37 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
         );
     }
 
+    #[\Override]
     public function getMediaFeed(?string $search = null): string
     {
         throw new \LogicException('Unsplash API does not provide a feed.');
     }
 
+    #[\Override]
     public function getMediaTitle(): string
     {
         return $this->feed['description'] ?? '';
     }
 
+    #[\Override]
     public function getMediaWidth(): ?int
     {
         return $this->feed['width'] ?? null;
     }
 
+    #[\Override]
     public function getMediaHeight(): ?int
     {
         return $this->feed['height'] ?? null;
     }
 
+    #[\Override]
     public function getMediaDescription(): string
     {
         return $this->feed['alt_description'] ?? '';
     }
 
+    #[\Override]
     public function getMediaCopyright(): string
     {
         if (isset($this->feed['user'])) {
@@ -129,6 +141,7 @@ abstract class AbstractUnsplashPictureFinder extends AbstractEmbedFinder impleme
         return 'Unsplash';
     }
 
+    #[\Override]
     public function getThumbnailURL(): ?string
     {
         if (null === $this->feed) {

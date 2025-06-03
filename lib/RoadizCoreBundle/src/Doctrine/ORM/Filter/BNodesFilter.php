@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryBuilder\QueryBuilderNodesSourcesBui
 
 class BNodesFilter extends ANodesFilter
 {
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -17,11 +18,13 @@ class BNodesFilter extends ANodesFilter
         ];
     }
 
+    #[\Override]
     protected function getProperty(): string
     {
         return 'bNodes';
     }
 
+    #[\Override]
     protected function getNodeJoinAlias(): string
     {
         return 'b_n';

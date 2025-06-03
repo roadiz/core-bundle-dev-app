@@ -17,13 +17,13 @@ use RZ\Roadiz\CoreBundle\Entity\User;
 ]
 class PositionedPageUser extends AbstractPositioned
 {
-    #[ORM\ManyToOne(targetEntity: '\App\GeneratedEntity\NSPage', inversedBy: 'usersProxy')]
+    #[ORM\ManyToOne(targetEntity: NSPage::class, inversedBy: 'usersProxy')]
     #[ORM\JoinColumn(name: 'node_source_id', onDelete: 'CASCADE')]
-    private ?NSPage $nodeSource;
+    private ?NSPage $nodeSource = null;
 
-    #[ORM\ManyToOne(targetEntity: '\RZ\Roadiz\CoreBundle\Entity\User')]
+    #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', onDelete: 'CASCADE')]
-    private ?User $user;
+    private ?User $user = null;
 
     public function getNodeSource(): ?NSPage
     {

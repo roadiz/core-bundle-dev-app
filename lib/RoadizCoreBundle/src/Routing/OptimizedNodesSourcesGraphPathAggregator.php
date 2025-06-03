@@ -27,6 +27,7 @@ final readonly class OptimizedNodesSourcesGraphPathAggregator implements NodesSo
     /**
      * @throws InvalidArgumentException
      */
+    #[\Override]
     public function aggregatePath(NodesSources $nodesSources, array $parameters = []): string
     {
         if (
@@ -98,10 +99,7 @@ final readonly class OptimizedNodesSourcesGraphPathAggregator implements NodesSo
                     ->setCacheable(true)
                     ->getArrayResult()
                 ;
-                usort($parents, function ($a, $b) use ($parentIds) {
-                    return array_search($a['id'], $parentIds) -
-                        array_search($b['id'], $parentIds);
-                });
+                usort($parents, fn ($a, $b) => array_search($a['id'], $parentIds) - array_search($b['id'], $parentIds));
             }
         }
 

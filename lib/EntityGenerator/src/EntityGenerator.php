@@ -34,7 +34,7 @@ final class EntityGenerator implements EntityGeneratorInterface
      */
     private array $fieldGenerators;
     private array $options;
-    private Printer $printer;
+    private readonly Printer $printer;
 
     public function __construct(
         private readonly NodeTypeInterface $nodeType,
@@ -55,6 +55,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         $this->printer = new PsrPrinter();
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -89,11 +90,9 @@ final class EntityGenerator implements EntityGeneratorInterface
         $resolver->setAllowedTypes('use_api_platform_filters', 'bool');
         $resolver->setAllowedTypes('use_document_dto', 'bool');
 
-        $normalizeClassName = function (OptionsResolver $resolver, string $className) {
-            return (new UnicodeString($className))->startsWith('\\') ?
-                $className :
-                '\\'.$className;
-        };
+        $normalizeClassName = fn (OptionsResolver $resolver, string $className) => (new UnicodeString($className))->startsWith('\\') ?
+            $className :
+            '\\'.$className;
 
         $resolver->setNormalizer('parent_class', $normalizeClassName);
         $resolver->setNormalizer('node_class', $normalizeClassName);
@@ -148,6 +147,7 @@ final class EntityGenerator implements EntityGeneratorInterface
         return null;
     }
 
+    #[\Override]
     public function getClassContent(): string
     {
         $file = new PhpFile();
@@ -156,18 +156,18 @@ final class EntityGenerator implements EntityGeneratorInterface
         $file->addComment('IT WILL BE RECREATED AT EACH NODE-TYPE UPDATE.');
 
         $namespace = $file
-            ->addNamespace(trim($this->options['namespace'], '\\'))
-            ->addUse('ApiPlatform\Metadata\ApiFilter')
-            ->addUse('ApiPlatform\Metadata\ApiProperty')
-            ->addUse('ApiPlatform\Serializer\Filter\PropertyFilter')
+            ->addNamespace(trim((string) $this->options['namespace'], '\\'))
+            ->addUse(\ApiPlatform\Metadata\ApiFilter::class)
+            ->addUse(\ApiPlatform\Metadata\ApiProperty::class)
+            ->addUse(\ApiPlatform\Serializer\Filter\PropertyFilter::class)
             ->addUse('ApiPlatform\Doctrine\Orm\Filter', 'Filter')
-            ->addUse('Doctrine\Common\Collections\Collection')
+            ->addUse(\Doctrine\Common\Collections\Collection::class)
             ->addUse($this->options['parent_class'])
             ->addUse('Doctrine\ORM\Mapping', 'ORM')
             ->addUse('Gedmo\Mapping\Annotation', 'Gedmo')
-            ->addUse('RZ\Roadiz\CoreBundle\Entity\Node')
-            ->addUse('RZ\Roadiz\CoreBundle\Entity\Translation')
-            ->addUse('RZ\Roadiz\CoreBundle\Entity\UserLogEntry')
+            ->addUse(\RZ\Roadiz\CoreBundle\Entity\Node::class)
+            ->addUse(\RZ\Roadiz\CoreBundle\Entity\Translation::class)
+            ->addUse(\RZ\Roadiz\CoreBundle\Entity\UserLogEntry::class)
             ->addUse('Symfony\Component\Serializer\Attribute', 'Serializer')
             ->addUse('Symfony\Component\Validator\Constraints', 'Assert')
         ;
@@ -192,15 +192,15 @@ final class EntityGenerator implements EntityGeneratorInterface
     {
         $classType
             ->addAttribute(
-                'Gedmo\Mapping\Annotation\Loggable',
+                \Gedmo\Mapping\Annotation\Loggable::class,
                 ['logEntryClass' => new Literal('UserLogEntry::class')]
             )
             ->addAttribute(
-                'Doctrine\ORM\Mapping\Entity',
+                \Doctrine\ORM\Mapping\Entity::class,
                 ['repositoryClass' => new Literal($namespace->simplifyName($this->options['repository_class']).'::class')]
             )
             ->addAttribute(
-                'Doctrine\ORM\Mapping\Table',
+                \Doctrine\ORM\Mapping\Table::class,
                 ['name' => $this->nodeType->getSourceEntityTableName()]
             )
         ;
@@ -211,8 +211,8 @@ final class EntityGenerator implements EntityGeneratorInterface
 
         if (true === $this->options['use_api_platform_filters']) {
             $classType->addAttribute(
-                'ApiPlatform\Metadata\ApiFilter',
-                [new Literal($namespace->simplifyName('\ApiPlatform\Serializer\Filter\PropertyFilter').'::class')]
+                \ApiPlatform\Metadata\ApiFilter::class,
+                [new Literal($namespace->simplifyName(\ApiPlatform\Serializer\Filter\PropertyFilter::class).'::class')]
             );
         }
 
@@ -243,6 +243,7 @@ final class EntityGenerator implements EntityGeneratorInterface
 
         $method = $classType
             ->addMethod('__clone')
+            ->addAttribute(\Override::class)
             ->setReturnType('void')
         ;
 
@@ -283,25 +284,28 @@ final class EntityGenerator implements EntityGeneratorInterface
     {
         $classType->addMethod('getNodeTypeName')
             ->setReturnType('string')
-            ->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [['nodes_sources', 'nodes_sources_default']])
-            ->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
+            ->addAttribute(\Symfony\Component\Serializer\Attribute\Groups::class, [['nodes_sources', 'nodes_sources_default']])
+            ->addAttribute(\Symfony\Component\Serializer\Attribute\SerializedName::class, [
                 'serializedName' => '@type',
             ])
+            ->addAttribute(\Override::class)
             ->setBody('return \''.$this->nodeType->getName().'\';')
         ;
 
         $classType->addMethod('getNodeTypeColor')
             ->setReturnType('string')
-            ->addAttribute('Symfony\Component\Serializer\Attribute\Groups', [['node_type']])
-            ->addAttribute('Symfony\Component\Serializer\Attribute\SerializedName', [
+            ->addAttribute(\Symfony\Component\Serializer\Attribute\Groups::class, [['node_type']])
+            ->addAttribute(\Symfony\Component\Serializer\Attribute\SerializedName::class, [
                 'serializedName' => 'nodeTypeColor',
             ])
+            ->addAttribute(\Override::class)
             ->setBody('return \''.$this->nodeType->getColor().'\';')
         ;
 
         $classType->addMethod('isReachable')
             ->addComment('$this->nodeType->isReachable() proxy.')
             ->addComment('@return bool Does this nodeSource is reachable over network?')
+            ->addAttribute(\Override::class)
             ->setReturnType('bool')
             ->setBody('return '.($this->nodeType->isReachable() ? 'true' : 'false').';')
         ;
@@ -309,12 +313,14 @@ final class EntityGenerator implements EntityGeneratorInterface
         $classType->addMethod('isPublishable')
             ->addComment('$this->nodeType->isPublishable() proxy.')
             ->addComment('@return bool Does this nodeSource is publishable with date and time?')
+            ->addAttribute(\Override::class)
             ->setReturnType('bool')
             ->setBody('return '.($this->nodeType->isPublishable() ? 'true' : 'false').';')
         ;
 
         $classType->addMethod('__toString')
             ->setReturnType('string')
+            ->addAttribute(\Override::class)
             ->setBody('return \'['.$this->nodeType->getSourceEntityClassName().'] \' . parent::__toString();')
         ;
 

@@ -30,21 +30,17 @@ class FolderTranslation extends AbstractEntity
     #[Assert\Length(max: 250)]
     protected string $name = '';
 
-    #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'translatedFolders')]
-    #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Ignore]
-    protected Folder $folder;
-
-    #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'folderTranslations')]
-    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Groups(['folder', 'document'])]
-    protected TranslationInterface $translation;
-
-    public function __construct(Folder $original, TranslationInterface $translation)
-    {
-        $this->setFolder($original);
-        $this->setTranslation($translation);
-        $this->name = '' != $original->getDirtyFolderName() ? $original->getDirtyFolderName() : $original->getFolderName();
+    public function __construct(
+        #[ORM\ManyToOne(targetEntity: Folder::class, inversedBy: 'translatedFolders')]
+        #[ORM\JoinColumn(name: 'folder_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        #[SymfonySerializer\Ignore]
+        protected Folder $folder,
+        #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'folderTranslations')]
+        #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        #[SymfonySerializer\Groups(['folder', 'document'])]
+        protected TranslationInterface $translation,
+    ) {
+        $this->name = '' != $this->folder->getDirtyFolderName() ? $this->folder->getDirtyFolderName() : $this->folder->getFolderName();
     }
 
     public function getName(): string

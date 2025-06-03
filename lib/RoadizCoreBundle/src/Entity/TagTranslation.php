@@ -41,16 +41,6 @@ class TagTranslation extends AbstractEntity
     #[Gedmo\Versioned]
     protected ?string $description = null;
 
-    #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'translatedTags')]
-    #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Ignore]
-    protected Tag $tag;
-
-    #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'tagTranslations')]
-    #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    #[SymfonySerializer\Groups(['tag', 'node', 'nodes_sources'])]
-    protected TranslationInterface $translation;
-
     /**
      * @var Collection<int, TagTranslationDocuments>
      */
@@ -64,15 +54,18 @@ class TagTranslation extends AbstractEntity
     #[SymfonySerializer\Ignore]
     protected Collection $tagTranslationDocuments;
 
-    /**
-     * Create a new TagTranslation with its origin Tag and Translation.
-     */
-    public function __construct(Tag $original, TranslationInterface $translation)
-    {
-        $this->setTag($original);
-        $this->setTranslation($translation);
+    public function __construct(
+        #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: 'translatedTags')]
+        #[ORM\JoinColumn(name: 'tag_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        #[SymfonySerializer\Ignore]
+        protected Tag $tag,
+        #[ORM\ManyToOne(targetEntity: Translation::class, fetch: 'EXTRA_LAZY', inversedBy: 'tagTranslations')]
+        #[ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        #[SymfonySerializer\Groups(['tag', 'node', 'nodes_sources'])]
+        protected TranslationInterface $translation,
+    ) {
         $this->tagTranslationDocuments = new ArrayCollection();
-        $this->name = '' != $original->getDirtyTagName() ? $original->getDirtyTagName() : $original->getTagName();
+        $this->name = '' != $this->tag->getDirtyTagName() ? $this->tag->getDirtyTagName() : $this->tag->getTagName();
     }
 
     public function getName(): string
@@ -147,9 +140,7 @@ class TagTranslation extends AbstractEntity
     #[SymfonySerializer\Groups(['tag'])]
     public function getDocuments(): array
     {
-        return array_map(function (TagTranslationDocuments $tagTranslationDocument) {
-            return $tagTranslationDocument->getDocument();
-        }, $this->getTagTranslationDocuments()->toArray());
+        return array_map(fn (TagTranslationDocuments $tagTranslationDocument) => $tagTranslationDocument->getDocument(), $this->getTagTranslationDocuments()->toArray());
     }
 
     public function getTagTranslationDocuments(): Collection

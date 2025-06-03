@@ -49,6 +49,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
      *
      * @return SearchResultsInterface return a SearchResultsInterface iterable object
      */
+    #[\Override]
     public function searchWithHighlight(
         string $q,
         array $args = [],
@@ -67,7 +68,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
 
     protected function createSearchResultsFromResponse(?array $response): SolrSearchResults
     {
-        return new SolrSearchResults(null !== $response ? $response : [], $this->em);
+        return new SolrSearchResults($response ?? [], $this->em);
     }
 
     abstract protected function argFqProcess(array &$args): array;
@@ -107,6 +108,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         return $this->highlightingFragmentSize;
     }
 
+    #[\Override]
     public function setHighlightingFragmentSize(int $highlightingFragmentSize): AbstractSearchHandler
     {
         $this->highlightingFragmentSize = $highlightingFragmentSize;
@@ -152,6 +154,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
      *
      * @return SearchResultsInterface Return an array of doctrine Entities (Document, NodesSources)
      */
+    #[\Override]
     public function search(
         string $q,
         array $args = [],

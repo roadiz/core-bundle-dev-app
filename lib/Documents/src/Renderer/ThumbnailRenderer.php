@@ -17,6 +17,7 @@ class ThumbnailRenderer implements RendererInterface
     {
     }
 
+    #[\Override]
     public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return null !== $this->chainRenderer
@@ -27,6 +28,7 @@ class ThumbnailRenderer implements RendererInterface
             && false !== $document->getThumbnails()->first();
     }
 
+    #[\Override]
     public function render(BaseDocumentInterface $document, array $options): string
     {
         if (

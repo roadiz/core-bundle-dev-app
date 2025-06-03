@@ -22,6 +22,7 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
         $this->options = $resolver->resolve($options);
     }
 
+    #[\Override]
     public function getClassContent(): string
     {
         $file = new PhpFile();
@@ -31,12 +32,12 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
 
         $fqcn = $this->options['entity_namespace'].'\\'.$this->nodeType->getSourceEntityClassName();
         $namespace = $file
-            ->addNamespace(trim($this->options['namespace'], '\\'))
-            ->addUse('\Doctrine\Persistence\ManagerRegistry')
-            ->addUse('\RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface')
-            ->addUse('\Symfony\Contracts\EventDispatcher\EventDispatcherInterface')
-            ->addUse('\Symfony\Bundle\SecurityBundle\Security')
-            ->addUse('\RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface')
+            ->addNamespace(trim((string) $this->options['namespace'], '\\'))
+            ->addUse(\Doctrine\Persistence\ManagerRegistry::class)
+            ->addUse(\RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface::class)
+            ->addUse(\Symfony\Contracts\EventDispatcher\EventDispatcherInterface::class)
+            ->addUse(\Symfony\Bundle\SecurityBundle\Security::class)
+            ->addUse(\RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface::class)
             ->addUse($this->options['parent_class'])
             ->addUse($fqcn)
         ;
@@ -62,19 +63,20 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
             );
 
         $constructor->addParameter('registry')
-            ->setType('\Doctrine\Persistence\ManagerRegistry');
+            ->setType(\Doctrine\Persistence\ManagerRegistry::class);
         $constructor->addParameter('previewResolver')
-            ->setType('\RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface');
+            ->setType(\RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface::class);
         $constructor->addParameter('dispatcher')
-            ->setType('\Symfony\Contracts\EventDispatcher\EventDispatcherInterface');
+            ->setType(\Symfony\Contracts\EventDispatcher\EventDispatcherInterface::class);
         $constructor->addParameter('security')
-            ->setType('\Symfony\Bundle\SecurityBundle\Security');
+            ->setType(\Symfony\Bundle\SecurityBundle\Security::class);
         $constructor->addParameter('nodeSourceSearchHandler')
             ->setType('?\RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface');
 
         return (new PsrPrinter())->printFile($file);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired([
@@ -88,11 +90,9 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
         $resolver->setAllowedTypes('namespace', 'string');
         $resolver->setAllowedTypes('class_name', 'string');
 
-        $normalizeClassName = function (OptionsResolver $resolver, string $className) {
-            return (new UnicodeString($className))->startsWith('\\') ?
-                $className :
-                '\\'.$className;
-        };
+        $normalizeClassName = fn (OptionsResolver $resolver, string $className) => (new UnicodeString($className))->startsWith('\\') ?
+            $className :
+            '\\'.$className;
 
         $resolver->setNormalizer('parent_class', $normalizeClassName);
         $resolver->setNormalizer('entity_namespace', $normalizeClassName);

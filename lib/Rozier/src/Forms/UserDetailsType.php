@@ -14,6 +14,7 @@ use Themes\Rozier\RozierApp;
 
 class UserDetailsType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -47,11 +48,13 @@ class UserDetailsType extends AbstractType
         ;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'user';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

@@ -16,16 +16,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class YamlType extends AbstractType
 {
+    #[\Override]
     public function getParent(): ?string
     {
         return TextareaType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'yaml';
     }
 
+    #[\Override]
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
@@ -33,6 +36,7 @@ final class YamlType extends AbstractType
         $view->vars['attr']['class'] = 'yaml_textarea';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
