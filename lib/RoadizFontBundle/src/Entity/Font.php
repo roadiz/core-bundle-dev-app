@@ -62,8 +62,6 @@ class Font implements DateTimedInterface, PersistableInterface
 
     /**
      * Get readable variant association.
-     *
-     * @var array
      */
     public static array $variantToHuman = [
         Font::THIN => 'font_variant.thin',                      // 100

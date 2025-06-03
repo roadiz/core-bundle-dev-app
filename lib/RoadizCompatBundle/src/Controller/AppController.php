@@ -231,6 +231,7 @@ abstract class AppController extends Controller
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
      * @deprecated
      */
     public function getTheme(): ?Theme

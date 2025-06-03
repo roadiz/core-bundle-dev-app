@@ -216,6 +216,7 @@ class Log implements PersistableInterface
     {
         if (null === $entityId) {
             $this->entityId = null;
+
             return $this;
         }
 
