@@ -11,7 +11,6 @@ use Nette\PhpGenerator\PhpNamespace;
 use Nette\PhpGenerator\Property;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
 use RZ\Roadiz\Contracts\NodeType\SerializableInterface;
-use RZ\Roadiz\CoreBundle\Enum\FieldType;
 use Symfony\Component\String\UnicodeString;
 
 abstract class AbstractFieldGenerator
@@ -160,11 +159,8 @@ abstract class AbstractFieldGenerator
             }
         }
 
-        if ($this->field->isRequired() && (!$this->field->isVirtual() || in_array($this->field->getType(), [FieldType::MANY_TO_MANY_T, FieldType::MANY_TO_ONE_T]))) {
-            if ($this->field->isManyToMany()
-                || $this->field->isCollection()
-                || $this->field->isMultiple()
-            ) {
+        if ($this->field->isRequired() && (!$this->field->isVirtual() || $this->field->isManyToMany() || $this->field->isManyToOne())) {
+            if ($this->field->isManyToMany() || $this->field->isCollection() || $this->field->isMultiple()) {
                 $property->addAttribute('Symfony\Component\Validator\Constraints\Count', [
                     'min' => 1,
                 ]);
