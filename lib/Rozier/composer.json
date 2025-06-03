@@ -43,7 +43,7 @@
         "roadiz/dts-generator": "2.6.x-dev",
         "roadiz/markdown": "2.6.x-dev",
         "roadiz/models": "2.6.x-dev",
-        "roadiz/nodetype-contracts": "^2.0.0",
+        "roadiz/nodetype-contracts": "^3.0.0",
         "roadiz/openid": "2.6.x-dev",
         "roadiz/rozier-bundle": "2.6.x-dev",
         "symfony/asset": "6.4.*",

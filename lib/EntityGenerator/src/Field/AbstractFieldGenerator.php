@@ -159,6 +159,19 @@ abstract class AbstractFieldGenerator
             }
         }
 
+        if ($this->field->isRequired() && (!$this->field->isVirtual() || $this->field->isManyToMany() || $this->field->isManyToOne())) {
+            if ($this->field->isManyToMany() || $this->field->isCollection() || $this->field->isMultiple()) {
+                $property->addAttribute('Symfony\Component\Validator\Constraints\Count', [
+                    'min' => 1,
+                ]);
+                $property->addAttribute('Symfony\Component\Validator\Constraints\NotNull');
+            } elseif ($this->field->isBool()) {
+                $property->addAttribute('Symfony\Component\Validator\Constraints\IsTrue');
+            } else {
+                $property->addAttribute('Symfony\Component\Validator\Constraints\NotBlank');
+            }
+        }
+
         if (
             $this->field->isIndexed()
             && true === $this->options['use_api_platform_filters']

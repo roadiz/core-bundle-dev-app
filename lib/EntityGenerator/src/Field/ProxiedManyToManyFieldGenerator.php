@@ -70,6 +70,13 @@ final class ProxiedManyToManyFieldGenerator extends AbstractConfigurableFieldGen
 
         $property->addAttribute(\Doctrine\ORM\Mapping\OneToMany::class, $ormParams);
 
+        if ($this->field->isRequired()) {
+            $property->addAttribute('Symfony\Component\Validator\Constraints\Count', [
+                'min' => 1,
+            ]);
+            $property->addAttribute('Symfony\Component\Validator\Constraints\NotNull');
+        }
+
         if (isset($this->configuration['proxy']['orderBy']) && count($this->configuration['proxy']['orderBy']) > 0) {
             // use default order for Collections
             $orderBy = [];
