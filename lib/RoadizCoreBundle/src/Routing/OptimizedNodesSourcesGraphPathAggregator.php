@@ -99,8 +99,7 @@ final readonly class OptimizedNodesSourcesGraphPathAggregator implements NodesSo
                     ->setCacheable(true)
                     ->getArrayResult()
                 ;
-                usort($parents, fn ($a, $b) => array_search($a['id'], $parentIds) -
-                    array_search($b['id'], $parentIds));
+                usort($parents, fn ($a, $b) => array_search($a['id'], $parentIds) - array_search($b['id'], $parentIds));
             }
         }
 

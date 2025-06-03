@@ -294,6 +294,7 @@ final class NodeTypeField extends AbstractField implements NodeTypeFieldInterfac
         return $this;
     }
 
+    #[\Override]
     public function isRequired(): bool
     {
         return $this->required;

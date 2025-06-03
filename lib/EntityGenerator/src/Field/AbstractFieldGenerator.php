@@ -161,14 +161,14 @@ abstract class AbstractFieldGenerator
 
         if ($this->field->isRequired() && (!$this->field->isVirtual() || $this->field->isManyToMany() || $this->field->isManyToOne())) {
             if ($this->field->isManyToMany() || $this->field->isCollection() || $this->field->isMultiple()) {
-                $property->addAttribute('Symfony\Component\Validator\Constraints\Count', [
+                $property->addAttribute(\Symfony\Component\Validator\Constraints\Count::class, [
                     'min' => 1,
                 ]);
-                $property->addAttribute('Symfony\Component\Validator\Constraints\NotNull');
+                $property->addAttribute(\Symfony\Component\Validator\Constraints\NotNull::class);
             } elseif ($this->field->isBool()) {
-                $property->addAttribute('Symfony\Component\Validator\Constraints\IsTrue');
+                $property->addAttribute(\Symfony\Component\Validator\Constraints\IsTrue::class);
             } else {
-                $property->addAttribute('Symfony\Component\Validator\Constraints\NotBlank');
+                $property->addAttribute(\Symfony\Component\Validator\Constraints\NotBlank::class);
             }
         }
 
