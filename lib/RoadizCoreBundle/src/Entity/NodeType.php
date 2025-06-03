@@ -104,9 +104,6 @@ final class NodeType implements NodeTypeInterface, \Stringable
     ]
     private bool $searchable = true;
 
-    /**
-     * Create a new NodeType.
-     */
     public function __construct()
     {
         $this->fields = new ArrayCollection();

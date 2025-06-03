@@ -19,7 +19,6 @@ class StackType
         #[ORM\ManyToOne(targetEntity: Node::class, inversedBy: 'stackTypes')]
         #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
         private Node $node,
-
         #[ORM\Id]
         #[ORM\Column(name: 'nodetype_name', type: 'string', length: 30, nullable: false)]
         #[Assert\Length(max: 30)]

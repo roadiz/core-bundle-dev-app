@@ -27,12 +27,15 @@ class NodesCustomForms extends AbstractPositioned
     /**
      * Create a new relation between a Node, a CustomForm and a NodeTypeFieldInterface.
      */
-    public function __construct(#[ORM\ManyToOne(targetEntity: Node::class, fetch: 'EAGER', inversedBy: 'customForms')]
+    public function __construct(
+        #[ORM\ManyToOne(targetEntity: Node::class, fetch: 'EAGER', inversedBy: 'customForms')]
         #[ORM\JoinColumn(name: 'node_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-        protected Node $node, #[ORM\ManyToOne(targetEntity: CustomForm::class, fetch: 'EAGER', inversedBy: 'nodes')]
+        protected Node $node,
+        #[ORM\ManyToOne(targetEntity: CustomForm::class, fetch: 'EAGER', inversedBy: 'nodes')]
         #[ORM\JoinColumn(name: 'custom_form_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-        protected CustomForm $customForm, ?NodeTypeFieldInterface $field = null)
-    {
+        protected CustomForm $customForm,
+        ?NodeTypeFieldInterface $field = null,
+    ) {
         $this->initializeFieldAwareEntityTrait($field);
     }
 

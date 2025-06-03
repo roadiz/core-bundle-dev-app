@@ -41,10 +41,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     /**
      * Email confirmation link TTL (in seconds) to change
      * password.
-     *
-     * @var int
      */
-    public const CONFIRMATION_TTL = 900;
+    public const int CONFIRMATION_TTL = 900;
 
     #[ORM\Column(type: 'string', length: 200, unique: true, nullable: false)]
     #[Serializer\Groups(['user_personal', 'human'])]

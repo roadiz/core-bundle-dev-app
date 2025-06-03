@@ -195,9 +195,6 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface, \Stringa
     ])]
     private Collection $nodesTags;
 
-    /**
-     * Create a new Tag.
-     */
     public function __construct()
     {
         $this->nodesTags = new ArrayCollection();

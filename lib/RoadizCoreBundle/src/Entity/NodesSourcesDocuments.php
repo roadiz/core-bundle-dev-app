@@ -61,15 +61,17 @@ class NodesSourcesDocuments extends AbstractPositioned
     /**
      * Create a new relation between NodeSource, a Document and a NodeTypeField.
      */
-    public function __construct(#[ORM\ManyToOne(
-        targetEntity: NodesSources::class,
-        cascade: ['persist'],
-        fetch: 'EAGER',
-        inversedBy: 'documentsByFields'
-    )]
+    public function __construct(
+        #[ORM\ManyToOne(
+            targetEntity: NodesSources::class,
+            cascade: ['persist'],
+            fetch: 'EAGER',
+            inversedBy: 'documentsByFields'
+        )]
         #[Assert\NotNull]
         #[ORM\JoinColumn(name: 'ns_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-        protected NodesSources $nodeSource, #[ORM\ManyToOne(
+        protected NodesSources $nodeSource,
+        #[ORM\ManyToOne(
             targetEntity: Document::class,
             cascade: ['persist'],
             fetch: 'EAGER',
@@ -77,8 +79,9 @@ class NodesSourcesDocuments extends AbstractPositioned
         )]
         #[Assert\NotNull]
         #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-        protected Document $document, ?NodeTypeFieldInterface $field = null)
-    {
+        protected Document $document,
+        ?NodeTypeFieldInterface $field = null,
+    ) {
         $this->initializeFieldAwareEntityTrait($field);
     }
 

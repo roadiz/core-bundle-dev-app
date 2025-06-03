@@ -24,15 +24,17 @@ class TagTranslationDocuments extends AbstractPositioned
     /**
      * Create a new relation between NodeSource, a Document and a NodeTypeField.
      */
-    public function __construct(#[ORM\ManyToOne(
-        targetEntity: TagTranslation::class,
-        cascade: ['persist', 'merge'],
-        fetch: 'EAGER',
-        inversedBy: 'tagTranslationDocuments'
-    )]
+    public function __construct(
+        #[ORM\ManyToOne(
+            targetEntity: TagTranslation::class,
+            cascade: ['persist', 'merge'],
+            fetch: 'EAGER',
+            inversedBy: 'tagTranslationDocuments'
+        )]
         #[ORM\JoinColumn(name: 'tag_translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
         #[SymfonySerializer\Ignore]
-        protected TagTranslation $tagTranslation, #[ORM\ManyToOne(
+        protected TagTranslation $tagTranslation,
+        #[ORM\ManyToOne(
             targetEntity: Document::class,
             cascade: ['persist', 'merge'],
             fetch: 'EAGER',
@@ -40,8 +42,8 @@ class TagTranslationDocuments extends AbstractPositioned
         )]
         #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
         #[SymfonySerializer\Groups(['tag'])]
-        protected Document $document)
-    {
+        protected Document $document,
+    ) {
     }
 
     public function __clone()
