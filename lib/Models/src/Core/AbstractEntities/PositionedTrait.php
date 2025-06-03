@@ -4,11 +4,25 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Core\AbstractEntities;
 
+use ApiPlatform\Doctrine\Orm\Filter\NumericFilter;
+use ApiPlatform\Doctrine\Orm\Filter\RangeFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute as Serializer;
+
 /**
  * Trait which describe a positioned entity.
  */
 trait PositionedTrait
 {
+    #[
+        ORM\Column(type: 'float'),
+        Serializer\Groups(['position']),
+        ApiFilter(RangeFilter::class),
+        ApiFilter(NumericFilter::class)
+    ]
+    protected float $position = 0.0;
+
     public function getPosition(): float
     {
         return $this->position;

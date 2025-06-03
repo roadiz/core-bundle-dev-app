@@ -7,11 +7,12 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\DocumentTranslationRepository;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
@@ -20,8 +21,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\UniqueConstraint(columns: ['document_id', 'translation_id']),
     Gedmo\Loggable(logEntryClass: UserLogEntry::class)
 ]
-class DocumentTranslation extends AbstractEntity implements Loggable
+class DocumentTranslation implements Loggable, PersistableInterface
 {
+    use SequentialIdTrait;
+
     #[ORM\Column(type: 'string', length: 250, nullable: true)]
     #[SymfonySerializer\Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     #[Assert\Length(max: 250)]

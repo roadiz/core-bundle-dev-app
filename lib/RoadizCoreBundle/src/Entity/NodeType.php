@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\Criteria;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\CoreBundle\Form\Constraint as RoadizAssert;
 use RZ\Roadiz\Utils\StringHandler;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**

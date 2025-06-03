@@ -8,11 +8,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\TagTranslationRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -27,8 +28,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     Gedmo\Loggable(logEntryClass: UserLogEntry::class),
     UniqueEntity(fields: ['tag', 'translation'])
 ]
-class TagTranslation extends AbstractEntity
+class TagTranslation implements PersistableInterface
 {
+    use SequentialIdTrait;
+
     #[ORM\Column(type: 'string', length: 250)]
     #[SymfonySerializer\Groups(['tag', 'node', 'nodes_sources'])]
     #[Assert\NotBlank]

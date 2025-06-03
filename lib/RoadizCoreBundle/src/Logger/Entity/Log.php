@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Logger\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Repository\LogRepository;
@@ -29,8 +30,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['channel']),
     ORM\HasLifecycleCallbacks
 ]
-class Log extends AbstractEntity
+class Log implements PersistableInterface
 {
+    use SequentialIdTrait;
+
     #[ORM\Column(name: 'user_id', type: 'string', length: 36, unique: false, nullable: true)]
     #[Serializer\Groups(['log_user'])]
     // @phpstan-ignore-next-line

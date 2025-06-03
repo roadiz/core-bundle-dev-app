@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Repository\TagTranslationDocumentsRepository;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 
 /**
  * Describes a complex ManyToMany relation
@@ -16,11 +19,15 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 #[
     ORM\Entity(repositoryClass: TagTranslationDocumentsRepository::class),
     ORM\Table(name: 'tags_translations_documents'),
+    ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['tag_translation_id', 'position'], name: 'tagtranslation_position')
 ]
-class TagTranslationDocuments extends AbstractPositioned
+class TagTranslationDocuments implements PositionedInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use PositionedTrait;
+
     /**
      * Create a new relation between NodeSource, a Document and a NodeTypeField.
      */

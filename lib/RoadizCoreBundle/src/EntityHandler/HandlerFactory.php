@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\EntityHandler;
 
 use Psr\Container\ContainerInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
@@ -29,7 +29,7 @@ final readonly class HandlerFactory implements HandlerFactoryInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      */
     #[\Override]
-    public function getHandler(AbstractEntity $entity): AbstractHandler
+    public function getHandler(PersistableInterface $entity): AbstractHandler
     {
         return match (true) {
             $entity instanceof Node => $this->container->get(NodeHandler::class)->setNode($entity),

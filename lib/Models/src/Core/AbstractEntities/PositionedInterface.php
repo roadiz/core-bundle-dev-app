@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Core\AbstractEntities;
 
-interface PositionedInterface
+use Doctrine\Common\Comparable;
+
+interface PositionedInterface extends Comparable
 {
     public function getPosition(): float;
 

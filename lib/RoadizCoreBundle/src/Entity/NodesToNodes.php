@@ -6,7 +6,10 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodesToNodesRepository;
 
 /**
@@ -16,14 +19,17 @@ use RZ\Roadiz\CoreBundle\Repository\NodesToNodesRepository;
 #[
     ORM\Entity(repositoryClass: NodesToNodesRepository::class),
     ORM\Table(name: 'nodes_to_nodes'),
+    ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['node_a_id', 'field_name'], name: 'node_a_field'),
     ORM\Index(columns: ['node_a_id', 'field_name', 'position'], name: 'node_a_field_position'),
     ORM\Index(columns: ['node_b_id', 'field_name'], name: 'node_b_field'),
     ORM\Index(columns: ['node_b_id', 'field_name', 'position'], name: 'node_b_field_position')
 ]
-class NodesToNodes extends AbstractPositioned
+class NodesToNodes implements PositionedInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use PositionedTrait;
     use FieldAwareEntityTrait;
 
     public function __construct(
