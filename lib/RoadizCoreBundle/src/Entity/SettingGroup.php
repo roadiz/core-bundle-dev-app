@@ -7,7 +7,8 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Repository\SettingGroupRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute as Serializer;
@@ -21,8 +22,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Table(name: 'settings_groups'),
     UniqueEntity(fields: ['name'])
 ]
-class SettingGroup extends AbstractEntity
+class SettingGroup implements PersistableInterface, \Stringable
 {
+    use SequentialIdTrait;
+
     #[ORM\Column(name: 'in_menu', type: 'boolean', nullable: false, options: ['default' => false])]
     #[Serializer\Groups(['setting', 'setting_group'])]
     protected bool $inMenu = false;
@@ -110,5 +113,11 @@ class SettingGroup extends AbstractEntity
         }
 
         return $this;
+    }
+
+    #[\Override]
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

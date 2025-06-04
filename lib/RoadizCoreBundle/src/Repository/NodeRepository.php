@@ -915,7 +915,7 @@ EOT,
                     $alias.'.nodesTags',
                     'ntg',
                     Expr\Join::WITH,
-                    $qb->expr()->eq('ntg.tag', (int) $criteria['tags']->getId())
+                    $qb->expr()->eq('ntg.tag', $criteria['tags']->getId())
                 );
             } elseif (is_array($criteria['tags'])) {
                 $qb->innerJoin(
@@ -929,7 +929,7 @@ EOT,
                     $alias.'.nodesTags',
                     'ntg',
                     Expr\Join::WITH,
-                    $qb->expr()->eq('ntg.tag', (int) $criteria['tags'])
+                    $qb->expr()->eq('ntg.tag', $criteria['tags'])
                 );
             }
             unset($criteria['tags']);

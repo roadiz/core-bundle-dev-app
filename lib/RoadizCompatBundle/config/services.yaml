@@ -72,20 +72,6 @@ services:
         class: Twig\Loader\FilesystemLoader
         tags: ['twig.loader']
 
-    #
-    # Made routers theme aware
-    #
-    RZ\Roadiz\CompatBundle\Routing\ThemeAwareNodeUrlMatcher:
-        decorates: RZ\Roadiz\CoreBundle\Routing\NodeUrlMatcher
-        arguments:
-            - '@RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface'
-            - '@.inner'
-    RZ\Roadiz\CompatBundle\Routing\ThemeAwareNodeRouter:
-        decorates: RZ\Roadiz\CoreBundle\Routing\NodeRouter
-        arguments:
-            - '@RZ\Roadiz\CompatBundle\Theme\ThemeResolverInterface'
-            - '@.inner'
-
     RZ\Roadiz\CompatBundle\EventSubscriber\MaintenanceModeSubscriber:
         arguments:
             - '@RZ\Roadiz\CoreBundle\Bag\Settings'

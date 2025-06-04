@@ -13,7 +13,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\CopyrightValidFilter;
@@ -28,7 +31,7 @@ use RZ\Roadiz\Documents\Models\FolderInterface;
 use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 use RZ\Roadiz\Documents\Models\TimeableInterface;
 use RZ\Roadiz\Utils\StringHandler;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -37,6 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ORM\Entity(repositoryClass: DocumentRepository::class),
     ORM\Table(name: 'documents'),
+    ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['created_at'], name: 'document_created_at'),
     ORM\Index(columns: ['updated_at'], name: 'document_updated_at'),
     ORM\Index(columns: ['raw']),
@@ -71,8 +75,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ]),
     ApiFilter(CopyrightValidFilter::class)
 ]
-class Document extends AbstractDateTimed implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface
+class Document implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface, DateTimedInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
     use BaseDocumentTrait;
     use DocumentTrait;
 
@@ -298,7 +304,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
 
     public function __construct()
     {
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
         $this->initDocumentTrait();
 
         $this->folders = new ArrayCollection();

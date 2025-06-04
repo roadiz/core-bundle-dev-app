@@ -9,14 +9,15 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
+use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Model\AttributableInterface;
 use RZ\Roadiz\CoreBundle\Model\AttributeValueInterface;
 use RZ\Roadiz\CoreBundle\Model\AttributeValueTrait;
 use RZ\Roadiz\CoreBundle\Model\AttributeValueTranslationInterface;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Repository\AttributeValueRepository;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 
 #[
     ORM\Entity(repositoryClass: AttributeValueRepository::class),
@@ -30,8 +31,10 @@ use Symfony\Component\Serializer\Annotation as SymfonySerializer;
         'position',
     ]),
 ]
-class AttributeValue extends AbstractPositioned implements AttributeValueInterface
+class AttributeValue implements AttributeValueInterface
 {
+    use SequentialIdTrait;
+    use PositionedTrait;
     use AttributeValueTrait;
 
     #[

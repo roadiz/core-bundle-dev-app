@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\TwigExtension;
 
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\EntityHandler\HandlerFactory;
 use Twig\Error\RuntimeError;
@@ -38,7 +38,7 @@ final class HandlerExtension extends AbstractExtension
             return null;
         }
 
-        if ($mixed instanceof AbstractEntity) {
+        if ($mixed instanceof PersistableInterface) {
             try {
                 return $this->handlerFactory->getHandler($mixed);
             } catch (\InvalidArgumentException $exception) {

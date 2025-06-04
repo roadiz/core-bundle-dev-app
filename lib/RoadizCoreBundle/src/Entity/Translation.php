@@ -11,12 +11,13 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -26,6 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ORM\Entity(repositoryClass: TranslationRepository::class),
     ORM\Table(name: 'translations'),
+    ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['available']),
     ORM\Index(columns: ['default_translation']),
     ORM\Index(columns: ['created_at']),
@@ -53,8 +55,11 @@ use Symfony\Component\Validator\Constraints as Assert;
         'name' => 'exact',
     ])
 ]
-class Translation extends AbstractDateTimed implements TranslationInterface, \Stringable
+class Translation implements TranslationInterface
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
+
     /**
      * Associates locales to pretty languages names.
      */
@@ -622,7 +627,7 @@ class Translation extends AbstractDateTimed implements TranslationInterface, \St
         $this->tagTranslations = new ArrayCollection();
         $this->folderTranslations = new ArrayCollection();
         $this->documentTranslations = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**

@@ -11,15 +11,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\FolderRepository;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\FolderInterface;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -46,8 +50,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         'updatedAt',
     ])
 ]
-class Folder extends AbstractDateTimedPositioned implements FolderInterface, LeafInterface
+class Folder implements DateTimedInterface, FolderInterface, LeafInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
     use LeafTrait;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
@@ -126,7 +132,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         $this->children = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->translatedFolders = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**

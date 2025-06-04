@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Enum\NodeTypeDecoratorProperty;
 use RZ\Roadiz\CoreBundle\Repository\NodeTypeDecoratorRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -17,8 +17,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     UniqueEntity(fields: ['path', 'property']),
     ORM\Index(columns: ['path'], name: 'idx_ntd_path'),
 ]
-class NodeTypeDecorator extends AbstractEntity implements PersistableInterface, \Stringable
+class NodeTypeDecorator implements PersistableInterface, \Stringable
 {
+    use SequentialIdTrait;
+
     private function __construct(
         #[ORM\Column(type: 'string', length: 255, nullable: false)]
         private string $path,

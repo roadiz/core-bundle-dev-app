@@ -10,11 +10,11 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Repository\RealmRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -37,8 +37,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         'name' => 'exact',
     ])
 ]
-class Realm extends AbstractEntity implements RealmInterface
+class Realm implements RealmInterface
 {
+    use SequentialIdTrait;
+
     #[ORM\Column(name: 'type', type: 'string', length: 30)]
     #[SymfonySerializer\Groups(['get', 'realm'])]
     #[Assert\Length(max: 30)]

@@ -14,6 +14,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\ListManager\NodeTreeDtoListManager;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
+use RZ\Roadiz\CoreBundle\Model\DocumentDto;
 use RZ\Roadiz\CoreBundle\Model\NodeTreeDto;
 use RZ\Roadiz\CoreBundle\Model\TagTreeDto;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -271,13 +272,12 @@ final class NodeTreeWidget extends AbstractWidget
         ], null, null, $this->getTranslation());
     }
 
-    public function getOneDisplayableDocument(NodeTreeDto $node): ?Document
+    public function getOneDisplayableDocument(NodeTreeDto $node): ?DocumentDto
     {
         return $this->managerRegistry
             ->getRepository(Document::class)
-            ->findOneDisplayableByNodeSource(
+            ->findOneDisplayableDtoByNodeSource(
                 $node->getNodeSource()->getId(),
-                $this->getTranslation()
             );
     }
 

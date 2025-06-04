@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
-
 /**
  * Themes describe a database entity to store
  * front-end and back-end controllers.
+ *
+ * @deprecated since 2.6, Themes will be definitly dropped
  */
-class Theme extends AbstractEntity
+class Theme
 {
     protected string $hostname = '*';
     protected bool $staticTheme = false;

@@ -25,6 +25,7 @@
         "symfony/translation-contracts": "^3.0",
         "symfony/http-foundation": "6.4.*",
         "symfony/serializer": "6.4.*",
+        "symfony/uid": "6.4.*",
         "symfony/validator": "6.4.*"
     },
     "require-dev": {

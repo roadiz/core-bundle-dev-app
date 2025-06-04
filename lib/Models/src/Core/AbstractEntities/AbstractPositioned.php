@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Core\AbstractEntities;
 
-use Doctrine\Common\Comparable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute as Serializer;
 
 /**
  * Combined AbstractEntity and PositionedTrait.
+ *
+ * @deprecated since 2.6, use composition with PositionedTrait and PositionedInterface instead.
  */
 #[
     ORM\MappedSuperclass,
@@ -17,7 +18,7 @@ use Symfony\Component\Serializer\Attribute as Serializer;
     ORM\Table,
     ORM\Index(columns: ['position'])
 ]
-abstract class AbstractPositioned extends AbstractEntity implements PositionedInterface, Comparable
+abstract class AbstractPositioned extends AbstractEntity implements PositionedInterface
 {
     use PositionedTrait;
 

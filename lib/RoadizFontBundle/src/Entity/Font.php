@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace RZ\Roadiz\FontBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\FontBundle\Repository\FontRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -19,46 +22,48 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ORM\Entity(repositoryClass: FontRepository::class),
     ORM\Table(name: 'fonts'),
+    ORM\HasLifecycleCallbacks,
     ORM\UniqueConstraint(columns: ['name', 'variant']),
     ORM\Index(columns: ['created_at'], name: 'font_created_at'),
     ORM\Index(columns: ['updated_at'], name: 'font_updated_at'),
     UniqueEntity(fields: ['name', 'variant'])
 ]
-class Font extends AbstractDateTimed
+class Font implements DateTimedInterface, PersistableInterface
 {
-    public const REGULAR = 0;
-    public const ITALIC = 1;
-    public const BOLD = 2;
-    public const BOLD_ITALIC = 3;
-    public const LIGHT = 4;
-    public const LIGHT_ITALIC = 5;
-    public const MEDIUM = 6;
-    public const MEDIUM_ITALIC = 7;
-    public const BLACK = 8;
-    public const BLACK_ITALIC = 9;
-    public const THIN = 10;
-    public const THIN_ITALIC = 11;
-    public const EXTRA_LIGHT = 12;
-    public const EXTRA_LIGHT_ITALIC = 13;
-    public const SEMI_BOLD = 14;
-    public const SEMI_BOLD_ITALIC = 15;
-    public const EXTRA_BOLD = 16;
-    public const EXTRA_BOLD_ITALIC = 17;
+    use SequentialIdTrait;
+    use DateTimedTrait;
 
-    public const MIME_DEFAULT = 'application/octet-stream';
-    public const MIME_SVG = 'image/svg+xml';
-    public const MIME_TTF = 'application/x-font-truetype';
-    public const MIME_OTF = 'application/x-font-opentype';
-    public const MIME_WOFF = 'application/font-woff';
-    public const MIME_WOFF2 = 'application/font-woff2';
-    public const MIME_EOT = 'application/vnd.ms-fontobject';
+    public const int REGULAR = 0;
+    public const int ITALIC = 1;
+    public const int BOLD = 2;
+    public const int BOLD_ITALIC = 3;
+    public const int LIGHT = 4;
+    public const int LIGHT_ITALIC = 5;
+    public const int MEDIUM = 6;
+    public const int MEDIUM_ITALIC = 7;
+    public const int BLACK = 8;
+    public const int BLACK_ITALIC = 9;
+    public const int THIN = 10;
+    public const int THIN_ITALIC = 11;
+    public const int EXTRA_LIGHT = 12;
+    public const int EXTRA_LIGHT_ITALIC = 13;
+    public const int SEMI_BOLD = 14;
+    public const int SEMI_BOLD_ITALIC = 15;
+    public const int EXTRA_BOLD = 16;
+    public const int EXTRA_BOLD_ITALIC = 17;
+
+    public const string MIME_DEFAULT = 'application/octet-stream';
+    public const string MIME_SVG = 'image/svg+xml';
+    public const string MIME_TTF = 'application/x-font-truetype';
+    public const string MIME_OTF = 'application/x-font-opentype';
+    public const string MIME_WOFF = 'application/font-woff';
+    public const string MIME_WOFF2 = 'application/font-woff2';
+    public const string MIME_EOT = 'application/vnd.ms-fontobject';
 
     /**
      * Get readable variant association.
-     *
-     * @var array
      */
-    public static $variantToHuman = [
+    public static array $variantToHuman = [
         Font::THIN => 'font_variant.thin',                      // 100
         Font::THIN_ITALIC => 'font_variant.thin.italic',        // 100
         Font::EXTRA_LIGHT => 'font_variant.extra_light',               // 200
@@ -131,7 +136,7 @@ class Font extends AbstractDateTimed
     public function __construct()
     {
         $this->folder = \mb_substr(hash('crc32b', date('YmdHi')), 0, 12);
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**

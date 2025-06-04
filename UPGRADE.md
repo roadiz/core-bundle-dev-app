@@ -1,3 +1,34 @@
+# Upgrade to 2.6
+
+## ⚠ Breaking changes
+
+- **Roadiz requires php 8.2 minimum**
+- Upgraded to **ApiPlatform 4.x**
+- `ThemeAwareNodeRouter` and `ThemeAwareNodeUrlMatcher` classes have been removed
+- All deprecated `AbstractField` constants have been removed (in favor of `FieldType` enum)
+
+## Upgrade rezozero/intervention-request-bundle
+
+- Roadiz requires `rezozero/intervention-request-bundle` to `~5.0.1`
+
+## Use composition instead of inheritance for Abstract entities
+
+- All Abstract entities now use composition instead of inheritance.
+- Replace extending `AbstractEntity` with `PersistableInterface` and `SequentialIdTrait` in your entities.
+- Replace extending `AbstractDateTimed` with `DateTimedInterface` and `DateTimedTrait` in your entities.
+- Replace extending `AbstractPositioned` with `PositionedInterface` and `PositionedTrait` in your entities.
+- Use `SequentialIdTrait` to provide integer `id` property in your entities.
+- Use `UuidTrait` to provide Uuid `id` property in your entities.
+- Replace `$this->initAbstractDateTimed();` calls with `$this->initDateTimedTrait();` in your entities.
+
+## Interface changes
+
+- `ExplorerItemInterface::getId()` now returns `string|int|Uuid`
+
+## Removed Themes from routing and events
+
+- `NodesSourcesPathGeneratingEvent` does not have `theme` property anymore.
+
 # Upgrade to 2.5
 
 ## Removed node_types and node_type_fields tables

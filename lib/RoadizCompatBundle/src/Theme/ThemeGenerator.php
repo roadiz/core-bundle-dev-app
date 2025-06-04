@@ -11,9 +11,9 @@ use Symfony\Component\Finder\Finder;
 
 class ThemeGenerator
 {
-    public const METHOD_COPY = 'copy';
-    public const METHOD_ABSOLUTE_SYMLINK = 'absolute symlink';
-    public const METHOD_RELATIVE_SYMLINK = 'relative symlink';
+    public const string METHOD_COPY = 'copy';
+    public const string METHOD_ABSOLUTE_SYMLINK = 'absolute symlink';
+    public const string METHOD_RELATIVE_SYMLINK = 'relative symlink';
 
     protected Filesystem $filesystem;
 

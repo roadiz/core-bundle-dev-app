@@ -7,7 +7,8 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Repository\GroupRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute as Serializer;
@@ -21,8 +22,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Table(name: 'usergroups'),
     UniqueEntity(fields: ['name'])
 ]
-class Group extends AbstractEntity
+class Group implements PersistableInterface, \Stringable
 {
+    use SequentialIdTrait;
+
     #[ORM\Column(type: 'string', length: 250, unique: true)]
     #[Serializer\Groups(['user', 'role', 'role:export', 'role:import', 'group', 'group:export', 'group:import'])]
     #[Assert\NotBlank]
@@ -153,5 +156,11 @@ class Group extends AbstractEntity
         }
 
         return $this;
+    }
+
+    #[\Override]
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }

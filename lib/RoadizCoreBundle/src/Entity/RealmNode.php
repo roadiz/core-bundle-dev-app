@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Repository\RealmNodeRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[
@@ -22,8 +23,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\UniqueConstraint(name: 'realms_nodes_unique', columns: ['node_id', 'realm_id']),
     UniqueEntity(fields: ['node', 'realm'])
 ]
-class RealmNode extends AbstractEntity
+class RealmNode implements PersistableInterface
 {
+    use SequentialIdTrait;
+
     #[ORM\ManyToOne(targetEntity: Node::class)]
     #[ORM\JoinColumn(
         name: 'node_id',

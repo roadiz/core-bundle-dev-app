@@ -6,7 +6,7 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Model\AttributeGroupInterface;
 use RZ\Roadiz\CoreBundle\Model\AttributeGroupTrait;
 use RZ\Roadiz\CoreBundle\Model\AttributeGroupTranslationInterface;
@@ -20,8 +20,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     ORM\HasLifecycleCallbacks,
     UniqueEntity(fields: ['canonicalName'])
 ]
-class AttributeGroup extends AbstractEntity implements AttributeGroupInterface
+class AttributeGroup implements AttributeGroupInterface
 {
+    use SequentialIdTrait;
     use AttributeGroupTrait;
 
     public function __construct()

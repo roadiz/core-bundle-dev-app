@@ -6,7 +6,10 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesDocumentsRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,12 +20,15 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ORM\Entity(repositoryClass: NodesSourcesDocumentsRepository::class),
     ORM\Table(name: 'nodes_sources_documents'),
+    ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['ns_id', 'field_name'], name: 'nsdoc_field'),
     ORM\Index(columns: ['ns_id', 'field_name', 'position'], name: 'nsdoc_field_position')
 ]
-class NodesSourcesDocuments extends AbstractPositioned
+class NodesSourcesDocuments implements PositionedInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use PositionedTrait;
     use FieldAwareEntityTrait;
 
     /**

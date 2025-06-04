@@ -85,8 +85,7 @@
                                title="{% trans %}node.publish{% endtrans %}"
                                href="#"><i class="uk-icon-rz-published-mini"></i> {% trans %}node.publish{% endtrans %}</a>
                         </p>
-                    {% endif %}
-                    {% if workflow_can(node, 'reject') %}
+                    {% elseif node.published and workflow_can(node, 'reject') %}
                         <p>
                             <a data-action="reject"
                                data-status="status"
@@ -94,13 +93,6 @@
                                class="unpublish-node"
                                title="{% trans %}node.unpublish{% endtrans %}"
                                href="#"><i class="uk-icon-rz-draft-nodes"></i> {% trans %}node.unpublish{% endtrans %}</a>
-                        </p>
-                    {% endif %}
-                    {% if workflow_can(node, 'publish') %}
-                        <p><a class="publish-all-node"
-                              title="{% trans %}publish_node_offspring{% endtrans %}"
-                              href="{{ path('nodesPublishAllAction', { nodeId : node.id }) }}">
-                                <i class="uk-icon-rz-published-mini"></i> {% trans %}publish_node_offspring{% endtrans %}</a>
                         </p>
                     {% endif %}
                     <p>

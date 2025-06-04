@@ -63,6 +63,10 @@ abstract class AppController extends Controller
      * Is theme for backend?
      */
     protected static bool $backendTheme = false;
+
+    /**
+     * @deprecated
+     */
     protected ?Theme $theme = null;
     /**
      * Assignation for twig template engine.
@@ -227,6 +231,8 @@ abstract class AppController extends Controller
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @deprecated
      */
     public function getTheme(): ?Theme
     {

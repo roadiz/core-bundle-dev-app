@@ -32,6 +32,6 @@ final readonly class NodeSourcePathSubscriber implements EventSubscriberInterfac
             $event->isForceLocale(),
             $event->isForceLocaleWithUrlAlias()
         );
-        $event->setPath($urlGenerator->getNonContextualUrl($event->getTheme(), $event->getParameters()));
+        $event->setPath($urlGenerator->getNonContextualUrl($event->getParameters()));
     }
 }

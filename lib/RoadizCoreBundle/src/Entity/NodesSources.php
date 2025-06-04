@@ -16,7 +16,8 @@ use Doctrine\Persistence\ObjectManager;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypePublishableFilter;
@@ -24,7 +25,7 @@ use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypeReachableFilter;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -58,8 +59,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(RoadizFilter\LocaleFilter::class),
     ApiFilter(RoadizFilter\TagGroupFilter::class),
 ]
-class NodesSources extends AbstractEntity implements Loggable, \Stringable
+class NodesSources implements PersistableInterface, Loggable, \Stringable
 {
+    use SequentialIdTrait;
+
     #[SymfonySerializer\Ignore]
     protected ?ObjectManager $objectManager = null;
 

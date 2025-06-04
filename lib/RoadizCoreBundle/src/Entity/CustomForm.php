@@ -8,12 +8,15 @@ use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Repository\CustomFormRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -28,8 +31,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['created_at'], name: 'custom_form_created_at'),
     ORM\Index(columns: ['updated_at'], name: 'custom_form_updated_at'),
 ]
-class CustomForm extends AbstractDateTimed
+class CustomForm implements DateTimedInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
+
     #[
         ORM\Column(name: 'color', type: 'string', length: 7, unique: false, nullable: true),
         Assert\Length(max: 7),
@@ -130,7 +136,7 @@ class CustomForm extends AbstractDateTimed
         $this->fields = new ArrayCollection();
         $this->customFormAnswers = new ArrayCollection();
         $this->nodes = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     public function getDisplayName(): string

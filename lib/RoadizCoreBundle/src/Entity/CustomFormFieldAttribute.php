@@ -7,7 +7,8 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Repository\CustomFormFieldAttributeRepository;
 
 /**
@@ -20,8 +21,10 @@ use RZ\Roadiz\CoreBundle\Repository\CustomFormFieldAttributeRepository;
     ORM\Index(columns: ['custom_form_answer_id', 'custom_form_field_id'], name: 'cffattribute_answer_field'),
     ORM\HasLifecycleCallbacks
 ]
-class CustomFormFieldAttribute extends AbstractEntity implements \Stringable
+class CustomFormFieldAttribute implements \Stringable, PersistableInterface
 {
+    use SequentialIdTrait;
+
     #[
         ORM\ManyToOne(targetEntity: CustomFormAnswer::class, inversedBy: 'answerFields'),
         ORM\JoinColumn(name: 'custom_form_answer_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')

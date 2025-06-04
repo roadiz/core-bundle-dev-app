@@ -9,7 +9,7 @@ use League\Flysystem\FilesystemOperator;
 use RZ\Roadiz\Documents\Exceptions\InvalidEmbedId;
 use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\MediaFinders\EmbedFinderInterface;
-use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use RZ\Roadiz\Documents\Models\SizeableInterface;
 use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use Symfony\Component\OptionsResolver\Exception\InvalidArgumentException;
@@ -62,7 +62,7 @@ final class DocumentExtension extends AbstractExtension
     /**
      * @throws RuntimeError
      */
-    public function getEmbedFinder(?DocumentInterface $document = null): ?EmbedFinderInterface
+    public function getEmbedFinder(?BaseDocumentInterface $document = null): ?EmbedFinderInterface
     {
         if (null === $document) {
             if ($this->throwExceptions) {
@@ -96,7 +96,7 @@ final class DocumentExtension extends AbstractExtension
     /**
      * @throws RuntimeError
      */
-    public function display(?DocumentInterface $document = null, ?array $options = []): string
+    public function display(?BaseDocumentInterface $document = null, ?array $options = []): string
     {
         if (null === $document) {
             if ($this->throwExceptions) {
@@ -188,7 +188,7 @@ final class DocumentExtension extends AbstractExtension
         return 0.0;
     }
 
-    public function getPath(?DocumentInterface $document = null): ?string
+    public function getPath(?BaseDocumentInterface $document = null): ?string
     {
         if (
             null !== $document
@@ -205,7 +205,7 @@ final class DocumentExtension extends AbstractExtension
     /**
      * @throws FilesystemException
      */
-    public function exists(?DocumentInterface $document = null): bool
+    public function exists(?BaseDocumentInterface $document = null): bool
     {
         if (null !== $document && $document->isLocal() && null !== $mountPath = $document->getMountPath()) {
             return $this->documentsStorage->fileExists($mountPath);

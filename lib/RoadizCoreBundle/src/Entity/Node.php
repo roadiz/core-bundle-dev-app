@@ -16,9 +16,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypePublishableFilter;
@@ -30,7 +33,7 @@ use RZ\Roadiz\CoreBundle\Model\AttributableTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -75,21 +78,23 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(PropertyFilter::class),
     ApiFilter(TagGroupFilter::class)
 ]
-class Node extends AbstractDateTimedPositioned implements LeafInterface, AttributableInterface, Loggable, NodeInterface, \Stringable
+class Node implements DateTimedInterface, LeafInterface, AttributableInterface, Loggable, NodeInterface, \Stringable
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
     use LeafTrait;
     use AttributableTrait;
 
     /** @deprecated Use NodeStatus enum */
-    public const DRAFT = 10;
+    public const int DRAFT = 10;
     /** @deprecated Use NodeStatus enum */
-    public const PENDING = 20;
+    public const int PENDING = 20;
     /** @deprecated Use NodeStatus enum */
-    public const PUBLISHED = 30;
+    public const int PUBLISHED = 30;
     /** @deprecated Use NodeStatus enum */
-    public const ARCHIVED = 40;
+    public const int ARCHIVED = 40;
     /** @deprecated Use NodeStatus enum */
-    public const DELETED = 50;
+    public const int DELETED = 50;
 
     #[SymfonySerializer\Ignore]
     public static array $orderingFields = [
@@ -327,7 +332,7 @@ class Node extends AbstractDateTimedPositioned implements LeafInterface, Attribu
         $this->aNodes = new ArrayCollection();
         $this->bNodes = new ArrayCollection();
         $this->attributeValues = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**

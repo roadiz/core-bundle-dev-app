@@ -6,17 +6,24 @@ namespace App\Entity;
 
 use App\GeneratedEntity\NSPage;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Entity\User;
 
 #[
     ORM\Entity(),
     ORM\Table(name: 'positioned_page_user'),
+    ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position'], name: 'ppu_position'),
     ORM\Index(columns: ['node_source_id', 'position'], name: 'ppu_node_source_id_position'),
 ]
-class PositionedPageUser extends AbstractPositioned
+class PositionedPageUser implements PositionedInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use PositionedTrait;
+
     #[ORM\ManyToOne(targetEntity: NSPage::class, inversedBy: 'usersProxy')]
     #[ORM\JoinColumn(name: 'node_source_id', onDelete: 'CASCADE')]
     private ?NSPage $nodeSource = null;

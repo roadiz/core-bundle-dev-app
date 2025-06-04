@@ -7,8 +7,8 @@ namespace RZ\Roadiz\Core\Events;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsDoctrineListener;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 use Doctrine\ORM\Events;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 
 #[AsDoctrineListener(event: Events::prePersist)]
@@ -22,7 +22,7 @@ final readonly class LeafEntityLifeCycleSubscriber
     {
         $entity = $event->getObject();
 
-        if (!($entity instanceof AbstractEntity) || !($entity instanceof LeafInterface)) {
+        if (!($entity instanceof PersistableInterface) || !($entity instanceof LeafInterface)) {
             return;
         }
 

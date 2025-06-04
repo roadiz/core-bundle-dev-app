@@ -24,9 +24,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 ]
 class Role implements PersistableInterface, \Stringable
 {
-    public const ROLE_DEFAULT = 'ROLE_USER';
-    public const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
-    public const ROLE_BACKEND_USER = 'ROLE_BACKEND_USER';
+    public const string ROLE_DEFAULT = 'ROLE_USER';
+    public const string ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
+    public const string ROLE_BACKEND_USER = 'ROLE_BACKEND_USER';
 
     #[
         ORM\Id,

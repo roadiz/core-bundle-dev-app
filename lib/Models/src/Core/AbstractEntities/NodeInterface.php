@@ -9,6 +9,9 @@ namespace RZ\Roadiz\Core\AbstractEntities;
  */
 interface NodeInterface extends PersistableInterface
 {
+    #[\Override]
+    public function getId(): ?int;
+
     public function getChildrenOrder(): string;
 
     public function getChildrenOrderDirection(): string;
