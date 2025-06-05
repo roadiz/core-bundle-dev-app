@@ -1,8 +1,8 @@
 ---
-title: Node-type Decorators
+title: Node-type decorators
 ---
 
-# Node type Decorators
+# Node-type decorators
 
 Roadiz allows you to customize any node-types and node-type fields **non-structural** properties. This can be handy if you need to change node-types appearence (display names, colors) in Back-office without needing to update your project configuration or emptying caches.
 
@@ -15,7 +15,7 @@ contains three fields :
 - `property`
 - `value`
 
-## `path` property :
+## `path` property
 
 This property is used to define the *node type* or *node type field* we want to customize.
 It consists of the `node type name` and the `node type field name` separated by a `dot`.
@@ -32,7 +32,7 @@ For decorate an property of a node type simply leave empty after the dot :
 `Page.`
 :::
 
-## `property` property :
+## `property` property
 
 This property is used to define the *node type property* or *node type field property* we want to customize.
 
@@ -66,7 +66,7 @@ You can't attribute a `node type field` property to a `path` without
 field (exemple: path = `Page.content` and property = `displayName`)
 :::
 
-## `value` property :
+## `value` property
 
 This property is used to define the value who override default.
 

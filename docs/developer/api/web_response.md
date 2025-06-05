@@ -6,7 +6,7 @@ title: WebResponse concept
 
 A REST-ful API will expose collection and item entry-points for each resource.
 But in both case, you need to know your resource type or your resource identifier **before** executing your API call.
-Roadiz introduces a special resource named **WebResponse** which can be called using a `path` query param in order to reduce as much as possible API calls and address [N+1problem](https://restfulapi.net/rest-api-n-1-problem/).
+Roadiz introduces a special resource named **WebResponse** which can be called using a `path` query param in order to reduce as much as possible API calls and address [N+1 problem](https://restfulapi.net/rest-api-n-1-problem/).
 
 ``` http
 GET /api/web_response_by_path?path=/contact
@@ -297,7 +297,7 @@ You can debug all registered definition factories using `bin/console debug:conta
 ## Retrieve common content
 
 Now that we can fetch each page data, we need to get all unique content for building Menus, Homepage reference, headers, footers, etc.
-We could extend our \_[WebResponse]() to inject theses common data to each request, but it would bloat HTTP responses, and affect API performances.
+We could extend our _WebResponse_ to inject theses common data to each request, but it would bloat HTTP responses, and affect API performances.
 
 For these common content, you can create a `/api/common_content` API endpoint in your project which will fetched only once in your frontend application.
 
@@ -355,6 +355,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -376,7 +377,7 @@ final class GetCommonContentController extends AbstractController
         ManagerRegistry $managerRegistry,
         NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
         PreviewResolverInterface $previewResolver,
-        TreeWalkerGenerator $treeWalkerGenerator
+        TreeWalkerGenerator $treeWalkerGenerator,
     ) {
         $this->requestStack = $requestStack;
         $this->managerRegistry = $managerRegistry;
@@ -394,18 +395,27 @@ final class GetCommonContentController extends AbstractController
             $resource = new CommonContent();
 
             $request?->attributes->set('data', $resource);
+            $resource->home = $this->getHomePage($translation);
             $resource->head = $this->nodesSourcesHeadFactory->createForTranslation($translation);
-            $resource->home = $resource->head->getHomePage();
             $resource->menus = $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
                 'Menu',
                 MenuNodeSourceWalker::class,
                 $translation,
                 3
             );
+
             return $resource;
         } catch (ResourceNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage(), $exception);
         }
+    }
+
+    protected function getHomePage(TranslationInterface $translation): ?NodesSources
+    {
+        return $this->managerRegistry->getRepository(NodesSources::class)->findOneBy([
+            'node.home' => true,
+            'translation' => $translation,
+        ]);
     }
 
     protected function getTranslationFromRequest(?Request $request): TranslationInterface
@@ -435,8 +445,9 @@ final class GetCommonContentController extends AbstractController
                 ->findOneAvailableByLocaleOrOverrideLocale((string) $locale);
         }
         if (null === $translation) {
-            throw new NotFoundHttpException('No translation for locale ' . $locale);
+            throw new NotFoundHttpException('No translation for locale '.$locale);
         }
+
         return $translation;
     }
 
@@ -444,11 +455,9 @@ final class GetCommonContentController extends AbstractController
     {
         $repository = $this->managerRegistry->getRepository(TranslationInterface::class);
         if (!$repository instanceof TranslationRepository) {
-            throw new \RuntimeException(
-                'Translation repository must be instance of ' .
-                TranslationRepository::class
-            );
+            throw new \RuntimeException('Translation repository must be instance of '.TranslationRepository::class);
         }
+
         return $repository;
     }
 }
@@ -570,10 +579,10 @@ Then, the following resource will be exposed:
 ## Decorate WebResponse with custom properties
 
 You can decorate WebResponse to add custom properties.
-This will require transformation using a custom transformer and your own `App\Api\Model\WebResponse` model object.
-Your \_[transformer]() must implement `RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface`.
+This will require using a custom _DataTransformer_ and your own `App\Api\Model\WebResponse` model object.
+Your _DataTransformer_ must implement `RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface`.
 
-First, override \_[WebResponse]() class and declare it in Roadiz Core configuration:
+First, override _WebResponse_ class, then declare it in Roadiz Core configuration and in your API resource configuration:
 
 ```php
 <?php
@@ -596,13 +605,23 @@ final class WebResponse implements WebResponseInterface, BlocksAwareWebResponseI
 }
 ```
 
+Declare your custom WebResponse class in Roadiz Core configuration:
+
 ```yaml
 ## config/packages/roadiz_core.yaml
 roadiz_core:
     webResponseClass: App\Api\Model\WebResponse
 ```
 
-Then create your custom transformer by decorating `RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface` service:
+Change your API resource configuration to use your custom WebResponse class:
+
+```yaml
+## api/config/api_resources/web_response.yml
+resources:
+    App\Api\Model\WebResponse:
+```
+
+Create your custom _DataTransformer_ by decorating `RZ\Roadiz\CoreBundle\Api\DataTransformer\WebResponseDataTransformerInterface` service:
 
 ```php
 <?php
@@ -640,7 +659,7 @@ final readonly class WebResponseDataTransformer implements WebResponseDataTransf
 }
 ```
 
-And declare your new transformer in your services configuration:
+And declare your decorating _DataTransformer_ in your services configuration:
 
 ```yaml
 ## config/services.yaml

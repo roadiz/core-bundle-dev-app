@@ -1,0 +1,6 @@
+:root {
+    --vp-font-family-base: system-ui;
+    --vp-layout-max-width: 1440px;
+    --vp-code-line-height: 1.7;
+    --vp-code-font-size: 0.8em;
+}
