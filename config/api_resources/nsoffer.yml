@@ -3,9 +3,6 @@ resources:
         shortName: Offer
         types:
             - Offer
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             offer_get_collection:
                 method: GET

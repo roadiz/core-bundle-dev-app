@@ -1,6 +1,8 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\User:
-        graphQlOperations: [ ]
+        shortName: User
+        types:
+            - User
         operations:
             api_user_signup:
                 class: ApiPlatform\Metadata\Post

@@ -1,113 +1,116 @@
----
-RZ\Roadiz\CoreBundle\Entity\User:
-    operations:
-        api_user_signup:
-            class: ApiPlatform\Metadata\Post
-            method: 'POST'
-            uriTemplate: '/users/signup'
-            #
-            # For classic User with password, you can use this configuration
-            #
-            processor: RZ\Roadiz\UserBundle\State\UserSignupProcessor
-            input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
-            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-            validation_groups:
-                - no_empty_password
-            #
-            # For passwordless user creation, you can use this configuration
-            #
-            #processor: RZ\Roadiz\UserBundle\State\PasswordlessUserSignupProcessor
-            #input: RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput
-            #output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-            #
-            # Do not use no_empty_password for passwordless user creation
-            #
-            #validation_groups: ~
-            openapiContext:
-                summary: Create a new public user
-                parameters:
-                    -   in: header
-                        name: x-g-recaptcha-response
-                        schema:
-                            type: string
-                        required: true
-                description: |
-                    Create a new public user. User won't be validated and will not be granted with any role.
-                    This operation may require a *Google Recaptcha* response to protect against flooding.
+resources:
+    RZ\Roadiz\CoreBundle\Entity\User:
+        shortName: User
+        types:
+            - User
+        operations:
+            api_user_signup:
+                class: ApiPlatform\Metadata\Post
+                method: 'POST'
+                uriTemplate: '/users/signup'
+                #
+                # For classic User with password, you can use this configuration
+                #
+                processor: RZ\Roadiz\UserBundle\State\UserSignupProcessor
+                input: RZ\Roadiz\UserBundle\Api\Dto\UserInput
+                output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+                validation_groups:
+                    - no_empty_password
+                #
+                # For passwordless user creation, you can use this configuration
+                #
+                #processor: RZ\Roadiz\UserBundle\State\PasswordlessUserSignupProcessor
+                #input: RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput
+                #output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+                #
+                # Do not use no_empty_password for passwordless user creation
+                #
+                #validation_groups: ~
+                openapiContext:
+                    summary: Create a new public user
+                    parameters:
+                        -   in: header
+                            name: x-g-recaptcha-response
+                            schema:
+                                type: string
+                            required: true
+                    description: |
+                        Create a new public user. User won't be validated and will not be granted with any role.
+                        This operation may require a *Google Recaptcha* response to protect against flooding.
 
-        api_user_password_request:
-            class: ApiPlatform\Metadata\Post
-            method: 'POST'
-            uriTemplate: '/users/password_request'
-            processor: RZ\Roadiz\UserBundle\State\UserPasswordRequestProcessor
-            input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput
-            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-            openapiContext:
-                summary: Request a public user new password
-                parameters:
-                    -   in: header
-                        name: x-g-recaptcha-response
-                        schema:
-                            type: string
-                        required: true
-                description: |
-                    Initiate a public user new password request (forgot my password). This operation may
-                    require a *Google Recaptcha* response to protect against flooding.
+            api_user_password_request:
+                class: ApiPlatform\Metadata\Post
+                method: 'POST'
+                uriTemplate: '/users/password_request'
+                processor: RZ\Roadiz\UserBundle\State\UserPasswordRequestProcessor
+                input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput
+                output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+                openapiContext:
+                    summary: Request a public user new password
+                    parameters:
+                        -   in: header
+                            name: x-g-recaptcha-response
+                            schema:
+                                type: string
+                            required: true
+                    description: |
+                        Initiate a public user new password request (forgot my password). This operation may
+                        require a *Google Recaptcha* response to protect against flooding.
 
-        api_user_validation_request:
-            class: ApiPlatform\Metadata\Post
-            method: 'POST'
-            uriTemplate: '/users/validation_request'
-            processor: RZ\Roadiz\UserBundle\State\UserValidationRequestProcessor
-            input: RZ\Roadiz\UserBundle\Api\Dto\UserValidationRequestInput
-            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-            openapiContext:
-                summary: Request a public user email validation token
-                description: |
-                    Initiate a public user validation request (to verify user email address)
+            api_user_validation_request:
+                class: ApiPlatform\Metadata\Post
+                method: 'POST'
+                uriTemplate: '/users/validation_request'
+                processor: RZ\Roadiz\UserBundle\State\UserValidationRequestProcessor
+                input: RZ\Roadiz\UserBundle\Api\Dto\UserValidationRequestInput
+                output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+                openapiContext:
+                    summary: Request a public user email validation token
+                    description: |
+                        Initiate a public user validation request (to verify user email address)
 
-        api_user_password_reset:
-            method: 'PUT'
-            class: ApiPlatform\Metadata\Put
-            uriTemplate: '/users/password_reset'
-            processor: RZ\Roadiz\UserBundle\State\UserPasswordResetProcessor
-            input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordTokenInput
-            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-            # Password reset must not call ReadListener to let DataTransformer provide User.
-            read: false
-            validate: false
-            validation_groups:
-                - no_empty_password
-            openapiContext:
-                summary: Reset a public user password
-                parameters: ~
-                description: |
-                    Change a public user password against a unique temporary token (forgot my password)
+            api_user_password_reset:
+                method: 'PUT'
+                class: ApiPlatform\Metadata\Put
+                uriTemplate: '/users/password_reset'
+                processor: RZ\Roadiz\UserBundle\State\UserPasswordResetProcessor
+                input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordTokenInput
+                output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+                # Password reset must not call ReadListener to let DataTransformer provide User.
+                read: false
+                validate: false
+                validation_groups:
+                    - no_empty_password
+                openapiContext:
+                    summary: Reset a public user password
+                    parameters: ~
+                    description: |
+                        Change a public user password against a unique temporary token (forgot my password)
 
-        api_user_validate:
-            class: ApiPlatform\Metadata\Put
-            method: 'PUT'
-            uriTemplate: '/users/validate'
-            processor: RZ\Roadiz\UserBundle\State\UserValidationTokenProcessor
-            input: RZ\Roadiz\UserBundle\Api\Dto\UserValidationTokenInput
-            output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-            read: false
-            validate: false
-            openapiContext:
-                summary: Validate a public user email
-                description: |
-                    Validate a public user email with a unique and temporary token
+            api_user_validate:
+                class: ApiPlatform\Metadata\Put
+                method: 'PUT'
+                uriTemplate: '/users/validate'
+                processor: RZ\Roadiz\UserBundle\State\UserValidationTokenProcessor
+                input: RZ\Roadiz\UserBundle\Api\Dto\UserValidationTokenInput
+                output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
+                read: false
+                validate: false
+                openapiContext:
+                    summary: Validate a public user email
+                    description: |
+                        Validate a public user email with a unique and temporary token
 
-        ApiPlatform\Metadata\Get:
-            method: 'GET'
-            security: "is_granted('ROLE_ACCESS_USERS')"
-            normalizationContext:
-                groups: ['user', 'user_personal', 'user_security']
-                enable_max_depth: true
+            ApiPlatform\Metadata\Get:
+                method: 'GET'
+                security: "is_granted('ROLE_ACCESS_USERS')"
+                normalizationContext:
+                    groups: ['user', 'user_personal', 'user_security']
+                    enable_max_depth: true
 
-        ApiPlatform\Metadata\GetCollection:
-            method: 'GET'
-            security: "is_granted('ROLE_ACCESS_USERS')"
-            normalizationContext:
-                groups: [ 'user', 'user_personal' ]
-                enable_max_depth: true
+            ApiPlatform\Metadata\GetCollection:
+                method: 'GET'
+                security: "is_granted('ROLE_ACCESS_USERS')"
+                normalizationContext:
+                    groups: [ 'user', 'user_personal' ]
+                    enable_max_depth: true

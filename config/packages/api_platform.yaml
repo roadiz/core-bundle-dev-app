@@ -1,16 +1,9 @@
-parameters:
-    env(HTTP_CACHE_STALE_WHILE_REVALIDATE): 3600
-    env(HTTP_CACHE_MAX_AGE): 60
-    env(HTTP_CACHE_SHARED_MAX_AGE): 600
-
 api_platform:
     title:       "%env(string:APP_TITLE)%"
     description: "%env(string:APP_DESCRIPTION)%"
     version:     '%env(string:APP_VERSION)%'
     enable_swagger_ui: true
     enable_re_doc: true
-    # Symfony inflector wrongly pluralizes "nodes_sources" to "nodes_sourcess"
-    keep_legacy_inflector: true
     use_symfony_listeners: true
     formats:
         jsonld: ['application/ld+json']
@@ -23,11 +16,7 @@ api_platform:
     patch_formats:
         json: [ 'application/merge-patch+json' ]
     graphql:
-        introspection: '%kernel.debug%'
-        graphiql:
-            enabled: false
-        graphql_playground:
-            enabled: false
+        enabled: false
     show_webby: false
     mapping:
         paths:
@@ -55,10 +44,10 @@ api_platform:
             etag: true
             public: true
             # Default value for the response max age.
-            max_age: '%env(int:HTTP_CACHE_MAX_AGE)%'
+            max_age: '%env(int:APP_HTTP_CACHE_MAX_AGE)%'
             # Default value for the response shared (proxy) max age.
-            shared_max_age: '%env(int:HTTP_CACHE_SHARED_MAX_AGE)%'
-            stale_while_revalidate: '%env(int:HTTP_CACHE_STALE_WHILE_REVALIDATE)%'
+            shared_max_age: '%env(int:APP_HTTP_CACHE_SHARED_MAX_AGE)%'
+            stale_while_revalidate: '%env(int:APP_HTTP_CACHE_STALE_WHILE_REVALIDATE)%'
             # Default values of the "Vary" HTTP header.
             vary: ['Accept', 'Authorization', 'Origin', 'Accept-Encoding', 'Content-Type']
     collection:
@@ -70,11 +59,3 @@ api_platform:
             enabled: true
             varnish_urls: [ '%env(VARNISH_URL)%' ]
 
-when@prod:
-    api_platform:
-        graphql:
-            introspection: false
-            graphiql:
-                enabled: false
-            graphql_playground:
-                enabled: false
