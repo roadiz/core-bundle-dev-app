@@ -27,7 +27,38 @@ final class CommonContent
     #[Groups(['common_content'])]
     #[ApiProperty(
         identifier: false,
+        openapiContext: [
+            'description' => 'List of the website menus.',
+        ],
         // genId: false, // https://github.com/api-platform/core/issues/7162
     )]
     public ?array $menus = null;
+
+    #[Groups(['common_content'])]
+    #[ApiProperty(
+        identifier: false,
+        openapiContext: [
+            'description' => 'List of global external URLs for the website.',
+            'example' => [
+                'first_url' => 'https://example.com',
+                'second_url' => 'https://another-example.com',
+            ],
+        ],
+        // genId: false, // https://github.com/api-platform/core/issues/7162
+    )]
+    public ?array $urls = null;
+
+    #[Groups(['common_content'])]
+    #[ApiProperty(
+        identifier: false,
+        openapiContext: [
+            'description' => 'List of global colors for the website.',
+            'example' => [
+                'first_color' => '#00ff00',
+                'second_color' => '#ff0000',
+            ],
+        ],
+        // genId: false, // https://github.com/api-platform/core/issues/7162
+    )]
+    public ?array $colors = null;
 }

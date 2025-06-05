@@ -10,6 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadFactoryInterface;
 use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
+use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
@@ -21,8 +22,14 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
 final class GetCommonContentController extends AbstractController
 {
-    public function __construct(private readonly RequestStack $requestStack, private readonly ManagerRegistry $managerRegistry, private readonly NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory, private readonly PreviewResolverInterface $previewResolver, private readonly TreeWalkerGenerator $treeWalkerGenerator)
-    {
+    public function __construct(
+        private readonly RequestStack $requestStack,
+        private readonly ManagerRegistry $managerRegistry,
+        private readonly NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
+        private readonly PreviewResolverInterface $previewResolver,
+        private readonly TreeWalkerGenerator $treeWalkerGenerator,
+        private readonly Settings $settingsBag,
+    ) {
     }
 
     public function __invoke(): ?CommonContent
@@ -42,6 +49,27 @@ final class GetCommonContentController extends AbstractController
                 $translation,
                 3
             );
+
+            /*
+             * Autoprovide all _url and _color settings. Make sure to not create private settings using these keys.
+             */
+            $urlKeys = array_filter(
+                $this->settingsBag->keys(),
+                fn (string $key) => str_ends_with($key, '_url') && !empty($this->settingsBag->get($key)),
+            );
+            $resource->urls = [];
+            foreach ($urlKeys as $urlKey) {
+                $resource->urls[$urlKey] = $this->settingsBag->get($urlKey);
+            }
+
+            $colorKeys = array_filter(
+                $this->settingsBag->keys(),
+                fn (string $key) => str_ends_with($key, '_color') && !empty($this->settingsBag->get($key)),
+            );
+            $resource->colors = [];
+            foreach ($colorKeys as $colorKey) {
+                $resource->colors[$colorKey] = $this->settingsBag->get($colorKey);
+            }
 
             return $resource;
         } catch (ResourceNotFoundException $exception) {
