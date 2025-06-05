@@ -32,30 +32,45 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
     ) {
     }
 
+    /**
+     * @deprecated Since 2.6, provide universal_analytics_id in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getGoogleAnalytics(): ?string
     {
         return $this->settingsBag->get('universal_analytics_id', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide google_tag_manager_id in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getGoogleTagManager(): ?string
     {
         return $this->settingsBag->get('google_tag_manager_id', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide matomo_tag_manager_id in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getMatomoTagManager(): ?string
     {
         return $this->settingsBag->get('matomo_tag_manager_id', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide matomo_url in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getMatomoUrl(): ?string
     {
         return $this->settingsBag->get('matomo_url', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide matomo_site_id in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getMatomoSiteId(): ?string
     {
@@ -118,54 +133,81 @@ class NodesSourcesHead implements NodesSourcesHeadInterface
         return false;
     }
 
+    /**
+     * @deprecated Since 2.6, provide main_color in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getMainColor(): ?string
     {
         return $this->settingsBag->get('main_color', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide facebook_url in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getFacebookUrl(): ?string
     {
         return $this->settingsBag->get('facebook_url', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide instagram_url in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getInstagramUrl(): ?string
     {
         return $this->settingsBag->get('instagram_url', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide twitter_url in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getTwitterUrl(): ?string
     {
         return $this->settingsBag->get('twitter_url', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide youtube_url in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['web_response', 'nodes_sources_single', 'walker'])]
     public function getYoutubeUrl(): ?string
     {
         return $this->settingsBag->get('youtube_url', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide linkedin_url in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['nodes_sources_single', 'walker'])]
     public function getLinkedinUrl(): ?string
     {
         return $this->settingsBag->get('linkedin_url', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide spotify_url in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['nodes_sources_single', 'walker'])]
     public function getSpotifyUrl(): ?string
     {
         return $this->settingsBag->get('spotify_url', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide soundcloud_url in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['nodes_sources_single', 'walker'])]
     public function getSoundcloudUrl(): ?string
     {
         return $this->settingsBag->get('soundcloud_url', null) ?? null;
     }
 
+    /**
+     * @deprecated Since 2.6, provide tiktok_url in your CommonContent resource instead.
+     */
     #[Serializer\Groups(['nodes_sources_single', 'walker'])]
     public function getTikTokUrl(): ?string
     {
