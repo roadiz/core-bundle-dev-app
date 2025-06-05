@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.18...v2.5.19) - 2025-06-05
+
+### Bug Fixes
+
+- **(Api)** Do not expose Get Operation on non-reachable node-types ([#116](https://github.com/roadiz/core-bundle-dev-app/issues/116)), removed Graphql - ([9097387](https://github.com/roadiz/core-bundle-dev-app/commit/9097387ea43425cfe4b1a0b752f65ee74e515187))
+
 ## [2.5.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.17...v2.5.18) - 2025-06-05
 
 ### Documentation

@@ -1,8 +1,8 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\Translation:
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
+        shortName: Translation
+        types:
+            - Translation
         operations:
             ApiPlatform\Metadata\GetCollection:
                 method: "GET"
@@ -10,11 +10,3 @@ resources:
                     enable_max_depth: true
                     groups:
                         - translation_base
-
-            ApiPlatform\Metadata\Get:
-                method: 'GET'
-                normalizationContext:
-                    enable_max_depth: true
-                    groups:
-                        - translation_base
-

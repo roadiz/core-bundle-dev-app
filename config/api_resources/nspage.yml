@@ -3,9 +3,6 @@ resources:
         shortName: Page
         types:
             - Page
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
         operations:
             page_get_collection:
                 method: GET

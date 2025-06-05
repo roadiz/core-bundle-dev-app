@@ -265,39 +265,40 @@ final readonly class ApiResourceGenerator
 
     protected function getCollectionOperations(NodeTypeInterface $nodeType): array
     {
-        $operations = [];
-        if ($nodeType->isReachable()) {
-            $groups = [
-                'nodes_sources_base',
-                'nodes_sources_default',
-                'urls',
-                'tag_base',
-                'translation_base',
-                'document_display',
-                'document_thumbnails',
-                'document_display_sources',
-                ...$this->getGroupedFieldsSerializationGroups($nodeType),
-            ];
-
-            $collectionOperationName = $this->apiResourceOperationNameGenerator->generate(
-                $nodeType->getSourceEntityFullQualifiedClassName(),
-                'get_collection'
-            );
-            $operations = array_merge(
-                $operations,
-                [
-                    $collectionOperationName => [
-                        'method' => 'GET',
-                        'class' => GetCollection::class,
-                        'shortName' => $nodeType->getName(),
-                        'normalizationContext' => [
-                            'enable_max_depth' => true,
-                            'groups' => array_values(array_filter(array_unique($groups))),
-                        ],
-                    ],
-                ]
-            );
+        if (!$nodeType->isReachable()) {
+            return [];
         }
+        $operations = [];
+        $groups = [
+            'nodes_sources_base',
+            'nodes_sources_default',
+            'urls',
+            'tag_base',
+            'translation_base',
+            'document_display',
+            'document_thumbnails',
+            'document_display_sources',
+            ...$this->getGroupedFieldsSerializationGroups($nodeType),
+        ];
+
+        $collectionOperationName = $this->apiResourceOperationNameGenerator->generate(
+            $nodeType->getSourceEntityFullQualifiedClassName(),
+            'get_collection'
+        );
+        $operations = array_merge(
+            $operations,
+            [
+                $collectionOperationName => [
+                    'method' => 'GET',
+                    'class' => GetCollection::class,
+                    'shortName' => $nodeType->getName(),
+                    'normalizationContext' => [
+                        'enable_max_depth' => true,
+                        'groups' => array_values(array_filter(array_unique($groups))),
+                    ],
+                ],
+            ]
+        );
         if ($nodeType->isPublishable()) {
             $archivesOperationName = $this->apiResourceOperationNameGenerator->generate(
                 $nodeType->getSourceEntityFullQualifiedClassName(),
@@ -345,6 +346,9 @@ final readonly class ApiResourceGenerator
 
     protected function getItemOperations(NodeTypeInterface $nodeType): array
     {
+        if (!$nodeType->isReachable()) {
+            return [];
+        }
         $groups = $this->getItemOperationSerializationGroups($nodeType);
         $itemOperationName = $this->apiResourceOperationNameGenerator->generate(
             $nodeType->getSourceEntityFullQualifiedClassName(),

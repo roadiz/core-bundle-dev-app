@@ -1,8 +1,8 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\Tag:
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
+        shortName: Tag
+        types:
+            - Tag
         operations:
             ApiPlatform\Metadata\GetCollection:
                 method: "GET"
@@ -11,11 +11,3 @@ resources:
                     groups:
                         - tag_base
 
-            ApiPlatform\Metadata\Get:
-                method: 'GET'
-                normalizationContext:
-                    enable_max_depth: true
-                    groups:
-                        - tag
-                        - tag_base
-                        - tag_parent

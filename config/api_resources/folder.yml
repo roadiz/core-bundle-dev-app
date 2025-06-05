@@ -1,16 +1,13 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\Folder:
-        graphQlOperations:
-            - class: ApiPlatform\Metadata\GraphQl\Query
-            - class: ApiPlatform\Metadata\GraphQl\QueryCollection
-        operations:
-            ApiPlatform\Metadata\GetCollection:
-                method: "GET"
-                normalizationContext:
-                    groups: [ "folder" ]
-                    enable_max_depth: true
-            ApiPlatform\Metadata\Get:
-                method: "GET"
-                normalizationContext:
-                    groups: [ "folder" ]
-                    enable_max_depth: true
+        operations: []
+#            ApiPlatform\Metadata\GetCollection:
+#                method: "GET"
+#                normalizationContext:
+#                    groups: [ "folder" ]
+#                    enable_max_depth: true
+#            ApiPlatform\Metadata\Get:
+#                method: "GET"
+#                normalizationContext:
+#                    groups: [ "folder" ]
+#                    enable_max_depth: true
