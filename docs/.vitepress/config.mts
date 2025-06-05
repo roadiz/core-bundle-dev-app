@@ -12,6 +12,13 @@ export default defineConfig({
 
         nav: [
             {text: 'Home', link: '/'},
+            {
+                text: 'Other documentation',
+                items: [
+                    {text: 'Project changelog', link: 'https://github.com/roadiz/core-bundle-dev-app/blob/develop/CHANGELOG.md'},
+                    {text: 'Upgrade notes', link: 'https://github.com/roadiz/core-bundle-dev-app/blob/develop/UPGRADE.md'},
+                ]
+            },
             {text: 'Built by Rezo Zero', link: 'https://www.rezo-zero.com/'},
         ],
 
@@ -33,9 +40,9 @@ export default defineConfig({
                         items: [
                             {text: 'Introduction', link: '/developer/nodes-system/intro'},
                             {text: 'Nodes', link: '/developer/nodes-system/nodes'},
-                            {text: 'Node types', link: '/developer/nodes-system/node_types'},
-                            {text: 'Node type fields', link: '/developer/nodes-system/node_type_fields'},
-                            {text: 'Node type decorators', link: '/developer/nodes-system/node_type_decorators'},
+                            {text: 'Managing node-types', link: '/developer/nodes-system/node_types'},
+                            {text: 'Node-type fields specifications', link: '/developer/nodes-system/node_type_fields'},
+                            {text: 'Node-type decorators', link: '/developer/nodes-system/node_type_decorators'},
                         ]
                     },
                     {
