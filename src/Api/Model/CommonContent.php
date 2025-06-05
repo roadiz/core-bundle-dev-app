@@ -7,6 +7,7 @@ namespace App\Api\Model;
 use ApiPlatform\Metadata\ApiProperty;
 use RZ\Roadiz\CoreBundle\Api\Model\NodesSourcesHeadInterface;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\TreeWalker\WalkerInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 final class CommonContent
@@ -20,7 +21,12 @@ final class CommonContent
     #[Groups(['common_content'])]
     #[ApiProperty(
         identifier: false,
-        // genId: false, // https://github.com/api-platform/core/issues/7162
+    )]
+    public ?WalkerInterface $errorPage = null;
+
+    #[Groups(['common_content'])]
+    #[ApiProperty(
+        identifier: false,
     )]
     public ?NodesSourcesHeadInterface $head = null;
 
@@ -29,8 +35,18 @@ final class CommonContent
         identifier: false,
         openapiContext: [
             'description' => 'List of the website menus.',
+            'example' => [
+                'mainMenuWalker' => [
+                    '@type' => 'MenuNodeSourceWalker',
+                    'children' => [],
+                    'item' => [
+                        '@id' => '/api/menus/1',
+                        '@type' => 'Menu',
+                        'title' => 'Main Menu',
+                    ],
+                ],
+            ],
         ],
-        // genId: false, // https://github.com/api-platform/core/issues/7162
     )]
     public ?array $menus = null;
 
@@ -38,13 +54,12 @@ final class CommonContent
     #[ApiProperty(
         identifier: false,
         openapiContext: [
-            'description' => 'List of global external URLs for the website.',
+            'description' => 'List of global external URLs for the website (*_url settings).',
             'example' => [
                 'first_url' => 'https://example.com',
                 'second_url' => 'https://another-example.com',
             ],
         ],
-        // genId: false, // https://github.com/api-platform/core/issues/7162
     )]
     public ?array $urls = null;
 
@@ -52,13 +67,12 @@ final class CommonContent
     #[ApiProperty(
         identifier: false,
         openapiContext: [
-            'description' => 'List of global colors for the website.',
+            'description' => 'List of global colors for the website (*_color settings).',
             'example' => [
                 'first_color' => '#00ff00',
                 'second_color' => '#ff0000',
             ],
         ],
-        // genId: false, // https://github.com/api-platform/core/issues/7162
     )]
     public ?array $colors = null;
 }
