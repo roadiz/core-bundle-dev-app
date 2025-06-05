@@ -1,6 +1,6 @@
-# Node-type fields
+# Node-type fields specifications
 
-Roadiz can handle many types of node-type fields. Here is a complete list:
+Roadiz can handle many **types** of node-type fields. Here is a complete list:
 
 ::: tip
 - **Title**, **meta-title**, **meta-description**, and **keywords** are always available since they are stored directly inside the `NodesSources` entity. This ensures that you will always have a **title** no matter the node-type you are using.

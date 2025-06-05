@@ -78,12 +78,18 @@ To delete a node type, remove the associated files from the following directorie
 - `src/GeneratedEntity/`
 - `config/api_resources/`
 
+You can run _PHPStan_ to ensure no references to the deleted node-type remain in your codebase:
+
+```bash
+php -d "memory_limit=-1" vendor/bin/phpstan analyse
+```
+
 ::: warning
 Deleting a node type **does not** remove the nodes linked to that type in the database.  
 You need to create a migration (command: `bin/console doctrine:migrations:generate`) and choose one of the following solutions.
 :::
 
-## Soft Delete
+### Soft deleting nodes
 
 If you want to transfer nodes to another existing node type while keeping their data, use a migration like this:
 
@@ -104,7 +110,7 @@ public function down(Schema $schema): void
 Alternatively, if you want to keep your data without transferring it to another node type, you can create a "ghost" node type (`GhostNodeType`) with property visible to `false` and has no fields, then transfer your nodes there.
 :::
 
-## Hard Delete
+### Hard Deleting nodes
 
 To completely delete all nodes (and children) associated with the node type, use a migration like this:
 
@@ -125,7 +131,7 @@ public function down(Schema $schema): void
 }
 ```
 
-## Adding node-type field
+## Adding a node-type field
 
 To add fields to a node type, modify the `fields` property in your YAML file.  
 For example:
@@ -174,7 +180,7 @@ For more details on field types and parameters, refer to nodes-type-fields.
  - Generate a migration to add your fields to `node_sources` database table if they do not already exist in another node type.
 :::
 
-## Removing node-type field
+## Removing a node-type field
 
 To remove a field from a node type, open the YAML file in `config/node_types/`  
 and delete the corresponding field from the `fields` array.

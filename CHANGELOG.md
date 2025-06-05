@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.17...v2.5.18) - 2025-06-05
+
+### Documentation
+
+- Upgraded WebResponse documentation - ([3caefbe](https://github.com/roadiz/core-bundle-dev-app/commit/3caefbe4ddfecd6e09ce54285888381a49996f7f))
+
 ## [2.5.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.16...v2.5.17) - 2025-05-28
 
 ### Bug Fixes
