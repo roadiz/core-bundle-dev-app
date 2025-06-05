@@ -6,6 +6,7 @@
 - Upgraded to **ApiPlatform 4.x**
 - `ThemeAwareNodeRouter` and `ThemeAwareNodeUrlMatcher` classes have been removed
 - All deprecated `AbstractField` constants have been removed (in favor of `FieldType` enum)
+- `NodesSourcesHeadInterface` has been simplified: `getPolicyUrl`, `getHomePageUrl` and `getHomePage` methods have been removed
 
 ## Upgrade rezozero/intervention-request-bundle
 
