@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\CliAwareIndexer;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactoryInterface;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -29,7 +30,7 @@ final class SolrResetCommand extends SolrCommand
     protected function configure(): void
     {
         $this->setName('solr:reset')
-            ->addOption('client', null, null, 'Solr client name to use', default: null)
+            ->addOption('client', null, InputOption::VALUE_REQUIRED, 'Solr client name to use', default: null)
             ->setDescription('Reset Solr search engine index');
     }
 

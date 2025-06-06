@@ -15,6 +15,8 @@
 
 - Move your Solr configuration from `config/packages/roadiz_core.yml` to `config/packages/nelmio_solarium.yaml`
 - Use `Nelmio\SolariumBundle\ClientRegistry` instead of `RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry` to get your Solr client.
+- `NodesSourcesRepository::__construct` signature has changed
+- `NodesSourcesRepository::findBySearchQuery` method has been removed to remove dependency on SearchEngine.
 
 ## Upgrade rezozero/intervention-request-bundle
 

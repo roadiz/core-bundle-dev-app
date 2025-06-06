@@ -31,12 +31,16 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
 
     public function getSolr(): Client
     {
-        $solr = $this->clientRegistry->getClient();
-        if (null === $solr) {
+        try {
+            $solr = $this->clientRegistry->getClient();
+            if (null === $solr) {
+                throw new SolrServerNotAvailableException();
+            }
+
+            return $solr;
+        } catch (\InvalidArgumentException) {
             throw new SolrServerNotAvailableException();
         }
-
-        return $solr;
     }
 
     /**

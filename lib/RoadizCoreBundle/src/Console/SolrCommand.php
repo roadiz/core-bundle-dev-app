@@ -8,6 +8,7 @@ use Nelmio\SolariumBundle\ClientRegistry;
 use Solarium\Core\Client\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
@@ -28,7 +29,7 @@ class SolrCommand extends Command
     protected function configure(): void
     {
         $this->setName('solr:check')
-            ->addOption('client', null, null, 'Solr client name to use', default: null)
+            ->addOption('client', null, InputOption::VALUE_REQUIRED, 'Solr client name to use', default: null)
             ->setDescription('Check Solr search engine server');
     }
 
@@ -46,8 +47,7 @@ class SolrCommand extends Command
         try {
             $client->ping($ping);
         } catch (\Exception) {
-            $io->error('Solr search engine server does not respond…');
-            $io->note('See your `config/packages/roadiz_core.yaml` file to correct your Solr connection settings.');
+            $this->displayBasicConfig();
 
             return null;
         }
@@ -59,6 +59,15 @@ class SolrCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);
+
+        $this->io->note(sprintf(<<<EOD
+Available client names: %s
+Using Solr client: %s
+EOD,
+            implode(', ', $this->clientRegistry->getClientNames()),
+            $input->getOption('client') ?: 'default'
+        ));
+
         if (null === $this->validateSolrState($this->io, $input->getOption('client') ?: null)) {
             return 1;
         }
@@ -74,7 +83,7 @@ class SolrCommand extends Command
             return;
         }
 
-        $this->io->error('No Solr search engine server has been configured…');
+        $this->io->error('Your Solr configuration is not valid.');
         $this->io->note(<<<EOD
 Edit your `config/packages/nelmio_solarium.yaml` file to enable Solr (example):
 

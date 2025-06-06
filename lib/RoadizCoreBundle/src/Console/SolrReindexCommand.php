@@ -35,7 +35,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
     {
         $this->setName('solr:reindex')
             ->setDescription('Reindex Solr search engine index')
-            ->addOption('client', null, null, 'Solr client name to use', default: null)
+            ->addOption('client', null, InputOption::VALUE_REQUIRED, 'Solr client name to use', default: null)
             ->addOption('nodes', null, InputOption::VALUE_NONE, 'Reindex with only nodes.')
             ->addOption('documents', null, InputOption::VALUE_NONE, 'Reindex with only documents.')
             ->addOption('batch-count', null, InputOption::VALUE_REQUIRED, 'Split reindexing in batch (only for nodes).')
