@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.19...v2.5.20) - 2025-06-06
+
+### Bug Fixes
+
+- **(FieldType)** Update searchableTypes to return FieldType constants directly - ([58d1c33](https://github.com/roadiz/core-bundle-dev-app/commit/58d1c331be47785a88e8bc4938c4c4b8f8714382))
+
 ## [2.5.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.18...v2.5.19) - 2025-06-05
 
 ### Bug Fixes
