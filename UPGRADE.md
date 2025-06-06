@@ -8,16 +8,17 @@
 - All deprecated `AbstractField` constants have been removed (in favor of `FieldType` enum)
 - `NodesSourcesHeadInterface` has been simplified: `getPolicyUrl`, `getHomePageUrl` and `getHomePage` methods have been removed
 - Roadiz Core `solr` configuration has been deprecated, use `nelmio/solarium-bundle` configuration instead.
-  - All Solr service now depends on Nelmio's `ClientRegistry`
+  - All Solr services now depends on `ClientRegistryInterface`
   - All Solr commands must provide a `clientName` argument to `validateSolrState`.
 
 ## Upgrade you Solr configuration
 
 - Set new `roadiz_core.solr.enabled` boolean parameter in your `config/packages/roadiz_core.yml` file
 - Move your Solr endpoint configuration from `config/packages/roadiz_core.yml` to `config/packages/nelmio_solarium.yaml`
-- Use `Nelmio\SolariumBundle\ClientRegistry` instead of `RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry` to get your Solr client.
+- Use `RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistryInterface` to get your Solr client.
 - `NodesSourcesRepository::__construct` signature has changed
 - `NodesSourcesRepository::findBySearchQuery` method has been removed to remove dependency on SearchEngine.
+- All Solr commands have been moved to `RZ\Roadiz\CoreBundle\SearchEngine\Console` namespace.
 
 ## Upgrade rezozero/intervention-request-bundle
 
