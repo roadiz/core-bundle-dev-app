@@ -5,20 +5,19 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\SearchEngine;
 
 use Psr\Log\LoggerInterface;
-use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
+use RZ\Roadiz\CoreBundle\SearchEngine\Exception\SolrServerNotConfiguredException;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 abstract class AbstractSolarium
 {
-    public const DOCUMENT_TYPE = 'AbstractDocument';
-    public const IDENTIFIER_KEY = 'abstract_id_i';
-    public const TYPE_DISCRIMINATOR = 'document_type_s';
+    public const string DOCUMENT_TYPE = 'AbstractDocument';
+    public const string IDENTIFIER_KEY = 'abstract_id_i';
+    public const string TYPE_DISCRIMINATOR = 'document_type_s';
 
     public static array $availableLocalizedTextFields = [
         'en',
@@ -58,8 +57,7 @@ abstract class AbstractSolarium
     protected LoggerInterface $logger;
 
     public function __construct(
-        #[Autowire(service: 'solarium.client_registry')]
-        protected readonly \Nelmio\SolariumBundle\ClientRegistry $clientRegistry,
+        protected readonly ClientRegistryInterface $clientRegistry,
         readonly LoggerInterface $searchEngineLogger,
         protected readonly MarkdownInterface $markdown,
     ) {
@@ -70,7 +68,7 @@ abstract class AbstractSolarium
     {
         $solr = $this->clientRegistry->getClient();
         if (null === $solr) {
-            throw new SolrServerNotAvailableException();
+            throw new SolrServerNotConfiguredException();
         }
 
         return $solr;

@@ -9,22 +9,22 @@ use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Event\Document\DocumentTranslationIndexingEvent;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\QueryType\Update\Query\Query;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Wrap a Solarium and a DocumentTranslation together to ease indexing.
  */
+#[Exclude]
 class SolariumDocumentTranslation extends AbstractSolarium
 {
-    public const DOCUMENT_TYPE = 'DocumentTranslation';
-    public const IDENTIFIER_KEY = 'document_translation_id_i';
+    public const string DOCUMENT_TYPE = 'DocumentTranslation';
+    public const string IDENTIFIER_KEY = 'document_translation_id_i';
 
     public function __construct(
         protected readonly DocumentTranslation $documentTranslation,
-        #[Autowire(service: 'solarium.client_registry')]
-        \Nelmio\SolariumBundle\ClientRegistry $clientRegistry,
+        ClientRegistryInterface $clientRegistry,
         protected readonly EventDispatcherInterface $dispatcher,
         LoggerInterface $searchEngineLogger,
         MarkdownInterface $markdown,

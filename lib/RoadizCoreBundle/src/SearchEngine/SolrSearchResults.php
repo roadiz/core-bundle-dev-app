@@ -7,18 +7,20 @@ namespace RZ\Roadiz\CoreBundle\SearchEngine;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Serializer\Attribute\Ignore;
 
 /**
  * Wrapper over Solr search results and metas.
  */
+#[Exclude]
 class SolrSearchResults implements SearchResultsInterface
 {
     #[Ignore]
     protected int $position;
 
     /**
-     * @var array<SolrSearchResultItem>|null
+     * @var array<SolrSearchResultItemInterface>|null
      */
     #[Ignore]
     protected ?array $resultItems;
@@ -46,7 +48,7 @@ class SolrSearchResults implements SearchResultsInterface
     }
 
     /**
-     * @return array<SolrSearchResultItem>
+     * @return array<SolrSearchResultItemInterface>
      */
     #[\Override]
     public function getResultItems(): array
@@ -131,7 +133,7 @@ class SolrSearchResults implements SearchResultsInterface
      */
     #[\ReturnTypeWillChange]
     #[\Override]
-    public function current(): SolrSearchResultItem
+    public function current(): SolrSearchResultItemInterface
     {
         return $this->getResultItems()[$this->position];
     }

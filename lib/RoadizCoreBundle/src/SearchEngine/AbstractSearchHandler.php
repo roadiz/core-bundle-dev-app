@@ -7,11 +7,12 @@ namespace RZ\Roadiz\CoreBundle\SearchEngine;
 use Doctrine\Persistence\ObjectManager;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
-use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
+use RZ\Roadiz\CoreBundle\SearchEngine\Exception\SolrServerNotAvailableException;
+use RZ\Roadiz\CoreBundle\SearchEngine\Exception\SolrServerNotConfiguredException;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Helper;
+use Solarium\Exception\ExceptionInterface;
 use Solarium\QueryType\Select\Query\Query;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractSearchHandler implements SearchHandlerInterface
@@ -20,8 +21,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     protected int $highlightingFragmentSize = 150;
 
     public function __construct(
-        #[Autowire(service: 'solarium.client_registry')]
-        protected readonly \Nelmio\SolariumBundle\ClientRegistry $clientRegistry,
+        protected readonly ClientRegistryInterface $clientRegistry,
         protected readonly ObjectManager $em,
         readonly LoggerInterface $searchEngineLogger,
         protected readonly EventDispatcherInterface $eventDispatcher,
@@ -34,12 +34,12 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
         try {
             $solr = $this->clientRegistry->getClient();
             if (null === $solr) {
-                throw new SolrServerNotAvailableException();
+                throw new SolrServerNotConfiguredException();
             }
 
             return $solr;
-        } catch (\InvalidArgumentException) {
-            throw new SolrServerNotAvailableException();
+        } catch (ExceptionInterface $e) {
+            throw new SolrServerNotAvailableException(previous: $e);
         }
     }
 

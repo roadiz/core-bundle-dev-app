@@ -5,22 +5,20 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\SearchEngine;
 
 use Solarium\Core\Client\Client;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
-/**
- * @deprecated since 2.6, use Nelmio\SolariumBundle\ClientRegistry instead.
- */
-final readonly class ClientRegistry
+final readonly class ClientRegistry implements ClientRegistryInterface
 {
-    public function __construct(private \Nelmio\SolariumBundle\ClientRegistry $decoratedClientRegistry)
-    {
+    public function __construct(
+        #[Autowire(service: 'solarium.client_registry')]
+        private \Nelmio\SolariumBundle\ClientRegistry $decoratedClientRegistry,
+    ) {
     }
 
-    /**
-     * @deprecated since 2.6, use Nelmio\SolariumBundle\ClientRegistry::getClient() instead.
-     */
-    public function getClient(): ?Client
+    #[\Override]
+    public function getClient(?string $clientName = null): Client
     {
-        return $this->decoratedClientRegistry->getClient();
+        return $this->decoratedClientRegistry->getClient($clientName);
     }
 
     /**

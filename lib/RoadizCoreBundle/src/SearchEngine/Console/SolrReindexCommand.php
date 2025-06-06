@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\CoreBundle\Console;
+namespace RZ\Roadiz\CoreBundle\SearchEngine\Console;
 
-use Nelmio\SolariumBundle\ClientRegistry;
+use RZ\Roadiz\CoreBundle\Console\ThemeAwareCommandInterface;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistryInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\BatchIndexer;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\CliAwareIndexer;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactoryInterface;
@@ -16,15 +17,13 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterface
 {
     public function __construct(
         protected readonly IndexerFactoryInterface $indexerFactory,
-        #[Autowire(service: 'solarium.client_registry')]
-        ClientRegistry $clientRegistry,
+        ClientRegistryInterface $clientRegistry,
         ?string $name = null,
     ) {
         parent::__construct($clientRegistry, $name);

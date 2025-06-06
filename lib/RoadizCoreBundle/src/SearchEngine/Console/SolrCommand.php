@@ -2,24 +2,22 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\CoreBundle\Console;
+namespace RZ\Roadiz\CoreBundle\SearchEngine\Console;
 
-use Nelmio\SolariumBundle\ClientRegistry;
+use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistryInterface;
 use Solarium\Core\Client\Client;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 class SolrCommand extends Command
 {
     protected ?SymfonyStyle $io = null;
 
     public function __construct(
-        #[Autowire(service: 'solarium.client_registry')]
-        protected readonly ClientRegistry $clientRegistry,
+        protected readonly ClientRegistryInterface $clientRegistry,
         ?string $name = null,
     ) {
         parent::__construct($name);
@@ -60,14 +58,6 @@ class SolrCommand extends Command
     {
         $this->io = new SymfonyStyle($input, $output);
 
-        $this->io->note(sprintf(<<<EOD
-Available client names: %s
-Using Solr client: %s
-EOD,
-            implode(', ', $this->clientRegistry->getClientNames()),
-            $input->getOption('client') ?: 'default'
-        ));
-
         if (null === $this->validateSolrState($this->io, $input->getOption('client') ?: null)) {
             return 1;
         }
@@ -85,7 +75,13 @@ EOD,
 
         $this->io->error('Your Solr configuration is not valid.');
         $this->io->note(<<<EOD
-Edit your `config/packages/nelmio_solarium.yaml` file to enable Solr (example):
+Enable Solr in `config/packages/roadiz_core.yaml` file:
+
+roadiz_core:
+    solr:
+        enabled: true
+
+And edit your `config/packages/nelmio_solarium.yaml` file to enable Solr endpoint (example):
 
 nelmio_solarium:
     endpoints:

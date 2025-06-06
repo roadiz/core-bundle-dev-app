@@ -8,12 +8,16 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Api\ListManager\SolrPaginator;
 use RZ\Roadiz\CoreBundle\Api\ListManager\SolrSearchListManager;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
+use RZ\Roadiz\CoreBundle\SearchEngine\Exception\SolrServerNotAvailableException;
+use RZ\Roadiz\CoreBundle\SearchEngine\Exception\SolrServerNotConfiguredException;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SearchHandlerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class NodesSourcesSearchController extends AbstractController
 {
@@ -22,7 +26,7 @@ class NodesSourcesSearchController extends AbstractController
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly PreviewResolverInterface $previewResolver,
-        private readonly ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
+        private readonly ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler = null,
         private readonly int $highlightingFragmentSize = 200,
     ) {
     }
@@ -62,13 +66,19 @@ class NodesSourcesSearchController extends AbstractController
 
     public function __invoke(Request $request): SolrPaginator
     {
-        $entityListManager = new SolrSearchListManager(
-            $request,
-            $this->getSearchHandler(),
-            $this->getCriteria($request),
-            true
-        );
+        try {
+            $entityListManager = new SolrSearchListManager(
+                $request,
+                $this->getSearchHandler(),
+                $this->getCriteria($request),
+                true
+            );
 
-        return new SolrPaginator($entityListManager);
+            return new SolrPaginator($entityListManager);
+        } catch (SolrServerNotAvailableException $e) {
+            throw new ServiceUnavailableHttpException(previous: $e);
+        } catch (SolrServerNotConfiguredException $e) {
+            throw new NotFoundHttpException(previous: $e);
+        }
     }
 }

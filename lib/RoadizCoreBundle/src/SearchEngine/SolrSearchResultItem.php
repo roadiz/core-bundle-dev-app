@@ -6,6 +6,7 @@ namespace RZ\Roadiz\CoreBundle\SearchEngine;
 
 use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 /**
@@ -14,7 +15,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ApiResource(
     stateless: true,
 )]
-final readonly class SolrSearchResultItem
+#[Exclude]
+final readonly class SolrSearchResultItem implements SolrSearchResultItemInterface
 {
     /**
      * @param T                            $item
@@ -31,6 +33,7 @@ final readonly class SolrSearchResultItem
      */
     #[ApiProperty]
     #[Groups(['get'])]
+    #[\Override]
     public function getItem(): object
     {
         return $this->item;
@@ -41,6 +44,7 @@ final readonly class SolrSearchResultItem
      */
     #[ApiProperty]
     #[Groups(['get'])]
+    #[\Override]
     public function getHighlighting(): array
     {
         return $this->highlighting;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\Persistence\ManagerRegistry;
-use Nelmio\SolariumBundle\ClientRegistry;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -16,9 +15,8 @@ use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
+use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItemInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
@@ -29,9 +27,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
 {
     public function __construct(
-        #[Autowire(service: 'solarium.client_registry')]
-        private readonly ClientRegistry $clientRegistry,
-        private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
+        private readonly ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         private readonly NodeTypes $nodeTypesBag,
         ExplorerItemFactoryInterface $explorerItemFactory,
         EventDispatcherInterface $eventDispatcher,
@@ -57,7 +53,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
 
     protected function isSearchEngineAvailable(Request $request): bool
     {
-        return '' !== $request->get('search') && null !== $this->clientRegistry->getClient();
+        return null !== $this->nodeSourceSearchHandler && '' !== $request->get('search');
     }
 
     public function indexAction(Request $request): JsonResponse
@@ -229,7 +225,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
     /**
      * Normalize response Node list result.
      *
-     * @param iterable<Node|NodesSources|SolrSearchResultItem> $nodes
+     * @param iterable<Node|NodesSources|SolrSearchResultItemInterface> $nodes
      *
      * @return array<AbstractExplorerItem>
      */
@@ -238,7 +234,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
         $nodesArray = [];
 
         foreach ($nodes as $node) {
-            if ($node instanceof SolrSearchResultItem) {
+            if ($node instanceof SolrSearchResultItemInterface) {
                 $item = $node->getItem();
                 if ($item instanceof NodesSources || $item instanceof Node) {
                     $this->normalizeItem($item, $nodesArray);

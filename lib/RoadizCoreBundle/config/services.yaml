@@ -436,11 +436,9 @@ services:
             - '@Symfony\Component\HttpFoundation\RequestStack'
             - '%roadiz_core.preview_required_role_name%'
 
-    RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry:
-        deprecated:
-            version: 2.6
-            package: roadiz/core-bundle
-        arguments: ['@service_container']
+    RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistryInterface:
+        autowire: false
+        autoconfigure: false
 
     RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactory:
         arguments: ['@service_container']

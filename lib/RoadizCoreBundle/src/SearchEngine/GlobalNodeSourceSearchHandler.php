@@ -9,14 +9,14 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
-use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\SearchEngine\Exception\SolrServerException;
 
-readonly class GlobalNodeSourceSearchHandler
+final readonly class GlobalNodeSourceSearchHandler
 {
     public function __construct(
         private ManagerRegistry $managerRegistry,
-        private ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
+        private ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler = null,
     ) {
     }
 
@@ -51,12 +51,12 @@ readonly class GlobalNodeSourceSearchHandler
                 ];
 
                 $nodesSources = $this->nodeSourceSearchHandler->search($safeSearchTerms, $arguments, $resultCount)->getResultItems();
-            } catch (SolrServerNotAvailableException) {
+            } catch (SolrServerException) {
             }
         }
 
         if (count($nodesSources) > 0) {
-            return array_map(fn (SolrSearchResultItem $item) => $item->getItem(), $nodesSources);
+            return array_map(fn (SolrSearchResultItemInterface $item) => $item->getItem(), $nodesSources);
         }
 
         /*

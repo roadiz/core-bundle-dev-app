@@ -9,22 +9,22 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesIndexingEvent;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\QueryType\Update\Query\Query;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * Wrap a Solarium and a NodeSource together to ease indexing.
  */
+#[Exclude]
 class SolariumNodeSource extends AbstractSolarium
 {
-    public const DOCUMENT_TYPE = 'NodesSources';
-    public const IDENTIFIER_KEY = 'node_source_id_i';
+    public const string DOCUMENT_TYPE = 'NodesSources';
+    public const string IDENTIFIER_KEY = 'node_source_id_i';
 
     public function __construct(
         protected readonly NodesSources $nodeSource,
-        #[Autowire(service: 'solarium.client_registry')]
-        \Nelmio\SolariumBundle\ClientRegistry $clientRegistry,
+        ClientRegistryInterface $clientRegistry,
         protected readonly EventDispatcherInterface $dispatcher,
         LoggerInterface $searchEngineLogger,
         MarkdownInterface $markdown,

@@ -19,7 +19,7 @@ roadiz_core:
     inheritance:
         type: single_table
     solr:
-        enabled: false
+        enabled: true
 
 
     reverseProxyCache:
