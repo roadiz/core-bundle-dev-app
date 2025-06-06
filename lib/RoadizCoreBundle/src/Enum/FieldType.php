@@ -162,13 +162,16 @@ enum FieldType: int
         ];
     }
 
+    /**
+     * @return FieldType[]
+     */
     public static function searchableTypes(): array
     {
         return [
-            FieldType::STRING_T->value,
-            FieldType::RICHTEXT_T->value,
-            FieldType::TEXT_T->value,
-            FieldType::MARKDOWN_T->value,
+            FieldType::STRING_T,
+            FieldType::RICHTEXT_T,
+            FieldType::TEXT_T,
+            FieldType::MARKDOWN_T,
         ];
     }
 
