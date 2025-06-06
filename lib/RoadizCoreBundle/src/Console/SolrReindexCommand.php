@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Console;
 
+use Nelmio\SolariumBundle\ClientRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\BatchIndexer;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\CliAwareIndexer;
 use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactoryInterface;
@@ -16,12 +16,14 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterface
 {
     public function __construct(
         protected readonly IndexerFactoryInterface $indexerFactory,
+        #[Autowire(service: 'solarium.client_registry')]
         ClientRegistry $clientRegistry,
         ?string $name = null,
     ) {
@@ -33,6 +35,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
     {
         $this->setName('solr:reindex')
             ->setDescription('Reindex Solr search engine index')
+            ->addOption('client', null, null, 'Solr client name to use', default: null)
             ->addOption('nodes', null, InputOption::VALUE_NONE, 'Reindex with only nodes.')
             ->addOption('documents', null, InputOption::VALUE_NONE, 'Reindex with only documents.')
             ->addOption('batch-count', null, InputOption::VALUE_REQUIRED, 'Split reindexing in batch (only for nodes).')
@@ -44,7 +47,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
     {
         $this->io = new SymfonyStyle($input, $output);
 
-        if (null === $this->validateSolrState($this->io)) {
+        if (null === $this->validateSolrState($this->io, $input->getOption('client') ?: null)) {
             return 1;
         }
 

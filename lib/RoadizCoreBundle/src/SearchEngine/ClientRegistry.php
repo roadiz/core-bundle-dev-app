@@ -7,12 +7,18 @@ namespace RZ\Roadiz\CoreBundle\SearchEngine;
 use Solarium\Core\Client\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * @deprecated since 2.6, use Nelmio\SolariumBundle\ClientRegistry instead.
+ */
 final readonly class ClientRegistry
 {
     public function __construct(private ContainerInterface $container)
     {
     }
 
+    /**
+     * @deprecated since 2.6, use Nelmio\SolariumBundle\ClientRegistry::getClient() instead.
+     */
     public function getClient(): ?Client
     {
         $client = $this->container->get(
@@ -29,6 +35,9 @@ final readonly class ClientRegistry
         return $client;
     }
 
+    /**
+     * @deprecated since 2.6, no replacement will be provided.
+     */
     public function isClientReady(?Client $client): bool
     {
         if (null === $client) {

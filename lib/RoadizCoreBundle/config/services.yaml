@@ -437,6 +437,9 @@ services:
             - '%roadiz_core.preview_required_role_name%'
 
     RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry:
+        deprecated:
+            version: 2.6
+            package: roadiz/core-bundle
         arguments: ['@service_container']
 
     RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactory:
@@ -485,6 +488,9 @@ services:
         class: RZ\Roadiz\Random\TokenGenerator
 
     Solarium\Core\Client\Client:
+        deprecated:
+            version: '2.6'
+            package: roadiz/core-bundle
         factory: ['RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry', 'getClient']
 
     RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver:

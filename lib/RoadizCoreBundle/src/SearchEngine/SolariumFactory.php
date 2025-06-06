@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\DocumentTranslation;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\Markdown\MarkdownInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SolariumFactory implements SolariumFactoryInterface
@@ -17,7 +18,8 @@ class SolariumFactory implements SolariumFactoryInterface
     protected LoggerInterface $logger;
 
     public function __construct(
-        protected readonly ClientRegistry $clientRegistry,
+        #[Autowire(service: 'solarium.client_registry')]
+        protected readonly \Nelmio\SolariumBundle\ClientRegistry $clientRegistry,
         readonly LoggerInterface $searchEngineLogger,
         protected readonly MarkdownInterface $markdown,
         protected readonly EventDispatcherInterface $dispatcher,

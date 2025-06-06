@@ -36,6 +36,7 @@
         "league/flysystem": "^3.0",
         "league/flysystem-bundle": "^3.0",
         "lexik/jwt-authentication-bundle": "^3.1.0",
+        "nelmio/solarium-bundle": "^5.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpoffice/phpspreadsheet": "^1.15",
         "rezozero/intervention-request-bundle": "~5.0.1",

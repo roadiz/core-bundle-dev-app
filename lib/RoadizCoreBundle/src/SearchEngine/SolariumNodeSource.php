@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesIndexingEvent;
 use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\QueryType\Update\Query\Query;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
@@ -22,7 +23,8 @@ class SolariumNodeSource extends AbstractSolarium
 
     public function __construct(
         protected readonly NodesSources $nodeSource,
-        ClientRegistry $clientRegistry,
+        #[Autowire(service: 'solarium.client_registry')]
+        \Nelmio\SolariumBundle\ClientRegistry $clientRegistry,
         protected readonly EventDispatcherInterface $dispatcher,
         LoggerInterface $searchEngineLogger,
         MarkdownInterface $markdown,

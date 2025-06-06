@@ -10,6 +10,7 @@ use RZ\Roadiz\Markdown\MarkdownInterface;
 use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Update\Query\Query;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 /**
  * Wrap a Solarium and a document translations together to ease indexing.
@@ -21,7 +22,8 @@ class SolariumDocument extends AbstractSolarium
     public function __construct(
         readonly Document $rzDocument,
         SolariumFactoryInterface $solariumFactory,
-        ClientRegistry $clientRegistry,
+        #[Autowire(service: 'solarium.client_registry')]
+        \Nelmio\SolariumBundle\ClientRegistry $clientRegistry,
         LoggerInterface $searchEngineLogger,
         MarkdownInterface $markdown,
     ) {

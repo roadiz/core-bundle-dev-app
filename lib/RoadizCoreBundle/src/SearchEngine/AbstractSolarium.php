@@ -12,6 +12,7 @@ use Solarium\Core\Query\DocumentInterface;
 use Solarium\Core\Query\Result\ResultInterface;
 use Solarium\QueryType\Update\Query\Document;
 use Solarium\QueryType\Update\Query\Query;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 abstract class AbstractSolarium
 {
@@ -57,7 +58,8 @@ abstract class AbstractSolarium
     protected LoggerInterface $logger;
 
     public function __construct(
-        protected readonly ClientRegistry $clientRegistry,
+        #[Autowire(service: 'solarium.client_registry')]
+        protected readonly \Nelmio\SolariumBundle\ClientRegistry $clientRegistry,
         readonly LoggerInterface $searchEngineLogger,
         protected readonly MarkdownInterface $markdown,
     ) {

@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\SearchEngine\Indexer;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Nelmio\SolariumBundle\ClientRegistry;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
-use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolariumFactoryInterface;
 use Solarium\Core\Client\Client;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 abstract class AbstractIndexer implements CliAwareIndexer
 {
@@ -18,6 +19,7 @@ abstract class AbstractIndexer implements CliAwareIndexer
     protected ?SymfonyStyle $io = null;
 
     public function __construct(
+        #[Autowire(service: 'solarium.client_registry')]
         protected readonly ClientRegistry $clientRegistry,
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly SolariumFactoryInterface $solariumFactory,

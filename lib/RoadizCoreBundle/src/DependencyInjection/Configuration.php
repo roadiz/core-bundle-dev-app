@@ -154,7 +154,11 @@ EOD
     {
         $builder = new TreeBuilder('solr');
         $node = $builder->getRootNode();
-
+        $node->setDeprecated(
+            'roadiz/roadiz-core-bundle',
+            '2.6',
+            'The "solr" configuration node is deprecated and is not used anymore. Use the "nelmio/solarium-bundle" configuration instead.'
+        );
         $node->children()
                 ->scalarNode('timeout')->defaultValue(3)->end()
                 ->arrayNode('endpoints')

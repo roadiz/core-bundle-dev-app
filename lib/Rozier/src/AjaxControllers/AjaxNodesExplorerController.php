@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\Persistence\ManagerRegistry;
+use Nelmio\SolariumBundle\ClientRegistry;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -14,10 +15,10 @@ use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
@@ -28,6 +29,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
 {
     public function __construct(
+        #[Autowire(service: 'solarium.client_registry')]
         private readonly ClientRegistry $clientRegistry,
         private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         private readonly NodeTypes $nodeTypesBag,

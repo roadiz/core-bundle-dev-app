@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\Exception\SolrServerNotAvailableException;
 use Solarium\Core\Client\Client;
 use Solarium\Core\Query\Helper;
 use Solarium\QueryType\Select\Query\Query;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractSearchHandler implements SearchHandlerInterface
@@ -19,7 +20,8 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     protected int $highlightingFragmentSize = 150;
 
     public function __construct(
-        protected readonly ClientRegistry $clientRegistry,
+        #[Autowire(service: 'solarium.client_registry')]
+        protected readonly \Nelmio\SolariumBundle\ClientRegistry $clientRegistry,
         protected readonly ObjectManager $em,
         readonly LoggerInterface $searchEngineLogger,
         protected readonly EventDispatcherInterface $eventDispatcher,
