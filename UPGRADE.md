@@ -16,9 +16,12 @@
 
 ## Upgrade you Solr configuration
 
-If your project uses Solr, you must upgrade your configuration to use the new `roadiz/solr-bundle` package.
+Roadiz removed *Apache Solr* from its Core bundle. To re-enable it, you need to install the Solr bundle.
 
-- Install new `roadiz/solr-bundle` package.
+```sh
+composer require roadiz/solr-bundle
+```
+
 - Move your Solr endpoint configuration from `config/packages/roadiz_core.yml` to `config/packages/nelmio_solarium.yaml`
 - Use `RZ\Roadiz\SolrBundle\ClientRegistryInterface` to get your Solr client.
 - Regenerate your NodesSources entities with `bin/console generate:nsentities` to update repositories `__construct` methods.
