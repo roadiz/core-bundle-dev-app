@@ -61,21 +61,20 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
     #[\Override]
     public function getRouteDebugMessage(string $name, array $parameters = []): string
     {
-        if (RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name) {
-            if (
-                array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
-                && $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof NodesSources
-            ) {
-                $route = $parameters[RouteObjectInterface::ROUTE_OBJECT];
+        if (
+            RouteObjectInterface::OBJECT_BASED_ROUTE_NAME === $name
+            && array_key_exists(RouteObjectInterface::ROUTE_OBJECT, $parameters)
+            && $parameters[RouteObjectInterface::ROUTE_OBJECT] instanceof NodesSources
+        ) {
+            $route = $parameters[RouteObjectInterface::ROUTE_OBJECT];
 
-                return '['.$route->getTranslation()->getLocale().']'.
-                    $route->getTitle().' - '.
-                    $route->getNode()->getNodeName().
-                    '['.$route->getNode()->getId().']';
-            }
+            return '['.$route->getTranslation()->getLocale().']'.
+                $route->getTitle().' - '.
+                $route->getNode()->getNodeName().
+                '['.$route->getNode()->getId().']';
         }
 
-        return (string) $name;
+        return $name;
     }
 
     /**

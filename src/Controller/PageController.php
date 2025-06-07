@@ -8,9 +8,9 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
-class PageController extends AbstractController
+final class PageController extends AbstractController
 {
-    public function indexAction(NodesSources $nodeSource): Response
+    public function __invoke(NodesSources $nodeSource): Response
     {
         return $this->render('nodeSource/page.html.twig', [
             'nodeSource' => $nodeSource,
