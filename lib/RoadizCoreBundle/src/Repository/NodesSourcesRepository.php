@@ -23,8 +23,6 @@ use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
- * EntityRepository that implements search engine query with Solr.
- *
  * @template T of NodesSources
  *
  * @extends StatusAwareRepository<T|NodesSources>

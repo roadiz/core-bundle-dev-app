@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\DependencyInjection;
 
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\MarkdownConverter;
-use Nelmio\SolariumBundle\ClientRegistry;
 use RZ\Roadiz\CoreBundle\Cache\CloudflareProxyCache;
 use RZ\Roadiz\CoreBundle\Cache\ReverseProxyCache;
 use RZ\Roadiz\CoreBundle\Cache\ReverseProxyCacheLocator;
@@ -19,8 +18,6 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
-use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistryInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\NullClientRegistry;
 use RZ\Roadiz\CoreBundle\Webhook\Message\GenericJsonPostMessageInterface;
 use RZ\Roadiz\CoreBundle\Webhook\Message\GitlabPipelineTriggerMessageInterface;
 use RZ\Roadiz\CoreBundle\Webhook\Message\NetlifyBuildHookMessageInterface;
@@ -68,7 +65,6 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.use_accept_language_header', $config['useAcceptLanguageHeader']);
         $container->setParameter('roadiz_core.web_response_class', $config['webResponseClass']);
         $container->setParameter('roadiz_core.preview_required_role_name', $config['previewRequiredRoleName']);
-        $container->setParameter('roadiz_core.solr_enabled', $config['solr']['enabled']);
 
         /*
          * Assets config
@@ -124,26 +120,6 @@ class RoadizCoreExtension extends Extension
         $this->registerEntityGenerator($config, $container);
         $this->registerReverseProxyCache($config, $container);
         $this->registerMarkdown($config, $container);
-
-        if ($this->isSolrEnabled($container)) {
-            if (!class_exists(ClientRegistry::class)) {
-                throw new \RuntimeException('Solr is enabled but not installed, run: composer require "nelmio/solarium-bundle".');
-            }
-
-            $container->getDefinition(ClientRegistryInterface::class)
-                ->setClass(\RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry::class)
-                ->setArguments([
-                    new Reference('solarium.client_registry'),
-                ]);
-        } else {
-            $container->getDefinition(ClientRegistryInterface::class)
-                ->setClass(NullClientRegistry::class);
-        }
-    }
-
-    private function isSolrEnabled(ContainerBuilder $container): bool
-    {
-        return (bool) $container->getParameter('roadiz_core.solr_enabled');
     }
 
     private function registerReverseProxyCache(array $config, ContainerBuilder $container): void

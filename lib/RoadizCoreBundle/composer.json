@@ -53,7 +53,6 @@
         "rollerworks/password-common-list": "^0.3.0",
         "rollerworks/password-strength-bundle": "^3.0",
         "scienta/doctrine-json-functions": "^4.2",
-        "solarium/solarium": "^6.3.6",
         "symfony-cmf/routing-bundle": "^3.1.0",
         "symfony/asset": "6.4.*",
         "symfony/cache": "6.4.*",
@@ -98,7 +97,6 @@
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",
-        "nelmio/solarium-bundle": "^5.1",
         "phpstan/phpstan": "^1.5.3",
         "phpstan/phpdoc-parser": "<2",
         "phpstan/phpstan-doctrine": "^1.3",

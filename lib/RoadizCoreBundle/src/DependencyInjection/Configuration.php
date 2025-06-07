@@ -153,17 +153,18 @@ EOD
     protected function addSolrNode()
     {
         $builder = new TreeBuilder('solr');
-        $node = $builder->getRootNode()->addDefaultsIfNotSet();
+        $node = $builder
+            ->getRootNode()
+            ->setDeprecated(
+                'roadiz/roadiz-core-bundle',
+                '2.6',
+                'The "solr" configuration node is deprecated and is not used anymore. Use the "nelmio/solarium-bundle" configuration instead.'
+            )
+            ->addDefaultsIfNotSet();
 
         $node->children()
                 ->scalarNode('timeout')->defaultValue(3)->end()
-                ->booleanNode('enabled')->defaultValue(false)->end()
                 ->arrayNode('endpoints')
-                    ->setDeprecated(
-                        'roadiz/roadiz-core-bundle',
-                        '2.6',
-                        'The "solr.endpoints" configuration node is deprecated and is not used anymore. Use the "nelmio/solarium-bundle" configuration instead.'
-                    )
                     ->defaultValue([])
                     ->useAttributeAsKey('name')
                     ->prototype('array')

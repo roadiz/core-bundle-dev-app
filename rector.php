@@ -24,6 +24,7 @@ return RectorConfig::configure()
         __DIR__.'/lib/RoadizRozierBundle/src',
         __DIR__.'/lib/RoadizTwoFactorBundle/src',
         __DIR__.'/lib/RoadizUserBundle/src',
+        __DIR__.'/lib/RoadizSolrBundle/src',
         __DIR__.'/lib/Rozier/src',
     ])
     ->withPhpSets(php83: true)

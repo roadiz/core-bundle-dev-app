@@ -15,7 +15,7 @@ use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItemInterface;
+use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultItemInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -225,7 +225,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
     /**
      * Normalize response Node list result.
      *
-     * @param iterable<Node|NodesSources|SolrSearchResultItemInterface> $nodes
+     * @param iterable<Node|NodesSources|SearchResultItemInterface> $nodes
      *
      * @return array<AbstractExplorerItem>
      */
@@ -234,7 +234,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
         $nodesArray = [];
 
         foreach ($nodes as $node) {
-            if ($node instanceof SolrSearchResultItemInterface) {
+            if ($node instanceof SearchResultItemInterface) {
                 $item = $node->getItem();
                 if ($item instanceof NodesSources || $item instanceof Node) {
                     $this->normalizeItem($item, $nodesArray);

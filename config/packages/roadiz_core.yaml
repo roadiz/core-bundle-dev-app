@@ -18,10 +18,6 @@ roadiz_core:
         ffmpeg_path: '%env(string:APP_FFMPEG_PATH)%'
     inheritance:
         type: single_table
-    solr:
-        enabled: true
-
-
     reverseProxyCache:
         # Test Varnish invalidation on dev too
         frontend:

@@ -10,7 +10,6 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
-use RZ\Roadiz\CoreBundle\SearchEngine\Exception\SolrServerException;
 
 final readonly class GlobalNodeSourceSearchHandler
 {
@@ -38,7 +37,7 @@ final readonly class GlobalNodeSourceSearchHandler
         $safeSearchTerms = strip_tags($searchTerm);
 
         /**
-         * First try with Solr.
+         * First try with Search engine.
          */
         $nodesSources = [];
         $resultCount = $resultCount > 0 ? $resultCount : 999999;
@@ -51,12 +50,12 @@ final readonly class GlobalNodeSourceSearchHandler
                 ];
 
                 $nodesSources = $this->nodeSourceSearchHandler->search($safeSearchTerms, $arguments, $resultCount)->getResultItems();
-            } catch (SolrServerException) {
+            } catch (SearchEngineServerException) {
             }
         }
 
         if (count($nodesSources) > 0) {
-            return array_map(fn (SolrSearchResultItemInterface $item) => $item->getItem(), $nodesSources);
+            return array_map(fn (SearchResultItemInterface $item) => $item->getItem(), $nodesSources);
         }
 
         /*
