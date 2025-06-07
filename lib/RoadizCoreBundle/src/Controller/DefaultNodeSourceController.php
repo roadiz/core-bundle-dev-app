@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class DefaultNodeSourceController extends AbstractController
 {
-    public function indexAction(NodesSources $nodeSource): Response
+    public function __invoke(NodesSources $nodeSource): Response
     {
         return $this->render('@RoadizCore/nodeSource/default.html.twig', [
             'nodeSource' => $nodeSource,

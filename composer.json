@@ -65,6 +65,7 @@
         "lexik/jwt-authentication-bundle": "^3.1.0",
         "monolog/monolog": "^1.24.0 || ^2.1.1",
         "nelmio/cors-bundle": "^2.2",
+        "nelmio/solarium-bundle": "^5.1",
         "nette/php-generator": "^4.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "phpoffice/phpspreadsheet": "^1.15",
@@ -195,6 +196,7 @@
             "RZ\\Roadiz\\TwoFactorBundle\\": "lib/RoadizTwoFactorBundle/src/",
             "RZ\\Roadiz\\Typescript\\Declaration\\": "lib/DtsGenerator/src/",
             "RZ\\Roadiz\\UserBundle\\": "lib/RoadizUserBundle/src/",
+            "RZ\\Roadiz\\SolrBundle\\": "lib/RoadizSolrBundle/src/",
             "RZ\\Roadiz\\Utils\\": "lib/Models/src/Roadiz/Utils/",
             "Themes\\Rozier\\": "lib/Rozier/src/"
         },
@@ -227,6 +229,7 @@
         "roadiz/roadiz": "*",
         "roadiz/rozier": "*",
         "roadiz/rozier-bundle": "*",
+        "roadiz/solr-bundle": "*",
         "roadiz/two-factor-bundle": "*",
         "roadiz/user-bundle": "*"
     },

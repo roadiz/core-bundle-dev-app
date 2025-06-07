@@ -1,8 +1,16 @@
 {% extends "@RoadizCore/base.html.twig" %}
 
+{% block page_title %}{{ nodeSource.title }}{% endblock %}
+
 {% block content %}
-    <h1><a href="{{ path(nodeSource) }}">{{ nodeSource.title }}</a></h1>
+    <h1><a href="{{ path(nodeSource) }}">Page: {{ nodeSource.title }}</a></h1>
     {% if nodeSource.content is defined %}
         {{ nodeSource.content|markdown }}
     {% endif %}
+    {% for image in nodeSource.images %}
+        {{ image|display({
+            'width': 300,
+            'picture': true,
+        }) }}
+    {% endfor %}
 {% endblock %}

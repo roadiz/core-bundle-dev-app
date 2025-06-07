@@ -85,6 +85,10 @@ jobs:
                         local_path: 'RoadizTwoFactorBundle'
                         split_repository: 'two-factor-bundle'
                         default_branch: 'main'
+                    -
+                        local_path: 'RoadizSolrBundle'
+                        split_repository: 'solr-bundle'
+                        default_branch: 'main'
 
 
         steps:

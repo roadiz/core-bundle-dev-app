@@ -14,9 +14,8 @@ use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
+use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultItemInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,8 +27,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
 {
     public function __construct(
-        private readonly ClientRegistry $clientRegistry,
-        private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
+        private readonly ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         private readonly NodeTypes $nodeTypesBag,
         ExplorerItemFactoryInterface $explorerItemFactory,
         EventDispatcherInterface $eventDispatcher,
@@ -55,7 +53,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
 
     protected function isSearchEngineAvailable(Request $request): bool
     {
-        return '' !== $request->get('search') && null !== $this->clientRegistry->getClient();
+        return null !== $this->nodeSourceSearchHandler && '' !== $request->get('search');
     }
 
     public function indexAction(Request $request): JsonResponse
@@ -227,7 +225,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
     /**
      * Normalize response Node list result.
      *
-     * @param iterable<Node|NodesSources|SolrSearchResultItem> $nodes
+     * @param iterable<Node|NodesSources|SearchResultItemInterface> $nodes
      *
      * @return array<AbstractExplorerItem>
      */
@@ -236,7 +234,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
         $nodesArray = [];
 
         foreach ($nodes as $node) {
-            if ($node instanceof SolrSearchResultItem) {
+            if ($node instanceof SearchResultItemInterface) {
                 $item = $node->getItem();
                 if ($item instanceof NodesSources || $item instanceof Node) {
                     $this->normalizeItem($item, $nodesArray);

@@ -10,11 +10,13 @@ use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Exclude;
 
+#[Exclude]
 final class NodeRouteHelper
 {
     /**
-     * @var class-string<AbstractController>|null
+     * @var class-string|null
      */
     private ?string $controller = null;
 
@@ -49,8 +51,9 @@ final class NodeRouteHelper
 
             if (\class_exists($controllerClassName)) {
                 $reflection = new \ReflectionClass($controllerClassName);
-                if (!$reflection->isSubclassOf(AbstractController::class)) {
-                    throw new \InvalidArgumentException('Controller class '.$controllerClassName.' must extends '.AbstractController::class);
+
+                if (!$reflection->hasMethod('__invoke')) {
+                    throw new \InvalidArgumentException('Controller class '.$controllerClassName.' must implement __invoke method.');
                 }
                 // @phpstan-ignore-next-line
                 $this->controller = $controllerClassName;
@@ -73,7 +76,7 @@ final class NodeRouteHelper
 
     public function getMethod(): string
     {
-        return 'indexAction';
+        return '__invoke';
     }
 
     /**

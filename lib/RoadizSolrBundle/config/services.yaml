@@ -1,0 +1,41 @@
+---
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $defaultLocale: '%kernel.default_locale%'
+
+    RZ\Roadiz\SolrBundle\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Traits/'
+            - '../src/Kernel.php'
+            - '../src/Tests/'
+            - '../src/Event/'
+
+    RZ\Roadiz\SolrBundle\Controller\:
+        resource: '../src/Controller'
+        tags: [ 'controller.service_arguments' ]
+
+    RZ\Roadiz\SolrBundle\Indexer\:
+        resource: '../src/Indexer/'
+        # Recreate handlers for each usage
+        shared: false
+        public: true
+
+    RZ\Roadiz\SolrBundle\Indexer\IndexerFactory:
+        arguments: ['@service_container']
+
+    RZ\Roadiz\SolrBundle\ClientRegistryInterface:
+        class: RZ\Roadiz\SolrBundle\ClientRegistry
+        arguments:
+            - '@solarium.client_registry'
+
+    RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface:
+        class: RZ\Roadiz\SolrBundle\NodeSourceSearchHandler
+        autowire: true
+        autoconfigure: true

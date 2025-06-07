@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\SearchEngine;
 
 /**
- * @extends \Iterator<SolrSearchResultItem>
+ * @extends \Iterator<SearchResultItemInterface>
  */
 interface SearchResultsInterface extends \Iterator
 {
     public function getResultCount(): int;
 
     /**
-     * @return array<SolrSearchResultItem>
+     * @return array<SearchResultItemInterface>
      */
     public function getResultItems(): array;
 

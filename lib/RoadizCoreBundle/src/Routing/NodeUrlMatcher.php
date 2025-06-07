@@ -30,6 +30,7 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
         LoggerInterface $logger,
         private readonly NodeTypes $nodeTypesBag,
         private readonly string $defaultControllerClass,
+        private readonly string $defaultControllerNamespace,
     ) {
         parent::__construct($context, $previewResolver, $stopwatch, $logger);
     }
@@ -64,7 +65,8 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
             $this->previewResolver,
             $this->logger,
             $this->defaultControllerClass,
-            $this->nodeTypesBag
+            $this->nodeTypesBag,
+            $this->defaultControllerNamespace,
         );
     }
 
@@ -73,33 +75,36 @@ final class NodeUrlMatcher extends DynamicUrlMatcher implements NodeUrlMatcherIn
     {
         $resourceInfo = $this->pathResolver->resolvePath(
             $decodedUrl,
-            $this->getSupportedFormatExtensions()
+            $this->getSupportedFormatExtensions(),
+            allowRootPaths: true
         );
         $nodeSource = $resourceInfo->getResource();
 
-        if ($nodeSource instanceof NodesSources && !$nodeSource->getNode()->isHome()) {
-            $translation = $nodeSource->getTranslation();
-            $nodeRouteHelper = $this->getNodeRouteHelper($nodeSource);
-
-            if (!$this->previewResolver->isPreview() && !$translation->isAvailable()) {
-                throw new ResourceNotFoundException();
-            }
-
-            if (false === $nodeRouteHelper->isViewable()) {
-                throw new ResourceNotFoundException();
-            }
-
-            return [
-                '_controller' => $nodeRouteHelper->getController().'::'.$nodeRouteHelper->getMethod(),
-                '_locale' => $resourceInfo->getLocale(),
-                '_route' => RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
-                '_format' => $resourceInfo->getFormat(),
-                'node' => $nodeSource->getNode(),
-                'nodeSource' => $nodeSource,
-                RouteObjectInterface::ROUTE_OBJECT => $resourceInfo->getResource(),
-                'translation' => $resourceInfo->getTranslation(),
-            ];
+        if (!$nodeSource instanceof NodesSources) {
+            throw new ResourceNotFoundException('Node source not found for path: '.$decodedUrl);
         }
-        throw new ResourceNotFoundException();
+
+        $translation = $nodeSource->getTranslation();
+        $nodeRouteHelper = $this->getNodeRouteHelper($nodeSource);
+
+        if (!$this->previewResolver->isPreview() && !$translation->isAvailable()) {
+            throw new ResourceNotFoundException('Translation not available');
+        }
+
+        if (!$nodeRouteHelper->isViewable()) {
+            throw new ResourceNotFoundException('Controller for node '.$nodeSource->getNode()->getId().' is not viewable.');
+        }
+
+        return [
+            // Controller should be invokable
+            '_controller' => $nodeRouteHelper->getController(),
+            '_locale' => $resourceInfo->getLocale(),
+            '_route' => RouteObjectInterface::OBJECT_BASED_ROUTE_NAME,
+            '_format' => $resourceInfo->getFormat(),
+            'node' => $nodeSource->getNode(),
+            'nodeSource' => $nodeSource,
+            RouteObjectInterface::ROUTE_OBJECT => $resourceInfo->getResource(),
+            'translation' => $resourceInfo->getTranslation(),
+        ];
     }
 }

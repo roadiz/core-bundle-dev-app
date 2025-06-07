@@ -1,0 +1,8 @@
+monolog:
+    handlers:
+        solr:
+            type: stream
+            path: "%kernel.logs_dir%/solr.%kernel.environment%.log"
+            level: debug
+            channels: ["searchEngine"]
+

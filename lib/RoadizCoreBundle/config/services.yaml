@@ -15,8 +15,6 @@ parameters:
     env(OPEN_ID_CLIENT_SECRET): ~
     env(OPEN_ID_HOSTED_DOMAIN): ~
     env(OPEN_ID_DISCOVERY_URL): ~
-    env(SOLR_CORE_NAME): "roadiz"
-    env(SOLR_PORT): "8983"
 
 services:
     # default configuration for services in *this* file
@@ -39,7 +37,7 @@ services:
             $debug: '%kernel.debug%'
             $kernelEnvironment: '%kernel.environment%'
             $defaultControllerClass: '%roadiz_core.default_node_source_controller%'
-            $defaultLocale: '%kernel.default_locale%'
+            $defaultControllerNamespace: '%roadiz_core.default_node_source_controller_namespace%'
             $webhookMessageTypes: '%roadiz_core.webhook.message_types%'
             $useAcceptLanguageHeader: '%roadiz_core.use_accept_language_header%'
             $healthCheckToken: '%roadiz_core.health_check_token%'
@@ -373,12 +371,6 @@ services:
                 handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentPdfMessage
             - { name: monolog.logger, channel: messenger }
 
-    RZ\Roadiz\CoreBundle\SearchEngine\Indexer\:
-        resource: '../src/SearchEngine/Indexer/'
-        # Recreate handlers for each usage
-        shared: false
-        public: true
-
     RZ\Roadiz\CoreBundle\Mailer\EmailManager:
         # Recreate manager for each usage
         shared: false
@@ -436,12 +428,6 @@ services:
             - '@Symfony\Component\HttpFoundation\RequestStack'
             - '%roadiz_core.preview_required_role_name%'
 
-    RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry:
-        arguments: ['@service_container']
-
-    RZ\Roadiz\CoreBundle\SearchEngine\Indexer\IndexerFactory:
-        arguments: ['@service_container']
-
     RZ\Roadiz\CoreBundle\EntityHandler\HandlerFactory:
         arguments: ['@service_container']
 
@@ -483,9 +469,6 @@ services:
         class: RZ\Roadiz\Random\SaltGenerator
     RZ\Roadiz\Random\TokenGeneratorInterface:
         class: RZ\Roadiz\Random\TokenGenerator
-
-    Solarium\Core\Client\Client:
-        factory: ['RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry', 'getClient']
 
     RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver:
         alias: RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootChainResolver

@@ -1,0 +1,13 @@
+nelmio_solarium:
+    endpoints:
+        default:
+            # We use Solr Cloud with collection
+            host: '%env(SOLR_HOST)%'
+            port: '%env(int:SOLR_PORT)%'
+            path: '%env(SOLR_PATH)%'
+            core: '%env(SOLR_CORE_NAME)%'
+    clients:
+        default:
+            endpoints: [default]
+            # You can customize the http timeout (in seconds) here. The default is 5sec.
+            adapter_timeout: 5

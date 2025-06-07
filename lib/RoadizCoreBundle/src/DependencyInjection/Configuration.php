@@ -50,6 +50,9 @@ class Configuration implements ConfigurationInterface
             ->scalarNode('defaultNodeSourceController')
                 ->defaultValue(DefaultNodeSourceController::class)
             ->end()
+            ->scalarNode('defaultNodeSourceControllerNamespace')
+                ->defaultValue('\\App\\Controller')
+            ->end()
             ->scalarNode('webResponseClass')
                 ->defaultValue(WebResponse::class)
             ->end()
@@ -153,7 +156,14 @@ EOD
     protected function addSolrNode()
     {
         $builder = new TreeBuilder('solr');
-        $node = $builder->getRootNode();
+        $node = $builder
+            ->getRootNode()
+            ->setDeprecated(
+                'roadiz/roadiz-core-bundle',
+                '2.6',
+                'The "solr" configuration node is deprecated and is not used anymore. Use the "nelmio/solarium-bundle" configuration instead.'
+            )
+            ->addDefaultsIfNotSet();
 
         $node->children()
                 ->scalarNode('timeout')->defaultValue(3)->end()
