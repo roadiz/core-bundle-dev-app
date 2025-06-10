@@ -1,8 +1,8 @@
-name: Deploy VitePress latest documentation to Pages
+name: Deploy VitePress develop documentation to Pages
 
 on:
     push:
-        branches: [main]
+        branches: [develop]
     workflow_dispatch:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
@@ -24,6 +24,8 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
               with:
+                  # Force the checkout to use the main branch for the VitePress configuration
+                  ref: main
                   fetch-depth: 0
             - uses: pnpm/action-setup@v3
               with:
@@ -41,6 +43,15 @@ jobs:
               working-directory: docs
             - name: Build with VitePress
               run: pnpm docs:build
+              working-directory: docs
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  # Force the checkout to use the develop branch for the VitePress configuration
+                  ref: develop
+                  fetch-depth: 0
+            - name: Build with VitePress (develop)
+              run: pnpm docs:build:develop
               working-directory: docs
             - name: Upload artifact
               uses: actions/upload-pages-artifact@v3
