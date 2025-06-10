@@ -3,8 +3,10 @@
     "vitepress": "^1.6.3"
   },
   "scripts": {
+    "docs:dev:develop": "VITE_CONFIG_BASE=develop vitepress dev",
     "docs:dev": "vitepress dev",
     "docs:build": "vitepress build",
+    "docs:build:develop": "VITE_CONFIG_BASE=develop vitepress build",
     "docs:preview": "vitepress preview"
   }
 }
