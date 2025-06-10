@@ -25,7 +25,6 @@ services:
     App\Controller\ContactFormController:
         tags: [ 'controller.service_arguments' ]
 
-
     App\Serializer\Normalizer\MenuLinkPathNormalizer:
         decorates: 'api_platform.jsonld.normalizer.item'
     # Need a different name to avoid duplicate YAML key

@@ -24,8 +24,6 @@ use RZ\Roadiz\CoreBundle\ListManager\EntityListManager;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
 use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\NodeIndexer;
-use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\Documents\MediaFinders\RandomImageFinder;
@@ -93,8 +91,6 @@ abstract class Controller extends AbstractController
             LoggerInterface::class => LoggerInterface::class,
             NodeChrootResolver::class => NodeChrootResolver::class,
             NodeFactory::class => NodeFactory::class,
-            NodeIndexer::class => NodeIndexer::class,
-            NodeSourceSearchHandlerInterface::class => NodeSourceSearchHandlerInterface::class,
             OAuth2LinkGenerator::class => OAuth2LinkGenerator::class,
             PreviewResolverInterface::class => PreviewResolverInterface::class,
             RandomImageFinder::class => RandomImageFinder::class,

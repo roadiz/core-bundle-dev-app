@@ -25,14 +25,6 @@ roadiz_core:
             default:
                 host: '%env(string:VARNISH_HOST)%'
                 domainName: '%env(string:VARNISH_DOMAIN)%'
-    solr:
-        timeout: 3
-        endpoints:
-            docker:
-                host: '%env(string:SOLR_HOST)%'
-                core: '%env(string:SOLR_CORE_NAME)%'
-                port: '%env(string:SOLR_PORT)%'
-                path: /
 
 
 

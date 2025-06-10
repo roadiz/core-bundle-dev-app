@@ -127,7 +127,7 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
             ]);
 
         if (null === $nodeSource) {
-            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException('Home node source not found for translation: '.$translation->getLocale());
         }
 
         return $nodeSource;

@@ -4,9 +4,31 @@
 
 - **Roadiz requires php 8.2 minimum**
 - Upgraded to **ApiPlatform 4.x**
+- All Solr and SearchEngine related logic has been moved to the new `roadiz/solr-bundle` bundle.
 - `ThemeAwareNodeRouter` and `ThemeAwareNodeUrlMatcher` classes have been removed
 - All deprecated `AbstractField` constants have been removed (in favor of `FieldType` enum)
+- `NodesSourcesRepository::findBySearchQuery` method has been removed to remove dependency on SearchEngine
 - `NodesSourcesHeadInterface` has been simplified: `getPolicyUrl`, `getHomePageUrl` and `getHomePage` methods have been removed
+- Roadiz Core `solr` configuration has been deprecated, use `nelmio/solarium-bundle` configuration instead.
+  - All Solr services now depends on `ClientRegistryInterface`
+  - All Solr commands must provide a `clientName` argument to `validateSolrState`.
+  - `SolrPaginator` renamed to `SearchEnginePaginator`
+  - `SolrSearchListManager` renamed to `SearchEngineListManager`
+
+## Upgrade you Solr configuration
+
+Roadiz removed *Apache Solr* from its Core bundle. To re-enable it, you need to install the Solr bundle.
+
+```sh
+composer require roadiz/solr-bundle
+```
+
+- Move your Solr endpoint configuration from `config/packages/roadiz_core.yml` to `config/packages/nelmio_solarium.yaml`
+- Use `RZ\Roadiz\SolrBundle\ClientRegistryInterface` to get your Solr client.
+- Regenerate your NodesSources entities with `bin/console generate:nsentities` to update repositories `__construct` methods.
+- `NodesSourcesRepository::__construct` signature has changed
+- `NodesSourcesRepository::findBySearchQuery` method has been removed to remove dependency on SearchEngine.
+- All Solr commands have been moved to `RZ\Roadiz\CoreBundle\SearchEngine\Console` namespace.
 
 ## Upgrade rezozero/intervention-request-bundle
 

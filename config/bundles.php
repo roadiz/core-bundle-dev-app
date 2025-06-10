@@ -17,6 +17,7 @@ return [
     RZ\Roadiz\RozierBundle\RoadizRozierBundle::class => ['all' => true],
     RZ\Roadiz\UserBundle\RoadizUserBundle::class => ['all' => true],
     RZ\Roadiz\TwoFactorBundle\RoadizTwoFactorBundle::class => ['all' => true],
+    RZ\Roadiz\SolrBundle\RoadizSolrBundle::class => ['all' => true],
     Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle::class => ['all' => true],
     Rollerworks\Bundle\PasswordStrengthBundle\RollerworksPasswordStrengthBundle::class => ['all' => true],
     League\FlysystemBundle\FlysystemBundle::class => ['all' => true],
@@ -29,4 +30,5 @@ return [
     Rollerworks\Bundle\PasswordCommonListBundle\RollerworksPasswordCommonListBundle::class => ['all' => true],
     Scheb\TwoFactorBundle\SchebTwoFactorBundle::class => ['all' => true],
     Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle::class => ['dev' => true, 'test' => true],
+    Nelmio\SolariumBundle\NelmioSolariumBundle::class => ['all' => true],
 ];

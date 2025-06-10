@@ -9,7 +9,6 @@ use League\CommonMark\MarkdownConverter;
 use RZ\Roadiz\CoreBundle\Cache\CloudflareProxyCache;
 use RZ\Roadiz\CoreBundle\Cache\ReverseProxyCache;
 use RZ\Roadiz\CoreBundle\Cache\ReverseProxyCacheLocator;
-use RZ\Roadiz\CoreBundle\DataCollector\SolariumLogger;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Node;
@@ -24,9 +23,6 @@ use RZ\Roadiz\CoreBundle\Webhook\Message\GitlabPipelineTriggerMessageInterface;
 use RZ\Roadiz\CoreBundle\Webhook\Message\NetlifyBuildHookMessageInterface;
 use RZ\Roadiz\Markdown\CommonMark;
 use RZ\Roadiz\Markdown\MarkdownInterface;
-use Solarium\Core\Client\Adapter\Curl;
-use Solarium\Core\Client\Client;
-use Solarium\Core\Client\Endpoint;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -35,7 +31,6 @@ use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Stopwatch\Stopwatch;
-use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class RoadizCoreExtension extends Extension
 {
@@ -64,6 +59,7 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.max_versions_showed', $config['maxVersionsShowed']);
         $container->setParameter('roadiz_core.static_domain_name', $config['staticDomainName'] ?? '');
         $container->setParameter('roadiz_core.default_node_source_controller', $config['defaultNodeSourceController']);
+        $container->setParameter('roadiz_core.default_node_source_controller_namespace', $config['defaultNodeSourceControllerNamespace']);
         $container->setParameter('roadiz_core.use_native_json_column_type', $config['useNativeJsonColumnType']);
         $container->setParameter('roadiz_core.use_typed_node_names', $config['useTypedNodeNames']);
         $container->setParameter('roadiz_core.hide_roadiz_version', $config['hideRoadizVersion']);
@@ -124,7 +120,6 @@ class RoadizCoreExtension extends Extension
 
         $this->registerEntityGenerator($config, $container);
         $this->registerReverseProxyCache($config, $container);
-        $this->registerSolr($config, $container);
         $this->registerMarkdown($config, $container);
     }
 
@@ -200,53 +195,6 @@ class RoadizCoreExtension extends Extension
             'use_api_platform_filters' => true,
         ];
         $container->setParameter('roadiz_core.entity_generator_factory.options', $entityGeneratorFactoryOptions);
-    }
-
-    private function registerSolr(array $config, ContainerBuilder $container): void
-    {
-        if (!isset($config['solr'])) {
-            return;
-        }
-        $solrEndpoints = [];
-        $container->setDefinition(
-            'roadiz_core.solr.adapter',
-            (new Definition())
-                ->setClass(Curl::class)
-                ->setPublic(true)
-                ->addMethodCall('setTimeout', [$config['solr']['timeout']])
-                ->addMethodCall('setConnectionTimeout', [$config['solr']['timeout']])
-        );
-        foreach ($config['solr']['endpoints'] as $name => $endpoint) {
-            $container->setDefinition(
-                'roadiz_core.solr.endpoints.'.$name,
-                (new Definition())
-                    ->setClass(Endpoint::class)
-                    ->setPublic(true)
-                    ->setArguments([
-                        $endpoint,
-                    ])
-                    ->addMethodCall('setKey', [$name])
-            );
-            $solrEndpoints[] = 'roadiz_core.solr.endpoints.'.$name;
-        }
-        if (count($solrEndpoints) > 0) {
-            $logger = new Reference(SolariumLogger::class);
-            $container->setDefinition(
-                'roadiz_core.solr.client',
-                (new Definition())
-                    ->setClass(Client::class)
-                    ->setLazy(true)
-                    ->setPublic(true)
-                    ->setShared(true)
-                    ->setArguments([
-                        new Reference('roadiz_core.solr.adapter'),
-                        new Reference(EventDispatcherInterface::class),
-                    ])
-                    ->addMethodCall('registerPlugin', ['roadiz_core.solr.client.logger', $logger])
-                    ->addMethodCall('setEndpoints', [array_map(fn (string $endpointId) => new Reference($endpointId), $solrEndpoints)])
-            );
-        }
-        $container->setParameter('roadiz_core.solr.clients', $solrEndpoints);
     }
 
     private function registerMarkdown(array $config, ContainerBuilder $container): void
