@@ -7,6 +7,7 @@
 - All Solr and SearchEngine related logic has been moved to the new `roadiz/solr-bundle` bundle.
 - `ThemeAwareNodeRouter` and `ThemeAwareNodeUrlMatcher` classes have been removed
 - All deprecated `AbstractField` constants have been removed (in favor of `FieldType` enum)
+- `NodesSourcesRepository::findBySearchQuery` method has been removed to remove dependency on SearchEngine
 - `NodesSourcesHeadInterface` has been simplified: `getPolicyUrl`, `getHomePageUrl` and `getHomePage` methods have been removed
 - Roadiz Core `solr` configuration has been deprecated, use `nelmio/solarium-bundle` configuration instead.
   - All Solr services now depends on `ClientRegistryInterface`

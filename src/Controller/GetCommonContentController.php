@@ -34,11 +34,13 @@ final class GetCommonContentController extends AbstractController
     ) {
     }
 
+    #[\Override]
     protected function getManagerRegistry(): ManagerRegistry
     {
         return $this->managerRegistry;
     }
 
+    #[\Override]
     protected function getPreviewResolver(): PreviewResolverInterface
     {
         return $this->previewResolver;

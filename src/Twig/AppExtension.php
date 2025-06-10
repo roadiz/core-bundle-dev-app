@@ -25,11 +25,13 @@ final class AppExtension extends AbstractExtension implements GlobalsInterface
     ) {
     }
 
+    #[\Override]
     protected function getManagerRegistry(): ManagerRegistry
     {
         return $this->managerRegistry;
     }
 
+    #[\Override]
     protected function getPreviewResolver(): PreviewResolverInterface
     {
         return $this->previewResolver;
@@ -38,6 +40,7 @@ final class AppExtension extends AbstractExtension implements GlobalsInterface
     private function getMenus(): array
     {
         $request = $this->requestStack->getMainRequest();
+
         return $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
             'Menu',
             MenuNodeSourceWalker::class,
@@ -46,6 +49,7 @@ final class AppExtension extends AbstractExtension implements GlobalsInterface
         );
     }
 
+    #[\Override]
     public function getGlobals(): array
     {
         return [
