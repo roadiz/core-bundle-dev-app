@@ -228,6 +228,7 @@
         {# JS scripts inclusions / Using webpack #}
         {% include '@RoadizRozier/partials/js-inject.html.twig' %}
 
+        {% block importmap %}{{ importmap('bundles/roadizrozier') }}{% endblock %}
         <script type="module" src="{{ asset('bundles/roadizrozier/app.js') }}"></script>
 
         {% block customScripts %}{% endblock %}

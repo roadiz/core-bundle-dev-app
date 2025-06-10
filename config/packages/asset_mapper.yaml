@@ -1,7 +1,8 @@
 framework:
     asset_mapper:
         # The paths to make available to the asset mapper.
-        paths: []
+        paths:
+            - '%kernel.project_dir%/lib/RoadizRozierBundle/public'
         missing_import_mode: strict
         public_prefix: '/static/'
 
