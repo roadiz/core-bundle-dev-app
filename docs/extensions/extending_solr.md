@@ -16,7 +16,13 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
-use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;use RZ\Roadiz\CoreBundle\Entity\NodesSources;use RZ\Roadiz\CoreBundle\SearchEngine\SolariumFactoryInterface;use RZ\Roadiz\SolrBundle\Event\NodesSources\NodesSourcesIndexingEvent;use RZ\TreeWalker\WalkerContextInterface;use RZ\TreeWalker\WalkerInterface;use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use RZ\Roadiz\CoreBundle\Api\TreeWalker\AutoChildrenNodeSourceWalker;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\SearchEngine\SolariumFactoryInterface;
+use RZ\Roadiz\SolrBundle\Event\NodesSources\NodesSourcesIndexingEvent;
+use RZ\TreeWalker\WalkerContextInterface;
+use RZ\TreeWalker\WalkerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
  * Index sub nodes content into any reachable node-source.
