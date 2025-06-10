@@ -24,8 +24,6 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
               with:
-                  # Force the checkout to use the main branch for the VitePress configuration
-                  ref: main
                   fetch-depth: 0
             - uses: pnpm/action-setup@v3
               with:
@@ -44,12 +42,6 @@ jobs:
             - name: Build with VitePress
               run: pnpm docs:build
               working-directory: docs
-            - name: Checkout
-              uses: actions/checkout@v4
-              with:
-                  # Force the checkout to use the develop branch for the VitePress configuration
-                  ref: develop
-                  fetch-depth: 0
             - name: Build with VitePress (develop)
               run: pnpm docs:build:develop
               working-directory: docs
