@@ -22,6 +22,7 @@
                 }
             </style>
         {% endif %}
+        <link rel="stylesheet" href="{{ asset('bundles/roadizrozier/styles/app.css') }}">
         {% block customStyles %}{% endblock %}
         {% if additionalStylesheets %}
             {% for additionalStylesheet in additionalStylesheets %}
@@ -226,6 +227,8 @@
 
         {# JS scripts inclusions / Using webpack #}
         {% include '@RoadizRozier/partials/js-inject.html.twig' %}
+
+        <script type="module" src="{{ asset('bundles/roadizrozier/app.js') }}"></script>
 
         {% block customScripts %}{% endblock %}
         {% if additionalScripts %}

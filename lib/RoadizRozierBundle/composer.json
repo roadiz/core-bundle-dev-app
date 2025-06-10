@@ -24,7 +24,8 @@
         "roadiz/core-bundle": "2.6.x-dev",
         "roadiz/openid": "2.6.x-dev",
         "roadiz/rozier": "2.6.x-dev",
-        "symfony/framework-bundle": "6.4.*"
+        "symfony/framework-bundle": "6.4.*",
+        "symfony/asset-mapper": "6.4.*"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",
@@ -55,5 +56,19 @@
             "dev-main": "2.5.x-dev",
             "dev-develop": "2.6.x-dev"
         }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "requirements-checker": "script",
+            "importmap:install": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
     }
 }
