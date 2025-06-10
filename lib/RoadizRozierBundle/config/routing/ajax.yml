@@ -10,6 +10,11 @@ nodeAjaxEdit:
     controller: Themes\Rozier\AjaxControllers\AjaxNodesController::editAction
     format: json
     requirements: { nodeId : "[0-9]+" }
+nodeContextualMenu:
+    path:     /node/contextual-menu/{node}/{translation}
+    controller: Themes\Rozier\AjaxControllers\AjaxNodeContextualMenuController
+    format: html
+    requirements: { node : "[0-9]+", translation : "[0-9]+", }
 searchAjax:
     path:     /search
     methods: [GET]
