@@ -62,7 +62,7 @@
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
             "requirements-checker": "script",
-            "importmap:install": "symfony-cmd"
+            "importmap:require \"bundles/roadizrozier\" --entrypoint --path=./vendor/roadiz/rozier-bundle/static/app.js": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"

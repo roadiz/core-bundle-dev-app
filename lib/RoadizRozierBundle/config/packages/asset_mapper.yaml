@@ -2,7 +2,7 @@ framework:
     asset_mapper:
         # The paths to make available to the asset mapper.
         paths:
-            'lib/RoadizRozierBundle/static/': 'bundles/roadizrozier'
+            vendor/roadiz/rozier-bundle/static/: 'bundles/roadizrozier'
         missing_import_mode: strict
         public_prefix: '/static/'
 
