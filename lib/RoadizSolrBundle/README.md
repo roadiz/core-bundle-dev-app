@@ -46,6 +46,7 @@ return [
 
 ## Configuration
 
+### Variables `.env`
 
 ```dotenv
 ###> nelmio/solarium-bundle ###
@@ -56,6 +57,81 @@ SOLR_CORE_NAME=roadiz
 SOLR_COLLECTION_NUM_SHARDS=1
 SOLR_COLLECTION_REPLICATION_FACTOR=1
 ###< nelmio/solarium-bundle ###
+```
+
+### Solarium config
+
+Update Solarium default **config**
+```yaml
+nelmio_solarium:
+    endpoints:
+        default:
+            # We use Solr Cloud with collection
+            host: '%env(SOLR_HOST)%'
+            port: '%env(int:SOLR_PORT)%'
+            path: '%env(SOLR_PATH)%'
+            core: '%env(SOLR_CORE_NAME)%'
+    clients:
+        default:
+            endpoints: [default]
+            # You can customize the http timeout (in seconds) here. The default is 5sec.
+            adapter_timeout: 5
+```
+
+### Api Resources
+
+Add Solarium end point into your **api resources**
+```yaml
+resources:
+    RZ\Roadiz\CoreBundle\Entity\NodesSources:
+        operations:
+            api_nodes_sources_search:
+                class: ApiPlatform\Metadata\GetCollection
+                method: 'GET'
+                uriTemplate: '/nodes_sources/search'
+                controller: RZ\Roadiz\SolrBundle\Controller\NodesSourcesSearchController
+                read: false
+                normalizationContext:
+                    groups:
+                        - get
+                        - nodes_sources_base
+                        - nodes_sources_default
+                        - urls
+                        - tag_base
+                        - translation_base
+                        - document_display
+                openapiContext:
+                    summary: Search NodesSources resources
+                    description: |
+                        Search all website NodesSources resources using **Solr** full-text search engine
+                    parameters:
+                        -   type: string
+                            name: search
+                            in: query
+                            required: true
+                            description: Search pattern
+                            schema:
+                                type: string
+```
+
+### Monolog
+
+Add Solarium handler to monolog config
+```yaml
+monolog:
+    handlers:
+        solr:
+            type: stream
+            path: "%kernel.logs_dir%/solr.%kernel.environment%.log"
+            level: debug
+            channels: ["searchEngine"]
+```
+
+### Cron reindex
+
+One suggestion is to add a cron to index solr
+```text
+0 0 * * *    /usr/local/bin/php -d memory_limit=-1 /app/bin/console solr:reindex --no-debug -n -q
 ```
 
 ## Contributing
