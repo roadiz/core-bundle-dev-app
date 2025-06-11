@@ -7,6 +7,7 @@ namespace Themes\Rozier\Controllers\CustomForms;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\CustomForm\CustomFormAnswerSerializer;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
+use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -36,11 +37,13 @@ class CustomFormsUtilsController extends RozierApp
             throw $this->createNotFoundException();
         }
 
-        $answers = $customForm->getCustomFormAnswers();
-        $answersArray = [];
-        foreach ($answers as $key => $answer) {
-            $answersArray[$key] = $this->customFormAnswerSerializer->toSimpleArray($answer);
-        }
+        $query = $this->managerRegistry
+            ->getRepository(CustomFormAnswer::class)
+            ->createQueryBuilder('cfa')
+            ->where('cfa.customForm = :customForm')
+            ->setParameter('customForm', $customForm)
+            ->orderBy('cfa.submittedAt', 'DESC')
+            ->getQuery();
 
         $fields = $customForm->getFieldsLabels();
         $keys = [
@@ -49,13 +52,19 @@ class CustomFormsUtilsController extends RozierApp
             ...$fields,
         ];
 
-        $response = new StreamedResponse(function () use ($answersArray, $keys) {
+        $response = new StreamedResponse(function () use ($query, $keys) {
+            $answersArray = [];
+            foreach ($query->toIterable() as $row) {
+                // do stuff with the data in the row
+                $answersArray[] = $this->customFormAnswerSerializer->toSimpleArray($row);
+            }
+
             echo $this->serializer->serialize($answersArray, 'csv', [
                 ...$this->csvEncoderOptions,
                 'csv_headers' => $keys,
             ]);
         });
-        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
         $response->headers->set(
             'Content-Disposition',
             $response->headers->makeDisposition(
