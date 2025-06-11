@@ -218,7 +218,11 @@ class DocumentPublicListController extends AbstractController
                     'id' => $documentsIds,
                 ]);
 
-            $folderPaths = explode(',', (string) $data['folderPaths']);
+            if (!is_array($data['folderPaths'])) {
+                $folderPaths = explode(',', (string) $data['folderPaths']);
+            } else {
+                $folderPaths = $data['folderPaths'];
+            }
             $folderPaths = array_filter($folderPaths);
 
             foreach ($folderPaths as $path) {

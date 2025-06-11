@@ -262,7 +262,7 @@ final class DocumentsController extends AbstractController
                     [
                         'errors' => $errorPerForm,
                     ],
-                    Response::HTTP_BAD_REQUEST
+                    Response::HTTP_UNPROCESSABLE_ENTITY
                 );
             }
         }

@@ -219,7 +219,7 @@ final class TagsController extends AbstractController
                     'status' => 'fail',
                     'errors' => $errors,
                     'message' => $this->translator->trans('form_has_errors.check_you_fields'),
-                ], Response::HTTP_BAD_REQUEST);
+                ], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
         }
         /** @var TranslationRepository $translationRepository */
