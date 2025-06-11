@@ -761,7 +761,7 @@
             <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type"><source>you.cant.upload.files.of.this.type</source></trans-unit>
             <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads"><source>your.browser.does.not.support.dragndrop.file.uploads</source></trans-unit>
             <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields"><source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source></trans-unit>
-
+            <trans-unit xml:space="preserve" id="{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers"><source>{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers</source></trans-unit>
             <trans-unit id="bulk.delete" xml:space="preserve"><source>bulk.delete</source></trans-unit>
             <trans-unit id="bulk.publish" xml:space="preserve"><source>bulk.publish</source></trans-unit>
             <trans-unit id="bulk.unpublish" xml:space="preserve"><source>bulk.unpublish</source></trans-unit>

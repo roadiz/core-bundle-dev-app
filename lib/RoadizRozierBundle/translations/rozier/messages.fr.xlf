@@ -2665,6 +2665,10 @@
         <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
         <target state="final">{0} Aucune question|{1} 1 question|]1,Inf] %count% questions</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers" approved="yes">
+        <source>{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers</source>
+        <target state="final">{0} Aucune réponse|{1} 1 réponse|]1,Inf] %count% réponses</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="create.a.node" approved="yes">
         <source>create.a.node</source>
         <target state="final">Créer un nœud</target>
