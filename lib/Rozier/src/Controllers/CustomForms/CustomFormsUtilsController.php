@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers\CustomForms;
 
 use Doctrine\Persistence\ManagerRegistry;
-use PhpOffice\PhpSpreadsheet\Exception;
 use RZ\Roadiz\CoreBundle\CustomForm\CustomFormAnswerSerializer;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -33,9 +32,6 @@ final class CustomFormsUtilsController extends AbstractController
 
     /**
      * Export all custom form's answers in a CSV file.
-     *
-     * @throws Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function exportAction(Request $request, int $id): Response
     {
