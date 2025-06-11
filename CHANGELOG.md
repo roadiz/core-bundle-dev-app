@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.4.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.22...v2.4.23) - 2025-06-11
+
+### Bug Fixes
+
+- **(CustomForm)** Fixes translation key - ([51870bc](https://github.com/roadiz/core-bundle-dev-app/commit/51870bc612dafa01ea5d3deb15508dc5c8a3669d))
+
 ## [2.4.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.4.21...v2.4.22) - 2025-06-11
 
 ### Bug Fixes
