@@ -720,6 +720,7 @@
             <trans-unit xml:space="preserve" id="edit.customForm.%name%"><source>edit.customForm.%name%</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields"><source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source></trans-unit>
+            <trans-unit xml:space="preserve" id="{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers"><source>{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="create.a.node"><source>create.a.node</source></trans-unit>
             <trans-unit xml:space="preserve" id="add.a.node"><source>add.a.node</source></trans-unit>
