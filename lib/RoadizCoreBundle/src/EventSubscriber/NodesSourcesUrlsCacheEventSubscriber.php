@@ -24,6 +24,7 @@ final readonly class NodesSourcesUrlsCacheEventSubscriber implements EventSubscr
     {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

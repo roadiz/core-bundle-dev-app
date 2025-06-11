@@ -49,20 +49,23 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
     ) {
     }
 
+    #[\Override]
     protected function getRecaptchaService(): RecaptchaServiceInterface
     {
         return $this->recaptchaService;
     }
 
+    #[\Override]
     protected function getRecaptchaHeaderName(): string
     {
         return $this->recaptchaHeaderName;
     }
 
+    #[\Override]
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): VoidOutput
     {
         if (!$data instanceof UserPasswordRequestInput) {
-            throw new \RuntimeException(sprintf('Cannot process %s', get_class($data)));
+            throw new \RuntimeException(sprintf('Cannot process %s', $data::class));
         }
         $request = $this->requestStack->getMainRequest();
         if (null === $request) {
@@ -116,7 +119,7 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
             ) {
                 return $user;
             }
-        } catch (AuthenticationException $exception) {
+        } catch (AuthenticationException) {
         }
 
         return null;
@@ -140,7 +143,7 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
                 ],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
-        } catch (RouteNotFoundException $exception) {
+        } catch (RouteNotFoundException) {
             $resetLink = $this->passwordResetUrl.'?'.http_build_query(
                 [
                     'token' => $user->getConfirmationToken(),

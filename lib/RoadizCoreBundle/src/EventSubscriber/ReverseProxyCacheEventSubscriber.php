@@ -28,6 +28,7 @@ final readonly class ReverseProxyCacheEventSubscriber implements EventSubscriber
     ) {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [

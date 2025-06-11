@@ -49,7 +49,7 @@ final class TagMultiCreationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             try {
                 $data = $form->getData();
-                $names = explode(',', $data['names']);
+                $names = explode(',', (string) $data['names']);
                 $names = array_map('trim', $names);
                 $names = array_filter($names);
                 $names = array_unique($names);

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\UrlHelper;
 
 abstract class AbstractDocumentUrlGenerator implements DocumentUrlGeneratorInterface
 {
-    protected ?BaseDocumentInterface $document;
+    protected ?BaseDocumentInterface $document = null;
     protected array $options;
     protected ViewOptionsResolver $viewOptionsResolver;
     protected OptionsCompiler $optionCompiler;
@@ -35,6 +35,7 @@ abstract class AbstractDocumentUrlGenerator implements DocumentUrlGeneratorInter
      *
      * @throws InvalidArgumentException
      */
+    #[\Override]
     public function setOptions(array $options = []): static
     {
         $optionsCacheItem = $this->optionsCacheAdapter->getItem(md5(json_encode($options) ?: ''));
@@ -58,6 +59,7 @@ abstract class AbstractDocumentUrlGenerator implements DocumentUrlGeneratorInter
     /**
      * @return $this
      */
+    #[\Override]
     public function setDocument(BaseDocumentInterface $document): static
     {
         $this->document = $document;
@@ -65,6 +67,7 @@ abstract class AbstractDocumentUrlGenerator implements DocumentUrlGeneratorInter
         return $this;
     }
 
+    #[\Override]
     public function getUrl(bool $absolute = false): string
     {
         if (null === $this->document) {

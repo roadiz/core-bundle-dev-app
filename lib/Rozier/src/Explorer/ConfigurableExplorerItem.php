@@ -9,6 +9,7 @@ use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 use Symfony\Component\String\UnicodeString;
+use Symfony\Component\Uid\Uuid;
 
 final class ConfigurableExplorerItem extends AbstractExplorerItem
 {
@@ -18,11 +19,13 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
     ) {
     }
 
-    public function getId(): int|string
+    #[\Override]
+    public function getId(): string|int|Uuid
     {
         return $this->entity->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         $alt = $this->configuration['classname'];
@@ -39,6 +42,7 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
         return (new UnicodeString($alt ?? ''))->truncate(30, '…')->toString();
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         $displayableCallable = [$this->entity, $this->configuration['displayable']];
@@ -52,11 +56,13 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
         return (new UnicodeString($displayable ?? ''))->truncate(30, '…')->toString();
     }
 
+    #[\Override]
     public function getOriginal(): PersistableInterface
     {
         return $this->entity;
     }
 
+    #[\Override]
     protected function getThumbnail(): ?BaseDocumentInterface
     {
         /** @var BaseDocumentInterface|null $thumbnail */
@@ -76,6 +82,7 @@ final class ConfigurableExplorerItem extends AbstractExplorerItem
         return $thumbnail;
     }
 
+    #[\Override]
     protected function getEditItemPath(): ?string
     {
         return null;

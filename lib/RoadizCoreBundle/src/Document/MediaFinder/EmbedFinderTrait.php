@@ -49,9 +49,9 @@ trait EmbedFinderTrait
                     $documentTr->setCopyright($this->getMediaCopyright());
                 }
             }
-        } catch (APINeedsAuthentificationException $exception) {
+        } catch (APINeedsAuthentificationException) {
             // do not prevent from creating document if credentials are not provided.
-        } catch (ClientExceptionInterface $exception) {
+        } catch (ClientExceptionInterface) {
             // do not prevent from creating document if platform has errors, such as
             // too much API usage.
         }

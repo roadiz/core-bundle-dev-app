@@ -11,15 +11,19 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodesTagsFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NotFilter;
 use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -47,8 +51,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         'updatedAt',
     ])
 ]
-class Tag extends AbstractDateTimedPositioned implements LeafInterface
+class Tag implements DateTimedInterface, LeafInterface, PersistableInterface, \Stringable
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
     use LeafTrait;
 
     #[ORM\Column(
@@ -195,15 +201,12 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     ])]
     private Collection $nodesTags;
 
-    /**
-     * Create a new Tag.
-     */
     public function __construct()
     {
         $this->nodesTags = new ArrayCollection();
         $this->translatedTags = new ArrayCollection();
         $this->children = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**
@@ -234,9 +237,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
      */
     public function getNodes(): Collection
     {
-        return $this->nodesTags->map(function (NodesTags $nodesTags) {
-            return $nodesTags->getNode();
-        });
+        return $this->nodesTags->map(fn (NodesTags $nodesTags) => $nodesTags->getNode());
     }
 
     /**
@@ -280,17 +281,13 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
     #[SymfonySerializer\Ignore]
     public function getTranslatedTagsByTranslation(TranslationInterface $translation): Collection
     {
-        return $this->translatedTags->filter(function (TagTranslation $tagTranslation) use ($translation) {
-            return $tagTranslation->getTranslation()->getLocale() === $translation->getLocale();
-        });
+        return $this->translatedTags->filter(fn (TagTranslation $tagTranslation) => $tagTranslation->getTranslation()->getLocale() === $translation->getLocale());
     }
 
     #[SymfonySerializer\Ignore]
     public function getTranslatedTagsByDefaultTranslation(): ?TagTranslation
     {
-        return $this->translatedTags->findFirst(function (int $key, TagTranslation $tagTranslation) {
-            return $tagTranslation->getTranslation()->isDefaultTranslation();
-        });
+        return $this->translatedTags->findFirst(fn (int $key, TagTranslation $tagTranslation) => $tagTranslation->getTranslation()->isDefaultTranslation());
     }
 
     public function getOneLineSummary(): string
@@ -374,6 +371,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return (string) $this->getId();
@@ -427,6 +425,7 @@ class Tag extends AbstractDateTimedPositioned implements LeafInterface
             [];
     }
 
+    #[\Override]
     public function setParent(?LeafInterface $parent = null): static
     {
         if ($parent === $this) {

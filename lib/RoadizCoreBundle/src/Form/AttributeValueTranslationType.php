@@ -23,6 +23,7 @@ use Symfony\Component\Validator\Constraints\Length;
 
 final class AttributeValueTranslationType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $attributeValueTranslation = $builder->getData();
@@ -38,68 +39,48 @@ final class AttributeValueTranslationType extends AbstractType
                     ]),
                 ],
             ];
-            switch ($attributeValueTranslation->getAttributeValue()->getType()) {
-                case AttributeInterface::INTEGER_T:
-                    $builder->add('value', IntegerType::class, $defaultOptions);
-                    break;
-                case AttributeInterface::DECIMAL_T:
-                    $builder->add('value', NumberType::class, $defaultOptions);
-                    break;
-                case AttributeInterface::DATE_T:
-                    $builder->add('value', DateType::class, array_merge($defaultOptions, [
-                        'placeholder' => [
-                            'year' => 'year',
-                            'month' => 'month',
-                            'day' => 'day',
-                        ],
-                        'widget' => 'single_text',
-                        'format' => 'yyyy-MM-dd',
-                        'attr' => [
-                            'class' => 'rz-datetime-field',
-                        ],
-                        'constraints' => [],
-                    ]));
-                    break;
-                case AttributeInterface::COLOUR_T:
-                    $builder->add('value', ColorType::class, $defaultOptions);
-                    break;
-                case AttributeInterface::COUNTRY_T:
-                    $builder->add('value', CountryType::class, $defaultOptions);
-                    break;
-                case AttributeInterface::DATETIME_T:
-                    $builder->add('value', DateTimeType::class, array_merge($defaultOptions, [
-                        'placeholder' => [
-                            'hour' => 'hour',
-                            'minute' => 'minute',
-                        ],
-                        'date_widget' => 'single_text',
-                        'date_format' => 'yyyy-MM-dd',
-                        'attr' => [
-                            'class' => 'rz-datetime-field',
-                        ],
-                        'constraints' => [],
-                    ]));
-                    break;
-                case AttributeInterface::BOOLEAN_T:
-                    $builder->add('value', CheckboxType::class, $defaultOptions);
-                    break;
-                case AttributeInterface::ENUM_T:
-                    $builder->add('value', ChoiceType::class, array_merge($defaultOptions, [
-                        'required' => true,
-                        'choices' => $this->getOptions($attributeValueTranslation),
-                    ]));
-                    break;
-                case AttributeInterface::EMAIL_T:
-                    $builder->add('value', EmailType::class, array_merge($defaultOptions, [
-                        'constraints' => [
-                            new Email(),
-                        ],
-                    ]));
-                    break;
-                default:
-                    $builder->add('value', TextType::class, $defaultOptions);
-                    break;
-            }
+            match ($attributeValueTranslation->getAttributeValue()->getType()) {
+                AttributeInterface::INTEGER_T => $builder->add('value', IntegerType::class, $defaultOptions),
+                AttributeInterface::DECIMAL_T => $builder->add('value', NumberType::class, $defaultOptions),
+                AttributeInterface::DATE_T => $builder->add('value', DateType::class, array_merge($defaultOptions, [
+                    'placeholder' => [
+                        'year' => 'year',
+                        'month' => 'month',
+                        'day' => 'day',
+                    ],
+                    'widget' => 'single_text',
+                    'format' => 'yyyy-MM-dd',
+                    'attr' => [
+                        'class' => 'rz-datetime-field',
+                    ],
+                    'constraints' => [],
+                ])),
+                AttributeInterface::COLOUR_T => $builder->add('value', ColorType::class, $defaultOptions),
+                AttributeInterface::COUNTRY_T => $builder->add('value', CountryType::class, $defaultOptions),
+                AttributeInterface::DATETIME_T => $builder->add('value', DateTimeType::class, array_merge($defaultOptions, [
+                    'placeholder' => [
+                        'hour' => 'hour',
+                        'minute' => 'minute',
+                    ],
+                    'date_widget' => 'single_text',
+                    'date_format' => 'yyyy-MM-dd',
+                    'attr' => [
+                        'class' => 'rz-datetime-field',
+                    ],
+                    'constraints' => [],
+                ])),
+                AttributeInterface::BOOLEAN_T => $builder->add('value', CheckboxType::class, $defaultOptions),
+                AttributeInterface::ENUM_T => $builder->add('value', ChoiceType::class, array_merge($defaultOptions, [
+                    'required' => true,
+                    'choices' => $this->getOptions($attributeValueTranslation),
+                ])),
+                AttributeInterface::EMAIL_T => $builder->add('value', EmailType::class, array_merge($defaultOptions, [
+                    'constraints' => [
+                        new Email(),
+                    ],
+                ])),
+                default => $builder->add('value', TextType::class, $defaultOptions),
+            };
         }
         $builder->add('attributeValue', AttributeValueRealmType::class, [
             'label' => false,
@@ -125,6 +106,7 @@ final class AttributeValueTranslationType extends AbstractType
         ], $options ?: []);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -133,6 +115,7 @@ final class AttributeValueTranslationType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'attribute_value_translation';

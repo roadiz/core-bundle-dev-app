@@ -21,6 +21,7 @@ class OfferFixtures extends Fixture implements DependentFixtureInterface
     ) {
     }
 
+    #[\Override]
     public function getDependencies(): array
     {
         return [
@@ -28,6 +29,7 @@ class OfferFixtures extends Fixture implements DependentFixtureInterface
         ];
     }
 
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $offerContainer = $this->uniqueNodeGenerator->generate(

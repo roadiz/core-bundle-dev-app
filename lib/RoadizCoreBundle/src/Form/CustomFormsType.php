@@ -28,6 +28,7 @@ final class CustomFormsType extends AbstractType
     ) {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $fieldsArray = $this->getFieldsByGroups($options);
@@ -244,6 +245,7 @@ final class CustomFormsType extends AbstractType
         return array_combine(array_values($choices), array_values($choices));
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -262,6 +264,7 @@ final class CustomFormsType extends AbstractType
         $resolver->setAllowedTypes('recaptcha_name', ['string']);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'custom_form_public';

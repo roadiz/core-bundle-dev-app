@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\Attribute\AutoconfigureTag;
 )]
 final class ArticleFeedBlockDefinitionFactory implements DefinitionFactoryInterface
 {
+    #[\Override]
     public function create(WalkerContextInterface $context, bool $onlyVisible = true): callable
     {
         return new ArticleFeedBlockDefinition($context);

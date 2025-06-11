@@ -32,16 +32,19 @@ final class NodeTypeDecoratorController extends AbstractAdminController
         parent::__construct($urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
+    #[\Override]
     protected function supports(PersistableInterface $item): bool
     {
         return $item instanceof NodeTypeDecorator;
     }
 
+    #[\Override]
     protected function getNamespace(): string
     {
         return 'node-types-decorators';
     }
 
+    #[\Override]
     protected function createEmptyItem(Request $request): PersistableInterface
     {
         /** @var string $nodeTypeName */
@@ -65,41 +68,49 @@ final class NodeTypeDecoratorController extends AbstractAdminController
         );
     }
 
+    #[\Override]
     protected function getTemplateFolder(): string
     {
         return '@RoadizRozier/node-types-decorators';
     }
 
+    #[\Override]
     protected function getRequiredRole(): string
     {
         return 'ROLE_ACCESS_NODETYPES';
     }
 
+    #[\Override]
     protected function getEntityClass(): string
     {
         return NodeTypeDecorator::class;
     }
 
+    #[\Override]
     protected function getFormType(): string
     {
         return NodeTypeDecoratorType::class;
     }
 
+    #[\Override]
     protected function getDefaultOrder(Request $request): array
     {
         return ['path' => 'ASC'];
     }
 
+    #[\Override]
     protected function getDefaultRouteName(): string
     {
         return 'nodeTypeDecoratorsListPage';
     }
 
+    #[\Override]
     protected function getEditRouteName(): string
     {
         return 'nodeTypeDecoratorsEditPage';
     }
 
+    #[\Override]
     protected function getEntityName(PersistableInterface $item): string
     {
         if ($item instanceof NodeTypeDecorator) {
@@ -108,6 +119,7 @@ final class NodeTypeDecoratorController extends AbstractAdminController
         throw new \InvalidArgumentException('Item should be instance of '.$this->getEntityClass());
     }
 
+    #[\Override]
     protected function additionalAssignation(Request $request): void
     {
         parent::additionalAssignation($request);

@@ -18,11 +18,13 @@ class SvgRenderer implements RendererInterface
         $this->viewOptionsResolver = new ViewOptionsResolver();
     }
 
+    #[\Override]
     public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return $document->isSvg() && (!isset($options['inline']) || false === $options['inline']);
     }
 
+    #[\Override]
     public function render(BaseDocumentInterface $document, array $options): string
     {
         $mountPath = $document->getMountPath();

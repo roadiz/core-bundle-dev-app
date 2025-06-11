@@ -39,13 +39,9 @@ final class DocumentUsageController extends AbstractController
             'document' => $document,
             'usages' => $document->getNodesSourcesByFields(),
             'attributes' => $document->getAttributeDocuments()
-                ->map(function (AttributeDocuments $attributeDocument) {
-                    return $attributeDocument->getAttribute();
-                }),
+                ->map(fn (AttributeDocuments $attributeDocument) => $attributeDocument->getAttribute()),
             'tags' => $document->getTagTranslations()
-                ->map(function (TagTranslationDocuments $tagTranslationDocuments) {
-                    return $tagTranslationDocuments->getTagTranslation()->getTag();
-                }),
+                ->map(fn (TagTranslationDocuments $tagTranslationDocuments) => $tagTranslationDocuments->getTagTranslation()->getTag()),
         ]);
     }
 }

@@ -23,6 +23,7 @@ abstract class LazyParameterBag extends ParameterBag
      *
      * @return mixed|null
      */
+    #[\Override]
     public function get(string $key, $default = null): mixed
     {
         if (!$this->ready) {
@@ -32,6 +33,7 @@ abstract class LazyParameterBag extends ParameterBag
         return parent::get($key, $default);
     }
 
+    #[\Override]
     public function all(?string $key = null): array
     {
         if (!$this->ready) {
@@ -41,6 +43,7 @@ abstract class LazyParameterBag extends ParameterBag
         return parent::all();
     }
 
+    #[\Override]
     public function has(string $key): bool
     {
         if (!$this->ready) {
@@ -50,6 +53,7 @@ abstract class LazyParameterBag extends ParameterBag
         return parent::has($key);
     }
 
+    #[\Override]
     public function keys(): array
     {
         if (!$this->ready) {
@@ -60,6 +64,7 @@ abstract class LazyParameterBag extends ParameterBag
     }
 
     #[\ReturnTypeWillChange]
+    #[\Override]
     public function getIterator(): \ArrayIterator
     {
         if (!$this->ready) {
@@ -70,6 +75,7 @@ abstract class LazyParameterBag extends ParameterBag
     }
 
     #[\ReturnTypeWillChange]
+    #[\Override]
     public function count(): int
     {
         if (!$this->ready) {
@@ -83,6 +89,7 @@ abstract class LazyParameterBag extends ParameterBag
      * @param null  $default
      * @param array $options
      */
+    #[\Override]
     public function filter(string $key, $default = null, int $filter = \FILTER_DEFAULT, $options = []): mixed
     {
         if (!$this->ready) {

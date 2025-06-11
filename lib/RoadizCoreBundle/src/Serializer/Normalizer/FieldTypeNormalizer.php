@@ -18,11 +18,13 @@ final readonly class FieldTypeNormalizer implements NormalizerInterface, Denorma
         ];
     }
 
+    #[\Override]
     public function normalize(mixed $object, ?string $format = null, array $context = []): int
     {
         return $object->value;
     }
 
+    #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): ?FieldType
     {
         if (is_numeric($data)) {
@@ -32,11 +34,13 @@ final readonly class FieldTypeNormalizer implements NormalizerInterface, Denorma
         return null;
     }
 
+    #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
     {
         return null === $data || is_numeric($data);
     }
 
+    #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null): bool
     {
         return $data instanceof FieldType;

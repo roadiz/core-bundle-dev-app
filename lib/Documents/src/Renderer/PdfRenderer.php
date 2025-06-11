@@ -8,6 +8,7 @@ use RZ\Roadiz\Documents\Models\BaseDocumentInterface;
 
 class PdfRenderer extends AbstractRenderer
 {
+    #[\Override]
     public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return $document->isPdf()
@@ -20,6 +21,7 @@ class PdfRenderer extends AbstractRenderer
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\LoaderError
      */
+    #[\Override]
     public function render(BaseDocumentInterface $document, array $options): string
     {
         $options = $this->viewOptionsResolver->resolve($options);

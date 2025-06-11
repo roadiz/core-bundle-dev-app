@@ -20,7 +20,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "doctrine/orm": "~2.20.0",
         "endroid/qr-code": "^4.0",
         "roadiz/core-bundle": "2.6.x-dev",

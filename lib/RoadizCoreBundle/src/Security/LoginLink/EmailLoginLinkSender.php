@@ -22,6 +22,7 @@ final readonly class EmailLoginLinkSender implements LoginLinkSenderInterface
     ) {
     }
 
+    #[\Override]
     public function sendLoginLink(UserInterface $user, LoginLinkDetails $loginLinkDetails): void
     {
         if ($user instanceof User && !$user->isEnabled()) {

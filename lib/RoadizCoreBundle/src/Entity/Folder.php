@@ -11,15 +11,19 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Repository\FolderRepository;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Models\FolderInterface;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -46,8 +50,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         'updatedAt',
     ])
 ]
-class Folder extends AbstractDateTimedPositioned implements FolderInterface, LeafInterface
+class Folder implements DateTimedInterface, FolderInterface, LeafInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
     use LeafTrait;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, properties: [
@@ -121,20 +127,18 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     #[SymfonySerializer\Ignore]
     private Collection $translatedFolders;
 
-    /**
-     * Create a new Folder.
-     */
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->documents = new ArrayCollection();
         $this->translatedFolders = new ArrayCollection();
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
     }
 
     /**
      * @return $this
      */
+    #[\Override]
     public function addDocument(DocumentInterface $document): static
     {
         if (!$this->getDocuments()->contains($document)) {
@@ -147,6 +151,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return Collection<int, DocumentInterface>
      */
+    #[\Override]
     public function getDocuments(): Collection
     {
         return $this->documents;
@@ -155,6 +160,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function removeDocument(DocumentInterface $document): static
     {
         if ($this->getDocuments()->contains($document)) {
@@ -164,11 +170,13 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this;
     }
 
+    #[\Override]
     public function getVisible(): bool
     {
         return $this->isVisible();
     }
 
+    #[\Override]
     public function isVisible(): bool
     {
         return $this->visible;
@@ -177,6 +185,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function setVisible(bool $visible): static
     {
         $this->visible = $visible;
@@ -199,12 +208,11 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     #[SymfonySerializer\Ignore]
     public function getTranslatedFoldersByDefaultTranslation(): ?FolderTranslation
     {
-        return $this->translatedFolders->findFirst(function (int $key, FolderTranslation $translatedFolder) {
-            return $translatedFolder->getTranslation()->isDefaultTranslation();
-        });
+        return $this->translatedFolders->findFirst(fn (int $key, FolderTranslation $translatedFolder) => $translatedFolder->getTranslation()->isDefaultTranslation());
     }
 
     #[SymfonySerializer\Groups(['folder', 'document_folders'])]
+    #[\Override]
     public function getName(): ?string
     {
         return $this->getTranslatedFolders()->first() ?
@@ -232,6 +240,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this;
     }
 
+    #[\Override]
     public function getFolderName(): string
     {
         return $this->folderName ?? '';
@@ -240,6 +249,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function setFolderName(string $folderName): static
     {
         $this->dirtyFolderName = $folderName;
@@ -248,6 +258,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return $this;
     }
 
+    #[\Override]
     public function getDirtyFolderName(): string
     {
         return $this->dirtyFolderName;
@@ -256,6 +267,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
     /**
      * @return $this
      */
+    #[\Override]
     public function setDirtyFolderName(string $dirtyFolderName): static
     {
         $this->dirtyFolderName = $dirtyFolderName;
@@ -307,6 +319,7 @@ class Folder extends AbstractDateTimedPositioned implements FolderInterface, Lea
         return implode('/', $path);
     }
 
+    #[\Override]
     public function setParent(?LeafInterface $parent = null): static
     {
         if ($parent === $this) {

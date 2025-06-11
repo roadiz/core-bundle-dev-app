@@ -57,7 +57,7 @@ final class GetWebResponseByPathController extends AbstractController
                 'path' => (string) $request->query->get('path'),
             ]);
 
-            $resourceClass = get_class($resource);
+            $resourceClass = $resource::class;
             $isNodeSource = $resource instanceof NodesSources;
 
             try {

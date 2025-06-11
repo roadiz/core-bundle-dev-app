@@ -44,30 +44,35 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
     ) {
     }
 
+    #[\Override]
     protected function getRecaptchaService(): RecaptchaServiceInterface
     {
         return $this->recaptchaService;
     }
 
+    #[\Override]
     protected function getRecaptchaHeaderName(): string
     {
         return $this->recaptchaHeaderName;
     }
 
+    #[\Override]
     protected function getSecurity(): Security
     {
         return $this->security;
     }
 
+    #[\Override]
     protected function getUserSignupLimiter(): RateLimiterFactory
     {
         return $this->userSignupLimiter;
     }
 
+    #[\Override]
     public function process($data, Operation $operation, array $uriVariables = [], array $context = []): VoidOutput
     {
         if (!$data instanceof PasswordlessUserInput) {
-            throw new BadRequestHttpException(sprintf('Cannot process %s', get_class($data)));
+            throw new BadRequestHttpException(sprintf('Cannot process %s', $data::class));
         }
         $request = $this->requestStack->getCurrentRequest();
         $this->ValidateRequest($request);

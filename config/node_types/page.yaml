@@ -15,6 +15,7 @@ fields:
         description: Sub-title description
         label: Sub-title
         type: string
+        required: true
     -
         name: content
         label: Content
@@ -42,6 +43,7 @@ fields:
             - BasicBlock
             - GroupBlock
             - ArticleFeedBlock
+        required: true
         type: children-nodes
     -
         name: images
@@ -49,6 +51,7 @@ fields:
         serializationGroups:
             - realm_a
         label: Images
+        required: true
         type: documents
     -
         name: header_image
@@ -77,6 +80,7 @@ fields:
                 - nodes_sources_base
         serializationMaxDepth: 1
         label: References
+        required: true
         type: nodes
     -
         name: sticky
@@ -124,10 +128,12 @@ fields:
                     -
                         field: position
                         direction: ASC
+        required: true
         type: many-to-many
     -
         name: folder_references
         label: 'Reference to folders'
+        required: true
         defaultValues:
             classname: RZ\Roadiz\CoreBundle\Entity\Folder
             displayable: getName
@@ -197,6 +203,7 @@ fields:
     -
         name: main_user
         label: 'Main user'
+        required: true
         defaultValues:
             classname: \RZ\Roadiz\CoreBundle\Entity\User
             displayable: getUsername

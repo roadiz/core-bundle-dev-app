@@ -2,6 +2,24 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.19...v2.5.20) - 2025-06-06
+
+### Bug Fixes
+
+- **(FieldType)** Update searchableTypes to return FieldType constants directly - ([58d1c33](https://github.com/roadiz/core-bundle-dev-app/commit/58d1c331be47785a88e8bc4938c4c4b8f8714382))
+
+## [2.5.19](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.18...v2.5.19) - 2025-06-05
+
+### Bug Fixes
+
+- **(Api)** Do not expose Get Operation on non-reachable node-types ([#116](https://github.com/roadiz/core-bundle-dev-app/issues/116)), removed Graphql - ([9097387](https://github.com/roadiz/core-bundle-dev-app/commit/9097387ea43425cfe4b1a0b752f65ee74e515187))
+
+## [2.5.18](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.17...v2.5.18) - 2025-06-05
+
+### Documentation
+
+- Upgraded WebResponse documentation - ([3caefbe](https://github.com/roadiz/core-bundle-dev-app/commit/3caefbe4ddfecd6e09ce54285888381a49996f7f))
+
 ## [2.5.17](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.16...v2.5.17) - 2025-05-28
 
 ### Bug Fixes

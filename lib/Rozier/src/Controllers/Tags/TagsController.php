@@ -62,11 +62,13 @@ final class TagsController extends AbstractController
     ) {
     }
 
+    #[\Override]
     protected function getDoctrine(): ManagerRegistry
     {
         return $this->managerRegistry;
     }
 
+    #[\Override]
     protected function createNamedFormBuilder(string $name = 'form', mixed $data = null, array $options = []): FormBuilderInterface
     {
         return $this->formFactory->createNamedBuilder($name, FormType::class, $data, $options);
@@ -250,7 +252,7 @@ final class TagsController extends AbstractController
             throw new ResourceNotFoundException();
         }
 
-        $tagsIds = trim($request->get('deleteForm')['tagsIds']);
+        $tagsIds = trim((string) $request->get('deleteForm')['tagsIds']);
         $tagsIds = \json_decode($tagsIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($tagsIds);
 
@@ -606,7 +608,7 @@ final class TagsController extends AbstractController
             return $this->translator->trans('wrong.request');
         }
 
-        $tagsIds = trim($data['tagsIds']);
+        $tagsIds = trim((string) $data['tagsIds']);
         $tagsIds = \json_decode($tagsIds, true, flags: JSON_THROW_ON_ERROR);
         array_filter($tagsIds);
 
@@ -628,6 +630,7 @@ final class TagsController extends AbstractController
         return $this->translator->trans('tags.bulk.deleted');
     }
 
+    #[\Override]
     protected function onPostUpdate(PersistableInterface $entity, Request $request): void
     {
         if (!$entity instanceof TagTranslation) {
@@ -645,6 +648,7 @@ final class TagsController extends AbstractController
         $this->logTrail->publishConfirmMessage($request, $msg, $entity);
     }
 
+    #[\Override]
     protected function getPostUpdateRedirection(PersistableInterface $entity): ?Response
     {
         if (!$entity instanceof TagTranslation) {

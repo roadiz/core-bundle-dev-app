@@ -11,12 +11,14 @@ use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 
 class ImageRenderer extends AbstractImageRenderer
 {
+    #[\Override]
     public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return (!isset($options['picture']) || false === $options['picture'])
             && parent::supports($document, $options);
     }
 
+    #[\Override]
     public function render(BaseDocumentInterface $document, array $options): string
     {
         $options = $this->viewOptionsResolver->resolve($options);

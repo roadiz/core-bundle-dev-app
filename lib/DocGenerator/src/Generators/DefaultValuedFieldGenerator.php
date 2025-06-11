@@ -6,6 +6,7 @@ namespace RZ\Roadiz\Documentation\Generators;
 
 final class DefaultValuedFieldGenerator extends AbstractFieldGenerator
 {
+    #[\Override]
     public function getContents(): string
     {
         return implode("\n\n", [
@@ -16,10 +17,8 @@ final class DefaultValuedFieldGenerator extends AbstractFieldGenerator
 
     private function getDefaultValues(): string
     {
-        return implode("\n", array_map(function (string $value) {
-            return implode("\n", [
-                '* **'.trim($this->translator->trans(trim($value))).'** `'.$value.'`',
-            ]);
-        }, $this->field->getDefaultValuesAsArray()))."\n";
+        return implode("\n", array_map(fn (string $value) => implode("\n", [
+            '* **'.trim($this->translator->trans(trim($value))).'** `'.$value.'`',
+        ]), $this->field->getDefaultValuesAsArray()))."\n";
     }
 }

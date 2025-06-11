@@ -159,9 +159,7 @@ final class SeoController extends AbstractController
                     'nodesEditSEOPage',
                     ['nodeId' => $node->getId(), 'translationId' => $translationId]
                 ).'#manage-aliases');
-            } catch (EntityAlreadyExistsException $e) {
-                $addAliasForm->addError(new FormError($e->getMessage()));
-            } catch (NoTranslationAvailableException $e) {
+            } catch (EntityAlreadyExistsException|NoTranslationAvailableException $e) {
                 $addAliasForm->addError(new FormError($e->getMessage()));
             }
         }

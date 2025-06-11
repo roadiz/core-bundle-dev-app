@@ -59,11 +59,13 @@ final class NodesSourcesController extends AbstractController
     ) {
     }
 
+    #[\Override]
     protected function getDoctrine(): ManagerRegistry
     {
         return $this->managerRegistry;
     }
 
+    #[\Override]
     protected function createNamedFormBuilder(string $name = 'form', mixed $data = null, array $options = []): FormBuilderInterface
     {
         return $this->formFactory->createNamedBuilder($name, FormType::class, $data, $options);
@@ -306,6 +308,7 @@ final class NodesSourcesController extends AbstractController
         ]);
     }
 
+    #[\Override]
     protected function onPostUpdate(PersistableInterface $entity, Request $request): void
     {
         /*
@@ -327,6 +330,7 @@ final class NodesSourcesController extends AbstractController
         $this->logTrail->publishConfirmMessage($request, $msg, $entity);
     }
 
+    #[\Override]
     protected function getPostUpdateRedirection(PersistableInterface $entity): ?Response
     {
         if (!$entity instanceof NodesSources) {

@@ -17,17 +17,20 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
      */
     protected static string $platform = 'vimeo';
 
+    #[\Override]
     public static function getPlatform(): string
     {
         return static::$platform;
     }
 
+    #[\Override]
     public static function supportEmbedUrl(string $embedUrl): bool
     {
         return str_starts_with($embedUrl, 'https://vimeo.com/')
             || str_starts_with($embedUrl, 'https://www.vimeo.com/');
     }
 
+    #[\Override]
     protected function validateEmbedId(string $embedId = ''): string
     {
         if (1 === preg_match('#(?<id>[0-9]+)$#', $embedId, $matches)) {
@@ -39,6 +42,7 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
     /**
      * @return bool Allow video without thumbnails
      */
+    #[\Override]
     public function isEmptyThumbnailAllowed(): bool
     {
         return true;
@@ -47,6 +51,7 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
     /**
      * Tell if embed media exists after its API feed.
      */
+    #[\Override]
     public function exists(): bool
     {
         $feed = $this->getFeed();
@@ -54,46 +59,55 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
         return is_array($feed) && isset($feed['video_id']);
     }
 
+    #[\Override]
     public function getMediaTitle(): string
     {
         return $this->getFeed()['title'] ?? '';
     }
 
+    #[\Override]
     public function getMediaDescription(): string
     {
         return $this->getFeed()['description'] ?? '';
     }
 
+    #[\Override]
     public function getMediaCopyright(): string
     {
         return $this->getFeed()['author_name'] ?? '';
     }
 
+    #[\Override]
     public function getThumbnailURL(): string
     {
         return $this->getFeed()['thumbnail_url'] ?? '';
     }
 
+    #[\Override]
     public function getMediaWidth(): ?int
     {
         return $this->getFeed()['width'] ?? null;
     }
 
+    #[\Override]
     public function getMediaHeight(): ?int
     {
         return $this->getFeed()['height'] ?? null;
     }
 
+    #[\Override]
     public function getMediaDuration(): ?int
     {
         return $this->getFeed()['duration'] ?? null;
     }
 
+    #[\Override]
     public function getSearchFeed(string $searchTerm, ?string $author = null, int $maxResults = 15): ?string
     {
         return null;
     }
 
+    #[\Override]
     public function getMediaFeed(?string $search = null): string
     {
         if (preg_match(static::$realIdPattern, $this->embedId, $matches)) {
@@ -124,6 +138,7 @@ abstract class AbstractVimeoEmbedFinder extends AbstractEmbedFinder
      * * autopause
      * * automute
      */
+    #[\Override]
     public function getSource(array &$options = []): string
     {
         parent::getSource($options);

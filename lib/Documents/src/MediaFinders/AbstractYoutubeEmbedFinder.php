@@ -19,13 +19,15 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
     protected static string $platform = 'youtube';
     protected static string $idPattern = '#^https\:\/\/(?:www\.|studio\.)?(?:youtube\.com|youtu\.be)\/(?:watch\?v\=|video\?v\=)?(?<id>[a-zA-Z0-9\_\-]+)#';
     protected static string $realIdPattern = '#^(?<id>[a-zA-Z0-9\_\-]+)$#';
-    protected ?string $embedUrl;
+    protected ?string $embedUrl = null;
 
+    #[\Override]
     public static function getPlatform(): string
     {
         return static::$platform;
     }
 
+    #[\Override]
     public static function supportEmbedUrl(string $embedUrl): bool
     {
         return str_starts_with($embedUrl, 'https://www.youtube.com/')
@@ -34,6 +36,7 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
             || str_starts_with($embedUrl, 'https://youtu.be/');
     }
 
+    #[\Override]
     protected function validateEmbedId(string $embedId = ''): string
     {
         if (1 === preg_match(static::$idPattern, $embedId, $matches)) {
@@ -45,6 +48,7 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
         throw new InvalidEmbedId($embedId, static::$platform);
     }
 
+    #[\Override]
     public function getMediaFeed(?string $search = null): string
     {
         if (preg_match(static::$realIdPattern, $this->embedId, $matches)) {
@@ -61,6 +65,7 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
         return $this->downloadFeedFromAPI($endpoint.'?'.http_build_query($query));
     }
 
+    #[\Override]
     public function getFeed(): array|\SimpleXMLElement|null
     {
         $feed = parent::getFeed();
@@ -71,7 +76,7 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
         if (
             is_array($feed)
             && !empty($feed['html'])
-            && preg_match('#src\=\"https\:\/\/www\.youtube\.com\/embed\/(?<realId>[a-zA-Z0-9\_\-]+)#', $feed['html'], $matches)
+            && preg_match('#src\=\"https\:\/\/www\.youtube\.com\/embed\/(?<realId>[a-zA-Z0-9\_\-]+)#', (string) $feed['html'], $matches)
         ) {
             $this->embedId = urldecode($matches['realId']);
         }
@@ -79,11 +84,13 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
         return $feed;
     }
 
+    #[\Override]
     public function getMediaTitle(): string
     {
         return $this->getFeed()['title'] ?? '';
     }
 
+    #[\Override]
     public function getMediaDescription(): string
     {
         $feed = $this->getFeed();
@@ -91,26 +98,31 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
         return (is_array($feed) && isset($feed['description'])) ? ($feed['description']) : ('');
     }
 
+    #[\Override]
     public function getMediaCopyright(): string
     {
         return ($this->getFeed()['author_name'] ?? '').' ('.($this->getFeed()['author_url'] ?? '').')';
     }
 
+    #[\Override]
     public function getThumbnailURL(): string
     {
         return $this->getFeed()['thumbnail_url'] ?? '';
     }
 
+    #[\Override]
     public function getMediaWidth(): ?int
     {
         return $this->getFeed()['width'] ?? null;
     }
 
+    #[\Override]
     public function getMediaHeight(): ?int
     {
         return $this->getFeed()['height'] ?? null;
     }
 
+    #[\Override]
     public function getThumbnailName(string $pathinfo): string
     {
         if (null === $this->embedUrl) {
@@ -135,6 +147,7 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
     /**
      * @throws APINeedsAuthentificationException
      */
+    #[\Override]
     public function getSearchFeed(string $searchTerm, ?string $author = null, int $maxResults = 15): ?string
     {
         if (null !== $this->getKey() && '' != $this->getKey()) {
@@ -161,6 +174,7 @@ abstract class AbstractYoutubeEmbedFinder extends AbstractEmbedFinder
      * * enablejsapi
      * * muted
      */
+    #[\Override]
     public function getSource(array &$options = []): string
     {
         parent::getSource($options);

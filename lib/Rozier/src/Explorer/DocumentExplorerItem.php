@@ -14,6 +14,7 @@ use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Uid\Uuid;
 
 final class DocumentExplorerItem extends AbstractExplorerItem
 {
@@ -41,7 +42,8 @@ final class DocumentExplorerItem extends AbstractExplorerItem
     ) {
     }
 
-    public function getId(): string|int
+    #[\Override]
+    public function getId(): string|int|Uuid
     {
         if ($this->document instanceof PersistableInterface) {
             return $this->document->getId();
@@ -50,11 +52,13 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         return 0;
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         return (string) $this->document;
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         if (
@@ -68,11 +72,13 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         return (string) $this->document;
     }
 
+    #[\Override]
     public function getOriginal(): DocumentInterface
     {
         return $this->document;
     }
 
+    #[\Override]
     protected function getEditItemPath(): ?string
     {
         if (!($this->document instanceof PersistableInterface)) {
@@ -84,6 +90,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         ]);
     }
 
+    #[\Override]
     protected function getColor(): ?string
     {
         if ($this->document instanceof AdvancedDocumentInterface) {
@@ -93,6 +100,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         return null;
     }
 
+    #[\Override]
     public function toArray(): array
     {
         $thumbnail80Url = null;

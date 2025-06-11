@@ -33,6 +33,7 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         parent::__construct($urlGenerator, $entityListManagerFactory, $managerRegistry, $translator, $logTrail, $eventDispatcher);
     }
 
+    #[\Override]
     protected function additionalAssignation(Request $request): void
     {
         parent::additionalAssignation($request);
@@ -101,10 +102,9 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
         }
         $ids = \json_decode($json, true);
 
-        return \array_filter($ids, function ($id) {
+        return \array_filter($ids, fn ($id) =>
             // Allow int or UUID identifiers
-            return is_numeric($id) || is_string($id);
-        });
+            is_numeric($id) || is_string($id));
     }
 
     /**
@@ -198,11 +198,9 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             $this->getRequiredDeletionRole(),
             $this->createDeleteBulkForm(true),
             $this->createDeleteBulkForm(),
-            function (string $ids) {
-                return $this->createDeleteBulkForm(false, [
-                    'id' => $ids,
-                ]);
-            },
+            fn (string $ids) => $this->createDeleteBulkForm(false, [
+                'id' => $ids,
+            ]),
             $this->getTemplateFolder().'/bulk_delete.html.twig',
             '%namespace%.%item%.was_deleted',
             function (PersistableInterface $item) {
@@ -221,11 +219,9 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             $this->getRequiredRole(),
             $this->createPublishBulkForm(true),
             $this->createPublishBulkForm(),
-            function (string $ids) {
-                return $this->createPublishBulkForm(false, [
-                    'id' => $ids,
-                ]);
-            },
+            fn (string $ids) => $this->createPublishBulkForm(false, [
+                'id' => $ids,
+            ]),
             $this->getTemplateFolder().'/bulk_publish.html.twig',
             '%namespace%.%item%.was_published',
             function (PersistableInterface $item) {
@@ -244,11 +240,9 @@ abstract class AbstractAdminWithBulkController extends AbstractAdminController
             $this->getRequiredRole(),
             $this->createUnpublishBulkForm(true),
             $this->createUnpublishBulkForm(),
-            function (string $ids) {
-                return $this->createUnpublishBulkForm(false, [
-                    'id' => $ids,
-                ]);
-            },
+            fn (string $ids) => $this->createUnpublishBulkForm(false, [
+                'id' => $ids,
+            ]),
             $this->getTemplateFolder().'/bulk_unpublish.html.twig',
             '%namespace%.%item%.was_unpublished',
             function (PersistableInterface $item) {

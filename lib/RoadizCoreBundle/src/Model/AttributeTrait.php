@@ -162,9 +162,7 @@ trait AttributeTrait
     {
         if (null !== $translation) {
             $attributeTranslation = $this->getAttributeTranslations()->filter(
-                function (AttributeTranslationInterface $attributeTranslation) use ($translation) {
-                    return $attributeTranslation->getTranslation() === $translation;
-                }
+                fn (AttributeTranslationInterface $attributeTranslation) => $attributeTranslation->getTranslation() === $translation
             );
 
             if (
@@ -181,9 +179,7 @@ trait AttributeTrait
     public function getOptions(TranslationInterface $translation): ?array
     {
         $attributeTranslation = $this->getAttributeTranslations()->filter(
-            function (AttributeTranslationInterface $attributeTranslation) use ($translation) {
-                return $attributeTranslation->getTranslation() === $translation;
-            }
+            fn (AttributeTranslationInterface $attributeTranslation) => $attributeTranslation->getTranslation() === $translation
         )->first();
         if (false !== $attributeTranslation) {
             return $attributeTranslation->getOptions();

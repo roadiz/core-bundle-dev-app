@@ -20,6 +20,7 @@ final class ChainImporter implements EntityImporterInterface
         return $this;
     }
 
+    #[\Override]
     public function supports(string $entityClass): bool
     {
         foreach ($this->importers as $importer) {
@@ -31,6 +32,7 @@ final class ChainImporter implements EntityImporterInterface
         return false;
     }
 
+    #[\Override]
     public function import(string $serializedData): bool
     {
         throw new \RuntimeException('You cannot call import method on ChainImporter, but importWithType method');

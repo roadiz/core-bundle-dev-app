@@ -84,7 +84,7 @@ final readonly class UserViewer
         } catch (\Exception $e) {
             // Silent error not to prevent user creation if mailer is not configured
             $this->logger->error('Unable to send password reset link', [
-                'exception' => get_class($e),
+                'exception' => $e::class,
                 'message' => $e->getMessage(),
                 'entity' => $user,
             ]);

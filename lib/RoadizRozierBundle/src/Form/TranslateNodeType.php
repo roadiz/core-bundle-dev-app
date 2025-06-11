@@ -15,13 +15,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TranslateNodeType extends AbstractType
 {
-    protected ManagerRegistry $managerRegistry;
-
-    public function __construct(ManagerRegistry $managerRegistry)
+    public function __construct(protected ManagerRegistry $managerRegistry)
     {
-        $this->managerRegistry = $managerRegistry;
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $translations = $this->managerRegistry
@@ -56,11 +54,13 @@ class TranslateNodeType extends AbstractType
             ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'translate_node';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

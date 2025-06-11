@@ -13,7 +13,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractDateTimed;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\CopyrightValidFilter;
@@ -28,7 +31,7 @@ use RZ\Roadiz\Documents\Models\FolderInterface;
 use RZ\Roadiz\Documents\Models\HasThumbnailInterface;
 use RZ\Roadiz\Documents\Models\TimeableInterface;
 use RZ\Roadiz\Utils\StringHandler;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -37,6 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ORM\Entity(repositoryClass: DocumentRepository::class),
     ORM\Table(name: 'documents'),
+    ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['created_at'], name: 'document_created_at'),
     ORM\Index(columns: ['updated_at'], name: 'document_updated_at'),
     ORM\Index(columns: ['raw']),
@@ -71,8 +75,10 @@ use Symfony\Component\Validator\Constraints as Assert;
     ]),
     ApiFilter(CopyrightValidFilter::class)
 ]
-class Document extends AbstractDateTimed implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface
+class Document implements AdvancedDocumentInterface, HasThumbnailInterface, TimeableInterface, FileHashInterface, DateTimedInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use DateTimedTrait;
     use BaseDocumentTrait;
     use DocumentTrait;
 
@@ -298,7 +304,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
 
     public function __construct()
     {
-        $this->initAbstractDateTimed();
+        $this->initDateTimedTrait();
         $this->initDocumentTrait();
 
         $this->folders = new ArrayCollection();
@@ -311,11 +317,13 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         $this->thumbnails = new ArrayCollection();
     }
 
+    #[\Override]
     public function getMimeType(): ?string
     {
         return $this->mimeType;
     }
 
+    #[\Override]
     public function setMimeType(?string $mimeType): static
     {
         $this->mimeType = $mimeType;
@@ -323,6 +331,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function getFolder(): string
     {
         return $this->folder ?? 'documents';
@@ -331,6 +340,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     /**
      * @internal You should use DocumentFactory to generate a document folder
      */
+    #[\Override]
     public function setFolder(string $folder): static
     {
         $this->folder = $folder;
@@ -338,6 +348,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function setPrivate(bool $private): static
     {
         $this->private = $private;
@@ -349,11 +360,13 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     }
 
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getRawDocument(): ?DocumentInterface
     {
         return $this->rawDocument;
     }
 
+    #[\Override]
     public function setRawDocument(?DocumentInterface $rawDocument = null): static
     {
         if (null === $rawDocument || $rawDocument instanceof Document) {
@@ -390,6 +403,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this->attributeDocuments;
     }
 
+    #[\Override]
     public function addFolder(FolderInterface $folder): static
     {
         if (!$this->getFolders()->contains($folder)) {
@@ -404,6 +418,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
      * @return Collection<int, FolderInterface>
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getFolders(): Collection
     {
         return $this->folders;
@@ -416,6 +431,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function removeFolder(FolderInterface $folder): static
     {
         if ($this->getFolders()->contains($folder)) {
@@ -441,9 +457,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     #[SymfonySerializer\Ignore]
     public function getDocumentTranslationsByDefaultTranslation(): ?DocumentTranslation
     {
-        return $this->documentTranslations->findFirst(function (int $key, DocumentTranslation $documentTranslation) {
-            return $documentTranslation->getTranslation()->isDefaultTranslation();
-        });
+        return $this->documentTranslations->findFirst(fn (int $key, DocumentTranslation $documentTranslation) => $documentTranslation->getTranslation()->isDefaultTranslation());
     }
 
     /**
@@ -472,6 +486,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this->getDocumentTranslations()->count() > 0;
     }
 
+    #[\Override]
     public function setRaw(bool $raw): static
     {
         $this->raw = $raw;
@@ -483,12 +498,14 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
      * Gets the downscaledDocument.
      */
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getDownscaledDocument(): ?DocumentInterface
     {
         return $this->downscaledDocuments->first() ?: null;
     }
 
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getImageRatio(): ?float
     {
         if ($this->getImageWidth() > 0 && $this->getImageHeight() > 0) {
@@ -498,11 +515,13 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return null;
     }
 
+    #[\Override]
     public function getImageWidth(): int
     {
         return $this->imageWidth;
     }
 
+    #[\Override]
     public function setImageWidth(int $imageWidth): static
     {
         $this->imageWidth = $imageWidth;
@@ -510,11 +529,13 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function getImageHeight(): int
     {
         return $this->imageHeight;
     }
 
+    #[\Override]
     public function setImageHeight(int $imageHeight): static
     {
         $this->imageHeight = $imageHeight;
@@ -522,11 +543,13 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function getMediaDuration(): int
     {
         return $this->mediaDuration;
     }
 
+    #[\Override]
     public function setMediaDuration(int $duration): static
     {
         $this->mediaDuration = $duration;
@@ -534,11 +557,13 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function getImageAverageColor(): ?string
     {
         return $this->imageAverageColor;
     }
 
+    #[\Override]
     public function setImageAverageColor(?string $imageAverageColor): static
     {
         $this->imageAverageColor = $imageAverageColor;
@@ -546,11 +571,13 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function getFilesize(): ?int
     {
         return $this->filesize;
     }
 
+    #[\Override]
     public function setFilesize(?int $filesize): static
     {
         $this->filesize = $filesize;
@@ -566,6 +593,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
             writable: false,
         )
     ]
+    #[\Override]
     public function getAlternativeText(): string
     {
         $documentTranslation = $this->getDocumentTranslations()->first();
@@ -584,18 +612,21 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     }
 
     #[SymfonySerializer\Groups(['document'])]
-    #[SymfonySerializer\SerializedName('isThumbnail')] // to avoid conflict with thumbnail property
+    #[SymfonySerializer\SerializedName('isThumbnail')]
+    #[\Override] // to avoid conflict with thumbnail property
     public function isThumbnail(): bool
     {
         return null !== $this->getOriginal();
     }
 
     #[SymfonySerializer\Ignore]
+    #[\Override]
     public function getOriginal(): ?HasThumbnailInterface
     {
         return $this->original;
     }
 
+    #[\Override]
     public function setOriginal(?HasThumbnailInterface $original): static
     {
         if (null === $original || ($original !== $this && $original instanceof Document)) {
@@ -606,19 +637,20 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     }
 
     #[SymfonySerializer\Groups(['document'])]
+    #[\Override]
     public function hasThumbnails(): bool
     {
         return $this->getThumbnails()->count() > 0;
     }
 
+    #[\Override]
     public function getThumbnails(): Collection
     {
         // Filter private thumbnails
-        return $this->thumbnails->filter(function (DocumentInterface $thumbnail) {
-            return !$thumbnail->isPrivate();
-        });
+        return $this->thumbnails->filter(fn (DocumentInterface $thumbnail) => !$thumbnail->isPrivate());
     }
 
+    #[\Override]
     public function setThumbnails(Collection $thumbnails): static
     {
         if ($this->thumbnails->count()) {
@@ -628,9 +660,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
                 }
             }
         }
-        $this->thumbnails = $thumbnails->filter(function (DocumentInterface $thumbnail) {
-            return $thumbnail !== $this;
-        });
+        $this->thumbnails = $thumbnails->filter(fn (DocumentInterface $thumbnail) => $thumbnail !== $this);
         foreach ($this->thumbnails as $thumbnail) {
             if ($thumbnail instanceof HasThumbnailInterface) {
                 $thumbnail->setOriginal($this);
@@ -652,16 +682,19 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return null;
     }
 
+    #[\Override]
     public function needsThumbnail(): bool
     {
         return !$this->isProcessable();
     }
 
+    #[\Override]
     public function getFileHash(): ?string
     {
         return $this->fileHash;
     }
 
+    #[\Override]
     public function setFileHash(?string $hash): static
     {
         $this->fileHash = $hash;
@@ -669,11 +702,13 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function getFileHashAlgorithm(): ?string
     {
         return $this->fileHashAlgorithm;
     }
 
+    #[\Override]
     public function setFileHashAlgorithm(?string $algorithm): static
     {
         $this->fileHashAlgorithm = $algorithm;
@@ -705,6 +740,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         if (!empty($this->getFilename())) {
@@ -721,11 +757,13 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return (string) $this->getId();
     }
 
+    #[\Override]
     public function getFilename(): string
     {
         return $this->filename ?? '';
     }
 
+    #[\Override]
     public function setFilename(string $filename): static
     {
         $this->filename = StringHandler::cleanForFilename($filename);
@@ -733,6 +771,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function setEmbedPlatform(?string $embedPlatform): static
     {
         $this->embedPlatform = $embedPlatform;
@@ -740,6 +779,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function setEmbedId(?string $embedId): static
     {
         $this->embedId = $embedId;
@@ -747,6 +787,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function getImageCropAlignment(): ?string
     {
         return $this->imageCropAlignment;
@@ -759,6 +800,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         return $this;
     }
 
+    #[\Override]
     public function getHotspot(): ?array
     {
         return $this->hotspot;
@@ -767,6 +809,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
     /*
      * Get image hotspot coordinates as x;y string.
      */
+    #[\Override]
     public function getHotspotAsString(): ?string
     {
         $hotspot = $this->getHotspot();
@@ -778,6 +821,7 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         ) : null;
     }
 
+    #[\Override]
     public function setHotspot(?array $hotspot): static
     {
         $this->hotspot = $hotspot;

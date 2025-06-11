@@ -11,20 +11,21 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\TreeWalker\Definition\ContextualDefinitionTrait;
 use RZ\TreeWalker\WalkerContextInterface;
 
-final class NonReachableNodeSourceBlockDefinition
+final readonly class NonReachableNodeSourceBlockDefinition
 {
     use ContextualDefinitionTrait;
     use NodeSourceDefinitionTrait;
 
     public function __construct(
-        private readonly WalkerContextInterface $context,
-        private readonly bool $onlyVisible = true,
+        private WalkerContextInterface $context,
+        private bool $onlyVisible = true,
     ) {
     }
 
     /**
      * @return array<NodeType> $nodeTypes
      */
+    #[\Override]
     protected function getNodeTypes(NodeTypes $nodeTypesBag): array
     {
         return $nodeTypesBag->allReachable(false);

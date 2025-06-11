@@ -29,13 +29,11 @@ use Symfony\Component\Validator\Constraints\Regex;
 
 class DocumentEditType extends AbstractType
 {
-    private Security $security;
-
-    public function __construct(Security $security)
+    public function __construct(private readonly Security $security)
     {
-        $this->security = $security;
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         /** @var Document $document */
@@ -132,9 +130,7 @@ class DocumentEditType extends AbstractType
             ]);
             $builder->get('hotspot')
             ->addModelTransformer(new CallbackTransformer(
-                function (mixed $hotspot): string {
-                    return json_encode($hotspot, JSON_THROW_ON_ERROR);
-                },
+                fn (mixed $hotspot): string => json_encode($hotspot, JSON_THROW_ON_ERROR),
                 function (mixed $hotspot): ?array {
                     if (!\is_string($hotspot)) {
                         return null;
@@ -187,6 +183,7 @@ class DocumentEditType extends AbstractType
         }
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -200,6 +197,7 @@ class DocumentEditType extends AbstractType
         $resolver->setAllowedTypes('document_platforms', ['array']);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'document_edit';

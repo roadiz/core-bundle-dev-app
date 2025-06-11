@@ -22,11 +22,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Table(name: 'roles'),
     UniqueEntity(fields: ['name'])
 ]
-class Role implements PersistableInterface
+class Role implements PersistableInterface, \Stringable
 {
-    public const ROLE_DEFAULT = 'ROLE_USER';
-    public const ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
-    public const ROLE_BACKEND_USER = 'ROLE_BACKEND_USER';
+    public const string ROLE_DEFAULT = 'ROLE_USER';
+    public const string ROLE_SUPERADMIN = 'ROLE_SUPERADMIN';
+    public const string ROLE_BACKEND_USER = 'ROLE_BACKEND_USER';
 
     #[
         ORM\Id,
@@ -61,6 +61,7 @@ class Role implements PersistableInterface
         $this->groups = new ArrayCollection();
     }
 
+    #[\Override]
     public function getId(): ?int
     {
         return $this->id;
@@ -183,6 +184,7 @@ class Role implements PersistableInterface
         return false;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return $this->getRole();

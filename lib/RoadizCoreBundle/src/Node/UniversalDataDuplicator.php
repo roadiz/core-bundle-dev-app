@@ -41,9 +41,7 @@ final readonly class UniversalDataDuplicator
         if ($source->getTranslation()->isDefaultTranslation() || !$this->hasDefaultTranslation($source)) {
             $fields = $this->nodeTypesBag->get($source->getNodeTypeName())->getFields();
             /** @var NodeTypeField[] $universalFields */
-            $universalFields = $fields->filter(function (NodeTypeField $field) {
-                return $field->isUniversal();
-            });
+            $universalFields = $fields->filter(fn (NodeTypeField $field) => $field->isUniversal());
 
             if (count($universalFields) > 0) {
                 $repository = $this->managerRegistry->getRepository(NodesSources::class);

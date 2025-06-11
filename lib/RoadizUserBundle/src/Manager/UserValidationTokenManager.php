@@ -34,6 +34,7 @@ final readonly class UserValidationTokenManager implements UserValidationTokenMa
     ) {
     }
 
+    #[\Override]
     public function createForUser(UserInterface $user, bool $sendEmail = true): UserValidationToken
     {
         $existingValidationToken = $this->managerRegistry
@@ -58,6 +59,7 @@ final readonly class UserValidationTokenManager implements UserValidationTokenMa
         return $existingValidationToken;
     }
 
+    #[\Override]
     public function isUserEmailValidated(UserInterface $user): bool
     {
         $reachableRoles = $this->roleHierarchy->getReachableRoleNames($user->getRoles());
@@ -92,7 +94,7 @@ final readonly class UserValidationTokenManager implements UserValidationTokenMa
                 ],
                 UrlGeneratorInterface::ABSOLUTE_URL
             );
-        } catch (RouteNotFoundException $exception) {
+        } catch (RouteNotFoundException) {
             $validationLink = $this->userValidationUrl.'?'.http_build_query(
                 [
                     'token' => $userValidationToken->getToken(),

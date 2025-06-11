@@ -22,6 +22,7 @@ final class MailerTestCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('mailer:send:test')
@@ -31,6 +32,7 @@ final class MailerTestCommand extends Command
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $title = '[test] Roadiz test email';

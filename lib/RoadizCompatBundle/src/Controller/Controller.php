@@ -24,8 +24,6 @@ use RZ\Roadiz\CoreBundle\ListManager\EntityListManager;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
 use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\Indexer\NodeIndexer;
-use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\Documents\MediaFinders\RandomImageFinder;
@@ -61,6 +59,7 @@ use Twig\Error\RuntimeError;
  */
 abstract class Controller extends AbstractController
 {
+    #[\Override]
     public static function getSubscribedServices(): array
     {
         return array_merge(parent::getSubscribedServices(), [
@@ -92,8 +91,6 @@ abstract class Controller extends AbstractController
             LoggerInterface::class => LoggerInterface::class,
             NodeChrootResolver::class => NodeChrootResolver::class,
             NodeFactory::class => NodeFactory::class,
-            NodeIndexer::class => NodeIndexer::class,
-            NodeSourceSearchHandlerInterface::class => NodeSourceSearchHandlerInterface::class,
             OAuth2LinkGenerator::class => OAuth2LinkGenerator::class,
             PreviewResolverInterface::class => PreviewResolverInterface::class,
             RandomImageFinder::class => RandomImageFinder::class,
@@ -234,6 +231,7 @@ abstract class Controller extends AbstractController
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
+    #[\Override]
     protected function generateUrl($route, array $parameters = [], int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH): string
     {
         if ($route instanceof NodesSources) {
@@ -255,7 +253,7 @@ abstract class Controller extends AbstractController
      */
     public static function getCalledClass(): string
     {
-        $className = get_called_class();
+        $className = static::class;
         if (!str_starts_with($className, '\\')) {
             $className = '\\'.$className;
         }
@@ -289,6 +287,7 @@ abstract class Controller extends AbstractController
      *
      * @throws RuntimeError
      */
+    #[\Override]
     public function render(string $view, array $parameters = [], ?Response $response = null, string $namespace = ''): Response
     {
         try {
@@ -355,6 +354,7 @@ abstract class Controller extends AbstractController
      *
      * @see TokenInterface::getUser()
      */
+    #[\Override]
     protected function getUser(): ?UserInterface
     {
         /** @var TokenInterface|null $token */

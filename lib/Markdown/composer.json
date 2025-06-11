@@ -3,7 +3,7 @@
     "description": "Markdown services and Twig extension for Roadiz",
     "type": "library",
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.3",
         "doctrine/collections": ">=1.6",
         "league/commonmark": "^2.2.0",
         "symfony/stopwatch": "6.4.*",

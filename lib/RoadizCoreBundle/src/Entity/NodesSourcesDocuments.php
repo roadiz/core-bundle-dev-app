@@ -6,7 +6,10 @@ namespace RZ\Roadiz\CoreBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
-use RZ\Roadiz\Core\AbstractEntities\AbstractPositioned;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
+use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesDocumentsRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -17,33 +20,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ORM\Entity(repositoryClass: NodesSourcesDocumentsRepository::class),
     ORM\Table(name: 'nodes_sources_documents'),
+    ORM\HasLifecycleCallbacks,
     ORM\Index(columns: ['position']),
     ORM\Index(columns: ['ns_id', 'field_name'], name: 'nsdoc_field'),
     ORM\Index(columns: ['ns_id', 'field_name', 'position'], name: 'nsdoc_field_position')
 ]
-class NodesSourcesDocuments extends AbstractPositioned
+class NodesSourcesDocuments implements PositionedInterface, PersistableInterface
 {
+    use SequentialIdTrait;
+    use PositionedTrait;
     use FieldAwareEntityTrait;
-
-    #[ORM\ManyToOne(
-        targetEntity: NodesSources::class,
-        cascade: ['persist'],
-        fetch: 'EAGER',
-        inversedBy: 'documentsByFields'
-    )]
-    #[Assert\NotNull]
-    #[ORM\JoinColumn(name: 'ns_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    protected NodesSources $nodeSource;
-
-    #[ORM\ManyToOne(
-        targetEntity: Document::class,
-        cascade: ['persist'],
-        fetch: 'EAGER',
-        inversedBy: 'nodesSourcesByFields'
-    )]
-    #[Assert\NotNull]
-    #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    protected Document $document;
 
     /**
      * @var string|null Image crop alignment.
@@ -79,12 +65,29 @@ class NodesSourcesDocuments extends AbstractPositioned
     protected ?array $hotspot = null;
 
     /**
-     * Create a new relation between NodeSource, a Document and a NodeTypeField.
+     * Create a new relation between NodeSource, a Document for a NodeTypeField.
      */
-    public function __construct(NodesSources $nodeSource, Document $document, ?NodeTypeFieldInterface $field = null)
-    {
-        $this->nodeSource = $nodeSource;
-        $this->document = $document;
+    public function __construct(
+        #[ORM\ManyToOne(
+            targetEntity: NodesSources::class,
+            cascade: ['persist'],
+            fetch: 'EAGER',
+            inversedBy: 'documentsByFields'
+        )]
+        #[Assert\NotNull]
+        #[ORM\JoinColumn(name: 'ns_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        protected NodesSources $nodeSource,
+        #[ORM\ManyToOne(
+            targetEntity: Document::class,
+            cascade: ['persist'],
+            fetch: 'EAGER',
+            inversedBy: 'nodesSourcesByFields'
+        )]
+        #[Assert\NotNull]
+        #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+        protected Document $document,
+        ?NodeTypeFieldInterface $field = null,
+    ) {
         $this->initializeFieldAwareEntityTrait($field);
     }
 

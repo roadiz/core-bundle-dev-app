@@ -22,6 +22,7 @@ class AudioRenderer extends AbstractRenderer
         parent::__construct($documentsStorage, $templating, $documentUrlGenerator, $templateBasePath);
     }
 
+    #[\Override]
     public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return $document->isAudio();
@@ -32,6 +33,7 @@ class AudioRenderer extends AbstractRenderer
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
+    #[\Override]
     public function render(BaseDocumentInterface $document, array $options): string
     {
         $options = $this->viewOptionsResolver->resolve($options);

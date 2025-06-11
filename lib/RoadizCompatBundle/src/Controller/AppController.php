@@ -63,6 +63,10 @@ abstract class AppController extends Controller
      * Is theme for backend?
      */
     protected static bool $backendTheme = false;
+
+    /**
+     * @deprecated
+     */
     protected ?Theme $theme = null;
     /**
      * Assignation for twig template engine.
@@ -227,6 +231,8 @@ abstract class AppController extends Controller
      *
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
+     *
+     * @deprecated
      */
     public function getTheme(): ?Theme
     {
@@ -266,7 +272,7 @@ abstract class AppController extends Controller
      */
     public function getSession(?Request $request = null): ?SessionInterface
     {
-        $request = $request ?? $this->getRequest();
+        $request ??= $this->getRequest();
 
         return $request->hasPreviousSession() ? $request->getSession() : null;
     }

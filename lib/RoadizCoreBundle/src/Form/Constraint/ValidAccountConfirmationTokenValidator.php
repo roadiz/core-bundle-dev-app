@@ -18,6 +18,7 @@ final class ValidAccountConfirmationTokenValidator extends ConstraintValidator
     /**
      * @param ValidAccountConfirmationToken $constraint
      */
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
         $user = $this->managerRegistry

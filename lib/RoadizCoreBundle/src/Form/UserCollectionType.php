@@ -18,33 +18,31 @@ final class UserCollectionType extends AbstractType
     {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addModelTransformer(new CollectionToArrayTransformer());
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'multiple' => true,
-            'choice_label' => function (?User $choice) {
-                return $choice ? $choice->getIdentifier() : '';
-            },
-            'choice_value' => function (?User $choice) {
-                return $choice ? $choice->getId() : '';
-            },
+            'choice_label' => fn (?User $choice) => $choice ? $choice->getIdentifier() : '',
+            'choice_value' => fn (?User $choice) => $choice ? $choice->getId() : '',
         ]);
 
-        $resolver->setNormalizer('choices', function () {
-            return $this->managerRegistry->getRepository(User::class)->findAll();
-        });
+        $resolver->setNormalizer('choices', fn () => $this->managerRegistry->getRepository(User::class)->findAll());
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return ChoiceType::class;
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'user_collection';

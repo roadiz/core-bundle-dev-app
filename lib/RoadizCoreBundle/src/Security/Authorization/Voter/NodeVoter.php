@@ -19,21 +19,21 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 final class NodeVoter extends Voter
 {
-    public const CREATE = 'CREATE';
-    public const DUPLICATE = 'DUPLICATE';
-    public const CREATE_AT_ROOT = 'CREATE_AT_ROOT';
-    public const SEARCH = 'SEARCH';
-    public const READ = 'READ';
-    public const READ_AT_ROOT = 'READ_AT_ROOT';
-    public const EMPTY_TRASH = 'EMPTY_TRASH';
-    public const READ_LOGS = 'READ_LOGS';
-    public const EDIT_CONTENT = 'EDIT_CONTENT';
-    public const EDIT_TAGS = 'EDIT_TAGS';
-    public const EDIT_REALMS = 'EDIT_REALMS';
-    public const EDIT_SETTING = 'EDIT_SETTING';
-    public const EDIT_STATUS = 'EDIT_STATUS';
-    public const EDIT_ATTRIBUTE = 'EDIT_ATTRIBUTE';
-    public const DELETE = 'DELETE';
+    public const string CREATE = 'CREATE';
+    public const string DUPLICATE = 'DUPLICATE';
+    public const string CREATE_AT_ROOT = 'CREATE_AT_ROOT';
+    public const string SEARCH = 'SEARCH';
+    public const string READ = 'READ';
+    public const string READ_AT_ROOT = 'READ_AT_ROOT';
+    public const string EMPTY_TRASH = 'EMPTY_TRASH';
+    public const string READ_LOGS = 'READ_LOGS';
+    public const string EDIT_CONTENT = 'EDIT_CONTENT';
+    public const string EDIT_TAGS = 'EDIT_TAGS';
+    public const string EDIT_REALMS = 'EDIT_REALMS';
+    public const string EDIT_SETTING = 'EDIT_SETTING';
+    public const string EDIT_STATUS = 'EDIT_STATUS';
+    public const string EDIT_ATTRIBUTE = 'EDIT_ATTRIBUTE';
+    public const string DELETE = 'DELETE';
 
     public function __construct(
         private readonly NodeChrootResolver $chrootResolver,
@@ -42,6 +42,7 @@ final class NodeVoter extends Voter
     ) {
     }
 
+    #[\Override]
     protected function supports(string $attribute, mixed $subject): bool
     {
         if (
@@ -80,6 +81,7 @@ final class NodeVoter extends Voter
         return false;
     }
 
+    #[\Override]
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();

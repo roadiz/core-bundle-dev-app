@@ -16,11 +16,13 @@ final class SettingExplorerItem extends AbstractExplorerItem
     ) {
     }
 
+    #[\Override]
     public function getId(): int|string
     {
         return $this->setting->getId() ?? throw new \RuntimeException('Entity must have an ID');
     }
 
+    #[\Override]
     public function getAlternativeDisplayable(): ?string
     {
         if (null !== $this->setting->getSettingGroup()) {
@@ -30,16 +32,19 @@ final class SettingExplorerItem extends AbstractExplorerItem
         return '';
     }
 
+    #[\Override]
     public function getDisplayable(): string
     {
         return $this->setting->getName();
     }
 
+    #[\Override]
     public function getOriginal(): Setting
     {
         return $this->setting;
     }
 
+    #[\Override]
     protected function getEditItemPath(): ?string
     {
         return $this->urlGenerator->generate('settingsEditPage', [

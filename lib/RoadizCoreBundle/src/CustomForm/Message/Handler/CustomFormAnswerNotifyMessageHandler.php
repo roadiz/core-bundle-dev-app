@@ -73,9 +73,7 @@ final readonly class CustomFormAnswerNotifyMessageHandler
             array_map('trim', explode(',', $answer->getCustomForm()->getEmail() ?? ''))
         );
 
-        return array_map(function (string $email) {
-            return new Address($email);
-        }, $receiver);
+        return array_map(fn (string $email) => new Address($email), $receiver);
     }
 
     /**

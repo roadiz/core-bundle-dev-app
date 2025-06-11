@@ -20,11 +20,12 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 final class AjaxSearchController extends AbstractAjaxController
 {
-    public const RESULT_COUNT = 10;
+    public const int RESULT_COUNT = 10;
 
     public function __construct(
         private readonly Security $security,
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        private readonly GlobalNodeSourceSearchHandler $globalNodeSourceSearchHandler,
         ManagerRegistry $managerRegistry,
         SerializerInterface $serializer,
         TranslatorInterface $translator,
@@ -43,10 +44,7 @@ final class AjaxSearchController extends AbstractAjaxController
             throw new BadRequestHttpException('searchTerms parameter is missing.');
         }
 
-        $searchHandler = new GlobalNodeSourceSearchHandler($this->managerRegistry->getManager());
-        $searchHandler->setDisplayNonPublishedNodes(true);
-
-        $nodesSources = $searchHandler->getNodeSourcesBySearchTerm(
+        $nodesSources = $this->globalNodeSourceSearchHandler->getNodeSourcesBySearchTerm(
             $request->get('searchTerms'),
             self::RESULT_COUNT
         );

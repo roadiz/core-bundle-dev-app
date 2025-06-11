@@ -13,11 +13,11 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
-final class CachedNodeOffspringResolver implements CachedNodeOffspringResolverInterface
+final readonly class CachedNodeOffspringResolver implements CachedNodeOffspringResolverInterface
 {
     public function __construct(
-        private readonly CacheItemPoolInterface $cache,
-        private readonly ManagerRegistry $managerRegistry,
+        private CacheItemPoolInterface $cache,
+        private ManagerRegistry $managerRegistry,
     ) {
     }
 
@@ -25,6 +25,7 @@ final class CachedNodeOffspringResolver implements CachedNodeOffspringResolverIn
      * @throws InvalidArgumentException
      * @throws CacheException
      */
+    #[\Override]
     public function getAllOffspringIds(NodeInterface $ancestor): array
     {
         $cacheItem = $this->cache->getItem(self::CACHE_PREFIX.$ancestor->getId());
@@ -34,9 +35,7 @@ final class CachedNodeOffspringResolver implements CachedNodeOffspringResolverIn
             $cacheItem->set($offspringIds);
             $cacheItem->expiresAfter(300);
             if ($cacheItem instanceof ItemInterface && $this->cache instanceof TagAwareCacheInterface) {
-                $cacheItem->tag(array_map(function (int $nodeId) {
-                    return self::CACHE_TAG_PREFIX.$nodeId;
-                }, $offspringIds));
+                $cacheItem->tag(array_map(fn (int $nodeId) => self::CACHE_TAG_PREFIX.$nodeId, $offspringIds));
             }
             $this->cache->save($cacheItem);
         } else {
@@ -49,6 +48,7 @@ final class CachedNodeOffspringResolver implements CachedNodeOffspringResolverIn
     /**
      * @throws InvalidArgumentException
      */
+    #[\Override]
     public function purgeOffspringCache(NodeInterface $node): void
     {
         $this->cache->deleteItem(self::CACHE_PREFIX.$node->getId());

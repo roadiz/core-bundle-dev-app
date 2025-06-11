@@ -10,11 +10,11 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use RZ\Roadiz\Core\AbstractEntities\AbstractEntity;
+use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Repository\RealmRepository;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation as SymfonySerializer;
+use Symfony\Component\Serializer\Attribute as SymfonySerializer;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -37,8 +37,10 @@ use Symfony\Component\Validator\Constraints as Assert;
         'name' => 'exact',
     ])
 ]
-class Realm extends AbstractEntity implements RealmInterface
+class Realm implements RealmInterface
 {
+    use SequentialIdTrait;
+
     #[ORM\Column(name: 'type', type: 'string', length: 30)]
     #[SymfonySerializer\Groups(['get', 'realm'])]
     #[Assert\Length(max: 30)]
@@ -93,6 +95,7 @@ class Realm extends AbstractEntity implements RealmInterface
         $this->realmNodes = new ArrayCollection();
     }
 
+    #[\Override]
     public function getRole(): ?string
     {
         if (null === $this->roleEntity) {
@@ -114,6 +117,7 @@ class Realm extends AbstractEntity implements RealmInterface
         return $this;
     }
 
+    #[\Override]
     public function getSerializationGroup(): ?string
     {
         return $this->serializationGroup;
@@ -128,6 +132,7 @@ class Realm extends AbstractEntity implements RealmInterface
         return $this;
     }
 
+    #[\Override]
     public function getName(): string
     {
         return $this->name ?? '';
@@ -166,6 +171,7 @@ class Realm extends AbstractEntity implements RealmInterface
     /**
      * @return Collection<int, User>
      */
+    #[\Override]
     public function getUsers(): Collection
     {
         return $this->users;
@@ -183,6 +189,7 @@ class Realm extends AbstractEntity implements RealmInterface
         return $this;
     }
 
+    #[\Override]
     public function getPlainPassword(): ?string
     {
         return $this->plainPassword;
@@ -195,6 +202,7 @@ class Realm extends AbstractEntity implements RealmInterface
         return $this;
     }
 
+    #[\Override]
     public function getBehaviour(): string
     {
         return $this->behaviour;
@@ -207,12 +215,14 @@ class Realm extends AbstractEntity implements RealmInterface
         return $this;
     }
 
+    #[\Override]
     public function getChallenge(): string
     {
         return $this->getAuthenticationScheme().' realm="'.addslashes($this->getName()).'"';
     }
 
     #[SymfonySerializer\Groups(['get', 'realm', 'web_response'])]
+    #[\Override]
     public function getAuthenticationScheme(): string
     {
         return match ($this->getType()) {
@@ -221,6 +231,7 @@ class Realm extends AbstractEntity implements RealmInterface
         };
     }
 
+    #[\Override]
     public function getType(): string
     {
         return $this->type;

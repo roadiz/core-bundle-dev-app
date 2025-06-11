@@ -16,6 +16,7 @@ final readonly class PreviewBarSubscriber implements EventSubscriberInterface
     {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -30,7 +31,7 @@ final readonly class PreviewBarSubscriber implements EventSubscriberInterface
             $this->previewResolver->isPreview()
             && $event->isMainRequest()
             && Response::HTTP_OK === $response->getStatusCode()
-            && str_contains($response->headers->get('Content-Type'), 'text/html')
+            && str_contains((string) $response->headers->get('Content-Type'), 'text/html')
         ) {
             return true;
         }

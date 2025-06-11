@@ -25,6 +25,7 @@ final class AddNodeType extends AbstractType
     {
     }
 
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('title', TextType::class, [
@@ -96,11 +97,13 @@ final class AddNodeType extends AbstractType
         });
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'childnode';
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

@@ -18,16 +18,19 @@ final readonly class HttpRequestMessage implements AsyncMessage, HttpRequestMess
         ], $options);
     }
 
+    #[\Override]
     public function getOptions(): array
     {
         return $this->options;
     }
 
+    #[\Override]
     public function getMethod(): string
     {
         return $this->method;
     }
 
+    #[\Override]
     public function getUri(): string
     {
         return $this->uri;

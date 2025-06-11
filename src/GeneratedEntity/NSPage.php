@@ -21,6 +21,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Page node-source entity.
@@ -43,6 +44,7 @@ class NSPage extends NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Sub-title: Sub-title description')]
     #[Serializer\MaxDepth(2)]
+    #[Assert\NotBlank]
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'sub_title', type: 'string', nullable: true, length: 250)]
     private ?string $subTitle = null;
@@ -195,6 +197,8 @@ class NSPage extends NodesSources
         orphanRemoval: true,
         cascade: ['persist', 'remove'],
     )]
+    #[Assert\Count(min: 1)]
+    #[Assert\NotNull]
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $usersProxy;
 
@@ -215,6 +219,8 @@ class NSPage extends NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Reference to folders')]
     #[Serializer\MaxDepth(2)]
+    #[Assert\Count(min: 1)]
+    #[Assert\NotNull]
     #[ORM\ManyToMany(targetEntity: \RZ\Roadiz\CoreBundle\Entity\Folder::class)]
     #[ORM\JoinTable(name: 'page_folder_references')]
     #[ORM\JoinColumn(name: 'page_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
@@ -347,6 +353,7 @@ class NSPage extends NodesSources
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[ApiProperty(description: 'Main user')]
     #[Serializer\MaxDepth(2)]
+    #[Assert\NotBlank]
     #[ORM\ManyToOne(targetEntity: \RZ\Roadiz\CoreBundle\Entity\User::class)]
     #[ORM\JoinColumn(name: 'main_user_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
     #[ApiFilter(Filter\SearchFilter::class, strategy: 'exact')]
@@ -667,9 +674,7 @@ class NSPage extends NodesSources
     #[Serializer\MaxDepth(2)]
     public function getUsers(): array
     {
-        return $this->usersProxy->map(function (\App\Entity\PositionedPageUser $proxyEntity) {
-            return $proxyEntity->getUser();
-        })->getValues();
+        return $this->usersProxy->map(fn(\App\Entity\PositionedPageUser $proxyEntity) => $proxyEntity->getUser())->getValues();
     }
 
     /**
@@ -910,6 +915,7 @@ class NSPage extends NodesSources
         $this->folderReferences = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    #[\Override]
     public function __clone(): void
     {
         parent::__clone();
@@ -926,6 +932,7 @@ class NSPage extends NodesSources
 
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return 'Page';
@@ -933,6 +940,7 @@ class NSPage extends NodesSources
 
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    #[\Override]
     public function getNodeTypeColor(): string
     {
         return '#000000';
@@ -942,6 +950,7 @@ class NSPage extends NodesSources
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
      */
+    #[\Override]
     public function isReachable(): bool
     {
         return true;
@@ -951,11 +960,13 @@ class NSPage extends NodesSources
      * $this->nodeType->isPublishable() proxy.
      * @return bool Does this nodeSource is publishable with date and time?
      */
+    #[\Override]
     public function isPublishable(): bool
     {
         return false;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return '[NSPage] ' . parent::__toString();

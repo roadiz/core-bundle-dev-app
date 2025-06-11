@@ -20,6 +20,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\UserLogEntry;
 use Symfony\Component\Serializer\Attribute as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 use mock\Entity\NodesSources;
 
 /**
@@ -92,6 +93,19 @@ class NSMock extends NodesSources
     private ?string $fooIndexed = null;
 
     /**
+     * Foo required field.
+     * Maecenas sed diam eget risus varius blandit sit amet non magna.
+     */
+    #[Serializer\SerializedName(serializedName: 'fooRequired')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Foo required field: Maecenas sed diam eget risus varius blandit sit amet non magna')]
+    #[Serializer\MaxDepth(1)]
+    #[Assert\NotBlank]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'fooRequired', type: 'string', nullable: true, length: 250)]
+    private ?string $fooRequired = null;
+
+    /**
      * Bool indexed field.
      * Maecenas sed diam eget risus varius blandit sit amet non magna.
      */
@@ -104,6 +118,16 @@ class NSMock extends NodesSources
     #[Gedmo\Versioned]
     #[ORM\Column(name: 'boolIndexed', type: 'boolean', nullable: false, options: ['default' => false])]
     private bool $boolIndexed = false;
+
+    /** Bool required field. */
+    #[Serializer\SerializedName(serializedName: 'boolRequired')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[ApiProperty(description: 'Bool required field')]
+    #[Serializer\MaxDepth(2)]
+    #[Assert\IsTrue]
+    #[Gedmo\Versioned]
+    #[ORM\Column(name: 'boolRequired', type: 'boolean', nullable: false, options: ['default' => false])]
+    private bool $boolRequired = false;
 
     /**
      * Foo markdown field.
@@ -253,6 +277,23 @@ class NSMock extends NodesSources
     )]
     #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $eventReferencesProxiedProxy;
+
+    /**
+     * Buffer var to get referenced entities (documents, nodes, cforms, doctrine entities)
+     * Many to many required field.
+     * @var \Doctrine\Common\Collections\Collection<int, \App\Entity\PositionedCity>
+     */
+    #[Serializer\Ignore]
+    #[ORM\OneToMany(
+        targetEntity: \App\Entity\PositionedCity::class,
+        mappedBy: 'nodeSource',
+        orphanRemoval: true,
+        cascade: ['persist', 'remove'],
+    )]
+    #[Assert\Count(min: 1)]
+    #[Assert\NotNull]
+    #[ORM\OrderBy(['position' => 'ASC'])]
+    private Collection $fooMtmRequiredProxy;
 
     /**
      * Remontée d'événements manuelle exclue.
@@ -499,6 +540,25 @@ class NSMock extends NodesSources
     }
 
     /**
+     * @return string|null
+     */
+    public function getFooRequired(): ?string
+    {
+        return $this->fooRequired;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setFooRequired(?string $fooRequired): static
+    {
+        $this->fooRequired = null !== $fooRequired ?
+                    (string) $fooRequired :
+                    null;
+        return $this;
+    }
+
+    /**
      * @return bool
      */
     public function getBoolIndexed(): bool
@@ -512,6 +572,23 @@ class NSMock extends NodesSources
     public function setBoolIndexed(bool $boolIndexed): static
     {
         $this->boolIndexed = $boolIndexed;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getBoolRequired(): bool
+    {
+        return $this->boolRequired;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setBoolRequired(bool $boolRequired): static
+    {
+        $this->boolRequired = $boolRequired;
         return $this;
     }
 
@@ -619,9 +696,7 @@ class NSMock extends NodesSources
     #[Serializer\MaxDepth(2)]
     public function getEventReferencesProxied(): array
     {
-        return $this->eventReferencesProxiedProxy->map(function (\App\Entity\PositionedCity $proxyEntity) {
-            return $proxyEntity->getCity();
-        })->getValues();
+        return $this->eventReferencesProxiedProxy->map(fn(\App\Entity\PositionedCity $proxyEntity) => $proxyEntity->getCity())->getValues();
     }
 
     /**
@@ -653,6 +728,58 @@ class NSMock extends NodesSources
                 }
                 $proxyEntity->setCity($singleEventReferencesProxied);
                 $this->eventReferencesProxiedProxy->add($proxyEntity);
+                $this->objectManager->persist($proxyEntity);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, \App\Entity\PositionedCity>
+     */
+    public function getFooMtmRequiredProxy(): Collection
+    {
+        return $this->fooMtmRequiredProxy;
+    }
+
+    #[Serializer\SerializedName(serializedName: 'fooMtmRequired')]
+    #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
+    #[Serializer\MaxDepth(2)]
+    public function getFooMtmRequired(): array
+    {
+        return $this->fooMtmRequiredProxy->map(fn(\App\Entity\PositionedCity $proxyEntity) => $proxyEntity->getCity())->getValues();
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection<int, \App\Entity\PositionedCity> $fooMtmRequiredProxy
+     * @return $this
+     */
+    public function setFooMtmRequiredProxy(Collection $fooMtmRequiredProxy): static
+    {
+        $this->fooMtmRequiredProxy = $fooMtmRequiredProxy;
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setFooMtmRequired(Collection|array|null $fooMtmRequired): static
+    {
+        foreach ($this->getFooMtmRequiredProxy() as $item) {
+            $item->setNodeSource(null);
+        }
+        $this->fooMtmRequiredProxy->clear();
+        if (null !== $fooMtmRequired) {
+            $position = 0;
+            foreach ($fooMtmRequired as $singleFooMtmRequired) {
+                $proxyEntity = new \App\Entity\PositionedCity();
+                $proxyEntity->setNodeSource($this);
+                if ($proxyEntity instanceof \RZ\Roadiz\Core\AbstractEntities\PositionedInterface) {
+                    $proxyEntity->setPosition(++$position);
+                }
+                $proxyEntity->setCity($singleFooMtmRequired);
+                $this->fooMtmRequiredProxy->add($proxyEntity);
                 $this->objectManager->persist($proxyEntity);
             }
         }
@@ -923,9 +1050,7 @@ class NSMock extends NodesSources
     #[Serializer\MaxDepth(1)]
     public function getFooManyToManyProxied(): array
     {
-        return $this->fooManyToManyProxiedProxy->map(function (\Themes\MyTheme\Entities\PositionedCity $proxyEntity) {
-            return $proxyEntity->getCity();
-        })->getValues();
+        return $this->fooManyToManyProxiedProxy->map(fn(\Themes\MyTheme\Entities\PositionedCity $proxyEntity) => $proxyEntity->getCity())->getValues();
     }
 
     /**
@@ -969,11 +1094,13 @@ class NSMock extends NodesSources
         parent::__construct($node, $translation);
         $this->eventReferences = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventReferencesProxiedProxy = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fooMtmRequiredProxy = new \Doctrine\Common\Collections\ArrayCollection();
         $this->eventReferencesExcluded = new \Doctrine\Common\Collections\ArrayCollection();
         $this->fooManyToMany = new \Doctrine\Common\Collections\ArrayCollection();
         $this->fooManyToManyProxiedProxy = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    #[\Override]
     public function __clone(): void
     {
         parent::__clone();
@@ -987,6 +1114,15 @@ class NSMock extends NodesSources
         }
         $this->eventReferencesProxiedProxy = $eventReferencesProxiedProxyClone;
 
+        $fooMtmRequiredProxyClone = new \Doctrine\Common\Collections\ArrayCollection();
+        foreach ($this->fooMtmRequiredProxy as $item) {
+            $itemClone = clone $item;
+            $itemClone->setNodeSource($this);
+            $fooMtmRequiredProxyClone->add($itemClone);
+            $this->objectManager->persist($itemClone);
+        }
+        $this->fooMtmRequiredProxy = $fooMtmRequiredProxyClone;
+
         $fooManyToManyProxiedProxyClone = new \Doctrine\Common\Collections\ArrayCollection();
         foreach ($this->fooManyToManyProxiedProxy as $item) {
             $itemClone = clone $item;
@@ -999,6 +1135,7 @@ class NSMock extends NodesSources
 
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
     #[Serializer\SerializedName(serializedName: '@type')]
+    #[\Override]
     public function getNodeTypeName(): string
     {
         return 'Mock';
@@ -1006,6 +1143,7 @@ class NSMock extends NodesSources
 
     #[Serializer\Groups(['node_type'])]
     #[Serializer\SerializedName(serializedName: 'nodeTypeColor')]
+    #[\Override]
     public function getNodeTypeColor(): string
     {
         return '';
@@ -1015,6 +1153,7 @@ class NSMock extends NodesSources
      * $this->nodeType->isReachable() proxy.
      * @return bool Does this nodeSource is reachable over network?
      */
+    #[\Override]
     public function isReachable(): bool
     {
         return true;
@@ -1024,11 +1163,13 @@ class NSMock extends NodesSources
      * $this->nodeType->isPublishable() proxy.
      * @return bool Does this nodeSource is publishable with date and time?
      */
+    #[\Override]
     public function isPublishable(): bool
     {
         return true;
     }
 
+    #[\Override]
     public function __toString(): string
     {
         return '[NSMock] ' . parent::__toString();

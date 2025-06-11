@@ -14,11 +14,13 @@ readonly class UserMetadataManager implements UserMetadataManagerInterface
     {
     }
 
+    #[\Override]
     public function getMetadataForUser(User $user): ?UserMetadata
     {
         return $this->managerRegistry->getRepository(UserMetadata::class)->findOneByUser($user);
     }
 
+    #[\Override]
     public function createMetadataForUser(User $user): UserMetadata
     {
         $userMetadata = new UserMetadata();

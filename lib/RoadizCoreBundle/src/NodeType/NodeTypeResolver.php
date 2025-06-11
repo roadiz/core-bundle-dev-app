@@ -38,9 +38,7 @@ final readonly class NodeTypeResolver
         }
 
         $childrenTypes = [];
-        $childrenFields = $nodeType->getFields()->filter(function (NodeTypeFieldInterface $field) {
-            return $field->isChildrenNodes() && null !== $field->getDefaultValues();
-        });
+        $childrenFields = $nodeType->getFields()->filter(fn (NodeTypeFieldInterface $field) => $field->isChildrenNodes() && null !== $field->getDefaultValues());
         if ($childrenFields->count() > 0) {
             /** @var NodeTypeFieldInterface $field */
             foreach ($childrenFields as $field) {

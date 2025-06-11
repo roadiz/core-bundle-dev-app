@@ -28,6 +28,7 @@ final class NodesDetailsCommand extends Command
         parent::__construct($name);
     }
 
+    #[\Override]
     protected function configure(): void
     {
         $this->setName('nodes:show')
@@ -37,6 +38,7 @@ final class NodesDetailsCommand extends Command
         ;
     }
 
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -56,7 +58,7 @@ final class NodesDetailsCommand extends Command
                                         'translation' => $translation,
                                     ]);
         if (null !== $source) {
-            $io->title(get_class($source));
+            $io->title($source::class);
             $io->title('Title');
             $io->text($source->getTitle());
 

@@ -14,6 +14,7 @@ class EmbedRenderer implements RendererInterface
     {
     }
 
+    #[\Override]
     public function supports(BaseDocumentInterface $document, array $options): bool
     {
         if (
@@ -28,6 +29,7 @@ class EmbedRenderer implements RendererInterface
         }
     }
 
+    #[\Override]
     public function render(BaseDocumentInterface $document, array $options): string
     {
         try {

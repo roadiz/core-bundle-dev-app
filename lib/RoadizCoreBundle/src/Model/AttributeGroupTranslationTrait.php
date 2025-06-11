@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 trait AttributeGroupTranslationTrait
 {
     #[
-        ORM\ManyToOne(targetEntity: "RZ\Roadiz\Core\AbstractEntities\TranslationInterface"),
+        ORM\ManyToOne(targetEntity: TranslationInterface::class),
         ORM\JoinColumn(name: 'translation_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE'),
         Serializer\Groups(['attribute_group', 'attribute', 'attribute:export', 'node', 'nodes_sources']),
     ]

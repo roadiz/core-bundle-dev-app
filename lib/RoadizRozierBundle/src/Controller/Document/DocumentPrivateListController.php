@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DocumentPrivateListController extends DocumentPublicListController
 {
+    #[\Override]
     protected function getPreFilters(Request $request): array
     {
         return [
@@ -16,6 +17,7 @@ class DocumentPrivateListController extends DocumentPublicListController
         ];
     }
 
+    #[\Override]
     public function getAssignation(): array
     {
         return [

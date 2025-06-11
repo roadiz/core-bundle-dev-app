@@ -10,9 +10,9 @@ use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 use RZ\Roadiz\CoreBundle\EntityHandler\CustomFormFieldHandler;
 
 #[AsDoctrineListener('prePersist')]
-final class CustomFormFieldLifeCycleSubscriber
+final readonly class CustomFormFieldLifeCycleSubscriber
 {
-    public function __construct(private readonly CustomFormFieldHandler $customFormFieldHandler)
+    public function __construct(private CustomFormFieldHandler $customFormFieldHandler)
     {
     }
 

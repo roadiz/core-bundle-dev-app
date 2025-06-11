@@ -26,11 +26,13 @@ final class DocumentAverageColorMessageHandler extends AbstractLockingDocumentMe
         parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
     }
 
+    #[\Override]
     protected function supports(DocumentInterface $document): bool
     {
         return $document->isLocal() && $document->isProcessable();
     }
 
+    #[\Override]
     protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
     {
         if (!$document instanceof AdvancedDocumentInterface) {

@@ -14,6 +14,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\ListManager\NodeTreeDtoListManager;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
+use RZ\Roadiz\CoreBundle\Model\DocumentDto;
 use RZ\Roadiz\CoreBundle\Model\NodeTreeDto;
 use RZ\Roadiz\CoreBundle\Model\TagTreeDto;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -23,7 +24,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class NodeTreeWidget extends AbstractWidget
 {
-    public const SESSION_ITEM_PER_PAGE = 'nodetree_item_per_page';
+    public const string SESSION_ITEM_PER_PAGE = 'nodetree_item_per_page';
     /**
      * @var array<NodeInterface>|null
      */
@@ -219,6 +220,7 @@ final class NodeTreeWidget extends AbstractWidget
         return $this->filters;
     }
 
+    #[\Override]
     public function getTranslation(): TranslationInterface
     {
         return $this->translation ?? parent::getTranslation();
@@ -270,13 +272,12 @@ final class NodeTreeWidget extends AbstractWidget
         ], null, null, $this->getTranslation());
     }
 
-    public function getOneDisplayableDocument(NodeTreeDto $node): ?Document
+    public function getOneDisplayableDocument(NodeTreeDto $node): ?DocumentDto
     {
         return $this->managerRegistry
             ->getRepository(Document::class)
-            ->findOneDisplayableByNodeSource(
+            ->findOneDisplayableDtoByNodeSource(
                 $node->getNodeSource()->getId(),
-                $this->getTranslation()
             );
     }
 

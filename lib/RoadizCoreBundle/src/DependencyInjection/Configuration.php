@@ -16,6 +16,7 @@ class Configuration implements ConfigurationInterface
     public const INHERITANCE_TYPE_JOINED = 'joined';
     public const INHERITANCE_TYPE_SINGLE_TABLE = 'single_table';
 
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $builder = new TreeBuilder('roadiz_core');
@@ -48,6 +49,9 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->scalarNode('defaultNodeSourceController')
                 ->defaultValue(DefaultNodeSourceController::class)
+            ->end()
+            ->scalarNode('defaultNodeSourceControllerNamespace')
+                ->defaultValue('\\App\\Controller')
             ->end()
             ->scalarNode('webResponseClass')
                 ->defaultValue(WebResponse::class)
@@ -152,7 +156,14 @@ EOD
     protected function addSolrNode()
     {
         $builder = new TreeBuilder('solr');
-        $node = $builder->getRootNode();
+        $node = $builder
+            ->getRootNode()
+            ->setDeprecated(
+                'roadiz/roadiz-core-bundle',
+                '2.6',
+                'The "solr" configuration node is deprecated and is not used anymore. Use the "nelmio/solarium-bundle" configuration instead.'
+            )
+            ->addDefaultsIfNotSet();
 
         $node->children()
                 ->scalarNode('timeout')->defaultValue(3)->end()

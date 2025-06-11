@@ -1,5 +1,8 @@
 resources:
     RZ\Roadiz\CoreBundle\Entity\Tag:
+        shortName: Tag
+        types:
+            - Tag
         operations:
             ApiPlatform\Metadata\GetCollection:
                 method: "GET"
@@ -8,11 +11,3 @@ resources:
                     groups:
                         - tag_base
 
-            ApiPlatform\Metadata\Get:
-                method: 'GET'
-                normalizationContext:
-                    enable_max_depth: true
-                    groups:
-                        - tag
-                        - tag_base
-                        - tag_parent

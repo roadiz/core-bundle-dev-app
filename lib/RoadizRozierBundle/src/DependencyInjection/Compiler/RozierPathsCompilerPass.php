@@ -12,6 +12,7 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class RozierPathsCompilerPass implements CompilerPassInterface
 {
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         if ($container->hasDefinition('translator.default')) {

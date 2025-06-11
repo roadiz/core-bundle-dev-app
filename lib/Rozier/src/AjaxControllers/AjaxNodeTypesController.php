@@ -58,9 +58,7 @@ final class AjaxNodeTypesController extends AbstractAjaxController
         $nodesArray = [];
 
         if (count($cleanNodeTypesName)) {
-            $nodeTypes = array_values(array_filter(array_map(function ($name) {
-                return $this->nodeTypesBag->get($name);
-            }, $cleanNodeTypesName)));
+            $nodeTypes = array_values(array_filter(array_map(fn (string $name) => $this->nodeTypesBag->get($name), $cleanNodeTypesName)));
             // Sort array by ids given in request
             $nodesArray = $this->normalizeNodeType($nodeTypes);
         }

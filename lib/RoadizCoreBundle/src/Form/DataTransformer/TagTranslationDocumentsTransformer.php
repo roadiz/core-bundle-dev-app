@@ -26,6 +26,7 @@ final readonly class TagTranslationDocumentsTransformer implements DataTransform
      *
      * @return Document[]
      */
+    #[\Override]
     public function transform(mixed $value): array
     {
         if (empty($value)) {
@@ -42,6 +43,7 @@ final readonly class TagTranslationDocumentsTransformer implements DataTransform
     /**
      * @param array<int> $value
      */
+    #[\Override]
     public function reverseTransform(mixed $value): ArrayCollection
     {
         if (!$value) {

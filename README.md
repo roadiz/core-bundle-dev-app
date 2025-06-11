@@ -19,6 +19,7 @@ This is **development app** for Roadiz v2. It aggregates all Roadiz bundles and 
 - RoadizRozierBundle
 - RoadizTwoFactorBundle
 - RoadizUserBundle
+- RoadizSolrBundle
 - Rozier
 - and documentation website (./docs)
 

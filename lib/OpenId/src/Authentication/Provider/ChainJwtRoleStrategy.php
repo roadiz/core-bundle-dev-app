@@ -18,6 +18,7 @@ final readonly class ChainJwtRoleStrategy implements JwtRoleStrategy
         }
     }
 
+    #[\Override]
     public function supports(): bool
     {
         foreach ($this->strategies as $strategy) {
@@ -29,6 +30,7 @@ final readonly class ChainJwtRoleStrategy implements JwtRoleStrategy
         return false;
     }
 
+    #[\Override]
     public function getRoles(): ?array
     {
         $roles = [];

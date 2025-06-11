@@ -13,17 +13,18 @@ use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-final class NodesSourcesReachableFilter implements EventSubscriberInterface
+final readonly class NodesSourcesReachableFilter implements EventSubscriberInterface
 {
-    public const PARAMETER = [
+    public const array PARAMETER = [
         'node.nodeType.reachable',
         'reachable',
     ];
 
-    public function __construct(private readonly NodeTypes $nodeTypesBag)
+    public function __construct(private NodeTypes $nodeTypesBag)
     {
     }
 
+    #[\Override]
     public static function getSubscribedEvents(): array
     {
         return [
@@ -49,9 +50,7 @@ final class NodesSourcesReachableFilter implements EventSubscriberInterface
             $simpleQB = new SimpleQueryBuilder($event->getQueryBuilder());
             $value = (bool) $event->getValue();
 
-            $nodeTypes = array_unique(array_filter($this->nodeTypesBag->all(), function (NodeType $nodeType) use ($value) {
-                return $nodeType->getReachable() === $value;
-            }));
+            $nodeTypes = array_unique(array_filter($this->nodeTypesBag->all(), fn (NodeType $nodeType) => $nodeType->getReachable() === $value));
 
             if (count($nodeTypes) > 0) {
                 $orX = $qb->expr()->orX();

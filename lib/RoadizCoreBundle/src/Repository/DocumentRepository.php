@@ -199,6 +199,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      * @param array        $criteria Additional criteria
      * @param string       $alias    SQL query table alias
      */
+    #[\Override]
     protected function createSearchBy(
         string $pattern,
         QueryBuilder $qb,
@@ -230,6 +231,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     /**
      * Bind parameters to generated query.
      */
+    #[\Override]
     protected function applyFilterByCriteria(array &$criteria, QueryBuilder $qb): void
     {
         /*
@@ -301,30 +303,28 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         ) {
             $qb->leftJoin('d.documentTranslations', 'dt');
             $qb->leftJoin('dt.translation', 't');
+        } elseif (null !== $translation) {
+            /*
+             * With a given translation
+             */
+            $qb->leftJoin(
+                'd.documentTranslations',
+                'dt',
+                'WITH',
+                'dt.translation = :translation'
+            );
         } else {
-            if (null !== $translation) {
-                /*
-                 * With a given translation
-                 */
-                $qb->leftJoin(
-                    'd.documentTranslations',
-                    'dt',
-                    'WITH',
-                    'dt.translation = :translation'
-                );
-            } else {
-                /*
-                 * With a null translation, just take the default one optionally
-                 * Using left join instead of inner join.
-                 */
-                $qb->leftJoin('d.documentTranslations', 'dt');
-                $qb->leftJoin(
-                    'dt.translation',
-                    't',
-                    'WITH',
-                    't.defaultTranslation = true'
-                );
-            }
+            /*
+             * With a null translation, just take the default one optionally
+             * Using left join instead of inner join.
+             */
+            $qb->leftJoin('d.documentTranslations', 'dt');
+            $qb->leftJoin(
+                'dt.translation',
+                't',
+                'WITH',
+                't.defaultTranslation = true'
+            );
         }
     }
 
@@ -366,6 +366,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         return $qb;
     }
 
+    #[\Override]
     public function findOneByHashAndAlgorithm(string $hash, string $hashAlgorithm): ?Document
     {
         $qb = $this->createQueryBuilder('d');
@@ -396,6 +397,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      * @param int|null $limit
      * @param int|null $offset
      */
+    #[\Override]
     public function findBy(
         array $criteria,
         ?array $orderBy = null,
@@ -436,6 +438,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      *
      * @throws NonUniqueResultException
      */
+    #[\Override]
     public function findOneBy(
         array $criteria,
         ?array $orderBy = null,
@@ -466,6 +469,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      * @throws NonUniqueResultException
      * @throws NoResultException
      */
+    #[\Override]
     public function countBy(
         mixed $criteria,
         ?TranslationInterface $translation = null,
@@ -505,6 +509,46 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
             ->andWhere($qb->expr()->in('d.mimeType', ':mimeType'))
             ->setParameter('nodeSource', $nodeSource)
             ->setParameter('translation', $translation)
+            ->setParameter('raw', false)
+            ->setParameter('mimeType', ['image/webp', 'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'])
+            ->setMaxResults(1)
+            ->setCacheable(true);
+
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findOneDisplayableDtoByNodeSource(
+        NodesSources|int $nodeSource,
+    ): ?DocumentDto {
+        $qb = $this->createQueryBuilder('d');
+        $qb->select(sprintf(
+            'NEW %s(
+                    d.id,
+                    d.filename,
+                    d.mimeType,
+                    d.private,
+                    d.raw,
+                    d.imageWidth,
+                    d.imageHeight,
+                    d.mediaDuration,
+                    d.embedId,
+                    d.embedPlatform,
+                    d.imageAverageColor,
+                    d.folder,
+                    d.imageCropAlignment,
+                    d.hotspot,
+                    nsf.imageCropAlignment,
+                    nsf.hotspot
+                )',
+            DocumentDto::class
+        ))
+            ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
+            ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->andWhere($qb->expr()->in('d.mimeType', ':mimeType'))
+            ->setParameter('nodeSource', $nodeSource)
             ->setParameter('raw', false)
             ->setParameter('mimeType', ['image/webp', 'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'])
             ->setMaxResults(1)
@@ -569,7 +613,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         string $fieldName,
     ): array {
         $qb = $this->createQueryBuilder('d');
-        $qb->addSelect(sprintf(
+        $qb->select(sprintf(
             'NEW %s(
                     d.id,
                     d.filename,
@@ -615,7 +659,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         int|string $originalDocumentId,
     ): ?DocumentDto {
         $qb = $this->createQueryBuilder('d');
-        $qb->addSelect(sprintf(
+        $qb->select(sprintf(
             'NEW %s(
                     d.id,
                     d.filename,
@@ -668,6 +712,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
      *
      * @return array<Document>
      */
+    #[\Override]
     public function findAllUnused(): array
     {
         return $this->getAllUnusedQueryBuilder()->getQuery()->getResult();
@@ -762,6 +807,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     /**
      * @return Document[]
      */
+    #[\Override]
     public function findAllWithoutFileHash(): array
     {
         $qb = $this->createQueryBuilder('d');
@@ -794,6 +840,7 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
     /**
      * @return array<Document>
      */
+    #[\Override]
     public function findDuplicates(): array
     {
         return $this->getDuplicatesQueryBuilder()->getQuery()->getResult();

@@ -31,6 +31,7 @@ final class Settings extends LazyParameterBag
         return $this->repository;
     }
 
+    #[\Override]
     protected function populateParameters(): void
     {
         $this->stopwatch->start('settings');
@@ -41,13 +42,14 @@ final class Settings extends LazyParameterBag
             foreach ($settings as $setting) {
                 $this->parameters[$setting->getName()] = $setting->getValue();
             }
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             $this->parameters = [];
         }
         $this->ready = true;
         $this->stopwatch->stop('settings');
     }
 
+    #[\Override]
     public function get(string $key, $default = false): mixed
     {
         return parent::get($key, $default);
@@ -64,7 +66,7 @@ final class Settings extends LazyParameterBag
             return $this->managerRegistry
                         ->getRepository(Document::class)
                         ->findOneById($id);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return null;
         }
     }

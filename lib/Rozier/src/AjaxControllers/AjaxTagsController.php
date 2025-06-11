@@ -236,7 +236,7 @@ final class AjaxTagsController extends AbstractAjaxExplorerController
         }
 
         $responseArray = [];
-        $pattern = strip_tags($request->get('search'));
+        $pattern = strip_tags((string) $request->get('search'));
         $tags = $this->getRepository()->searchBy($pattern, [], [], 10);
 
         if (0 === count($tags)) {

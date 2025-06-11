@@ -1,0 +1,16 @@
+parameters:
+    level: 7
+    paths:
+        - src
+    excludePaths:
+        - */node_modules/*
+        - */static/*
+    ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
+
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
+includes:
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+    - vendor/phpstan/phpstan-doctrine/rules.neon

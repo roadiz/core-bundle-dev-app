@@ -80,9 +80,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
                      * Linked types must be NodeType entities, not only string
                      * to expose name and displayName to ajax responses.
                      */
-                    $linkedTypes = array_filter(array_map(function (string $typeName) {
-                        return $this->nodeTypesBag->get($typeName);
-                    }, $linkedTypesNames));
+                    $linkedTypes = array_filter(array_map(fn (string $typeName) => $this->nodeTypesBag->get($typeName), $linkedTypesNames));
 
                     $nodeTree->setAdditionalCriteria([
                         'nodeTypeName' => $linkedTypesNames,

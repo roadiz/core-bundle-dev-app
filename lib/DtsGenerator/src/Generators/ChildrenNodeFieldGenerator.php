@@ -6,6 +6,7 @@ namespace RZ\Roadiz\Typescript\Declaration\Generators;
 
 final class ChildrenNodeFieldGenerator extends AbstractFieldGenerator
 {
+    #[\Override]
     public function getContents(): string
     {
         return implode(PHP_EOL, [
@@ -13,6 +14,7 @@ final class ChildrenNodeFieldGenerator extends AbstractFieldGenerator
         ]);
     }
 
+    #[\Override]
     protected function getIntroductionLines(): array
     {
         $lines = [
@@ -25,6 +27,7 @@ final class ChildrenNodeFieldGenerator extends AbstractFieldGenerator
         return $lines;
     }
 
+    #[\Override]
     protected function getType(): string
     {
         return '';

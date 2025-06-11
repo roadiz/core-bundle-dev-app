@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints\GreaterThan;
 
 final class NodeTypeFieldSerializationType extends AbstractType
 {
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('excludedFromSerialization', CheckboxType::class, [
@@ -74,6 +75,7 @@ final class NodeTypeFieldSerializationType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -82,11 +84,13 @@ final class NodeTypeFieldSerializationType extends AbstractType
         ]);
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return '';
     }
 
+    #[\Override]
     public function getParent(): ?string
     {
         return FormType::class;

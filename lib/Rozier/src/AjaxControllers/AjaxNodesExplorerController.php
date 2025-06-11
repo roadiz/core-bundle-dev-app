@@ -14,9 +14,8 @@ use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
-use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
+use RZ\Roadiz\CoreBundle\SearchEngine\SearchResultItemInterface;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,8 +27,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
 {
     public function __construct(
-        private readonly ClientRegistry $clientRegistry,
-        private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
+        private readonly ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         private readonly NodeTypes $nodeTypesBag,
         ExplorerItemFactoryInterface $explorerItemFactory,
         EventDispatcherInterface $eventDispatcher,
@@ -55,7 +53,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
 
     protected function isSearchEngineAvailable(Request $request): bool
     {
-        return '' !== $request->get('search') && null !== $this->clientRegistry->getClient();
+        return null !== $this->nodeSourceSearchHandler && '' !== $request->get('search');
     }
 
     public function indexAction(Request $request): JsonResponse
@@ -99,9 +97,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
             }
             if (\is_array($nodeTypesRequest) && count($nodeTypesRequest) > 0) {
                 /** @var NodeType[] $nodeTypes */
-                $nodeTypes = array_filter(array_map(function ($nodeTypeName) {
-                    return $this->nodeTypesBag->get(trim($nodeTypeName));
-                }, $nodeTypesRequest));
+                $nodeTypes = array_filter(array_map(fn (string $nodeTypeName) => $this->nodeTypesBag->get(trim($nodeTypeName)), $nodeTypesRequest));
 
                 if (count($nodeTypes) > 0) {
                     $arrayFilter['nodeTypeName'] = array_map(fn (NodeType $nodeType) => $nodeType->getName(), $nodeTypes);
@@ -229,7 +225,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
     /**
      * Normalize response Node list result.
      *
-     * @param iterable<Node|NodesSources|SolrSearchResultItem> $nodes
+     * @param iterable<Node|NodesSources|SearchResultItemInterface> $nodes
      *
      * @return array<AbstractExplorerItem>
      */
@@ -238,7 +234,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
         $nodesArray = [];
 
         foreach ($nodes as $node) {
-            if ($node instanceof SolrSearchResultItem) {
+            if ($node instanceof SearchResultItemInterface) {
                 $item = $node->getItem();
                 if ($item instanceof NodesSources || $item instanceof Node) {
                     $this->normalizeItem($item, $nodesArray);
@@ -254,8 +250,8 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
     private function normalizeItem(NodesSources|Node $item, array &$nodesArray): void
     {
         $model = $this->explorerItemFactory->createForEntity($item);
-        if (!key_exists($model->getId(), $nodesArray)) {
-            $nodesArray[$model->getId()] = $model->toArray();
+        if (!key_exists((string) $model->getId(), $nodesArray)) {
+            $nodesArray[(string) $model->getId()] = $model->toArray();
         }
     }
 }

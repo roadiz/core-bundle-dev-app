@@ -48,16 +48,10 @@ final readonly class LogTrail
             $session->getFlashBag()->add($level, $msg);
         }
 
-        switch ($level) {
-            case 'error':
-            case 'danger':
-            case 'fail':
-                $this->logger->error($msg, ['entity' => $source]);
-                break;
-            default:
-                $this->logger->info($msg, ['entity' => $source]);
-                break;
-        }
+        match ($level) {
+            'error', 'danger', 'fail' => $this->logger->error($msg, ['entity' => $source]),
+            default => $this->logger->info($msg, ['entity' => $source]),
+        };
     }
 
     /**

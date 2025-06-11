@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\Documents\Models;
 
 use RZ\Roadiz\Documents\DocumentFolderGenerator;
-use Symfony\Component\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Attribute as Serializer;
 
 trait DocumentTrait
 {

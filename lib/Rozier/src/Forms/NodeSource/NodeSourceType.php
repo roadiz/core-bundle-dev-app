@@ -33,8 +33,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Count;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Type;
 use Themes\Rozier\Forms\GeoJsonType;
 use Themes\Rozier\Forms\NodeTreeType;
@@ -50,6 +53,7 @@ final class NodeSourceType extends AbstractType
     /**
      * @throws \ReflectionException
      */
+    #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $fields = $this->getFieldsForSource($builder->getData(), $options['nodeType']);
@@ -75,6 +79,7 @@ final class NodeSourceType extends AbstractType
         }
     }
 
+    #[\Override]
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -92,6 +97,7 @@ final class NodeSourceType extends AbstractType
         $resolver->setAllowedTypes('class', 'string');
     }
 
+    #[\Override]
     public function getBlockPrefix(): string
     {
         return 'source';
@@ -102,14 +108,10 @@ final class NodeSourceType extends AbstractType
      */
     private function getFieldsForSource(NodesSources $source, NodeType $nodeType): array
     {
-        $fields = $nodeType->getFields()->filter(function (NodeTypeField $field) {
-            return $field->isVisible();
-        });
+        $fields = $nodeType->getFields()->filter(fn (NodeTypeField $field) => $field->isVisible());
 
         if (!$this->needsUniversalFields($source)) {
-            $fields = $fields->filter(function (NodeTypeField $field) {
-                return !$field->isUniversal();
-            });
+            $fields = $fields->filter(fn (NodeTypeField $field) => !$field->isUniversal());
         }
 
         return $fields->toArray();
@@ -373,6 +375,26 @@ final class NodeSourceType extends AbstractType
             && FieldType::MANY_TO_MANY_T !== $field->getType()
         ) {
             $options['mapped'] = false;
+        }
+
+        if ($field->isRequired()) {
+            if (in_array($field->getType(), [
+                FieldType::DOCUMENTS_T,
+                FieldType::NODES_T,
+                FieldType::CUSTOM_FORMS_T,
+                FieldType::MANY_TO_MANY_T,
+            ])) {
+                $options['constraints'] = [
+                    new Count(min: 1),
+                    new NotNull(),
+                ];
+            }
+
+            if (FieldType::MANY_TO_ONE_T === $field->getType()) {
+                $options['constraints'] = [
+                    new NotBlank(),
+                ];
+            }
         }
 
         if (

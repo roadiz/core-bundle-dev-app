@@ -28,6 +28,7 @@ final class DocumentPdfMessageHandler extends AbstractLockingDocumentMessageHand
         parent::__construct($managerRegistry, $messengerLogger, $documentsStorage);
     }
 
+    #[\Override]
     protected function supports(DocumentInterface $document): bool
     {
         return $document->isLocal()
@@ -36,6 +37,7 @@ final class DocumentPdfMessageHandler extends AbstractLockingDocumentMessageHand
             && \class_exists('\ImagickException');
     }
 
+    #[\Override]
     protected function processMessage(AbstractDocumentMessage $message, DocumentInterface $document): void
     {
         /*

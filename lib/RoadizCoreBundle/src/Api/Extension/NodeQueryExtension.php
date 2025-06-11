@@ -22,6 +22,7 @@ final readonly class NodeQueryExtension implements QueryItemExtensionInterface, 
     ) {
     }
 
+    #[\Override]
     public function applyToItem(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
@@ -66,6 +67,7 @@ final readonly class NodeQueryExtension implements QueryItemExtensionInterface, 
         return;
     }
 
+    #[\Override]
     public function applyToCollection(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,

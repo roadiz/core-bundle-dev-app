@@ -118,9 +118,7 @@ trait AttributeValueTrait
     public function getAttributeValueDefaultTranslation(): ?AttributeValueTranslationInterface
     {
         return $this->getAttributeValueTranslations()
-            ->filter(function (AttributeValueTranslationInterface $attributeValueTranslation) {
-                return $attributeValueTranslation->getTranslation()?->isDefaultTranslation() ?? false;
-            })
+            ->filter(fn (AttributeValueTranslationInterface $attributeValueTranslation) => $attributeValueTranslation->getTranslation()?->isDefaultTranslation() ?? false)
             ->first() ?: null;
     }
 }

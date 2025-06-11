@@ -37,16 +37,16 @@ class OptionsCompiler
             $shortOptions['h'] = 'h'.(int) $this->options['height'];
         }
         if (null !== $this->options['crop']) {
-            $shortOptions['c'] = 'c'.strip_tags($this->options['crop']);
+            $shortOptions['c'] = 'c'.strip_tags((string) $this->options['crop']);
         }
         if ($this->options['blur'] > 0) {
             $shortOptions['l'] = 'l'.$this->options['blur'];
         }
         if (null !== $this->options['fit']) {
-            $shortOptions['f'] = 'f'.strip_tags($this->options['fit']);
+            $shortOptions['f'] = 'f'.strip_tags((string) $this->options['fit']);
         }
         if (null !== $this->options['flip']) {
-            $shortOptions['m'] = 'm'.trim(strip_tags($this->options['flip']));
+            $shortOptions['m'] = 'm'.trim(strip_tags((string) $this->options['flip']));
         }
         if ($this->options['rotate'] > 0) {
             $shortOptions['r'] = 'r'.$this->options['rotate'];
@@ -64,7 +64,7 @@ class OptionsCompiler
             $shortOptions['q'] = 'q'.$this->options['quality'];
         }
         if (null !== $this->options['background']) {
-            $shortOptions['b'] = 'b'.strip_tags($this->options['background']);
+            $shortOptions['b'] = 'b'.strip_tags((string) $this->options['background']);
         }
         if ($this->options['progressive']) {
             $shortOptions['p'] = 'p1';

@@ -25,6 +25,7 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
         parent::__construct();
     }
 
+    #[\Override]
     protected function populateParameters(): void
     {
         $cacheItem = null;
@@ -56,12 +57,14 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
     /**
      * @return array<int, NodeType>
      */
+    #[\Override]
     public function all(?string $key = null): array
     {
         return array_values(array_unique(parent::all($key)));
     }
 
     #[\ReturnTypeWillChange]
+    #[\Override]
     public function count(): int
     {
         return count($this->all());
@@ -72,9 +75,7 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
      */
     public function allVisible(bool $visible = true): array
     {
-        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($visible) {
-            return $nodeType->isVisible() === $visible;
-        }));
+        return array_values(array_filter($this->all(), fn (NodeType $nodeType) => $nodeType->isVisible() === $visible));
     }
 
     /**
@@ -82,9 +83,7 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
      */
     public function allReachable(bool $reachable = true): array
     {
-        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($reachable) {
-            return $nodeType->isReachable() === $reachable;
-        }));
+        return array_values(array_filter($this->all(), fn (NodeType $nodeType) => $nodeType->isReachable() === $reachable));
     }
 
     /**
@@ -92,8 +91,6 @@ final class NodeTypes extends LazyParameterBag implements NodeTypeResolverInterf
      */
     public function allPublishable(bool $publishable = true): array
     {
-        return array_values(array_filter($this->all(), function (NodeType $nodeType) use ($publishable) {
-            return $nodeType->isPublishable() === $publishable;
-        }));
+        return array_values(array_filter($this->all(), fn (NodeType $nodeType) => $nodeType->isPublishable() === $publishable));
     }
 }

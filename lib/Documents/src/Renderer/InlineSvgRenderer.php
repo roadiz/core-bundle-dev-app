@@ -19,6 +19,7 @@ class InlineSvgRenderer implements RendererInterface
         $this->viewOptionsResolver = new ViewOptionsResolver();
     }
 
+    #[\Override]
     public function supports(BaseDocumentInterface $document, array $options): bool
     {
         return $document->isLocal() && $document->isSvg() && (isset($options['inline']) && true === $options['inline']);
@@ -27,6 +28,7 @@ class InlineSvgRenderer implements RendererInterface
     /**
      * @throws FilesystemException
      */
+    #[\Override]
     public function render(BaseDocumentInterface $document, array $options): string
     {
         $options = $this->viewOptionsResolver->resolve($options);

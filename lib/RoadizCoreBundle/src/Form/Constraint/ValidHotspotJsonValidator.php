@@ -9,6 +9,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 
 final class ValidHotspotJsonValidator extends ConstraintValidator
 {
+    #[\Override]
     public function validate(mixed $value, Constraint $constraint): void
     {
         if (null === $value) {
