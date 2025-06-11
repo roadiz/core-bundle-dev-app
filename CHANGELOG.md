@@ -2,6 +2,14 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.20...v2.5.21) - 2025-06-11
+
+### Bug Fixes
+
+- **(CustomForm)** Use Batch processing to iterate on large custom-form answer list - ([3cfb6f7](https://github.com/roadiz/core-bundle-dev-app/commit/3cfb6f7b3a0b4b46b54e184a539772a944494186))
+- **(CustomForm)** Unused use statement - ([e2c2503](https://github.com/roadiz/core-bundle-dev-app/commit/e2c2503c1bf7e66ce3dae2c4d4c2035068f40a44))
+- **(CustomForm)** Display custom-form answer count instead of field count - ([5de1f02](https://github.com/roadiz/core-bundle-dev-app/commit/5de1f02a172dbee5b721c0db01fc5f594fff46ba))
+
 ## [2.5.20](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.19...v2.5.20) - 2025-06-06
 
 ### Bug Fixes
