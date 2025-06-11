@@ -3,7 +3,7 @@
 </td>
 <td class="mobile-hidden">{{ item.createdAt|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
 <td class="mobile-hidden">{{ item.closeDate|format_datetime('medium', 'short', locale=app.request.locale) }}</td>
-<td class="mobile-hidden"><div class="uk-badge uk-badge-table">{% transchoice item.customFormAnswers|length %}{0} no.customFormAnswers|{1} 1.customFormAnswers|]1,Inf] %count%.customFormAnswers{% endtranschoice %}</div></td>
+<td class="mobile-hidden"><div class="uk-badge uk-badge-table">{% transchoice item.customFormAnswers|length %}{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers{% endtranschoice %}</div></td>
 <td class="table-actions-row table-actions-row-6">
     {% apply spaceless %}
         {% if hasBulkActions %}
