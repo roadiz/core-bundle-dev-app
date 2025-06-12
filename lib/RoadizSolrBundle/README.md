@@ -46,7 +46,7 @@ return [
 
 ## Configuration
 
-### Variables `.env`
+### DotEnv variables
 
 ```dotenv
 ###> nelmio/solarium-bundle ###
@@ -61,8 +61,9 @@ SOLR_COLLECTION_REPLICATION_FACTOR=1
 
 ### Solarium config
 
-Update Solarium default **config**
+Update `nelmio/solarium-bundle` default **config**
 ```yaml
+# config/packages/nelmio_solarium.yaml
 nelmio_solarium:
     endpoints:
         default:
@@ -80,8 +81,9 @@ nelmio_solarium:
 
 ### Api Resources
 
-Add Solarium end point into your **api resources**
+Add `api_nodes_sources_search` API operation to expose `NodesSourcesSearchController`
 ```yaml
+# config/api_resources/nodes_sources.yml
 resources:
     RZ\Roadiz\CoreBundle\Entity\NodesSources:
         operations:
@@ -116,8 +118,9 @@ resources:
 
 ### Monolog
 
-Add Solarium handler to monolog config
+Add a solr handler to your monolog config if you want to separate its logs in a different file.
 ```yaml
+# config/packages/monolog.yaml
 monolog:
     handlers:
         solr:
@@ -127,9 +130,9 @@ monolog:
             channels: ["searchEngine"]
 ```
 
-### Cron reindex
+### Crontab
 
-One suggestion is to add a cron to index solr
+You can add a crontab entry to reindex all your website content every day at midnight:
 ```text
 0 0 * * *    /usr/local/bin/php -d memory_limit=-1 /app/bin/console solr:reindex --no-debug -n -q
 ```
