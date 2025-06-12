@@ -32,4 +32,7 @@ return RectorConfig::configure()
         DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
         SymfonySetList::ANNOTATIONS_TO_ATTRIBUTES,
     ])
+    ->withSkip([
+        __DIR__.'/lib/Rozier/src/node_modules/',
+    ])
 ;
