@@ -9,6 +9,7 @@ sortingAttributesByWeight: false
 reachable: true
 hidingNodes: false
 hidingNonReachableNodes: true
+highlighted: true
 fields:
     -
         name: sub_title

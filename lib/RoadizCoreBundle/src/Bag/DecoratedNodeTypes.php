@@ -85,6 +85,14 @@ final class DecoratedNodeTypes extends LazyParameterBag implements NodeTypeResol
     /**
      * @return array<int, NodeType>
      */
+    public function allHighlighted(bool $highlighted = true): array
+    {
+        return array_values(array_filter($this->all(), fn (NodeType $nodeType) => $nodeType->isHighlighted() === $highlighted));
+    }
+
+    /**
+     * @return array<int, NodeType>
+     */
     public function allSorted(?string $sort = 'ASC'): array
     {
         $nodeTypes = $this->all();

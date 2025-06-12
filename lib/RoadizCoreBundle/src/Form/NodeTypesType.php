@@ -24,7 +24,7 @@ final class NodeTypesType extends AbstractType
             'showInvisible' => false,
             'currentType' => null,
             // Hard-code the most used node-type here
-            'preferred_choices' => ['Page'],
+            'preferred_choices' => array_map(fn (NodeType $nodeType) => $nodeType->getName(), $this->nodeTypesBag->allHighlighted()),
         ]);
         $resolver->setAllowedTypes('showInvisible', ['boolean']);
         $resolver->setAllowedTypes('currentType', ['null', NodeType::class]);

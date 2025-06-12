@@ -1326,6 +1326,7 @@
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.display_name"><source>nodeTypeDecorator.property.display_name</source><note>Property value label for node type display name</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.description"><source>nodeTypeDecorator.property.description</source><note>Property value label for node type description</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.color"><source>nodeTypeDecorator.property.color</source><note>Property value label for node type color</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.highlighted"><source>nodeTypeDecorator.property.highlighted</source><note>Property value label for node type highlighted</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_label"><source>nodeTypeDecorator.property.field_label</source><note>Property value label for node type field label</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_universal"><source>nodeTypeDecorator.property.field_universal</source><note>Property value label for node type field universal</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_description"><source>nodeTypeDecorator.property.field_description</source><note>Property value label for node type field description</note></trans-unit>

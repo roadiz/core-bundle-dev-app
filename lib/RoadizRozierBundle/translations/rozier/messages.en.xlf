@@ -5027,6 +5027,11 @@
         <target state="final">Color</target>
         <note>Property value label for node type color</note>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.highlighted" approved="yes">
+        <source>nodeTypeDecorator.property.highlighted</source>
+        <target state="final">Highlighted</target>
+        <note>Property value label for node type highlighted</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_label" approved="yes">
         <source>nodeTypeDecorator.property.field_label</source>
         <target state="final">Label</target>
