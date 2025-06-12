@@ -439,6 +439,7 @@ final class NodeType implements NodeTypeInterface, \Stringable
     public function setHighlighted(bool $highlighted): NodeType
     {
         $this->highlighted = $highlighted;
+
         return $this;
     }
 
