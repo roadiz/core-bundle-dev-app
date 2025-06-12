@@ -103,6 +103,13 @@ final class NodeType implements NodeTypeInterface, \Stringable
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
     ]
     private bool $searchable = true;
+    /**
+     * Define if this node type is allowed in the first position in node-type selector on node creation.
+     */
+    #[
+        SymfonySerializer\Groups(['node_type', 'node_type:import']),
+    ]
+    private bool $highlight = false;
 
     public function __construct()
     {
@@ -421,6 +428,17 @@ final class NodeType implements NodeTypeInterface, \Stringable
     {
         $this->sortingAttributesByWeight = $sortingAttributesByWeight;
 
+        return $this;
+    }
+
+    public function isHighlight(): bool
+    {
+        return $this->highlight;
+    }
+
+    public function setHighlight(bool $highlight): NodeType
+    {
+        $this->highlight = $highlight;
         return $this;
     }
 
