@@ -109,7 +109,7 @@ final class NodeType implements NodeTypeInterface, \Stringable
     #[
         SymfonySerializer\Groups(['node_type', 'node_type:import']),
     ]
-    private bool $highlight = false;
+    private bool $highlighted = false;
 
     public function __construct()
     {
@@ -431,14 +431,14 @@ final class NodeType implements NodeTypeInterface, \Stringable
         return $this;
     }
 
-    public function isHighlight(): bool
+    public function isHighlighted(): bool
     {
-        return $this->highlight;
+        return $this->highlighted;
     }
 
-    public function setHighlight(bool $highlight): NodeType
+    public function setHighlighted(bool $highlighted): NodeType
     {
-        $this->highlight = $highlight;
+        $this->highlighted = $highlighted;
         return $this;
     }
 

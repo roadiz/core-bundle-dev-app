@@ -13,7 +13,7 @@ enum NodeTypeDecoratorProperty: string
     // String Value
     case NODE_TYPE_COLOR = 'color';
     // Boolean Value
-    case NODE_TYPE_HIGHLIGHT = 'highlight';
+    case NODE_TYPE_HIGHLIGHTED = 'highlighted';
     // String Value
     case NODE_TYPE_FIELD_LABEL = 'field_label';
     // Boolean Value
@@ -35,7 +35,7 @@ enum NodeTypeDecoratorProperty: string
             self::NODE_TYPE_DISPLAY_NAME->value,
             self::NODE_TYPE_DESCRIPTION->value,
             self::NODE_TYPE_COLOR->value,
-            self::NODE_TYPE_HIGHLIGHT->value,
+            self::NODE_TYPE_HIGHLIGHTED->value,
         ], true);
     }
 
@@ -64,7 +64,7 @@ enum NodeTypeDecoratorProperty: string
         return in_array($this->value, [
             self::NODE_TYPE_FIELD_UNIVERSAL->value,
             self::NODE_TYPE_FIELD_VISIBLE->value,
-            self::NODE_TYPE_HIGHLIGHT->value,
+            self::NODE_TYPE_HIGHLIGHTED->value,
         ], true);
     }
 }
