@@ -1,6 +1,7 @@
-<!-- Inline template for this component -->
-<!-- Template: widgets/nodesSourcesSearch.html.twig -->
 <script>
+// Inline template for this component
+// Template: widgets/nodesSourcesSearch.html.twig
+
 import { mapState, mapActions } from 'vuex'
 import { debounce } from 'lodash'
 

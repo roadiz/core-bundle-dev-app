@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
     <transition name="fade-in">
         <li class="item" v-if="item">
             <a
