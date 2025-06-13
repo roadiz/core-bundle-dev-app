@@ -165,7 +165,6 @@ if (null !== \${$this->field->getVarName()}) {
         }
         \$proxyEntity->{$this->getProxyRelationSetterName()}(\$single{$ucFieldVarName});
         \$this->{$this->getProxiedVarName()}->add(\$proxyEntity);
-        \$this->objectManager->persist(\$proxyEntity);
     }
 }
 
@@ -224,9 +223,8 @@ EOF
 \${$this->getProxiedVarName()}Clone = new \Doctrine\Common\Collections\ArrayCollection();
 foreach (\$this->{$this->getProxiedVarName()} as \$item) {
     \$itemClone = clone \$item;
-    \$itemClone->setNodeSource(\$this);
+    \$itemClone->{$this->getProxySelfSetterName()}(\$this);
     \${$this->getProxiedVarName()}Clone->add(\$itemClone);
-    \$this->objectManager->persist(\$itemClone);
 }
 \$this->{$this->getProxiedVarName()} = \${$this->getProxiedVarName()}Clone;
 PHP;
