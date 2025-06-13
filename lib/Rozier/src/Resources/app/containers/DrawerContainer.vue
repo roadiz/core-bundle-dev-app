@@ -1,5 +1,6 @@
-<!-- Inline template 'views/widgets/drawer.html.twig' -->
 <script>
+// Inline template 'views/widgets/drawer.html.twig'
+
 import Vue from 'vue'
 import { mapActions, mapState } from 'vuex'
 import { DRAWERS_UPDATE_LIST } from '../types/mutationTypes'
