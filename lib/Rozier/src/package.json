@@ -48,7 +48,6 @@
     "jquery-ui": "^1.12.1",
     "leaflet": "^1.4.0",
     "lodash": "^4.17.13",
-    "mousetrap": "^1.6.5",
     "symfony-collection": "^2.1.26",
     "uikit": "2.27.4",
     "vue": "2.5.9",

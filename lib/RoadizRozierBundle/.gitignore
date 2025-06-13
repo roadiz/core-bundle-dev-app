@@ -125,3 +125,8 @@ modules.xml
 /report.txt
 /composer.lock
 /symfony.lock
+
+###> symfony/asset-mapper ###
+/public/static/
+/static/vendor/
+###< symfony/asset-mapper ###

@@ -94,12 +94,17 @@
                 </form>
             </div>
             {% if joinFolderForm %}
-            <div id="documents-bulk-folder-cont" class="bulk-group bulk-folder-cont documents-bulk-folder-cont">
+            <folder-autocomplete
+                id="documents-bulk-folder-cont"
+                class="bulk-group bulk-folder-cont documents-bulk-folder-cont"
+                data-search-path="{{ path('foldersAjaxSearch') }}"
+                data-csrf-token="{{ csrf_token(constant('Themes\\Rozier\\AjaxControllers\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}"
+            >
                 {% form_theme joinFolderForm '@RoadizRozier/horizontalForms.html.twig' %}
                 {{ form_start(joinFolderForm, { attr: {id: "embed-dropzone-document"}}) }}
                     {{ form_widget(joinFolderForm) }}
                 {{ form_end(joinFolderForm) }}
-            </div>
+            </folder-autocomplete>
             {% endif %}
             {% endapply %}
         </nav>

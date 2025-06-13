@@ -16,7 +16,7 @@
         {% include '@RoadizRozier/tags/translationBar.html.twig' with {"tag": tag, "current":translation.getId } %}
     </header>
 
-    <article class="content content-tag-edit">
+    <tag-edit-page class="content content-tag-edit">
         {% if readOnly %}
             <div class="uk-alert uk-alert-warning" data-uk-alert>
                 <a href="{{ path('tagsEditTranslatedPage', {
@@ -59,7 +59,7 @@
                 {% endif %}
             </fieldset>
         {{ form_end(form) }}
-    </article>
+    </tag-edit-page>
 
     {% include '@RoadizRozier/tags/actionsMenu.html.twig' %}
 </section>

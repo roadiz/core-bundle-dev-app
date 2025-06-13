@@ -61,9 +61,7 @@
                         {% block permanentComponents %}
                             <overlay data-vuejs></overlay>
                         {% endblock %}
-                        {% block content %}
-                            <h1>{% trans %}Welcome{% endtrans %}</h1>
-                        {% endblock %}
+                        {% block content %}{% endblock %}
                     </div>
                     <div id="canvasloader-container"></div>
                     <div id="back-top-button"
@@ -226,6 +224,9 @@
 
         {# JS scripts inclusions / Using webpack #}
         {% include '@RoadizRozier/partials/js-inject.html.twig' %}
+
+        {% block importmap %}{{ importmap('bundles/roadizrozier') }}{% endblock %}
+        <script type="module" src="{{ asset('bundles/roadizrozier/app.js') }}"></script>
 
         {% block customScripts %}{% endblock %}
         {% if additionalScripts %}
