@@ -2,6 +2,18 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.22...v2.5.23) - 2025-06-13
+
+### Bug Fixes
+
+- **(EntityGenerator)** Fixed proxied many-to-many relationship removing unnecessary persist() and use getProxiedVarName method - ([d1b76e2](https://github.com/roadiz/core-bundle-dev-app/commit/d1b76e2b60aa675fdbd9dd8ff51079fb53896145))
+
+## [2.5.22](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.21...v2.5.22) - 2025-06-11
+
+### Bug Fixes
+
+- **(CustomForm)** Fixed translation key - ([0e2f26e](https://github.com/roadiz/core-bundle-dev-app/commit/0e2f26e37a891830e6583472c4954ac01ee622b6))
+
 ## [2.5.21](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.20...v2.5.21) - 2025-06-11
 
 ### Bug Fixes

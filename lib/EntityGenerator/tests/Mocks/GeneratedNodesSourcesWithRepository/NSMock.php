@@ -728,7 +728,6 @@ class NSMock extends NodesSources
                 }
                 $proxyEntity->setCity($singleEventReferencesProxied);
                 $this->eventReferencesProxiedProxy->add($proxyEntity);
-                $this->objectManager->persist($proxyEntity);
             }
         }
 
@@ -1082,7 +1081,6 @@ class NSMock extends NodesSources
                 }
                 $proxyEntity->setCity($singleFooManyToManyProxied);
                 $this->fooManyToManyProxiedProxy->add($proxyEntity);
-                $this->objectManager->persist($proxyEntity);
             }
         }
 
@@ -1110,7 +1108,6 @@ class NSMock extends NodesSources
             $itemClone = clone $item;
             $itemClone->setNodeSource($this);
             $eventReferencesProxiedProxyClone->add($itemClone);
-            $this->objectManager->persist($itemClone);
         }
         $this->eventReferencesProxiedProxy = $eventReferencesProxiedProxyClone;
 
@@ -1128,7 +1125,6 @@ class NSMock extends NodesSources
             $itemClone = clone $item;
             $itemClone->setNodeSource($this);
             $fooManyToManyProxiedProxyClone->add($itemClone);
-            $this->objectManager->persist($itemClone);
         }
         $this->fooManyToManyProxiedProxy = $fooManyToManyProxiedProxyClone;
     }
