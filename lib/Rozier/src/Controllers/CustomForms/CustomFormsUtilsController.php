@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers\CustomForms;
 
 use Doctrine\Persistence\ManagerRegistry;
-use PhpOffice\PhpSpreadsheet\Exception;
 use RZ\Roadiz\CoreBundle\CustomForm\CustomFormAnswerSerializer;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
+use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,9 +33,6 @@ final class CustomFormsUtilsController extends AbstractController
 
     /**
      * Export all custom form's answers in a CSV file.
-     *
-     * @throws Exception
-     * @throws \PhpOffice\PhpSpreadsheet\Writer\Exception
      */
     public function exportAction(Request $request, int $id): Response
     {
@@ -44,11 +41,13 @@ final class CustomFormsUtilsController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $answers = $customForm->getCustomFormAnswers();
-        $answersArray = [];
-        foreach ($answers as $key => $answer) {
-            $answersArray[$key] = $this->customFormAnswerSerializer->toSimpleArray($answer);
-        }
+        $query = $this->managerRegistry
+            ->getRepository(CustomFormAnswer::class)
+            ->createQueryBuilder('cfa')
+            ->where('cfa.customForm = :customForm')
+            ->setParameter('customForm', $customForm)
+            ->orderBy('cfa.submittedAt', 'DESC')
+            ->getQuery();
 
         $fields = $customForm->getFieldsLabels();
         $keys = [
@@ -57,13 +56,19 @@ final class CustomFormsUtilsController extends AbstractController
             ...$fields,
         ];
 
-        $response = new StreamedResponse(function () use ($answersArray, $keys) {
+        $response = new StreamedResponse(function () use ($query, $keys) {
+            $answersArray = [];
+            foreach ($query->toIterable() as $row) {
+                // do stuff with the data in the row
+                $answersArray[] = $this->customFormAnswerSerializer->toSimpleArray($row);
+            }
+
             echo $this->serializer->serialize($answersArray, 'csv', [
                 ...$this->csvEncoderOptions,
                 'csv_headers' => $keys,
             ]);
         });
-        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Type', 'text/csv; charset=UTF-8');
         $response->headers->set(
             'Content-Disposition',
             $response->headers->makeDisposition(
