@@ -93,14 +93,12 @@
     "url-loader": "^0.5.8",
     "vite": "^6.3.5",
     "vite-plugin-static-copy": "^3.0.0",
+    "vite-plugin-symfony": "^8.1.1",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "2.5.9"
   },
   "engines": {
     "node": "^22"
-  },
-  "browserslist": [
-    "last 1 versions"
-  ]
+  }
 }
