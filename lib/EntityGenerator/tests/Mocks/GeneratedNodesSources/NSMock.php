@@ -779,7 +779,6 @@ class NSMock extends NodesSources
                 }
                 $proxyEntity->setCity($singleFooMtmRequired);
                 $this->fooMtmRequiredProxy->add($proxyEntity);
-                $this->objectManager->persist($proxyEntity);
             }
         }
 
@@ -1116,7 +1115,6 @@ class NSMock extends NodesSources
             $itemClone = clone $item;
             $itemClone->setNodeSource($this);
             $fooMtmRequiredProxyClone->add($itemClone);
-            $this->objectManager->persist($itemClone);
         }
         $this->fooMtmRequiredProxy = $fooMtmRequiredProxyClone;
 
