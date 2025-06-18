@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
     {# CSS scripts inclusions / Using webpack #}
-    {% include '@RoadizRozier/partials/css-inject.html.twig' %}
+    {{ manifest_style_tag('main') }}
     {% if main_color %}
         <style>
             :root {
@@ -44,7 +44,7 @@
     <script src="{{ asset('vendor/jquery.min.js', 'Rozier') }}"></script>
 {% endif %}
 {# JS scripts inclusions / Using webpack #}
-{% include '@RoadizRozier/partials/simple-js-inject.html.twig' %}
+{{ manifest_script_tag('simple') }}}
 {% block customScripts %}{% endblock %}
 </body>
 </html>

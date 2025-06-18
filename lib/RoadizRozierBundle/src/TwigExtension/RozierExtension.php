@@ -10,6 +10,8 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\StackType;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use Symfony\Component\Asset\Package;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Themes\Rozier\RozierServiceRegistry;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
@@ -20,6 +22,10 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     public function __construct(
         private readonly RozierServiceRegistry $rozierServiceRegistry,
         private readonly DecoratedNodeTypes $nodeTypesBag,
+        #[Autowire(param: 'roadiz_rozier.manifest_path')]
+        private readonly string $manifestPath,
+        #[Autowire(service: 'roadiz_rozier.assets._package.Rozier')]
+        private readonly Package $rozierPackage,
     ) {
     }
 
@@ -47,7 +53,56 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     {
         return [
             new TwigFunction('getNodeType', $this->getNodeType(...)),
+            new TwigFunction('manifest_script_tag', $this->getManifestScriptTag(...), ['is_safe' => ['html']]),
+            new TwigFunction('manifest_style_tag', $this->getManifestStyleTag(...), ['is_safe' => ['html']]),
         ];
+    }
+
+    public function getManifestScriptTag(string $name): string
+    {
+        if (!file_exists($this->manifestPath)) {
+            throw new \RuntimeException(sprintf('%s manifest not found', $this->manifestPath));
+        }
+
+        $manifest = json_decode(file_get_contents($this->manifestPath), true);
+        foreach ($manifest as $value) {
+            if (is_array($value)
+                && isset($value['name'])
+                && isset($value['file'])
+                && $value['name'] === $name
+            ) {
+                return sprintf(
+                    '<script async src="%s"></script>',
+                    htmlspecialchars($this->rozierPackage->getUrl($value['file']), ENT_QUOTES, 'UTF-8')
+                );
+            }
+        }
+
+        throw new \RuntimeException(sprintf('%s file not found in manifest.json', $name));
+    }
+
+    public function getManifestStyleTag(string $name): string
+    {
+        if (!file_exists($this->manifestPath)) {
+            throw new \RuntimeException(sprintf('%s manifest not found', $this->manifestPath));
+        }
+
+        $manifest = json_decode(file_get_contents($this->manifestPath), true);
+        foreach ($manifest as $value) {
+            if (is_array($value)
+                && isset($value['name'])
+                && isset($value['css'])
+                && is_array($value['css'])
+                && $value['name'] === $name
+            ) {
+                return implode('', array_map(fn ($cssFile) => sprintf(
+                    '<link rel="stylesheet" href="%s">',
+                    htmlspecialchars($this->rozierPackage->getUrl($cssFile), ENT_QUOTES, 'UTF-8')
+                ), $value['css']));
+            }
+        }
+
+        throw new \RuntimeException(sprintf('%s file not found in manifest.json', $name));
     }
 
     public function getNodeType(mixed $object): ?NodeType

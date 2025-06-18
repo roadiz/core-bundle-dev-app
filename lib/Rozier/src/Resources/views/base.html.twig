@@ -10,7 +10,7 @@
         {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
 
         {# CSS scripts inclusions / Using webpack #}
-        {% include '@RoadizRozier/partials/css-inject.html.twig' %}
+        {{ manifest_style_tag('main') }}
 
         {% if main_color %}
             <style>
@@ -25,7 +25,7 @@
         {% block customStyles %}{% endblock %}
         {% if additionalStylesheets %}
             {% for additionalStylesheet in additionalStylesheets %}
-                <link rel="stylesheet" href="{{ additionalStylesheet.path }}" />
+                <link rel="stylesheet" href="{{ additionalStylesheet.path }}">
             {% endfor %}
         {% endif %}
     </head>
@@ -220,8 +220,7 @@
             <script src="{{ asset('vendor/jquery.min.js', 'Rozier') }}"></script>
         {% endif %}
 
-        {# JS scripts inclusions / Using webpack #}
-        {% include '@RoadizRozier/partials/js-inject.html.twig' %}
+        {{ manifest_script_tag('main') }}
 
         {% block customScripts %}{% endblock %}
         {% if additionalScripts %}

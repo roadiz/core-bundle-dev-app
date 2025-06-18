@@ -33,6 +33,10 @@ class RoadizRozierExtension extends Extension
             'roadiz_rozier.theme_dir',
             $projectDir.DIRECTORY_SEPARATOR.trim((string) $config['theme_dir'], "/ \t\n\r\0\x0B")
         );
+        $container->setParameter(
+            'roadiz_rozier.manifest_path',
+            $projectDir.DIRECTORY_SEPARATOR.trim((string) $config['manifest_path'], "/ \t\n\r\0\x0B")
+        );
 
         $container->setParameter(
             'roadiz_rozier.csv_encoder_options',
