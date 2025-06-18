@@ -58,13 +58,18 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
         ];
     }
 
-    public function getManifestScriptTag(string $name): string
+    private function getManifest(): array
     {
         if (!file_exists($this->manifestPath)) {
             throw new \RuntimeException(sprintf('%s manifest not found', $this->manifestPath));
         }
+        return json_decode(file_get_contents($this->manifestPath), true, flags: JSON_THROW_ON_ERROR);
+    }
 
-        $manifest = json_decode(file_get_contents($this->manifestPath), true);
+    public function getManifestScriptTag(string $name): string
+    {
+        $manifest = $this->getManifest();
+
         foreach ($manifest as $value) {
             if (is_array($value)
                 && isset($value['name'])
@@ -72,7 +77,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
                 && $value['name'] === $name
             ) {
                 return sprintf(
-                    '<script async src="%s"></script>',
+                    '<script async type="module" src="%s"></script>',
                     htmlspecialchars($this->rozierPackage->getUrl($value['file']), ENT_QUOTES, 'UTF-8')
                 );
             }
@@ -83,11 +88,8 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
 
     public function getManifestStyleTag(string $name): string
     {
-        if (!file_exists($this->manifestPath)) {
-            throw new \RuntimeException(sprintf('%s manifest not found', $this->manifestPath));
-        }
+        $manifest = $this->getManifest();
 
-        $manifest = json_decode(file_get_contents($this->manifestPath), true);
         foreach ($manifest as $value) {
             if (is_array($value)
                 && isset($value['name'])
