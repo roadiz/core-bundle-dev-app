@@ -10,7 +10,8 @@
         {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
 
         {# CSS scripts inclusions / Using webpack #}
-        {{ manifest_style_tag('main') }}
+        {{ manifest_preload_tags('main') }}
+        {{ manifest_style_tags('main') }}
 
         {% if main_color %}
             <style>
@@ -220,7 +221,7 @@
             <script src="{{ asset('vendor/jquery.min.js', 'Rozier') }}"></script>
         {% endif %}
 
-        {{ manifest_script_tag('main') }}
+        {{ manifest_script_tags('main') }}
 
         {% block customScripts %}{% endblock %}
         {% if additionalScripts %}
