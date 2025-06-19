@@ -6,7 +6,6 @@ parameters:
     env(OPEN_ID_CLIENT_SECRET): ''
 roadiz_rozier:
     theme_dir: 'lib/Rozier/src'
-    manifest_path: 'lib/Rozier/src/static/manifest.json'
     csv_encoder_options:
         csv_delimiter: ';'
     open_id:

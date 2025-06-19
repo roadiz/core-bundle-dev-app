@@ -13,7 +13,7 @@ final readonly class JsonManifestResolver
     public function __construct(
         #[Autowire(param: 'roadiz_rozier.manifest_path')]
         private readonly string $manifestPath,
-        #[Autowire(service: 'roadiz_rozier.assets._package.Rozier')]
+        #[Autowire(service: 'assets._default_package')]
         private readonly Package $rozierPackage,
         private CacheItemPoolInterface $cache,
     ) {

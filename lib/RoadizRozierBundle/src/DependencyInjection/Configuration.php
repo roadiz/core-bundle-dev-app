@@ -24,7 +24,7 @@ final class Configuration implements ConfigurationInterface
                     'vendor/roadiz/rozier/src'
                 )->info('Relative path to Rozier theme sources from project directory.')->end()
                 ->scalarNode('manifest_path')->defaultValue(
-                    'vendor/roadiz/rozier/src/static/manifest.json'
+                    'public/bundles/roadizrozier/manifest.json'
                 )->info('Relative path to Rozier theme manifest.json.')->end()
                 ->scalarNode('add_node_form')->defaultValue(AddNodeType::class)->end()
                 ->arrayNode('entries')
