@@ -1,12 +1,4 @@
 {
-  "Resources/app/assets/img/spritemap.png": {
-    "file": "spritemap-CP-4snSC.png",
-    "src": "Resources/app/assets/img/spritemap.png"
-  },
-  "Resources/app/assets/img/spritemap@2x.png": {
-    "file": "spritemap@2x-Bd7qNsVN.png",
-    "src": "Resources/app/assets/img/spritemap@2x.png"
-  },
   "Resources/app/fonts/fa-brands-400.woff": {
     "file": "fa-brands-400-llyXKB-1.woff",
     "src": "Resources/app/fonts/fa-brands-400.woff"
@@ -31,16 +23,26 @@
     "file": "rz-icons-BSa7Mah2.woff2",
     "src": "Resources/app/fonts/rz-icons.woff2"
   },
+  "Resources/app/img/spritemap.png": {
+    "file": "spritemap-CP-4snSC.png",
+    "src": "Resources/app/img/spritemap.png"
+  },
+  "Resources/app/img/spritemap@2x.png": {
+    "file": "spritemap@2x-Bd7qNsVN.png",
+    "src": "Resources/app/img/spritemap@2x.png"
+  },
   "Resources/app/main.js": {
-    "file": "main-I1pzfl6E.js",
+    "file": "main-BbjKPGWu.js",
     "name": "main",
     "src": "Resources/app/main.js",
     "isEntry": true,
     "imports": [
-      "_tooltip-Cu-wci1l.js"
+      "_tooltip-CUqQX7jt.js",
+      "_jquery-5sAwpjfl.js",
+      "_vue-YhlLoeNc.js"
     ],
     "css": [
-      "main-Gr0e_ph3.css"
+      "main-ihuzfnDy.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",
@@ -57,17 +59,29 @@
     ]
   },
   "Resources/app/simple.js": {
-    "file": "simple-CCUj9oJj.js",
+    "file": "simple-C3Yc9HjR.js",
     "name": "simple",
     "src": "Resources/app/simple.js",
     "isEntry": true,
     "imports": [
-      "_tooltip-Cu-wci1l.js"
+      "_tooltip-CUqQX7jt.js",
+      "_jquery-5sAwpjfl.js"
     ]
   },
-  "_tooltip-Cu-wci1l.js": {
-    "file": "tooltip-Cu-wci1l.js",
-    "name": "tooltip"
+  "_jquery-5sAwpjfl.js": {
+    "file": "jquery-5sAwpjfl.js",
+    "name": "jquery"
+  },
+  "_tooltip-CUqQX7jt.js": {
+    "file": "tooltip-CUqQX7jt.js",
+    "name": "tooltip",
+    "imports": [
+      "_jquery-5sAwpjfl.js"
+    ]
+  },
+  "_vue-YhlLoeNc.js": {
+    "file": "vue-YhlLoeNc.js",
+    "name": "vue"
   },
   "node_modules/uikit/dist/fonts/fontawesome-webfont.ttf": {
     "file": "fontawesome-webfont-CQDK8MU3.ttf",
