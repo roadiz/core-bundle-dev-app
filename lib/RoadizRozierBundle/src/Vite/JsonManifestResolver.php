@@ -5,16 +5,15 @@ declare(strict_types=1);
 namespace RZ\Roadiz\RozierBundle\Vite;
 
 use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\Asset\Package;
+use Symfony\Component\Asset\Packages;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final readonly class JsonManifestResolver
 {
     public function __construct(
         #[Autowire(param: 'roadiz_rozier.manifest_path')]
-        private readonly string $manifestPath,
-        #[Autowire(service: 'assets._default_package')]
-        private readonly Package $rozierPackage,
+        private string $manifestPath,
+        private Packages $packages,
         private CacheItemPoolInterface $cache,
     ) {
     }
@@ -31,6 +30,7 @@ final readonly class JsonManifestResolver
         }
         $cacheItem->set(\json_decode(file_get_contents($this->manifestPath), true, flags: JSON_THROW_ON_ERROR));
         $this->cache->save($cacheItem);
+
         return $cacheItem->get();
     }
 
@@ -47,15 +47,23 @@ final readonly class JsonManifestResolver
                 return $value;
             }
         }
+
         return null;
+    }
+
+    private function getBundlePrefixedPath(string $path): string
+    {
+        // Ensure the path is prefixed with 'bundles/roadizrozier'
+        return $this->packages->getUrl('/bundles/roadizrozier/'.$path);
     }
 
     public function getEntrypointCssFiles(string $name = 'main'): array
     {
         $entrypoint = $this->getEntrypoint($name);
         if (null !== $entrypoint && isset($entrypoint['css']) && is_array($entrypoint['css'])) {
-            return array_map(fn ($cssFile) => $this->rozierPackage->getUrl($cssFile), $entrypoint['css']);
+            return array_map(fn ($cssFile) => $this->getBundlePrefixedPath($cssFile), $entrypoint['css']);
         }
+
         return [];
     }
 
@@ -64,7 +72,7 @@ final readonly class JsonManifestResolver
         $entrypoint = $this->getEntrypoint($name);
         if (null !== $entrypoint && isset($entrypoint['assets']) && is_array($entrypoint['assets'])) {
             return array_map(fn ($preloadFile) => [
-                'href' => $this->rozierPackage->getUrl($preloadFile),
+                'href' => $this->getBundlePrefixedPath($preloadFile),
                 // match file extension to determine the type
                 'as' => match (pathinfo($preloadFile, PATHINFO_EXTENSION)) {
                     'js', 'mjs' => 'script',
@@ -75,6 +83,7 @@ final readonly class JsonManifestResolver
                 },
             ], $entrypoint['assets']);
         }
+
         return [];
     }
 
@@ -83,12 +92,13 @@ final readonly class JsonManifestResolver
         $entrypoint = $this->getEntrypoint($name);
         if (null !== $entrypoint && isset($entrypoint['file'])) {
             if (is_string($entrypoint['file'])) {
-                return [$this->rozierPackage->getUrl($entrypoint['file'])];
+                return [$this->getBundlePrefixedPath($entrypoint['file'])];
             }
             if (is_array($entrypoint['file'])) {
-                return array_map(fn ($file) => $this->rozierPackage->getUrl($file), $entrypoint['file']);
+                return array_map(fn ($file) => $this->getBundlePrefixedPath($file), $entrypoint['file']);
             }
         }
+
         return [];
     }
 }

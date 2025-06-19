@@ -22,7 +22,6 @@ class RoadizRozierBundle extends Bundle
     {
         parent::build($container);
 
-        $container->addCompilerPass(new RozierPathsCompilerPass());
         $container->addCompilerPass(new JwtRoleStrategyCompilerPass());
     }
 }

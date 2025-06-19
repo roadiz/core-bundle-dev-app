@@ -39,11 +39,7 @@
         }
     };
 </script>
-{% if app.debug %}
-    <script src="{{ asset('vendor/jquery.js', 'Rozier') }}"></script>
-{% else %}
-    <script src="{{ asset('vendor/jquery.min.js', 'Rozier') }}"></script>
-{% endif %}
+<script src="{{ asset('/bundles/roadizrozier/vendor/jquery.min.js') }}"></script>
 {# JS scripts inclusions / Using webpack #}
 {{ manifest_script_tags('simple') }}}
 {% block customScripts %}{% endblock %}
