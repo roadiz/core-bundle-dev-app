@@ -70,6 +70,7 @@
 
 // Components
 import DrawerContainer from './DrawerContainer.vue'
+import { mapState } from 'vuex'
 import RzTextarea from '../components/RzTextarea.vue'
 
 export default {
