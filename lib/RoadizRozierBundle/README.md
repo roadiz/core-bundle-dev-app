@@ -45,28 +45,10 @@ return [
 ];
 ```
 
-### Step 3: Generate the assets import-map
-
-```shell
-bin/console importmap:require "bundles/roadizrozier" --entrypoint --path=./vendor/roadiz/rozier-bundle/static/app.js
-```
-
 ## Configuration
 
 - Copy `config/packages/roadiz_rozier.yaml` to your Symfony app `config/packages` folder.
 - Disable Twig `strict_variables`
-- Add `asset_mapper` path
-```yaml
-# config/packages/asset_mapper.yaml
-framework:
-    asset_mapper:
-        # The paths to make available to the asset mapper.
-        # https://symfony.com/doc/current/frontend/asset_mapper.html#framework-asset-mapper-paths
-        paths:
-            vendor/roadiz/rozier-bundle/static/: 'bundles/roadizrozier'
-        missing_import_mode: strict
-        public_prefix: '/static/'
-```
 - Add custom `security` configuration:
 ```yaml
 # config/packages/security.yaml

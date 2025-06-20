@@ -212,11 +212,8 @@
                 }
             };
         </script>
-        
-        {{ manifest_script_tags('main') }}
 
-        {% block importmap %}{{ importmap('bundles/roadizrozier') }}{% endblock %}
-        <script type="module" src="{{ asset('bundles/roadizrozier/app.js') }}"></script>
+        {{ manifest_script_tags('main') }}
 
         {% block customScripts %}{% endblock %}
         {% if additionalScripts %}
