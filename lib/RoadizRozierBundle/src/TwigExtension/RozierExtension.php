@@ -59,7 +59,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     {
         return implode('', array_map(fn ($cssFilePath) => sprintf(
             '<script async type="module" src="%s"></script>',
-            htmlspecialchars($cssFilePath, ENT_QUOTES, 'UTF-8')
+            htmlspecialchars((string) $cssFilePath, ENT_QUOTES, 'UTF-8')
         ), $this->manifestResolver->getEntrypointScriptFiles($name)));
     }
 
@@ -67,7 +67,7 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     {
         return implode('', array_map(fn ($cssFilePath) => sprintf(
             '<link rel="stylesheet" href="%s">',
-            htmlspecialchars($cssFilePath, ENT_QUOTES, 'UTF-8')
+            htmlspecialchars((string) $cssFilePath, ENT_QUOTES, 'UTF-8')
         ), $this->manifestResolver->getEntrypointCssFiles($name)));
     }
 
@@ -75,8 +75,8 @@ final class RozierExtension extends AbstractExtension implements GlobalsInterfac
     {
         return implode('', array_map(fn ($preloadFilePath) => sprintf(
             '<link rel="preload" href="%s" as="%s">',
-            htmlspecialchars($preloadFilePath['href'], ENT_QUOTES, 'UTF-8'),
-            htmlspecialchars($preloadFilePath['as'], ENT_QUOTES, 'UTF-8')
+            htmlspecialchars((string) $preloadFilePath['href'], ENT_QUOTES, 'UTF-8'),
+            htmlspecialchars((string) $preloadFilePath['as'], ENT_QUOTES, 'UTF-8')
         ), $this->manifestResolver->getEntrypointPreloadFiles($name)));
     }
 

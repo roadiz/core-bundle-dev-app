@@ -74,7 +74,7 @@ final readonly class JsonManifestResolver
             return array_map(fn ($preloadFile) => [
                 'href' => $this->getBundlePrefixedPath($preloadFile),
                 // match file extension to determine the type
-                'as' => match (pathinfo($preloadFile, PATHINFO_EXTENSION)) {
+                'as' => match (pathinfo((string) $preloadFile, PATHINFO_EXTENSION)) {
                     'js', 'mjs' => 'script',
                     'css' => 'style',
                     'png', 'jpg', 'webp', 'avif' => 'image',
