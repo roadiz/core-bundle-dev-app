@@ -178,7 +178,7 @@ final class SettingsController extends AbstractController
                     return new JsonResponse([
                         'status' => 'failed',
                         'errors' => $errors,
-                    ], Response::HTTP_BAD_REQUEST);
+                    ], Response::HTTP_UNPROCESSABLE_ENTITY);
                 }
             }
         }

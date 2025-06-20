@@ -162,7 +162,7 @@ export default {
             return '?referer=' + window.location.pathname
         },
         onPreviewClick() {
-            this.documentPreviewOpen()
+            this.documentPreviewOpen({ document: this.item })
         },
         onMouseover() {
             this.documentPreviewInit({ document: this.item })
