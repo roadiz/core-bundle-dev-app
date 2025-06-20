@@ -761,7 +761,7 @@
             <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type"><source>you.cant.upload.files.of.this.type</source></trans-unit>
             <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads"><source>your.browser.does.not.support.dragndrop.file.uploads</source></trans-unit>
             <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields"><source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source></trans-unit>
-
+            <trans-unit xml:space="preserve" id="{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers"><source>{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers</source></trans-unit>
             <trans-unit id="bulk.delete" xml:space="preserve"><source>bulk.delete</source></trans-unit>
             <trans-unit id="bulk.publish" xml:space="preserve"><source>bulk.publish</source></trans-unit>
             <trans-unit id="bulk.unpublish" xml:space="preserve"><source>bulk.unpublish</source></trans-unit>
@@ -1326,6 +1326,7 @@
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.display_name"><source>nodeTypeDecorator.property.display_name</source><note>Property value label for node type display name</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.description"><source>nodeTypeDecorator.property.description</source><note>Property value label for node type description</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.color"><source>nodeTypeDecorator.property.color</source><note>Property value label for node type color</note></trans-unit>
+            <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.highlighted"><source>nodeTypeDecorator.property.highlighted</source><note>Property value label for node type highlighted</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_label"><source>nodeTypeDecorator.property.field_label</source><note>Property value label for node type field label</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_universal"><source>nodeTypeDecorator.property.field_universal</source><note>Property value label for node type field universal</note></trans-unit>
             <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.field_description"><source>nodeTypeDecorator.property.field_description</source><note>Property value label for node type field description</note></trans-unit>

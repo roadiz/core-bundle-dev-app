@@ -38,6 +38,7 @@ final class NodeTypeConfiguration implements ConfigurationInterface
                 ->booleanNode('reachable')->defaultTrue()->end()
                 ->booleanNode('hidingNodes')->defaultFalse()->end()
                 ->booleanNode('hidingNonReachableNodes')->defaultTrue()->end()
+                ->booleanNode('highlighted')->defaultFalse()->end()
                 ->append($this->addFieldsNode())
             ->end()
         ;

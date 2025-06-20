@@ -7,9 +7,9 @@
           sizes="16x16"
           href="{{ rozier.adminImage|url({absolute: true, fit:'16x16'}) }}">
 {% else %}
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/apple-touch-icon.png', 'Rozier') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicon-32x32.png', 'Rozier') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicon-16x16.png', 'Rozier') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('/bundles/roadizrozier/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('/bundles/roadizrozier/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('/bundles/roadizrozier/favicon-16x16.png') }}">
 {% endif %}
 {% if rozier.adminImage and rozier.adminImage.mimeType == 'image/svg+xml' and main_color %}
     <link rel="mask-icon" href="{{ rozier.adminImage|url({absolute: true}) }}" color="{{ main_color }}">
@@ -23,4 +23,4 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#808080">
     <meta name="theme-color" content="#808080">
 {% endif %}
-<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />

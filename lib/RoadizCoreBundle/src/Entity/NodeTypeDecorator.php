@@ -85,6 +85,7 @@ class NodeTypeDecorator implements PersistableInterface, \Stringable
             NodeTypeDecoratorProperty::NODE_TYPE_FIELD_PLACEHOLDER, => $this->getStringValue(),
             NodeTypeDecoratorProperty::NODE_TYPE_FIELD_MIN_LENGTH,
             NodeTypeDecoratorProperty::NODE_TYPE_FIELD_MAX_LENGTH => $this->getIntegerValue(),
+            NodeTypeDecoratorProperty::NODE_TYPE_HIGHLIGHTED,
             NodeTypeDecoratorProperty::NODE_TYPE_FIELD_VISIBLE,
             NodeTypeDecoratorProperty::NODE_TYPE_FIELD_UNIVERSAL => $this->getBooleanValue(),
         };
@@ -133,6 +134,11 @@ class NodeTypeDecorator implements PersistableInterface, \Stringable
                     break;
                 case NodeTypeDecoratorProperty::NODE_TYPE_DISPLAY_NAME:
                     $nodeType->setDisplayName($this->getStringValue());
+                    break;
+                case NodeTypeDecoratorProperty::NODE_TYPE_HIGHLIGHTED:
+                    if (null !== $value = $this->getBooleanValue()) {
+                        $nodeType->setHighlighted($value);
+                    }
                     break;
             }
         } else {

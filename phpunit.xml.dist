@@ -45,7 +45,6 @@
             <directory>tests</directory>
             <directory>lib/Models/tests</directory>
             <directory>lib/RoadizCoreBundle/tests</directory>
-            <directory>lib/RoadizSolrBundle/tests</directory>
             <directory>lib/Documents/tests</directory>
             <directory>lib/EntityGenerator/tests</directory>
         </testsuite>
@@ -65,7 +64,6 @@
             <directory>lib/EntityGenerator/tests</directory>
             <directory>tests</directory>
             <directory>lib/RoadizCoreBundle/tests</directory>
-            <directory>lib/RoadizSolrBundle/tests</directory>
             <directory>lib/Models/tests</directory>
             <directory>lib/Documents/tests</directory>
             <directory>lib/EntityGenerator/tests</directory>

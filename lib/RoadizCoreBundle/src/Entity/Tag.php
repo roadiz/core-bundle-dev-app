@@ -46,6 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(PropertyFilter::class),
     ApiFilter(NodesTagsFilter::class),
     ApiFilter(BaseFilter\OrderFilter::class, properties: [
+        'tagName',
         'position',
         'createdAt',
         'updatedAt',

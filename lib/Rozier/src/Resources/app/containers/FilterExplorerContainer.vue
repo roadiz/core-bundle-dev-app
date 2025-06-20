@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
     <transition name="slide-left-no-opacity">
         <div class="filter-widget-explorer" v-if="isOpen">
             <ul class="filters-items">

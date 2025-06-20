@@ -18,17 +18,22 @@ final class ManyToOneFieldGenerator extends AbstractConfigurableFieldGenerator
 
         /*
          * Many Users have One Address.
-         * @\Doctrine\ORM\Mapping\ManyToOne(targetEntity="Address")
-         * @\Doctrine\ORM\Mapping\JoinColumn(name="address_id", referencedColumnName="id", onDelete="SET NULL")
+         * #[ORM\ManyToOne(targetEntity="Address", inversedBy="users")]
+         * #[ORM\JoinColumn(name="address_id", referencedColumnName="id", onDelete="SET NULL")]
          */
         $ormParams = [
             'name' => $this->field->getName().'_id',
             'referencedColumnName' => 'id',
             'onDelete' => 'SET NULL',
         ];
-        $property->addAttribute(\Doctrine\ORM\Mapping\ManyToOne::class, [
+        $attributeOptions = [
             'targetEntity' => new Literal($this->getFullyQualifiedClassName().'::class'),
-        ]);
+        ];
+        $inversedBy = $this->configuration['inversedBy'] ?? $this->configuration['inversed_by'] ?? null;
+        if (is_string($inversedBy) && '' !== $inversedBy) {
+            $attributeOptions['inversedBy'] = $inversedBy;
+        }
+        $property->addAttribute(\Doctrine\ORM\Mapping\ManyToOne::class, $attributeOptions);
         $property->addAttribute(\Doctrine\ORM\Mapping\JoinColumn::class, $ormParams);
 
         if (true === $this->options['use_api_platform_filters']) {

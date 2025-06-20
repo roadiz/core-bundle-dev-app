@@ -87,7 +87,6 @@
         "solarium/solarium": "^6.3.6",
         "symfony-cmf/routing-bundle": "^3.1.0",
         "symfony/asset": "6.4.*",
-        "symfony/asset-mapper": "6.4.*",
         "symfony/cache": "6.4.*",
         "symfony/console": "6.4.*",
         "symfony/doctrine-messenger": "6.4.*",
@@ -238,9 +237,7 @@
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd",
-            "themes:assets:install --relative --symlink Rozier": "symfony-cmd",
-            "requirements-checker": "script",
-            "importmap:install": "symfony-cmd"
+            "requirements-checker": "script"
         },
         "post-install-cmd": [
             "@auto-scripts"

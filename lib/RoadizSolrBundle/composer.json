@@ -40,9 +40,6 @@
         "symfony/string": "6.4.*",
         "symfony/workflow": "6.4.*"
     },
-    "replace": {
-        "roadiz/roadiz": "*"
-    },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",
         "phpstan/phpstan": "^1.5.3",

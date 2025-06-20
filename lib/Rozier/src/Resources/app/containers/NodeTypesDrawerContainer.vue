@@ -1,4 +1,3 @@
-<!-- Inline template 'views/widgets/drawer.html.twig' -->
 <template>
     <div
         class="uk-form-row drawer-widget entity-"
@@ -67,10 +66,11 @@
     </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+// Inline template 'views/widgets/drawer.html.twig'
 
 // Components
 import DrawerContainer from './DrawerContainer.vue'
+import { mapState } from 'vuex'
 import RzTextarea from '../components/RzTextarea.vue'
 
 export default {
