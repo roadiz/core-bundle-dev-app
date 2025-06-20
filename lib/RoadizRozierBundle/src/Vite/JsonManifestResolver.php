@@ -28,7 +28,11 @@ final readonly class JsonManifestResolver
         if (!file_exists($this->manifestPath)) {
             throw new \RuntimeException(sprintf('%s manifest not found', $this->manifestPath));
         }
-        $cacheItem->set(\json_decode(file_get_contents($this->manifestPath), true, flags: JSON_THROW_ON_ERROR));
+        $cacheItem->set(\json_decode(
+            file_get_contents($this->manifestPath) ?: throw new \RuntimeException('Unable to load manifest file.'),
+            true,
+            flags: JSON_THROW_ON_ERROR
+        ));
         $this->cache->save($cacheItem);
 
         return $cacheItem->get();
