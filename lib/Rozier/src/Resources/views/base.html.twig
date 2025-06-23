@@ -61,9 +61,7 @@
                         {% block permanentComponents %}
                             <overlay data-vuejs></overlay>
                         {% endblock %}
-                        {% block content %}
-                            <h1>{% trans %}Welcome{% endtrans %}</h1>
-                        {% endblock %}
+                        {% block content %}{% endblock %}
                     </div>
                     <div id="canvasloader-container"></div>
                     <div id="back-top-button"
@@ -214,7 +212,7 @@
                 }
             };
         </script>
-        
+
         {{ manifest_script_tags('main') }}
 
         {% block customScripts %}{% endblock %}

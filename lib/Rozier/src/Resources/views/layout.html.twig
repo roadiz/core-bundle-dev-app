@@ -1,4 +1,4 @@
-{% if not app.request.xmlHttpRequest %}
+{% if not app.request.headers.has('X-Partial') %}
     {% set baseTemplate = '@RoadizRozier/base.html.twig' %}
 {% else %}
     {% set baseTemplate = '@RoadizRozier/ajaxBase.html.twig' %}

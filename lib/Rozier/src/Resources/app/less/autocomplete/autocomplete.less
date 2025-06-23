@@ -11,10 +11,17 @@
 /* -------- STYLES -------- */
 
 .ui-autocomplete{
-   font-size: var(--default-font-size);
-   z-index: 99999;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: var(--default-font-size);
+    z-index: 99999;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.2);
 
-   .ui-menu-item{
+    .ui-menu-item {
+        cursor: pointer;
         height:36px;
         padding:0 15px;
         line-height:36px;
@@ -27,7 +34,7 @@
             color:#333;
             background: #cecece;
         }
-   }
+    }
 }
 
 .ui-widget-content{

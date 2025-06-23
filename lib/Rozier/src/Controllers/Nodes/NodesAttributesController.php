@@ -163,7 +163,7 @@ final class NodesAttributesController extends AbstractController
                             'status' => 'fail',
                             'errors' => $errors,
                             'message' => $this->translator->trans('form_has_errors.check_you_fields'),
-                        ], Response::HTTP_BAD_REQUEST);
+                        ], Response::HTTP_UNPROCESSABLE_ENTITY);
                     }
                     foreach ($errors as $error) {
                         $this->logTrail->publishErrorMessage($request, $error);

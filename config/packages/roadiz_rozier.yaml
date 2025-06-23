@@ -186,8 +186,6 @@ roadiz_rozier:
             icon: uk-icon-rz-interactions
             roles:
                 - 'ROLE_ACCESS_CUSTOMFORMS'
-                - 'ROLE_ACCESS_MANAGE_SUBSCRIBERS'
-                - 'ROLE_ACCESS_COMMENTS'
             subentries:
                 manage_customForms:
                     name: 'manage.customForms'
