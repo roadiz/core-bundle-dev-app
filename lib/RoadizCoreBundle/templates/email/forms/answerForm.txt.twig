@@ -3,7 +3,7 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content_table %}
-{% if requestLocale is not defined %}
+{% if requestLocale is not defined and app.request %}
     {% set requestLocale = app.request.locale %}
 {% endif %}
 {% trans %}answer.form{% endtrans %}

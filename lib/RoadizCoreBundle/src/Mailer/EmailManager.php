@@ -150,7 +150,6 @@ class EmailManager
 
         $this->message = (new Email())
             ->subject($this->getSubject())
-            ->from($this->getOrigin())
             ->to(...$this->getReceiver())
         ;
 
@@ -441,24 +440,6 @@ class EmailManager
     public function getRequest(): Request
     {
         return $this->requestStack->getMainRequest();
-    }
-
-    /**
-     * Origin is the real From envelop.
-     *
-     * This must be an email address with a know
-     * domain name to be validated on your SMTP server.
-     */
-    public function getOrigin(): ?Address
-    {
-        $defaultSender = 'origin@roadiz.io';
-        $defaultSenderName = '';
-        if (null !== $this->settingsBag && $this->settingsBag->get('email_sender')) {
-            $defaultSender = $this->settingsBag->get('email_sender');
-            $defaultSenderName = $this->settingsBag->get('site_name', '') ?? '';
-        }
-
-        return $this->origin ?? new Address($defaultSender, $defaultSenderName);
     }
 
     /**

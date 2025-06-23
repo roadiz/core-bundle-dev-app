@@ -8,7 +8,6 @@ use Doctrine\Persistence\ManagerRegistry;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
-use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\CustomForm\Message\CustomFormAnswerNotifyMessage;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory;
@@ -27,7 +26,6 @@ final readonly class CustomFormAnswerNotifyMessageHandler
     public function __construct(
         private ManagerRegistry $managerRegistry,
         private EmailManagerFactory $emailManagerFactory,
-        private Settings $settingsBag,
         private FilesystemOperator $documentsStorage,
         private LoggerInterface $messengerLogger,
         private bool $useReplyTo = true,
@@ -88,9 +86,11 @@ final readonly class CustomFormAnswerNotifyMessageHandler
         CustomFormAnswer $answer,
         array $assignation,
     ): void {
-        $defaultSender = $this->settingsBag->get('email_sender');
-        $defaultSender = filter_var($defaultSender, FILTER_VALIDATE_EMAIL) ? $defaultSender : 'sender@roadiz.io';
         $receivers = $this->getCustomFormReceivers($answer);
+
+        if (empty($receivers)) {
+            return;
+        }
 
         $emailManager = $this->emailManagerFactory->create();
         $emailManager->setAssignation([
@@ -107,8 +107,8 @@ final readonly class CustomFormAnswerNotifyMessageHandler
         /*
          * Set real sender if email is valid to enable Reply-To
          */
-        $realSender = filter_var($answer->getEmail(), FILTER_VALIDATE_EMAIL) ? $answer->getEmail() : $defaultSender;
-        if ($this->useReplyTo) {
+        $realSender = filter_var($answer->getEmail(), FILTER_VALIDATE_EMAIL) ? $answer->getEmail() : null;
+        if ($this->useReplyTo && !empty($realSender)) {
             $emailManager->setSender($realSender);
         }
 
@@ -133,11 +133,7 @@ final readonly class CustomFormAnswerNotifyMessageHandler
             ]);
         }
 
-        if (empty($receivers)) {
-            $emailManager->setReceiver($defaultSender);
-        } else {
-            $emailManager->setReceiver($receivers);
-        }
+        $emailManager->setReceiver($receivers);
 
         // Send the message
         $emailManager->send();
