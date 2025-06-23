@@ -197,6 +197,11 @@
                 <target></target>
                 <note></note>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="customForm.email.help">
+                <source>customForm.email.help</source>
+                <target></target>
+                <note></note>
+            </trans-unit>
         </body>
     </file>
 </xliff>
