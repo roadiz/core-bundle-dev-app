@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -34,7 +38,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['updated_at'], name: 'idx_user_updated_at'),
     ORM\HasLifecycleCallbacks,
     UniqueEntity('email'),
-    UniqueEntity('username')
+    UniqueEntity('username'),
+    ApiFilter(PropertyFilter::class),
 ]
 class User extends AbstractHuman implements UserInterface, AdvancedUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
@@ -50,6 +55,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[Assert\NotBlank]
     #[Assert\Length(max: 200)]
     #[Assert\Email]
+    #[ApiFilter(OrderFilter::class)]
+    #[ApiFilter(SearchFilter::class)]
     /** @phpstan-ignore-next-line */
     protected ?string $email = null;
 
@@ -63,6 +70,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
     #[Serializer\Groups(['user_security'])]
+    #[ApiFilter(SearchFilter::class)]
     protected bool $enabled = true;
 
     #[ORM\Column(name: 'confirmation_token', type: 'string', length: 128, unique: true, nullable: true)]
@@ -79,6 +87,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 200)]
+    #[ApiFilter(OrderFilter::class)]
+    #[ApiFilter(SearchFilter::class)]
     private string $username = '';
 
     /**
@@ -100,6 +110,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     #[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
     #[Serializer\Groups(['user_security'])]
+    #[ApiFilter(OrderFilter::class)]
     private ?\DateTime $lastLogin = null;
 
     /**
