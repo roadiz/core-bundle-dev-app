@@ -1,16 +1,5 @@
 [
     {
-        "name": "force_locale",
-        "visible": true,
-        "description": "Force displaying translation locale in every node’ paths. This should be *ON* if you redirect users based on their language on homepage.",
-        "settingGroup": {
-            "name": "Development",
-            "inMenu": true
-        },
-        "type": 5,
-        "defaultValues": ""
-    },
-    {
         "name": "cron_last_exec_date",
         "visible": true,
         "description": "Store last cronjob execution date and time.",
@@ -20,16 +9,6 @@
         },
         "type": 1,
         "defaultValues": ""
-    },
-    {
-        "name": "force_locale_with_urlaliases",
-        "description": "force_locale_with_urlaliases.help",
-        "visible": true,
-        "settingGroup": {
-            "name": "Development",
-            "inMenu": true
-        },
-        "type": 5
     },
     {
         "name": "leaflet_map_tile_url",

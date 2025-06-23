@@ -31,6 +31,8 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
         protected readonly CacheItemPoolInterface $nodeSourceUrlCacheAdapter,
         RequestContext $context,
         LoggerInterface $logger,
+        protected readonly bool $forceLocale,
+        protected readonly bool $forceLocaleWithUrlAlias,
         array $options = [],
     ) {
         parent::__construct(
@@ -182,8 +184,8 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
             $source,
             $this->getContext(),
             $parameters,
-            (bool) $this->settingsBag->get('force_locale'),
-            (bool) $this->settingsBag->get('force_locale_with_urlaliases')
+            $this->forceLocale,
+            $this->forceLocaleWithUrlAlias
         );
         /*
          * Dispatch node-source URL generation to any listener

@@ -3763,10 +3763,6 @@
         <source>use_cdn</source>
         <target state="translated">为资源使用 CDN</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale">
-        <source>force_locale</source>
-        <target state="translated">强制在网址中显示区域代码</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache">
         <source>nodeSourcesUrlsCache</source>
         <target state="translated">节点源网址缓存</target>

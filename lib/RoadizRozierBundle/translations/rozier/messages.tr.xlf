@@ -3614,10 +3614,6 @@
         <source>use_cdn</source>
         <target state="translated">Kaynaklar için CDN kullan</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale">
-        <source>force_locale</source>
-        <target state="translated">URL’de dil alanını zorla</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache">
         <source>nodeSourcesUrlsCache</source>
         <target state="translated">Düğüm kaynakları URL ön bellekleri</target>

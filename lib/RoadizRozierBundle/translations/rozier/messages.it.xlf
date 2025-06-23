@@ -3670,10 +3670,6 @@
         <source>use_cdn</source>
         <target state="translated">Usa un CDN per risorse</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale">
-        <source>force_locale</source>
-        <target state="translated">Forza codice locale in URL</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache">
         <source>nodeSourcesUrlsCache</source>
         <target state="translated">Fonte del nodo cache URL</target>

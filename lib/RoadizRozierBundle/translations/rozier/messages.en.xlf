@@ -3980,10 +3980,6 @@
         <source>use_cdn</source>
         <target state="final">Use a CDN for resources</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale" approved="yes">
-        <source>force_locale</source>
-        <target state="final">Force locale in URL</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache" approved="yes">
         <source>nodeSourcesUrlsCache</source>
         <target state="final">Node-sources URL cache</target>

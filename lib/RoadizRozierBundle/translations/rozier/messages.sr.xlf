@@ -3703,10 +3703,6 @@
         <source>use_cdn</source>
         <target state="translated">Користи CDN за ресурсе</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale">
-        <source>force_locale</source>
-        <target state="translated">Прикажи локална подешавања у оквиру URL-а</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache">
         <source>nodeSourcesUrlsCache</source>
         <target state="translated">URL кеш за чвор-sources</target>

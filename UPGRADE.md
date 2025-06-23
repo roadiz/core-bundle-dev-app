@@ -14,8 +14,24 @@
   - All Solr commands must provide a `clientName` argument to `validateSolrState`.
   - `SolrPaginator` renamed to `SearchEnginePaginator`
   - `SolrSearchListManager` renamed to `SearchEngineListManager`
+- `force_locale` and `force_locale_with_urlaliases` Settings have been removed, use `roadiz_core.forceLocale` and `roadiz_core.forceLocaleWithUrlAliases` configuration parameters instead.
+- `email_sender` Setting has been removed, use `framework.mailer.envelope.sender` configuration parameter instead.
+- `EmailManager::getOrigin()` method has been removed, this will use `framework.mailer.envelope.sender` configuration parameter.
 
-## Upgrade you Solr configuration
+## Upgrade your Roadiz Core bundle configuration
+
+```yaml
+# config/packages/roadiz_core.yaml
+roadiz_core:
+    # ...
+    # Force displaying translation locale in every generated node-source paths.
+    # This should be enabled if you redirect users based on their language on homepage.
+    forceLocale: false
+    # Force displaying translation locale in generated node-source paths even if there is an url-alias in it.
+    forceLocaleWithUrlAliases: false
+```
+
+## Upgrade your Solr configuration
 
 Roadiz removed *Apache Solr* from its Core bundle. To re-enable it, you need to install the Solr bundle.
 

@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
-use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
@@ -22,9 +21,9 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
         private ManagerRegistry $managerRegistry,
         private PreviewResolverInterface $previewResolver,
         private Stopwatch $stopwatch,
-        private Settings $settingsBag,
         private RequestStack $requestStack,
         private bool $useAcceptLanguageHeader,
+        private bool $forceLocale,
     ) {
     }
 
@@ -164,10 +163,10 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
 
         if (
             $this->useAcceptLanguageHeader
-            && true === $this->settingsBag->get('force_locale', false)
+            && true === $this->forceLocale
         ) {
             /*
-             * When no information to find locale is found and "force_locale" is ON,
+             * When no information to find locale is found and "forceLocale" is ON,
              * we must find translation based on Accept-Language header.
              * Be careful if you are using a reverse-proxy cache, YOU MUST VARY ON Accept-Language header.
              * @see https://varnish-cache.org/docs/6.3/users-guide/increasing-your-hitrate.html#http-vary

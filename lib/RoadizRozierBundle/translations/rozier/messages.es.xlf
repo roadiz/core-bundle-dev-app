@@ -3623,10 +3623,6 @@
         <source>use_cdn</source>
         <target state="translated">Utilizar un CDN como recurso</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale">
-        <source>force_locale</source>
-        <target state="translated">Forzar código local en URL</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache">
         <source>nodeSourcesUrlsCache</source>
         <target state="translated">Cache de URL de fuentes de nodo</target>
