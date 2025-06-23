@@ -1919,7 +1919,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="email_sender" approved="yes">
         <source>email_sender</source>
-        <target state="final">Email expéditeur</target>
+        <target state="final">Adresse email d'expédition</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="email_sender_name" approved="yes">
         <source>email_sender_name</source>
