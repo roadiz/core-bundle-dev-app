@@ -204,14 +204,9 @@ final class CustomFormController extends AbstractController
                  * Parse form data and create answer.
                  */
                 $answer = $helper->parseAnswerFormData($form, null, $request->getClientIp());
-                $emailSender = null;
                 $answerId = $answer->getId();
                 if (!is_int($answerId)) {
                     throw new \RuntimeException('Answer ID is null');
-                }
-
-                if (false !== filter_var($answer->getEmail(), FILTER_VALIDATE_EMAIL)) {
-                    $emailSender = $answer->getEmail();
                 }
 
                 $this->messageBus->dispatch(new CustomFormAnswerNotifyMessage(
@@ -220,7 +215,6 @@ final class CustomFormController extends AbstractController
                         'new.answer.form.%site%',
                         ['%site%' => $customFormsEntity->getDisplayName()]
                     ),
-                    $emailSender,
                     $request->getLocale()
                 ));
 

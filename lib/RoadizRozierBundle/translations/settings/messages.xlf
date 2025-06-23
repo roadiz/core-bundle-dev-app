@@ -2,10 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file original="" source-language="en-US" datatype="plaintext">
         <body>
-            <trans-unit xml:space="preserve" id="email_sender.description">
-                <source>Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**</source>
-                <target></target>
-            </trans-unit>
             <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description">
                 <source>Default maps tiles layout when using *Leaflet*.</source>
                 <target></target>

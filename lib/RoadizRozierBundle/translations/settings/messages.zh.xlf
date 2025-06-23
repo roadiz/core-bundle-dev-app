@@ -2,10 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="zh-CN">
     <body>
-      <trans-unit xml:space="preserve" id="email_sender.description">
-                <source>Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**</source>
-                <target state="translated">默认电子邮件发送者，作为所有系统邮件的发送来源。此电子邮件 **必须被您的 SMTP 服务器允许**。</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description">
                 <source>Default maps tiles layout when using *Leaflet*.</source>
                 <target state="translated">当使用 *Leaflet* 时的默认地图图层布局。</target>

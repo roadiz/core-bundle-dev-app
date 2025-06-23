@@ -501,8 +501,6 @@
 
             <!-- Default settings names -->
             <trans-unit xml:space="preserve" id="display_debug_panel"><source>display_debug_panel</source></trans-unit>
-            <trans-unit xml:space="preserve" id="email_sender"><source>email_sender</source></trans-unit>
-            <trans-unit xml:space="preserve" id="email_sender_name"><source>email_sender_name</source></trans-unit>
             <trans-unit xml:space="preserve" id="soundcloud_client_id"><source>soundcloud_client_id</source></trans-unit>
             <trans-unit xml:space="preserve" id="google_client_id"><source>google_client_id</source></trans-unit>
             <trans-unit xml:space="preserve" id="google_server_id"><source>google_server_id</source></trans-unit>

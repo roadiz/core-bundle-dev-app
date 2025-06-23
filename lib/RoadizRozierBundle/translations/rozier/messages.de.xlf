@@ -743,14 +743,6 @@
       <!-- Dynamic button in nodeTree add.a.%nodeType% -->
       <!-- Setting groups -->
       <!-- Default settings names -->
-      <trans-unit xml:space="preserve" id="email_sender">
-        <source>email_sender</source>
-        <target state="translated">Absender E-Mail</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender_name">
-        <source>email_sender_name</source>
-        <target state="translated">Name des Absenders der E-Mails</target>
-      </trans-unit>
       <!-- document usage -->
       <!-- node statuses -->
       <!-- are_you_sure.undelete.node.and.data -->

@@ -1839,14 +1839,6 @@
         <source>display_debug_panel</source>
         <target state="translated">Показати панель налагодження</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender">
-        <source>email_sender</source>
-        <target state="translated">Відправник email</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender_name">
-        <source>email_sender_name</source>
-        <target state="translated">Ім'я відправника email</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="soundcloud_client_id">
         <source>soundcloud_client_id</source>
         <target state="translated">ID Soundcloud-клієнта</target>

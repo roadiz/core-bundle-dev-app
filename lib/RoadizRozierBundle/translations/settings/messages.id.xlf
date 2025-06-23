@@ -2,10 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="id">
     <body>
-      <trans-unit xml:space="preserve" id="email_sender.description">
-                <source>Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**</source>
-                <target state="translated">Email pengirim bawaan, digunakan sebagai asal untuk setiap sistem email yang dikirim. Email ini **harus diizinkan oleh server SMTP Anda.**</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description">
                 <source>Default maps tiles layout when using *Leaflet*.</source>
                 <target state="translated">Tata letak peta bawaan saat menggunakan *Leaflet*.</target>

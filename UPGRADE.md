@@ -15,6 +15,7 @@
   - `SolrPaginator` renamed to `SearchEnginePaginator`
   - `SolrSearchListManager` renamed to `SearchEngineListManager`
 - `force_locale` and `force_locale_with_urlaliases` Settings have been removed, use `roadiz_core.forceLocale` and `roadiz_core.forceLocaleWithUrlAliases` configuration parameters instead.
+- `EmailManager` has been deprecated, use symfony/notifier instead.
 - `email_sender` Setting has been removed, use `framework.mailer.envelope.sender` configuration parameter instead.
 - `EmailManager::getOrigin()` method has been removed, this will use `framework.mailer.envelope.sender` configuration parameter.
 
@@ -30,6 +31,30 @@ roadiz_core:
     # Force displaying translation locale in generated node-source paths even if there is an url-alias in it.
     forceLocaleWithUrlAliases: false
 ```
+
+## Upgrade your Mailer configuration
+
+```yaml
+# config/packages/mailer.yaml
+framework:
+    # ...
+    mailer:
+        # Use the default sender address for all emails
+        envelope:
+            sender: '%env(MAILER_ENVELOP_SENDER)%'
+```
+
+```dotenv
+###> symfony/mailer ###
+MAILER_DSN=smtp://mailer:1025
+MAILER_ENVELOP_SENDER="Roadiz Dev Website<roadiz-core-app@roadiz.io>"
+###< symfony/mailer ###
+```
+
+## Upgrade your email templates
+
+`disclaimer` and `mailContact` variables have been renamed to `email_disclaimer` and `support_email_address` in email templates.
+These variables are now automatically provided by RoadizExtension.
 
 ## Upgrade your Solr configuration
 

@@ -2,10 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="fr">
     <body>
-      <trans-unit xml:space="preserve" id="email_sender.description" approved="yes">
-                <source>Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**</source>
-                <target state="final">Email d'expéditeur par défaut, utilisé comme Origine pour chaque email système envoyé. Cet email **doit être autorisé par votre serveur SMTP.**</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description" approved="yes">
                 <source>Default maps tiles layout when using *Leaflet*.</source>
                 <target state="final">Habillage par défaut des cartes lorsque vous utilisez *Leaflet*.</target>

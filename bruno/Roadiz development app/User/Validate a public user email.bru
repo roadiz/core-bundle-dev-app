@@ -6,8 +6,18 @@ meta {
 
 put {
   url: {{baseUrl}}/api/users/validate
-  body: none
-  auth: none
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "token": "DApZPYORfbIZljxC6YOaEI5spmcO5DvYJmGjc6sqmEY"
+  }
 }
 
 script:post-response {

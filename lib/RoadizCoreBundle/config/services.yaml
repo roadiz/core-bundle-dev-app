@@ -373,22 +373,6 @@ services:
                 handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentPdfMessage
             - { name: monolog.logger, channel: messenger }
 
-    RZ\Roadiz\CoreBundle\Mailer\EmailManager:
-        # Recreate manager for each usage
-        shared: false
-        deprecated:
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory instead.'
-            package: roadiz/core-bundle
-            version: '2.3.18'
-
-    RZ\Roadiz\CoreBundle\Mailer\ContactFormManager:
-        # Recreate manager for each usage
-        shared: false
-        deprecated:
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory instead.'
-            package: roadiz/core-bundle
-            version: '2.3.18'
-
     RZ\Roadiz\CoreBundle\Doctrine\EventSubscriber\:
         resource: '../src/Doctrine/EventSubscriber'
         tags:

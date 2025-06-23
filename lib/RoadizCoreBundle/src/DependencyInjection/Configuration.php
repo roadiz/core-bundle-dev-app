@@ -70,6 +70,7 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->booleanNode('useEmailReplyTo')
                 ->defaultTrue()
+                ->info('Use custom-form answers email as reply-to email address when possible.')
             ->end()
             ->scalarNode('documentsLibDir')->defaultValue(
                 'vendor/roadiz/documents/src'

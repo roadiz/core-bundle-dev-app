@@ -5,12 +5,14 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/users
+  url: {{baseUrl}}/api/users?order[lastLogin]=asc&properties[]=email
   body: none
   auth: bearer
 }
 
 params:query {
+  order[lastLogin]: asc
+  properties[]: email
   ~page: 
   ~itemsPerPage: 
   ~_preview: 

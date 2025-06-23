@@ -75,7 +75,7 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
             throw new BadRequestHttpException(sprintf('Cannot process %s', $data::class));
         }
         $request = $this->requestStack->getCurrentRequest();
-        $this->ValidateRequest($request);
+        $this->validateRequest($request);
         $this->validateRecaptchaHeader($request);
 
         $user = $this->createUser($data);
