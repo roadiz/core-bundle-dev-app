@@ -15,6 +15,7 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPreUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Routing\NodeRouter;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -56,6 +57,7 @@ final class NodesSourcesController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly FormFactoryInterface $formFactory,
         private readonly LogTrail $logTrail,
+        private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
     ) {
     }
 
@@ -98,11 +100,7 @@ final class NodesSourcesController extends AbstractController
         $this->denyAccessUnlessGranted(NodeVoter::EDIT_CONTENT, $gNode);
 
         /** @var NodesSources|null $source */
-        $source = $this->managerRegistry
-                       ->getRepository(NodesSources::class)
-                       ->setDisplayingAllNodesStatuses(true)
-                       ->setDisplayingNotPublishedNodes(true)
-                       ->findOneBy(['translation' => $translation, 'node' => $gNode]);
+        $source = $this->allStatusesNodesSourcesRepository->findOneBy(['translation' => $translation, 'node' => $gNode]);
 
         if (null === $source) {
             throw new ResourceNotFoundException('Node source does not exist');

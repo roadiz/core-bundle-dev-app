@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Console;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodeRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,7 +17,7 @@ final class NodesCommand extends Command
 {
     public function __construct(
         private readonly NodeTypes $nodeTypesBag,
-        private readonly ManagerRegistry $managerRegistry,
+        private readonly NotPublishedNodeRepository $notPublishedNodeRepository,
         ?string $name = null,
     ) {
         parent::__construct($name);
@@ -44,15 +44,11 @@ final class NodesCommand extends Command
         if ($input->getOption('type')) {
             $nodeType = $this->nodeTypesBag->get($input->getOption('type'));
             if (null !== $nodeType) {
-                $nodes = $this->managerRegistry
-                    ->getRepository(Node::class)
-                    ->setDisplayingNotPublishedNodes(true)
+                $nodes = $this->notPublishedNodeRepository
                     ->findBy(['nodeTypeName' => $nodeType->getName()], ['nodeName' => 'ASC']);
             }
         } else {
-            $nodes = $this->managerRegistry
-                ->getRepository(Node::class)
-                ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->notPublishedNodeRepository
                 ->findBy([], ['nodeName' => 'ASC']);
         }
 
