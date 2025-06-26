@@ -36,7 +36,7 @@ trait NodeSourceDefinitionTrait
         }
 
         /** @var NodesSourcesRepository $repository */
-        $repository = $this->context->getManagerRegistry()->getRepository($entityName);
+        $repository = $this->context->getRepository($entityName);
 
         $alias = 'o';
         $qb = $repository->alterQueryBuilderWithAuthorizationChecker(

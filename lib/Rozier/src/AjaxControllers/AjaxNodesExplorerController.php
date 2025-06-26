@@ -14,6 +14,7 @@ use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Explorer\AbstractExplorerItem;
 use RZ\Roadiz\CoreBundle\Explorer\ExplorerItemFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodeRepository;
 use RZ\Roadiz\CoreBundle\SearchEngine\ClientRegistry;
 use RZ\Roadiz\CoreBundle\SearchEngine\NodeSourceSearchHandlerInterface;
 use RZ\Roadiz\CoreBundle\SearchEngine\SolrSearchResultItem;
@@ -31,6 +32,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
         private readonly ClientRegistry $clientRegistry,
         private readonly NodeSourceSearchHandlerInterface $nodeSourceSearchHandler,
         private readonly NodeTypes $nodeTypesBag,
+        private readonly NotPublishedNodeRepository $notPublishedNodeRepository,
         ExplorerItemFactoryInterface $explorerItemFactory,
         EventDispatcherInterface $eventDispatcher,
         EntityListManagerFactoryInterface $entityListManagerFactory,
@@ -208,8 +210,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
         $nodesArray = [];
 
         if (count($cleanNodeIds) > 0) {
-            $nodes = $this->managerRegistry->getRepository(Node::class)
-                ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->notPublishedNodeRepository
                 ->findBy([
                     'id' => $cleanNodeIds,
                 ]);

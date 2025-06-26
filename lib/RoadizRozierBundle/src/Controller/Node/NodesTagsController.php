@@ -10,7 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeTaggedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeFactory;
-use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\RozierBundle\Form\NodesTagsType;
@@ -35,6 +35,7 @@ final class NodesTagsController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LogTrail $logTrail,
         private readonly FormFactoryInterface $formFactory,
+        private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
     ) {
     }
 
@@ -43,19 +44,13 @@ final class NodesTagsController extends AbstractController
      */
     public function editTagsAction(Request $request, Node $nodeId): Response
     {
-        /** @var NodesSourcesRepository $nodeSourceRepository */
-        $nodeSourceRepository = $this->managerRegistry->getRepository(NodesSources::class);
-        $nodeSourceRepository
-            ->setDisplayingAllNodesStatuses(true)
-            ->setDisplayingNotPublishedNodes(true);
-
         /**
          * Get all sources because if node does not have a default translation
          * we still need to get one available translation.
          *
          * @var NodesSources|null $source
          */
-        $source = $nodeSourceRepository->findByNode(
+        $source = $this->allStatusesNodesSourcesRepository->findByNode(
             $nodeId
         )[0] ?? null;
 

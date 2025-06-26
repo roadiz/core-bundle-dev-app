@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -47,6 +48,7 @@ final class NodesTreesController extends AbstractController
         private readonly Registry $workflowRegistry,
         private readonly LogTrail $logTrail,
         private readonly TranslatorInterface $translator,
+        private readonly NotPublishedNodeRepository $notPublishedNodeRepository,
     ) {
     }
 
@@ -56,7 +58,7 @@ final class NodesTreesController extends AbstractController
 
         if (null !== $nodeId) {
             /** @var Node|null $node */
-            $node = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+            $node = $this->notPublishedNodeRepository->find($nodeId);
             if (null === $node) {
                 throw new ResourceNotFoundException();
             }
@@ -181,9 +183,7 @@ final class NodesTreesController extends AbstractController
         array_filter($nodesIds);
 
         /** @var Node[] $nodes */
-        $nodes = $this->managerRegistry
-                      ->getRepository(Node::class)
-                      ->setDisplayingNotPublishedNodes(true)
+        $nodes = $this->notPublishedNodeRepository
                       ->findBy([
                           'id' => $nodesIds,
                       ]);
@@ -238,12 +238,9 @@ final class NodesTreesController extends AbstractController
         array_filter($nodesIds);
 
         /** @var Node[] $nodes */
-        $nodes = $this->managerRegistry
-                      ->getRepository(Node::class)
-                      ->setDisplayingNotPublishedNodes(true)
-                      ->findBy([
-                          'id' => $nodesIds,
-                      ]);
+        $nodes = $this->notPublishedNodeRepository->findBy([
+            'id' => $nodesIds,
+        ]);
 
         if (0 === count($nodes)) {
             throw new ResourceNotFoundException();
@@ -314,9 +311,7 @@ final class NodesTreesController extends AbstractController
             $nodesIds = explode(',', $nodesIds);
             array_filter($nodesIds);
 
-            $nodes = $this->managerRegistry
-                          ->getRepository(Node::class)
-                          ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->notPublishedNodeRepository
                           ->findBy([
                               'id' => $nodesIds,
                           ]);
@@ -344,9 +339,7 @@ final class NodesTreesController extends AbstractController
             array_filter($nodesIds);
 
             /** @var Node[] $nodes */
-            $nodes = $this->managerRegistry
-                ->getRepository(Node::class)
-                ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->notPublishedNodeRepository
                 ->findBy([
                     'id' => $nodesIds,
                 ])
@@ -422,9 +415,7 @@ final class NodesTreesController extends AbstractController
             $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */
-            $nodes = $this->managerRegistry
-                          ->getRepository(Node::class)
-                          ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->notPublishedNodeRepository
                           ->findBy([
                               'id' => $nodesIds,
                           ]);
@@ -461,9 +452,7 @@ final class NodesTreesController extends AbstractController
             $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */
-            $nodes = $this->managerRegistry
-                          ->getRepository(Node::class)
-                          ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->notPublishedNodeRepository
                           ->findBy([
                               'id' => $nodesIds,
                           ]);

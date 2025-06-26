@@ -6,8 +6,8 @@ namespace Themes\Rozier\Controllers\Nodes;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
-use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,6 +22,7 @@ final class ExportController extends AbstractController
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly SerializerInterface $serializer,
+        private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
         private readonly array $csvEncoderOptions,
     ) {
     }
@@ -59,11 +60,7 @@ final class ExportController extends AbstractController
             $this->denyAccessUnlessGranted(NodeVoter::READ_AT_ROOT);
         }
 
-        $sources = $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->setDisplayingAllNodesStatuses(true)
-            ->setDisplayingNotPublishedNodes(true)
-            ->findBy($criteria, $order);
+        $sources = $this->allStatusesNodesSourcesRepository->findBy($criteria, $order);
 
         $response = new StreamedResponse(function () use ($sources) {
             echo $this->serializer->serialize($sources, 'csv', [

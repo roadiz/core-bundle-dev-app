@@ -18,6 +18,7 @@ use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Workflow\Registry;
@@ -35,6 +36,7 @@ final class NodeHandler extends AbstractHandler
         private readonly Registry $registry,
         private readonly NodeChrootResolver $chrootResolver,
         private readonly NodeNamePolicyInterface $nodeNamePolicy,
+        private readonly NotPublishedNodeRepository $notPublishedNodeRepository,
     ) {
         parent::__construct($objectManager);
     }
@@ -45,7 +47,8 @@ final class NodeHandler extends AbstractHandler
             $this->objectManager,
             $this->registry,
             $this->chrootResolver,
-            $this->nodeNamePolicy
+            $this->nodeNamePolicy,
+            $this->notPublishedNodeRepository,
         );
     }
 
@@ -442,9 +445,7 @@ final class NodeHandler extends AbstractHandler
      */
     public function cleanRootNodesPositions(bool $setPositions = true): float
     {
-        $nodes = $this->getRepository()
-            ->setDisplayingNotPublishedNodes(true)
-            ->findBy(['parent' => null], ['position' => 'ASC']);
+        $nodes = $this->notPublishedNodeRepository->findBy(['parent' => null], ['position' => 'ASC']);
 
         $i = 1;
         /** @var Node $child */
