@@ -69,14 +69,17 @@
             </div>
             {# Forms #}
             {% if tagNodesForm %}
-                <div id="nodes-bulk-folder-form-cont" class="bulk-group bulk-folder-cont nodes-bulk-folder-cont">
-                    {% form_theme tagNodesForm '@RoadizRozier/forms.html.twig' %}
-                    <form class="uk-form uk-form-horizontal node-bulk-tag-form"
-                          action="#"
-                          method="post">
-                        {{ form_widget(tagNodesForm) }}
-                    </form>
-                </div>
+                <tag-autocomplete
+                    id="nodes-bulk-folder-form-cont"
+                    class="bulk-group bulk-folder-cont nodes-bulk-folder-cont"
+                    data-search-path="{{ path('tagAjaxSearch') }}"
+                    data-csrf-token="{{ csrf_token(constant('Themes\\Rozier\\AjaxControllers\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}"
+                >
+                    {% form_theme tagNodesForm '@RoadizRozier/horizontalForms.html.twig' %}
+                    {{ form_start(tagNodesForm) }}
+                    {{ form_widget(tagNodesForm) }}
+                    {{ form_end(tagNodesForm) }}
+                </tag-autocomplete>
             {% endif %}
             {% if statusNodesForm %}
                 <div id="nodes-bulk-status-form-cont" class="bulk-group bulk-status-cont nodes-bulk-status-cont">
