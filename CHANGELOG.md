@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.24...v2.5.25) - 2025-06-26
+
+### Bug Fixes
+
+- **(NodeRepository)** Prevent DTO duplication by adding groupBy clause in query - ([7ca184b](https://github.com/roadiz/core-bundle-dev-app/commit/7ca184b833211c5016bb72be64c0f1b053fafcfe))
+
 ## [2.5.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.23...v2.5.24) - 2025-06-26
 
 ### Bug Fixes
