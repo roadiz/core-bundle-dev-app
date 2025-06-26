@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodeRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -20,6 +21,7 @@ final class NodesCleanNamesCommand extends Command
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly NodeNamePolicyInterface $nodeNamePolicy,
+        private readonly NotPublishedNodeRepository $notPublishedNodeRepository,
         ?string $name = null,
     ) {
         parent::__construct($name);
@@ -56,10 +58,7 @@ final class NodesCleanNamesCommand extends Command
             ->findDefault();
 
         if (null !== $translation) {
-            /** @phpstan-ignore-next-line  */
-            $nodes = $entityManager
-                ->getRepository(Node::class)
-                ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->notPublishedNodeRepository
                 ->findBy([
                     'dynamicNodeName' => true,
                     'locked' => false,

@@ -69,12 +69,9 @@ trait NodesBulkActionsTrait
         array_filter($nodesIds);
 
         /** @var Node[] $nodes */
-        $nodes = $this->managerRegistry
-            ->getRepository(Node::class)
-            ->setDisplayingNotPublishedNodes(true)
-            ->findBy([
-                'id' => $nodesIds,
-            ]);
+        $nodes = $this->allStatusesNodeRepository->findBy([
+            'id' => $nodesIds,
+        ]);
 
         if (0 === count($nodes)) {
             throw new ResourceNotFoundException();
@@ -126,9 +123,7 @@ trait NodesBulkActionsTrait
         array_filter($nodesIds);
 
         /** @var Node[] $nodes */
-        $nodes = $this->managerRegistry
-            ->getRepository(Node::class)
-            ->setDisplayingNotPublishedNodes(true)
+        $nodes = $this->allStatusesNodeRepository
             ->findBy([
                 'id' => $nodesIds,
             ]);
@@ -201,9 +196,7 @@ trait NodesBulkActionsTrait
             $nodesIds = \json_decode($nodesIds, true, flags: JSON_THROW_ON_ERROR);
             array_filter($nodesIds);
 
-            $nodes = $this->managerRegistry
-                ->getRepository(Node::class)
-                ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->allStatusesNodeRepository
                 ->findBy([
                     'id' => $nodesIds,
                 ]);
@@ -230,9 +223,7 @@ trait NodesBulkActionsTrait
             array_filter($nodesIds);
 
             /** @var Node[] $nodes */
-            $nodes = $this->managerRegistry
-                ->getRepository(Node::class)
-                ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->allStatusesNodeRepository
                 ->findBy([
                     'id' => $nodesIds,
                 ])
@@ -308,9 +299,7 @@ trait NodesBulkActionsTrait
             $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */
-            $nodes = $this->managerRegistry
-                ->getRepository(Node::class)
-                ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->allStatusesNodeRepository
                 ->findBy([
                     'id' => $nodesIds,
                 ]);
@@ -347,9 +336,7 @@ trait NodesBulkActionsTrait
             $nodesIds = array_filter($nodesIds);
 
             /** @var Node[] $nodes */
-            $nodes = $this->managerRegistry
-                ->getRepository(Node::class)
-                ->setDisplayingNotPublishedNodes(true)
+            $nodes = $this->allStatusesNodeRepository
                 ->findBy([
                     'id' => $nodesIds,
                 ]);

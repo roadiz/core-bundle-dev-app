@@ -30,7 +30,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 /**
  * @extends StatusAwareRepository<Node>
  */
-final class NodeRepository extends StatusAwareRepository
+class NodeRepository extends StatusAwareRepository
 {
     public function __construct(
         ManagerRegistry $registry,

@@ -17,6 +17,7 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\AttributeValueTranslationType;
 use RZ\Roadiz\CoreBundle\Form\AttributeValueType;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,6 +42,7 @@ final class NodesAttributesController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly LogTrail $logTrail,
         private readonly NodeTypes $nodeTypesBag,
+        private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
     ) {
     }
 
@@ -63,11 +65,7 @@ final class NodesAttributesController extends AbstractController
         }
 
         /** @var NodesSources|null $nodeSource */
-        $nodeSource = $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->setDisplayingAllNodesStatuses(true)
-            ->setDisplayingNotPublishedNodes(true)
-            ->findOneBy(['translation' => $translation, 'node' => $node]);
+        $nodeSource = $this->allStatusesNodesSourcesRepository->findOneBy(['translation' => $translation, 'node' => $node]);
 
         if (null === $nodeSource) {
             throw $this->createNotFoundException('Node-source does not exist');

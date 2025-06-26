@@ -19,6 +19,7 @@ use RZ\Roadiz\CoreBundle\Event\UrlAlias\UrlAliasUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Exception\NoTranslationAvailableException;
 use RZ\Roadiz\CoreBundle\Form\UrlAliasType;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,6 +43,7 @@ final class SeoController extends AbstractController
         private readonly ManagerRegistry $managerRegistry,
         private readonly FormFactoryInterface $formFactory,
         private readonly TranslatorInterface $translator,
+        private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
     ) {
     }
 
@@ -176,10 +178,7 @@ final class SeoController extends AbstractController
     {
         $entityManager = $this->managerRegistry->getManagerForClass(UrlAlias::class);
         /** @var NodesSources|null $nodeSource */
-        $nodeSource = $this->managerRegistry
-                           ->getRepository(NodesSources::class)
-                           ->setDisplayingAllNodesStatuses(true)
-                           ->setDisplayingNotPublishedNodes(true)
+        $nodeSource = $this->allStatusesNodesSourcesRepository
                            ->findOneBy(['node' => $node, 'translation' => $translation]);
 
         if (null !== $nodeSource) {

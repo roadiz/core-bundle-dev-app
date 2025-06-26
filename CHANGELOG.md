@@ -2,6 +2,13 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.24](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.23...v2.5.24) - 2025-06-26
+
+### Bug Fixes
+
+- **(NodeSourceWalkerContext)** Force NodesSourcesRepository state to published nodes only to avoid security issues with `StatusAwareRepository` and FrankenPHP runtime.
+- **(StatusAwareRepository)** Deprecate `StatusAwareRepository` because it is stateful and may lead to security issue used as a service. Added AllStatusXXX and NotPublishedXXX repositories to separate services. - ([84f1044](https://github.com/roadiz/core-bundle-dev-app/commit/84f10448c1158d3dfedc06d905e192863bfe51e4))
+
 ## [2.5.23](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.22...v2.5.23) - 2025-06-13
 
 ### Bug Fixes

@@ -9,6 +9,7 @@ use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -36,6 +37,7 @@ final class NodesTreesController extends AbstractController
         private readonly Registry $workflowRegistry,
         private readonly LogTrail $logTrail,
         private readonly TranslatorInterface $translator,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
     ) {
     }
 

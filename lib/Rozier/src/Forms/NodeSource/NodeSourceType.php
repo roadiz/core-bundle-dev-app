@@ -17,6 +17,7 @@ use RZ\Roadiz\CoreBundle\Form\JsonType;
 use RZ\Roadiz\CoreBundle\Form\MarkdownType;
 use RZ\Roadiz\CoreBundle\Form\MultipleEnumerationType;
 use RZ\Roadiz\CoreBundle\Form\YamlType;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeTypeFieldVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
@@ -47,6 +48,7 @@ final class NodeSourceType extends AbstractType
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly Security $security,
+        private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
     ) {
     }
 
@@ -128,13 +130,10 @@ final class NodeSourceType extends AbstractType
         $defaultTranslation = $this->managerRegistry->getRepository(Translation::class)
                                             ->findDefault();
 
-        $sourceCount = $this->managerRegistry->getRepository(NodesSources::class)
-                                     ->setDisplayingAllNodesStatuses(true)
-                                     ->setDisplayingNotPublishedNodes(true)
-                                     ->countBy([
-                                         'node' => $source->getNode(),
-                                         'translation' => $defaultTranslation,
-                                     ]);
+        $sourceCount = $this->allStatusesNodesSourcesRepository->countBy([
+            'node' => $source->getNode(),
+            'translation' => $defaultTranslation,
+        ]);
 
         return 1 === $sourceCount;
     }

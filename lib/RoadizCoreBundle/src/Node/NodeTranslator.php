@@ -9,12 +9,14 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesCreatedEvent;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final readonly class NodeTranslator
 {
     public function __construct(
         private ManagerRegistry $managerRegistry,
+        private AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
         private EventDispatcherInterface $dispatcher,
     ) {
     }
@@ -43,11 +45,7 @@ final readonly class NodeTranslator
         Node $node,
     ): NodesSources {
         /** @var NodesSources|null $existing */
-        $existing = $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->setDisplayingAllNodesStatuses(true)
-            ->setDisplayingNotPublishedNodes(true)
-            ->findOneByNodeAndTranslation($node, $destinationTranslation);
+        $existing = $this->allStatusesNodesSourcesRepository->findOneByNodeAndTranslation($node, $destinationTranslation);
 
         if (null === $existing) {
             /** @var NodesSources|false $baseSource */

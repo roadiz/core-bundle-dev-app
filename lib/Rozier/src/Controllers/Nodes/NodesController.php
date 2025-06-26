@@ -27,6 +27,8 @@ use RZ\Roadiz\CoreBundle\Node\NodeFactory;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
 use RZ\Roadiz\CoreBundle\Node\NodeOffspringResolverInterface;
 use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
+use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -73,6 +75,8 @@ final class NodesController extends AbstractController
         private readonly LogTrail $logTrail,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly FormFactoryInterface $formFactory,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+        private readonly TranslationRepository $translationRepository,
         private readonly string $nodeFormTypeClass,
         private readonly string $addNodeFormTypeClass,
     ) {
@@ -102,7 +106,7 @@ final class NodesController extends AbstractController
     public function indexAction(Request $request, ?string $filter = null): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
-        $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
+        $translation = $this->translationRepository->findDefault();
 
         /** @var User|null $user */
         $user = $this->getUser();
@@ -181,9 +185,7 @@ final class NodesController extends AbstractController
 
         $assignation['filters'] = $listManager->getAssignation();
         $assignation['translation'] = $translation;
-        $assignation['availableTranslations'] = $this->managerRegistry
-            ->getRepository(Translation::class)
-            ->findAll();
+        $assignation['availableTranslations'] = $this->translationRepository->findAll();
         $assignation['nodes'] = $listManager->getEntities();
         $assignation['nodeTypes'] = $this->nodeTypesBag->allVisible();
 
@@ -195,7 +197,7 @@ final class NodesController extends AbstractController
         $assignation = [];
 
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+        $node = $this->allStatusesNodeRepository->find($nodeId);
         if (null === $node) {
             throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
         }
@@ -264,12 +266,11 @@ final class NodesController extends AbstractController
             }
         }
 
-        $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
+        $translation = $this->translationRepository->findDefault();
         $source = $node->getNodeSourcesByTranslation($translation)->first() ?: null;
 
         if (null === $source) {
-            $availableTranslations = $this->managerRegistry->getRepository(Translation::class)
-                ->findAvailableTranslationsForNode($node);
+            $availableTranslations = $this->translationRepository->findAvailableTranslationsForNode($node);
             $assignation['available_translations'] = $availableTranslations;
         }
         $assignation['node'] = $node;
@@ -283,7 +284,7 @@ final class NodesController extends AbstractController
     public function removeStackTypeAction(Request $request, int $nodeId, string $typeName): Response
     {
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+        $node = $this->allStatusesNodeRepository->find($nodeId);
         if (null === $node) {
             throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
         }
@@ -314,10 +315,10 @@ final class NodesController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ACCESS_NODES');
 
         /** @var Translation|null $translation */
-        $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
+        $translation = $this->translationRepository->findDefault();
 
         if (null !== $translationId) {
-            $translation = $this->managerRegistry->getRepository(Translation::class)->find($translationId);
+            $translation = $this->translationRepository->find($translationId);
         }
         if (null === $translation) {
             throw new ResourceNotFoundException(sprintf('Translation #%s does not exist.', $translationId));
@@ -378,12 +379,12 @@ final class NodesController extends AbstractController
     public function addChildAction(Request $request, ?int $nodeId = null, ?int $translationId = null): Response
     {
         /** @var Translation|null $translation */
-        $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
+        $translation = $this->translationRepository->findDefault();
         $nodeTypesCount = $this->nodeTypesBag->count();
 
         if (null !== $translationId) {
             /** @var Translation|null $translation */
-            $translation = $this->managerRegistry->getRepository(Translation::class)->find($translationId);
+            $translation = $this->translationRepository->find($translationId);
         }
 
         if (null === $translation) {
@@ -392,7 +393,7 @@ final class NodesController extends AbstractController
 
         if (null !== $nodeId && $nodeId > 0) {
             /** @var Node|null $parentNode */
-            $parentNode = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+            $parentNode = $this->allStatusesNodeRepository->find($nodeId);
             if (null === $parentNode) {
                 throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
             }
@@ -448,7 +449,7 @@ final class NodesController extends AbstractController
     public function deleteAction(Request $request, int $nodeId): Response
     {
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+        $node = $this->allStatusesNodeRepository->find($nodeId);
 
         if (null === $node) {
             throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
@@ -464,7 +465,7 @@ final class NodesController extends AbstractController
                 'nodesEditSourcePage',
                 [
                     'nodeId' => $node->getId(),
-                    'translationId' => $this->managerRegistry->getRepository(Translation::class)->findDefault()->getId(),
+                    'translationId' => $this->translationRepository->findDefault()->getId(),
                 ]
             );
         }
@@ -505,7 +506,7 @@ final class NodesController extends AbstractController
                     'nodesEditSourcePage',
                     [
                         'nodeId' => $parent->getId(),
-                        'translationId' => $this->managerRegistry->getRepository(Translation::class)->findDefault()->getId(),
+                        'translationId' => $this->translationRepository->findDefault()->getId(),
                     ]
                 );
             }
@@ -534,10 +535,7 @@ final class NodesController extends AbstractController
                 $criteria['parent'] = $this->nodeOffspringResolver->getAllOffspringIds($chroot);
             }
 
-            $nodes = $this->managerRegistry->getRepository(Node::class)
-                ->setDisplayingAllNodesStatuses(true)
-                ->setDisplayingNotPublishedNodes(true)
-                ->findBy($criteria);
+            $nodes = $this->allStatusesNodeRepository->findBy($criteria);
 
             /** @var Node $node */
             foreach ($nodes as $node) {
@@ -562,7 +560,7 @@ final class NodesController extends AbstractController
     public function undeleteAction(Request $request, int $nodeId): Response
     {
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+        $node = $this->allStatusesNodeRepository->find($nodeId);
 
         if (null === $node) {
             throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
@@ -578,7 +576,7 @@ final class NodesController extends AbstractController
                 'nodesEditSourcePage',
                 [
                     'nodeId' => $node->getId(),
-                    'translationId' => $this->managerRegistry->getRepository(Translation::class)->findDefault()->getId(),
+                    'translationId' => $this->translationRepository->findDefault()->getId(),
                 ]
             );
         }
@@ -640,7 +638,7 @@ final class NodesController extends AbstractController
     public function publishAllAction(Request $request, int $nodeId): Response
     {
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+        $node = $this->allStatusesNodeRepository->find($nodeId);
 
         if (null === $node) {
             throw new ResourceNotFoundException(sprintf('Node #%s does not exist.', $nodeId));
@@ -655,7 +653,7 @@ final class NodesController extends AbstractController
                 'nodesEditSourcePage',
                 [
                     'nodeId' => $node->getId(),
-                    'translationId' => $this->managerRegistry->getRepository(Translation::class)->findDefault()->getId(),
+                    'translationId' => $this->translationRepository->findDefault()->getId(),
                 ]
             );
         }

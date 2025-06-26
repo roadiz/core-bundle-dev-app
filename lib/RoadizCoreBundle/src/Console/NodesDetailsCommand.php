@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodesSourcesRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -22,6 +23,7 @@ final class NodesDetailsCommand extends Command
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
+        private readonly NotPublishedNodesSourcesRepository $notPublishedNodesSourcesRepository,
         private readonly NodeTypes $nodeTypesBag,
         ?string $name = null,
     ) {
@@ -51,12 +53,11 @@ final class NodesDetailsCommand extends Command
          *
          * @phpstan-ignore-next-line
          */
-        $source = $this->managerRegistry->getRepository(NodesSources::class)
-                                    ->setDisplayingNotPublishedNodes(true)
-                                    ->findOneBy([
-                                        'node.nodeName' => $input->getArgument('nodeName'),
-                                        'translation' => $translation,
-                                    ]);
+        $source = $this->notPublishedNodesSourcesRepository
+                       ->findOneBy([
+                           'node.nodeName' => $input->getArgument('nodeName'),
+                           'translation' => $translation,
+                       ]);
         if (null !== $source) {
             $io->title($source::class);
             $io->title('Title');

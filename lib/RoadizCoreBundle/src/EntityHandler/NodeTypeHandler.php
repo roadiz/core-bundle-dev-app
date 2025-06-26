@@ -10,6 +10,7 @@ use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\NodeType\ApiResourceGenerator;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodeRepository;
 use RZ\Roadiz\EntityGenerator\EntityGeneratorFactory;
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -46,6 +47,7 @@ final class NodeTypeHandler extends AbstractHandler
         private readonly HandlerFactory $handlerFactory,
         private readonly ApiResourceGenerator $apiResourceGenerator,
         private readonly LoggerInterface $logger,
+        private readonly NotPublishedNodeRepository $notPublishedNodeRepository,
         private readonly string $generatedEntitiesDir,
     ) {
         parent::__construct($objectManager);
@@ -215,9 +217,7 @@ final class NodeTypeHandler extends AbstractHandler
         /*
          * Delete every nodes
          */
-        $nodes = $this->objectManager
-            ->getRepository(Node::class)
-            ->setDisplayingNotPublishedNodes(true)
+        $nodes = $this->notPublishedNodeRepository
             ->findBy([
                 'nodeTypeName' => $this->getNodeType()->getName(),
             ]);

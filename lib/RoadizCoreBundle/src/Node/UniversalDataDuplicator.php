@@ -12,13 +12,14 @@ use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
-use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 
 final readonly class UniversalDataDuplicator
 {
     public function __construct(
         private ManagerRegistry $managerRegistry,
+        private AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
         private NodeTypes $nodeTypesBag,
     ) {
     }
@@ -44,11 +45,7 @@ final readonly class UniversalDataDuplicator
             $universalFields = $fields->filter(fn (NodeTypeField $field) => $field->isUniversal());
 
             if (count($universalFields) > 0) {
-                $repository = $this->managerRegistry->getRepository(NodesSources::class);
-                $repository->setDisplayingAllNodesStatuses(true)
-                    ->setDisplayingNotPublishedNodes(true)
-                ;
-                $otherSources = $repository->findBy([
+                $otherSources = $this->allStatusesNodesSourcesRepository->findBy([
                     'node' => $source->getNode(),
                     'id' => ['!=', $source->getId()],
                 ]);
@@ -92,14 +89,10 @@ final readonly class UniversalDataDuplicator
         /** @var Translation $defaultTranslation */
         $defaultTranslation = $translationRepository->findDefault();
 
-        /** @var NodesSourcesRepository $repository */
-        $repository = $this->managerRegistry->getRepository(NodesSources::class);
-        $sourceCount = $repository->setDisplayingAllNodesStatuses(true)
-            ->setDisplayingNotPublishedNodes(true)
-            ->countBy([
-                'node' => $source->getNode(),
-                'translation' => $defaultTranslation,
-            ]);
+        $sourceCount = $this->allStatusesNodesSourcesRepository->countBy([
+            'node' => $source->getNode(),
+            'translation' => $defaultTranslation,
+        ]);
 
         return 1 === $sourceCount;
     }

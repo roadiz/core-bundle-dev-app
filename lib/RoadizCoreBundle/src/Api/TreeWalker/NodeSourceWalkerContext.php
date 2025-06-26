@@ -6,11 +6,13 @@ namespace RZ\Roadiz\CoreBundle\Api\TreeWalker;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
 use Psr\Cache\CacheItemPoolInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeSourceApi;
 use RZ\Roadiz\CoreBundle\NodeType\NodeTypeResolver;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
+use RZ\Roadiz\CoreBundle\Repository\StatusAwareRepository;
 use RZ\TreeWalker\WalkerContextInterface;
 use Symfony\Component\DependencyInjection\Attribute\Exclude;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,7 +45,7 @@ readonly class NodeSourceWalkerContext implements WalkerContextInterface
     }
 
     /**
-     * @deprecated Use getManagerRegistry
+     * @deprecated Use getRepository
      */
     public function getNodeSourceApi(): NodeSourceApi
     {
@@ -68,14 +70,36 @@ readonly class NodeSourceWalkerContext implements WalkerContextInterface
         return $this->requestStack->getMainRequest();
     }
 
+    /**
+     * @deprecated Use getRepository to ensure correct repository state
+     */
     public function getManagerRegistry(): ManagerRegistry
     {
         return $this->managerRegistry;
     }
 
+    /**
+     * @param class-string $className
+     */
+    public function getRepository(string $className): ObjectRepository
+    {
+        $repository = $this->managerRegistry->getRepository($className);
+
+        /*
+         * We need to reset repository status state, because StatusAwareRepository is not a stateless service.
+         * When using worker PHP runtimes (such as FrankenPHP or Swoole), this can lead to unpublish nodes being returned.
+         */
+        if ($repository instanceof StatusAwareRepository) {
+            $repository->setDisplayingNotPublishedNodes(false);
+            $repository->setDisplayingAllNodesStatuses(false);
+        }
+
+        return $repository;
+    }
+
     public function getEntityManager(): ObjectManager
     {
-        return $this->getManagerRegistry()->getManager();
+        return $this->managerRegistry->getManager();
     }
 
     public function getCacheAdapter(): CacheItemPoolInterface

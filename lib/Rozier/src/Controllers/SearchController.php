@@ -19,6 +19,7 @@ use RZ\Roadiz\CoreBundle\Form\NodeStatesType;
 use RZ\Roadiz\CoreBundle\Form\NodeTypesType;
 use RZ\Roadiz\CoreBundle\Form\SeparatorType;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\ClickableInterface;
@@ -61,6 +62,7 @@ final class SearchController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly Registry $workflowRegistry,
         private readonly EntityListManagerFactoryInterface $entityListManagerFactory,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly array $csvEncoderOptions,
     ) {
     }

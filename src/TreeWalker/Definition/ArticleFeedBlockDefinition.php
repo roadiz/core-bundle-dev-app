@@ -57,7 +57,7 @@ final class ArticleFeedBlockDefinition implements StoppableDefinition
         $count = (int) ($source->getListingCount() ?? 4);
 
         // @phpstan-ignore-next-line
-        $children = $this->context->getManagerRegistry()
+        $children = $this->context
             ->getRepository(NSArticle::class)
             ->findBy($criteria, [
                 'publishedAt' => 'DESC',
