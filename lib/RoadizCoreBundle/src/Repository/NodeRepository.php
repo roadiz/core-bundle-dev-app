@@ -389,6 +389,9 @@ class NodeRepository extends StatusAwareRepository
             $qb->innerJoin($alias.'.nodeSources', self::NODESSOURCES_ALIAS);
         }
 
+        // Ensure DTO is not duplicated
+        $qb->groupBy($alias.'.id');
+
         $qb->select(sprintf(
             <<<EOT
 NEW %s(
