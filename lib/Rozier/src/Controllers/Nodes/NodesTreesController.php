@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
+use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -38,6 +39,7 @@ final class NodesTreesController extends AbstractController
         private readonly LogTrail $logTrail,
         private readonly TranslatorInterface $translator,
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+        private readonly TranslationRepository $translationRepository,
     ) {
     }
 
@@ -47,7 +49,7 @@ final class NodesTreesController extends AbstractController
 
         if (null !== $nodeId) {
             /** @var Node|null $node */
-            $node = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+            $node = $this->allStatusesNodeRepository->find($nodeId);
             if (null === $node) {
                 throw new ResourceNotFoundException();
             }
@@ -66,12 +68,10 @@ final class NodesTreesController extends AbstractController
 
         if (null !== $translationId) {
             /** @var Translation $translation */
-            $translation = $this->managerRegistry
-                                ->getRepository(Translation::class)
-                                ->findOneBy(['id' => $translationId]);
+            $translation = $this->translationRepository->findOneBy(['id' => $translationId]);
         } else {
             /** @var Translation $translation */
-            $translation = $this->managerRegistry->getRepository(Translation::class)->findDefault();
+            $translation = $this->translationRepository->findDefault();
         }
 
         $widget = $this->treeWidgetFactory->createNodeTree($node, $translation);
@@ -102,9 +102,7 @@ final class NodesTreesController extends AbstractController
                     );
             }
             $assignation['source'] = $node->getNodeSourcesByTranslation($translation)->first();
-            $availableTranslations = $this->managerRegistry
-                ->getRepository(Translation::class)
-                ->findAvailableTranslationsForNode($node);
+            $availableTranslations = $this->translationRepository->findAvailableTranslationsForNode($node);
             $assignation['available_translations'] = $availableTranslations;
         }
         $assignation['translation'] = $translation;
