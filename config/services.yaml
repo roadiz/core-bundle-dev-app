@@ -38,3 +38,9 @@ services:
         autowire: false
         autoconfigure: false
         public: false
+
+    App\Serializer\Normalizer\AliasBlockWalkerNormalizer:
+        decorates: 'api_platform.jsonld.normalizer.object'
+        arguments:
+            $decorated: '@App\Serializer\Normalizer\AliasBlockWalkerNormalizer.inner'
+            $itemNormalizer: '@api_platform.serializer.normalizer.item'

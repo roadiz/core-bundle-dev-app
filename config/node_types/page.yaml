@@ -44,6 +44,7 @@ fields:
             - BasicBlock
             - GroupBlock
             - ArticleFeedBlock
+            - AliasBlock
         required: true
         type: children-nodes
     -

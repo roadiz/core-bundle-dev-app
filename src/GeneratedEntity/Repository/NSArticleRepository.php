@@ -28,7 +28,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSArticle|null   findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)
  * @method NSArticle|null   findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
  * @method NSArticle[]|null findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
- * @method int    countBy(mixed $criteria)
+ * @method int countBy(mixed $criteria)
  */
 final class NSArticleRepository extends NodesSourcesRepository
 {

@@ -27,6 +27,7 @@ resources:
                         - document_display_sources
                         - web_response
                         - walker
+                        - walker_metadata
                         - children
                 openapiContext:
                     tags:
@@ -56,6 +57,7 @@ resources:
                         - document_display_sources
                         - web_response
                         - walker
+                        - walker_metadata
                         - children
                 openapiContext:
                     tags:
@@ -85,6 +87,7 @@ resources:
                         - document_display_sources
                         - web_response
                         - walker
+                        - walker_metadata
                         - children
                 openapiContext:
                     tags:
@@ -117,6 +120,7 @@ resources:
                         - nodes_sources_geo
                         - web_response
                         - walker
+                        - walker_metadata
                         - children
                 openapiContext:
                     tags:

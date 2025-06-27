@@ -28,7 +28,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSBasicBlock|null   findOneByIdentifierAndTranslation(string $identifier, ?TranslationInterface $translation, bool $availableTranslation = false)
  * @method NSBasicBlock|null   findOneByNodeAndTranslation(Node $node, ?TranslationInterface $translation)
  * @method NSBasicBlock[]|null findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
- * @method int    countBy(mixed $criteria)
+ * @method int countBy(mixed $criteria)
  */
 final class NSBasicBlockRepository extends NodesSourcesRepository
 {

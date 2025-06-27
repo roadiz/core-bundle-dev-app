@@ -706,7 +706,6 @@ class NSPage extends NodesSources
                 }
                 $proxyEntity->setUser($singleUsers);
                 $this->usersProxy->add($proxyEntity);
-                $this->objectManager->persist($proxyEntity);
             }
         }
 
@@ -925,7 +924,6 @@ class NSPage extends NodesSources
             $itemClone = clone $item;
             $itemClone->setNodeSource($this);
             $usersProxyClone->add($itemClone);
-            $this->objectManager->persist($itemClone);
         }
         $this->usersProxy = $usersProxyClone;
     }
