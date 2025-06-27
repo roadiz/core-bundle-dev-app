@@ -95,7 +95,7 @@ final class AjaxNodesExplorerController extends AbstractAjaxExplorerController
         if ($request->query->has('nodeTypes')) {
             $nodeTypesRequest = $request->get('nodeTypes');
             if (\is_string($nodeTypesRequest) && '' !== trim($nodeTypesRequest)) {
-                $nodeTypesRequest = [$nodeTypesRequest];
+                $nodeTypesRequest = array_filter(explode(',', $nodeTypesRequest));
             }
             if (\is_array($nodeTypesRequest) && count($nodeTypesRequest) > 0) {
                 /** @var NodeType[] $nodeTypes */
