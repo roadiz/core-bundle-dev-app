@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.25...v2.5.26) - 2025-06-27
+
+### Bug Fixes
+
+- **(AjaxNodesExplorerController)** Improve nodeTypes handling by allowing comma-separated values - ([9b03698](https://github.com/roadiz/core-bundle-dev-app/commit/9b03698d25a5b2a9cb51276673232032c283766b))
+
 ## [2.5.25](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.24...v2.5.25) - 2025-06-26
 
 ### Bug Fixes
