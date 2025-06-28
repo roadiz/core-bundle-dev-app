@@ -1864,14 +1864,6 @@
         <source>display_debug_panel</source>
         <target state="final">Прикажи панел за отклањање грешака</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender" approved="yes">
-        <source>email_sender</source>
-        <target state="final">Еmail адресе основног веб-сајта</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender_name" approved="yes">
-        <source>email_sender_name</source>
-        <target state="final">Име пошиљаоца</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="soundcloud_client_id" approved="yes">
         <source>soundcloud_client_id</source>
         <target state="final">ID Soundcloud клијента</target>
@@ -3701,10 +3693,6 @@
       <trans-unit xml:space="preserve" id="use_cdn" approved="yes">
         <source>use_cdn</source>
         <target state="final">Користи CDN за ресурсе</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale" approved="yes">
-        <source>force_locale</source>
-        <target state="final">Прикажи локална подешавања у оквиру URL-а</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache" approved="yes">
         <source>nodeSourcesUrlsCache</source>
