@@ -66,6 +66,7 @@ final readonly class CustomFormAnswerNotifyMessageHandler
                 'title' => $message->getTitle(),
                 'requestLocale' => $message->getLocale(),
             ],
+            locale: $message->getLocale(),
             resources: $this->getAnswerDataParts($answer),
             replyTo: $answerSenderEmail && $this->useReplyTo ? new Address($answerSenderEmail) : null,
             subject: $message->getTitle(),

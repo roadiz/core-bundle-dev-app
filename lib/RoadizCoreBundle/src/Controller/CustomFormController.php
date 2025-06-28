@@ -213,7 +213,8 @@ final class CustomFormController extends AbstractController
                     $answerId,
                     $this->translator->trans(
                         'new.answer.form.%site%',
-                        ['%site%' => $customFormsEntity->getDisplayName()]
+                        ['%site%' => $customFormsEntity->getDisplayName()],
+                        locale: $request->getLocale(),
                     ),
                     $request->getLocale()
                 ));
