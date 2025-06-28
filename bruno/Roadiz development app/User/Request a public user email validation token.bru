@@ -6,8 +6,18 @@ meta {
 
 post {
   url: {{baseUrl}}/api/users/validation_request
-  body: none
-  auth: none
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "identifier": "{{username}}"
+  }
 }
 
 script:post-response {

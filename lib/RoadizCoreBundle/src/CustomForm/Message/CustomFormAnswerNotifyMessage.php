@@ -11,7 +11,6 @@ final readonly class CustomFormAnswerNotifyMessage implements AsyncMessage
     public function __construct(
         private int $customFormAnswerId,
         private string $title,
-        private string $senderAddress,
         private string $locale,
     ) {
     }
@@ -24,11 +23,6 @@ final readonly class CustomFormAnswerNotifyMessage implements AsyncMessage
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    public function getSenderAddress(): string
-    {
-        return $this->senderAddress;
     }
 
     public function getLocale(): string

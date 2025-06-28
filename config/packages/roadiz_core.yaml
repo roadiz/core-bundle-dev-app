@@ -6,7 +6,7 @@ roadiz_core:
     documentsLibDir: 'lib/Documents/src'
     useNativeJsonColumnType: true
     useGravatar: false
-    useEmailReplyTo: false
+    useEmailReplyTo: true
     useDocumentDto: true
     helpExternalUrl: 'https://docs.roadiz.io'
     medias:

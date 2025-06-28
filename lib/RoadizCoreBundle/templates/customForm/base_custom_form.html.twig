@@ -9,7 +9,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
     {# CSS scripts inclusions / Using webpack #}
-    {% include '@RoadizRozier/partials/css-inject.html.twig' %}
+    {{ manifest_preload_tags('main') }}
+    {{ manifest_style_tags('main') }}
     {% if main_color %}
         <style>
             :root {

@@ -50,20 +50,23 @@ services:
             $useGravatar: '%roadiz_core.use_gravatar%'
             $useReplyTo: '%roadiz_core.use_email_reply_to%'
             $helpExternalUrl: '%roadiz_core.help_external_url%'
+            $forceLocale: '%roadiz_core.force_locale%'
+            $forceLocaleWithUrlAlias: '%roadiz_core.force_locale_with_url_aliases%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
-            - '../src/Traits/'
-            - '../src/Kernel.php'
-            - '../src/Tests/'
             - '../src/Event/'
-            - '../src/Model/'
-            - '../src/ListManager/'
-            - '../src/Serializer/Normalizer/'
             - '../src/Importer/'
+            - '../src/Kernel.php'
+            - '../src/ListManager/'
+            - '../src/Mailer/'
+            - '../src/Model/'
+            - '../src/Serializer/Normalizer/'
+            - '../src/Tests/'
+            - '../src/Traits/'
 
     RZ\Roadiz\CoreBundle\EntityHandler\:
         resource: '../src/EntityHandler/'
@@ -302,9 +305,20 @@ services:
         autowire: true
         autoconfigure: false
 
+    RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory:
+        autowire: true
+        autoconfigure: true
+        deprecated:
+            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.7. Use symfony/notifier instead.'
+            package: roadiz/core-bundle
+            version: '2.6.0'
+
+    RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory:
+        autowire: true
+        autoconfigure: true
+
     # Do not register roadiz/document packages event-subscribers
     # They've been replaced with MessageHandlers
-
     RZ\Roadiz\CoreBundle\Document\MessageHandler\AbstractDocumentMessageHandler:
         autoconfigure: false
         abstract: true
@@ -370,22 +384,6 @@ services:
             -   name: messenger.message_handler
                 handles: RZ\Roadiz\CoreBundle\Document\Message\DocumentPdfMessage
             - { name: monolog.logger, channel: messenger }
-
-    RZ\Roadiz\CoreBundle\Mailer\EmailManager:
-        # Recreate manager for each usage
-        shared: false
-        deprecated:
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory instead.'
-            package: roadiz/core-bundle
-            version: '2.3.18'
-
-    RZ\Roadiz\CoreBundle\Mailer\ContactFormManager:
-        # Recreate manager for each usage
-        shared: false
-        deprecated:
-            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.4. Use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory instead.'
-            package: roadiz/core-bundle
-            version: '2.3.18'
 
     RZ\Roadiz\CoreBundle\Doctrine\EventSubscriber\:
         resource: '../src/Doctrine/EventSubscriber'

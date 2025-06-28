@@ -71,7 +71,7 @@ final readonly class UserSignupProcessor implements ProcessorInterface
         }
 
         $request = $this->requestStack->getCurrentRequest();
-        $this->ValidateRequest($request);
+        $this->validateRequest($request);
         $this->validateRecaptchaHeader($request);
 
         $user = $this->createUser($data);

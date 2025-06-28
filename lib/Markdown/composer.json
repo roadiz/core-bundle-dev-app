@@ -7,7 +7,7 @@
         "doctrine/collections": ">=1.6",
         "league/commonmark": "^2.2.0",
         "symfony/stopwatch": "6.4.*",
-        "twig/twig": "^3.16"
+        "twig/twig": "^3.21"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.5.3",

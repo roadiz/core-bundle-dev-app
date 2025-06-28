@@ -9,14 +9,15 @@ use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Environment;
 
+/**
+ * @deprecated since 2.6, use symfony/notifier instead with custom EmailNotification
+ */
 final readonly class EmailManagerFactory
 {
     public function __construct(
         private RequestStack $requestStack,
         private TranslatorInterface $translator,
-        private Environment $templating,
         private MailerInterface $mailer,
         private Settings $settingsBag,
         private DocumentUrlGeneratorInterface $documentUrlGenerator,
@@ -24,12 +25,14 @@ final readonly class EmailManagerFactory
     ) {
     }
 
+    /**
+     * @deprecated since 2.6, use symfony/notifier instead with custom EmailNotification
+     */
     public function create(): EmailManager
     {
         return new EmailManager(
             $this->requestStack,
             $this->translator,
-            $this->templating,
             $this->mailer,
             $this->settingsBag,
             $this->documentUrlGenerator,

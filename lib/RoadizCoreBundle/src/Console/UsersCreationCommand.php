@@ -21,7 +21,7 @@ final class UsersCreationCommand extends UsersCommand
     protected function configure(): void
     {
         $this->setName('users:create')
-            ->setDescription('Create a user. Without <info>--password</info> a random password will be generated and sent by email. <info>Check if "email_sender" setting is valid.</info>')
+            ->setDescription('Create a user. Without <info>--password</info> a random password will be generated and sent by email.')
             ->addOption('email', 'm', InputOption::VALUE_REQUIRED, 'Set user email.')
             ->addOption('plain-password', 'p', InputOption::VALUE_REQUIRED, 'Set user password (typing plain password in command-line is insecure).')
             ->addOption('back-end', 'b', InputOption::VALUE_NONE, 'Add ROLE_BACKEND_USER to user.')

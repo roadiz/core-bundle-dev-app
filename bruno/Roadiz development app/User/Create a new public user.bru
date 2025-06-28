@@ -6,12 +6,19 @@ meta {
 
 post {
   url: {{baseUrl}}/api/users/signup
-  body: none
+  body: json
   auth: none
 }
 
 headers {
   x-g-recaptcha-response: 
+}
+
+body:json {
+  {
+    "email": "public_user_2@test.test",
+    "plainPassword": "test-public_user_2"
+  }
 }
 
 script:post-response {

@@ -10,6 +10,7 @@ final class UserInput extends AbstractUserInput
 {
     #[Assert\NotNull]
     #[Assert\NotBlank]
+    #[Assert\Length(min: 8, max: 120)]
     #[Assert\NotCompromisedPassword()]
     public string $plainPassword = '';
 }

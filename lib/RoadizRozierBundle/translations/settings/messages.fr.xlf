@@ -2,14 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="fr">
     <body>
-      <trans-unit xml:space="preserve" id="force_locale.description" approved="yes">
-                <source>Force displaying translation locale in every node’ paths. This should be ON if you redirect users based on their language on homepage.</source>
-                <target state="final">Forcer l'affichage de la locale de traduction dans les chemins de chaque noeud, même pour la langue par défaut. Cela devrait être activé si vous redirigez les utilisateurs en fonction de leur langue sur la page d'accueil.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender.description" approved="yes">
-                <source>Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**</source>
-                <target state="final">Email d'expéditeur par défaut, utilisé comme Origine pour chaque email système envoyé. Cet email **doit être autorisé par votre serveur SMTP.**</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description" approved="yes">
                 <source>Default maps tiles layout when using *Leaflet*.</source>
                 <target state="final">Habillage par défaut des cartes lorsque vous utilisez *Leaflet*.</target>
@@ -38,16 +30,6 @@
                 <source>hide_roadiz_version.help</source>
                 <target state="final">Cache le numéro et le nom du CMS des en-têtes HTTP et des variables du thème.</target>
                 <note>Setting</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale_with_urlaliases" approved="yes">
-                <source>force_locale_with_urlaliases</source>
-                <target state="final">Afficher la locale avec les alias d’URL</target>
-                <note>Setting name</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale_with_urlaliases.help" approved="yes">
-                <source>force_locale_with_urlaliases.help</source>
-                <target state="final">La locale sera toujours affichée dans le chemin généré pour une source de nœud même si elle possède un alias d’URL dans la langue demandée.</target>
-                <note>Setting description</note>
             </trans-unit>
       <trans-unit xml:space="preserve" id="use_native_json" approved="yes">
                 <source>use_native_json</source>

@@ -4,7 +4,7 @@ title: Building custom forms
 
 # Building custom forms
 
-Building a custom form looks like building a node but it is a lot simpler! Let's have a look at structure image.
+Building a custom form looks like building a node, but it is a lot simpler! Let's have a look at structure image.
 
 ![image](./img/custom-form.svg){.align-center}
 
