@@ -1852,14 +1852,6 @@
         <source>display_debug_panel</source>
         <target state="final">Tampilkan panel debug</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender" approved="yes">
-        <source>email_sender</source>
-        <target state="final">Alamat email situs utama</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender_name" approved="yes">
-        <source>email_sender_name</source>
-        <target state="final">Nama pengirim situs utama</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="soundcloud_client_id" approved="yes">
         <source>soundcloud_client_id</source>
         <target state="final">ID klien Soundcloud</target>
@@ -3609,10 +3601,6 @@
       <trans-unit xml:space="preserve" id="use_cdn" approved="yes">
         <source>use_cdn</source>
         <target state="final">Gunakan CDN untuk mendapatkan sumber daya</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale" approved="yes">
-        <source>force_locale</source>
-        <target state="final">Paksa lokal di URL</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache" approved="yes">
         <source>nodeSourcesUrlsCache</source>
