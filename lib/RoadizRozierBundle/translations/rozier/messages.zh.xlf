@@ -1876,14 +1876,6 @@
         <source>display_debug_panel</source>
         <target state="final">显示调试面板</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender" approved="yes">
-        <source>email_sender</source>
-        <target state="final">主网站电子邮件地址</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender_name" approved="yes">
-        <source>email_sender_name</source>
-        <target state="final">主网站发件人名称</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="soundcloud_client_id" approved="yes">
         <source>soundcloud_client_id</source>
         <target state="final">Soundcloud client ID</target>
@@ -3761,10 +3753,6 @@
       <trans-unit xml:space="preserve" id="use_cdn" approved="yes">
         <source>use_cdn</source>
         <target state="final">为资源使用 CDN</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale" approved="yes">
-        <source>force_locale</source>
-        <target state="final">强制在网址中显示区域代码</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache" approved="yes">
         <source>nodeSourcesUrlsCache</source>
