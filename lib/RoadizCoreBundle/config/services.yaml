@@ -58,14 +58,15 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
-            - '../src/Traits/'
-            - '../src/Kernel.php'
-            - '../src/Tests/'
             - '../src/Event/'
-            - '../src/Model/'
-            - '../src/ListManager/'
-            - '../src/Serializer/Normalizer/'
             - '../src/Importer/'
+            - '../src/Kernel.php'
+            - '../src/ListManager/'
+            - '../src/Mailer/'
+            - '../src/Model/'
+            - '../src/Serializer/Normalizer/'
+            - '../src/Tests/'
+            - '../src/Traits/'
 
     RZ\Roadiz\CoreBundle\EntityHandler\:
         resource: '../src/EntityHandler/'
@@ -304,9 +305,20 @@ services:
         autowire: true
         autoconfigure: false
 
+    RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory:
+        autowire: true
+        autoconfigure: true
+        deprecated:
+            message: 'The "%service_id%" service is deprecated and will be removed in Roadiz 2.7. Use symfony/notifier instead.'
+            package: roadiz/core-bundle
+            version: '2.6.0'
+
+    RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory:
+        autowire: true
+        autoconfigure: true
+
     # Do not register roadiz/document packages event-subscribers
     # They've been replaced with MessageHandlers
-
     RZ\Roadiz\CoreBundle\Document\MessageHandler\AbstractDocumentMessageHandler:
         autoconfigure: false
         abstract: true
