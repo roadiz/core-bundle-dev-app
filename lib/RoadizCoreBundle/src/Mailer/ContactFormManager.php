@@ -43,22 +43,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 final class ContactFormManager
 {
-    protected string $formName = 'contact_form';
-    protected ?string $redirectUrl = null;
-    protected ?FormBuilderInterface $formBuilder = null;
-    protected ?FormInterface $form = null;
-    protected array $options = [];
-    protected string $method = Request::METHOD_POST;
-    protected bool $emailStrictMode = false;
-    protected bool $useRealResponseCode = false;
-    protected array $allowedMimeTypes = [
+    private string $formName = 'contact_form';
+    private ?string $redirectUrl = null;
+    private ?FormBuilderInterface $formBuilder = null;
+    private ?FormInterface $form = null;
+    private array $options = [];
+    private string $method = Request::METHOD_POST;
+    private bool $emailStrictMode = false;
+    private bool $useRealResponseCode = false;
+    private array $allowedMimeTypes = [
         'application/pdf',
         'application/x-pdf',
         'image/jpeg',
         'image/png',
         'image/gif',
     ];
-    protected int $maxFileSize = 5242880; // 5MB
+    private int $maxFileSize = 5242880; // 5MB
 
     /*
      * DO NOT DIRECTLY USE THIS CONSTRUCTOR
