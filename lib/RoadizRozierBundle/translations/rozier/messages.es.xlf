@@ -1864,14 +1864,6 @@
         <source>display_debug_panel</source>
         <target state="final">Ver panel de depuración</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender" approved="yes">
-        <source>email_sender</source>
-        <target state="final">Emisor de correo</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender_name" approved="yes">
-        <source>email_sender_name</source>
-        <target state="final">Nombre de emisor de correo</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="soundcloud_client_id" approved="yes">
         <source>soundcloud_client_id</source>
         <target state="final">ID de cliente en soundcloud</target>
@@ -3621,10 +3613,6 @@
       <trans-unit xml:space="preserve" id="use_cdn" approved="yes">
         <source>use_cdn</source>
         <target state="final">Utilizar un CDN como recurso</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale" approved="yes">
-        <source>force_locale</source>
-        <target state="final">Forzar código local en URL</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache" approved="yes">
         <source>nodeSourcesUrlsCache</source>
