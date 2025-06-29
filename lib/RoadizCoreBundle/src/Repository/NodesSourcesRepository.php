@@ -230,6 +230,12 @@ class NodesSourcesRepository extends StatusAwareRepository
         // Add ordering
         if (null !== $orderBy) {
             foreach ($orderBy as $key => $value) {
+                // Add a rank to sort by publishedAt null values
+                if ('ns.publishedAt' === $key) {
+                    $qb->addSelect('CASE WHEN ns.publishedAt IS NULL THEN 0 ELSE 1 END AS HIDDEN _ns_publishedAt_null_rank');
+                    $qb->addOrderBy('_ns_publishedAt_null_rank', 'ASC');
+                }
+
                 if (\str_contains($key, 'node.')) {
                     $simpleKey = str_replace('node.', '', $key);
                     $qb->addOrderBy(static::NODE_ALIAS.'.'.$simpleKey, $value);
