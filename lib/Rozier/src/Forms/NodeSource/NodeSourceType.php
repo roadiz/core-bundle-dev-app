@@ -19,6 +19,7 @@ use RZ\Roadiz\CoreBundle\Form\MultipleEnumerationType;
 use RZ\Roadiz\CoreBundle\Form\YamlType;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeTypeFieldVoter;
+use RZ\Roadiz\CoreBundle\Workflow\NodesSourcesWorkflow;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -49,6 +50,7 @@ final class NodeSourceType extends AbstractType
         private readonly ManagerRegistry $managerRegistry,
         private readonly Security $security,
         private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
+        private readonly NodesSourcesWorkflow $nodesSourcesWorkflow,
     ) {
     }
 
@@ -62,7 +64,7 @@ final class NodeSourceType extends AbstractType
 
         if (true === $options['withTitle']) {
             $builder->add('base', NodeSourceBaseType::class, [
-                'publishable' => $options['nodeType']->isPublishable(),
+                'publishable' => $options['nodeType']->isPublishable() && $this->nodesSourcesWorkflow->can($builder->getData(), 'publish'),
                 'translation' => $builder->getData()->getTranslation(),
             ]);
         }
