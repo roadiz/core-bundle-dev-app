@@ -162,11 +162,11 @@
                 {#
                 # Node source statuses
                 #}
-                <node-source-statuses
+                <nodes-sources-statuses
                     role="button"
                     tabindex="0"
                     data-update-url="{{ path('nodesSourcesStatusesAjax', { nodeSource: source.id }) }}"
-                    class="node-statuses node-status with-subnav uk-form">
+                    class="nodes-sources-statuses with-subnav uk-form">
                     {% if source.isDraft %}
                         {% set iconClass = 'uk-icon-rz-draft-nodes' %}
                     {% elseif source.isPublished %}
@@ -178,8 +178,7 @@
                             <li class="node-statuses-item node-draft">
                                 <i class="uk-icon-rz-draft-nodes"></i>
                                 <span class="label">{% trans %}draft{% endtrans %}</span>
-                                <input data-node-source-id="{{ source.id }}"
-                                       type="radio"
+                                <input type="radio"
                                        name="status"
                                        value="reject"
                                        {% if source.isDraft %}checked{% endif %} />
@@ -189,8 +188,7 @@
                             <li class="node-statuses-item node-published">
                                 <i class="uk-icon-rz-published"></i>
                                 <span class="label">{% trans %}published{% endtrans %}</span>
-                                <input data-node-source-id="{{ source.id }}"
-                                       type="radio"
+                                <input type="radio"
                                        name="status"
                                        value="publish"
                                        {% if source.isPublished %}checked{% endif %} />
@@ -200,15 +198,14 @@
                             <li class="node-statuses-item node-delete">
                                 <i class="uk-icon-rz-delete"></i>
                                 <span class="label">{% trans %}delete{% endtrans %}</span>
-                                <input data-node-source-id="{{ source.id }}"
-                                       type="radio"
+                                <input type="radio"
                                        name="status"
-                                       value="publish"
+                                       value="delete"
                                        {% if source.isDeleted %}checked{% endif %} />
                             </li>
                         {% endif %}
                     </ul>
-                </node-source-statuses>
+                </nodes-sources-statuses>
             {% endif %}
         {% endif %}
     </nav>
