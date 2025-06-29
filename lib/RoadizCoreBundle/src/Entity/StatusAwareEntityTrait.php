@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
+use ApiPlatform\Doctrine\Common\Filter\OrderFilterInterface;
 use ApiPlatform\Doctrine\Orm\Filter as BaseFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiProperty;
@@ -16,7 +17,9 @@ use Symfony\Component\Serializer\Attribute\Ignore;
 trait StatusAwareEntityTrait
 {
     #[ApiFilter(BaseFilter\DateFilter::class)]
-    #[ApiFilter(BaseFilter\OrderFilter::class)]
+    #[ApiFilter(BaseFilter\OrderFilter::class, properties: [
+        'publishedAt' => ['nulls_comparison' => OrderFilterInterface::NULLS_ALWAYS_FIRST, 'default_direction' => 'DESC'],
+    ])]
     #[ApiFilter(ArchiveFilter::class)]
     #[Column(name: 'published_at', type: 'datetime', unique: false, nullable: true)]
     #[Groups(['nodes_sources', 'nodes_sources_base'])]
@@ -26,8 +29,9 @@ trait StatusAwareEntityTrait
     )]
     protected ?\DateTime $publishedAt = null;
 
-    #[ApiFilter(BaseFilter\DateFilter::class)]
-    #[ApiFilter(BaseFilter\OrderFilter::class)]
+    #[ApiFilter(BaseFilter\DateFilter::class)] #[ApiFilter(BaseFilter\OrderFilter::class, properties: [
+        'deletedAt' => ['nulls_comparison' => OrderFilterInterface::NULLS_ALWAYS_FIRST, 'default_direction' => 'DESC'],
+    ])]
     #[ApiFilter(ArchiveFilter::class)]
     #[Column(name: 'deleted_at', type: 'datetime', unique: false, nullable: true)]
     #[Ignore]
