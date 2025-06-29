@@ -16,6 +16,8 @@ use Doctrine\Persistence\ObjectManager;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
+use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
@@ -34,18 +36,21 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ORM\Entity(repositoryClass: NodesSourcesRepository::class),
     ORM\Table(name: 'nodes_sources'),
-    ORM\Index(columns: ['discr']),
-    ORM\Index(columns: ['title']),
-    ORM\Index(columns: ['published_at']),
-    ORM\Index(columns: ['no_index'], name: 'ns_no_index'),
-    ORM\Index(columns: ['node_id', 'translation_id', 'published_at'], name: 'ns_node_translation_published'),
-    ORM\Index(columns: ['node_id', 'discr', 'translation_id'], name: 'ns_node_discr_translation'),
-    ORM\Index(columns: ['node_id', 'discr', 'translation_id', 'published_at'], name: 'ns_node_discr_translation_published'),
-    ORM\Index(columns: ['translation_id', 'published_at'], name: 'ns_translation_published'),
-    ORM\Index(columns: ['discr', 'translation_id'], name: 'ns_discr_translation'),
+    ORM\Index(columns: ['created_at'], name: 'ns_created_at'),
+    ORM\Index(columns: ['deleted_at'], name: 'ns_deleted_at'),
     ORM\Index(columns: ['discr', 'translation_id', 'published_at'], name: 'ns_discr_translation_published'),
+    ORM\Index(columns: ['discr', 'translation_id'], name: 'ns_discr_translation'),
+    ORM\Index(columns: ['discr'], name: 'ns_discr'),
+    ORM\Index(columns: ['no_index'], name: 'ns_no_index'),
+    ORM\Index(columns: ['node_id', 'discr', 'translation_id', 'published_at'], name: 'ns_node_discr_translation_published'),
+    ORM\Index(columns: ['node_id', 'discr', 'translation_id'], name: 'ns_node_discr_translation'),
+    ORM\Index(columns: ['node_id', 'translation_id', 'published_at'], name: 'ns_node_translation_published'),
+    ORM\Index(columns: ['published_at'], name: 'ns_published_at'),
     ORM\Index(columns: ['title', 'published_at'], name: 'ns_title_published'),
     ORM\Index(columns: ['title', 'translation_id', 'published_at'], name: 'ns_title_translation_published'),
+    ORM\Index(columns: ['title'], name: 'ns_title'),
+    ORM\Index(columns: ['translation_id', 'published_at'], name: 'ns_translation_published'),
+    ORM\Index(columns: ['updated_at'], name: 'ns_updated_at'),
     ORM\UniqueConstraint(columns: ['node_id', 'translation_id']),
     ORM\InheritanceType('JOINED'),
     // Limit discriminator column to 30 characters for indexing optimization
@@ -59,9 +64,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(RoadizFilter\LocaleFilter::class),
     ApiFilter(RoadizFilter\TagGroupFilter::class),
 ]
-class NodesSources implements PersistableInterface, Loggable, \Stringable
+class NodesSources implements PersistableInterface, DateTimedInterface, StatusAwareEntityInterface, Loggable, \Stringable
 {
     use SequentialIdTrait;
+    use DateTimedTrait;
+    use StatusAwareEntityTrait;
 
     #[SymfonySerializer\Ignore]
     protected ?ObjectManager $objectManager = null;
@@ -83,17 +90,6 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         example: 'This is a title',
     )]
     protected ?string $title = null;
-
-    #[ApiFilter(BaseFilter\DateFilter::class)]
-    #[ApiFilter(BaseFilter\OrderFilter::class)]
-    #[ApiFilter(RoadizFilter\ArchiveFilter::class)]
-    #[ORM\Column(name: 'published_at', type: 'datetime', unique: false, nullable: true)]
-    #[SymfonySerializer\Groups(['nodes_sources', 'nodes_sources_base'])]
-    #[Gedmo\Versioned]
-    #[ApiProperty(
-        description: 'Content publication date and time',
-    )]
-    protected ?\DateTime $publishedAt = null;
 
     #[ApiFilter(BaseFilter\SearchFilter::class, strategy: 'partial')]
     #[ORM\Column(name: 'meta_title', type: 'string', length: 150, unique: false)]
@@ -209,17 +205,12 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
         $this->urlAliases = new ArrayCollection();
         $this->documentsByFields = new ArrayCollection();
         $this->redirections = new ArrayCollection();
+        $this->initDateTimedTrait();
     }
 
     public function injectObjectManager(ObjectManager $objectManager): void
     {
         $this->objectManager = $objectManager;
-    }
-
-    #[ORM\PreUpdate]
-    public function preUpdate(): void
-    {
-        $this->getNode()->setUpdatedAt(new \DateTime('now'));
     }
 
     public function getNode(): Node
@@ -369,18 +360,6 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     public function setRedirections(Collection $redirections): NodesSources
     {
         $this->redirections = $redirections;
-
-        return $this;
-    }
-
-    public function getPublishedAt(): ?\DateTime
-    {
-        return $this->publishedAt;
-    }
-
-    public function setPublishedAt(?\DateTime $publishedAt = null): NodesSources
-    {
-        $this->publishedAt = $publishedAt;
 
         return $this;
     }
@@ -540,6 +519,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     {
         $this->setTitle($nodesSources->getTitle());
         $this->setPublishedAt($nodesSources->getPublishedAt());
+        $this->setDeletedAt($nodesSources->getDeletedAt());
         $this->setMetaTitle($nodesSources->getMetaTitle());
         $this->setMetaDescription($nodesSources->getMetaDescription());
         $this->setNoIndex($nodesSources->isNoIndex());

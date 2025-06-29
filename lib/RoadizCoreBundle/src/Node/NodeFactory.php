@@ -65,7 +65,9 @@ final readonly class NodeFactory
         $manager = $this->managerRegistry->getManagerForClass(NodesSources::class);
         $source->injectObjectManager($manager);
         $source->setTitle($title);
-        $source->setPublishedAt(new \DateTime());
+        // Draft status by default
+        $source->setPublishedAt(null);
+        $source->setDeletedAt(null);
 
         /*
          * Name node against policy

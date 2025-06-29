@@ -102,8 +102,7 @@ final class NodesTreesController extends AbstractController
                     );
             }
             $assignation['source'] = $node->getNodeSourcesByTranslation($translation)->first();
-            $availableTranslations = $this->translationRepository->findAvailableTranslationsForNode($node);
-            $assignation['available_translations'] = $availableTranslations;
+            $assignation['availableNodesSources'] = $node->getNodeSources();
         }
         $assignation['translation'] = $translation;
         $assignation['specificNodeTree'] = $widget;

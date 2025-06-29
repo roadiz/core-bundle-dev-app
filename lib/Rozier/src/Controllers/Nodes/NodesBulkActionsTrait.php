@@ -7,7 +7,6 @@ namespace Themes\Rozier\Controllers\Nodes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
-use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Component\Form\ClickableInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -383,10 +382,8 @@ trait NodesBulkActionsTrait
                 'label' => false,
                 'data' => $status,
                 'choices' => [
-                    NodeStatus::DRAFT->getLabel() => 'reject',
-                    NodeStatus::PENDING->getLabel() => 'review',
-                    NodeStatus::PUBLISHED->getLabel() => 'publish',
-                    NodeStatus::ARCHIVED->getLabel() => 'archive',
+                    'draft' => 'reject',
+                    'published' => 'publish',
                 ],
                 'constraints' => [
                     new NotNull(),

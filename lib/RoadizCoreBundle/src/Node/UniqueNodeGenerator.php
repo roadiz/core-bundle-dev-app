@@ -65,7 +65,8 @@ final readonly class UniqueNodeGenerator
 
         $source = new $sourceClass($node, $translation);
         $source->setTitle($name);
-        $source->setPublishedAt(new \DateTime());
+        $source->setPublishedAt(null);
+        $source->setDeletedAt(null);
         $node->setNodeName($this->nodeNamePolicy->getCanonicalNodeName($source));
 
         $manager = $this->managerRegistry->getManagerForClass(Node::class);

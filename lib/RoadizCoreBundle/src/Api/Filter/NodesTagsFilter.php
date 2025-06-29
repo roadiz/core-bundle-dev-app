@@ -11,7 +11,7 @@ use ApiPlatform\OpenApi\Model\Parameter;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Api\Extension\NodesSourcesStatusExtensionTrait;
 use RZ\Roadiz\CoreBundle\Entity\NodesTags;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
@@ -19,6 +19,8 @@ use Symfony\Component\Serializer\NameConverter\NameConverterInterface;
 
 final class NodesTagsFilter extends AbstractFilter
 {
+    use NodesSourcesStatusExtensionTrait;
+
     public const string PROPERTY_PARAMETER = 'nodesTags';
     public const array TRUE_VALUES = [true, '1', 1, 'true', 'on'];
     public const array FALSE_VALUES = [false, '0', 0, 'false', 'off'];
@@ -122,19 +124,8 @@ final class NodesTagsFilter extends AbstractFilter
             ->select('DISTINCT(IDENTITY(ntg.tag))')
             ->innerJoin('ntg.node', 'n')
         ;
-
-        if ($this->previewResolver->isPreview()) {
-            $ntgQb->andWhere($ntgQb->expr()->lte('n.status', ':status'));
-            $queryBuilder->setParameter(':status', Node::PUBLISHED);
-        } else {
-            $ntgQb
-                ->innerJoin('n.nodeSources', 'ns')
-                ->andWhere($ntgQb->expr()->lte('ns.publishedAt', ':lte_published_at'))
-                ->andWhere($ntgQb->expr()->eq('n.status', ':status'));
-            $queryBuilder
-                ->setParameter(':lte_published_at', new \DateTime())
-                ->setParameter(':status', Node::PUBLISHED);
-        }
+        $ntgQb->innerJoin('n.nodeSources', 'ns');
+        $this->alterQueryBuilderWithStatus($ntgQb, 'ns');
 
         if (true === $parameters['withoutNodes']) {
             $queryBuilder->andWhere($queryBuilder->expr()->notIn(

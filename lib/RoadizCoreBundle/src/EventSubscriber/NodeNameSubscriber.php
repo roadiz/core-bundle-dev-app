@@ -68,7 +68,7 @@ final readonly class NodeNameSubscriber implements EventSubscriberInterface
                 try {
                     if ($nodeSource->isReachable()) {
                         $oldPaths = $this->nodeMover->getNodeSourcesUrls($nodeSource->getNode());
-                        $oldUpdateAt = $nodeSource->getNode()->getUpdatedAt();
+                        $oldUpdateAt = $nodeSource->getUpdatedAt();
                     }
                 } catch (SameNodeUrlException) {
                     $oldPaths = [];

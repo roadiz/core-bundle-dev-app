@@ -16,11 +16,5 @@ interface NodeInterface extends PersistableInterface
 
     public function getChildrenOrderDirection(): string;
 
-    public function isDraft(): bool;
-
-    public function isPending(): bool;
-
-    public function isPublished(): bool;
-
     public function getNodeTypeName(): string;
 }

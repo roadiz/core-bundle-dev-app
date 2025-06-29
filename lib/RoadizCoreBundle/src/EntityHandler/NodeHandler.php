@@ -318,30 +318,6 @@ final class NodeHandler extends AbstractHandler
     }
 
     /**
-     * Archive node and its children.
-     *
-     * **This method does not flush!**
-     *
-     * @return $this
-     */
-    public function archiveWithChildren(): self
-    {
-        $workflow = $this->getWorkflow();
-        if ($workflow->can($this->getNode(), 'archive')) {
-            $workflow->apply($this->getNode(), 'archive');
-        }
-
-        /** @var Node $node */
-        foreach ($this->getNode()->getChildren() as $node) {
-            $handler = $this->createSelf();
-            $handler->setNode($node);
-            $handler->archiveWithChildren();
-        }
-
-        return $this;
-    }
-
-    /**
      * Return if part of Node offspring.
      */
     public function isRelatedToNode(Node $relative): bool

@@ -16,18 +16,16 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Loggable\Loggable;
 use Gedmo\Mapping\Annotation as Gedmo;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeFieldInterface;
-use RZ\Roadiz\Core\AbstractEntities\DateTimedInterface;
-use RZ\Roadiz\Core\AbstractEntities\DateTimedTrait;
 use RZ\Roadiz\Core\AbstractEntities\LeafInterface;
 use RZ\Roadiz\Core\AbstractEntities\LeafTrait;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
+use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Api\Filter as RoadizFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypePublishableFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\NodeTypeReachableFilter;
 use RZ\Roadiz\CoreBundle\Api\Filter\TagGroupFilter;
-use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Model\AttributableInterface;
 use RZ\Roadiz\CoreBundle\Model\AttributableTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
@@ -44,27 +42,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[
     ORM\Entity(repositoryClass: NodeRepository::class),
     ORM\Table(name: 'nodes'),
-    ORM\Index(columns: ['visible']),
-    ORM\Index(columns: ['status']),
-    ORM\Index(columns: ['locked']),
-    ORM\Index(columns: ['sterile']),
-    ORM\Index(columns: ['position']),
-    ORM\Index(columns: ['created_at']),
-    ORM\Index(columns: ['updated_at']),
     ORM\Index(columns: ['hide_children']),
     ORM\Index(columns: ['home']),
-    ORM\Index(columns: ['node_name', 'status']),
-    ORM\Index(columns: ['visible', 'status']),
-    ORM\Index(columns: ['visible', 'status', 'parent_node_id'], name: 'node_visible_status_parent'),
-    ORM\Index(columns: ['status', 'parent_node_id'], name: 'node_status_parent'),
+    ORM\Index(columns: ['locked']),
+    ORM\Index(columns: ['node_name'], name: 'node_name'),
+    ORM\Index(columns: ['nodetype_name', 'parent_node_id', 'position'], name: 'node_ntname_parent_position'),
+    ORM\Index(columns: ['nodetype_name', 'parent_node_id'], name: 'node_ntname_parent'),
     ORM\Index(columns: ['nodetype_name'], name: 'node_ntname'),
-    ORM\Index(columns: ['nodetype_name', 'status'], name: 'node_ntname_status'),
-    ORM\Index(columns: ['nodetype_name', 'status', 'parent_node_id'], name: 'node_ntname_status_parent'),
-    ORM\Index(columns: ['nodetype_name', 'status', 'parent_node_id', 'position'], name: 'node_ntname_status_parent_position'),
-    ORM\Index(columns: ['visible', 'parent_node_id'], name: 'node_visible_parent'),
     ORM\Index(columns: ['parent_node_id', 'position'], name: 'node_parent_position'),
+    ORM\Index(columns: ['parent_node_id'], name: 'node_parent'),
+    ORM\Index(columns: ['position']),
+    ORM\Index(columns: ['sterile']),
     ORM\Index(columns: ['visible', 'parent_node_id', 'position'], name: 'node_visible_parent_position'),
-    ORM\Index(columns: ['status', 'visible', 'parent_node_id', 'position'], name: 'node_status_visible_parent_position'),
+    ORM\Index(columns: ['visible', 'parent_node_id'], name: 'node_visible_parent'),
+    ORM\Index(columns: ['visible'], name: 'node_visible'),
     ORM\HasLifecycleCallbacks,
     Gedmo\Loggable(logEntryClass: UserLogEntry::class),
     // Need to override repository method to see all nodes
@@ -78,23 +69,11 @@ use Symfony\Component\Validator\Constraints as Assert;
     ApiFilter(PropertyFilter::class),
     ApiFilter(TagGroupFilter::class)
 ]
-class Node implements DateTimedInterface, LeafInterface, AttributableInterface, Loggable, NodeInterface, \Stringable
+class Node implements PersistableInterface, StatusAwareEntityInterface, AttributableInterface, Loggable, LeafInterface, NodeInterface, \Stringable
 {
     use SequentialIdTrait;
-    use DateTimedTrait;
     use LeafTrait;
     use AttributableTrait;
-
-    /** @deprecated Use NodeStatus enum */
-    public const int DRAFT = 10;
-    /** @deprecated Use NodeStatus enum */
-    public const int PENDING = 20;
-    /** @deprecated Use NodeStatus enum */
-    public const int PUBLISHED = 30;
-    /** @deprecated Use NodeStatus enum */
-    public const int ARCHIVED = 40;
-    /** @deprecated Use NodeStatus enum */
-    public const int DELETED = 50;
 
     #[SymfonySerializer\Ignore]
     public static array $orderingFields = [
@@ -133,18 +112,6 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         example: 'true',
     )]
     private bool $visible = true;
-
-    /**
-     * @internal you should use node Workflow to perform change on status
-     */
-    #[ORM\Column(
-        name: 'status',
-        type: Types::SMALLINT,
-        enumType: NodeStatus::class,
-        options: ['default' => NodeStatus::DRAFT]
-    )]
-    #[SymfonySerializer\Ignore]
-    private NodeStatus $status = NodeStatus::DRAFT;
 
     #[ORM\Column(
         type: Types::INTEGER,
@@ -332,17 +299,6 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         $this->aNodes = new ArrayCollection();
         $this->bNodes = new ArrayCollection();
         $this->attributeValues = new ArrayCollection();
-        $this->initDateTimedTrait();
-    }
-
-    /**
-     * @deprecated Use NodeStatus enum getLabel method
-     */
-    public static function getStatusLabel(int|string $status): string
-    {
-        $status = NodeStatus::tryFrom((int) $status);
-
-        return $status->getLabel();
     }
 
     /**
@@ -382,41 +338,6 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         return $this;
     }
 
-    public function getStatus(): NodeStatus
-    {
-        return $this->status;
-    }
-
-    /**
-     * @param int|string|NodeStatus $status Workflow only use <string> marking places
-     *
-     * @return $this
-     *
-     * @internal you should use node Workflow to perform change on status
-     */
-    public function setStatus(int|string|NodeStatus $status): Node
-    {
-        if ($status instanceof NodeStatus) {
-            $this->status = $status;
-        } else {
-            $this->status = NodeStatus::tryFrom((int) $status) ?? NodeStatus::DRAFT;
-        }
-
-        return $this;
-    }
-
-    public function setStatusAsString(string $name): Node
-    {
-        $this->status = NodeStatus::fromName($name);
-
-        return $this;
-    }
-
-    public function getStatusAsString(): string
-    {
-        return $this->status->name;
-    }
-
     public function getTtl(): int
     {
         return $this->ttl ?? 0;
@@ -427,34 +348,6 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         $this->ttl = $ttl;
 
         return $this;
-    }
-
-    #[\Override]
-    public function isPublished(): bool
-    {
-        return $this->status->isPublished();
-    }
-
-    #[\Override]
-    public function isPending(): bool
-    {
-        return $this->status->isPending();
-    }
-
-    #[\Override]
-    public function isDraft(): bool
-    {
-        return $this->status->isDraft();
-    }
-
-    public function isDeleted(): bool
-    {
-        return $this->status->isDeleted();
-    }
-
-    public function isArchived(): bool
-    {
-        return $this->status->isArchived();
     }
 
     public function isLocked(): bool
@@ -712,7 +605,9 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
     #[SymfonySerializer\Ignore]
     public function getNodeSourcesByTranslation(TranslationInterface $translation): Collection
     {
-        return $this->nodeSources->filter(fn (NodesSources $nodeSource) => $nodeSource->getTranslation()->getLocale() === $translation->getLocale());
+        return $this
+            ->getNodeSources()
+            ->filter(fn (NodesSources $nodeSource) => $nodeSource->getTranslation()->getLocale() === $translation->getLocale());
     }
 
     /**
@@ -720,8 +615,8 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
      */
     public function removeNodeSources(NodesSources $ns): static
     {
-        if ($this->getNodeSources()->contains($ns)) {
-            $this->getNodeSources()->removeElement($ns);
+        if ($this->nodeSources->contains($ns)) {
+            $this->nodeSources->removeElement($ns);
         }
 
         return $this;
@@ -732,7 +627,7 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
      */
     public function getNodeSources(): Collection
     {
-        return $this->nodeSources;
+        return $this->nodeSources->filter(fn (NodesSources $nodeSource) => !$nodeSource->isDeleted());
     }
 
     /**
@@ -740,8 +635,8 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
      */
     public function addNodeSources(NodesSources $ns): static
     {
-        if (!$this->getNodeSources()->contains($ns)) {
-            $this->getNodeSources()->add($ns);
+        if (!$this->nodeSources->contains($ns)) {
+            $this->nodeSources->add($ns);
         }
 
         return $this;
@@ -904,6 +799,8 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
             /** @var NodesSources $nodeSource */
             foreach ($nodeSources as $nodeSource) {
                 $cloneNodeSource = clone $nodeSource;
+                $cloneNodeSource->setCreatedAt(new \DateTime());
+                $cloneNodeSource->setUpdatedAt(new \DateTime());
                 $cloneNodeSource->setNode($this);
             }
 
@@ -928,8 +825,6 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
                 $namePrefix = $this->nodeName;
             }
             $this->setNodeName($namePrefix.'-'.uniqid());
-            $this->setCreatedAt(new \DateTime());
-            $this->setUpdatedAt(new \DateTime());
         }
     }
 
@@ -944,6 +839,69 @@ class Node implements DateTimedInterface, LeafInterface, AttributableInterface, 
         }
         $this->parent = $parent;
         $this->parent?->addChild($this);
+
+        return $this;
+    }
+
+    /**
+     * At least one node-source must be published.
+     */
+    #[\Override]
+    public function isPublished(): bool
+    {
+        return $this->nodeSources->exists(fn (int $key, NodesSources $nodeSource) => $nodeSource->isPublished());
+    }
+
+    /**
+     * All node-sources must be in draft state.
+     */
+    #[\Override]
+    public function isDraft(): bool
+    {
+        return $this->nodeSources->forAll(fn (int $key, NodesSources $nodeSource) => $nodeSource->isDraft());
+    }
+
+    /**
+     * All node-sources must be in deleted state.
+     */
+    #[\Override]
+    public function isDeleted(): bool
+    {
+        return $this->nodeSources->forAll(fn (int $key, NodesSources $nodeSource) => $nodeSource->isDeleted());
+    }
+
+    #[\Override]
+    public function getPublishedAt(): ?\DateTime
+    {
+        return $this->nodeSources->filter(fn (NodesSources $nodeSource) => $nodeSource->isPublished())
+            ->map(fn (NodesSources $nodeSource) => $nodeSource->getPublishedAt())
+            ->first() ?: null;
+    }
+
+    #[\Override]
+    public function getDeletedAt(): ?\DateTime
+    {
+        return $this->nodeSources->filter(fn (NodesSources $nodeSource) => $nodeSource->isDeleted())
+            ->map(fn (NodesSources $nodeSource) => $nodeSource->getDeletedAt())
+            ->first() ?: null;
+    }
+
+    #[\Override]
+    public function setPublishedAt(?\DateTime $publishedAt): StatusAwareEntityInterface
+    {
+        foreach ($this->nodeSources as $nodeSource) {
+            $nodeSource->setPublishedAt($publishedAt);
+        }
+
+        return $this;
+    }
+
+    #[\Override]
+    public function setDeletedAt(?\DateTime $deletedAt): StatusAwareEntityInterface
+    {
+        foreach ($this->nodeSources as $nodeSource) {
+            $nodeSource->setDeletedAt($deletedAt);
+        }
 
         return $this;
     }

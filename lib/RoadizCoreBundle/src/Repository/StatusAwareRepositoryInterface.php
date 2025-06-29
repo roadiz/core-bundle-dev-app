@@ -13,7 +13,7 @@ interface StatusAwareRepositoryInterface
     public function isDisplayingAllNodesStatuses(): bool;
 
     public function alterQueryBuilderWithAuthorizationChecker(
-        QueryBuilder $qb,
+        QueryBuilder $queryBuilder,
         string $prefix = EntityRepository::NODE_ALIAS,
     ): QueryBuilder;
 }

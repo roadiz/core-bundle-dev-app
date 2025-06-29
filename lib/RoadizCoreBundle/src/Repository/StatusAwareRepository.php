@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
@@ -84,29 +83,39 @@ abstract class StatusAwareRepository extends EntityRepository implements StatusA
         return $this;
     }
 
-    /**
-     * @deprecated do not use repository stateful methods in services
-     */
     #[\Override]
     public function alterQueryBuilderWithAuthorizationChecker(
-        QueryBuilder $qb,
-        string $prefix = EntityRepository::NODE_ALIAS,
+        QueryBuilder $queryBuilder,
+        string $prefix = EntityRepository::NODESSOURCES_ALIAS,
     ): QueryBuilder {
         if (true === $this->isDisplayingAllNodesStatuses()) {
-            // do not filter on status
-            return $qb;
+            return $queryBuilder;
         }
-        /*
-         * Check if user can see not-published node based on its Token
-         * and context.
-         */
-        if (true === $this->isDisplayingNotPublishedNodes() || $this->previewResolver->isPreview()) {
-            $qb->andWhere($qb->expr()->lte($prefix.'.status', ':status'));
-        } else {
-            $qb->andWhere($qb->expr()->eq($prefix.'.status', ':status'));
-        }
-        $qb->setParameter('status', NodeStatus::PUBLISHED);
 
-        return $qb;
+        if (true === $this->isDisplayingNotPublishedNodes() || $this->previewResolver->isPreview()) {
+            /*
+             * Forbid deleted node for backend user when authorizationChecker not null.
+             */
+            $queryBuilder->andWhere($queryBuilder->expr()->orX(
+                $queryBuilder->expr()->isNull($prefix.'.deletedAt'),
+                $queryBuilder->expr()->gt($prefix.'.deletedAt', ':gt_deleted_at')
+            ))->setParameter(':gt_deleted_at', new \DateTime());
+
+            return $queryBuilder;
+        }
+
+        /*
+         * Filter nodes sources by their status.
+         */
+        $queryBuilder
+            ->andWhere($queryBuilder->expr()->lte($prefix.'.publishedAt', ':lte_published_at'))
+            ->andWhere($queryBuilder->expr()->orX(
+                $queryBuilder->expr()->isNull($prefix.'.deletedAt'),
+                $queryBuilder->expr()->gt($prefix.'.deletedAt', ':gt_deleted_at')
+            ))
+            ->setParameter(':lte_published_at', new \DateTime())
+            ->setParameter(':gt_deleted_at', new \DateTime());
+
+        return $queryBuilder;
     }
 }

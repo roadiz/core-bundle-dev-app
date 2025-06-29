@@ -20,6 +20,7 @@ use RZ\Roadiz\CoreBundle\Routing\NodeRouter;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\CoreBundle\TwigExtension\JwtExtension;
+use RZ\Roadiz\CoreBundle\Workflow\NodesSourcesWorkflow;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -36,6 +37,7 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Workflow\WorkflowInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Forms\NodeSource\NodeSourceType;
@@ -58,6 +60,7 @@ final class NodesSourcesController extends AbstractController
         private readonly FormFactoryInterface $formFactory,
         private readonly LogTrail $logTrail,
         private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
+        private readonly NodesSourcesWorkflow $nodesSourcesWorkflow,
     ) {
     }
 
@@ -215,10 +218,6 @@ final class NodesSourcesController extends AbstractController
             }
         }
 
-        $availableTranslations = $this->managerRegistry
-            ->getRepository(Translation::class)
-            ->findAvailableTranslationsForNode($gNode);
-
         return $this->render('@RoadizRozier/nodes/editSource.html.twig', [
             ...$assignation,
             'translation' => $translation,
@@ -226,7 +225,7 @@ final class NodesSourcesController extends AbstractController
             'source' => $source,
             'form' => $form->createView(),
             'readOnly' => $this->isReadOnly,
-            'available_translations' => $availableTranslations,
+            'availableNodesSources' => $node->getNodeSources(),
         ]);
     }
 
@@ -273,19 +272,15 @@ final class NodesSourcesController extends AbstractController
         $form = $builder->getForm();
         $form->handleRequest($request);
 
+        if (!$this->nodesSourcesWorkflow->can($ns, 'delete')) {
+            $form->addError(new FormError('NodesSourcesWorkflow cannot delete this node-source.'));
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $node = $ns->getNode();
-
             $this->eventDispatcher->dispatch(new NodesSourcesDeletedEvent($ns));
+            $this->nodesSourcesWorkflow->apply($ns, 'delete');
 
-            $manager->remove($ns);
             $manager->flush();
-
-            $ns = $node->getNodeSources()->first() ?: null;
-
-            if (null === $ns) {
-                throw new ResourceNotFoundException('No more node-source available for this node.');
-            }
 
             $msg = $this->translator->trans('node_source.%node_source%.deleted.%translation%', [
                 '%node_source%' => $node->getNodeName(),
@@ -295,8 +290,8 @@ final class NodesSourcesController extends AbstractController
             $this->logTrail->publishConfirmMessage($request, $msg, $node);
 
             return $this->redirectToRoute(
-                'nodesEditSourcePage',
-                ['nodeId' => $node->getId(), 'translationId' => $ns->getTranslation()->getId()]
+                'nodesEditPage',
+                ['nodeId' => $node->getId()]
             );
         }
 

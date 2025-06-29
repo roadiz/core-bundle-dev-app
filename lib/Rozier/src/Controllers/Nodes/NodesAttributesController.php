@@ -172,17 +172,13 @@ final class NodesAttributesController extends AbstractController
             $assignation['attribute_value_translation_forms'][] = $attributeValueTranslationForm->createView();
         }
 
-        $availableTranslations = $this->managerRegistry
-            ->getRepository(Translation::class)
-            ->findAvailableTranslationsForNode($node);
-
         return $this->render('@RoadizRozier/nodes/attributes/edit.html.twig', [
             ...$assignation,
             'source' => $nodeSource,
             'translation' => $translation,
             'node' => $node,
             'order_by_weight' => $orderByWeight,
-            'available_translations' => $availableTranslations,
+            'availableNodesSources' => $node->getNodeSources(),
         ]);
     }
 

@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\DependencyInjection\Compiler;
 
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Workflow\NodesSourcesWorkflow;
+use RZ\Roadiz\CoreBundle\Workflow\NodeWorkflow;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -21,11 +24,14 @@ class NodeWorkflowCompilerPass implements CompilerPassInterface
             throw new LogicException('Workflow support cannot be enabled as the Workflow component is not installed. Try running "composer require symfony/workflow".');
         }
 
-        $workflowId = 'state_machine.node';
         $registryDefinition = $container->getDefinition('workflow.registry');
 
-        $strategyDefinition = new Definition(InstanceOfSupportStrategy::class, [NodeInterface::class]);
-        $strategyDefinition->setPublic(false);
-        $registryDefinition->addMethodCall('addWorkflow', [new Reference($workflowId), $strategyDefinition]);
+        $nodeStrategy = new Definition(InstanceOfSupportStrategy::class, [NodeInterface::class]);
+        $nodeStrategy->setPublic(false);
+        $registryDefinition->addMethodCall('addWorkflow', [new Reference(NodeWorkflow::class), $nodeStrategy]);
+
+        $nodesSourcesStrategy = new Definition(InstanceOfSupportStrategy::class, [NodesSources::class]);
+        $nodesSourcesStrategy->setPublic(false);
+        $registryDefinition->addMethodCall('addWorkflow', [new Reference(NodesSourcesWorkflow::class), $nodesSourcesStrategy]);
     }
 }
