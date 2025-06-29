@@ -165,7 +165,7 @@
                 <nodes-sources-statuses
                     role="button"
                     tabindex="0"
-                    data-update-url="{{ path('nodesSourcesStatusesAjax', { nodeSource: source.id }) }}"
+                    data-update-url="{{ path('nodesSourcesStatusesAjax', { nodesSources: source.id }) }}"
                     class="nodes-sources-statuses with-subnav uk-form">
                     {% if source.isDraft %}
                         {% set iconClass = 'uk-icon-rz-draft-nodes' %}

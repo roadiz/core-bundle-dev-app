@@ -36,7 +36,13 @@ final class NodesSourcesStatusController extends AbstractAjaxController
      */
     public function __invoke(Request $request, NodesSources $nodesSources): Response
     {
-        $this->validateRequest($request);
+        if (!$this->isCsrfTokenValid(self::AJAX_TOKEN_INTENTION, $request->get('_token'))) {
+            throw new BadRequestHttpException('Bad CSRF token');
+        }
+
+        if ('post' !== \mb_strtolower($request->getMethod())) {
+            throw new BadRequestHttpException('Bad method');
+        }
 
         $workflow = $this->workflowRegistry->get($nodesSources);
 

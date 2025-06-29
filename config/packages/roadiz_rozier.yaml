@@ -54,15 +54,10 @@ roadiz_rozier:
                     route: nodesHomeDraftPage
                     icon: uk-icon-rz-draft-nodes
                     roles: ~
-                pending_nodes:
-                    name: 'pending.nodes'
-                    route: nodesHomePendingPage
-                    icon: uk-icon-rz-pending-nodes
-                    roles: ~
-                archived_nodes:
-                    name: 'archived.nodes'
-                    route: nodesHomeArchivedPage
-                    icon: uk-icon-rz-archives-nodes
+                published_nodes:
+                    name: 'published.nodes'
+                    route: nodesHomePublishedPage
+                    icon: uk-icon-rz-published-nodes
                     roles: ~
                 deleted_nodes:
                     name: 'deleted.nodes'

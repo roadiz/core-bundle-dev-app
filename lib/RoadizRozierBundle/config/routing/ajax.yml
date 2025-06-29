@@ -27,11 +27,11 @@ nodesStatusesAjax:
         _controller: Themes\Rozier\AjaxControllers\AjaxNodesController::statusesAction
         _format: json
 nodesSourcesStatusesAjax:
-    path:     /nodes-sources/statuses/{nodeSource}
+    path:     /nodes-sources/statuses/{nodesSources}
     defaults:
         _controller: RZ\Roadiz\RozierBundle\Controller\Node\NodesSourcesStatusController
         _format: json
-    requirements: { nodeSource: "[0-9]+" }
+    requirements: { nodesSources: "[0-9]+" }
 nodesTreeAjax:
     path:     /nodes/tree
     methods: [GET]
