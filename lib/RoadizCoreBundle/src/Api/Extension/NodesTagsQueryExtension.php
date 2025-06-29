@@ -9,13 +9,15 @@ use ApiPlatform\Doctrine\Orm\Extension\QueryItemExtensionInterface;
 use ApiPlatform\Doctrine\Orm\Util\QueryBuilderHelper;
 use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
-use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 
 final readonly class NodesTagsQueryExtension implements QueryItemExtensionInterface, QueryCollectionExtensionInterface
 {
+    use NodesSourcesStatusExtensionTrait;
+
     public function __construct(
         private PreviewResolverInterface $previewResolver,
     ) {
@@ -30,7 +32,7 @@ final readonly class NodesTagsQueryExtension implements QueryItemExtensionInterf
         ?Operation $operation = null,
         array $context = [],
     ): void {
-        $this->apply($queryBuilder, $resourceClass);
+        $this->apply($queryBuilder, $queryNameGenerator, $resourceClass);
     }
 
     #[\Override]
@@ -41,11 +43,12 @@ final readonly class NodesTagsQueryExtension implements QueryItemExtensionInterf
         ?Operation $operation = null,
         array $context = [],
     ): void {
-        $this->apply($queryBuilder, $resourceClass);
+        $this->apply($queryBuilder, $queryNameGenerator, $resourceClass);
     }
 
     private function apply(
         QueryBuilder $queryBuilder,
+        QueryNameGeneratorInterface $queryNameGenerator,
         string $resourceClass,
     ): void {
         if (
@@ -73,18 +76,14 @@ final readonly class NodesTagsQueryExtension implements QueryItemExtensionInterf
             return;
         }
 
-        if ($this->previewResolver->isPreview()) {
-            $queryBuilder
-                ->andWhere($queryBuilder->expr()->lte($existingNodeJoin->getAlias().'.status', ':status'))
-                ->setParameter(':status', NodeStatus::PUBLISHED);
+        $alias = QueryBuilderHelper::addJoinOnce(
+            $queryBuilder,
+            $queryNameGenerator,
+            $existingJoin->getAlias(),
+            'nodeSources',
+            Join::INNER_JOIN
+        );
 
-            return;
-        }
-
-        $queryBuilder
-            ->andWhere($queryBuilder->expr()->eq($existingNodeJoin->getAlias().'.status', ':status'))
-            ->setParameter(':status', NodeStatus::PUBLISHED);
-
-        return;
+        $this->alterQueryBuilderWithStatus($queryBuilder, $alias);
     }
 }

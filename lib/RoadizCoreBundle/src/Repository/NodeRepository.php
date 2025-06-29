@@ -7,7 +7,8 @@ namespace RZ\Roadiz\CoreBundle\Repository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
-use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
@@ -99,6 +100,22 @@ class NodeRepository extends StatusAwareRepository
         $this->applyTranslationByTag($qb, $translation);
 
         return (int) $qb->getQuery()->getSingleScalarResult();
+    }
+
+    #[\Override]
+    public function alterQueryBuilderWithAuthorizationChecker(
+        QueryBuilder $queryBuilder,
+        string $prefix = EntityRepository::NODE_ALIAS,
+    ): QueryBuilder {
+        if (true === $this->isDisplayingAllNodesStatuses()) {
+            return $queryBuilder;
+        }
+
+        if (!$this->hasJoinedNodesSources($queryBuilder, $prefix)) {
+            $queryBuilder->innerJoin($prefix.'.nodeSources', self::NODESSOURCES_ALIAS);
+        }
+
+        return parent::alterQueryBuilderWithAuthorizationChecker($queryBuilder, self::NODESSOURCES_ALIAS);
     }
 
     /**
@@ -405,7 +422,6 @@ NEW %s(
     %s.hideChildren,
     %s.home,
     %s.visible,
-    %s.status,
     IDENTITY(%s.parent),
     %s.childrenOrder,
     %s.childrenOrderDirection,
@@ -413,7 +429,8 @@ NEW %s(
     %s.nodeTypeName,
     %s.id,
     %s.title,
-    %s.publishedAt
+    %s.publishedAt,
+    %s.deletedAt
 )
 EOT,
             NodeTreeDto::class,
@@ -427,11 +444,14 @@ EOT,
             $alias,
             $alias,
             $alias,
-            $alias,
+            self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,
             self::NODESSOURCES_ALIAS,
         ));
+
+        // Add a rank to sort by publishedAt null values
+        $qb->addSelect('CASE WHEN ns.publishedAt IS NULL THEN 0 ELSE 1 END AS HIDDEN _ns_publishedAt_null_rank');
 
         return $qb;
     }
@@ -463,6 +483,12 @@ EOT,
         // Add ordering
         if (null !== $orderBy) {
             foreach ($orderBy as $key => $value) {
+                // Add a rank to sort by publishedAt null values
+                if ('ns.publishedAt' === $key) {
+                    $qb->addSelect('CASE WHEN ns.publishedAt IS NULL THEN 0 ELSE 1 END AS HIDDEN _ns_publishedAt_null_rank');
+                    $qb->addOrderBy('_ns_publishedAt_null_rank', 'ASC');
+                }
+
                 if (str_starts_with($key, self::NODESSOURCES_ALIAS.'.')) {
                     $qb->addOrderBy($key, $value);
                 } else {
@@ -917,21 +943,21 @@ EOT,
                 $qb->innerJoin(
                     $alias.'.nodesTags',
                     'ntg',
-                    Expr\Join::WITH,
+                    Join::WITH,
                     $qb->expr()->eq('ntg.tag', $criteria['tags']->getId())
                 );
             } elseif (is_array($criteria['tags'])) {
                 $qb->innerJoin(
                     $alias.'.nodesTags',
                     'ntg',
-                    Expr\Join::WITH,
+                    Join::WITH,
                     $qb->expr()->in('ntg.tag', $criteria['tags'])
                 );
             } elseif (is_integer($criteria['tags'])) {
                 $qb->innerJoin(
                     $alias.'.nodesTags',
                     'ntg',
-                    Expr\Join::WITH,
+                    Join::WITH,
                     $qb->expr()->eq('ntg.tag', $criteria['tags'])
                 );
             }

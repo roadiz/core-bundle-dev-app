@@ -7,16 +7,11 @@ nodesHomeDraftPage:
     defaults:
         _controller: Themes\Rozier\Controllers\Nodes\NodesController::indexAction
         filter: 'draft'
-nodesHomePendingPage:
-    path:     /pending
+nodesHomePublishedPage:
+    path:     /published
     defaults:
         _controller: Themes\Rozier\Controllers\Nodes\NodesController::indexAction
-        filter: 'pending'
-nodesHomeArchivedPage:
-    path:     /archived
-    defaults:
-        _controller: Themes\Rozier\Controllers\Nodes\NodesController::indexAction
-        filter: 'archived'
+        filter: 'published'
 nodesHomeDeletedPage:
     path:     /deleted
     defaults:

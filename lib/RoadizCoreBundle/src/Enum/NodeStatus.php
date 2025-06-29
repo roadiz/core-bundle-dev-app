@@ -7,6 +7,9 @@ namespace RZ\Roadiz\CoreBundle\Enum;
 use Symfony\Contracts\Translation\TranslatableInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * @deprecated nodeStatus is deprecated, use NodesSourceWorkflow instead
+ */
 enum NodeStatus: int implements TranslatableInterface
 {
     case DRAFT = 10;

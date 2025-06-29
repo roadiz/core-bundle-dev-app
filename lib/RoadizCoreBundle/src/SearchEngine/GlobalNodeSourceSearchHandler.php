@@ -8,7 +8,6 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
-use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
 final readonly class GlobalNodeSourceSearchHandler
@@ -45,11 +44,7 @@ final readonly class GlobalNodeSourceSearchHandler
         if (null !== $this->nodeSourceSearchHandler) {
             try {
                 $this->nodeSourceSearchHandler->boostByUpdateDate();
-                $arguments = [
-                    'status' => ['<=', NodeStatus::PUBLISHED],
-                ];
-
-                $nodesSources = $this->nodeSourceSearchHandler->search($safeSearchTerms, $arguments, $resultCount)->getResultItems();
+                $nodesSources = $this->nodeSourceSearchHandler->search(q: $safeSearchTerms, rows: $resultCount)->getResultItems();
             } catch (SearchEngineServerException) {
             }
         }

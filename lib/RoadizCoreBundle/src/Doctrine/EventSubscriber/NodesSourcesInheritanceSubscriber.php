@@ -68,18 +68,39 @@ final readonly class NodesSourcesInheritanceSubscriber
             $nodeSourceTableAnnotation = [
                 'name' => $metadata->getTableName(),
                 'indexes' => [
-                    ['columns' => ['discr']],
-                    ['columns' => ['title']],
-                    ['columns' => ['published_at']],
+                    'ns_created_at' => ['columns' => ['created_at']],
+                    'ns_deleted_at' => ['columns' => ['deleted_at']],
+                    'ns_discr_translation_published' => [
+                        'columns' => ['discr', 'translation_id', 'published_at'],
+                    ],
+                    'ns_discr_translation' => [
+                        'columns' => ['discr', 'translation_id'],
+                    ],
+                    'ns_discr' => ['columns' => ['discr']],
                     'ns_no_index' => ['columns' => ['no_index']],
-                    'ns_node_translation_published' => ['columns' => ['node_id', 'translation_id', 'published_at']],
-                    'ns_node_discr_translation' => ['columns' => ['node_id', 'discr', 'translation_id']],
-                    'ns_node_discr_translation_published' => ['columns' => ['node_id', 'discr', 'translation_id', 'published_at']],
-                    'ns_translation_published' => ['columns' => ['translation_id', 'published_at']],
-                    'ns_discr_translation' => ['columns' => ['discr', 'translation_id']],
-                    'ns_discr_translation_published' => ['columns' => ['discr', 'translation_id', 'published_at']],
-                    'ns_title_published' => ['columns' => ['title', 'published_at']],
-                    'ns_title_translation_published' => ['columns' => ['title', 'translation_id', 'published_at']],
+                    'ns_node_discr_translation_published' => [
+                        'columns' => ['node_id', 'discr', 'translation_id', 'published_at'],
+                    ],
+                    'ns_node_discr_translation' => [
+                        'columns' => ['node_id', 'discr', 'translation_id'],
+                    ],
+                    'ns_node_translation_published' => [
+                        'columns' => ['node_id', 'translation_id', 'published_at'],
+                    ],
+                    'ns_published_at' => ['columns' => ['published_at']],
+                    'ns_title_published' => [
+                        'columns' => ['title', 'published_at'],
+                    ],
+                    'ns_title_translation_published' => [
+                        'columns' => ['title', 'translation_id', 'published_at'],
+                    ],
+                    'ns_title' => [
+                        'columns' => ['title'],
+                    ],
+                    'ns_translation_published' => [
+                        'columns' => ['translation_id', 'published_at'],
+                    ],
+                    'ns_updated_at' => ['columns' => ['updated_at']],
                 ],
                 'uniqueConstraints' => [
                     ['columns' => ['node_id', 'translation_id']],

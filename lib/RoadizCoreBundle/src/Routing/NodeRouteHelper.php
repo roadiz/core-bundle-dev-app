@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Routing;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
+use RZ\Roadiz\CoreBundle\Entity\StatusAwareEntityInterface;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -98,8 +99,12 @@ final class NodeRouteHelper
             return false;
         }
 
+        if (!$this->node instanceof StatusAwareEntityInterface) {
+            return false;
+        }
+
         if ($this->previewResolver->isPreview()) {
-            return $this->node->isDraft() || $this->node->isPending() || $this->node->isPublished();
+            return $this->node->isDraft() || $this->node->isPublished();
         }
 
         /*

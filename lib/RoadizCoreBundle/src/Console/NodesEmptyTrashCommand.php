@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Console;
 
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\EntityHandler\HandlerFactory;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
-use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,6 +20,7 @@ final class NodesEmptyTrashCommand extends Command
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly HandlerFactory $handlerFactory,
+        private readonly AllStatusesNodesSourcesRepository $nodesSourcesRepository,
         ?string $name = null,
     ) {
         parent::__construct($name);
@@ -31,7 +31,7 @@ final class NodesEmptyTrashCommand extends Command
     {
         $this
             ->setName('nodes:empty-trash')
-            ->setDescription('Remove definitely deleted nodes.')
+            ->setDescription('Remove definitely deleted nodes-sources.')
         ;
     }
 
@@ -40,21 +40,15 @@ final class NodesEmptyTrashCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $em = $this->managerRegistry->getManagerForClass(Node::class);
-        $countQb = $this->createNodeQueryBuilder();
-        $countQuery = $countQb->select($countQb->expr()->count('n'))
-            ->andWhere($countQb->expr()->eq('n.status', ':status'))
-            ->setParameter('status', NodeStatus::DELETED)
-            ->getQuery();
-        $emptiedCount = $countQuery->getSingleScalarResult();
+        $emptiedCount = $this->nodesSourcesRepository->countDeleted();
         if (0 == $emptiedCount) {
-            $io->success('Nodes trashcan is already empty.');
+            $io->success('Nodes-sources trashcan is already empty.');
 
             return 0;
         }
 
         $confirmation = new ConfirmationQuestion(
-            sprintf('<question>Are you sure to empty nodes trashcan, %d nodes will be lost forever?</question> [y/N]: ', $emptiedCount),
+            sprintf('<question>Are you sure to empty nodes-sources trashcan, %d nodes-sources will be lost forever?</question> [y/N]: ', $emptiedCount),
             false
         );
 
@@ -66,16 +60,25 @@ final class NodesEmptyTrashCommand extends Command
         $batchSize = 100;
         $io->progressStart((int) $emptiedCount);
 
-        $qb = $this->createNodeQueryBuilder();
-        $q = $qb->select('n')
-            ->andWhere($countQb->expr()->eq('n.status', ':status'))
-            ->setParameter('status', NodeStatus::DELETED)
-            ->getQuery();
+        $em = $this->managerRegistry->getManagerForClass(NodesSources::class);
+        $q = $this->nodesSourcesRepository->findAllDeletedQuery();
 
+        /** @var NodesSources $row */
         foreach ($q->toIterable() as $row) {
-            /** @var NodeHandler $nodeHandler */
-            $nodeHandler = $this->handlerFactory->getHandler($row);
-            $nodeHandler->removeWithChildrenAndAssociations();
+            $node = $row->getNode();
+            /*
+             * If all nodes-sources are deleted for one node,
+             * delete the node and all its associations.
+             */
+            if ($node->isDeleted()) {
+                /** @var NodeHandler $nodeHandler */
+                $nodeHandler = $this->handlerFactory->getHandler($row);
+                $nodeHandler->removeWithChildrenAndAssociations();
+            } else {
+                // Otherwise, just delete this nodes-source
+                $em->remove($row);
+            }
+
             $io->progressAdvance();
             ++$i;
             // Call flush time to times
@@ -93,12 +96,5 @@ final class NodesEmptyTrashCommand extends Command
         $io->success('Nodes trashcan has been emptied.');
 
         return 0;
-    }
-
-    protected function createNodeQueryBuilder(): QueryBuilder
-    {
-        return $this->managerRegistry
-            ->getRepository(Node::class)
-            ->createQueryBuilder('n');
     }
 }

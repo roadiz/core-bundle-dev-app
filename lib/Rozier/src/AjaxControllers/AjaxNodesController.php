@@ -314,7 +314,11 @@ final class AjaxNodesController extends AbstractAjaxController
         $this->managerRegistry->getManager()->flush();
         $msg = $this->translator->trans('node.%name%.status_changed_to.%status%', [
             '%name%' => $node->getNodeName(),
-            '%status%' => $node->getStatus()->trans($this->translator),
+            '%status%' => $this->translator->trans(match (true) {
+                $node->isPublished() => 'published',
+                $node->isDeleted() => 'deleted',
+                default => 'draft',
+            }),
         ]);
         $this->logTrail->publishConfirmMessage($request, $msg, $node->getNodeSources()->first() ?: $node);
 

@@ -63,14 +63,16 @@ final class DefaultNodesSourcesIndexingSubscriber extends AbstractIndexingSubscr
             $assoc['node_type_s'] = $nodeSource->getNodeTypeName();
             $assoc['node_name_s'] = $node->getNodeName();
             $assoc['slug_s'] = $node->getNodeName();
-            $assoc['node_status_i'] = $node->getStatus()->value;
             $assoc['node_visible_b'] = $node->isVisible();
             $assoc['node_reachable_b'] = $nodeSource->isReachable();
-            $assoc['created_at_dt'] = $this->formatDateTimeToUTC($node->getCreatedAt());
-            $assoc['updated_at_dt'] = $this->formatDateTimeToUTC($node->getUpdatedAt());
+            $assoc['created_at_dt'] = $this->formatDateTimeToUTC($nodeSource->getCreatedAt());
+            $assoc['updated_at_dt'] = $this->formatDateTimeToUTC($nodeSource->getUpdatedAt());
 
             if (null !== $nodeSource->getPublishedAt()) {
                 $assoc['published_at_dt'] = $this->formatDateTimeToUTC($nodeSource->getPublishedAt());
+            }
+            if (null !== $nodeSource->getDeletedAt()) {
+                $assoc['deleted_at_dt'] = $this->formatDateTimeToUTC($nodeSource->getDeletedAt());
             }
 
             if ($this->canIndexTitleInCollection($nodeSource)) {

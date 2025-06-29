@@ -9,6 +9,7 @@ use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Entity\User;
@@ -28,6 +29,7 @@ use RZ\Roadiz\CoreBundle\Node\NodeMover;
 use RZ\Roadiz\CoreBundle\Node\NodeOffspringResolverInterface;
 use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
@@ -76,6 +78,7 @@ final class NodesController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly FormFactoryInterface $formFactory,
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+        private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
         private readonly TranslationRepository $translationRepository,
         private readonly string $nodeFormTypeClass,
         private readonly string $addNodeFormTypeClass,
@@ -269,10 +272,7 @@ final class NodesController extends AbstractController
         $translation = $this->translationRepository->findDefault();
         $source = $node->getNodeSourcesByTranslation($translation)->first() ?: null;
 
-        if (null === $source) {
-            $availableTranslations = $this->translationRepository->findAvailableTranslationsForNode($node);
-            $assignation['available_translations'] = $availableTranslations;
-        }
+        $assignation['availableNodesSources'] = $node->getNodeSources();
         $assignation['node'] = $node;
         $assignation['source'] = $source;
         $assignation['translation'] = $translation;
@@ -528,17 +528,18 @@ final class NodesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $criteria = ['status' => NodeStatus::DELETED];
             /** @var Node|null $chroot */
             $chroot = $this->nodeChrootResolver->getChroot($this->getUser());
             if (null !== $chroot) {
-                $criteria['parent'] = $this->nodeOffspringResolver->getAllOffspringIds($chroot);
+                $parentsIds = $this->nodeOffspringResolver->getAllOffspringIds($chroot);
+                $query = $this->allStatusesNodesSourcesRepository->findAllDeletedInParentQuery($parentsIds);
+            } else {
+                $query = $this->allStatusesNodeRepository->findAllDeletedQuery();
             }
 
-            $nodes = $this->allStatusesNodeRepository->findBy($criteria);
-
-            /** @var Node $node */
-            foreach ($nodes as $node) {
+            /** @var NodesSources $row */
+            foreach ($query->toIterable() as $row) {
+                $node = $row->getNode();
                 /** @var NodeHandler $nodeHandler */
                 $nodeHandler = $this->handlerFactory->getHandler($node);
                 $nodeHandler->removeWithChildrenAndAssociations();

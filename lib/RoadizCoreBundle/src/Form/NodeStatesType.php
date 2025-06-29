@@ -9,6 +9,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @deprecated nodeStatus is deprecated, use NodesSourceWorkflow instead
+ */
 final class NodeStatesType extends AbstractType
 {
     #[\Override]

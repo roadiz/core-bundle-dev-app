@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Model;
 
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
-use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 
 /**
  * Doctrine Data transfer object to represent a Node in a tree.
@@ -21,7 +20,6 @@ final class NodeTreeDto implements NodeInterface
         private readonly bool $hideChildren,
         private readonly bool $home,
         private readonly bool $visible,
-        private readonly NodeStatus $status,
         private readonly ?int $parentId,
         private readonly string $childrenOrder,
         private readonly string $childrenOrderDirection,
@@ -32,11 +30,13 @@ final class NodeTreeDto implements NodeInterface
         ?int $sourceId,
         ?string $title,
         ?\DateTime $publishedAt,
+        ?\DateTime $deletedAt,
     ) {
         $this->nodeSource = new NodesSourcesTreeDto(
             $sourceId,
             $title,
             $publishedAt,
+            $deletedAt,
         );
     }
 
@@ -83,42 +83,44 @@ final class NodeTreeDto implements NodeInterface
         return $this->visible;
     }
 
-    public function getStatus(): NodeStatus
-    {
-        return $this->status;
-    }
-
-    public function getStatusAsString(): string
-    {
-        return $this->status->name;
-    }
-
     public function isLocked(): bool
     {
         return $this->locked;
     }
 
-    #[\Override]
     public function isPublished(): bool
     {
-        return $this->status->isPublished();
+        return $this->nodeSource->isPublished();
     }
 
-    #[\Override]
-    public function isPending(): bool
-    {
-        return $this->status->isPending();
-    }
-
-    #[\Override]
     public function isDraft(): bool
     {
-        return $this->status->isDraft();
+        return $this->nodeSource->isDraft();
     }
 
     public function isDeleted(): bool
     {
-        return $this->status->isDeleted();
+        return $this->nodeSource->isDeleted();
+    }
+
+    public function getPublishedAt(): ?\DateTime
+    {
+        return $this->nodeSource->getPublishedAt();
+    }
+
+    public function getDeletedAt(): ?\DateTime
+    {
+        return $this->nodeSource->getDeletedAt();
+    }
+
+    public function setPublishedAt(?\DateTime $publishedAt): self
+    {
+        throw new \LogicException('Node status dates must be set on their nodes-sources.');
+    }
+
+    public function setDeletedAt(?\DateTime $deletedAt): self
+    {
+        throw new \LogicException('Node status dates must be set on their nodes-sources.');
     }
 
     public function getNodeSource(): NodesSourcesTreeDto

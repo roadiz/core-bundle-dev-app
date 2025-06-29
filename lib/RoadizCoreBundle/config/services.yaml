@@ -655,9 +655,8 @@ services:
     #
     # Workflows
     #
-    state_machine.node:
+    RZ\Roadiz\CoreBundle\Workflow\NodesSourcesWorkflow:
         public: true
-        alias: RZ\Roadiz\CoreBundle\Workflow\NodeWorkflow
 
     RZ\TreeWalker\WalkerContextInterface:
         factory: [ '@RZ\Roadiz\CoreBundle\Api\TreeWalker\NodeSourceWalkerContextFactory', 'createWalkerContext' ]

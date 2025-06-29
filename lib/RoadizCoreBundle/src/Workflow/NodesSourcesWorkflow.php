@@ -10,7 +10,7 @@ use Symfony\Component\Workflow\Transition;
 use Symfony\Component\Workflow\Workflow;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
-final class NodeWorkflow extends Workflow
+final class NodesSourcesWorkflow extends Workflow
 {
     public function __construct(EventDispatcherInterface $dispatcher)
     {
@@ -31,6 +31,6 @@ final class NodeWorkflow extends Workflow
             ->build()
         ;
         $markingStore = new StatusAwareEntityMarkingStore();
-        parent::__construct($definition, $markingStore, $dispatcher, 'node');
+        parent::__construct($definition, $markingStore, $dispatcher, 'nodesSources');
     }
 }

@@ -10,7 +10,6 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
-use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
 
 class OfferFixtures extends Fixture implements DependentFixtureInterface
@@ -40,7 +39,6 @@ class OfferFixtures extends Fixture implements DependentFixtureInterface
             flush: false,
         );
         $offerContainer->setTitle('Offers container');
-        $offerContainer->getNode()->setStatus(NodeStatus::PUBLISHED);
         $offerContainer->setPublishedAt(new \DateTime());
 
         for ($i = 0; $i < 50; ++$i) {
@@ -53,7 +51,6 @@ class OfferFixtures extends Fixture implements DependentFixtureInterface
                 parent: $offerContainer->getNode(),
                 flush: false,
             );
-            $offer->getNode()->setStatus(NodeStatus::PUBLISHED);
             $offer->setPrice(mt_rand(10, 10000));
             $offer->setVat(0.2);
             $offer->setPublishedAt(new \DateTime());

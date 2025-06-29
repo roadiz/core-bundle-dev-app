@@ -16,7 +16,6 @@ use RZ\Roadiz\CoreBundle\Doctrine\Event\QueryNodesSourcesEvent;
 use RZ\Roadiz\CoreBundle\Doctrine\ORM\SimpleQueryBuilder;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\EventDispatcher\Event;
@@ -198,38 +197,6 @@ class NodesSourcesRepository extends StatusAwareRepository
         return $query->getOneOrNullResult();
     }
 
-    #[\Override]
-    public function alterQueryBuilderWithAuthorizationChecker(
-        QueryBuilder $qb,
-        string $prefix = EntityRepository::NODESSOURCES_ALIAS,
-    ): QueryBuilder {
-        if (true === $this->isDisplayingAllNodesStatuses()) {
-            return $qb;
-        }
-
-        $this->joinNodeOnce($qb, $prefix);
-
-        if (true === $this->isDisplayingNotPublishedNodes() || $this->previewResolver->isPreview()) {
-            /*
-             * Forbid deleted node for backend user when authorizationChecker not null.
-             */
-            $qb->andWhere($qb->expr()->lte(static::NODE_ALIAS.'.status', ':node_status'));
-            $qb->setParameter('node_status', NodeStatus::PUBLISHED);
-
-            return $qb;
-        }
-
-        /*
-         * Forbid unpublished node for anonymous and not backend users.
-         */
-        $qb->andWhere($qb->expr()->lte($prefix.'.publishedAt', ':now'));
-        $qb->andWhere($qb->expr()->eq(static::NODE_ALIAS.'.status', ':node_status'));
-        $qb->setParameter('node_status', NodeStatus::PUBLISHED);
-        $qb->setParameter('now', new \DateTime('now'));
-
-        return $qb;
-    }
-
     public function joinNodeOnce(QueryBuilder $qb, string $prefix = EntityRepository::NODESSOURCES_ALIAS): QueryBuilder
     {
         if (!$this->hasJoinedNode($qb, $prefix)) {
@@ -263,6 +230,12 @@ class NodesSourcesRepository extends StatusAwareRepository
         // Add ordering
         if (null !== $orderBy) {
             foreach ($orderBy as $key => $value) {
+                // Add a rank to sort by publishedAt null values
+                if ('ns.publishedAt' === $key) {
+                    $qb->addSelect('CASE WHEN ns.publishedAt IS NULL THEN 0 ELSE 1 END AS HIDDEN _ns_publishedAt_null_rank');
+                    $qb->addOrderBy('_ns_publishedAt_null_rank', 'ASC');
+                }
+
                 if (\str_contains($key, 'node.')) {
                     $simpleKey = str_replace('node.', '', $key);
                     $qb->addOrderBy(static::NODE_ALIAS.'.'.$simpleKey, $value);
@@ -320,6 +293,43 @@ class NodesSourcesRepository extends StatusAwareRepository
         $this->applyFilterByCriteria($criteria, $query);
 
         return (int) $query->getQuery()->getSingleScalarResult();
+    }
+
+    public function countDeleted(): int
+    {
+        $qb = $this->createQueryBuilder('o');
+
+        return (int) $qb->select($qb->expr()->count('o'))
+            ->andWhere($qb->expr()->isNotNull('o.deletedAt'))
+            ->andWhere($qb->expr()->lte('o.deletedAt', ':deleted_at'))
+            ->setParameter('deleted_at', new \DateTime())
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+    public function findAllDeletedQuery(): Query
+    {
+        $qb = $this->createQueryBuilder('o');
+
+        return $qb->select('o')
+            ->andWhere($qb->expr()->isNotNull('o.deletedAt'))
+            ->andWhere($qb->expr()->lte('o.deletedAt', ':deleted_at'))
+            ->setParameter('deleted_at', new \DateTime())
+            ->getQuery();
+    }
+
+    public function findAllDeletedInParentQuery(array $parentNodeId): Query
+    {
+        $qb = $this->createQueryBuilder('o');
+
+        return $qb->select('o')
+            ->innerJoin('o.node', 'n')
+            ->andWhere($qb->expr()->in('n.parent', ':parentNodeId'))
+            ->andWhere($qb->expr()->isNotNull('o.deletedAt'))
+            ->andWhere($qb->expr()->lte('o.deletedAt', ':deleted_at'))
+            ->setParameter('deleted_at', new \DateTime())
+            ->setParameter('parentNodeId', $parentNodeId)
+            ->getQuery();
     }
 
     /**

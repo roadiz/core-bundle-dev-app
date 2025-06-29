@@ -5,21 +5,21 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/articles?_locale=fr&publishedAt[archive]=2023-06
+  url: {{baseUrl}}/api/articles?_locale=fr&order[publishedAt]=desc
   body: none
   auth: none
 }
 
 params:query {
   _locale: fr
-  publishedAt[archive]: 2023-06
+  order[publishedAt]: desc
+  ~publishedAt[archive]: 2023-06
   ~tagGroup[0]: quis,ut
   ~tagGroup[1]: modi-en
   ~page: 
   ~itemsPerPage: 
   ~properties[]: 
   ~order[unpublishedAt]: 
-  ~order[publishedAt]: 
   ~unpublishedAt[before]: 
   ~unpublishedAt[strictly_before]: 
   ~unpublishedAt[after]: 
