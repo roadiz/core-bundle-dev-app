@@ -114,7 +114,7 @@ final class ArchiveExtension implements QueryResultCollectionExtensionInterface
 
         foreach ($dates as $year => $months) {
             $entity = new Archive();
-            $entity->year = $year;
+            $entity->year = (int) $year;
             $entity->months = $months;
             $entities[] = $entity;
         }
