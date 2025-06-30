@@ -308,9 +308,9 @@ trait DocumentTrait
         SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
         SymfonySerializer\SerializedName('alt'),
     ]
-    public function getAlternativeText(): string
+    public function getAlternativeText(): ?string
     {
-        return $this->getFilename();
+        return null;
     }
 
     /**
