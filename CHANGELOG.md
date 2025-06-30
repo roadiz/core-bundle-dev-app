@@ -1,3 +1,10 @@
+## [v2.1.74](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.73...v2.1.74) (2025-06-30)
+
+
+### Bug Fixes
+
+* **Document:** Update getAlternativeText method to return null for decorative images ([53d300d](https://github.com/roadiz/core-bundle-dev-app/commit/53d300d5e77f60b47b903ab029cf6d983afdc98f))
+
 ## [v2.1.73](https://github.com/roadiz/core-bundle-dev-app/compare/v2.1.72...v2.1.73) (2025-05-16)
 
 
