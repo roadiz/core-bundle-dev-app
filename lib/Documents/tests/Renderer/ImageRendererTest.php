@@ -22,8 +22,14 @@ class ImageRendererTest extends AbstractRendererTestCase
     public function testSupports(): void
     {
         $mockValidDocument = new SimpleDocument();
+        $mockValidDocument->setAlternativeText('Image alternative text');
         $mockValidDocument->setFilename('file.jpg');
         $mockValidDocument->setMimeType('image/jpeg');
+
+        $mockDecorativeDocument = new SimpleDocument();
+        $mockDecorativeDocument->setAlternativeText(null);
+        $mockDecorativeDocument->setFilename('file.jpg');
+        $mockDecorativeDocument->setMimeType('image/jpeg');
 
         $mockExternalValidDocument = new SimpleDocument();
         $mockExternalValidDocument->setFilename('file.jpg');
@@ -58,27 +64,28 @@ class ImageRendererTest extends AbstractRendererTestCase
         $mockDocument = new SimpleDocument();
         $mockDocument->setFilename('file.jpg');
         $mockDocument->setFolder('folder');
+        $mockDocument->setAlternativeText('Image alternative text');
         $mockDocument->setMimeType('image/jpeg');
 
         $renderer = $this->getRenderer();
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg" src="/files/folder/file.jpg" />
+<img alt="Image alternative text" src="/files/folder/file.jpg" />
 EOT,
             $renderer->render($mockDocument, ['noProcess' => true])
         );
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg" src="http://dummy.test/files/folder/file.jpg" />
+<img alt="Image alternative text" src="http://dummy.test/files/folder/file.jpg" />
 EOT,
             $renderer->render($mockDocument, ['absolute' => true, 'noProcess' => true])
         );
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg" src="http://dummy.test/assets/w300-q90/folder/file.jpg" width="300" />
+<img alt="Image alternative text" src="http://dummy.test/assets/w300-q90/folder/file.jpg" width="300" />
 EOT,
             $renderer->render($mockDocument, [
                 'width' => 300,
@@ -88,7 +95,7 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
     src="http://dummy.test/assets/w300-q90/folder/file.jpg"
     width="300"
     class="awesome-image responsive" />
@@ -102,13 +109,13 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
     data-src="/assets/w300-q90/folder/file.jpg"
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
     width="300"
     class="lazyload" />
 <noscript>
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
         src="/assets/w300-q90/folder/file.jpg"
         width="300" />
 </noscript>
@@ -121,13 +128,13 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
     data-src="/assets/w300-q90/folder/file.jpg"
     src="https://test.test/fallback.png"
     width="300"
     class="lazyload" />
 <noscript>
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          src="/assets/w300-q90/folder/file.jpg"
          width="300" />
 </noscript>
@@ -141,7 +148,7 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
     src="/assets/w300-q90/folder/file.jpg"
     width="300" />
 EOT,
@@ -153,7 +160,7 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
      src="/assets/f600x400-q70/folder/file.jpg"
      data-ratio="1.5"
      width="600"
@@ -167,13 +174,13 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
     data-src="/assets/w300-q90/folder/file.jpg"
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
     width="300"
     class="awesome-image responsive lazyload" />
 <noscript>
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
     src="/assets/w300-q90/folder/file.jpg"
     width="300"
     class="awesome-image responsive" />
@@ -188,7 +195,7 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
      src="/assets/w300-q90/folder/file.jpg"
      srcset="/assets/w300-q90/folder/file.jpg 1x, /assets/w600-q90/folder/file.jpg 2x"
      width="300" />
@@ -211,7 +218,7 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
      src="/assets/w300-q90/folder/file.jpg"
      srcset="/assets/w300-q90/folder/file.jpg 1x, /assets/w600-q90/folder/file.jpg 2x"
      sizes="(max-width: 767px) 300px, (min-width: 768px) 400px" />
@@ -238,7 +245,7 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
      src="/assets/f600x400-q90/folder/file.jpg"
      srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
      sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
@@ -266,7 +273,7 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
      src="/assets/f600x400-q90/folder/file.jpg"
      srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
      sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
@@ -296,7 +303,7 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
      data-src="/assets/f600x400-q90/folder/file.jpg"
      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
      data-srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
@@ -304,7 +311,7 @@ EOT,
      data-ratio="1.5"
      class="lazyload" />
 <noscript>
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          src="/assets/f600x400-q90/folder/file.jpg"
          srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
          sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
@@ -334,7 +341,7 @@ EOT,
 
         $this->assertHtmlTidyEquals(
             <<<EOT
-<img alt="file.jpg"
+<img alt="Image alternative text"
      data-src="/assets/f600x400-q90/folder/file.jpg"
      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
      data-srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
@@ -343,7 +350,7 @@ EOT,
      data-ratio="1.5"
      class="lazyload" />
 <noscript>
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          src="/assets/f600x400-q90/folder/file.jpg"
          srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
          sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"

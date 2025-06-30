@@ -8,6 +8,10 @@ All notable changes to Roadiz will be documented in this file.
 
 - **(Document)** Update getAlternativeText method to return null for decorative images - ([fdcf499](https://github.com/roadiz/core-bundle-dev-app/commit/fdcf49921de3514bf8900486382f722bcde80ccf))
 
+### Testing
+
+- **(Document)** Add alternative text handling for images in rendering - ([15ea1ed](https://github.com/roadiz/core-bundle-dev-app/commit/15ea1edd1dd6e6f5526b029c98b9cedab5589b68))
+
 ## [2.5.26](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.25...v2.5.26) - 2025-06-27
 
 ### Bug Fixes
