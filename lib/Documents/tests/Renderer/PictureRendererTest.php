@@ -111,11 +111,13 @@ class PictureRendererTest extends AbstractRendererTestCase
     public function testRender(): void
     {
         $mockDocument = new SimpleDocument();
+        $mockDocument->setAlternativeText('Image alternative text');
         $mockDocument->setFilename('file.jpg');
         $mockDocument->setFolder('folder');
         $mockDocument->setMimeType('image/jpeg');
 
         $mockWebpDocument = new SimpleDocument();
+        $mockWebpDocument->setAlternativeText('Image alternative text');
         $mockWebpDocument->setFilename('file.webp');
         $mockWebpDocument->setFolder('folder');
         $mockWebpDocument->setMimeType('image/webp');
@@ -127,7 +129,7 @@ class PictureRendererTest extends AbstractRendererTestCase
 <picture>
     <source type="image/webp" srcset="/files/folder/file.jpg.webp">
     <source type="image/jpeg" srcset="/files/folder/file.jpg">
-    <img alt="file.jpg" src="/files/folder/file.jpg" />
+    <img alt="Image alternative text" src="/files/folder/file.jpg" />
 </picture>
 EOT
             ,
@@ -142,7 +144,7 @@ EOT
 <picture>
     <source type="image/webp" srcset="/files/folder/file.jpg.webp">
     <source type="image/jpeg" srcset="/files/folder/file.jpg">
-    <img alt="file.jpg" src="/files/folder/file.jpg" loading="lazy" />
+    <img alt="Image alternative text" src="/files/folder/file.jpg" loading="lazy" />
 </picture>
 EOT
             ,
@@ -157,7 +159,7 @@ EOT
             <<<EOT
 <picture>
     <source type="image/webp" srcset="/files/folder/file.webp">
-    <img alt="file.webp" src="/files/folder/file.webp" />
+    <img alt="Image alternative text" src="/files/folder/file.webp" />
 </picture>
 EOT
             ,
@@ -172,7 +174,7 @@ EOT
 <picture>
     <source type="image/webp" srcset="http://dummy.test/files/folder/file.jpg.webp">
     <source type="image/jpeg" srcset="http://dummy.test/files/folder/file.jpg">
-    <img alt="file.jpg" src="http://dummy.test/files/folder/file.jpg" />
+    <img alt="Image alternative text" src="http://dummy.test/files/folder/file.jpg" />
 </picture>
 EOT
             ,
@@ -193,7 +195,7 @@ EOT
 <picture>
 <source type="image/webp" srcset="http://dummy.test/assets/w300-q90/folder/file.jpg.webp">
 <source type="image/jpeg" srcset="http://dummy.test/assets/w300-q90/folder/file.jpg">
-<img alt="file.jpg" src="http://dummy.test/assets/w300-q90/folder/file.jpg" width="300" />
+<img alt="Image alternative text" src="http://dummy.test/assets/w300-q90/folder/file.jpg" width="300" />
 </picture>
 EOT
         );
@@ -209,7 +211,7 @@ EOT
 <picture>
 <source type="image/webp" srcset="http://dummy.test/assets/w300-q90/folder/file.jpg.webp">
 <source type="image/jpeg" srcset="http://dummy.test/assets/w300-q90/folder/file.jpg">
-<img alt="file.jpg" src="http://dummy.test/assets/w300-q90/folder/file.jpg" width="300" class="awesome-image responsive" />
+<img alt="Image alternative text" src="http://dummy.test/assets/w300-q90/folder/file.jpg" width="300" class="awesome-image responsive" />
 </picture>
 EOT
         );
@@ -228,7 +230,7 @@ EOT
     <source type="image/jpeg"
             srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
             data-srcset="/assets/w300-q90/folder/file.jpg">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          data-src="/assets/w300-q90/folder/file.jpg"
          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
          width="300"
@@ -240,7 +242,7 @@ EOT
                 srcset="/assets/w300-q90/folder/file.jpg.webp">
         <source type="image/jpeg"
                 srcset="/assets/w300-q90/folder/file.jpg">
-        <img alt="file.jpg"
+        <img alt="Image alternative text"
              src="/assets/w300-q90/folder/file.jpg"
              width="300" />
     </picture>
@@ -259,7 +261,7 @@ EOT
 <picture>
     <source type="image/webp" srcset="https://test.test/fallback.png" data-srcset="/assets/w300-q90/folder/file.jpg.webp">
     <source type="image/jpeg" srcset="https://test.test/fallback.png" data-srcset="/assets/w300-q90/folder/file.jpg">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          data-src="/assets/w300-q90/folder/file.jpg"
          src="https://test.test/fallback.png"
          width="300"
@@ -269,7 +271,7 @@ EOT
     <picture>
         <source type="image/webp" srcset="/assets/w300-q90/folder/file.jpg.webp">
         <source type="image/jpeg" srcset="/assets/w300-q90/folder/file.jpg">
-        <img alt="file.jpg"
+        <img alt="Image alternative text"
             src="/assets/w300-q90/folder/file.jpg"
             width="300" />
     </picture>
@@ -286,7 +288,7 @@ EOT
 <picture>
     <source type="image/webp" srcset="/assets/w300-q90/folder/file.jpg.webp">
     <source type="image/jpeg" srcset="/assets/w300-q90/folder/file.jpg">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
         src="/assets/w300-q90/folder/file.jpg"
         width="300" />
 </picture>
@@ -307,7 +309,7 @@ EOT
     <source type="image/jpeg"
             srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
             data-srcset="/assets/w300-q90/folder/file.jpg">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          data-src="/assets/w300-q90/folder/file.jpg"
          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
          width="300"
@@ -319,7 +321,7 @@ EOT
                 srcset="/assets/w300-q90/folder/file.jpg.webp">
         <source type="image/jpeg"
                 srcset="/assets/w300-q90/folder/file.jpg">
-        <img alt="file.jpg"
+        <img alt="Image alternative text"
              src="/assets/w300-q90/folder/file.jpg"
              width="300"
              class="awesome-image responsive" />
@@ -349,7 +351,7 @@ EOT
             srcset="/assets/w300-q90/folder/file.jpg.webp 1x, /assets/w600-q90/folder/file.jpg.webp 2x">
     <source type="image/jpeg"
             srcset="/assets/w300-q90/folder/file.jpg 1x, /assets/w600-q90/folder/file.jpg 2x">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
         src="/assets/w300-q90/folder/file.jpg"
         srcset="/assets/w300-q90/folder/file.jpg 1x, /assets/w600-q90/folder/file.jpg 2x"
         width="300" />
@@ -384,7 +386,7 @@ EOT
     <source type="image/jpeg"
             sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
             srcset="/assets/w300-q90/folder/file.jpg 1x, /assets/w600-q90/folder/file.jpg 2x">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
         src="/assets/w300-q90/folder/file.jpg"
         srcset="/assets/w300-q90/folder/file.jpg 1x, /assets/w600-q90/folder/file.jpg 2x"
         sizes="(max-width: 767px) 300px, (min-width: 768px) 400px" />
@@ -419,7 +421,7 @@ EOT
     <source type="image/jpeg"
             sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
             srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
         src="/assets/f600x400-q90/folder/file.jpg"
         srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
         sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
@@ -457,7 +459,7 @@ EOT
     <source type="image/jpeg"
             sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
             srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
         src="/assets/f600x400-q90/folder/file.jpg"
         srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
         sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
@@ -491,7 +493,7 @@ EOT
     <source type="image/jpeg"
             srcset="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
             data-srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          data-src="/assets/f600x400-q90/folder/file.jpg"
          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
          data-srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
@@ -506,7 +508,7 @@ EOT
                 srcset="/assets/f600x400-q90/folder/file.jpg.webp 1x, /assets/f1200x800-q90/folder/file.jpg.webp 2x">
         <source type="image/jpeg"
                 srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x">
-        <img alt="file.jpg"
+        <img alt="Image alternative text"
              src="/assets/f600x400-q90/folder/file.jpg"
              srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
              data-ratio="1.5"
@@ -542,7 +544,7 @@ EOT
     <source type="image/jpeg"
             srcset="https://test.test/fallback.png"
             data-srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          data-src="/assets/f600x400-q90/folder/file.jpg"
          src="https://test.test/fallback.png"
          data-srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
@@ -557,7 +559,7 @@ EOT
                 srcset="/assets/f600x400-q90/folder/file.jpg.webp 1x, /assets/f1200x800-q90/folder/file.jpg.webp 2x">
         <source type="image/jpeg"
                 srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x">
-        <img alt="file.jpg"
+        <img alt="Image alternative text"
             src="/assets/f600x400-q90/folder/file.jpg"
             srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
             data-ratio="1.5"
@@ -595,7 +597,7 @@ EOT
     <source type="image/jpeg"
             media="(min-width: 600px)"
             srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x">
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          src="/assets/f600x400-q90/folder/file.jpg"
          data-ratio="1.5"
          width="600"
@@ -652,7 +654,7 @@ EOT
             media="(min-width: 1200px)"
             srcset="/assets/f1200x800-q90/folder/file.jpg 1x, /assets/f2400x1600-q90/folder/file.jpg 2x">
 
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          src="/assets/f600x400-q90/folder/file.jpg"
          data-ratio="1.5"
          width="600"
@@ -709,8 +711,7 @@ EOT
     <source type="image/jpeg"
             media="(min-width: 1200px)"
             srcset="/assets/f1200x800-q90/folder/file.jpg 1x, /assets/f2400x1600-q90/folder/file.jpg 2x">
-
-    <img alt="file.jpg"
+    <img alt="Image alternative text"
          src="/assets/f600x400-q90/folder/file.jpg"
          loading="lazy"
          data-ratio="1.5"
@@ -765,7 +766,7 @@ EOT
             srcset="FALLBACK"
             data-srcset="/assets/f1200x800-q90/folder/file.webp 1x, /assets/f2400x1600-q90/folder/file.webp 2x">
 
-    <img alt="file.webp"
+    <img alt="Image alternative text"
          data-src="/assets/f600x400-q90/folder/file.webp"
          src="FALLBACK"
          data-ratio="1.5"
@@ -783,7 +784,7 @@ EOT
                 media="(min-width: 1200px)"
                 srcset="/assets/f1200x800-q90/folder/file.webp 1x, /assets/f2400x1600-q90/folder/file.webp 2x">
 
-        <img alt="file.webp"
+        <img alt="Image alternative text"
              src="/assets/f600x400-q90/folder/file.webp"
              data-ratio="1.5"
              width="600"
@@ -839,7 +840,7 @@ EOT
             srcset="FALLBACK"
             data-srcset="/assets/f1200x800-q90/folder/file.webp 1x, /assets/f2400x1600-q90/folder/file.webp 2x">
 
-    <img alt="file.webp"
+    <img alt="Image alternative text"
          data-src="/assets/f600x400-q90/folder/file.webp"
          src="FALLBACK"
          loading="lazy"
@@ -858,7 +859,7 @@ EOT
                 media="(min-width: 1200px)"
                 srcset="/assets/f1200x800-q90/folder/file.webp 1x, /assets/f2400x1600-q90/folder/file.webp 2x">
 
-        <img alt="file.webp"
+        <img alt="Image alternative text"
              src="/assets/f600x400-q90/folder/file.webp"
              loading="lazy"
              data-ratio="1.5"
