@@ -590,12 +590,12 @@ class Document extends AbstractDateTimed implements AdvancedDocumentInterface, H
         SymfonySerializer\Groups(["document", "document_display", "nodes_sources", "tag", "attribute"]),
         SymfonySerializer\SerializedName("alt"),
     ]
-    public function getAlternativeText(): string
+    public function getAlternativeText(): ?string
     {
         $documentTranslation = $this->getDocumentTranslations()->first();
         return $documentTranslation && !empty($documentTranslation->getName()) ?
             $documentTranslation->getName() :
-            $this->getFilename();
+            null;
     }
 
     public function __clone()
