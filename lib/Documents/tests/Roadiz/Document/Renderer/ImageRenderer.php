@@ -13,8 +13,6 @@ use League\Flysystem\UrlGeneration\PublicUrlGenerator;
 use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -81,12 +79,12 @@ class ImageRenderer extends atoum
             ->then
             ->string($this->htmlTidy($renderer->render($mockDocument, ['noProcess' => true])))
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg" src="/files/folder/file.jpg" />
+<img alt="" aria-hidden="true" src="/files/folder/file.jpg" />
 EOT
             ))
             ->string($this->htmlTidy($renderer->render($mockDocument, ['absolute' => true, 'noProcess' => true])))
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg" src="http://dummy.test/files/folder/file.jpg" />
+<img alt="" aria-hidden="true" src="http://dummy.test/files/folder/file.jpg" />
 EOT
             ))
             ->string($this->htmlTidy($renderer->render($mockDocument, [
@@ -94,7 +92,7 @@ EOT
                 'absolute' => true
             ])))
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg" src="http://dummy.test/assets/w300-q90/folder/file.jpg" width="300" />
+<img alt="" aria-hidden="true" src="http://dummy.test/assets/w300-q90/folder/file.jpg" width="300" />
 EOT
             ))
             ->string($this->htmlTidy($renderer->render($mockDocument, [
@@ -103,7 +101,7 @@ EOT
                 'absolute' => true
             ])))
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
     src="http://dummy.test/assets/w300-q90/folder/file.jpg"
     width="300"
     class="awesome-image responsive" />
@@ -115,13 +113,13 @@ EOT
             ])))
             ->contains('noscript')
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
     data-src="/assets/w300-q90/folder/file.jpg"
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
     width="300"
     class="lazyload" />
 <noscript>
-    <img alt="file.jpg"
+    <img alt="" aria-hidden="true"
         src="/assets/w300-q90/folder/file.jpg"
         width="300" />
 </noscript>
@@ -134,13 +132,13 @@ EOT
             ])))
             ->contains('noscript')
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
     data-src="/assets/w300-q90/folder/file.jpg"
     src="https://test.test/fallback.png"
     width="300"
     class="lazyload" />
 <noscript>
-    <img alt="file.jpg"
+    <img alt="" aria-hidden="true"
          src="/assets/w300-q90/folder/file.jpg"
          width="300" />
 </noscript>
@@ -151,7 +149,7 @@ EOT
                 'fallback' => 'https://test.test/fallback.png'
             ])))
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
     src="/assets/w300-q90/folder/file.jpg"
     width="300" />
 EOT
@@ -161,7 +159,7 @@ EOT
                 'quality' => 70
             ])))
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
      src="/assets/f600x400-q70/folder/file.jpg"
      data-ratio="1.5"
      width="600"
@@ -175,13 +173,13 @@ EOT
             ])))
             ->contains('noscript')
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
     data-src="/assets/w300-q90/folder/file.jpg"
     src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
     width="300"
     class="awesome-image responsive lazyload" />
 <noscript>
-    <img alt="file.jpg"
+    <img alt="" aria-hidden="true"
     src="/assets/w300-q90/folder/file.jpg"
     width="300"
     class="awesome-image responsive" />
@@ -203,7 +201,7 @@ EOT
                 ]]
             ])))
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
      src="/assets/w300-q90/folder/file.jpg"
      srcset="/assets/w300-q90/folder/file.jpg 1x, /assets/w600-q90/folder/file.jpg 2x"
      width="300" />
@@ -228,7 +226,7 @@ EOT
                 ]
             ])))
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
      src="/assets/w300-q90/folder/file.jpg"
      srcset="/assets/w300-q90/folder/file.jpg 1x, /assets/w600-q90/folder/file.jpg 2x"
      sizes="(max-width: 767px) 300px, (min-width: 768px) 400px" />
@@ -253,7 +251,7 @@ EOT
                 ]
             ])))
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
      src="/assets/f600x400-q90/folder/file.jpg"
      srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
      sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
@@ -281,7 +279,7 @@ EOT
                 ]
             ])))
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
      src="/assets/f600x400-q90/folder/file.jpg"
      srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
      sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
@@ -310,7 +308,7 @@ EOT
             ])))
             ->contains('noscript')
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
      data-src="/assets/f600x400-q90/folder/file.jpg"
      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
      data-srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
@@ -318,7 +316,7 @@ EOT
      data-ratio="1.5"
      class="lazyload" />
 <noscript>
-    <img alt="file.jpg"
+    <img alt="" aria-hidden="true"
          src="/assets/f600x400-q90/folder/file.jpg"
          srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
          sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"
@@ -348,7 +346,7 @@ EOT
             ])))
             ->contains('noscript')
             ->isEqualTo($this->htmlTidy(<<<EOT
-<img alt="file.jpg"
+<img alt="" aria-hidden="true"
      data-src="/assets/f600x400-q90/folder/file.jpg"
      src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNcvGDBfwAGtQLk4581vAAAAABJRU5ErkJggg=="
      data-srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
@@ -357,7 +355,7 @@ EOT
      data-ratio="1.5"
      class="lazyload" />
 <noscript>
-    <img alt="file.jpg"
+    <img alt="" aria-hidden="true"
          src="/assets/f600x400-q90/folder/file.jpg"
          srcset="/assets/f600x400-q90/folder/file.jpg 1x, /assets/f1200x800-q90/folder/file.jpg 2x"
          sizes="(max-width: 767px) 300px, (min-width: 768px) 400px"

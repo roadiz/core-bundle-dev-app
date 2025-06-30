@@ -14,8 +14,6 @@ use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Renderer;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
@@ -95,7 +93,7 @@ EOT
 <picture>
 <source type="image/webp" srcset="/assets/w300-q90/folder/file.jpg.webp">
 <source type="image/jpeg" srcset="/assets/w300-q90/folder/file.jpg">
-<img alt="file.jpg" src="/assets/w300-q90/folder/file.jpg" width="300" />
+<img alt="" aria-hidden="true" src="/assets/w300-q90/folder/file.jpg" width="300" />
 </picture>
 EOT
             ))
