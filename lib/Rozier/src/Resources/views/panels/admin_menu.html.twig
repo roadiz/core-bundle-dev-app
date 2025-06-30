@@ -18,63 +18,67 @@
         {% if (is_granted('ROLE_ACCESS_NODES')) %}
         <hr/>
         <div id="minify-tree-panel-area">
-            <a id="minify-tree-panel-button"
+            <button
+                id="minify-tree-panel-button"
+                role="button"
                 title="{% trans %}minify.tree.panel{% endtrans %}"
                 class="uk-icon-button">
                 <i class="uk-icon-rz-panel-tree-close"></i>
-            </a>
+            </button>
         </div>
         {% endif %}
     </header>
     {% apply spaceless %}
-    <ul class="uk-nav uk-nav-parent-icon">
-        {% for mainEntry in rozier.backofficeMenuEntries %}
-            {% if (not mainEntry.roles or is_granted(mainEntry.roles)) %}
-            {# Define entry #}
-            <li {% if mainEntry.subentries %}class="uk-parent"{% endif %}>
-                {% if mainEntry.path or mainEntry.route %}
-                    {% if mainEntry.path %}
-                        {% set path = mainEntry.path %}
+    <nav>
+        <ul role="menubar" class="uk-nav uk-nav-parent-icon">
+            {% for mainEntry in rozier.backofficeMenuEntries %}
+                {% if (not mainEntry.roles or is_granted(mainEntry.roles)) %}
+                {# Define entry #}
+                <li role="none" {% if mainEntry.subentries %}tabindex="0" class="uk-parent"{% endif %}>
+                    {% if mainEntry.path or mainEntry.route %}
+                        {% if mainEntry.path %}
+                            {% set path = mainEntry.path %}
+                        {% else %}
+                            {% set path = path(mainEntry.route) %}
+                        {% endif %}
+                    <a tabindex="0" role="menuitem" href="{{- path -}}"><i class="{{ mainEntry.icon }}"></i><span class="info">{{ mainEntry.name|trans }}</span></a>
                     {% else %}
-                        {% set path = path(mainEntry.route) %}
+                    <p tabindex="-1" role="menuitem" aria-expanded="false" aria-haspopup="true"><i class="{{ mainEntry.icon }}"></i><span class="info">{{ mainEntry.name|trans }}</span></p>
                     {% endif %}
-                <a href="{{- path -}}"><i class="{{ mainEntry.icon }}"></i><span class="info">{{ mainEntry.name|trans }}</span></a>
-                {% else %}
-                <p><i class="{{ mainEntry.icon }}"></i><span class="info">{{ mainEntry.name|trans }}</span></p>
-                {% endif %}
 
-                {% if mainEntry.subentries %}
-                <ul class="uk-nav-sub">
-                    {% for subEntry in mainEntry.subentries %}
-                        {# Exception for settings groups #}
-                        {% if subEntry.name == 'setting.groups.dynamic' %}
-                            {% for group in rozier.settingGroups %}
-                                <li class="uk-nav-sub-item">
-                                    <a href="{{ path('settingGroupsSettingsPage', {'settingGroupId': group.id}) }}">
-                                        <i class="uk-icon-rz-settings-group"></i><span class="info">{{ group.name|trans }}</span>
+                    {% if mainEntry.subentries %}
+                    <ul role="menu" aria-label="{{ mainEntry.name|trans }}" class="uk-nav-sub" tabindex="-1">
+                        {% for subEntry in mainEntry.subentries %}
+                            {# Exception for settings groups #}
+                            {% if subEntry.name == 'setting.groups.dynamic' %}
+                                {% for group in rozier.settingGroups %}
+                                    <li role="none" class="uk-nav-sub-item">
+                                        <a tabindex="0" role="menuitem" href="{{ path('settingGroupsSettingsPage', {'settingGroupId': group.id}) }}">
+                                            <i class="uk-icon-rz-settings-group"></i><span class="info">{{ group.name|trans }}</span>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                {% if (not subEntry.roles or is_granted(subEntry.roles)) %}
+                                <li role="none" class="uk-nav-sub-item">
+                                    {% if subEntry.path %}
+                                        {% set path = subEntry.path %}
+                                    {% else %}
+                                        {% set path = path(subEntry.route) %}
+                                    {% endif %}
+                                    <a tabindex="0" role="menuitem" href="{{ path }}">
+                                        <i class="{{ subEntry.icon }}"></i><span class="info">{{ subEntry.name|trans }}</span>
                                     </a>
                                 </li>
-                            {% endfor %}
-                        {% else %}
-                            {% if (not subEntry.roles or is_granted(subEntry.roles)) %}
-                            <li class="uk-nav-sub-item">
-                                {% if subEntry.path %}
-                                    {% set path = subEntry.path %}
-                                {% else %}
-                                    {% set path = path(subEntry.route) %}
                                 {% endif %}
-                                <a href="{{ path }}">
-                                    <i class="{{ subEntry.icon }}"></i><span class="info">{{ subEntry.name|trans }}</span>
-                                </a>
-                            </li>
                             {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                </ul>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </li>
                 {% endif %}
-            </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+    </nav>
     {% endapply %}
 </admin-menu-nav>
