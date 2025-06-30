@@ -17,6 +17,7 @@ class SimpleDocument implements DocumentInterface
     private string $filename = '';
     private string $folder = '';
     private ?string $embedId = null;
+    private ?string $alternativeText = null;
     private ?string $embedPlatform = null;
     private ?string $mimeType = null;
     private bool $private = false;
@@ -163,6 +164,18 @@ class SimpleDocument implements DocumentInterface
         $this->folders->removeElement($folder);
 
         return $this;
+    }
+
+    public function setAlternativeText(?string $alternativeText): static
+    {
+        $this->alternativeText = $alternativeText;
+
+        return $this;
+    }
+
+    public function getAlternativeText(): ?string
+    {
+        return $this->alternativeText;
     }
 
     public function __toString(): string
