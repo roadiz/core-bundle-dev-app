@@ -127,7 +127,7 @@ final class DocumentNormalizer extends AbstractPathNormalizer
                     $data['name'] = $translatedData->getName();
                     $data['description'] = $translatedData->getDescription();
                     $data['copyright'] = $translatedData->getCopyright();
-                    $data['alt'] = !empty($translatedData->getName()) ? $translatedData->getName() : $object->getFilename();
+                    $data['alt'] = !empty($translatedData->getName()) ? $translatedData->getName() : null;
                     $data['externalUrl'] = $translatedData->getExternalUrl();
                 }
             }

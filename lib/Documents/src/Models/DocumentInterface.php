@@ -163,7 +163,12 @@ interface DocumentInterface
      */
     public function isProcessable(): bool;
 
-    public function getAlternativeText(): string;
+    /**
+     * Gets alternative text for current document.
+     *
+     * @return string|null Returns null if image is decorative or if no alternative text is set
+     */
+    public function getAlternativeText(): ?string;
 
     public function __toString(): string;
 }
