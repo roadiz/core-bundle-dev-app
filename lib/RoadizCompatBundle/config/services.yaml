@@ -35,9 +35,6 @@ services:
     nodeTypesBag:
         alias: RZ\Roadiz\CoreBundle\Bag\NodeTypes
         public: true
-    rolesBag:
-        alias: RZ\Roadiz\CoreBundle\Bag\Roles
-        public: true
     Symfony\Contracts\Translation\TranslatorInterface:
         alias: 'translator.default'
         public: true

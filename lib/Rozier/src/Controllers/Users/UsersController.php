@@ -6,7 +6,6 @@ namespace Themes\Rozier\Controllers\Users;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
-use RZ\Roadiz\CoreBundle\Entity\Role;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -131,7 +130,7 @@ class UsersController extends AbstractAdminWithBulkController
         ) {
             throw $this->createAccessDeniedException("You don't have access to this page: ROLE_ACCESS_USERS");
         }
-        if (!$this->isGranted(Role::ROLE_SUPERADMIN) && $item->isSuperAdmin()) {
+        if (!$this->isGranted('ROLE_SUPERADMIN') && $item->isSuperAdmin()) {
             throw $this->createAccessDeniedException('You cannot edit a super admin.');
         }
     }

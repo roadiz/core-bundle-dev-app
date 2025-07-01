@@ -262,10 +262,6 @@ services:
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\GroupNormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: 5 }
-    # Role
-    RZ\Roadiz\CoreBundle\Serializer\Normalizer\RoleNormalizer:
-        tags:
-            - { name: 'serializer.normalizer', priority: 5 }
     # Attribute
     RZ\Roadiz\CoreBundle\Serializer\Normalizer\AttributeNormalizer:
         tags:
@@ -482,8 +478,6 @@ services:
     RZ\Roadiz\CoreBundle\Importer\AttributeImporter:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\GroupsImporter:
-        tags: ['roadiz_core.importer']
-    RZ\Roadiz\CoreBundle\Importer\RolesImporter:
         tags: ['roadiz_core.importer']
     RZ\Roadiz\CoreBundle\Importer\SettingsImporter:
         tags: ['roadiz_core.importer']

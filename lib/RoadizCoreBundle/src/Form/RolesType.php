@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Form;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Entity\Role;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 final class RolesType extends AbstractType
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
-        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly Security $security,
+        #[Autowire(param: 'security.role_hierarchy.roles')]
+        private readonly array $rolesHierarchy,
     ) {
     }
 
@@ -26,31 +24,48 @@ final class RolesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'roles' => new ArrayCollection(),
+            'roles' => [],
             'multiple' => false,
         ]);
 
         $resolver->setAllowedTypes('multiple', ['bool']);
-        $resolver->setAllowedTypes('roles', [Collection::class]);
+        $resolver->setAllowedTypes('roles', ['array']);
 
         /*
          * Use normalizer to populate choices from ChoiceType
          */
         $resolver->setNormalizer('choices', function (Options $options, $choices) {
-            $roles = $this->managerRegistry->getRepository(Role::class)->findAll();
-
-            /** @var Role $role */
-            foreach ($roles as $role) {
+            foreach ($this->flattenRoles($this->rolesHierarchy) as $role) {
                 if (
-                    $this->authorizationChecker->isGranted($role->getRole())
-                    && !$options['roles']->contains($role)
+                    $this->security->isGranted($role)
+                    && !in_array($role, $options['roles'])
                 ) {
-                    $choices[$role->getRole()] = $role->getId();
+                    $choices[$role] = $role;
                 }
             }
 
+            ksort($choices);
+
             return $choices;
         });
+    }
+
+    private function flattenRoles(array $rolesHierarchy): array
+    {
+        $flattened = [];
+        foreach ($rolesHierarchy as $role => $subRoles) {
+            if (is_array($subRoles)) {
+                $flattened = [
+                    ...$flattened,
+                    $role,
+                    ...$this->flattenRoles($subRoles),
+                ];
+            } else {
+                $flattened[] = $subRoles;
+            }
+        }
+
+        return array_unique($flattened);
     }
 
     #[\Override]

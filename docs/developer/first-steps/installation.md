@@ -49,7 +49,7 @@ docker compose exec app bin/console lexik:jwt:generate-keypair;
 docker compose exec app bin/console doctrine:migrations:migrate
 # Migrate any existing data types
 docker compose exec app bin/console app:install
-# Install base Roadiz fixtures, default translation, roles, and settings
+# Install base Roadiz fixtures, default translation, and settings
 docker compose exec app bin/console install
 # Stop workers to force restart them
 docker compose exec app php bin/console messenger:stop-workers

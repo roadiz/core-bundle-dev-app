@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Themes\Rozier\Controllers\Users;
 
 use Doctrine\Persistence\ManagerRegistry;
-use RZ\Roadiz\CoreBundle\Entity\Role;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Form\RolesType;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -44,18 +43,19 @@ final class UsersRolesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Role|null $role */
-            $role = $this->managerRegistry
-                ->getRepository(Role::class)
-                ->find($form->get('roleId')->getData());
+            /** @var string|null $role */
+            $role = $form->get('role')->getData();
 
-            if (null !== $role) {
-                $user->addRoleEntity($role);
+            if (is_string($role)) {
+                $user->setUserRoles([
+                    ...$user->getUserRoles(),
+                    $role,
+                ]);
                 $this->managerRegistry->getManager()->flush();
 
                 $msg = $this->translator->trans('user.%user%.role.%role%.linked', [
                     '%user%' => $user->getUserName(),
-                    '%role%' => $role->getRole(),
+                    '%role%' => $role,
                 ]);
 
                 $this->logTrail->publishConfirmMessage($request, $msg, $user);
@@ -74,7 +74,7 @@ final class UsersRolesController extends AbstractController
         ]);
     }
 
-    public function removeRoleAction(Request $request, int $userId, int $roleId): Response
+    public function removeRoleAction(Request $request, int $userId, string $role): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_USERS');
 
@@ -84,13 +84,7 @@ final class UsersRolesController extends AbstractController
             throw new ResourceNotFoundException();
         }
 
-        /** @var Role|null $role */
-        $role = $this->managerRegistry->getRepository(Role::class)->find($roleId);
-        if (null === $role) {
-            throw new ResourceNotFoundException();
-        }
-
-        if (!$this->isGranted($role->getRole())) {
+        if (!$this->isGranted($role)) {
             throw $this->createAccessDeniedException();
         }
 
@@ -98,11 +92,14 @@ final class UsersRolesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->removeRoleEntity($role);
+            $user->setUserRoles(array_filter(
+                $user->getUserRoles(),
+                fn (string $userRole) => $userRole !== $role
+            ));
             $this->managerRegistry->getManager()->flush();
             $msg = $this->translator->trans(
                 'user.%name%.role_removed',
-                ['%name%' => $role->getRole()]
+                ['%name%' => $role]
             );
             $this->logTrail->publishConfirmMessage($request, $msg, $user);
 
@@ -123,11 +120,11 @@ final class UsersRolesController extends AbstractController
     {
         $builder = $this->createFormBuilder()
             ->add(
-                'roleId',
+                'role',
                 RolesType::class,
                 [
                     'label' => 'choose.role',
-                    'roles' => $user->getRolesEntities(),
+                    'roles' => $user->getUserRoles(),
                 ]
             )
         ;

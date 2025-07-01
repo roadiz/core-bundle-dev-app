@@ -7,7 +7,6 @@ namespace RZ\Roadiz\UserBundle\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
-use RZ\Roadiz\CoreBundle\Bag\Roles;
 use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
 use RZ\Roadiz\UserBundle\Api\Dto\UserInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
@@ -33,7 +32,6 @@ final readonly class UserSignupProcessor implements ProcessorInterface
         private RecaptchaServiceInterface $recaptchaService,
         private ProcessorInterface $persistProcessor,
         private UserMetadataManagerInterface $userMetadataManager,
-        private Roles $rolesBag,
         private string $publicUserRoleName,
         private string $recaptchaHeaderName = 'x-g-recaptcha-response',
     ) {
@@ -76,7 +74,10 @@ final readonly class UserSignupProcessor implements ProcessorInterface
 
         $user = $this->createUser($data);
         $user->setPlainPassword($data->plainPassword);
-        $user->addRoleEntity($this->rolesBag->get($this->publicUserRoleName));
+        $user->setUserRoles([
+            ...$user->getUserRoles(),
+            $this->publicUserRoleName,
+        ]);
         $user->sendCreationConfirmationEmail(true);
         $user->setLocale($request->getLocale());
 

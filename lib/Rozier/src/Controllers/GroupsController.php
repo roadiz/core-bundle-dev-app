@@ -6,7 +6,6 @@ namespace Themes\Rozier\Controllers;
 
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Group;
-use RZ\Roadiz\CoreBundle\Entity\Role;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Form\RolesType;
 use RZ\Roadiz\CoreBundle\Form\UsersType;
@@ -114,22 +113,25 @@ final class GroupsController extends AbstractAdminController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $role = $this->em()->find(Role::class, (int) $form->get('roleId')->getData());
-            if (null !== $role) {
-                $item->addRoleEntity($role);
+            $role = $form->get('role')->getData();
+            if (is_string($role)) {
+                $item->setRoles([
+                    ...$item->getRoles(),
+                    $role,
+                ]);
                 $this->em()->flush();
                 $msg = $this->translator->trans('role.%role%.linked_group.%group%', [
                     '%group%' => $item->getName(),
-                    '%role%' => $role->getRole(),
+                    '%role%' => $role,
                 ]);
-                $this->logTrail->publishConfirmMessage($request, $msg, $role);
+                $this->logTrail->publishConfirmMessage($request, $msg, $item);
 
                 return $this->redirectToRoute(
                     'groupsEditRolesPage',
                     ['id' => $item->getId()]
                 );
             }
-            $form->get('roleId')->addError(new FormError('Role not found'));
+            $form->get('role')->addError(new FormError('Role not found'));
         }
 
         $this->assignation['form'] = $form->createView();
@@ -140,21 +142,14 @@ final class GroupsController extends AbstractAdminController
     /**
      * @throws RuntimeError
      */
-    public function removeRolesAction(Request $request, int $id, int $roleId): Response
+    public function removeRolesAction(Request $request, int $id, string $role): Response
     {
         $this->denyAccessUnlessGranted($this->getRequiredRole());
 
         /** @var Group|null $item */
         $item = $this->em()->find($this->getEntityClass(), $id);
 
-        /** @var Role|null $role */
-        $role = $this->em()->find(Role::class, $roleId);
-
         if (!($item instanceof Group)) {
-            throw $this->createNotFoundException();
-        }
-
-        if (!($role instanceof Role)) {
             throw $this->createNotFoundException();
         }
 
@@ -167,13 +162,20 @@ final class GroupsController extends AbstractAdminController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $item->removeRoleEntity($role);
+            $item->setRoles(
+                array_values(
+                    array_filter(
+                        $item->getRoles(),
+                        fn (string $existingRole) => $existingRole !== $role
+                    )
+                )
+            );
             $this->em()->flush();
             $msg = $this->translator->trans('role.%role%.removed_from_group.%group%', [
-                '%role%' => $role->getRole(),
+                '%role%' => $role,
                 '%group%' => $item->getName(),
             ]);
-            $this->logTrail->publishConfirmMessage($request, $msg, $role);
+            $this->logTrail->publishConfirmMessage($request, $msg, $item);
 
             return $this->redirectToRoute(
                 'groupsEditRolesPage',
@@ -283,11 +285,11 @@ final class GroupsController extends AbstractAdminController
     {
         $builder = $this->createFormBuilder()
             ->add(
-                'roleId',
+                'role',
                 RolesType::class,
                 [
                     'label' => 'choose.role',
-                    'roles' => $group->getRolesEntities(),
+                    'roles' => $group->getRoles(),
                 ]
             )
         ;

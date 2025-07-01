@@ -64,7 +64,6 @@ final readonly class UserValidationTokenManager implements UserValidationTokenMa
         $reachableRoles = $this->roleHierarchy->getReachableRoleNames($user->getRoles());
 
         return \in_array($this->emailValidatedRoleName, $reachableRoles)
-            || \in_array('ROLE_SUPER_ADMIN', $reachableRoles)
             || \in_array('ROLE_SUPERADMIN', $reachableRoles);
     }
 

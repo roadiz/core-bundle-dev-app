@@ -32,7 +32,13 @@
     <nav>
         <ul role="menubar" class="uk-nav uk-nav-parent-icon">
             {% for mainEntry in rozier.backofficeMenuEntries %}
-                {% if (not mainEntry.roles or is_granted(mainEntry.roles)) %}
+                {% set granted = false %}
+                {% for role in mainEntry.roles %}
+                    {% if is_granted(role) %}
+                        {% set granted = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if (not mainEntry.roles or granted) %}
                 {# Define entry #}
                 <li role="none" {% if mainEntry.subentries %}tabindex="0" class="uk-parent"{% endif %}>
                     {% if mainEntry.path or mainEntry.route %}
@@ -59,7 +65,13 @@
                                     </li>
                                 {% endfor %}
                             {% else %}
-                                {% if (not subEntry.roles or is_granted(subEntry.roles)) %}
+                                {% set subEntryGranted = false %}
+                                {% for role in subEntry.roles %}
+                                    {% if is_granted(role) %}
+                                        {% set subEntryGranted = true %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if (not subEntry.roles or subEntryGranted) %}
                                 <li role="none" class="uk-nav-sub-item">
                                     {% if subEntry.path %}
                                         {% set path = subEntry.path %}

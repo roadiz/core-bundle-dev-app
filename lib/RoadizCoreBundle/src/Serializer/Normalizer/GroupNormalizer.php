@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\Serializer\Normalizer;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Group;
-use RZ\Roadiz\CoreBundle\Entity\Role;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 final readonly class GroupNormalizer implements DenormalizerInterface
@@ -48,9 +47,10 @@ final readonly class GroupNormalizer implements DenormalizerInterface
                 if (!is_string($roleName)) {
                     continue;
                 }
-
-                $role = $this->managerRegistry->getRepository(Role::class)->findOneByName($roleName);
-                $group->addRoleEntity($role);
+                $group->setRoles([
+                    ...$group->getRoles(),
+                    $roleName,
+                ]);
             }
         }
 
