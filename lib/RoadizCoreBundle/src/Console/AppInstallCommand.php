@@ -40,7 +40,7 @@ final class AppInstallCommand extends Command
     protected function configure(): void
     {
         $this->setName('app:install')
-            ->setDescription('Install application fixtures (settings, roles, tags, attributes) from config.yml')
+            ->setDescription('Install application fixtures (settings, tags, attributes) from config.yml')
             ->addOption(
                 'dry-run',
                 'd',
