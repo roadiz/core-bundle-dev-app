@@ -80,6 +80,35 @@ security:
             - ROLE_ALLOWED_TO_SWITCH
 ```
 
+And remove roles routes from your Roadiz Rozier menu entries:
+
+```diff
+ # config/packages/roadiz_rozier.yaml
+ roadiz_rozier:
+     user_system:
+         name: 'user.system'
+         route: ~
+         icon: uk-icon-rz-users
+-        roles: ['ROLE_ACCESS_USERS', 'ROLE_ACCESS_ROLES', 'ROLE_ACCESS_GROUPS']
++        roles: ['ROLE_ACCESS_USERS', 'ROLE_ACCESS_GROUPS']
+         subentries:
+             manage_users:
+                 name: 'manage.users'
+                 route: usersHomePage
+                 icon: uk-icon-rz-user
+                 roles: ['ROLE_ACCESS_USERS']
+-            manage_roles:
+-                name: 'manage.roles'
+-                route: rolesHomePage
+-                icon: uk-icon-rz-roles
+-                roles: ['ROLE_ACCESS_ROLES']
+             manage_groups:
+                 name: 'manage.groups'
+                 route: groupsHomePage
+                 icon: uk-icon-rz-groups
+                 roles: ['ROLE_ACCESS_GROUPS']
+```
+
 ## Upgrade your Roadiz Core bundle configuration
 
 ```yaml
