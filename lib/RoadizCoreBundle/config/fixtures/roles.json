@@ -152,10 +152,6 @@
         ]
     },
     {
-        "name": "ROLE_ACCESS_ROLES",
-        "groups": []
-    },
-    {
         "name": "ROLE_ACCESS_SETTINGS",
         "groups": []
     },
@@ -174,10 +170,6 @@
                 "name": "Editors"
             }
         ]
-    },
-    {
-        "name": "ROLE_ACCESS_THEMES",
-        "groups": []
     },
     {
         "name": "ROLE_ACCESS_TRANSLATIONS",

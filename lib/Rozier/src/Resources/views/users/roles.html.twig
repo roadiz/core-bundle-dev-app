@@ -21,7 +21,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for role in user.getRoles %}
+                    {% for role in user.roles %}
                     <tr>
                         <td>{{ role }}</td>
                     </tr>
@@ -39,12 +39,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for role in user.getRolesEntities %}
+                    {% for role in user.userRoles %}
                     <tr>
-                        <td>{{ role.getName }}</td>
+                        <td>{{ role }}</td>
                         <td class="table-actions-row table-actions-row-3">
-                            {% if is_granted(role.role) %}
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('usersRemoveRolesPage', { userId: user.getId, roleId: role.getId }) }}" title="{% trans %}remove{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                            {% if is_granted(role) %}
+                                <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('usersRemoveRolesPage', { userId: user.id, role: role }) }}" title="{% trans %}remove{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
                             {% endif %}
                         </td>
                     </tr>

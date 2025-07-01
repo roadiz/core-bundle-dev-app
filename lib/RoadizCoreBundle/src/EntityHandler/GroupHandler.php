@@ -6,7 +6,6 @@ namespace RZ\Roadiz\CoreBundle\EntityHandler;
 
 use RZ\Roadiz\Core\Handlers\AbstractHandler;
 use RZ\Roadiz\CoreBundle\Entity\Group;
-use RZ\Roadiz\CoreBundle\Entity\Role;
 
 /**
  * Handle operations with Group entities.
@@ -45,12 +44,12 @@ final class GroupHandler extends AbstractHandler
 
         $existingRolesNames = $this->getGroup()->getRoles();
 
-        foreach ($newGroup->getRolesEntities() as $newRole) {
-            if (false === in_array($newRole->getName(), $existingRolesNames)) {
-                /** @var Role|null $role */
-                $role = $this->objectManager->getRepository(Role::class)
-                                             ->findOneByName($newRole->getName());
-                $this->getGroup()->addRoleEntity($role);
+        foreach ($newGroup->getRoles() as $newRole) {
+            if (false === in_array($newRole, $existingRolesNames)) {
+                $this->getGroup()->setRoles([
+                    ...$existingRolesNames,
+                    $newRole,
+                ]);
             }
         }
     }

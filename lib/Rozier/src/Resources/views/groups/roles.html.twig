@@ -25,14 +25,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for role in item.getRolesEntities %}
+                    {% for role in item.roles %}
                     <tr>
-                        <td>{{ role.name }}</td>
+                        <td>{{ role }}</td>
                         <td>
                         {% apply spaceless %}
-                            {% if is_granted(role.role) %}
+                            {% if is_granted(role) %}
                                 <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                   href="{{ path('groupsRemoveRolesPage', { id: item.getId, roleId: role.getId }) }}"
+                                   href="{{ path('groupsRemoveRolesPage', { id: item.id, role: role }) }}"
                                    title="{% trans %}unlink.role{% endtrans %}"
                                    data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
                             {% endif %}

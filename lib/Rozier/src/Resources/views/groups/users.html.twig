@@ -28,7 +28,7 @@
                 <tbody>
                     {% for user in item.getUsers %}
                     <tr>
-                        <td>{{ user.getUserName }}</td>
+                        <td>{{ user.userName }}</td>
                         <td>
                             <a class="uk-button uk-button-small uk-button-danger"
                                href="{{ path('groupsRemoveUsersPage', { id: item.getId, userId: user.getId }) }}">

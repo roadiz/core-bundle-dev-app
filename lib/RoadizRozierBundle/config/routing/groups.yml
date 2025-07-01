@@ -9,10 +9,10 @@ groupsEditRolesPage:
         _controller: Themes\Rozier\Controllers\GroupsController::editRolesAction
     requirements: { id : "[0-9]+" }
 groupsRemoveRolesPage:
-    path:     /edit/{id}/roles/{roleId}/remove
+    path:     /edit/{id}/roles/{role}/remove
     defaults:
         _controller: Themes\Rozier\Controllers\GroupsController::removeRolesAction
-    requirements: { id : "[0-9]+", roleId : "[0-9]+" }
+    requirements: { id : "[0-9]+", role : "[A-Z_]+" }
 groupsAddPage:
     path:     /add
     defaults:

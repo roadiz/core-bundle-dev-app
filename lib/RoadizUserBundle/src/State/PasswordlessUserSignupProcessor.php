@@ -7,7 +7,6 @@ namespace RZ\Roadiz\UserBundle\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
-use RZ\Roadiz\CoreBundle\Bag\Roles;
 use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Security\LoginLink\LoginLinkSenderInterface;
 use RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput;
@@ -36,7 +35,6 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
         private RecaptchaServiceInterface $recaptchaService,
         private ProcessorInterface $persistProcessor,
         private UserMetadataManagerInterface $userMetadataManager,
-        private Roles $rolesBag,
         private LoginLinkSenderInterface $loginLinkSender,
         private string $publicUserRoleName,
         private string $passwordlessUserRoleName,
@@ -79,8 +77,11 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
         $this->validateRecaptchaHeader($request);
 
         $user = $this->createUser($data);
-        $user->addRoleEntity($this->rolesBag->get($this->publicUserRoleName));
-        $user->addRoleEntity($this->rolesBag->get($this->passwordlessUserRoleName));
+        $user->setUserRoles([
+            ...$user->getUserRoles(),
+            $this->publicUserRoleName,
+            $this->passwordlessUserRoleName,
+        ]);
         /*
          * We don't want to send an email right now, we will send a login link instead.
          */

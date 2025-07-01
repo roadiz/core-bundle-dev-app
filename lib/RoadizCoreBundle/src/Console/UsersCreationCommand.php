@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Console;
 
-use RZ\Roadiz\CoreBundle\Entity\Role;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -131,10 +130,16 @@ final class UsersCreationCommand extends UsersCommand
                     $questionBack
                 )
             ) {
-                $user->addRoleEntity($this->getRole(Role::ROLE_BACKEND_USER));
+                $user->setUserRoles([
+                    ...$user->getUserRoles(),
+                    'ROLE_BACKEND_USER',
+                ]);
             }
         } elseif (true === $input->getOption('back-end')) {
-            $user->addRoleEntity($this->getRole(Role::ROLE_BACKEND_USER));
+            $user->setUserRoles([
+                ...$user->getUserRoles(),
+                'ROLE_BACKEND_USER',
+            ]);
         }
 
         if ($input->isInteractive() && !$input->getOption('super-admin')) {
@@ -147,10 +152,16 @@ final class UsersCreationCommand extends UsersCommand
                     $questionAdmin
                 )
             ) {
-                $user->addRoleEntity($this->getRole(Role::ROLE_SUPERADMIN));
+                $user->setUserRoles([
+                    ...$user->getUserRoles(),
+                    'ROLE_SUPERADMIN',
+                ]);
             }
         } elseif (true === $input->getOption('super-admin')) {
-            $user->addRoleEntity($this->getRole(Role::ROLE_SUPERADMIN));
+            $user->setUserRoles([
+                ...$user->getUserRoles(),
+                'ROLE_SUPERADMIN',
+            ]);
         }
 
         $this->managerRegistry->getManagerForClass(User::class)->persist($user);

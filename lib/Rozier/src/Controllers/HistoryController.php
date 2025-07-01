@@ -66,11 +66,11 @@ final class HistoryController extends AbstractController
      */
     public function userAction(Request $request, int|string $userId): Response
     {
-        $this->denyAccessUnlessGranted(['ROLE_BACKEND_USER', 'ROLE_ACCESS_LOGS']);
+        $this->denyAccessUnlessGranted('ROLE_BACKEND_USER');
 
         if (
-            !($this->isGranted(['ROLE_ACCESS_USERS', 'ROLE_ACCESS_LOGS'])
-            || ($this->getUser() instanceof User && $this->getUser()->getId() === $userId))
+            !($this->isGranted('ROLE_ACCESS_USERS') || $this->isGranted('ROLE_ACCESS_LOGS'))
+            || ($this->getUser() instanceof User && $this->getUser()->getId() === $userId)
         ) {
             throw $this->createAccessDeniedException("You don't have access to this page: ROLE_ACCESS_USERS");
         }

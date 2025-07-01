@@ -9,7 +9,6 @@ use RZ\Roadiz\CoreBundle\Exception\EntityAlreadyExistsException;
 use RZ\Roadiz\CoreBundle\Importer\AttributeImporter;
 use RZ\Roadiz\CoreBundle\Importer\EntityImporterInterface;
 use RZ\Roadiz\CoreBundle\Importer\GroupsImporter;
-use RZ\Roadiz\CoreBundle\Importer\RolesImporter;
 use RZ\Roadiz\CoreBundle\Importer\SettingsImporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -30,7 +29,6 @@ final class AppInstallCommand extends Command
         private readonly string $projectDir,
         private readonly ManagerRegistry $managerRegistry,
         private readonly SettingsImporter $settingsImporter,
-        private readonly RolesImporter $rolesImporter,
         private readonly GroupsImporter $groupsImporter,
         private readonly AttributeImporter $attributeImporter,
         ?string $name = null,
@@ -91,11 +89,6 @@ final class AppInstallCommand extends Command
         if (isset($data['importFiles']['groups'])) {
             foreach ($data['importFiles']['groups'] as $filename) {
                 $this->importFile($filename, $this->groupsImporter);
-            }
-        }
-        if (isset($data['importFiles']['roles'])) {
-            foreach ($data['importFiles']['roles'] as $filename) {
-                $this->importFile($filename, $this->rolesImporter);
             }
         }
         if (isset($data['importFiles']['settings'])) {
