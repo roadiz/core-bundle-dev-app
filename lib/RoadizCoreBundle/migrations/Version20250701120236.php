@@ -14,7 +14,7 @@ final class Version20250701120236 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '[Roles 3/3] Convert all roles to string format in users, usergroups and realm table.';
+        return '[Roles 3/3] Remove roles entities and relations.';
     }
 
     public function up(Schema $schema): void

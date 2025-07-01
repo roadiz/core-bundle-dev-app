@@ -14,7 +14,7 @@ final class Version20250701103317 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '[Roles 1/3] Migrate role entities to role strings';
+        return '[Roles 1/3] Create JSON columns for roles in realms, usergroups and users.';
     }
 
     public function up(Schema $schema): void
