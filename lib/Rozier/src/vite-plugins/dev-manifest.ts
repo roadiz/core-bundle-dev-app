@@ -43,9 +43,9 @@ const createSimplifyPath = (root: string, base: string) => (path: string) => {
 
 const createEntry = (filePath: string, options?: { name?: string; base?: string }): DevManifestEntry => {
     return {
-        file: filePath,
+        file: new URL(filePath, options?.base).href,
         name: options?.name,
-        src: path.join(options?.base ?? '', filePath),
+        src: filePath,
         isEntry: true,
         imports: [],
         css: undefined,
