@@ -2,14 +2,10 @@
 
 ## ⚠ Breaking changes
 
-- **Roadiz requires php 8.2 minimum**
+- **Roadiz requires php 8.3 minimum**
 - Upgraded to **ApiPlatform 4.x**
+- **Dropped Roles entity**, use native Symfony Roles hierarchy to define your roles instead
 - **Dropped RoleArrayVoter** BC, you cannot use `isGranted` and `denyUnlessGranted` methods with arrays
-- **Dropped database Roles**, use native Symfony Roles hierarchy instead
-  - All Roles have been removed from `users` table, use `security.yaml` to define your roles.
-  - All `Role` entities have been removed, use `Symfony\Component\Security\Core\Role\Role` instead.
-  - All `Role` related methods have been removed from `UserInterface`.
-  - All `Role` related methods have been removed from `UserRepositoryInterface`.
 - All Solr and SearchEngine related logic has been moved to the new `roadiz/solr-bundle` bundle.
 - `ThemeAwareNodeRouter` and `ThemeAwareNodeUrlMatcher` classes have been removed
 - All deprecated `AbstractField` constants have been removed (in favor of `FieldType` enum)
