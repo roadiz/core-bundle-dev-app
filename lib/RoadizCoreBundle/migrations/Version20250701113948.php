@@ -45,7 +45,7 @@ SQL, [
             ]);
         }
 
-        // Migrate all user_roles to string format in users table
+        // Migrate all groups_roles to string format in users table
         $groupsRoles = $this->connection->fetchAllAssociative(<<<SQL
 SELECT gr.group_id AS group_id, r.name AS role FROM groups_roles AS gr
 INNER JOIN roles AS r ON r.id = gr.role_id
@@ -80,8 +80,7 @@ SQL);
 
     public function down(Schema $schema): void
     {
-        // Get all roles from users and usergroups tables and create roles entities
-        // Then, insert new roles ID in users_roles and groups_roles tables
+        // Insert new roles ID in users_roles and groups_roles tables
         $userRolesNames = $this->connection->fetchAllAssociative(<<<SQL
 SELECT user_roles AS roles, id AS user_id FROM users
 WHERE user_roles IS NOT NULL
@@ -104,7 +103,7 @@ SQL);
         );
 
         /*
-         * Recreate users_roles table with role IDs.
+         * Recreate users_roles rows with role IDs.
          */
         foreach ($userRolesNames as $userRole) {
             $roles = json_decode($userRole['roles'], true);
@@ -120,7 +119,7 @@ SQL, [
         }
 
         /*
-         * Recreate groups_roles table with role IDs.
+         * Recreate groups_roles rows with role IDs.
          */
         foreach ($groupRolesNames as $groupRole) {
             $roles = json_decode($groupRole['roles'], true);
@@ -136,7 +135,7 @@ SQL, [
         }
 
         /*
-         * Recreate groups_roles table with role IDs.
+         * Recreate realm rows with role IDs.
          */
         foreach ($realmsRolesNames as $realmRole) {
             $roleId = array_search($realmRole['role'], $allRoles, true);
