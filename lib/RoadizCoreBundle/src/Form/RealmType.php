@@ -52,7 +52,7 @@ final class RealmType extends AbstractType
             'empty_data' => null,
             'by_reference' => true,
             'required' => false,
-        ])->add('roleEntity', RolesType::class, [
+        ])->add('role', RolesType::class, [
             'label' => 'realm.role',
             'help' => 'realm.role.help',
             'multiple' => false,
