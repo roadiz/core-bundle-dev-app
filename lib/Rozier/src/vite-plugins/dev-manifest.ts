@@ -81,7 +81,7 @@ const plugin = ({ omitInputs = [], manifestName = MANIFEST_NAME, delay, clearOnC
 
 			config.server.origin = origin
 
-			manifest['@vite/client'] = createEntry('@vite/client', entryOptions);
+			manifest['@vite/client'] = createEntry('@vite/client', {...entryOptions, name: '@vite/client'});
 
 			if (typeof inputOptions === 'string') {
 				const path = simplifyPath(inputOptions);
