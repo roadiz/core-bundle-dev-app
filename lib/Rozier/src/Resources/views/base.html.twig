@@ -213,6 +213,7 @@
             };
         </script>
 
+        {{ manifest_script_tags('@vite/client') }}
         {{ manifest_script_tags('main') }}
 
         {% block customScripts %}{% endblock %}
