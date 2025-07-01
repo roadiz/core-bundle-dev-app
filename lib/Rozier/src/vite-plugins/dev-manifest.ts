@@ -135,21 +135,26 @@ const plugin = ({ omitInputs = [], manifestName = MANIFEST_NAME, delay, clearOnC
 
             if (existsSync(manifestPath)) rmSync(manifestPath)
         }
-        const onClose = () => {
-            removeManifest();
-            removeCloseListeners();
-        };
+		const cleanup = () => {
+			removeManifest();
+			removeCloseListeners();
+		};
+        const onClose = cleanup;
+		const onProcessEnd = () => {
+			cleanup()
+			process.exit()
+		};
 
         // Attach event listeners
         httpServer?.once('close', onClose);
-        process.once('SIGINT', onClose);
-        process.once('SIGTERM', onClose);
+        process.once('SIGINT', onProcessEnd);
+        process.once('SIGTERM', onProcessEnd);
 
         // Cleanup event listeners
         function removeCloseListeners() {
             httpServer?.off?.('close', onClose);
-            process.off('SIGINT', onClose);
-            process.off('SIGTERM', onClose);
+            process.off('SIGINT', onProcessEnd);
+            process.off('SIGTERM', onProcessEnd);
         }
 	}
 });
