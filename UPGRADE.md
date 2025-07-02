@@ -21,6 +21,20 @@
 - `email_sender` Setting has been removed, use `framework.mailer.envelope.sender` configuration parameter instead.
 - `EmailManager::getOrigin()` method has been removed, this will use `framework.mailer.envelope.sender` configuration parameter.
 
+## Upgrade your API Platform configuration
+
+Add `formats` configuration if not already present in your `api_platform.yaml` file.
+
+```yaml
+# config/packages/api_platform.yaml
+api_platform:
+    # ...
+    formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
+        x-www-form-urlencoded: ['application/x-www-form-urlencoded']
+```
+
 ## Upgrade your Roadiz roles hierarchy
 
 Migrations will automatically convert database roles to JSON roles in users and usergroups tables.
@@ -156,6 +170,8 @@ composer require roadiz/solr-bundle
 - `NodesSourcesRepository::__construct` signature has changed
 - `NodesSourcesRepository::findBySearchQuery` method has been removed to remove dependency on SearchEngine.
 - All Solr commands have been moved to `RZ\Roadiz\CoreBundle\SearchEngine\Console` namespace.
+- `RZ\Roadiz\CoreBundle\Api\ListManager\SolrPaginator` has been renamed to `RZ\Roadiz\CoreBundle\Api\ListManager\SearchEnginePaginator`
+- `RZ\Roadiz\CoreBundle\Api\ListManager\SolrSearchListManager` has been renamed to `RZ\Roadiz\CoreBundle\Api\ListManager\SearchEngineListManager`
 
 ## Upgrade rezozero/intervention-request-bundle
 
