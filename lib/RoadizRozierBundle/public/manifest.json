@@ -32,17 +32,28 @@
     "src": "Resources/app/img/spritemap@2x.png"
   },
   "Resources/app/main.js": {
-    "file": "main-DCcDfcOY.js",
+    "file": "main-BHqEpP3W.js",
     "name": "main",
     "src": "Resources/app/main.js",
     "isEntry": true,
     "imports": [
-      "_tooltip-CUqQX7jt.js",
       "_jquery-5sAwpjfl.js",
       "_vue-YhlLoeNc.js"
     ],
     "css": [
-      "main-A9Bl7yut.css"
+      "main-DQKDGynu.css"
+    ]
+  },
+  "Resources/app/shared.js": {
+    "file": "shared-CmEQeRMg.js",
+    "name": "shared",
+    "src": "Resources/app/shared.js",
+    "isEntry": true,
+    "imports": [
+      "_jquery-5sAwpjfl.js"
+    ],
+    "css": [
+      "shared-DYMh2Pgn.css"
     ],
     "assets": [
       "fontawesome-webfont-B-jkhYfk.woff2",
@@ -59,25 +70,14 @@
     ]
   },
   "Resources/app/simple.js": {
-    "file": "simple-C3Yc9HjR.js",
+    "file": "simple-gJ7J7gE2.js",
     "name": "simple",
     "src": "Resources/app/simple.js",
-    "isEntry": true,
-    "imports": [
-      "_tooltip-CUqQX7jt.js",
-      "_jquery-5sAwpjfl.js"
-    ]
+    "isEntry": true
   },
   "_jquery-5sAwpjfl.js": {
     "file": "jquery-5sAwpjfl.js",
     "name": "jquery"
-  },
-  "_tooltip-CUqQX7jt.js": {
-    "file": "tooltip-CUqQX7jt.js",
-    "name": "tooltip",
-    "imports": [
-      "_jquery-5sAwpjfl.js"
-    ]
   },
   "_vue-YhlLoeNc.js": {
     "file": "vue-YhlLoeNc.js",

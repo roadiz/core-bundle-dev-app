@@ -15,6 +15,8 @@ final readonly class JsonManifestResolver
         private string $manifestPath,
         private Packages $packages,
         private CacheItemPoolInterface $cache,
+        #[Autowire(param: 'kernel.debug')]
+        private bool $debug = false,
     ) {
     }
 
@@ -25,11 +27,20 @@ final readonly class JsonManifestResolver
             return $cacheItem->get();
         }
 
-        if (!file_exists($this->manifestPath)) {
-            throw new \RuntimeException(sprintf('%s manifest not found', $this->manifestPath));
+        $manifestPath = $this->manifestPath;
+        if ($this->debug) {
+            $manifestPath = str_replace('manifest.json', 'manifest.dev.json', $this->manifestPath);
+            if (!file_exists($manifestPath)) {
+                // Keep build manifest path if dev manifest does not exist
+                $manifestPath = $this->manifestPath;
+            }
+        }
+
+        if (!file_exists($manifestPath)) {
+            throw new \RuntimeException(sprintf('%s manifest not found', $manifestPath));
         }
         $cacheItem->set(\json_decode(
-            file_get_contents($this->manifestPath) ?: throw new \RuntimeException('Unable to load manifest file.'),
+            file_get_contents($manifestPath) ?: throw new \RuntimeException('Unable to load manifest file.'),
             true,
             flags: JSON_THROW_ON_ERROR
         ));
@@ -57,6 +68,11 @@ final readonly class JsonManifestResolver
 
     private function getBundlePrefixedPath(string $path): string
     {
+        if (str_starts_with($path, 'http')) {
+            // Already prefixed
+            return $path;
+        }
+
         // Ensure the path is prefixed with 'bundles/roadizrozier'
         return $this->packages->getUrl('/bundles/roadizrozier/'.$path);
     }
