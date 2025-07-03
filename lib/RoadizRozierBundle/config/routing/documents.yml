@@ -81,4 +81,8 @@ documentsDuplicatesPage:
     path:     /duplicates
     defaults:
         _controller: RZ\Roadiz\RozierBundle\Controller\Document\DocumentDuplicatesController::duplicatedAction
+documentsAlignmentTemplate:
+    path:     /alignment-template
+    defaults:
+        _controller: Themes\Rozier\AjaxControllers\AjaxDocumentAlignmentController
 

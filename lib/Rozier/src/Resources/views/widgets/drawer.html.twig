@@ -34,7 +34,11 @@
         {% endif %}
     {% endfor %}
     <div class="uk-form-row form-col-{{ name }} drawer-widget-wrapper" {{ drawerAttributes|join(' ')|raw }}>
-        <drawer-container data-vuejs inline-template data-entity-name="{{ entityName }}">
+        <drawer-container data-vuejs
+                          inline-template
+                          data-entity-name="{{ entityName }}"
+                          data-document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
+        >
             <div class="drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"
                  :class="{ 'uk-active' : isActive, 'uk-alert-danger': drawer.errorMessage }"
                  v-if="drawer"
