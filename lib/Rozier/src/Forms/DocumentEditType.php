@@ -8,6 +8,7 @@ use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Form\Constraint\UniqueFilename;
 use RZ\Roadiz\CoreBundle\Form\DocumentCollectionType;
 use RZ\Roadiz\CoreBundle\Form\JsonType;
+use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
@@ -29,7 +30,7 @@ use Symfony\Component\Validator\Constraints\Regex;
 
 class DocumentEditType extends AbstractType
 {
-    public function __construct(private readonly Security $security)
+    public function __construct(private readonly Security $security, private readonly DocumentUrlGeneratorInterface $documentUrlGenerator)
     {
     }
 
@@ -118,30 +119,16 @@ class DocumentEditType extends AbstractType
         }
 
         if ($document->isProcessable()) {
-            $builder->add('imageCropAlignment', ImageCropAlignmentType::class, [
-                'label' => 'document.imageCropAlignment',
-                'help' => 'document.imageCropAlignment.help',
+            $builder->add('imageAlignment', DocumentAlignmentType::class, [
+                'label' => 'document.imageAlignment',
                 'required' => false,
+                'attr' => [
+                    'data-image-path' => $this->documentUrlGenerator->setDocument($document)->setOptions([
+                        'width' => 300,
+                        'height' => 300,
+                    ])->getUrl(),
+                ],
             ]);
-            $builder->add('hotspot', JsonType::class, [
-                'label' => 'document.hotspot',
-                'help' => 'document.hotspot.help',
-                'required' => false,
-            ]);
-            $builder->get('hotspot')
-            ->addModelTransformer(new CallbackTransformer(
-                fn (mixed $hotspot): string => json_encode($hotspot, JSON_THROW_ON_ERROR),
-                function (mixed $hotspot): ?array {
-                    if (!\is_string($hotspot)) {
-                        return null;
-                    }
-                    try {
-                        return json_decode($hotspot, true, flags: JSON_THROW_ON_ERROR);
-                    } catch (\JsonException $e) {
-                        throw new TransformationFailedException($e->getMessage(), previous: $e);
-                    }
-                }
-            ));
         }
 
         /*
