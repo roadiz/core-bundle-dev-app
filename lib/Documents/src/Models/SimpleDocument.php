@@ -205,4 +205,15 @@ class SimpleDocument implements DocumentInterface
     {
         return $this->getFilename();
     }
+
+    #[\Override]
+    public function compareTo($other)
+    {
+        if (!$other instanceof DocumentInterface) {
+            throw new \InvalidArgumentException('Can only compare to DocumentInterface instances.');
+        }
+
+        return $this->getFilename() === $other->getFilename()
+            && $this->getFolder() === $other->getFolder() ? 0 : -1;
+    }
 }

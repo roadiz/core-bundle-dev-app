@@ -300,8 +300,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     public function hasNodesSourcesDocuments(NodesSourcesDocuments $nodesSourcesDocuments): bool
     {
         return $this->getDocumentsByFields()->exists(
-            fn ($key, NodesSourcesDocuments $element) => null !== $nodesSourcesDocuments->getDocument()->getId()
-                && $element->getDocument()->getId() === $nodesSourcesDocuments->getDocument()->getId()
+            fn ($key, NodesSourcesDocuments $element) => 0 === $element->getDocument()->compareTo($nodesSourcesDocuments->getDocument())
                 && $element->getFieldName() === $nodesSourcesDocuments->getFieldName()
         );
     }
@@ -324,7 +323,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     /**
      * @param NodeTypeField $field
      *
-     * @return Document[]
+     * @return DocumentInterface[]
      */
     public function getDocumentsByFieldsWithField(NodeTypeFieldInterface $field): array
     {
@@ -340,7 +339,7 @@ class NodesSources implements PersistableInterface, Loggable, \Stringable
     }
 
     /**
-     * @return Document[]
+     * @return DocumentInterface[]
      */
     public function getDocumentsByFieldsWithName(string $fieldName): array
     {
