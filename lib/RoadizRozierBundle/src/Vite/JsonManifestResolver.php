@@ -72,6 +72,7 @@ final readonly class JsonManifestResolver
             // Already prefixed
             return $path;
         }
+
         // Ensure the path is prefixed with 'bundles/roadizrozier'
         return $this->packages->getUrl('/bundles/roadizrozier/'.$path);
     }
