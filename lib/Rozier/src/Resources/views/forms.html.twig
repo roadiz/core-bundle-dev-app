@@ -344,19 +344,10 @@
 {%- endblock radio_widget -%}
 
 {%- block document_alignment_widget -%}
-<document-alignment-widget {{ block('widget_attributes') }}>
-    <menu>
-        <li>null</li>
-        {%- for child in form %}
-            <li>
-                <button type="button">{{ child.vars.name }}</button>
-            </li>
-        {% endfor -%}
-    </menu>
-    {%- for child in form %}
-        {{- form_widget(child) -}}
-    {% endfor -%}
-</document-alignment-widget>
+    {% include '@RoadizRozier/widgets/documentAlignment.html.twig' with {
+        widget_attributes: block('widget_attributes'),
+        form: form
+    } %}
 {%- endblock document_alignment_widget -%}
 
 {% block image_crop_alignment_widget %}

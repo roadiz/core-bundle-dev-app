@@ -1,0 +1,13 @@
+<document-alignment-widget {{ widget_attributes }}>
+    <menu>
+        <li>null</li>
+        {%- for child in form %}
+            <li>
+                <button type="button">{{ child.vars.name }}</button>
+            </li>
+        {% endfor -%}
+    </menu>
+    {%- for child in form %}
+        {{- form_widget(child) -}}
+    {% endfor -%}
+</document-alignment-widget>
