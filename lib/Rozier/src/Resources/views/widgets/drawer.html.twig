@@ -1,7 +1,7 @@
 {% set entityIds = [] %}
 {% set isSortable = isSortable|default('true') %}
 {% for entity in value %}
-    {% if entity is NodesSourcesDocument %}
+    {% if entity is ContextualizedDocumentInterface %}
         {% set entityIds = entityIds|merge([{
             id: entity.id,
             document: entity.document.id,
