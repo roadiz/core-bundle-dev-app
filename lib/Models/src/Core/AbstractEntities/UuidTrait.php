@@ -19,7 +19,6 @@ trait UuidTrait
     #[Serializer\Groups(['id'])]
     protected ?Uuid $id = null;
 
-    #[\Override]
     public function getId(): ?Uuid
     {
         return $this->id;
