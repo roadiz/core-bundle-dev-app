@@ -6,7 +6,6 @@ namespace RZ\Roadiz\UserBundle\EventSubscriber;
 
 use Doctrine\Persistence\ManagerRegistry;
 use Lexik\Bundle\JWTAuthenticationBundle\Event\AuthenticationSuccessEvent;
-use RZ\Roadiz\CoreBundle\Bag\Roles;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\UserBundle\Entity\UserValidationToken;
 use RZ\Roadiz\UserBundle\Event\UserEmailValidated;
@@ -17,7 +16,6 @@ final readonly class PasswordlessAuthenticationSuccessEventSubscriber implements
 {
     public function __construct(
         private ManagerRegistry $managerRegistry,
-        private Roles $rolesBag,
         private EventDispatcherInterface $eventDispatcher,
         private string $emailValidatedRoleName,
         private string $passwordlessUserRoleName,
@@ -48,7 +46,11 @@ final readonly class PasswordlessAuthenticationSuccessEventSubscriber implements
             ->findOneByUser($user);
 
         if (null !== $userValidationToken) {
-            $user->addRoleEntity($this->rolesBag->get($this->emailValidatedRoleName));
+            $user->setUserRoles([
+                ...$user->getUserRoles(),
+                $this->emailValidatedRoleName,
+            ]);
+
             $this->managerRegistry->getManager()->remove($userValidationToken);
             $this->managerRegistry->getManager()->flush();
 

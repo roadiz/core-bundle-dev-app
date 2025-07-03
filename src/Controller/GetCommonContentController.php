@@ -14,18 +14,18 @@ use RZ\Roadiz\CoreBundle\Api\TreeWalker\TreeWalkerGenerator;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
-use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 
+#[AsController]
 final class GetCommonContentController extends AbstractController
 {
     use TranslationAwareControllerTrait;
 
     public function __construct(
-        private readonly RequestStack $requestStack,
         private readonly ManagerRegistry $managerRegistry,
         private readonly NodesSourcesHeadFactoryInterface $nodesSourcesHeadFactory,
         private readonly PreviewResolverInterface $previewResolver,
@@ -46,15 +46,14 @@ final class GetCommonContentController extends AbstractController
         return $this->previewResolver;
     }
 
-    public function __invoke(): ?CommonContent
+    public function __invoke(Request $request): CommonContent
     {
         try {
-            $request = $this->requestStack->getMainRequest();
             $translation = $this->getTranslation($request);
 
             $resource = new CommonContent();
 
-            $request?->attributes->set('data', $resource);
+            $request->attributes->set('data', $resource);
             $resource->home = $this->getHomePage($translation);
             $resource->head = $this->nodesSourcesHeadFactory->createForTranslation($translation);
             $resource->menus = $this->treeWalkerGenerator->getTreeWalkersForTypeAtRoot(
@@ -97,15 +96,5 @@ final class GetCommonContentController extends AbstractController
             'node.home' => true,
             'translation' => $translation,
         ]);
-    }
-
-    protected function getTranslationRepository(): TranslationRepository
-    {
-        $repository = $this->managerRegistry->getRepository(TranslationInterface::class);
-        if (!$repository instanceof TranslationRepository) {
-            throw new \RuntimeException('Translation repository must be instance of '.TranslationRepository::class);
-        }
-
-        return $repository;
     }
 }

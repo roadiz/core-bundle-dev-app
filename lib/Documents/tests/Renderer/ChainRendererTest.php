@@ -40,9 +40,16 @@ class ChainRendererTest extends AbstractRendererTestCase
         $mockDocumentYoutube->setMimeType('image/jpeg');
 
         $mockPictureDocument = new SimpleDocument();
+        $mockPictureDocument->setAlternativeText('Image alternative text');
         $mockPictureDocument->setFilename('file.jpg');
         $mockPictureDocument->setFolder('folder');
         $mockPictureDocument->setMimeType('image/jpeg');
+
+        $mockDecorativeDocument = new SimpleDocument();
+        $mockDecorativeDocument->setAlternativeText(null);
+        $mockDecorativeDocument->setFilename('file.jpg');
+        $mockDecorativeDocument->setFolder('folder');
+        $mockDecorativeDocument->setMimeType('image/jpeg');
 
         $renderer = $this->getRenderer();
 
@@ -91,11 +98,26 @@ EOT
 <picture>
 <source type="image/webp" srcset="/assets/w300-q90/folder/file.jpg.webp">
 <source type="image/jpeg" srcset="/assets/w300-q90/folder/file.jpg">
-<img alt="file.jpg" src="/assets/w300-q90/folder/file.jpg" width="300" />
+<img alt="Image alternative text" src="/assets/w300-q90/folder/file.jpg" width="300" />
 </picture>
 EOT
             ,
             $renderer->render($mockPictureDocument, [
+                'width' => 300,
+                'picture' => true,
+            ])
+        );
+
+        $this->assertHtmlTidyEquals(
+            <<<EOT
+<picture>
+<source type="image/webp" srcset="/assets/w300-q90/folder/file.jpg.webp">
+<source type="image/jpeg" srcset="/assets/w300-q90/folder/file.jpg">
+<img alt="" aria-hidden="true" src="/assets/w300-q90/folder/file.jpg" width="300" />
+</picture>
+EOT
+            ,
+            $renderer->render($mockDecorativeDocument, [
                 'width' => 300,
                 'picture' => true,
             ])

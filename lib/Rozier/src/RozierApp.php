@@ -7,7 +7,6 @@ namespace Themes\Rozier;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CompatBundle\Controller\AppController;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
-use RZ\Roadiz\CoreBundle\Bag\Roles;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerInterface;
@@ -52,7 +51,6 @@ class RozierApp extends AppController
             'kernel' => KernelInterface::class,
             'settingsBag' => Settings::class,
             'nodeTypesBag' => NodeTypes::class,
-            'rolesBag' => Roles::class,
             'csrfTokenManager' => CsrfTokenManagerInterface::class,
             OAuth2LinkGenerator::class => OAuth2LinkGenerator::class,
             RozierServiceRegistry::class => RozierServiceRegistry::class,

@@ -60,7 +60,7 @@
         "symfony/validator": "6.4.*",
         "symfony/workflow": "6.4.*",
         "symfony/yaml": "6.4.*",
-        "twig/twig": "^3.16"
+        "twig/twig": "^3.21"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",

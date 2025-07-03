@@ -13,7 +13,6 @@ use Psr\Log\LoggerInterface;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\Core\Handlers\HandlerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
-use RZ\Roadiz\CoreBundle\Bag\Roles;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\EntityApi\NodeApi;
@@ -77,7 +76,6 @@ abstract class Controller extends AbstractController
             'nodeSourceApi' => NodeSourceApi::class,
             'nodeTypesBag' => NodeTypes::class,
             'requestStack' => RequestStack::class,
-            'rolesBag' => Roles::class,
             'securityAuthenticationUtils' => AuthenticationUtils::class,
             'securityTokenStorage' => TokenStorageInterface::class,
             'settingsBag' => Settings::class,

@@ -18,11 +18,16 @@
         display: block;
         padding-top: 16px;
 
-        a, p {
+        a, p, button {
             padding: 0px;
             margin: 0px;
             color: var(--admin-menu-color);
             transition: color ease 0.2s;
+        }
+
+        button {
+            background: transparent;
+            border: 0 none;
         }
     }
     header {
@@ -37,6 +42,7 @@
             margin: 0px;
         }
     }
+
     li {
         display: block;
         position: relative;
@@ -169,29 +175,21 @@
             }
         }
 
+        &:focus,
         &:hover {
             & > a,
-            & > p {
+            & > p,
+            & > button {
                 color: var(--admin-menu-color-25);
                 .info {
                     display: inline-block;
                 }
             }
 
-            & > a > .work-in-progress {
-                font-size: var(--default-font-size);
-                color: #CCC;
-                display: block;
-                background-color: #F5F5F5;
-                position: absolute;
-                top: 7px;
-                padding: 3px 3px 3px 0px;
-                z-index: 1000;
-            }
-
             .uk-nav-sub {
                 display: block;
             }
+
             &:after {
                 content: "";
                 display: block;
@@ -250,27 +248,27 @@
     }
 }
 
-#minify-tree-panel {
-    &-area {
-        height: var(--minify-tree-panel-area-width);
-        .box-sizing();
-        text-align: center;
-        padding: 7px 0;
+#minify-tree-panel-area {
+    height: var(--minify-tree-panel-area-width);
+    .box-sizing();
+    text-align: center;
+    padding: 7px 0;
+}
+
+#minify-tree-panel-button {
+    width: 20px;
+    height: 20px;
+    line-height: 18px;
+    padding: 0;
+    background: var(--global-header-color-10);
+    border: 0 none;
+    transition: background ease 0.35s;
+
+    i {
+        color: #666;
     }
-    &-button {
-        width: 20px;
-        height: 20px;
-        line-height: 18px;
-        background: var(--global-header-color-10);
-        border: 0 none;
-        transition: background ease 0.35s;
 
-        i {
-            color: #666;
-        }
-
-        &:hover {
-            background: var(--global-header-color-15);
-        }
+    &:hover {
+        background: var(--global-header-color-15);
     }
 }

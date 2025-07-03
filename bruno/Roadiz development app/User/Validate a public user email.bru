@@ -1,13 +1,23 @@
 meta {
   name: Validate a public user email
   type: http
-  seq: 5
+  seq: 6
 }
 
 put {
   url: {{baseUrl}}/api/users/validate
-  body: none
-  auth: none
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "token": "Ux85ouGNGYndHs1q2NvfylD9nTks6cOA0fbtsJxa6p4"
+  }
 }
 
 script:post-response {

@@ -91,5 +91,8 @@ interface BaseDocumentInterface extends \Stringable
      */
     public function isProcessable(): bool;
 
-    public function getAlternativeText(): string;
+    /**
+     * @return string|null Return alternative text for image, or NULL if image is decorative (aria-hidden)
+     */
+    public function getAlternativeText(): ?string;
 }

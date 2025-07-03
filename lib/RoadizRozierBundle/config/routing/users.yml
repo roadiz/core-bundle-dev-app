@@ -29,10 +29,10 @@ usersEditRolesPage:
         _controller: Themes\Rozier\Controllers\Users\UsersRolesController::editRolesAction
     requirements: { userId : "[0-9]+" }
 usersRemoveRolesPage:
-    path:     /edit/{userId}/roles/{roleId}/remove
+    path:     /edit/{userId}/roles/{role}/remove
     defaults:
         _controller: Themes\Rozier\Controllers\Users\UsersRolesController::removeRoleAction
-    requirements: { userId : "[0-9]+", roleId : "[0-9]+" }
+    requirements: { userId : "[0-9]+", role : "[A-Z_]+" }
 usersEditGroupsPage:
     path:     /edit/{userId}/groups
     defaults:

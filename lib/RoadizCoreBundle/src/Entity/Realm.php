@@ -64,10 +64,9 @@ class Realm implements RealmInterface
     #[Assert\Length(max: 255)]
     private ?string $plainPassword = null;
 
-    #[ORM\ManyToOne(targetEntity: Role::class)]
-    #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[ORM\Column(name: 'role', type: 'string', length: 50, unique: false, nullable: true)]
     #[SymfonySerializer\Ignore]
-    private ?Role $roleEntity = null;
+    private ?string $role = null;
 
     #[ORM\Column(name: 'serialization_group', type: 'string', length: 200, nullable: true)]
     #[SymfonySerializer\Ignore]
@@ -98,21 +97,12 @@ class Realm implements RealmInterface
     #[\Override]
     public function getRole(): ?string
     {
-        if (null === $this->roleEntity) {
-            return null;
-        }
-
-        return $this->roleEntity->getRole();
+        return $this->role;
     }
 
-    public function getRoleEntity(): ?Role
+    public function setRole(?string $role): Realm
     {
-        return $this->roleEntity;
-    }
-
-    public function setRoleEntity(?Role $roleEntity): Realm
-    {
-        $this->roleEntity = $roleEntity;
+        $this->role = $role;
 
         return $this;
     }

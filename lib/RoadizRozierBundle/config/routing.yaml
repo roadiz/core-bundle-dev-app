@@ -153,14 +153,6 @@ realmsRoutes:
     resource: "routing/realms.yml"
     prefix: /rz-admin/realms
 
-# ROLES
-rolesHomePage:
-    path:     /rz-admin/roles
-    controller: Themes\Rozier\Controllers\RolesController::defaultAction
-rolesRoutes:
-    resource: "routing/roles.yml"
-    prefix: /rz-admin/roles
-
 # GROUPS
 groupsHomePage:
     path:     /rz-admin/groups

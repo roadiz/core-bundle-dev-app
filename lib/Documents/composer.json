@@ -39,7 +39,7 @@
         "symfony/http-client-contracts": "^3.5",
         "symfony/options-resolver": "6.4.*",
         "symfony/serializer": "6.4.*",
-        "twig/twig": "^3.16"
+        "twig/twig": "^3.21"
     },
     "require-dev": {
         "api-platform/metadata": "^3 || ^4",

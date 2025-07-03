@@ -2,7 +2,7 @@
 
 This is an example on how you can provide a complete technical architecture for your Roadiz website, highlighting the key components, data flows, and interactions between various services.
 
-![image](./schema_infra.webp)
+![Technical architecture example schema](./infrastructure_example.webp)
 
 ## Overview of the Infrastructure
 
