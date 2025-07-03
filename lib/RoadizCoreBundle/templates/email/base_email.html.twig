@@ -1,9 +1,11 @@
+{% apply inline_css %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     {% block title %}<title>Your Message Subject or Title</title>{% endblock %}
+    <style>{% include '@RoadizCore/email/transactionalStyles.css' %}</style>
 </head>
 <body itemscope itemtype="http://schema.org/EmailMessage">
 <table class="body-wrap">
@@ -12,20 +14,20 @@
         <td class="container" width="600">
             <div class="content">
                 <table class="main" width="100%" cellpadding="0" cellspacing="0">
-                    {% if headerImageSrc is defined %}
+                    {% if email_header_image is defined %}
                         <tr>
                             <td class="header-image-wrap aligncenter"{% if main_color is defined %}style="background-color: {{ main_color }};"{% endif %}>
-                                <img class="header-image" src="{{ headerImageSrc }}" alt="{{ title }}" />
+                                <img class="header-image" src="{{ email_header_image }}" alt="{{ title }}" />
                             </td>
                         </tr>
                     {% endif %}
                     <tr>
-                        <td class="content-wrap aligncenter{% if headerImageSrc is defined %} with-header-image{% endif %}">
+                        <td class="content-wrap aligncenter{% if email_header_image is defined %} with-header-image{% endif %}">
                             {% block content_table %}
                                 <table cellpadding="0" cellspacing="0" border="0" align="center">
                                     <tr>
                                         {% if content is defined %}
-                                            <td width="200" valign="top">{{ content|markdown }}</td>
+                                            <td valign="top">{{ content|markdown }}</td>
                                         {% endif %}
                                     </tr>
                                 </table>
@@ -33,21 +35,19 @@
                         </td>
                     </tr>
                 </table>
-                {% if mailContact is defined %}
+                {% if support_email_address is defined or email_disclaimer is defined %}
                     <div class="footer">
                         <table width="100%">
+                            {% if support_email_address is defined %}
                             <tr>
-                                <td class="aligncenter content-block">{% trans %}for.questions.email{% endtrans %} <a href="mailto:{{ mailContact }}">{{ mailContact|escape }}</a></td>
+                                <td class="aligncenter content-block">{% trans %}for.questions.email{% endtrans %} <a href="mailto:{{ support_email_address }}">{{ support_email_address|escape }}</a></td>
                             </tr>
-                        </table>
-                    </div>
-                {% endif %}
-                {% if disclaimer is defined %}
-                    <div class="footer">
-                        <table width="100%">
+                            {% endif %}
+                            {% if email_disclaimer is defined %}
                             <tr>
-                                <td class="aligncenter content-block">{{ disclaimer }}</td>
+                                <td class="aligncenter content-block">{{ email_disclaimer|markdown }}</td>
                             </tr>
+                            {% endif %}
                         </table>
                     </div>
                 {% endif %}
@@ -56,5 +56,6 @@
         <td></td>
     </tr>
 </table>
+{% endapply %}
 </body>
 </html>

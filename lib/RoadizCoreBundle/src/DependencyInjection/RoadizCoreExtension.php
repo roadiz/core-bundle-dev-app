@@ -66,6 +66,8 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.use_accept_language_header', $config['useAcceptLanguageHeader']);
         $container->setParameter('roadiz_core.web_response_class', $config['webResponseClass']);
         $container->setParameter('roadiz_core.preview_required_role_name', $config['previewRequiredRoleName']);
+        $container->setParameter('roadiz_core.force_locale', $config['forceLocale']);
+        $container->setParameter('roadiz_core.force_locale_with_url_aliases', $config['forceLocaleWithUrlAliases']);
 
         /*
          * Assets config

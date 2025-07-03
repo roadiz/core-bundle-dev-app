@@ -2,6 +2,10 @@
     {% set attributes = {
         'alt' : alt|escape('html_attr'),
     } %}
+
+    {% if alt is empty %}
+        {% set attributes = attributes|merge({'aria-hidden' : 'true'}) %}
+    {% endif %}
     {% if lazyload %}
         {% set attributes = attributes|merge({'data-src' : url}) %}
         {% set attributes = attributes|merge({'src' : fallback}) %}

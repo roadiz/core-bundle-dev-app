@@ -121,16 +121,16 @@ final class DocumentDto implements BaseDocumentInterface
         Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
         SerializedName('alt'),
         ApiProperty(
-            description: 'Document alternative text, for img HTML tag.',
+            description: 'Document alternative text, for img HTML tag. Returns NULL if image is decorative (alt="" aria-hidden="true").',
             writable: false,
         )
     ]
     #[\Override]
-    public function getAlternativeText(): string
+    public function getAlternativeText(): ?string
     {
         return !empty($this->documentTranslationName) ?
             $this->documentTranslationName :
-            $this->getFilename();
+            null;
     }
 
     #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]

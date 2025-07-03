@@ -1,13 +1,23 @@
 meta {
   name: Request a public user email validation token
   type: http
-  seq: 6
+  seq: 7
 }
 
 post {
   url: {{baseUrl}}/api/users/validation_request
-  body: none
-  auth: none
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "identifier": "{{username}}"
+  }
 }
 
 script:post-response {

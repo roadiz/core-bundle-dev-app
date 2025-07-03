@@ -2,14 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file original="" source-language="en-US" datatype="plaintext">
         <body>
-            <trans-unit xml:space="preserve" id="force_locale.description">
-                <source>Force displaying translation locale in every node’ paths. This should be ON if you redirect users based on their language on homepage.</source>
-                <target></target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="email_sender.description">
-                <source>Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**</source>
-                <target></target>
-            </trans-unit>
             <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description">
                 <source>Default maps tiles layout when using *Leaflet*.</source>
                 <target></target>
@@ -38,16 +30,6 @@
                 <source>hide_roadiz_version.help</source>
                 <target></target>
                 <note>Setting</note>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="force_locale_with_urlaliases">
-                <source>force_locale_with_urlaliases</source>
-                <target></target>
-                <note>Setting name</note>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="force_locale_with_urlaliases.help">
-                <source>force_locale_with_urlaliases.help</source>
-                <target></target>
-                <note>Setting description</note>
             </trans-unit>
             <trans-unit xml:space="preserve" id="use_native_json">
                 <source>use_native_json</source>
@@ -237,11 +219,6 @@
             </trans-unit>
             <trans-unit xml:space="preserve" id="Store last cronjob execution date and time.">
                 <source>Store last cronjob execution date and time.</source>
-                <target></target>
-                <note>Setting help name</note>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="force_locale.setting.help">
-                <source>Force displaying translation locale in every node’ paths. This should be *ON* if you redirect users based on their language on homepage.</source>
                 <target></target>
                 <note>Setting help name</note>
             </trans-unit>

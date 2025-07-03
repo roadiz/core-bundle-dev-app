@@ -1859,14 +1859,6 @@
         <source>display_debug_panel</source>
         <target state="translated">Hata ayıklama panelini göster</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender">
-        <source>email_sender</source>
-        <target state="translated">Ana website e-postası</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender_name">
-        <source>email_sender_name</source>
-        <target state="translated">Ana website gönderici ismi</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="soundcloud_client_id">
         <source>soundcloud_client_id</source>
         <target state="translated">Soundcloud client ID’si</target>
@@ -3613,10 +3605,6 @@
       <trans-unit xml:space="preserve" id="use_cdn">
         <source>use_cdn</source>
         <target state="translated">Kaynaklar için CDN kullan</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale">
-        <source>force_locale</source>
-        <target state="translated">URL’de dil alanını zorla</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache">
         <source>nodeSourcesUrlsCache</source>

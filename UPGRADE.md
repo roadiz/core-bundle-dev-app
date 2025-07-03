@@ -2,8 +2,10 @@
 
 ## ⚠ Breaking changes
 
-- **Roadiz requires php 8.2 minimum**
+- **Roadiz requires php 8.3 minimum**
 - Upgraded to **ApiPlatform 4.x**
+- **Dropped Roles entity**, use native Symfony Roles hierarchy to define your roles instead
+- **Dropped RoleArrayVoter** BC, you cannot use `isGranted` and `denyUnlessGranted` methods with arrays
 - All Solr and SearchEngine related logic has been moved to the new `roadiz/solr-bundle` bundle.
 - `ThemeAwareNodeRouter` and `ThemeAwareNodeUrlMatcher` classes have been removed
 - All deprecated `AbstractField` constants have been removed (in favor of `FieldType` enum)
@@ -14,8 +16,147 @@
   - All Solr commands must provide a `clientName` argument to `validateSolrState`.
   - `SolrPaginator` renamed to `SearchEnginePaginator`
   - `SolrSearchListManager` renamed to `SearchEngineListManager`
+- `force_locale` and `force_locale_with_urlaliases` Settings have been removed, use `roadiz_core.forceLocale` and `roadiz_core.forceLocaleWithUrlAliases` configuration parameters instead.
+- `EmailManager` has been deprecated, use symfony/notifier instead.
+- `email_sender` Setting has been removed, use `framework.mailer.envelope.sender` configuration parameter instead.
+- `EmailManager::getOrigin()` method has been removed, this will use `framework.mailer.envelope.sender` configuration parameter.
 
-## Upgrade you Solr configuration
+## Upgrade your API Platform configuration
+
+Add `formats` configuration if not already present in your `api_platform.yaml` file.
+
+```yaml
+# config/packages/api_platform.yaml
+api_platform:
+    # ...
+    formats:
+        jsonld: ['application/ld+json']
+        json: ['application/json']
+        x-www-form-urlencoded: ['application/x-www-form-urlencoded']
+```
+
+## Upgrade your Roadiz roles hierarchy
+
+Migrations will automatically convert database roles to JSON roles in users and usergroups tables.
+But you need to update your `security.yaml` file to define your roles hierarchy.
+
+```yaml
+# config/packages/security.yaml
+security:
+    role_hierarchy:
+        ROLE_PASSWORDLESS_USER:
+            - ROLE_PUBLIC_USER
+        ROLE_EMAIL_VALIDATED:
+            - ROLE_PUBLIC_USER
+        ROLE_PUBLIC_USER:
+            - ROLE_USER
+        ROLE_BACKEND_USER:
+            - ROLE_USER
+        ROLE_SUPERADMIN:
+            - ROLE_PUBLIC_USER
+            - ROLE_ACCESS_VERSIONS
+            - ROLE_ACCESS_ATTRIBUTES
+            - ROLE_ACCESS_ATTRIBUTES_DELETE
+            - ROLE_ACCESS_CUSTOMFORMS
+            - ROLE_ACCESS_CUSTOMFORMS_RETENTION
+            - ROLE_ACCESS_CUSTOMFORMS_DELETE
+            - ROLE_ACCESS_DOCTRINE_CACHE_DELETE
+            - ROLE_ACCESS_DOCUMENTS
+            - ROLE_ACCESS_DOCUMENTS_LIMITATIONS
+            - ROLE_ACCESS_DOCUMENTS_DELETE
+            - ROLE_ACCESS_DOCUMENTS_CREATION_DATE
+            - ROLE_ACCESS_GROUPS
+            - ROLE_ACCESS_NODE_ATTRIBUTES
+            - ROLE_ACCESS_NODEFIELDS_DELETE
+            - ROLE_ACCESS_NODES
+            - ROLE_ACCESS_NODES_DELETE
+            - ROLE_ACCESS_NODES_SETTING
+            - ROLE_ACCESS_NODES_STATUS
+            - ROLE_ACCESS_NODETYPES
+            - ROLE_ACCESS_NODETYPES_DELETE
+            - ROLE_ACCESS_REDIRECTIONS
+            - ROLE_ACCESS_SETTINGS
+            - ROLE_ACCESS_TAGS
+            - ROLE_ACCESS_TAGS_DELETE
+            - ROLE_ACCESS_TRANSLATIONS
+            - ROLE_ACCESS_USERS
+            - ROLE_ACCESS_USERS_DELETE
+            - ROLE_ACCESS_WEBHOOKS
+            - ROLE_BACKEND_USER
+            - ROLE_ACCESS_LOGS
+            - ROLE_ACCESS_REALMS
+            - ROLE_ACCESS_REALM_NODES
+            - ROLE_ACCESS_FONTS
+            - ROLE_ALLOWED_TO_SWITCH
+```
+
+And remove roles routes from your Roadiz Rozier menu entries:
+
+```diff
+ # config/packages/roadiz_rozier.yaml
+ roadiz_rozier:
+     user_system:
+         name: 'user.system'
+         route: ~
+         icon: uk-icon-rz-users
+-        roles: ['ROLE_ACCESS_USERS', 'ROLE_ACCESS_ROLES', 'ROLE_ACCESS_GROUPS']
++        roles: ['ROLE_ACCESS_USERS', 'ROLE_ACCESS_GROUPS']
+         subentries:
+             manage_users:
+                 name: 'manage.users'
+                 route: usersHomePage
+                 icon: uk-icon-rz-user
+                 roles: ['ROLE_ACCESS_USERS']
+-            manage_roles:
+-                name: 'manage.roles'
+-                route: rolesHomePage
+-                icon: uk-icon-rz-roles
+-                roles: ['ROLE_ACCESS_ROLES']
+             manage_groups:
+                 name: 'manage.groups'
+                 route: groupsHomePage
+                 icon: uk-icon-rz-groups
+                 roles: ['ROLE_ACCESS_GROUPS']
+```
+
+## Upgrade your Roadiz Core bundle configuration
+
+```yaml
+# config/packages/roadiz_core.yaml
+roadiz_core:
+    # ...
+    # Force displaying translation locale in every generated node-source paths.
+    # This should be enabled if you redirect users based on their language on homepage.
+    forceLocale: false
+    # Force displaying translation locale in generated node-source paths even if there is an url-alias in it.
+    forceLocaleWithUrlAliases: false
+```
+
+## Upgrade your Mailer configuration
+
+```yaml
+# config/packages/mailer.yaml
+framework:
+    # ...
+    mailer:
+        # Use the default sender address for all emails
+        envelope:
+            sender: '%env(MAILER_ENVELOP_SENDER)%'
+```
+
+```dotenv
+###> symfony/mailer ###
+MAILER_DSN=smtp://mailer:1025
+MAILER_ENVELOP_SENDER="Roadiz Dev Website<roadiz-core-app@roadiz.io>"
+###< symfony/mailer ###
+```
+
+## Upgrade your email templates
+
+`disclaimer` and `mailContact` variables have been renamed to `email_disclaimer` and `support_email_address` in email templates.
+These variables are now automatically provided by RoadizExtension.
+
+## Upgrade your Solr configuration
 
 Roadiz removed *Apache Solr* from its Core bundle. To re-enable it, you need to install the Solr bundle.
 
@@ -29,6 +170,8 @@ composer require roadiz/solr-bundle
 - `NodesSourcesRepository::__construct` signature has changed
 - `NodesSourcesRepository::findBySearchQuery` method has been removed to remove dependency on SearchEngine.
 - All Solr commands have been moved to `RZ\Roadiz\CoreBundle\SearchEngine\Console` namespace.
+- `RZ\Roadiz\CoreBundle\Api\ListManager\SolrPaginator` has been renamed to `RZ\Roadiz\CoreBundle\Api\ListManager\SearchEnginePaginator`
+- `RZ\Roadiz\CoreBundle\Api\ListManager\SolrSearchListManager` has been renamed to `RZ\Roadiz\CoreBundle\Api\ListManager\SearchEngineListManager`
 
 ## Upgrade rezozero/intervention-request-bundle
 

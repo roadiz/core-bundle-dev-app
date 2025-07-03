@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -34,7 +38,8 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['updated_at'], name: 'idx_user_updated_at'),
     ORM\HasLifecycleCallbacks,
     UniqueEntity('email'),
-    UniqueEntity('username')
+    UniqueEntity('username'),
+    ApiFilter(PropertyFilter::class),
 ]
 class User extends AbstractHuman implements UserInterface, AdvancedUserInterface, EquatableInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
@@ -50,6 +55,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[Assert\NotBlank]
     #[Assert\Length(max: 200)]
     #[Assert\Email]
+    #[ApiFilter(OrderFilter::class)]
+    #[ApiFilter(SearchFilter::class)]
     /** @phpstan-ignore-next-line */
     protected ?string $email = null;
 
@@ -63,6 +70,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     #[ORM\Column(type: 'boolean', nullable: false, options: ['default' => true])]
     #[Serializer\Groups(['user_security'])]
+    #[ApiFilter(SearchFilter::class)]
     protected bool $enabled = true;
 
     #[ORM\Column(name: 'confirmation_token', type: 'string', length: 128, unique: true, nullable: true)]
@@ -79,6 +87,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[Assert\NotNull]
     #[Assert\NotBlank]
     #[Assert\Length(max: 200)]
+    #[ApiFilter(OrderFilter::class)]
+    #[ApiFilter(SearchFilter::class)]
     private string $username = '';
 
     /**
@@ -100,23 +110,18 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     #[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
     #[Serializer\Groups(['user_security'])]
+    #[ApiFilter(OrderFilter::class)]
     private ?\DateTime $lastLogin = null;
 
     /**
-     * @var Collection<int, Role>
+     * @var array<string> direct roles assigned to this User
      */
-    #[ORM\JoinTable(name: 'users_roles')]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    #[ORM\InverseJoinColumn(name: 'role_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    #[ORM\ManyToMany(targetEntity: Role::class)]
+    #[ORM\Column(name: 'user_roles', type: 'json', nullable: true)]
     #[Serializer\Ignore]
-    private Collection $roleEntities;
+    private ?array $userRoles = [];
 
     /**
-     * Names of current User roles
-     * to be compatible with symfony security scheme.
-     *
-     * @var array<string>|null
+     * @var array<string>|null temporary roles computed from User and Groups
      */
     #[Serializer\Ignore]
     private ?array $roles = null;
@@ -155,7 +160,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
 
     public function __construct()
     {
-        $this->roleEntities = new ArrayCollection();
         $this->groups = new ArrayCollection();
         $this->sendCreationConfirmationEmail(false);
         $this->initDateTimedTrait();
@@ -349,65 +353,15 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
         return $this;
     }
 
-    /**
-     * @return $this
-     *
-     * @deprecated Use addRoleEntity
-     */
-    public function addRole(Role $role): User
+    public function getUserRoles(): array
     {
-        return $this->addRoleEntity($role);
+        return $this->userRoles ?? [];
     }
 
-    /**
-     * Add a role object to current user.
-     *
-     * @return $this
-     */
-    public function addRoleEntity(Role $role): User
+    public function setUserRoles(array $userRoles): User
     {
-        if (!$this->getRolesEntities()->contains($role)) {
-            $this->getRolesEntities()->add($role);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get roles entities.
-     */
-    public function getRolesEntities(): ?Collection
-    {
-        return $this->roleEntities;
-    }
-
-    public function setRolesEntities(ArrayCollection $roles): User
-    {
-        $this->roleEntities = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     *
-     * @deprecated Use removeRoleEntity
-     */
-    public function removeRole(Role $role): User
-    {
-        return $this->removeRoleEntity($role);
-    }
-
-    /**
-     * Remove role from current user.
-     *
-     * @return $this
-     */
-    public function removeRoleEntity(Role $role): User
-    {
-        if ($this->getRolesEntities()->contains($role)) {
-            $this->getRolesEntities()->removeElement($role);
-        }
+        $this->userRoles = array_values(array_unique(array_filter($userRoles)));
+        $this->roles = null; // reset roles cache
 
         return $this;
     }
@@ -430,6 +384,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     {
         if (!$this->getGroups()->contains($group)) {
             $this->getGroups()->add($group);
+            $this->roles = null; // reset roles cache
         }
 
         return $this;
@@ -449,6 +404,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     {
         if ($this->getGroups()->contains($group)) {
             $this->getGroups()->removeElement($group);
+            $this->roles = null; // reset roles cache
         }
 
         return $this;
@@ -643,26 +599,23 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     public function getRoles(): array
     {
         if (null === $this->roles) {
-            $this->roles = [];
-            if (null !== $this->getRolesEntities()) {
-                foreach ($this->getRolesEntities() as $role) {
-                    if (null !== $role) {
-                        $this->roles[] = $role->getName();
-                    }
-                }
-            }
+            $this->roles = $this->getUserRoles();
+
             if (null !== $this->getGroups()) {
                 foreach ($this->getGroups() as $group) {
                     if ($group instanceof Group) {
                         // User roles > Groups roles
-                        $this->roles = array_merge($group->getRoles(), $this->roles);
+                        $this->roles = [
+                            ...$this->roles,
+                            ...$group->getRoles(),
+                        ];
                     }
                 }
             }
 
             // we need to make sure to have at least one role
-            $this->roles[] = Role::ROLE_DEFAULT;
-            $this->roles = array_unique($this->roles);
+            $this->roles[] = 'ROLE_DEFAULT';
+            $this->roles = array_values(array_unique($this->roles));
         }
 
         return $this->roles;
@@ -690,7 +643,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
             $this->id,
             $this->email,
             // needed for token roles
-            $this->roleEntities,
+            $this->userRoles,
             $this->groups,
             // needed for advancedUserinterface
             $this->expiresAt,
@@ -709,7 +662,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
             $this->enabled,
             $this->id,
             $this->email,
-            $this->roleEntities,
+            $this->userRoles,
             $this->groups,
             $this->expiresAt,
             $this->locked,
@@ -720,7 +673,7 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[Serializer\Groups(['user_security'])]
     public function isSuperAdmin(): bool
     {
-        return $this->hasRole(Role::ROLE_SUPERADMIN);
+        return $this->hasRole('ROLE_SUPERADMIN');
     }
 
     public function hasGroup(string $name): bool

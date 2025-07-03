@@ -98,9 +98,7 @@ final class CustomFormController extends AbstractController
             $request,
             $customForm,
             new JsonResponse(null, Response::HTTP_ACCEPTED, $headers),
-            false,
-            null,
-            false
+            prefix: false
         );
 
         if ($mixed instanceof Response) {
@@ -184,8 +182,6 @@ final class CustomFormController extends AbstractController
         Request $request,
         CustomForm $customFormsEntity,
         Response $response,
-        bool $forceExpanded = false,
-        ?string $emailSender = null,
         bool $prefix = true,
     ) {
         $assignation = [
@@ -198,8 +194,7 @@ final class CustomFormController extends AbstractController
         $helper = $this->customFormHelperFactory->createHelper($customFormsEntity);
         $form = $helper->getForm(
             $request,
-            $forceExpanded,
-            $prefix
+            prefix: $prefix
         );
         $form->handleRequest($request);
 
@@ -209,26 +204,18 @@ final class CustomFormController extends AbstractController
                  * Parse form data and create answer.
                  */
                 $answer = $helper->parseAnswerFormData($form, null, $request->getClientIp());
-
                 $answerId = $answer->getId();
                 if (!is_int($answerId)) {
                     throw new \RuntimeException('Answer ID is null');
-                }
-
-                if (null === $emailSender || false === filter_var($answer->getEmail(), FILTER_VALIDATE_EMAIL)) {
-                    $emailSender = $answer->getEmail();
-                }
-                if (null === $emailSender || false === filter_var($emailSender, FILTER_VALIDATE_EMAIL)) {
-                    $emailSender = $this->settingsBag->get('email_sender');
                 }
 
                 $this->messageBus->dispatch(new CustomFormAnswerNotifyMessage(
                     $answerId,
                     $this->translator->trans(
                         'new.answer.form.%site%',
-                        ['%site%' => $customFormsEntity->getDisplayName()]
+                        ['%site%' => $customFormsEntity->getDisplayName()],
+                        locale: $request->getLocale(),
                     ),
-                    $emailSender,
                     $request->getLocale()
                 ));
 

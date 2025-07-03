@@ -74,13 +74,30 @@ Each folder event object contains the current `Translation` entity. You will get
 
 Each folder event object contains the current `UrlAlias` entity. You will get it using `$event->getUrlAlias()`.
 
+## Redirections events
+
+- `RZ\Roadiz\CoreBundle\Event\Redirection\PostCreatedRedirectionEvent`
+- `RZ\Roadiz\CoreBundle\Event\Redirection\PostDeletedRedirectionEvent`
+- `RZ\Roadiz\CoreBundle\Event\Redirection\PostUpdatedRedirectionEvent`
+
+Each redirection event object contains the current `Redirection` entity. You will get it using `$event->getRedirection()`.
+
+## Realms events
+
+- `RZ\Roadiz\CoreBundle\Event\Realm\NodeJoinedRealmEvent`
+- `RZ\Roadiz\CoreBundle\Event\Realm\NodeLeftRealmEvent`
+
+Each realm event object contains the current `RealmNode` data transfer object. You will get it using `$event->getRealmNode()`.
+
 ## User events
 
 - `RZ\Roadiz\CoreBundle\Event\User\UserCreatedEvent`
-- `RZ\Roadiz\CoreBundle\Event\User\UserUpdatedEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserDeletedEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserDisabledEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserEnabledEvent`
+- `RZ\Roadiz\CoreBundle\Event\User\UserJoinedGroupEvent`
+- `RZ\Roadiz\CoreBundle\Event\User\UserLeavedGroupEvent`
 - `RZ\Roadiz\CoreBundle\Event\User\UserPasswordChangedEvent`
+- `RZ\Roadiz\CoreBundle\Event\User\UserUpdatedEvent`
 
 Each folder event object contains the current `User` entity. You will get it using `$event->getUser()`.

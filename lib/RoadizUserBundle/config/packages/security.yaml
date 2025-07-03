@@ -1,0 +1,15 @@
+# Merge theses roles with the ones defined in your project's security.yaml file.
+security:
+    role_hierarchy:
+        ROLE_PASSWORDLESS_USER:
+            - ROLE_PUBLIC_USER
+        ROLE_EMAIL_VALIDATED:
+            - ROLE_PUBLIC_USER
+        ROLE_PUBLIC_USER:
+            - ROLE_USER
+        ROLE_BACKEND_USER:
+            - ROLE_USER
+            - ROLE_PUBLIC_USER
+        ROLE_SUPERADMIN:
+# ...
+            - ROLE_PUBLIC_USER

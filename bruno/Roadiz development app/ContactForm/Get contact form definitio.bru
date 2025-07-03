@@ -1,0 +1,20 @@
+meta {
+  name: Get contact form definitio
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/api/contact_form/definition?_locale=en
+  body: none
+  auth: bearer
+}
+
+params:query {
+  _locale: en
+  ~_preview: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

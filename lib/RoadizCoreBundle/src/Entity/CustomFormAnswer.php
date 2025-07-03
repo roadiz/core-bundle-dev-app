@@ -152,9 +152,21 @@ class CustomFormAnswer implements \Stringable, PersistableInterface
 
     public function getEmail(): ?string
     {
-        $attribute = $this->getAnswerFields()->filter(fn (CustomFormFieldAttribute $attribute) => $attribute->getCustomFormField()->isEmail())->first();
+        $attribute = $this->getAnswerFields()
+            ->filter(fn (CustomFormFieldAttribute $attribute) => $attribute->getCustomFormField()->isEmail())
+            ->first();
 
-        return $attribute ? (string) $attribute->getValue() : null;
+        if (!$attribute instanceof CustomFormFieldAttribute) {
+            return null;
+        }
+
+        $email = $attribute->getValue();
+
+        if (null === $email || false === filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return null;
+        }
+
+        return $email;
     }
 
     /**

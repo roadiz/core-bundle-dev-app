@@ -38,14 +38,6 @@
         appearance:none;
     }
 
-    input:focus,
-    textarea:focus,
-    isindex:focus,
-    keygen:focus,
-    select:focus {
-        outline: 0px;
-    }
-
     .tag-editor,
     input[type="text"],
     input[type="password"],
@@ -72,16 +64,13 @@
             padding:0px 10px 0 35px;
         }
 
+        &:focus,
         &:hover {
             background-color: var(--contrasted-bg);
             border-color: @grey-form-submit-border-hover;
             color: #333;
         }
-        &:focus {
-            background-color: @grey-verylight;
-            border-color: @grey-form-submit-border-hover;
-            color: #333;
-        }
+
         &:not(:placeholder-shown):invalid {
             color: darken(@alert-color, 15%);
             border-color: fade(@alert-color, 50%);
@@ -164,7 +153,8 @@
             -moz-appearance: none;
             appearance: none;
 
-            &:focus, &:active{
+            &:focus,
+            &:active {
                 outline:none;
                 border: 1px solid darken(@grey-form-border, 20%);
             }
@@ -308,7 +298,8 @@
                 select {
                     border-right: 1px solid @grey-form-border;
 
-                    &:focus, &:active {
+                    &:focus,
+                    &:active {
                         border-right: 1px solid darken(@grey-form-border, 20%);
                     }
                 }

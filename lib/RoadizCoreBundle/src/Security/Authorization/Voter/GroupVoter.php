@@ -46,7 +46,7 @@ class GroupVoter extends RoleVoter
             /*
              * If super-admin, group is always granted
              */
-            if (\in_array('ROLE_SUPER_ADMIN', $roles) || \in_array('ROLE_SUPERADMIN', $roles)) {
+            if (\in_array('ROLE_SUPERADMIN', $roles)) {
                 return $result;
             }
             /*

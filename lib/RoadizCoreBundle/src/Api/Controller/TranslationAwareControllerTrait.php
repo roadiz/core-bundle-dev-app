@@ -21,18 +21,23 @@ trait TranslationAwareControllerTrait
     /**
      * @throws NonUniqueResultException
      */
-    protected function getTranslation(Request $request): TranslationInterface
+    protected function getTranslation(?Request $request = null): TranslationInterface
     {
+        /** @var TranslationRepository $repository */
+        $repository = $this->getManagerRegistry()->getRepository(TranslationInterface::class);
+
+        if (null === $request) {
+            return $repository->findDefault() ?? throw new \RuntimeException('No default translation found.');
+        }
+
         $locale = $request->query->get('_locale');
         $requestTranslation = $request->attributes->get('_translation');
         if ($requestTranslation instanceof TranslationInterface) {
             return $requestTranslation;
         }
 
-        /** @var TranslationRepository $repository */
-        $repository = $this->getManagerRegistry()->getRepository(TranslationInterface::class);
         if (!\is_string($locale) || '' === $locale) {
-            return $repository->findDefault();
+            return $repository->findDefault() ?? throw new \RuntimeException('No default translation found.');
         }
 
         if ($this->getPreviewResolver()->isPreview()) {

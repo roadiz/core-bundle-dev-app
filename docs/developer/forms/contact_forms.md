@@ -20,10 +20,12 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory;
 
 // …
 // Create contact-form manager and add 3 default fields.
-$contactFormManager = $this->createContactFormManager()
+$contactFormManager = $this->contactFormManagerFactory
+                           ->create()        
                            ->withDefaultFields();
 /*
  * (Optional) Add custom fields…
@@ -95,10 +97,12 @@ For example, in a `App/Controllers/ContactBlockController`, instead of returning
 // ./src/Controllers/ContactBlockController.php
 
 use RZ\Roadiz\CoreBundle\Exception\ForceResponseException;
+use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory;
 
 …
 // Create contact-form manager and add 3 default fields.
-$contactFormManager = $this->createContactFormManager()
+$contactFormManager = $this->contactFormManagerFactory
+                           ->create()        
                            ->withDefaultFields();
 
 if (null !== $response = $contactFormManager->handle()) {
@@ -144,7 +148,8 @@ Then, just use `withGoogleRecaptcha()` method on your contact-form manager.
 
 ```php
 // Create contact-form manager, add 3 default fields and add a reCAPTCHA.
-$contactFormManager = $this->createContactFormManager()
+$contactFormManager = $this->contactFormManagerFactory
+                           ->create()        
                            ->withDefaultFields()
                            ->withGoogleRecaptcha();
 ```

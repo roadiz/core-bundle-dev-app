@@ -70,14 +70,28 @@ class Configuration implements ConfigurationInterface
             ->end()
             ->booleanNode('useEmailReplyTo')
                 ->defaultTrue()
+                ->info('Use custom-form answers email as reply-to email address when possible.')
             ->end()
             ->scalarNode('documentsLibDir')->defaultValue(
                 'vendor/roadiz/documents/src'
             )->info('Relative path to Roadiz Documents lib sources from project directory.')->end()
+            ->booleanNode('forceLocale')
+                ->defaultValue(false)
+                ->info(<<<EOT
+Force displaying translation locale in every generated node-source paths.
+This should be enabled if you redirect users based on their language on homepage.
+EOT)
+            ->end()
+            ->booleanNode('forceLocaleWithUrlAliases')
+                ->defaultValue(false)
+                ->info(<<<EOT
+Force displaying translation locale in generated node-source paths even if there is an url-alias in it.
+EOT)
+            ->end()
             ->booleanNode('useAcceptLanguageHeader')
                 ->defaultValue(false)
                 ->info(<<<EOT
-When no information to find locale is found and "force_locale" setting is ON,
+When no information to find locale is found and "forceLocale" parameter is ON,
 we must find translation based on Accept-Language header.
 Be careful if you are using a reverse-proxy cache, YOU MUST vary on Accept-Language header and normalize it.
 @see https://varnish-cache.org/docs/6.3/users-guide/increasing-your-hitrate.html#http-vary

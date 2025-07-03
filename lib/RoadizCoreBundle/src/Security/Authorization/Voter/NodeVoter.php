@@ -128,15 +128,22 @@ final class NodeVoter extends Voter
         return \in_array($node->getId(), $this->nodeOffspringResolver->getAllOffspringIds($chroot), true);
     }
 
+    /**
+     * @param array<string>|string $roles
+     */
     private function isGrantedWithUserChroot(NodeInterface $node, UserInterface $user, array|string $roles, bool $includeChroot): bool
     {
         $chroot = $this->chrootResolver->getChroot($user);
+
+        $atLeastOneRoleGranted = is_array($roles)
+            ? array_reduce($roles, fn (bool $carry, string $role) => $carry || $this->security->isGranted($role), false)
+            : $this->security->isGranted($roles);
+
         if (null === $chroot) {
-            return $this->security->isGranted($roles);
+            return $atLeastOneRoleGranted;
         }
 
-        return $this->security->isGranted($roles)
-            && $this->isNodeInsideUserChroot($node, $chroot, $includeChroot);
+        return $atLeastOneRoleGranted && $this->isNodeInsideUserChroot($node, $chroot, $includeChroot);
     }
 
     private function canCreateAtRoot(UserInterface $user): bool

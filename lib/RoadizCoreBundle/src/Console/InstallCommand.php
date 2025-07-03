@@ -7,7 +7,6 @@ namespace RZ\Roadiz\CoreBundle\Console;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Importer\GroupsImporter;
-use RZ\Roadiz\CoreBundle\Importer\RolesImporter;
 use RZ\Roadiz\CoreBundle\Importer\SettingsImporter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +22,6 @@ final class InstallCommand extends Command
 
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
-        private readonly RolesImporter $rolesImporter,
         private readonly GroupsImporter $groupsImporter,
         private readonly SettingsImporter $settingsImporter,
         #[Autowire('%kernel.project_dir%')]
@@ -80,19 +78,6 @@ final class InstallCommand extends Command
 
             $data = Yaml::parse($fixtureFile);
 
-            if (isset($data['importFiles']['roles'])) {
-                foreach ($data['importFiles']['roles'] as $filename) {
-                    $filePath = $fixturesRoot.'/'.$filename;
-                    $fileContents = file_get_contents($filePath);
-                    if (false === $fileContents) {
-                        $io->error('No file found in '.$filePath);
-
-                        return 1;
-                    }
-                    $this->rolesImporter->import($fileContents);
-                    $io->success('Theme file “'.$filePath.'” has been imported.');
-                }
-            }
             if (isset($data['importFiles']['groups'])) {
                 foreach ($data['importFiles']['groups'] as $filename) {
                     $filePath = $fixturesRoot.'/'.$filename;

@@ -70,6 +70,7 @@ class CustomForm implements DateTimedInterface, PersistableInterface
     #[
         ORM\Column(type: 'text', nullable: true),
         SymfonySerializer\Groups(['custom_form:export']),
+        Assert\NotBlank(),
     ]
     private ?string $email = null;
 

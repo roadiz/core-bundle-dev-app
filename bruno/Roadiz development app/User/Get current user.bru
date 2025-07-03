@@ -1,0 +1,19 @@
+meta {
+  name: Get current user
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/me
+  body: none
+  auth: bearer
+}
+
+params:query {
+  ~_preview: 
+}
+
+auth:bearer {
+  token: {{token}}
+}

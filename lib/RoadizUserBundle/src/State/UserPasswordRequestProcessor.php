@@ -8,18 +8,18 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
-use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
-use RZ\Roadiz\CoreBundle\Mailer\EmailManagerFactory;
 use RZ\Roadiz\CoreBundle\Security\User\UserProvider;
 use RZ\Roadiz\Random\TokenGenerator;
 use RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
+use RZ\Roadiz\UserBundle\Notifier\UserPasswordRequestNotification;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
-use Symfony\Component\Mime\Address;
+use Symfony\Component\Notifier\NotifierInterface;
+use Symfony\Component\Notifier\Recipient\Recipient;
 use Symfony\Component\RateLimiter\RateLimiterFactory;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -39,8 +39,7 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
         private ManagerRegistry $managerRegistry,
         private RequestStack $requestStack,
         private UserProvider $userProvider,
-        private EmailManagerFactory $emailManagerFactory,
-        private Settings $settingsBag,
+        private NotifierInterface $notifier,
         private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
         private RecaptchaServiceInterface $recaptchaService,
@@ -127,10 +126,6 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
 
     private function sendPasswordResetLink(Request $request, User $user): void
     {
-        $emailManager = $this->emailManagerFactory->create();
-        $emailContact = $this->settingsBag->get('email_sender');
-        $siteName = $this->settingsBag->get('site_name');
-
         /*
          * Support routes name as well as hard-coded URLs
          */
@@ -152,23 +147,15 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
             );
         }
 
-        $emailManager->setAssignation(
-            [
-                'resetLink' => $resetLink,
-                'user' => $user,
-                'site' => $siteName,
-                'mailContact' => $emailContact,
-            ]
-        );
-        $emailManager->setEmailTemplate('@RoadizUser/email/users/reset_password_email.html.twig');
-        $emailManager->setEmailPlainTextTemplate('@RoadizUser/email/users/reset_password_email.txt.twig');
-        $emailManager->setSubject(
+        $notification = new UserPasswordRequestNotification(
+            $user,
+            $resetLink,
             $this->translator->trans(
-                'reset.password.request'
+                'reset.password.request',
+                locale: $user->getLocale()
             )
         );
-        $emailManager->setReceiver($user->getEmail());
-        $emailManager->setSender(new Address($emailContact, $siteName ?? ''));
-        $emailManager->send();
+
+        $this->notifier->send($notification, new Recipient($user->getEmail()));
     }
 }

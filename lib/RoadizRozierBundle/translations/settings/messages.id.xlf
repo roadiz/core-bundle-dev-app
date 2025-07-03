@@ -2,14 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="id">
     <body>
-      <trans-unit xml:space="preserve" id="force_locale.description">
-                <source>Force displaying translation locale in every node’ paths. This should be ON if you redirect users based on their language on homepage.</source>
-                <target state="translated">Paksa tampilkan lokal (bahasa) terjemahan di jalur/path setiap node. Ini harus AKTIF jika Anda mengarahkan pengguna berdasarkan bahasa mereka di halaman Beranda.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="email_sender.description">
-                <source>Default sender email, used as origin for every system email sent. This email **must be allowed by your SMTP server.**</source>
-                <target state="translated">Email pengirim bawaan, digunakan sebagai asal untuk setiap sistem email yang dikirim. Email ini **harus diizinkan oleh server SMTP Anda.**</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description">
                 <source>Default maps tiles layout when using *Leaflet*.</source>
                 <target state="translated">Tata letak peta bawaan saat menggunakan *Leaflet*.</target>
@@ -38,16 +30,6 @@
                 <source>hide_roadiz_version.help</source>
                 <target state="translated">Sembunyikan versi Roadiz dan nama dari setiap header respons dan variabel tema.</target>
                 <note>Setting</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale_with_urlaliases">
-                <source>force_locale_with_urlaliases</source>
-                <target state="translated">Tampilkan lokal (bahasa) saat menggunakan alias URL</target>
-                <note>Setting name</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="force_locale_with_urlaliases.help">
-                <source>force_locale_with_urlaliases.help</source>
-                <target state="translated">Ini akan memaksa menampilkan penerjemahan lokal di jalur sumber node yang dihasilkan bahkan jika ada URL-alias di dalamnya.</target>
-                <note>Setting description</note>
             </trans-unit>
       <trans-unit xml:space="preserve" id="use_native_json">
                 <source>use_native_json</source>

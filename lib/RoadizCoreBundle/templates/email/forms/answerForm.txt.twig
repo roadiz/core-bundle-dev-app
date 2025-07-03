@@ -3,15 +3,12 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block content_table %}
-{% if requestLocale is not defined %}
-    {% set requestLocale = app.request.locale %}
-{% endif %}
 {% trans %}answer.form{% endtrans %}
 
 ---
 
 {% for field in fields %}
 
-{{ field.label|default(field.name|trans(locale=requestLocale)) }}: {% if field.name == "submittedAt" %}{{ field.value|format_datetime("medium", "short", locale=requestLocale) }}{% else %}{{ field.value }}{% endif %}
+{{ field.label|default(field.name|trans) }}: {% if field.name == "submittedAt" %}{{ field.value|format_datetime("medium", "short") }}{% else %}{{ field.value }}{% endif %}
 {% endfor %}
 {% endblock %}

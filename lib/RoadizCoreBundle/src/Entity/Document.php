@@ -589,18 +589,18 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
         SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
         SymfonySerializer\SerializedName('alt'),
         ApiProperty(
-            description: 'Document alternative text, for img HTML tag.',
+            description: 'Document alternative text, for img HTML tag. Returns NULL if image is decorative (alt="" aria-hidden="true").',
             writable: false,
         )
     ]
     #[\Override]
-    public function getAlternativeText(): string
+    public function getAlternativeText(): ?string
     {
         $documentTranslation = $this->getDocumentTranslations()->first();
 
         return $documentTranslation && !empty($documentTranslation->getName()) ?
             $documentTranslation->getName() :
-            $this->getFilename();
+            null;
     }
 
     public function __clone()

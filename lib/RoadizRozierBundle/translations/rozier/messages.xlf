@@ -501,8 +501,6 @@
 
             <!-- Default settings names -->
             <trans-unit xml:space="preserve" id="display_debug_panel"><source>display_debug_panel</source></trans-unit>
-            <trans-unit xml:space="preserve" id="email_sender"><source>email_sender</source></trans-unit>
-            <trans-unit xml:space="preserve" id="email_sender_name"><source>email_sender_name</source></trans-unit>
             <trans-unit xml:space="preserve" id="soundcloud_client_id"><source>soundcloud_client_id</source></trans-unit>
             <trans-unit xml:space="preserve" id="google_client_id"><source>google_client_id</source></trans-unit>
             <trans-unit xml:space="preserve" id="google_server_id"><source>google_server_id</source></trans-unit>
@@ -1043,7 +1041,6 @@
             <trans-unit xml:space="preserve" id="pinterest_url"><source>pinterest_url</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="use_cdn"><source>use_cdn</source></trans-unit>
-            <trans-unit xml:space="preserve" id="force_locale"><source>force_locale</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache"><source>nodeSourcesUrlsCache</source></trans-unit>
             <trans-unit xml:space="preserve" id="translation.locale.alreadyExists"><source>translation.locale.alreadyExists</source></trans-unit>
             <trans-unit xml:space="preserve" id="translation.override_locale.alreadyExists"><source>translation.override_locale.alreadyExists</source></trans-unit>

@@ -38,6 +38,7 @@ final class CustomFormType extends AbstractType
             ])
             ->add('email', TextType::class, [
                 'label' => 'email',
+                'help' => 'customForm.email.help',
                 'required' => false,
                 'constraints' => [
                     new Callback(function ($value, ExecutionContextInterface $context) {
