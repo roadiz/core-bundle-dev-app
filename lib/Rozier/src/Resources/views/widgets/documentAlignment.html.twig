@@ -1,7 +1,7 @@
 {# Get a tab panel ID by tab name #}
 {% macro get_tab_panel_id(name, id) %}
 	{% apply spaceless %}
-	{{ id is defined and id ? (id ~ '-') : '' }}document-alignment-tabpanel-{{ name }}
+	    {{ id is defined and id ? (id ~ '-') : '' }}document-alignment-tabpanel-{{ name }}
 	{% endapply %}
 {% endmacro %}
 
@@ -20,6 +20,8 @@
 	{% set tabList = tabList|merge([{ 
         label: child.vars.name|trans, 
         id: child.vars.name,
+        hint: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        value: child.vars.value,
         panelId: _self.get_tab_panel_id(child.vars.name, id)  
     }]) %}
 
@@ -31,28 +33,54 @@
 {% endfor %}
 
 <document-alignment-widget {{ widget_attributes }} class="document-alignment-widget">
-	<div class="document-alignment-widget__tab-list">
+    {# Tabs #}
+	<div class="document-alignment-widget__tab-list" role="tablist">
+        {% set radioInputName = (id is defined and id ? (id ~ '-') : '') ~  'document-alignment-widget-tab' %}
 		{%- for tab in tabList %}
+            {% set id = radioInputName ~ '-' ~ tab.id %}
             {% set classNames = ['document-alignment-widget__tab'] %}
             {% if tab.id == activeTabId %}
                 {% set classNames = classNames|merge(['document-alignment-widget__tab--active']) %}
             {% endif %}
-
-			<button type="button" class="{{ classNames|join(' ') }}" aria-controls="{{ tab.panelId|trim }}" aria-selected="{{ tab.id == activeTabId ? 'true' : 'false' }}">
-				{{ tab.label }}
-			</button>
+            <div class="{{ classNames|join(' ') }}">
+                <input type="radio" id="{{ id }}" name="{{ radioInputName }}" checked="{{ tab.id == activeTabId }}" role="tab" aria-controls="{{ tab.panelId|trim }}" aria-selected="{{ tab.id == activeTabId ? 'true' : 'false' }}">
+                <label for="{{ id }}">{{ tab.label }}</label>
+                {% if tab.hint %}
+                    <div class="document-alignment-widget__hint">{{ tab.hint }} </div>
+                {% endif %}
+                {% if tab.id == 'hotspot' %}
+                    {% set hotspotValue = tab.value %}
+                    {{ dump(tab.value)}}
+                    {% set inputList = [
+                        {'name': 'hotspot-x', 'label': 'X (0:1)' },
+                        {'name': 'hotspot-y', 'label': 'Y (0:1)' }
+                    ] %}
+                    <div class="document-alignment-widget__hotspot-input-list">
+                        {% for input in inputList %}
+                            <div class="document-alignment-widget__hotspot-input">
+                                <label>{{ input.name }}</label>
+                                <input type="number" name="{{ input.id }}" min="0" max="1" step="0.1" />
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
 		{% endfor -%}
 	</div>
+    {# Tab panels #}
 	{% for tab in tabList %}
-		{% set classNames = ['document-alignment-widget__tab-panel'] %}
+		{% set classNames = ['document-alignment-widget__tab-panel', 'document-alignment-widget__tab-panel--' ~ tab.id] %}
 		{% if tab.id == activeTabId %}
 			{% set classNames = classNames|merge(['document-alignment-widget__tab-panel--active']) %}
 		{% endif %}
-
 		<div id="{{ tab.panelId|trim }}" class="{{ classNames|join(' ') }}" role="tabpanel" {% if tab.id != activeTabId %} aria-hidden="true" {% endif %}>
+            {% if tab.id == 'imageReplacement' %}
+            {% elseif tab.id == 'hotspot' %}
+            {% endif %}
 			<img src="{{ imagePath }}" alt=""/>
 		</div>
 	{% endfor %}
+    {# Hidden inputs for form #}
 	<div
 		class="document-alignment-widget__inputs">
 		{# Hidden inputs, used for the form data. Just in case we hide them #}
