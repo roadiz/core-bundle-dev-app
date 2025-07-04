@@ -42,6 +42,9 @@ final class NodeSourceProviderType extends AbstractConfigurableNodeSourceFieldTy
 
             return false;
         });
+
+        $resolver->setDefault('_locale', null);
+        $resolver->addAllowedTypes('_locale', ['string', 'null']);
     }
 
     #[\Override]
@@ -64,6 +67,8 @@ final class NodeSourceProviderType extends AbstractConfigurableNodeSourceFieldTy
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
+
+        $view->vars['_locale'] = $options['_locale'];
 
         $configuration = $this->getFieldConfiguration($options);
         if (isset($configuration['options'])) {

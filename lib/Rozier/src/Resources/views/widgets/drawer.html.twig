@@ -37,6 +37,7 @@
         <drawer-container data-vuejs
                           inline-template
                           data-entity-name="{{ entityName }}"
+                          data-locale="{{ form.vars._locale }}"
                           data-document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
         >
             <div class="drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"

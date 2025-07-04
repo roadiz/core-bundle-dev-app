@@ -20,6 +20,7 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
 use RZ\Roadiz\Documents\Renderer\RendererInterface;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -33,6 +34,7 @@ final readonly class ExplorerItemFactory implements ExplorerItemFactoryInterface
         private Security $security,
         private TranslatorInterface $translator,
         private DecoratedNodeTypes $nodeTypesBag,
+        private RequestStack $requestStack,
     ) {
     }
 
@@ -67,7 +69,8 @@ final readonly class ExplorerItemFactory implements ExplorerItemFactoryInterface
                 $entity,
                 $this->urlGenerator,
                 $this->security,
-                $this->nodeTypesBag
+                $this->nodeTypesBag,
+                $this->requestStack->getCurrentRequest()?->getLocale(),
             ),
             $entity instanceof NodesSources => new NodeSourceExplorerItem(
                 $entity,
