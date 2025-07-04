@@ -27,7 +27,7 @@
         {% endif %}
     {% endfor %}
     <div class="uk-form-row form-col-{{ name }} drawer-widget-wrapper" {{ drawerAttributes|join(' ')|raw }}>
-        <drawer-container data-vuejs inline-template>
+        <drawer-container data-vuejs inline-template data-locale="{{ form.vars._locale }}">
             <div class="drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"
                  :class="{ 'uk-active' : isActive, 'uk-alert-danger': drawer.errorMessage }"
                  v-if="drawer"

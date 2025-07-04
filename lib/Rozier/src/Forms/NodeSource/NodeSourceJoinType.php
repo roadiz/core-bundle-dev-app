@@ -22,6 +22,8 @@ final class NodeSourceJoinType extends AbstractConfigurableNodeSourceFieldType
          * NodeSourceJoinType MUST always be multiple as data is submitted as array
          */
         $resolver->setDefault('multiple', true);
+        $resolver->setDefault('_locale', null);
+        $resolver->addAllowedTypes('_locale', ['string', 'null']);
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -41,6 +43,8 @@ final class NodeSourceJoinType extends AbstractConfigurableNodeSourceFieldType
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         parent::buildView($view, $form, $options);
+
+        $view->vars['_locale'] = $options['_locale'];
 
         $configuration = $this->getFieldConfiguration($options);
         $displayableData = [];
