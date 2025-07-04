@@ -12,6 +12,8 @@ use RZ\Roadiz\CoreBundle\EntityHandler\NodesSourcesHandler;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
@@ -21,6 +23,14 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
         private readonly NodesSourcesHandler $nodesSourcesHandler,
     ) {
         parent::__construct($managerRegistry);
+    }
+
+    public function buildView(FormView $view, FormInterface $form, array $options): void
+    {
+        parent::buildView($view, $form, $options);
+
+        $view->vars['_locale'] = $options['_locale'];
+        $view->vars['entityName'] = 'node-source-document';
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -46,11 +56,13 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
             'class' => Document::class,
             'multiple' => true,
             'property' => 'id',
+            '_locale' => null,
         ]);
 
         $resolver->setRequired([
             'label',
         ]);
+        $resolver->addAllowedTypes('_locale', ['string', 'null']);
     }
 
     public function getBlockPrefix(): string
