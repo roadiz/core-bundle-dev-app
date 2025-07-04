@@ -215,6 +215,7 @@ EOF
 COPY --link docker/frankenphp/conf.d/app.ini ${PHP_INI_DIR}/conf.d/
 COPY --link --chmod=755 docker/frankenphp/docker-entrypoint.dev /usr/local/bin/docker-entrypoint
 COPY --link docker/frankenphp/Caddyfile /etc/caddy/Caddyfile
+COPY --link docker/frankenphp/Caddyfile.dev /etc/caddy/Caddyfile.dev
 
 ENTRYPOINT ["docker-entrypoint"]
 
@@ -232,7 +233,7 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 COPY --link docker/frankenphp/conf.d/app.dev.ini ${PHP_INI_DIR}/conf.d/
 
-CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile", "--watch" ]
+CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile.dev" ]
 
 USER php
 
