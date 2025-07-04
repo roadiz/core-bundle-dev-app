@@ -1,13 +1,60 @@
-<document-alignment-widget {{ widget_attributes }}>
-    <menu>
-        <li>null</li>
+{% macro get_tab_panel_id(name, id) %}
+ {% apply spaceless %}
+    {{ id is defined and id ? (id ~ '-') : '' }}document-alignment-tabpanel-{{ name }}
+ {% endapply %}
+{% endmacro %}
+
+{% set imagePath = widget_attributes|split('data-image-path="')[1]|split('"')[0] %}
+
+{% set tabList = [{ 
+    label: 'document_alignment.none', 
+    id: 'none', 
+    panelId: _self.get_tab_panel_id('none', id) }
+] %}
+
+{% set activeTabId = 'none' %}
+
+{%- for child in form %}
+	{% set tabList = tabList|merge([{ 
+        label: child.vars.name|trans, 
+        id: child.vars.name,
+        panelId: _self.get_tab_panel_id(child.vars.name, id) 
+    }]) %}
+
+    {% if child.vars.value %}
+        {% set activeTabId = child.vars.name %}
+    {% endif %}
+{% endfor %}
+
+<document-alignment-widget {{ widget_attributes }} class="document-alignment-widget">
+	<menu>
+		<ul>
+			{%- for tab in tabList %}
+				<li>
+					<button type="button" aria-controls="{{ tab.panelId|trim }}">{{ tab.label }}</button>
+				</li>
+			{% endfor -%}
+		</ul>
+	</menu>
+	{% for tab in tabList %}
+        {% set classNames = ['document-alignment-widget__tabpanel'] %}
+        {% if tab.id == activeTabId %}
+            {% set classNames = classNames|merge(['document-alignment-widget__tabpanel--active']) %}
+        {% endif %}
+
+		<div 
+            id="{{ tab.panelId|trim }}" 
+            class="{{ classNames|join(' ') }}" 
+            role="tabpanel"
+            {% if tab.id != activeTabId %}aria-hidden="true"{% endif %}
+        >
+            <img src="{{ imagePath }}" alt="" />
+        </div>
+	{% endfor %}
+    <div class="document-alignment-widget__inputs">
+        {# Hidden inputs, used for the form data. Just in case we hide them #}
         {%- for child in form %}
-            <li>
-                <button type="button">{{ child.vars.name }}</button>
-            </li>
+            {{- form_widget(child) -}}
         {% endfor -%}
-    </menu>
-    {%- for child in form %}
-        {{- form_widget(child) -}}
-    {% endfor -%}
+    </div>
 </document-alignment-widget>
