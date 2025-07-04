@@ -1,4 +1,30 @@
-.document-alignment-widget {}
+.document-alignment-widget {
+    display: flex;
+    background-color: #EFEFEF;
+}
+
+.document-alignment-widget__tab-list {
+    width: 296 / 869 * 100%;
+    min-width: 200px;
+    max-width: 400px;
+}
+
+.document-alignment-widget__tab {
+    width: 100%;
+}
+
+.document-alignment-widget__tab-panel {
+    display: none;
+    background-color: #E0E0E0;
+
+    &--active {
+        display: flex;
+        padding: 54px 72px;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+    }
+}
 
 .document-alignment-widget__inputs {
     display: none;
