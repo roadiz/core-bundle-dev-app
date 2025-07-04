@@ -30,8 +30,6 @@ final class Version20250701120236 extends AbstractMigration
         $this->addSql('DROP TABLE users_roles');
         $this->addSql('DROP INDEX IDX_7DF2621AD60322AC ON realms');
         $this->addSql('ALTER TABLE realms DROP role_id');
-        $this->addSql('DROP INDEX IDX_1483A5E98B8E8428 ON users');
-        $this->addSql('DROP INDEX IDX_1483A5E943625D9F ON users');
     }
 
     public function down(Schema $schema): void
@@ -48,8 +46,6 @@ final class Version20250701120236 extends AbstractMigration
         $this->addSql('ALTER TABLE users_roles ADD CONSTRAINT FK_51498A8EA76ED395 FOREIGN KEY (user_id) REFERENCES users (id) ON UPDATE NO ACTION ON DELETE CASCADE');
         $this->addSql('ALTER TABLE realms ADD CONSTRAINT FK_7DF2621AD60322AC FOREIGN KEY (role_id) REFERENCES roles (id) ON UPDATE NO ACTION ON DELETE SET NULL');
         $this->addSql('CREATE INDEX IDX_7DF2621AD60322AC ON realms (role_id)');
-        $this->addSql('CREATE INDEX IDX_1483A5E98B8E8428 ON users (created_at)');
-        $this->addSql('CREATE INDEX IDX_1483A5E943625D9F ON users (updated_at)');
 
         // Get all roles from users and usergroups tables and create roles entities
         $userRolesNames = $this->connection->fetchAllAssociative(<<<SQL
