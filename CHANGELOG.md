@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.28](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.27...v2.5.28) - 2025-07-04
+
+### Bug Fixes
+
+- **(Rozier)** Add locale support to Nodes drawer widgets - ([7554ce3](https://github.com/roadiz/core-bundle-dev-app/commit/7554ce3422437c82bc50426b5c3f83638d63e31e))
+
 ## [2.5.27](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.26...v2.5.27) - 2025-06-30
 
 ### Bug Fixes
