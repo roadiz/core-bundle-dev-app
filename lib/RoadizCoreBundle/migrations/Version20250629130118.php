@@ -76,16 +76,18 @@ UPDATE nodes_sources,nodes SET nodes.created_at = nodes_sources.created_at, node
 WHERE nodes_sources.node_id=nodes.id
 SQL);
 
-        $draftIds = implode(',', $this->connection->executeQuery(<<<SQL
+        $draftIds = $this->connection->executeQuery(<<<SQL
 SELECT n.id FROM nodes AS n
     INNER JOIN nodes_sources AS ns ON n.id = ns.node_id
 WHERE ns.published_at IS NULL OR ns.published_at > NOW()
-SQL)->fetchFirstColumn());
+SQL)->fetchFirstColumn();
 
         $this->warnIf(
             count($draftIds) > 0,
             'Some nodes_sources are marked draft, this will force their node to be draft too.'
         );
+
+        $draftIds = implode(',', $draftIds);
 
         $publishedIds = implode(',', $this->connection->executeQuery(<<<SQL
 SELECT n.id FROM nodes AS n
@@ -93,11 +95,11 @@ SELECT n.id FROM nodes AS n
 WHERE ns.published_at IS NOT NULL AND ns.published_at <= NOW()
 SQL)->fetchFirstColumn());
 
-        $deletedIds = implode(',', $this->connection->executeQuery(<<<SQL
+        $deletedIds = $this->connection->executeQuery(<<<SQL
 SELECT n.id FROM nodes AS n
     INNER JOIN nodes_sources AS ns ON n.id = ns.node_id
 WHERE ns.deleted_at IS NOT NULL AND ns.deleted_at <= NOW()
-SQL)->fetchFirstColumn());
+SQL)->fetchFirstColumn();
 
         $this->warnIf(
             count($deletedIds) > 0,

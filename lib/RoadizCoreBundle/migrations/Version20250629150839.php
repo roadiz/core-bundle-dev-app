@@ -35,7 +35,5 @@ final class Version20250629150839 extends AbstractMigration
         $this->addSql('ALTER TABLE nodes_sources RENAME INDEX ns_discr TO IDX_7C7DED6D4AD26064');
         $this->addSql('ALTER TABLE nodes_sources RENAME INDEX ns_title TO IDX_7C7DED6D2B36786B');
         $this->addSql('ALTER TABLE nodes_sources RENAME INDEX ns_published_at TO IDX_7C7DED6DE0D4FDE1');
-        $this->addSql('CREATE INDEX IDX_1483A5E98B8E8428 ON users (created_at)');
-        $this->addSql('CREATE INDEX IDX_1483A5E943625D9F ON users (updated_at)');
     }
 }
