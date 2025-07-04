@@ -240,7 +240,9 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "cache:pool:clear cache.global_clearer": "symfony-cmd",
+            "messenger:stop-workers": "symfony-cmd",
+            "assets:install %PUBLIC_DIR% --relative --symlink": "symfony-cmd",
             "requirements-checker": "script"
         },
         "post-install-cmd": [
