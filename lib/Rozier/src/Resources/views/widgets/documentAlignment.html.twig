@@ -74,7 +74,7 @@
 			{% set classNames = classNames|merge(['document-alignment-widget__tab-panel--active']) %}
 		{% endif %}
 		<div id="{{ tab.panelId|trim }}" class="{{ classNames|join(' ') }}" role="tabpanel" {% if tab.id != activeTabId %} aria-hidden="true" {% endif %}>
-            {% if tab.id == 'imageReplacement' %}
+            {% if tab.id == 'imageCropAlignment' %}
             {% elseif tab.id == 'hotspot' %}
             {% endif %}
 			<img src="{{ imagePath }}" alt=""/>
