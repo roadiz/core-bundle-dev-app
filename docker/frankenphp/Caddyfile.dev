@@ -7,8 +7,10 @@
 
 	frankenphp {
 		worker {
-		    file /app/public/index.php
+		    file public/index.php
             watch /app/**/*.php
+            num 1
+            env APP_RUNTIME Runtime\FrankenPhpSymfony\Runtime
         }
 	}
 }
