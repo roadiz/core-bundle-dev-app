@@ -14,6 +14,17 @@
 ] %}
 
 {% set activeTabId = 'none' %}
+{% set cropAlignmentOptions = [
+    'top-left',
+    'top',
+    'top-right',
+    'left',
+    'center',
+    'right',
+    'bottom-left',
+    'bottom',
+    'bottom-right'
+] %}
 
 {%- for child in form %}
     {# Populate tabs #}
@@ -74,10 +85,26 @@
 			{% set classNames = classNames|merge(['document-alignment-widget__tab-panel--active']) %}
 		{% endif %}
 		<div id="{{ tab.panelId|trim }}" class="{{ classNames|join(' ') }}" role="tabpanel" {% if tab.id != activeTabId %} aria-hidden="true" {% endif %}>
-            {% if tab.id == 'imageCropAlignment' %}
-            {% elseif tab.id == 'hotspot' %}
-            {% endif %}
-			<img src="{{ imagePath }}" alt=""/>
+            <div class="document-alignment-widget__tab-panel__content">
+                {% if tab.id == 'imageCropAlignment' %}
+                    {% for cropAlignmentOption in cropAlignmentOptions %}
+                        {% set classNames = [
+                            'document-alignment-widget__crop-alignment-option', 
+                            'document-alignment-widget__crop-alignment-option--' ~ cropAlignmentOption
+                        ] %}
+                        <div class="{{ classNames|join(' ') }}">
+                            <input 
+                                type="radio" 
+                                name="{{ (tab.panelId ~ '-' ~ imageCropAlignment)|trim }}" 
+                                value="{{ cropAlignmentOption }}" 
+                                {% if tab.value == cropAlignmentOption %} checked {% endif %}
+                            >
+                        </div>
+                    {% endfor %}
+                {% elseif tab.id == 'hotspot' %}
+                {% endif %}
+                <img src="{{ imagePath }}" alt=""/>
+            </div>
 		</div>
 	{% endfor %}
     {# Hidden inputs for form #}
