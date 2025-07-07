@@ -15,16 +15,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class SolariumFactory implements SolariumFactoryInterface
 {
-    protected LoggerInterface $logger;
-
     public function __construct(
         protected readonly ClientRegistryInterface $clientRegistry,
-        readonly LoggerInterface $searchEngineLogger,
+        protected readonly LoggerInterface $searchEngineLogger,
         protected readonly MarkdownInterface $markdown,
         protected readonly EventDispatcherInterface $dispatcher,
         protected readonly HandlerFactoryInterface $handlerFactory,
     ) {
-        $this->logger = $searchEngineLogger;
     }
 
     #[\Override]
@@ -34,7 +31,7 @@ class SolariumFactory implements SolariumFactoryInterface
             $document,
             $this,
             $this->clientRegistry,
-            $this->logger,
+            $this->searchEngineLogger,
             $this->markdown
         );
     }
@@ -46,7 +43,7 @@ class SolariumFactory implements SolariumFactoryInterface
             $documentTranslation,
             $this->clientRegistry,
             $this->dispatcher,
-            $this->logger,
+            $this->searchEngineLogger,
             $this->markdown
         );
     }
@@ -58,7 +55,7 @@ class SolariumFactory implements SolariumFactoryInterface
             $nodeSource,
             $this->clientRegistry,
             $this->dispatcher,
-            $this->logger,
+            $this->searchEngineLogger,
             $this->markdown
         );
     }

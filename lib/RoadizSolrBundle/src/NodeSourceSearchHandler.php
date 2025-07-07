@@ -62,7 +62,7 @@ class NodeSourceSearchHandler extends AbstractSearchHandler implements NodeSourc
             'locale_s',
         ]);
 
-        $this->logger->debug('[Solr] Request node-sources search…', [
+        $this->searchEngineLogger->debug('[Solr] Request node-sources search…', [
             'query' => $queryTxt,
             'fq' => $args['fq'] ?? [],
             'params' => $query->getParams(),

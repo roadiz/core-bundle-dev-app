@@ -22,7 +22,7 @@ class SolariumDocument extends AbstractSolarium
     protected array $documentTranslationItems;
 
     public function __construct(
-        readonly Document $rzDocument,
+        Document $rzDocument,
         SolariumFactoryInterface $solariumFactory,
         ClientRegistryInterface $clientRegistry,
         LoggerInterface $searchEngineLogger,

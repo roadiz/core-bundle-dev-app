@@ -22,7 +22,7 @@ class DocumentIndexer extends AbstractIndexer
                     $solarium->updateAndCommit();
                 }
             } catch (HttpException $exception) {
-                $this->logger->error($exception->getMessage());
+                $this->searchEngineLogger->error($exception->getMessage());
             }
         }
     }
@@ -39,7 +39,7 @@ class DocumentIndexer extends AbstractIndexer
                     $solarium->removeAndCommit();
                 }
             } catch (HttpException $exception) {
-                $this->logger->error($exception->getMessage());
+                $this->searchEngineLogger->error($exception->getMessage());
             }
         }
     }

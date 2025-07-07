@@ -33,7 +33,7 @@ class NodesSourcesIndexer extends AbstractIndexer implements BatchIndexer
                 $solrSource->getDocumentFromIndex();
                 $solrSource->update($update);
             } catch (HttpException $exception) {
-                $this->logger->error($exception->getMessage());
+                $this->searchEngineLogger->error($exception->getMessage());
             }
         }
     }
@@ -52,7 +52,7 @@ class NodesSourcesIndexer extends AbstractIndexer implements BatchIndexer
                 $solrSource->getDocumentFromIndex();
                 $solrSource->removeAndCommit();
             } catch (HttpException $exception) {
-                $this->logger->error($exception->getMessage());
+                $this->searchEngineLogger->error($exception->getMessage());
             }
         }
     }

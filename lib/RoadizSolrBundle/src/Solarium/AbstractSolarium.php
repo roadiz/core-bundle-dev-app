@@ -55,14 +55,12 @@ abstract class AbstractSolarium
 
     protected bool $indexed = false;
     protected ?DocumentInterface $document = null;
-    protected LoggerInterface $logger;
 
     public function __construct(
         protected readonly ClientRegistryInterface $clientRegistry,
-        readonly LoggerInterface $searchEngineLogger,
+        protected readonly LoggerInterface $searchEngineLogger,
         protected readonly MarkdownInterface $markdown,
     ) {
-        $this->logger = $searchEngineLogger;
     }
 
     public function getSolr(): Client
@@ -111,7 +109,7 @@ abstract class AbstractSolarium
         $this->update($update);
         $update->addCommit(true, true, false);
 
-        $this->logger->debug('[Solr] Document updated.');
+        $this->searchEngineLogger->debug('[Solr] Document updated.');
 
         return $this->getSolr()->update($update);
     }
