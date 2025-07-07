@@ -42,15 +42,13 @@
             {% if tab.id == activeTabId %}
                 {% set classNames = classNames|merge(['document-alignment-widget__tab--active']) %}
             {% endif %}
-            <div class="{{ classNames|join(' ') }}">
+            <div class="{{ classNames|join(' ') }}" data-value="{{ tab.value }}">
                 <input type="radio" id="{{ id }}" name="{{ radioInputName }}" checked="{{ tab.id == activeTabId }}" role="tab" aria-controls="{{ tab.panelId|trim }}" aria-selected="{{ tab.id == activeTabId ? 'true' : 'false' }}">
                 <label for="{{ id }}">{{ tab.label }}</label>
                 {% if tab.hint %}
                     <div class="document-alignment-widget__hint">{{ tab.hint }} </div>
                 {% endif %}
                 {% if tab.id == 'hotspot' %}
-                    {% set hotspotValue = tab.value %}
-                    {{ dump(tab.value)}}
                     {% set inputList = [
                         {'name': 'hotspot-x', 'label': 'X (0:1)' },
                         {'name': 'hotspot-y', 'label': 'Y (0:1)' }
@@ -58,8 +56,10 @@
                     <div class="document-alignment-widget__hotspot-input-list">
                         {% for input in inputList %}
                             <div class="document-alignment-widget__hotspot-input">
-                                <label>{{ input.name }}</label>
-                                <input type="number" name="{{ input.id }}" min="0" max="1" step="0.1" />
+                                <label>
+                                    <span class="document-alignment-widget__hotspot-input__label-text">{{ input.label }}</span>
+                                    <input type="number" name="{{ input.id }}" min="0" max="1" step="0.1" />
+                                </label>
                             </div>
                         {% endfor %}
                     </div>
