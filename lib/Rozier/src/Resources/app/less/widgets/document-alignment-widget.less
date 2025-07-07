@@ -49,10 +49,14 @@
 }
 
 .document-alignment-widget__hotspot-input-list {
-    display: flex;
-    padding: 4px 24px;
-    gap: 16px;
-    font-size: 13px;
+    display: none;
+
+    .document-alignment-widget__tab--active & {
+        display: flex;
+        padding: 4px 24px;
+        gap: 16px;
+        font-size: 13px;
+    }
 }
 
 .document-alignment-widget__hotspot-input {
