@@ -37,7 +37,7 @@
     }]) %}
 
     {# Check the active tab #}
-	{% if child.vars.value %}
+	{% if child.vars.value and child.vars.value != 'null' %}
 		{% set activeTabId = child.vars.name %}
 	{% endif %}
 {% endfor %}
@@ -100,7 +100,7 @@
                         >
                     {% endfor %}
                 {% elseif tab.id == 'hotspot' %}
-                        <div class="document-alignment-widget__hotspot"></div>
+                        <div class="document-alignment-widget__hotspot-handle"></div>
                 {% endif %}
                 <img src="{{ imagePath }}" alt=""/>
             </div>
