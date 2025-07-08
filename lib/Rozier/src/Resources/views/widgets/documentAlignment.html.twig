@@ -92,14 +92,13 @@
                             'document-alignment-widget__crop-alignment-option', 
                             'document-alignment-widget__crop-alignment-option--' ~ cropAlignmentOption
                         ] %}
-                        <div class="{{ classNames|join(' ') }}">
-                            <input 
-                                type="radio" 
-                                name="{{ (tab.panelId ~ '-' ~ imageCropAlignment)|trim }}" 
-                                value="{{ cropAlignmentOption }}" 
-                                {% if tab.value == cropAlignmentOption %} checked {% endif %}
-                            >
-                        </div>
+                        <input 
+                            type="radio" 
+                            class="{{ classNames|join(' ') }}"
+                            name="{{ (tab.panelId ~ '-' ~ imageCropAlignment)|trim }}" 
+                            value="{{ cropAlignmentOption }}" 
+                            {% if tab.value == cropAlignmentOption %} checked {% endif %}
+                        >
                     {% endfor %}
                 {% elseif tab.id == 'hotspot' %}
                 {% endif %}
