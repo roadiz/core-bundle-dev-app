@@ -22,7 +22,7 @@
                     </template>
                     <template v-else>
                         <template v-if="document.isSvg">
-                            <div v-html="document.previewHtml" class="svg"></div>
+                            <div class="svg" v-html="document.previewHtml"></div>
                         </template>
                         <template v-else-if="document.isImage && !document.isWebp">
                             <picture>
@@ -38,21 +38,21 @@
                         </template>
                         <template v-else-if="document.isImage">
                             <img
+                                v-dynamic-img="document.thumbnail80"
                                 class="document-image"
                                 width="80"
                                 height="80"
                                 src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                                v-dynamic-img="document.thumbnail80"
                             />
                         </template>
                         <template v-else>
                             <img
                                 v-if="document.hasThumbnail"
+                                v-dynamic-img="document.thumbnail80"
                                 class="document-image"
                                 width="80"
                                 height="80"
                                 src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                                v-dynamic-img="document.thumbnail80"
                             />
                             <div class="document-platform-icon">
                                 <i :class="'uk-icon-file-' + document.icon + '-o'"></i>
@@ -84,8 +84,8 @@
                             <i class="uk-icon-rz-pencil"></i> </ajax-link
                         ><a
                             href="#"
-                            @click.prevent="onRemoveItemButtonClick()"
                             class="uk-button uk-button-mini document-link uk-button-danger rz-no-ajax-link"
+                            @click.prevent="onRemoveItemButtonClick()"
                         >
                             <i class="uk-icon-rz-trash-o"></i>
                         </a>
@@ -118,11 +118,11 @@ import DynamicImg from '../directives/DynamicImg'
 import centralTruncate from '../filters/centralTruncate'
 
 export default {
-    props: ['item', 'isItemExplorer', 'drawerName', 'index', 'removeItem', 'addItem', 'entityName'],
     directives: {
         DynamicImg,
     },
     filters: filters,
+    props: ['item', 'isItemExplorer', 'drawerName', 'index', 'removeItem', 'addItem', 'entityName'],
     computed: {
         shortMimeType: function () {
             return centralTruncate(this.document.shortMimeType, 13)
