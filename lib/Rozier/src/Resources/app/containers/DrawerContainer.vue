@@ -58,12 +58,13 @@ export default {
             const nodeTypeField = this.$refs.drawer.getAttribute('data-nodetypefield')
             const nodeTypeName = this.$refs.drawer.getAttribute('data-nodetypename')
             const providerClass = this.$refs.drawer.getAttribute('data-provider-class')
+            const locale = this.$refs.drawer.getAttribute('data-locale')
             const providerOptions = JSON.parse(
                 decodeURIComponent(this.$refs.drawer.getAttribute('data-provider-options'))
             )
 
             // Merge specific filter in one object
-            const filters = { nodeTypes, nodeTypeField, providerClass, providerOptions, nodeTypeName }
+            const filters = { nodeTypes, nodeTypeField, providerClass, providerOptions, nodeTypeName, _locale: locale }
 
             // Init data
             this.drawersInitData({

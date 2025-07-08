@@ -1,7 +1,7 @@
 {% set entityIds = [] %}
 {% set isSortable = isSortable|default('true') %}
 {% for entity in value %}
-    {% if entity is NodesSourcesDocument %}
+    {% if entity is ContextualizedDocumentInterface %}
         {% set entityIds = entityIds|merge([{
             id: entity.id,
             document: entity.document.id,
@@ -37,6 +37,7 @@
         <drawer-container data-vuejs
                           inline-template
                           data-entity-name="{{ entityName }}"
+                          data-locale="{{ form.vars._locale }}"
                           data-document-alignment-template-path="{{ path('documentsAlignmentTemplate') }}"
         >
             <div class="drawer-widget entity-{{ entity }}{%- if form.vars.help ?? false %} has-description{%- endif -%}"

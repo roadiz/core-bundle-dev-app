@@ -193,4 +193,14 @@ final class DocumentDto implements BaseDocumentInterface
 
         return (string) $this->getId();
     }
+
+    #[\Override]
+    public function compareTo($other): int
+    {
+        if (!$other instanceof DocumentDto) {
+            throw new \InvalidArgumentException('Can only compare to same class instances.');
+        }
+
+        return $this->getId() <=> $other->getId();
+    }
 }

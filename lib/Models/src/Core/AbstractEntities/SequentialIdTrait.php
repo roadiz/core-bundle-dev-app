@@ -17,7 +17,6 @@ trait SequentialIdTrait
     ]
     protected ?int $id = null;
 
-    #[\Override]
     public function getId(): ?int
     {
         return $this->id;

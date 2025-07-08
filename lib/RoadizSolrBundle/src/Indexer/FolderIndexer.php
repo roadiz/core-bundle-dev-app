@@ -41,7 +41,7 @@ final class FolderIndexer extends DocumentIndexer
             $finalCommitUpdate->addCommit(true, true, false);
             $this->getSolr()->update($finalCommitUpdate);
         } catch (HttpException $exception) {
-            $this->logger->error($exception->getMessage());
+            $this->searchEngineLogger->error($exception->getMessage());
         }
     }
 

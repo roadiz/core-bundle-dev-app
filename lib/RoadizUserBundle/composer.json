@@ -21,7 +21,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=8.3",
-        "api-platform/core": "~3.3.11",
+        "api-platform/symfony": "^4.1.18",
         "doctrine/orm": "~2.20.0",
         "roadiz/core-bundle": "2.6.x-dev",
         "symfony/framework-bundle": "6.4.*",

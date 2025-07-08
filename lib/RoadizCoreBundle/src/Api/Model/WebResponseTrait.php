@@ -28,14 +28,14 @@ trait WebResponseTrait
     #[Serializer\Groups(['web_response'])]
     #[ApiProperty(
         identifier: false,
-        // genId: false, // https://github.com/api-platform/core/issues/7162
+        genId: false,
     )]
     public ?BreadcrumbsInterface $breadcrumbs = null;
 
     #[Serializer\Groups(['web_response'])]
     #[ApiProperty(
         identifier: false,
-        // genId: false, // https://github.com/api-platform/core/issues/7162
+        genId: false,
     )]
     public ?NodesSourcesHeadInterface $head = null;
     /**
@@ -44,7 +44,7 @@ trait WebResponseTrait
     #[Serializer\Groups(['web_response'])]
     #[ApiProperty(
         identifier: false,
-        // genId: false, // https://github.com/api-platform/core/issues/7162
+        genId: false,
     )]
     private ?Collection $blocks = null;
     /**

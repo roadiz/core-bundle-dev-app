@@ -758,6 +758,16 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
     }
 
     #[\Override]
+    public function compareTo($other): int
+    {
+        if (!$other instanceof Document) {
+            throw new \InvalidArgumentException('Can only compare to same class instances.');
+        }
+
+        return $this->getId() <=> $other->getId();
+    }
+
+    #[\Override]
     public function getFilename(): string
     {
         return $this->filename ?? '';

@@ -13,6 +13,8 @@ use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodeRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class NodeSourceNodeType extends AbstractNodeSourceFieldType
@@ -50,7 +52,18 @@ final class NodeSourceNodeType extends AbstractNodeSourceFieldType
             'class' => Node::class,
             'multiple' => true,
             'property' => 'id',
+            '_locale' => null,
         ]);
+
+        $resolver->addAllowedTypes('_locale', ['string', 'null']);
+    }
+
+    #[\Override]
+    public function buildView(FormView $view, FormInterface $form, array $options): void
+    {
+        parent::buildView($view, $form, $options);
+
+        $view->vars['_locale'] = $options['_locale'];
     }
 
     #[\Override]

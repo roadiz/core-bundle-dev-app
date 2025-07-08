@@ -22,8 +22,14 @@ final class ValidHotspotJsonValidator extends ConstraintValidator
             return;
         }
 
-        if (empty($value['x']) || empty($value['y']) || !is_numeric($value['x']) || !is_numeric($value['y'])) {
+        if (!array_key_exists('x', $value) || !array_key_exists('y', $value)) {
             $this->context->addViolation('hotspot_does_not_contain_x_and_y');
+
+            return;
+        }
+
+        if (!is_numeric($value['x']) || !is_numeric($value['y'])) {
+            $this->context->addViolation('hotspot_x_and_y_must_be_numeric');
         }
 
         if ($value['x'] < 0 || $value['x'] > 1) {

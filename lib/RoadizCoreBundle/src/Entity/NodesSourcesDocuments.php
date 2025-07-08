@@ -11,6 +11,9 @@ use RZ\Roadiz\Core\AbstractEntities\PositionedInterface;
 use RZ\Roadiz\Core\AbstractEntities\PositionedTrait;
 use RZ\Roadiz\Core\AbstractEntities\SequentialIdTrait;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesDocumentsRepository;
+use RZ\Roadiz\Documents\Models\ContextualizedDocumentInterface;
+use RZ\Roadiz\Documents\Models\ContextualizedDocumentTrait;
+use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -25,44 +28,12 @@ use Symfony\Component\Validator\Constraints as Assert;
     ORM\Index(columns: ['ns_id', 'field_name'], name: 'nsdoc_field'),
     ORM\Index(columns: ['ns_id', 'field_name', 'position'], name: 'nsdoc_field_position')
 ]
-class NodesSourcesDocuments implements PositionedInterface, PersistableInterface
+class NodesSourcesDocuments implements PositionedInterface, PersistableInterface, ContextualizedDocumentInterface
 {
     use SequentialIdTrait;
     use PositionedTrait;
     use FieldAwareEntityTrait;
-
-    /**
-     * @var string|null Image crop alignment.
-     *
-     * The possible values are:
-     *
-     * top-left
-     * top
-     * top-right
-     * left
-     * center (default)
-     * right
-     * bottom-left
-     * bottom
-     * bottom-right
-     */
-    #[ORM\Column(name: 'image_crop_alignment', type: 'string', length: 12, nullable: true)]
-    #[Assert\Length(max: 12)]
-    #[Assert\Choice(choices: [
-        'top-left',
-        'top',
-        'top-right',
-        'left',
-        'center',
-        'right',
-        'bottom-left',
-        'bottom',
-        'bottom-right',
-    ])]
-    protected ?string $imageCropAlignment = null;
-
-    #[ORM\Column(name: 'hotspot', type: 'json', nullable: true)]
-    protected ?array $hotspot = null;
+    use ContextualizedDocumentTrait;
 
     /**
      * Create a new relation between NodeSource, a Document for a NodeTypeField.
@@ -78,14 +49,14 @@ class NodesSourcesDocuments implements PositionedInterface, PersistableInterface
         #[ORM\JoinColumn(name: 'ns_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
         protected NodesSources $nodeSource,
         #[ORM\ManyToOne(
-            targetEntity: Document::class,
+            targetEntity: DocumentInterface::class,
             cascade: ['persist'],
             fetch: 'EAGER',
             inversedBy: 'nodesSourcesByFields'
         )]
         #[Assert\NotNull]
         #[ORM\JoinColumn(name: 'document_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-        protected Document $document,
+        protected DocumentInterface $document,
         ?NodeTypeFieldInterface $field = null,
     ) {
         $this->initializeFieldAwareEntityTrait($field);
@@ -114,50 +85,6 @@ class NodesSourcesDocuments implements PositionedInterface, PersistableInterface
     public function setNodeSource(NodesSources $nodeSource): NodesSourcesDocuments
     {
         $this->nodeSource = $nodeSource;
-
-        return $this;
-    }
-
-    /**
-     * Gets the value of document.
-     */
-    public function getDocument(): Document
-    {
-        return $this->document;
-    }
-
-    /**
-     * Sets the value of document.
-     *
-     * @param Document $document the document
-     */
-    public function setDocument(Document $document): NodesSourcesDocuments
-    {
-        $this->document = $document;
-
-        return $this;
-    }
-
-    public function getImageCropAlignment(): ?string
-    {
-        return $this->imageCropAlignment;
-    }
-
-    public function setImageCropAlignment(?string $imageCropAlignment): NodesSourcesDocuments
-    {
-        $this->imageCropAlignment = $imageCropAlignment;
-
-        return $this;
-    }
-
-    public function getHotspot(): ?array
-    {
-        return $this->hotspot;
-    }
-
-    public function setHotspot(?array $hotspot): NodesSourcesDocuments
-    {
-        $this->hotspot = $hotspot;
 
         return $this;
     }

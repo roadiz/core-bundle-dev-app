@@ -31,6 +31,7 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
     {
         parent::buildView($view, $form, $options);
 
+        $view->vars['_locale'] = $options['_locale'];
         $view->vars['entityName'] = 'node-source-document';
     }
 
@@ -59,11 +60,13 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
             'class' => Document::class,
             'multiple' => true,
             'property' => 'id',
+            '_locale' => null,
         ]);
 
         $resolver->setRequired([
             'label',
         ]);
+        $resolver->addAllowedTypes('_locale', ['string', 'null']);
     }
 
     #[\Override]

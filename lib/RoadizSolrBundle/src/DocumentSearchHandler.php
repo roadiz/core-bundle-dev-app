@@ -39,7 +39,7 @@ class DocumentSearchHandler extends AbstractSearchHandler
             'locale_s',
         ]);
 
-        $this->logger->debug('[Solr] Request document search…', [
+        $this->searchEngineLogger->debug('[Solr] Request document search…', [
             'query' => $queryTxt,
             'fq' => $args['fq'] ?? [],
             'params' => $query->getParams(),

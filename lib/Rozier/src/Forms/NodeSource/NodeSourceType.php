@@ -192,10 +192,18 @@ final class NodeSourceType extends AbstractType
             case FieldType::MANY_TO_ONE_T:
             case FieldType::MANY_TO_MANY_T:
                 $options = array_merge_recursive($options, [
+                    '_locale' => $nodeSource->getTranslation()->getLocale(),
                     'attr' => [
                         'data-nodetypefield' => $field->getName(),
                         'data-nodetypename' => $field->getNodeTypeName(),
                     ],
+                ]);
+                break;
+            case FieldType::DOCUMENTS_T:
+            case FieldType::SINGLE_PROVIDER_T:
+            case FieldType::MULTI_PROVIDER_T:
+                $options = array_merge_recursive($options, [
+                    '_locale' => $nodeSource->getTranslation()->getLocale(),
                 ]);
                 break;
             case FieldType::NODES_T:
@@ -203,6 +211,7 @@ final class NodeSourceType extends AbstractType
                     'attr' => [
                         'data-nodetypes' => json_encode(array_map('trim', $field->getDefaultValuesAsArray())),
                     ],
+                    '_locale' => $nodeSource->getTranslation()->getLocale(),
                 ]);
                 break;
             case FieldType::DATETIME_T:

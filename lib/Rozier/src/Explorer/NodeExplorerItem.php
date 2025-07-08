@@ -22,6 +22,7 @@ final class NodeExplorerItem extends AbstractExplorerItem
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly Security $security,
         private readonly DecoratedNodeTypes $nodeTypesBag,
+        private readonly ?string $locale = null,
     ) {
     }
 
@@ -29,6 +30,23 @@ final class NodeExplorerItem extends AbstractExplorerItem
     public function getId(): string|int
     {
         return $this->node->getId();
+    }
+
+    private function getNodeSource(Node $node): ?NodesSources
+    {
+        if (null !== $this->locale) {
+            $nodeSource = $node->getNodeSources()->filter(
+                fn (NodesSources $nodeSource) => $nodeSource->getTranslation()->getPreferredLocale() === $this->locale
+            )->first() ?: null;
+            if (null !== $nodeSource) {
+                return $nodeSource;
+            }
+        }
+
+        // If no locale is specified, return the default translation
+        return $node->getNodeSources()->filter(
+            fn (NodesSources $nodeSource) => $nodeSource->getTranslation()->isDefaultTranslation()
+        )->first() ?: null;
     }
 
     #[\Override]
@@ -41,15 +59,11 @@ final class NodeExplorerItem extends AbstractExplorerItem
         }
 
         $items = [];
-        $items[] = $parent->getNodeSources()->first() ?
-                $parent->getNodeSources()->first()->getTitle() :
-                $parent->getNodeName();
+        $items[] = $this->getNodeSource($parent)?->getTitle() ?? $parent->getNodeName();
 
         $subParent = $parent->getParent();
         if ($subParent instanceof Node) {
-            $items[] = $subParent->getNodeSources()->first() ?
-                $subParent->getNodeSources()->first()->getTitle() :
-                $subParent->getNodeName();
+            $items[] = $this->getNodeSource($subParent)?->getTitle() ?? $subParent->getNodeName();
         }
 
         return implode(' / ', array_reverse($items));
@@ -58,12 +72,7 @@ final class NodeExplorerItem extends AbstractExplorerItem
     #[\Override]
     public function getDisplayable(): string
     {
-        /** @var NodesSources|false $nodeSource */
-        $nodeSource = $this->node->getNodeSources()->first();
-
-        return false !== $nodeSource ?
-            ($nodeSource->getTitle() ?? $this->node->getNodeName()) :
-            $this->node->getNodeName();
+        return $this->getNodeSource($this->node)?->getTitle() ?? $this->node->getNodeName();
     }
 
     #[\Override]
@@ -75,10 +84,10 @@ final class NodeExplorerItem extends AbstractExplorerItem
     #[\Override]
     public function getEditItemPath(): ?string
     {
-        /** @var NodesSources|false $nodeSource */
-        $nodeSource = $this->node->getNodeSources()->first();
+        /** @var NodesSources|null $nodeSource */
+        $nodeSource = $this->getNodeSource($this->node);
 
-        if (false === $nodeSource) {
+        if (null === $nodeSource) {
             if ($this->security->isGranted(NodeVoter::EDIT_SETTING, $this->node)) {
                 return $this->urlGenerator->generate('nodesEditPage', [
                     'nodeId' => $this->node->getId(),
@@ -104,12 +113,13 @@ final class NodeExplorerItem extends AbstractExplorerItem
     #[\Override]
     public function getThumbnail(): ?DocumentInterface
     {
-        /** @var NodesSources|false $nodeSource */
-        $nodeSource = $this->node->getNodeSources()->first();
-        /** @var NodesSourcesDocuments|false $thumbnail */
-        $thumbnail = false !== $nodeSource ? $nodeSource->getDocumentsByFields()->first() : false;
+        /** @var NodesSources|null $nodeSource */
+        $nodeSource = $this->getNodeSource($this->node);
 
-        return $thumbnail ? $thumbnail->getDocument() : null;
+        /** @var NodesSourcesDocuments|null $thumbnail */
+        $thumbnail = $nodeSource?->getDocumentsByFields()->first() ?: null;
+
+        return $thumbnail?->getDocument() ?? null;
     }
 
     #[\Override]

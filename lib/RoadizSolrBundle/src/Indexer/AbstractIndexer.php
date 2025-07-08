@@ -14,16 +14,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 abstract class AbstractIndexer implements CliAwareIndexer
 {
-    protected LoggerInterface $logger;
     protected ?SymfonyStyle $io = null;
 
     public function __construct(
         protected readonly ClientRegistryInterface $clientRegistry,
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly SolariumFactoryInterface $solariumFactory,
-        readonly LoggerInterface $searchEngineLogger,
+        protected readonly LoggerInterface $searchEngineLogger,
     ) {
-        $this->logger = $searchEngineLogger;
     }
 
     public function getSolr(): Client

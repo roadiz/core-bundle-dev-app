@@ -47,8 +47,8 @@
         "ext-openssl": "*",
         "ext-simplexml": "*",
         "ext-zip": "*",
-        "api-platform/doctrine-orm": "^3 || ^4",
-        "api-platform/symfony": "^3 || ^4",
+        "api-platform/doctrine-orm": "^4.1.18",
+        "api-platform/symfony": "^4.1.18",
         "codercat/jwk-to-pem": "^1.0",
         "composer/package-versions-deprecated": "1.11.99.3",
         "doctrine/annotations": "^2.0",
@@ -240,7 +240,9 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "cache:pool:clear cache.global_clearer": "symfony-cmd",
+            "messenger:stop-workers": "symfony-cmd",
+            "assets:install %PUBLIC_DIR% --relative --symlink": "symfony-cmd",
             "requirements-checker": "script"
         },
         "post-install-cmd": [

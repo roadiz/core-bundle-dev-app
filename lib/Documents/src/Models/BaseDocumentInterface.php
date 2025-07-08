@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Documents\Models;
 
+use Doctrine\Common\Comparable;
+
 /**
  * Base interface for minimal documents information and display.
  */
-interface BaseDocumentInterface extends \Stringable
+interface BaseDocumentInterface extends \Stringable, Comparable
 {
     /**
      * @return string|null Get document relative path prefixed with mount information public:// or private://

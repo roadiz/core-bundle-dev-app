@@ -10,6 +10,11 @@ when@dev:
                 path: "%kernel.logs_dir%/%kernel.environment%.log"
                 level: debug
                 channels: ["!event"]
+            solr:
+                type: stream
+                path: "%kernel.logs_dir%/solr.%kernel.environment%.log"
+                level: debug
+                channels: [ "searchEngine" ]
             messenger:
                 type: stream
                 path: "%kernel.logs_dir%/messenger.%kernel.environment%.log"
