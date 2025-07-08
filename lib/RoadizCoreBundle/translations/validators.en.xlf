@@ -33,6 +33,10 @@
                 <source>hotspot_y_must_be_between_0_and_1</source>
                 <target state="translated">Hotspot y value must be between 0 and 1</target>
             </trans-unit>
+            <trans-unit id="hotspot_x_and_y_must_be_numeric" xml:space="preserve">
+                <source>hotspot_x_and_y_must_be_numeric</source>
+                <target state="translated">Hotspot must contain x and y numeric values</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>
