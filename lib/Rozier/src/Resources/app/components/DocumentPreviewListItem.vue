@@ -63,13 +63,11 @@
                     <template v-if="drawerName && entityName">
                         <input type="hidden" :name="drawerName + '[' + index + '][document]'" :value="document.id" />
                         <input
-                            v-if="hotspot"
                             type="hidden"
                             :name="drawerName + '[' + index + '][hotspot]'"
                             :value="JSON.stringify(hotspot)"
                         />
                         <input
-                            v-if="imageCropAlignment"
                             type="hidden"
                             :name="drawerName + '[' + index + '][imageCropAlignment]'"
                             :value="imageCropAlignment"
@@ -165,7 +163,7 @@ export default {
             this.documentPreviewOpen({ document: this.item })
         },
         onEditClick() {
-            this.$emit('edit', { document: this.document })
+            this.$emit('edit', { document: this.document, index: this.index })
         },
         onMouseover() {
             this.documentPreviewInit({ document: this.item })

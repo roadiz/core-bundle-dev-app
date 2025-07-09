@@ -42,7 +42,7 @@
 	{% endif %}
 {% endfor %}
 
-<document-alignment-widget {{ widget_attributes|raw }} class="document-alignment-widget" data-active-tab-id="{{ activeTabId }}">
+<document-alignment-widget class="document-alignment-widget" data-active-tab-id="{{ activeTabId }}" input-base-name="{{ form.vars.full_name }}">
     {# Tabs #}
 	<div class="document-alignment-widget__tab-list" role="tablist">
         {% set radioInputName = (id is defined and id ? (id ~ '-') : '') ~  'document-alignment-widget-tab' %}
@@ -106,12 +106,4 @@
             </div>
 		</div>
 	{% endfor %}
-    {# Hidden inputs for form #}
-	<div
-		class="document-alignment-widget__inputs">
-		{# Hidden inputs, used for the form data. Just in case we hide them #}
-		{%- for child in form %}
-			{{- form_widget(child) -}}
-		{% endfor -%}
-	</div>
 </document-alignment-widget>
