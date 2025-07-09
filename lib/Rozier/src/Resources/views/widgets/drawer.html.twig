@@ -131,12 +131,14 @@
                                     :index="index"
                                     :item="item"
                                     :entity-name="entityName"
+                                    @edit="onEditItem"
                                 >
                                 </component>
                             </transition-group>
                         </draggable>
                     </ul>
                 </div>
+                <document-edit-dialog ref="documentEditDialog"></document-edit-dialog>
                 {% if enableDropzone %}
                     <dropzone v-if="drawer.isDropzoneEnable"
                               id="dropzone{{ random() }}"

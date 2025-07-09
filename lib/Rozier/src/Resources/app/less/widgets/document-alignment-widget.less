@@ -1,7 +1,6 @@
 .document-alignment-widget {
     display: flex;
     max-width: 1200px;
-    flex-wrap: wrap;
     background-color: #EFEFEF;
 }
 
@@ -9,6 +8,7 @@
     width: 296 / 869 * 100%;
     min-width: 200px;
     max-width: 400px;
+    flex-shrink: 0;
 }
 
 .document-alignment-widget__tab {
@@ -104,7 +104,7 @@ input[type="radio"].document-alignment-widget__crop-alignment-option {
     position: absolute;
     width: 16px;
     height: 16px;
-    margin: 0;
+    margin: 0 !important; // override margin from global style
     z-index: 2;
     border: none;
     overflow: unset;

@@ -5,7 +5,7 @@
 	{% endapply %}
 {% endmacro %}
 
-{% set imagePath = widget_attributes|split('data-image-path="')[1]|split('"')[0] %}
+{% set imagePath = widget_attributes|split('image-path="')[1]|split('"')[0] %}
 
 {% set tabList = [{ 
     label: 'document_alignment.none', 
@@ -42,7 +42,7 @@
 	{% endif %}
 {% endfor %}
 
-<document-alignment-widget {{ widget_attributes }} class="document-alignment-widget" data-active-tab-id="{{ activeTabId }}">
+<document-alignment-widget {{ widget_attributes|raw }} class="document-alignment-widget" data-active-tab-id="{{ activeTabId }}">
     {# Tabs #}
 	<div class="document-alignment-widget__tab-list" role="tablist">
         {% set radioInputName = (id is defined and id ? (id ~ '-') : '') ~  'document-alignment-widget-tab' %}

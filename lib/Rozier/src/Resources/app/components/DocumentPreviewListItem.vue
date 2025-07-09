@@ -80,8 +80,8 @@
                     </template>
 
                     <div class="document-links">
-                        <ajax-link :href="editUrl" class="uk-button document-link uk-button-mini">
-                            <i class="uk-icon-rz-pencil"></i> </ajax-link
+                        <button type="button" class="uk-button document-link uk-button-mini" @click="onEditClick">
+                            <i class="uk-icon-rz-pencil"></i></button
                         ><a
                             href="#"
                             class="uk-button uk-button-mini document-link uk-button-danger rz-no-ajax-link"
@@ -163,6 +163,9 @@ export default {
         },
         onPreviewClick() {
             this.documentPreviewOpen({ document: this.item })
+        },
+        onEditClick() {
+            this.$emit('edit', { document: this.document })
         },
         onMouseover() {
             this.documentPreviewInit({ document: this.item })

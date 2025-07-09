@@ -123,7 +123,7 @@ class DocumentEditType extends AbstractType
                 'label' => 'document.imageAlignment',
                 'required' => false,
                 'attr' => [
-                    'data-image-path' => $this->documentUrlGenerator->setDocument($document)->setOptions([
+                    'image-path' => $this->documentUrlGenerator->setDocument($document)->setOptions([
                         'width' => 300,
                         'height' => 300,
                     ])->getUrl(),

@@ -163,6 +163,9 @@ export default {
             console.error(error)
             console.error(xhr)
         },
+        onEditItem(event) {
+            this.$refs.documentEditDialog?.showModal?.(event?.document)
+        },
     },
     components: {
         RzButton,
