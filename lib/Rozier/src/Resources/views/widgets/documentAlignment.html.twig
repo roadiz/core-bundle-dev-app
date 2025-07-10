@@ -8,7 +8,7 @@
 {% set imagePath = widget_attributes|split('image-path="')[1]|split('"')[0] %}
 
 {% set tabList = [{ 
-    label: 'document_alignment.none', 
+    label: 'image_crop_alignment.none'|trans, 
     id: 'none', 
     panelId: _self.get_tab_panel_id('none', id) }
 ] %}
@@ -29,9 +29,9 @@
 {%- for child in form %}
     {# Populate tabs #}
 	{% set tabList = tabList|merge([{ 
-        label: child.vars.name|trans, 
+        label: ('document.' ~ child.vars.name)|trans, 
         id: child.vars.name,
-        hint: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        hint: ('document.' ~ child.vars.name ~ '.help')|trans,
         value: child.vars.value,
         panelId: _self.get_tab_panel_id(child.vars.name, id)  
     }]) %}
