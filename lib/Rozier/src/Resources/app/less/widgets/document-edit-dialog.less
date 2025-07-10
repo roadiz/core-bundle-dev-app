@@ -4,6 +4,7 @@
     padding: 0;
     border: none;
     border-radius: 8px;
+    background-color: #fff;
 
     &::backdrop {
         background-color: #4D4D4D;
@@ -11,10 +12,30 @@
     }
 }
 
+.document-edit-dialog__header {
+    display: flex;
+    padding: 8px 12px;
+    justify-content: space-between;
+}
+
+.document-edit-dialog__title {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 0;
+    font-size: 14px;
+}
+
+.document-edit-dialog__close {
+    width: 36px;
+    height: 36px;
+    background-color: transparent;
+    border: none;
+}
+
 .document-edit-dialog__actions {
     display: flex;
     justify-content: flex-end;
     padding: 8px 12px;
     gap: 12px;
-    background-color: #F0F0F0;
 }
