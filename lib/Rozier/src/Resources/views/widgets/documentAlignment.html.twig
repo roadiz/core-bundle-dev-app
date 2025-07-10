@@ -42,7 +42,7 @@
 	{% endif %}
 {% endfor %}
 
-<document-alignment-widget class="document-alignment-widget" data-active-tab-id="{{ activeTabId }}" input-base-name="{{ form.vars.full_name }}">
+<document-alignment-widget class="document-alignment-widget" active-tab-id="{{ activeTabId }}" input-base-name="{{ form.vars.full_name }}">
     {# Tabs #}
 	<div class="document-alignment-widget__tab-list" role="tablist">
         {% set radioInputName = (id is defined and id ? (id ~ '-') : '') ~  'document-alignment-widget-tab' %}
