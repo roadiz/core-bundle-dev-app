@@ -167,6 +167,8 @@ export default {
         onEditItem(event) {
             const dialog = document.createElement('document-edit-dialog')
 
+            dialog.setAttribute('title', event.document.classname)
+            dialog.setAttribute('edit-url', event.document.editItem + '?referer=' + window.location.pathname)
             dialog.setAttribute('image-path', event.document.editImageUrl)
             dialog.setAttribute('input-base-name', `${this.drawerName}[${event.index}]`)
 
