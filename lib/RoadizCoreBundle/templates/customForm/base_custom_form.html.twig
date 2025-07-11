@@ -9,8 +9,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     {% include '@RoadizRozier/admin/meta-icon.html.twig' %}
     {# CSS scripts inclusions / Using webpack #}
-    {{ manifest_preload_tags('main') }}
-    {{ manifest_style_tags('main') }}
+    {{ manifest_preload_tags('shared') }}
+    {{ manifest_preload_tags('simple') }}
+
+    {{ manifest_style_tags('shared') }}
+    {{ manifest_style_tags('simple') }}
     {% if main_color %}
         <style>
             :root {
@@ -29,6 +32,10 @@
             <h1>{% trans %}Welcome{% endtrans %}</h1>
         {% endblock %}
     </section>
+{# JS scripts inclusions / Using Vite manifest #}
+{{ manifest_script_tags('@vite/client') }}
+{{ manifest_script_tags('shared') }}
+{{ manifest_script_tags('simple') }}
 {% block customScripts %}{% endblock %}
 </body>
 </html>
