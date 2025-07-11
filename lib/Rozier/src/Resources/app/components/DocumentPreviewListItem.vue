@@ -78,8 +78,14 @@
                     </template>
 
                     <div class="document-links">
-                        <button type="button" class="uk-button document-link uk-button-mini" @click="onEditClick">
-                            <i class="uk-icon-rz-pencil"></i></button
+                        <component
+                            :is="document.processable ? 'button' : 'a'"
+                            :type="document.processable ? 'button' : null"
+                            :href="!document.processable ? editUrl : null"
+                            class="uk-button document-link uk-button-mini"
+                            @click="onEditClick"
+                        >
+                            <i class="uk-icon-rz-pencil"></i></component
                         ><a
                             href="#"
                             class="uk-button uk-button-mini document-link uk-button-danger rz-no-ajax-link"
@@ -163,6 +169,8 @@ export default {
             this.documentPreviewOpen({ document: this.item })
         },
         onEditClick() {
+            if (!this.document.processable) return
+
             this.$emit('edit', { document: this.document, index: this.index })
         },
         onMouseover() {
