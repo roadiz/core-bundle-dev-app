@@ -94,7 +94,7 @@
                         <input 
                             type="radio" 
                             class="{{ classNames|join(' ') }}"
-                            name="{{ (tab.panelId ~ '-' ~ imageCropAlignment)|trim }}" 
+                            name="{{ (tab.panelId ~ '-' ~ cropAlignmentOption)|trim }}" 
                             value="{{ cropAlignmentOption }}" 
                             {% if tab.value == cropAlignmentOption %} checked {% endif %}
                         >
