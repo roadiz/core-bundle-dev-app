@@ -167,6 +167,7 @@ export default {
         onEditItem(event) {
             const dialog = document.createElement('document-edit-dialog')
 
+            dialog.setAttribute('template-path', this.$el.getAttribute('data-document-alignment-template-path'))
             dialog.setAttribute('title', event.document.classname)
             dialog.setAttribute('edit-url', event.document.editItem + '?referer=' + window.location.pathname)
             dialog.setAttribute('image-path', event.document.editImageUrl)
