@@ -124,8 +124,8 @@ class DocumentEditType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'image-path' => $this->documentUrlGenerator->setDocument($document)->setOptions([
-                        'width' => 300,
-                        'height' => 300,
+                        'width' => 800,
+                        'height' => 800,
                     ])->getUrl(),
                 ],
             ]);

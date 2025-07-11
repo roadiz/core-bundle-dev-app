@@ -55,6 +55,7 @@
 
     &--active {
         display: flex;
+        max-height: 380px;
         align-items: center;
         justify-content: center;
     }
@@ -65,7 +66,8 @@
 }
 
 .document-alignment-widget__tab-panel__content {
-    width: 100%;
+    width: fit-content;
+    height: 100%;
 
     .document-alignment-widget__tab-panel--imageCropAlignment & {
         position: relative;
@@ -204,7 +206,7 @@ input[type="radio"].document-alignment-widget__crop-alignment-option {
 }
 
 .document-alignment-widget__tab-panel img {
-    width: 100%;
+    height: 100%;
 }
 
 .document-alignment-widget__tab-panel--hotspot img,
