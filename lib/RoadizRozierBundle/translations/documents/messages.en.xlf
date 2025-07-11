@@ -112,11 +112,11 @@ Document are listed as “unused” when they are not linked to any node, tag, s
             <source>document.imageCropAlignment.help</source>
             <target state="final">Set a point by which the image will be aligned during cropping.</target>
         </trans-unit>
-            <trans-unit xml:space="preserve" id="document.hostspot">
+            <trans-unit xml:space="preserve" id="document.hotspot">
             <source>document.hostspot</source>
             <target state="final">Hotspot</target>
         </trans-unit>
-            <trans-unit xml:space="preserve" id="document.hostspot.help">
+            <trans-unit xml:space="preserve" id="document.hotspot.help">
             <source>document.hostspot.help</source>
             <target state="final">Set a point of interest on the image to highlight a specific detail.</target>
         </trans-unit>

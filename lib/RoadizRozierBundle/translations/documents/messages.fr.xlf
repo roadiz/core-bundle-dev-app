@@ -121,12 +121,12 @@ dans un texte Markdown, un site externe, *le document sera considéré comme in
                 <source>document.imageCropAlignment.help</source>
                 <target state="final">Définir un point selon lequel l’image sera alignée lors des recadrages.</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.hostspot">
-                <source>document.hostspot</source>
+            <trans-unit xml:space="preserve" id="document.hotspot">
+                <source>document.hotspot</source>
                 <target state="final">Point d'intérêt</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.hostspot.help">
-                <source>document.hostspot.help</source>
+            <trans-unit xml:space="preserve" id="document.hotspot.help">
+                <source>document.hotspot.help</source>
                 <target state="final">Définir un point d’intérêt sur l’image pour mettre en avant un détail précis.</target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="documentEditDialog.submit">

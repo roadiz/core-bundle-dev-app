@@ -78,11 +78,11 @@
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="document.hotspot">
-                <source>document.hostspot</source>
+                <source>document.hotspot</source>
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="document.hotspot.help">
-                <source>document.hostspot.help</source>
+                <source>document.hotspot.help</source>
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="documentEditDialog.submit">
