@@ -30,7 +30,7 @@ resources:
                             required: true
                     description: |
                         Create a new public user. User won't be validated and will not be granted with any role.
-                        This operation may require a *Google Recaptcha* response to protect against flooding.
+                        This operation may require a *Captcha* response to protect against flooding.
 
             api_user_password_request:
                 class: ApiPlatform\Metadata\Post
@@ -50,7 +50,7 @@ resources:
                             required: true
                     description: |
                         Initiate a public user new password request (forgot my password). This operation may
-                        require a *Google Recaptcha* response to protect against flooding.
+                        require a *Captcha* response to protect against flooding.
 
             api_user_validation_request:
                 class: ApiPlatform\Metadata\Post

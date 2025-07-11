@@ -7,7 +7,7 @@ namespace RZ\Roadiz\UserBundle\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
-use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
+use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Security\LoginLink\LoginLinkSenderInterface;
 use RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
@@ -22,7 +22,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final readonly class PasswordlessUserSignupProcessor implements ProcessorInterface
 {
-    use RecaptchaProtectedTrait;
+    use CaptchaProtectedTrait;
     use SignupProcessorTrait;
 
     public function __construct(
@@ -32,26 +32,19 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
         private RequestStack $requestStack,
         private EventDispatcherInterface $eventDispatcher,
         private RateLimiterFactory $userSignupLimiter,
-        private RecaptchaServiceInterface $recaptchaService,
+        private CaptchaServiceInterface $recaptchaService,
         private ProcessorInterface $persistProcessor,
         private UserMetadataManagerInterface $userMetadataManager,
         private LoginLinkSenderInterface $loginLinkSender,
         private string $publicUserRoleName,
         private string $passwordlessUserRoleName,
-        private string $recaptchaHeaderName = 'x-g-recaptcha-response',
     ) {
     }
 
     #[\Override]
-    protected function getRecaptchaService(): RecaptchaServiceInterface
+    protected function getCaptchaService(): CaptchaServiceInterface
     {
         return $this->recaptchaService;
-    }
-
-    #[\Override]
-    protected function getRecaptchaHeaderName(): string
-    {
-        return $this->recaptchaHeaderName;
     }
 
     #[\Override]
@@ -74,7 +67,7 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
         }
         $request = $this->requestStack->getCurrentRequest();
         $this->validateRequest($request);
-        $this->validateRecaptchaHeader($request);
+        $this->validateCaptchaHeader($request);
 
         $user = $this->createUser($data);
         $user->setUserRoles([

@@ -1956,21 +1956,13 @@
         <target state="translated">Twitter 用户名</target>
         <note>Setting name for social page url.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_public_key">
-        <source>recaptcha_public_key</source>
-        <target state="translated">Recaptcha site key (public)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_private_key">
-        <source>recaptcha_private_key</source>
-        <target state="translated">Recaptcha private key (secret)</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="you_must_show_youre_not_robot">
         <source>you_must_show_youre_not_robot</source>
-        <target state="translated">您必须验证 Recaptcha 以证明您不是机器人。</target>
+        <target state="translated">您必须验证 captcha 以证明您不是机器人。</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_is_invalid.try_again">
-        <source>recaptcha_is_invalid.try_again</source>
-        <target state="translated">Recaptcha 无效，请重试。</target>
+      <trans-unit xml:space="preserve" id="captcha_is_invalid.try_again">
+        <source>captcha_is_invalid.try_again</source>
+        <target state="translated">Captcha 无效，请重试。</target>
       </trans-unit>
       <!-- document usage -->
       <trans-unit xml:space="preserve" id="document.%name%.usage">
