@@ -147,10 +147,10 @@ final class DocumentDto implements BaseDocumentInterface
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     public function getImageCropAlignment(): ?string
     {
-        if (null !== $this->nodeSourceDocumentImageCropAlignment) {
+        if (!empty($this->nodeSourceDocumentImageCropAlignment)) {
             return $this->nodeSourceDocumentImageCropAlignment;
         } else {
-            return $this->documentImageCropAlignment;
+            return !empty($this->documentImageCropAlignment) ? $this->documentImageCropAlignment : null;
         }
     }
 
