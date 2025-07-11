@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import filters from '../filters'
 import AjaxLink from '../components/AjaxLink.vue'
 import DynamicImg from '../directives/DynamicImg'
@@ -151,6 +151,9 @@ export default {
         },
     },
     methods: {
+        ...mapState({
+            previewIsVisible: (state) => state.documentPreview.isVisible,
+        }),
         ...mapActions(['documentPreviewInit', 'documentPreviewOpen', 'documentPreviewDestroy']),
         onAddItemButtonClick() {
             // If document is in the explorer panel
@@ -174,10 +177,12 @@ export default {
             this.$emit('edit', { document: this.document, index: this.index })
         },
         onMouseover() {
-            this.documentPreviewInit({ document: this.item })
+            this.documentPreviewInit({ document: this.item.document })
         },
         onMouseleave() {
-            this.documentPreviewDestroy({ document: this.item })
+            if (this.previewIsVisible) return
+
+            this.documentPreviewDestroy({ document: this.item.document })
         },
     },
     components: {
