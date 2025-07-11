@@ -39,6 +39,29 @@ roadiz_core:
 Changing this setting after content creation will **erase all node-source data**.
 :::
 
+## Configure a captcha service for custom forms and POST API endpoints
+
+Roadiz supports captcha verification provided by:
+- [Google reCAPTCHA](https://www.google.com/recaptcha)
+- [Friendly CAPTCHA](https://www.friendlycaptcha.eu)
+- [hCaptcha](https://docs.hcaptcha.com/)
+
+Roadiz will automatically use the configured captcha service based on `roadiz_core.captcha.verify_url` value.
+
+```yaml
+roadiz_core:
+    captcha:
+        private_key: '%env(string:APP_CAPTCHA_PRIVATE_KEY)%'
+        public_key: '%env(string:APP_CAPTCHA_PUBLIC_KEY)%'
+        verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
+```
+
+If you change `APP_CAPTCHA_VERIFY_URL` environment variable, you need to clear Symfony cache to apply the new configuration.
+
+Then you can use the `withCaptcha()` method on your contact-form manager to add a captcha field to your form.
+Or inject the `RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface` in your own logic to verify the captcha response.
+
+
 ## Use Apache Solr as Roadiz search engine
 
 Since version 2.6, Roadiz removed *Apache Solr* from its Core bundle. To enable it, you need to install the Solr bundle.
