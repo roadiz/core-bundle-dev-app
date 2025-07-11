@@ -82,7 +82,12 @@
                             :is="document.processable ? 'button' : 'a'"
                             :type="document.processable ? 'button' : null"
                             :href="!document.processable ? editUrl : null"
-                            class="uk-button document-link uk-button-mini"
+                            :class="[
+                                'uk-button',
+                                'document-link',
+                                'uk-button-mini',
+                                hotspot || imageCropAlignment ? 'document-link--alignment' : '',
+                            ]"
                             @click="onEditClick"
                         >
                             <i class="uk-icon-rz-pencil"></i></component
