@@ -60,10 +60,6 @@ dans un texte Markdown, un site externe, *le document sera considéré comme in
                 <target state="translated">Documents privés</target>
             </trans-unit>
 
-            <trans-unit xml:space="preserve" id="document.imageCropAlignment" approved="yes">
-        <source>document.imageCropAlignment</source>
-        <target state="final">Alignement pour le redimensionnement</target>
-      </trans-unit>
             <trans-unit xml:space="preserve" id="document.imageCropAlignment.help" approved="yes">
         <source>document.imageCropAlignment.help</source>
         <target state="final">Définissez une zone d'intérêt pour permettre d'aligner le redimensionnement de votre image en fonction de la taille de votre écran.</target>
@@ -116,10 +112,6 @@ dans un texte Markdown, un site externe, *le document sera considéré comme in
             <trans-unit xml:space="preserve" id="document.imageCropAlignment">
                 <source>document.imageCropAlignment</source>
                 <target state="final">Point d'ancrage</target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="document.imageCropAlignment.help">
-                <source>document.imageCropAlignment.help</source>
-                <target state="final">Définir un point selon lequel l’image sera alignée lors des recadrages.</target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="document.hotspot">
                 <source>document.hotspot</source>
