@@ -25,6 +25,7 @@ final class AjaxSearchController extends AbstractAjaxController
     public function __construct(
         private readonly Security $security,
         private readonly ExplorerItemFactoryInterface $explorerItemFactory,
+        private readonly GlobalNodeSourceSearchHandler $searchHandler,
         ManagerRegistry $managerRegistry,
         SerializerInterface $serializer,
         TranslatorInterface $translator,
@@ -43,10 +44,7 @@ final class AjaxSearchController extends AbstractAjaxController
             throw new BadRequestHttpException('searchTerms parameter is missing.');
         }
 
-        $searchHandler = new GlobalNodeSourceSearchHandler($this->managerRegistry->getManager());
-        $searchHandler->setDisplayNonPublishedNodes(true);
-
-        $nodesSources = $searchHandler->getNodeSourcesBySearchTerm(
+        $nodesSources = $this->searchHandler->getNodeSourcesBySearchTerm(
             $request->get('searchTerms'),
             self::RESULT_COUNT
         );

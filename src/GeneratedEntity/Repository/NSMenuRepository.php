@@ -24,7 +24,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSMenu[]    findAll()
  * @method NSMenu[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-final class NSMenuRepository extends NodesSourcesRepository
+class NSMenuRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,

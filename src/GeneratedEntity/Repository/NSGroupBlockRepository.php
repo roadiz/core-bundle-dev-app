@@ -24,7 +24,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSGroupBlock[]    findAll()
  * @method NSGroupBlock[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-final class NSGroupBlockRepository extends NodesSourcesRepository
+class NSGroupBlockRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,

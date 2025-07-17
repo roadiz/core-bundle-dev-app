@@ -24,7 +24,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSOffer[]    findAll()
  * @method NSOffer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-final class NSOfferRepository extends NodesSourcesRepository
+class NSOfferRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,

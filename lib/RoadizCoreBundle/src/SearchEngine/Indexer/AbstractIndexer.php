@@ -21,7 +21,7 @@ abstract class AbstractIndexer implements CliAwareIndexer
         protected readonly ClientRegistry $clientRegistry,
         protected readonly ManagerRegistry $managerRegistry,
         protected readonly SolariumFactoryInterface $solariumFactory,
-        readonly LoggerInterface $searchEngineLogger,
+        LoggerInterface $searchEngineLogger,
     ) {
         $this->logger = $searchEngineLogger;
     }

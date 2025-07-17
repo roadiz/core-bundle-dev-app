@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Node;
 
-use Doctrine\Persistence\ManagerRegistry;
 use Psr\Cache\CacheException;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 use RZ\Roadiz\Core\AbstractEntities\NodeInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\Cache\TagAwareCacheInterface;
 
@@ -17,7 +17,7 @@ final class CachedNodeOffspringResolver implements CachedNodeOffspringResolverIn
 {
     public function __construct(
         private readonly CacheItemPoolInterface $cache,
-        private readonly ManagerRegistry $managerRegistry,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
     ) {
     }
 
@@ -29,14 +29,11 @@ final class CachedNodeOffspringResolver implements CachedNodeOffspringResolverIn
     {
         $cacheItem = $this->cache->getItem(self::CACHE_PREFIX.$ancestor->getId());
         if (!$cacheItem->isHit()) {
-            $nodeRepository = $this->managerRegistry->getRepository(Node::class);
-            $offspringIds = $nodeRepository->findAllOffspringIdByNode($ancestor);
+            $offspringIds = $this->allStatusesNodeRepository->findAllOffspringIdByNode($ancestor);
             $cacheItem->set($offspringIds);
             $cacheItem->expiresAfter(300);
             if ($cacheItem instanceof ItemInterface && $this->cache instanceof TagAwareCacheInterface) {
-                $cacheItem->tag(array_map(function (int $nodeId) {
-                    return self::CACHE_TAG_PREFIX.$nodeId;
-                }, $offspringIds));
+                $cacheItem->tag(array_map(fn (int $nodeId) => self::CACHE_TAG_PREFIX.$nodeId, $offspringIds));
             }
             $this->cache->save($cacheItem);
         } else {
@@ -58,9 +55,7 @@ final class CachedNodeOffspringResolver implements CachedNodeOffspringResolverIn
              */
             $this->cache->invalidateTags([self::CACHE_TAG_PREFIX.$node->getId()]);
         } elseif ($node instanceof Node) {
-            $ancestorsId = $this->managerRegistry
-                ->getRepository(Node::class)
-                ->findAllParentsIdByNode($node);
+            $ancestorsId = $this->allStatusesNodeRepository->findAllParentsIdByNode($node);
             foreach ($ancestorsId as $ancestorId) {
                 $this->cache->deleteItem(self::CACHE_PREFIX.$ancestorId);
             }

@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Routing;
 
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\TranslationInterface;
 use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Preview\PreviewResolverInterface;
+use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
@@ -19,11 +19,12 @@ use Symfony\Component\Stopwatch\Stopwatch;
 final readonly class NodesSourcesPathResolver implements PathResolverInterface
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
         private PreviewResolverInterface $previewResolver,
         private Stopwatch $stopwatch,
         private Settings $settingsBag,
         private RequestStack $requestStack,
+        private TranslationRepository $translationRepository,
+        private NodesSourcesRepository $nodesSourcesRepository,
         private bool $useAcceptLanguageHeader,
     ) {
     }
@@ -118,12 +119,10 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
 
     private function getHome(TranslationInterface $translation): NodesSources
     {
-        $nodeSource = $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->findOneBy([
-                'node.home' => true,
-                'translation' => $translation,
-            ]);
+        $nodeSource = $this->nodesSourcesRepository->findOneBy([
+            'node.home' => true,
+            'translation' => $translation,
+        ]);
 
         if (null === $nodeSource) {
             throw new ResourceNotFoundException();
@@ -141,8 +140,6 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
      */
     private function parseTranslation(array &$tokens = []): ?TranslationInterface
     {
-        /** @var TranslationRepository $repository */
-        $repository = $this->managerRegistry->getRepository(Translation::class);
         $findOneByMethod = $this->previewResolver->isPreview() ?
             'findOneByLocaleOrOverrideLocale' :
             'findOneAvailableByLocaleOrOverrideLocale';
@@ -152,7 +149,7 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
             $locale = \mb_strtolower(strip_tags((string) $firstToken));
             // First token is for language and should not exceed 11 chars, i.e. tzm-Latn-DZ
             if (null !== $locale && '' != $locale && \mb_strlen($locale) <= 11) {
-                $translation = $repository->$findOneByMethod($locale);
+                $translation = $this->translationRepository->$findOneByMethod($locale);
                 if (null !== $translation) {
                     return $translation;
                 } elseif (in_array($tokens[0], Translation::getAvailableLocales())) {
@@ -174,16 +171,16 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
             $request = $this->requestStack->getMainRequest();
             if (
                 null !== $request
-                && null !== $preferredLocale = $request->getPreferredLanguage($repository->getAvailableLocales())
+                && null !== $preferredLocale = $request->getPreferredLanguage($this->translationRepository->getAvailableLocales())
             ) {
-                $translation = $repository->$findOneByMethod($preferredLocale);
+                $translation = $this->translationRepository->$findOneByMethod($preferredLocale);
                 if (null !== $translation) {
                     return $translation;
                 }
             }
         }
 
-        return $repository->findDefault();
+        return $this->translationRepository->findDefault();
     }
 
     /**
@@ -211,13 +208,11 @@ final readonly class NodesSourcesPathResolver implements PathResolverInterface
             throw new ResourceNotFoundException();
         }
 
-        $nodeSource = $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->findOneByIdentifierAndTranslation(
-                $identifier,
-                $translation,
-                !$this->previewResolver->isPreview()
-            );
+        $nodeSource = $this->nodesSourcesRepository->findOneByIdentifierAndTranslation(
+            $identifier,
+            $translation,
+            !$this->previewResolver->isPreview()
+        );
 
         if (null === $nodeSource) {
             $this->stopwatch->stop('parseFromIdentifier');

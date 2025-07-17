@@ -6,9 +6,9 @@ namespace Themes\Rozier\AjaxControllers;
 
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Bag\NodeTypes;
-use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +25,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
         private readonly TreeWidgetFactory $treeWidgetFactory,
         private readonly NodeTypes $nodeTypesBag,
         private readonly Environment $twig,
+        private readonly NotPublishedNodeRepository $notPublishedNodeRepository,
         ManagerRegistry $managerRegistry,
         SerializerInterface $serializer,
         TranslatorInterface $translator,
@@ -49,9 +50,7 @@ final class AjaxNodeTreeController extends AbstractAjaxController
              */
             case 'requestNodeTree':
                 if ($request->get('parentNodeId') > 0) {
-                    $node = $this->managerRegistry
-                        ->getRepository(Node::class)
-                        ->find((int) $request->get('parentNodeId'));
+                    $node = $this->notPublishedNodeRepository->find((int) $request->get('parentNodeId'));
                 } elseif (null !== $this->getUser()) {
                     $node = $this->nodeChrootResolver->getChroot($this->getUser());
                 } else {

@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\TwigExtension;
 
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\Persistence\ManagerRegistry;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
+use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\Repository\NotPublishedNodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\Repository\TagRepository;
 use Twig\Error\RuntimeError;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -22,8 +24,10 @@ use Twig\TwigTest;
 final class NodesSourcesExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
         private readonly DecoratedNodeTypes $nodeTypesBag,
+        private readonly NodesSourcesRepository $nodesSourcesRepository,
+        private readonly NotPublishedNodesSourcesRepository $notPublishedNodesSourcesRepository,
+        private readonly TagRepository $tagRepository,
         private readonly bool $throwExceptions = false,
     ) {
     }
@@ -63,7 +67,7 @@ final class NodesSourcesExtension extends AbstractExtension
      *
      * @throws RuntimeError
      */
-    public function getChildren(?NodesSources $ns = null, ?array $criteria = null, ?array $order = null): iterable
+    public function getChildren(?NodesSources $ns = null, ?array $criteria = null, ?array $order = null, bool $displayNotPublished = false): iterable
     {
         if (null === $ns) {
             if ($this->throwExceptions) {
@@ -73,15 +77,19 @@ final class NodesSourcesExtension extends AbstractExtension
             }
         }
 
-        return $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->findChildren($ns, $criteria, $order);
+        if ($displayNotPublished) {
+            $repository = $this->notPublishedNodesSourcesRepository;
+        } else {
+            $repository = $this->nodesSourcesRepository;
+        }
+
+        return $repository->findChildren($ns, $criteria, $order);
     }
 
     /**
      * @throws RuntimeError
      */
-    public function getNext(?NodesSources $ns = null, ?array $criteria = null, ?array $order = null): ?NodesSources
+    public function getNext(?NodesSources $ns = null, ?array $criteria = null, ?array $order = null, bool $displayNotPublished = false): ?NodesSources
     {
         if (null === $ns) {
             if ($this->throwExceptions) {
@@ -91,15 +99,19 @@ final class NodesSourcesExtension extends AbstractExtension
             }
         }
 
-        return $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->findNext($ns, $criteria, $order);
+        if ($displayNotPublished) {
+            $repository = $this->notPublishedNodesSourcesRepository;
+        } else {
+            $repository = $this->nodesSourcesRepository;
+        }
+
+        return $repository->findNext($ns, $criteria, $order);
     }
 
     /**
      * @throws RuntimeError
      */
-    public function getPrevious(?NodesSources $ns = null, ?array $criteria = null, ?array $order = null): ?NodesSources
+    public function getPrevious(?NodesSources $ns = null, ?array $criteria = null, ?array $order = null, bool $displayNotPublished = false): ?NodesSources
     {
         if (null === $ns) {
             if ($this->throwExceptions) {
@@ -109,15 +121,19 @@ final class NodesSourcesExtension extends AbstractExtension
             }
         }
 
-        return $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->findPrevious($ns, $criteria, $order);
+        if ($displayNotPublished) {
+            $repository = $this->notPublishedNodesSourcesRepository;
+        } else {
+            $repository = $this->nodesSourcesRepository;
+        }
+
+        return $repository->findPrevious($ns, $criteria, $order);
     }
 
     /**
      * @throws RuntimeError
      */
-    public function getLastSibling(?NodesSources $ns = null, ?array $criteria = null, ?array $order = null): ?NodesSources
+    public function getLastSibling(?NodesSources $ns = null, ?array $criteria = null, ?array $order = null, bool $displayNotPublished = false): ?NodesSources
     {
         if (null === $ns) {
             if ($this->throwExceptions) {
@@ -127,15 +143,19 @@ final class NodesSourcesExtension extends AbstractExtension
             }
         }
 
-        return $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->findLastSibling($ns, $criteria, $order);
+        if ($displayNotPublished) {
+            $repository = $this->notPublishedNodesSourcesRepository;
+        } else {
+            $repository = $this->nodesSourcesRepository;
+        }
+
+        return $repository->findLastSibling($ns, $criteria, $order);
     }
 
     /**
      * @throws RuntimeError
      */
-    public function getFirstSibling(?NodesSources $ns = null, ?array $criteria = null, ?array $order = null): ?NodesSources
+    public function getFirstSibling(?NodesSources $ns = null, ?array $criteria = null, ?array $order = null, bool $displayNotPublished = false): ?NodesSources
     {
         if (null === $ns) {
             if ($this->throwExceptions) {
@@ -145,9 +165,13 @@ final class NodesSourcesExtension extends AbstractExtension
             }
         }
 
-        return $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->findFirstSibling($ns, $criteria, $order);
+        if ($displayNotPublished) {
+            $repository = $this->notPublishedNodesSourcesRepository;
+        } else {
+            $repository = $this->nodesSourcesRepository;
+        }
+
+        return $repository->findFirstSibling($ns, $criteria, $order);
     }
 
     /**
@@ -172,7 +196,7 @@ final class NodesSourcesExtension extends AbstractExtension
      * @throws RuntimeError
      * @throws NonUniqueResultException
      */
-    public function getParents(?NodesSources $ns = null, ?array $criteria = null): array
+    public function getParents(?NodesSources $ns = null, ?array $criteria = null, bool $displayNotPublished = false): array
     {
         if (null === $ns) {
             if ($this->throwExceptions) {
@@ -182,9 +206,13 @@ final class NodesSourcesExtension extends AbstractExtension
             }
         }
 
-        return $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->findParents($ns, $criteria);
+        if ($displayNotPublished) {
+            $repository = $this->notPublishedNodesSourcesRepository;
+        } else {
+            $repository = $this->nodesSourcesRepository;
+        }
+
+        return $repository->findParents($ns, $criteria);
     }
 
     /**
@@ -204,8 +232,6 @@ final class NodesSourcesExtension extends AbstractExtension
             }
         }
 
-        return $this->managerRegistry
-            ->getRepository(Tag::class)
-            ->findByNodesSources($ns);
+        return $this->tagRepository->findByNodesSources($ns);
     }
 }

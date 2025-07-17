@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Form;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
-use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -18,8 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class NodesType extends AbstractType
 {
-    public function __construct(private readonly ManagerRegistry $managerRegistry)
-    {
+    public function __construct(
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+    ) {
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -48,12 +48,9 @@ final class NodesType extends AbstractType
                     $mixedIds = array_values($mixedIds);
                 }
 
-                /** @var NodeRepository $repository */
-                $repository = $this->managerRegistry
-                    ->getRepository(Node::class)
-                    ->setDisplayingAllNodesStatuses(true);
-
-                return $options['asMultiple'] ? $repository->findBy(['id' => $mixedIds]) : $repository->find($mixedIds[0]);
+                return $options['asMultiple']
+                    ? $this->allStatusesNodeRepository->findBy(['id' => $mixedIds])
+                    : $this->allStatusesNodeRepository->find($mixedIds[0]);
             }
         ));
     }

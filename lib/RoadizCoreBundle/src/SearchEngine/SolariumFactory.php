@@ -18,7 +18,7 @@ class SolariumFactory implements SolariumFactoryInterface
 
     public function __construct(
         protected readonly ClientRegistry $clientRegistry,
-        readonly LoggerInterface $searchEngineLogger,
+        public readonly LoggerInterface $searchEngineLogger,
         protected readonly MarkdownInterface $markdown,
         protected readonly EventDispatcherInterface $dispatcher,
         protected readonly HandlerFactoryInterface $handlerFactory,

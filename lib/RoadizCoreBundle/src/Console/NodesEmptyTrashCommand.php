@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\EntityHandler\HandlerFactory;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodeHandler;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,6 +22,7 @@ final class NodesEmptyTrashCommand extends Command
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
         private readonly HandlerFactory $handlerFactory,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         ?string $name = null,
     ) {
         parent::__construct($name);
@@ -95,8 +97,6 @@ final class NodesEmptyTrashCommand extends Command
 
     protected function createNodeQueryBuilder(): QueryBuilder
     {
-        return $this->managerRegistry
-            ->getRepository(Node::class)
-            ->createQueryBuilder('n');
+        return $this->allStatusesNodeRepository->createQueryBuilder('n');
     }
 }

@@ -4,34 +4,22 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\SearchEngine;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NoResultException;
-use Doctrine\Persistence\ObjectManager;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
-readonly class GlobalNodeSourceSearchHandler
+final readonly class GlobalNodeSourceSearchHandler
 {
-    public function __construct(private ObjectManager $em)
-    {
+    public function __construct(
+        private AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
+    ) {
     }
 
-    /**
-     * @return EntityRepository<NodesSources>
-     */
-    protected function getRepository(): EntityRepository
+    protected function getRepository(): NodesSourcesRepository
     {
-        return $this->em->getRepository(NodesSources::class);
-    }
-
-    /**
-     * @return $this
-     */
-    public function setDisplayNonPublishedNodes(bool $displayNonPublishedNodes): self
-    {
-        $this->getRepository()->setDisplayingNotPublishedNodes($displayNonPublishedNodes);
-
-        return $this;
+        return $this->allStatusesNodesSourcesRepository;
     }
 
     /**

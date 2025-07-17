@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeTranstyper;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -32,6 +33,7 @@ final class TranstypeController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
     ) {
     }
 
@@ -42,7 +44,7 @@ final class TranstypeController extends AbstractController
     public function transtypeAction(Request $request, int $nodeId): Response
     {
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+        $node = $this->allStatusesNodeRepository->find($nodeId);
         $manager = $this->managerRegistry->getManagerForClass(Node::class);
         $manager->refresh($node);
 

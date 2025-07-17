@@ -17,7 +17,9 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\AttributeValueTranslationType;
 use RZ\Roadiz\CoreBundle\Form\AttributeValueType;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,6 +45,8 @@ final class NodesAttributesController extends AbstractController
         private readonly LogTrail $logTrail,
         private readonly NodeTypes $nodeTypesBag,
         private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+        private readonly TranslationRepository $translationRepository,
     ) {
     }
 
@@ -52,13 +56,9 @@ final class NodesAttributesController extends AbstractController
     private function getNodeAndTranslation(int $nodeId, int $translationId): array
     {
         /** @var Translation|null $translation */
-        $translation = $this->managerRegistry
-            ->getRepository(Translation::class)
-            ->find($translationId);
+        $translation = $this->translationRepository->find($translationId);
         /** @var Node|null $node */
-        $node = $this->managerRegistry
-            ->getRepository(Node::class)
-            ->find($nodeId);
+        $node = $this->allStatusesNodeRepository->find($nodeId);
 
         if (null === $translation || null === $node) {
             throw $this->createNotFoundException('Node-source does not exist');
@@ -216,7 +216,7 @@ final class NodesAttributesController extends AbstractController
         $attributeValue = new AttributeValue();
         $attributeValue->setAttributable($node);
         $addAttributeForm = $this->createForm(AttributeValueType::class, $attributeValue, [
-            'translation' => $this->managerRegistry->getRepository(Translation::class)->findDefault(),
+            'translation' => $this->translationRepository->findDefault(),
         ]);
         $addAttributeForm->handleRequest($request);
 

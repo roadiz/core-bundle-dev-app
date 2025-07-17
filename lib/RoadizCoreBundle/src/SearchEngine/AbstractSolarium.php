@@ -58,7 +58,7 @@ abstract class AbstractSolarium
 
     public function __construct(
         protected readonly ClientRegistry $clientRegistry,
-        readonly LoggerInterface $searchEngineLogger,
+        LoggerInterface $searchEngineLogger,
         protected readonly MarkdownInterface $markdown,
     ) {
         $this->logger = $searchEngineLogger;

@@ -24,7 +24,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSMock[]    findAll()
  * @method NSMock[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-final class NSMockRepository extends NodesSourcesRepository
+class NSMockRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,

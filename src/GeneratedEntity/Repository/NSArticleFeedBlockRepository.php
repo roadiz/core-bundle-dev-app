@@ -24,7 +24,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSArticleFeedBlock[]    findAll()
  * @method NSArticleFeedBlock[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-final class NSArticleFeedBlockRepository extends NodesSourcesRepository
+class NSArticleFeedBlockRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,

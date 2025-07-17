@@ -21,7 +21,7 @@ abstract class AbstractSearchHandler implements SearchHandlerInterface
     public function __construct(
         protected readonly ClientRegistry $clientRegistry,
         protected readonly ObjectManager $em,
-        readonly LoggerInterface $searchEngineLogger,
+        LoggerInterface $searchEngineLogger,
         protected readonly EventDispatcherInterface $eventDispatcher,
     ) {
         $this->logger = $searchEngineLogger;

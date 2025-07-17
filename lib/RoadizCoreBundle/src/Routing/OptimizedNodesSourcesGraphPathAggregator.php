@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Routing;
 
 use Doctrine\ORM\Query;
-use Doctrine\Persistence\ManagerRegistry;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\Cache\InvalidArgumentException;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 
 final readonly class OptimizedNodesSourcesGraphPathAggregator implements NodesSourcesPathAggregator
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
+        private AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
         private CacheItemPoolInterface $cacheAdapter,
     ) {
     }
@@ -79,9 +79,7 @@ final readonly class OptimizedNodesSourcesGraphPathAggregator implements NodesSo
                 /**
                  * Do a partial query to optimize SQL time.
                  */
-                $qb = $this->managerRegistry
-                    ->getRepository(NodesSources::class)
-                    ->createQueryBuilder('ns');
+                $qb = $this->allStatusesNodesSourcesRepository->createQueryBuilder('ns');
                 $parents = $qb->select('n.id as id, n.nodeName as nodeName, ua.alias as alias')
                     ->innerJoin('ns.node', 'n')
                     ->leftJoin('ns.urlAliases', 'ua')

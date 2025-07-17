@@ -24,7 +24,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSNeutral[]    findAll()
  * @method NSNeutral[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-final class NSNeutralRepository extends NodesSourcesRepository
+class NSNeutralRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,

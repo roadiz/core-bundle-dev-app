@@ -24,7 +24,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSArticleContainer[]    findAll()
  * @method NSArticleContainer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-final class NSArticleContainerRepository extends NodesSourcesRepository
+class NSArticleContainerRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,
