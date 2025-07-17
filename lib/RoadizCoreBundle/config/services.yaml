@@ -7,8 +7,9 @@ parameters:
     env(APP_USE_ACCEPT_LANGUAGE_HEADER): 'false'
     env(APP_UNSPLASH_CLIENT_ID): ~
     env(APP_SOUNDCLOUD_CLIENT_ID): ~
-    env(APP_RECAPTCHA_PRIVATE_KEY): ~
-    env(APP_RECAPTCHA_PUBLIC_KEY): ~
+    env(APP_CAPTCHA_PRIVATE_KEY): ~
+    env(APP_CAPTCHA_PUBLIC_KEY): ~
+    env(APP_CAPTCHA_VERIFY_URL): ~
     env(APP_GOOGLE_SERVER_ID): ~
     env(APP_HEALTH_CHECK_TOKEN): ~
     env(OPEN_ID_CLIENT_ID): ~
@@ -44,8 +45,6 @@ services:
             $ffmpegPath: '%roadiz_core.medias.ffmpeg_path%'
             $useTypedNodeNames: '%roadiz_core.use_typed_node_names%'
             $maxVersionsShowed: '%roadiz_core.max_versions_showed%'
-            $recaptchaPublicKey: '%roadiz_core.medias.recaptcha_public_key%'
-            $recaptchaPrivateKey: '%roadiz_core.medias.recaptcha_private_key%'
             $webResponseClass: '%roadiz_core.web_response_class%'
             $useGravatar: '%roadiz_core.use_gravatar%'
             $useReplyTo: '%roadiz_core.use_email_reply_to%'
@@ -67,6 +66,7 @@ services:
             - '../src/Serializer/Normalizer/'
             - '../src/Tests/'
             - '../src/Traits/'
+            - '../src/Captcha/'
 
     RZ\Roadiz\CoreBundle\EntityHandler\:
         resource: '../src/EntityHandler/'

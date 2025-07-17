@@ -7,7 +7,7 @@ namespace RZ\Roadiz\UserBundle\State;
 use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
-use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
+use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\UserBundle\Api\Dto\UserInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
 use RZ\Roadiz\UserBundle\Event\UserSignedUp;
@@ -20,7 +20,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final readonly class UserSignupProcessor implements ProcessorInterface
 {
-    use RecaptchaProtectedTrait;
+    use CaptchaProtectedTrait;
     use SignupProcessorTrait;
 
     public function __construct(
@@ -29,24 +29,17 @@ final readonly class UserSignupProcessor implements ProcessorInterface
         private RequestStack $requestStack,
         private EventDispatcherInterface $eventDispatcher,
         private RateLimiterFactory $userSignupLimiter,
-        private RecaptchaServiceInterface $recaptchaService,
+        private CaptchaServiceInterface $recaptchaService,
         private ProcessorInterface $persistProcessor,
         private UserMetadataManagerInterface $userMetadataManager,
         private string $publicUserRoleName,
-        private string $recaptchaHeaderName = 'x-g-recaptcha-response',
     ) {
     }
 
     #[\Override]
-    protected function getRecaptchaService(): RecaptchaServiceInterface
+    protected function getCaptchaService(): CaptchaServiceInterface
     {
         return $this->recaptchaService;
-    }
-
-    #[\Override]
-    protected function getRecaptchaHeaderName(): string
-    {
-        return $this->recaptchaHeaderName;
     }
 
     #[\Override]
@@ -70,7 +63,7 @@ final readonly class UserSignupProcessor implements ProcessorInterface
 
         $request = $this->requestStack->getCurrentRequest();
         $this->validateRequest($request);
-        $this->validateRecaptchaHeader($request);
+        $this->validateCaptchaHeader($request);
 
         $user = $this->createUser($data);
         $user->setPlainPassword($data->plainPassword);

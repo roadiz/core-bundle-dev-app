@@ -1997,21 +1997,13 @@
         <target state="final">Compte Twitter</target>
         <note>Setting name for social page url.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_public_key" approved="yes">
-        <source>recaptcha_public_key</source>
-        <target state="final">Clef publique Recaptcha (sitekey)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_private_key" approved="yes">
-        <source>recaptcha_private_key</source>
-        <target state="final">Clef privée Recaptcha (secret)</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="you_must_show_youre_not_robot" approved="yes">
         <source>you_must_show_youre_not_robot</source>
-        <target state="final">Vous devez valider le Recaptcha pour vérifier que vous n’êtes pas un robot.</target>
+        <target state="final">Vous devez valider le captcha pour vérifier que vous n’êtes pas un robot.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_is_invalid.try_again" approved="yes">
-        <source>recaptcha_is_invalid.try_again</source>
-        <target state="final">Le Recaptcha est invalide, veuillez réessayer.</target>
+      <trans-unit xml:space="preserve" id="captcha_is_invalid.try_again" approved="yes">
+        <source>captcha_is_invalid.try_again</source>
+        <target state="final">Le Captcha est invalide, veuillez réessayer.</target>
       </trans-unit>
       <!-- document usage -->
       <trans-unit xml:space="preserve" id="document.%name%.usage" approved="yes">

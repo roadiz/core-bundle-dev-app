@@ -104,14 +104,6 @@ class RoadizCoreExtension extends Extension
             'roadiz_core.medias.soundcloud_client_id',
             $config['medias']['soundcloud_client_id'] ?? null
         );
-        $container->setParameter(
-            'roadiz_core.medias.recaptcha_private_key',
-            $config['medias']['recaptcha_private_key'] ?? null
-        );
-        $container->setParameter(
-            'roadiz_core.medias.recaptcha_public_key',
-            $config['medias']['recaptcha_public_key'] ?? null
-        );
         $container->setParameter('roadiz_core.medias.supported_platforms', []);
 
         $container->setParameter('roadiz_core.webhook.message_types', [
@@ -123,6 +115,24 @@ class RoadizCoreExtension extends Extension
         $this->registerEntityGenerator($config, $container);
         $this->registerReverseProxyCache($config, $container);
         $this->registerMarkdown($config, $container);
+        $this->registerCaptcha($config, $container);
+    }
+
+    private function registerCaptcha(array $config, ContainerBuilder $container): void
+    {
+        $verifyUrl = $config['captcha']['verify_url'] ?? $config['medias']['recaptcha_verify_url'] ?? null;
+        $container->setParameter(
+            'roadiz_core.captcha.private_key',
+            $config['captcha']['private_key'] ?? $config['medias']['recaptcha_private_key'] ?? null
+        );
+        $container->setParameter(
+            'roadiz_core.captcha.public_key',
+            $config['captcha']['public_key'] ?? $config['medias']['recaptcha_public_key'] ?? null
+        );
+        $container->setParameter(
+            'roadiz_core.captcha.verify_url',
+            $verifyUrl
+        );
     }
 
     private function registerReverseProxyCache(array $config, ContainerBuilder $container): void

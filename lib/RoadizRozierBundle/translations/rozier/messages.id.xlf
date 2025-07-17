@@ -1912,21 +1912,13 @@
         <target state="translated">Nama Akun Twitter</target>
         <note>Setting name for social page url.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_public_key">
-        <source>recaptcha_public_key</source>
-        <target state="translated">Kunci Situs Recaptcha (umum)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_private_key">
-        <source>recaptcha_private_key</source>
-        <target state="translated">Recaptha Kunci Pribadi (rahasia)</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="you_must_show_youre_not_robot">
         <source>you_must_show_youre_not_robot</source>
-        <target state="translated">Anda harus menvalidasikan recaptha untuk memverifikasi bahwa Anda bukan robot.</target>
+        <target state="translated">Anda harus menvalidasikan captha untuk memverifikasi bahwa Anda bukan robot.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_is_invalid.try_again">
-        <source>recaptcha_is_invalid.try_again</source>
-        <target state="translated">Recaptcha tidak cocok, silahkan coba lagi.</target>
+      <trans-unit xml:space="preserve" id="captcha_is_invalid.try_again">
+        <source>captcha_is_invalid.try_again</source>
+        <target state="translated">Captcha tidak cocok, silahkan coba lagi.</target>
       </trans-unit>
       <!-- document usage -->
       <trans-unit xml:space="preserve" id="document.%name%.usage">

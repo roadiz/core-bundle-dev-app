@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Form\ContactFormType;
 use Limenius\Liform\LiformInterface;
-use RZ\Roadiz\CoreBundle\Form\Constraint\Recaptcha;
 use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,7 +35,7 @@ final readonly class ContactFormController
         $builder->add('form', ContactFormType::class);
 
         $contactFormManager->withUserConsent();
-        $contactFormManager->withGoogleRecaptcha(Recaptcha::FORM_NAME);
+        $contactFormManager->withCaptcha();
 
         $schema = json_encode($this->liform->transform($builder->getForm()));
 
@@ -77,7 +76,7 @@ final readonly class ContactFormController
         $builder->add('form', ContactFormType::class);
 
         $contactFormManager->withUserConsent();
-        $contactFormManager->withGoogleRecaptcha(Recaptcha::FORM_NAME);
+        $contactFormManager->withCaptcha();
 
         if (null !== $response = $contactFormManager->handle()) {
             $response->headers->add($headers);

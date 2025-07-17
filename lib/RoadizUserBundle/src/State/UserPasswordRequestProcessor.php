@@ -8,8 +8,8 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
+use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Entity\User;
-use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Security\User\UserProvider;
 use RZ\Roadiz\Random\TokenGenerator;
 use RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput;
@@ -31,7 +31,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 final readonly class UserPasswordRequestProcessor implements ProcessorInterface
 {
-    use RecaptchaProtectedTrait;
+    use CaptchaProtectedTrait;
 
     public function __construct(
         private LoggerInterface $logger,
@@ -42,22 +42,15 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
         private NotifierInterface $notifier,
         private TranslatorInterface $translator,
         private UrlGeneratorInterface $urlGenerator,
-        private RecaptchaServiceInterface $recaptchaService,
+        private CaptchaServiceInterface $recaptchaService,
         private string $passwordResetUrl,
-        private string $recaptchaHeaderName = 'x-g-recaptcha-response',
     ) {
     }
 
     #[\Override]
-    protected function getRecaptchaService(): RecaptchaServiceInterface
+    protected function getCaptchaService(): CaptchaServiceInterface
     {
         return $this->recaptchaService;
-    }
-
-    #[\Override]
-    protected function getRecaptchaHeaderName(): string
-    {
-        return $this->recaptchaHeaderName;
     }
 
     #[\Override]
@@ -76,7 +69,7 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
             throw new TooManyRequestsHttpException($limit->getRetryAfter()->getTimestamp());
         }
 
-        $this->validateRecaptchaHeader($request);
+        $this->validateCaptchaHeader($request);
 
         $user = $this->getUser($data->identifier);
 

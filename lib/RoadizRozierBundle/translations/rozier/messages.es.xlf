@@ -1924,21 +1924,13 @@
         <target state="translated">Nombre de cuenta de twitter</target>
         <note>Setting name for social page url.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_public_key">
-        <source>recaptcha_public_key</source>
-        <target state="translated">Llave pública de Recaptcha</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_private_key">
-        <source>recaptcha_private_key</source>
-        <target state="translated">Llave privada de Recaptcha</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="you_must_show_youre_not_robot">
         <source>you_must_show_youre_not_robot</source>
-        <target state="translated">Usted debe validar el Recaptcha para verificar que no es un robot.</target>
+        <target state="translated">Usted debe validar el captcha para verificar que no es un robot.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_is_invalid.try_again">
-        <source>recaptcha_is_invalid.try_again</source>
-        <target state="translated">El Recaptcha es invalido, por favor intente de nuevo.</target>
+      <trans-unit xml:space="preserve" id="captcha_is_invalid.try_again">
+        <source>captcha_is_invalid.try_again</source>
+        <target state="translated">El Captcha es invalido, por favor intente de nuevo.</target>
       </trans-unit>
       <!-- document usage -->
       <trans-unit xml:space="preserve" id="document.%name%.usage">

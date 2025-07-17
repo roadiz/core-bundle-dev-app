@@ -55,7 +55,7 @@ api_platform:
         pagination:
             items_per_page_parameter_name: itemsPerPage
     # Test Varnish invalidation on dev too
-    http_cache:
-        invalidation:
-            enabled: true
-            varnish_urls: [ '%env(VARNISH_URL)%' ]
+#    http_cache:
+#        invalidation:
+#            enabled: true
+#            varnish_urls: [ '%env(VARNISH_URL)%' ]
