@@ -7,12 +7,9 @@ namespace Themes\Rozier\Forms;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Form\Constraint\UniqueFilename;
 use RZ\Roadiz\CoreBundle\Form\DocumentCollectionType;
-use RZ\Roadiz\CoreBundle\Form\JsonType;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Exception\TransformationFailedException;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -28,7 +25,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\Validator\Constraints\Regex;
 
-class DocumentEditType extends AbstractType
+final class DocumentEditType extends AbstractType
 {
     public function __construct(private readonly Security $security, private readonly DocumentUrlGeneratorInterface $documentUrlGenerator)
     {
