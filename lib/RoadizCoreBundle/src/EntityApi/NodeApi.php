@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\EntityApi;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Repository\NodeRepository;
+use RZ\Roadiz\CoreBundle\Repository\StatusAwareRepository;
 
 /**
  * @deprecated Use NodeRepository directly
@@ -16,12 +17,16 @@ class NodeApi extends AbstractApi
     #[\Override]
     public function getRepository(): NodeRepository
     {
-        // phpstan cannot resolve repository type.
         /** @var NodeRepository $repository */
-        $repository = $this->managerRegistry
-                    ->getRepository(Node::class)
-                    ->setDisplayingNotPublishedNodes(false)
-                    ->setDisplayingAllNodesStatuses(false);
+        $repository = $this->managerRegistry->getRepository(Node::class);
+
+        /*
+         * We need to reset repository status state, because StatusAwareRepository is not a stateless service.
+         * When using worker PHP runtimes (such as FrankenPHP or Swoole), this can lead to unpublish nodes being returned.
+         */
+        if ($repository instanceof StatusAwareRepository) {
+            $repository->resetStatuses();
+        }
 
         return $repository;
     }
