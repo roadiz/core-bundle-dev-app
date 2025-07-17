@@ -10,7 +10,8 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\ListManager\QueryBuilderListManager;
 use RZ\Roadiz\CoreBundle\ListManager\SessionListFilters;
-use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
+use RZ\Roadiz\CoreBundle\Repository\LogRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,6 +25,8 @@ final class HistoryController extends AbstractController
 {
     public function __construct(
         private readonly ManagerRegistry $managerRegistry,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+        private readonly LogRepository $logRepository,
     ) {
     }
 
@@ -33,16 +36,14 @@ final class HistoryController extends AbstractController
     public function historyAction(Request $request, int $nodeId): Response
     {
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+        $node = $this->allStatusesNodeRepository->find($nodeId);
 
         if (null === $node) {
             throw new ResourceNotFoundException();
         }
         $this->denyAccessUnlessGranted(NodeVoter::READ_LOGS, $node);
 
-        $qb = $this->managerRegistry
-            ->getRepository(Log::class)
-            ->getAllRelatedToNodeQueryBuilder($node);
+        $qb = $this->logRepository->getAllRelatedToNodeQueryBuilder($node);
 
         $listManager = new QueryBuilderListManager($request, $qb, 'obj');
         $listManager->setSearchingCallable(function (QueryBuilder $queryBuilder, string $search) {

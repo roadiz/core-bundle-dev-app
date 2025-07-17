@@ -13,7 +13,9 @@ use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\Entity\Tag;
-use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
+use RZ\Roadiz\CoreBundle\Repository\TagRepository;
+use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,6 +27,9 @@ final readonly class UniqueNodeGenerator
     public function __construct(
         private ManagerRegistry $managerRegistry,
         private NodeNamePolicyInterface $nodeNamePolicy,
+        private AllStatusesNodeRepository $allStatusesNodeRepository,
+        private TranslationRepository $translationRepository,
+        private TagRepository $tagRepository,
         private Security $security,
         private NodeTypes $nodeTypesBag,
     ) {
@@ -95,17 +100,13 @@ final readonly class UniqueNodeGenerator
         }
 
         if ($request->get('tagId') > 0) {
-            $tag = $this->managerRegistry
-                ->getRepository(Tag::class)
-                ->find((int) $request->get('tagId'));
+            $tag = $this->tagRepository->find((int) $request->get('tagId'));
         } else {
             $tag = null;
         }
 
         if ($request->get('parentNodeId') > 0) {
-            $parent = $this->managerRegistry
-                ->getRepository(Node::class)
-                ->find((int) $request->get('parentNodeId'));
+            $parent = $this->allStatusesNodeRepository->find((int) $request->get('parentNodeId'));
             if (null === $parent || !$this->security->isGranted(NodeVoter::CREATE, $parent)) {
                 throw new BadRequestHttpException('Parent node does not exist.');
             }
@@ -128,20 +129,14 @@ final readonly class UniqueNodeGenerator
         }
 
         if ($request->get('translationId') > 0) {
-            /** @var Translation $translation */
-            $translation = $this->managerRegistry
-                ->getRepository(Translation::class)
-                ->find((int) $request->get('translationId'));
+            $translation = $this->translationRepository->find((int) $request->get('translationId'));
         } elseif (null !== $parent && false !== $parentNodeSource = $parent->getNodeSources()->first()) {
             /*
              * If parent has only on translation, use parent translation instead of default one.
              */
             $translation = $parentNodeSource->getTranslation();
         } else {
-            /** @var Translation $translation */
-            $translation = $this->managerRegistry
-                ->getRepository(Translation::class)
-                ->findDefault();
+            $translation = $this->translationRepository->findDefault();
         }
 
         return $this->generate(
