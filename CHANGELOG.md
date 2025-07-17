@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.28...v2.5.29) - 2025-07-17
+
+### Bug Fixes
+
+- Replace usages of ManagerRegistry with AllStatusesNodeRepository for node retrieval ([#140](https://github.com/roadiz/core-bundle-dev-app/issues/140)) - ([c82065f](https://github.com/roadiz/core-bundle-dev-app/commit/c82065f0fbd367653057ac74fafdada81b0c2d0b))
+
 ## [2.5.28](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.27...v2.5.28) - 2025-07-04
 
 ### Bug Fixes
