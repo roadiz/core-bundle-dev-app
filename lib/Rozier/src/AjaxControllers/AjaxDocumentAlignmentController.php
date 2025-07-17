@@ -7,7 +7,7 @@ namespace Themes\Rozier\AjaxControllers;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Themes\Rozier\Forms\ImageCropAlignmentType;
+use Themes\Rozier\Forms\DocumentAlignmentType;
 use Twig\Environment;
 
 /**
@@ -23,8 +23,9 @@ final class AjaxDocumentAlignmentController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_DOCUMENTS');
 
-        $form = $this->formFactory->create(ImageCropAlignmentType::class, options: [
+        $form = $this->formFactory->create(DocumentAlignmentType::class, options: [
             'csrf_protection' => false,
+            'inherit_data' => false,
         ]);
 
         return new Response(

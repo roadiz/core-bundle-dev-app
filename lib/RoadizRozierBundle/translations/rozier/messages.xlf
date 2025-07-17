@@ -1289,19 +1289,6 @@
             <trans-unit xml:space="preserve" id="documents.document_display_list"><source>documents.document_display_list</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeSource.noIndex"><source>nodeSource.noIndex</source></trans-unit>
 
-            <trans-unit xml:space="preserve" id="document.imageCropAlignment"><source>document.imageCropAlignment</source></trans-unit>
-            <trans-unit xml:space="preserve" id="document.imageCropAlignment.help"><source>document.imageCropAlignment.help</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.none"><source>image_crop_alignment.none</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.top-left"><source>image_crop_alignment.top-left</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.top"><source>image_crop_alignment.top</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.top-right"><source>image_crop_alignment.top-right</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.left"><source>image_crop_alignment.left</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.center"><source>image_crop_alignment.center</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.right"><source>image_crop_alignment.right</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left"><source>image_crop_alignment.bottom-left</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom"><source>image_crop_alignment.bottom</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right"><source>image_crop_alignment.bottom-right</source></trans-unit>
-
             <trans-unit xml:space="preserve" id="attributable"><source>attributable</source></trans-unit>
             <trans-unit xml:space="preserve" id="enables_node_attributes_for_this_type"><source>enables_node_attributes_for_this_type</source></trans-unit>
 

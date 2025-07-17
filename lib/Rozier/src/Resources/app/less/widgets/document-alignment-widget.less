@@ -1,0 +1,224 @@
+.document-alignment-widget {
+    display: flex;
+    max-width: 1200px;
+    background-color: #EFEFEF;
+}
+
+.document-alignment-widget__tab-list {
+    width: 296 / 869 * 100%;
+    min-width: 200px;
+    max-width: 400px;
+    flex-shrink: 0;
+}
+
+.document-alignment-widget__tab {
+    width: 100%;
+    padding: 12px;
+
+    &:not(:last-child) {
+        border-bottom: 1px solid #C4C4C4;
+    }
+}
+
+.document-alignment-widget__hint {
+    padding: 4px 24px;
+    font-size: 12px;
+    line-height: 1.25;
+}
+
+.document-alignment-widget__hotspot-input-list {
+    display: none;
+
+    .document-alignment-widget__tab--active & {
+        display: flex;
+        padding: 4px 24px;
+        gap: 16px;
+        font-size: 13px;
+    }
+}
+
+.document-alignment-widget__hotspot-input {
+    display: flex;
+    flex-direction: column;
+}
+
+.document-alignment-widget__hotspot-input__label-text {
+    display: block;
+    width: 100%;
+}
+
+.document-alignment-widget__tab-panel {
+    display: none;
+    padding: 48px;
+    flex-grow: 1;
+    background-color: #E0E0E0;
+
+    &--active {
+        display: flex;
+        max-height: 380px;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &--imageCropAlignment {
+        overflow: hidden;
+    }
+}
+
+.document-alignment-widget__tab-panel__content {
+    width: fit-content;
+    height: 100%;
+
+    .document-alignment-widget__tab-panel--imageCropAlignment & {
+        position: relative;
+        border: 1px solid #D4D4D4;
+
+        &::before,
+        &::after {
+            position: absolute;
+            content: '';
+            z-index: 2;
+            background-color: #D4D4D4;
+            pointer-events: none;
+        }
+
+        &::before {
+            top: 0;
+            left: 50%;
+            width: 1px;
+            height: 100%;
+        }
+
+        &::after {
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 1px;
+        }
+    }
+
+    .document-alignment-widget__tab-panel--hotspot & {
+        position: relative;
+    }
+}
+
+input[type="radio"].document-alignment-widget__crop-alignment-option {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    margin: 0 !important; // override margin from global style
+    z-index: 2;
+    border: none;
+    overflow: unset;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+
+    &--top-left {
+        top: 0;
+        left: 0;
+    }
+
+    &--top {
+        top: 0;
+        left: 50%;
+    }
+
+    &--top-right {
+        top: 0;
+        left: 100%;
+    }
+
+    &--left {
+        top: 50%;
+        left: 0;
+    }
+
+    &--center {
+        top: 50%;
+        left: 50%;
+    }
+
+    &--right {
+        top: 50%;
+        left: 100%;
+    }
+
+    &--bottom-left {
+        top: 100%;
+        left: 0;
+    }
+
+    &--bottom {
+        top: 100%;
+        left: 50%;
+    }
+
+    &--bottom-right {
+        top: 100%;
+        left: 100%;
+    }
+
+    &::after {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        content: '';
+        border: 1px solid #E0E0E0;
+        border-radius: 50%;
+        background: radial-gradient(circle at center, #B2B2B2 0 2px, #EFEFEF 2px 100%);
+    }
+
+    &:checked {
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 220px;
+            height: 220px;
+            z-index: -1;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(50% 50% at 50% 50%, var(--rz-accent-color, #2050F5) 0%, rgba(32, 80, 245, 0.00) 100%);
+        }
+
+        &::after {
+            inset: -4px;
+            border: 4px solid #FFFFFF;
+            background: var(--rz-accent-color, #2050F5);
+        }
+    }
+}
+
+.document-alignment-widget__hotspot-handle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    z-index: 2;
+    border-radius: 50%;
+    background-color: var(--rz-accent-color, #2050F5);
+    border: 4px solid #FFFFFF;
+    filter: drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.25));
+    transform: translate(-50%, -50%);
+}
+
+.document-alignment-widget__tab-panel img {
+    height: 100%;
+}
+
+.document-alignment-widget__tab-panel--hotspot img,
+.document-alignment-widget__tab-panel--imageCropAlignment img {
+    opacity: 0.5;
+}
+
+.document-alignment-widget__tab-panel img {
+    user-select: none;
+    pointer-events: none;
+}
+
+.document-alignment-widget__inputs {
+    display: none;
+}

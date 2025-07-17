@@ -1,0 +1,109 @@
+{# Get a tab panel ID by tab name #}
+{% macro get_tab_panel_id(name, id) %}
+	{% apply spaceless %}
+	    {{ id is defined and id ? (id ~ '-') : '' }}document-alignment-tabpanel-{{ name }}
+	{% endapply %}
+{% endmacro %}
+
+{% set imagePath = widget_attributes|split('image-path="')[1]|split('"')[0] %}
+
+{% set tabList = [{ 
+    label: 'image_crop_alignment.none'|trans, 
+    id: 'none', 
+    panelId: _self.get_tab_panel_id('none', id) }
+] %}
+
+{% set activeTabId = 'none' %}
+{% set cropAlignmentOptions = [
+    'top-left',
+    'top',
+    'top-right',
+    'left',
+    'center',
+    'right',
+    'bottom-left',
+    'bottom',
+    'bottom-right'
+] %}
+
+{%- for child in form %}
+    {# Populate tabs #}
+	{% set tabList = tabList|merge([{ 
+        label: ('document.' ~ child.vars.name)|trans, 
+        id: child.vars.name,
+        hint: ('document.' ~ child.vars.name ~ '.help')|trans,
+        value: child.vars.value,
+        panelId: _self.get_tab_panel_id(child.vars.name, id)  
+    }]) %}
+
+    {# Check the active tab #}
+	{% if child.vars.value and child.vars.value != 'null' %}
+		{% set activeTabId = child.vars.name %}
+	{% endif %}
+{% endfor %}
+
+<document-alignment-widget class="document-alignment-widget" active-tab-id="{{ activeTabId }}" input-base-name="{{ form.vars.full_name }}">
+    {# Tabs #}
+	<div class="document-alignment-widget__tab-list" role="tablist">
+        {% set radioInputName = (id is defined and id ? (id ~ '-') : '') ~  'document-alignment-widget-tab' %}
+		{%- for tab in tabList %}
+            {% set id = radioInputName ~ '-' ~ tab.id %}
+            {% set classNames = ['document-alignment-widget__tab'] %}
+            {% if tab.id == activeTabId %}
+                {% set classNames = classNames|merge(['document-alignment-widget__tab--active']) %}
+            {% endif %}
+            <div class="{{ classNames|join(' ') }}" role="tab" aria-controls="{{ tab.panelId|trim }}" aria-selected="{{ tab.id == activeTabId ? 'true' : 'false' }}" data-tab-id="{{ tab.id }}">
+                <input type="radio" id="{{ id }}" name="{{ radioInputName }}" checked="{{ tab.id == activeTabId }}" value="{{ tab.id }}">
+                <label for="{{ id }}">{{ tab.label }}</label>
+                {% if tab.hint %}
+                    <div class="document-alignment-widget__hint">{{ tab.hint }} </div>
+                {% endif %}
+                {% if tab.id == 'hotspot' %}
+                    {% set inputList = [
+                        {'name': 'hotspot-x', 'label': 'X (0:1)' },
+                        {'name': 'hotspot-y', 'label': 'Y (0:1)' }
+                    ] %}
+                    <div class="document-alignment-widget__hotspot-input-list">
+                        {% for input in inputList %}
+                            <div class="document-alignment-widget__hotspot-input">
+                                <label>
+                                    <span class="document-alignment-widget__hotspot-input__label-text">{{ input.label }}</span>
+                                    <input type="number" name="{{ input.name }}" min="0" max="1" step="0.01" />
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+		{% endfor -%}
+	</div>
+    {# Tab panels #}
+	{% for tab in tabList %}
+		{% set classNames = ['document-alignment-widget__tab-panel', 'document-alignment-widget__tab-panel--' ~ tab.id] %}
+		{% if tab.id == activeTabId %}
+			{% set classNames = classNames|merge(['document-alignment-widget__tab-panel--active']) %}
+		{% endif %}
+		<div id="{{ tab.panelId|trim }}" class="{{ classNames|join(' ') }}" role="tabpanel" {% if tab.id != activeTabId %} aria-hidden="true" {% endif %} data-tab-id="{{ tab.id }}">
+            <div class="document-alignment-widget__tab-panel__content">
+                {% if tab.id == 'imageCropAlignment' %}
+                    {% for cropAlignmentOption in cropAlignmentOptions %}
+                        {% set classNames = [
+                            'document-alignment-widget__crop-alignment-option', 
+                            'document-alignment-widget__crop-alignment-option--' ~ cropAlignmentOption
+                        ] %}
+                        <input 
+                            type="radio" 
+                            class="{{ classNames|join(' ') }}"
+                            name="{{ (tab.panelId ~ '-' ~ cropAlignmentOption)|trim }}" 
+                            value="{{ cropAlignmentOption }}" 
+                            {% if tab.value == cropAlignmentOption %} checked {% endif %}
+                        >
+                    {% endfor %}
+                {% elseif tab.id == 'hotspot' %}
+                        <div class="document-alignment-widget__hotspot-handle"></div>
+                {% endif %}
+                <img src="{{ imagePath }}" alt=""/>
+            </div>
+		</div>
+	{% endfor %}
+</document-alignment-widget>

@@ -22,7 +22,7 @@
                     </template>
                     <template v-else>
                         <template v-if="document.isSvg">
-                            <div v-html="document.previewHtml" class="svg"></div>
+                            <div class="svg" v-html="document.previewHtml"></div>
                         </template>
                         <template v-else-if="document.isImage && !document.isWebp">
                             <picture>
@@ -38,21 +38,21 @@
                         </template>
                         <template v-else-if="document.isImage">
                             <img
+                                v-dynamic-img="document.thumbnail80"
                                 class="document-image"
                                 width="80"
                                 height="80"
                                 src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                                v-dynamic-img="document.thumbnail80"
                             />
                         </template>
                         <template v-else>
                             <img
                                 v-if="document.hasThumbnail"
+                                v-dynamic-img="document.thumbnail80"
                                 class="document-image"
                                 width="80"
                                 height="80"
                                 src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                                v-dynamic-img="document.thumbnail80"
                             />
                             <div class="document-platform-icon">
                                 <i :class="'uk-icon-file-' + document.icon + '-o'"></i>
@@ -63,13 +63,11 @@
                     <template v-if="drawerName && entityName">
                         <input type="hidden" :name="drawerName + '[' + index + '][document]'" :value="document.id" />
                         <input
-                            v-if="hotspot"
                             type="hidden"
                             :name="drawerName + '[' + index + '][hotspot]'"
                             :value="JSON.stringify(hotspot)"
                         />
                         <input
-                            v-if="imageCropAlignment"
                             type="hidden"
                             :name="drawerName + '[' + index + '][imageCropAlignment]'"
                             :value="imageCropAlignment"
@@ -80,12 +78,23 @@
                     </template>
 
                     <div class="document-links">
-                        <ajax-link :href="editUrl" class="uk-button document-link uk-button-mini">
-                            <i class="uk-icon-rz-pencil"></i> </ajax-link
+                        <component
+                            :is="document.processable ? 'button' : 'a'"
+                            :type="document.processable ? 'button' : null"
+                            :href="!document.processable ? editUrl : null"
+                            :class="[
+                                'uk-button',
+                                'document-link',
+                                'uk-button-mini',
+                                hotspot || imageCropAlignment ? 'document-link--alignment' : '',
+                            ]"
+                            @click="onEditClick"
+                        >
+                            <i class="uk-icon-rz-pencil"></i></component
                         ><a
                             href="#"
-                            @click.prevent="onRemoveItemButtonClick()"
                             class="uk-button uk-button-mini document-link uk-button-danger rz-no-ajax-link"
+                            @click.prevent="onRemoveItemButtonClick()"
                         >
                             <i class="uk-icon-rz-trash-o"></i>
                         </a>
@@ -111,18 +120,18 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import filters from '../filters'
 import AjaxLink from '../components/AjaxLink.vue'
 import DynamicImg from '../directives/DynamicImg'
 import centralTruncate from '../filters/centralTruncate'
 
 export default {
-    props: ['item', 'isItemExplorer', 'drawerName', 'index', 'removeItem', 'addItem', 'entityName'],
     directives: {
         DynamicImg,
     },
     filters: filters,
+    props: ['item', 'isItemExplorer', 'drawerName', 'index', 'removeItem', 'addItem', 'entityName'],
     computed: {
         shortMimeType: function () {
             return centralTruncate(this.document.shortMimeType, 13)
@@ -147,6 +156,9 @@ export default {
         },
     },
     methods: {
+        ...mapState({
+            previewIsVisible: (state) => state.documentPreview.isVisible,
+        }),
         ...mapActions(['documentPreviewInit', 'documentPreviewOpen', 'documentPreviewDestroy']),
         onAddItemButtonClick() {
             // If document is in the explorer panel
@@ -164,11 +176,18 @@ export default {
         onPreviewClick() {
             this.documentPreviewOpen({ document: this.item })
         },
+        onEditClick() {
+            if (!this.document.processable) return
+
+            this.$emit('edit', { document: this.document, index: this.index })
+        },
         onMouseover() {
-            this.documentPreviewInit({ document: this.item })
+            this.documentPreviewInit({ document: this.item.document })
         },
         onMouseleave() {
-            this.documentPreviewDestroy({ document: this.item })
+            if (this.previewIsVisible) return
+
+            this.documentPreviewDestroy({ document: this.item.document })
         },
     },
     components: {

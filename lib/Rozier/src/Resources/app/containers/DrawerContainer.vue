@@ -20,6 +20,7 @@ export default {
             groupName: null,
             isSortable: null,
             entityName: null,
+            documentEditDialog: null,
         }
     },
     mounted() {
@@ -162,6 +163,19 @@ export default {
             console.error(file)
             console.error(error)
             console.error(xhr)
+        },
+        onEditItem(event) {
+            const dialog = document.createElement('document-edit-dialog')
+
+            dialog.setAttribute('template-path', this.$el.getAttribute('data-document-alignment-template-path'))
+            dialog.setAttribute('title', event.document.classname)
+            dialog.setAttribute('edit-url', event.document.editItem + '?referer=' + window.location.pathname)
+            dialog.setAttribute('image-path', event.document.editImageUrl)
+            dialog.setAttribute('input-base-name', `${this.drawerName}[${event.index}]`)
+
+            document.body.appendChild(dialog)
+
+            dialog.showModal()
         },
     },
     components: {
