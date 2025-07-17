@@ -30,7 +30,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSGroupBlock[]|null findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
  * @method int countBy(mixed $criteria)
  */
-final class NSGroupBlockRepository extends NodesSourcesRepository
+class NSGroupBlockRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,

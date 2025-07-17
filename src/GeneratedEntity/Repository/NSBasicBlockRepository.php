@@ -30,7 +30,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSBasicBlock[]|null findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
  * @method int countBy(mixed $criteria)
  */
-final class NSBasicBlockRepository extends NodesSourcesRepository
+class NSBasicBlockRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,

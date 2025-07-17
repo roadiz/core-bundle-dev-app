@@ -30,7 +30,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
  * @method NSArticleFeedBlock[]|null findByNodesSourcesAndFieldNameAndTranslation(NodesSources $nodesSources, string $fieldName, array $nodeSourceClasses = [])
  * @method int countBy(mixed $criteria)
  */
-final class NSArticleFeedBlockRepository extends NodesSourcesRepository
+class NSArticleFeedBlockRepository extends NodesSourcesRepository
 {
     public function __construct(
         ManagerRegistry $registry,
