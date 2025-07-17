@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Themes\Rozier\Controllers\Nodes;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Node;
-use RZ\Roadiz\CoreBundle\Entity\Translation;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,9 +20,10 @@ use Symfony\Component\Serializer\SerializerInterface;
 final class ExportController extends AbstractController
 {
     public function __construct(
-        private readonly ManagerRegistry $managerRegistry,
         private readonly SerializerInterface $serializer,
         private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+        private readonly TranslationRepository $translationRepository,
         private readonly array $csvEncoderOptions,
     ) {
     }
@@ -32,14 +33,10 @@ final class ExportController extends AbstractController
      */
     public function exportAllAction(int $translationId, ?int $parentNodeId = null): Response
     {
-        $translation = $this->managerRegistry
-            ->getRepository(Translation::class)
-            ->find($translationId);
+        $translation = $this->translationRepository->find($translationId);
 
         if (null === $translation) {
-            $translation = $this->managerRegistry
-                ->getRepository(Translation::class)
-                ->findDefault();
+            $translation = $this->translationRepository->findDefault();
         }
         $criteria = ['translation' => $translation];
         $order = ['node.nodeTypeName' => 'ASC'];
@@ -47,9 +44,7 @@ final class ExportController extends AbstractController
 
         if (null !== $parentNodeId) {
             /** @var Node|null $parentNode */
-            $parentNode = $this->managerRegistry
-                ->getRepository(Node::class)
-                ->find($parentNodeId);
+            $parentNode = $this->allStatusesNodeRepository->find($parentNodeId);
             if (null === $parentNode) {
                 throw $this->createNotFoundException();
             }

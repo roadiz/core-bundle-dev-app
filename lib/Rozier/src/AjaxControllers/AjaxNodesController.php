@@ -20,6 +20,7 @@ use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeMover;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
 use RZ\Roadiz\CoreBundle\Node\UniqueNodeGenerator;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Chroot\NodeChrootResolver;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -43,6 +44,7 @@ final class AjaxNodesController extends AbstractAjaxController
         private readonly UniqueNodeGenerator $uniqueNodeGenerator,
         private readonly NodeTypes $nodeTypesBag,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly LogTrail $logTrail,
         ManagerRegistry $managerRegistry,
         SerializerInterface $serializer,
@@ -55,7 +57,7 @@ final class AjaxNodesController extends AbstractAjaxController
     {
         $tags = [];
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+        $node = $this->allStatusesNodeRepository->find($nodeId);
         if (null === $node) {
             throw $this->createNotFoundException('Node not found');
         }
@@ -83,7 +85,7 @@ final class AjaxNodesController extends AbstractAjaxController
         $this->validateRequest($request);
 
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find((int) $nodeId);
+        $node = $this->allStatusesNodeRepository->find((int) $nodeId);
 
         if (null === $node) {
             throw $this->createNotFoundException($this->translator->trans('node.%nodeId%.not_exists', ['%nodeId%' => $nodeId]));
@@ -188,7 +190,7 @@ final class AjaxNodesController extends AbstractAjaxController
             && is_numeric($parameters['newParent'])
             && $parameters['newParent'] > 0
         ) {
-            return $this->managerRegistry->getRepository(Node::class)->find((int) $parameters['newParent']);
+            return $this->allStatusesNodeRepository->find((int) $parameters['newParent']);
         } elseif (null !== $this->getUser()) {
             // If user is jailed in a node, prevent moving nodes out.
             return $this->nodeChrootResolver->getChroot($this->getUser());
@@ -201,13 +203,13 @@ final class AjaxNodesController extends AbstractAjaxController
     {
         if (key_exists('nextNodeId', $parameters) && (int) $parameters['nextNodeId'] > 0) {
             /** @var Node $nextNode */
-            $nextNode = $this->managerRegistry->getRepository(Node::class)->find((int) $parameters['nextNodeId']);
+            $nextNode = $this->allStatusesNodeRepository->find((int) $parameters['nextNodeId']);
             if (null !== $nextNode) {
                 return $nextNode->getPosition() - 0.5;
             }
         } elseif (key_exists('prevNodeId', $parameters) && $parameters['prevNodeId'] > 0) {
             /** @var Node $prevNode */
-            $prevNode = $this->managerRegistry->getRepository(Node::class)->find((int) $parameters['prevNodeId']);
+            $prevNode = $this->allStatusesNodeRepository->find((int) $parameters['prevNodeId']);
             if (null !== $prevNode) {
                 return $prevNode->getPosition() + 0.5;
             }
@@ -232,7 +234,7 @@ final class AjaxNodesController extends AbstractAjaxController
         }
 
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find((int) $request->get('nodeId'));
+        $node = $this->allStatusesNodeRepository->find((int) $request->get('nodeId'));
         if (null === $node) {
             throw $this->createNotFoundException($this->translator->trans('node.%nodeId%.not_exists', ['%nodeId%' => $request->get('nodeId')]));
         }

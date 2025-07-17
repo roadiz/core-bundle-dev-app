@@ -84,9 +84,6 @@ abstract class StatusAwareRepository extends EntityRepository implements StatusA
         return $this;
     }
 
-    /**
-     * @deprecated do not use repository stateful methods in services
-     */
     #[\Override]
     public function alterQueryBuilderWithAuthorizationChecker(
         QueryBuilder $qb,

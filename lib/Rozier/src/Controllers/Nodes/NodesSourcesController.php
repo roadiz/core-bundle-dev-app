@@ -15,7 +15,9 @@ use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesDeletedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPreUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializer;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
+use RZ\Roadiz\CoreBundle\Repository\TranslationRepository;
 use RZ\Roadiz\CoreBundle\Routing\NodeRouter;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
@@ -58,6 +60,8 @@ final class NodesSourcesController extends AbstractController
         private readonly FormFactoryInterface $formFactory,
         private readonly LogTrail $logTrail,
         private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
+        private readonly TranslationRepository $translationRepository,
     ) {
     }
 
@@ -79,9 +83,7 @@ final class NodesSourcesController extends AbstractController
     public function editSourceAction(Request $request, int $nodeId, int $translationId): Response
     {
         /** @var Translation|null $translation */
-        $translation = $this->managerRegistry
-            ->getRepository(Translation::class)
-            ->find($translationId);
+        $translation = $this->translationRepository->find($translationId);
 
         if (null === $translation) {
             throw new ResourceNotFoundException('Translation does not exist');
@@ -92,9 +94,7 @@ final class NodesSourcesController extends AbstractController
          * that is initialized before calling route method.
          */
         /** @var Node|null $gNode */
-        $gNode = $this->managerRegistry
-            ->getRepository(Node::class)
-            ->find($nodeId);
+        $gNode = $this->allStatusesNodeRepository->find($nodeId);
         if (null === $gNode) {
             throw new ResourceNotFoundException('Node does not exist');
         }
@@ -215,9 +215,7 @@ final class NodesSourcesController extends AbstractController
             }
         }
 
-        $availableTranslations = $this->managerRegistry
-            ->getRepository(Translation::class)
-            ->findAvailableTranslationsForNode($gNode);
+        $availableTranslations = $this->translationRepository->findAvailableTranslationsForNode($gNode);
 
         return $this->render('@RoadizRozier/nodes/editSource.html.twig', [
             ...$assignation,
@@ -238,9 +236,7 @@ final class NodesSourcesController extends AbstractController
     public function removeAction(Request $request, int $nodeSourceId): Response
     {
         /** @var NodesSources|null $ns */
-        $ns = $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->find($nodeSourceId);
+        $ns = $this->allStatusesNodesSourcesRepository->find($nodeSourceId);
         if (null === $ns) {
             throw new ResourceNotFoundException('Node source does not exist');
         }

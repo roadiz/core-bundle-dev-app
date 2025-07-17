@@ -12,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Event\Realm\NodeJoinedRealmEvent;
 use RZ\Roadiz\CoreBundle\Event\Realm\NodeLeftRealmEvent;
 use RZ\Roadiz\CoreBundle\Form\RealmNodeType;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,6 +30,7 @@ final class RealmNodeController extends AbstractController
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
         private readonly EventDispatcherInterface $eventDispatcher,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
     ) {
     }
 
@@ -85,7 +87,7 @@ final class RealmNodeController extends AbstractController
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_REALM_NODES');
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find($id);
+        $node = $this->allStatusesNodeRepository->find($id);
         /** @var RealmNode|null $realmNode */
         $realmNode = $this->managerRegistry->getRepository(RealmNode::class)->find($realmNodeId);
         if (null === $node || null === $realmNode) {
