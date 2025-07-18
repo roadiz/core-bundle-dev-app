@@ -253,14 +253,6 @@
                 <source>firewall</source>
                 <target state="final">Firewall</target>
             </trans-unit>
-      <trans-unit id="document.hotspot" xml:space="preserve" approved="yes">
-                <source>document.hotspot</source>
-                <target state="final">Hotspot</target>
-            </trans-unit>
-      <trans-unit id="document.hotspot.help" xml:space="preserve" approved="yes">
-                <source>document.hotspot.help</source>
-                <target state="final">An image's hotspot can be used to define a more precise area for resizing than the alignment option.</target>
-            </trans-unit>
       <trans-unit id="apple_podcast" xml:space="preserve" approved="yes">
                 <source>apple_podcast</source>
                 <target state="final">Apple Podcast</target>
