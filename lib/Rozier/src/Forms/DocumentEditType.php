@@ -115,7 +115,7 @@ final class DocumentEditType extends AbstractType
             ]);
         }
 
-        if ($document->isProcessable()) {
+        if (!$document->isPrivate() && $document->isProcessable()) {
             $builder->add('imageAlignment', DocumentAlignmentType::class, [
                 'label' => 'document.imageAlignment',
                 'required' => false,
