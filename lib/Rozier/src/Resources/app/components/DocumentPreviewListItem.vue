@@ -82,6 +82,7 @@
                             :is="document.processable ? 'button' : 'a'"
                             :type="document.processable ? 'button' : null"
                             :href="!document.processable ? editUrl : null"
+                            :id="`edit-${drawerName}[${index}]`"
                             :class="[
                                 'uk-button',
                                 'document-link',
@@ -90,14 +91,15 @@
                             ]"
                             @click="onEditClick"
                         >
-                            <i class="uk-icon-rz-pencil"></i></component
-                        ><a
-                            href="#"
+                            <i class="uk-icon-rz-pencil"></i>
+                        </component>
+                        <button
+                            type="button"
                             class="uk-button uk-button-mini document-link uk-button-danger rz-no-ajax-link"
                             @click.prevent="onRemoveItemButtonClick()"
                         >
                             <i class="uk-icon-rz-trash-o"></i>
-                        </a>
+                        </button>
                     </div>
                     <template v-if="document.embedPlatform">
                         <div class="document-mime-type">{{ document.embedPlatform }}</div>
@@ -176,10 +178,10 @@ export default {
         onPreviewClick() {
             this.documentPreviewOpen({ document: this.item })
         },
-        onEditClick() {
+        onEditClick(event) {
             if (!this.document.processable) return
 
-            this.$emit('edit', { document: this.document, index: this.index })
+            this.$emit('edit', { document: this.document, index: this.index, currentTarget: event.currentTarget })
         },
         onMouseover() {
             this.documentPreviewInit({ document: this.item.document })
