@@ -111,7 +111,7 @@ dans un texte Markdown, un site externe, *le document sera considéré comme in
             </trans-unit>
             <trans-unit xml:space="preserve" id="document.imageCropAlignment">
                 <source>document.imageCropAlignment</source>
-                <target state="final">Point d'ancrage</target>
+                <target state="final">Zone d'intérêt</target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="document.hotspot">
                 <source>document.hotspot</source>
