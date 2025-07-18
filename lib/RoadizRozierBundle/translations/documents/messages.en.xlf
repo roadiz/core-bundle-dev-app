@@ -106,18 +106,18 @@ Document are listed as “unused” when they are not linked to any node, tag, s
         </trans-unit>
             <trans-unit xml:space="preserve" id="document.imageCropAlignment">
             <source>document.imageCropAlignment</source>
-            <target state="final">Anchor point</target>
+            <target state="final">Interest area</target>
         </trans-unit>
             <trans-unit xml:space="preserve" id="document.imageCropAlignment.help">
             <source>document.imageCropAlignment.help</source>
-            <target state="final">Set a point by which the image will be aligned during cropping.</target>
+            <target state="final">Define an area by which the image will be aligned during cropping.</target>
         </trans-unit>
             <trans-unit xml:space="preserve" id="document.hotspot">
-            <source>document.hostspot</source>
+            <source>document.hotspot</source>
             <target state="final">Hotspot</target>
         </trans-unit>
             <trans-unit xml:space="preserve" id="document.hotspot.help">
-            <source>document.hostspot.help</source>
+            <source>document.hotspot.help</source>
             <target state="final">Set a point of interest on the image to highlight a specific detail.</target>
         </trans-unit>
             <trans-unit xml:space="preserve" id="documentEditDialog.submit">
