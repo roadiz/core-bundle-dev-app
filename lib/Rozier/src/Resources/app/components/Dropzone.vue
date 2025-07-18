@@ -5,6 +5,7 @@
 <script>
 import { fadeOut } from '../utils/animation'
 import { sleep } from '../utils/sleep'
+import Dropzone from 'dropzone'
 
 export default {
     props: {
@@ -100,7 +101,6 @@ export default {
             return
         }
 
-        let Dropzone = require('dropzone')
         let element = document.getElementById(this.id)
 
         Dropzone.autoDiscover = false
