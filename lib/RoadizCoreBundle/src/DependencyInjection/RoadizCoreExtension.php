@@ -122,6 +122,31 @@ class RoadizCoreExtension extends Extension
     private function registerCaptcha(array $config, ContainerBuilder $container): void
     {
         $verifyUrl = $config['captcha']['verify_url'] ?? $config['medias']['recaptcha_verify_url'] ?? null;
+
+        /*
+         * BC for old recaptcha config
+         */
+        $container->setParameter(
+            'roadiz_core.medias.recaptcha_private_key',
+            $config['captcha']['private_key'] ?? $config['medias']['recaptcha_private_key'] ?? null
+        );
+        $container->setParameter(
+            'roadiz_core.medias.recaptcha_public_key',
+            $config['captcha']['public_key'] ?? $config['medias']['recaptcha_public_key'] ?? null
+        );
+        $container->deprecateParameter(
+            'roadiz_core.medias.recaptcha_private_key',
+            'roadiz/core-bundle',
+            '2.5.30',
+            'Use `roadiz_core.captcha.private_key` instead.'
+        );
+        $container->deprecateParameter(
+            'roadiz_core.medias.recaptcha_public_key',
+            'roadiz/core-bundle',
+            '2.5.30',
+            'Use `roadiz_core.captcha.public_key` instead.'
+        );
+
         $container->setParameter(
             'roadiz_core.captcha.private_key',
             $config['captcha']['private_key'] ?? $config['medias']['recaptcha_private_key'] ?? null
