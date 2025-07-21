@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.30...v2.5.31) - 2025-07-21
+
+### Refactor
+
+- Add backward compatibility for old recaptcha configuration and deprecate old parameters - ([52e5881](https://github.com/roadiz/core-bundle-dev-app/commit/52e58812315618dae60ba72e8a21cb5314782543))
+
 ## [2.5.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.29...v2.5.30) - 2025-07-21
 
 ### Refactor
