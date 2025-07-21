@@ -212,9 +212,14 @@
                 <target state="final">Client ID de l'API Unsplash, si vous remplissez un client valide, Roadiz sera en mesure de télécharger des images aléatoires sur la page de login et dans la gestion des Documents.</target>
                 <note>Setting help name</note>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="support_email_address">
+      <trans-unit xml:space="preserve" id="Store last cronjob execution date and time.">
+                <source>Store last cronjob execution date and time.</source>
+                <target state="translated">Enregistre la date et l'heure de la dernière exécution de la tâche cron.</target>
+                <note>Setting help name</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="support_email_address" approved="yes">
                 <source>support_email_address</source>
-            <target state="final">Adresse email de support</target>
+                <target state="final">Adresse email de support</target>
             </trans-unit>
     </body>
   </file>
