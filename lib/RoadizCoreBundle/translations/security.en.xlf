@@ -2,25 +2,25 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" original="" target-language="en" datatype="plaintext">
     <body>
-      <trans-unit id="Your user account is not enabled. Contact an administrator" xml:space="preserve">
+      <trans-unit id="Your user account is not enabled. Contact an administrator" xml:space="preserve" approved="yes">
                 <source>Your user account is not enabled. Contact an administrator.</source>
-                <target state="translated">Your user account is not enabled. Contact an administrator.</target>
+                <target state="final">Your user account is not enabled. Contact an administrator.</target>
             </trans-unit>
-      <trans-unit id="Your credentials have expired. Please request a new password" xml:space="preserve">
+      <trans-unit id="Your credentials have expired. Please request a new password" xml:space="preserve" approved="yes">
                 <source>Your credentials have expired. Please request a new password.</source>
-                <target state="translated">Your credentials have expired. Please request a new password.</target>
+                <target state="final">Your credentials have expired. Please request a new password.</target>
             </trans-unit>
-      <trans-unit id="Your account has expired. Contact an administrator" xml:space="preserve">
+      <trans-unit id="Your account has expired. Contact an administrator" xml:space="preserve" approved="yes">
                 <source>Your account has expired. Contact an administrator.</source>
-                <target state="translated">Your account has expired. Contact an administrator.</target>
+                <target state="final">Your account has expired. Contact an administrator.</target>
             </trans-unit>
-      <trans-unit id="Your user account is locked. Contact an administrator" xml:space="preserve">
+      <trans-unit id="Your user account is locked. Contact an administrator" xml:space="preserve" approved="yes">
                 <source>Your user account is locked. Contact an administrator.</source>
-                <target state="translated">Your user account is locked. Contact an administrator.</target>
+                <target state="final">Your user account is locked. Contact an administrator.</target>
             </trans-unit>
-            <trans-unit id="User logged in successfully" xml:space="preserve">
+      <trans-unit id="User logged in successfully" xml:space="preserve" approved="yes">
                 <source>User logged in successfully.</source>
-                <target state="translated">User logged in successfully.</target>
+                <target state="final">User logged in successfully.</target>
             </trans-unit>
     </body>
   </file>
