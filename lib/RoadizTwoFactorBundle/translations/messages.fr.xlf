@@ -2,93 +2,93 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="fr">
     <body>
-      <trans-unit xml:space="preserve" id="two_factor_authentication">
+      <trans-unit xml:space="preserve" id="two_factor_authentication" approved="yes">
                 <source>two_factor_authentication</source>
-                <target state="translated">Authentification à deux facteurs</target>
+                <target state="final">Authentification à deux facteurs</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="start_two_factor_activation">
+      <trans-unit xml:space="preserve" id="start_two_factor_activation" approved="yes">
                 <source>start_two_factor_activation</source>
-                <target state="translated">Démarrer l'activation de la double-authentification</target>
+                <target state="final">Démarrer l'activation de la double-authentification</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.activate.two_factor">
+      <trans-unit xml:space="preserve" id="are_you_sure.activate.two_factor" approved="yes">
                 <source>are_you_sure.activate.two_factor</source>
-                <target state="translated">Êtes-vous sûr.e de vouloir activer la double-authentification ?</target>
+                <target state="final">Êtes-vous sûr.e de vouloir activer la double-authentification ?</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="begin_activation">
+      <trans-unit xml:space="preserve" id="begin_activation" approved="yes">
                 <source>begin_activation</source>
-                <target state="translated">Démarrer l'activation</target>
+                <target state="final">Démarrer l'activation</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="scan_qr_code_with_totp_app">
+      <trans-unit xml:space="preserve" id="scan_qr_code_with_totp_app" approved="yes">
                 <source>scan_qr_code_with_totp_app</source>
-                <target state="translated">Scannez le QRCode avec votre application OTP préférée</target>
+                <target state="final">Scannez le QRCode avec votre application OTP préférée</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="enter_generated_code_to_finalize">
+      <trans-unit xml:space="preserve" id="enter_generated_code_to_finalize" approved="yes">
                 <source>enter_generated_code_to_finalize</source>
-                <target state="translated">Puis, entrez le code généré sur votre application OTP</target>
+                <target state="final">Puis, entrez le code généré sur votre application OTP</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="submit_totp_code">
+      <trans-unit xml:space="preserve" id="submit_totp_code" approved="yes">
                 <source>submit_totp_code</source>
-                <target state="translated">Envoyer le code</target>
+                <target state="final">Envoyer le code</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="twoFactorCode">
+      <trans-unit xml:space="preserve" id="twoFactorCode" approved="yes">
                 <source>twoFactorCode</source>
-                <target state="translated">Code temporaire</target>
+                <target state="final">Code temporaire</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="twoFactorCode.help">
+      <trans-unit xml:space="preserve" id="twoFactorCode.help" approved="yes">
                 <source>twoFactorCode.help</source>
-                <target state="translated">Veuillez saisir le code temporaire généré par votre application OTP</target>
+                <target state="final">Veuillez saisir le code temporaire généré par votre application OTP</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="invalid_totp_code">
+      <trans-unit xml:space="preserve" id="invalid_totp_code" approved="yes">
                 <source>invalid_totp_code</source>
-                <target state="translated">Code invalide, veuillez réessayer.</target>
+                <target state="final">Code invalide, veuillez réessayer.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="two_factor_authentication_is_enabled">
+      <trans-unit xml:space="preserve" id="two_factor_authentication_is_enabled" approved="yes">
                 <source>two_factor_authentication_is_enabled</source>
-                <target state="translated">La double-authentification est activée pour votre compte</target>
+                <target state="final">La double-authentification est activée pour votre compte</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.disable.two_factor">
+      <trans-unit xml:space="preserve" id="are_you_sure.disable.two_factor" approved="yes">
                 <source>are_you_sure.disable.two_factor</source>
-                <target state="translated">Êtes-vous sûr.e de vouloir désactiver la double-authentification ?</target>
+                <target state="final">Êtes-vous sûr.e de vouloir désactiver la double-authentification ?</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="disable_two_factor">
+      <trans-unit xml:space="preserve" id="disable_two_factor" approved="yes">
                 <source>disable_two_factor</source>
-                <target state="translated">Désactiver</target>
+                <target state="final">Désactiver</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="disable_two_factor_authentication">
+      <trans-unit xml:space="preserve" id="disable_two_factor_authentication" approved="yes">
                 <source>disable_two_factor_authentication</source>
-                <target state="translated">Désactiver la double-authentification</target>
+                <target state="final">Désactiver la double-authentification</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="generate_backup_codes">
+      <trans-unit xml:space="preserve" id="generate_backup_codes" approved="yes">
                 <source>generate_backup_codes</source>
-                <target state="translated">Générer les codes de secours</target>
+                <target state="final">Générer les codes de secours</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="two_factor_backup_codes">
+      <trans-unit xml:space="preserve" id="two_factor_backup_codes" approved="yes">
                 <source>two_factor_backup_codes</source>
-                <target state="translated">Codes de secours de double-authentification</target>
+                <target state="final">Codes de secours de double-authentification</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.two_factor">
+      <trans-unit xml:space="preserve" id="back_to.two_factor" approved="yes">
                 <source>back_to.two_factor</source>
-                <target state="translated">Retour à la double-authentification</target>
+                <target state="final">Retour à la double-authentification</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="request_two_factor_backup_codes">
+      <trans-unit xml:space="preserve" id="request_two_factor_backup_codes" approved="yes">
                 <source>request_two_factor_backup_codes</source>
-                <target state="translated">Demande de nouveaux codes de secours</target>
+                <target state="final">Demande de nouveaux codes de secours</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.generate.two_factor_backup_codes.erasing_any_existing">
+      <trans-unit xml:space="preserve" id="are_you_sure.generate.two_factor_backup_codes.erasing_any_existing" approved="yes">
                 <source>are_you_sure.generate.two_factor_backup_codes.erasing_any_existing</source>
-                <target state="translated">Êtes-vous sûr.e de vouloir générer de nouveaux codes de secours ? Cela supprimera tout code de secours existant.</target>
+                <target state="final">Êtes-vous sûr.e de vouloir générer de nouveaux codes de secours ? Cela supprimera tout code de secours existant.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="fill_totp_authentication_code">
+      <trans-unit xml:space="preserve" id="fill_totp_authentication_code" approved="yes">
                 <source>fill_totp_authentication_code</source>
-                <target state="translated">Authentification à deux-facteurs</target>
+                <target state="final">Authentification à deux-facteurs</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="totp_code">
+      <trans-unit xml:space="preserve" id="totp_code" approved="yes">
                 <source>totp_code</source>
-                <target state="translated">Code temporaire</target>
+                <target state="final">Code temporaire</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="store_your_backup_codes">
+      <trans-unit xml:space="preserve" id="store_your_backup_codes" approved="yes">
                 <source>store_your_backup_codes</source>
-                <target state="translated">Écrivez vos codes de secours dans un endroit sécurisé et protégé par un mot de passe.</target>
+                <target state="final">Écrivez vos codes de secours dans un endroit sécurisé et protégé par un mot de passe.</target>
             </trans-unit>
     </body>
   </file>
