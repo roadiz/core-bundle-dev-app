@@ -2,57 +2,57 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="fr">
     <body>
-      <trans-unit xml:space="preserve" id="document.private.help">
+      <trans-unit xml:space="preserve" id="document.private.help" approved="yes">
                 <source>document.private.help</source>
-            <target state="translated">Déplace le fichier dans un dossier du serveur non-accessible publiquement. Cette option désactive l’affichage du document dans votre site.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="document.imageAverageColor.help">
+            <target state="final">Déplace le fichier dans un dossier du serveur non-accessible publiquement. Cette option désactive l’affichage du document dans votre site.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageAverageColor.help" approved="yes">
                 <source>document.imageAverageColor.help</source>
-            <target state="translated">Couleur moyenne de votre image pour créer des placeholders colorés pendant de le chargement de vos pages. </target></trans-unit>
-      <trans-unit xml:space="preserve" id="node.nodeName.help">
+            <target state="final">Couleur moyenne de votre image pour créer des placeholders colorés pendant de le chargement de vos pages. </target></trans-unit>
+      <trans-unit xml:space="preserve" id="node.nodeName.help" approved="yes">
                 <source>node.nodeName.help</source>
-            <target state="translated">Le nom du nœud doit être unique et permet de générer les URL de vos pages et de repérer le nœud depuis vos thèmes. Il ne doit contenir aucun caractère spécial.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="tag.tagName.help">
+            <target state="final">Le nom du nœud doit être unique et permet de générer les URL de vos pages et de repérer le nœud depuis vos thèmes. Il ne doit contenir aucun caractère spécial.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="tag.tagName.help" approved="yes">
                 <source>tag.tagName.help</source>
-            <target state="translated">Le nom de l’étiquette doit être unique et permet de générer les URL de vos pages et de repérer l’étiquette depuis vos thèmes. Il ne doit contenir aucun caractère spécial.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="tag.locked.help">
+            <target state="final">Le nom de l’étiquette doit être unique et permet de générer les URL de vos pages et de repérer l’étiquette depuis vos thèmes. Il ne doit contenir aucun caractère spécial.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="tag.locked.help" approved="yes">
                 <source>tag.locked.help</source>
-            <target state="translated">Une étiquette verrouillée n’est pas renommée lorsque vous modifiez son titre dans la traduction principale. Cela empêche aussi sa suppression.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="folder.locked.help">
+            <target state="final">Une étiquette verrouillée n’est pas renommée lorsque vous modifiez son titre dans la traduction principale. Cela empêche aussi sa suppression.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="folder.locked.help" approved="yes">
                 <source>folder.locked.help</source>
-            <target state="translated">Un dossier verrouillé n’est pas renommé lorsque vous modifiez son titre dans la traduction principale. Cela empêche aussi sa suppression.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.metaTitle.help">
+            <target state="final">Un dossier verrouillé n’est pas renommé lorsque vous modifiez son titre dans la traduction principale. Cela empêche aussi sa suppression.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeSource.metaTitle.help" approved="yes">
                 <source>nodeSource.metaTitle.help</source>
-            <target state="translated">Le titre de référencement permet de rédiger entièrement le titre de votre page. Pour un affichage optimal dans les moteurs de recherche, le titre ne doit pas dépasser 55 à 65 caractères en moyenne.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.metaDescription.help">
+            <target state="final">Le titre de référencement permet de rédiger entièrement le titre de votre page. Pour un affichage optimal dans les moteurs de recherche, le titre ne doit pas dépasser 55 à 65 caractères en moyenne.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeSource.metaDescription.help" approved="yes">
                 <source>nodeSource.metaDescription.help</source>
-            <target state="translated">La description est un résumé de quelques caractères de votre page. Son objectif est de décrire succinctement son contenu. Cette description doit respecter une taille entre 120 et 155 caractères.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.noIndex.help">
+            <target state="final">La description est un résumé de quelques caractères de votre page. Son objectif est de décrire succinctement son contenu. Cette description doit respecter une taille entre 120 et 155 caractères.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeSource.noIndex.help" approved="yes">
                 <source>nodeSource.noIndex.help</source>
-            <target state="translated">Indique aux robots de ne pas indexer le contenu et de le cacher du sitemap.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.urlAlias.help">
+            <target state="final">Indique aux robots de ne pas indexer le contenu et de le cacher du sitemap.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeSource.urlAlias.help" approved="yes">
                 <source>nodeSource.urlAlias.help</source>
-            <target state="translated">Les alias d’URL permettent de réécrire la dernière partie de l’URL de votre page pour chaque traduction. Ils doivent être différents du nom du nœud et uniques sur tout votre site.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeSource.redirections.help">
+            <target state="final">Les alias d’URL permettent de réécrire la dernière partie de l’URL de votre page pour chaque traduction. Ils doivent être différents du nom du nœud et uniques sur tout votre site.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeSource.redirections.help" approved="yes">
                 <source>nodeSource.redirections.help</source>
-            <target state="translated">Les redirections automatiques permettent de rediriger la requête saisie vers l'URL actuel du noeud, et pour cette langue en particulier. Les redirections créées sont toujours du type "permanent".</target></trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.hidingNonReachableNodes.help">
+            <target state="final">Les redirections automatiques permettent de rediriger la requête saisie vers l'URL actuel du noeud, et pour cette langue en particulier. Les redirections créées sont toujours du type "permanent".</target></trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.hidingNonReachableNodes.help" approved="yes">
                 <source>nodeType.hidingNonReachableNodes.help</source>
-            <target state="translated">Ce type de nœud cachera seulement les nœuds enfant non-accessibles.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="exclude_this_field_from_fulltext_search_engine">
+            <target state="final">Ce type de nœud cachera seulement les nœuds enfant non-accessibles.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="exclude_this_field_from_fulltext_search_engine" approved="yes">
                 <source>exclude_this_field_from_fulltext_search_engine</source>
-            <target state="translated">Exclut la valeur de ce champ du moteur de recherche plein-texte.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="source_translation.help">
+            <target state="final">Exclut la valeur de ce champ du moteur de recherche plein-texte.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="source_translation.help" approved="yes">
                 <source>source_translation.help</source>
-            <target state="translated">Traduction à partir de laquelle tous les contenus seront dupliqués.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="translate_offspring.help">
+            <target state="final">Traduction à partir de laquelle tous les contenus seront dupliqués.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="translate_offspring.help" approved="yes">
                 <source>translate_offspring.help</source>
-            <target state="translated">Effectue la traduction sur tous les nœuds enfants en cascade lorsque ceux-ci ne sont pas traduits dans la langue de destination.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="user.publicName.help">
+            <target state="final">Effectue la traduction sur tous les nœuds enfants en cascade lorsque ceux-ci ne sont pas traduits dans la langue de destination.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="user.publicName.help" approved="yes">
                 <source>user.publicName.help</source>
-            <target state="translated">Si rempli, le nom publique peut être affiché librement sur le site à la manière d'un pseudonyme.</target></trans-unit>
-      <trans-unit xml:space="preserve" id="document.createdAt.help">
+            <target state="final">Si rempli, le nom publique peut être affiché librement sur le site à la manière d'un pseudonyme.</target></trans-unit>
+      <trans-unit xml:space="preserve" id="document.createdAt.help" approved="yes">
                 <source>document.createdAt.help</source>
-            <target state="translated">Permet d'éditer la date de création pour modifier le tri des documents.</target></trans-unit>
+            <target state="final">Permet d'éditer la date de création pour modifier le tri des documents.</target></trans-unit>
     </body>
   </file>
 </xliff>
