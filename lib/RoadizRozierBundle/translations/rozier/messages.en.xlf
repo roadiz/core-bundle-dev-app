@@ -2075,41 +2075,41 @@
         <source>node.deleted</source>
         <target state="final">Deleted</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.visible">
+      <trans-unit xml:space="preserve" id="node.visible" approved="yes">
         <source>node.visible</source>
         <target state="final">Visible</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.hideChildren">
+      <trans-unit xml:space="preserve" id="node.hideChildren" approved="yes">
         <source>node.hideChildren</source>
         <target state="final">Container</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.locked">
+      <trans-unit xml:space="preserve" id="node.locked" approved="yes">
         <source>node.locked</source>
         <target state="final">Locked</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.sterile">
+      <trans-unit xml:space="preserve" id="node.sterile" approved="yes">
         <source>node.sterile</source>
         <target state="final">Sterile (no children allowed)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.isHome.help">
+      <trans-unit xml:space="preserve" id="node.isHome.help" approved="yes">
         <source>node.isHome.help</source>
-        <target state="translated">Indicates if this node is the homepage of your website. This will change its path to `/`.</target>
+        <target state="final">Indicates if this node is the homepage of your website. This will change its path to `/`.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.visible.help">
+      <trans-unit xml:space="preserve" id="node.visible.help" approved="yes">
         <source>node.visible.help</source>
-        <target state="translated">Controls whether this node is visible on your website menus. All invisible parent nodes are ignored when generating paths.</target>
+        <target state="final">Controls whether this node is visible on your website menus. All invisible parent nodes are ignored when generating paths.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.hideChildren.help">
+      <trans-unit xml:space="preserve" id="node.hideChildren.help" approved="yes">
         <source>node.hideChildren.help</source>
-        <target state="translated">Convert this node into a node stack (or container) which is useful to display content collections instead of displaying direct children in node-tree.</target>
+        <target state="final">Convert this node into a node stack (or container) which is useful to display content collections instead of displaying direct children in node-tree.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.locked.help">
+      <trans-unit xml:space="preserve" id="node.locked.help" approved="yes">
         <source>node.locked.help</source>
-        <target state="translated">A locked node cannot be moved, renamed, or deleted.</target>
+        <target state="final">A locked node cannot be moved, renamed, or deleted.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="node.sterile.help">
+      <trans-unit xml:space="preserve" id="node.sterile.help" approved="yes">
         <source>node.sterile.help</source>
-        <target state="translated">A sterile node cannot have any child nodes.</target>
+        <target state="final">A sterile node cannot have any child nodes.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="draft" approved="yes">
         <source>draft</source>
@@ -2146,46 +2146,449 @@
         <target state="final">Parameters</target>
       </trans-unit>
       <!-- embed documents -->
-      <trans-unit xml:space="preserve" id="embed.document" approved="yes">
-        <source>embed.document</source>
-        <target state="final">Embed</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="embed" approved="yes">
         <source>embed</source>
         <target state="final">Embed</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="tagTree" approved="yes">
-        <source>tagTree</source>
-        <target state="final">Tag tree</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%node%.linked.tags" approved="yes">
-        <source>node.%node%.linked.tags</source>
-        <target state="final">Node %node% has been linked with new tags.</target>
+      <trans-unit xml:space="preserve" id="embed.document" approved="yes">
+        <source>embed.document</source>
+        <target state="final">Embed</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="list.tags.to_link" approved="yes">
         <source>list.tags.to_link</source>
         <target state="final">List tags to link with current node</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%node%.linked.tags" approved="yes">
+        <source>node.%node%.linked.tags</source>
+        <target state="final">Node %node% has been linked with new tags.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="tagTree" approved="yes">
+        <source>tagTree</source>
+        <target state="final">Tag tree</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="use.new_or_existing.tags_with_hierarchy" approved="yes">
         <source>use.new_or_existing.tags_with_hierarchy</source>
         <target state="final">You can use existing or new tags. You can directly create tags inside an existing one using "/".</target>
       </trans-unit>
-      <!-- stacks -->
+      <trans-unit xml:space="preserve" id="%count%.customFormFields" approved="yes">
+        <source>%count%.customFormFields</source>
+        <target state="final">%count% custom form's fields</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.node" approved="yes">
+        <source>add.a.child.node</source>
+        <target state="final">Add a child node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.child.tag" approved="yes">
+        <source>add.a.child.tag</source>
+        <target state="final">Add a child tag</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.customForm" approved="yes">
+        <source>add.a.customForm</source>
+        <target state="final">Add a custom form</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.customFormField" approved="yes">
+        <source>add.a.customFormField</source>
+        <target state="final">Add a custom form field</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.folder" approved="yes">
+        <source>add.a.folder</source>
+        <target state="final">Add a folder</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.font" approved="yes">
+        <source>add.a.font</source>
+        <target state="final">Add a font</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.group" approved="yes">
+        <source>add.a.group</source>
+        <target state="final">Add a group</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.node" approved="yes">
+        <source>add.a.node</source>
+        <target state="final">Add a node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeType" approved="yes">
+        <source>add.a.nodeType</source>
+        <target state="final">Add a node type</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeTypeField" approved="yes">
+        <source>add.a.nodeTypeField</source>
+        <target state="final">Add a node-type field</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.role" approved="yes">
+        <source>add.a.role</source>
+        <target state="final">Add a role</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.setting" approved="yes">
+        <source>add.a.setting</source>
+        <target state="final">Add a setting</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.settingGroup" approved="yes">
+        <source>add.a.settingGroup</source>
+        <target state="final">Add a setting group</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.specific.role" approved="yes">
+        <source>add.a.specific.role</source>
+        <target state="final">Add a specific role</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.tag" approved="yes">
+        <source>add.a.tag</source>
+        <target state="final">Add a tag</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.theme" approved="yes">
+        <source>add.a.theme</source>
+        <target state="final">Add a theme</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.translation" approved="yes">
+        <source>add.a.translation</source>
+        <target state="final">Add a translation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.urlAlias" approved="yes">
+        <source>add.a.urlAlias</source>
+        <target state="final">Add an url-alias</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.user" approved="yes">
+        <source>add.a.user</source>
+        <target state="final">Add an user</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.child.folder" approved="yes">
+        <source>add.child.folder</source>
+        <target state="final">Add sub-folder</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.customForm" approved="yes">
+        <source>add.customForm</source>
+        <target state="final">Add custom form</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.customFormField" approved="yes">
+        <source>add.customFormField</source>
+        <target state="final">Add field</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.folder" approved="yes">
+        <source>add.folder</source>
+        <target state="final">Add folder</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.folder.%name%.child" approved="yes">
+        <source>add.folder.%name%.child</source>
+        <target state="final">Add a sub-folder in «%name%»</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="add.stack.type" approved="yes">
         <source>add.stack.type</source>
         <target state="final">Add a stack type</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stack.types" approved="yes">
-        <source>stack.types</source>
-        <target state="final">Stack types</target>
+      <trans-unit xml:space="preserve" id="answer.form" approved="yes">
+        <source>answer.form</source>
+        <target state="final">Answer form.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="remove" approved="yes">
-        <source>remove</source>
-        <target state="final">Remove</target>
+      <trans-unit xml:space="preserve" id="are.you.sure.you.want.to.cancel.this.upload" approved="yes">
+        <source>are.you.sure.you.want.to.cancel.this.upload</source>
+        <target state="final">Are you sure you want to cancel this upload</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stack_node.%name%.has_new_type.%type%" approved="yes">
-        <source>stack_node.%name%.has_new_type.%type%</source>
-        <target state="final">Stack node “%name%” is linked to “%type%” type.</target>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customForm" approved="yes">
+        <source>are_you_sure.delete.customForm</source>
+        <target state="final">Are you sure you want to delete this custom form ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer" approved="yes">
+        <source>are_you_sure.delete.customFormAnswer</source>
+        <target state="final">Are you sure you want to delete this answer?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormField" approved="yes">
+        <source>are_you_sure.delete.customFormField</source>
+        <target state="final">Are you sure you want to delete to delete this field</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation" approved="yes">
+        <source>are_you_sure.delete.document.translation</source>
+        <target state="final">Are you sure to delete this document translation?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder" approved="yes">
+        <source>are_you_sure.delete.folder</source>
+        <target state="final">Are you sure you want to delete this folder?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.documents" approved="yes">
+        <source>are_you_sure.delete.these.documents</source>
+        <target state="final">Are you sure you want to delete these documents ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes" approved="yes">
+        <source>are_you_sure.delete.these.nodes</source>
+        <target state="final">Are you sure you want to delete these nodes ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash" approved="yes">
+        <source>are_you_sure.empty.node.and.data.trash</source>
+        <target state="final">Are you sure to empty trash from deleted nodes and their data?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back" approved="yes">
+        <source>back</source>
+        <target state="final">Back</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customFormAnswers" approved="yes">
+        <source>back_to.customFormAnswers</source>
+        <target state="final">Back to answers</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customFormFields" approved="yes">
+        <source>back_to.customFormFields</source>
+        <target state="final">Back to fields</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.customForms" approved="yes">
+        <source>back_to.customForms</source>
+        <target state="final">Back to custom forms</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.folders" approved="yes">
+        <source>back_to.folders</source>
+        <target state="final">Back to folders</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.top" approved="yes">
+        <source>back_to.top</source>
+        <target state="final">Back to top</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="blockquote" approved="yes">
+        <source>blockquote</source>
+        <target state="final">Blockquote</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bold" approved="yes">
+        <source>bold</source>
+        <target state="final">Bold</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.actions" approved="yes">
+        <source>bulk.actions</source>
+        <target state="final">Bulk actions</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.documents" approved="yes">
+        <source>bulk.delete.documents</source>
+        <target state="final">Delete selected documents</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.delete.nodes" approved="yes">
+        <source>bulk.delete.nodes</source>
+        <target state="final">Delete selected nodes</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.fold.documents" approved="yes">
+        <source>bulk.fold.documents</source>
+        <target state="final">Link selected documents</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="cancel.upload" approved="yes">
+        <source>cancel.upload</source>
+        <target state="final">Cancel upload</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="colour.type" approved="yes">
+        <source>colour.type</source>
+        <target state="final">Color</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="create.a.node" approved="yes">
+        <source>create.a.node</source>
+        <target state="final">Create a node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="created.at" approved="yes">
+        <source>created.at</source>
+        <target state="final">Created at</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm" approved="yes">
+        <source>customForm</source>
+        <target state="final">Custom form</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.%name%.send" approved="yes">
+        <source>customForm.%name%.send</source>
+        <target state="final">The custom form "%name%" sent.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.answers" approved="yes">
+        <source>customForm.answers</source>
+        <target state="final">Answers</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.closeDate" approved="yes">
+        <source>customForm.closeDate</source>
+        <target state="final">Close date</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.color" approved="yes">
+        <source>customForm.color</source>
+        <target state="final">Couleur</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.displayName" approved="yes">
+        <source>customForm.displayName</source>
+        <target state="final">Display name</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.open" approved="yes">
+        <source>customForm.open</source>
+        <target state="final">Open</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.show" approved="yes">
+        <source>customForm.show</source>
+        <target state="final">Show form</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer" approved="yes">
+        <source>customFormAnswer</source>
+        <target state="final">Answers</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer.%id%.deleted" approved="yes">
+        <source>customFormAnswer.%id%.deleted</source>
+        <target state="final">Answer "%id%" deleted.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormAnswer.answers" approved="yes">
+        <source>customFormAnswer.answers</source>
+        <target state="final">Answer attribute</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.created" approved="yes">
+        <source>customFormField.%name%.created</source>
+        <target state="final">Field "%name%" created.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.deleted" approved="yes">
+        <source>customFormField.%name%.deleted</source>
+        <target state="final">Field "%name%" deleted.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormField.%name%.updated" approved="yes">
+        <source>customFormField.%name%.updated</source>
+        <target state="final">Field "%name%" updated.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="customFormFieldAttribute" approved="yes">
+        <source>customFormFieldAttribute</source>
+        <target state="final">Answer attribute</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="default.translation" approved="yes">
+        <source>default.translation</source>
+        <target state="final">Default translation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="default_value" approved="yes">
+        <source>default_value</source>
+        <target state="final">Default value</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.all" approved="yes">
+        <source>delete.all</source>
+        <target state="final">Delete all</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customForm" approved="yes">
+        <source>delete.customForm</source>
+        <target state="final">Delete custom form</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customForm.%name%" approved="yes">
+        <source>delete.customForm.%name%</source>
+        <target state="final">Delete %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%" approved="yes">
+        <source>delete.customFormAnswer.%name%</source>
+        <target state="final">Answer %name% deleted</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormField" approved="yes">
+        <source>delete.customFormField</source>
+        <target state="final">Delete field</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.customFormField.%name%" approved="yes">
+        <source>delete.customFormField.%name%</source>
+        <target state="final">Field %name% deleted</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.document.translation.%name%" approved="yes">
+        <source>delete.document.translation.%name%</source>
+        <target state="final">Delete document “%name%” translation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.documents" approved="yes">
+        <source>delete.documents</source>
+        <target state="final">Delete documents</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder" approved="yes">
+        <source>delete.folder</source>
+        <target state="final">Delete folder</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.folder.%name%" approved="yes">
+        <source>delete.folder.%name%</source>
+        <target state="final">Delete folder %name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.font" approved="yes">
+        <source>delete.font</source>
+        <target state="final">Delete font</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="delete.nodes" approved="yes">
+        <source>delete.nodes</source>
+        <target state="final">Delete selected nodes</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.format.unknown" approved="yes">
+        <source>document.format.unknown</source>
+        <target state="final">Document format is unknown.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.metas" approved="yes">
+        <source>document.metas</source>
+        <target state="final">Metas</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete" approved="yes">
+        <source>document.translation.%name%.cannot_delete</source>
+        <target state="final">Document “%name%” translation cannot be deleted.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted" approved="yes">
+        <source>document.translation.%name%.deleted</source>
+        <target state="final">Document “%name%” translation has been deleted</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="document.translation.%name%.updated" approved="yes">
+        <source>document.translation.%name%.updated</source>
+        <target state="final">Document “%name%” translation has been updated.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="documents.linked_to.folders" approved="yes">
+        <source>documents.linked_to.folders</source>
+        <target state="final">Documents have been linked to folders.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer" approved="yes">
+        <source>drop.files.here.to.upload.or.click.to.open.your.explorer</source>
+        <target state="final">Drop files here to upload or click to open your explorer</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicated.node.%name%" approved="yes">
+        <source>duplicated.node.%name%</source>
+        <target state="final">Node “%name%” has been duplicated</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customForm.%name%" approved="yes">
+        <source>edit.customForm.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormField.%name%" approved="yes">
+        <source>edit.customFormField.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormFields" approved="yes">
+        <source>edit.customFormFields</source>
+        <target state="final">Add a field</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.customFormFields.for.customForm.%name%" approved="yes">
+        <source>edit.customFormFields.for.customForm.%name%</source>
+        <target state="final">%name% fields</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder" approved="yes">
+        <source>edit.folder</source>
+        <target state="final">Edit folder</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.folder.%name%" approved="yes">
+        <source>edit.folder.%name%</source>
+        <target state="final">%name%</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.document.already_exists" approved="yes">
+        <source>embed.document.already_exists</source>
+        <target state="final">Document to embed already exists.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embed.preview" approved="yes">
+        <source>embed.preview</source>
+        <target state="final">External media preview</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="embedId.is_not_valid" approved="yes">
+        <source>embedId.is_not_valid</source>
+        <target state="final">Media identifier is not valid.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.node.trash" approved="yes">
+        <source>empty.node.trash</source>
+        <target state="final">Empty node trash</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="empty.trash" approved="yes">
+        <source>empty.trash</source>
+        <target state="final">Empty trash</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="enter_symfony_expression_language_with_object_as_var_name" approved="yes">
+        <source>enter_symfony_expression_language_with_object_as_var_name</source>
+        <target state="final">Enter a Symfony Expression Language expression using "object" as root var name.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="exclude_this_field_from_api_serialization" approved="yes">
+        <source>exclude_this_field_from_api_serialization</source>
+        <target state="final">Prevents this field to be serialized when a node-source is queried from API.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="exclude_this_field_from_api_serialization_if_expression_result_is_true" approved="yes">
+        <source>exclude_this_field_from_api_serialization_if_expression_result_is_true</source>
+        <target state="final">Prevents this field to be serialized only if given expression result is true. This requires a valid Symfony Expression Language string.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.all" approved="yes">
+        <source>export.all</source>
+        <target state="final">Export all</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.all.nodes" approved="yes">
+        <source>export.all.nodes</source>
+        <target state="final">Export all nodes</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="field.%name%.updated" approved="yes">
         <source>field.%name%.updated</source>
@@ -2195,239 +2598,47 @@
         <source>field.%nodeTypeFieldId%.not_exists</source>
         <target state="final">Field #%nodeTypeFieldId% does not exist.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="created.at" approved="yes">
-        <source>created.at</source>
-        <target state="final">Created at</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="updated.at" approved="yes">
-        <source>updated.at</source>
-        <target state="final">Updated at</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="position" approved="yes">
-        <source>position</source>
-        <target state="final">Position</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="empty.node.trash" approved="yes">
-        <source>empty.node.trash</source>
-        <target state="final">Empty node trash</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.trash.emptied" approved="yes">
-        <source>node.trash.emptied</source>
-        <target state="final">Node trash has been emptied.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="empty.trash" approved="yes">
-        <source>empty.trash</source>
-        <target state="final">Empty trash</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.empty.node.and.data.trash" approved="yes">
-        <source>are_you_sure.empty.node.and.data.trash</source>
-        <target state="final">Are you sure to empty trash from deleted nodes and their data?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="random.document" approved="yes">
-        <source>random.document</source>
-        <target state="final">Random</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.format.unknown" approved="yes">
-        <source>document.format.unknown</source>
-        <target state="final">Document format is unknown.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.embed.document.found" approved="yes">
-        <source>no.embed.document.found</source>
-        <target state="final">No document to embed has been found.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embed.document.already_exists" approved="yes">
-        <source>embed.document.already_exists</source>
-        <target state="final">Document to embed already exists.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embedId.is_not_valid" approved="yes">
-        <source>embedId.is_not_valid</source>
-        <target state="final">Media identifier is not valid.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.metas" approved="yes">
-        <source>document.metas</source>
-        <target state="final">Metas</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.document.translation.%name%" approved="yes">
-        <source>delete.document.translation.%name%</source>
-        <target state="final">Delete document “%name%” translation</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.document.translation" approved="yes">
-        <source>are_you_sure.delete.document.translation</source>
-        <target state="final">Are you sure to delete this document translation?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.updated" approved="yes">
-        <source>document.translation.%name%.updated</source>
-        <target state="final">Document “%name%” translation has been updated.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.deleted" approved="yes">
-        <source>document.translation.%name%.deleted</source>
-        <target state="final">Document “%name%” translation has been deleted</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.translation.%name%.cannot_delete" approved="yes">
-        <source>document.translation.%name%.cannot_delete</source>
-        <target state="final">Document “%name%” translation cannot be deleted.</target>
+      <trans-unit xml:space="preserve" id="file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib" approved="yes">
+        <source>file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib</source>
+        <target state="final">File is too big ({{filesize}}MiB), max filesize {{maxFilesize}} MiB</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folder" approved="yes">
         <source>folder</source>
         <target state="final">Folder</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folderTree" approved="yes">
-        <source>folderTree</source>
-        <target state="final">Document folders</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.folder" approved="yes">
-        <source>add.folder</source>
-        <target state="final">Add folder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.child.folder" approved="yes">
-        <source>add.child.folder</source>
-        <target state="final">Add sub-folder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.folder.%name%.child" approved="yes">
-        <source>add.folder.%name%.child</source>
-        <target state="final">Add a sub-folder in «%name%»</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="folder.%name%.created" approved="yes">
         <source>folder.%name%.created</source>
         <target state="final">Le dossier « %name% » a été créé.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.folder" approved="yes">
-        <source>edit.folder</source>
-        <target state="final">Edit folder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.folder" approved="yes">
-        <source>delete.folder</source>
-        <target state="final">Delete folder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.folders" approved="yes">
-        <source>back_to.folders</source>
-        <target state="final">Back to folders</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.settings" approved="yes">
-        <source>folder.settings</source>
-        <target state="final">Settings</target>
-        <note>Nav bar label for editing folder id and visibility state</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folder.labels" approved="yes">
         <source>folder.labels</source>
         <target state="final">Labels</target>
         <note>Nav bar label for editing folder label in each translation.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.folder.%name%" approved="yes">
-        <source>delete.folder.%name%</source>
-        <target state="final">Delete folder %name%</target>
+      <trans-unit xml:space="preserve" id="folder.name" approved="yes">
+        <source>folder.name</source>
+        <target state="final">Folder name</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.folder" approved="yes">
-        <source>are_you_sure.delete.folder</source>
-        <target state="final">Are you sure you want to delete this folder?</target>
+      <trans-unit xml:space="preserve" id="folder.settings" approved="yes">
+        <source>folder.settings</source>
+        <target state="final">Settings</target>
+        <note>Nav bar label for editing folder id and visibility state</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.folder.%name%" approved="yes">
-        <source>edit.folder.%name%</source>
-        <target state="final">%name%</target>
+      <trans-unit xml:space="preserve" id="folderTree" approved="yes">
+        <source>folderTree</source>
+        <target state="final">Document folders</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="folders" approved="yes">
         <source>folders</source>
         <target state="final">Folders</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="default.translation" approved="yes">
-        <source>default.translation</source>
-        <target state="final">Default translation</target>
+      <trans-unit xml:space="preserve" id="forbidden.page" approved="yes">
+        <source>forbidden.page</source>
+        <target state="final">Forbidden page, please connect again.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.minLength" approved="yes">
-        <source>nodeTypeField.minLength</source>
-        <target state="final">Min length</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.maxLength" approved="yes">
-        <source>nodeTypeField.maxLength</source>
-        <target state="final">Max length</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no_limit" approved="yes">
-        <source>no_limit</source>
-        <target state="final">No limit</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.serialization" approved="yes">
-        <source>nodeTypeField.serialization</source>
-        <target state="final">Serialization</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.excludedFromSerialization" approved="yes">
-        <source>nodeTypeField.excludedFromSerialization</source>
-        <target state="final">Exclude field from node-source serialization?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.serializationMaxDepth" approved="yes">
-        <source>nodeTypeField.serializationMaxDepth</source>
-        <target state="final">Maximum serialization depth</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.serializationExclusionExpression" approved="yes">
-        <source>nodeTypeField.serializationExclusionExpression</source>
-        <target state="final">Serialization exclusion expression</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeField.serializationGroups" approved="yes">
-        <source>nodeTypeField.serializationGroups</source>
-        <target state="final">Custom serialization groups</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="exclude_this_field_from_api_serialization" approved="yes">
-        <source>exclude_this_field_from_api_serialization</source>
-        <target state="final">Prevents this field to be serialized when a node-source is queried from API.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="default_value" approved="yes">
-        <source>default_value</source>
-        <target state="final">Default value</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="exclude_this_field_from_api_serialization_if_expression_result_is_true" approved="yes">
-        <source>exclude_this_field_from_api_serialization_if_expression_result_is_true</source>
-        <target state="final">Prevents this field to be serialized only if given expression result is true. This requires a valid Symfony Expression Language string.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="enter_symfony_expression_language_with_object_as_var_name" approved="yes">
-        <source>enter_symfony_expression_language_with_object_as_var_name</source>
-        <target state="final">Enter a Symfony Expression Language expression using "object" as root var name.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all.nodes" approved="yes">
-        <source>export.all.nodes</source>
-        <target state="final">Export all nodes</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all" approved="yes">
-        <source>export.all</source>
-        <target state="final">Export all</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="drop.files.here.to.upload.or.click.to.open.your.explorer" approved="yes">
-        <source>drop.files.here.to.upload.or.click.to.open.your.explorer</source>
-        <target state="final">Drop files here to upload or click to open your explorer</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads" approved="yes">
-        <source>your.browser.does.not.support.dragndrop.file.uploads</source>
-        <target state="final">Your browser does not support drag’n’drop file uploads</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days" approved="yes">
-        <source>please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days</source>
-        <target state="final">Please use the fallback form below to upload your files like in the olden days</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib" approved="yes">
-        <source>file.is.too.big.({{filesize}}mib).max.filesize.{{maxFilesize}}.mib</source>
-        <target state="final">File is too big ({{filesize}}MiB), max filesize {{maxFilesize}} MiB</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type" approved="yes">
-        <source>you.cant.upload.files.of.this.type</source>
-        <target state="final">You can’t upload files of this type</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="server.responded.with.{{statusCode}}.code" approved="yes">
-        <source>server.responded.with.{{statusCode}}.code</source>
-        <target state="final">Server responded with {{statusCode}} code</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="cancel.upload" approved="yes">
-        <source>cancel.upload</source>
-        <target state="final">Cancel upload</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are.you.sure.you.want.to.cancel.this.upload" approved="yes">
-        <source>are.you.sure.you.want.to.cancel.this.upload</source>
-        <target state="final">Are you sure you want to cancel this upload</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="remove.file" approved="yes">
-        <source>remove.file</source>
-        <target state="final">Remove file</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="you.can.not.upload.any.more.files" approved="yes">
-        <source>you.can.not.upload.any.more.files</source>
-        <target state="final">You can not upload any more files</target>
+      <trans-unit xml:space="preserve" id="fullscreen" approved="yes">
+        <source>fullscreen</source>
+        <target state="final">Fullscreen</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="headline.2" approved="yes">
         <source>headline.2</source>
@@ -2449,81 +2660,73 @@
         <source>headline.6</source>
         <target state="final">Headline 6</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="fullscreen" approved="yes">
-        <source>fullscreen</source>
-        <target state="final">Fullscreen</target>
+      <trans-unit xml:space="preserve" id="image" approved="yes">
+        <source>image</source>
+        <target state="final">Image</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bold" approved="yes">
-        <source>bold</source>
-        <target state="final">Bold</target>
+      <trans-unit xml:space="preserve" id="impossible.duplicate.node.%name%" approved="yes">
+        <source>impossible.duplicate.node.%name%</source>
+        <target state="final">Impossible to duplicate node “%name%”</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="italic" approved="yes">
         <source>italic</source>
         <target state="final">Italic</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="strikethrough" approved="yes">
-        <source>strikethrough</source>
-        <target state="final">Strikethrough</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="blockquote" approved="yes">
-        <source>blockquote</source>
-        <target state="final">Blockquote</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="link" approved="yes">
         <source>link</source>
         <target state="final">Link</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="image" approved="yes">
-        <source>image</source>
-        <target state="final">Image</target>
+      <trans-unit xml:space="preserve" id="link.tags" approved="yes">
+        <source>link.tags</source>
+        <target state="final">Tag selected</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="unordered.list" approved="yes">
-        <source>unordered.list</source>
-        <target state="final">Unordered list</target>
+      <trans-unit xml:space="preserve" id="list.folders.to_link" approved="yes">
+        <source>list.folders.to_link</source>
+        <target state="final">List folders (existant or not)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="ordered.list" approved="yes">
-        <source>ordered.list</source>
-        <target state="final">Ordered list</target>
+      <trans-unit xml:space="preserve" id="list.tags.to_link.or_unlink" approved="yes">
+        <source>list.tags.to_link.or_unlink</source>
+        <target state="final">List tags to link or unlink…</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back" approved="yes">
-        <source>back</source>
-        <target state="final">Back</target>
+      <trans-unit xml:space="preserve" id="main_color" approved="yes">
+        <source>main_color</source>
+        <target state="final">Main back-office color</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="separator" approved="yes">
-        <source>separator</source>
-        <target state="final">Separator</target>
+      <trans-unit xml:space="preserve" id="manage.customFormFields" approved="yes">
+        <source>manage.customFormFields</source>
+        <target state="final">Custom form fields</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="non_breaking.space" approved="yes">
-        <source>non_breaking.space</source>
-        <target state="final">Non-breaking space</target>
+      <trans-unit xml:space="preserve" id="manage.customForms" approved="yes">
+        <source>manage.customForms</source>
+        <target state="final">Manage custom forms</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="non_breaking.hyphen" approved="yes">
-        <source>non_breaking.hyphen</source>
-        <target state="final">Non-breaking hyphen</target>
+      <trans-unit xml:space="preserve" id="new.answer.form.%site%" approved="yes">
+        <source>new.answer.form.%site%</source>
+        <target state="final">New answer for "%site%" form.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="forbidden.page" approved="yes">
-        <source>forbidden.page</source>
-        <target state="final">Forbidden page, please connect again.</target>
+      <trans-unit xml:space="preserve" id="no.customFormField" approved="yes">
+        <source>no.customFormField</source>
+        <target state="final">No custom form's field</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="see_all" approved="yes">
-        <source>see_all</source>
-        <target state="final">See all…</target>
+      <trans-unit xml:space="preserve" id="no.embed.document.found" approved="yes">
+        <source>no.embed.document.found</source>
+        <target state="final">No document to embed has been found.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.documents" approved="yes">
-        <source>search.documents</source>
-        <target state="final">Search documents</target>
+      <trans-unit xml:space="preserve" id="no_documents.linked_to.folders" approved="yes">
+        <source>no_documents.linked_to.folders</source>
+        <target state="final">No documents have linked.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="search.nodes" approved="yes">
-        <source>search.nodes</source>
-        <target state="final">Search nodes</target>
+      <trans-unit xml:space="preserve" id="no_limit" approved="yes">
+        <source>no_limit</source>
+        <target state="final">No limit</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.toggle-explorer" approved="yes">
-        <source>nodes.toggle-explorer</source>
-        <target state="final">Explorer</target>
+      <trans-unit xml:space="preserve" id="node.hidden" approved="yes">
+        <source>node.hidden</source>
+        <target state="final">Hidden</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="folder.name" approved="yes">
-        <source>folder.name</source>
-        <target state="final">Folder name</target>
+      <trans-unit xml:space="preserve" id="node.trash.emptied" approved="yes">
+        <source>node.trash.emptied</source>
+        <target state="final">Node trash has been emptied.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.color" approved="yes">
         <source>nodeType.color</source>
@@ -2533,357 +2736,41 @@
         <source>nodeType.defaultTtl</source>
         <target state="final">Front TTL for new nodes</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType_default_ttl_when_creating_nodes" approved="yes">
-        <source>nodeType_default_ttl_when_creating_nodes</source>
-        <target state="final">Front cache time-to-live for nodes created against this type (given in minutes).</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.numberFields" approved="yes">
         <source>nodeType.numberFields</source>
         <target state="final">Number of fields</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.top" approved="yes">
-        <source>back_to.top</source>
-        <target state="final">Back to top</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.customFormField" approved="yes">
-        <source>no.customFormField</source>
-        <target state="final">No custom form's field</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.customForm" approved="yes">
-        <source>add.customForm</source>
-        <target state="final">Add custom form</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm" approved="yes">
-        <source>customForm</source>
-        <target state="final">Custom form</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.displayName" approved="yes">
-        <source>customForm.displayName</source>
-        <target state="final">Display name</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="%count%.customFormFields" approved="yes">
-        <source>%count%.customFormFields</source>
-        <target state="final">%count% custom form's fields</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.customFormFields" approved="yes">
-        <source>manage.customFormFields</source>
-        <target state="final">Custom form fields</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.answers" approved="yes">
-        <source>customForm.answers</source>
-        <target state="final">Answers</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.show" approved="yes">
-        <source>customForm.show</source>
-        <target state="final">Show form</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormAnswer" approved="yes">
-        <source>are_you_sure.delete.customFormAnswer</source>
-        <target state="final">Are you sure you want to delete this answer?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormAnswer.%name%" approved="yes">
-        <source>delete.customFormAnswer.%name%</source>
-        <target state="final">Answer %name% deleted</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customFormAnswers" approved="yes">
-        <source>back_to.customFormAnswers</source>
-        <target state="final">Back to answers</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer" approved="yes">
-        <source>customFormAnswer</source>
-        <target state="final">Answers</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customForms" approved="yes">
-        <source>back_to.customForms</source>
-        <target state="final">Back to custom forms</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="submitted.date" approved="yes">
-        <source>submitted.date</source>
-        <target state="final">Submitted date</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer.answers" approved="yes">
-        <source>customFormAnswer.answers</source>
-        <target state="final">Answer attribute</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormFieldAttribute" approved="yes">
-        <source>customFormFieldAttribute</source>
-        <target state="final">Answer attribute</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormField" approved="yes">
-        <source>delete.customFormField</source>
-        <target state="final">Delete field</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.customFormField" approved="yes">
-        <source>add.customFormField</source>
-        <target state="final">Add field</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.customFormFields" approved="yes">
-        <source>back_to.customFormFields</source>
-        <target state="final">Back to fields</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customFormField.%name%" approved="yes">
-        <source>delete.customFormField.%name%</source>
-        <target state="final">Field %name% deleted</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customFormField" approved="yes">
-        <source>are_you_sure.delete.customFormField</source>
-        <target state="final">Are you sure you want to delete to delete this field</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormField.%name%" approved="yes">
-        <source>edit.customFormField.%name%</source>
-        <target state="final">%name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormFields.for.customForm.%name%" approved="yes">
-        <source>edit.customFormFields.for.customForm.%name%</source>
-        <target state="final">%name% fields</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customForm" approved="yes">
-        <source>delete.customForm</source>
-        <target state="final">Delete custom form</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.customForm.%name%" approved="yes">
-        <source>delete.customForm.%name%</source>
-        <target state="final">Delete %name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.customForm" approved="yes">
-        <source>are_you_sure.delete.customForm</source>
-        <target state="final">Are you sure you want to delete this custom form ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customForm.%name%" approved="yes">
-        <source>edit.customForm.%name%</source>
-        <target state="final">%name%</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields" approved="yes">
-        <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
-        <target state="final">{0} No field|{1} 1 field|]1,Inf] %count% fields</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers" approved="yes">
-        <source>{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers</source>
-        <target state="final">{0} No answer|{1} 1 answer|]1,Inf] %count% answers</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="create.a.node" approved="yes">
-        <source>create.a.node</source>
-        <target state="final">Create a node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.node" approved="yes">
-        <source>add.a.node</source>
-        <target state="final">Add a node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.tag" approved="yes">
-        <source>add.a.tag</source>
-        <target state="final">Add a tag</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.urlAlias" approved="yes">
-        <source>add.a.urlAlias</source>
-        <target state="final">Add an url-alias</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.child.node" approved="yes">
-        <source>add.a.child.node</source>
-        <target state="final">Add a child node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.child.tag" approved="yes">
-        <source>add.a.child.tag</source>
-        <target state="final">Add a child tag</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeType" approved="yes">
-        <source>add.a.nodeType</source>
-        <target state="final">Add a node type</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeTypeField" approved="yes">
-        <source>add.a.nodeTypeField</source>
-        <target state="final">Add a node-type field</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.translation" approved="yes">
-        <source>add.a.translation</source>
-        <target state="final">Add a translation</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.theme" approved="yes">
-        <source>add.a.theme</source>
-        <target state="final">Add a theme</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.font" approved="yes">
-        <source>add.a.font</source>
-        <target state="final">Add a font</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.user" approved="yes">
-        <source>add.a.user</source>
-        <target state="final">Add an user</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.specific.role" approved="yes">
-        <source>add.a.specific.role</source>
-        <target state="final">Add a specific role</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.group" approved="yes">
-        <source>add.a.group</source>
-        <target state="final">Add a group</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.role" approved="yes">
-        <source>add.a.role</source>
-        <target state="final">Add a role</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.setting" approved="yes">
-        <source>add.a.setting</source>
-        <target state="final">Add a setting</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.settingGroup" approved="yes">
-        <source>add.a.settingGroup</source>
-        <target state="final">Add a setting group</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.font" approved="yes">
-        <source>delete.font</source>
-        <target state="final">Delete font</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.customForm" approved="yes">
-        <source>add.a.customForm</source>
-        <target state="final">Add a custom form</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.color" approved="yes">
-        <source>customForm.color</source>
-        <target state="final">Couleur</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="manage.customForms" approved="yes">
-        <source>manage.customForms</source>
-        <target state="final">Manage custom forms</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.open" approved="yes">
-        <source>customForm.open</source>
-        <target state="final">Open</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.closeDate" approved="yes">
-        <source>customForm.closeDate</source>
-        <target state="final">Close date</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.customFormField" approved="yes">
-        <source>add.a.customFormField</source>
-        <target state="final">Add a custom form field</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.customFormFields" approved="yes">
-        <source>edit.customFormFields</source>
-        <target state="final">Add a field</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.folder" approved="yes">
-        <source>add.a.folder</source>
-        <target state="final">Add a folder</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.hidden" approved="yes">
-        <source>node.hidden</source>
-        <target state="final">Hidden</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="required" approved="yes">
-        <source>required</source>
-        <target state="final">Required</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.documents" approved="yes">
-        <source>delete.documents</source>
-        <target state="final">Delete documents</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.documents" approved="yes">
-        <source>are_you_sure.delete.these.documents</source>
-        <target state="final">Are you sure you want to delete these documents ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.delete.documents" approved="yes">
-        <source>bulk.delete.documents</source>
-        <target state="final">Delete selected documents</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="main_color" approved="yes">
-        <source>main_color</source>
-        <target state="final">Main back-office color</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="colour.type" approved="yes">
-        <source>colour.type</source>
-        <target state="final">Color</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.type" approved="yes">
-        <source>nodes.type</source>
-        <target state="final">Nodes references</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="embed.preview" approved="yes">
-        <source>embed.preview</source>
-        <target state="final">External media preview</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="answer.form" approved="yes">
-        <source>answer.form</source>
-        <target state="final">Answer form.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.send" approved="yes">
-        <source>customForm.%name%.send</source>
-        <target state="final">The custom form "%name%" sent.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="new.answer.form.%site%" approved="yes">
-        <source>new.answer.form.%site%</source>
-        <target state="final">New answer for "%site%" form.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormAnswer.%id%.deleted" approved="yes">
-        <source>customFormAnswer.%id%.deleted</source>
-        <target state="final">Answer "%id%" deleted.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.updated" approved="yes">
-        <source>customFormField.%name%.updated</source>
-        <target state="final">Field "%name%" updated.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.created" approved="yes">
-        <source>customFormField.%name%.created</source>
-        <target state="final">Field "%name%" created.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customFormField.%name%.deleted" approved="yes">
-        <source>customFormField.%name%.deleted</source>
-        <target state="final">Field "%name%" deleted.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="duplicated.node.%name%" approved="yes">
-        <source>duplicated.node.%name%</source>
-        <target state="final">Node “%name%” has been duplicated</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="impossible.duplicate.node.%name%" approved="yes">
-        <source>impossible.duplicate.node.%name%</source>
-        <target state="final">Impossible to duplicate node “%name%”</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="list.folders.to_link" approved="yes">
-        <source>list.folders.to_link</source>
-        <target state="final">List folders (existant or not)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.fold.documents" approved="yes">
-        <source>bulk.fold.documents</source>
-        <target state="final">Link selected documents</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="documents.linked_to.folders" approved="yes">
-        <source>documents.linked_to.folders</source>
-        <target state="final">Documents have been linked to folders.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no_documents.linked_to.folders" approved="yes">
-        <source>no_documents.linked_to.folders</source>
-        <target state="final">No documents have linked.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="wrong.request" approved="yes">
-        <source>wrong.request</source>
-        <target state="final">Wrong request</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodes" approved="yes">
-        <source>delete.nodes</source>
-        <target state="final">Delete selected nodes</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.these.nodes" approved="yes">
-        <source>are_you_sure.delete.these.nodes</source>
-        <target state="final">Are you sure you want to delete these nodes ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.all" approved="yes">
-        <source>delete.all</source>
-        <target state="final">Delete all</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.delete.nodes" approved="yes">
-        <source>bulk.delete.nodes</source>
-        <target state="final">Delete selected nodes</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="link.tags" approved="yes">
-        <source>link.tags</source>
-        <target state="final">Tag selected</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="unlink.tags" approved="yes">
-        <source>unlink.tags</source>
-        <target state="final">Untag selected</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="list.tags.to_link.or_unlink" approved="yes">
-        <source>list.tags.to_link.or_unlink</source>
-        <target state="final">List tags to link or unlink…</target>
+      <trans-unit xml:space="preserve" id="nodeTypeField.excludedFromSerialization" approved="yes">
+        <source>nodeTypeField.excludedFromSerialization</source>
+        <target state="final">Exclude field from node-source serialization?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.maxLength" approved="yes">
+        <source>nodeTypeField.maxLength</source>
+        <target state="final">Max length</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.minLength" approved="yes">
+        <source>nodeTypeField.minLength</source>
+        <target state="final">Min length</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.serialization" approved="yes">
+        <source>nodeTypeField.serialization</source>
+        <target state="final">Serialization</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.serializationExclusionExpression" approved="yes">
+        <source>nodeTypeField.serializationExclusionExpression</source>
+        <target state="final">Serialization exclusion expression</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.serializationGroups" approved="yes">
+        <source>nodeTypeField.serializationGroups</source>
+        <target state="final">Custom serialization groups</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeField.serializationMaxDepth" approved="yes">
+        <source>nodeTypeField.serializationMaxDepth</source>
+        <target state="final">Maximum serialization depth</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType_default_ttl_when_creating_nodes" approved="yes">
+        <source>nodeType_default_ttl_when_creating_nodes</source>
+        <target state="final">Front cache time-to-live for nodes created against this type (given in minutes).</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.deleted" approved="yes">
         <source>nodes.bulk.deleted</source>
@@ -2893,21 +2780,133 @@
         <source>nodes.bulk.not_tagged</source>
         <target state="final">Impossible to tag selected nodes</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.bulk.tagged" approved="yes">
-        <source>nodes.bulk.tagged</source>
-        <target state="final">Selected nodes have been tagged</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.not_untagged" approved="yes">
         <source>nodes.bulk.not_untagged</source>
         <target state="final">Impossible to untag selected nodes</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.bulk.tagged" approved="yes">
+        <source>nodes.bulk.tagged</source>
+        <target state="final">Selected nodes have been tagged</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodes.bulk.untagged" approved="yes">
         <source>nodes.bulk.untagged</source>
         <target state="final">Selected nodes have been untagged</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.actions" approved="yes">
-        <source>bulk.actions</source>
-        <target state="final">Bulk actions</target>
+      <trans-unit xml:space="preserve" id="nodes.toggle-explorer" approved="yes">
+        <source>nodes.toggle-explorer</source>
+        <target state="final">Explorer</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.type" approved="yes">
+        <source>nodes.type</source>
+        <target state="final">Nodes references</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="non_breaking.hyphen" approved="yes">
+        <source>non_breaking.hyphen</source>
+        <target state="final">Non-breaking hyphen</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="non_breaking.space" approved="yes">
+        <source>non_breaking.space</source>
+        <target state="final">Non-breaking space</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ordered.list" approved="yes">
+        <source>ordered.list</source>
+        <target state="final">Ordered list</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days" approved="yes">
+        <source>please.use.the.fallback.form.below.to.upload.your.files.like.in.the.olden.days</source>
+        <target state="final">Please use the fallback form below to upload your files like in the olden days</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="position" approved="yes">
+        <source>position</source>
+        <target state="final">Position</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="random.document" approved="yes">
+        <source>random.document</source>
+        <target state="final">Random</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="remove" approved="yes">
+        <source>remove</source>
+        <target state="final">Remove</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="remove.file" approved="yes">
+        <source>remove.file</source>
+        <target state="final">Remove file</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="required" approved="yes">
+        <source>required</source>
+        <target state="final">Required</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.documents" approved="yes">
+        <source>search.documents</source>
+        <target state="final">Search documents</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.nodes" approved="yes">
+        <source>search.nodes</source>
+        <target state="final">Search nodes</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="see_all" approved="yes">
+        <source>see_all</source>
+        <target state="final">See all…</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="separator" approved="yes">
+        <source>separator</source>
+        <target state="final">Separator</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="server.responded.with.{{statusCode}}.code" approved="yes">
+        <source>server.responded.with.{{statusCode}}.code</source>
+        <target state="final">Server responded with {{statusCode}} code</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="stack.types" approved="yes">
+        <source>stack.types</source>
+        <target state="final">Stack types</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="stack_node.%name%.has_new_type.%type%" approved="yes">
+        <source>stack_node.%name%.has_new_type.%type%</source>
+        <target state="final">Stack node “%name%” is linked to “%type%” type.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="strikethrough" approved="yes">
+        <source>strikethrough</source>
+        <target state="final">Strikethrough</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="submitted.date" approved="yes">
+        <source>submitted.date</source>
+        <target state="final">Submitted date</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="unlink.tags" approved="yes">
+        <source>unlink.tags</source>
+        <target state="final">Untag selected</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="unordered.list" approved="yes">
+        <source>unordered.list</source>
+        <target state="final">Unordered list</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="updated.at" approved="yes">
+        <source>updated.at</source>
+        <target state="final">Updated at</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="wrong.request" approved="yes">
+        <source>wrong.request</source>
+        <target state="final">Wrong request</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="you.can.not.upload.any.more.files" approved="yes">
+        <source>you.can.not.upload.any.more.files</source>
+        <target state="final">You can not upload any more files</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="you.cant.upload.files.of.this.type" approved="yes">
+        <source>you.cant.upload.files.of.this.type</source>
+        <target state="final">You can’t upload files of this type</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.browser.does.not.support.dragndrop.file.uploads" approved="yes">
+        <source>your.browser.does.not.support.dragndrop.file.uploads</source>
+        <target state="final">Your browser does not support drag’n’drop file uploads</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields" approved="yes">
+        <source>{0} no.customFormField|{1} 1.customFormField|]1,Inf] %count%.customFormFields</source>
+        <target state="final">{0} No field|{1} 1 field|]1,Inf] %count% fields</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers" approved="yes">
+        <source>{0} no.customFormAnswer|{1} 1.customFormAnswer|]1,Inf] %count%.customFormAnswers</source>
+        <target state="final">{0} No answer|{1} 1 answer|]1,Inf] %count% answers</target>
       </trans-unit>
       <trans-unit id="bulk.delete" xml:space="preserve" approved="yes">
         <source>bulk.delete</source>
@@ -3005,165 +3004,21 @@
         <source>users.bulk_disable.title</source>
         <target state="final">Disable selected users</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.marker" approved="yes">
-        <source>reset.marker</source>
-        <target state="final">Reset marker</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter" approved="yes">
-        <source>geotag.type_an_address.then_type_enter</source>
-        <target state="final">Type an address then type “Enter”…</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="geographic.coordinates.type" approved="yes">
-        <source>geographic.coordinates.type</source>
-        <target state="final">Single geographic coordinates</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="multiple.geographic.coordinates.type" approved="yes">
-        <source>multiple.geographic.coordinates.type</source>
-        <target state="final">Multiple geographic coordinates</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="link.folders" approved="yes">
-        <source>link.folders</source>
-        <target state="final">Link to folder(s)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="unlink.folders" approved="yes">
-        <source>unlink.folders</source>
-        <target state="final">Unlink from folder(s)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="bulk.download.documents" approved="yes">
-        <source>bulk.download.documents</source>
-        <target state="final">Download selected documents</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="download.documents" approved="yes">
-        <source>download.documents</source>
-        <target state="final">Download documents</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.download.these.documents" approved="yes">
-        <source>are_you_sure.download.these.documents</source>
-        <target state="final">Are you sure you want to download these documents ?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="purge.generated_images.cache" approved="yes">
-        <source>purge.generated_images.cache</source>
-        <target state="final">Purge images cache</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.purge.generated_images.cache" approved="yes">
-        <source>are_you_sure.purge.generated_images.cache</source>
-        <target state="final">Are you sure you want to purge images cache?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.generated_images.cache" approved="yes">
-        <source>delete.generated_images.cache</source>
-        <target state="final">Purge images cache</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.documents" approved="yes">
-        <source>more.documents</source>
-        <target state="final">More documents</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.nodes" approved="yes">
-        <source>more.nodes</source>
-        <target state="final">More nodes</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.node_types" approved="yes">
-        <source>more.node_types</source>
-        <target state="final">More node-types</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.tags" approved="yes">
-        <source>more.tags</source>
-        <target state="final">More tags</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="more.custom_forms" approved="yes">
-        <source>more.custom_forms</source>
-        <target state="final">More custom-forms</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="search.custom_forms" approved="yes">
-        <source>search.custom_forms</source>
-        <target state="final">Search custom-forms</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="custom-forms.toggle-explorer" approved="yes">
-        <source>custom-forms.toggle-explorer</source>
-        <target state="final">Explorer</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.account" approved="yes">
-        <source>edit.account</source>
-        <target state="final">Edit your account</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="NodeType" approved="yes">
-        <source>NodeType</source>
-        <target state="final">Node type</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="select.nodetype" approved="yes">
-        <source>select.nodetype</source>
-        <target state="final">Filter</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="ignore" approved="yes">
-        <source>ignore</source>
-        <target state="final">Indifferent</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="true" approved="yes">
-        <source>true</source>
-        <target state="final">Yes</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="false" approved="yes">
-        <source>false</source>
-        <target state="final">No</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.name" approved="yes">
-        <source>node.name</source>
-        <target state="final">Node name</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.id.parent" approved="yes">
-        <source>node.id.parent</source>
-        <target state="final">Node parent id</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.datetime.operator" approved="yes">
-        <source>node.datetime.operator</source>
-        <target state="final">Operator</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.datetime.value" approved="yes">
-        <source>node.datetime.value</source>
-        <target state="final">Creation date</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.limit.result" approved="yes">
-        <source>node.limit.result</source>
-        <target state="final">Results limit</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.tags" approved="yes">
-        <source>node.tags</source>
-        <target state="final">Tags</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.tag.exclusive" approved="yes">
-        <source>node.tag.exclusive</source>
-        <target state="final">Exclusive tags selection</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodetypefield" approved="yes">
-        <source>nodetypefield</source>
-        <target state="final">Node type fields</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="search.a.node" approved="yes">
-        <source>search.a.node</source>
-        <target state="final">Search a node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="export.all.nodesSource" approved="yes">
-        <source>export.all.nodesSource</source>
-        <target state="final">Export all nodes sources</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="role.cannot.update.status" approved="yes">
-        <source>role.cannot.update.status</source>
-        <target state="final">Insufficient rights to apply this status</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.%field%.updated" approved="yes">
-        <source>node.%name%.%field%.updated</source>
-        <target state="final">Node %name% "%field%" status has been updated.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="added.node.%name%" approved="yes">
-        <source>added.node.%name%</source>
-        <target state="final">Node “%name%” has been added.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="custom-forms.type" approved="yes">
-        <source>custom-forms.type</source>
-        <target state="final">Custom form</target>
+      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database" approved="yes">
+        <source>%email%.email.does.not.exist.in.user.account.database</source>
+        <target state="final">“%email%” email does not exist in users database.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="Bad credentials" approved="yes">
         <source>Bad credentials.</source>
         <target state="final">Bad credentials</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeNode" approved="yes">
+        <source>homeNode</source>
+        <target state="final">Home node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="NodeType" approved="yes">
+        <source>NodeType</source>
+        <target state="final">Node type</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="Too many login attemps" approved="yes">
         <source>Too many login attemps, wait before trying again.</source>
@@ -3173,6 +3028,10 @@
         <source>User account has expired.</source>
         <target state="final">User account has expired.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="User account is disabled." approved="yes">
+        <source>User account is disabled.</source>
+        <target state="final">User account is disabled.</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="User account is locked." approved="yes">
         <source>User account is locked.</source>
         <target state="final">User account is locked.</target>
@@ -3181,9 +3040,61 @@
         <source>User credentials have expired.</source>
         <target state="final">User credentials have expired.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="User account is disabled." approved="yes">
-        <source>User account is disabled.</source>
-        <target state="final">User account is disabled.</target>
+      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent" approved="yes">
+        <source>a.confirmation.email.has.already.be.sent</source>
+        <target state="final">A confirmation email already has been sent to you, check your emails or your spam folder.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email" approved="yes">
+        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
+        <target state="final">A personal password reset link has been sent to you by email, do not wait too long this link will automatically expire.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="about.cms" approved="yes">
+        <source>about.cms</source>
+        <target state="final">About Roadiz</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.newsletter" approved="yes">
+        <source>add.a.newsletter</source>
+        <target state="final">Add a newsletter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="added.node.%name%" approved="yes">
+        <source>added.node.%name%</source>
+        <target state="final">Node “%name%” has been added.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="admin_image" approved="yes">
+        <source>admin_image</source>
+        <target state="final">Back-office main picture or brand</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="allow_this_types_nodes_title_to_be_indexed_into_search_engine" approved="yes">
+        <source>allow_this_types_nodes_title_to_be_indexed_into_search_engine</source>
+        <target state="final">Allows node-source title of this type to be indexed into search engine.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes" approved="yes">
+        <source>are_you_sure.change-status.these.nodes</source>
+        <target state="final">Are you sure you want to change every selected nodes status?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeSource" approved="yes">
+        <source>are_you_sure.delete.nodeSource</source>
+        <target state="final">Are you sure you want to delete this node source?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.download.these.documents" approved="yes">
+        <source>are_you_sure.download.these.documents</source>
+        <target state="final">Are you sure you want to download these documents ?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="are_you_sure.purge.generated_images.cache" approved="yes">
+        <source>are_you_sure.purge.generated_images.cache</source>
+        <target state="final">Are you sure you want to purge images cache?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.login" approved="yes">
+        <source>back_to.login</source>
+        <target state="final">Back to login</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="back_to.newsletter" approved="yes">
+        <source>back_to.newsletter</source>
+        <target state="final">Back to newsletter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="bulk.download.documents" approved="yes">
+        <source>bulk.download.documents</source>
+        <target state="final">Download selected documents</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="change.nodes.status" approved="yes">
         <source>change.nodes.status</source>
@@ -3193,165 +3104,57 @@
         <source>change.nodes.status.all</source>
         <target state="final">Change all selected nodes status</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.change-status.these.nodes" approved="yes">
-        <source>are_you_sure.change-status.these.nodes</source>
-        <target state="final">Are you sure you want to change every selected nodes status?</target>
+      <trans-unit xml:space="preserve" id="changelog" approved="yes">
+        <source>changelog</source>
+        <target state="final">Changelog</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.status" approved="yes">
-        <source>nodes.status</source>
-        <target state="final">Selection status</target>
+      <trans-unit xml:space="preserve" id="choose.a.new.password" approved="yes">
+        <source>choose.a.new.password</source>
+        <target state="final">Choose a new password</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="nodes.bulk.status.changed" approved="yes">
-        <source>nodes.bulk.status.changed</source>
-        <target state="final">Node selection status has been changed.</target>
+      <trans-unit xml:space="preserve" id="chroot" approved="yes">
+        <source>chroot</source>
+        <target state="final">Root node</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="staticTheme" approved="yes">
-        <source>staticTheme</source>
-        <target state="final">Static theme</target>
+      <trans-unit xml:space="preserve" id="chroot.limited.one" approved="yes">
+        <source>chroot.limited.one</source>
+        <target state="final">You can only choose one root node</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="staticTheme.does_not.allow.node_url_routes" approved="yes">
-        <source>staticTheme.does_not.allow.node_url_routes</source>
-        <target state="final">A static theme means that it won’t listen dynamic nodes URLs, only static routes.</target>
+      <trans-unit xml:space="preserve" id="confirmation.token.has.expired" approved="yes">
+        <source>confirmation.token.has.expired</source>
+        <target state="final">Confirmation token has expired.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="theme.is_static" approved="yes">
-        <source>theme.is_static</source>
-        <target state="final">Static</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="password.must.match" approved="yes">
-        <source>password.must.match</source>
-        <target state="final">Passwords must match</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="passwords.must.match" approved="yes">
-        <source>passwords.must.match</source>
-        <target state="final">Passwords must match</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.nodeType.available.create_one_first" approved="yes">
-        <source>no.nodeType.available.create_one_first</source>
-        <target state="final">No node-type have been found. Please create one before adding a node.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.%name%.no_creation.already_exists" approved="yes">
-        <source>node.%name%.no_creation.already_exists</source>
-        <target state="final">Node “%name%” can't be created, one with same name already exists.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.dynamicNodeName" approved="yes">
-        <source>node.dynamicNodeName</source>
-        <target state="final">Dynamic node name</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.status" approved="yes">
-        <source>nodeType.status</source>
-        <target state="final">Status</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.not_visible" approved="yes">
-        <source>nodeType.not_visible</source>
-        <target state="final">Invisible node-type</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.nodeType" approved="yes">
-        <source>newsletter.nodeType</source>
-        <target state="final">Newsletters reserved type</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.hiding_nodes" approved="yes">
-        <source>nodeType.hiding_nodes</source>
-        <target state="final">This type hides its node-tree</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeType.searchable" approved="yes">
-        <source>nodeType.searchable</source>
-        <target state="final">Searchable?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="allow_this_types_nodes_title_to_be_indexed_into_search_engine" approved="yes">
-        <source>allow_this_types_nodes_title_to_be_indexed_into_search_engine</source>
-        <target state="final">Allows node-source title of this type to be indexed into search engine.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.%name%.created" approved="yes">
-        <source>newsletter.%name%.created</source>
-        <target state="final">Newsletter “%name%” created.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.%newsletter%.updated.%translation%" approved="yes">
-        <source>newsletter.%newsletter%.updated.%translation%</source>
-        <target state="final">Newsletter “%newsletter%” has been updated for %translation% translation</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="duplicated.newsletter.%name%" approved="yes">
-        <source>duplicated.newsletter.%name%</source>
-        <target state="final">Newsletter “%name%” has been duplicated.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="impossible.duplicate.newsletter.%name%" approved="yes">
-        <source>impossible.duplicate.newsletter.%name%</source>
-        <target state="final">Impossible to duplicate newsletter “%name%”</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="see.newsletter" approved="yes">
-        <source>see.newsletter</source>
-        <target state="final">See newsletter</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.newsletter" approved="yes">
-        <source>add.a.newsletter</source>
-        <target state="final">Add a newsletter</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.newsletter.%name%" approved="yes">
-        <source>edit.newsletter.%name%</source>
-        <target state="final">Edit newsletter “%name%”</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter" approved="yes">
-        <source>newsletter</source>
-        <target state="final">Newsletter</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="newsletter.type" approved="yes">
-        <source>newsletter.type</source>
-        <target state="final">Newsletter type</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.newsletter" approved="yes">
-        <source>back_to.newsletter</source>
-        <target state="final">Back to newsletter</target>
+      <trans-unit xml:space="preserve" id="confirmation.token.is.invalid" approved="yes">
+        <source>confirmation.token.is.invalid</source>
+        <target state="final">Confirmation token is invalid.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="create.a.newsletter" approved="yes">
         <source>create.a.newsletter</source>
         <target state="final">Create a newsletter</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.html" approved="yes">
-        <source>export.html</source>
-        <target state="final">Export HTML</target>
+      <trans-unit xml:space="preserve" id="current.document.is.private.you.cannot.preview.it" approved="yes">
+        <source>current.document.is.private.you.cannot.preview.it</source>
+        <target state="final">Current document is private, you can’t preview it.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.html.inline" approved="yes">
-        <source>export.html.inline</source>
-        <target state="final">Export HTML (inline CSS)</target>
+      <trans-unit xml:space="preserve" id="current.version" approved="yes">
+        <source>current.version</source>
+        <target state="final">Current version</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="start.test.user.right" approved="yes">
-        <source>start.test.user.right</source>
-        <target state="final">Take user privileges</target>
+      <trans-unit xml:space="preserve" id="custom-forms.toggle-explorer" approved="yes">
+        <source>custom-forms.toggle-explorer</source>
+        <target state="final">Explorer</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="stop.test.user.right" approved="yes">
-        <source>stop.test.user.right</source>
-        <target state="final">Go back to your user</target>
+      <trans-unit xml:space="preserve" id="custom-forms.type" approved="yes">
+        <source>custom-forms.type</source>
+        <target state="final">Custom form</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="overwrite.document" approved="yes">
-        <source>overwrite.document</source>
-        <target state="final">Overwrite document file</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.already_exists" approved="yes">
+        <source>customForm.%name%.already_exists</source>
+        <target state="final">Custom form “%name%” already exists</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="document.file.%name%.updated" approved="yes">
-        <source>document.file.%name%.updated</source>
-        <target state="final">File “%name%” has been updated</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.nodeSource" approved="yes">
-        <source>are_you_sure.delete.nodeSource</source>
-        <target state="final">Are you sure you want to delete this node source?</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node_source.%node_source%.%translation%.cant.deleted" approved="yes">
-        <source>node_source.%node_source%.%translation%.cant.deleted</source>
-        <target state="final">“%node_source%” %translation% translation can not be deleted</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node_source.%node_source%.deleted.%translation%" approved="yes">
-        <source>node_source.%node_source%.deleted.%translation%</source>
-        <target state="final">“%node_source%” %translation% translation has been deleted</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.nodesource" approved="yes">
-        <source>delete.nodesource</source>
-        <target state="final">Delete node source</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="latest.node-sources.updates" approved="yes">
-        <source>latest.node-sources.updates</source>
-        <target state="final">Latest updated node sources</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.updated" approved="yes">
-        <source>customForm.%name%.updated</source>
-        <target state="final">Custom form “%name%” has been updated</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.cannot_rename_already_exists" approved="yes">
+        <source>customForm.%name%.cannot_rename_already_exists</source>
+        <target state="final">Custom form “%name%” can not be renamed, another one already exists</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="customForm.%name%.created" approved="yes">
         <source>customForm.%name%.created</source>
@@ -3361,277 +3164,29 @@
         <source>customForm.%name%.deleted</source>
         <target state="final">Custom form “%name%” has been deleted.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.cannot_rename_already_exists" approved="yes">
-        <source>customForm.%name%.cannot_rename_already_exists</source>
-        <target state="final">Custom form “%name%” can not be renamed, another one already exists</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.already_exists" approved="yes">
-        <source>customForm.%name%.already_exists</source>
-        <target state="final">Custom form “%name%” already exists</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="select.all" approved="yes">
-        <source>select.all</source>
-        <target state="final">Select all</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="deselect.all" approved="yes">
-        <source>deselect.all</source>
-        <target state="final">Deselect all</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.user.%name%.roles" approved="yes">
-        <source>edit.user.%name%.roles</source>
-        <target state="final">%name% roles</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="history.for.%name%" approved="yes">
-        <source>history.for.%name%</source>
-        <target state="final">%name% history</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="admin_image" approved="yes">
-        <source>admin_image</source>
-        <target state="final">Back-office main picture or brand</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="chroot.limited.one" approved="yes">
-        <source>chroot.limited.one</source>
-        <target state="final">You can only choose one root node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="chroot" approved="yes">
-        <source>chroot</source>
-        <target state="final">Root node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists" approved="yes">
-        <source>node.noCreation.alreadyExists</source>
-        <target state="final">Node can not be created, a node already exists with its name</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style" approved="yes">
-        <source>maps_style</source>
-        <target state="final">Default Google Maps styles</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location" approved="yes">
-        <source>maps_default_location</source>
-        <target state="final">Maps default location</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.status" approved="yes">
-        <source>user.status</source>
-        <target state="final">Status</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.enabled" approved="yes">
-        <source>user.enabled</source>
-        <target state="final">Enabled account</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.disabled" approved="yes">
-        <source>user.disabled</source>
-        <target state="final">Disabled account</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.locked" approved="yes">
-        <source>user.locked</source>
-        <target state="final">Locked account</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.expired" approved="yes">
-        <source>user.expired</source>
-        <target state="final">Expired account</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.expiresAt" approved="yes">
-        <source>user.expiresAt</source>
-        <target state="final">Account will expire at:</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.force.expired" approved="yes">
-        <source>user.force.expired</source>
-        <target state="final">Force account expiration</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.credentialsExpiresAt" approved="yes">
-        <source>user.credentialsExpiresAt</source>
-        <target state="final">Account credentials will expire at:</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.force.credentialsExpired" approved="yes">
-        <source>user.force.credentialsExpired</source>
-        <target state="final">Force account credential expiration</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.user.%name%.security" approved="yes">
-        <source>edit.user.%name%.security</source>
-        <target state="final">“%name%” security</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.%name%.security.updated" approved="yes">
-        <source>user.%name%.security.updated</source>
-        <target state="final">“%name%” security settings have been updated.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.account.has-expired" approved="yes">
-        <source>user.account.has-expired</source>
-        <target state="final">User account has expired</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.crendentials.has-expired" approved="yes">
-        <source>user.crendentials.has-expired</source>
-        <target state="final">User account credentials have expired</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.last-login" approved="yes">
-        <source>user.last-login</source>
-        <target state="final">Last login date</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="user.password-requested-at" approved="yes">
-        <source>user.password-requested-at</source>
-        <target state="final">Last password request date</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="never.requested" approved="yes">
-        <source>never.requested</source>
-        <target state="final">Never</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="year" approved="yes">
-        <source>year</source>
-        <target state="final">Year</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="month" approved="yes">
-        <source>month</source>
-        <target state="final">Month</target>
+      <trans-unit xml:space="preserve" id="customForm.%name%.updated" approved="yes">
+        <source>customForm.%name%.updated</source>
+        <target state="final">Custom form “%name%” has been updated</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="day" approved="yes">
         <source>day</source>
         <target state="final">Day</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="hour" approved="yes">
-        <source>hour</source>
-        <target state="final">Hour</target>
+      <trans-unit xml:space="preserve" id="delete.generated_images.cache" approved="yes">
+        <source>delete.generated_images.cache</source>
+        <target state="final">Purge images cache</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="minute" approved="yes">
-        <source>minute</source>
-        <target state="final">Min.</target>
+      <trans-unit xml:space="preserve" id="delete.nodesource" approved="yes">
+        <source>delete.nodesource</source>
+        <target state="final">Delete node source</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="user.security" approved="yes">
-        <source>user.security</source>
-        <target state="final">Security</target>
+      <trans-unit xml:space="preserve" id="deselect.all" approved="yes">
+        <source>deselect.all</source>
+        <target state="final">Deselect all</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="your.account.email" approved="yes">
-        <source>your.account.email</source>
-        <target state="final">Your account email</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="%email%.email.does.not.exist.in.user.account.database" approved="yes">
-        <source>%email%.email.does.not.exist.in.user.account.database</source>
-        <target state="final">“%email%” email does not exist in users database.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email" approved="yes">
-        <source>to.get.new.password.enter.your.account.email</source>
-        <target state="final">In order to request a new password, just enter the email linked to your account.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="request.new.password" approved="yes">
-        <source>request.new.password</source>
-        <target state="final">Request a new password</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.login" approved="yes">
-        <source>back_to.login</source>
-        <target state="final">Back to login</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="a.personal.password.reset.link.has.been.sent.to.your.account.email" approved="yes">
-        <source>a.personal.password.reset.link.has.been.sent.to.your.account.email</source>
-        <target state="final">A personal password reset link has been sent to you by email, do not wait too long this link will automatically expire.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="confirmation.token.is.invalid" approved="yes">
-        <source>confirmation.token.is.invalid</source>
-        <target state="final">Confirmation token is invalid.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="confirmation.token.has.expired" approved="yes">
-        <source>confirmation.token.has.expired</source>
-        <target state="final">Confirmation token has expired.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="choose.a.new.password" approved="yes">
-        <source>choose.a.new.password</source>
-        <target state="final">Choose a new password</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="save.new.password" approved="yes">
-        <source>save.new.password</source>
-        <target state="final">Save new password</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="your.new.password.has.been.saved" approved="yes">
-        <source>your.new.password.has.been.saved</source>
-        <target state="final">Your new password has been saved.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="go_back_to.login.page.to.connect" approved="yes">
-        <source>go_back_to.login.page.to.connect</source>
-        <target state="final">Go back to login page to connect.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="a.confirmation.email.has.already.be.sent" approved="yes">
-        <source>a.confirmation.email.has.already.be.sent</source>
-        <target state="final">A confirmation email already has been sent to you, check your emails or your spam folder.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="email.invalid" approved="yes">
-        <source>email.invalid</source>
-        <target state="final">Email is invalid or does not exist.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="resultCache" approved="yes">
-        <source>resultCache</source>
-        <target state="final">Result cache</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="hydratationCache" approved="yes">
-        <source>hydratationCache</source>
-        <target state="final">Hydratation cache</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="queryCache" approved="yes">
-        <source>queryCache</source>
-        <target state="final">Query cache</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="metadataCache" approved="yes">
-        <source>metadataCache</source>
-        <target state="final">Metadata cache</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="no.cache.available" approved="yes">
-        <source>no.cache.available</source>
-        <target state="final">No available cache found.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="homeNode.limited.one" approved="yes">
-        <source>homeNode.limited.one</source>
-        <target state="final">You only can choose one home node.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="NodeNode" approved="yes">
-        <source>homeNode</source>
-        <target state="final">Home node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="theme.root.limited.one" approved="yes">
-        <source>theme.root.limited.one</source>
-        <target state="final">You can only choose one root node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="themeRoot" approved="yes">
-        <source>themeRoot</source>
-        <target state="final">Root node</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="about.cms" approved="yes">
-        <source>about.cms</source>
-        <target state="final">About Roadiz</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="news.version.release" approved="yes">
-        <source>news.version.release</source>
-        <target state="final">A new Roadiz version is available for update.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="lastest.version.installed" approved="yes">
-        <source>lastest.version.installed</source>
-        <target state="final">Roadiz is up-to-date.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="current.version" approved="yes">
-        <source>current.version</source>
-        <target state="final">Current version</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="last.version" approved="yes">
-        <source>last.version</source>
-        <target state="final">Lastest version</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="changelog" approved="yes">
-        <source>changelog</source>
-        <target state="final">Changelog</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="download.folder.content" approved="yes">
-        <source>download.folder.content</source>
-        <target state="final">Download folder content</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="not.valid.facebook.name" approved="yes">
-        <source>not.valid.facebook.name</source>
-        <target state="final">This is not a valid Facebook user ID, find your ID using http://lookup-id.com/ website.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="routePrefix" approved="yes">
-        <source>routePrefix</source>
-        <target state="final">Static routes prefix</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="current.document.is.private.you.cannot.preview.it" approved="yes">
-        <source>current.document.is.private.you.cannot.preview.it</source>
-        <target state="final">Current document is private, you can’t preview it.</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.public_url" approved="yes">
-        <source>document.public_url</source>
-        <target state="final">Public URL</target>
+      <trans-unit xml:space="preserve" id="document.file.%name%.updated" approved="yes">
+        <source>document.file.%name%.updated</source>
+        <target state="final">File “%name%” has been updated</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="document.filepath" approved="yes">
         <source>document.filepath</source>
@@ -3641,17 +3196,157 @@
         <source>document.imageAverageColor</source>
         <target state="final">Average color</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="document.public_url" approved="yes">
+        <source>document.public_url</source>
+        <target state="final">Public URL</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="download.document" approved="yes">
         <source>download.document</source>
         <target state="final">Download document</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="static_domain_name" approved="yes">
-        <source>static_domain_name</source>
-        <target state="final">Static domain name</target>
+      <trans-unit xml:space="preserve" id="download.documents" approved="yes">
+        <source>download.documents</source>
+        <target state="final">Download documents</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="download.folder.content" approved="yes">
+        <source>download.folder.content</source>
+        <target state="final">Download folder content</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="duplicated.newsletter.%name%" approved="yes">
+        <source>duplicated.newsletter.%name%</source>
+        <target state="final">Newsletter “%name%” has been duplicated.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.account" approved="yes">
+        <source>edit.account</source>
+        <target state="final">Edit your account</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.newsletter.%name%" approved="yes">
+        <source>edit.newsletter.%name%</source>
+        <target state="final">Edit newsletter “%name%”</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.user.%name%.roles" approved="yes">
+        <source>edit.user.%name%.roles</source>
+        <target state="final">%name% roles</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="edit.user.%name%.security" approved="yes">
+        <source>edit.user.%name%.security</source>
+        <target state="final">“%name%” security</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="email.invalid" approved="yes">
+        <source>email.invalid</source>
+        <target state="final">Email is invalid or does not exist.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.all.nodesSource" approved="yes">
+        <source>export.all.nodesSource</source>
+        <target state="final">Export all nodes sources</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.html" approved="yes">
+        <source>export.html</source>
+        <target state="final">Export HTML</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.html.inline" approved="yes">
+        <source>export.html.inline</source>
+        <target state="final">Export HTML (inline CSS)</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="false" approved="yes">
+        <source>false</source>
+        <target state="final">No</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="geographic.coordinates.type" approved="yes">
+        <source>geographic.coordinates.type</source>
+        <target state="final">Single geographic coordinates</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="geotag.type_an_address.then_type_enter" approved="yes">
+        <source>geotag.type_an_address.then_type_enter</source>
+        <target state="final">Type an address then type “Enter”…</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="go_back_to.login.page.to.connect" approved="yes">
+        <source>go_back_to.login.page.to.connect</source>
+        <target state="final">Go back to login page to connect.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="history.for.%name%" approved="yes">
+        <source>history.for.%name%</source>
+        <target state="final">%name% history</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="homeNode.limited.one" approved="yes">
+        <source>homeNode.limited.one</source>
+        <target state="final">You only can choose one home node.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="hour" approved="yes">
+        <source>hour</source>
+        <target state="final">Hour</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="hydratationCache" approved="yes">
+        <source>hydratationCache</source>
+        <target state="final">Hydratation cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="ignore" approved="yes">
+        <source>ignore</source>
+        <target state="final">Indifferent</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="impossible.duplicate.newsletter.%name%" approved="yes">
+        <source>impossible.duplicate.newsletter.%name%</source>
+        <target state="final">Impossible to duplicate newsletter “%name%”</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="item-per-page.display.count" approved="yes">
         <source>item-per-page.display.count</source>
         <target state="final">Display:</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="last.version" approved="yes">
+        <source>last.version</source>
+        <target state="final">Lastest version</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="lastest.version.installed" approved="yes">
+        <source>lastest.version.installed</source>
+        <target state="final">Roadiz is up-to-date.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="latest.node-sources.updates" approved="yes">
+        <source>latest.node-sources.updates</source>
+        <target state="final">Latest updated node sources</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="link.folders" approved="yes">
+        <source>link.folders</source>
+        <target state="final">Link to folder(s)</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="maps_default_location" approved="yes">
+        <source>maps_default_location</source>
+        <target state="final">Maps default location</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="maps_style" approved="yes">
+        <source>maps_style</source>
+        <target state="final">Default Google Maps styles</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="metadataCache" approved="yes">
+        <source>metadataCache</source>
+        <target state="final">Metadata cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="minute" approved="yes">
+        <source>minute</source>
+        <target state="final">Min.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="month" approved="yes">
+        <source>month</source>
+        <target state="final">Month</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.custom_forms" approved="yes">
+        <source>more.custom_forms</source>
+        <target state="final">More custom-forms</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.documents" approved="yes">
+        <source>more.documents</source>
+        <target state="final">More documents</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.node_types" approved="yes">
+        <source>more.node_types</source>
+        <target state="final">More node-types</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.nodes" approved="yes">
+        <source>more.nodes</source>
+        <target state="final">More nodes</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="more.tags" approved="yes">
+        <source>more.tags</source>
+        <target state="final">More tags</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="move.node.to.first.position" approved="yes">
         <source>move.node.to.first.position</source>
@@ -3660,6 +3355,310 @@
       <trans-unit xml:space="preserve" id="move.node.to.last.position" approved="yes">
         <source>move.node.to.last.position</source>
         <target state="final">Move to last position</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="multiple.geographic.coordinates.type" approved="yes">
+        <source>multiple.geographic.coordinates.type</source>
+        <target state="final">Multiple geographic coordinates</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="never.requested" approved="yes">
+        <source>never.requested</source>
+        <target state="final">Never</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="news.version.release" approved="yes">
+        <source>news.version.release</source>
+        <target state="final">A new Roadiz version is available for update.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter" approved="yes">
+        <source>newsletter</source>
+        <target state="final">Newsletter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.%name%.created" approved="yes">
+        <source>newsletter.%name%.created</source>
+        <target state="final">Newsletter “%name%” created.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.%newsletter%.updated.%translation%" approved="yes">
+        <source>newsletter.%newsletter%.updated.%translation%</source>
+        <target state="final">Newsletter “%newsletter%” has been updated for %translation% translation</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.nodeType" approved="yes">
+        <source>newsletter.nodeType</source>
+        <target state="final">Newsletters reserved type</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="newsletter.type" approved="yes">
+        <source>newsletter.type</source>
+        <target state="final">Newsletter type</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.cache.available" approved="yes">
+        <source>no.cache.available</source>
+        <target state="final">No available cache found.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="no.nodeType.available.create_one_first" approved="yes">
+        <source>no.nodeType.available.create_one_first</source>
+        <target state="final">No node-type have been found. Please create one before adding a node.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.%field%.updated" approved="yes">
+        <source>node.%name%.%field%.updated</source>
+        <target state="final">Node %name% "%field%" status has been updated.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.%name%.no_creation.already_exists" approved="yes">
+        <source>node.%name%.no_creation.already_exists</source>
+        <target state="final">Node “%name%” can't be created, one with same name already exists.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.datetime.operator" approved="yes">
+        <source>node.datetime.operator</source>
+        <target state="final">Operator</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.datetime.value" approved="yes">
+        <source>node.datetime.value</source>
+        <target state="final">Creation date</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.dynamicNodeName" approved="yes">
+        <source>node.dynamicNodeName</source>
+        <target state="final">Dynamic node name</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.id.parent" approved="yes">
+        <source>node.id.parent</source>
+        <target state="final">Node parent id</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.limit.result" approved="yes">
+        <source>node.limit.result</source>
+        <target state="final">Results limit</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.name" approved="yes">
+        <source>node.name</source>
+        <target state="final">Node name</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists" approved="yes">
+        <source>node.noCreation.alreadyExists</source>
+        <target state="final">Node can not be created, a node already exists with its name</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.tag.exclusive" approved="yes">
+        <source>node.tag.exclusive</source>
+        <target state="final">Exclusive tags selection</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node.tags" approved="yes">
+        <source>node.tags</source>
+        <target state="final">Tags</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.hiding_nodes" approved="yes">
+        <source>nodeType.hiding_nodes</source>
+        <target state="final">This type hides its node-tree</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.not_visible" approved="yes">
+        <source>nodeType.not_visible</source>
+        <target state="final">Invisible node-type</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.searchable" approved="yes">
+        <source>nodeType.searchable</source>
+        <target state="final">Searchable?</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.status" approved="yes">
+        <source>nodeType.status</source>
+        <target state="final">Status</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.%node_source%.%translation%.cant.deleted" approved="yes">
+        <source>node_source.%node_source%.%translation%.cant.deleted</source>
+        <target state="final">“%node_source%” %translation% translation can not be deleted</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="node_source.%node_source%.deleted.%translation%" approved="yes">
+        <source>node_source.%node_source%.deleted.%translation%</source>
+        <target state="final">“%node_source%” %translation% translation has been deleted</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.bulk.status.changed" approved="yes">
+        <source>nodes.bulk.status.changed</source>
+        <target state="final">Node selection status has been changed.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodes.status" approved="yes">
+        <source>nodes.status</source>
+        <target state="final">Selection status</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodetypefield" approved="yes">
+        <source>nodetypefield</source>
+        <target state="final">Node type fields</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="not.valid.facebook.name" approved="yes">
+        <source>not.valid.facebook.name</source>
+        <target state="final">This is not a valid Facebook user ID, find your ID using http://lookup-id.com/ website.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="overwrite.document" approved="yes">
+        <source>overwrite.document</source>
+        <target state="final">Overwrite document file</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="password.must.match" approved="yes">
+        <source>password.must.match</source>
+        <target state="final">Passwords must match</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="passwords.must.match" approved="yes">
+        <source>passwords.must.match</source>
+        <target state="final">Passwords must match</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="purge.generated_images.cache" approved="yes">
+        <source>purge.generated_images.cache</source>
+        <target state="final">Purge images cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="queryCache" approved="yes">
+        <source>queryCache</source>
+        <target state="final">Query cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="request.new.password" approved="yes">
+        <source>request.new.password</source>
+        <target state="final">Request a new password</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="reset.marker" approved="yes">
+        <source>reset.marker</source>
+        <target state="final">Reset marker</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="resultCache" approved="yes">
+        <source>resultCache</source>
+        <target state="final">Result cache</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="role.cannot.update.status" approved="yes">
+        <source>role.cannot.update.status</source>
+        <target state="final">Insufficient rights to apply this status</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="routePrefix" approved="yes">
+        <source>routePrefix</source>
+        <target state="final">Static routes prefix</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="save.new.password" approved="yes">
+        <source>save.new.password</source>
+        <target state="final">Save new password</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.a.node" approved="yes">
+        <source>search.a.node</source>
+        <target state="final">Search a node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="search.custom_forms" approved="yes">
+        <source>search.custom_forms</source>
+        <target state="final">Search custom-forms</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="see.newsletter" approved="yes">
+        <source>see.newsletter</source>
+        <target state="final">See newsletter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.all" approved="yes">
+        <source>select.all</source>
+        <target state="final">Select all</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="select.nodetype" approved="yes">
+        <source>select.nodetype</source>
+        <target state="final">Filter</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="start.test.user.right" approved="yes">
+        <source>start.test.user.right</source>
+        <target state="final">Take user privileges</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="staticTheme" approved="yes">
+        <source>staticTheme</source>
+        <target state="final">Static theme</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="staticTheme.does_not.allow.node_url_routes" approved="yes">
+        <source>staticTheme.does_not.allow.node_url_routes</source>
+        <target state="final">A static theme means that it won’t listen dynamic nodes URLs, only static routes.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="static_domain_name" approved="yes">
+        <source>static_domain_name</source>
+        <target state="final">Static domain name</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="stop.test.user.right" approved="yes">
+        <source>stop.test.user.right</source>
+        <target state="final">Go back to your user</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="theme.is_static" approved="yes">
+        <source>theme.is_static</source>
+        <target state="final">Static</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="theme.root.limited.one" approved="yes">
+        <source>theme.root.limited.one</source>
+        <target state="final">You can only choose one root node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="themeRoot" approved="yes">
+        <source>themeRoot</source>
+        <target state="final">Root node</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="to.get.new.password.enter.your.account.email" approved="yes">
+        <source>to.get.new.password.enter.your.account.email</source>
+        <target state="final">In order to request a new password, just enter the email linked to your account.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="true" approved="yes">
+        <source>true</source>
+        <target state="final">Yes</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="unlink.folders" approved="yes">
+        <source>unlink.folders</source>
+        <target state="final">Unlink from folder(s)</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.%name%.security.updated" approved="yes">
+        <source>user.%name%.security.updated</source>
+        <target state="final">“%name%” security settings have been updated.</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.account.has-expired" approved="yes">
+        <source>user.account.has-expired</source>
+        <target state="final">User account has expired</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.credentialsExpiresAt" approved="yes">
+        <source>user.credentialsExpiresAt</source>
+        <target state="final">Account credentials will expire at:</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.crendentials.has-expired" approved="yes">
+        <source>user.crendentials.has-expired</source>
+        <target state="final">User account credentials have expired</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.disabled" approved="yes">
+        <source>user.disabled</source>
+        <target state="final">Disabled account</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.enabled" approved="yes">
+        <source>user.enabled</source>
+        <target state="final">Enabled account</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.expired" approved="yes">
+        <source>user.expired</source>
+        <target state="final">Expired account</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.expiresAt" approved="yes">
+        <source>user.expiresAt</source>
+        <target state="final">Account will expire at:</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.force.credentialsExpired" approved="yes">
+        <source>user.force.credentialsExpired</source>
+        <target state="final">Force account credential expiration</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.force.expired" approved="yes">
+        <source>user.force.expired</source>
+        <target state="final">Force account expiration</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.last-login" approved="yes">
+        <source>user.last-login</source>
+        <target state="final">Last login date</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.locked" approved="yes">
+        <source>user.locked</source>
+        <target state="final">Locked account</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.password-requested-at" approved="yes">
+        <source>user.password-requested-at</source>
+        <target state="final">Last password request date</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.security" approved="yes">
+        <source>user.security</source>
+        <target state="final">Security</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="user.status" approved="yes">
+        <source>user.status</source>
+        <target state="final">Status</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="year" approved="yes">
+        <source>year</source>
+        <target state="final">Year</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.account.email" approved="yes">
+        <source>your.account.email</source>
+        <target state="final">Your account email</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="your.new.password.has.been.saved" approved="yes">
+        <source>your.new.password.has.been.saved</source>
+        <target state="final">Your new password has been saved.</target>
       </trans-unit>
       <!-- Node tree contextual menu commands -->
       <trans-unit xml:space="preserve" id="node.hide" approved="yes">
@@ -3700,13 +3699,13 @@
         <target state="final">This value is not valid.</target>
       </trans-unit>
       <!-- Font variantes -->
-      <trans-unit xml:space="preserve" id="font_variant.regular" approved="yes">
-        <source>font_variant.regular</source>
-        <target state="final">Regular</target>
+      <trans-unit xml:space="preserve" id="font_variant.black" approved="yes">
+        <source>font_variant.black</source>
+        <target state="final">Black</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.italic" approved="yes">
-        <source>font_variant.italic</source>
-        <target state="final">Italic</target>
+      <trans-unit xml:space="preserve" id="font_variant.black.italic" approved="yes">
+        <source>font_variant.black.italic</source>
+        <target state="final">Black italic</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.bold" approved="yes">
         <source>font_variant.bold</source>
@@ -3716,21 +3715,13 @@
         <source>font_variant.bold.italic</source>
         <target state="final">Bold italic</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.light" approved="yes">
-        <source>font_variant.light</source>
-        <target state="final">Light</target>
+      <trans-unit xml:space="preserve" id="font_variant.extra_bold" approved="yes">
+        <source>font_variant.extra_bold</source>
+        <target state="final">Extra bold</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.light.italic" approved="yes">
-        <source>font_variant.light.italic</source>
-        <target state="final">Light italic</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.thin" approved="yes">
-        <source>font_variant.thin</source>
-        <target state="final">Thin</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.thin.italic" approved="yes">
-        <source>font_variant.thin.italic</source>
-        <target state="final">Thin italic</target>
+      <trans-unit xml:space="preserve" id="font_variant.extra_bold.italic" approved="yes">
+        <source>font_variant.extra_bold.italic</source>
+        <target state="final">Extra bold italic</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.extra_light" approved="yes">
         <source>font_variant.extra_light</source>
@@ -3740,21 +3731,17 @@
         <source>font_variant.extra_light.italic</source>
         <target state="final">Extra light italic</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.extra_bold" approved="yes">
-        <source>font_variant.extra_bold</source>
-        <target state="final">Extra bold</target>
+      <trans-unit xml:space="preserve" id="font_variant.italic" approved="yes">
+        <source>font_variant.italic</source>
+        <target state="final">Italic</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.extra_bold.italic" approved="yes">
-        <source>font_variant.extra_bold.italic</source>
-        <target state="final">Extra bold italic</target>
+      <trans-unit xml:space="preserve" id="font_variant.light" approved="yes">
+        <source>font_variant.light</source>
+        <target state="final">Light</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.semi_bold" approved="yes">
-        <source>font_variant.semi_bold</source>
-        <target state="final">Semi bold</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.semi_bold.italic" approved="yes">
-        <source>font_variant.semi_bold.italic</source>
-        <target state="final">Semi bold italic</target>
+      <trans-unit xml:space="preserve" id="font_variant.light.italic" approved="yes">
+        <source>font_variant.light.italic</source>
+        <target state="final">Light italic</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="font_variant.medium" approved="yes">
         <source>font_variant.medium</source>
@@ -3764,13 +3751,25 @@
         <source>font_variant.medium.italic</source>
         <target state="final">Medium italic</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.black" approved="yes">
-        <source>font_variant.black</source>
-        <target state="final">Black</target>
+      <trans-unit xml:space="preserve" id="font_variant.regular" approved="yes">
+        <source>font_variant.regular</source>
+        <target state="final">Regular</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="font_variant.black.italic" approved="yes">
-        <source>font_variant.black.italic</source>
-        <target state="final">Black italic</target>
+      <trans-unit xml:space="preserve" id="font_variant.semi_bold" approved="yes">
+        <source>font_variant.semi_bold</source>
+        <target state="final">Semi bold</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.semi_bold.italic" approved="yes">
+        <source>font_variant.semi_bold.italic</source>
+        <target state="final">Semi bold italic</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.thin" approved="yes">
+        <source>font_variant.thin</source>
+        <target state="final">Thin</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="font_variant.thin.italic" approved="yes">
+        <source>font_variant.thin.italic</source>
+        <target state="final">Thin italic</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="update.roadiz" approved="yes">
         <source>update.roadiz</source>
@@ -4798,15 +4797,15 @@
         <target state="final">Exclude from search</target>
         <note>Node type field : Input Label.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="export.documentation" approved="yes">
-        <source>export.documentation</source>
-        <target state="final">Export documentation</target>
-        <note>Button label, for exporting node-type Markdown documentation</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="manage.decorators" approved="yes">
         <source>manage.decorators</source>
         <target state="final">Decorate</target>
         <note>Button label, for manage node-type-decorators</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="export.documentation" approved="yes">
+        <source>export.documentation</source>
+        <target state="final">Export documentation</target>
+        <note>Button label, for exporting node-type Markdown documentation</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="export.typescript_declaration" approved="yes">
         <source>export.typescript_declaration</source>
@@ -4900,40 +4899,10 @@
         <source>ip_address</source>
         <target state="final">IP address</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.nodeTypeDecorator" approved="yes">
-        <source>add.a.nodeTypeDecorator</source>
-            <target state="final">Add a decorator</target>
-            <note>Button label, for add new node-type-decorators</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator" approved="yes">
         <source>nodeTypeDecorator</source>
-            <target state="final">Decorate nodes types</target>
-            <note>Title, for list node-type-decorator</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.path" approved="yes">
-        <source>nodeTypeDecorator.path</source>
-            <target state="final">Path</target>
-            <note>Table column label for node-type-decorator path</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.entity" approved="yes">
-        <source>nodeTypeDecorator.entity</source>
-            <target state="final">Entity</target>
-            <note>Table column label for node-type-decorator entity based on path</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.field" approved="yes">
-        <source>nodeTypeDecorator.field</source>
-            <target state="final">Field</target>
-            <note>Table column label for node-type-decorator field based on path</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property" approved="yes">
-        <source>nodeTypeDecorator.property</source>
-            <target state="final">Property</target>
-            <note>Table column label for node-type-decorator property</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="nodeTypeDecorator.value" approved="yes">
-        <source>nodeTypeDecorator.value</source>
-            <target state="final">Value</target>
-            <note>Table column label for node-type-decorator value</note>
+        <target state="final">Decorate nodes types</target>
+        <note>Title, for list node-type-decorator</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="back_to.nodeTypeDecorators" approved="yes">
         <source>back_to.nodeTypeDecorators</source>
@@ -4947,10 +4916,40 @@
         <source>are_you_sure.delete.nodeTypeDecorator</source>
         <target state="final">Are you sure you want to delete this decorator?</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="add.a.nodeTypeDecorator" approved="yes">
+        <source>add.a.nodeTypeDecorator</source>
+        <target state="final">Add a decorator</target>
+        <note>Button label, for add new node-type-decorators</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.path" approved="yes">
+        <source>nodeTypeDecorator.path</source>
+        <target state="final">Path</target>
+        <note>Table column label for node-type-decorator path</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.entity" approved="yes">
+        <source>nodeTypeDecorator.entity</source>
+        <target state="final">Entity</target>
+        <note>Table column label for node-type-decorator entity based on path</note>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.without_field" approved="yes">
         <source>nodeTypeDecorator.without_field</source>
         <target state="final">Node-type level property</target>
         <note>Default value of node type decorator field select</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.field" approved="yes">
+        <source>nodeTypeDecorator.field</source>
+        <target state="final">Field</target>
+        <note>Table column label for node-type-decorator field based on path</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.property" approved="yes">
+        <source>nodeTypeDecorator.property</source>
+        <target state="final">Property</target>
+        <note>Table column label for node-type-decorator property</note>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeTypeDecorator.value" approved="yes">
+        <source>nodeTypeDecorator.value</source>
+        <target state="final">Value</target>
+        <note>Table column label for node-type-decorator value</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeTypeDecorator.property.display_name" approved="yes">
         <source>nodeTypeDecorator.property.display_name</source>
@@ -5007,9 +5006,18 @@
         <target state="final">Max Length</target>
         <note>Property value label for node type field max_length</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="color_input.picker.button"><source>color_input.picker.button</source><target state="final">Color</target></trans-unit>
-      <trans-unit xml:space="preserve" id="color_input.hex.button"><source>color_input.hex.button</source><target state="final">Hexadecimal</target></trans-unit>
-      <trans-unit xml:space="preserve" id="color_input.placeholder"><source>color_input.placeholder</source><target state="final">No color</target></trans-unit>
+      <trans-unit xml:space="preserve" id="color_input.picker.button" approved="yes">
+        <source>color_input.picker.button</source>
+        <target state="final">Color</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color_input.hex.button" approved="yes">
+        <source>color_input.hex.button</source>
+        <target state="final">Hexadecimal</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="color_input.placeholder" approved="yes">
+        <source>color_input.placeholder</source>
+        <target state="final">No color</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

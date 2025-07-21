@@ -212,9 +212,14 @@
                 <target state="final">Unsplash API Client ID, if you fill in a valid ID, Roadiz will be able to upload random images on the login page and in the Documents management.</target>
                 <note>Setting help name</note>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="support_email_address">
+      <trans-unit xml:space="preserve" id="Store last cronjob execution date and time.">
+                <source>Store last cronjob execution date and time.</source>
+                <target state="translated">Store last cronjob execution date and time.</target>
+                <note>Setting help name</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="support_email_address" approved="yes">
                 <source>support_email_address</source>
-            <target state="final">Support email address</target>
+                <target state="final">Support email address</target>
             </trans-unit>
     </body>
   </file>
