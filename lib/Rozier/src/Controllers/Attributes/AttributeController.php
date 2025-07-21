@@ -148,7 +148,6 @@ final class AttributeController extends AbstractAdminWithBulkController
         return $this->render('@RoadizRozier/attributes/import.html.twig', $this->assignation);
     }
 
-    #[\Override]
     public function exportAction(Request $request): JsonResponse
     {
         $this->denyAccessUnlessGranted($this->getRequiredExportRole());
