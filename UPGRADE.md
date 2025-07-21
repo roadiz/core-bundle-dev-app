@@ -234,7 +234,9 @@ And remove roles routes from your Roadiz Rozier menu entries:
 -            ]);
 -        }
 +        if ($this->captchaService->isEnabled()) {
-+           $builder->add($this->captchaService->getFieldName(), \RZ\Roadiz\CoreBundle\Form\CaptchaType::class);
++           $builder->add($this->captchaService->getFieldName(), \RZ\Roadiz\CoreBundle\Form\CaptchaType::class, [
++                'mapped' => false,
++           ]);
 +        }
      }
 ```
