@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.30](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.29...v2.5.30) - 2025-07-21
+
+### Refactor
+
+- **(core)** [Backported] Introduce CaptchaServiceInterface to make captcha generic and update all related services ([#138](https://github.com/roadiz/core-bundle-dev-app/issues/138)) - ([b07108e](https://github.com/roadiz/core-bundle-dev-app/commit/b07108e59f14d020d0ef6209ad545d50f8b98e52))
+
 ## [2.5.29](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.28...v2.5.29) - 2025-07-17
 
 ### Bug Fixes

@@ -20,6 +20,10 @@ It's possible to remove it from composer.json, and Composer will automatically u
 Roadiz requires `jms/serializer-bundle` to `~5.5.1`
 It's possible to remove it from composer.json, and Composer will automatically use the correct version.
 
+## Deprecated Recaptcha validation (since v2.5.30)
+
+Roadiz exposes a new Captcha validation service, which is generic and can be used with any captcha service.
+
 # Upgrade to 2.4
 
 ## ⚠ Breaking changes
