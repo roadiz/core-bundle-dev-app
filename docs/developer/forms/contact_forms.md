@@ -137,8 +137,8 @@ You can read more about form events at <https://symfony.com/doc/current/form/eve
 
 ## Securing your form with a Captcha
 
-Roadiz can seamlessly use *Google reCAPTCHA v3* or *Friendly Captcha v2* to secure your contact form against robots.
-All you need to do is to register on <https://www.google.com/recaptcha/> to ask for a *sitekey* and a *secret*.
+Roadiz can seamlessly use a Captcha service to secure your contact form against robots.
+All you need to do is to register on one of the supported Captcha services to ask for a *sitekey* and a *secret*.
 Once you've got these two keys, add them to your `.env.local` or Symfony secrets.
 
 -   `APP_CAPTCHA_PRIVATE_KEY`: Your reCAPTCHA or Friendly Captcha secret key.
