@@ -59,6 +59,19 @@ class CaptchaServiceCompilerPass implements CompilerPassInterface
                         '%roadiz_core.captcha.verify_url%',
                     ])
             );
+        } elseif (str_starts_with((string) $verifyUrl, 'https://challenges.cloudflare.com')) {
+            $container->setDefinition(
+                CaptchaServiceInterface::class,
+                (new Definition())
+                    ->setClass(\RZ\Roadiz\CoreBundle\Captcha\TurnstileCaptchaService::class)
+                    ->setPublic(true)
+                    ->setArguments([
+                        new Reference(HttpClientInterface::class),
+                        '%roadiz_core.captcha.public_key%',
+                        '%roadiz_core.captcha.private_key%',
+                        '%roadiz_core.captcha.verify_url%',
+                    ])
+            );
         } else {
             $container->setDefinition(
                 CaptchaServiceInterface::class,
