@@ -26,7 +26,7 @@ resources:
                 # Do not use no_empty_password for passwordless user creation
                 #
                 #validation_groups: ~
-                openapiContext:
+                openapi:
                     summary: Create a new public user
                     parameters:
                         -   in: header
@@ -36,7 +36,7 @@ resources:
                             required: true
                     description: |
                         Create a new public user. User won't be validated and will not be granted with any role.
-                        This operation may require a *Google Recaptcha* response to protect against flooding.
+                        This operation may require a *Captcha* response to protect against flooding.
 
             api_user_password_request:
                 class: ApiPlatform\Metadata\Post
@@ -45,7 +45,7 @@ resources:
                 processor: RZ\Roadiz\UserBundle\State\UserPasswordRequestProcessor
                 input: RZ\Roadiz\UserBundle\Api\Dto\UserPasswordRequestInput
                 output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-                openapiContext:
+                openapi:
                     summary: Request a public user new password
                     parameters:
                         -   in: header
@@ -55,7 +55,7 @@ resources:
                             required: true
                     description: |
                         Initiate a public user new password request (forgot my password). This operation may
-                        require a *Google Recaptcha* response to protect against flooding.
+                        require a *Captcha* response to protect against flooding.
 
             api_user_validation_request:
                 class: ApiPlatform\Metadata\Post
@@ -64,7 +64,7 @@ resources:
                 processor: RZ\Roadiz\UserBundle\State\UserValidationRequestProcessor
                 input: RZ\Roadiz\UserBundle\Api\Dto\UserValidationRequestInput
                 output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
-                openapiContext:
+                openapi:
                     summary: Request a public user email validation token
                     description: |
                         Initiate a public user validation request (to verify user email address)
@@ -81,7 +81,7 @@ resources:
                 validate: false
                 validation_groups:
                     - no_empty_password
-                openapiContext:
+                openapi:
                     summary: Reset a public user password
                     parameters: ~
                     description: |
@@ -96,7 +96,7 @@ resources:
                 output: RZ\Roadiz\UserBundle\Api\Dto\VoidOutput
                 read: false
                 validate: false
-                openapiContext:
+                openapi:
                     summary: Validate a public user email
                     description: |
                         Validate a public user email with a unique and temporary token

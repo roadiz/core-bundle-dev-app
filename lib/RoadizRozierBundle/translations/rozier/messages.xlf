@@ -522,10 +522,8 @@
             <trans-unit xml:space="preserve" id="googleplus_url"><source>googleplus_url</source><note>Setting name for social page url.</note></trans-unit>
             <trans-unit xml:space="preserve" id="twitter_account"><source>twitter_account</source><note>Setting name for social page url.</note></trans-unit>
 
-            <trans-unit xml:space="preserve" id="recaptcha_public_key"><source>recaptcha_public_key</source></trans-unit>
-            <trans-unit xml:space="preserve" id="recaptcha_private_key"><source>recaptcha_private_key</source></trans-unit>
             <trans-unit xml:space="preserve" id="you_must_show_youre_not_robot"><source>you_must_show_youre_not_robot</source></trans-unit>
-            <trans-unit xml:space="preserve" id="recaptcha_is_invalid.try_again"><source>recaptcha_is_invalid.try_again</source></trans-unit>
+            <trans-unit xml:space="preserve" id="captcha_is_invalid.try_again"><source>captcha_is_invalid.try_again</source></trans-unit>
 
             <!-- document usage -->
             <trans-unit xml:space="preserve" id="document.%name%.usage"><source>document.%name%.usage</source></trans-unit>

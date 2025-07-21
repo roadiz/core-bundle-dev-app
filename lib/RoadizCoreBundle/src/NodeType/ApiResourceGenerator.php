@@ -214,7 +214,7 @@ final readonly class ApiResourceGenerator
                     ],
                 ],
             ],
-            'openapiContext' => [
+            'openapi' => [
                 'tags' => ['WebResponse'],
                 'summary' => 'Get a '.$nodeType->getName().' by its path wrapped in a WebResponse object',
                 'description' => 'Get a '.$nodeType->getName().' by its path wrapped in a WebResponse',
@@ -317,7 +317,7 @@ final readonly class ApiResourceGenerator
                         'extraProperties' => [
                             'archive_enabled' => true,
                         ],
-                        'openapiContext' => [
+                        'openapi' => [
                             'summary' => sprintf(
                                 'Retrieve all %s ressources archives months and years',
                                 $nodeType->getName()

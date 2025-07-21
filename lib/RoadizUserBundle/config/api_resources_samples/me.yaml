@@ -15,7 +15,7 @@ resources:
                 normalizationContext:
                     groups: ['user', 'user_personal', 'user_security']
                     enable_max_depth: true
-                openapiContext:
+                openapi:
                     summary: Get current user (JWT) information
                     description: |
                         Get current user (JWT) information

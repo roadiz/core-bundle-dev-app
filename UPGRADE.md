@@ -6,6 +6,7 @@
 - Upgraded to **ApiPlatform 4.x**
 - **Dropped Roles entity**, use native Symfony Roles hierarchy to define your roles instead
 - **Dropped RoleArrayVoter** BC, you cannot use `isGranted` and `denyUnlessGranted` methods with arrays
+- New `CaptchaServiceInterface` to make captcha support any provider service.
 - All Solr and SearchEngine related logic has been moved to the new `roadiz/solr-bundle` bundle.
 - `ThemeAwareNodeRouter` and `ThemeAwareNodeUrlMatcher` classes have been removed
 - All deprecated `AbstractField` constants have been removed (in favor of `FieldType` enum)
@@ -35,6 +36,9 @@ api_platform:
         json: ['application/json']
         x-www-form-urlencoded: ['application/x-www-form-urlencoded']
 ```
+
+
+And rename `openapiContext` to `openapi` on your api-resources configuration files for each operation.
 
 ## Enable new DocumentDto
 
@@ -154,15 +158,31 @@ And remove roles routes from your Roadiz Rozier menu entries:
 
 ## Upgrade your Roadiz Core bundle configuration
 
-```yaml
-# config/packages/roadiz_core.yaml
-roadiz_core:
-    # ...
-    # Force displaying translation locale in every generated node-source paths.
-    # This should be enabled if you redirect users based on their language on homepage.
-    forceLocale: false
-    # Force displaying translation locale in generated node-source paths even if there is an url-alias in it.
-    forceLocaleWithUrlAliases: false
+- Add `forceLocale` and `forceLocaleWithUrlAliases` parameters
+- Move your Recaptcha configuration to `roadiz_core.recaptcha` parameters
+- Replace `$recaptchaPrivateKey` and `$recaptchaPublicKey` constructor arguments with `CaptchaServiceInterface` in your custom services.
+
+```diff
+ # config/packages/roadiz_core.yaml
+ roadiz_core:
+     # ...
+     # Force displaying translation locale in every generated node-source paths.
+     # This should be enabled if you redirect users based on their language on homepage.
++    forceLocale: false
+     # Force displaying translation locale in generated node-source paths even if there is an url-alias in it.
++    forceLocaleWithUrlAliases: false
+     # ...
+     medias:
+         unsplash_client_id: '%env(string:APP_UNSPLASH_CLIENT_ID)%'
+         soundcloud_client_id: '%env(string:APP_SOUNDCLOUD_CLIENT_ID)%'
+         google_server_id: '%env(string:APP_GOOGLE_SERVER_ID)%'
+-        recaptcha_private_key: '%env(string:APP_CAPTCHA_PRIVATE_KEY)%'
+-        recaptcha_public_key: '%env(string:APP_CAPTCHA_PUBLIC_KEY)%'
+         ffmpeg_path: '%env(string:APP_FFMPEG_PATH)%'
++    captcha:
++        private_key: '%env(string:APP_CAPTCHA_PRIVATE_KEY)%'
++        public_key: '%env(string:APP_CAPTCHA_PUBLIC_KEY)%'
++        verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
 ```
 
 ## Upgrade your Mailer configuration

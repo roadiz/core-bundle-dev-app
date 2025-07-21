@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Mailer;
 
 use RZ\Roadiz\CoreBundle\Bag\Settings;
+use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -20,8 +21,7 @@ final readonly class ContactFormManagerFactory
         private FormFactoryInterface $formFactory,
         private FormErrorSerializerInterface $formErrorSerializer,
         private NotifierInterface $notifier,
-        private ?string $recaptchaPrivateKey,
-        private ?string $recaptchaPublicKey,
+        private CaptchaServiceInterface $captchaService,
     ) {
     }
 
@@ -34,8 +34,7 @@ final readonly class ContactFormManagerFactory
             $this->notifier,
             $this->formFactory,
             $this->formErrorSerializer,
-            $this->recaptchaPrivateKey,
-            $this->recaptchaPublicKey
+            $this->captchaService,
         );
     }
 }

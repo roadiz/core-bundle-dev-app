@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Form;
 
+use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormField;
 use RZ\Roadiz\CoreBundle\Enum\FieldType;
-use RZ\Roadiz\CoreBundle\Form\Constraint\Recaptcha;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -23,8 +23,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 final class CustomFormsType extends AbstractType
 {
     public function __construct(
-        private readonly ?string $recaptchaPrivateKey,
-        private readonly ?string $recaptchaPublicKey,
+        private readonly CaptchaServiceInterface $captchaService,
     ) {
     }
 
@@ -54,25 +53,8 @@ final class CustomFormsType extends AbstractType
             }
         }
 
-        /*
-         * Add Google Recaptcha if setting optional options.
-         */
-        if (
-            !empty($this->recaptchaPublicKey)
-            && !empty($this->recaptchaPrivateKey)
-        ) {
-            $builder->add($options['recaptcha_name'], RecaptchaType::class, [
-                'label' => false,
-                'configs' => [
-                    'publicKey' => $this->recaptchaPublicKey,
-                ],
-                'constraints' => [
-                    new Recaptcha([
-                        'privateKey' => $this->recaptchaPrivateKey,
-                        'fieldName' => $options['recaptcha_name'],
-                    ]),
-                ],
-            ]);
+        if ($this->captchaService->isEnabled()) {
+            $builder->add($this->captchaService->getFieldName(), CaptchaType::class);
         }
     }
 
@@ -249,7 +231,6 @@ final class CustomFormsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'recaptcha_name' => Recaptcha::FORM_NAME,
             'forceExpanded' => false,
             'csrf_protection' => false,
             // You may reduce this value when you have multiple files upload fields
@@ -261,7 +242,6 @@ final class CustomFormsType extends AbstractType
         $resolver->setAllowedTypes('customForm', [CustomForm::class]);
         $resolver->setAllowedTypes('forceExpanded', ['boolean']);
         $resolver->setAllowedTypes('fileUploadMaxSize', ['string']);
-        $resolver->setAllowedTypes('recaptcha_name', ['string']);
     }
 
     #[\Override]

@@ -128,7 +128,7 @@ resources:
                         - web_response
                         - walker
                         - children
-                openapiContext:
+                openapi:
                     tags:
                         - WebResponse
                     summary: 'Get a resource by its path wrapped in a WebResponse object'
@@ -159,7 +159,7 @@ resources:
                         - web_response
                         - walker
                         - children
-                openapiContext:
+                openapi:
                     tags:
                         - WebResponse
                     summary: 'Get a resource by its path wrapped in a WebResponse object'

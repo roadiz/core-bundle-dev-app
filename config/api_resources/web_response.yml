@@ -29,7 +29,7 @@ resources:
                         - walker
                         - walker_metadata
                         - children
-                openapiContext:
+                openapi:
                     tags:
                         - WebResponse
                     summary: 'Get a Article by its path wrapped in a WebResponse object'
@@ -59,7 +59,7 @@ resources:
                         - walker
                         - walker_metadata
                         - children
-                openapiContext:
+                openapi:
                     tags:
                         - WebResponse
                     summary: 'Get a ArticleContainer by its path wrapped in a WebResponse object'
@@ -89,7 +89,7 @@ resources:
                         - walker
                         - walker_metadata
                         - children
-                openapiContext:
+                openapi:
                     tags:
                         - WebResponse
                     summary: 'Get a Offer by its path wrapped in a WebResponse object'
@@ -122,7 +122,7 @@ resources:
                         - walker
                         - walker_metadata
                         - children
-                openapiContext:
+                openapi:
                     tags:
                         - WebResponse
                     summary: 'Get a Page by its path wrapped in a WebResponse object'

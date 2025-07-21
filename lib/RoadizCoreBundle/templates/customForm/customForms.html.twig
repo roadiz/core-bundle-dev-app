@@ -142,3 +142,27 @@
         })();
     </script>
 {%- endblock recaptcha_widget %}
+
+{% block friendlycaptcha_widget -%}
+    {# FriendlyCaptcha widget frc-captcha-response #}
+    {# https://developer.friendlycaptcha.com/docs/v2/getting-started/verify #}
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@friendlycaptcha/sdk@0.1.26/site.min.js" async defer></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@friendlycaptcha/sdk@0.1.26/site.compat.min.js" async defer></script>
+    <div class="frc-captcha" id="{{ form.vars.id }}" data-sitekey="{{ configs.publicKey }}" data-form-field-name="{{ form.vars.full_name }}"></div>
+{%- endblock friendlycaptcha_widget %}
+
+{% block hcaptcha_widget -%}
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+    <div class="h-captcha" id="{{ form.vars.id }}" data-sitekey="{{ configs.publicKey }}" data-form-field-name="{{ form.vars.full_name }}"></div>
+{%- endblock hcaptcha_widget %}
+
+{% block cf_turnstile_widget -%}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    <div
+        class="cf-turnstile"
+        id="{{ form.vars.id }}"
+        data-sitekey="{{ configs.publicKey }}"
+        data-form-field-name="{{ form.vars.full_name }}"
+        data-callback="javascriptCallback"
+    ></div>
+{%- endblock cf_turnstile_widget %}

@@ -29,6 +29,9 @@ fields. Made sure to configure your API operations with at least
     "copyright": "© John Doe",
     "externalUrl": null,
     "processable": true,
+    "imageCropAlignment": "center",
+    "hotspot": {"x": 0.5, "y": 0.5},
+    "processable": true,
     "thumbnail": null,
     "alt": "This is an image"
 }

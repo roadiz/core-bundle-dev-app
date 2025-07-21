@@ -1944,21 +1944,13 @@
         <target state="translated">Име Twitter налога</target>
         <note>Setting name for social page url.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_public_key">
-        <source>recaptcha_public_key</source>
-        <target state="translated">Recaptcha кључ сајта (јавни)</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_private_key">
-        <source>recaptcha_private_key</source>
-        <target state="translated">Recaptcha приватни кључ (тајни)</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="you_must_show_youre_not_robot">
         <source>you_must_show_youre_not_robot</source>
-        <target state="translated">Морате да валидирате Recaptcha како бисте потврдили да нисте робот.</target>
+        <target state="translated">Морате да валидирате captcha како бисте потврдили да нисте робот.</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="recaptcha_is_invalid.try_again">
-        <source>recaptcha_is_invalid.try_again</source>
-        <target state="translated">Recaptcha је неисправна, молимо Вас, покушајте поново.</target>
+      <trans-unit xml:space="preserve" id="captcha_is_invalid.try_again">
+        <source>captcha_is_invalid.try_again</source>
+        <target state="translated">Captcha је неисправна, молимо Вас, покушајте поново.</target>
       </trans-unit>
       <!-- document usage -->
       <trans-unit xml:space="preserve" id="document.%name%.usage">
