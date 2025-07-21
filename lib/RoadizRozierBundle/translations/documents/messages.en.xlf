@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-    <file original="" source-language="en" datatype="plaintext" target-language="en">
-        <body>
-            <trans-unit xml:space="preserve" id="document.externalUrl" approved="yes">
+  <file original="" source-language="en" datatype="plaintext" target-language="en">
+    <body>
+      <trans-unit xml:space="preserve" id="document.externalUrl" approved="yes">
                 <source>document.externalUrl</source>
                 <target state="final">External URL</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.limitations" approved="yes">
+      <trans-unit xml:space="preserve" id="document.limitations" approved="yes">
                 <source>document.limitations</source>
                 <target state="final">Limitations</target>
                 <note>Documents limitations backoffice section label</note>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.copyrightHolder" approved="yes">
+      <trans-unit xml:space="preserve" id="document.copyrightHolder" approved="yes">
                 <source>document.copyrightHolder</source>
                 <target state="final">Copyright holder</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.copyrightValidSince" approved="yes">
+      <trans-unit xml:space="preserve" id="document.copyrightValidSince" approved="yes">
                 <source>document.copyrightValidSince</source>
                 <target state="final">Copyright valid since</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.copyrightValidUntil" approved="yes">
+      <trans-unit xml:space="preserve" id="document.copyrightValidUntil" approved="yes">
                 <source>document.copyrightValidUntil</source>
                 <target state="final">Copyright valid until</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="no_document" approved="yes">
+      <trans-unit xml:space="preserve" id="no_document" approved="yes">
                 <source>no_document</source>
                 <target state="final">No document</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="unused_documents.help" approved="yes">
+      <trans-unit xml:space="preserve" id="unused_documents.help" approved="yes">
                 <source>unused_documents.help</source>
                 <target state="final">
 Document are listed as “unused” when they are not linked to any node, tag, setting or attribute anymore.
@@ -35,104 +35,102 @@ Document are listed as “unused” when they are not linked to any node, tag, s
 **Notice**: if you are using a Document URL directly in a Markdown text or from an external website,
 *this document will be flagged as unused.*</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="all.documents" approved="yes">
+      <trans-unit xml:space="preserve" id="all.documents" approved="yes">
                 <source>all.documents</source>
                 <target state="final">All documents</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="duplicated_documents" approved="yes">
+      <trans-unit xml:space="preserve" id="duplicated_documents" approved="yes">
                 <source>duplicated_documents</source>
                 <target state="final">Duplicated documents</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.video_sources" approved="yes">
+      <trans-unit xml:space="preserve" id="document.video_sources" approved="yes">
                 <source>document.video_sources</source>
                 <target state="final">All video sources</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.audio_sources" approved="yes">
+      <trans-unit xml:space="preserve" id="document.audio_sources" approved="yes">
                 <source>document.audio_sources</source>
                 <target state="final">All audio sources</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.picture_sources" approved="yes">
+      <trans-unit xml:space="preserve" id="document.picture_sources" approved="yes">
                 <source>document.picture_sources</source>
                 <target state="final">All picture sources</target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="private_documents">
+      <trans-unit xml:space="preserve" id="private_documents" approved="yes">
                 <source>private_documents</source>
-                <target state="translated">Private documents</target>
+                <target state="final">Private documents</target>
             </trans-unit>
-
-            <trans-unit xml:space="preserve" id="image_crop_alignment.none" approved="yes">
+      <trans-unit xml:space="preserve" id="document.imageAlignment" approved="yes">
+                <source>document.imageAlignment</source>
+                <target state="final">Image alignment</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="image_crop_alignment.none" approved="yes">
         <source>image_crop_alignment.none</source>
         <target state="final">No alignment set</target>
       </trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.top-left" approved="yes">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top-left" approved="yes">
         <source>image_crop_alignment.top-left</source>
         <target state="final">Top left</target>
       </trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.top" approved="yes">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top" approved="yes">
         <source>image_crop_alignment.top</source>
         <target state="final">Top</target>
       </trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.top-right" approved="yes">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.top-right" approved="yes">
         <source>image_crop_alignment.top-right</source>
         <target state="final">Top right</target>
       </trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.left" approved="yes">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.left" approved="yes">
         <source>image_crop_alignment.left</source>
         <target state="final">Left</target>
       </trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.center" approved="yes">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.center" approved="yes">
         <source>image_crop_alignment.center</source>
         <target state="final">Center</target>
       </trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.right" approved="yes">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.right" approved="yes">
         <source>image_crop_alignment.right</source>
         <target state="final">Right</target>
       </trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left" approved="yes">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left" approved="yes">
         <source>image_crop_alignment.bottom-left</source>
         <target state="final">Bottom left</target>
       </trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom" approved="yes">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom" approved="yes">
         <source>image_crop_alignment.bottom</source>
         <target state="final">Bottom</target>
       </trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right" approved="yes">
+      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right" approved="yes">
         <source>image_crop_alignment.bottom-right</source>
         <target state="final">Bottom right</target>
       </trans-unit>
-            <trans-unit xml:space="preserve" id="document.imageAlignment">
-            <source>document.imageAlignment</source>
-            <target state="final">Image alignment</target>
-        </trans-unit>
-            <trans-unit xml:space="preserve" id="document.imageCropAlignment">
-            <source>document.imageCropAlignment</source>
-            <target state="final">Interest area</target>
-        </trans-unit>
-            <trans-unit xml:space="preserve" id="document.imageCropAlignment.help">
-            <source>document.imageCropAlignment.help</source>
-            <target state="final">Define an area by which the image will be aligned during cropping.</target>
-        </trans-unit>
-            <trans-unit xml:space="preserve" id="document.hotspot">
-            <source>document.hotspot</source>
-            <target state="final">Hotspot</target>
-        </trans-unit>
-            <trans-unit xml:space="preserve" id="document.hotspot.help">
-            <source>document.hotspot.help</source>
-            <target state="final">Set a point of interest on the image to highlight a specific detail.</target>
-        </trans-unit>
-            <trans-unit xml:space="preserve" id="documentEditDialog.submit">
-            <source>documentEditDialog.submit</source>
-            <target state="final">Apply</target>
-        </trans-unit>
-            <trans-unit xml:space="preserve" id="documentEditDialog.cancel">
-            <source>documentEditDialog.cancel</source>
-            <target state="final">Cancel</target>
-        </trans-unit>
-            <trans-unit xml:space="preserve" id="documentEditDialog.edit">
-            <source>documentEditDialog.edit</source>
-            <target state="final">Edit document</target>
-        </trans-unit>
-
-        </body>
-    </file>
+      <trans-unit xml:space="preserve" id="document.imageCropAlignment" approved="yes">
+                <source>document.imageCropAlignment</source>
+                <target state="final">Interest area</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageCropAlignment.help" approved="yes">
+                <source>document.imageCropAlignment.help</source>
+                <target state="final">Define an area by which the image will be aligned during cropping.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.hotspot" approved="yes">
+                <source>document.hotspot</source>
+                <target state="final">Hotspot</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.hotspot.help" approved="yes">
+                <source>document.hotspot.help</source>
+                <target state="final">Set a point of interest on the image to highlight a specific detail.</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="documentEditDialog.submit" approved="yes">
+                <source>documentEditDialog.submit</source>
+                <target state="final">Apply</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="documentEditDialog.cancel" approved="yes">
+                <source>documentEditDialog.cancel</source>
+                <target state="final">Cancel</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="documentEditDialog.edit" approved="yes">
+                <source>documentEditDialog.edit</source>
+                <target state="final">Edit document</target>
+            </trans-unit>
+    </body>
+  </file>
 </xliff>
