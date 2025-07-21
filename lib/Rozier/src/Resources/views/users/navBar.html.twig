@@ -1,15 +1,17 @@
 <nav class="user-edit-navigation navbar-navigation uk-navbar">
     {% apply spaceless %}
     <ul class="uk-navbar-nav">
-        {% if is_granted('ROLE_ACCESS_USERS') or app.user.id == user.id %}
+        {# See RZ\Roadiz\CoreBundle\Security\Authorization\Voter\UserVoter #}
+        {% if is_granted('USER_EDIT', user) %}
             <li class="{% if current == 'edit' %}uk-active{% endif %}" >
                 <a href="{{ path('usersEditPage', { id: user.getId }) }}">{% trans %}user.edit{% endtrans %}</a>
             </li>
+        {% endif %}
+        {% if is_granted('USER_EDIT_DETAIL', user) %}
             <li class="{% if current == 'edit_details' %}uk-active{% endif %}" >
                 <a href="{{ path('usersEditDetailsPage', { id: user.getId }) }}">{% trans %}user.edit_details{% endtrans %}</a>
             </li>
         {% endif %}
-
         {% if (is_granted('ROLE_ACCESS_USERS')) %}
             <li class="{% if current == 'security' %}uk-active{% endif %}">
                 <a href="{{ path('usersSecurityPage', { userId: user.getId }) }}">{% trans %}user.security{% endtrans %}</a>
@@ -21,7 +23,6 @@
                 <a href="{{ path('usersEditGroupsPage', { userId: user.getId }) }}">{% trans %}user.groups{% endtrans %}</a>
             </li>
         {% endif %}
-
         {% if is_granted('ROLE_ACCESS_LOGS') %}
             <li class="{% if current == 'history' %}uk-active{% endif %}">
                 <a href="{{ path('historyUserPage', { userId: user.getId }) }}">{% trans %}user.history{% endtrans %}</a>

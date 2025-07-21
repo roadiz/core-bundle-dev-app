@@ -6,11 +6,9 @@ namespace Themes\Rozier\Forms;
 
 use RZ\Roadiz\CoreBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Themes\Rozier\RozierApp;
 
 class UserDetailsType extends AbstractType
 {
@@ -38,12 +36,6 @@ class UserDetailsType extends AbstractType
             ->add('pictureUrl', TextType::class, [
                 'label' => 'pictureUrl',
                 'required' => false,
-            ])
-            ->add('locale', ChoiceType::class, [
-                'label' => 'user.backoffice.language',
-                'required' => false,
-                'choices' => RozierApp::$backendLanguages,
-                'placeholder' => 'use.website.default_language',
             ])
         ;
     }
