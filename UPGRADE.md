@@ -186,6 +186,59 @@ And remove roles routes from your Roadiz Rozier menu entries:
 +        verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
 ```
 
+## Upgrade your captcha protected Form types
+
+`CaptchaServiceInterface` will simplify your captcha form types and remove the need for `recaptcha_private_key`, `recaptcha_public_key` and `verify_url` parameters.
+
+```diff
+     public function __construct(
+-        private readonly ?string $recaptchaPrivateKey,
+-        private readonly ?string $recaptchaPublicKey,
+-        private readonly string $verifyUrl = 'https://www.google.com/recaptcha/api/siteverify',
++        private readonly \RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface $captchaService,
+     ) {
+     }
+ 
+     public function buildForm(FormBuilderInterface $builder, array $options): void
+     {
+         $builder->add('email', EmailType::class, [
+             'label' => 'newsletter.email',
+             'required' => true,
+             'attr' => [
+                 'autocomplete' => 'email',
+             ],
+             'constraints' => [
+                 new NotBlank(),
+                 new Email(),
+             ],
+         ]);
+ 
+-        if (
+-            !empty($this->recaptchaPublicKey)
+-            && !empty($this->recaptchaPrivateKey)
+-        ) {
+-            $builder->add('g-recaptcha-response', RecaptchaType::class, [
+-                'mapped' => false,
+-                'label' => false,
+-                'required' => true,
+-                'configs' => [
+-                    'publicKey' => $this->recaptchaPublicKey,
+-                ],
+-                'constraints' => [
+-                    new Recaptcha([
+-                        'fieldName' => 'g-recaptcha-response',
+-                        'privateKey' => $this->recaptchaPrivateKey,
+-                        'verifyUrl' => $this->verifyUrl,
+-                    ]),
+-                ],
+-            ]);
+-        }
++        if ($this->captchaService->isEnabled()) {
++           $builder->add($this->captchaService->getFieldName(), \RZ\Roadiz\CoreBundle\Form\CaptchaType::class);
++        }
+     }
+```
+
 ## Upgrade your Mailer configuration
 
 ```yaml
