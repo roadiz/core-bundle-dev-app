@@ -23,7 +23,7 @@ resources:
                         - web_response
                         - walker
                         - children
-                openapiContext:
+                openapi:
                     tags:
                         - WebResponse
                     summary: 'Get a Test by its path wrapped in a WebResponse object'

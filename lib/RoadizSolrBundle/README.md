@@ -102,7 +102,7 @@ resources:
                         - tag_base
                         - translation_base
                         - document_display
-                openapiContext:
+                openapi:
                     summary: Search NodesSources resources
                     description: |
                         Search all website NodesSources resources using **Solr** full-text search engine

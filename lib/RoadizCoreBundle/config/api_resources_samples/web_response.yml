@@ -1,0 +1,3 @@
+resources:
+    RZ\Roadiz\CoreBundle\Api\Model\WebResponse:
+        operations: []

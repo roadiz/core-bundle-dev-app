@@ -27,7 +27,7 @@ resources:
                 uriTemplate: /articles/archives
                 extraProperties:
                     archive_enabled: true
-                openapiContext:
+                openapi:
                     summary: 'Retrieve all Article ressources archives months and years'
             article_get:
                 method: GET
