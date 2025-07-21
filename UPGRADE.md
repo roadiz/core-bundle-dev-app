@@ -36,6 +36,8 @@ api_platform:
         x-www-form-urlencoded: ['application/x-www-form-urlencoded']
 ```
 
+And rename `openapiContext` to `openapi` on your api-resources configuration files for each operation.
+
 ## Upgrade your Roadiz roles hierarchy
 
 Migrations will automatically convert database roles to JSON roles in users and usergroups tables.
