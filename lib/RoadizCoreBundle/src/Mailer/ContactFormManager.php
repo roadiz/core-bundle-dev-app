@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Mailer;
 
 use RZ\Roadiz\CoreBundle\Bag\Settings;
+use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Exception\BadFormRequestException;
-use RZ\Roadiz\CoreBundle\Form\Constraint\Recaptcha;
+use RZ\Roadiz\CoreBundle\Form\CaptchaType;
 use RZ\Roadiz\CoreBundle\Form\Error\FormErrorSerializerInterface;
 use RZ\Roadiz\CoreBundle\Form\HoneypotType;
-use RZ\Roadiz\CoreBundle\Form\RecaptchaType;
 use RZ\Roadiz\Documents\UrlGenerators\DocumentUrlGeneratorInterface;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -73,8 +73,7 @@ final class ContactFormManager extends EmailManager
         DocumentUrlGeneratorInterface $documentUrlGenerator,
         private readonly FormFactoryInterface $formFactory,
         private readonly FormErrorSerializerInterface $formErrorSerializer,
-        private readonly ?string $recaptchaPrivateKey,
-        private readonly ?string $recaptchaPublicKey,
+        private readonly CaptchaServiceInterface $captchaService,
     ) {
         parent::__construct($requestStack, $translator, $templating, $mailer, $settingsBag, $documentUrlGenerator);
 
@@ -240,40 +239,21 @@ final class ContactFormManager extends EmailManager
     }
 
     /**
-     * Add a Google recaptcha to your contact form.
-     *
-     * Make sure you’ve added recaptcha form template and filled
-     * recaptcha_public_key and recaptcha_private_key settings.
-     *
-     *   <script src='https://www.google.com/recaptcha/api.js'></script>
-     *
-     *   {% block recaptcha_widget -%}
-     *       <div class="g-recaptcha" data-sitekey="{{ configs.publicKey }}"></div>
-     *   {%- endblock recaptcha_widget %}
-     *
-     * If you are using API REST POST form, use 'g-recaptcha-response' name
-     * to enable Validator to get challenge value.
+     * @deprecated Since 2.5.30, use withCaptcha method
      */
     public function withGoogleRecaptcha(
         string $name = 'recaptcha',
-        string $validatorFieldName = Recaptcha::FORM_NAME,
+        string $validatorFieldName = 'g-recaptcha-response',
     ): self {
-        if (
-            !empty($this->recaptchaPublicKey)
-            && !empty($this->recaptchaPrivateKey)
-        ) {
-            $this->getFormBuilder()->add($name, RecaptchaType::class, [
-                'label' => false,
-                'configs' => [
-                    'publicKey' => $this->recaptchaPublicKey,
-                ],
-                'constraints' => [
-                    new Recaptcha([
-                        'fieldName' => $validatorFieldName,
-                        'privateKey' => $this->recaptchaPrivateKey,
-                    ]),
-                ],
-            ]);
+        trigger_deprecation('roadiz/core-bundle', '2.5.30', 'withGoogleRecaptcha method is replaced with withCaptcha.');
+
+        return $this->withCaptcha();
+    }
+
+    public function withCaptcha(): self
+    {
+        if ($this->captchaService->isEnabled()) {
+            $this->getFormBuilder()->add($this->captchaService->getFieldName(), CaptchaType::class);
         }
 
         return $this;
@@ -492,8 +472,7 @@ final class ContactFormManager extends EmailManager
     {
         $key = $form->getName();
         $privateFieldNames = [
-            Recaptcha::FORM_NAME,
-            'recaptcha',
+            $this->captchaService->getFieldName(),
         ];
 
         return

@@ -39,6 +39,75 @@ roadiz_core:
 Changing this setting after content creation will **erase all node-source data**.
 :::
 
+## Configure a captcha service for custom forms and POST API endpoints
+
+Roadiz supports captcha verification provided by:
+- [Google reCAPTCHA](https://www.google.com/recaptcha)
+- [Friendly CAPTCHA](https://www.friendlycaptcha.eu)
+- [hCaptcha](https://docs.hcaptcha.com/)
+- [Cloudflare Turnstile](https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/)
+
+Roadiz will automatically use the configured captcha service based on `roadiz_core.captcha.verify_url` value.
+
+```yaml
+roadiz_core:
+    captcha:
+        private_key: '%env(string:APP_CAPTCHA_PRIVATE_KEY)%'
+        public_key: '%env(string:APP_CAPTCHA_PUBLIC_KEY)%'
+        verify_url: '%env(string:APP_CAPTCHA_VERIFY_URL)%'
+```
+
+If you change `APP_CAPTCHA_VERIFY_URL` environment variable, you need to clear Symfony cache to apply the new configuration.
+
+Then you can use the `withCaptcha()` method on your contact-form manager to add a captcha field to your form.
+Or inject the `RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface` in your own logic to verify the captcha response.
+
+You can check which captcha service is currently configured by running the following command:
+
+```shell
+bin/console debug:container CaptchaServiceInterface
+
+# Example output:
+Information for Service "RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface"
+==============================================================================
+
+ ---------------- ------------------------------------------------------------ 
+  Option           Value                                                       
+ ---------------- ------------------------------------------------------------ 
+  Service ID       RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface        
+  Class            RZ\Roadiz\CoreBundle\Captcha\TurnstileCaptchaService        
+  Tags             -                                                           
+  Public           yes                                                         
+  Synthetic        no                                                          
+  Lazy             no                                                          
+  Shared           yes                                                         
+  Abstract         no                                                          
+  Autowired        no                                                          
+  Autoconfigured   no                                                          
+  Usages           RZ\Roadiz\CoreBundle\Form\CaptchaType                       
+                   RZ\Roadiz\CoreBundle\Form\Constraint\CaptchaValidator       
+                   RZ\Roadiz\CoreBundle\Form\CustomFormsType                   
+                   RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory           
+ ---------------- ------------------------------------------------------------ 
+```
+
+### Default captcha service verification URLs
+
+- **Google reCAPTCHA**: `https://www.google.com/recaptcha/api/siteverify`
+- **Friendly CAPTCHA**: `https://global.frcapi.com/api/v2/captcha/siteverify`
+- **hCaptcha**: `https://hcaptcha.com/siteverify`
+- **Cloudflare Turnstile**: `https://challenges.cloudflare.com/turnstile/v0/siteverify`
+
+### API endpoints captcha verification
+
+Protected API endpoints can be configured to require captcha verification such as `POST` requests to custom-forms. If JSON form responses includes
+one of the following keys in `required` property, Roadiz will automatically verify the captcha response against the configured captcha service:
+
+- `frc-captcha-response`
+- `h-captcha-response`
+- `g-recaptcha-response`
+- `cf-turnstile-response`
+
 ## Apache Solr endpoint
 
 Roadiz uses *Apache Solr* as Search engine and for indexing nodes-sources. Configure Solr in `config/packages/roadiz_core.yaml`:

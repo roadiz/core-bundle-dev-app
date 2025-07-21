@@ -8,7 +8,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
 use RZ\Roadiz\CoreBundle\Bag\Roles;
-use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
+use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\UserBundle\Api\Dto\UserInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
 use RZ\Roadiz\UserBundle\Event\UserSignedUp;
@@ -21,7 +21,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final readonly class UserSignupProcessor implements ProcessorInterface
 {
-    use RecaptchaProtectedTrait;
+    use CaptchaProtectedTrait;
     use SignupProcessorTrait;
 
     public function __construct(
@@ -30,23 +30,17 @@ final readonly class UserSignupProcessor implements ProcessorInterface
         private RequestStack $requestStack,
         private EventDispatcherInterface $eventDispatcher,
         private RateLimiterFactory $userSignupLimiter,
-        private RecaptchaServiceInterface $recaptchaService,
+        private CaptchaServiceInterface $recaptchaService,
         private ProcessorInterface $persistProcessor,
         private UserMetadataManagerInterface $userMetadataManager,
         private Roles $rolesBag,
         private string $publicUserRoleName,
-        private string $recaptchaHeaderName = 'x-g-recaptcha-response',
     ) {
     }
 
-    protected function getRecaptchaService(): RecaptchaServiceInterface
+    protected function getCaptchaService(): CaptchaServiceInterface
     {
         return $this->recaptchaService;
-    }
-
-    protected function getRecaptchaHeaderName(): string
-    {
-        return $this->recaptchaHeaderName;
     }
 
     protected function getSecurity(): Security
@@ -66,8 +60,8 @@ final readonly class UserSignupProcessor implements ProcessorInterface
         }
 
         $request = $this->requestStack->getCurrentRequest();
-        $this->ValidateRequest($request);
-        $this->validateRecaptchaHeader($request);
+        $this->validateRequest($request);
+        $this->validateCaptchaHeader($request);
 
         $user = $this->createUser($data);
         $user->setPlainPassword($data->plainPassword);

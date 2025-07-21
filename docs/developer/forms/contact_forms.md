@@ -20,10 +20,12 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory;
 
 // …
 // Create contact-form manager and add 3 default fields.
-$contactFormManager = $this->createContactFormManager()
+$contactFormManager = $this->contactFormManagerFactory
+                           ->create()        
                            ->withDefaultFields();
 /*
  * (Optional) Add custom fields…
@@ -95,10 +97,12 @@ For example, in a `App/Controllers/ContactBlockController`, instead of returning
 // ./src/Controllers/ContactBlockController.php
 
 use RZ\Roadiz\CoreBundle\Exception\ForceResponseException;
+use RZ\Roadiz\CoreBundle\Mailer\ContactFormManagerFactory;
 
 …
 // Create contact-form manager and add 3 default fields.
-$contactFormManager = $this->createContactFormManager()
+$contactFormManager = $this->contactFormManagerFactory
+                           ->create()        
                            ->withDefaultFields();
 
 if (null !== $response = $contactFormManager->handle()) {
@@ -131,25 +135,28 @@ You can also use this behaviour to change dynamically the contact form receiver 
 You can read more about form events at <https://symfony.com/doc/current/form/events.html>
 :::
 
-## Securing your form with *Google reCAPTCHA*
+## Securing your form with a Captcha
 
-Roadiz can seamlessly use *Google reCAPTCHA* to secure your contact form against robots.
-All you need to do is to register on <https://www.google.com/recaptcha/> to ask for a *sitekey* and a *secret*.
+Roadiz can seamlessly use a Captcha service to secure your contact form against robots.
+All you need to do is to register on one of the supported Captcha services to ask for a *sitekey* and a *secret*.
 Once you've got these two keys, add them to your `.env.local` or Symfony secrets.
 
--   `APP_RECAPTCHA_PRIVATE_KEY`
--   `APP_RECAPTCHA_PUBLIC_KEY`
+-   `APP_CAPTCHA_PRIVATE_KEY`: Your reCAPTCHA or Friendly Captcha secret key.
+-   `APP_CAPTCHA_PUBLIC_KEY`: Your reCAPTCHA or Friendly Captcha sitekey.
+-   `APP_CAPTCHA_VERIFY_URL`: The URL to verify the captcha response, for example `https://www.google.com/recaptcha/api/siteverify` for reCAPTCHA or `https://global.frcapi.com/api/v2/captcha/siteverify` for Friendly Captcha.
 
-Then, just use `withGoogleRecaptcha()` method on your contact-form manager.
+Then, you can use the `withCaptcha()` method on your contact-form manager to add a captcha field to your form.
+
 
 ```php
 // Create contact-form manager, add 3 default fields and add a reCAPTCHA.
-$contactFormManager = $this->createContactFormManager()
+$contactFormManager = $this->contactFormManagerFactory
+                           ->create()        
                            ->withDefaultFields()
-                           ->withGoogleRecaptcha();
+                           ->withCaptcha();
 ```
 
-Do not forget to add recaptcha form-template and to embed google's javascript.
+Do not forget to add captcha form-template.
 
 ```twig
 {# In your theme’ forms.html.twig file #}
@@ -181,4 +188,17 @@ Do not forget to add recaptcha form-template and to embed google's javascript.
        })();
    </script>
 {%- endblock recaptcha_widget %}
+
+{% block friendlycaptcha_widget -%}
+    {# FriendlyCaptcha widget frc-captcha-response #}
+    {# https://developer.friendlycaptcha.com/docs/v2/getting-started/verify #}
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@friendlycaptcha/sdk@0.1.26/site.min.js" async defer></script>
+    <script nomodule src="https://cdn.jsdelivr.net/npm/@friendlycaptcha/sdk@0.1.26/site.compat.min.js" async defer></script>
+    <div class="frc-captcha" id="{{ form.vars.id }}" data-sitekey="{{ configs.publicKey }}" data-form-field-name="{{ form.vars.full_name }}"></div>
+{%- endblock friendlycaptcha_widget %}
+
+{% block hcaptcha_widget -%}
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+    <div class="h-captcha" id="{{ form.vars.id }}" data-sitekey="{{ configs.publicKey }}" data-form-field-name="{{ form.vars.full_name }}"></div>
+{%- endblock hcaptcha_widget %}
 ```

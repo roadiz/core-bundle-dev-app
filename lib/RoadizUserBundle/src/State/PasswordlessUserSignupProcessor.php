@@ -8,7 +8,7 @@ use ApiPlatform\Metadata\Operation;
 use ApiPlatform\State\ProcessorInterface;
 use ApiPlatform\Validator\ValidatorInterface;
 use RZ\Roadiz\CoreBundle\Bag\Roles;
-use RZ\Roadiz\CoreBundle\Form\Constraint\RecaptchaServiceInterface;
+use RZ\Roadiz\CoreBundle\Captcha\CaptchaServiceInterface;
 use RZ\Roadiz\CoreBundle\Security\LoginLink\LoginLinkSenderInterface;
 use RZ\Roadiz\UserBundle\Api\Dto\PasswordlessUserInput;
 use RZ\Roadiz\UserBundle\Api\Dto\VoidOutput;
@@ -23,7 +23,7 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final readonly class PasswordlessUserSignupProcessor implements ProcessorInterface
 {
-    use RecaptchaProtectedTrait;
+    use CaptchaProtectedTrait;
     use SignupProcessorTrait;
 
     public function __construct(
@@ -33,25 +33,19 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
         private RequestStack $requestStack,
         private EventDispatcherInterface $eventDispatcher,
         private RateLimiterFactory $userSignupLimiter,
-        private RecaptchaServiceInterface $recaptchaService,
+        private CaptchaServiceInterface $recaptchaService,
         private ProcessorInterface $persistProcessor,
         private UserMetadataManagerInterface $userMetadataManager,
         private Roles $rolesBag,
         private LoginLinkSenderInterface $loginLinkSender,
         private string $publicUserRoleName,
         private string $passwordlessUserRoleName,
-        private string $recaptchaHeaderName = 'x-g-recaptcha-response',
     ) {
     }
 
-    protected function getRecaptchaService(): RecaptchaServiceInterface
+    protected function getCaptchaService(): CaptchaServiceInterface
     {
         return $this->recaptchaService;
-    }
-
-    protected function getRecaptchaHeaderName(): string
-    {
-        return $this->recaptchaHeaderName;
     }
 
     protected function getSecurity(): Security
@@ -70,8 +64,8 @@ final readonly class PasswordlessUserSignupProcessor implements ProcessorInterfa
             throw new BadRequestHttpException(sprintf('Cannot process %s', get_class($data)));
         }
         $request = $this->requestStack->getCurrentRequest();
-        $this->ValidateRequest($request);
-        $this->validateRecaptchaHeader($request);
+        $this->validateRequest($request);
+        $this->validateCaptchaHeader($request);
 
         $user = $this->createUser($data);
         $user->addRoleEntity($this->rolesBag->get($this->publicUserRoleName));
