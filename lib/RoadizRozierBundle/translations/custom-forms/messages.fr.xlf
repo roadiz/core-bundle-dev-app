@@ -197,11 +197,11 @@
                 <target state="final">URL d'une image représentant l'information de contact</target>
                 <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="customForm.email.help">
-            <source>customForm.email.help</source>
-            <target state="final">Indiquez une ou plusieurs adresses e-mail pour recevoir les réponses de ce formulaire personnalisé. Utilisez une virgule pour séparer plusieurs adresses e-mail.</target>
-            <note></note>
-        </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.email.help" approved="yes">
+                <source>customForm.email.help</source>
+                <target state="final">Indiquez une ou plusieurs adresses e-mail pour recevoir les réponses de ce formulaire personnalisé. Utilisez une virgule pour séparer plusieurs adresses e-mail.</target>
+                <note/>
+            </trans-unit>
     </body>
   </file>
 </xliff>

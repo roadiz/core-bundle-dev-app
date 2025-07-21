@@ -35,8 +35,18 @@ abstract class StatusAwareRepository extends EntityRepository implements StatusA
     ) {
         parent::__construct($registry, $entityClass, $dispatcher);
 
+        $this->resetStatuses();
+    }
+
+    /**
+     * @deprecated do not use repository stateful methods in services
+     */
+    public function resetStatuses(): self
+    {
         $this->displayNotPublishedNodes = false;
         $this->displayAllNodesStatuses = false;
+
+        return $this;
     }
 
     /**
@@ -84,9 +94,6 @@ abstract class StatusAwareRepository extends EntityRepository implements StatusA
         return $this;
     }
 
-    /**
-     * @deprecated do not use repository stateful methods in services
-     */
     #[\Override]
     public function alterQueryBuilderWithAuthorizationChecker(
         QueryBuilder $qb,

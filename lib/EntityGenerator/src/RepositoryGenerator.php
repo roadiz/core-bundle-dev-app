@@ -46,7 +46,7 @@ final class RepositoryGenerator implements RepositoryGeneratorInterface
 
         $class = $namespace
             ->addClass($this->options['class_name'])
-            ->setFinal()
+            // Do not set final, project may want to extend this class
             ->setExtends($this->options['parent_class'])
         ;
 

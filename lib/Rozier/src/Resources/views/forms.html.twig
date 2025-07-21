@@ -343,6 +343,17 @@
     <input type="radio" title="{{ label|trans }}" aria-label="{{ label|trans }}" {{ block('widget_attributes') }}{% if value is defined %} value="{{ value }}"{% endif %}{% if checked %} checked="checked"{% endif %} />
 {%- endblock radio_widget -%}
 
+{%- block document_alignment_widget -%}
+    {% include '@RoadizRozier/widgets/documentAlignment.html.twig' with {
+        widget_attributes: block('widget_attributes'),
+        id: 'document-edit',
+        form: form
+    } %}
+    {%- for child in form %}
+        {{- form_widget(child) -}}
+    {% endfor -%}
+{%- endblock document_alignment_widget -%}
+
 {% block image_crop_alignment_widget %}
     {% apply spaceless %}
     <div class="image-crop-alignments" {{ block('widget_container_attributes') }}>

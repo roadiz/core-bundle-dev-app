@@ -14,6 +14,7 @@ use RZ\Roadiz\CoreBundle\Message\ApplyRealmNodeInheritanceMessage;
 use RZ\Roadiz\CoreBundle\Message\CleanRealmNodeInheritanceMessage;
 use RZ\Roadiz\CoreBundle\Message\SearchRealmNodeInheritanceMessage;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -25,6 +26,7 @@ final readonly class SearchRealmNodeInheritanceMessageHandler
     public function __construct(
         private ManagerRegistry $managerRegistry,
         private HandlerFactoryInterface $handlerFactory,
+        private AllStatusesNodeRepository $allStatusesNodeRepository,
         private MessageBusInterface $bus,
         private LoggerInterface $logger,
     ) {
@@ -33,7 +35,7 @@ final readonly class SearchRealmNodeInheritanceMessageHandler
     public function __invoke(SearchRealmNodeInheritanceMessage $message): void
     {
         /** @var Node|null $node */
-        $node = $this->managerRegistry->getRepository(Node::class)->find($message->getNodeId());
+        $node = $this->allStatusesNodeRepository->find($message->getNodeId());
         if (null === $node) {
             throw new UnrecoverableMessageHandlingException('Node does not exist');
         }

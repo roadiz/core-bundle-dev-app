@@ -90,8 +90,7 @@ readonly class NodeSourceWalkerContext implements WalkerContextInterface
          * When using worker PHP runtimes (such as FrankenPHP or Swoole), this can lead to unpublish nodes being returned.
          */
         if ($repository instanceof StatusAwareRepository) {
-            $repository->setDisplayingNotPublishedNodes(false);
-            $repository->setDisplayingAllNodesStatuses(false);
+            $repository->resetStatuses();
         }
 
         return $repository;

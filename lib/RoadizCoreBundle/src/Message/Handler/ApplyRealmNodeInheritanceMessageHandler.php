@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\Entity\RealmNode;
 use RZ\Roadiz\CoreBundle\Message\ApplyRealmNodeInheritanceMessage;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
 use RZ\Roadiz\CoreBundle\Node\NodeOffspringResolverInterface;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
 
@@ -19,6 +20,7 @@ final readonly class ApplyRealmNodeInheritanceMessageHandler
 {
     public function __construct(
         private ManagerRegistry $managerRegistry,
+        private AllStatusesNodeRepository $allStatusesNodeRepository,
         private NodeOffspringResolverInterface $nodeOffspringResolver,
     ) {
     }
@@ -28,7 +30,7 @@ final readonly class ApplyRealmNodeInheritanceMessageHandler
         if (null === $message->getRealmId()) {
             return;
         }
-        $node = $this->managerRegistry->getRepository(Node::class)->find($message->getNodeId());
+        $node = $this->allStatusesNodeRepository->find($message->getNodeId());
         $realm = $this->managerRegistry->getRepository(Realm::class)->find($message->getRealmId());
 
         if (null === $node) {
@@ -50,12 +52,11 @@ final readonly class ApplyRealmNodeInheritanceMessageHandler
             return;
         }
 
-        $nodeRepository = $this->managerRegistry->getRepository(Node::class);
         $childrenIds = $this->nodeOffspringResolver->getAllOffspringIds($node);
 
         foreach ($childrenIds as $childId) {
             /** @var Node|null $child */
-            $child = $nodeRepository->find($childId);
+            $child = $this->allStatusesNodeRepository->find($childId);
             if (null === $child) {
                 continue;
             }

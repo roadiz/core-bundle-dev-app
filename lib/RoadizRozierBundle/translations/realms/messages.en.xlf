@@ -132,9 +132,9 @@
                 <target state="final">Secure realm</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="realm_node.realm.help">
+      <trans-unit xml:space="preserve" id="realm_node.realm.help" approved="yes">
                 <source>realm_node.realm.help</source>
-                <target state="translated">Choose a previously created secure domain to apply to this node and its tree.</target>
+                <target state="final">Choose a previously created secure domain to apply to this node and its tree.</target>
                 <note/>
             </trans-unit>
       <trans-unit xml:space="preserve" id="realm_node.realm.placeholder" approved="yes">

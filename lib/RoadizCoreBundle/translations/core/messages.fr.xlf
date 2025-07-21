@@ -167,12 +167,12 @@
             </trans-unit>
       <trans-unit xml:space="preserve" id="attributes.defaultRealm.placeholder" approved="yes">
                 <source>attributes.defaultRealm.placeholder</source>
-
+                
                 <target state="final">-- Aucun domaine sécurisé par défaut --</target>
             <note>Default text when no realm is attached to an attribute</note></trans-unit>
       <trans-unit xml:space="preserve" id="attributeValue.realm.placeholder" approved="yes">
                 <source>attributeValue.realm.placeholder</source>
-
+                
                 <target state="final">-- Aucun domaine sécurisé --</target>
             <note>Default text when no realm is attached to an attribute-value</note></trans-unit>
       <trans-unit xml:space="preserve" id="login_link" approved="yes">
@@ -189,7 +189,7 @@
             </trans-unit>
       <trans-unit xml:space="preserve" id="request_login_link" approved="yes">
                 <source>request_login_link</source>
-
+                
                 <target state="final">Demander un lien de connexion</target>
             <note>Button label to request a login link</note></trans-unit>
       <trans-unit xml:space="preserve" id="login_link.request" approved="yes">
@@ -212,65 +212,54 @@
                 <source>classic.login_password</source>
                 <target state="final">Se connecter avec mot de passe</target>
             </trans-unit>
-
-
-            <trans-unit id="user_id" xml:space="preserve">
+      <!-- History entry params -->
+      <trans-unit id="user_id" xml:space="preserve" approved="yes">
                 <source>user_id</source>
-                <target state="translated">ID utilisateur</target>
+                <target state="final">ID utilisateur</target>
             </trans-unit>
-            <trans-unit id="user_email" xml:space="preserve">
+      <trans-unit id="user_email" xml:space="preserve" approved="yes">
                 <source>user_email</source>
-                <target state="translated">E-mail utilisateur</target>
+                <target state="final">E-mail utilisateur</target>
             </trans-unit>
-            <trans-unit id="user_picture_url" xml:space="preserve">
+      <trans-unit id="user_picture_url" xml:space="preserve" approved="yes">
                 <source>user_picture_url</source>
-                <target state="translated">URL image de profil</target>
+                <target state="final">URL image de profil</target>
             </trans-unit>
-            <trans-unit id="user_public_name" xml:space="preserve">
+      <trans-unit id="user_public_name" xml:space="preserve" approved="yes">
                 <source>user_public_name</source>
-                <target state="translated">Pseudonyme utilisateur</target>
+                <target state="final">Pseudonyme utilisateur</target>
             </trans-unit>
-            <trans-unit id="security" xml:space="preserve">
+      <trans-unit id="security" xml:space="preserve" approved="yes">
                 <source>security</source>
-                <target state="translated">Sécurité</target>
+                <target state="final">Sécurité</target>
             </trans-unit>
-            <trans-unit id="authenticator" xml:space="preserve">
+      <trans-unit id="authenticator" xml:space="preserve" approved="yes">
                 <source>authenticator</source>
-                <target state="translated">Authentificateur</target>
+                <target state="final">Authentificateur</target>
             </trans-unit>
-            <trans-unit id="entity_title" xml:space="preserve">
+      <trans-unit id="entity_title" xml:space="preserve" approved="yes">
                 <source>entity_title</source>
-                <target state="translated">Entity title</target>
+                <target state="final">Entity title</target>
             </trans-unit>
-            <trans-unit id="exception_class" xml:space="preserve">
+      <trans-unit id="exception_class" xml:space="preserve" approved="yes">
                 <source>exception_class</source>
-                <target state="translated">Classe de l'exception</target>
+                <target state="final">Classe de l'exception</target>
             </trans-unit>
-            <trans-unit id="path" xml:space="preserve">
+      <trans-unit id="path" xml:space="preserve" approved="yes">
                 <source>path</source>
-                <target state="translated">Chemin</target>
+                <target state="final">Chemin</target>
             </trans-unit>
-            <trans-unit id="firewall" xml:space="preserve">
+      <trans-unit id="firewall" xml:space="preserve" approved="yes">
                 <source>firewall</source>
-                <target state="translated">Pare-feu</target>
+                <target state="final">Pare-feu</target>
             </trans-unit>
-
-
-            <trans-unit id="document.hotspot" xml:space="preserve">
-                <source>document.hotspot</source>
-                <target state="translated">Point d'intéret</target>
-            </trans-unit>
-            <trans-unit id="document.hotspot.help" xml:space="preserve">
-                <source>document.hotspot.help</source>
-                <target state="translated">Le point d'intérêt d'une image permet de définir une zone plus précise que l'option d'alignement pour le redimensionnement.</target>
-            </trans-unit>
-            <trans-unit id="apple_podcast" xml:space="preserve">
+      <trans-unit id="apple_podcast" xml:space="preserve" approved="yes">
                 <source>apple_podcast</source>
-                <target state="translated">Apple Podcast</target>
+                <target state="final">Apple Podcast</target>
             </trans-unit>
-            <trans-unit id="Apple_podcast" xml:space="preserve">
+      <trans-unit id="Apple_podcast" xml:space="preserve" approved="yes">
                 <source>Apple_podcast</source>
-                <target state="translated">Apple Podcast</target>
+                <target state="final">Apple Podcast</target>
             </trans-unit>
     </body>
   </file>

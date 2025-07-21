@@ -170,13 +170,9 @@
         }
 
         &.uk-button-danger {
-            background: fade(@alert-color, 20%);
-            border-color: @alert-color;
-
             [class*=uk-icon-]{
                 color: @alert-color;
             }
-
             &:hover, &:focus{
                 background: fade(@alert-color, 20%);
                 border-color:darken(@alert-color, 15%);
@@ -256,7 +252,7 @@
 
 .uk-button-success {
     &:not(:disabled) {
-        background: fade(@success-color, 20%);
+        background: lighten(@success-color, 40%);
         border-color: @success-color;
         color: darken(@success-color, 15%);
         text-shadow: none;
@@ -281,7 +277,7 @@
 .uk-button-locked,
 .uk-button-warning {
     &:not(:disabled) {
-        background: fade(@warning-color, 20%);
+        background: lighten(@warning-color, 30%);
         border-color: @warning-color;
         color: darken(@warning-color, 15%);
         text-shadow: none;
@@ -304,7 +300,7 @@
 .uk-button-deleted,
 .uk-button-danger {
     &:not(:disabled) {
-        background: fade(@alert-color, 20%);
+        background: lighten(@alert-color, 35%);
         border-color: @alert-color;
         color: darken(@alert-color, 15%);
         text-shadow: none;

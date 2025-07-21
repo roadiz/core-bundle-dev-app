@@ -108,6 +108,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
         $hasThumbnail = false;
         $thumbnailOptions = self::$thumbnailSmallArray;
         $previewOptions = self::$previewArray;
+        $editImageUrl = null;
 
         if (
             $this->document instanceof HasThumbnailInterface
@@ -136,6 +137,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
             $this->documentUrlGenerator->setOptions($thumbnailOptions);
             $thumbnail80Url = $this->documentUrlGenerator->getUrl();
             $this->documentUrlGenerator->setOptions($previewOptions);
+            $editImageUrl = $this->documentUrlGenerator->getUrl();
         }
 
         $embedFinder = $this->embedFinderFactory?->createForPlatform(
@@ -165,6 +167,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
                 : $this->document->getShortType(),
             'shortMimeType' => $this->document->getShortMimeType(),
             'thumbnail80' => $thumbnail80Url,
+            'editImageUrl' => $editImageUrl,
         ];
     }
 }

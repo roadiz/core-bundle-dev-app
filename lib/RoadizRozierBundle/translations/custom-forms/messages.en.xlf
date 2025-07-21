@@ -197,11 +197,11 @@
                 <target state="final">URL of an image representing the contact information given in the form.</target>
                 <note/>
             </trans-unit>
-        <trans-unit xml:space="preserve" id="customForm.email.help">
-            <source>customForm.email.help</source>
-            <target state="final">List one or many email addresses to receive this custom-form answer copy. Use comma to separate multiple email addresses.</target>
-            <note></note>
-        </trans-unit>
+      <trans-unit xml:space="preserve" id="customForm.email.help" approved="yes">
+                <source>customForm.email.help</source>
+                <target state="final">List one or many email addresses to receive this custom-form answer copy. Use comma to separate multiple email addresses.</target>
+                <note/>
+            </trans-unit>
     </body>
   </file>
 </xliff>

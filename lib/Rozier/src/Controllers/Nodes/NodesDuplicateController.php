@@ -10,6 +10,7 @@ use RZ\Roadiz\CoreBundle\Event\Node\NodeCreatedEvent;
 use RZ\Roadiz\CoreBundle\Event\Node\NodeDuplicatedEvent;
 use RZ\Roadiz\CoreBundle\Node\NodeDuplicator;
 use RZ\Roadiz\CoreBundle\Node\NodeNamePolicyInterface;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodeRepository;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,13 +29,14 @@ final class NodesDuplicateController extends AbstractController
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly TranslatorInterface $translator,
         private readonly LogTrail $logTrail,
+        private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
     ) {
     }
 
     public function duplicateAction(Request $request, int $nodeId): Response
     {
         /** @var Node|null $existingNode */
-        $existingNode = $this->managerRegistry->getRepository(Node::class)->find($nodeId);
+        $existingNode = $this->allStatusesNodeRepository->find($nodeId);
 
         if (null === $existingNode) {
             throw $this->createNotFoundException();

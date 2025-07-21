@@ -54,8 +54,7 @@ final readonly class NodesSourcesLinkHeaderEventSubscriber implements EventSubsc
         if (!$repository instanceof NodesSourcesRepository) {
             return;
         }
-        $repository->setDisplayingAllNodesStatuses(false);
-        $repository->setDisplayingNotPublishedNodes(false);
+        $repository->resetStatuses();
         /** @var NodesSources[] $allSources */
         $allSources = $repository->findByNode($resources->getNode());
 

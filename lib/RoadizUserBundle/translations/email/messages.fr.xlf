@@ -2,25 +2,25 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="fr">
     <body>
-      <trans-unit xml:space="preserve" id="validate_email.subject">
+      <trans-unit xml:space="preserve" id="validate_email.subject" approved="yes">
                 <source>validate_email.subject</source>
-                <target state="translated">Valider l'email lié à votre compte</target>
+                <target state="final">Valider l'email lié à votre compte</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="validate_email.subtitle">
+      <trans-unit xml:space="preserve" id="validate_email.subtitle" approved="yes">
                 <source>validate_email.subtitle</source>
-                <target state="translated">Bienvenue sur “%site%” !</target>
+                <target state="final">Bienvenue sur “%site%” !</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="validate_email.content">
+      <trans-unit xml:space="preserve" id="validate_email.content" approved="yes">
                 <source>validate_email.content</source>
-                <target state="translated">Veuillez cliquer sur le lien ci-dessous pour vérifier l'adresse email liée à votre compte.</target>
+                <target state="final">Veuillez cliquer sur le lien ci-dessous pour vérifier l'adresse email liée à votre compte.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="validate_email.btn_label">
+      <trans-unit xml:space="preserve" id="validate_email.btn_label" approved="yes">
                 <source>validate_email.btn_label</source>
-                <target state="translated">Valider mon adresse email</target>
+                <target state="final">Valider mon adresse email</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="as.a.reminder.here.are.your.credentials">
+      <trans-unit xml:space="preserve" id="as.a.reminder.here.are.your.credentials" approved="yes">
                 <source>as.a.reminder.here.are.your.credentials</source>
-                <target state="translated">Pour rappel voici vos informations de connexion</target>
+                <target state="final">Pour rappel voici vos informations de connexion</target>
             </trans-unit>
     </body>
   </file>

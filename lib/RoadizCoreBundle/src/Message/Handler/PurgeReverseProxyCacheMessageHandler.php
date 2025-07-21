@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Message\Handler;
 
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Cache\ReverseProxyCacheLocator;
-use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Message\HttpRequestMessage;
 use RZ\Roadiz\CoreBundle\Message\HttpRequestMessageInterface;
 use RZ\Roadiz\CoreBundle\Message\PurgeReverseProxyCacheMessage;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use Symfony\Cmf\Component\Routing\RouteObjectInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -26,16 +25,13 @@ final readonly class PurgeReverseProxyCacheMessageHandler
         private MessageBusInterface $bus,
         private UrlGeneratorInterface $urlGenerator,
         private ReverseProxyCacheLocator $reverseProxyCacheLocator,
-        private ManagerRegistry $managerRegistry,
+        private AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
     ) {
     }
 
     public function __invoke(PurgeReverseProxyCacheMessage $message): void
     {
-        $nodeSource = $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->setDisplayingAllNodesStatuses(true)
-            ->find($message->getNodeSourceId());
+        $nodeSource = $this->allStatusesNodesSourcesRepository->find($message->getNodeSourceId());
         if (null === $nodeSource) {
             throw new UnrecoverableMessageHandlingException('NodesSources does not exist anymore.');
         }

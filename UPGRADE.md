@@ -21,6 +21,7 @@
 - `EmailManager` has been deprecated, use symfony/notifier instead.
 - `email_sender` Setting has been removed, use `framework.mailer.envelope.sender` configuration parameter instead.
 - `EmailManager::getOrigin()` method has been removed, this will use `framework.mailer.envelope.sender` configuration parameter.
+- Added `DocumentDto` to expose NodesSources documents in API Platform with contextualized `hotspot` and `imageCropAlignment` properties.
 
 ## Upgrade your API Platform configuration
 
@@ -36,7 +37,40 @@ api_platform:
         x-www-form-urlencoded: ['application/x-www-form-urlencoded']
 ```
 
+
 And rename `openapiContext` to `openapi` on your api-resources configuration files for each operation.
+
+## Enable new DocumentDto
+
+To expose `hotspot` and `imageCropAlignment` properties in your API Platform, you need to enable the new `DocumentDto`.
+
+```yaml
+# config/packages/roadiz_core.yaml
+roadiz_core:
+    useDocumentDto: true
+```
+
+```json
+[
+  {
+    "id": 1222,
+    "filename": "associes_groupe_01.jpg",
+    "mimeType": "image/jpeg",
+    "imageWidth": 2500,
+    "imageHeight": 1667,
+    "mediaDuration": 0,
+    "imageAverageColor": "#8d8a89",
+    "relativePath": "501fad4a/associes_groupe_01.jpg",
+    "imageCropAlignment": "center",
+    "hotspot": {
+      "x": 0.55,
+      "y": 0.38
+    },
+    "type": "image",
+    "processable": true
+  }
+]
+```
 
 ## Upgrade your Roadiz roles hierarchy
 

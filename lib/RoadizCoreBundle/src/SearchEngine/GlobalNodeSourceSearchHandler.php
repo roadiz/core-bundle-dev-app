@@ -5,25 +5,23 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\SearchEngine;
 
 use Doctrine\ORM\NoResultException;
-use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
 use RZ\Roadiz\CoreBundle\Enum\NodeStatus;
+use RZ\Roadiz\CoreBundle\Repository\AllStatusesNodesSourcesRepository;
 use RZ\Roadiz\CoreBundle\Repository\NodesSourcesRepository;
 
 final readonly class GlobalNodeSourceSearchHandler
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
+        private AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
         private ?NodeSourceSearchHandlerInterface $nodeSourceSearchHandler = null,
     ) {
     }
 
     protected function getRepository(): NodesSourcesRepository
     {
-        return $this->managerRegistry
-            ->getRepository(NodesSources::class)
-            ->setDisplayingNotPublishedNodes(true);
+        return $this->allStatusesNodesSourcesRepository;
     }
 
     /**
