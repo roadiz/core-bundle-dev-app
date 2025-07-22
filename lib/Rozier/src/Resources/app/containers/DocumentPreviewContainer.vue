@@ -1,15 +1,15 @@
 <template>
     <transition name="fade">
-        <div class="document-preview-widget" v-if="isVisible && document">
+        <div v-if="isVisible && document" class="document-preview-widget">
             <div class="document-preview-widget__wrapper" @click.prevent="onClick">
                 <div class="document-preview-widget__information">
                     <div class="info">
                         {{ document.classname }}
                     </div>
-                    <div class="info" v-if="document.displayable !== document.classname">
+                    <div v-if="document.displayable !== document.classname" class="info">
                         {{ document.displayable }}
                     </div>
-                    <div class="info" v-if="document.embedPlatform">
+                    <div v-if="document.embedPlatform" class="info">
                         {{ document.embedPlatform }}
                     </div>
                     <div class="close" @click.prevent="closePreview">

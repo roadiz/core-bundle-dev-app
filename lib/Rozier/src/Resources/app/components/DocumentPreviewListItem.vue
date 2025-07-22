@@ -80,9 +80,9 @@
                     <div class="document-links">
                         <component
                             :is="document.processable ? 'button' : 'a'"
+                            :id="`edit-${drawerName}[${index}]`"
                             :type="document.processable ? 'button' : null"
                             :href="!document.processable ? editUrl : null"
-                            :id="`edit-${drawerName}[${index}]`"
                             :class="[
                                 'uk-button',
                                 'document-link',
@@ -176,7 +176,7 @@ export default {
             return '?referer=' + window.location.pathname
         },
         onPreviewClick() {
-            this.documentPreviewOpen({ document: this.item })
+            this.documentPreviewOpen({ document: this.document })
         },
         onEditClick(event) {
             if (!this.document.processable) return
