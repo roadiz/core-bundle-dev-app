@@ -2001,6 +2001,10 @@
         <source>you_must_show_youre_not_robot</source>
         <target state="final">You must validate the Recaptcha to verify you’re not a robot.</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="captcha_is_invalid.try_again" approved="yes">
+        <source>captcha_is_invalid.try_again</source>
+        <target state="final">Captcha is invalid, please try again.</target>
+      </trans-unit>
       <!-- document usage -->
       <trans-unit xml:space="preserve" id="document.%name%.usage" approved="yes">
         <source>document.%name%.usage</source>
