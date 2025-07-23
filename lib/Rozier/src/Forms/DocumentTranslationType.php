@@ -17,12 +17,14 @@ class DocumentTranslationType extends AbstractType
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder->add('referer', HiddenType::class, [
-            'data' => $options['referer'],
-            'mapped' => false,
-        ])
+        $builder
+            ->add('referer', HiddenType::class, [
+                'data' => $options['referer'],
+                'mapped' => false,
+            ])
             ->add('name', TextType::class, [
                 'label' => 'name',
+                'help' => 'document_translation.name.help',
                 'required' => false,
             ])
             ->add('description', MarkdownType::class, [
@@ -36,7 +38,8 @@ class DocumentTranslationType extends AbstractType
             ->add('externalUrl', TextType::class, [
                 'label' => 'document.externalUrl',
                 'required' => false,
-            ]);
+            ])
+        ;
     }
 
     #[\Override]

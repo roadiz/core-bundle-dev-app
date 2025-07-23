@@ -11,6 +11,10 @@
                 <target></target>
                 <note>Documents limitations backoffice section label</note>
             </trans-unit>
+            <trans-unit xml:space="preserve" id="document_translation.name.help">
+                <source>document_translation.name.help</source>
+                <target></target>
+            </trans-unit>
             <trans-unit xml:space="preserve" id="document.copyrightHolder">
                 <source>document.copyrightHolder</source>
                 <target></target>
