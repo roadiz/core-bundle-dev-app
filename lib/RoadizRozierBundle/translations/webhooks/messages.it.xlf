@@ -2,9 +2,9 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="it">
     <body>
-      <trans-unit xml:space="preserve" id="webhooks">
+      <trans-unit xml:space="preserve" id="webhooks" approved="yes">
                 <source>webhooks</source>
-                <target state="translated">webhook</target>
+                <target state="final">webhook</target>
             </trans-unit>
     </body>
   </file>
