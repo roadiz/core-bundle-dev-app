@@ -1917,7 +1917,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="you_must_show_youre_not_robot" approved="yes">
         <source>you_must_show_youre_not_robot</source>
-        <target state="final">Devi convalidare il Recaptcha per verificare che non sei un robot.</target>
+        <target state="final">Devi convalidare il Captcha per verificare che non sei un robot.</target>
       </trans-unit>
       <!-- document usage -->
       <trans-unit xml:space="preserve" id="document.%name%.usage" approved="yes">
