@@ -12,6 +12,7 @@ use RZ\Roadiz\CoreBundle\Form\AttributeType;
 use RZ\Roadiz\CoreBundle\Importer\AttributeImporter;
 use RZ\Roadiz\CoreBundle\ListManager\EntityListManagerFactoryInterface;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -23,7 +24,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Themes\Rozier\Controllers\AbstractAdminWithBulkController;
-use Twig\Error\RuntimeError;
 
 final class AttributeController extends AbstractAdminWithBulkController
 {
@@ -128,9 +128,6 @@ final class AttributeController extends AbstractAdminWithBulkController
         throw new \InvalidArgumentException('Item should be instance of '.$this->getEntityClass());
     }
 
-    /**
-     * @throws RuntimeError
-     */
     public function importAction(Request $request): Response
     {
         $this->denyAccessUnlessGranted('ROLE_ACCESS_ATTRIBUTES');
@@ -141,12 +138,10 @@ final class AttributeController extends AbstractAdminWithBulkController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $file */
             $file = $form->get('file')->getData();
+            $filesystem = new Filesystem();
 
             if ($file->isValid()) {
-                $serializedData = \file_get_contents($file->getPathname());
-                if (false === $serializedData) {
-                    throw new \RuntimeException('Cannot read uploaded file.');
-                }
+                $serializedData = $filesystem->readFile($file->getPathname());
 
                 $this->attributeImporter->import($serializedData);
                 $this->em()->flush();

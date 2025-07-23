@@ -9,6 +9,7 @@ use RZ\Roadiz\CoreBundle\Entity\Group;
 use RZ\Roadiz\CoreBundle\Importer\GroupsImporter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
@@ -104,12 +105,10 @@ final class GroupsUtilsController extends AbstractController
         ) {
             /** @var UploadedFile $file */
             $file = $form['group_file']->getData();
+            $filesystem = new Filesystem();
 
             if ($file->isValid()) {
-                $serializedData = file_get_contents($file->getPathname());
-                if (false === $serializedData) {
-                    throw new RuntimeError('Cannot read uploaded file.');
-                }
+                $serializedData = $filesystem->readFile($file->getPathname());
 
                 if (null !== \json_decode($serializedData)) {
                     $this->groupsImporter->import($serializedData);

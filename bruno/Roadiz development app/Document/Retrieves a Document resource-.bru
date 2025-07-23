@@ -5,17 +5,18 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/documents/:id
+  url: {{baseUrl}}/api/documents/:id?_locale=fr
   body: none
   auth: bearer
 }
 
 params:query {
+  _locale: fr
   ~_preview: 
 }
 
 params:path {
-  id: 
+  id: 514
 }
 
 auth:bearer {

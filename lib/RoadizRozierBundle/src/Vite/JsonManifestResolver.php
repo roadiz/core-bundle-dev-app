@@ -7,6 +7,7 @@ namespace RZ\Roadiz\RozierBundle\Vite;
 use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Asset\Packages;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Filesystem\Filesystem;
 
 final readonly class JsonManifestResolver
 {
@@ -40,7 +41,7 @@ final readonly class JsonManifestResolver
             throw new \RuntimeException(sprintf('%s manifest not found', $manifestPath));
         }
         $cacheItem->set(\json_decode(
-            file_get_contents($manifestPath) ?: throw new \RuntimeException('Unable to load manifest file.'),
+            (new Filesystem())->readFile($manifestPath),
             true,
             flags: JSON_THROW_ON_ERROR
         ));

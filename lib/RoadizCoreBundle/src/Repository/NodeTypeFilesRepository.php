@@ -8,6 +8,8 @@ use RZ\Roadiz\CoreBundle\Entity\NodeType;
 use RZ\Roadiz\CoreBundle\NodeType\Configuration\NodeTypeConfiguration;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Filesystem\Exception\IOException;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Exception\DirectoryNotFoundException;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -104,12 +106,13 @@ final readonly class NodeTypeFilesRepository implements NodeTypeRepositoryInterf
         if (null === $file) {
             return null;
         }
-        $content = file_get_contents($file->getRealPath());
-        if (false === $content) {
-            return null;
-        }
-        if (empty($content)) {
-            return null;
+        try {
+            $content = (new Filesystem())->readFile($file->getRealPath());
+            if (empty($content)) {
+                return null;
+            }
+        } catch (IOException $exception) {
+            throw new InvalidConfigurationException('Cannot read file: '.$file->getRealPath(), previous: $exception);
         }
 
         return $content;

@@ -14,6 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml;
 
 final class InstallCommand extends Command
@@ -49,6 +50,7 @@ final class InstallCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $filesystem = new Filesystem();
 
         $question = new ConfirmationQuestion(
             '<question>Are you sure to perform installation?</question>',
@@ -68,25 +70,14 @@ final class InstallCommand extends Command
             ) ? $io->success('doctrine:migrations:migrate') : $io->error('doctrine:migrations:migrate');
 
             $fixturesRoot = dirname(__DIR__).'/../config';
-            $fixtureFile = file_get_contents($fixturesRoot.'/fixtures.yaml');
-
-            if (false === $fixtureFile) {
-                $io->error('No fixtures.yaml file found in '.$fixturesRoot);
-
-                return 1;
-            }
+            $fixtureFile = $filesystem->readFile($fixturesRoot.'/fixtures.yaml');
 
             $data = Yaml::parse($fixtureFile);
 
             if (isset($data['importFiles']['groups'])) {
                 foreach ($data['importFiles']['groups'] as $filename) {
                     $filePath = $fixturesRoot.'/'.$filename;
-                    $fileContents = file_get_contents($filePath);
-                    if (false === $fileContents) {
-                        $io->error('No file found in '.$filePath);
-
-                        return 1;
-                    }
+                    $fileContents = $filesystem->readFile($filePath);
                     $this->groupsImporter->import($fileContents);
                     $io->success('Theme file “'.$filePath.'” has been imported.');
                 }
@@ -94,12 +85,7 @@ final class InstallCommand extends Command
             if (isset($data['importFiles']['settings'])) {
                 foreach ($data['importFiles']['settings'] as $filename) {
                     $filePath = $fixturesRoot.'/'.$filename;
-                    $fileContents = file_get_contents($filePath);
-                    if (false === $fileContents) {
-                        $io->error('No file found in '.$filePath);
-
-                        return 1;
-                    }
+                    $fileContents = $filesystem->readFile($filePath);
                     $this->settingsImporter->import($fileContents);
                     $io->success('Theme files “'.$filePath.'” has been imported.');
                 }

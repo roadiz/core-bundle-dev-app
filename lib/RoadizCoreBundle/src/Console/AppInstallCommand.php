@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Yaml\Yaml;
 
@@ -105,6 +106,7 @@ final class AppInstallCommand extends Command
 
     protected function importFile(string $filename, EntityImporterInterface $importer): void
     {
+        $filesystem = new Filesystem();
         if (false !== $realFilename = realpath($filename)) {
             $file = new File($realFilename);
         } else {
@@ -119,9 +121,7 @@ final class AppInstallCommand extends Command
         }
 
         try {
-            if (false === $fileContent = file_get_contents($file->getPathname())) {
-                throw new \RuntimeException($file->getPathname().' file is not readable');
-            }
+            $fileContent = $filesystem->readFile($file->getPathname());
             $importer->import($fileContent);
             $this->managerRegistry->getManager()->flush();
             $this->io->writeln(
@@ -143,9 +143,7 @@ final class AppInstallCommand extends Command
 
     protected function getAppConfig(string $appConfigPath): array
     {
-        if (false === $fileContent = file_get_contents($appConfigPath)) {
-            throw new \RuntimeException($appConfigPath.' file is not readable');
-        }
+        $fileContent = (new Filesystem())->readFile($appConfigPath);
         $data = Yaml::parse($fileContent);
         if (!\is_array($data)) {
             throw new \RuntimeException($appConfigPath.' file is not a valid YAML file');

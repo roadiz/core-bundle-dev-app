@@ -7,6 +7,7 @@ namespace RZ\Roadiz\EntityGenerator\Tests;
 use PHPUnit\Framework\TestCase;
 use RZ\Roadiz\Contracts\NodeType\NodeTypeInterface;
 use RZ\Roadiz\EntityGenerator\EntityGenerator;
+use Symfony\Component\Filesystem\Filesystem;
 
 class EntityGeneratorTest extends TestCase
 {
@@ -42,13 +43,13 @@ class EntityGeneratorTest extends TestCase
         /*
          * Uncomment for generating a mock file from tests
          */
-        //        file_put_contents(
+        //        (new Filesystem())->dumpFile(
         //            dirname(__DIR__) . '/tests/Mocks/GeneratedNodesSources/NSMock.php',
         //            $generator->getClassContent()
         //        );
 
         $this->assertEquals(
-            file_get_contents(dirname(__DIR__).'/tests/Mocks/GeneratedNodesSources/NSMock.php'),
+            (new Filesystem())->readFile(dirname(__DIR__).'/tests/Mocks/GeneratedNodesSources/NSMock.php'),
             $generator->getClassContent()
         );
 
@@ -69,7 +70,7 @@ class EntityGeneratorTest extends TestCase
             'use_api_platform_filters' => true,
         ]);
         $this->assertEquals(
-            file_get_contents(dirname(__DIR__).'/tests/Mocks/GeneratedNodesSources/NSMock.php'),
+            (new Filesystem())->readFile(dirname(__DIR__).'/tests/Mocks/GeneratedNodesSources/NSMock.php'),
             $generatorWithoutLeadingSlashes->getClassContent()
         );
     }

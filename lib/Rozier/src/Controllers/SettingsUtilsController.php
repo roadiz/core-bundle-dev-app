@@ -11,6 +11,7 @@ use RZ\Roadiz\CoreBundle\Importer\SettingsImporter;
 use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
@@ -20,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Twig\Error\RuntimeError;
 
 #[AsController]
 final class SettingsUtilsController extends AbstractController
@@ -89,13 +89,10 @@ final class SettingsUtilsController extends AbstractController
             && !empty($form['setting_file'])
         ) {
             $file = $form['setting_file']->getData();
+            $filesystem = new Filesystem();
 
             if ($file->isValid()) {
-                $serializedData = file_get_contents($file->getPathname());
-
-                if (!\is_string($serializedData)) {
-                    throw new RuntimeError('Imported file is not a string.');
-                }
+                $serializedData = $filesystem->readFile($file->getPathname());
 
                 if (null !== \json_decode($serializedData)) {
                     if ($this->settingsImporter->import($serializedData)) {
