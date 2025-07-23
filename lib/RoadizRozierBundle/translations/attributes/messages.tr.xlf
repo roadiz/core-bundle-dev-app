@@ -2,29 +2,29 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="tr">
     <body>
-      <trans-unit xml:space="preserve" id="attributes.form.type.country">
+      <trans-unit xml:space="preserve" id="attributes.form.type.country" approved="yes">
                 <source>attributes.form.type.country</source>
-                <target state="translated">ülke türü özellikler</target>
+                <target state="final">ülke türü özellikler</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="new_attribute">
+      <trans-unit xml:space="preserve" id="new_attribute" approved="yes">
                 <source>new_attribute</source>
-                <target state="translated">yeni özellik</target>
+                <target state="final">yeni özellik</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.created">
+      <trans-unit xml:space="preserve" id="attribute.%name%.created" approved="yes">
                 <source>attribute.%name%.created</source>
-                <target state="translated">%name% gurubu oluşturuldu.</target>
+                <target state="final">%name% gurubu oluşturuldu.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.updated">
+      <trans-unit xml:space="preserve" id="attribute.%name%.updated" approved="yes">
                 <source>attribute.%name%.updated</source>
-                <target state="translated">%name% gurubu güncellendi.</target>
+                <target state="final">%name% gurubu güncellendi.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.deleted">
+      <trans-unit xml:space="preserve" id="attribute.%name%.deleted" approved="yes">
                 <source>attribute.%name%.deleted</source>
-                <target state="translated">%name% gurubu kaldırıldı.</target>
+                <target state="final">%name% gurubu kaldırıldı.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.attribute">
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.attribute" approved="yes">
                 <source>are_you_sure.delete.attribute</source>
-                <target state="translated">Bunu kaldırmak istediğine emin misin?</target>
+                <target state="final">Bunu kaldırmak istediğine emin misin?</target>
             </trans-unit>
     </body>
   </file>
