@@ -55,8 +55,7 @@ final class DocumentNormalizer extends AbstractPathNormalizer
         $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
 
         if (
-            !$object->isPrivate()
-            && $object->isProcessable()
+            $object->isProcessable()
             && null !== $alignment = $object->getImageCropAlignment()
         ) {
             $data['imageCropAlignment'] = $alignment;
@@ -90,11 +89,17 @@ final class DocumentNormalizer extends AbstractPathNormalizer
             $translatedData = $object->getDocumentTranslationsByTranslation($context['translation'])->first() ?:
                 $object->getDocumentTranslationsByDefaultTranslation();
             if ($translatedData instanceof DocumentTranslation) {
-                $data['name'] = $translatedData->getName();
-                $data['description'] = $translatedData->getDescription();
-                $data['copyright'] = $translatedData->getCopyright();
-                $data['alt'] = !empty($translatedData->getName()) ? $translatedData->getName() : $object->getFilename();
-                $data['externalUrl'] = $translatedData->getExternalUrl();
+                $additionalData = [
+                    'name' => $translatedData->getName() ?? null,
+                    'description' => $translatedData->getDescription() ?? null,
+                    'copyright' => $translatedData->getCopyright() ?? null,
+                    'alt' => !empty($translatedData->getName()) ? $translatedData->getName() : null,
+                    'externalUrl' => $translatedData->getExternalUrl(),
+                ];
+                $data = [
+                    ...$data,
+                    ...array_filter($additionalData),
+                ];
             }
         }
 

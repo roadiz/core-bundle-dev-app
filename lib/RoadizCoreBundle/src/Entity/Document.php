@@ -589,7 +589,7 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
         SymfonySerializer\Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
         SymfonySerializer\SerializedName('alt'),
         ApiProperty(
-            description: 'Document alternative text, for img HTML tag. Returns NULL if image is decorative (alt="" aria-hidden="true").',
+            description: 'Document alternative text, for img HTML tag. Returns NULL if image is decorative (alt="").',
             writable: false,
         )
     ]
@@ -823,6 +823,18 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
     public function getHotspotAsString(): ?string
     {
         $hotspot = $this->getHotspot();
+
+        if (null !== $hotspot && array_key_exists('areaStartX', $hotspot)) {
+            return sprintf(
+                '%.5f;%.5f;%.5f;%.5f;%.5f;%.5f',
+                $hotspot['x'],
+                $hotspot['y'],
+                $hotspot['areaStartX'],
+                $hotspot['areaStartY'],
+                $hotspot['areaEndX'],
+                $hotspot['areaEndY'],
+            );
+        }
 
         return null !== $hotspot ? sprintf(
             '%.5f;%.5f',

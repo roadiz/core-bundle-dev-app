@@ -93,21 +93,27 @@ final class DocumentDto implements BaseDocumentInterface
     #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationName(): ?string
     {
-        return $this->documentTranslationName;
+        return !empty($this->documentTranslationName) ?
+            $this->documentTranslationName :
+            null;
     }
 
     #[SerializedName('description')]
     #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationDescription(): ?string
     {
-        return $this->documentTranslationDescription;
+        return !empty($this->documentTranslationDescription) ?
+            $this->documentTranslationDescription :
+            null;
     }
 
     #[SerializedName('copyright')]
     #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationCopyright(): ?string
     {
-        return $this->documentTranslationCopyright;
+        return !empty($this->documentTranslationCopyright) ?
+            $this->documentTranslationCopyright :
+            null;
     }
 
     #[SerializedName('externalUrl')]
@@ -121,7 +127,7 @@ final class DocumentDto implements BaseDocumentInterface
         Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute']),
         SerializedName('alt'),
         ApiProperty(
-            description: 'Document alternative text, for img HTML tag. Returns NULL if image is decorative (alt="" aria-hidden="true").',
+            description: 'Document alternative text, for img HTML tag. Returns NULL if image is decorative (alt="").',
             writable: false,
         )
     ]
@@ -170,6 +176,18 @@ final class DocumentDto implements BaseDocumentInterface
     public function getHotspotAsString(): ?string
     {
         $hotspot = $this->getHotspot();
+
+        if (null !== $hotspot && array_key_exists('areaStartX', $hotspot)) {
+            return sprintf(
+                '%.5f;%.5f;%.5f;%.5f;%.5f;%.5f',
+                $hotspot['x'],
+                $hotspot['y'],
+                $hotspot['areaStartX'],
+                $hotspot['areaStartY'],
+                $hotspot['areaEndX'],
+                $hotspot['areaEndY'],
+            );
+        }
 
         return null !== $hotspot ? sprintf(
             '%.5f;%.5f',

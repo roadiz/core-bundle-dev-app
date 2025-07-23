@@ -77,7 +77,7 @@
         "phpoffice/phpspreadsheet": "^1.15",
         "psr/cache": ">=1.0.1",
         "psr/log": ">=1.1",
-        "rezozero/intervention-request-bundle": "~5.0.1",
+        "rezozero/intervention-request-bundle": "dev-develop",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
         "roadiz/nodetype-contracts": "^3.0.0",
@@ -265,5 +265,6 @@
             "dev-develop": "2.6.x-dev"
         }
     },
+    "minimum-stability": "dev",
     "prefer-stable": true
 }

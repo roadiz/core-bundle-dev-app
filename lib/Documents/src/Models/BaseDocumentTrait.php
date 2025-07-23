@@ -274,7 +274,7 @@ trait BaseDocumentTrait
     ]
     public function isProcessable(): bool
     {
-        return $this->isImage() && in_array($this->getMimeType(), static::$processableMimeTypes, true);
+        return !$this->isPrivate() && $this->isImage() && in_array($this->getMimeType(), static::$processableMimeTypes, true);
     }
 
     #[

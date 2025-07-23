@@ -15,7 +15,6 @@
                 <target />
             </trans-unit>
 
-
             <trans-unit id="hotspot_is_not_valid" xml:space="preserve">
                 <source>hotspot_is_not_valid</source>
                 <target />
@@ -34,6 +33,18 @@
             </trans-unit>
             <trans-unit id="hotspot_x_and_y_must_be_numeric" xml:space="preserve">
                 <source>hotspot_x_and_y_must_be_numeric</source>
+                <target />
+            </trans-unit>
+            <trans-unit id="hotspot_must_contain_area_start_and_end_coordinates" xml:space="preserve">
+                <source>hotspot_must_contain_area_start_and_end_coordinates</source>
+                <target />
+            </trans-unit>
+            <trans-unit id="hotspot_area_start_and_end_coordinates_must_be_numeric" xml:space="preserve">
+                <source>hotspot_area_start_and_end_coordinates_must_be_numeric</source>
+                <target />
+            </trans-unit>
+            <trans-unit id="hotspot_area_start_and_end_coordinates_must_be_between_0_and_1" xml:space="preserve">
+                <source>hotspot_area_start_and_end_coordinates_must_be_between_0_and_1</source>
                 <target />
             </trans-unit>
         </body>
