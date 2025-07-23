@@ -2,314 +2,314 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="id">
     <body>
-      <trans-unit xml:space="preserve" id="manage.attributes">
+      <trans-unit xml:space="preserve" id="manage.attributes" approved="yes">
                 <source>manage.attributes</source>
-                <target state="translated">Kelola atribut</target>
+                <target state="final">Kelola atribut</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes">
+      <trans-unit xml:space="preserve" id="attributes" approved="yes">
                 <source>attributes</source>
-                <target state="translated">Atribut</target>
+                <target state="final">Atribut</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.code">
+      <trans-unit xml:space="preserve" id="attributes.code" approved="yes">
                 <source>attributes.code</source>
-                <target state="translated">Kode</target>
+                <target state="final">Kode</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.attribute">
+      <trans-unit xml:space="preserve" id="add.a.attribute" approved="yes">
                 <source>add.a.attribute</source>
-                <target state="translated">Buat sebuah atribut</target>
+                <target state="final">Buat sebuah atribut</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.code">
+      <trans-unit xml:space="preserve" id="attributes.form.code" approved="yes">
                 <source>attributes.form.code</source>
-                <target state="translated">Kode</target>
+                <target state="final">Kode</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type">
+      <trans-unit xml:space="preserve" id="attributes.form.type" approved="yes">
                 <source>attributes.form.type</source>
-                <target state="translated">Jenis atribut</target>
+                <target state="final">Jenis atribut</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.attributeTranslations">
+      <trans-unit xml:space="preserve" id="attributes.form.attributeTranslations" approved="yes">
                 <source>attributes.form.attributeTranslations</source>
-                <target state="translated">Terjemahan</target>
+                <target state="final">Terjemahan</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.options">
+      <trans-unit xml:space="preserve" id="attributes.form.options" approved="yes">
                 <source>attributes.form.options</source>
-                <target state="translated">Opsi yang tersisa (untuk jenis pilihan)</target>
+                <target state="final">Opsi yang tersisa (untuk jenis pilihan)</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.attribute.%name%">
+      <trans-unit xml:space="preserve" id="edit.attribute.%name%" approved="yes">
                 <source>edit.attribute.%name%</source>
-                <target state="translated">%name%</target>
+                <target state="final">%name%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.attributes">
+      <trans-unit xml:space="preserve" id="back_to.attributes" approved="yes">
                 <source>back_to.attributes</source>
-                <target state="translated">Kembali ke atrinut</target>
+                <target state="final">Kembali ke atrinut</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.string">
+      <trans-unit xml:space="preserve" id="attributes.form.type.string" approved="yes">
                 <source>attributes.form.type.string</source>
-                <target state="translated">String teks dasar</target>
+                <target state="final">String teks dasar</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.datetime">
+      <trans-unit xml:space="preserve" id="attributes.form.type.datetime" approved="yes">
                 <source>attributes.form.type.datetime</source>
-                <target state="translated">Tanggal dan waktu</target>
+                <target state="final">Tanggal dan waktu</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.boolean">
+      <trans-unit xml:space="preserve" id="attributes.form.type.boolean" approved="yes">
                 <source>attributes.form.type.boolean</source>
-                <target state="translated">Boolean (benar atau salah)</target>
+                <target state="final">Boolean (benar atau salah)</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.integer">
+      <trans-unit xml:space="preserve" id="attributes.form.type.integer" approved="yes">
                 <source>attributes.form.type.integer</source>
-                <target state="translated">Nomor integer</target>
+                <target state="final">Nomor integer</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.decimal">
+      <trans-unit xml:space="preserve" id="attributes.form.type.decimal" approved="yes">
                 <source>attributes.form.type.decimal</source>
-                <target state="translated">Nomor desimal</target>
+                <target state="final">Nomor desimal</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.percent">
+      <trans-unit xml:space="preserve" id="attributes.form.type.percent" approved="yes">
                 <source>attributes.form.type.percent</source>
-                <target state="translated">Persen</target>
+                <target state="final">Persen</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.email">
+      <trans-unit xml:space="preserve" id="attributes.form.type.email" approved="yes">
                 <source>attributes.form.type.email</source>
-                <target state="translated">Alamat email tunggal</target>
+                <target state="final">Alamat email tunggal</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.colour">
+      <trans-unit xml:space="preserve" id="attributes.form.type.colour" approved="yes">
                 <source>attributes.form.type.colour</source>
-                <target state="translated">Warna heksadesimal</target>
+                <target state="final">Warna heksadesimal</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.enum">
+      <trans-unit xml:space="preserve" id="attributes.form.type.enum" approved="yes">
                 <source>attributes.form.type.enum</source>
-                <target state="translated">Pilihan tunggal</target>
+                <target state="final">Pilihan tunggal</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.date">
+      <trans-unit xml:space="preserve" id="attributes.form.type.date" approved="yes">
                 <source>attributes.form.type.date</source>
-                <target state="translated">Tanggal</target>
+                <target state="final">Tanggal</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.type.country">
+      <trans-unit xml:space="preserve" id="attributes.form.type.country" approved="yes">
                 <source>attributes.form.type.country</source>
-                <target state="translated">Kode negara</target>
+                <target state="final">Kode negara</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="node.attributes">
+      <trans-unit xml:space="preserve" id="node.attributes" approved="yes">
                 <source>node.attributes</source>
-                <target state="translated">Atrinut</target>
+                <target state="final">Atrinut</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_values.form.attribute">
+      <trans-unit xml:space="preserve" id="attribute_values.form.attribute" approved="yes">
                 <source>attribute_values.form.attribute</source>
-                <target state="translated">Tambah sebuah atribut baru</target>
+                <target state="final">Tambah sebuah atribut baru</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="new_attribute">
+      <trans-unit xml:space="preserve" id="new_attribute" approved="yes">
                 <source>new_attribute</source>
-                <target state="translated">-- Pilih sebuah atribut --</target>
+                <target state="final">-- Pilih sebuah atribut --</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.node.attribute">
+      <trans-unit xml:space="preserve" id="add.a.node.attribute" approved="yes">
                 <source>add.a.node.attribute</source>
-                <target state="translated">Tambah atribut ke node saat ini</target>
+                <target state="final">Tambah atribut ke node saat ini</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.no_value">
+      <trans-unit xml:space="preserve" id="attributes.no_value" approved="yes">
                 <source>attributes.no_value</source>
-                <target state="translated">-- Tidak ada nilai --</target>
+                <target state="final">-- Tidak ada nilai --</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.created">
+      <trans-unit xml:space="preserve" id="attribute.%name%.created" approved="yes">
                 <source>attribute.%name%.created</source>
-                <target state="translated">Atribut %name% telah dibuat</target>
+                <target state="final">Atribut %name% telah dibuat</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.updated">
+      <trans-unit xml:space="preserve" id="attribute.%name%.updated" approved="yes">
                 <source>attribute.%name%.updated</source>
-                <target state="translated">Atribut %name% telah diperbarui </target>
+                <target state="final">Atribut %name% telah diperbarui </target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.deleted">
+      <trans-unit xml:space="preserve" id="attribute.%name%.deleted" approved="yes">
                 <source>attribute.%name%.deleted</source>
-                <target state="translated">Atribut %name% telah dihapus</target>
+                <target state="final">Atribut %name% telah dihapus</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.value">
+      <trans-unit xml:space="preserve" id="attributes.value" approved="yes">
                 <source>attributes.value</source>
-                <target state="translated">Nilai</target>
+                <target state="final">Nilai</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.group">
+      <trans-unit xml:space="preserve" id="attributes.group" approved="yes">
                 <source>attributes.group</source>
-                <target state="translated">Grup</target>
+                <target state="final">Grup</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.attribute">
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.attribute" approved="yes">
                 <source>are_you_sure.delete.attribute</source>
-                <target state="translated">Apakah Anda yakin ingin menghapus atribut ini?</target>
+                <target state="final">Apakah Anda yakin ingin menghapus atribut ini?</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.deleted_from_node.%nodeName%">
+      <trans-unit xml:space="preserve" id="attribute.%name%.deleted_from_node.%nodeName%" approved="yes">
                 <source>attribute.%name%.deleted_from_node.%nodeName%</source>
-                <target state="translated">Atribut %name% telah dihapus dari node %nodeName%</target>
+                <target state="final">Atribut %name% telah dihapus dari node %nodeName%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.attribute.%name%">
+      <trans-unit xml:space="preserve" id="delete.attribute.%name%" approved="yes">
                 <source>delete.attribute.%name%</source>
-                <target state="translated">Hapus atribut %name%</target>
+                <target state="final">Hapus atribut %name%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_value_translation.%name%.updated_from_node.%nodeName%">
+      <trans-unit xml:space="preserve" id="attribute_value_translation.%name%.updated_from_node.%nodeName%" approved="yes">
                 <source>attribute_value_translation.%name%.updated_from_node.%nodeName%</source>
-                <target state="translated">Nilai atribut %name% tlah diperbarui dari sumber-node %nodeName%.</target>
+                <target state="final">Nilai atribut %name% tlah diperbarui dari sumber-node %nodeName%.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_code.must_contain_alpha_underscore">
+      <trans-unit xml:space="preserve" id="attribute_code.must_contain_alpha_underscore" approved="yes">
                 <source>attribute_code.must_contain_alpha_underscore</source>
-                <target state="translated">Kode atribut harus berisi hanya karakter alphabet termasuk garis bawah.</target>
+                <target state="final">Kode atribut harus berisi hanya karakter alphabet termasuk garis bawah.</target>
                 <note>Validation failed message on Attribute code that must only contain alpha and underscore characters.</note>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.searchable">
+      <trans-unit xml:space="preserve" id="attributes.form.searchable" approved="yes">
                 <source>attributes.form.searchable</source>
-                <target state="translated">Diindeks dalam mesin-pencari?</target>
+                <target state="final">Diindeks dalam mesin-pencari?</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form_help.searchable">
+      <trans-unit xml:space="preserve" id="attributes.form_help.searchable" approved="yes">
                 <source>attributes.form_help.searchable</source>
-                <target state="translated">Indeks nilai atribut saat ini dalam mesin-pencari teks-penuh untuk setiap terjemahan. </target>
+                <target state="final">Indeks nilai atribut saat ini dalam mesin-pencari teks-penuh untuk setiap terjemahan. </target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form_help.code">
+      <trans-unit xml:space="preserve" id="attributes.form_help.code" approved="yes">
                 <source>attributes.form_help.code</source>
-                <target state="translated">Kode mengizinkan nama atribut untuk menjadi unik di seluruh terjemahan situs web Anda.</target>
+                <target state="final">Kode mengizinkan nama atribut untuk menjadi unik di seluruh terjemahan situs web Anda.</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.import_form.file.label">
+      <trans-unit xml:space="preserve" id="attributes.import_form.file.label" approved="yes">
                 <source>attributes.import_form.file.label</source>
-                <target state="translated">Impor berkas atribut</target>
+                <target state="final">Impor berkas atribut</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.import_form.file.help">
+      <trans-unit xml:space="preserve" id="attributes.import_form.file.help" approved="yes">
                 <source>attributes.import_form.file.help</source>
-                <target state="translated">Berkas atribut haruslah berupa sebuah bekas JSON yang valid dengan struktur atribut Roadiz.</target>
+                <target state="final">Berkas atribut haruslah berupa sebuah bekas JSON yang valid dengan struktur atribut Roadiz.</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.group">
+      <trans-unit xml:space="preserve" id="attributes.form.group" approved="yes">
                 <source>attributes.form.group</source>
-                <target state="translated">Grup</target>
+                <target state="final">Grup</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form_help.group">
+      <trans-unit xml:space="preserve" id="attributes.form_help.group" approved="yes">
                 <source>attributes.form_help.group</source>
-                <target state="translated">Grup mengizinkan pengembang untuk mengizinkan mengumpulkan atribut dalam tempat yang sama untuk tampilan publik.</target>
+                <target state="final">Grup mengizinkan pengembang untuk mengizinkan mengumpulkan atribut dalam tempat yang sama untuk tampilan publik.</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.color">
+      <trans-unit xml:space="preserve" id="attributes.form.color" approved="yes">
                 <source>attributes.form.color</source>
-                <target state="translated">Warna</target>
+                <target state="final">Warna</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form_help.color">
+      <trans-unit xml:space="preserve" id="attributes.form_help.color" approved="yes">
                 <source>attributes.form_help.color</source>
-                <target state="translated">Warna atribut yang mungkin digunakan pada tampilan publik.</target>
+                <target state="final">Warna atribut yang mungkin digunakan pada tampilan publik.</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.documents">
+      <trans-unit xml:space="preserve" id="attributes.form.documents" approved="yes">
                 <source>attributes.form.documents</source>
-                <target state="translated">Dokumen</target>
+                <target state="final">Dokumen</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form_help.documents">
+      <trans-unit xml:space="preserve" id="attributes.form_help.documents" approved="yes">
                 <source>attributes.form_help.documents</source>
-                <target state="translated">Dokumen yang mungkin menggambarkan atribut saat ini pada tampilan publik.</target>
+                <target state="final">Dokumen yang mungkin menggambarkan atribut saat ini pada tampilan publik.</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.form.group.placeholder">
+      <trans-unit xml:space="preserve" id="attributes.form.group.placeholder" approved="yes">
                 <source>attributes.form.group.placeholder</source>
-                <target state="translated">-- Tidak ada grup --</target>
+                <target state="final">-- Tidak ada grup --</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.attribute_groups">
+      <trans-unit xml:space="preserve" id="back_to.attribute_groups" approved="yes">
                 <source>back_to.attribute_groups</source>
-                <target state="translated">Kembali ke grup atribut</target>
+                <target state="final">Kembali ke grup atribut</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.attribute_group">
+      <trans-unit xml:space="preserve" id="add.a.attribute_group" approved="yes">
                 <source>add.a.attribute_group</source>
-                <target state="translated">Buat sebuah grup atribut</target>
+                <target state="final">Buat sebuah grup atribut</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_groups">
+      <trans-unit xml:space="preserve" id="attribute_groups" approved="yes">
                 <source>attribute_groups</source>
-                <target state="translated">Grup atribut</target>
+                <target state="final">Grup atribut</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_groups.name">
+      <trans-unit xml:space="preserve" id="attribute_groups.name" approved="yes">
                 <source>attribute_groups.name</source>
-                <target state="translated">Nama grup</target>
+                <target state="final">Nama grup</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.form.name">
+      <trans-unit xml:space="preserve" id="attribute_group.form.name" approved="yes">
                 <source>attribute_group.form.name</source>
-                <target state="translated">Nama grup</target>
+                <target state="final">Nama grup</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.%name%.created">
+      <trans-unit xml:space="preserve" id="attribute_group.%name%.created" approved="yes">
                 <source>attribute_group.%name%.created</source>
-                <target state="translated">Grup atribut %name% telah dibuat</target>
+                <target state="final">Grup atribut %name% telah dibuat</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.%name%.updated">
+      <trans-unit xml:space="preserve" id="attribute_group.%name%.updated" approved="yes">
                 <source>attribute_group.%name%.updated</source>
-                <target state="translated">Grup atribut %name% telah diperbarui</target>
+                <target state="final">Grup atribut %name% telah diperbarui</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.%name%.deleted">
+      <trans-unit xml:space="preserve" id="attribute_group.%name%.deleted" approved="yes">
                 <source>attribute_group.%name%.deleted</source>
-                <target state="translated">Grup atribut %name% telah dihapus</target>
+                <target state="final">Grup atribut %name% telah dihapus</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.attribute_group.%name%">
+      <trans-unit xml:space="preserve" id="delete.attribute_group.%name%" approved="yes">
                 <source>delete.attribute_group.%name%</source>
-                <target state="translated">Hapus grup atribut %name%</target>
+                <target state="final">Hapus grup atribut %name%</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.attribute_group">
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.attribute_group" approved="yes">
                 <source>are_you_sure.delete.attribute_group</source>
-                <target state="translated">Apakah Anda yakin ingin menghapus grup atribut ini?</target>
+                <target state="final">Apakah Anda yakin ingin menghapus grup atribut ini?</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.form.canonicalName">
+      <trans-unit xml:space="preserve" id="attribute_group.form.canonicalName" approved="yes">
                 <source>attribute_group.form.canonicalName</source>
-                <target state="translated">Nama kanonikal</target>
+                <target state="final">Nama kanonikal</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_group.form.attributeGroupTranslations">
+      <trans-unit xml:space="preserve" id="attribute_group.form.attributeGroupTranslations" approved="yes">
                 <source>attribute_group.form.attributeGroupTranslations</source>
-                <target state="translated">Terjemahan grup</target>
+                <target state="final">Terjemahan grup</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.reset_value">
+      <trans-unit xml:space="preserve" id="attributes.reset_value" approved="yes">
                 <source>attributes.reset_value</source>
-                <target state="translated">Hapus nilai atribut ke bahasa bawaan</target>
+                <target state="final">Hapus nilai atribut ke bahasa bawaan</target>
                 <note>Action label to reset value to the default language one. This does not delete attribute, only its translation.</note>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute.%name%.reset_for_node.%nodeName%">
+      <trans-unit xml:space="preserve" id="attribute.%name%.reset_for_node.%nodeName%" approved="yes">
                 <source>attribute.%name%.reset_for_node.%nodeName%</source>
-                <target state="translated">%name% atribut telah di atur ulang/reset untuk node %nodeName%.</target>
+                <target state="final">%name% atribut telah di atur ulang/reset untuk node %nodeName%.</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attributes.delete_value">
+      <trans-unit xml:space="preserve" id="attributes.delete_value" approved="yes">
                 <source>attributes.delete_value</source>
-                <target state="translated">Hapus nilai atribut untuk node ini</target>
+                <target state="final">Hapus nilai atribut untuk node ini</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete_value.attribute">
+      <trans-unit xml:space="preserve" id="are_you_sure.delete_value.attribute" approved="yes">
                 <source>are_you_sure.delete_value.attribute</source>
-                <target state="translated">Apakah Anda yakin ingin menghapus nilai atribut ini untuk node ini?</target>
+                <target state="final">Apakah Anda yakin ingin menghapus nilai atribut ini untuk node ini?</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.attribute.%name%.for_node.%nodeName%">
+      <trans-unit xml:space="preserve" id="delete.attribute.%name%.for_node.%nodeName%" approved="yes">
                 <source>delete.attribute.%name%.for_node.%nodeName%</source>
-                <target state="translated">Hapus %name% atribut untuk node %nodeName%</target>
+                <target state="final">Hapus %name% atribut untuk node %nodeName%</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.attribute.%name%">
+      <trans-unit xml:space="preserve" id="reset.attribute.%name%" approved="yes">
                 <source>reset.attribute.%name%</source>
-                <target state="translated">Atur ulang nilai atribut %name%</target>
+                <target state="final">Atur ulang nilai atribut %name%</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.attribute.%name%.for_node.%nodeName%">
+      <trans-unit xml:space="preserve" id="reset.attribute.%name%.for_node.%nodeName%" approved="yes">
                 <source>reset.attribute.%name%.for_node.%nodeName%</source>
-                <target state="translated">Atur ulang nilai %name% atribut untuk node %nodeName%</target>
+                <target state="final">Atur ulang nilai %name% atribut untuk node %nodeName%</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.reset.attribute_value">
+      <trans-unit xml:space="preserve" id="are_you_sure.reset.attribute_value" approved="yes">
                 <source>are_you_sure.reset.attribute_value</source>
-                <target state="translated">Apakah Anda yakin ingin mengatur ulang/reset nilai atribut untuk bahasa ini?</target>
+                <target state="final">Apakah Anda yakin ingin mengatur ulang/reset nilai atribut untuk bahasa ini?</target>
                 <note/>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="attribute_value.%attributeValueId%.not_exists">
+      <trans-unit xml:space="preserve" id="attribute_value.%attributeValueId%.not_exists" approved="yes">
                 <source>attribute_value.%attributeValueId%.not_exists</source>
-                <target state="translated">Nilai atribut %attributeValueId% tidak ada/tersedia</target>
+                <target state="final">Nilai atribut %attributeValueId% tidak ada/tersedia</target>
                 <note/>
             </trans-unit>
     </body>

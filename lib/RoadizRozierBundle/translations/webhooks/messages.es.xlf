@@ -2,45 +2,45 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="es-ES">
     <body>
-      <trans-unit xml:space="preserve" id="manage.webhooks">
+      <trans-unit xml:space="preserve" id="manage.webhooks" approved="yes">
                 <source>manage.webhooks</source>
-                <target state="translated">Andministrar webhooks</target>
+                <target state="final">Andministrar webhooks</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="add.a.webhook">
+      <trans-unit xml:space="preserve" id="add.a.webhook" approved="yes">
                 <source>add.a.webhook</source>
-                <target state="translated">Añadir un webhook</target>
+                <target state="final">Añadir un webhook</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="back_to.webhooks">
+      <trans-unit xml:space="preserve" id="back_to.webhooks" approved="yes">
                 <source>back_to.webhooks</source>
-                <target state="translated">Volver a webhooks</target>
+                <target state="final">Volver a webhooks</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="delete.webhook.%name%">
+      <trans-unit xml:space="preserve" id="delete.webhook.%name%" approved="yes">
                 <source>delete.webhook.%name%</source>
-                <target state="translated">Eliminar webhook %name%</target>
+                <target state="final">Eliminar webhook %name%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="edit.webhook.%name%">
+      <trans-unit xml:space="preserve" id="edit.webhook.%name%" approved="yes">
                 <source>edit.webhook.%name%</source>
-                <target state="translated">Editar webhook %name%</target>
+                <target state="final">Editar webhook %name%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="are_you_sure.delete.webhook">
+      <trans-unit xml:space="preserve" id="are_you_sure.delete.webhook" approved="yes">
                 <source>are_you_sure.delete.webhook</source>
-                <target state="translated">¿Estás seguro de querer eliminar este webhook?</target>
+                <target state="final">¿Estás seguro de querer eliminar este webhook?</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="webhooks.messageType">
+      <trans-unit xml:space="preserve" id="webhooks.messageType" approved="yes">
                 <source>webhooks.messageType</source>
-                <target state="translated">Tipo de mensaje del webhook</target>
+                <target state="final">Tipo de mensaje del webhook</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="webhooks.uri">
+      <trans-unit xml:space="preserve" id="webhooks.uri" approved="yes">
                 <source>webhooks.uri</source>
-                <target state="translated">URI del webhook</target>
+                <target state="final">URI del webhook</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="never">
+      <trans-unit xml:space="preserve" id="never" approved="yes">
                 <source>never</source>
-                <target state="translated">Nunca</target>
+                <target state="final">Nunca</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="webhooks.description">
+      <trans-unit xml:space="preserve" id="webhooks.description" approved="yes">
                 <source>webhooks.description</source>
-                <target state="translated">Descripción del webhook</target>
+                <target state="final">Descripción del webhook</target>
             </trans-unit>
     </body>
   </file>

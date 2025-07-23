@@ -3,144 +3,145 @@
   <file source-language="en" datatype="plaintext" original="file.ext" target-language="id">
     <body>
       <!-- welcome.user.email -->
-      <trans-unit id="welcome.user.email.%site%">
+      <trans-unit id="welcome.user.email.%site%" approved="yes">
         <source>welcome.user.email.%site%</source>
-        <target state="translated">selamat datang pengguna email.%site%</target>
+        <target state="final">selamat datang pengguna email.%site%</target>
       </trans-unit>
-      <trans-unit id="your.user.account">
+      <trans-unit id="your.user.account" approved="yes">
         <source>your.user.account</source>
-        <target state="translated">akun pengguna anda</target>
+        <target state="final">akun pengguna anda</target>
       </trans-unit>
-      <trans-unit id="username">
+      <trans-unit id="username" approved="yes">
         <source>username</source>
-        <target state="translated">nama pengguna</target>
+        <target state="final">nama pengguna</target>
       </trans-unit>
-      <trans-unit id="email">
+      <trans-unit id="email" approved="yes">
         <source>email</source>
-        <target state="translated">Email</target>
+        <target state="final">Email</target>
       </trans-unit>
-      <trans-unit id="password">
+      <trans-unit id="password" approved="yes">
         <source>password</source>
-        <target state="translated">kata sandi</target>
+        <target state="final">kata sandi</target>
       </trans-unit>
-      <trans-unit id="for.questions.email">
+      <trans-unit id="for.questions.email" approved="yes">
         <source>for.questions.email</source>
-        <target state="translated">Email untuk pertanyaan</target>
+        <target state="final">Email untuk pertanyaan</target>
       </trans-unit>
       <!-- Contact forms -->
-      <trans-unit id="contact.form">
+      <trans-unit id="contact.form" approved="yes">
         <source>contact.form</source>
-        <target state="translated">formulir kontak</target>
+        <target state="final">formulir kontak</target>
       </trans-unit>
-      <trans-unit id="new.contact.form.%site%">
+      <trans-unit id="new.contact.form.%site%" approved="yes">
         <source>new.contact.form.%site%</source>
-        <target state="translated">formulir kontak baru.%site%</target>
+        <target state="final">formulir kontak baru.%site%</target>
       </trans-unit>
-      <trans-unit id="form.successfully.sent">
+      <trans-unit id="form.successfully.sent" approved="yes">
         <source>form.successfully.sent</source>
-        <target state="translated">formulir.berhasil.dikirim</target>
+        <target state="final">formulir.berhasil.dikirim</target>
       </trans-unit>
-      <trans-unit id="form.has.errors">
+      <trans-unit id="form.has.errors" approved="yes">
         <source>form.has.errors</source>
-        <target state="translated">bentuk memiliki kesalahan</target>
+        <target state="final">bentuk memiliki kesalahan</target>
       </trans-unit>
-      <trans-unit id="%field%.is.mandatory">
+      <trans-unit id="%field%.is.mandatory" approved="yes">
         <source>%field%.is.mandatory</source>
-        <target state="translated">%field%.adalah wajib</target>
+        <target state="final">%field%.adalah wajib</target>
       </trans-unit>
-      <trans-unit id="email.not.valid">
+      <trans-unit id="email.not.valid" approved="yes">
         <source>email.not.valid</source>
-        <target state="translated">email tidak valid</target>
+        <target state="final">email tidak valid</target>
       </trans-unit>
-      <trans-unit id="date">
+      <trans-unit id="date" approved="yes">
         <source>date</source>
-        <target state="translated">tanggal</target>
+        <target state="final">tanggal</target>
       </trans-unit>
-      <trans-unit id="ip.address">
+      <trans-unit id="ip.address" approved="yes">
         <source>ip.address</source>
-        <target state="translated">alamat Ip</target>
+        <target state="final">alamat Ip</target>
       </trans-unit>
-      <trans-unit id="submittedAt">
+      <trans-unit id="submittedAt" approved="yes">
         <source>submittedAt</source>
-        <target state="translated">disampaikan pada</target>
+        <target state="final">disampaikan pada</target>
       </trans-unit>
-      <trans-unit id="form.submit">
+      <trans-unit id="form.submit" approved="yes">
         <source>form.submit</source>
-        <target state="translated">formulir kirim</target>
+        <target state="final">formulir kirim</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="answer.form">
+      <trans-unit xml:space="preserve" id="answer.form" approved="yes">
                 <source>answer.form</source>
-                <target state="translated">bentuk jawaban</target>
+                <target state="final">bentuk jawaban</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.send">
+      <trans-unit xml:space="preserve" id="customForm.%name%.send" approved="yes">
                 <source>customForm.%name%.send</source>
-                <target state="translated">kirim bentuk kustom.%name%</target>
+                <target state="final">kirim bentuk kustom.%name%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
+      <trans-unit xml:space="preserve" id="new.answer.form.%site%" approved="yes">
                 <source>new.answer.form.%site%</source>
-                <target state="translated">bentuk jawaban baru.%site%</target>
+                <target state="final">bentuk jawaban baru.%site%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="file.not.accepted">
+      <trans-unit xml:space="preserve" id="file.not.accepted" approved="yes">
                 <source>file.not.accepted</source>
-                <target state="translated">file tidak diterima</target>
+                <target state="final">file tidak diterima</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.answer.sent">
+      <trans-unit xml:space="preserve" id="customForm.answer.sent" approved="yes">
                 <source>customForm.answer.sent</source>
-                <target state="translated">kirm bentuk kustom menjawab</target>
+                <target state="final">kirm bentuk kustom menjawab</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="none">
+      <trans-unit xml:space="preserve" id="none" approved="yes">
                 <source>none</source>
-                <target state="translated">tidak ada</target>
+                <target state="final">tidak ada</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.password.request">
+      <trans-unit xml:space="preserve" id="reset.password.request" approved="yes">
               <source>reset.password.request</source>
-              <target state="translated">permintaan reset kata sandi</target>
+              <target state="final">permintaan reset kata sandi</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.asked.for.a.password.reset.on.%site%">
+      <trans-unit xml:space="preserve" id="you.asked.for.a.password.reset.on.%site%" approved="yes">
                 <source>you.asked.for.a.password.reset.on.%site%</source>
-                <target state="translated">kamu tanya untuk menghidupkan ulang kata sandi.%site%</target>
+                <target state="final">kamu tanya untuk menghidupkan ulang kata sandi.%site%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.need.to.choose.a.new.password.using.following.link">
+      <trans-unit xml:space="preserve" id="you.need.to.choose.a.new.password.using.following.link" approved="yes">
                 <source>you.need.to.choose.a.new.password.using.following.link</source>
-                <target state="translated">kamu perlu untuk memilih kata sandi baru menggunakan tautan berikut</target>
+                <target state="final">kamu perlu untuk memilih kata sandi baru menggunakan tautan berikut</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="as.a.reminder.here.are.your.credentials">
+      <trans-unit xml:space="preserve" id="as.a.reminder.here.are.your.credentials" approved="yes">
                 <source>as.a.reminder.here.are.your.credentials</source>
-                <target state="translated">sebagai peringatan di sini kamu adalah kredensial</target>
+                <target state="final">sebagai peringatan di sini kamu adalah kredensial</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="if.you.didnt.request.this.password.reset.ignore.this.email">
+      <trans-unit xml:space="preserve" id="if.you.didnt.request.this.password.reset.ignore.this.email" approved="yes">
                 <source>if.you.didnt.request.this.password.reset.ignore.this.email</source>
-                <target state="translated">jika kamu tidak meminta perubahan kata sandi abaikan surel ini</target>
+                <target state="final">jika kamu tidak meminta perubahan kata sandi abaikan surel ini</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="reset_your_password">
+      <trans-unit xml:space="preserve" id="reset_your_password" approved="yes">
                 <source>reset_your_password</source>
-                <target state="translated">reset kata sandi anda</target>
+                <target state="final">reset kata sandi anda</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field">
+      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
                 <source>you.need.to.fill.this.required.field</source>
-                <target state="translated">anda harus mengisi kolom ini</target>
+                <target state="final">anda harus mengisi kolom ini</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="*.required.fields">
+      <trans-unit xml:space="preserve" id="*.required.fields" approved="yes">
                 <source>*.required.fields</source>
-                <target state="translated">*.bidang wajib</target>
+                <target state="final">*.bidang wajib</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="website.is.under.maintenance">
+      <trans-unit xml:space="preserve" id="website.is.under.maintenance" approved="yes">
                 <source>website.is.under.maintenance</source>
-                <target state="translated">situs web sedang dalam pemeliharaan</target>
+                <target state="final">situs web sedang dalam pemeliharaan</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="website.is.under.maintenance.we.will.be.back.soon">
+      <trans-unit xml:space="preserve" id="website.is.under.maintenance.we.will.be.back.soon" approved="yes">
                 <source>website.is.under.maintenance.we.will.be.back.soon</source>
-                <target state="translated">situs web sedang dalam pemeliharaan kita akan segera kembali</target>
+                <target state="final">situs web sedang dalam pemeliharaan kita akan segera kembali</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="yaml.is.not.valid">
+      <trans-unit xml:space="preserve" id="yaml.is.not.valid" approved="yes">
                 <source>yaml.is.not.valid.{{ error }}</source>
-                <target state="translated">yaml tidak sah.{{ error }}</target>
+                <target state="final">yaml tidak sah.{{ error }}</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="value.is.already.used">
+      <trans-unit xml:space="preserve" id="value.is.already.used" approved="yes">
                 <source>value.is.already.used</source>
-                <target state="translated">nolai sudah digunakan</target>
+                <target state="final">nolai sudah digunakan</target>
                 <note>Error message meaning that user can’t use that value for this object (eg. Object name is already used).</note>
             </trans-unit>
+      <!-- History entry params -->
     </body>
   </file>
 </xliff>

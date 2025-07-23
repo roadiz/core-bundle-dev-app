@@ -1999,7 +1999,7 @@
       </trans-unit>
       <trans-unit xml:space="preserve" id="you_must_show_youre_not_robot" approved="yes">
         <source>you_must_show_youre_not_robot</source>
-        <target state="final">You must validate the captcha to verify you’re not a robot.</target>
+        <target state="final">You must validate the Captcha to verify you’re not a robot.</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="captcha_is_invalid.try_again" approved="yes">
         <source>captcha_is_invalid.try_again</source>
