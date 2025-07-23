@@ -34,6 +34,18 @@
                 <source>hotspot_x_and_y_must_be_numeric</source>
                 <target state="final">Hotspot must contain x and y numeric values</target>
             </trans-unit>
+      <trans-unit id="hotspot_must_contain_area_start_and_end_coordinates" xml:space="preserve">
+                <source>hotspot_must_contain_area_start_and_end_coordinates</source>
+                <target state="translated">Hotspot configuration must include area start and end coordinates.</target>
+            </trans-unit>
+      <trans-unit id="hotspot_area_start_and_end_coordinates_must_be_numeric" xml:space="preserve">
+                <source>hotspot_area_start_and_end_coordinates_must_be_numeric</source>
+                <target state="translated">Hotspot area start and end coordinates must be numeric.</target>
+            </trans-unit>
+      <trans-unit id="hotspot_area_start_and_end_coordinates_must_be_between_0_and_1" xml:space="preserve">
+                <source>hotspot_area_start_and_end_coordinates_must_be_between_0_and_1</source>
+                <target state="translated">Hotspot area start and end coordinates must be between 0 and 1.</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>
