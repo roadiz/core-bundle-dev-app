@@ -34,6 +34,18 @@
                 <source>hotspot_x_and_y_must_be_numeric</source>
                 <target state="final">Le hotspot doit contenir des valeur x et y numériques</target>
             </trans-unit>
+      <trans-unit id="hotspot_must_contain_area_start_and_end_coordinates" xml:space="preserve" approved="yes">
+                <source>hotspot_must_contain_area_start_and_end_coordinates</source>
+                <target state="final">La configuration du point d'intérêt doit contenir les coordonnées (début et fin) de la zone active.</target>
+            </trans-unit>
+      <trans-unit id="hotspot_area_start_and_end_coordinates_must_be_numeric" xml:space="preserve" approved="yes">
+                <source>hotspot_area_start_and_end_coordinates_must_be_numeric</source>
+                <target state="final">Les coordonnées de la zone du point d'intérêt doivent être numériques.</target>
+            </trans-unit>
+      <trans-unit id="hotspot_area_start_and_end_coordinates_must_be_between_0_and_1" xml:space="preserve" approved="yes">
+                <source>hotspot_area_start_and_end_coordinates_must_be_between_0_and_1</source>
+                <target state="final">Les coordonnées de la zone du point d'intérêt doivent être comprises entre 0 et 1.</target>
+            </trans-unit>
     </body>
   </file>
 </xliff>
