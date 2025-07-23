@@ -2,9 +2,9 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" original="" target-language="zh-CN" datatype="plaintext">
     <body>
-      <trans-unit id="{{ value }} is not a valid email address." xml:space="preserve">
+      <trans-unit id="{{ value }} is not a valid email address." xml:space="preserve" approved="yes">
                 <source>{{ value }} is not a valid email address.</source>
-                <target state="translated">{{ value }} 不是有效的电子邮件地址。</target>
+                <target state="final">{{ value }} 不是有效的电子邮件地址。</target>
             </trans-unit>
     </body>
   </file>
