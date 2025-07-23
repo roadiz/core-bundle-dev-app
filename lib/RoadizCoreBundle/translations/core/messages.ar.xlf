@@ -3,144 +3,145 @@
   <file source-language="en" datatype="plaintext" original="file.ext" target-language="ar">
     <body>
       <!-- welcome.user.email -->
-      <trans-unit id="welcome.user.email.%site%">
+      <trans-unit id="welcome.user.email.%site%" approved="yes">
         <source>welcome.user.email.%site%</source>
-        <target state="translated">تم إنشاء حساب مستخدم لك على %site%</target>
+        <target state="final">تم إنشاء حساب مستخدم لك على %site%</target>
       </trans-unit>
-      <trans-unit id="your.user.account">
+      <trans-unit id="your.user.account" approved="yes">
         <source>your.user.account</source>
-        <target state="translated">حساب المستخدم الخاص بك</target>
+        <target state="final">حساب المستخدم الخاص بك</target>
       </trans-unit>
-      <trans-unit id="username">
+      <trans-unit id="username" approved="yes">
         <source>username</source>
-        <target state="translated">اسم المستخدم</target>
+        <target state="final">اسم المستخدم</target>
       </trans-unit>
-      <trans-unit id="email">
+      <trans-unit id="email" approved="yes">
         <source>email</source>
-        <target state="translated">البريد الإلكتروني</target>
+        <target state="final">البريد الإلكتروني</target>
       </trans-unit>
-      <trans-unit id="password">
+      <trans-unit id="password" approved="yes">
         <source>password</source>
-        <target state="translated">كلمة المرور</target>
+        <target state="final">كلمة المرور</target>
       </trans-unit>
-      <trans-unit id="for.questions.email">
+      <trans-unit id="for.questions.email" approved="yes">
         <source>for.questions.email</source>
-        <target state="translated">للأسئلة، اتصل بنا على البريد الإلكتروني:</target>
+        <target state="final">للأسئلة، اتصل بنا على البريد الإلكتروني:</target>
       </trans-unit>
       <!-- Contact forms -->
-      <trans-unit id="contact.form">
+      <trans-unit id="contact.form" approved="yes">
         <source>contact.form</source>
-        <target state="translated">نموذج الاتصال</target>
+        <target state="final">نموذج الاتصال</target>
       </trans-unit>
-      <trans-unit id="new.contact.form.%site%">
+      <trans-unit id="new.contact.form.%site%" approved="yes">
         <source>new.contact.form.%site%</source>
-        <target state="translated">نموذج اتصال جديد %site%</target>
+        <target state="final">نموذج اتصال جديد %site%</target>
       </trans-unit>
-      <trans-unit id="form.successfully.sent">
+      <trans-unit id="form.successfully.sent" approved="yes">
         <source>form.successfully.sent</source>
-        <target state="translated">تم إرسال نموذجك بنجاح</target>
+        <target state="final">تم إرسال نموذجك بنجاح</target>
       </trans-unit>
-      <trans-unit id="form.has.errors">
+      <trans-unit id="form.has.errors" approved="yes">
         <source>form.has.errors</source>
-        <target state="translated">النموذج يحتوي على أخطاء</target>
+        <target state="final">النموذج يحتوي على أخطاء</target>
       </trans-unit>
-      <trans-unit id="%field%.is.mandatory">
+      <trans-unit id="%field%.is.mandatory" approved="yes">
         <source>%field%.is.mandatory</source>
-        <target state="translated">%field% إلزامي</target>
+        <target state="final">%field% إلزامي</target>
       </trans-unit>
-      <trans-unit id="email.not.valid">
+      <trans-unit id="email.not.valid" approved="yes">
         <source>email.not.valid</source>
-        <target state="translated">عنوان البريد الإلكتروني الخاص بك غير صالح</target>
+        <target state="final">عنوان البريد الإلكتروني الخاص بك غير صالح</target>
       </trans-unit>
-      <trans-unit id="date">
+      <trans-unit id="date" approved="yes">
         <source>date</source>
-        <target state="translated">التاريخ</target>
+        <target state="final">التاريخ</target>
       </trans-unit>
-      <trans-unit id="ip.address">
+      <trans-unit id="ip.address" approved="yes">
         <source>ip.address</source>
-        <target state="translated">ip address (عنوان بروتوكول الإنترنت الخاص بك)</target>
+        <target state="final">ip address (عنوان بروتوكول الإنترنت الخاص بك)</target>
       </trans-unit>
-      <trans-unit id="submittedAt">
+      <trans-unit id="submittedAt" approved="yes">
         <source>submittedAt</source>
-        <target state="translated">تم تقديمه في</target>
+        <target state="final">تم تقديمه في</target>
       </trans-unit>
-      <trans-unit id="form.submit">
+      <trans-unit id="form.submit" approved="yes">
         <source>form.submit</source>
-        <target state="translated">نموذج التقديم</target>
+        <target state="final">نموذج التقديم</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="answer.form">
+      <trans-unit xml:space="preserve" id="answer.form" approved="yes">
                 <source>answer.form</source>
-                <target state="translated">نموذج الإجابة</target>
+                <target state="final">نموذج الإجابة</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.%name%.send">
+      <trans-unit xml:space="preserve" id="customForm.%name%.send" approved="yes">
                 <source>customForm.%name%.send</source>
-                <target state="translated">الإجابة %name% أُرسِلت.</target>
+                <target state="final">الإجابة %name% أُرسِلت.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="new.answer.form.%site%">
+      <trans-unit xml:space="preserve" id="new.answer.form.%site%" approved="yes">
                 <source>new.answer.form.%site%</source>
-                <target state="translated">نموذج إجابة جديدة من %site%</target>
+                <target state="final">نموذج إجابة جديدة من %site%</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="file.not.accepted">
+      <trans-unit xml:space="preserve" id="file.not.accepted" approved="yes">
                 <source>file.not.accepted</source>
-                <target state="translated">لم نتمكن من قبول الملف المرفق.</target>
+                <target state="final">لم نتمكن من قبول الملف المرفق.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="customForm.answer.sent">
+      <trans-unit xml:space="preserve" id="customForm.answer.sent" approved="yes">
                 <source>customForm.answer.sent</source>
-                <target state="translated">تم إرسال إجابتك بنجاح.</target>
+                <target state="final">تم إرسال إجابتك بنجاح.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="none">
+      <trans-unit xml:space="preserve" id="none" approved="yes">
                 <source>none</source>
-                <target state="translated">لا شيء</target>
+                <target state="final">لا شيء</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="reset.password.request">
+      <trans-unit xml:space="preserve" id="reset.password.request" approved="yes">
               <source>reset.password.request</source>
-              <target state="translated">طلب إعادة تعيين كلمة المرور</target>
+              <target state="final">طلب إعادة تعيين كلمة المرور</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.asked.for.a.password.reset.on.%site%">
+      <trans-unit xml:space="preserve" id="you.asked.for.a.password.reset.on.%site%" approved="yes">
                 <source>you.asked.for.a.password.reset.on.%site%</source>
-                <target state="translated">لقد طلبت إعادة تعيين كلمة المرور في %site% </target>
+                <target state="final">لقد طلبت إعادة تعيين كلمة المرور في %site% </target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.need.to.choose.a.new.password.using.following.link">
+      <trans-unit xml:space="preserve" id="you.need.to.choose.a.new.password.using.following.link" approved="yes">
                 <source>you.need.to.choose.a.new.password.using.following.link</source>
-                <target state="translated">عليك أن تقوم بإنشاء كلمة مرور جديدة لحسابك بواسطة استخدام الرابط التالي.</target>
+                <target state="final">عليك أن تقوم بإنشاء كلمة مرور جديدة لحسابك بواسطة استخدام الرابط التالي.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="as.a.reminder.here.are.your.credentials">
+      <trans-unit xml:space="preserve" id="as.a.reminder.here.are.your.credentials" approved="yes">
                 <source>as.a.reminder.here.are.your.credentials</source>
-                <target state="translated">كتذكير لك، ها هي أوراق اعتمادك العامة.</target>
+                <target state="final">كتذكير لك، ها هي أوراق اعتمادك العامة.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="if.you.didnt.request.this.password.reset.ignore.this.email">
+      <trans-unit xml:space="preserve" id="if.you.didnt.request.this.password.reset.ignore.this.email" approved="yes">
                 <source>if.you.didnt.request.this.password.reset.ignore.this.email</source>
-                <target state="translated">إن لم تطلب رسالة البريد الإلكتروني هذه، تجاهلها فقط ولن يتم تغيير كلمة المرور الخاصة بك.</target>
+                <target state="final">إن لم تطلب رسالة البريد الإلكتروني هذه، تجاهلها فقط ولن يتم تغيير كلمة المرور الخاصة بك.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="reset_your_password">
+      <trans-unit xml:space="preserve" id="reset_your_password" approved="yes">
                 <source>reset_your_password</source>
-                <target state="translated">قم بإعادة تعيين كلمة المرور الخاصة بك</target>
+                <target state="final">قم بإعادة تعيين كلمة المرور الخاصة بك</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field">
+      <trans-unit xml:space="preserve" id="you.need.to.fill.this.required.field" approved="yes">
                 <source>you.need.to.fill.this.required.field</source>
-                <target state="translated">عليك بكتابة هذا الحقل المطلوب.</target>
+                <target state="final">عليك بكتابة هذا الحقل المطلوب.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="*.required.fields">
+      <trans-unit xml:space="preserve" id="*.required.fields" approved="yes">
                 <source>*.required.fields</source>
-                <target state="translated">* حقول مطلوبة</target>
+                <target state="final">* حقول مطلوبة</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="website.is.under.maintenance">
+      <trans-unit xml:space="preserve" id="website.is.under.maintenance" approved="yes">
                 <source>website.is.under.maintenance</source>
-                <target state="translated">الموقع تحت الصيانة</target>
+                <target state="final">الموقع تحت الصيانة</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="website.is.under.maintenance.we.will.be.back.soon">
+      <trans-unit xml:space="preserve" id="website.is.under.maintenance.we.will.be.back.soon" approved="yes">
                 <source>website.is.under.maintenance.we.will.be.back.soon</source>
-                <target state="translated">الموقع تحت الصيانة، وسيتم الانتهاء قريبًا!</target>
+                <target state="final">الموقع تحت الصيانة، وسيتم الانتهاء قريبًا!</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="yaml.is.not.valid">
+      <trans-unit xml:space="preserve" id="yaml.is.not.valid" approved="yes">
                 <source>yaml.is.not.valid.{{ error }}</source>
-                <target state="translated">يمل غير صالح {{ error }}</target>
+                <target state="final">يمل غير صالح {{ error }}</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="value.is.already.used">
+      <trans-unit xml:space="preserve" id="value.is.already.used" approved="yes">
                 <source>value.is.already.used</source>
-                <target state="translated">القيمة المستخدمة بالفعل</target>
+                <target state="final">القيمة المستخدمة بالفعل</target>
                 <note>Error message meaning that user can’t use that value for this object (eg. Object name is already used).</note>
             </trans-unit>
+      <!-- History entry params -->
     </body>
   </file>
 </xliff>
