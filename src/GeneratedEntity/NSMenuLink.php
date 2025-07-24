@@ -66,6 +66,7 @@ class NSMenuLink extends NodesSources
 
     /**
      * Image.
+     * @var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null
      * (Virtual field, this var is a buffer)
      */
     #[Serializer\SerializedName(serializedName: 'image')]

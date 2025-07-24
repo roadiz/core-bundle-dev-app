@@ -21,6 +21,7 @@ resources:
                         - node_listing
                         - urls
                         - tag_base
+                        - tag_parent
                         - translation_base
                         - document_display
                         - document_thumbnails
@@ -51,6 +52,7 @@ resources:
                         - node_listing
                         - urls
                         - tag_base
+                        - tag_parent
                         - translation_base
                         - document_display
                         - document_thumbnails
@@ -81,6 +83,7 @@ resources:
                         - node_listing
                         - urls
                         - tag_base
+                        - tag_parent
                         - translation_base
                         - document_display
                         - document_thumbnails
@@ -111,6 +114,7 @@ resources:
                         - node_listing
                         - urls
                         - tag_base
+                        - tag_parent
                         - translation_base
                         - document_display
                         - document_thumbnails

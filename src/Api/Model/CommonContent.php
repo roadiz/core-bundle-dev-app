@@ -21,12 +21,14 @@ final class CommonContent
     #[Groups(['common_content'])]
     #[ApiProperty(
         identifier: false,
+        genId: false,
     )]
     public ?WalkerInterface $errorPage = null;
 
     #[Groups(['common_content'])]
     #[ApiProperty(
         identifier: false,
+        genId: false,
     )]
     public ?NodesSourcesHeadInterface $head = null;
 
@@ -47,6 +49,7 @@ final class CommonContent
                 ],
             ],
         ],
+        genId: false,
     )]
     public ?array $menus = null;
 
@@ -60,6 +63,7 @@ final class CommonContent
                 'second_url' => 'https://another-example.com',
             ],
         ],
+        genId: false,
     )]
     public ?array $urls = null;
 
@@ -73,6 +77,7 @@ final class CommonContent
                 'second_color' => '#ff0000',
             ],
         ],
+        genId: false,
     )]
     public ?array $colors = null;
 }

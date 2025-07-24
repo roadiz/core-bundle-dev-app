@@ -7,9 +7,24 @@ namespace RZ\Roadiz\EntityGenerator\Field;
 use Nette\PhpGenerator\ClassType;
 use Nette\PhpGenerator\Literal;
 use Nette\PhpGenerator\PhpNamespace;
+use Nette\PhpGenerator\Property;
 
 final class DocumentsFieldGenerator extends AbstractFieldGenerator
 {
+    #[\Override]
+    protected function addFieldAutodoc(Property $property): AbstractFieldGenerator
+    {
+        parent::addFieldAutodoc($property);
+
+        if (true === $this->options['use_document_dto']) {
+            $property->addComment('@var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null');
+        } else {
+            $property->addComment('@var '.$this->options['document_class'].'[]|null');
+        }
+
+        return $this;
+    }
+
     #[\Override]
     protected function getDefaultSerializationGroups(): array
     {

@@ -271,6 +271,43 @@ EOT)
         return $mockNodeType;
     }
 
+    protected function getMockDocumentNodeType(): NodeTypeInterface
+    {
+        $mockNodeType = $this->createStub(NodeTypeInterface::class);
+        $mockNodeType
+            ->method('getFields')
+            ->willReturn(
+                new ArrayCollection([
+                    (new SimpleNodeTypeField())
+                        ->setName('bar')
+                        ->setTypeName('documents')
+                        ->setSerializationMaxDepth(1)
+                        ->setVirtual(true)
+                        ->setLabel('Bar documents field')
+                        ->setDescription('Maecenas sed diam eget risus varius blandit sit amet non magna')
+                        ->setIndexed(false),
+                ])
+            );
+
+        $mockNodeType
+            ->method('getSourceEntityTableName')
+            ->willReturn('ns_mock');
+        $mockNodeType
+            ->method('getSourceEntityClassName')
+            ->willReturn('NSMock');
+        $mockNodeType
+            ->method('getName')
+            ->willReturn('Mock');
+        $mockNodeType
+            ->method('isReachable')
+            ->willReturn(true);
+        $mockNodeType
+            ->method('isPublishable')
+            ->willReturn(true);
+
+        return $mockNodeType;
+    }
+
     protected function getMockNodeTypeResolver(): NodeTypeResolverInterface
     {
         $mockNodeTypeResolver = $this->createStub(NodeTypeResolverInterface::class);
