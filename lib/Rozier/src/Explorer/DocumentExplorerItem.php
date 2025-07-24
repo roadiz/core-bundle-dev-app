@@ -131,6 +131,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
                 'align' => $this->document->getImageCropAlignment(),
                 'hotspot' => $this->document->getHotspotAsString(),
             ];
+            $originalHotspot = $this->document->getHotspot();
         }
 
         if (!$this->document->isPrivate() && !empty($this->document->getRelativePath())) {
@@ -168,6 +169,7 @@ final class DocumentExplorerItem extends AbstractExplorerItem
             'shortMimeType' => $this->document->getShortMimeType(),
             'thumbnail80' => $thumbnail80Url,
             'editImageUrl' => $editImageUrl,
+            'originalHotspot' => $originalHotspot ?? null,
         ];
     }
 }
