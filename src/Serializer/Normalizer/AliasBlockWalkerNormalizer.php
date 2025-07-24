@@ -47,7 +47,7 @@ final readonly class AliasBlockWalkerNormalizer implements NormalizerInterface
     #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return $this->decorated->supportsNormalization($data, $format/* , $context */);
+        return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
     #[\Override]

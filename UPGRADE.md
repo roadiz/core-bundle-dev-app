@@ -4,6 +4,7 @@
 
 - **Roadiz requires php 8.3 minimum**
 - Upgraded to **ApiPlatform 4.x**
+- Upgraded to **Symfony 7.3**
 - **Dropped Roles entity**, use native Symfony Roles hierarchy to define your roles instead
 - **Dropped RoleArrayVoter** BC, you cannot use `isGranted` and `denyUnlessGranted` methods with arrays
 - New `CaptchaServiceInterface` to make captcha support any provider service.
@@ -23,6 +24,39 @@
 - `EmailManager::getOrigin()` method has been removed, this will use `framework.mailer.envelope.sender` configuration parameter.
 - Added `DocumentDto` to expose NodesSources documents in API Platform with contextualized `hotspot` and `imageCropAlignment` properties.
 - Added new `ROLE_ACCESS_USERS_DETAIL` role to allow user details edition (GDPR) and moved user language into default UserType form.
+
+## Upgrade your composer.json
+
+- Set _roadiz_ packages to `2.6.*`
+- Set _symfony_ packages to `7.3.*`
+- Allow symfony 7.3 on `extra.symfony.require` key
+```diff
+    "extra": {
+        "symfony": {
+            "allow-contrib": false,
+-           "require": "6.4.*",
++           "require": "7.3.*",
+        }
+    }
+```
+
+## Upgrade you project code base for Symfony 7.3
+
+- Remove `security.enable_authenticator_manager` option from your `config/packages/security.yaml`
+- Remove any routes using annotations
+- All `Normalizer` classes must comply to the new method signatures for `normalize`, `supportsNormalization`, `supportsDenormalization` methods: `public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null`
+```diff
+-public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
++public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+```
+```diff
+-public function supportsNormalization(mixed $data, ?string $format = null): bool
++public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+```
+```diff
+-public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
++public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+```
 
 ## Upgrade your API Platform configuration
 
