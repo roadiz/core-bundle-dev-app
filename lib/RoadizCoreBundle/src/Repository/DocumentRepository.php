@@ -547,9 +547,11 @@ final class DocumentRepository extends EntityRepository implements DocumentRepos
         ))
             ->innerJoin('d.nodesSourcesByFields', 'nsf', 'WITH', 'nsf.nodeSource = :nodeSource')
             ->andWhere($qb->expr()->eq('d.raw', ':raw'))
+            ->andWhere($qb->expr()->eq('d.private', ':private'))
             ->andWhere($qb->expr()->in('d.mimeType', ':mimeType'))
             ->setParameter('nodeSource', $nodeSource)
             ->setParameter('raw', false)
+            ->setParameter('private', false)
             ->setParameter('mimeType', ['image/webp', 'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'])
             ->setMaxResults(1)
             ->setCacheable(true);
