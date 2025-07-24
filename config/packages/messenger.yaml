@@ -8,6 +8,8 @@ framework:
                 dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
                 # Use JSON message to be able to decode them in a NodeJS worker
                 serializer: messenger.transport.symfony_serializer
+            scheduler_default:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
             failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
 

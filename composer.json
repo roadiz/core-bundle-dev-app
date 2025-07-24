@@ -57,6 +57,7 @@
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/migrations": "^3.1.1",
         "doctrine/orm": "~2.20.0",
+        "dragonmantank/cron-expression": "^3.4",
         "endroid/qr-code": "^4.0",
         "enshrined/svg-sanitize": "^0.15",
         "gedmo/doctrine-extensions": "^3.19.0",
@@ -124,6 +125,7 @@
         "symfony/requirements-checker": "^2.0",
         "symfony/routing": "7.3.*",
         "symfony/runtime": "7.3.*",
+        "symfony/scheduler": "7.3.*",
         "symfony/security-bundle": "7.3.*",
         "symfony/security-core": "7.3.*",
         "symfony/security-csrf": "7.3.*",
@@ -179,7 +181,7 @@
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
             "symfony/runtime": true,
-            "php-http/discovery": false
+            "php-http/discovery": true
         }
     },
     "autoload": {

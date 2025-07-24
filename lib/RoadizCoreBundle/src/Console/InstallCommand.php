@@ -43,7 +43,7 @@ final class InstallCommand extends Command
     {
         $this
             ->setName('install')
-            ->setDescription('Perform Doctrine migrations, install default Roadiz roles, settings and translation.');
+            ->setDescription('Perform Doctrine migrations, install default Roadiz settings, translation and project fixtures.');
     }
 
     #[\Override]
@@ -58,59 +58,69 @@ final class InstallCommand extends Command
         );
 
         if (
-            $input->getOption('no-interaction')
-            || $io->askQuestion($question)
+            !$input->getOption('no-interaction')
+            && !$io->askQuestion($question)
         ) {
-            0 === $this->runCommand(
-                'doctrine:migrations:migrate',
-                '',
-                null,
-                false,
-                true
-            ) ? $io->success('doctrine:migrations:migrate') : $io->error('doctrine:migrations:migrate');
-
-            $fixturesRoot = dirname(__DIR__).'/../config';
-            $fixtureFile = $filesystem->readFile($fixturesRoot.'/fixtures.yaml');
-
-            $data = Yaml::parse($fixtureFile);
-
-            if (isset($data['importFiles']['groups'])) {
-                foreach ($data['importFiles']['groups'] as $filename) {
-                    $filePath = $fixturesRoot.'/'.$filename;
-                    $fileContents = $filesystem->readFile($filePath);
-                    $this->groupsImporter->import($fileContents);
-                    $io->success('Theme file “'.$filePath.'” has been imported.');
-                }
-            }
-            if (isset($data['importFiles']['settings'])) {
-                foreach ($data['importFiles']['settings'] as $filename) {
-                    $filePath = $fixturesRoot.'/'.$filename;
-                    $fileContents = $filesystem->readFile($filePath);
-                    $this->settingsImporter->import($fileContents);
-                    $io->success('Theme files “'.$filePath.'” has been imported.');
-                }
-            }
-            $manager = $this->managerRegistry->getManagerForClass(Translation::class);
-            /*
-             * Create default translation
-             */
-            if (!$this->hasDefaultTranslation()) {
-                $defaultTrans = new Translation();
-                $defaultTrans
-                    ->setDefaultTranslation(true)
-                    ->setLocale('en')
-                    ->setName('Default translation');
-
-                $manager->persist($defaultTrans);
-
-                $io->success('Default translation installed.');
-            } else {
-                $io->warning('A default translation is already installed.');
-            }
-            $manager->flush();
-
-            $this->clearCaches($io);
+            return 0;
         }
+
+        0 === $this->runCommand(
+            'doctrine:migrations:migrate',
+            '',
+            null,
+            false,
+            true
+        ) ? $io->success('doctrine:migrations:migrate') : $io->error('doctrine:migrations:migrate');
+
+        $fixturesRoot = dirname(__DIR__).'/../config';
+        $fixtureFile = $filesystem->readFile($fixturesRoot.'/fixtures.yaml');
+
+        $data = Yaml::parse($fixtureFile);
+
+        if (isset($data['importFiles']['groups'])) {
+            foreach ($data['importFiles']['groups'] as $filename) {
+                $filePath = $fixturesRoot.'/'.$filename;
+                $fileContents = $filesystem->readFile($filePath);
+                $this->groupsImporter->import($fileContents);
+                $io->success('Theme file “'.$filePath.'” has been imported.');
+            }
+        }
+        if (isset($data['importFiles']['settings'])) {
+            foreach ($data['importFiles']['settings'] as $filename) {
+                $filePath = $fixturesRoot.'/'.$filename;
+                $fileContents = $filesystem->readFile($filePath);
+                $this->settingsImporter->import($fileContents);
+                $io->success('Theme files “'.$filePath.'” has been imported.');
+            }
+        }
+        $manager = $this->managerRegistry->getManagerForClass(Translation::class);
+        /*
+         * Create default translation
+         */
+        if (!$this->hasDefaultTranslation()) {
+            $defaultTrans = new Translation();
+            $defaultTrans
+                ->setDefaultTranslation(true)
+                ->setLocale('en')
+                ->setName('Default translation');
+
+            $manager->persist($defaultTrans);
+
+            $io->success('Default translation installed.');
+        } else {
+            $io->warning('A default translation is already installed.');
+        }
+        $manager->flush();
+
+        0 === $this->runCommand(
+            'app:install',
+            '',
+            null,
+            false,
+            true
+        ) ? $io->success('app:install') : $io->error('app:install');
+
+        $this->clearCaches($io);
 
         return 0;
     }

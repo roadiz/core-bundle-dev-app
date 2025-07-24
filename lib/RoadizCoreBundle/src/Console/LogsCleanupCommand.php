@@ -8,13 +8,20 @@ use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Logger\Entity\Log;
 use RZ\Roadiz\CoreBundle\Repository\LogRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
+#[AsCronTask(expression: '0 3 * * *', jitter: 120, arguments: '--erase -n -q')]
+#[AsCommand(
+    name: 'logs:cleanup',
+    description: 'Clean up logs entries <info>older than 6 months</info> from database.',
+)]
 final class LogsCleanupCommand extends Command
 {
     public function __construct(
@@ -28,8 +35,6 @@ final class LogsCleanupCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('logs:cleanup')
-            ->setDescription('Clean up logs entries <info>older than 6 months</info> from database.')
             ->addOption('erase', null, InputOption::VALUE_NONE, 'Actually delete outdated log entries.')
             ->addOption('since', null, InputOption::VALUE_REQUIRED, 'Change default deletion duration from now.')
         ;

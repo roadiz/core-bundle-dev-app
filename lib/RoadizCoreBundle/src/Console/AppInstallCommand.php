@@ -41,7 +41,7 @@ final class AppInstallCommand extends Command
     protected function configure(): void
     {
         $this->setName('app:install')
-            ->setDescription('Install application fixtures (settings, tags, attributes) from config.yml')
+            ->setDescription('Install application fixtures (settings, groups, attributes) from config.yml')
             ->addOption(
                 'dry-run',
                 'd',
@@ -58,31 +58,27 @@ final class AppInstallCommand extends Command
         }
         $this->io = new SymfonyStyle($input, $output);
 
-        /*
-         * Test if Classname is not a valid yaml file before using Theme
-         */
         $configPath = $this->projectDir.'/src/Resources/config.yml';
         $realConfigPath = realpath($configPath);
-        if (false !== $realConfigPath && file_exists($realConfigPath)) {
-            $this->io->note('Install assets directly from file: '.$realConfigPath);
-            $themeConfigPath = $realConfigPath;
-        } else {
-            $this->io->error($configPath.' configuration file is not readable.');
+        if (false === $realConfigPath || !(new Filesystem())->exists($realConfigPath)) {
+            $this->io->note('No configuration file found in: '.$configPath);
 
-            return 1;
+            return 0;
         }
 
-        $this->importAppData($themeConfigPath);
+        $this->io->note('Install project fixtures from configuration file: '.$realConfigPath);
+        $configurationPath = $realConfigPath;
+        $this->importAppData($configurationPath);
 
         return 0;
     }
 
-    protected function importAppData(string $themeConfigPath): void
+    protected function importAppData(string $configurationPath): void
     {
-        $data = $this->getAppConfig($themeConfigPath);
+        $data = $this->getAppConfig($configurationPath);
 
         if (!isset($data['importFiles']) || !is_array($data['importFiles'])) {
-            $this->io->warning('Config file "'.$themeConfigPath.'" has no data to import.');
+            $this->io->warning('Config file "'.$configurationPath.'" has no data to import.');
 
             return;
         }

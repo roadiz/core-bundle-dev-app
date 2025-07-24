@@ -10,13 +10,20 @@ use RZ\Roadiz\CoreBundle\Entity\CustomForm;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\Documents\Events\DocumentDeletedEvent;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Scheduler\Attribute\AsCronTask;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+#[AsCronTask(expression: '0 3 * * *', jitter: 120, arguments: '-n -q')]
+#[AsCommand(
+    name: 'custom-form-answer:prune',
+    description: 'Prune all custom-form answers older than custom-form retention time policy.',
+)]
 final class CustomFormAnswerPurgeCommand extends Command
 {
     public function __construct(
@@ -31,10 +38,7 @@ final class CustomFormAnswerPurgeCommand extends Command
     #[\Override]
     protected function configure(): void
     {
-        $this->setName('custom-form-answer:prune')
-            ->setDescription('Prune all custom-form answers older than custom-form retention time policy.')
-            ->addOption('dry-run', 'd', InputOption::VALUE_NONE)
-        ;
+        $this->addOption('dry-run', 'd', InputOption::VALUE_NONE);
     }
 
     #[\Override]

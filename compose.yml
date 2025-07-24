@@ -90,9 +90,18 @@ services:
             args:
                 UID: ${UID:-1000}
         mem_limit: 1g
-        # Need to restart worker every 10 minutes
         restart: unless-stopped
         entrypoint: ["php", "-d", "memory_limit=-1", "/app/bin/console", "messenger:consume", "async", "--time-limit=600", "--profile"]
+
+    scheduler:
+        <<: *app_template
+        build:
+            target: php-dev
+            args:
+                UID: ${UID:-1000}
+        mem_limit: 1g
+        restart: unless-stopped
+        entrypoint: ["php", "-d", "memory_limit=-1", "/app/bin/console", "messenger:consume", "scheduler_default", "--time-limit=600", "--profile"]
 
     cron:
         <<: *app_template

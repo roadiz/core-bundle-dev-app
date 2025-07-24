@@ -12,11 +12,13 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Scheduler\Attribute\AsCronTask;
 
 #[AsCommand(
     name: 'cron:set-last-exec-date',
     description: 'Persist last execution date of cron job into database.',
 )]
+#[AsCronTask(expression: '2 3 * * *', jitter: 60, arguments: '-n -q')]
 final class RegisterCronLastExecDateCommand extends Command
 {
     public function __construct(

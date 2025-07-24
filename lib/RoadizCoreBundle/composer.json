@@ -24,12 +24,13 @@
         "ext-zip": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "api-platform/symfony": "^4.1.18",
         "api-platform/doctrine-orm": "^4.1.18",
+        "api-platform/symfony": "^4.1.18",
         "doctrine/annotations": "^2.0",
         "doctrine/doctrine-bundle": "^2.8.1",
         "doctrine/doctrine-migrations-bundle": "^3.1",
         "doctrine/orm": "~2.20.0",
+        "dragonmantank/cron-expression": "^3.4",
         "gedmo/doctrine-extensions": "^3.19.0",
         "inlinestyle/inlinestyle": "~1.2.7",
         "james-heinrich/getid3": "^1.9",
@@ -77,6 +78,7 @@
         "symfony/proxy-manager-bridge": "7.3.*",
         "symfony/rate-limiter": "7.3.*",
         "symfony/runtime": "7.3.*",
+        "symfony/scheduler": "7.3.*",
         "symfony/security-core": "7.3.*",
         "symfony/serializer": "7.3.*",
         "symfony/string": "7.3.*",
@@ -116,7 +118,7 @@
         "allow-plugins": {
             "symfony/flex": false,
             "symfony/runtime": false,
-            "php-http/discovery": false
+            "php-http/discovery": true
         }
     },
     "autoload": {
