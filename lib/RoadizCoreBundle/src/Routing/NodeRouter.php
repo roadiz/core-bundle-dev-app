@@ -15,6 +15,7 @@ use Symfony\Cmf\Component\Routing\VersatileGeneratorInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
+use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
 use Symfony\Component\Routing\Matcher\UrlMatcherInterface;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\RouteCollection;
@@ -55,7 +56,7 @@ class NodeRouter extends Router implements VersatileGeneratorInterface
      * Gets the UrlMatcher instance associated with this Router.
      */
     #[\Override]
-    public function getMatcher(): UrlMatcherInterface
+    public function getMatcher(): UrlMatcherInterface|RequestMatcherInterface
     {
         return $this->matcher;
     }

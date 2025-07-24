@@ -6,7 +6,7 @@ test:
 	vendor/bin/monorepo-builder validate
 	make phpstan
 	make rector_test
-	XDEBUG_MODE=coverage vendor/bin/phpunit -v
+	SYMFONY_DEPRECATIONS_HELPER=max[total]=999999 XDEBUG_MODE=coverage vendor/bin/phpunit -v
 	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
 	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates

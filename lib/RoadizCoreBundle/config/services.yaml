@@ -444,8 +444,6 @@ services:
     Gedmo\Loggable\LoggableListener:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]
 
     Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface:
         alias: 'assets.empty_version_strategy'

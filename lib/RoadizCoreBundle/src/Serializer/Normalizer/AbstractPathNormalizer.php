@@ -33,18 +33,15 @@ abstract class AbstractPathNormalizer implements NormalizerInterface, Denormaliz
     #[\Override]
     public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        return $this->decorated->supportsNormalization($data, $format/* , $context */);
+        return $this->decorated->supportsNormalization($data, $format, $context);
     }
 
     #[\Override]
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return $this->decorated->supportsDenormalization($data, $type, $format/* , $context */);
+        return $this->decorated->supportsDenormalization($data, $type, $format, $context);
     }
 
-    /**
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
     #[\Override]
     public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
@@ -59,6 +56,7 @@ abstract class AbstractPathNormalizer implements NormalizerInterface, Denormaliz
         }
     }
 
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

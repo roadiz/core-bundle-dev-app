@@ -207,7 +207,7 @@ class SimpleDocument implements DocumentInterface
     }
 
     #[\Override]
-    public function compareTo($other)
+    public function compareTo($other): int
     {
         if (!$other instanceof DocumentInterface) {
             throw new \InvalidArgumentException('Can only compare to DocumentInterface instances.');

@@ -41,6 +41,7 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
         return $this->realmResolver->hasRealmsWithSerializationGroup();
     }
 
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [
@@ -48,14 +49,11 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
         ];
     }
 
-    /**
-     * @return array|string|int|float|bool|\ArrayObject|null
-     */
     #[\Override]
-    public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $this->stopwatch->start('realm-serialization-group-normalizer', 'serializer');
-        $realms = $this->getAuthorizedRealmsForObject($object);
+        $realms = $this->getAuthorizedRealmsForObject($data);
 
         foreach ($realms as $realm) {
             if (!empty($realm->getSerializationGroup())) {
@@ -66,7 +64,7 @@ final class RealmSerializationGroupNormalizer implements NormalizerInterface, No
         $context[self::ALREADY_CALLED] = true;
         $this->stopwatch->stop('realm-serialization-group-normalizer');
 
-        return $this->normalizer->normalize($object, $format, $context);
+        return $this->normalizer->normalize($data, $format, $context);
     }
 
     /**

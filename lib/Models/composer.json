@@ -21,12 +21,12 @@
         "php": ">=8.3",
         "doctrine/orm": "~2.20.0",
         "roadiz/nodetype-contracts": "^3.0.0",
-        "symfony/string": "6.4.*",
+        "symfony/string": "7.3.*",
         "symfony/translation-contracts": "^3.0",
-        "symfony/http-foundation": "6.4.*",
-        "symfony/serializer": "6.4.*",
-        "symfony/uid": "6.4.*",
-        "symfony/validator": "6.4.*"
+        "symfony/http-foundation": "7.3.*",
+        "symfony/serializer": "7.3.*",
+        "symfony/uid": "7.3.*",
+        "symfony/validator": "7.3.*"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^2.8.1",

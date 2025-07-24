@@ -32,7 +32,7 @@
             {% set attributesCompiled = attributesCompiled|merge([key ~ '="' ~ value ~ '"']) %}
         {% endif %}
     {% endfor %}
-    <source {% if attributesCompiled|length %}{{ attributesCompiled|join(' ')|raw }}{% endif %}>
+    <source {% if attributesCompiled|length %}{{ attributesCompiled|join(' ')|raw }}{%- endif -%}>
 {%- endmacro -%}
 
 {% if lazyload %}

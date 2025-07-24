@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Logger;
 use Doctrine\Persistence\ManagerRegistry;
 use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
+use Monolog\LogRecord;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
@@ -111,7 +112,7 @@ final class DoctrineHandler extends AbstractProcessingHandler
     }
 
     #[\Override]
-    public function write(array $record): void
+    protected function write(LogRecord $record): void
     {
         try {
             $manager = $this->managerRegistry->getManagerForClass(Log::class);
@@ -120,13 +121,13 @@ final class DoctrineHandler extends AbstractProcessingHandler
             }
 
             $log = new Log(
-                $record['level'],
-                $record['message']
+                $record->level->value,
+                $record->message
             );
 
-            $log->setChannel((string) $record['channel']);
-            $data = $record['extra'];
-            $context = $record['context'];
+            $log->setChannel((string) $record->channel);
+            $data = $record->extra;
+            $context = $record->context;
 
             if (\is_array($context)) {
                 foreach ($context as $key => $value) {

@@ -206,12 +206,9 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return !empty($this->username) ? $this->username : throw new \LogicException('Username cannot be empty.');
     }
 
-    /**
-     * @return string $username
-     */
     public function getUsername(): string
     {
         return $this->username;
@@ -370,9 +367,9 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * Removes sensitive data from the user.
      */
     #[\Override]
-    public function eraseCredentials(): User
+    public function eraseCredentials(): void
     {
-        return $this->setPlainPassword('');
+        $this->setPlainPassword('');
     }
 
     /**

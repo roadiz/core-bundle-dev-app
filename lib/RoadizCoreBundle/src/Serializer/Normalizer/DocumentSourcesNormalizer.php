@@ -21,16 +21,11 @@ final class DocumentSourcesNormalizer extends AbstractPathNormalizer
         parent::__construct($decorated, $urlGenerator, $stopwatch);
     }
 
-    /**
-     * @return array|\ArrayObject|bool|float|int|mixed|string|null
-     *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
     #[\Override]
-    public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = $this->decorated->normalize($object, $format, $context);
-        if ($object instanceof Document && is_array($data)) {
+        $normalized = $this->decorated->normalize($data, $format, $context);
+        if ($data instanceof Document && is_array($normalized)) {
             /** @var array<string> $serializationGroups */
             $serializationGroups = isset($context['groups']) && is_array($context['groups']) ? $context['groups'] : [];
 
@@ -41,24 +36,24 @@ final class DocumentSourcesNormalizer extends AbstractPathNormalizer
                 $sourcesContext = $context;
                 $sourcesContext['groups'] = ['document_display'];
 
-                if ($object->isLocal() && $object->isVideo()) {
-                    $data['altSources'] = [];
-                    foreach ($this->documentFinder->findVideosWithFilename($object->getRelativePath()) as $document) {
-                        if ($document->getRelativePath() !== $object->getRelativePath()) {
-                            $data['altSources'][] = $this->decorated->normalize($document, $format, $sourcesContext);
+                if ($data->isLocal() && $data->isVideo()) {
+                    $normalized['altSources'] = [];
+                    foreach ($this->documentFinder->findVideosWithFilename($data->getRelativePath()) as $document) {
+                        if ($document->getRelativePath() !== $data->getRelativePath()) {
+                            $normalized['altSources'][] = $this->decorated->normalize($document, $format, $sourcesContext);
                         }
                     }
-                } elseif ($object->isLocal() && $object->isAudio()) {
-                    $data['altSources'] = [];
-                    foreach ($this->documentFinder->findAudiosWithFilename($object->getRelativePath()) as $document) {
-                        if ($document->getRelativePath() !== $object->getRelativePath()) {
-                            $data['altSources'][] = $this->decorated->normalize($document, $format, $sourcesContext);
+                } elseif ($data->isLocal() && $data->isAudio()) {
+                    $normalized['altSources'] = [];
+                    foreach ($this->documentFinder->findAudiosWithFilename($data->getRelativePath()) as $document) {
+                        if ($document->getRelativePath() !== $data->getRelativePath()) {
+                            $normalized['altSources'][] = $this->decorated->normalize($document, $format, $sourcesContext);
                         }
                     }
                 }
             }
         }
 
-        return $data;
+        return $normalized;
     }
 }
