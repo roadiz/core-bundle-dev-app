@@ -55,7 +55,7 @@ final class DocumentDto implements BaseDocumentInterface
     #[\Override]
     public function getMimeType(): string
     {
-        return $this->mimeType;
+        return $this->mimeType ?? 'application/octet-stream';
     }
 
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]

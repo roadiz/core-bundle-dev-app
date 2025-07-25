@@ -318,9 +318,9 @@ class Document implements AdvancedDocumentInterface, HasThumbnailInterface, Time
     }
 
     #[\Override]
-    public function getMimeType(): ?string
+    public function getMimeType(): string
     {
-        return $this->mimeType;
+        return $this->mimeType ?? 'application/octet-stream';
     }
 
     #[\Override]
