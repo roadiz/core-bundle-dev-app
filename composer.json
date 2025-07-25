@@ -168,7 +168,7 @@
         "symfony/maker-bundle": "^1.52",
         "symfony/phpunit-bridge": "^7.0",
         "symfony/web-profiler-bundle": "6.4.*",
-        "symplify/monorepo-builder": "11.2.22"
+        "symplify/monorepo-builder": "11.2.23"
     },
     "config": {
         "optimize-autoloader": true,

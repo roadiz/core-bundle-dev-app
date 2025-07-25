@@ -2,38 +2,39 @@ phpstan:
 	php -d "memory_limit=-1" vendor/bin/phpstan analyse -c phpstan.neon
 
 test:
-	vendor/bin/requirements-checker
-	vendor/bin/monorepo-builder validate
+	docker compose run --no-deps --rm --entrypoint= app vendor/bin/requirements-checker
+	docker compose run --no-deps --rm --entrypoint= app vendor/bin/monorepo-builder validate
 	make phpstan
 	make rector_test
-	XDEBUG_MODE=coverage vendor/bin/phpunit -v
-	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
-	php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
+	docker compose run --no-deps --rm --entrypoint= -e "XDEBUG_MODE=coverage" app vendor/bin/phpunit -v
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizFontBundle/templates
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizRozierBundle/templates
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizTwoFactorBundle/templates
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizUserBundle/templates
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/Rozier/src/Resources/views
 
 rector_test:
-	php -d "memory_limit=-1" vendor/bin/rector process --dry-run
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/rector process --dry-run
 
 rector:
-	php -d "memory_limit=-1" vendor/bin/rector process
-	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/rector process
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
 
 phpunit:
-	APP_ENV=test docker compose exec app php vendor/bin/phpunit -v
+	docker compose run --rm --entrypoint= -e "APP_ENV=test" app php php vendor/bin/phpunit -v
 
 fix:
-	php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
 
 check:
-	php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
+	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer check --ansi -vvv
 
 requirements:
-	vendor/bin/requirements-checker
+	docker compose run --no-deps --rm --entrypoint= app vendor/bin/requirements-checker
+	docker compose run --no-deps --rm --entrypoint= app vendor/bin/monorepo-builder validate
 
 bash:
 	docker compose exec app bash --login
