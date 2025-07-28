@@ -7,6 +7,8 @@ ARG NGINX_VERSION=1.27.5
 ARG MYSQL_VERSION=8.0.42
 ARG MARIADB_VERSION=10.11.9
 ARG SOLR_VERSION=9
+ARG COMPOSER_VERSION=2.8.1
+ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
 
 
 ##########
@@ -29,7 +31,7 @@ groupmod -g ${GID} "$SOLR_GROUP"
 chown -R ${UID}:${GID} /var/solr
 EOF
 
-COPY docker/solr/managed-schema.xml /opt/solr/server/solr/configsets/_default/conf/managed-schema
+COPY --link --chmod=644 docker/solr/managed-schema.xml /opt/solr/server/solr/configsets/_default/conf/managed-schema
 
 USER $SOLR_USER
 
@@ -45,7 +47,7 @@ LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 ARG UID
 ARG GID
 
-COPY --link docker/mysql/performances.cnf /etc/mysql/conf.d/performances.cnf
+COPY --link --chmod=644 docker/mysql/performances.cnf /etc/mysql/conf.d/performances.cnf
 
 RUN <<EOF
 usermod -u ${UID} mysql
@@ -67,7 +69,7 @@ ARG GID
 # https://hub.docker.com/_/mariadb
 # Using a custom MariaDB configuration file
 # Custom configuration files should end in .cnf and be mounted read only at the directory /etc/mysql/conf.d
-COPY --link docker/mariadb/performances.cnf /etc/mysql/conf.d/performances.cnf
+COPY --link --chmod=644 docker/mariadb/performances.cnf /etc/mysql/conf.d/performances.cnf
 
 RUN <<EOF
 usermod -u ${UID} mysql
@@ -82,7 +84,7 @@ FROM varnish:${VARNISH_VERSION} AS varnish
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
-COPY --link docker/varnish/default.vcl /etc/varnish/
+COPY --link --chmod=644 docker/varnish/default.vcl /etc/varnish/
 
 #######
 # PHP #
@@ -94,10 +96,8 @@ LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
 ARG UID
 ARG GID
-
-ARG COMPOSER_VERSION=2.8.2
-ARG PHP_EXTENSION_INSTALLER_VERSION=2.6.0
-ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
+ARG COMPOSER_VERSION
+ARG PHP_EXTENSION_REDIS_VERSION
 
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
@@ -156,17 +156,14 @@ LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com, eliot@rezo-zero.
 
 ARG UID
 ARG GID
-
-ARG COMPOSER_VERSION=2.8.1
-ARG PHP_EXTENSION_INSTALLER_VERSION=2.6.0
-ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
+ARG COMPOSER_VERSION
+ARG PHP_EXTENSION_REDIS_VERSION
 
 SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
 
 ENV SERVER_NAME=":80"
 ENV APP_FFMPEG_PATH=/usr/bin/ffmpeg
-ENV APP_RUNTIME=Runtime\\FrankenPhpSymfony\\Runtime
-ENV FRANKENPHP_CONFIG="worker ./public/index.php"
+ENV SERVER_ROOT="/app/public"
 
 RUN <<EOF
 apt-get --quiet update
@@ -213,10 +210,6 @@ chown --recursive ${UID}:${GID} /data/caddy /config/caddy
 
 EOF
 
-COPY --link docker/frankenphp/conf.d/app.ini ${PHP_INI_DIR}/conf.d/
-COPY --link docker/frankenphp/Caddyfile /etc/caddy/Caddyfile
-COPY --link docker/frankenphp/Caddyfile.dev /etc/caddy/Caddyfile.dev
-
 ENTRYPOINT ["docker-php-entrypoint"]
 
 WORKDIR /app
@@ -232,15 +225,14 @@ ENV XDEBUG_MODE=off
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 COPY --link --chmod=755 docker/frankenphp/docker-php-entrypoint-dev /usr/local/bin/docker-php-entrypoint
+COPY --link docker/frankenphp/conf.d/app.dev.ini ${PHP_INI_DIR}/conf.d/zz-app.ini
+COPY --link docker/frankenphp/Caddyfile.dev /etc/frankenphp/Caddyfile
 
-COPY --link docker/frankenphp/conf.d/app.dev.ini ${PHP_INI_DIR}/conf.d/
-
-CMD [ "frankenphp", "run", "--config", "/etc/caddy/Caddyfile.dev" ]
+CMD ["--config", "/etc/frankenphp/Caddyfile", "--adapter", "caddyfile"]
 
 USER php
 
 VOLUME /app
-
 
 #############
 # Php - Dev #
