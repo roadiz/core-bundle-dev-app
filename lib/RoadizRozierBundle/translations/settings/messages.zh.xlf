@@ -10,18 +10,9 @@
                 <source>Switch maintenance mode. Only login page will be available for public requests.</source>
                 <target state="final">切换维护模式。只有登录页面会回应公开请求。</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style.description" approved="yes">
-                <source>Default maps tiles layout when using *Google Maps*.</source>
-                <target state="final">当使用 *Google Maps* 时的默认地图图层布局。</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="max_versions_showed.description" approved="yes">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target state="final">操作菜单中显示的最大版本数计数。</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="hide_roadiz_version.help" approved="yes">
-                <source>hide_roadiz_version.help</source>
-                <target state="final">在回应头及主题变量中隐藏 Roadiz 版本和名称。</target>
-                <note>Setting</note>
             </trans-unit>
       <trans-unit xml:space="preserve" id="use_native_json" approved="yes">
                 <source>use_native_json</source>
