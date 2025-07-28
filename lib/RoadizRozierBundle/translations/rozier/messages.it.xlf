@@ -2998,10 +2998,6 @@
         <source>link.folders</source>
         <target state="final">Unisci a cartella/e</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location" approved="yes">
-        <source>maps_default_location</source>
-        <target state="final">Posizione di mappatura predefinita</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="maps_style" approved="yes">
         <source>maps_style</source>
         <target state="final">Stile predefinito di Google Maps</target>
