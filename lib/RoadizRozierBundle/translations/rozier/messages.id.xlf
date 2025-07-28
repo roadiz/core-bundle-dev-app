@@ -2999,10 +2999,6 @@
         <source>link.folders</source>
         <target state="final">Tautan ke folder (s)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location" approved="yes">
-        <source>maps_default_location</source>
-        <target state="final">Map Lokasi Standar</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="maps_style" approved="yes">
         <source>maps_style</source>
         <target state="final">Gaya Google Map Standar</target>
