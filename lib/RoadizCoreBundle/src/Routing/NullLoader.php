@@ -10,7 +10,7 @@ use Symfony\Component\Config\Loader\LoaderResolverInterface;
 final class NullLoader implements LoaderInterface
 {
     #[\Override]
-    public function load(mixed $resource, ?string $type = null): mixed
+    public function load(mixed $resource, ?string $type = null): null
     {
         return null;
     }
@@ -22,14 +22,13 @@ final class NullLoader implements LoaderInterface
     }
 
     #[\Override]
-    public function getResolver(): ?LoaderResolverInterface
+    public function getResolver(): LoaderResolverInterface
     {
-        return null;
+        throw new \LogicException('This loader does not support a resolver.');
     }
 
     #[\Override]
-    public function setResolver(LoaderResolverInterface $resolver): self
+    public function setResolver(LoaderResolverInterface $resolver): void
     {
-        return $this;
     }
 }

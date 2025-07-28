@@ -11,7 +11,6 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrength;
 use RZ\Roadiz\Core\AbstractEntities\AbstractHuman;
 use RZ\Roadiz\CoreBundle\Repository\UserRepository;
 use RZ\Roadiz\CoreBundle\Security\User\AdvancedUserInterface;
@@ -48,17 +47,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * password.
      */
     public const int CONFIRMATION_TTL = 900;
-
-    #[ORM\Column(type: 'string', length: 200, unique: true, nullable: false)]
-    #[Serializer\Groups(['user_personal', 'human'])]
-    #[Assert\NotNull]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 200)]
-    #[Assert\Email]
-    #[ApiFilter(OrderFilter::class)]
-    #[ApiFilter(SearchFilter::class)]
-    /** @phpstan-ignore-next-line */
-    protected ?string $email = null;
 
     #[Serializer\Ignore]
     protected bool $sendCreationConfirmationEmail = false;
@@ -103,9 +91,11 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * Plain password. Used for model validation.
      * **Must not be persisted.**.
      */
-    #[PasswordStrength(minStrength: 3, minLength: 12)]
     #[Serializer\Groups(['user:write'])]
+    #[Assert\Length(min: 12, max: 120)]
     #[Assert\NotBlank(groups: ['no_empty_password'])]
+    #[Assert\PasswordStrength(minScore: Assert\PasswordStrength::STRENGTH_MEDIUM, groups: ['no_empty_password'])]
+    #[Assert\NotCompromisedPassword(groups: ['no_empty_password'])]
     private ?string $plainPassword = null;
 
     #[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
@@ -206,12 +196,9 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
-        return $this->username;
+        return !empty($this->username) ? $this->username : throw new \LogicException('Username cannot be empty.');
     }
 
-    /**
-     * @return string $username
-     */
     public function getUsername(): string
     {
         return $this->username;
@@ -370,9 +357,9 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * Removes sensitive data from the user.
      */
     #[\Override]
-    public function eraseCredentials(): User
+    public function eraseCredentials(): void
     {
-        return $this->setPlainPassword('');
+        $this->setPlainPassword('');
     }
 
     /**

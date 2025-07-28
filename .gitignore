@@ -172,3 +172,4 @@ fabric.properties
 /compose.override.yml
 /compose.override.yaml
 /siege.txt
+/auth.json

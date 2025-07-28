@@ -29,9 +29,7 @@ services:
             $hideRoadizVersion: '%roadiz_core.hide_roadiz_version%'
             $inheritanceType: '%roadiz_core.inheritance_type%'
             $maxPixelSize: '%rz_intervention_request.max_pixel_size%'
-            $appNamespace: '%roadiz_core.app_namespace%'
             $projectDir: '%kernel.project_dir%'
-            $exportDir: '%kernel.project_dir%/var/export'
             $generatedEntitiesDir: '%roadiz_core.generated_entities_dir%'
             $apiResourcesDir: '%kernel.project_dir%/config/api_resources'
             $nodeTypesDir: '%kernel.project_dir%/config/node_types'
@@ -444,8 +442,6 @@ services:
     Gedmo\Loggable\LoggableListener:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
-        calls:
-            - [ setAnnotationReader, [ "@annotation_reader" ] ]
 
     Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface:
         alias: 'assets.empty_version_strategy'

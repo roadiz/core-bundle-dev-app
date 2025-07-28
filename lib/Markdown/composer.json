@@ -6,7 +6,7 @@
         "php": ">=8.3",
         "doctrine/collections": ">=1.6",
         "league/commonmark": "^2.2.0",
-        "symfony/stopwatch": "6.4.*",
+        "symfony/stopwatch": "7.3.*",
         "twig/twig": "^3.21"
     },
     "require-dev": {

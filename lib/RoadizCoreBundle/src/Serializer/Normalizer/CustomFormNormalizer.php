@@ -12,35 +12,30 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
  */
 final class CustomFormNormalizer extends AbstractPathNormalizer
 {
-    /**
-     * @return array|\ArrayObject|bool|float|int|mixed|string|null
-     *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
     #[\Override]
-    public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = $this->decorated->normalize($object, $format, $context);
-        if ($object instanceof CustomForm && is_array($data)) {
-            $data['name'] = $object->getDisplayName();
-            $data['color'] = $object->getColor();
-            $data['description'] = $object->getDescription();
-            $data['slug'] = (new AsciiSlugger())->slug($object->getName())->snake()->toString();
-            $data['open'] = $object->isFormStillOpen();
+        $normalized = $this->decorated->normalize($data, $format, $context);
+        if ($data instanceof CustomForm && is_array($normalized)) {
+            $normalized['name'] = $data->getDisplayName();
+            $normalized['color'] = $data->getColor();
+            $normalized['description'] = $data->getDescription();
+            $normalized['slug'] = (new AsciiSlugger())->slug($data->getName())->snake()->toString();
+            $normalized['open'] = $data->isFormStillOpen();
 
             if (
                 isset($context['groups'])
                 && \in_array('urls', $context['groups'], true)
             ) {
-                $data['definitionUrl'] = $this->urlGenerator->generate('api_custom_forms_item_definition', [
-                    'id' => $object->getId(),
+                $normalized['definitionUrl'] = $this->urlGenerator->generate('api_custom_forms_item_definition', [
+                    'id' => $data->getId(),
                 ]);
-                $data['postUrl'] = $this->urlGenerator->generate('api_custom_forms_item_post', [
-                    'id' => $object->getId(),
+                $normalized['postUrl'] = $this->urlGenerator->generate('api_custom_forms_item_post', [
+                    'id' => $data->getId(),
                 ]);
             }
         }
 
-        return $data;
+        return $normalized;
     }
 }

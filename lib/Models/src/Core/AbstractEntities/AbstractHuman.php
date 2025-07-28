@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\Core\AbstractEntities;
 
+use ApiPlatform\Doctrine\Orm\Filter\OrderFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -23,14 +26,15 @@ abstract class AbstractHuman implements DateTimedInterface, PersistableInterface
     use SequentialIdTrait;
     use DateTimedTrait;
 
-    #[
-        ORM\Column(type: 'string', length: 200, unique: true),
-        Serializer\Groups(['user_personal', 'human']),
-        Assert\NotNull(),
-        Assert\NotBlank(),
-        Assert\Length(max: 200),
-        Assert\Email()
-    ]
+    #[ORM\Column(type: 'string', length: 200, unique: true, nullable: false)]
+    #[Serializer\Groups(['user_personal', 'human'])]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 200)]
+    #[Assert\Email]
+    #[ApiFilter(OrderFilter::class)]
+    #[ApiFilter(SearchFilter::class)]
+    // @phpstan-ignore-next-line
     protected ?string $email = null;
 
     /**

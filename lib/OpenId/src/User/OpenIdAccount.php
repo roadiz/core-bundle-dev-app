@@ -202,7 +202,7 @@ class OpenIdAccount implements UserInterface, EquatableInterface
     #[\Override]
     public function getUserIdentifier(): string
     {
-        return $this->getEmail() ?? '';
+        return !empty($this->getEmail()) ? $this->getEmail() : throw new \LogicException('User identifier cannot be null');
     }
 
     #[\Override]

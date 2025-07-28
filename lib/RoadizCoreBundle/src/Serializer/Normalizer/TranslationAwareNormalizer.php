@@ -29,13 +29,8 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
     ) {
     }
 
-    /**
-     * @return array|\ArrayObject|bool|float|int|string|null
-     *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
     #[\Override]
-    public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if ($object instanceof WebResponseInterface) {
             $item = $object->getItem();
@@ -111,6 +106,7 @@ final class TranslationAwareNormalizer implements NormalizerInterface, Normalize
         return true;
     }
 
+    #[\Override]
     public function getSupportedTypes(?string $format): array
     {
         return [

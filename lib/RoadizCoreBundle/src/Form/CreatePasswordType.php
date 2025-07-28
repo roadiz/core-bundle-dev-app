@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\Form;
 
-use Rollerworks\Component\PasswordCommonList\Constraints\NotInPasswordCommonList;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\OptionsResolver\Options;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 
 final class CreatePasswordType extends RepeatedType
 {
@@ -22,7 +22,9 @@ final class CreatePasswordType extends RepeatedType
             'invalid_message' => 'password.must.match',
             'options' => [
                 'constraints' => [
-                    new NotInPasswordCommonList(),
+                    new Assert\Length(min: 8, max: 120),
+                    new Assert\NotCompromisedPassword(),
+                    new Assert\PasswordStrength(minScore: Assert\PasswordStrength::STRENGTH_MEDIUM),
                 ],
             ],
             'first_options' => [

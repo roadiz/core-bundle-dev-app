@@ -20,20 +20,22 @@
     "require": {
         "php": ">=8.3",
         "doctrine/orm": "~2.20.0",
+        "api-platform/doctrine-orm": "^4.1.18",
+        "api-platform/metadata": "^4.1.18",
         "roadiz/nodetype-contracts": "^3.0.0",
-        "symfony/string": "6.4.*",
+        "symfony/string": "7.3.*",
         "symfony/translation-contracts": "^3.0",
-        "symfony/http-foundation": "6.4.*",
-        "symfony/serializer": "6.4.*",
-        "symfony/uid": "6.4.*",
-        "symfony/validator": "6.4.*"
+        "symfony/http-foundation": "7.3.*",
+        "symfony/serializer": "7.3.*",
+        "symfony/uid": "7.3.*",
+        "symfony/validator": "7.3.*"
     },
     "require-dev": {
         "doctrine/doctrine-bundle": "^2.8.1",
         "php-coveralls/php-coveralls": "^2.4",
         "phpstan/phpstan": "^1.5.3",
         "phpstan/phpdoc-parser": "<2",
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.6"
     },
     "autoload": {
         "psr-4": {

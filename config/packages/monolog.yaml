@@ -1,5 +1,6 @@
 monolog:
     channels:
+        - searchEngine
         - deprecation # Deprecations are logged in the dedicated "deprecation" channel when it exists
 
 when@dev:

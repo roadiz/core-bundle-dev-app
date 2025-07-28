@@ -329,6 +329,7 @@ class NSMock extends NodesSources
     /**
      * Bar documents field.
      * Maecenas sed diam eget risus varius blandit sit amet non magna.
+     * @var \mock\Entity\Document[]|null
      * (Virtual field, this var is a buffer)
      */
     #[Serializer\SerializedName(serializedName: 'bar')]

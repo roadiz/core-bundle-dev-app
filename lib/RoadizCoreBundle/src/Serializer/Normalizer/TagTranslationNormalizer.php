@@ -14,18 +14,13 @@ use RZ\Roadiz\Documents\Models\DocumentInterface;
  */
 final class TagTranslationNormalizer extends AbstractPathNormalizer
 {
-    /**
-     * @return array|\ArrayObject|bool|float|int|mixed|string|null
-     *
-     * @throws \Symfony\Component\Serializer\Exception\ExceptionInterface
-     */
     #[\Override]
-    public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
-        $data = $this->decorated->normalize($object, $format, $context);
+        $normalized = $this->decorated->normalize($data, $format, $context);
         if (
-            $object instanceof Tag
-            && is_array($data)
+            $data instanceof Tag
+            && is_array($normalized)
             && isset($context['translation'])
             && $context['translation'] instanceof TranslationInterface
         ) {
@@ -35,21 +30,21 @@ final class TagTranslationNormalizer extends AbstractPathNormalizer
             /*
              * Always falls back on default translation if no translation is found for Tags entities
              */
-            $translatedData = $object->getTranslatedTagsByTranslation($context['translation'])->first() ?:
-                $object->getTranslatedTagsByDefaultTranslation();
+            $translatedData = $data->getTranslatedTagsByTranslation($context['translation'])->first() ?:
+                $data->getTranslatedTagsByDefaultTranslation();
             if ($translatedData instanceof TagTranslation) {
-                $data['name'] = $translatedData->getName();
-                $data['description'] = $translatedData->getDescription();
+                $normalized['name'] = $translatedData->getName();
+                $normalized['description'] = $translatedData->getDescription();
 
                 if (\in_array('tag_documents', $serializationGroups, true)) {
                     $documentsContext = $context;
                     $documentsContext['groups'] = ['document_display'];
-                    $data['documents'] = array_map(fn (DocumentInterface $document) => $this->decorated->normalize($document, $format, $documentsContext), $translatedData->getDocuments());
+                    $normalized['documents'] = array_map(fn (DocumentInterface $document) => $this->decorated->normalize($document, $format, $documentsContext), $translatedData->getDocuments());
                 }
             }
             $this->stopwatch->stop('normalizeTag');
         }
 
-        return $data;
+        return $normalized;
     }
 }

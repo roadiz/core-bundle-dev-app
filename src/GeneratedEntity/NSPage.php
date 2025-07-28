@@ -81,6 +81,7 @@ class NSPage extends NodesSources
 
     /**
      * Images.
+     * @var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null
      * (Virtual field, this var is a buffer)
      */
     #[Serializer\SerializedName(serializedName: 'images')]
@@ -92,6 +93,7 @@ class NSPage extends NodesSources
     /**
      * Header image.
      * Group: Images.
+     * @var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null
      * (Virtual field, this var is a buffer)
      */
     #[Serializer\SerializedName(serializedName: 'headerImage')]
@@ -113,6 +115,7 @@ class NSPage extends NodesSources
      * Pictures.
      * Picture for website.
      * Group: Images.
+     * @var \RZ\Roadiz\CoreBundle\Model\DocumentDto[]|null
      * (Virtual field, this var is a buffer)
      */
     #[Serializer\SerializedName(serializedName: 'pictures')]

@@ -6,7 +6,7 @@ test:
 	docker compose run --no-deps --rm --entrypoint= app vendor/bin/monorepo-builder validate
 	make phpstan
 	make rector_test
-	docker compose run --no-deps --rm --entrypoint= -e "XDEBUG_MODE=coverage" app vendor/bin/phpunit -v
+	docker compose run --no-deps --rm --entrypoint= -e "SYMFONY_DEPRECATIONS_HELPER=max[total]=999999" -e "XDEBUG_MODE=coverage" app vendor/bin/phpunit -v
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" vendor/bin/php-cs-fixer fix --ansi -vvv
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/Documents/src/Resources/views
 	docker compose run --no-deps --rm --entrypoint= app php -d "memory_limit=-1" bin/console lint:twig ./lib/RoadizCoreBundle/templates

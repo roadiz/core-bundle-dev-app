@@ -24,9 +24,9 @@
         "api-platform/symfony": "^4.1.18",
         "doctrine/orm": "~2.20.0",
         "roadiz/core-bundle": "2.6.x-dev",
-        "symfony/framework-bundle": "6.4.*",
-        "symfony/lock": "6.4.*",
-        "symfony/rate-limiter": "6.4.*"
+        "symfony/framework-bundle": "7.3.*",
+        "symfony/lock": "7.3.*",
+        "symfony/rate-limiter": "7.3.*"
     },
     "require-dev": {
         "php-coveralls/php-coveralls": "^2.4",

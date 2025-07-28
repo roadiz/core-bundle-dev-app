@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 final readonly class PreviewUser implements UserInterface
 {
     public function __construct(
+        /** @var non-empty-string */
         private string $username,
         private array $roles = [],
     ) {
