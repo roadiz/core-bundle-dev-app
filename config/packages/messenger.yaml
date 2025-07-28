@@ -2,6 +2,7 @@ framework:
     messenger:
         # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
         # failure_transport: failed
+
         transports:
             # https://symfony.com/doc/current/messenger.html#transport-configuration
             async:
@@ -24,3 +25,11 @@ framework:
 #                async: 'sync://'
 #                failed: 'sync://'
 #                sync: 'sync://'
+
+when@test:
+   framework:
+       messenger:
+           transports:
+               # replace with your transport name here (e.g., my_transport: 'in-memory://')
+               # For more Messenger testing tools, see https://github.com/zenstruck/messenger-test
+               async: 'in-memory://'
