@@ -10,18 +10,9 @@
                 <source>Switch maintenance mode. Only login page will be available for public requests.</source>
                 <target state="final">Switch maintenance mode. Only login page will be available for public requests.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style.description" approved="yes">
-                <source>Default maps tiles layout when using *Google Maps*.</source>
-                <target state="final">Default maps tiles layout when using *Google Maps*.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="max_versions_showed.description" approved="yes">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target state="final">Maximum versions count showed in actions menu.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="hide_roadiz_version.help" approved="yes">
-                <source>hide_roadiz_version.help</source>
-                <target state="final">Hide Roadiz version and name from any response headers and theme variables.</target>
-                <note>Setting</note>
             </trans-unit>
       <trans-unit xml:space="preserve" id="use_native_json" approved="yes">
                 <source>use_native_json</source>
