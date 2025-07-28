@@ -44,7 +44,9 @@
 ## Upgrade you project code base for Symfony 7.3
 
 - Remove `security.enable_authenticator_manager` option from your `config/packages/security.yaml`
-- Remove any routes using annotations
+- Doctrine annotation have been removed:
+  - Switch all Doctrine entity mappings from `type: annotation` to `type: attribute`
+  - Remove any routes using `type: annotation`
 - All `Normalizer` classes must comply to the new method signatures for `normalize`, `supportsNormalization`, `supportsDenormalization` methods: `public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null`
 ```diff
 -public function normalize(mixed $object, ?string $format = null, array $context = []): mixed
