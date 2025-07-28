@@ -51,6 +51,15 @@ final readonly class DocumentDtoNormalizer implements NormalizerInterface
         $this->stopwatch->start('normalizeDocumentDto', 'serializer');
 
         /*
+         * If no @id is set, we set it to /api/documents/{dtoId} to ensure compatibility with frontend and API consumers.
+         */
+        if (!array_key_exists('@id', $normalized) && null !== $data->getId()) {
+            $normalized = [
+                '@id' => '/api/documents/'.$data->getId(),
+                ...$normalized,
+            ];
+        }
+        /*
          * If no @type is set, we set it to Document to ensure compatibility with frontend and API consumers.
          */
         if (!array_key_exists('@type', $normalized)) {
