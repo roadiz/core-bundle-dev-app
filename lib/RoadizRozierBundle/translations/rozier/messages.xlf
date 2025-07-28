@@ -864,7 +864,6 @@
             <trans-unit xml:space="preserve" id="lastest.version.installed"><source>lastest.version.installed</source></trans-unit>
             <trans-unit xml:space="preserve" id="latest.node-sources.updates"><source>latest.node-sources.updates</source></trans-unit>
             <trans-unit xml:space="preserve" id="link.folders"><source>link.folders</source></trans-unit>
-            <trans-unit xml:space="preserve" id="maps_style"><source>maps_style</source></trans-unit>
             <trans-unit xml:space="preserve" id="metadataCache"><source>metadataCache</source></trans-unit>
             <trans-unit xml:space="preserve" id="minute"><source>minute</source></trans-unit>
             <trans-unit xml:space="preserve" id="month"><source>month</source></trans-unit>
@@ -1037,7 +1036,6 @@
             <trans-unit xml:space="preserve" id="folder.does_not_exist"><source>folder.does_not_exist</source></trans-unit>
             <trans-unit xml:space="preserve" id="pinterest_url"><source>pinterest_url</source></trans-unit>
 
-            <trans-unit xml:space="preserve" id="use_cdn"><source>use_cdn</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache"><source>nodeSourcesUrlsCache</source></trans-unit>
             <trans-unit xml:space="preserve" id="translation.locale.alreadyExists"><source>translation.locale.alreadyExists</source></trans-unit>
             <trans-unit xml:space="preserve" id="translation.override_locale.alreadyExists"><source>translation.override_locale.alreadyExists</source></trans-unit>
@@ -1267,7 +1265,6 @@
             <trans-unit xml:space="preserve" id="manage.decorators"><source>manage.decorators</source><note>Button label, for manage node-type-decorators</note></trans-unit>
             <trans-unit xml:space="preserve" id="export.documentation"><source>export.documentation</source><note>Button label, for exporting node-type Markdown documentation</note></trans-unit>
             <trans-unit xml:space="preserve" id="export.typescript_declaration"><source>export.typescript_declaration</source><note>Button label, for exporting node-types into a TypeScript declaration file.</note></trans-unit>
-            <trans-unit xml:space="preserve" id="hide_roadiz_version"><source>hide_roadiz_version</source><note>Setting</note></trans-unit>
             <trans-unit xml:space="preserve" id="exact_search"><source>exact_search</source><note>Node search page, search exact query</note></trans-unit>
             <trans-unit xml:space="preserve" id="login_with_openid"><source>login_with_openid</source><note>Default login button label for OpenID</note></trans-unit>
 
