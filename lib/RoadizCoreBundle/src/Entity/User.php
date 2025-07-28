@@ -11,7 +11,6 @@ use ApiPlatform\Serializer\Filter\PropertyFilter;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Rollerworks\Component\PasswordStrength\Validator\Constraints\PasswordStrength;
 use RZ\Roadiz\Core\AbstractEntities\AbstractHuman;
 use RZ\Roadiz\CoreBundle\Repository\UserRepository;
 use RZ\Roadiz\CoreBundle\Security\User\AdvancedUserInterface;
@@ -92,8 +91,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      * Plain password. Used for model validation.
      * **Must not be persisted.**.
      */
-    #[PasswordStrength(minStrength: 3, minLength: 12)]
     #[Serializer\Groups(['user:write'])]
+    #[Assert\Length(min: 12, max: 120)]
     #[Assert\NotBlank(groups: ['no_empty_password'])]
     #[Assert\PasswordStrength(minScore: Assert\PasswordStrength::STRENGTH_MEDIUM, groups: ['no_empty_password'])]
     #[Assert\NotCompromisedPassword(groups: ['no_empty_password'])]
