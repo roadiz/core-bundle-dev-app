@@ -3300,10 +3300,6 @@
         <source>link.folders</source>
         <target state="final">Lier au(x) dossier(s)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style" approved="yes">
-        <source>maps_style</source>
-        <target state="final">Style par défaut Google Maps</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="metadataCache" approved="yes">
         <source>metadataCache</source>
         <target state="final">Cache des méta-données</target>
@@ -3954,10 +3950,6 @@
       <trans-unit xml:space="preserve" id="pinterest_url" approved="yes">
         <source>pinterest_url</source>
         <target state="final">Url Pinterest</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="use_cdn" approved="yes">
-        <source>use_cdn</source>
-        <target state="final">Utiliser un CDN pour les ressources</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache" approved="yes">
         <source>nodeSourcesUrlsCache</source>
@@ -4794,11 +4786,6 @@
         <source>export.typescript_declaration</source>
         <target state="final">Exporter les déclarations Typescript</target>
         <note>Button label, for exporting node-types into a TypeScript declaration file.</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="hide_roadiz_version" approved="yes">
-        <source>hide_roadiz_version</source>
-        <target state="final">Cacher la version de Roadiz</target>
-        <note>Setting</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="exact_search" approved="yes">
         <source>exact_search</source>
