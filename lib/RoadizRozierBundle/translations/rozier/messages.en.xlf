@@ -3300,10 +3300,6 @@
         <source>link.folders</source>
         <target state="final">Link to folder(s)</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location" approved="yes">
-        <source>maps_default_location</source>
-        <target state="final">Maps default location</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="maps_style" approved="yes">
         <source>maps_style</source>
         <target state="final">Default Google Maps styles</target>
@@ -4693,11 +4689,6 @@
         <source>google_tag_manager_id</source>
         <target state="final">Google Tag Manager - Container ID</target>
         <note>Google Tag Manager setting name.</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="leaflet_map_tile_url" approved="yes">
-        <source>leaflet_map_tile_url</source>
-        <target state="final">Leaflet - Map tiles URL</target>
-        <note>Leaflet Map tile URL setting name.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="twitter_access_token" approved="yes">
         <source>twitter_access_token</source>
