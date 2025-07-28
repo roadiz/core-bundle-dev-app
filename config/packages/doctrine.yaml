@@ -7,12 +7,12 @@ doctrine:
         auto_generate_proxy_classes: true
         default_entity_manager: default
         enable_lazy_ghost_objects: true
-        report_fields_where_declared: true
-        validate_xml_mapping: true
         entity_managers:
             # Put `logger` entity manager first to select it as default for Log entity
             logger:
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                report_fields_where_declared: true
+                validate_xml_mapping: true
                 mappings:
                     RoadizCoreLogger:
                         is_bundle: false
@@ -25,6 +25,8 @@ doctrine:
                     string_functions:
                         JSON_CONTAINS: Scienta\DoctrineJsonFunctions\Query\AST\Functions\Mysql\JsonContains
                 naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+                report_fields_where_declared: true
+                validate_xml_mapping: true
                 auto_mapping: true
                 mappings:
                     ## Keep RoadizCoreLogger to avoid migrations overlap since we are using

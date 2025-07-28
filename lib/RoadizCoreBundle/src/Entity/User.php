@@ -49,17 +49,6 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
      */
     public const int CONFIRMATION_TTL = 900;
 
-    #[ORM\Column(type: 'string', length: 200, unique: true, nullable: false)]
-    #[Serializer\Groups(['user_personal', 'human'])]
-    #[Assert\NotNull]
-    #[Assert\NotBlank]
-    #[Assert\Length(max: 200)]
-    #[Assert\Email]
-    #[ApiFilter(OrderFilter::class)]
-    #[ApiFilter(SearchFilter::class)]
-    /** @phpstan-ignore-next-line */
-    protected ?string $email = null;
-
     #[Serializer\Ignore]
     protected bool $sendCreationConfirmationEmail = false;
 
