@@ -3002,10 +3002,6 @@
         <source>link.folders</source>
         <target state="final">Klasör(ler)e bağlantıla</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location" approved="yes">
-        <source>maps_default_location</source>
-        <target state="final">Haritanın varsayılan lokasyonu</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="maps_style" approved="yes">
         <source>maps_style</source>
         <target state="final">Varsayılan Google Maps stili</target>
