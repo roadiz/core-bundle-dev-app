@@ -95,6 +95,8 @@ class User extends AbstractHuman implements UserInterface, AdvancedUserInterface
     #[PasswordStrength(minStrength: 3, minLength: 12)]
     #[Serializer\Groups(['user:write'])]
     #[Assert\NotBlank(groups: ['no_empty_password'])]
+    #[Assert\PasswordStrength(minScore: Assert\PasswordStrength::STRENGTH_MEDIUM, groups: ['no_empty_password'])]
+    #[Assert\NotCompromisedPassword(groups: ['no_empty_password'])]
     private ?string $plainPassword = null;
 
     #[ORM\Column(name: 'last_login', type: 'datetime', nullable: true)]
