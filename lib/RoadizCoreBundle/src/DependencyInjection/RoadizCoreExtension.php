@@ -57,6 +57,10 @@ class RoadizCoreExtension extends Extension
         $container->setParameter('roadiz_core.health_check_token', $config['healthCheckToken']);
         $container->setParameter('roadiz_core.inheritance_type', $config['inheritance']['type']);
         $container->setParameter('roadiz_core.max_versions_showed', $config['maxVersionsShowed']);
+        $container->setParameter('roadiz_core.custom_public_scheme', $config['customPublicScheme']);
+        $container->setParameter('roadiz_core.custom_preview_scheme', $config['customPreviewScheme']);
+        $container->setParameter('roadiz_core.leaflet_map_tile_url', $config['leafletMapTileUrl']);
+        $container->setParameter('roadiz_core.maps_default_location', $config['mapsDefaultLocation']);
         $container->setParameter('roadiz_core.static_domain_name', $config['staticDomainName'] ?? '');
         $container->setParameter('roadiz_core.default_node_source_controller', $config['defaultNodeSourceController']);
         $container->setParameter('roadiz_core.default_node_source_controller_namespace', $config['defaultNodeSourceControllerNamespace']);

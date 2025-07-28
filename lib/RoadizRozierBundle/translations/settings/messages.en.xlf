@@ -111,26 +111,6 @@
                 <target state="final">Restrict your Open ID / OAuth2 scopes. Write scopes separated with spaces. If you leave it empty, OpenID connection will try to request all available scopes from Discovery document.</target>
                 <note>Setting description</note>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="custom_preview_scheme" approved="yes">
-                <source>custom_preview_scheme</source>
-                <target state="final">Custom preview scheme</target>
-                <note>Setting name</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="custom_preview_scheme.help" approved="yes">
-                <source>custom_preview_scheme.help</source>
-                <target state="final">Replace "?_preview=1" query string to preview website content with a dedicated domain name. It can be useful when using *headless* Roadiz version.</target>
-                <note>Setting description</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="custom_public_scheme" approved="yes">
-                <source>custom_public_scheme</source>
-                <target state="final">Custom public scheme</target>
-                <note>Setting name</note>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="custom_public_scheme.help" approved="yes">
-                <source>custom_public_scheme.help</source>
-                <target state="final">Replace your public website URL with a dedicated domain name. It can be useful when using *headless* Roadiz version.</target>
-                <note>Setting description</note>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="use_typed_node_names" approved="yes">
                 <source>use_typed_node_names</source>
                 <target state="final">Use typed node names</target>

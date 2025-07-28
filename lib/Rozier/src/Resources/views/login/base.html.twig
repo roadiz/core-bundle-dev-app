@@ -22,8 +22,8 @@
                             {% if app.request.basePath %}
                                 {% set publicUrl = app.request.basePath %}
                             {% endif %}
-                            {% if bags.settings.get('custom_public_scheme') %}
-                                {% set publicUrl = bags.settings.get('custom_public_scheme') %}
+                            {% if custom_public_scheme %}
+                                {% set publicUrl = custom_public_scheme %}
                             {% endif %}
                             <a id="frontend-home-link"
                                title="{% trans %}see.website{% endtrans %}"

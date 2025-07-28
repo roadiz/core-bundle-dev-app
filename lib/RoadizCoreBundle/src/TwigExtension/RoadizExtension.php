@@ -26,6 +26,10 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
         private readonly bool $hideRoadizVersion,
         private readonly int $maxVersionsShowed,
         private readonly ?string $helpExternalUrl,
+        private readonly ?string $customPublicScheme,
+        private readonly ?string $customPreviewScheme,
+        private readonly ?string $leafletMapTileUrl,
+        private readonly ?string $mapsDefaultLocation,
     ) {
     }
 
@@ -53,6 +57,10 @@ final class RoadizExtension extends AbstractExtension implements GlobalsInterfac
             'main_color' => $this->settingsBag->get('main_color'),
             'support_email_address' => $this->settingsBag->get('support_email_address'),
             'email_disclaimer' => $this->settingsBag->get('email_disclaimer'),
+            'custom_public_scheme' => $this->customPublicScheme,
+            'custom_preview_scheme' => $this->customPreviewScheme,
+            'leaflet_map_tile_url' => $this->leafletMapTileUrl,
+            'maps_default_location' => $this->mapsDefaultLocation,
             'email_header_image' => $emailHeaderImage,
             'meta' => [
                 'siteName' => $this->settingsBag->get('site_name'),

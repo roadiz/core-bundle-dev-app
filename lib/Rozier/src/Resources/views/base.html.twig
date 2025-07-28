@@ -89,8 +89,8 @@
                 'ajaxToken':         '{{ csrf_token(constant('Themes\\Rozier\\AjaxControllers\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}',
                 'mainColor':         '{{ main_color }}',
                 'mapsStyle':         {% if head.mapsStyle %}{{ head.mapsStyle|raw }}{% else %}[]{% endif %},
-                'leafletMapTileUrl': '{{ bags.settings.get('leaflet_map_tile_url')|default('https://{s}.tile.osm.org/{z}/{x}/{y}.png') }}',
-                'defaultMapLocation': {{ bags.settings.get('maps_default_location')|default('null')|raw }},
+                'leafletMapTileUrl': '{{ leaflet_map_tile_url }}',
+                'defaultMapLocation': {{ maps_default_location|raw }},
                 'messages': {
                     'login':                  '{{ 'login'|trans|trim|escape }}',
                     'sessionExpireTitle':     '{{ 'session.expire.title'|trans|trim|escape }}',

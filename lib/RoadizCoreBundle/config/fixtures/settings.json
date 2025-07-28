@@ -11,30 +11,6 @@
         "defaultValues": ""
     },
     {
-        "name": "leaflet_map_tile_url",
-        "value": "https:\/\/{s}.tile.osm.org\/{z}\/{x}\/{y}.png",
-        "description": "Default maps tiles layout when using *Leaflet*.",
-        "visible": true,
-        "settingGroup": {
-            "name": "Development",
-            "inMenu": true
-        },
-        "type": 0,
-        "defaultValues": ""
-    },
-    {
-        "name": "maps_default_location",
-        "value": "{\"lat\":45.769785, \"lng\":4.833967, \"zoom\":14}",
-        "description": "Default maps marker location.",
-        "visible": true,
-        "settingGroup": {
-            "name": "Development",
-            "inMenu": true
-        },
-        "type": 23,
-        "defaultValues": ""
-    },
-    {
         "name": "openid_button_label",
         "description": "openid_button_label.help",
         "visible": true,
@@ -227,26 +203,6 @@
         },
         "type": 0,
         "defaultValues": ""
-    },
-    {
-        "name": "custom_preview_scheme",
-        "description": "custom_preview_scheme.help",
-        "visible": true,
-        "settingGroup": {
-            "name": "Site information",
-            "inMenu": true
-        },
-        "type": 0
-    },
-    {
-        "name": "custom_public_scheme",
-        "description": "custom_public_scheme.help",
-        "visible": true,
-        "settingGroup": {
-            "name": "Site information",
-            "inMenu": true
-        },
-        "type": 0
     },
     {
         "name": "dashboard_iframe",

@@ -49,6 +49,10 @@ services:
             $helpExternalUrl: '%roadiz_core.help_external_url%'
             $forceLocale: '%roadiz_core.force_locale%'
             $forceLocaleWithUrlAlias: '%roadiz_core.force_locale_with_url_aliases%'
+            $customPublicScheme: '%roadiz_core.custom_public_scheme%'
+            $customPreviewScheme: '%roadiz_core.custom_preview_scheme%'
+            $leafletMapTileUrl: '%roadiz_core.leaflet_map_tile_url%'
+            $mapsDefaultLocation: '%roadiz_core.maps_default_location%'
 
     RZ\Roadiz\CoreBundle\:
         resource: '../src/'

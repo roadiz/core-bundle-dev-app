@@ -2,20 +2,12 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
     <file original="" source-language="en-US" datatype="plaintext">
         <body>
-            <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description">
-                <source>Default maps tiles layout when using *Leaflet*.</source>
-                <target></target>
-            </trans-unit>
             <trans-unit xml:space="preserve" id="login_image.description">
                 <source>Replace random *Splashbase* login images with your own.</source>
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="maintenance_mode.description">
                 <source>Switch maintenance mode. Only login page will be available for public requests.</source>
-                <target></target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="maps_default_location.description">
-                <source>Default maps marker location.</source>
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="maps_style.description">

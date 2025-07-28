@@ -7,7 +7,6 @@ namespace Themes\Rozier\Controllers\Nodes;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Bag\DecoratedNodeTypes;
-use RZ\Roadiz\CoreBundle\Bag\Settings;
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\CoreBundle\Entity\Translation;
@@ -54,7 +53,6 @@ final class NodesSourcesController extends AbstractController
         private readonly JwtExtension $jwtExtension,
         private readonly FormErrorSerializer $formErrorSerializer,
         private readonly DecoratedNodeTypes $nodeTypesBag,
-        private readonly Settings $settingsBag,
         private readonly TranslatorInterface $translator,
         private readonly EventDispatcherInterface $eventDispatcher,
         private readonly FormFactoryInterface $formFactory,
@@ -62,6 +60,8 @@ final class NodesSourcesController extends AbstractController
         private readonly AllStatusesNodesSourcesRepository $allStatusesNodesSourcesRepository,
         private readonly AllStatusesNodeRepository $allStatusesNodeRepository,
         private readonly TranslationRepository $translationRepository,
+        private readonly ?string $customPublicScheme,
+        private readonly ?string $customPreviewScheme,
     ) {
     }
 
@@ -152,17 +152,17 @@ final class NodesSourcesController extends AbstractController
 
                 $jwtToken = $this->jwtExtension->createPreviewJwt();
 
-                if ($this->settingsBag->get('custom_preview_scheme')) {
+                if ($this->customPreviewScheme) {
                     $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
                         RouteObjectInterface::ROUTE_OBJECT => $source,
-                        'canonicalScheme' => $this->settingsBag->get('custom_preview_scheme'),
+                        'canonicalScheme' => $this->customPreviewScheme,
                         'token' => $jwtToken,
                         NodeRouter::NO_CACHE_PARAMETER => true,
                     ], UrlGeneratorInterface::ABSOLUTE_URL);
-                } elseif ($this->settingsBag->get('custom_public_scheme')) {
+                } elseif ($this->customPublicScheme) {
                     $previewUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
                         RouteObjectInterface::ROUTE_OBJECT => $source,
-                        'canonicalScheme' => $this->settingsBag->get('custom_public_scheme'),
+                        'canonicalScheme' => $this->customPublicScheme,
                         '_preview' => 1,
                         'token' => $jwtToken,
                         NodeRouter::NO_CACHE_PARAMETER => true,
@@ -176,10 +176,10 @@ final class NodesSourcesController extends AbstractController
                     ]);
                 }
 
-                if ($this->settingsBag->get('custom_public_scheme')) {
+                if ($this->customPublicScheme) {
                     $publicUrl = $this->generateUrl(RouteObjectInterface::OBJECT_BASED_ROUTE_NAME, [
                         RouteObjectInterface::ROUTE_OBJECT => $source,
-                        'canonicalScheme' => $this->settingsBag->get('custom_public_scheme'),
+                        'canonicalScheme' => $this->customPublicScheme,
                         NodeRouter::NO_CACHE_PARAMETER => true,
                     ], UrlGeneratorInterface::ABSOLUTE_URL);
                 } else {

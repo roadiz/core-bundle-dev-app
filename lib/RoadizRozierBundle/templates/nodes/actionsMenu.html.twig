@@ -64,9 +64,9 @@
                     {% block node_public_urls %}
                         {# Only add preview/see button for Reachable node-types #}
                         {% if source and source.Reachable %}
-                            {% if bags.settings.get('custom_public_scheme') %}
+                            {% if custom_public_scheme %}
                                 {% set publicUrl = url(source, {
-                                    'canonicalScheme': bags.settings.get('custom_public_scheme'),
+                                    'canonicalScheme': custom_public_scheme,
                                     '_no_cache': 1
                                 }) %}
                             {% else %}
@@ -83,15 +83,15 @@
                                 </a>
                             {% endif %}
                             {% if node.published or node.draft or node.pending %}
-                                {% if bags.settings.get('custom_preview_scheme') %}
+                                {% if custom_preview_scheme %}
                                     {% set previewUrl = url(source, {
-                                        'canonicalScheme': bags.settings.get('custom_preview_scheme'),
+                                        'canonicalScheme': custom_preview_scheme,
                                         'token': createPreviewJwt(),
                                         '_no_cache': 1
                                     }) %}
-                                {% elseif bags.settings.get('custom_public_scheme') %}
+                                {% elseif custom_public_scheme %}
                                     {% set previewUrl = url(source, {
-                                        'canonicalScheme': bags.settings.get('custom_public_scheme'),
+                                        'canonicalScheme': custom_public_scheme,
                                         '_preview': 1,
                                         'token': createPreviewJwt(),
                                         '_no_cache': 1

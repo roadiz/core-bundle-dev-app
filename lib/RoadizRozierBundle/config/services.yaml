@@ -7,6 +7,8 @@ services:
         bind:
             $backofficeMenuEntries: '%roadiz_rozier.backoffice_menu_configuration%'
             $documentPlatforms: '%roadiz_core.medias.supported_platforms%'
+            $customPublicScheme: '%roadiz_core.custom_public_scheme%'
+            $customPreviewScheme: '%roadiz_core.custom_preview_scheme%'
             $nodeFormTypeClass: '%roadiz_rozier.node_form.class%'
             $addNodeFormTypeClass: '%roadiz_rozier.add_node_form.class%'
             $googleServerId: '%roadiz_core.medias.google_server_id%'

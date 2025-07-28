@@ -19,7 +19,17 @@
   - All Solr commands must provide a `clientName` argument to `validateSolrState`.
   - `SolrPaginator` renamed to `SearchEnginePaginator`
   - `SolrSearchListManager` renamed to `SearchEngineListManager`
-- `force_locale` and `force_locale_with_urlaliases` Settings have been removed, use `roadiz_core.forceLocale` and `roadiz_core.forceLocaleWithUrlAliases` configuration parameters instead.
+- Removed too technical Roadiz settings in favor of Symfony configuration parameters:
+
+| Old setting name               | Configuration Parameter |
+|:-------------------------------|:-------------------------|
+| `custom_public_scheme`         | `roadiz_core.customPublicScheme` |
+| `custom_preview_scheme`        | `roadiz_core.customPreviewScheme` |
+| `force_locale`                 | `roadiz_core.forceLocale` |
+| `force_locale_with_urlaliases` | `roadiz_core.forceLocaleWithUrlAliases` |
+| `leaflet_map_tile_url`         | `roadiz_core.leafletMapTileUrl` |
+| `maps_default_location`        | `roadiz_core.mapsDefaultLocation` |
+
 - `EmailManager` has been deprecated, use symfony/notifier instead.
 - `email_sender` Setting has been removed, use `framework.mailer.envelope.sender` configuration parameter instead.
 - `EmailManager::getOrigin()` method has been removed, this will use `framework.mailer.envelope.sender` configuration parameter.
@@ -40,9 +50,11 @@
         }
     }
 ```
+- Remove `symfony/proxy-manager-bridge` and `doctrine/annotations` packages, they are no longer required.
 
 ## Upgrade you project code base for Symfony 7.3
 
+- Replace `Symfony\Component\Security\Core\Security` with `Symfony\Bundle\SecurityBundle\Security`
 - Remove `security.enable_authenticator_manager` option from your `config/packages/security.yaml`
 - Doctrine annotation have been removed:
   - Switch all Doctrine entity mappings from `type: annotation` to `type: attribute`
@@ -60,6 +72,32 @@
 -public function supportsDenormalization(mixed $data, string $type, ?string $format = null): bool
 +public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
 ```
+- Replace `Symfony\Component\Messenger\Handler\MessageHandlerInterface` interface with `Symfony\Component\Messenger\Attribute\AsMessageHandler` attribute on your message handlers.
+```diff
++use Symfony\Component\Messenger\Attribute\AsMessageHandler;
+-use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
+
++#[AsMessageHandler]
+-final readonly class RenderErroredMessageHandler implements MessageHandlerInterface
++final readonly class RenderErroredMessageHandler
+```
+
+## Upgrade your Messenger configuration with Scheduler
+
+- Added `scheduler_default` transport to your `messenger.yaml` configuration file.
+```diff
+# config/packages/messenger.yaml
+framework:
+    messenger:
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
++            scheduler_default:
++                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+```
+- Add `#[AsCronTask(expression: '0 3 * * *', jitter: 60, arguments: '--no-debug -n -q')]` to your project cron tasks to run them with the new Scheduler worker.
+- Remove `cron` from your Dockerfile, and compose.yaml
 
 ## Upgrade your API Platform configuration
 
@@ -203,10 +241,14 @@ And remove roles routes from your Roadiz Rozier menu entries:
  # config/packages/roadiz_core.yaml
  roadiz_core:
      # ...
-     # Force displaying translation locale in every generated node-source paths.
-     # This should be enabled if you redirect users based on their language on homepage.
++    # Replace your public website URL with a dedicated domain name. It can be useful when using *headless* Roadiz version.
++    customPublicScheme:   null
++    # Replace "?_preview=1" query string to preview website content with a dedicated domain name. It can be useful when using *headless* Roadiz version.
++    customPreviewScheme:  null
++    # Force displaying translation locale in every generated node-source paths.
++    # This should be enabled if you redirect users based on their language on homepage.
 +    forceLocale: false
-     # Force displaying translation locale in generated node-source paths even if there is an url-alias in it.
++    # Force displaying translation locale in generated node-source paths even if there is an url-alias in it.
 +    forceLocaleWithUrlAliases: false
      # ...
      medias:
