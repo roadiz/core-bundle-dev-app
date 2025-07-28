@@ -6,7 +6,7 @@
     background-color: #EFEFEF;
 }
 
-.document-alignment-widget__inner {
+.document-alignment-widget__image-wrapper {
     position: relative;
     width: 100%;
     height: 100%;
@@ -14,7 +14,10 @@
 
 .document-alignment-widget__area {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     border: 1px solid #fff;
 }
 
@@ -30,37 +33,37 @@
         top: 0;
         left: 0;
     }
-    
+
     &:nth-child(2) { // top-center
         top: 0;
         left: 50%;
     }
-    
+
     &:nth-child(3) { // top-right
         top: 0;
         left: 100%;
     }
-    
+
     &:nth-child(4) { // middle-left
         top: 50%;
         left: 0;
     }
-    
+
     &:nth-child(5) { // middle-right
         top: 50%;
         left: 100%;
     }
-    
+
     &:nth-child(6) { // bottom-left
         top: 100%;
         left: 0;
     }
-    
+
     &:nth-child(7) { // bottom-center
         top: 100%;
         left: 50%;
     }
-    
+
     &:nth-child(8) { // bottom-right
         top: 100%;
         left: 100%;
