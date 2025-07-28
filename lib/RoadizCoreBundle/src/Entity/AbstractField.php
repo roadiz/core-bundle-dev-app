@@ -60,7 +60,8 @@ abstract class AbstractField implements PositionedInterface, PersistableInterfac
         Assert\NotBlank(),
         Assert\NotNull()
     ]
-    protected ?string $label;
+    // @phpstan-ignore-next-line
+    protected ?string $label = null;
 
     #[
         ORM\Column(type: 'string', length: 250, nullable: true),
