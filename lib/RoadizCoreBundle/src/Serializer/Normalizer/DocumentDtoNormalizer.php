@@ -50,6 +50,16 @@ final readonly class DocumentDtoNormalizer implements NormalizerInterface
 
         $this->stopwatch->start('normalizeDocumentDto', 'serializer');
 
+        /*
+         * If no @type is set, we set it to Document to ensure compatibility with frontend and API consumers.
+         */
+        if (!array_key_exists('@type', $normalized)) {
+            $normalized = [
+                '@type' => 'Document',
+                ...$normalized,
+            ];
+        }
+
         if (\in_array('document_folders_all', $serializationGroups, true)
             || \in_array('document_folders', $serializationGroups, true)) {
             $document = $this->repository->findOneBy(['id' => $data->getId()]);
