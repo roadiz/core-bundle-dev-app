@@ -103,10 +103,6 @@
         ]
     },
     {
-        "name": "ROLE_ACCESS_NODEFIELDS_DELETE",
-        "groups": []
-    },
-    {
         "name": "ROLE_ACCESS_NODES",
         "groups": [
             {
@@ -140,10 +136,6 @@
     },
     {
         "name": "ROLE_ACCESS_NODETYPES",
-        "groups": []
-    },
-    {
-        "name": "ROLE_ACCESS_NODETYPES_DELETE",
         "groups": []
     },
     {

@@ -62,6 +62,7 @@ export default ({ mode }) => {
                         { text: 'Installation', link: '/developer/first-steps/installation' },
                         { text: 'Configuration', link: '/developer/first-steps/manual_config' },
                         { text: 'Upgrading', link: '/developer/first-steps/upgrading' },
+                        { text: 'Security', link: '/developer/security/security' },
                         {
                             text: 'Node system',
                             collapsed: true,
