@@ -443,9 +443,16 @@ services:
             - '@RZ\Roadiz\CoreBundle\NodeType\DefaultValuesResolver'
             - '%roadiz_core.entity_generator_factory.options%'
 
+    gedmo.mapping.driver.attribute:
+        class: Gedmo\Mapping\Driver\AttributeReader
+
     Gedmo\Loggable\LoggableListener:
         tags:
-            - { name: doctrine.event_subscriber, connection: default }
+            - { name: doctrine.event_listener, event: 'onFlush' }
+            - { name: doctrine.event_listener, event: 'loadClassMetadata' }
+            - { name: doctrine.event_listener, event: 'postPersist' }
+        calls:
+            - [ setAnnotationReader, [ '@gedmo.mapping.driver.attribute' ] ]
 
     Symfony\Component\Asset\VersionStrategy\VersionStrategyInterface:
         alias: 'assets.empty_version_strategy'
