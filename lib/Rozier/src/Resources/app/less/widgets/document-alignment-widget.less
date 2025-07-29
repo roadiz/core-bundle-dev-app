@@ -19,6 +19,12 @@
     width: 100%;
     height: 100%;
     border: 1px solid #fff;
+    touch-action: none;
+    // prevent selection during drag
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 .document-alignment-widget__area-handle {
