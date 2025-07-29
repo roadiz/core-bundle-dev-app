@@ -214,7 +214,7 @@ final class NodeVoter extends Voter
 
     private function canEditRealms(NodeInterface $node, UserInterface $user): bool
     {
-        return $this->isGrantedWithUserChroot($node, $user, ['ROLE_ACCESS_NODES', 'ROLE_ACCESS_REALM_NODES'], false);
+        return $this->isGrantedWithUserChroot($node, $user, 'ROLE_ACCESS_REALM_NODES', false);
     }
 
     private function canDuplicate(NodeInterface $node, UserInterface $user): bool
