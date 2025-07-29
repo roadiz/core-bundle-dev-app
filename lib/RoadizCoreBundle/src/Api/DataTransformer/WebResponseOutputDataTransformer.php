@@ -87,7 +87,7 @@ class WebResponseOutputDataTransformer implements WebResponseDataTransformerInte
     }
 
     #[\Override]
-    public function transform(PersistableInterface $object, string $to, array $context = [], ?WebResponseInterface $output = null): ?WebResponseInterface
+    public function transform(PersistableInterface $object, string $to, array $context = [], ?WebResponseInterface $output = null): WebResponseInterface
     {
         $output ??= $this->createWebResponse();
         $output->setItem($object);

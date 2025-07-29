@@ -37,7 +37,7 @@ final class GetWebResponseByPathController extends AbstractController
     ) {
     }
 
-    public function __invoke(?Request $request): ?WebResponseInterface
+    public function __invoke(?Request $request): WebResponseInterface
     {
         try {
             if (
