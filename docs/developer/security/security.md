@@ -1,6 +1,30 @@
 # Roadiz security system
 
-Roadiz uses Symfony's security component to manage user authentication and authorization.
+Roadiz uses Symfony's security component to manage user authentication and authorization. It provides an administrable
+`User` entity that implements the `UserInterface` and `PasswordAuthenticatedUserInterface`. And an administrable `Group`
+entity to manage roles in bulk.
+This user entity can be used in classic session firewall, in API authentication with JWT tokens or even with OpenID (openid user must match a local user).
+
+```yaml
+# config/packages/security.yaml
+security:
+    # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
+    password_hashers:
+        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    providers:
+        jwt:
+            lexik_jwt: ~
+        openid_user_provider:
+            id: RZ\Roadiz\OpenId\Authentication\Provider\OpenIdAccountProvider
+        roadiz_user_provider:
+            entity:
+                class: RZ\Roadiz\CoreBundle\Entity\User
+                property: username
+        all_users:
+            chain:
+                providers: [ 'roadiz_user_provider', 'openid_user_provider' ]
+```
 
 ## Built-in roles
 Roadiz comes with a set of built-in roles that can be used to manage access control in your back-office.
@@ -51,8 +75,8 @@ You can attach these roles directly to user accounts or create **Groups** to man
 
 ### Node and NodesSources voter
 
-We recommend using the `NodeVoter` to check permissions on **nodes** and **nodes-sources**, it supports user *chroot* feature. 
-This voter allows you to check permissions on nodes and nodes-sources with the following actions:
+We recommend using the `NodeVoter` to check permissions on **nodes** and **nodes-sources** in controllers and API operations,
+it supports user *chroot* feature. This voter allows you to check permissions on nodes and nodes-sources with the following actions:
 
 - `CREATE`
 - `DUPLICATE`
