@@ -252,31 +252,6 @@ CMD ["php-fpm"]
 
 USER php
 
-##############
-# Cron - Dev #
-##############
-
-FROM php-dev AS cron-dev
-
-# Need to go back with root user
-USER root
-
-COPY --link docker/cron/crontab.txt /crontab.txt
-
-RUN <<EOF
-# Packages
-apt-get --quiet update
-apt-get --quiet --yes --no-install-recommends --verbose-versions install cron
-rm -rf /var/lib/apt/lists/*
-/usr/bin/crontab -u php /crontab.txt
-EOF
-
-# Entrypoint
-COPY --link --chmod=755 docker/cron/docker-cron-entrypoint.dev /usr/local/bin/docker-entrypoint
-ENTRYPOINT ["docker-entrypoint"]
-
-USER root
-
 #########
 # Nginx #
 #########

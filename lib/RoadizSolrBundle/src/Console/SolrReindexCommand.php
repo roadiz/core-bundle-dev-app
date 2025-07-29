@@ -13,12 +13,23 @@ use RZ\Roadiz\SolrBundle\Indexer\CliAwareIndexer;
 use RZ\Roadiz\SolrBundle\Indexer\IndexerFactoryInterface;
 use RZ\Roadiz\SolrBundle\Solarium\SolariumDocumentTranslation;
 use RZ\Roadiz\SolrBundle\Solarium\SolariumNodeSource;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Scheduler\Attribute\AsCronTask;
 use Symfony\Component\Stopwatch\Stopwatch;
 
+#[AsCommand(
+    name: 'solr:reindex',
+    description: 'Reindex Solr search engine index',
+)]
+#[AsCronTask(
+    expression: '30 3 * * *',
+    jitter: 120,
+    arguments: '--no-debug -n -q',
+)]
 class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterface
 {
     public function __construct(
@@ -32,9 +43,7 @@ class SolrReindexCommand extends SolrCommand implements ThemeAwareCommandInterfa
     #[\Override]
     protected function configure(): void
     {
-        $this->setName('solr:reindex')
-            ->setDescription('Reindex Solr search engine index')
-            ->addOption('client', null, InputOption::VALUE_REQUIRED, 'Solr client name to use', default: null)
+        $this->addOption('client', null, InputOption::VALUE_REQUIRED, 'Solr client name to use', default: null)
             ->addOption('nodes', null, InputOption::VALUE_NONE, 'Reindex with only nodes.')
             ->addOption('documents', null, InputOption::VALUE_NONE, 'Reindex with only documents.')
             ->addOption('batch-count', null, InputOption::VALUE_REQUIRED, 'Split reindexing in batch (only for nodes).')
