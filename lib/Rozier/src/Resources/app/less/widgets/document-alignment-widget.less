@@ -1,8 +1,9 @@
 .document-alignment-widget {
+    position: relative;
     display: flex;
     width: fit-content;
     max-width: 1200px;
-    padding: 48px;
+    padding: 48px 168px;
     background-color: #EFEFEF;
 }
 
@@ -95,4 +96,15 @@
 .document-alignment-widget__image {
     user-select: none;
     pointer-events: none;
+}
+
+.document-alignment-widget__reset {
+    display: none;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    &--visible {
+        display: block;
+    }
 }
