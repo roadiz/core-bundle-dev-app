@@ -25,7 +25,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -40,7 +40,7 @@ final class CustomFormController extends AbstractController
         private readonly SerializerInterface $serializer,
         private readonly FormErrorSerializerInterface $formErrorSerializer,
         private readonly ManagerRegistry $registry,
-        private readonly RateLimiterFactory $customFormLimiter,
+        private readonly RateLimiterFactoryInterface $customFormLimiter,
         private readonly MessageBusInterface $messageBus,
     ) {
     }

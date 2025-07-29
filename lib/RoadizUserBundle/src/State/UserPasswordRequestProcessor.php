@@ -20,7 +20,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Notifier\Recipient\Recipient;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Routing\Exception\RouteNotFoundException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -35,7 +35,7 @@ final readonly class UserPasswordRequestProcessor implements ProcessorInterface
 
     public function __construct(
         private LoggerInterface $logger,
-        private RateLimiterFactory $passwordRequestLimiter,
+        private RateLimiterFactoryInterface $passwordRequestLimiter,
         private ManagerRegistry $managerRegistry,
         private RequestStack $requestStack,
         private UserProvider $userProvider,

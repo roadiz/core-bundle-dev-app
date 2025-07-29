@@ -8,14 +8,14 @@ use RZ\Roadiz\CoreBundle\Webhook\Exception\TooManyWebhookTriggeredException;
 use RZ\Roadiz\CoreBundle\Webhook\Message\WebhookMessageFactoryInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 
 final readonly class ThrottledWebhookDispatcher implements WebhookDispatcher
 {
     public function __construct(
         private WebhookMessageFactoryInterface $messageFactory,
         private MessageBusInterface $messageBus,
-        private RateLimiterFactory $throttledWebhooksLimiter,
+        private RateLimiterFactoryInterface $throttledWebhooksLimiter,
     ) {
     }
 

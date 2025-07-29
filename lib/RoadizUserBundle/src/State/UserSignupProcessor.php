@@ -15,7 +15,7 @@ use RZ\Roadiz\UserBundle\Manager\UserMetadataManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\RateLimiter\RateLimiterFactory;
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final readonly class UserSignupProcessor implements ProcessorInterface
@@ -28,7 +28,7 @@ final readonly class UserSignupProcessor implements ProcessorInterface
         private Security $security,
         private RequestStack $requestStack,
         private EventDispatcherInterface $eventDispatcher,
-        private RateLimiterFactory $userSignupLimiter,
+        private RateLimiterFactoryInterface $userSignupLimiter,
         private CaptchaServiceInterface $recaptchaService,
         private ProcessorInterface $persistProcessor,
         private UserMetadataManagerInterface $userMetadataManager,
@@ -49,7 +49,7 @@ final readonly class UserSignupProcessor implements ProcessorInterface
     }
 
     #[\Override]
-    protected function getUserSignupLimiter(): RateLimiterFactory
+    protected function getUserSignupLimiter(): RateLimiterFactoryInterface
     {
         return $this->userSignupLimiter;
     }
