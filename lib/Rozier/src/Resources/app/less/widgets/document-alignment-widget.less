@@ -16,16 +16,29 @@
 .document-alignment-widget__area {
     position: absolute;
     inset: 0;
-    border: 1px solid #fff;
     touch-action: none;
     // prevent selection during drag
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+
+    &--disabled {
+        pointer-events: none;
+    }
 }
 
-.document-alignment-widget__area-handle {
+.document-alignment-widget__handles-wrapper {
+    position: absolute;
+    inset: 0;
+    border: 1px solid #fff;
+    
+    .document-alignment-widget__area--disabled & {
+        opacity: 0.5;
+    }
+}
+
+.document-alignment-widget__handle {
     position: absolute;
     width: 12px;
     height: 12px;
@@ -72,6 +85,10 @@
         top: 100%;
         left: 100%;
     }
+
+    .document-alignment-widget__area--disabled & {
+        background-color: #fff;
+    }
 }
 
 .document-alignment-widget__hotspot {
@@ -90,6 +107,10 @@
 
     &.grabbing {
         cursor: grabbing;
+    }
+
+    .document-alignment-widget__area--disabled & {
+        border: none;
     }
 }
 

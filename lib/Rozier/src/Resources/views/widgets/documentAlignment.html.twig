@@ -3,9 +3,11 @@
 <document-alignment-widget class="document-alignment-widget" input-base-name="{{ form.vars.full_name }}">
     <div class="document-alignment-widget__image-wrapper">
         <div class="document-alignment-widget__area">
-            {% for i in 1..8 %}
-                <div class="document-alignment-widget__area-handle"></div>
-            {% endfor %}
+            <div class="document-alignment-widget__handles-wrapper">
+                {% for i in 1..8 %}
+                    <div class="document-alignment-widget__handle"></div>
+                {% endfor %}
+            </div>
             <div class="document-alignment-widget__hotspot"></div>
         </div>
         <div class="document-alignment-widget__image-overlay"></div>
