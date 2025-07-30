@@ -67,6 +67,14 @@ dans un texte Markdown, un site externe, *le document sera considéré comme in
                 <source>document.imageAlignment</source>
                 <target state="final">Alignement de l'image</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageAlignment.override" approved="yes">
+                <source>document.imageAlignment.override</source>
+                <target state="final">Définir un cadrage et alignement pour ce contexte</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageAlignment.reset" approved="yes">
+                <source>document.imageAlignment.reset</source>
+                <target state="final">Réinitialiser</target>
+            </trans-unit>
       <trans-unit xml:space="preserve" id="documentEditDialog.submit" approved="yes">
                 <source>documentEditDialog.submit</source>
                 <target state="final">Appliquer</target>
