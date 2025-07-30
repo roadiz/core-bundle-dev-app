@@ -151,10 +151,20 @@
     }
 }
 
+.document-alignment-widget__override span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .document-alignment-widget__reset {
-    grid-column: 3 / span 1;
-    justify-self: end;
+    grid-column: 2 / span 1;
     visibility: hidden;
+
+    @media (min-width: @screen-lg-min) {
+        grid-column: 3 / span 1;
+        justify-self: end;
+    }
 
     &--visible {
         visibility: inherit;
