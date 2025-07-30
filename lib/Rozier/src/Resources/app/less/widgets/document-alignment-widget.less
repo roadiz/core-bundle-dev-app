@@ -1,16 +1,16 @@
 .document-alignment-widget {
-    position: relative;
-    display: flex;
-    width: fit-content;
-    max-width: 1200px;
-    padding: 48px 168px;
+    display: grid;
+    padding: 12px;
+    grid-template-columns: 1fr 3fr 1fr;
     background-color: #EFEFEF;
 }
 
 .document-alignment-widget__image-wrapper {
     position: relative;
-    width: 100%;
-    height: 100%;
+    width: fit-content;
+    margin: 36px auto;
+    grid-column: 2 / span 1;
+    grid-row: 1 / span 1;
 }
 
 .document-alignment-widget__area {
@@ -98,13 +98,20 @@
     pointer-events: none;
 }
 
-.document-alignment-widget__reset {
+.document-alignment-widget__override {
     display: none;
-    position: absolute;
-    top: 12px;
-    right: 12px;
+    margin-bottom: 24px;
+    grid-column: 2 / span 1;
+    grid-row: 2 / span 1;
+    justify-self: center;
+}
+
+.document-alignment-widget__reset {
+    grid-column: 3 / span 1;
+    justify-self: end;
+    visibility: hidden;
 
     &--visible {
-        display: block;
+        visibility: visible;
     }
 }
