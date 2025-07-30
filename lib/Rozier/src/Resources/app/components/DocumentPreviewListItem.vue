@@ -83,12 +83,7 @@
                             :id="`edit-${drawerName}[${index}]`"
                             :type="document.processable ? 'button' : null"
                             :href="!document.processable ? editUrl : null"
-                            :class="[
-                                'uk-button',
-                                'document-link',
-                                'uk-button-mini',
-                                hotspot || imageCropAlignment ? 'document-link--alignment' : '',
-                            ]"
+                            :class="['uk-button', 'document-link', 'uk-button-mini', 'document-link--edit']"
                             @click="onEditClick"
                         >
                             <i class="uk-icon-rz-pencil"></i>

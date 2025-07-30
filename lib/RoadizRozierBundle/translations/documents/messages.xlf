@@ -63,30 +63,12 @@
                 <source>document.imageAlignment</source>
                 <target></target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.none"><source>image_crop_alignment.none</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.top-left"><source>image_crop_alignment.top-left</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.top"><source>image_crop_alignment.top</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.top-right"><source>image_crop_alignment.top-right</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.left"><source>image_crop_alignment.left</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.center"><source>image_crop_alignment.center</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.right"><source>image_crop_alignment.right</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left"><source>image_crop_alignment.bottom-left</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom"><source>image_crop_alignment.bottom</source></trans-unit>
-            <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right"><source>image_crop_alignment.bottom-right</source></trans-unit>
-            <trans-unit xml:space="preserve" id="document.imageCropAlignment">
-                <source>document.imageCropAlignment</source>
+            <trans-unit xml:space="preserve" id="document.imageAlignment.override">
+                <source>document.imageAlignment.override</source>
                 <target></target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.imageCropAlignment.help">
-                <source>document.imageCropAlignment.help</source>
-                <target></target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="document.hotspot">
-                <source>document.hotspot</source>
-                <target></target>
-            </trans-unit>
-            <trans-unit xml:space="preserve" id="document.hotspot.help">
-                <source>document.hotspot.help</source>
+            <trans-unit xml:space="preserve" id="document.imageAlignment.reset">
+                <source>document.imageAlignment.reset</source>
                 <target></target>
             </trans-unit>
             <trans-unit xml:space="preserve" id="documentEditDialog.submit">

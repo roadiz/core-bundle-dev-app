@@ -1,10 +1,14 @@
 .document-edit-dialog {
-    width: (1047 / 1440) * 100%;
+    width: 90%;
     max-width: 1200px;
     padding: 0;
     border: none;
     border-radius: 8px;
     background-color: #fff;
+
+    @media (min-width: @screen-lg-min) {
+        width: (1047 / 1440) * 100%;
+    }
 
     &::backdrop {
         background-color: #4D4D4D;
@@ -20,10 +24,17 @@
 
 .document-edit-dialog__title {
     display: flex;
+    width: 80%;
     gap: 8px;
     align-items: center;
     margin: 0;
     font-size: 14px;
+}
+
+.document-edit-dialog__title span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .document-edit-dialog__close {
