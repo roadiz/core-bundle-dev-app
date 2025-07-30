@@ -13,9 +13,31 @@
     grid-row: 1 / span 1;
 }
 
-.document-alignment-widget__area {
+.document-alignment-widget__image-overlay {
     position: absolute;
     inset: 0;
+    background-color: rgba(255, 255, 255, 0.5);
+    clip-path: ~"polygon(
+        var(--document-alignment-widget-area-left, 0%) var(--document-alignment-widget-area-top, 0%),
+        calc(100% - var(--document-alignment-widget-area-right, 0%)) var(--document-alignment-widget-area-top, 0%),
+        calc(100% - var(--document-alignment-widget-area-right, 0%)) calc(100% - var(--document-alignment-widget-area-bottom, 0%)),
+        var(--document-alignment-widget-area-left, 0%) calc(100% - var(--document-alignment-widget-area-bottom, 0%)),
+        var(--document-alignment-widget-area-left, 0%) 0,
+        0 0,
+        0 100%,
+        100% 100%,
+        100% 0,
+        0 0
+    )";
+    pointer-events: none;
+}
+
+.document-alignment-widget__area {
+    position: absolute;
+    top: var(--document-alignment-widget-area-top, 0);
+    right: var(--document-alignment-widget-area-right, 0);
+    bottom: var(--document-alignment-widget-area-bottom, 0);
+    left: var(--document-alignment-widget-area-left, 0);
     touch-action: none;
     // prevent selection during drag
     -webkit-user-select: none;

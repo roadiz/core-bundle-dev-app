@@ -2,6 +2,7 @@
 
 <document-alignment-widget class="document-alignment-widget" input-base-name="{{ form.vars.full_name }}">
     <div class="document-alignment-widget__image-wrapper">
+        <div class="document-alignment-widget__image-overlay"></div>
         <div class="document-alignment-widget__area">
             <div class="document-alignment-widget__handles-wrapper">
                 {% for i in 1..8 %}
@@ -10,7 +11,6 @@
             </div>
             <div class="document-alignment-widget__hotspot"></div>
         </div>
-        <div class="document-alignment-widget__image-overlay"></div>
         <img class="document-alignment-widget__image" src="{{ imagePath }}" alt=""/>
     </div>
     <label class="document-alignment-widget__override">
