@@ -63,11 +63,11 @@
                 <source>document.imageAlignment</source>
                 <target></target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.imageAlignment">
+            <trans-unit xml:space="preserve" id="document.imageAlignment.override">
                 <source>document.imageAlignment.override</source>
                 <target></target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="document.imageAlignment">
+            <trans-unit xml:space="preserve" id="document.imageAlignment.reset">
                 <source>document.imageAlignment.reset</source>
                 <target></target>
             </trans-unit>
