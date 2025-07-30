@@ -257,11 +257,7 @@ trait BaseDocumentTrait
     ]
     public function getRelativePath(): ?string
     {
-        if ($this->isLocal()) {
-            return $this->getFolder().'/'.$this->getFilename();
-        } else {
-            return null;
-        }
+        return $this->isLocal() ? $this->getFolder().'/'.$this->getFilename() : null;
     }
 
     #[

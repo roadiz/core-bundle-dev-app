@@ -7,9 +7,10 @@ namespace Themes\Rozier\Forms\NodeSource;
 use Doctrine\Persistence\ManagerRegistry;
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\NodesSources;
-use RZ\Roadiz\CoreBundle\Entity\NodesSourcesDocuments;
 use RZ\Roadiz\CoreBundle\Entity\NodeTypeField;
 use RZ\Roadiz\CoreBundle\EntityHandler\NodesSourcesHandler;
+use RZ\Roadiz\CoreBundle\Repository\DocumentRepository;
+use RZ\Roadiz\CoreBundle\Repository\NodesSourcesDocumentsRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -22,6 +23,8 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
     public function __construct(
         ManagerRegistry $managerRegistry,
         private readonly NodesSourcesHandler $nodesSourcesHandler,
+        private readonly NodesSourcesDocumentsRepository $nodesSourcesDocumentsRepository,
+        private readonly DocumentRepository $documentRepository,
     ) {
         parent::__construct($managerRegistry);
     }
@@ -82,20 +85,12 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
         /** @var NodeTypeField $nodeTypeField */
         $nodeTypeField = $event->getForm()->getConfig()->getOption('nodeTypeField');
 
-        $event->setData($this->managerRegistry
-            ->getRepository(NodesSourcesDocuments::class)
-            ->findByNodesSourcesAndFieldName(
-                $nodeSource,
-                $nodeTypeField->getName()
-            ));
+        $event->setData($this->nodesSourcesDocumentsRepository->findByNodesSourcesAndFieldName(
+            $nodeSource,
+            $nodeTypeField->getName()
+        ));
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Doctrine\ORM\TransactionRequiredException
-     * @throws \JsonException
-     */
     public function onPostSubmit(FormEvent $event): void
     {
         /** @var NodesSources $nodeSource */
@@ -111,16 +106,15 @@ final class NodeSourceDocumentType extends AbstractNodeSourceFieldType
         }
 
         $position = 0.0;
-        $manager = $this->managerRegistry->getManager();
         foreach ($event->getData() as $documentDto) {
             if (!isset($documentDto['document'])) {
                 throw new \RuntimeException('Document was not found in submitted data.');
             }
             /** @var Document|null $tempDoc */
-            $tempDoc = $manager->find(Document::class, (int) $documentDto['document']);
+            $tempDoc = $this->documentRepository->find((int) $documentDto['document']);
 
             if (null !== $tempDoc) {
-                $hotspot = (isset($documentDto['hotspot'])) ? json_decode($documentDto['hotspot'], true, flags: JSON_THROW_ON_ERROR) : null;
+                $hotspot = (isset($documentDto['hotspot'])) ? \json_decode($documentDto['hotspot'], true, flags: JSON_THROW_ON_ERROR) : null;
                 $imageCropAlignment = $documentDto['imageCropAlignment'] ?? null;
                 $this->nodesSourcesHandler->addDocumentForField(
                     $tempDoc,

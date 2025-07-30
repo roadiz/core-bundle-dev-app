@@ -82,7 +82,7 @@ final class DocumentDto implements BaseDocumentInterface
         return $this->imageAverageColor;
     }
 
-    #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
+    #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     #[\Override]
     public function getFilename(): string
     {
@@ -90,7 +90,7 @@ final class DocumentDto implements BaseDocumentInterface
     }
 
     #[SerializedName('name')]
-    #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
+    #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationName(): ?string
     {
         return !empty($this->documentTranslationName) ?
@@ -99,7 +99,7 @@ final class DocumentDto implements BaseDocumentInterface
     }
 
     #[SerializedName('description')]
-    #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
+    #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationDescription(): ?string
     {
         return !empty($this->documentTranslationDescription) ?
@@ -108,7 +108,7 @@ final class DocumentDto implements BaseDocumentInterface
     }
 
     #[SerializedName('copyright')]
-    #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
+    #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationCopyright(): ?string
     {
         return !empty($this->documentTranslationCopyright) ?
@@ -117,7 +117,7 @@ final class DocumentDto implements BaseDocumentInterface
     }
 
     #[SerializedName('externalUrl')]
-    #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
+    #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
     public function getDocumentTranslationExternalUrl(): ?string
     {
         return $this->documentTranslationExternalUrl;
@@ -137,17 +137,6 @@ final class DocumentDto implements BaseDocumentInterface
         return !empty($this->documentTranslationName) ?
             $this->documentTranslationName :
             null;
-    }
-
-    #[Groups(['document', 'nodes_sources', 'tag', 'attribute'])]
-    #[\Override]
-    public function getRelativePath(): ?string
-    {
-        if ($this->isLocal()) {
-            return $this->getFolder().'/'.$this->getFilename();
-        } else {
-            return null;
-        }
     }
 
     #[Groups(['document', 'document_display', 'nodes_sources', 'tag', 'attribute'])]
