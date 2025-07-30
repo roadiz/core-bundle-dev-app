@@ -67,6 +67,14 @@ Document are listed as “unused” when they are not linked to any node, tag, s
                 <source>document.imageAlignment</source>
                 <target state="final">Image alignment</target>
             </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageAlignment.override" approved="yes">
+                <source>document.imageAlignment.override</source>
+                <target state="final">Set a crop and alignment for this context</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="document.imageAlignment.reset" approved="yes">
+                <source>document.imageAlignment.reset</source>
+                <target state="final">Reset</target>
+            </trans-unit>
       <trans-unit xml:space="preserve" id="documentEditDialog.submit" approved="yes">
                 <source>documentEditDialog.submit</source>
                 <target state="final">Apply</target>
