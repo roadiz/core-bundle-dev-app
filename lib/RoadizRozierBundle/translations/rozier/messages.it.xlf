@@ -2998,14 +2998,6 @@
         <source>link.folders</source>
         <target state="final">Unisci a cartella/e</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location" approved="yes">
-        <source>maps_default_location</source>
-        <target state="final">Posizione di mappatura predefinita</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style" approved="yes">
-        <source>maps_style</source>
-        <target state="final">Stile predefinito di Google Maps</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="metadataCache" approved="yes">
         <source>metadataCache</source>
         <target state="final">Metadati della cache</target>
@@ -3644,10 +3636,6 @@
       <trans-unit xml:space="preserve" id="pinterest_url" approved="yes">
         <source>pinterest_url</source>
         <target state="final">URL di pinterest</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="use_cdn" approved="yes">
-        <source>use_cdn</source>
-        <target state="final">Usa un CDN per risorse</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache" approved="yes">
         <source>nodeSourcesUrlsCache</source>

@@ -3015,14 +3015,6 @@
         <source>link.folders</source>
         <target state="final">Enlazar carpeta/s</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location" approved="yes">
-        <source>maps_default_location</source>
-        <target state="final">Locación por defecto de mapas</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style" approved="yes">
-        <source>maps_style</source>
-        <target state="final">Estilos de Google Maps por defecto</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="metadataCache" approved="yes">
         <source>metadataCache</source>
         <target state="final">Cache de meta-datos</target>
@@ -3601,10 +3593,6 @@
       <trans-unit xml:space="preserve" id="pinterest_url" approved="yes">
         <source>pinterest_url</source>
         <target state="final">URL de Pinterest</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="use_cdn" approved="yes">
-        <source>use_cdn</source>
-        <target state="final">Utilizar un CDN como recurso</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache" approved="yes">
         <source>nodeSourcesUrlsCache</source>

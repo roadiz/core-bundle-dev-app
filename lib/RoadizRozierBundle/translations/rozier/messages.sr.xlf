@@ -3031,14 +3031,6 @@
         <source>link.folders</source>
         <target state="final">Линк до фолдера</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location" approved="yes">
-        <source>maps_default_location</source>
-        <target state="final">Подразумеване локације на Maps</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style" approved="yes">
-        <source>maps_style</source>
-        <target state="final">Подразумевани стилови Google Maps-а</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="metadataCache" approved="yes">
         <source>metadataCache</source>
         <target state="final">Metadata cache</target>
@@ -3677,10 +3669,6 @@
       <trans-unit xml:space="preserve" id="pinterest_url" approved="yes">
         <source>pinterest_url</source>
         <target state="final">Pinterest URL адреса</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="use_cdn" approved="yes">
-        <source>use_cdn</source>
-        <target state="final">Користи CDN за ресурсе</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache" approved="yes">
         <source>nodeSourcesUrlsCache</source>
@@ -4368,11 +4356,6 @@
         <source>google_tag_manager_id</source>
         <target state="final">Google Tag Manager - ID контејнера</target>
         <note>Google Tag Manager setting name.</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="leaflet_map_tile_url" approved="yes">
-        <source>leaflet_map_tile_url</source>
-        <target state="final">Leaflet - URL сегмената мапе</target>
-        <note>Leaflet Map tile URL setting name.</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="twitter_access_token" approved="yes">
         <source>twitter_access_token</source>

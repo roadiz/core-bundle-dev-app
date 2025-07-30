@@ -3079,14 +3079,6 @@
         <source>link.folders</source>
         <target state="final">连结到文件夹</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location" approved="yes">
-        <source>maps_default_location</source>
-        <target state="final">定位默认位置</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style" approved="yes">
-        <source>maps_style</source>
-        <target state="final">默认 Google Maps 样式</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="metadataCache" approved="yes">
         <source>metadataCache</source>
         <target state="final">元数据缓存</target>
@@ -3737,10 +3729,6 @@
       <trans-unit xml:space="preserve" id="pinterest_url" approved="yes">
         <source>pinterest_url</source>
         <target state="final">Pinterest 网址</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="use_cdn" approved="yes">
-        <source>use_cdn</source>
-        <target state="final">为资源使用 CDN</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeSourcesUrlsCache" approved="yes">
         <source>nodeSourcesUrlsCache</source>
@@ -4444,11 +4432,6 @@
         <target state="final">Google Tag Manager - Container ID</target>
         <note>Google Tag Manager setting name.</note>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="leaflet_map_tile_url" approved="yes">
-        <source>leaflet_map_tile_url</source>
-        <target state="final">Leaflet - 地图图层网址</target>
-        <note>Leaflet Map tile URL setting name.</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="twitter_access_token" approved="yes">
         <source>twitter_access_token</source>
         <target state="final">Twitter API - Access token</target>
@@ -4548,11 +4531,6 @@
         <source>export.typescript_declaration</source>
         <target state="final">导出 Typescript 声明</target>
         <note>Button label, for exporting node-types into a TypeScript declaration file.</note>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="hide_roadiz_version" approved="yes">
-        <source>hide_roadiz_version</source>
-        <target state="final">隐藏 Roadiz 版本</target>
-        <note>Setting</note>
       </trans-unit>
       <trans-unit xml:space="preserve" id="exact_search" approved="yes">
         <source>exact_search</source>

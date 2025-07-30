@@ -2,10 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="en">
     <body>
-      <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description" approved="yes">
-                <source>Default maps tiles layout when using *Leaflet*.</source>
-                <target state="final">Default maps tiles layout when using *Leaflet*.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="login_image.description" approved="yes">
                 <source>Replace random *Splashbase* login images with your own.</source>
                 <target state="final">Replace random *Splashbase* login images with your own.</target>
@@ -14,22 +10,9 @@
                 <source>Switch maintenance mode. Only login page will be available for public requests.</source>
                 <target state="final">Switch maintenance mode. Only login page will be available for public requests.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location.description" approved="yes">
-                <source>Default maps marker location.</source>
-                <target state="final">Default maps marker location.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style.description" approved="yes">
-                <source>Default maps tiles layout when using *Google Maps*.</source>
-                <target state="final">Default maps tiles layout when using *Google Maps*.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="max_versions_showed.description" approved="yes">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target state="final">Maximum versions count showed in actions menu.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="hide_roadiz_version.help" approved="yes">
-                <source>hide_roadiz_version.help</source>
-                <target state="final">Hide Roadiz version and name from any response headers and theme variables.</target>
-                <note>Setting</note>
             </trans-unit>
       <trans-unit xml:space="preserve" id="use_native_json" approved="yes">
                 <source>use_native_json</source>
@@ -109,6 +92,26 @@
       <trans-unit xml:space="preserve" id="openid_scopes.help" approved="yes">
                 <source>openid_scopes.help</source>
                 <target state="final">Restrict your Open ID / OAuth2 scopes. Write scopes separated with spaces. If you leave it empty, OpenID connection will try to request all available scopes from Discovery document.</target>
+                <note>Setting description</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="custom_preview_scheme" approved="yes">
+                <source>custom_preview_scheme</source>
+                <target state="final">Custom preview scheme</target>
+                <note>Setting name</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="custom_preview_scheme.help" approved="yes">
+                <source>custom_preview_scheme.help</source>
+                <target state="final">Replace "?_preview=1" query string to preview website content with a dedicated domain name. It can be useful when using *headless* Roadiz version.</target>
+                <note>Setting description</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="custom_public_scheme" approved="yes">
+                <source>custom_public_scheme</source>
+                <target state="final">Custom public scheme</target>
+                <note>Setting name</note>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="custom_public_scheme.help" approved="yes">
+                <source>custom_public_scheme.help</source>
+                <target state="final">Replace your public website URL with a dedicated domain name. It can be useful when using *headless* Roadiz version.</target>
                 <note>Setting description</note>
             </trans-unit>
       <trans-unit xml:space="preserve" id="use_typed_node_names" approved="yes">

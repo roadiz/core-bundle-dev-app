@@ -2,10 +2,6 @@
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="" source-language="en" datatype="plaintext" target-language="fr">
     <body>
-      <trans-unit xml:space="preserve" id="leaflet_map_tile_url.description" approved="yes">
-                <source>Default maps tiles layout when using *Leaflet*.</source>
-                <target state="final">Habillage par défaut des cartes lorsque vous utilisez *Leaflet*.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="login_image.description" approved="yes">
                 <source>Replace random *Splashbase* login images with your own.</source>
                 <target state="final">Remplace les images aléatoires *Splashbase* avec votre propre image d’arrière-plan.</target>
@@ -14,22 +10,9 @@
                 <source>Switch maintenance mode. Only login page will be available for public requests.</source>
                 <target state="final">Active/désactive le mode maintenance. Seulement les pages d'identification seront disponibles pour les requêtes publiques.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_default_location.description" approved="yes">
-                <source>Default maps marker location.</source>
-                <target state="final">Emplacement par défaut sur les cartes.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="maps_style.description" approved="yes">
-                <source>Default maps tiles layout when using *Google Maps*.</source>
-                <target state="final">Habillage par défaut des cartes lorsque vous utilisez *Google Maps*.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="max_versions_showed.description" approved="yes">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target state="final">Nombre maximum de versions affichées dans le menu des actions.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="hide_roadiz_version.help" approved="yes">
-                <source>hide_roadiz_version.help</source>
-                <target state="final">Cache le numéro et le nom du CMS des en-têtes HTTP et des variables du thème.</target>
-                <note>Setting</note>
             </trans-unit>
       <trans-unit xml:space="preserve" id="use_native_json" approved="yes">
                 <source>use_native_json</source>
