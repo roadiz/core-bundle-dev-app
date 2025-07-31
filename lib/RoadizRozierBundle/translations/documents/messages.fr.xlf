@@ -67,61 +67,13 @@ dans un texte Markdown, un site externe, *le document sera considéré comme in
                 <source>document.imageAlignment</source>
                 <target state="final">Alignement de l'image</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.none" approved="yes">
-        <source>image_crop_alignment.none</source>
-        <target state="final">Aucun alignement</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.top-left" approved="yes">
-        <source>image_crop_alignment.top-left</source>
-        <target state="final">En haut à gauche</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.top" approved="yes">
-        <source>image_crop_alignment.top</source>
-        <target state="final">En haut</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.top-right" approved="yes">
-        <source>image_crop_alignment.top-right</source>
-        <target state="final">En haut à droite</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.left" approved="yes">
-        <source>image_crop_alignment.left</source>
-        <target state="final">À gauche</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.center" approved="yes">
-        <source>image_crop_alignment.center</source>
-        <target state="final">Centré</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.right" approved="yes">
-        <source>image_crop_alignment.right</source>
-        <target state="final">À droite</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left" approved="yes">
-        <source>image_crop_alignment.bottom-left</source>
-        <target state="final">En bas à gauche</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom" approved="yes">
-        <source>image_crop_alignment.bottom</source>
-        <target state="final">En bas</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right" approved="yes">
-        <source>image_crop_alignment.bottom-right</source>
-        <target state="final">En bas à droite</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.imageCropAlignment" approved="yes">
-                <source>document.imageCropAlignment</source>
-                <target state="final">Zone d'intérêt</target>
+      <trans-unit xml:space="preserve" id="document.imageAlignment.override" approved="yes">
+                <source>document.imageAlignment.override</source>
+                <target state="final">Définir un cadrage et alignement pour ce contexte</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="document.imageCropAlignment.help" approved="yes">
-                <source>document.imageCropAlignment.help</source>
-                <target state="final">Définissez une zone d'intérêt pour permettre d'aligner le redimensionnement de votre image en fonction de la taille de votre écran.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="document.hotspot" approved="yes">
-                <source>document.hotspot</source>
-                <target state="final">Point d'intérêt</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="document.hotspot.help" approved="yes">
-                <source>document.hotspot.help</source>
-                <target state="final">Définir un point d’intérêt sur l’image pour mettre en avant un détail précis.</target>
+      <trans-unit xml:space="preserve" id="document.imageAlignment.reset" approved="yes">
+                <source>document.imageAlignment.reset</source>
+                <target state="final">Réinitialiser</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="documentEditDialog.submit" approved="yes">
                 <source>documentEditDialog.submit</source>

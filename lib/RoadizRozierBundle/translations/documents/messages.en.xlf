@@ -67,61 +67,13 @@ Document are listed as “unused” when they are not linked to any node, tag, s
                 <source>document.imageAlignment</source>
                 <target state="final">Image alignment</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.none" approved="yes">
-        <source>image_crop_alignment.none</source>
-        <target state="final">No alignment set</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.top-left" approved="yes">
-        <source>image_crop_alignment.top-left</source>
-        <target state="final">Top left</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.top" approved="yes">
-        <source>image_crop_alignment.top</source>
-        <target state="final">Top</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.top-right" approved="yes">
-        <source>image_crop_alignment.top-right</source>
-        <target state="final">Top right</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.left" approved="yes">
-        <source>image_crop_alignment.left</source>
-        <target state="final">Left</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.center" approved="yes">
-        <source>image_crop_alignment.center</source>
-        <target state="final">Center</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.right" approved="yes">
-        <source>image_crop_alignment.right</source>
-        <target state="final">Right</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-left" approved="yes">
-        <source>image_crop_alignment.bottom-left</source>
-        <target state="final">Bottom left</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom" approved="yes">
-        <source>image_crop_alignment.bottom</source>
-        <target state="final">Bottom</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="image_crop_alignment.bottom-right" approved="yes">
-        <source>image_crop_alignment.bottom-right</source>
-        <target state="final">Bottom right</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="document.imageCropAlignment" approved="yes">
-                <source>document.imageCropAlignment</source>
-                <target state="final">Interest area</target>
+      <trans-unit xml:space="preserve" id="document.imageAlignment.override" approved="yes">
+                <source>document.imageAlignment.override</source>
+                <target state="final">Set a crop and alignment for this context</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="document.imageCropAlignment.help" approved="yes">
-                <source>document.imageCropAlignment.help</source>
-                <target state="final">Define an area by which the image will be aligned during cropping.</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="document.hotspot" approved="yes">
-                <source>document.hotspot</source>
-                <target state="final">Hotspot</target>
-            </trans-unit>
-      <trans-unit xml:space="preserve" id="document.hotspot.help" approved="yes">
-                <source>document.hotspot.help</source>
-                <target state="final">Set a point of interest on the image to highlight a specific detail.</target>
+      <trans-unit xml:space="preserve" id="document.imageAlignment.reset" approved="yes">
+                <source>document.imageAlignment.reset</source>
+                <target state="final">Reset</target>
             </trans-unit>
       <trans-unit xml:space="preserve" id="documentEditDialog.submit" approved="yes">
                 <source>documentEditDialog.submit</source>
