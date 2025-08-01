@@ -6,6 +6,8 @@
 - Upgraded to **ApiPlatform 4.x**
 - Upgraded to **Symfony 7.3**
   - New Scheduler component to replace cron jobs with a scheduler worker service
+- **Dropped RoadizCompatBundle** and all its classes
+- **Dropped RozierApp.php**
 - **Dropped Roles entity**, use native Symfony Roles hierarchy to define your roles instead
 - **Dropped RoleArrayVoter** BC, you cannot use `isGranted` and `denyUnlessGranted` methods with arrays
 - New `CaptchaServiceInterface` to make captcha support any provider service.
