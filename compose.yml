@@ -40,18 +40,35 @@ services:
 #        depends_on:
 #            - db
 
+#    solr:
+#        hostname: solr
+#        build:
+#            # Custom image for file permissions
+#            target: solr
+#            args:
+#                UID: ${UID:-1000}
+#        volumes:
+#            - "solr_data:/var/solr"
+#        command:
+#            - solr-precreate
+#            - ${SOLR_CORE_NAME}
+
     solr:
-        hostname: solr
-        build:
-            # Custom image for file permissions
-            target: solr
-            args:
-                UID: ${UID:-1000}
+        image: solr:9-slim
         volumes:
-            - "solr_data:/var/solr"
-        command:
-            - solr-precreate
-            - ${SOLR_CORE_NAME}
+            - solr:/var/solr
+        environment:
+            ZK_HOST: "zookeeper:2181"
+        depends_on: [ zookeeper ]
+
+    zookeeper:
+        image: pravega/zookeeper:0.2.15
+        volumes:
+            - zookeeper-data:/data
+            - zookeeper-datalog:/datalog
+            - zookeeper-logs:/logs
+        environment:
+            ZOO_4LW_COMMANDS_WHITELIST: mntr,conf,ruok
 
     redis:
         image: redis:7-alpine
@@ -137,4 +154,7 @@ networks:
 
 volumes:
     redis:
-    solr_data:
+    solr:
+    zookeeper-data:
+    zookeeper-datalog:
+    zookeeper-logs:

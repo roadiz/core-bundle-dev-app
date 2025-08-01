@@ -65,7 +65,10 @@ services:
 
 volumes:
     redis:
-    solr_data:
+    solr:
+    zookeeper-data:
+    zookeeper-datalog:
+    zookeeper-logs:
     # Declare caddy_data and caddy_config volumes if you use Frankenphp
 #    caddy_data:
 #    caddy_config:

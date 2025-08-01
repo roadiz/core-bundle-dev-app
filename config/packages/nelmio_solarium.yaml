@@ -5,7 +5,7 @@ nelmio_solarium:
             host: '%env(SOLR_HOST)%'
             port: '%env(int:SOLR_PORT)%'
             path: '%env(SOLR_PATH)%'
-            core: '%env(SOLR_CORE_NAME)%'
+            core: '%env(SOLR_COLLECTION_NAME)%'
     clients:
         default:
             endpoints: [default]

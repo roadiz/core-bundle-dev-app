@@ -46,6 +46,38 @@ return [
 
 ## Configuration
 
+### Docker compose
+
+Here is an example using docker compose to run Solr Cloud in your project:
+
+```yaml
+services:
+    # ...
+    solr:
+        image: solr:9-slim
+        volumes:
+            - solr:/var/solr
+        environment:
+            ZK_HOST: "zookeeper:2181"
+        depends_on: [ zookeeper ]
+
+    zookeeper:
+        image: pravega/zookeeper:0.2.15
+        volumes:
+            - zookeeper-data:/data
+            - zookeeper-datalog:/datalog
+            - zookeeper-logs:/logs
+        environment:
+            ZOO_4LW_COMMANDS_WHITELIST: mntr,conf,ruok
+
+volumes:
+    # ...
+    solr:
+    zookeeper-data:
+    zookeeper-datalog:
+    zookeeper-logs:
+```
+
 ### DotEnv variables
 
 ```dotenv
@@ -54,8 +86,11 @@ SOLR_HOST=solr
 SOLR_PORT=8983
 SOLR_PATH=/
 SOLR_CORE_NAME=roadiz
+# For Solr Cloud, use the collection name instead of core name
+SOLR_COLLECTION_NAME=roadiz
 SOLR_COLLECTION_NUM_SHARDS=1
 SOLR_COLLECTION_REPLICATION_FACTOR=1
+SOLR_SECURE=0
 ###< nelmio/solarium-bundle ###
 ```
 
@@ -72,11 +107,37 @@ nelmio_solarium:
             port: '%env(int:SOLR_PORT)%'
             path: '%env(SOLR_PATH)%'
             core: '%env(SOLR_CORE_NAME)%'
+            #core: '%env(SOLR_COLLECTION_NAME)%'
     clients:
         default:
             endpoints: [default]
             # You can customize the http timeout (in seconds) here. The default is 5sec.
             adapter_timeout: 5
+```
+
+You can use Solr Cloud with a collection instead of a core by setting the `SOLR_COLLECTION_NAME` environment variable and commenting the `core` line.
+Then you will need to set the `SOLR_COLLECTION_NUM_SHARDS` and `SOLR_COLLECTION_REPLICATION_FACTOR` variables to configure your collection and execute
+`solr:init` command to create the collection.
+
+#### Extending Solr configuration
+
+If you want to add/remove fields and update filters you can add an event-subscriber to the `RZ\Roadiz\SolrBundle\Event\SolrInitializationEvent` event.
+An abstract subscriber is provided in the bundle to provide helper methods to add fields and filters: `RZ\Roadiz\SolrBundle\EventListener\AbstractSolrInitializationSubscriber`.
+
+### Initialize Solr Core or Collection
+
+```shell
+# Initialize Solr collection (for Solr Cloud)
+bin/console solr:init
+
+# Reindex all NodesSources
+bin/console solr:reindex
+```
+
+### Drop Solr Collection
+
+```shell
+bin/console solr:drop
 ```
 
 ### Api Resources
@@ -130,12 +191,19 @@ monolog:
             channels: ["searchEngine"]
 ```
 
-### Crontab
+### Cron
 
-You can add a crontab entry to reindex all your website content every day at midnight:
-```text
-0 0 * * *    /usr/local/bin/php -d memory_limit=-1 /app/bin/console solr:reindex --no-debug -n -q
+This bundle provides a new `CronTask` to update Solr index each night at 3:30 AM:
+
+```php
+#[AsCronTask(
+    expression: '30 3 * * *',
+    jitter: 120,
+    arguments: '--no-debug -n -q',
+)]
 ```
+
+Make sure to run Symfony scheduler.
 
 ## Contributing
 

@@ -6,35 +6,8 @@ ARG VARNISH_VERSION=7.6.1
 ARG NGINX_VERSION=1.27.5
 ARG MYSQL_VERSION=8.0.42
 ARG MARIADB_VERSION=10.11.9
-ARG SOLR_VERSION=9
 ARG COMPOSER_VERSION=2.8.1
 ARG PHP_EXTENSION_REDIS_VERSION=6.1.0
-
-
-##########
-# Solr   #
-##########
-
-FROM solr:${SOLR_VERSION}-slim AS solr
-
-LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
-
-ARG UID
-ARG GID
-
-USER root
-
-RUN <<EOF
-set -ex
-usermod -u ${UID} "$SOLR_USER"
-groupmod -g ${GID} "$SOLR_GROUP"
-chown -R ${UID}:${GID} /var/solr
-EOF
-
-COPY --link --chmod=644 docker/solr/managed-schema.xml /opt/solr/server/solr/configsets/_default/conf/managed-schema
-
-USER $SOLR_USER
-
 
 ###########
 # MySQL   #

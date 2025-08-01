@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\SolrBundle\Console;
+namespace RZ\Roadiz\SolrBundle\Command;
 
 use RZ\Roadiz\SolrBundle\ClientRegistryInterface;
 use Solarium\Core\Client\Client;

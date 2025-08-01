@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\SolrBundle\Console;
+namespace RZ\Roadiz\SolrBundle\Command;
 
 use RZ\Roadiz\CoreBundle\Console\ThemeAwareCommandInterface;
 use RZ\Roadiz\CoreBundle\Entity\Document;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\SolrBundle\Subscriber;
+namespace RZ\Roadiz\SolrBundle\EventListener;
 
 use RZ\Roadiz\CoreBundle\Entity\Document;
 use RZ\Roadiz\CoreBundle\Entity\Folder;

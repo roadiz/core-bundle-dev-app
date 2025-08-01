@@ -1,4 +1,9 @@
 ---
+parameters:
+    env(SOLR_SECURE): 'false'
+    env(SOLR_PORT): '8983'
+    env(SOLR_HOST): 'solr'
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -6,6 +11,12 @@ services:
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         bind:
             $defaultLocale: '%kernel.default_locale%'
+            $solrCollectionName: '%env(string:SOLR_COLLECTION_NAME)%'
+            $solrCollectionNumShards: '%env(int:SOLR_COLLECTION_NUM_SHARDS)%'
+            $solrCollectionReplicationFactor: '%env(int:SOLR_COLLECTION_REPLICATION_FACTOR)%'
+            $solrHostname: '%env(string:SOLR_HOST)%'
+            $solrPort: '%env(int:SOLR_PORT)%'
+            $solrSecure: '%env(bool:SOLR_SECURE)%'
 
     RZ\Roadiz\SolrBundle\:
         resource: '../src/'

@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\SolrBundle\Console;
+namespace RZ\Roadiz\SolrBundle\Command;
 
-use RZ\Roadiz\CoreBundle\Entity\Document;
+use RZ\Roadiz\CoreBundle\Entity\NodesSources;
 use RZ\Roadiz\SolrBundle\ClientRegistryInterface;
 use RZ\Roadiz\SolrBundle\Indexer\CliAwareIndexer;
 use RZ\Roadiz\SolrBundle\Indexer\IndexerFactoryInterface;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-final class SolrOptimizeCommand extends SolrCommand
+final class SolrResetCommand extends SolrCommand
 {
     public function __construct(
-        protected readonly IndexerFactoryInterface $indexerFactory,
+        private readonly IndexerFactoryInterface $indexerFactory,
         ClientRegistryInterface $clientRegistry,
         ?string $name = null,
     ) {
@@ -26,9 +27,9 @@ final class SolrOptimizeCommand extends SolrCommand
     #[\Override]
     protected function configure(): void
     {
-        $this->setName('solr:optimize')
+        $this->setName('solr:reset')
             ->addOption('client', null, InputOption::VALUE_REQUIRED, 'Solr client name to use', default: null)
-            ->setDescription('Optimize Solr search engine index');
+            ->setDescription('Reset Solr search engine index');
     }
 
     #[\Override]
@@ -39,13 +40,18 @@ final class SolrOptimizeCommand extends SolrCommand
         if (null === $this->validateSolrState($this->io, $input->getOption('client') ?: null)) {
             return 1;
         }
-
-        $documentIndexer = $this->indexerFactory->getIndexerFor(Document::class);
-        if ($documentIndexer instanceof CliAwareIndexer) {
-            $documentIndexer->setIo($this->io);
+        $confirmation = new ConfirmationQuestion(
+            '<question>Are you sure to reset Solr index?</question>',
+            false
+        );
+        if ($this->io->askQuestion($confirmation)) {
+            $indexer = $this->indexerFactory->getIndexerFor(NodesSources::class);
+            if ($indexer instanceof CliAwareIndexer) {
+                $indexer->setIo($this->io);
+            }
+            $indexer->emptySolr();
+            $this->io->success('Solr index resetted.');
         }
-        $documentIndexer->optimizeSolr();
-        $this->io->success('Solr core has been optimized.');
 
         return 0;
     }
