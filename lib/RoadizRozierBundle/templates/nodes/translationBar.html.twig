@@ -4,12 +4,12 @@
             {% set route = 'nodesEditSourcePage' %}
         {% endif %}
         <ul class="uk-navbar-nav">
-            {% for translation in available_translations %}
+            {%- for translation in available_translations -%}
                 <li class="node-translation-bar-item uk-navbar-item{% if current == translation.getId %} uk-active{% endif %}">
                     <a class="node-translation-bar-link uk-navbar-link"
                        href="{{ path(route, { nodeId: node.getId, translationId:translation.getId }) }}">{{ translation.preferredLocale }}</a>
                 </li>
-            {% endfor %}
+            {%- endfor -%}
             <li class="node-translation-bar-item uk-navbar-item">
                 <a href="{{ path('nodesTranslatePage', { nodeId: node.getId }) }}"
                    title="{% trans %}translate.node{% endtrans %}"

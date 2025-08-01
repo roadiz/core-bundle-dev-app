@@ -6,11 +6,11 @@
 
 <nav class="document-translation-bar translation-bar uk-navbar">
     <ul class="uk-navbar-nav">
-        {% for translation in available_translations %}
+        {%- for translation in available_translations -%}
             {% set editRouteParams = editRouteParams|merge({ translationId: translation.id }) %}
             <li class="document-translation-bar-item uk-navbar-item{% if current == translation.id %} uk-active{% endif %}">
                 <a class="document-translation-bar-link uk-navbar-link" href="{{ path('documentsMetaPage', editRouteParams) }}">{{ translation.locale }}</a>
             </li>
-        {% endfor %}
+        {%- endfor -%}
     </ul>
 </nav>
