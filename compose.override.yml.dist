@@ -21,6 +21,23 @@ services:
     solr:
         ports:
             - "${PUBLIC_SOLR_PORT}:8983/tcp"
+        volumes:
+            - "solr-standalone:/var/solr"
+        command:
+            - solr-precreate
+            - ${SOLR_CORE_NAME}
+
+# Use SolrCloud mode if you want to use multiple Solr nodes
+#        volumes:
+#            - solr-cloud:/var/solr
+#        environment:
+#            ZK_HOST: "zoo:2181"
+#        depends_on: [ zoo ]
+#
+#    zoo:
+#        image: zookeeper:3.9
+#        environment:
+#            ZOO_4LW_COMMANDS_WHITELIST: "mntr,conf,ruok"
 
 #    # Override app service if you use frankenphp
 #    app:
@@ -65,10 +82,8 @@ services:
 
 volumes:
     redis:
-    solr:
-    zookeeper-data:
-    zookeeper-datalog:
-    zookeeper-logs:
+    solr-standalone:
+#    solr-cloud:
     # Declare caddy_data and caddy_config volumes if you use Frankenphp
 #    caddy_data:
 #    caddy_config:

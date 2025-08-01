@@ -3,7 +3,6 @@
 Roadiz is a _Symfony_ application running on PHP. 
 You can follow regular [Symfony requirements](https://symfony.com/doc/6.4/setup.html#technical-requirements) to optimize your local or production setup, which includes:
 
-
 - **Web Server:** Nginx or Apache with a dedicated virtual host (as described below).
 - **PHP Version:** PHP 8.3+
 - **PHP Extensions:** JSON, Intl, cURL, MBString, PCRE, Session, Zip, SimpleXML, and Tokenizer (usually installed by default).

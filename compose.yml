@@ -40,35 +40,24 @@ services:
 #        depends_on:
 #            - db
 
-#    solr:
-#        hostname: solr
-#        build:
-#            # Custom image for file permissions
-#            target: solr
-#            args:
-#                UID: ${UID:-1000}
+    solr:
+        image: solr:9-slim
 #        volumes:
-#            - "solr_data:/var/solr"
+#            - "solr-standalone:/var/solr"
 #        command:
 #            - solr-precreate
 #            - ${SOLR_CORE_NAME}
-
-    solr:
-        image: solr:9-slim
-        volumes:
-            - solr:/var/solr
-        environment:
-            ZK_HOST: "zookeeper:2181"
-        depends_on: [ zookeeper ]
-
-    zookeeper:
-        image: pravega/zookeeper:0.2.15
-        volumes:
-            - zookeeper-data:/data
-            - zookeeper-datalog:/datalog
-            - zookeeper-logs:/logs
-        environment:
-            ZOO_4LW_COMMANDS_WHITELIST: mntr,conf,ruok
+# --- Use SolrCloud mode if you want to use multiple Solr nodes
+#        volumes:
+#            - solr-cloud:/var/solr
+#        environment:
+#            ZK_HOST: "zoo:2181"
+#        depends_on: [ zoo ]
+#
+#    zoo:
+#        image: zookeeper:3.9
+#        environment:
+#            ZOO_4LW_COMMANDS_WHITELIST: "mntr,conf,ruok"
 
     redis:
         image: redis:7-alpine
@@ -154,7 +143,5 @@ networks:
 
 volumes:
     redis:
-    solr:
-    zookeeper-data:
-    zookeeper-datalog:
-    zookeeper-logs:
+#    solr-standalone:
+#    solr-cloud:

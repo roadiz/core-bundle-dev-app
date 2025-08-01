@@ -3,6 +3,10 @@ parameters:
     env(SOLR_SECURE): 'false'
     env(SOLR_PORT): '8983'
     env(SOLR_HOST): 'solr'
+    env(SOLR_COLLECTION_NAME): 'roadiz'
+    env(SOLR_CORE_NAME): 'roadiz'
+    env(SOLR_COLLECTION_NUM_SHARDS): '1'
+    env(SOLR_COLLECTION_REPLICATION_FACTOR): '1'
 
 services:
     # default configuration for services in *this* file

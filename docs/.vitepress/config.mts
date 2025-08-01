@@ -61,6 +61,7 @@ export default ({ mode }) => {
                         { text: 'Requirements', link: '/developer/first-steps/requirements' },
                         { text: 'Installation', link: '/developer/first-steps/installation' },
                         { text: 'Configuration', link: '/developer/first-steps/manual_config' },
+                        { text: 'Solr search engine', link: '/developer/first-steps/use_apache_solr' },
                         { text: 'Upgrading', link: '/developer/first-steps/upgrading' },
                         { text: 'Security', link: '/developer/security/security' },
                         {

@@ -108,42 +108,6 @@ one of the following keys in `required` property, Roadiz will automatically veri
 - `g-recaptcha-response`
 - `cf-turnstile-response`
 
-## Use Apache Solr as Roadiz search engine
-
-Since version 2.6, Roadiz removed *Apache Solr* from its Core bundle. To enable it, you need to install the Solr bundle.
-
-```sh
-composer require roadiz/solr-bundle
-```
-
-Roadiz Solr bundle uses *Nelmio Solarium* package to provide a Solarium API client. 
-Configure your default endpoint in `config/packages/nelmio_solarium.yaml`:
-
-```yaml
-nelmio_solarium:
-    endpoints:
-        default:
-            host: '%env(SOLR_HOST)%'
-            port: '%env(int:SOLR_PORT)%'
-            path: '%env(SOLR_PATH)%'
-            core: '%env(SOLR_CORE_NAME)%'
-    clients:
-        default:
-            endpoints: [default]
-            # You can customize the http timeout (in seconds) here. The default is 5sec.
-            adapter_timeout: 5
-
-```
-
-Run the following command to check your Solr index:
-
-```sh
-bin/console solr:check
-
-# Then reindex your project Documents, NodeSources and Nodes
-bin/console solr:reindex
-```
-
 ## Reverse Proxy Cache Invalidation
 
 Roadiz supports cache invalidation for both external (e.g., *Varnish*) and internal (*Symfony* AppCache) reverse proxies. 
@@ -226,8 +190,8 @@ doctrine:
                         alias: App
 ```
 
-::: tip
-Use `type: attribute` whenever possible. Doctrine annotations are deprecated.
+::: info
+Always use `type: attribute` as Doctrine annotations support has been dropped on Symfony 7.3+.
 :::
 
 ## Configure Mailer
@@ -235,8 +199,18 @@ Use `type: attribute` whenever possible. Doctrine annotations are deprecated.
 Roadiz uses *Symfony Mailer* for email handling.
 [Symfony Mailer Setup](https://symfony.com/doc/6.4/mailer.html#transport-setup)
 
-::: warning
-Ensure your email sender is from a validated domain to avoid being blacklisted.
+```yaml
+# config/packages/mailer.yaml
+framework:
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+        # Mailer Envelope configuration
+        envelope:
+            sender: '%env(string:MAILER_ENVELOP_SENDER)%'
+```
+
+::: tip
+Check that your envelope sender address is from a validated domain (i.e. SPF, DKIM) to avoid being blacklisted.
 :::
 
 ## Image Processing
