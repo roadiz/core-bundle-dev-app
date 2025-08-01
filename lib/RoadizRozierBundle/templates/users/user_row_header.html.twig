@@ -26,10 +26,10 @@
 <th class="mobile-hidden uk-visible-xlarge">{% trans %}user.roles{% endtrans %}</th>
 <th class="mobile-hidden uk-visible-large">{% trans %}user.status{% endtrans %}</th>
 <th class="table-actions-row table-actions-row-3">
-    {% if hasBulkActions %}
-        <div class="bulk-selection">
-            <input class="checkbox" type="checkbox" name="bulk-selection-all" />
-        </div>
-    {% endif %}
-    {% trans %}actions{% endtrans %}
+{% if hasBulkActions %}
+    <div class="bulk-selection">
+        <input class="checkbox" type="checkbox" name="bulk-selection-all" />
+    </div>
+{% endif %}
+{% trans %}actions{% endtrans %}
 </th>

@@ -49,16 +49,18 @@
                             </a>
                         </td>
                         <td class="table-actions-row">
-                            <a class="uk-button uk-button-content uk-button-small"
-                               href="{{ path('attributeGroupsEditPage', { id: item.id }) }}"
-                               title="{% trans %}edit{% endtrans %}"
-                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                            {% if is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') %}
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                   href="{{ path('attributeGroupsDeletePage', { id: item.id }) }}"
-                                   title="{% trans %}delete{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></a>
-                            {% endif %}
+                            <div class="uk-button-group">
+                                <a class="uk-button uk-button-content uk-button-small"
+                                   href="{{ path('attributeGroupsEditPage', { id: item.id }) }}"
+                                   title="{% trans %}edit{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+                                {% if is_granted('ROLE_ACCESS_ATTRIBUTES_DELETE') %}
+                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                       href="{{ path('attributeGroupsDeletePage', { id: item.id }) }}"
+                                       title="{% trans %}delete{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></a>
+                                {% endif %}
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}

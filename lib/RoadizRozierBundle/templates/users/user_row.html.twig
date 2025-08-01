@@ -61,21 +61,23 @@
         </div>
     {% endif %}
     {% if is_granted('ROLE_SUPERADMIN') or not item.SuperAdmin %}
-        <a class="uk-button uk-button-content uk-button-small"
-           href="{{ path('usersEditPage', { id: item.id }) }}"
-           title="{% trans %}edit{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-        {% if not (item.username == app.user.username or is_granted('IS_IMPERSONATOR')) %}
-            <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
-               href="{{ path('adminHomePage') }}?_su={{ item.username }}"
-               title="{% trans %}start.test.user.right{% endtrans %}"
-               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-sudo"></i></a>
-        {% endif %}
-        {% if is_granted('ROLE_ACCESS_USERS_DELETE') %}
-            <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-               href="{{ path('usersDeletePage', { id: item.id }) }}"
-               title="{% trans %}delete{% endtrans %}"
-               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-        {% endif %}
+        <div class="uk-button-group">
+            <a class="uk-button uk-button-content uk-button-small"
+               href="{{ path('usersEditPage', { id: item.id }) }}"
+               title="{% trans %}edit{% endtrans %}"
+               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+            {% if not (item.username == app.user.username or is_granted('IS_IMPERSONATOR')) %}
+                <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
+                   href="{{ path('adminHomePage') }}?_su={{ item.username }}"
+                   title="{% trans %}start.test.user.right{% endtrans %}"
+                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-sudo"></i></a>
+            {% endif %}
+            {% if is_granted('ROLE_ACCESS_USERS_DELETE') %}
+                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                   href="{{ path('usersDeletePage', { id: item.id }) }}"
+                   title="{% trans %}delete{% endtrans %}"
+                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+            {% endif %}
+        </div>
     {% endif %}
 </td>

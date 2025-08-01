@@ -53,10 +53,12 @@
             <div class="bulk-selection">
                 <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ document.id }}" />
             </div>
-            <a class="uk-button uk-button-content uk-button-small document-link"
-               href="{{ path('documentsEditPage', { documentId: document.id }) }}"><i class="uk-icon-rz-pencil"></i></a>
-            <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-               href="{{ path('documentsDeletePage', { documentId: document.id }) }}"><i class="uk-icon-trash-o"></i></a>
+            <div class="uk-button-group">
+                <a class="uk-button uk-button-content uk-button-small document-link"
+                   href="{{ path('documentsEditPage', { documentId: document.id }) }}"><i class="uk-icon-rz-pencil"></i></a>
+                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                   href="{{ path('documentsDeletePage', { documentId: document.id }) }}"><i class="uk-icon-trash-o"></i></a>
+            </div>
         </td>
     </tr>
 {% endmacro %}

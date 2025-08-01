@@ -44,7 +44,12 @@
                         <td>{{ role }}</td>
                         <td class="table-actions-row table-actions-row-3">
                             {% if is_granted(role) %}
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('usersRemoveRolesPage', { userId: user.id, role: role }) }}" title="{% trans %}remove{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                            <div class="uk-button-group">
+                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                   href="{{ path('usersRemoveRolesPage', { userId: user.id, role: role }) }}"
+                                   title="{% trans %}remove{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                            </div>
                             {% endif %}
                         </td>
                     </tr>

@@ -41,25 +41,28 @@
         <div class="bulk-selection">
             <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ node.id }}" />
         </div>
-        <a class="uk-button uk-button-content uk-button-small"
-           href="{{ path('nodesEditPage', { nodeId: node.id }) }}"
-           title="{% trans %}edit.node{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-        <a class="uk-button uk-button-content uk-button-small"
-           href="{{ path('nodesTreePage', { nodeId: node.id }) }}"
-           title="{% trans %}see.nodetree{% endtrans %}"
-           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-tree-mini"></i></a>
-        {% if workflow_can(node, 'delete') %}
-            <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-               href="{{ path('nodesDeletePage', { nodeId: node.id }) }}"
-               title="{% trans %}delete{% endtrans %}"
-               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-        {% endif %}
-        {% if workflow_can(node, 'undelete') %}
+
+        <div class="uk-button-group">
             <a class="uk-button uk-button-content uk-button-small"
-               href="{{ path('nodesUndeletePage', { nodeId: node.id }) }}"
-               data-uk-tooltip="{animation:true}"
-               title="{% trans %}undelete{% endtrans %}"><i class="uk-icon-rz-untrash"></i></a>
-        {% endif %}
+               href="{{ path('nodesEditPage', { nodeId: node.id }) }}"
+               title="{% trans %}edit.node{% endtrans %}"
+               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+            <a class="uk-button uk-button-content uk-button-small"
+               href="{{ path('nodesTreePage', { nodeId: node.id }) }}"
+               title="{% trans %}see.nodetree{% endtrans %}"
+               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-tree-mini"></i></a>
+            {% if workflow_can(node, 'delete') %}
+                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                   href="{{ path('nodesDeletePage', { nodeId: node.id }) }}"
+                   title="{% trans %}delete{% endtrans %}"
+                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+            {% endif %}
+            {% if workflow_can(node, 'undelete') %}
+                <a class="uk-button uk-button-content uk-button-small"
+                   href="{{ path('nodesUndeletePage', { nodeId: node.id }) }}"
+                   data-uk-tooltip="{animation:true}"
+                   title="{% trans %}undelete{% endtrans %}"><i class="uk-icon-rz-untrash"></i></a>
+            {% endif %}
+        </div>
     </td>
 </tr>

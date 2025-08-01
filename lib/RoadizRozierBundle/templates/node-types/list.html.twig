@@ -79,16 +79,18 @@
                                 {%- endif -%}
                             </td>
                             <td class="table-actions-row">
-                                <a class="uk-button uk-button-content uk-button-small"
-                                   href="{{ path('nodeTypeFieldsListPage', { nodeTypeName: type.name }) }}"
-                                   title="{% trans %}manage.nodeTypeFields{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-type-field"></i></a>
-                                <a class="uk-button uk-button-content uk-button-small"
-                                   href="{{ path('nodeTypeDecoratorsAddPage', {'nodeTypeName': type.name}) }}"
-                                   title="{% trans %}add.a.nodeTypeDecorator{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}">
-                                    <i class="uk-icon-pencil"></i>
-                                </a>
+                                <div class="uk-button-group">
+                                    <a class="uk-button uk-button-content uk-button-small"
+                                       href="{{ path('nodeTypeFieldsListPage', { nodeTypeName: type.name }) }}"
+                                       title="{% trans %}manage.nodeTypeFields{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-type-field"></i></a>
+                                    <a class="uk-button uk-button-content uk-button-small"
+                                       href="{{ path('nodeTypeDecoratorsAddPage', {'nodeTypeName': type.name}) }}"
+                                       title="{% trans %}add.a.nodeTypeDecorator{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}">
+                                        <i class="uk-icon-pencil"></i>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     {%- endfor -%}

@@ -52,32 +52,34 @@
                                     {{ form_end(attribute_value_translation_form) }}
                                 </td>
                                 <td class="table-actions-row">
-                                    <a class="uk-button uk-button-content uk-button-small uk-button-settings-save no-ajax-link uk-button-success"
-                                       href="#{{ attribute_value_translation_form.vars.id }}"
-                                       title="{% trans %}save{% endtrans %}"
-                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-save-mini"></i></a>
+                                    <div class="uk-button-group">
+                                        <a class="uk-button uk-button-content uk-button-small uk-button-settings-save no-ajax-link uk-button-success"
+                                           href="#{{ attribute_value_translation_form.vars.id }}"
+                                           title="{% trans %}save{% endtrans %}"
+                                           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-save-mini"></i></a>
 
-                                    {% if translation and attributeValue.attributeValueTranslations.count > 1 %}
-                                        <a class="uk-button uk-button-content uk-button-small uk-button-table-warning"
-                                           href="{{ path('nodesResetAttributesPage', {
-                                               nodeId : node.id,
-                                               translationId : translation.id,
-                                               attributeValueId : attributeValue.id
-                                           }) }}"
-                                           title="{% trans %}attributes.reset_value{% endtrans %}"
-                                           data-uk-tooltip="{animation:true}"><i class="uk-icon-undo"></i></a>
-                                    {% endif %}
+                                        {% if translation and attributeValue.attributeValueTranslations.count > 1 %}
+                                            <a class="uk-button uk-button-content uk-button-small uk-button-table-warning"
+                                               href="{{ path('nodesResetAttributesPage', {
+                                                   nodeId : node.id,
+                                                   translationId : translation.id,
+                                                   attributeValueId : attributeValue.id
+                                               }) }}"
+                                               title="{% trans %}attributes.reset_value{% endtrans %}"
+                                               data-uk-tooltip="{animation:true}"><i class="uk-icon-undo"></i></a>
+                                        {% endif %}
 
-                                    {% if translation and (translation.defaultTranslation or attributeValue.attributeValueTranslations.count == 1) %}
-                                        <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                           href="{{ path('nodesDeleteAttributesPage', {
-                                               nodeId : node.id,
-                                               translationId : translation.id,
-                                               attributeValueId : attributeValue.id
-                                           }) }}"
-                                           title="{% trans %}attributes.delete_value{% endtrans %}"
-                                           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                                    {% endif %}
+                                        {% if translation and (translation.defaultTranslation or attributeValue.attributeValueTranslations.count == 1) %}
+                                            <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                               href="{{ path('nodesDeleteAttributesPage', {
+                                                   nodeId : node.id,
+                                                   translationId : translation.id,
+                                                   attributeValueId : attributeValue.id
+                                               }) }}"
+                                               title="{% trans %}attributes.delete_value{% endtrans %}"
+                                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                                        {% endif %}
+                                    </div>
                                 </td>
                             </tr>
                         {% endfor %}

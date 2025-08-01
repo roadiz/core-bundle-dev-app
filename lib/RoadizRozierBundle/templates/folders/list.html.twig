@@ -34,21 +34,23 @@
                         <td>
                             <a href="{{ path('foldersEditPage', { folderId: folder.id }) }}">{{ folder.folderName }}</a>
                         </td>
-                        <td>
-                            <a class="uk-button uk-button-content uk-button-small"
-                               href="{{ path('foldersEditPage', { folderId: folder.id }) }}"
-                               title="{% trans %}edit{% endtrans %}"
-                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                            <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
-                               href="{{ path('foldersDownloadPage', { folderId: folder.id }) }}"
-                               title="{% trans %}download.folder.content{% endtrans %}"
-                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></a>
-                            {% if not folder.Locked %}
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                   href="{{ path('foldersDeletePage', { folderId: folder.id }) }}"
-                                   title="{% trans %}delete{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></a>
-                            {% endif %}
+                        <td class="table-actions-row table-actions-row-3">
+                            <div class="uk-button-group">
+                                <a class="uk-button uk-button-content uk-button-small"
+                                   href="{{ path('foldersEditPage', { folderId: folder.id }) }}"
+                                   title="{% trans %}edit{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+                                <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
+                                   href="{{ path('foldersDownloadPage', { folderId: folder.id }) }}"
+                                   title="{% trans %}download.folder.content{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></a>
+                                {% if not folder.Locked %}
+                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                       href="{{ path('foldersDeletePage', { folderId: folder.id }) }}"
+                                       title="{% trans %}delete{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></a>
+                                {% endif %}
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}

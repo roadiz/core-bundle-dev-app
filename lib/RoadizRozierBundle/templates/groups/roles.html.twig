@@ -28,7 +28,7 @@
                     {%- for role in item.roles -%}
                     <tr>
                         <td>{{ role }}</td>
-                        <td>
+                        <td class="table-actions-row">
                             {% if is_granted(role) %}
                                 <a class="uk-button uk-button-content uk-button-small uk-button-danger"
                                    href="{{ path('groupsRemoveRolesPage', { id: item.id, role: role }) }}"

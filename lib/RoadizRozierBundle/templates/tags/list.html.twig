@@ -56,12 +56,14 @@
                                     <input class="tag-checkbox" type="checkbox" name="bulk-selection[]" value="{{ tag.id }}" />
                                 </div>
                                 {% endif %}
-                                <a class="uk-button uk-button-content uk-button-small" href="{{ path('tagsEditTranslatedPage', { tagId: tag.id, translationId: ttag.translation.id }) }}" title="{% trans %}edit.tag{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
-                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('tagsDeletePage', { tagId: tag.id }) }}" title="{% trans %}delete.tag{% endtrans %}" data-uk-tooltip="{animation:true}">
-                                        <i class="uk-icon-rz-trash-o"></i>
-                                    </a>
-                                {% endif %}
+                                <div class="uk-button-group">
+                                    <a class="uk-button uk-button-content uk-button-small" href="{{ path('tagsEditTranslatedPage', { tagId: tag.id, translationId: ttag.translation.id }) }}" title="{% trans %}edit.tag{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+                                    {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
+                                        <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('tagsDeletePage', { tagId: tag.id }) }}" title="{% trans %}delete.tag{% endtrans %}" data-uk-tooltip="{animation:true}">
+                                            <i class="uk-icon-rz-trash-o"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                         {% else %}
@@ -74,13 +76,20 @@
                                         <input class="tag-checkbox" type="checkbox" name="bulk-selection[]" value="{{ tag.id }}" />
                                     </div>
                                 {% endif %}
-                                <a class="uk-button uk-button-content uk-button-small" href="{{ path('tagsEditPage', { tagId: tag.id }) }}" title="{% trans %}edit.tag{% endtrans %}" data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-
-                                {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
-                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger" href="{{ path('tagsDeletePage', { tagId: tag.id }) }}" title="{% trans %}delete.tag{% endtrans %}" data-uk-tooltip="{animation:true}">
-                                        <i class="uk-icon-rz-trash-o"></i>
-                                    </a>
-                                {% endif %}
+                                <div class="uk-button-group">
+                                    <a class="uk-button uk-button-content uk-button-small"
+                                       href="{{ path('tagsEditPage', { tagId: tag.id }) }}"
+                                       title="{% trans %}edit.tag{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+                                    {% if is_granted('ROLE_ACCESS_TAGS_DELETE') and not tag.locked %}
+                                        <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                           href="{{ path('tagsDeletePage', { tagId: tag.id }) }}"
+                                           title="{% trans %}delete.tag{% endtrans %}"
+                                           data-uk-tooltip="{animation:true}">
+                                            <i class="uk-icon-rz-trash-o"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </td>
                         </tr>
                         {% endif %}

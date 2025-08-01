@@ -56,18 +56,20 @@
                         <td>{{ ('realm.behaviour_' ~ item.behaviour)|trans }}</td>
                         <td>{{ item.serializationGroup }}</td>
                         <td class="table-actions-row">
-                            <a class="uk-button uk-button-content uk-button-small"
-                               href="{{ path('realmsEditPage', { id: item.id }) }}"
-                               title="{% trans %}edit{% endtrans %}"
-                               data-uk-tooltip="{animation:true}">
-                                <i class="uk-icon-rz-pencil"></i>
-                            </a>
-                            <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                               href="{{ path('realmsDeletePage', { id: item.id }) }}"
-                               title="{% trans %}delete{% endtrans %}"
-                               data-uk-tooltip="{animation:true}">
-                                <i class="uk-icon-rz-trash-mini-o"></i>
-                            </a>
+                            <div class="uk-button-group">
+                                <a class="uk-button uk-button-content uk-button-small"
+                                   href="{{ path('realmsEditPage', { id: item.id }) }}"
+                                   title="{% trans %}edit{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}">
+                                    <i class="uk-icon-rz-pencil"></i>
+                                </a>
+                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                   href="{{ path('realmsDeletePage', { id: item.id }) }}"
+                                   title="{% trans %}delete{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}">
+                                    <i class="uk-icon-rz-trash-mini-o"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}

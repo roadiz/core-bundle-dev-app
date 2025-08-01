@@ -40,26 +40,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in items %}
+                    {%- for item in items -%}
                     <tr>
                         <td><a href="{{ path('settingGroupsEditPage', { id: item.id }) }}">{{ item.getName }}</a></td>
                         <td class="mobile-hidden">{% if item.isInMenu %}<div class="uk-badge uk-badge-table uk-badge-notification"><i class="uk-icon-rz-statuses"></i></div>{% endif %}</td>
                         <td class="table-actions-row">
-                            <a class="uk-button uk-button-content uk-button-small"
-                               href="{{ path('settingGroupsEditPage', { id: item.id }) }}"
-                               title="{% trans %}edit{% endtrans %}"
-                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                            <a class="uk-button uk-button-content uk-button-small"
-                               href="{{ path('settingGroupsSettingsPage', { settingGroupId: item.id }) }}"
-                               title="{% trans %}see.settings{% endtrans %}"
-                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-settings-general"></i></a>
-                            <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                               href="{{ path('settingGroupsDeletePage', { id: item.id }) }}"
-                               title="{% trans %}delete{% endtrans %}"
-                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                            <div class="uk-button-group">
+                                <a class="uk-button uk-button-content uk-button-small"
+                                   href="{{ path('settingGroupsEditPage', { id: item.id }) }}"
+                                   title="{% trans %}edit{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+                                <a class="uk-button uk-button-content uk-button-small"
+                                   href="{{ path('settingGroupsSettingsPage', { settingGroupId: item.id }) }}"
+                                   title="{% trans %}see.settings{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-settings-general"></i></a>
+                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                   href="{{ path('settingGroupsDeletePage', { id: item.id }) }}"
+                                   title="{% trans %}delete{% endtrans %}"
+                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                            </div>
                         </td>
                     </tr>
-                    {% endfor %}
+                    {%- endfor -%}
                 </tbody>
             </table>
         </div>

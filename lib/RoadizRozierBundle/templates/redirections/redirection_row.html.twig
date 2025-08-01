@@ -23,12 +23,14 @@
             <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ item.id }}" />
         </div>
     {% endif %}
-    <a class="uk-button uk-button-content uk-button-small"
-       href="{{ url }}"
-       title="{% trans %}edit{% endtrans %}"
-       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-    <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-       href="{{ path('redirectionsDeletePage', { id: item.id }) }}"
-       title="{% trans %}delete{% endtrans %}"
-       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+    <div class="uk-button-group">
+        <a class="uk-button uk-button-content uk-button-small"
+           href="{{ url }}"
+           title="{% trans %}edit{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+        <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+           href="{{ path('redirectionsDeletePage', { id: item.id }) }}"
+           title="{% trans %}delete{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+    </div>
 </td>

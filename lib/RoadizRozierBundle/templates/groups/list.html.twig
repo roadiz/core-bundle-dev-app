@@ -49,22 +49,24 @@
                                 </td>
                                 <td class="table-actions-row">
                                     {% if not item.required %}
-                                        {% if is_granted(item) %}
-                                            <a class="uk-button uk-button-content uk-button-small"
-                                               href="{{ path('groupsEditPage', { id: item.id }) }}"
-                                               title="{% trans %}edit{% endtrans %}"
-                                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
-                                        {% endif %}
-                                        <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
-                                           href="{{ path('groupsExportPage', { id: item.id }) }}"
-                                           title="{% trans %}export{% endtrans %}"
-                                           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></a>
-                                        {% if is_granted(item) %}
-                                            <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                               href="{{ path('groupsDeletePage', { id: item.id }) }}"
-                                               title="{% trans %}delete{% endtrans %}"
-                                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
-                                        {% endif %}
+                                        <div class="uk-button-group">
+                                            {% if is_granted(item) %}
+                                                <a class="uk-button uk-button-content uk-button-small"
+                                                   href="{{ path('groupsEditPage', { id: item.id }) }}"
+                                                   title="{% trans %}edit{% endtrans %}"
+                                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+                                            {% endif %}
+                                            <a class="uk-button uk-button-content uk-button-small rz-no-ajax-link"
+                                               href="{{ path('groupsExportPage', { id: item.id }) }}"
+                                               title="{% trans %}export{% endtrans %}"
+                                               data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-download"></i></a>
+                                            {% if is_granted(item) %}
+                                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                                   href="{{ path('groupsDeletePage', { id: item.id }) }}"
+                                                   title="{% trans %}delete{% endtrans %}"
+                                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+                                            {% endif %}
+                                        </div>
                                     {% else %}
                                         <div class="uk-badge uk-badge-table">
                                             <span class="uk-icon-rz-lock"></span>

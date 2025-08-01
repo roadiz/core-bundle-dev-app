@@ -57,16 +57,18 @@
                             <td class="mobile-hidden">{{ type.email }}</td>
                             <td>{{ type.submittedAt|format_date('short', locale=app.request.locale) }}</td>
                             <td class="table-actions-row table-actions-row-2">
-                                <a class="uk-button uk-button-content uk-button-small"
-                                   href="{{ path('customFormFieldAttributesHomePage', { customFormAnswerId: type.getId }) }}"
-                                   title="{% trans %}customFormAnswer.answers{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-type-field"></i></a>
-                                <a class="uk-button uk-button-content uk-button-small uk-button-danger"
-                                   href="{{ path('customFormAnswersDeletePage', { customFormAnswerId: type.getId }) }}"
-                                   title="{% trans %}delete{% endtrans %}"
-                                   data-uk-tooltip="{animation:true}">
-                                    <i class="uk-icon-rz-trash-o"></i>
-                                </a>
+                                <div class="uk-button-group">
+                                    <a class="uk-button uk-button-content uk-button-small"
+                                       href="{{ path('customFormFieldAttributesHomePage', { customFormAnswerId: type.getId }) }}"
+                                       title="{% trans %}customFormAnswer.answers{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-node-type-field"></i></a>
+                                    <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+                                       href="{{ path('customFormAnswersDeletePage', { customFormAnswerId: type.getId }) }}"
+                                       title="{% trans %}delete{% endtrans %}"
+                                       data-uk-tooltip="{animation:true}">
+                                        <i class="uk-icon-rz-trash-o"></i>
+                                    </a>
+                                </div>
                             </td>
                         </tr>
                     {% endfor %}
