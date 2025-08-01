@@ -17,16 +17,14 @@
         {{ form_widget(form) }}
         <fieldset data-uk-margin>
             <legend class="uk-alert uk-alert-danger"><i class="uk-icon uk-icon-warning"></i> {% trans %}are_you_sure.delete.realm{% endtrans %}</legend>
-            {% apply spaceless %}
-                <a href="{{ path('realmsHomePage') }}"
-                   class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
-                <button class="uk-button uk-button-danger" type="submit">
-                    <span class="icon-container"><i class="uk-icon-rz-trash-o"></i></span>
-                    <span class="label"><span class="label-text">{% block content_form_submit_label %}
-                                {%- trans -%}delete{%- endtrans -%}
-                            {% endblock %}</span></span>
-                </button>
-            {% endapply %}
+            <a href="{{ path('realmsHomePage') }}"
+               class="uk-button"><i class="uk-icon-rz-back-parent"></i> {% trans %}cancel{% endtrans %}</a>
+            <button class="uk-button uk-button-danger" type="submit">
+                <span class="icon-container"><i class="uk-icon-rz-trash-o"></i></span>
+                <span class="label"><span class="label-text">{% block content_form_submit_label %}
+                            {%- trans -%}delete{%- endtrans -%}
+                        {% endblock %}</span></span>
+            </button>
         </fieldset>
         {{ form_end(form) }}
     </article>

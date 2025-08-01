@@ -44,17 +44,15 @@
     <article class="content">
         {% block pre_content_body %}{% endblock %}
 
-        {% apply spaceless %}
-            <div class="documents-list">
-                {% for document in documents %}
-                    {% include '@RoadizRozier/documents/singleDocumentThumbnail.html.twig' with {
-                        document: document,
-                        thumbnailFormat: thumbnailFormat,
-                        controls: true
-                    } only %}
-                {% endfor %}
-            </div>
-        {% endapply %}
+        <div class="documents-list">
+            {% for document in documents %}
+                {% include '@RoadizRozier/documents/singleDocumentThumbnail.html.twig' with {
+                    document: document,
+                    thumbnailFormat: thumbnailFormat,
+                    controls: true
+                } only %}
+            {% endfor %}
+        </div>
 	</article>
     {% endblock %}
 </section>

@@ -27,12 +27,10 @@
             <form id="edit-seo-form" class="uk-form uk-form-stacked" action="#" method="post">
                 {{ form_widget(seoForm) }}
                 <fieldset data-uk-margin>
-                    {% apply spaceless %}
-                        <button data-action-save="#edit-seo-form" class="uk-button uk-button-success rz-action-save" type="submit">
-                            <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
-                            <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
-                        </button>
-                    {% endapply %}
+                    <button data-action-save="#edit-seo-form" class="uk-button uk-button-success rz-action-save" type="submit">
+                        <span class="icon-container"><i class="uk-icon-rz-save-mini"></i></span>
+                        <span class="label"><span class="label-text">{% trans %}save{% endtrans %}</span></span>
+                    </button>
                 </fieldset>
             </form>
             <hr />

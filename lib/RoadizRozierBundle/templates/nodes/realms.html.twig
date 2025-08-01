@@ -53,7 +53,6 @@
                             <td>{{ nodeRealm.realm.behaviour ? ('realm.behaviour_' ~ nodeRealm.realm.behaviour)|trans : '' }}</td>
                             <td>{{ ('realm_node.' ~ nodeRealm.inheritanceType)|trans }}</td>
                             <td class="table-actions-row">
-                                {% apply spaceless %}
                                 {% if nodeRealm.realm and accessRealms %}
                                     <a class="uk-button uk-button-content uk-button-small"
                                        href="{{ path('realmsEditPage', {
@@ -73,8 +72,6 @@
                                    data-uk-tooltip="{animation:true}">
                                     <i class="uk-icon-rz-trash-mini-o"></i>
                                 </a>
-
-                                {% endapply %}
                             </td>
                         </tr>
                     {% endfor %}

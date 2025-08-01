@@ -1,0 +1,45 @@
+{% if hasBulkActions %}
+    <nav class="bulk-actions bulk-actions--collapsed">
+        <div class="bulk-actions-title-cont">
+            <h3 class="bulk-actions-title">{% trans %}bulk.actions{% endtrans %}</h3>
+        </div>
+        <div class="bulk-actions__actions">
+            <button type="button"
+                    class="uk-button uk-button-bulk uk-button-bulk-deselect uk-button-bulk-deselect-tags"
+                    title="{% trans %}deselect.all{% endtrans %}"
+                    data-uk-tooltip="{animation:true}"><i class="uk-icon-square-o"></i></button>
+            {# Links #}
+            {% if bulkDeleteForm %}
+                {% form_theme bulkDeleteForm '@RoadizRozier/horizontalForms.html.twig' %}
+                {{ form_start(bulkDeleteForm) }}
+                {{ form_widget(bulkDeleteForm) }}
+                <button type="submit"
+                        class="uk-button uk-button-bulk uk-button-danger uk-button-bulk-delete rz-no-ajax-link"
+                        title="{% trans %}bulk.delete{% endtrans %}"
+                        data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-mini-o"></i></button>
+                {{ form_end(bulkDeleteForm) }}
+            {% endif %}
+            {% if bulkPublishForm %}
+                {% form_theme bulkPublishForm '@RoadizRozier/horizontalForms.html.twig' %}
+                {{ form_start(bulkPublishForm) }}
+                    {{ form_widget(bulkPublishForm) }}
+                    <button type="submit"
+                            class="uk-button uk-button-bulk uk-button-success rz-no-ajax-link"
+                            title="{% trans %}bulk.publish{% endtrans %}"
+                            data-uk-tooltip="{animation:true}"><i class="uk-icon-check-circle-o"></i> </button>
+                {{ form_end(bulkPublishForm) }}
+            {% endif %}
+            {% if bulkUnpublishForm %}
+                {% form_theme bulkUnpublishForm '@RoadizRozier/horizontalForms.html.twig' %}
+                {{ form_start(bulkUnpublishForm) }}
+                    {{ form_widget(bulkUnpublishForm) }}
+                    <button type="submit"
+                            class="uk-button uk-button-bulk uk-button-success rz-no-ajax-link"
+                            title="{% trans %}bulk.unpublish{% endtrans %}"
+                            data-uk-tooltip="{animation:true}"><i class="uk-icon-times-circle-o"></i> </button>
+                {{ form_end(bulkUnpublishForm) }}
+            {% endif %}
+            {% block other_actions %}{% endblock %}
+        </div>
+    </nav>
+{% endif %}

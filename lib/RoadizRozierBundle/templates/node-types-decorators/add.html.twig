@@ -1,0 +1,42 @@
+{% extends "@RoadizRozier/admin/base.html.twig" %}
+
+{% block title %}{% trans %}add.a.nodeTypeDecorator{% endtrans %} | {{ parent() }}{% endblock %}
+
+{%- block content_title -%}{% trans %}add.a.nodeTypeDecorator{% endtrans %}{%- endblock -%}
+{%- block content_sub_title -%}
+{% if nodeType %}
+    <p>{{ nodeType.displayName }}</p>
+{% endif %}
+{%- endblock -%}
+
+{%- block content_header_nav -%}
+    <a class="content-header-nav-back uk-navbar-content"
+       href="{{ path('nodeTypeDecoratorsListPage') }}"
+       title="{% trans %}back_to.nodeTypeDecorators{% endtrans %}"
+       data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-back-parent"></i></a>
+{%- endblock -%}
+
+{%- block content_body -%}
+    <article class="content">
+        {%- block content_body_before -%}{%- endblock -%}
+        {% form_theme form '@RoadizRozier/forms.html.twig' %}
+        {{ form_start(form, {
+            'attr': {
+                'id': 'edit-nodetypedecorator-form',
+                'class': 'uk-form uk-form-stacked'
+            }
+        }) }}{{ form_widget(form) }}
+        <fieldset data-uk-margin>
+            <button data-action-save="#edit-nodetypedecorator-form"
+                    class="uk-button uk-button-success rz-action-save" type="submit">
+                <span class="icon-container"><i class="uk-icon-rz-save"></i></span>
+                <span class="label"><span class="label-text">{% block content_form_submit_label %}
+                            {%- trans -%}save{%- endtrans -%}
+                        {% endblock %}</span></span>
+            </button>
+        </fieldset>
+        {{ form_end(form) }}
+        {%- block content_body_after -%}{%- endblock -%}
+    </article>
+    {% include '@RoadizRozier/node-types-decorators/actionsMenu.html.twig' %}
+{%- endblock -%}

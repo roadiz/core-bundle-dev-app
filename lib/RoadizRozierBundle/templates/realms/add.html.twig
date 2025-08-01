@@ -22,15 +22,13 @@
             }
         }) }}{{ form_widget(form) }}
         <fieldset data-uk-margin>
-            {% apply spaceless %}
-                <button data-action-save="#edit-realm-form"
-                        class="uk-button uk-button-success rz-action-save" type="submit">
-                    <span class="icon-container"><i class="uk-icon-rz-save"></i></span>
-                    <span class="label"><span class="label-text">{% block content_form_submit_label %}
-                                {%- trans -%}save{%- endtrans -%}
-                            {% endblock %}</span></span>
-                </button>
-            {% endapply %}
+            <button data-action-save="#edit-realm-form"
+                    class="uk-button uk-button-success rz-action-save" type="submit">
+                <span class="icon-container"><i class="uk-icon-rz-save"></i></span>
+                <span class="label"><span class="label-text">{%- block content_form_submit_label -%}
+                            {%- trans -%}save{%- endtrans -%}
+                        {%- endblock -%}</span></span>
+            </button>
         </fieldset>
         {{ form_end(form) }}
         {%- block content_body_after -%}{%- endblock -%}
