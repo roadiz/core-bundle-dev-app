@@ -31,7 +31,6 @@ services:
         autowire: true
         autoconfigure: true
         exclude:
-            - '%roadiz_rozier.theme_dir%/RozierApp.php'
             - '%roadiz_rozier.theme_dir%/Controllers/'
             - '%roadiz_rozier.theme_dir%/Services/'
             - '%roadiz_rozier.theme_dir%/Events/'

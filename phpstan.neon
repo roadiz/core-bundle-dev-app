@@ -10,7 +10,6 @@ parameters:
         - lib/Models/src
         - lib/OpenId/src
         - lib/Random/src
-        - lib/RoadizCompatBundle/src
         - lib/RoadizCoreBundle/src
         - lib/RoadizFontBundle/src
         - lib/RoadizRozierBundle/src

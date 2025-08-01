@@ -13,7 +13,6 @@ This is **development app** for Roadiz v2. It aggregates all Roadiz bundles and 
 - Models
 - OpenId
 - Random
-- RoadizCompatBundle
 - RoadizCoreBundle
 - RoadizFontBundle
 - RoadizRozierBundle
@@ -44,7 +43,7 @@ If you want to start a new headless project with Roadiz, check https://github.co
 ## Manual configuration
 
 These require a manual configuration in `config/packages/*.yaml` files and cannot be injected in Container, 
-you'll find configuration example in `RoadizCoreBundle/config/packages` and `RoadizCompatBundle/config/packages` folders:
+you'll find configuration example in `RoadizCoreBundle/config/packages` folder:
 
 - Doctrine ORM mapping
 - Doctrine migrations path

@@ -36,7 +36,6 @@
         "doctrine/orm": "~2.20.0",
         "league/flysystem": "^3.0",
         "ramsey/uuid": "^4.7",
-        "roadiz/compat-bundle": "2.6.x-dev",
         "roadiz/core-bundle": "2.6.x-dev",
         "roadiz/doc-generator": "2.6.x-dev",
         "roadiz/documents": "2.6.x-dev",
