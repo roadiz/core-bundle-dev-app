@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\CoreBundle\CustomForm\Message\Handler;
 
-use Doctrine\Persistence\ManagerRegistry;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\FilesystemOperator;
 use Psr\Log\LoggerInterface;
 use RZ\Roadiz\CoreBundle\CustomForm\Message\CustomFormAnswerNotifyMessage;
 use RZ\Roadiz\CoreBundle\Entity\CustomFormAnswer;
 use RZ\Roadiz\CoreBundle\Notifier\CustomFormAnswerNotification;
+use RZ\Roadiz\CoreBundle\Repository\CustomFormAnswerRepository;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 use Symfony\Component\Messenger\Exception\UnrecoverableMessageHandlingException;
@@ -24,7 +24,7 @@ use Symfony\Component\Notifier\Recipient\RecipientInterface;
 final readonly class CustomFormAnswerNotifyMessageHandler
 {
     public function __construct(
-        private ManagerRegistry $managerRegistry,
+        private CustomFormAnswerRepository $customFormAnswerRepository,
         private FilesystemOperator $documentsStorage,
         private NotifierInterface $notifier,
         private LoggerInterface $messengerLogger,
@@ -34,9 +34,7 @@ final readonly class CustomFormAnswerNotifyMessageHandler
 
     public function __invoke(CustomFormAnswerNotifyMessage $message): void
     {
-        $answer = $this->managerRegistry
-            ->getRepository(CustomFormAnswer::class)
-            ->find($message->getCustomFormAnswerId());
+        $answer = $this->customFormAnswerRepository->find($message->getCustomFormAnswerId());
 
         if (!($answer instanceof CustomFormAnswer)) {
             throw new UnrecoverableMessageHandlingException('CustomFormAnswer not found');
