@@ -2,6 +2,12 @@
 
 All notable changes to Roadiz will be documented in this file.
 
+## [2.5.32](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.31...v2.5.32) - 2025-08-04
+
+### Bug Fixes
+
+- Ensure that every node nodes-sources publishedAt is set to now() when a node is published. - ([7344bc2](https://github.com/roadiz/core-bundle-dev-app/commit/7344bc287b7a9cffa0b2545258c82c342b9270d7))
+
 ## [2.5.31](https://github.com/roadiz/core-bundle-dev-app/compare/v2.5.30...v2.5.31) - 2025-07-21
 
 ### Refactor
