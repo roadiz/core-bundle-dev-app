@@ -60,7 +60,7 @@ nodeTypeDecoratorsRoutes:
 # SETTINGS
 settingsHomePage:
     path:     /rz-admin/settings
-    controller: RZ\Roadiz\RozierBundle\Controller\SettingsController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\SettingController::indexAction
 settingsRoutes:
     resource: "routing/settings.yml"
     prefix: /rz-admin/settings
@@ -69,7 +69,7 @@ settingsRoutes:
 # SETTINGS GROUPS
 settingGroupsHomePage:
     path:     /rz-admin/setting-groups
-    controller: RZ\Roadiz\RozierBundle\Controller\SettingGroupsController::defaultAction
+    controller: RZ\Roadiz\RozierBundle\Controller\SettingGroupController::defaultAction
 settingGroupsRoutes:
     resource: "routing/setting-groups.yml"
     prefix: /rz-admin/setting-groups
@@ -112,7 +112,7 @@ foldersRoutes:
 # TRANSLATIONS
 translationsHomePage:
     path:     /rz-admin/translations
-    controller: RZ\Roadiz\RozierBundle\Controller\TranslationsController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\TranslationController::indexAction
 translationsRoutes:
     resource: "routing/translations.yml"
     prefix: /rz-admin/translations
@@ -139,7 +139,7 @@ documentsRoutes:
 # DOCUMENTS
 redirectionsHomePage:
     path:     /rz-admin/redirections
-    controller: RZ\Roadiz\RozierBundle\Controller\RedirectionsController::defaultAction
+    controller: RZ\Roadiz\RozierBundle\Controller\RedirectionController::defaultAction
 redirectionsRoutes:
     resource: "routing/redirections.yml"
     prefix: /rz-admin/redirections
@@ -156,7 +156,7 @@ realmsRoutes:
 # GROUPS
 groupsHomePage:
     path:     /rz-admin/groups
-    controller: RZ\Roadiz\RozierBundle\Controller\GroupsController::defaultAction
+    controller: RZ\Roadiz\RozierBundle\Controller\GroupController::defaultAction
 groupsRoutes:
     resource: "routing/groups.yml"
     prefix: /rz-admin/groups
