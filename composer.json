@@ -198,8 +198,7 @@
             "RZ\\Roadiz\\TwoFactorBundle\\": "lib/RoadizTwoFactorBundle/src/",
             "RZ\\Roadiz\\Typescript\\Declaration\\": "lib/DtsGenerator/src/",
             "RZ\\Roadiz\\UserBundle\\": "lib/RoadizUserBundle/src/",
-            "RZ\\Roadiz\\SolrBundle\\": "lib/RoadizSolrBundle/src/",
-            "Themes\\Rozier\\": "lib/Rozier/src/"
+            "RZ\\Roadiz\\SolrBundle\\": "lib/RoadizSolrBundle/src/"
         },
         "files": [
             "lib/RoadizCoreBundle/deprecated.php"
@@ -227,7 +226,6 @@
         "roadiz/openid": "*",
         "roadiz/random": "*",
         "roadiz/roadiz": "*",
-        "roadiz/rozier": "*",
         "roadiz/rozier-bundle": "*",
         "roadiz/solr-bundle": "*",
         "roadiz/two-factor-bundle": "*",

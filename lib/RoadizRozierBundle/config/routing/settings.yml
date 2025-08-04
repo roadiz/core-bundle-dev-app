@@ -1,27 +1,27 @@
 settingsEditPage:
     path:     /edit/{settingId}
     defaults:
-        _controller: Themes\Rozier\Controllers\SettingsController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\SettingController::editAction
     requirements: { settingId : "[0-9]+" }
 settingsAddPage:
     path:     /add
     defaults:
-        _controller: Themes\Rozier\Controllers\SettingsController::addAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\SettingController::addAction
 settingsDeletePage:
     path:     /delete/{settingId}
     defaults:
-        _controller: Themes\Rozier\Controllers\SettingsController::deleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\SettingController::deleteAction
     requirements: { settingId : "[0-9]+" }
 settingsExportAllPage:
     path:     /export
     defaults:
-        _controller: Themes\Rozier\Controllers\SettingsUtilsController::exportAllAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\SettingUtilsController::exportAllAction
 settingsExportGroupPage:
     path:     /export/{settingGroupId}
     defaults:
-        _controller: Themes\Rozier\Controllers\SettingsUtilsController::exportAllAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\SettingUtilsController::exportAllAction
     requirements: { settingGroupId: "[0-9]+" }
 settingsImportPage:
     path:     /import
     defaults:
-        _controller: Themes\Rozier\Controllers\SettingsUtilsController::importJsonFileAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\SettingUtilsController::importJsonFileAction

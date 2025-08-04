@@ -16,7 +16,6 @@ parameters:
         - lib/RoadizUserBundle/src
         - lib/RoadizTwoFactorBundle/src
         - lib/RoadizSolrBundle/src
-        - lib/Rozier/src
         - src
     excludePaths:
         - */node_modules/*

@@ -1,20 +1,20 @@
 customFormFieldsListPage:
     path:     /{customFormId}
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormFieldsController::listAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormFieldController::listAction
     requirements: { customFormId : "[0-9]+" }
 customFormFieldsEditPage:
     path:     /edit/{customFormFieldId}
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormFieldsController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormFieldController::editAction
     requirements: { customFormFieldId : "[0-9]+" }
 customFormFieldsAddPage:
     path:     /add/{customFormId}
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormFieldsController::addAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormFieldController::addAction
     requirements: { customFormId : "[0-9]+" }
 customFormFieldsDeletePage:
     path:     /delete/{customFormFieldId}
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormFieldsController::deleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormFieldController::deleteAction
     requirements: { customFormFieldId : "[0-9]+" }

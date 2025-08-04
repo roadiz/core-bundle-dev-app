@@ -22,7 +22,6 @@
         "php": ">=8.3",
         "roadiz/core-bundle": "2.6.x-dev",
         "roadiz/openid": "2.6.x-dev",
-        "roadiz/rozier": "2.6.x-dev",
         "symfony/framework-bundle": "7.3.*"
     },
     "require-dev": {

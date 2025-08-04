@@ -32,10 +32,9 @@ Each `RZ\Roadiz\CoreBundle\Event\NodesSourcesEvents` object contains the current
 - `RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPreUpdatedEvent`: This event is dispatched BEFORE entity manager FLUSHED.
 - `RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesUpdatedEvent`: This event is dispatched AFTER entity manager FLUSHED.
 - `RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesDeletedEvent`
-- `RZ\Roadiz\SolrBundle\Event\NodesSources\NodesSourcesIndexingEvent`: This event type is dispatched during Solr indexation. 
-Your event will be `\RZ\Roadiz\CoreBundle\Event\FilterSolariumNodeSourceEvent` and it will allow you to alter or improve your Solr index according to your node-source type.
+- `RZ\Roadiz\SolrBundle\Event\NodesSources\NodesSourcesIndexingEvent`: This event type is dispatched during Solr indexation, it will allow you to alter or improve your search-engine index according to your node-source type.
     ::: tip
-    You will find a simple subscriber example in Roadiz back-office theme which is called `Themes\Rozier\Events\SolariumSubscriber`.
+    Default search-engine Roadiz subscriber is located in SolrBundle: `RZ\Roadiz\SolrBundle\EventListener\SolariumSubscriber`.
     This subscriber is useful to update or delete your *Solr* index documents against your node-source database.
     :::
 - `RZ\Roadiz\CoreBundle\Event\NodesSources\NodesSourcesPathGeneratingEvent`: This event type is dispatched when the node-router 

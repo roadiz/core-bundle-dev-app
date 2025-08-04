@@ -160,7 +160,7 @@ fields:
         name: settings
         label: Settings
         defaultValues:
-            classname: Themes\Rozier\Explorer\SettingsProvider
+            classname: RZ\Roadiz\RozierBundle\Explorer\Provider\SettingsProvider
         type: multiple-provider
     -
         name: contacts
@@ -172,7 +172,7 @@ fields:
         name: folder
         label: 'Folder simple'
         defaultValues:
-            classname: Themes\Rozier\Explorer\FoldersProvider
+            classname: RZ\Roadiz\RozierBundle\Explorer\Provider\FoldersProvider
         type: single-provider
     -
         name: country

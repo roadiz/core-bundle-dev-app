@@ -72,7 +72,7 @@
                     id="nodes-bulk-folder-form-cont"
                     class="bulk-group bulk-folder-cont nodes-bulk-folder-cont"
                     data-search-path="{{ path('tagAjaxSearch') }}"
-                    data-csrf-token="{{ csrf_token(constant('Themes\\Rozier\\AjaxControllers\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}"
+                    data-csrf-token="{{ csrf_token(constant('RZ\\Roadiz\\RozierBundle\\Controller\\Ajax\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}"
                 >
                     {% form_theme tagNodesForm '@RoadizRozier/horizontalForms.html.twig' %}
                     {{ form_start(tagNodesForm) }}

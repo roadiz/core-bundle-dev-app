@@ -24,7 +24,6 @@
         "doctrine/orm": "~2.20.0",
         "endroid/qr-code": "^4.0",
         "roadiz/core-bundle": "2.6.x-dev",
-        "roadiz/rozier": "2.6.x-dev",
         "roadiz/rozier-bundle": "2.6.x-dev",
         "scheb/2fa-backup-code": "^7.5",
         "scheb/2fa-bundle": "^7.5",

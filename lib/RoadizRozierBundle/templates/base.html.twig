@@ -86,7 +86,7 @@
             window.RozierConfig = {
                 'baseUrl':           '{{ app.request.schemeAndHttpHost }}{{ app.request.basePath }}',
                 'resourcesUrl':      '{{ asset('/bundles/roadizrozier/') }}',
-                'ajaxToken':         '{{ csrf_token(constant('Themes\\Rozier\\AjaxControllers\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}',
+                'ajaxToken':         '{{ csrf_token(constant('RZ\\Roadiz\\RozierBundle\\Controller\\Ajax\\AbstractAjaxController::AJAX_TOKEN_INTENTION')) }}',
                 'mainColor':         '{{ main_color }}',
                 'mapsStyle':         {% if head.mapsStyle %}{{ head.mapsStyle|raw }}{% else %}[]{% endif %},
                 'leafletMapTileUrl': '{{ leaflet_map_tile_url }}',
