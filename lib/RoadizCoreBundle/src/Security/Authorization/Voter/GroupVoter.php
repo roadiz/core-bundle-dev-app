@@ -8,6 +8,7 @@ use RZ\Roadiz\CoreBundle\Entity\Group;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\RoleVoter;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Role\RoleHierarchyInterface;
 
@@ -30,7 +31,7 @@ class GroupVoter extends RoleVoter
     }
 
     #[\Override]
-    public function vote(TokenInterface $token, $subject, array $attributes): int
+    public function vote(TokenInterface $token, $subject, array $attributes, ?Vote $vote = null): int
     {
         $result = VoterInterface::ACCESS_ABSTAIN;
         $roles = $this->extractRoles($token);
@@ -64,6 +65,11 @@ class GroupVoter extends RoleVoter
              */
             foreach ($this->extractGroupRoles($attribute) as $role) {
                 if (!$this->isRoleContained($role, $roles)) {
+                    $vote?->addReason(sprintf(
+                        'User does not have the role "%s" required by group "%s".',
+                        $role,
+                        $attribute->getName()
+                    ));
                     $result = VoterInterface::ACCESS_DENIED;
                 }
             }

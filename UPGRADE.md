@@ -53,6 +53,15 @@
     }
 ```
 - Remove `symfony/proxy-manager-bridge` and `doctrine/annotations` packages, they are no longer required.
+- Remove `roadiz/compat-bundle` and `roadiz/rozier` packages
+
+## Remove Roadiz CompatBundle
+
+- Remove `RZ\Roadiz\CompatBundle\RoadizCompatBundle::class` from your `config/bundles.php` file
+- Remove `config/packages/roadiz_compat.yaml` file
+- Remove `roadiz/compat-bundle` from your `composer.json`
+- Replace all Rozier theme classes with equivalent from `RZ\Roadiz\RozierBundle\` namespace, if your project adds admin controllers and templates
+- Run `composer update -o`
 
 ## Upgrade you project code base for Symfony 7.3
 

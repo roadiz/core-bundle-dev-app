@@ -5,13 +5,14 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/api/web_response_by_path?path=/homepage-65e72048971c3
+  url: {{baseUrl}}/api/web_response_by_path?path=/protected-page-with-plain-password
   body: none
   auth: none
 }
 
 params:query {
-  path: /homepage-65e72048971c3
+  path: /protected-page-with-plain-password
+  ~path: /homepage-65e72048971c3
   ~path: /
   ~path: /fr/articles/article-test-serialization
   ~path: /fr/articles/article-with-attributes

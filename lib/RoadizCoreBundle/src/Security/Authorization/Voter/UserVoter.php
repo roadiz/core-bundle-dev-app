@@ -7,6 +7,7 @@ namespace RZ\Roadiz\CoreBundle\Security\Authorization\Voter;
 use RZ\Roadiz\CoreBundle\Entity\User;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Vote;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -30,10 +31,12 @@ final class UserVoter extends Voter
     }
 
     #[\Override]
-    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
+    protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token, ?Vote $vote = null): bool
     {
         // if the subject is not a User instance, do not grant access
         if (!$subject instanceof UserInterface) {
+            $vote?->addReason('Subject is not a User instance.');
+
             return false;
         }
 
@@ -43,6 +46,8 @@ final class UserVoter extends Voter
 
         // If subject User is a super admin, deny access to all actions unless the user is also a super admin.
         if ($this->isSubjectUserAdmin($subject)) {
+            $vote?->addReason('Subject is a super admin, access denied unless you are also a super admin.');
+
             return false;
         }
 
