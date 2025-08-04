@@ -1,7 +1,7 @@
 # Home page
 adminHomePage:
     path:     /rz-admin
-    controller: Themes\Rozier\Controllers\DashboardController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\DashboardController::indexAction
 
 loginRoutes:
     prefix: /rz-admin
@@ -10,7 +10,7 @@ loginRoutes:
 ajaxSessionMessages:
     path:     /rz-admin/session/messages
     methods: [GET]
-    controller: Themes\Rozier\AjaxControllers\AjaxSessionMessages::getMessagesAction
+    controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxSessionMessages::getMessagesAction
 
 #Ping
 ping:
@@ -21,15 +21,15 @@ ping:
 # CACHES
 deleteDoctrineCache:
     path:     /rz-admin/cache/delete-doctrine-cache
-    controller: Themes\Rozier\Controllers\CacheController::deleteDoctrineCache
+    controller: RZ\Roadiz\RozierBundle\Controller\CacheController::deleteDoctrineCache
 deleteAssetsCache:
     path:     /rz-admin/cache/delete-assets-cache
-    controller: Themes\Rozier\Controllers\CacheController::deleteAssetsCache
+    controller: RZ\Roadiz\RozierBundle\Controller\CacheController::deleteAssetsCache
 
 # NODES
 nodesHomePage:
     path:     /rz-admin/nodes
-    controller: Themes\Rozier\Controllers\Nodes\NodesController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\Node\NodeController::indexAction
 nodesRoutes:
     resource: "routing/nodes.yml"
     prefix: /rz-admin/nodes
@@ -42,7 +42,7 @@ ajaxRequestsRoutes:
 # Node TYPES
 nodeTypesHomePage:
     path:     /rz-admin/node-types
-    controller: Themes\Rozier\Controllers\NodeTypes\NodeTypesController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\NodeType\NodeTypeController::indexAction
 nodeTypesRoutes:
     resource: "routing/node-types.yml"
     prefix: /rz-admin/node-types
@@ -60,7 +60,7 @@ nodeTypeDecoratorsRoutes:
 # SETTINGS
 settingsHomePage:
     path:     /rz-admin/settings
-    controller: Themes\Rozier\Controllers\SettingsController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\SettingController::indexAction
 settingsRoutes:
     resource: "routing/settings.yml"
     prefix: /rz-admin/settings
@@ -69,7 +69,7 @@ settingsRoutes:
 # SETTINGS GROUPS
 settingGroupsHomePage:
     path:     /rz-admin/setting-groups
-    controller: Themes\Rozier\Controllers\SettingGroupsController::defaultAction
+    controller: RZ\Roadiz\RozierBundle\Controller\SettingGroupController::defaultAction
 settingGroupsRoutes:
     resource: "routing/setting-groups.yml"
     prefix: /rz-admin/setting-groups
@@ -78,7 +78,7 @@ settingGroupsRoutes:
 # TAGS
 tagsHomePage:
     path:     /rz-admin/tags
-    controller: Themes\Rozier\Controllers\Tags\TagsController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\Tag\TagController::indexAction
 tagsRoutes:
     resource: "routing/tags.yml"
     prefix: /rz-admin/tags
@@ -86,7 +86,7 @@ tagsRoutes:
 # USERS
 usersHomePage:
     path:     /rz-admin/users
-    controller: Themes\Rozier\Controllers\Users\UsersController::defaultAction
+    controller: RZ\Roadiz\RozierBundle\Controller\User\UserController::defaultAction
 usersRoutes:
     resource: "routing/users.yml"
     prefix: /rz-admin/users
@@ -94,7 +94,7 @@ usersRoutes:
 # ATTRIBUTES
 attributesHomePage:
     path:     /rz-admin/attributes
-    controller: Themes\Rozier\Controllers\Attributes\AttributeController::defaultAction
+    controller: RZ\Roadiz\RozierBundle\Controller\Attribute\AttributeController::defaultAction
 attributesRoutes:
     resource: "routing/attributes.yml"
     prefix: /rz-admin/attributes
@@ -103,7 +103,7 @@ attributesRoutes:
 # FOLDERS
 foldersHomePage:
     path:     /rz-admin/folders
-    controller: Themes\Rozier\Controllers\FoldersController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\FolderController::indexAction
 foldersRoutes:
     resource: "routing/folders.yml"
     prefix: /rz-admin/folders
@@ -112,7 +112,7 @@ foldersRoutes:
 # TRANSLATIONS
 translationsHomePage:
     path:     /rz-admin/translations
-    controller: Themes\Rozier\Controllers\TranslationsController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\TranslationController::indexAction
 translationsRoutes:
     resource: "routing/translations.yml"
     prefix: /rz-admin/translations
@@ -139,7 +139,7 @@ documentsRoutes:
 # DOCUMENTS
 redirectionsHomePage:
     path:     /rz-admin/redirections
-    controller: Themes\Rozier\Controllers\RedirectionsController::defaultAction
+    controller: RZ\Roadiz\RozierBundle\Controller\RedirectionController::defaultAction
 redirectionsRoutes:
     resource: "routing/redirections.yml"
     prefix: /rz-admin/redirections
@@ -156,7 +156,7 @@ realmsRoutes:
 # GROUPS
 groupsHomePage:
     path:     /rz-admin/groups
-    controller: Themes\Rozier\Controllers\GroupsController::defaultAction
+    controller: RZ\Roadiz\RozierBundle\Controller\GroupController::defaultAction
 groupsRoutes:
     resource: "routing/groups.yml"
     prefix: /rz-admin/groups
@@ -165,16 +165,16 @@ groupsRoutes:
 #LOGS
 historyHomePage:
     path:     /rz-admin/history
-    controller: Themes\Rozier\Controllers\HistoryController::indexAction
+    controller: RZ\Roadiz\RozierBundle\Controller\HistoryController::indexAction
 historyUserPage:
     path:     /rz-admin/history/user/{userId}
     requirements: { userId : "[0-9]+" }
-    controller: Themes\Rozier\Controllers\HistoryController::userAction
+    controller: RZ\Roadiz\RozierBundle\Controller\HistoryController::userAction
 
 # Custom Form
 customFormsHomePage:
     path:     /rz-admin/custom-forms
-    controller: Themes\Rozier\Controllers\CustomForms\CustomFormsController::defaultAction
+    controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormController::defaultAction
 customFormsRoutes:
     resource: "routing/custom-forms.yml"
     prefix: /rz-admin/custom-forms
@@ -193,15 +193,15 @@ customFormFieldsRoutes:
 # SEARCH
 searchNodePage:
     path:     /rz-admin/search
-    controller: Themes\Rozier\Controllers\SearchController::searchNodeAction
+    controller: RZ\Roadiz\RozierBundle\Controller\SearchController::searchNodeAction
 searchNodeSourcePage:
     path:     /rz-admin/search/{nodeTypeName}
-    controller: Themes\Rozier\Controllers\SearchController::searchNodeSourceAction
+    controller: RZ\Roadiz\RozierBundle\Controller\SearchController::searchNodeSourceAction
     requirements: { nodeTypeName : "[a-zA-Z]+" }
 
 webhooksHomePage:
     path:     /rz-admin/webhooks
-    controller: Themes\Rozier\Controllers\WebhookController::defaultAction
+    controller: RZ\Roadiz\RozierBundle\Controller\WebhookController::defaultAction
 webhooksRoutes:
     resource: "routing/webhooks.yml"
     prefix: /rz-admin/webhooks

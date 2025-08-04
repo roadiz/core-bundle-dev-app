@@ -1,0 +1,36 @@
+{% set url = path('redirectionsEditPage', { id: item.id }) %}
+{% if item.redirectNodeSource %}
+    {% set url = path('nodesEditSEOPage', {
+        'nodeId': item.redirectNodeSource.node.id,
+        'translationId': item.redirectNodeSource.translation.id
+    }) ~ '#manage-redirections' %}
+{% endif %}
+<td>
+    <a href="{{ url }}">{{ item.query }}</a>
+</td>
+<td>
+    {% if item.redirectNodeSource %}
+        <i class="uk-icon uk-icon-magic"></i> {{ path(item.redirectNodeSource) -}}
+    {% else %}
+        {{- item.redirectUri|u.truncate(80, '…') -}}
+    {% endif %}
+</td>
+<td class="mobile-hidden">{{ item.typeAsString|trans }}</td>
+<td class="mobile-hidden">{{ item.useCount }}</td>
+<td class="table-actions-row">
+    {% if hasBulkActions %}
+        <div class="bulk-selection">
+            <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ item.id }}" />
+        </div>
+    {% endif %}
+    <div class="uk-button-group">
+        <a class="uk-button uk-button-content uk-button-small"
+           href="{{ url }}"
+           title="{% trans %}edit{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+        <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+           href="{{ path('redirectionsDeletePage', { id: item.id }) }}"
+           title="{% trans %}delete{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-trash-o"></i></a>
+    </div>
+</td>

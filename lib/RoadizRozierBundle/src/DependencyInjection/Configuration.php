@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\RozierBundle\DependencyInjection;
 
+use RZ\Roadiz\RozierBundle\Form\Node\AddNodeType;
+use RZ\Roadiz\RozierBundle\Form\NodeType;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
-use Themes\Rozier\Forms\Node\AddNodeType;
-use Themes\Rozier\Forms\NodeType;
 
 final class Configuration implements ConfigurationInterface
 {
@@ -20,9 +20,13 @@ final class Configuration implements ConfigurationInterface
             ->addDefaultsIfNotSet()
             ->children()
                 ->scalarNode('node_form')->defaultValue(NodeType::class)->end()
-                ->scalarNode('theme_dir')->defaultValue(
-                    'vendor/roadiz/rozier/src'
-                )->info('Relative path to Rozier theme sources from project directory.')->end()
+                ->scalarNode('theme_dir')
+                    ->defaultValue(
+                        'vendor/roadiz/rozier/src'
+                    )
+                    ->info('Relative path to Rozier theme sources from project directory.')
+                    ->setDeprecated('roadiz/rozier-bundle', '2.6.0', 'The "theme_dir" configuration option is deprecated and will be removed in 3.0.0.')
+                ->end()
                 ->scalarNode('manifest_path')->defaultValue(
                     'public/bundles/roadizrozier/manifest.json'
                 )->info('Relative path to Rozier theme manifest.json.')->end()

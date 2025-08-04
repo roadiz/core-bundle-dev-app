@@ -13,6 +13,7 @@ use RZ\Roadiz\CoreBundle\Security\LogTrail;
 use RZ\Roadiz\FontBundle\Entity\Font;
 use RZ\Roadiz\FontBundle\Event\Font\PreUpdatedFontEvent;
 use RZ\Roadiz\FontBundle\Form\FontType;
+use RZ\Roadiz\RozierBundle\Controller\AbstractAdminController;
 use RZ\Roadiz\Utils\StringHandler;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,6 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Contracts\EventDispatcher\Event;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Themes\Rozier\Controllers\AbstractAdminController;
 
 class FontsController extends AbstractAdminController
 {

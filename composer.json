@@ -185,7 +185,6 @@
         "psr-4": {
             "App\\": "src/",
             "RZ\\Roadiz\\": "lib/Models/src/",
-            "RZ\\Roadiz\\CompatBundle\\": "lib/RoadizCompatBundle/src/",
             "RZ\\Roadiz\\CoreBundle\\": "lib/RoadizCoreBundle/src/",
             "RZ\\Roadiz\\Documentation\\": "lib/DocGenerator/src/",
             "RZ\\Roadiz\\Documents\\": "lib/Documents/src/",
@@ -199,8 +198,7 @@
             "RZ\\Roadiz\\TwoFactorBundle\\": "lib/RoadizTwoFactorBundle/src/",
             "RZ\\Roadiz\\Typescript\\Declaration\\": "lib/DtsGenerator/src/",
             "RZ\\Roadiz\\UserBundle\\": "lib/RoadizUserBundle/src/",
-            "RZ\\Roadiz\\SolrBundle\\": "lib/RoadizSolrBundle/src/",
-            "Themes\\Rozier\\": "lib/Rozier/src/"
+            "RZ\\Roadiz\\SolrBundle\\": "lib/RoadizSolrBundle/src/"
         },
         "files": [
             "lib/RoadizCoreBundle/deprecated.php"
@@ -216,7 +214,6 @@
         }
     },
     "replace": {
-        "roadiz/compat-bundle": "*",
         "roadiz/core-bundle": "*",
         "roadiz/doc-generator": "*",
         "roadiz/documents": "*",
@@ -229,7 +226,6 @@
         "roadiz/openid": "*",
         "roadiz/random": "*",
         "roadiz/roadiz": "*",
-        "roadiz/rozier": "*",
         "roadiz/rozier-bundle": "*",
         "roadiz/solr-bundle": "*",
         "roadiz/two-factor-bundle": "*",

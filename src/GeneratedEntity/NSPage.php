@@ -253,7 +253,7 @@ class NSPage extends NodesSources
     /**
      * Settings.
      * Default values:
-     * classname: Themes\Rozier\Explorer\SettingsProvider
+     * classname: RZ\Roadiz\RozierBundle\Explorer\Provider\SettingsProvider
      */
     #[Serializer\SerializedName(serializedName: 'settings')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]
@@ -279,7 +279,7 @@ class NSPage extends NodesSources
     /**
      * Folder simple.
      * Default values:
-     * classname: Themes\Rozier\Explorer\FoldersProvider
+     * classname: RZ\Roadiz\RozierBundle\Explorer\Provider\FoldersProvider
      */
     #[Serializer\SerializedName(serializedName: 'folder')]
     #[Serializer\Groups(['nodes_sources', 'nodes_sources_default'])]

@@ -2,76 +2,76 @@
 nodeAjaxTags:
     path:     /node/tags/{nodeId}
     methods: [GET]
-    controller: Themes\Rozier\AjaxControllers\AjaxNodesController::getTagsAction
+    controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodesController::getTagsAction
     format: json
     requirements: { nodeId : "[0-9]+" }
 nodeAjaxEdit:
     path:     /node/edit/{nodeId}
-    controller: Themes\Rozier\AjaxControllers\AjaxNodesController::editAction
+    controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodesController::editAction
     format: json
     requirements: { nodeId : "[0-9]+" }
 nodeContextualMenu:
     path:     /node/contextual-menu/{node}/{translation}
-    controller: Themes\Rozier\AjaxControllers\AjaxNodeContextualMenuController
+    controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodeContextualMenuController
     format: html
     requirements: { node : "[0-9]+", translation : "[0-9]+", }
 searchAjax:
     path:     /search
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxSearchController::searchAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxSearchController::searchAction
         _format: json
 nodesStatusesAjax:
     path:     /nodes/statuses
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxNodesController::statusesAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodesController::statusesAction
         _format: json
 nodesTreeAjax:
     path:     /nodes/tree
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxNodeTreeController::getTreeAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodeTreeController::getTreeAction
         _format: json
 tagsTreeAjax:
     path:     /tags/tree
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxTagTreeController::getTreeAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxTagTreeController::getTreeAction
         _format: json
 foldersTreeAjax:
     path:     /folders/tree
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxFolderTreeController::getTreeAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxFolderTreeController::getTreeAction
         _format: json
 nodesQuickAddAjax:
     path:     /nodes/add
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxNodesController::quickAddAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodesController::quickAddAction
         _format: json
 nodesAjaxExplorerPage:
     path:     /nodes/explore
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxNodesExplorerController::indexAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodesExplorerController::indexAction
         _format: json
 nodeTypesAjaxByArray:
     path:     /node-types/list
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxNodeTypesController::listAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodeTypesController::listAction
         _format: json
 nodeTypesAjaxExplorer:
     path:     /node-types/explorer
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxNodeTypesController::indexAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodeTypesController::indexAction
         _format: json
 nodesAjaxByArray:
     path:     /nodes/list
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxNodesExplorerController::listAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxNodesExplorerController::listAction
         _format: json
 
 # Explorer provider
@@ -79,13 +79,13 @@ providerAjaxExplorerPage:
     path:     /provider/explore
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxExplorerProviderController::indexAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxExplorerProviderController::indexAction
         _format: json
 providerAjaxByArray:
     path:     /provider/list
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxExplorerProviderController::listAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxExplorerProviderController::listAction
         _format: json
 
 # Entities
@@ -93,32 +93,32 @@ entitiesAjaxExplorerPage:
     path:     /entities/explore
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxEntitiesExplorerController::indexAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxEntitiesExplorerController::indexAction
         _format: json
 entitiesAjaxByArray:
     path:     /entities/list
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxEntitiesExplorerController::listAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxEntitiesExplorerController::listAction
         _format: json
 # Documents
 documentsAjaxExplorerPage:
     path:     /documents/explore
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxDocumentsExplorerController::indexAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxDocumentsExplorerController::indexAction
         _format: json
 documentsAjaxByArray:
     path:     /documents/list
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxDocumentsExplorerController::listAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxDocumentsExplorerController::listAction
         _format: json
 foldersAjaxExplorerPage:
     path:     /folders/explore
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxFoldersExplorerController::indexAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxFoldersExplorerController::indexAction
         _format: json
 
 # customForms
@@ -126,69 +126,69 @@ customFormsAjaxExplorerPage:
     path:     /custom-forms/explore
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxCustomFormsExplorerController::indexAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxCustomFormsExplorerController::indexAction
         _format: json
 customFormsAjaxByArray:
     path:     /custom-forms/list
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxCustomFormsExplorerController::listAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxCustomFormsExplorerController::listAction
         _format: json
 ## Ajax
 tagAjaxEdit:
     path:     /tag/edit/{tagId}
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxTagsController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxTagsController::editAction
         _format: json
     requirements: { tagId : "[0-9]+" }
 tagAjaxSearch:
     path:     /tag/search
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxTagsController::searchAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxTagsController::searchAction
         _format: json
 tagsAjaxExplorer:
     path:     /tag/explore
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxTagsController::indexAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxTagsController::indexAction
         _format: json
 tagsAjaxExplorerList:
     path:     /tag/explore/list
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxTagsController::explorerListAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxTagsController::explorerListAction
         _format: json
 tagsAjaxByArray:
     path:     /tag/explore/array
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxTagsController::listArrayAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxTagsController::listArrayAction
         _format: json
 tagsAjaxCreate:
     path:     /tag/create
     methods: [POST]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxTagsController::createAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxTagsController::createAction
         _format: json
 ## Ajax
 foldersAjaxEdit:
     path:     /folder/edit/{folderId}
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxFoldersController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxFoldersController::editAction
         _format: json
     requirements: { tagId : "[0-9]+" }
 foldersAjaxSearch:
     path:     /folder/search
     methods: [GET]
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxFoldersController::searchAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxFoldersController::searchAction
         _format: json
 
 customFormFieldAjaxEdit:
     path:     /custom-forms/fields/edit/{customFormFieldId}
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxCustomFormFieldsController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxCustomFormFieldsController::editAction
         _format: json
     requirements: { customFormFieldId : "[0-9]+" }
 
@@ -197,6 +197,6 @@ customFormFieldAjaxEdit:
 attributeValueAjaxEdit:
     path:     /attribute-values/edit/{attributeValueId}
     defaults:
-        _controller: Themes\Rozier\AjaxControllers\AjaxAttributeValuesController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\Ajax\AjaxAttributeValuesController::editAction
         _format: json
     requirements: { attributeValueId : "[0-9]+" }

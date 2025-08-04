@@ -1,22 +1,22 @@
 customFormsEditPage:
     path:     /edit/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormsController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormController::editAction
     requirements: { id : "[0-9]+" }
 customFormsAddPage:
     path:     /add
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormsController::addAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormController::addAction
 customFormsDeletePage:
     path:     /delete/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormsController::deleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormController::deleteAction
     requirements: { id : "[0-9]+" }
 customFormsExportPage:
     path:     /export/{id}
     requirements: { id : "[0-9]+" }
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormsUtilsController::exportAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormUtilsController::exportAction
 customFormsUsagePage:
     path:     /usage/{id}
     requirements: { id : "[0-9]+" }
@@ -26,9 +26,9 @@ customFormsDuplicatePage:
     path:     /duplicate/{id}
     requirements: { id : "[0-9]+" }
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormsUtilsController::duplicateAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormUtilsController::duplicateAction
 customFormsBulkDeletePage:
     methods: [GET, POST]
     path:     /bulk-delete
     defaults:
-        _controller: Themes\Rozier\Controllers\CustomForms\CustomFormsController::bulkDeleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\CustomForm\CustomFormController::bulkDeleteAction

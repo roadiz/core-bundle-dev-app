@@ -1,27 +1,27 @@
 webhooksAddPage:
     path:     /add
     defaults:
-        _controller: Themes\Rozier\Controllers\WebhookController::addAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\WebhookController::addAction
 
 webhooksEditPage:
     path:     /edit/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\WebhookController::editAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\WebhookController::editAction
     requirements: { id : "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" }
 
 webhooksTriggerPage:
     path:     /trigger/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\WebhookController::triggerAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\WebhookController::triggerAction
     requirements: { id : "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" }
 
 webhooksDeletePage:
     path:     /delete/{id}
     defaults:
-        _controller: Themes\Rozier\Controllers\WebhookController::deleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\WebhookController::deleteAction
     requirements: { id : "[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}" }
 webhooksBulkDeletePage:
     methods: [GET, POST]
     path:     /bulk-delete
     defaults:
-        _controller: Themes\Rozier\Controllers\WebhookController::bulkDeleteAction
+        _controller: RZ\Roadiz\RozierBundle\Controller\WebhookController::bulkDeleteAction

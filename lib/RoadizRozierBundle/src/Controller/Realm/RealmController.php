@@ -8,8 +8,8 @@ use RZ\Roadiz\Core\AbstractEntities\PersistableInterface;
 use RZ\Roadiz\CoreBundle\Entity\Realm;
 use RZ\Roadiz\CoreBundle\Form\RealmType;
 use RZ\Roadiz\CoreBundle\Model\RealmInterface;
+use RZ\Roadiz\RozierBundle\Controller\AbstractAdminWithBulkController;
 use Symfony\Component\HttpFoundation\Request;
-use Themes\Rozier\Controllers\AbstractAdminWithBulkController;
 
 class RealmController extends AbstractAdminWithBulkController
 {

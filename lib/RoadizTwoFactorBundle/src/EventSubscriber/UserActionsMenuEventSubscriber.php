@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace RZ\Roadiz\TwoFactorBundle\EventSubscriber;
 
+use RZ\Roadiz\RozierBundle\Event\UserActionsMenuEvent;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Themes\Rozier\Event\UserActionsMenuEvent;
 
 final readonly class UserActionsMenuEventSubscriber implements EventSubscriberInterface
 {

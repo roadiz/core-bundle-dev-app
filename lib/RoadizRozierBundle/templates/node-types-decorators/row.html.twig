@@ -1,0 +1,50 @@
+{% set path = item.path|split('.') %}
+{% set entity, field = path[0], path [1] %}
+{% if '' != field %}
+    {% set color = '#FF0000' %}
+{% else %}
+    {% set color = '#000000' %}
+{% endif %}
+<td style="--rz-accent-color: {{ color }};" class="name">
+    <a href="{{ path('nodeTypeDecoratorsEditPage', { id: item.getId }) }}"><span class="color" style="background-color:{{ color|raw }};"></span>{{ entity }}</a>
+</td>
+<td class="mobile-hidden">{{ field }}</td>
+<td class="mobile-hidden">{{ ("nodeTypeDecorator.property." ~ item.property.value)|trans() }}</td>
+<td class="mobile-hidden">
+    {% if item.property.value == 'field_universal' or item.property.value == 'field_visible' %}
+        {% if item.value == true %}
+            <div class="uk-button-status uk-button-check" >
+                <i class="uk-icon-check"></i>
+            </div>
+        {% else %}
+            <div class="uk-button-status uk-button-close" >
+                <i class="uk-icon-close"></i>
+            </div>
+        {% endif %}
+    {% elseif item.property.value == 'color' and item.value != '' %}
+        <div class="uk-button-status" style="background-color: {{ item.value }}" title="{{ item.value }}" data-uk-tooltip="{animation:true}">
+        </div>
+    {% else %}
+        {{ item.value }}
+    {% endif %}
+</td>
+<td class="table-actions-row table-actions-row-6">
+    {% if hasBulkActions %}
+        <div class="bulk-selection">
+            <input class="checkbox" type="checkbox" name="bulk-selection[]" value="{{ item.id }}" />
+        </div>
+    {% endif %}
+    <div class="uk-button-group">
+        <a class="uk-button uk-button-content uk-button-small"
+           href="{{ path('nodeTypeDecoratorsEditPage', { id: item.getId }) }}"
+           title="{% trans %}edit{% endtrans %}"
+           data-uk-tooltip="{animation:true}"><i class="uk-icon-rz-pencil"></i></a>
+
+        <a class="uk-button uk-button-content uk-button-small uk-button-danger"
+           href="{{ path('nodeTypeDecoratorsDeletePage', { id: item.getId }) }}"
+           title="{% trans %}delete{% endtrans %}"
+           data-uk-tooltip="{animation:true}">
+            <i class="uk-icon-rz-trash-o"></i>
+        </a>
+    </div>
+</td>

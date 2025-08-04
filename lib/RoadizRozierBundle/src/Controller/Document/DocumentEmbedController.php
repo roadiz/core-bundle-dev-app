@@ -18,6 +18,7 @@ use RZ\Roadiz\Documents\MediaFinders\EmbedFinderFactory;
 use RZ\Roadiz\Documents\MediaFinders\EmbedFinderInterface;
 use RZ\Roadiz\Documents\MediaFinders\RandomImageFinder;
 use RZ\Roadiz\Documents\Models\DocumentInterface;
+use RZ\Roadiz\RozierBundle\Form\DocumentEmbedType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,6 @@ use Symfony\Component\String\UnicodeString;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Themes\Rozier\Forms\DocumentEmbedType;
 
 #[AsController]
 final class DocumentEmbedController extends AbstractController

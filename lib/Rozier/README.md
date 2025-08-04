@@ -1,4 +1,5 @@
-# Rozier: Roadiz back-office theme
+# Rozier
+**Roadiz back-office theme (JS/CSS)**
 
 ## Contribute
 

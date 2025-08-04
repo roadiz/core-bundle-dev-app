@@ -5,7 +5,6 @@
         {# When no active source use available translation, not default one. #}
         {% set translation = available_translations[0] %}
     {% endif %}
-    {% apply spaceless %}
     <ul class="uk-navbar-nav">
         {% if is_granted('EDIT_CONTENT', node) %}
             <li class="uk-navbar-item{% if current == 'source' %} uk-active{% endif %}">
@@ -81,5 +80,4 @@
         {% endif %}
         {% block additional_entries %}{% endblock %}
     </ul>
-    {% endapply %}
 </nav>

@@ -164,15 +164,15 @@ proxy:
 
 The generic provider type allows you to fetch every data you want through a `Provider` class in your theme. This can be really useful if you need to fetch items from an external API and reference them in your nodes-sources.
 
-Imagine that you want to link your page with an *Instagram* post. You’ll have to create a class that extends `Themes\Rozier\Explorer\AbstractExplorerProvider` and configure it in your field:
+Imagine that you want to link your page with an *Instagram* post. You’ll have to create a class that extends `RZ\Roadiz\RozierBundle\Explorer\AbstractExplorerProvider` (with `#[AutoconfigureTag('roadiz.explorer_provider')]`) and configure it in your field:
 
 ```yaml
 classname: App\Provider\ExternalApiProvider
 ```
 
-This provider will implement `getItems`, `getItemsById`, and other methods from `ExplorerProviderInterface` to display your *Instagram* posts in the Roadiz explorer widget and find your selected items back. Each *Instagram* post will be wrapped in a `Themes\Rozier\Explorer\AbstractExplorerItem` that maps your custom data to the right fields to be shown in the Roadiz back-office.
+This provider will implement `getItems`, `getItemsById`, and other methods from `ExplorerProviderInterface` to display your *Instagram* posts in the Roadiz explorer widget and find your selected items back. Each *Instagram* post will be wrapped in a `RZ\Roadiz\RozierBundle\Explorer\AbstractExplorerItem` that maps your custom data to the right fields to be shown in the Roadiz back-office.
 
-You’ll find an implementation example in Roadiz with `Themes\Rozier\Explorer\SettingsProvider` and `Themes\Rozier\Explorer\SettingExplorerItem`. These classes do not fetch data from an API but from your database using `EntityListManager`.
+You’ll find an implementation example in Roadiz with `RZ\Roadiz\RozierBundle\Explorer\SettingsProvider` and `RZ\Roadiz\RozierBundle\Explorer\SettingExplorerItem`. These classes do not fetch data from an API but from your database using `EntityListManager`.
 
 Single and multiple provider types can accept additional options too. If you want to make your provider configurable at runtime, you can pass `options` in your field configuration.
 

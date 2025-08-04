@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace RZ\Roadiz\CoreBundle\Explorer;
 
 use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\Attribute\TaggedLocator;
+use Symfony\Component\DependencyInjection\Attribute\AutowireLocator;
 
 final readonly class ExplorerProviderLocator
 {
     public function __construct(
-        #[TaggedLocator('roadiz.explorer_provider')]
+        #[AutowireLocator('roadiz.explorer_provider')]
         private ContainerInterface $explorerProviders,
     ) {
     }
