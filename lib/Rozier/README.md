@@ -7,9 +7,9 @@ To enhance Rozier backend theme you must install Node v22 and Yarn:
 
 ```shell
 cd src
-yarn install
+pnpm install --frozen-lockfile
 # Launch Vite to generate prod files
-yarn build
+pnpm build
 ```
 
 ## Contributing
