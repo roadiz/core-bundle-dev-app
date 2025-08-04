@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace RZ\Roadiz\CoreBundle\Workflow\Event;
+namespace RZ\Roadiz\CoreBundle\EventSubscriber;
 
 use RZ\Roadiz\CoreBundle\Entity\Node;
 use RZ\Roadiz\CoreBundle\Security\Authorization\Voter\NodeVoter;
