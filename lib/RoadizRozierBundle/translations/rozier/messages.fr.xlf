@@ -3424,9 +3424,17 @@
         <source>node.tags</source>
         <target state="final">Étiquettes</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node-types-decorators">
+        <source>node-types-decorators</source>
+        <target state="translated">Décorations de type de nœud</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.hiding_nodes" approved="yes">
         <source>nodeType.hiding_nodes</source>
         <target state="final">Type cachant son arborescence</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.highlighted">
+        <source>nodeType.highlighted</source>
+        <target state="translated">En avant</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.not_visible" approved="yes">
         <source>nodeType.not_visible</source>
