@@ -11,7 +11,7 @@
 <td class="mobile-hidden">{{ field }}</td>
 <td class="mobile-hidden">{{ ("nodeTypeDecorator.property." ~ item.property.value)|trans() }}</td>
 <td class="mobile-hidden">
-    {% if item.property.value == 'field_universal' or item.property.value == 'field_visible' %}
+    {% if item.property.value == 'field_universal' or item.property.value == 'field_visible' or item.property.value == 'highlighted' %}
         {% if item.value == true %}
             <div class="uk-button-status uk-button-check" >
                 <i class="uk-icon-check"></i>
