@@ -3424,9 +3424,17 @@
         <source>node.tags</source>
         <target state="final">Tags</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node-types-decorators">
+        <source>node-types-decorators</source>
+        <target state="translated">Node-type decorators</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.hiding_nodes" approved="yes">
         <source>nodeType.hiding_nodes</source>
         <target state="final">This type hides its node-tree</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.highlighted">
+        <source>nodeType.highlighted</source>
+        <target state="translated">Highlighted</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.not_visible" approved="yes">
         <source>nodeType.not_visible</source>
