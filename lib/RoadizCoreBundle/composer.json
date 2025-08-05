@@ -41,15 +41,15 @@
         "rezozero/intervention-request-bundle": "^5.1",
         "rezozero/liform-bundle": "^0.20.1",
         "rezozero/tree-walker": "^1.5.0",
-        "roadiz/doc-generator": "2.6.x-dev",
-        "roadiz/documents": "2.6.x-dev",
-        "roadiz/dts-generator": "2.6.x-dev",
-        "roadiz/entity-generator": "2.6.x-dev",
-        "roadiz/jwt": "2.6.x-dev",
-        "roadiz/markdown": "2.6.x-dev",
-        "roadiz/models": "2.6.x-dev",
+        "roadiz/doc-generator": "2.6.*",
+        "roadiz/documents": "2.6.*",
+        "roadiz/dts-generator": "2.6.*",
+        "roadiz/entity-generator": "2.6.*",
+        "roadiz/jwt": "2.6.*",
+        "roadiz/markdown": "2.6.*",
+        "roadiz/models": "2.6.*",
         "roadiz/nodetype-contracts": "^3.0.0",
-        "roadiz/random": "2.6.x-dev",
+        "roadiz/random": "2.6.*",
         "scienta/doctrine-json-functions": "^4.2",
         "symfony-cmf/routing-bundle": "^3.1.0",
         "symfony/asset": "7.3.*",
@@ -138,8 +138,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.5.x-dev",
-            "dev-develop": "2.6.x-dev"
+            "dev-main": "2.6.x-dev",
+            "dev-develop": "2.7.x-dev"
         }
     }
 }

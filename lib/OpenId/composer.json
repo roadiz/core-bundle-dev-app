@@ -19,9 +19,9 @@
         "lcobucci/jwt": "^5.3",
         "lcobucci/clock": "^3.0",
         "psr/cache": ">=1.0.1",
-        "roadiz/jwt": "2.6.x-dev",
-        "roadiz/models": "2.6.x-dev",
-        "roadiz/random": "2.6.x-dev",
+        "roadiz/jwt": "2.6.*",
+        "roadiz/models": "2.6.*",
+        "roadiz/random": "2.6.*",
         "symfony/event-dispatcher-contracts": "^3.5.1",
         "symfony/http-client": "7.3.*",
         "symfony/http-foundation": "7.3.*",
@@ -46,8 +46,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-main": "2.5.x-dev",
-            "dev-develop": "2.6.x-dev"
+            "dev-main": "2.6.x-dev",
+            "dev-develop": "2.7.x-dev"
         }
     }
 }
