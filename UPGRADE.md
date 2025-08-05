@@ -1,5 +1,23 @@
 # Upgrade to 2.6
 
+- [⚠ Breaking changes](#-breaking-changes)
+- [Upgrade your composer.json](#upgrade-your-composerjson)
+- [Remove Roadiz CompatBundle](#remove-roadiz-compatbundle)
+- [Upgrade you project code base for Symfony 7.3](#upgrade-you-project-code-base-for-symfony-73)
+- [Upgrade your Messenger configuration with Scheduler](#upgrade-your-messenger-configuration-with-scheduler)
+- [Upgrade your API Platform configuration](#upgrade-your-api-platform-configuration)
+- [Enable new DocumentDto](#enable-new-documentdto)
+- [Upgrade your Roadiz roles hierarchy](#upgrade-your-roadiz-roles-hierarchy)
+- [Upgrade your Roadiz Core bundle configuration](#upgrade-your-roadiz-core-bundle-configuration)
+- [Upgrade your captcha protected Form types](#upgrade-your-captcha-protected-form-types)
+- [Upgrade your Mailer configuration](#upgrade-your-mailer-configuration)
+- [Upgrade your email templates](#upgrade-your-email-templates)
+- [Upgrade your Solr configuration](#upgrade-your-solr-configuration)
+- [Upgrade rezozero/intervention-request-bundle](#upgrade-rezozerointervention-request-bundle)
+- [Use composition instead of inheritance for Abstract entities](#use-composition-instead-of-inheritance-for-abstract-entities)
+- [Interface changes](#interface-changes)
+- [Removed Themes from routing and events](#removed-themes-from-routing-and-events)
+
 ## ⚠ Breaking changes
 
 - **Roadiz requires php 8.3 minimum**
