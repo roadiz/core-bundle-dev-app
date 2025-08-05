@@ -1191,11 +1191,6 @@
         <source>dev_mode.activated</source>
         <target state="final">Mode développement activé</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.activated" approved="yes">
-        <source>maintenance_mode.activated</source>
-        <target state="final">Mode maintenance activé</target>
-        <note>Message to notify that site is under maintenance.</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="300" approved="yes">
         <source>help</source>
         <target state="final">Aide</target>
@@ -1948,10 +1943,6 @@
       <trans-unit xml:space="preserve" id="site_copyright" approved="yes">
         <source>site_copyright</source>
         <target state="final">Copyright du site</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode" approved="yes">
-        <source>maintenance_mode</source>
-        <target state="final">Mode de maintenance</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="universal_analytics_id" approved="yes">
         <source>universal_analytics_id</source>
@@ -3424,9 +3415,17 @@
         <source>node.tags</source>
         <target state="final">Étiquettes</target>
       </trans-unit>
+      <trans-unit xml:space="preserve" id="node-types-decorators">
+        <source>node-types-decorators</source>
+        <target state="translated">Décorations de type de nœud</target>
+      </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.hiding_nodes" approved="yes">
         <source>nodeType.hiding_nodes</source>
         <target state="final">Type cachant son arborescence</target>
+      </trans-unit>
+      <trans-unit xml:space="preserve" id="nodeType.highlighted">
+        <source>nodeType.highlighted</source>
+        <target state="translated">En avant</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="nodeType.not_visible" approved="yes">
         <source>nodeType.not_visible</source>
