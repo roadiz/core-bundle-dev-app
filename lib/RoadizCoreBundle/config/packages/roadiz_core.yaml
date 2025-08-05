@@ -3,7 +3,6 @@ roadiz_core:
     appVersion: '%env(string:APP_VERSION)%'
     healthCheckToken: '%env(string:APP_HEALTH_CHECK_TOKEN)%'
     staticDomainName: ~
-    defaultNodeSourceController: App\Controller\NullController
     useNativeJsonColumnType: true
     hideRoadizVersion: false
     forceLocale: false
