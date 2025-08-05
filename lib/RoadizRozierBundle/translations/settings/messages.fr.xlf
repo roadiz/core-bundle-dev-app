@@ -6,10 +6,6 @@
                 <source>Replace random *Splashbase* login images with your own.</source>
                 <target state="final">Remplace les images aléatoires *Splashbase* avec votre propre image d’arrière-plan.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.description" approved="yes">
-                <source>Switch maintenance mode. Only login page will be available for public requests.</source>
-                <target state="final">Active/désactive le mode maintenance. Seulement les pages d'identification seront disponibles pour les requêtes publiques.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="max_versions_showed.description" approved="yes">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target state="final">Nombre maximum de versions affichées dans le menu des actions.</target>
@@ -203,6 +199,18 @@
       <trans-unit xml:space="preserve" id="support_email_address" approved="yes">
                 <source>support_email_address</source>
                 <target state="final">Adresse email de support</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="support_email_address.description">
+                <source>Support email address, used in every system emails footer</source>
+                <target state="translated">Adresse e-mail de support, utilisée dans chaque pied de page des emails du système</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="email_disclaimer">
+                <source>email_disclaimer</source>
+                <target state="translated">Mentions par défaut des emails</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="email_disclaimer.description">
+                <source>Disclaimer text used in every system emails footer</source>
+                <target state="translated">Mentions affichées dans le pied de page des e-mails du système</target>
             </trans-unit>
     </body>
   </file>
