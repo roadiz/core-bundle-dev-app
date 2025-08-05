@@ -6,10 +6,6 @@
                 <source>Replace random *Splashbase* login images with your own.</source>
                 <target state="final">Replace random *Splashbase* login images with your own.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.description" approved="yes">
-                <source>Switch maintenance mode. Only login page will be available for public requests.</source>
-                <target state="final">Switch maintenance mode. Only login page will be available for public requests.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="max_versions_showed.description" approved="yes">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target state="final">Maximum versions count showed in actions menu.</target>
@@ -203,6 +199,18 @@
       <trans-unit xml:space="preserve" id="support_email_address" approved="yes">
                 <source>support_email_address</source>
                 <target state="final">Support email address</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="support_email_address.description">
+                <source>Support email address, used in every system emails footer</source>
+                <target state="translated">Support email address, used in every system emails footer</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="email_disclaimer">
+                <source>email_disclaimer</source>
+                <target state="translated">Default email disclaimer</target>
+            </trans-unit>
+      <trans-unit xml:space="preserve" id="email_disclaimer.description">
+                <source>Disclaimer text used in every system emails footer</source>
+                <target state="translated">Disclaimer text used in every system emails footer</target>
             </trans-unit>
     </body>
   </file>
