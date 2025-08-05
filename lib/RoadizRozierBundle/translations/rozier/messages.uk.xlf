@@ -1871,10 +1871,6 @@
         <source>site_copyright</source>
         <target state="final">Ім'я автора</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode" approved="yes">
-        <source>maintenance_mode</source>
-        <target state="final">Режим обслуговування</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="universal_analytics_id" approved="yes">
         <source>universal_analytics_id</source>
         <target state="final">ID Universal Analytics</target>

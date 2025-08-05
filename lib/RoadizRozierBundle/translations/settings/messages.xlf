@@ -6,10 +6,6 @@
                 <source>Replace random *Splashbase* login images with your own.</source>
                 <target></target>
             </trans-unit>
-            <trans-unit xml:space="preserve" id="maintenance_mode.description">
-                <source>Switch maintenance mode. Only login page will be available for public requests.</source>
-                <target></target>
-            </trans-unit>
             <trans-unit xml:space="preserve" id="max_versions_showed.description">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target></target>
@@ -207,6 +203,18 @@
             </trans-unit>
             <trans-unit xml:space="preserve" id="support_email_address">
                 <source>support_email_address</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="support_email_address.description">
+                <source>Support email address, used in every system emails footer</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="email_disclaimer">
+                <source>email_disclaimer</source>
+                <target></target>
+            </trans-unit>
+            <trans-unit xml:space="preserve" id="email_disclaimer.description">
+                <source>Disclaimer text used in every system emails footer</source>
                 <target></target>
             </trans-unit>
         </body>

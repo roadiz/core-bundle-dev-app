@@ -118,6 +118,7 @@ All notable changes to Roadiz will be documented in this file.
 
 ### Refactor
 
+- Removed `maintenance_mode` setting and related code
 - **(SolrBundle)** Replace logger property with searchEngineLogger in indexer and search handler classes - ([60d980e](https://github.com/roadiz/core-bundle-dev-app/commit/60d980e1563de40d45b6df80fbd3f49cb8a6e38a))
 - **(core)** [**breaking**] Introduce CaptchaServiceInterface to make captcha generic and update all related services ([#138](https://github.com/roadiz/core-bundle-dev-app/issues/138)) - ([840c23c](https://github.com/roadiz/core-bundle-dev-app/commit/840c23c24037aeea1b6297dda9f9ef91f8f18ddd))
 - **(filesystem)** Replace file_get_contents with Filesystem component for improved file handling - ([6d67b58](https://github.com/roadiz/core-bundle-dev-app/commit/6d67b58f70b40982a45a1f126fdfce6647c74d7d))

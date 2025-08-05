@@ -1142,11 +1142,6 @@
         <source>dev_mode.activated</source>
         <target state="final">Укључен мод за програмере</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.activated" approved="yes">
-        <source>maintenance_mode.activated</source>
-        <target state="final">Укључен мод за одржавање</target>
-        <note>Message to notify that site is under maintenance.</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="300" approved="yes">
         <source>help</source>
         <target state="final">Помоћ</target>
@@ -1895,10 +1890,6 @@
       <trans-unit xml:space="preserve" id="site_copyright" approved="yes">
         <source>site_copyright</source>
         <target state="final">Име аутора веб-сајта</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode" approved="yes">
-        <source>maintenance_mode</source>
-        <target state="final">Мод за одржавање</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="universal_analytics_id" approved="yes">
         <source>universal_analytics_id</source>

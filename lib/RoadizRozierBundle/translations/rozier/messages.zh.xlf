@@ -1150,11 +1150,6 @@
         <source>dev_mode.activated</source>
         <target state="final">开发模式开启</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.activated" approved="yes">
-        <source>maintenance_mode.activated</source>
-        <target state="final">维护模式开启</target>
-        <note>Message to notify that site is under maintenance.</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="300" approved="yes">
         <source>help</source>
         <target state="final">帮助</target>
@@ -1907,10 +1902,6 @@
       <trans-unit xml:space="preserve" id="site_copyright" approved="yes">
         <source>site_copyright</source>
         <target state="final">网站作者名称</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode" approved="yes">
-        <source>maintenance_mode</source>
-        <target state="final">维护模式</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="universal_analytics_id" approved="yes">
         <source>universal_analytics_id</source>

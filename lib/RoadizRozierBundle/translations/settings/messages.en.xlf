@@ -6,10 +6,6 @@
                 <source>Replace random *Splashbase* login images with your own.</source>
                 <target state="final">Replace random *Splashbase* login images with your own.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.description" approved="yes">
-                <source>Switch maintenance mode. Only login page will be available for public requests.</source>
-                <target state="final">Switch maintenance mode. Only login page will be available for public requests.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="max_versions_showed.description" approved="yes">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target state="final">Maximum versions count showed in actions menu.</target>

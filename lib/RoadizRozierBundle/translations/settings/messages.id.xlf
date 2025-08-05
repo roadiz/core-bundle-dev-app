@@ -6,10 +6,6 @@
                 <source>Replace random *Splashbase* login images with your own.</source>
                 <target state="final">Ganti gambar login masuk acak *Splashbase* dengan milik Anda sendiri.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.description" approved="yes">
-                <source>Switch maintenance mode. Only login page will be available for public requests.</source>
-                <target state="final">Beralih mode pemeliharaan. Hanya halaman login masuk yang akan tersedia untuk permintaan publik.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="max_versions_showed.description" approved="yes">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target state="final">Jumlah versi maksimum ditunjukkan pada menu tindakan.</target>

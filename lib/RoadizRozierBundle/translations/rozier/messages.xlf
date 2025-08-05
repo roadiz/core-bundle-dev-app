@@ -298,7 +298,6 @@
             <trans-unit xml:space="preserve" id="297"><source>delete.caches</source></trans-unit>
             <trans-unit xml:space="preserve" id="298"><source>logout</source></trans-unit>
             <trans-unit xml:space="preserve" id="299"><source>dev_mode.activated</source></trans-unit>
-            <trans-unit xml:space="preserve" id="maintenance_mode.activated"><source>maintenance_mode.activated</source><note>Message to notify that site is under maintenance.</note></trans-unit>
             <trans-unit xml:space="preserve" id="300"><source>help</source></trans-unit>
             <trans-unit xml:space="preserve" id="301"><source>datetime</source></trans-unit>
             <trans-unit xml:space="preserve" id="302"><source>level</source></trans-unit>
@@ -509,7 +508,6 @@
             <trans-unit xml:space="preserve" id="seo_description"><source>seo_description</source></trans-unit>
             <trans-unit xml:space="preserve" id="site_name"><source>site_name</source></trans-unit>
             <trans-unit xml:space="preserve" id="site_copyright"><source>site_copyright</source></trans-unit>
-            <trans-unit xml:space="preserve" id="maintenance_mode"><source>maintenance_mode</source></trans-unit>
             <trans-unit xml:space="preserve" id="universal_analytics_id"><source>universal_analytics_id</source></trans-unit>
 
             <trans-unit xml:space="preserve" id="facebook_url"><source>facebook_url</source><note>Setting name for social page url.</note></trans-unit>

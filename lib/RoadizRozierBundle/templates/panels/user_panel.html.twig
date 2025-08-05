@@ -92,9 +92,6 @@
         {% if app.debug %}
             <p class="dev-mode"><i class="uk-icon-rz-devmode"></i> {% trans %}dev_mode.activated{% endtrans %}</p>
         {% endif %}
-        {% if bags.settings.get('maintenance_mode') %}
-            <p class="dev-mode"><i class="uk-icon-exclamation-triangle"></i> {% trans %}maintenance_mode.activated{% endtrans %}</p>
-        {% endif %}
     </div>
     <footer id="cms-version">
         {% if help_external_url is defined and help_external_url %}

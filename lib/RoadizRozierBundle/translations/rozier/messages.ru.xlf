@@ -1540,10 +1540,6 @@
         <source>site_copyright</source>
         <target state="final">Имя автора</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode" approved="yes">
-        <source>maintenance_mode</source>
-        <target state="final">Режим обслуживания</target>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="universal_analytics_id" approved="yes">
         <source>universal_analytics_id</source>
         <target state="final">Идентификатор Universal Analytics</target>

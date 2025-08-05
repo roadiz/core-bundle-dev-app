@@ -6,10 +6,6 @@
                 <source>Replace random *Splashbase* login images with your own.</source>
                 <target state="final">Remplace les images aléatoires *Splashbase* avec votre propre image d’arrière-plan.</target>
             </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.description" approved="yes">
-                <source>Switch maintenance mode. Only login page will be available for public requests.</source>
-                <target state="final">Active/désactive le mode maintenance. Seulement les pages d'identification seront disponibles pour les requêtes publiques.</target>
-            </trans-unit>
       <trans-unit xml:space="preserve" id="max_versions_showed.description" approved="yes">
                 <source>Maximum versions count showed in actions menu.</source>
                 <target state="final">Nombre maximum de versions affichées dans le menu des actions.</target>

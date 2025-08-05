@@ -83,17 +83,6 @@
         "defaultValues": ""
     },
     {
-        "name": "maintenance_mode",
-        "visible": true,
-        "description": "Switch maintenance mode. Only login page will be available for public requests.",
-        "settingGroup": {
-            "name": "Site information",
-            "inMenu": true
-        },
-        "type": 5,
-        "defaultValues": ""
-    },
-    {
         "name": "site_copyright",
         "visible": true,
         "settingGroup": {
