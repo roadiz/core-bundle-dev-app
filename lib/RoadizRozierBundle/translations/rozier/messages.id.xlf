@@ -1142,11 +1142,6 @@
         <source>dev_mode.activated</source>
         <target state="final">Mode dev aktif</target>
       </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode.activated" approved="yes">
-        <source>maintenance_mode.activated</source>
-        <target state="final">Mode perawatan aktif</target>
-        <note>Message to notify that site is under maintenance.</note>
-      </trans-unit>
       <trans-unit xml:space="preserve" id="300" approved="yes">
         <source>help</source>
         <target state="final">Bantuan</target>
@@ -1883,10 +1878,6 @@
       <trans-unit xml:space="preserve" id="site_copyright" approved="yes">
         <source>site_copyright</source>
         <target state="final">Nama penulis situs</target>
-      </trans-unit>
-      <trans-unit xml:space="preserve" id="maintenance_mode" approved="yes">
-        <source>maintenance_mode</source>
-        <target state="final">Mode Perawatan</target>
       </trans-unit>
       <trans-unit xml:space="preserve" id="universal_analytics_id" approved="yes">
         <source>universal_analytics_id</source>
