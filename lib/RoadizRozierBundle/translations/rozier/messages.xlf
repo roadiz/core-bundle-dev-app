@@ -895,6 +895,7 @@
             <trans-unit xml:space="preserve" id="node.noCreation.alreadyExists"><source>node.noCreation.alreadyExists</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.tag.exclusive"><source>node.tag.exclusive</source></trans-unit>
             <trans-unit xml:space="preserve" id="node.tags"><source>node.tags</source></trans-unit>
+            <trans-unit xml:space="preserve" id="node-types-decorators"><source>node-types-decorators</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeType.hiding_nodes"><source>nodeType.hiding_nodes</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeType.highlighted"><source>nodeType.highlighted</source></trans-unit>
             <trans-unit xml:space="preserve" id="nodeType.not_visible"><source>nodeType.not_visible</source></trans-unit>
