@@ -25,7 +25,7 @@
 - Upgraded to **Symfony 7.3**
   - New Scheduler component to replace cron jobs with a scheduler worker service
 - **Dropped RoadizCompatBundle** and all its classes
-- **Dropped RozierApp.php**
+- **Dropped Themes\Rozier\RozierApp** and all `Themes\Rozier` namespace. Controllers, templates and services have been moved to `RZ\Roadiz\RozierBundle` namespace.
 - **Dropped Roles entity**, use native Symfony Roles hierarchy to define your roles instead
 - **Dropped RoleArrayVoter** BC, you cannot use `isGranted` and `denyUnlessGranted` methods with arrays
 - New `CaptchaServiceInterface` to make captcha support any provider service.
