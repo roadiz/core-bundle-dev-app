@@ -88,6 +88,7 @@ export default ({ mode }) => {
                                 { text: 'Web response', link: '/developer/api/web_response' },
                             ]
                         },
+                        { text: 'Building classic websites using Twig', link: '/developer/twig/intro' },
                         { text: 'Tag system', link: '/developer/tags-system/' },
                         { text: 'Documents system', link: '/developer/documents-system/' },
                         { text: 'Attributes', link: '/developer/attributes/' },

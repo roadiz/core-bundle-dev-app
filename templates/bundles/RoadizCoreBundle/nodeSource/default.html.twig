@@ -2,6 +2,17 @@
 
 {% block title %}{{ webResponse.item.title }}{% endblock %}
 
+{% macro walk_block(block) %}
+    <li>{{ block.item.title }}</li>
+    {% if block.children|length %}
+        <ul>
+            {% for child in block.children %}
+                {{ _self.walk_block(child) }}
+            {% endfor %}
+        </ul>
+    {% endif %}
+{% endmacro %}
+
 {% block body %}
     {% if webResponse.item %}
         <h1><a href="{{ path(webResponse.item) }}">Page: {{ webResponse.item.title }}</a></h1>
@@ -14,13 +25,15 @@
                 'picture': true,
             }) }}
         {% endfor %}
-        {% if not webResponse.isHidingBlock and webResponse.blocks.length %}
-            <h2>Blocks</h2>
-            <ul>
-                {% for block in webResponse.blocks %}
-                    <li>{{ block.item.title }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
     {% endif %}
+
+    {%- if not webResponse.HidingBlocks and webResponse.blocks|length -%}
+        <h2>Blocks</h2>
+        <ul>
+            {% for block in webResponse.blocks %}
+                {{ _self.walk_block(block) }}
+            {% endfor %}
+        </ul>
+    {%- endif -%}
 {% endblock %}
+
